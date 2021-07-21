@@ -1,7 +1,7 @@
-import { runForecast as runAwsCloudForecast } from './awsCloudForecast';
 import { runForecast as runAwsForecast } from './awsForecast';
-import { runForecast as runAzureCloudForecast } from './azureCloudForecast';
+import { runForecast as runAwsOcpForecast } from './awsOcpForecast';
 import { runForecast as runAzureForecast } from './azureForecast';
+import { runForecast as runAzureOcpForecast } from './azureOcpForecast';
 import { ForecastPathsType, ForecastType } from './forecast';
 import { runForecast as runGcpForecast } from './gcpForecast';
 import { runForecast as runGcpOcpForecast } from './gcpOcpForecast';
@@ -15,14 +15,14 @@ export function runForecast(forecastPathsType: ForecastPathsType, forecastType: 
     case ForecastPathsType.aws:
       forecast = runAwsForecast(forecastType, query);
       break;
-    case ForecastPathsType.awsCloud:
-      forecast = runAwsCloudForecast(forecastType, query);
+    case ForecastPathsType.awsOcp:
+      forecast = runAwsOcpForecast(forecastType, query);
       break;
     case ForecastPathsType.azure:
       forecast = runAzureForecast(forecastType, query);
       break;
-    case ForecastPathsType.azureCloud:
-      forecast = runAzureCloudForecast(forecastType, query);
+    case ForecastPathsType.azureOcp:
+      forecast = runAzureOcpForecast(forecastType, query);
       break;
     case ForecastPathsType.gcp:
       forecast = runGcpForecast(forecastType, query);

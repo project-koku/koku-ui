@@ -50,9 +50,9 @@ export const enum ForecastType {
 // eslint-disable-next-line no-shadow
 export const enum ForecastPathsType {
   aws = 'aws',
-  awsCloud = 'aws_cloud',
+  awsOcp = 'aws_ocp',
   azure = 'azure',
-  azureCloud = 'azure_cloud',
+  azureOcp = 'azure_ocp',
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp',
   ibm = 'gcp', // Todo: update to use ibm backend apis when they become available

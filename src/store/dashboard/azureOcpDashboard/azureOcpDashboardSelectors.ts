@@ -1,30 +1,30 @@
 import { RootState } from 'store/rootReducer';
 
 import {
-  azureCloudDashboardDefaultFilters,
-  azureCloudDashboardStateKey,
-  azureCloudDashboardTabFilters,
+  azureOcpDashboardDefaultFilters,
+  azureOcpDashboardStateKey,
+  azureOcpDashboardTabFilters,
   getQueryForWidget,
   getQueryForWidgetTabs,
-} from './azureCloudDashboardCommon';
+} from './azureOcpDashboardCommon';
 
-export const selectAzureCloudDashboardState = (state: RootState) => state[azureCloudDashboardStateKey];
+export const selectAzureOcpDashboardState = (state: RootState) => state[azureOcpDashboardStateKey];
 
-export const selectWidgets = (state: RootState) => selectAzureCloudDashboardState(state).widgets;
+export const selectWidgets = (state: RootState) => selectAzureOcpDashboardState(state).widgets;
 
 export const selectWidget = (state: RootState, id: number) => selectWidgets(state)[id];
 
-export const selectCurrentWidgets = (state: RootState) => selectAzureCloudDashboardState(state).currentWidgets;
+export const selectCurrentWidgets = (state: RootState) => selectAzureOcpDashboardState(state).currentWidgets;
 
 export const selectWidgetQueries = (state: RootState, id: number) => {
   const widget = selectWidget(state, id);
 
   const filter = {
-    ...azureCloudDashboardDefaultFilters,
+    ...azureOcpDashboardDefaultFilters,
     ...(widget.filter ? widget.filter : {}),
   };
   const tabsFilter = {
-    ...azureCloudDashboardTabFilters,
+    ...azureOcpDashboardTabFilters,
     ...(widget.tabsFilter ? widget.tabsFilter : {}),
   };
 

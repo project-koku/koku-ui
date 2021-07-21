@@ -7,37 +7,37 @@ import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import {
-  azureCloudDashboardActions,
-  azureCloudDashboardSelectors,
-  AzureCloudDashboardTab,
-} from 'store/dashboard/azureCloudDashboard';
+  azureOcpDashboardActions,
+  azureOcpDashboardSelectors,
+  AzureOcpDashboardTab,
+} from 'store/dashboard/azureOcpDashboard';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 
-interface AzureCloudDashboardWidgetDispatchProps {
-  fetchForecasts: typeof azureCloudDashboardActions.fetchWidgetForecasts;
-  fetchReports: typeof azureCloudDashboardActions.fetchWidgetReports;
-  updateTab: typeof azureCloudDashboardActions.changeWidgetTab;
+interface AzureOcpDashboardWidgetDispatchProps {
+  fetchForecasts: typeof azureOcpDashboardActions.fetchWidgetForecasts;
+  fetchReports: typeof azureOcpDashboardActions.fetchWidgetReports;
+  updateTab: typeof azureOcpDashboardActions.changeWidgetTab;
 }
 
-export const getIdKeyForTab = (tab: AzureCloudDashboardTab): ComputedAzureReportItemsParams['idKey'] => {
+export const getIdKeyForTab = (tab: AzureOcpDashboardTab): ComputedAzureReportItemsParams['idKey'] => {
   switch (tab) {
-    case AzureCloudDashboardTab.service_names:
+    case AzureOcpDashboardTab.service_names:
       return 'service_name';
-    case AzureCloudDashboardTab.subscription_guids:
+    case AzureOcpDashboardTab.subscription_guids:
       return 'subscription_guid';
-    case AzureCloudDashboardTab.resource_locations:
+    case AzureOcpDashboardTab.resource_locations:
       return 'resource_location';
-    case AzureCloudDashboardTab.instanceType:
+    case AzureOcpDashboardTab.instanceType:
       return 'instance_type';
   }
 };
 
 const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, DashboardWidgetStateProps>(
   (state, { widgetId }) => {
-    const widget = azureCloudDashboardSelectors.selectWidget(state, widgetId);
-    const queries = azureCloudDashboardSelectors.selectWidgetQueries(state, widgetId);
+    const widget = azureOcpDashboardSelectors.selectWidget(state, widgetId);
+    const queries = azureOcpDashboardSelectors.selectWidgetQueries(state, widgetId);
     return {
       ...widget,
       getIdKeyForTab,
@@ -70,12 +70,12 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
   }
 );
 
-const mapDispatchToProps: AzureCloudDashboardWidgetDispatchProps = {
-  fetchForecasts: azureCloudDashboardActions.fetchWidgetForecasts,
-  fetchReports: azureCloudDashboardActions.fetchWidgetReports,
-  updateTab: azureCloudDashboardActions.changeWidgetTab,
+const mapDispatchToProps: AzureOcpDashboardWidgetDispatchProps = {
+  fetchForecasts: azureOcpDashboardActions.fetchWidgetForecasts,
+  fetchReports: azureOcpDashboardActions.fetchWidgetReports,
+  updateTab: azureOcpDashboardActions.changeWidgetTab,
 };
 
-const AzureCloudDashboardWidget = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase));
+const AzureOcpDashboardWidget = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase));
 
-export { AzureCloudDashboardWidget };
+export { AzureOcpDashboardWidget };

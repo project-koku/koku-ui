@@ -11,10 +11,10 @@ import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData/noData';
 import NoProviders from 'pages/state/noProviders';
 import { Perspective } from 'pages/views/components/perspective/perspective';
-import AwsCloudDashboard from 'pages/views/overview/awsCloudDashboard';
 import AwsDashboard from 'pages/views/overview/awsDashboard';
-import AzureCloudDashboard from 'pages/views/overview/azureCloudDashboard';
+import AwsOcpDashboard from 'pages/views/overview/awsOcpDashboard';
 import AzureDashboard from 'pages/views/overview/azureDashboard';
+import AzureOcpDashboard from 'pages/views/overview/azureOcpDashboard';
 import GcpDashboard from 'pages/views/overview/gcpDashboard';
 import GcpOcpDashboard from 'pages/views/overview/gcpOcpDashboard';
 import IbmDashboard from 'pages/views/overview/ibmDashboard';
@@ -45,11 +45,11 @@ import { styles } from './overview.styles';
 // eslint-disable-next-line no-shadow
 const enum InfrastructurePerspective {
   aws = 'aws',
-  awsCloud = 'aws_cloud', // Aws filtered by Ocp
+  awsOcp = 'aws_ocp', // Aws filtered by Ocp
   azure = 'azure',
-  azureCloud = 'azure_cloud', // Azure filtered by Ocp
+  azureOcp = 'azure_ocp', // Azure filtered by Ocp
   gcp = 'gcp',
-  gcpOcp = 'gcp_ocp',
+  gcpOcp = 'gcp_ocp', // GCP filtered by Ocp
   ibm = 'ibm',
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
   ocpUsage = 'ocp_usage',
@@ -128,14 +128,14 @@ const ocpOptions = [
 // Infrastructure AWS options
 const infrastructureAwsOptions = [{ label: 'overview.perspective.aws', value: 'aws' }];
 
-// Infrastructure AWS cloud options
-const infrastructureAwsCloudOptions = [{ label: 'overview.perspective.aws_cloud', value: 'aws_cloud' }];
+// Infrastructure AWS filtered by OpenShift options
+const infrastructureAwsOcpOptions = [{ label: 'overview.perspective.aws_ocp', value: 'aws_ocp' }];
 
 // Infrastructure Azure options
 const infrastructureAzureOptions = [{ label: 'overview.perspective.azure', value: 'azure' }];
 
-// Infrastructure Azure cloud options
-const infrastructureAzureCloudOptions = [{ label: 'overview.perspective.azure_cloud', value: 'azure_cloud' }];
+// Infrastructure Azure filtered by OpenShift options
+const infrastructureAzureOcpOptions = [{ label: 'overview.perspective.azure_ocp', value: 'azure_ocp' }];
 
 // Infrastructure GCP options
 const infrastructureGcpOptions = [{ label: 'overview.perspective.gcp', value: 'gcp' }];
@@ -288,7 +288,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         options.push(...infrastructureAwsOptions);
       }
       if (aws && ocp) {
-        options.push(...infrastructureAwsCloudOptions);
+        options.push(...infrastructureAwsOcpOptions);
       }
       if (gcp) {
         options.push(...infrastructureGcpOptions);
@@ -303,7 +303,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         options.push(...infrastructureAzureOptions);
       }
       if (azure && ocp) {
-        options.push(...infrastructureAzureCloudOptions);
+        options.push(...infrastructureAzureOcpOptions);
       }
       if (ocp) {
         options.push(...infrastructureOcpOptions);
@@ -368,9 +368,9 @@ class OverviewBase extends React.Component<OverviewProps> {
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.aws) {
         const hasData = hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders);
         return hasData ? <AwsDashboard /> : noData;
-      } else if (currentInfrastructurePerspective === InfrastructurePerspective.awsCloud) {
+      } else if (currentInfrastructurePerspective === InfrastructurePerspective.awsOcp) {
         const hasData = hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders);
-        return hasData ? <AwsCloudDashboard /> : noData;
+        return hasData ? <AwsOcpDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcp) {
         const hasData = hasCurrentMonthData(gcpProviders) || hasPreviousMonthData(gcpProviders);
         return hasData ? <GcpDashboard /> : noData;
@@ -383,9 +383,9 @@ class OverviewBase extends React.Component<OverviewProps> {
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azure) {
         const hasData = hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders);
         return hasData ? <AzureDashboard /> : noData;
-      } else if (currentInfrastructurePerspective === InfrastructurePerspective.azureCloud) {
+      } else if (currentInfrastructurePerspective === InfrastructurePerspective.azureOcp) {
         const hasData = hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders);
-        return hasData ? <AzureCloudDashboard /> : noData;
+        return hasData ? <AzureOcpDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.ocpUsage) {
         const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
         return hasData ? <OcpUsageDashboard /> : noData;

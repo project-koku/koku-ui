@@ -6,38 +6,34 @@ import {
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import {
-  awsCloudDashboardActions,
-  awsCloudDashboardSelectors,
-  AwsCloudDashboardTab,
-} from 'store/dashboard/awsCloudDashboard';
+import { awsOcpDashboardActions, awsOcpDashboardSelectors, AwsOcpDashboardTab } from 'store/dashboard/awsOcpDashboard';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 
-interface AwsCloudDashboardWidgetDispatchProps {
-  fetchForecasts: typeof awsCloudDashboardActions.fetchWidgetForecasts;
-  fetchReports: typeof awsCloudDashboardActions.fetchWidgetReports;
-  updateTab: typeof awsCloudDashboardActions.changeWidgetTab;
+interface AwsOcpDashboardWidgetDispatchProps {
+  fetchForecasts: typeof awsOcpDashboardActions.fetchWidgetForecasts;
+  fetchReports: typeof awsOcpDashboardActions.fetchWidgetReports;
+  updateTab: typeof awsOcpDashboardActions.changeWidgetTab;
 }
 
-export const getIdKeyForTab = (tab: AwsCloudDashboardTab): ComputedAwsReportItemsParams['idKey'] => {
+export const getIdKeyForTab = (tab: AwsOcpDashboardTab): ComputedAwsReportItemsParams['idKey'] => {
   switch (tab) {
-    case AwsCloudDashboardTab.services:
+    case AwsOcpDashboardTab.services:
       return 'service';
-    case AwsCloudDashboardTab.accounts:
+    case AwsOcpDashboardTab.accounts:
       return 'account';
-    case AwsCloudDashboardTab.regions:
+    case AwsOcpDashboardTab.regions:
       return 'region';
-    case AwsCloudDashboardTab.instanceType:
+    case AwsOcpDashboardTab.instanceType:
       return 'instance_type';
   }
 };
 
 const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, DashboardWidgetStateProps>(
   (state, { widgetId }) => {
-    const widget = awsCloudDashboardSelectors.selectWidget(state, widgetId);
-    const queries = awsCloudDashboardSelectors.selectWidgetQueries(state, widgetId);
+    const widget = awsOcpDashboardSelectors.selectWidget(state, widgetId);
+    const queries = awsOcpDashboardSelectors.selectWidgetQueries(state, widgetId);
     return {
       ...widget,
       getIdKeyForTab,
@@ -70,12 +66,12 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
   }
 );
 
-const mapDispatchToProps: AwsCloudDashboardWidgetDispatchProps = {
-  fetchForecasts: awsCloudDashboardActions.fetchWidgetForecasts,
-  fetchReports: awsCloudDashboardActions.fetchWidgetReports,
-  updateTab: awsCloudDashboardActions.changeWidgetTab,
+const mapDispatchToProps: AwsOcpDashboardWidgetDispatchProps = {
+  fetchForecasts: awsOcpDashboardActions.fetchWidgetForecasts,
+  fetchReports: awsOcpDashboardActions.fetchWidgetReports,
+  updateTab: awsOcpDashboardActions.changeWidgetTab,
 };
 
-const AwsCloudDashboardWidget = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase));
+const AwsOcpDashboardWidget = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase));
 
-export { AwsCloudDashboardWidget };
+export { AwsOcpDashboardWidget };

@@ -3,8 +3,8 @@ import { forecastActions } from 'store/forecasts';
 import { reportActions } from 'store/reports';
 import { createAction } from 'typesafe-actions';
 
-import { AwsCloudDashboardTab } from './awsCloudDashboardCommon';
-import { selectWidget, selectWidgetQueries } from './awsCloudDashboardSelectors';
+import { AzureOcpDashboardTab } from './azureOcpDashboardCommon';
+import { selectWidget, selectWidgetQueries } from './azureOcpDashboardSelectors';
 
 export const fetchWidgetForecasts = (id: number): ThunkAction => {
   return (dispatch, getState) => {
@@ -31,12 +31,12 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
   };
 };
 
-export const setWidgetTab = createAction('awsCloudDashboard/widget/tab')<{
+export const setWidgetTab = createAction('azureOcpDashboard/widget/tab')<{
   id: number;
-  tab: AwsCloudDashboardTab;
+  tab: AzureOcpDashboardTab;
 }>();
 
-export const changeWidgetTab = (id: number, tab: AwsCloudDashboardTab): ThunkAction => {
+export const changeWidgetTab = (id: number, tab: AzureOcpDashboardTab): ThunkAction => {
   return dispatch => {
     dispatch(setWidgetTab({ id, tab }));
     dispatch(fetchWidgetReports(id));
