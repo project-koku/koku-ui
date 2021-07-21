@@ -16,6 +16,7 @@ import AwsDashboard from 'pages/views/overview/awsDashboard';
 import AzureCloudDashboard from 'pages/views/overview/azureCloudDashboard';
 import AzureDashboard from 'pages/views/overview/azureDashboard';
 import GcpDashboard from 'pages/views/overview/gcpDashboard';
+import GcpOcpDashboard from 'pages/views/overview/gcpOcpDashboard';
 import IbmDashboard from 'pages/views/overview/ibmDashboard';
 import OcpCloudDashboard from 'pages/views/overview/ocpCloudDashboard';
 import OcpDashboard from 'pages/views/overview/ocpDashboard';
@@ -48,6 +49,7 @@ const enum InfrastructurePerspective {
   azure = 'azure',
   azureCloud = 'azure_cloud', // Azure filtered by Ocp
   gcp = 'gcp',
+  gcpOcp = 'gcp_ocp',
   ibm = 'ibm',
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
   ocpUsage = 'ocp_usage',
@@ -137,6 +139,9 @@ const infrastructureAzureCloudOptions = [{ label: 'overview.perspective.azure_cl
 
 // Infrastructure GCP options
 const infrastructureGcpOptions = [{ label: 'overview.perspective.gcp', value: 'gcp' }];
+
+// Infrastructure GCP filtered by OCP options
+const infrastructureGcpOcpOptions = [{ label: 'overview.perspective.gcp_ocp', value: 'gcp_ocp' }];
 
 // Infrastructure IBM options
 const infrastructureIbmOptions = [{ label: 'overview.perspective.ibm', value: 'ibm' }];
@@ -282,11 +287,14 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (aws) {
         options.push(...infrastructureAwsOptions);
       }
-      if (ocp && aws) {
+      if (aws && ocp) {
         options.push(...infrastructureAwsCloudOptions);
       }
       if (gcp) {
         options.push(...infrastructureGcpOptions);
+      }
+      if (gcp && ocp) {
+        options.push(...infrastructureGcpOcpOptions);
       }
       if (ibm) {
         options.push(...infrastructureIbmOptions);
@@ -294,7 +302,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (azure) {
         options.push(...infrastructureAzureOptions);
       }
-      if (ocp && azure) {
+      if (azure && ocp) {
         options.push(...infrastructureAzureCloudOptions);
       }
       if (ocp) {
@@ -366,6 +374,9 @@ class OverviewBase extends React.Component<OverviewProps> {
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcp) {
         const hasData = hasCurrentMonthData(gcpProviders) || hasPreviousMonthData(gcpProviders);
         return hasData ? <GcpDashboard /> : noData;
+      } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcpOcp) {
+        const hasData = hasCurrentMonthData(gcpProviders) || hasPreviousMonthData(gcpProviders);
+        return hasData ? <GcpOcpDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.ibm) {
         const hasData = hasCurrentMonthData(ibmProviders) || hasPreviousMonthData(ibmProviders);
         return hasData ? <IbmDashboard /> : noData;

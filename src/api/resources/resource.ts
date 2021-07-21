@@ -41,6 +41,7 @@ export const enum ResourcePathsType {
   azure = 'azure',
   azureCloud = 'azure_cloud',
   gcp = 'gcp',
+  gcpOcp = 'gcp_ocp',
   ibm = 'ibm',
   ocp = 'ocp',
 }
