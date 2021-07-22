@@ -330,7 +330,6 @@
     },
     "steps": {
       "general_info": "Enter information",
-      "markup": "Set markup or discount",
       "price_list": "Price list",
       "review": "Review details",
       "sources": "Assign a source to the cost model"

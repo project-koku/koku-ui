@@ -39,7 +39,7 @@ export const stepsHash = (t: (text: string) => string) => ({
     },
     {
       id: 2,
-      name: t('cost_models_wizard.steps.markup'),
+      name: t('cost_calculations'),
       component: <Markup />,
     },
     {
@@ -61,7 +61,7 @@ export const stepsHash = (t: (text: string) => string) => ({
     },
     {
       id: 2,
-      name: t('cost_models_wizard.steps.markup'),
+      name: t('cost_calculations'),
       component: <Markup />,
     },
     {
@@ -83,7 +83,7 @@ export const stepsHash = (t: (text: string) => string) => ({
     },
     {
       id: 2,
-      name: t('cost_models_wizard.steps.markup'),
+      name: t('cost_calculations'),
       component: <Markup />,
     },
     {
@@ -110,7 +110,7 @@ export const stepsHash = (t: (text: string) => string) => ({
     },
     {
       id: 3,
-      name: t('cost_models_wizard.steps.markup'),
+      name: t('cost_calculations'),
       component: <Markup />,
     },
     {
