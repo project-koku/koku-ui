@@ -36,7 +36,7 @@ class Markup extends React.Component<WithTranslation, MarkupValidationState> {
             <Stack hasGutter>
               <StackItem>
                 <Title headingLevel="h2" size="xl">
-                  {t('cost_models_wizard.markup.title')}
+                  {t('cost_calculations')}
                 </Title>
               </StackItem>
               <StackItem>
