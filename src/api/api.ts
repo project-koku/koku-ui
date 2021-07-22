@@ -12,8 +12,8 @@ export interface PagedLinks {
   last: string;
 }
 
-export interface PagedResponse<D = any> {
-  meta: PagedMetaData;
+export interface PagedResponse<D = any, M = any> {
+  meta: M;
   links: PagedLinks;
   data: D[];
 }
