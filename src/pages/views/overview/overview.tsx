@@ -141,7 +141,10 @@ const infrastructureAzureOcpOptions = [{ label: 'overview.perspective.azure_ocp'
 const infrastructureGcpOptions = [{ label: 'overview.perspective.gcp', value: 'gcp' }];
 
 // Infrastructure GCP filtered by OCP options
-const infrastructureGcpOcpOptions = [{ label: 'overview.perspective.gcp_ocp', value: 'gcp_ocp' }];
+//
+// Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
+//
+// const infrastructureGcpOcpOptions = [{ label: 'overview.perspective.gcp_ocp', value: 'gcp_ocp' }];
 
 // Infrastructure IBM options
 const infrastructureIbmOptions = [{ label: 'overview.perspective.ibm', value: 'ibm' }];
@@ -293,9 +296,11 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (gcp) {
         options.push(...infrastructureGcpOptions);
       }
-      if (gcp && ocp) {
-        options.push(...infrastructureGcpOcpOptions);
-      }
+      // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
+      //
+      // if (gcp && ocp) {
+      //   options.push(...infrastructureGcpOcpOptions);
+      // }
       if (ibm) {
         options.push(...infrastructureIbmOptions);
       }
