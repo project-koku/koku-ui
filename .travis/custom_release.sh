@@ -4,11 +4,10 @@ set -x
 
 # If current dev branch is master, push to build repo stage-beta
 if [[ "${TRAVIS_BRANCH}" = "master" || "${TRAVIS_BRANCH}" = "main" ]]; then
-  SRC_HASH=`git rev-parse --verify HEAD`
-  .travis/release.sh "ci-beta" ## Continue to push ci-beta for now
+  .travis/release.sh "ci-beta"
 
-  # Reset head
-  git reset --hard $SRC_HASH
+  # Release stage
+  rm -rf $APP_BUILD_DIR/.git
   .travis/release.sh "stage-beta"
 fi
 
