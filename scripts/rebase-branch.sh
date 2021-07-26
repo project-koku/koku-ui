@@ -14,6 +14,8 @@ default()
   CI_STABLE_BRANCH="ci-stable"
   QA_BETA_BRANCH="qa-beta"
   QA_STABLE_BRANCH="qa-stable"
+  STAGE_BETA_BRANCH="stage-beta"
+  STAGE_STABLE_BRANCH="stage-stable"
   REACT_INTL_BRANCH="react-intl_changeover"
 
   KOKU_UI_REPO="git@github.com:project-koku/koku-ui.git"
@@ -32,9 +34,12 @@ cat <<- EEOOFF
 
     OPTIONS:
     h       Display this message
+    b       CI beta
     c       CI stable
     q       QA beta
-    s       QA stable
+    u       QA stable
+    s       Stage beta
+    t       Stage stable
     r       React Intl
 
 EEOOFF
@@ -46,9 +51,12 @@ EEOOFF
 
   while getopts hcqsr c; do
     case $c in
+      b) BRANCH=$CI_BETA_BRANCH;;
       c) BRANCH=$CI_STABLE_BRANCH;;
       q) BRANCH=$QA_BETA_BRANCH;;
-      s) BRANCH=$QA_STABLE_BRANCH;;
+      u) BRANCH=$QA_STABLE_BRANCH;;
+      s) BRANCH=$STAGE_BETA_BRANCH;;
+      t) BRANCH=$STAGE_STABLE_BRANCH;;
       r) BRANCH=$REACT_INTL_BRANCH;;
       h) usage; exit 0;;
       \?) usage; exit 1;;
@@ -74,6 +82,6 @@ EEOOFF
   else
     echo "Did not push to origin. No changes or check for conflicts"
   fi
-  
+
   rm -rf $TMP_DIR
 }
