@@ -349,8 +349,6 @@
   },
   "dashboard": {
     "cumulative_cost_comparison": "Cumulative cost comparison ({{units}})",
-    "date_title": "$t(months.{{month}}) {{startDate}}",
-    "date_title_plural": "$t(months.{{month}}) {{startDate}}-{{endDate}}",
     "daily_usage_comparison": "Daily usage comparison ({{units}})",
     "database_title": "Database services cost",
     "network_title": "Network services cost",
@@ -907,8 +905,8 @@
   "rate": "Rate",
   "save": "Save",
   "settings": "Settings",
-  "since_date": "{{startDate}} $t(months.{{month}})",
-  "since_date_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})",
+  "since_date": "$t(months.{{month}}) {{startDate}}",
+  "since_date_plural": "$t(months.{{month}}) {{startDate}}-{{endDate}}",
   "sources": "Sources",
   "source_details": {
     "filter": {
