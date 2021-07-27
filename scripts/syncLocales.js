@@ -1,15 +1,10 @@
-const sync = require('i18next-json-sync').default;
+const { syncLocales } = require('i18next-locales-sync');
 const path = require('path');
+const srcDir = path.resolve(__dirname, '../src/locales');
 
-const check = process.argv.includes('--check');
-const srcDir = path.resolve(__dirname, '../src');
-
-sync({
-  check,
-  files: path.join(srcDir, '**/locales/*.json'),
-  primary: 'en',
-  createResources: [],
-  space: 2,
-  lineEndings: 'LF',
-  finalNewline: true
+syncLocales({
+  primaryLanguage: 'en',
+  secondaryLanguages: ['de', 'ja'],
+  localesFolder: srcDir,
+  // overridePluralRules: pluralResolver => pluralResolver.addRule('he', pluralResolver.getRule('en')),
 });

@@ -1,6 +1,7 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { tagKey } from 'api/queries/query';
+import { ResourcePathsType } from 'api/resources/resource';
 import { OcpTag } from 'api/tags/ocpTags';
 import { TagPathsType, TagType } from 'api/tags/tag';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
@@ -19,6 +20,7 @@ interface DetailsToolbarOwnProps {
   itemsTotal?: number;
   groupBy: string;
   onBulkSelected(action: string);
+  onColumnManagementClicked();
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
@@ -96,6 +98,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       itemsPerPage,
       itemsTotal,
       onBulkSelected,
+      onColumnManagementClicked,
       onExportClicked,
       onFilterAdded,
       onFilterRemoved,
@@ -115,13 +118,16 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onBulkSelected={onBulkSelected}
+        onColumnManagementClicked={onColumnManagementClicked}
         onExportClicked={onExportClicked}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
+        resourcePathsType={ResourcePathsType.ocp}
         selectedItems={selectedItems}
         showBulkSelect
+        showColumnManagement
         showExport
         showFilter
         tagReport={tagReport}

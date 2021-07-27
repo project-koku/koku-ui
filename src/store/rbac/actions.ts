@@ -4,11 +4,11 @@ import i18next from 'i18next';
 import { Dispatch } from 'redux';
 import { createAsyncAction } from 'typesafe-actions';
 
-export const { request: fetchRbacRequest, success: fetchRbacSuccess, failure: fetchRbacFailure } = createAsyncAction(
-  'fetch/RBAC/request',
-  'fetch/RBAC/success',
-  'fetch/RBAC/failure'
-)<void, RBAC, Error>();
+export const {
+  request: fetchRbacRequest,
+  success: fetchRbacSuccess,
+  failure: fetchRbacFailure,
+} = createAsyncAction('fetch/RBAC/request', 'fetch/RBAC/success', 'fetch/RBAC/failure')<void, RBAC, Error>();
 
 export const fetchRbac = (): any => {
   return (dispatch: Dispatch) => {

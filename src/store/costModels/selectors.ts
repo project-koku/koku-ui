@@ -24,6 +24,10 @@ export const isDialogOpen = (state: RootState) => {
         const { deleteMarkup, updateMarkup } = dialogs;
         return { deleteMarkup, updateMarkup };
       }
+      case 'distribution': {
+        const { deleteDistribution, updateDistribution } = dialogs;
+        return { deleteDistribution, updateDistribution };
+      }
       case 'costmodel': {
         const { deleteCostModel, updateCostModel, createWizard } = dialogs;
         return { deleteCostModel, updateCostModel, createWizard };
@@ -63,12 +67,12 @@ export const stateName = (state: RootState) => {
   }
   const hasNoFilters = Object.keys(costQuery).every(key => {
     switch (key) {
-      case 'limit':
-        return costQuery[key] === '10';
-      case 'offset':
-        return costQuery[key] === '0';
-      default:
+      case 'description':
+      case 'name':
+      case 'source_type':
         return costQuery[key] === null;
+      default:
+        return true;
     }
   });
   if (hasNoFilters) {
@@ -81,14 +85,10 @@ export const currentFilterValue = (state: RootState) => costModelsState(state).c
 
 export const currentFilterType = (state: RootState) => costModelsState(state).currentFilterType;
 
-export const query = selectQuery((state: RootState) => costModelsState(state).costModels, [
-  'ordering',
-  'name',
-  'source_type',
-  'description',
-  'offset',
-  'limit',
-]);
+export const query = selectQuery(
+  (state: RootState) => costModelsState(state).costModels,
+  ['ordering', 'name', 'source_type', 'description', 'offset', 'limit']
+);
 
 export const pagination = selectPagination((state: RootState) => costModelsState(state).costModels);
 

@@ -1,6 +1,7 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey } from 'api/queries/query';
+import { ResourcePathsType } from 'api/resources/resource';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
 import React from 'react';
@@ -35,6 +36,7 @@ interface ExplorerFilterOwnProps {
   pagination?: React.ReactNode;
   perspective: PerspectiveType;
   query?: Query;
+  resourcePathsType?: ResourcePathsType;
   tagQueryString?: string;
 }
 
@@ -174,7 +176,8 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
   };
 
   public render() {
-    const { groupBy, isDisabled, onFilterAdded, onFilterRemoved, orgReport, query, tagReport } = this.props;
+    const { groupBy, isDisabled, onFilterAdded, onFilterRemoved, orgReport, query, resourcePathsType, tagReport } =
+      this.props;
     const { categoryOptions } = this.state;
 
     return (
@@ -187,6 +190,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
         onFilterRemoved={onFilterRemoved}
         orgReport={orgReport}
         query={query}
+        resourcePathsType={resourcePathsType}
         style={styles.toolbarContainer}
         showFilter
         tagReport={tagReport}

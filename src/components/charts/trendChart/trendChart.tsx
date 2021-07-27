@@ -44,6 +44,7 @@ interface TrendChartProps {
   formatDatumOptions?: FormatOptions;
   padding?: any;
   showForecast?: boolean; // Show forecast legend regardless if data is available
+  showInfrastructureLabel?: boolean; // Show supplementary cost labels
   showSupplementaryLabel?: boolean; // Show supplementary cost labels
   showUsageLegendLabel?: boolean; // The cost legend label is shown by default
   title?: string;
@@ -95,6 +96,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       forecastConeData,
       previousData,
       showForecast,
+      showInfrastructureLabel = false,
       showSupplementaryLabel = false,
       showUsageLegendLabel = false,
     } = this.props;
@@ -103,12 +105,16 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       ? 'chart.usage_legend_label'
       : showSupplementaryLabel
       ? 'chart.cost_supplementary_legend_label'
+      : showInfrastructureLabel
+      ? 'chart.cost_infrastructure_legend_label'
       : 'chart.cost_legend_label';
 
     const tooltipKey = showUsageLegendLabel
       ? 'chart.usage_legend_tooltip'
       : showSupplementaryLabel
       ? 'chart.cost_supplementary_legend_tooltip'
+      : showInfrastructureLabel
+      ? 'chart.cost_infrastructure_legend_tooltip'
       : 'chart.cost_legend_tooltip';
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
@@ -178,7 +184,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
           name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
           symbol: {
             fill: chartStyles.forecastConeDataColorScale[0],
-            type: 'triangleUp',
+            type: 'triangleLeft',
           },
           tooltip: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_tooltip', false, false),
         },
@@ -195,13 +201,21 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   private getAdjustedContainerHeight = () => {
-    const { adjustContainerHeight, height, containerHeight = height, showForecast } = this.props;
+    const {
+      adjustContainerHeight,
+      height,
+      containerHeight = height,
+      showForecast,
+      showInfrastructureLabel,
+      showSupplementaryLabel,
+    } = this.props;
     const { width } = this.state;
 
     let adjustedContainerHeight = containerHeight;
     if (adjustContainerHeight) {
       if (showForecast) {
-        if (width < 700) {
+        const maxWidth = showSupplementaryLabel || showInfrastructureLabel ? 900 : 700;
+        if (width < maxWidth) {
           adjustedContainerHeight += 25;
         }
       }
@@ -247,12 +261,15 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   private getEndDate() {
-    const { currentData, forecastData, previousData } = this.props;
+    const { currentData, forecastData, forecastConeData, previousData } = this.props;
     const previousDate = previousData ? getDate(getDateRange(previousData, true, true)[1]) : 0;
     const currentDate = currentData ? getDate(getDateRange(currentData, true, true)[1]) : 0;
     const forecastDate = forecastData ? getDate(getDateRange(forecastData, true, true)[1]) : 0;
+    const forecastConeDate = forecastConeData ? getDate(getDateRange(forecastConeData, true, true)[1]) : 0;
 
-    return currentDate > 0 || previousDate > 0 ? Math.max(currentDate, forecastDate, previousDate) : 31;
+    return currentDate > 0 || previousDate > 0
+      ? Math.max(currentDate, forecastDate, forecastConeDate, previousDate)
+      : 31;
   }
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend

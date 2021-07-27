@@ -118,43 +118,6 @@ const Header: React.FunctionComponent<Props> = ({
             <Title headingLevel="h2" style={styles.sourceTypeTitle} size="md">
               {t('cost_models_details.cost_model.source_type')}: {current.source_type}
             </Title>
-            {current.source_type === 'OpenShift Container Platform' ? (
-              <Tabs activeKey={tabIndex} onSelect={(_evt, index: number) => onSelectTab(index)}>
-                <Tab
-                  eventKey={0}
-                  title={<TabTitleText>Price list</TabTitleText>}
-                  tabContentId="refPriceList"
-                  tabContentRef={tabRefs[0]}
-                />
-                <Tab
-                  eventKey={1}
-                  title={<TabTitleText>Markup</TabTitleText>}
-                  tabContentId="refMarkup"
-                  tabContentRef={tabRefs[1]}
-                />
-                <Tab
-                  eventKey={2}
-                  title={<TabTitleText>Sources</TabTitleText>}
-                  tabContentId="refSources"
-                  tabContentRef={tabRefs[2]}
-                />
-              </Tabs>
-            ) : (
-              <Tabs activeKey={tabIndex} onSelect={(_evt, index: number) => onSelectTab(index)}>
-                <Tab
-                  eventKey={0}
-                  title={<TabTitleText>Markup</TabTitleText>}
-                  tabContentId="refMarkup"
-                  tabContentRef={tabRefs[0]}
-                />
-                <Tab
-                  eventKey={1}
-                  title={<TabTitleText>Sources</TabTitleText>}
-                  tabContentId="refSources"
-                  tabContentRef={tabRefs[1]}
-                />
-              </Tabs>
-            )}
           </SplitItem>
           <SplitItem>
             <Dropdown
@@ -194,6 +157,43 @@ const Header: React.FunctionComponent<Props> = ({
             />
           </SplitItem>
         </Split>
+        {current.source_type === 'OpenShift Container Platform' ? (
+          <Tabs activeKey={tabIndex} onSelect={(_evt, index: number) => onSelectTab(index)}>
+            <Tab
+              eventKey={0}
+              title={<TabTitleText>{t('price_list')}</TabTitleText>}
+              tabContentId="refPriceList"
+              tabContentRef={tabRefs[0]}
+            />
+            <Tab
+              eventKey={1}
+              title={<TabTitleText>{t('cost_calculations')}</TabTitleText>}
+              tabContentId="refMarkup"
+              tabContentRef={tabRefs[1]}
+            />
+            <Tab
+              eventKey={2}
+              title={<TabTitleText>{t('sources')}</TabTitleText>}
+              tabContentId="refSources"
+              tabContentRef={tabRefs[2]}
+            />
+          </Tabs>
+        ) : (
+          <Tabs activeKey={tabIndex} onSelect={(_evt, index: number) => onSelectTab(index)}>
+            <Tab
+              eventKey={0}
+              title={<TabTitleText>{t('cost_calculations')}</TabTitleText>}
+              tabContentId="refMarkup"
+              tabContentRef={tabRefs[0]}
+            />
+            <Tab
+              eventKey={1}
+              title={<TabTitleText>{t('sources')}</TabTitleText>}
+              tabContentId="refSources"
+              tabContentRef={tabRefs[1]}
+            />
+          </Tabs>
+        )}
       </header>
     </>
   );

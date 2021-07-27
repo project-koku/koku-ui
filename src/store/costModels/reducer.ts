@@ -37,6 +37,8 @@ export type CostModelsState = Readonly<{
     deleteCostModel: boolean;
     deleteMarkup: boolean;
     updateMarkup: boolean;
+    deleteDistribution: boolean;
+    updateDistribution: boolean;
     createWizard: boolean;
   };
   dialogData: any;
@@ -67,6 +69,8 @@ export const defaultState: CostModelsState = {
     updateCostModel: false,
     deleteMarkup: false,
     updateMarkup: false,
+    deleteDistribution: false,
+    updateDistribution: false,
     createWizard: false,
   },
   dialogData: null,

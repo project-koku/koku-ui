@@ -20,7 +20,6 @@ export interface DashboardWidget<T> {
   currentTab?: T;
   details: {
     adjustContainerHeight?: boolean; // Adjust chart container height for responsiveness
-    appNavId?: string; // Highlights Insights nav-item when view all link is clicked
     costKey?: string; // i18n key
     formatOptions: ValueFormatOptions;
     requestFormatOptions?: {
@@ -60,6 +59,7 @@ export interface DashboardWidget<T> {
     computedReportItem: string; // The computed report item to use in charts, summary, etc.
     computedReportItemValue: string; // The computed report value (e.g., raw, markup, total, or usage)
     dailyTitleKey?: string;
+    showInfrastructureLabel?: boolean; // Trend chart legend items show "Infrastructure cost" instead of "cost"
     showSupplementaryLabel?: boolean; // Trend chart legend items show "Supplementary cost" instead of "cost"
     titleKey: string;
     type: number;

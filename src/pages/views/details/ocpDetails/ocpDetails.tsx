@@ -6,11 +6,17 @@ import { tagPrefix } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import { cloneDeep } from 'lodash';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData';
 import NoProviders from 'pages/state/noProviders';
 import NotAvailable from 'pages/state/notAvailable';
 import { ExportModal } from 'pages/views/components/export/exportModal';
+import {
+  ColumnManagementModal,
+  ColumnManagementModalOption,
+  initHiddenColumns,
+} from 'pages/views/details/components/columnManagement/columnManagementModal';
 import { getGroupByTagKey } from 'pages/views/utils/groupBy';
 import { hasCurrentMonthData } from 'pages/views/utils/providers';
 import { addQueryFilter, removeQueryFilter } from 'pages/views/utils/query';
@@ -25,7 +31,7 @@ import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportIte
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
 import { DetailsHeader } from './detailsHeader';
-import { DetailsTable } from './detailsTable';
+import { DetailsTable, DetailsTableColumnIds } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
 import { styles } from './ocpDetails.styles';
 
@@ -45,7 +51,9 @@ interface OcpDetailsDispatchProps {
 
 interface OcpDetailsState {
   columns: any[];
+  hiddenColumns: Set<string>;
   isAllSelected: boolean;
+  isColumnManagementModalOpen: boolean;
   isExportModalOpen: boolean;
   rows: any[];
   selectedItems: ComputedReportItem[];
@@ -73,13 +81,21 @@ const baseQuery: OcpQuery = {
   },
 };
 
+const defaultColumnOptions: ColumnManagementModalOption[] = [
+  { label: 'details.month_over_month_change', value: DetailsTableColumnIds.monthOverMonth },
+  { label: 'ocp_details.infrastructure_cost', value: DetailsTableColumnIds.infrastructure, hidden: true },
+  { label: 'ocp_details.supplementary_cost', value: DetailsTableColumnIds.supplementary, hidden: true },
+];
+
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.ocp;
 
 class OcpDetails extends React.Component<OcpDetailsProps> {
   protected defaultState: OcpDetailsState = {
     columns: [],
+    hiddenColumns: initHiddenColumns(defaultColumnOptions),
     isAllSelected: false,
+    isColumnManagementModalOpen: false,
     isExportModalOpen: false,
     rows: [],
     selectedItems: [],
@@ -89,6 +105,9 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
     this.handleBulkSelected = this.handleBulkSelected.bind(this);
+    this.handleColumnManagementModalClose = this.handleColumnManagementModalClose.bind(this);
+    this.handleColumnManagementModalOpen = this.handleColumnManagementModalOpen.bind(this);
+    this.handleColumnManagementModalSave = this.handleColumnManagementModalSave.bind(this);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
     this.handleFilterAdded = this.handleFilterAdded.bind(this);
@@ -117,6 +136,24 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     }
   }
 
+  private getColumnManagementModal = () => {
+    const { hiddenColumns, isColumnManagementModalOpen } = this.state;
+
+    const options = cloneDeep(defaultColumnOptions);
+    options.map(option => {
+      option.hidden = hiddenColumns.has(option.value);
+    });
+
+    return (
+      <ColumnManagementModal
+        isOpen={isColumnManagementModalOpen}
+        options={options}
+        onClose={this.handleColumnManagementModalClose}
+        onSave={this.handleColumnManagementModalSave}
+      />
+    );
+  };
+
   private getComputedItems = () => {
     const { query, report } = this.props;
 
@@ -137,12 +174,19 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     const groupByTagKey = getGroupByTagKey(query);
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
+    // Omit items labeled 'no-project'
+    const items = [];
+    selectedItems.map(item => {
+      if (!(item.label === `no-${groupById}` || item.label === `no-${groupByTagKey}`)) {
+        items.push(item);
+      }
+    });
     return (
       <ExportModal
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
-        items={selectedItems}
+        items={items}
         onClose={this.handleExportModalClose}
         query={query}
         reportPathsType={reportPathsType}
@@ -193,7 +237,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
   private getTable = () => {
     const { query, report, reportFetchStatus } = this.props;
-    const { isAllSelected, selectedItems } = this.state;
+    const { hiddenColumns, isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
@@ -201,6 +245,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     return (
       <DetailsTable
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        hiddenColumns={hiddenColumns}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
@@ -228,6 +273,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
+        onColumnManagementClicked={this.handleColumnManagementModalOpen}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
         onFilterRemoved={this.handleFilterRemoved}
@@ -251,6 +297,18 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     } else if (action === 'all') {
       this.setState({ isAllSelected: !isAllSelected, selectedItems: [] });
     }
+  };
+
+  public handleColumnManagementModalClose = (isOpen: boolean) => {
+    this.setState({ isColumnManagementModalOpen: isOpen });
+  };
+
+  public handleColumnManagementModalOpen = () => {
+    this.setState({ isColumnManagementModalOpen: true });
+  };
+
+  public handleColumnManagementModalSave = (hiddenColumns: Set<string>) => {
+    this.setState({ hiddenColumns });
   };
 
   public handleExportModalClose = (isOpen: boolean) => {
@@ -389,6 +447,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}
+          {this.getColumnManagementModal()}
           {reportFetchStatus === FetchStatus.inProgress ? (
             <Loading />
           ) : (

@@ -3,7 +3,7 @@
 name: Pull request
 on:
   pull_request:
-    branches: [ master, ci-stable, prod-beta, prod-stable, qa-beta, qa-stable ]
+    branches: [ main, master, ci-stable, prod-beta, prod-stable, qa-beta, qa-stable, stage-beta, stage-stable ]
 env:
   BRANCH: ${{ github.base_ref }}
 

@@ -1,6 +1,7 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { getQuery, IbmQuery } from 'api/queries/ibmQuery';
 import { tagKey } from 'api/queries/query';
+import { ResourcePathsType } from 'api/resources/resource';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
 import React from 'react';
@@ -124,6 +125,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
+        resourcePathsType={ResourcePathsType.ibm}
         selectedItems={selectedItems}
         showBulkSelect
         showExport

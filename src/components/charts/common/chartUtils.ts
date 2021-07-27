@@ -84,7 +84,7 @@ export const getLegendData = (series: ChartSeries[], hiddenSeries: Set<number>, 
     };
     return data;
   });
-  return tooltip ? result : result.filter(d => d.childName.indexOf('Cone') === -1);
+  return result;
 };
 
 // Note: Forecast is expected to use both datum.y and datum.y0
@@ -140,21 +140,6 @@ export const initHiddenSeries = (series: ChartSeries[], hiddenSeries: Set<number
   const result = new Set(hiddenSeries);
   if (!result.delete(index)) {
     result.add(index);
-  }
-
-  // Toggle forecast confidence
-  const childName = series[index].childName;
-  if (childName.indexOf('forecast') !== -1) {
-    let _index;
-    for (let i = 0; i < series.length; i++) {
-      if (series[i].childName === `${childName}Cone`) {
-        _index = i;
-        break;
-      }
-    }
-    if (index !== undefined && !result.delete(_index)) {
-      result.add(_index);
-    }
   }
   return result;
 };

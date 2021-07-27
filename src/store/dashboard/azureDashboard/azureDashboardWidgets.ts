@@ -23,7 +23,6 @@ export const costSummaryWidget: AzureDashboardWidget = {
   reportType: ReportType.cost,
   details: {
     adjustContainerHeight: true,
-    appNavId: 'aws',
     costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
@@ -142,7 +141,6 @@ export const storageWidget: AzureDashboardWidget = {
     showUnits: true,
     showUsageFirst: true,
     showUsageLegendLabel: true,
-    units: 'gb-mo',
     usageFormatOptions: {
       fractionDigits: 0,
     },
@@ -191,7 +189,6 @@ export const virtualMachineWidget: AzureDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    units: 'vm-hours',
     usageKey: 'dashboard.usage',
   },
   filter: {
