@@ -907,8 +907,8 @@
   "rate": "Rate",
   "save": "Save",
   "settings": "Settings",
-  "since_date": "{{startDate}} $t(months.{{month}})",
-  "since_date_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})",
+  "since_date": "$t(months.{{month}}) {{startDate}}",
+  "since_date_plural": "$t(months.{{month}}) {{startDate}}-{{endDate}}",
   "sources": "Sources",
   "source_details": {
     "filter": {
