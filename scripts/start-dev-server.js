@@ -6,13 +6,13 @@ const { spawn } = require('child_process');
 async function setEnv() {
   return inquirer
     .prompt([
-      { type: 'list', name: 'uiEnv', message: 'Which UI environment you want to use?', choices: ['beta', 'stable'] },
       {
         type: 'list',
         name: 'clouddotEnv',
         message: 'Which platform environment you want to use',
-        choices: ['ci', 'qa', 'stage', 'prod'],
+        choices: ['stage', 'prod', 'ci'],
       },
+      { type: 'list', name: 'uiEnv', message: 'Which UI environment you want to use?', choices: ['beta', 'stable'] },
       {
         name: 'insightsProxy',
         message: 'Do you want to use the Insights proxy?',
