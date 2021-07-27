@@ -2,6 +2,7 @@ import { ToolbarChipGroup } from '@patternfly/react-core';
 import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { orgUnitIdKey, tagKey } from 'api/queries/query';
+import { ResourcePathsType } from 'api/resources/resource';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
 import React from 'react';
@@ -139,6 +140,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         orgReport={orgReport}
         pagination={pagination}
         query={query}
+        resourcePathsType={ResourcePathsType.aws}
         selectedItems={selectedItems}
         showBulkSelect
         showExport

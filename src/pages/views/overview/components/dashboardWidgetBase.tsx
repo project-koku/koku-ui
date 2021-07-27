@@ -102,11 +102,23 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   private getChart = (containerHeight: number, height: number, adjustContainerHeight: boolean = false) => {
     const { chartType, trend } = this.props;
     if (chartType === DashboardChartType.dailyTrend) {
-      return this.getDailyTrendChart(containerHeight, height, adjustContainerHeight, trend.showSupplementaryLabel);
+      return this.getDailyTrendChart(
+        containerHeight,
+        height,
+        adjustContainerHeight,
+        trend.showInfrastructureLabel,
+        trend.showSupplementaryLabel
+      );
     } else if (chartType === DashboardChartType.dailyCost) {
       return this.getDailyCostChart(containerHeight, height, adjustContainerHeight);
     } else if (chartType === DashboardChartType.trend) {
-      return this.getTrendChart(containerHeight, height, adjustContainerHeight, trend.showSupplementaryLabel);
+      return this.getTrendChart(
+        containerHeight,
+        height,
+        adjustContainerHeight,
+        trend.showInfrastructureLabel,
+        trend.showSupplementaryLabel
+      );
     } else if (chartType === DashboardChartType.usage) {
       return this.getUsageChart(height, adjustContainerHeight);
     } else {
@@ -200,6 +212,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     containerHeight: number,
     height: number,
     adjustContainerHeight: boolean = false,
+    showInfrastructureLabel: boolean = false,
     showSupplementaryLabel: boolean = false
   ) => {
     const { currentReport, details, previousReport, trend } = this.props;
@@ -234,6 +247,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           height={height}
           previousData={previousData}
           showForecast={trend.computedForecastItem !== undefined}
+          showInfrastructureLabel={showInfrastructureLabel}
           showSupplementaryLabel={showSupplementaryLabel}
           showUsageLegendLabel={details.showUsageLegendLabel}
           units={units}
@@ -271,7 +285,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           : undefined;
 
         // Remove overlapping forecast dates, if any
-        if (forecast && forecast.data) {
+        if (forecast && forecast.data && forecast.data.length > 0) {
           const lastReportedDate = new Date(lastReported);
           const lastReportedMonth = lastReportedDate.getMonth() + 1;
           for (const item of forecast.data) {
@@ -283,54 +297,61 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
               newForecast.data.push(item);
             }
           }
-        }
 
-        // For cumulative data, show continuous line from current report to forecast
-        if (type === ChartType.rolling) {
-          newForecast.data.unshift({
-            date: lastReported,
-            values: [
-              {
-                date: lastReported,
-                cost: {
-                  confidence_max: {
-                    value: 0,
+          // For cumulative data, forecast values should begin at last reported total with zero confidence values
+          if (type === ChartType.rolling) {
+            const firstReported =
+              forecast.data[0].values && forecast.data[0].values.length > 0
+                ? forecast.data[0].values[0].date
+                : undefined;
+
+            const date = this.getNumberOfDays(lastReported, firstReported) === 1 ? lastReported : firstReported;
+
+            newForecast.data.unshift({
+              date,
+              values: [
+                {
+                  date,
+                  cost: {
+                    confidence_max: {
+                      value: 0,
+                    },
+                    confidence_min: {
+                      value: 0,
+                    },
+                    total: {
+                      value: total,
+                      units: 'USD',
+                    },
                   },
-                  confidence_min: {
-                    value: 0,
+                  infrastructure: {
+                    confidence_max: {
+                      value: 0,
+                    },
+                    confidence_min: {
+                      value: 0,
+                    },
+                    total: {
+                      value: total,
+                      units: 'USD',
+                    },
                   },
-                  total: {
-                    value: total,
-                    units: 'USD',
+                  supplementary: {
+                    confidence_max: {
+                      value: 0,
+                    },
+                    confidence_min: {
+                      value: 0,
+                    },
+                    total: {
+                      value: total,
+                      units: 'USD',
+                    },
                   },
                 },
-                infrastructure: {
-                  confidence_max: {
-                    value: 0,
-                  },
-                  confidence_min: {
-                    value: 0,
-                  },
-                  total: {
-                    value: total,
-                    units: 'USD',
-                  },
-                },
-                supplementary: {
-                  confidence_max: {
-                    value: 0,
-                  },
-                  confidence_min: {
-                    value: 0,
-                  },
-                  total: {
-                    value: total,
-                    units: 'USD',
-                  },
-                },
-              },
-            ],
-          });
+              ],
+            });
+          }
         }
       }
       forecastData = transformForecast(newForecast, type, computedForecastItem);
@@ -339,11 +360,28 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     return { forecastData, forecastConeData };
   };
 
+  private getNumberOfDays = (start: string, end: string) => {
+    const date1 = new Date(start);
+    const date2 = new Date(end);
+
+    // One day in milliseconds
+    const oneDay = 1000 * 60 * 60 * 24;
+
+    // Calculating the time difference between two dates
+    const diffInTime = date2.getTime() - date1.getTime();
+
+    // Calculating the no. of days between two dates
+    const diffInDays = Math.round(diffInTime / oneDay);
+
+    return diffInDays;
+  };
+
   // This chart displays cumulative cost only
   private getTrendChart = (
     containerHeight: number,
     height: number,
     adjustContainerHeight: boolean = false,
+    showInfrastructureLabel: boolean = false,
     showSupplementaryLabel: boolean = false
   ) => {
     const { currentReport, details, previousReport, t, trend } = this.props;
@@ -378,6 +416,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         height={height}
         previousData={previousData}
         showForecast={trend.computedForecastItem !== undefined}
+        showInfrastructureLabel={showInfrastructureLabel}
         showSupplementaryLabel={showSupplementaryLabel}
         showUsageLegendLabel={details.showUsageLegendLabel}
         title={title}
@@ -453,11 +492,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const { currentTab, details } = this.props;
 
     if (details.viewAllPath) {
-      return (
-        <Link to={this.buildDetailsLink(currentTab)} onClick={this.handleInsightsNavClick}>
-          {this.getDetailsLinkTitle(currentTab)}
-        </Link>
-      );
+      return <Link to={this.buildDetailsLink(currentTab)}>{this.getDetailsLinkTitle(currentTab)}</Link>;
     }
     return null;
   };
@@ -643,16 +678,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   private handleComparisonClick = (value: string) => {
     this.setState({ currentComparison: value });
-  };
-
-  private handleInsightsNavClick = () => {
-    const { details } = this.props;
-    if (details.appNavId) {
-      insights.chrome.appNavClick({
-        id: details.appNavId,
-        secondaryNav: true,
-      });
-    }
   };
 
   private handleTabClick = (event, tabIndex) => {

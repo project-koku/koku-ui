@@ -27,9 +27,12 @@ import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import { Org } from 'api/orgs/org';
 import { orgUnitIdKey, orgUnitNameKey, Query, tagKey, tagPrefix } from 'api/queries/query';
+import { ResourcePathsType } from 'api/resources/resource';
+import { isResourceTypeValid } from 'api/resources/resourceUtils';
 import { Tag } from 'api/tags/tag';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
+import { ResourceTypeahead } from 'pages/views/components/resourceTypeahead/resourceTypeahead';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
@@ -52,6 +55,7 @@ interface DataToolbarOwnProps {
   itemsPerPage?: number;
   itemsTotal?: number;
   onBulkSelected?: (action: string) => void;
+  onColumnManagementClicked?: () => void;
   onExportClicked?: () => void;
   onFilterAdded?: (filterType: string, filterValue: string) => void;
   onFilterRemoved?: (filterType: string, filterValue?: string) => void;
@@ -59,8 +63,10 @@ interface DataToolbarOwnProps {
   pagination?: React.ReactNode; // Optional pagination controls to display in toolbar
   query?: Query; // Query containing filter_by params used to restore state upon page refresh
   tagReport?: Tag; // Data containing tag key and value data
+  resourcePathsType?: ResourcePathsType;
   selectedItems?: ComputedReportItem[];
   showBulkSelect?: boolean; // Show bulk select
+  showColumnManagement?: boolean; // Show column management
   showExport?: boolean; // Show export icon
   showFilter?: boolean; // Show export icon
   style?: React.CSSProperties;
@@ -229,22 +235,22 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     const isChecked = allSelected ? true : someChecked;
 
     const dropdownItems = [
-      <DropdownItem key="item-1" onClick={() => this.onBulkSelectClicked('none')}>
+      <DropdownItem key="item-1" onClick={() => this.handleOnBulkSelectClicked('none')}>
         {t('toolbar.bulk_select.select_none')}
       </DropdownItem>,
-      <DropdownItem key="item-2" onClick={() => this.onBulkSelectClicked('page')}>
+      <DropdownItem key="item-2" onClick={() => this.handleOnBulkSelectClicked('page')}>
         {t('toolbar.bulk_select.select_page', {
           value: itemsPerPage,
         })}
       </DropdownItem>,
-      <DropdownItem key="item-3" onClick={() => this.onBulkSelectClicked('all')}>
+      <DropdownItem key="item-3" onClick={() => this.handleOnBulkSelectClicked('all')}>
         {t('toolbar.bulk_select.select_all', { value: itemsTotal })}
       </DropdownItem>,
     ];
 
     return (
       <Dropdown
-        onSelect={this.onBulkSelect}
+        onSelect={this.handleOnBulkSelect}
         position={DropdownPosition.left}
         toggle={
           <DropdownToggle
@@ -256,11 +262,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                 aria-label={anySelected ? t('toolbar.bulk_select.aria_deselect') : t('toolbar.bulk_select.aria_select')}
                 isChecked={isChecked}
                 onClick={() => {
-                  anySelected ? this.onBulkSelectClicked('none') : this.onBulkSelectClicked('all');
+                  anySelected ? this.handleOnBulkSelectClicked('none') : this.handleOnBulkSelectClicked('all');
                 }}
               ></DropdownToggleCheckbox>,
             ]}
-            onToggle={this.onBulkSelectToggle}
+            onToggle={this.handleOnBulkSelectToggle}
           >
             {numSelected !== 0 && <React.Fragment>{numSelected} selected</React.Fragment>}
           </DropdownToggle>
@@ -271,7 +277,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     );
   };
 
-  private onBulkSelectClicked = (action: string) => {
+  private handleOnBulkSelectClicked = (action: string) => {
     const { onBulkSelected } = this.props;
 
     if (onBulkSelected) {
@@ -279,13 +285,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     }
   };
 
-  private onBulkSelect = () => {
+  private handleOnBulkSelect = () => {
     this.setState({
       isBulkSelectOpen: !this.state.isBulkSelectOpen,
     });
   };
 
-  private onBulkSelectToggle = isOpen => {
+  private handleOnBulkSelectToggle = isOpen => {
     this.setState({
       isBulkSelectOpen: isOpen,
     });
@@ -303,10 +309,10 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return (
       <ToolbarItem>
         <Dropdown
-          onSelect={this.onCategorySelect}
+          onSelect={this.handleOnCategorySelect}
           position={DropdownPosition.left}
           toggle={
-            <DropdownToggle isDisabled={isDisabled} onToggle={this.onCategoryToggle} style={{ width: '100%' }}>
+            <DropdownToggle isDisabled={isDisabled} onToggle={this.handleOnCategoryToggle} style={{ width: '100%' }}>
               <FilterIcon /> {this.getCurrentCategoryOption().name}
             </DropdownToggle>
           }
@@ -314,7 +320,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           dropdownItems={
             categoryOptions &&
             categoryOptions.map(option => (
-              <DropdownItem key={option.key} onClick={() => this.onCategoryClick(option.key)}>
+              <DropdownItem key={option.key} onClick={() => this.handleOnCategoryClick(option.key)}>
                 {option.name}
               </DropdownItem>
             ))
@@ -340,13 +346,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return categoryOptions[0];
   };
 
-  private onCategoryClick = value => {
+  private handleOnCategoryClick = value => {
     this.setState({
       currentCategory: value,
     });
   };
 
-  private onCategorySelect = () => {
+  private handleOnCategorySelect = () => {
     this.setState({
       categoryInput: '',
       currentTagKey: undefined,
@@ -354,7 +360,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     });
   };
 
-  private onCategoryToggle = isOpen => {
+  private handleOnCategoryToggle = isOpen => {
     this.setState({
       isCategoryDropdownOpen: isOpen,
     });
@@ -363,7 +369,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Category input
 
   public getCategoryInput = categoryOption => {
-    const { isDisabled, t } = this.props;
+    const { isDisabled, resourcePathsType, t } = this.props;
     const { currentCategory, filters, categoryInput } = this.state;
 
     return (
@@ -375,25 +381,36 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         showToolbarItem={currentCategory === categoryOption.key}
       >
         <InputGroup>
-          <TextInput
-            isDisabled={isDisabled}
-            name={`${categoryOption.key}-input`}
-            id={`${categoryOption.key}-input`}
-            type="search"
-            aria-label={t(`filter_by.${categoryOption.key}.input_aria_label`)}
-            onChange={this.onCategoryInputChange}
-            value={categoryInput}
-            placeholder={t(`filter_by.${categoryOption.key}.placeholder`)}
-            onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
-          />
-          <Button
-            isDisabled={isDisabled}
-            variant={ButtonVariant.control}
-            aria-label={t(`filter_by.${categoryOption.key}.button_aria_label`)}
-            onClick={evt => this.onCategoryInput(evt, categoryOption.key)}
-          >
-            <SearchIcon />
-          </Button>
+          {isResourceTypeValid(resourcePathsType, categoryOption.key) ? (
+            <ResourceTypeahead
+              isDisabled={isDisabled}
+              onSelect={value => this.onCategoryInputSelect(value, categoryOption.key)}
+              resourcePathsType={resourcePathsType}
+              resourceType={categoryOption.key}
+            />
+          ) : (
+            <>
+              <TextInput
+                isDisabled={isDisabled}
+                name={`${categoryOption.key}-input`}
+                id={`${categoryOption.key}-input`}
+                type="search"
+                aria-label={t(`filter_by.${categoryOption.key}.input_aria_label`)}
+                onChange={this.handleOnCategoryInputChange}
+                value={categoryInput}
+                placeholder={t(`filter_by.${categoryOption.key}.placeholder`)}
+                onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
+              />
+              <Button
+                isDisabled={isDisabled}
+                variant={ButtonVariant.control}
+                aria-label={t(`filter_by.${categoryOption.key}.button_aria_label`)}
+                onClick={evt => this.onCategoryInput(evt, categoryOption.key)}
+              >
+                <SearchIcon />
+              </Button>
+            </>
+          )}
         </InputGroup>
       </ToolbarFilter>
     );
@@ -405,14 +422,14 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return [{ name: t('filter_by.values.name'), key: 'name' }];
   };
 
-  private onCategoryInputChange = value => {
+  private handleOnCategoryInputChange = (value: string) => {
     this.setState({ categoryInput: value });
   };
 
   private onCategoryInput = (event, key) => {
     const { categoryInput, currentCategory } = this.state;
 
-    if ((event.key && event.key !== 'Enter') || categoryInput.trim() === '') {
+    if ((event && event.key && event.key !== 'Enter') || categoryInput.trim() === '') {
       return;
     }
     this.setState(
@@ -433,6 +450,31 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       },
       () => {
         this.props.onFilterAdded(currentCategory, categoryInput);
+      }
+    );
+  };
+
+  private onCategoryInputSelect = (value, key) => {
+    const { currentCategory } = this.state;
+
+    this.setState(
+      (prevState: any) => {
+        const prevFilters = prevState.filters[key];
+        return {
+          filters: {
+            ...prevState.filters,
+            [currentCategory]:
+              prevFilters && prevFilters.includes(value)
+                ? prevFilters
+                : prevFilters
+                ? [...prevFilters, value]
+                : [value],
+          },
+          categoryInput: '',
+        };
+      },
+      () => {
+        this.props.onFilterAdded(currentCategory, value);
       }
     );
   };
@@ -482,8 +524,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           className="selectOverride"
           variant={SelectVariant.checkbox}
           aria-label={t('filter_by.org_unit.aria_label')}
-          onToggle={this.onOrgUnitToggle}
-          onSelect={this.onOrgUnitSelect}
+          onToggle={this.handleOnOrgUnitToggle}
+          onSelect={this.handleOnOrgUnitSelect}
           selections={selections}
           isOpen={isOrgUnitSelectExpanded}
           placeholderText={t('filter_by.org_unit.placeholder')}
@@ -535,7 +577,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return options;
   }
 
-  private onOrgUnitSelect = (event, selection) => {
+  private handleOnOrgUnitSelect = (event, selection) => {
     const checked = event.target.checked;
 
     this.setState(
@@ -563,7 +605,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     );
   };
 
-  private onOrgUnitToggle = isOpen => {
+  private handleOnOrgUnitToggle = isOpen => {
     this.setState({
       isOrgUnitSelectExpanded: isOpen,
     });
@@ -588,10 +630,10 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         <Select
           isDisabled={isDisabled}
           variant={SelectVariant.typeahead}
-          aria-label={t('filter_by.tag_key.aria_label')}
-          onClear={this.onTagKeyClear}
-          onToggle={this.onTagKeyToggle}
-          onSelect={this.onTagKeySelect}
+          typeAheadAriaLabel={t('filter_by.tag_key.aria_label')}
+          onClear={this.handleOnTagKeyClear}
+          onToggle={this.handleOnTagKeyToggle}
+          onSelect={this.handleOnTagKeySelect}
           isOpen={isTagKeySelectExpanded}
           placeholderText={t('filter_by.tag_key.placeholder')}
           selections={currentTagKey}
@@ -644,21 +686,21 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return options;
   }
 
-  private onTagKeyClear = () => {
+  private handleOnTagKeyClear = () => {
     this.setState({
       currentTagKey: undefined,
       isTagKeySelectExpanded: false,
     });
   };
 
-  private onTagKeySelect = (event, selection) => {
+  private handleOnTagKeySelect = (event, selection) => {
     this.setState({
       currentTagKey: selection,
       isTagKeySelectExpanded: !this.state.isTagKeySelectExpanded,
     });
   };
 
-  private onTagKeyToggle = isOpen => {
+  private handleOnTagKeyToggle = isOpen => {
     this.setState({
       isTagKeySelectExpanded: isOpen,
     });
@@ -813,13 +855,31 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     });
   };
 
+  // Column management
+
+  public getColumnManagement = () => {
+    const { t } = this.props;
+
+    return (
+      <ToolbarItem>
+        <Button onClick={this.handleColumnManagementClicked} variant={ButtonVariant.link}>
+          {t('details.column_management.title')}
+        </Button>
+      </ToolbarItem>
+    );
+  };
+
   // Export button
 
   public getExportButton = () => {
     const { isDisabled, isExportDisabled } = this.props;
 
     return (
-      <ToolbarItem>
+      <ToolbarItem
+        spacer={{
+          default: 'spacerNone',
+        }}
+      >
         <Button
           isDisabled={isDisabled || isExportDisabled}
           onClick={this.handleExportClicked}
@@ -831,12 +891,25 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     );
   };
 
+  private handleColumnManagementClicked = () => {
+    this.props.onColumnManagementClicked();
+  };
+
   private handleExportClicked = () => {
     this.props.onExportClicked();
   };
 
   public render() {
-    const { categoryOptions, dateRange, pagination, showBulkSelect, showExport, showFilter, style } = this.props;
+    const {
+      categoryOptions,
+      dateRange,
+      pagination,
+      showBulkSelect,
+      showColumnManagement,
+      showExport,
+      showFilter,
+      style,
+    } = this.props;
     const options = categoryOptions ? categoryOptions : this.getDefaultCategoryOptions();
 
     // Todo: clearAllFilters workaround https://github.com/patternfly/patternfly-react/issues/4222
@@ -858,7 +931,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                       .map(option => this.getCategoryInput(option))}
                 </ToolbarGroup>
               )}
-              {Boolean(showExport) && <ToolbarGroup>{this.getExportButton()}</ToolbarGroup>}
+              {(Boolean(showExport) || Boolean(showColumnManagement)) && (
+                <ToolbarGroup>
+                  {Boolean(showExport) && this.getExportButton()}
+                  {Boolean(showColumnManagement) && this.getColumnManagement()}
+                </ToolbarGroup>
+              )}
               {dateRange && <ToolbarGroup>{dateRange}</ToolbarGroup>}
             </ToolbarToggleGroup>
             <ToolbarItem alignment={{ default: 'alignRight' }} variant="pagination">

@@ -69,7 +69,6 @@ export const costSummaryWidget: IbmDashboardWidget = {
   reportType: ReportType.cost,
   details: {
     adjustContainerHeight: true,
-    appNavId: 'ibm',
     costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,

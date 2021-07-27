@@ -43,6 +43,7 @@ import {
   baseQuery,
   DateRangeType,
   getComputedReportItemType,
+  getComputedReportItemValueType,
   getDateRange,
   getDateRangeDefault,
   getGroupByDefault,
@@ -131,15 +132,16 @@ class Explorer extends React.Component<ExplorerProps> {
   }
 
   public componentDidUpdate(prevProps: ExplorerProps, prevState: ExplorerState) {
-    const { location, report, reportError, queryString } = this.props;
+    const { location, perspective, report, reportError, queryString } = this.props;
     const { selectedItems } = this.state;
 
+    const newPerspective = prevProps.perspective !== perspective;
     const newQuery = prevProps.queryString !== queryString;
     const noReport = !report && !reportError;
     const noLocation = !location.search;
     const newItems = prevState.selectedItems !== selectedItems;
 
-    if (newQuery || noReport || noLocation || newItems) {
+    if (newPerspective || newQuery || noReport || noLocation || newItems) {
       this.updateReport();
     }
   }
@@ -167,12 +169,19 @@ class Explorer extends React.Component<ExplorerProps> {
     const groupByTagKey = getGroupByTagKey(query);
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
+    // Omit items labeled 'no-project'
+    const items = [];
+    selectedItems.map(item => {
+      if (!(item.label === `no-${groupById}` || item.label === `no-${groupByTagKey}`)) {
+        items.push(item);
+      }
+    });
     return (
       <ExportModal
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
-        items={selectedItems}
+        items={items}
         onClose={this.handleExportModalClose}
         query={query}
         reportPathsType={getReportPathsType(perspective)}
@@ -221,6 +230,7 @@ class Explorer extends React.Component<ExplorerProps> {
     return (
       <ExplorerTable
         computedReportItemType={getComputedReportItemType(perspective)}
+        computedReportItemValueType={getComputedReportItemValueType(perspective)}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
@@ -472,6 +482,7 @@ class Explorer extends React.Component<ExplorerProps> {
             <div style={styles.chartContainer}>
               <ExplorerChart
                 computedReportItemType={getComputedReportItemType(perspective)}
+                computedReportItemValueType={getComputedReportItemValueType(perspective)}
                 perspective={perspective}
               />
             </div>
@@ -565,6 +576,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   const queryFromRoute = parseQuery<Query>(location.search);
   const dateRange = getDateRangeDefault(queryFromRoute);
   const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
+
   const perspective = getPerspectiveDefault({
     awsProviders,
     awsProvidersFetchStatus,
@@ -580,13 +592,19 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     userAccess,
   });
 
+  // Ensure group_by key is not undefined
+  let groupBy = queryFromRoute.group_by;
+  if (!groupBy && perspective) {
+    groupBy = { [getGroupByDefault(perspective)]: '*' };
+  }
+
   const query = {
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
     },
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-    group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
+    group_by: groupBy,
     order_by: queryFromRoute.order_by,
     perspective,
     dateRange,

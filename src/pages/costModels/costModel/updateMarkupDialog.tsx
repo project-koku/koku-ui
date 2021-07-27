@@ -3,15 +3,19 @@ import {
   Button,
   Form,
   FormGroup,
+  Grid,
+  GridItem,
   InputGroup,
   InputGroupText,
+  List,
+  ListItem,
   Modal,
+  Radio,
   Stack,
   StackItem,
   Text,
   TextContent,
   TextInput,
-  TextVariants,
   Title,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
@@ -21,6 +25,8 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { formatValue } from 'utils/formatValue';
+
+import { styles } from './costCalc.styles';
 
 interface Props extends WithTranslation {
   isLoading: boolean;
@@ -32,23 +38,57 @@ interface Props extends WithTranslation {
 
 interface State {
   markup: string;
+  origIsDiscount: boolean;
+  isDiscount: boolean;
 }
 
 class UpdateMarkupModelBase extends React.Component<Props, State> {
   constructor(props) {
     super(props);
+    const initialMarkup = this.props.current.markup.value;
+    const isNegative = Number(initialMarkup) < 0;
+    const noSignValue = isNegative ? initialMarkup.substring(1) : initialMarkup;
+
     this.state = {
       markup:
-        (formatValue(Number(this.props.current.markup.value), 'markup', {
+        (formatValue(Number(noSignValue), 'markup', {
           fractionDigits: 2,
         }) as string) || '0.00',
+      origIsDiscount: isNegative,
+      isDiscount: isNegative,
     };
   }
+
+  private handleSignChange = (_, event) => {
+    const { value } = event.currentTarget;
+    this.setState({ isDiscount: value === 'true' });
+  };
+
+  private handleMarkupDiscountChange = (_, event) => {
+    const { value } = event.currentTarget;
+    const regex = /^[0-9.]*$/;
+    if (regex.test(value)) {
+      this.setState({ markup: value });
+    }
+  };
+
+  private markupValidator = () => {
+    return /^\d*(\.?\d{1,2})?$/.test(this.state.markup) ? 'default' : 'error';
+  };
+
+  private handleOnKeyDown = event => {
+    // Prevent 'enter', '+', and '-'
+    if (event.keyCode === 13 || event.keyCode === 187 || event.keyCode === 189) {
+      event.preventDefault();
+    }
+  };
+
   public render() {
     const { error, current, onClose, updateCostModel, isLoading, t } = this.props;
+    const { isDiscount } = this.state;
     return (
       <Modal
-        title={t('cost_models_details.edit_markup')}
+        title={t('cost_models_details.edit_markup_or_discount')}
         isOpen
         onClose={() => onClose({ name: 'updateMarkup', isOpen: false })}
         variant="small"
@@ -62,7 +102,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                 source_uuids: current.sources.map(provider => provider.uuid),
                 source_type: current.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
                 markup: {
-                  value: this.state.markup,
+                  value: this.state.isDiscount ? '-' + this.state.markup : this.state.markup,
                   unit: 'percent',
                 },
               };
@@ -70,11 +110,13 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
             }}
             isDisabled={
               isNaN(Number(this.state.markup)) ||
-              Number(this.state.markup) === Number(current.markup.value || 0) ||
+              (Number(this.state.markup) ===
+                Number(this.state.origIsDiscount ? current.markup.value.substring(1) : current.markup.value || 0) &&
+                this.state.isDiscount === this.state.origIsDiscount) ||
               isLoading
             }
           >
-            {t('cost_models_details.add_rate_modal.save')}
+            {t('save')}
           </Button>,
           <Button
             key="cancel"
@@ -82,55 +124,91 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
             onClick={() => onClose({ name: 'updateMarkup', isOpen: false })}
             isDisabled={isLoading}
           >
-            {t('cost_models_details.add_rate_modal.cancel')}
+            {t('cancel')}
           </Button>,
         ]}
       >
         <Stack hasGutter>
           <StackItem>{error && <Alert variant="danger" title={`${error}`} />}</StackItem>
           <StackItem>
-            <Title headingLevel="h2" size="md">
-              {t('cost_models_details.table.columns.name')}
-            </Title>
-          </StackItem>
-          <StackItem>
             <TextContent>
-              <Text component={TextVariants.h6}>{current.name}</Text>
+              <Text style={styles.cardDescription}>
+                {t('cost_models_details.description_markup_or_discount_model')}
+              </Text>
             </TextContent>
           </StackItem>
           <StackItem>
-            <Form>
-              <FormGroup
-                label={t('cost_models_wizard.markup.markup_label')}
-                fieldId="markup-input-box"
-                helperTextInvalid={t('cost_models_wizard.markup.invalid_markup_text')}
-                validated={!isNaN(Number(this.state.markup)) ? 'default' : 'error'}
-              >
-                <InputGroup style={{ width: '150px' }}>
-                  <TextInput
-                    type="text"
-                    aria-label={t('cost_models_wizard.markup.markup_label')}
-                    id="markup-input-box"
-                    value={this.state.markup}
-                    onChange={(markup: string) => {
-                      const markupDecimal = Number(markup);
-                      const dx = markup.split('').findIndex(c => c === '.');
-                      if (!isNaN(markupDecimal) && dx > -1 && markup.length - dx - 1 > 2) {
-                        this.setState({
-                          markup: formatValue(markupDecimal, 'markup', {
-                            fractionDigits: 2,
-                          }) as string,
-                        });
-                        return;
-                      }
-                      this.setState({ markup });
-                    }}
-                    validated={!isNaN(Number(this.state.markup)) ? 'default' : 'error'}
-                  />
-                  <InputGroupText style={{ borderLeft: '0' }}>%</InputGroupText>
-                </InputGroup>
-              </FormGroup>
+            <Form
+              onSubmit={e => {
+                e.preventDefault();
+              }}
+            >
+              <Grid hasGutter>
+                <GridItem lg={8} id="refSign">
+                  <FormGroup isInline fieldId="markup-or-discount" label={t('cost_models_details.markup_or_discount')}>
+                    <div style={styles.radioAlign}>
+                      <Radio
+                        isChecked={!isDiscount}
+                        name="discount"
+                        label={t('cost_models_details.markup_plus')}
+                        aria-label={t('cost_models_details.markup_plus')}
+                        id="markup"
+                        value="false" // "+"
+                        onChange={this.handleSignChange}
+                      />
+                    </div>
+                    <div style={styles.radioAlign}>
+                      <Radio
+                        isChecked={isDiscount}
+                        name="discount"
+                        label={t('cost_models_details.discount_minus')}
+                        aria-label={t('cost_models_details.discount_minus')}
+                        id="discount"
+                        value="true" // '-'
+                        onChange={this.handleSignChange}
+                      />
+                    </div>
+                  </FormGroup>
+                </GridItem>
+                <GridItem lg={4} id="refMarkup">
+                  <FormGroup
+                    isInline
+                    fieldId="rate"
+                    label={t('rate')}
+                    helperTextInvalid={t('cost_models_wizard.markup.invalid_markup_text')}
+                  >
+                    <InputGroup style={{ width: '150px' }}>
+                      <InputGroupText style={styles.sign}>{isDiscount ? '-' : '+'}</InputGroupText>
+                      <TextInput
+                        style={{ borderLeft: '0' }}
+                        type="text"
+                        aria-label={t('rate')}
+                        id="markup-input-box"
+                        value={this.state.markup}
+                        onKeyDown={this.handleOnKeyDown}
+                        onChange={this.handleMarkupDiscountChange}
+                        validated={this.markupValidator()}
+                      />
+                      <InputGroupText style={styles.percent}>%</InputGroupText>
+                    </InputGroup>
+                  </FormGroup>
+                </GridItem>
+              </Grid>
             </Form>
+          </StackItem>
+          <StackItem />
+          <StackItem>
+            <TextContent>
+              <Title headingLevel="h6" size="md">
+                {t('cost_models_details.examples.title')}
+              </Title>
+            </TextContent>
+            <List>
+              <ListItem>{t('cost_models_details.examples.noAdjustment')}</ListItem>
+              <ListItem>{t('cost_models_details.examples.doubleMarkup')}</ListItem>
+              <ListItem>{t('cost_models_details.examples.reduceBaseToZero')}</ListItem>
+              <ListItem>{t('cost_models_details.examples.reduceBaseToSeventyFive')}</ListItem>
+            </List>
           </StackItem>
         </Stack>
       </Modal>

@@ -8,6 +8,8 @@ import { getBaseName } from 'utils/getBaseName';
 import App from './app';
 import { configureStore } from './store';
 
+// Todo: Uncomment for use with non-shared PatternFly packages
+// require.resolve('@patternfly/patternfly/patternfly.css');
 require.resolve('@patternfly/patternfly/patternfly-addons.css');
 
 import './styles/global.css';
@@ -22,11 +24,14 @@ const store = configureStore({
   // },
 });
 
-export default () => (
-  <Provider store={store as any}>
-    <NotificationsPortal />
-    <Router basename={getBaseName(window.location.pathname)}>
-      <App />
-    </Router>
-  </Provider>
-);
+export default () => {
+  const basename = getBaseName(window.location.pathname);
+  return (
+    <Provider store={store as any}>
+      <NotificationsPortal />
+      <Router basename={basename}>
+        <App basename={basename} />
+      </Router>
+    </Provider>
+  );
+};

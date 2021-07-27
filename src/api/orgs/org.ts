@@ -1,3 +1,5 @@
+import { PagedMetaData, PagedResponse } from 'api/api';
+
 export interface OrgData {
   accounts: string[];
   level?: number;
@@ -7,8 +9,7 @@ export interface OrgData {
   sub_orgs: string[];
 }
 
-export interface OrgMeta {
-  count: number;
+export interface OrgMeta extends PagedMetaData {
   key_only: boolean;
   group_by?: {
     [group: string]: string[];
@@ -21,18 +22,7 @@ export interface OrgMeta {
   };
 }
 
-export interface OrgLinks {
-  first: string;
-  previous?: string;
-  next?: string;
-  last: string;
-}
-
-export interface Org {
-  data: OrgData[];
-  links?: OrgLinks;
-  meta: OrgMeta;
-}
+export interface Org extends PagedResponse<OrgData, OrgMeta> {}
 
 // eslint-disable-next-line no-shadow
 export const enum OrgType {

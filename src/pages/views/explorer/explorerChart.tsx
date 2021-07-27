@@ -2,7 +2,13 @@ import { Skeleton, Title } from '@patternfly/react-core';
 import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import { ChartDatum, ComputedReportItemType, isFloat, isInt } from 'components/charts/common/chartDatumUtils';
+import {
+  ChartDatum,
+  ComputedReportItemType,
+  ComputedReportItemValueType,
+  isFloat,
+  isInt,
+} from 'components/charts/common/chartDatumUtils';
 import { CostExplorerChart } from 'components/charts/costExplorerChart';
 import { format, getDate, getMonth } from 'date-fns';
 import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
@@ -30,6 +36,7 @@ import {
 
 interface ExplorerChartOwnProps extends RouteComponentProps<void>, WithTranslation {
   computedReportItemType?: ComputedReportItemType;
+  computedReportItemValueType?: ComputedReportItemValueType;
   perspective: PerspectiveType;
 }
 
@@ -114,10 +121,13 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
   };
 
   private getChartDatums = (computedItems: ComputedReportItem[]) => {
-    const { computedReportItemType = ComputedReportItemType.cost } = this.props;
+    const {
+      computedReportItemType = ComputedReportItemType.cost,
+      computedReportItemValueType = ComputedReportItemValueType.total,
+    } = this.props;
 
     const reportItem = computedReportItemType;
-    const reportItemValue = 'total';
+    const reportItemValue = computedReportItemValueType;
     const chartDatums = [];
 
     computedItems.map(computedItem => {
@@ -141,17 +151,20 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
       case PerspectiveType.aws:
         result = 'explorer.title.aws';
         break;
-      case PerspectiveType.awsCloud:
-        result = 'explorer.title.aws_cloud';
+      case PerspectiveType.awsOcp:
+        result = 'explorer.title.aws_ocp';
         break;
       case PerspectiveType.azure:
         result = 'explorer.title.azure';
         break;
-      case PerspectiveType.azureCloud:
-        result = 'explorer.title.azure_cloud';
+      case PerspectiveType.azureOcp:
+        result = 'explorer.title.azure_ocp';
         break;
       case PerspectiveType.gcp:
         result = 'explorer.title.gcp';
+        break;
+      case PerspectiveType.gcpOcp:
+        result = 'explorer.title.gcp_ocp';
         break;
       case PerspectiveType.ibm:
         result = 'explorer.title.ibm';
@@ -281,6 +294,12 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
     const dateRange = getDateRangeDefault(queryFromRoute);
     const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
 
+    // Ensure group_by key is not undefined
+    let groupBy = queryFromRoute.group_by;
+    if (!groupBy && perspective) {
+      groupBy = { [getGroupByDefault(perspective)]: '*' };
+    }
+
     const query = {
       filter: {
         ...baseQuery.filter,
@@ -289,7 +308,7 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
         offset: undefined,
       },
       filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-      group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
+      group_by: groupBy,
       perspective,
       dateRange,
       end_date,

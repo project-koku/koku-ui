@@ -28,18 +28,8 @@ const translateSimpleInputProps = (t: TFunction, props: SimpleInputProps) => {
 
 export const SimpleInput: React.FunctionComponent<SimpleInputProps> = props => {
   const { t } = useTranslation();
-  const {
-    onChange,
-    value,
-    id,
-    label,
-    style,
-    helperTextInvalid,
-    validated,
-    onBlur,
-    isRequired,
-    placeholder,
-  } = translateSimpleInputProps(t, props);
+  const { onChange, value, id, label, style, helperTextInvalid, validated, onBlur, isRequired, placeholder } =
+    translateSimpleInputProps(t, props);
   return (
     <FormGroup
       isRequired={isRequired}

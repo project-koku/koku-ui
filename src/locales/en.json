@@ -1,5 +1,5 @@
 {
-  "aws_cloud_dashboard": {
+  "aws_ocp_dashboard": {
     "compute_title": "Compute (EC2) instances usage",
     "cost_title": "Amazon Web Services filtered by OpenShift cost",
     "cost_trend_title": "Amazon Web Services cumulative cost comparison ({{units}})",
@@ -14,7 +14,7 @@
   "aws_details": {
     "org_unit_column_title": "Names"
   },
-  "azure_cloud_dashboard": {
+  "azure_ocp_dashboard": {
     "compute_title": "Virtual machines usage",
     "cost_title": "Microsoft Azure filtered by OpenShift cost",
     "cost_trend_title": "Microsoft Azure cumulative cost comparison ({{units}})",
@@ -75,6 +75,7 @@
     "usage_cost_desc": "The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.",
     "usage_cost_title": "Usage cost"
   },
+  "cancel": "Cancel",
   "chart": {
     "cost_forecast_cone_legend_label": "Cost confidence ({{startDate}} $t(months_abbr.{{month}}))",
     "cost_forecast_cone_legend_label_no_data": "Cost confidence (no data)",
@@ -128,6 +129,7 @@
     "usage_legend_tooltip": "Usage ($t(months_abbr.{{month}}))"
   },
   "cost": "Cost",
+  "cost_calculations": "Cost calculations",
   "cost_management": "Cost Management",
   "cost_management_overview": "$t(cost_management) Overview",
   "cost_models": {
@@ -193,10 +195,17 @@
       "cost_models": "Cost models",
       "source_type": "Source type"
     },
-    "description_markup": "Percentage to add to or subtract from the base cost of the source(s)",
+    "description_distribution": "The following is the type of metric that is set to be used when distributing costs to the project level breakdowns.",
+    "description_distribution_model": "This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.",
+    "description_markup": "This Percentage is applied to raw cost calculations by multiplying the cost with this percentage. Costs calculated from price list rates will not be effected.",
+    "description_markup_or_discount_model": "Use markup/discount to manipulate how the raw costs are being calculated for your sources",
+    "discount_minus": "Discount (-)",
     "edit_cost_model": "Edit cost model",
+    "edit_distribution": "Edit distribution",
+    "distribution_type": "Distribution type",
     "edit_markup": "Edit markup",
     "edit_markup_action": "Edit markup",
+    "edit_markup_or_discount": "Edit markup or discount",
     "edit_rate": "Edit rate",
     "empty_state_bad_uuid": {
       "description": "Cost model with uuid: {{ uuid }} does not exist.",
@@ -210,9 +219,18 @@
       "description": "Select the source(s) you want to apply this cost model to.",
       "title": "No sources are assigned"
     },
+    "examples": {
+      "title": "Examples:",
+      "noAdjustment": "A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your source(s).",
+      "doubleMarkup": "A markup rate of (+) 100% doubles the base costs of your source(s).",
+      "reduceBaseToZero": "A discount rate of (-) 100% reduces the base costs of your source(s) to 0.",
+      "reduceBaseToSeventyFive": "A discount rate of (-) 25% reduces the base costs of your source(s) to 75% of the original value."
+    },
     "header": {
       "title": "Cost models"
     },
+    "markup_plus": "Markup (+)",
+    "markup_or_discount": "Markup or Discount",
     "save_button": "Save",
     "table": {
       "columns": {
@@ -321,6 +339,7 @@
     "warning_source": "This source is assigned to {{ cost_model }} cost model. You will have to unassigned it first",
     "warning_sources": "Cannot assign cost model to a source that is already assigned to another one"
   },
+  "cpu_title": "CPU",
   "currency_abbreviations": {
     "billion": "B",
     "million": "M",
@@ -346,6 +365,14 @@
       "price_list": "View all price lists"
     },
     "clusters_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} clusters",
+    "column_management": {
+      "aria_label": "Table column management",
+      "cancel": "Cancel",
+      "desc": "Selected categories will be displayed in the table",
+      "save": "Save",
+      "select_all": "Select all",
+      "title": "Manage columns"
+    },
     "cost_value": "Cost: {{value}}",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "month_over_month_change": "Month over month change",
@@ -417,10 +444,10 @@
     "title": "Delete {{rate.metric.label_metric}}-{{rate.metric.label_measurement}} ({{rate.metric.label_measurement_unit}}) rate?"
   },
   "docs": {
-    "add_ocp_sources": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/getting_started_with_cost_management/index#assembly-adding-openshift-container-platform-source",
+    "add_ocp_sources": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/adding_an_openshift_container_platform_source_to_cost_management",
     "config_cost_models": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#assembly-setting-up-cost-models",
     "cost_model_terminology": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#cost-model-terminology",
-    "using_cost_models": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index"
+    "using_cost_models": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models"
   },
   "empty_filter_state": {
     "subtitle": "Sorry, no data with the given filter was found.",
@@ -444,10 +471,11 @@
     "org_unit_column_title": "Names",
     "perspective": {
       "aws": "Amazon Web Services",
-      "aws_cloud": "Amazon Web Services filtered by OpenShift",
+      "aws_ocp": "Amazon Web Services filtered by OpenShift",
       "azure": "Microsoft Azure",
-      "azure_cloud": "Microsoft Azure filtered by OpenShift",
+      "azure_ocp": "Microsoft Azure filtered by OpenShift",
       "gcp": "Google Cloud Platform",
+      "gcp_ocp": "Google Cloud Platform filtered by OpenShift",
       "ibm": "IBM Cloud",
       "ocp": "All OpenShift cost",
       "ocp_cloud": "All cloud filtered by OpenShift",
@@ -456,10 +484,11 @@
     },
     "title": {
       "aws": "Amazon Web Services - Top 5 Costliest",
-      "aws_cloud": "Amazon Web Services filtered by OpenShift - Top 5 Costliest",
+      "aws_ocp": "Amazon Web Services filtered by OpenShift - Top 5 Costliest",
       "azure": "Microsoft Azure - Top 5 Costliest",
-      "azure_cloud": "Microsoft Azure filtered by OpenShift - Top 5 Costliest",
+      "azure_ocp": "Microsoft Azure filtered by OpenShift - Top 5 Costliest",
       "gcp": "Google Cloud Platform - Top 5 Costliest",
+      "gcp_ocp": "Google Cloud Platform filtered by OpenShift - Top 5 Costliest",
       "ibm": "IBM Cloud - Top 5 Costliest",
       "ocp": "All OpenShift cost - Top 5 Costliest",
       "ocp_cloud": "All cloud filtered by OpenShift - Top 5 Costliest",
@@ -586,6 +615,12 @@
     "cost_trend_title": "Google Cloud Platform Services cumulative cost comparison ({{units}})",
     "daily_cost_trend_title": "Google Cloud Platform Services daily cost comparison ({{units}})"
   },
+  "gcp_ocp_dashboard": {
+    "compute_title": "Compute instances usage",
+    "cost_title": "Google Cloud Platform Services cost",
+    "cost_trend_title": "Google Cloud Platform Services cumulative cost comparison ({{units}})",
+    "daily_cost_trend_title": "Google Cloud Platform Services daily cost comparison ({{units}})"
+  },
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "details": "$t(group_by.values.{{groupBy}}, { 'count': 3 })",
@@ -673,6 +708,7 @@
     "empty_state_info": "For more information visit ",
     "empty_state_thanks": "We will be back soon. Thank you for your patience!."
   },
+  "memory_title": "Memory",
   "months": [
     "January",
     "February",
@@ -738,9 +774,9 @@
   "no_providers_state": {
     "aws_desc": "Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.",
     "aws_title": "Track your Amazon Web Services spending!",
-    "azure_desc": "Add an Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
+    "azure_desc": "Add a Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
     "azure_title": "Track your Microsoft Azure spending!",
-    "gcp_desc": "Add an Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
+    "gcp_desc": "Add a Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
     "gcp_title": "Track your Google Cloud Platform spending!",
     "get_started": "Get started with Sources",
     "ibm_desc": "Add an IBM Cloud account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
@@ -781,6 +817,11 @@
     "supplementary_cost_desc": "All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.",
     "title": "OpenShift details"
   },
+  "ocp_infrastructure_dashboard": {
+    "cost_title": "OpenShift infrastructure cost",
+    "cost_trend_title": "OpenShift cumulative infrastructure cost comparison ({{units}})",
+    "daily_cost_trend_title": "OpenShift daily infrastructure cost comparison ({{units}})"
+  },
   "ocp_supplementary_dashboard": {
     "cost_title": "OpenShift supplementary cost",
     "cost_trend_title": "OpenShift cumulative supplementary cost comparison ({{units}})",
@@ -816,17 +857,19 @@
     "ocp_cloud_desc": "Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.",
     "ocp_desc": "Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.",
     "perspective": {
-      "all": "All",
       "aws": "Amazon Web Services",
-      "aws_cloud": "Amazon Web Services filtered by OpenShift",
+      "aws_ocp": "Amazon Web Services filtered by OpenShift",
       "azure": "Microsoft Azure",
-      "azure_cloud": "Microsoft Azure filtered by OpenShift",
+      "azure_ocp": "Microsoft Azure filtered by OpenShift",
       "gcp": "Google Cloud Platform",
+      "gcp_ocp": "Google Cloud Platform filtered by OpenShift",
       "ibm": "IBM Cloud",
       "label": "Perspective",
-      "ocp_cloud": "All cloud filtered by OpenShift",
-      "ocp_usage": "OpenShift usage",
-      "supplementary": "Supplementary"
+      "ocp_all": "All OpenShift",
+      "ocp_ocp": "All cloud filtered by OpenShift",
+      "ocp_infrastructure": "OpenShift infrastructure",
+      "ocp_supplementary": "OpenShift supplementary",
+      "ocp_usage": "OpenShift usage"
     }
   },
   "page_cost_models": {
@@ -856,13 +899,17 @@
   "percent": "{{value}}%",
   "percent_of_cost": "{{value}} % of cost",
   "percent_of_total": "{{value}} {{units}} ({{percent}}%)",
+  "price_list": "Price list",
   "rbac": {
     "error_description": "There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.",
     "error_title": "Failed to get RBAC information"
   },
+  "rate": "Rate",
+  "save": "Save",
   "settings": "Settings",
   "since_date": "{{startDate}} $t(months.{{month}})",
   "since_date_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})",
+  "sources": "Sources",
   "source_details": {
     "filter": {
       "placeholder": "Filter by source {{value}}"

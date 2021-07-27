@@ -69,7 +69,6 @@ export const costSummaryWidget: GcpDashboardWidget = {
   reportType: ReportType.cost,
   details: {
     adjustContainerHeight: true,
-    appNavId: 'gcp',
     costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
