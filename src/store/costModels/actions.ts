@@ -122,7 +122,6 @@ export const redirectToCostModelFromSourceUuid = (source_uuid: string, history: 
     return apiGetCostModels(`source_uuid=${source_uuid}`)
       .then(res => {
         const uuid = res.data.data[0].uuid;
-        insights.chrome.appNavClick({ id: 'cost-models', secondaryNav: null });
         history.push(`/cost-models/${uuid}`);
       })
       .catch(() => {

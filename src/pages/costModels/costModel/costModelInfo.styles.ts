@@ -13,6 +13,10 @@ export const styles = {
     paddingTop: global_spacer_lg.value,
     height: '182vh',
   },
+  costCalculation: {
+    marginLeft: global_spacer_lg.value,
+    marginRight: global_spacer_lg.value,
+  },
   costmodelsContainer: {
     marginLeft: global_spacer_lg.value,
     marginRight: global_spacer_lg.value,

@@ -44,13 +44,13 @@ const addMultiValue = (query: Query, buffer: Filter) => {
   };
 };
 
-const searchOnEnter = (query: Query, filter: Filter, mutate: Mutate, onSearch: (newQuery: Query) => void) => (
-  event: React.KeyboardEvent
-) => {
-  if (event.key === 'Enter' && filter.value) {
-    onSearch(mutate(query, filter));
-  }
-};
+const searchOnEnter =
+  (query: Query, filter: Filter, mutate: Mutate, onSearch: (newQuery: Query) => void) =>
+  (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' && filter.value) {
+      onSearch(mutate(query, filter));
+    }
+  };
 const FilterCompositionBase: React.SFC<Props> = ({
   options,
   id,

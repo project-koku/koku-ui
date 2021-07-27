@@ -32,12 +32,14 @@ import {
   getGroupByDefault,
   getGroupByOptions,
   getOrgReportPathsType,
+  getResourcePathsType,
   getRouteForQuery,
   getTagReportPathsType,
-  infrastructureAwsCloudOptions,
+  infrastructureAwsOcpOptions,
   infrastructureAwsOptions,
-  infrastructureAzureCloudOptions,
+  infrastructureAzureOcpOptions,
   infrastructureAzureOptions,
+  // infrastructureGcpOcpOptions, // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
   infrastructureGcpOptions,
   infrastructureIbmOptions,
   // infrastructureOcpCloudOptions, // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1483
@@ -104,6 +106,16 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     });
   }
 
+  public componentDidUpdate(prevProps: ExplorerHeaderProps) {
+    const { perspective } = this.props;
+
+    if (prevProps.perspective !== perspective) {
+      this.setState({
+        currentPerspective: this.props.perspective,
+      });
+    }
+  }
+
   private getPerspective = (isDisabled: boolean) => {
     const { currentPerspective } = this.state;
 
@@ -128,20 +140,25 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     if (aws) {
       options.push(...infrastructureAwsOptions);
     }
-    if (ocp && aws) {
-      options.push(...infrastructureAwsCloudOptions);
+    if (aws && ocp) {
+      options.push(...infrastructureAwsOcpOptions);
     }
     if (gcp) {
       options.push(...infrastructureGcpOptions);
     }
+    // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
+    //
+    // if (gcp && ocp) {
+    //   options.push(...infrastructureGcpOcpOptions);
+    // }
     if (ibm) {
       options.push(...infrastructureIbmOptions);
     }
     if (azure) {
       options.push(...infrastructureAzureOptions);
     }
-    if (ocp && azure) {
-      options.push(...infrastructureAzureCloudOptions);
+    if (azure && ocp) {
+      options.push(...infrastructureAzureOcpOptions);
     }
     if (ocp) {
       options.push(...infrastructureOcpOptions);
@@ -234,6 +251,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
     const groupByOptions = getGroupByOptions(perspective);
     const orgReportPathsType = getOrgReportPathsType(perspective);
+    const resourcePathsType = getResourcePathsType(perspective);
     const tagReportPathsType = getTagReportPathsType(perspective);
 
     // Fetch tags with largest date range available
@@ -271,6 +289,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
             onFilterRemoved={onFilterRemoved}
             perspective={perspective}
             query={query}
+            resourcePathsType={resourcePathsType}
           />
         </div>
       </header>
@@ -292,13 +311,19 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
 
     const queryFromRoute = parseQuery<Query>(location.search);
 
+    // Ensure group_by key is not undefined
+    let groupBy = queryFromRoute.group_by;
+    if (!groupBy && perspective) {
+      groupBy = { [getGroupByDefault(perspective)]: '*' };
+    }
+
     const query = {
       filter: {
         ...baseQuery.filter,
         ...queryFromRoute.filter,
       },
       filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-      group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
+      group_by: groupBy,
       order_by: queryFromRoute.order_by,
       perspective,
     };

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { PagedLinks, PagedMetaData } from './api';
+import { PagedMetaData, PagedResponse } from './api';
 
 export interface ProviderAuthentication {
   uuid?: string;
@@ -46,11 +46,7 @@ export interface Provider {
   uuid?: string;
 }
 
-export interface Providers {
-  meta: PagedMetaData;
-  links?: PagedLinks;
-  data: Provider[];
-}
+export interface Providers extends PagedResponse<Provider, PagedMetaData> {}
 
 // eslint-disable-next-line no-shadow
 export const enum ProviderType {

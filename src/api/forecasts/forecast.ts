@@ -1,3 +1,5 @@
+import { PagedMetaData, PagedResponse } from 'api/api';
+
 export interface ForecastValue {
   units?: string;
   value?: number | string;
@@ -23,22 +25,7 @@ export interface ForecastData {
   values?: ForecastItem[];
 }
 
-export interface ForecastMeta {
-  count: number;
-}
-
-export interface ForecastLinks {
-  first: string;
-  previous?: string;
-  next?: string;
-  last: string;
-}
-
-export interface Forecast {
-  meta: ForecastMeta;
-  links: ForecastLinks;
-  data: ForecastData[];
-}
+export interface Forecast extends PagedResponse<ForecastData, PagedMetaData> {}
 
 // eslint-disable-next-line no-shadow
 export const enum ForecastType {
@@ -50,10 +37,11 @@ export const enum ForecastType {
 // eslint-disable-next-line no-shadow
 export const enum ForecastPathsType {
   aws = 'aws',
-  awsCloud = 'aws_cloud',
+  awsOcp = 'aws_ocp',
   azure = 'azure',
-  azureCloud = 'azure_cloud',
+  azureOcp = 'azure_ocp',
   gcp = 'gcp',
+  gcpOcp = 'gcp_ocp',
   ibm = 'gcp', // Todo: update to use ibm backend apis when they become available
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud',

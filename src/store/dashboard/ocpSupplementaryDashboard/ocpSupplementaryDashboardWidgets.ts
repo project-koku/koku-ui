@@ -21,6 +21,7 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
   details: {
+    adjustContainerHeight: true,
     costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,

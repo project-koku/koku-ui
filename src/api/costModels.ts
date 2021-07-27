@@ -12,6 +12,7 @@ export interface CostModel {
   uuid: string;
   name: string;
   description: string;
+  distribution: string;
   sources: CostModelProvider[];
   source_type: string;
   markup: { value: string; unit: string };
