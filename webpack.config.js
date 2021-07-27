@@ -242,7 +242,7 @@ module.exports = (_env, argv) => {
         appUrl: [`/${isBeta ? 'beta/' : ''}openshift/cost-management`],
         proxyVerbose: true,
         publicPath,
-        useCloud: true,
+        useCloud: false,
       }),
       // Props for webpack-dev-server v4.0.0-beta.2
       //
