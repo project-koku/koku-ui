@@ -175,12 +175,6 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
       case PerspectiveType.ocpCloud:
         result = 'explorer.title.ocp_cloud';
         break;
-      case PerspectiveType.ocpSupplementary:
-        result = 'explorer.title.ocp_supplementary';
-        break;
-      case PerspectiveType.ocpUsage:
-        result = 'explorer.title.ocp_usage';
-        break;
       default:
         result = undefined;
         break;
