@@ -10,4 +10,9 @@ export const styles = {
     marginBottom: 0,
     marginRight: global_spacer_md.var,
   },
+  perspectiveOptionLabel: {
+    marginBottom: 6,
+    marginLeft: 8,
+    marginTop: 6,
+  },
 } as { [className: string]: React.CSSProperties };
