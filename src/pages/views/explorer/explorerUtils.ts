@@ -131,9 +131,7 @@ export const infrastructureIbmOptions = [{ label: 'explorer.perspective.ibm', va
 export const infrastructureOcpCloudOptions = [{ label: 'explorer.perspective.ocp_cloud', value: 'ocp_cloud' }];
 
 // Ocp options
-export const ocpOptions = [
-  { label: 'explorer.perspective.ocp', value: 'ocp' },
-];
+export const ocpOptions = [{ label: 'explorer.perspective.ocp', value: 'ocp' }];
 
 export const getComputedReportItemType = (perspective: string) => {
   let result;
