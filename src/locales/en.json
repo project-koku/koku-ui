@@ -349,14 +349,14 @@
   },
   "dashboard": {
     "cumulative_cost_comparison": "Cumulative cost comparison ({{units}})",
+    "date_title": "$t(months.{{month}}) {{startDate}}",
+    "date_title_plural": "$t(months.{{month}}) {{startDate}}-{{endDate}}",
     "daily_usage_comparison": "Daily usage comparison ({{units}})",
     "database_title": "Database services cost",
     "network_title": "Network services cost",
     "storage_title": "Storage services usage",
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}",
-    "usage": "Usage",
-    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
-    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
+    "usage": "Usage"
   },
   "description": "Description",
   "details": {

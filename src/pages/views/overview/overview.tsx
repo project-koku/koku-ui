@@ -7,6 +7,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
+import { format, getDate, getMonth, startOfMonth } from 'date-fns';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData/noData';
 import NoProviders from 'pages/state/noProviders';
@@ -234,6 +235,22 @@ class OverviewBase extends React.Component<OverviewProps> {
     } else {
       return activeTabKey === 0 ? OverviewTab.ocp : OverviewTab.infrastructure;
     }
+  };
+
+  private getDateTitle = () => {
+    const { t } = this.props;
+
+    const today = new Date();
+    const month = getMonth(today);
+    const endDate = format(today, 'd');
+    const startDate = format(startOfMonth(today), 'd');
+
+    return t('dashboard.date_title', {
+      count: getDate(today),
+      endDate,
+      month,
+      startDate,
+    });
   };
 
   private getDefaultInfrastructurePerspective = () => {
@@ -558,7 +575,10 @@ class OverviewBase extends React.Component<OverviewProps> {
             </Title>
           </header>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
-          <div style={styles.perspective}>{this.getPerspective()}</div>
+          <div style={styles.perspective}>
+            {this.getPerspective()}
+            <div style={styles.date}>{this.getDateTitle()}</div>
+          </div>
         </section>
         <section className="pf-l-page__main-section pf-c-page__main-section" page-type="cost-management-overview">
           {this.getTabContent(availableTabs)}
