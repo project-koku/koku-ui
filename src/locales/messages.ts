@@ -56,7 +56,7 @@ export default defineMessages({
     id: 'ChartCostForecastConeLegendLabel',
     description: 'Cost forecast cone date label',
     defaultMessage:
-      '{count, plural, one {EN Cost confidence ({startDate} {abbrMonth})} other {EN Cost confidence ({startDate}-{endDate} {abbrMonth})}}',
+      '{count, plural, one {EN Cost confidence ({abbrMonth} {startDate})} other {EN Cost confidence ({abbrMonth} {startDate}-{endDate})}}',
   },
   ChartCostForecastConeLegendTooltip: {
     id: 'ChartCostForecastConeLegendTooltip',
@@ -72,7 +72,7 @@ export default defineMessages({
     id: 'ChartCostForecastLegendLabel',
     description: 'Cost forecast date label',
     defaultMessage:
-      '{count, plural, one {EN Cost forecast ({startDate} {abbrMonth})} other {EN Cost forecast ({startDate}-{endDate} {abbrMonth})}}',
+      '{count, plural, one {EN Cost forecast ({abbrMonth} {startDate})} other {EN Cost forecast ({abbrMonth} {startDate}-{endDate})}}',
   },
   ChartCostForecastLegendTooltip: {
     id: 'ChartCostForecastLegendTooltip',
@@ -83,7 +83,7 @@ export default defineMessages({
     id: 'ChartCostInfrastructureLegendLabel',
     description: 'Infrastructure date label',
     defaultMessage:
-      '{count, plural, one {EN Infrastructure ({startDate} {abbrMonth})} other {EN Infrastructure ({startDate}-{endDate} {abbrMonth})}}',
+      '{count, plural, one {EN Infrastructure ({abbrMonth} {startDate})} other {EN Infrastructure ({abbrMonth} {startDate}-{endDate})}}',
   },
   ChartCostInfrastructureLegendTooltip: {
     id: 'ChartCostInfrastructureLegendTooltip',
@@ -94,7 +94,7 @@ export default defineMessages({
     id: 'ChartCostInfrastructureForecastConeLegendLabel',
     description: 'Infrastructure date label',
     defaultMessage:
-      '{count, plural, one {EN Infrastructure confidence ({startDate} {abbrMonth})} other {EN Infrastructure confidence ({startDate}-{endDate} {abbrMonth})}}',
+      '{count, plural, one {EN Infrastructure confidence ({abbrMonth} {startDate})} other {EN Infrastructure confidence ({abbrMonth} {startDate}-{endDate})}}',
   },
   ChartCostInfrastructureForecastConeLegendTooltip: {
     id: 'ChartCostInfrastructureForecastConeLegendTooltip',
@@ -105,7 +105,7 @@ export default defineMessages({
     id: 'ChartCostInfrastructureForecastLegendLabel',
     description: 'Infrastructure date label',
     defaultMessage:
-      '{count, plural, one {EN Infrastructure forecast ({startDate} {abbrMonth})} other {EN Infrastructure forecast ({startDate}-{endDate} {abbrMonth})}}',
+      '{count, plural, one {EN Infrastructure forecast ({abbrMonth} {startDate})} other {EN Infrastructure forecast ({abbrMonth} {startDate}-{endDate})}}',
   },
   ChartCostInfrastructureForecastLegendTooltip: {
     id: 'ChartCostInfrastructureForecastLegendTooltip',
@@ -116,7 +116,7 @@ export default defineMessages({
     id: 'ChartCostLegendLabel',
     description: 'Cost date label',
     defaultMessage:
-      '{count, plural, one {EN Cost ({startDate} {abbrMonth})} other {EN Cost ({startDate}-{endDate} {abbrMonth})}}',
+      '{count, plural, one {EN Cost ({abbrMonth} {startDate})} other {EN Cost ({abbrMonth} {startDate}-{endDate})}}',
   },
   ChartCostLegendTooltip: {
     id: 'ChartCostLegendTooltip',
@@ -127,7 +127,7 @@ export default defineMessages({
     id: 'ChartCostSupplementaryLegendLabel',
     description: 'Supplementary cost date label',
     defaultMessage:
-      '{count, plural, one {EN Supplementary cost ({startDate} {abbrMonth})} other {EN Supplementary cost ({startDate}-{endDate} {abbrMonth})}}',
+      '{count, plural, one {EN Supplementary cost ({abbrMonth} {startDate})} other {EN Supplementary cost ({abbrMonth} {startDate}-{endDate})}}',
   },
   ChartCostSupplementaryLegendTooltip: {
     id: 'ChartCostSupplementaryLegendTooltip',
@@ -138,7 +138,7 @@ export default defineMessages({
     id: 'ChartDateRange',
     description: 'Date range that handles singular and plural',
     defaultMessage:
-      '{count, plural, one {EN {startDate} {abbrMonth} {year}} other {EN {startDate}-{endDate} {abbrMonth} {year}}}',
+      '{count, plural, one {EN {abbrMonth} {startDate} {year}} other {EN {startDate}-{endDate} {abbrMonth} {year}}}',
   },
   ChartDayOfTheMonth: {
     id: 'ChartDayOfTheMonth',
@@ -149,7 +149,7 @@ export default defineMessages({
     id: 'ChartLimitLegendLabel',
     description: 'Limit date label',
     defaultMessage:
-      '{count, plural, one {EN Limit ({startDate} {abbrMonth})} other {EN Limit ({startDate}-{endDate} {abbrMonth})}}',
+      '{count, plural, one {EN Limit ({abbrMonth} {startDate})} other {EN Limit ({abbrMonth} {startDate}-{endDate})}}',
   },
   ChartLimitLegendTooltip: {
     id: 'ChartLimitLegendTooltip',
@@ -170,7 +170,7 @@ export default defineMessages({
     id: 'ChartRequestLegendLabel',
     description: 'Requests date label',
     defaultMessage:
-      '{count, plural, one {EN Requests ({startDate} {abbrMonth})} other {EN Requests ({startDate}-{endDate} {abbrMonth})}}',
+      '{count, plural, one {EN Requests ({abbrMonth} {startDate})} other {EN Requests ({abbrMonth} {startDate}-{endDate})}}',
   },
   ChartRequestsLegendTooltip: {
     id: 'ChartRequestLegendTooltip',
@@ -179,9 +179,9 @@ export default defineMessages({
   },
   ChartUsageLegendlabel: {
     id: 'ChartUsageLegendlabel',
-    description: 'Usage ({startDate} {abbrMonth})',
+    description: 'Usage ({abbrMonth} {startDate})',
     defaultMessage:
-      '{count, plural, one {EN Usage ({startDate} {abbrMonth})} other {EN Usage ({startDate}-{endDate} {abbrMonth})}}',
+      '{count, plural, one {EN Usage ({abbrMonth} {startDate})} other {EN Usage ({abbrMonth} {startDate}-{endDate})}}',
   },
   ChartUsageLegendTooltip: {
     id: 'ChartUsageLegendTooltip',
@@ -232,13 +232,13 @@ export default defineMessages({
   DashBoardWidgetSubTitle: {
     id: 'DashBoardWidgetSubTitle',
     description: 'dashboard widget subtitle date|dates',
-    defaultMessage: '{count, plural, one {EN {startDate} {month}} other {EN {startDate}-{endDate} {month}}}',
+    defaultMessage: '{count, plural, one {EN {month} {startDate}} other {EN {month} {startDate}-{endDate}}}',
   },
   ForDate: {
     id: 'ForDate',
     description: '{value} for date range',
     defaultMessage:
-      '{count, plural, one {EN {value} for {startDate} {month}} other {EN {value} for {startDate}-{endDate} {month}}}',
+      '{count, plural, one {EN {value} for {month} {startDate}} other {EN {value} for {month} {startDate}-{endDate}}}',
   },
   GCPComputeTitle: {
     id: 'GCPComputeTitle',
@@ -339,7 +339,7 @@ export default defineMessages({
     id: 'NoDataForDate',
     description: 'No data available for date range',
     defaultMessage:
-      '{count, plural, one {EN No data available for {startDate} {month}} other {EN No data available for {startDate}-{endDate} {month}}}',
+      '{count, plural, one {EN No data available for {month} {startDate}} other {EN No data available for {month} {startDate}-{endDate}}}',
   },
   OCPCloudDashboardComputeTitle: {
     id: 'OCPCloudDashboardComputeTitle',
@@ -469,7 +469,7 @@ export default defineMessages({
   SinceDate: {
     id: 'SinceDate',
     description: 'SinceDate',
-    defaultMessage: '{count, plural, one {EN {startDate} {month}} other {EN {startDate}-{endDate} {month}}}',
+    defaultMessage: '{count, plural, one {EN {month} {startDate}} other {EN {month} {startDate}-{endDate}}}',
   },
   UnitTooltips: {
     id: 'UnitTooltips',
