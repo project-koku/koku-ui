@@ -1,11 +1,12 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Forecast } from 'api/forecasts/forecast';
 import { Report } from 'api/reports/report';
-import { createIntlEnv, getDateFnsLocale } from 'components/i18n/localeEnv';
+import { createIntlEnv } from 'components/i18n/localeEnv';
 import { endOfMonth, format, getDate, getYear, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
 import { ComputedReportItem, getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getAbbreviatedMonth } from 'utils/dateRange';
 import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
 import { SortDirection } from 'utils/sort';
 
@@ -342,19 +343,6 @@ export function getDateRange(
     end.setDate(lastDate);
   }
   return [start, end];
-}
-
-// returns localized month name
-export function getLocalizedMonth(year, month, abbreviate: boolean = true) {
-  const pattern = abbreviate ? 'MMM' : 'MMMM';
-  const monthName = format(new Date(year, month), pattern, { locale: getDateFnsLocale() });
-
-  return monthName;
-}
-
-// returns localized abbreviated month name (MMM format)
-export function getAbbreviatedMonth(year, month) {
-  return getLocalizedMonth(year, month, true);
 }
 
 export function getDateRangeString(
