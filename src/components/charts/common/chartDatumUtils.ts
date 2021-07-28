@@ -360,7 +360,7 @@ export function getDateRangeString(
   const month = Number(format(start, 'M')) - 1;
   const abbrMonth = getAbbreviatedMonth(year, month);
 
-  return intl.formatMessage(messages.ChartDateRange, { count, startDate, endDate, abbrMonth, year });
+  return intl.formatMessage(messages.ChartDateRange, { count, startDate, endDate, month: abbrMonth, year });
 }
 
 export function getMaxValue(datums: ChartDatum[]) {
@@ -444,13 +444,13 @@ export function getCostRangeString(
 
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
   const year = getYear(end);
-  const abbrMonth = getAbbreviatedMonth(year, start.getMonth());
+  const month = getAbbreviatedMonth(year, start.getMonth());
 
   return intl.formatMessage(key, {
     count: getDate(end),
     startDate: format(start, 'd'),
     endDate: format(end, 'd'),
-    abbrMonth,
+    month,
     year,
   });
 }
