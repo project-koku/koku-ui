@@ -354,9 +354,7 @@
     "network_title": "Network services cost",
     "storage_title": "Storage services usage",
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}",
-    "usage": "Usage",
-    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
-    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
+    "usage": "Usage"
   },
   "description": "Description",
   "details": {

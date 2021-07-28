@@ -35,6 +35,7 @@ import {
   providersSelectors,
 } from 'store/providers';
 import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { getSinceDateRangeString } from 'utils/dateRange';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 import { styles } from './overview.styles';
@@ -537,7 +538,10 @@ class OverviewBase extends React.Component<OverviewProps> {
             </Title>
           </header>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
-          <div style={styles.perspective}>{this.getPerspective()}</div>
+          <div style={styles.perspective}>
+            {this.getPerspective()}
+            <div style={styles.date}>{getSinceDateRangeString()}</div>
+          </div>
         </section>
         <section className="pf-l-page__main-section pf-c-page__main-section" page-type="cost-management-overview">
           {this.getTabContent(availableTabs)}
