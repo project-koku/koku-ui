@@ -1,5 +1,4 @@
-import { getAbbreviatedMonth, getLocalizedMonth } from 'components/charts/common/chartDatumUtils';
-import { createIntlEnv } from 'components/i18n/localeEnv';
+import { createIntlEnv, getDateFnsLocale } from 'components/i18n/localeEnv';
 import { endOfMonth, format, getDate, getMonth, getYear, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 
@@ -10,6 +9,19 @@ function getToday(hrs: number = 0, min: number = 0, sec: number = 0) {
   today.setSeconds(sec);
 
   return today;
+}
+
+// returns localized abbreviated month name (MMM format)
+export function getAbbreviatedMonth(year, month) {
+  return getLocalizedMonth(year, month, true);
+}
+
+// returns localized month name
+export function getLocalizedMonth(year, month, abbreviate: boolean = false) {
+  const pattern = abbreviate ? 'MMM' : 'MMMM';
+  const monthName = format(new Date(year, month), pattern, { locale: getDateFnsLocale() });
+
+  return monthName;
 }
 
 export function getNoDataForDateRangeString(key: string = 'no_data_for_date', offset: number = 1) {
@@ -35,7 +47,7 @@ export function getForDateRangeString(value: string | number, key: string = 'for
     today.setMonth(today.getMonth() - offset);
   }
 
-  const month = getAbbreviatedMonth(getYear(today), getMonth(today));
+  const month = getLocalizedMonth(getYear(today), getMonth(today));
   const endDate = format(today, 'd');
   const startDate = format(startOfMonth(today), 'd');
 
