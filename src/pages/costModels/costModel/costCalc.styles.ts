@@ -22,4 +22,7 @@ export const styles = {
   percent: {
     borderLeft: 0,
   },
+  exampleMargin: {
+    marginLeft: 30,
+  },
 } as { [className: string]: React.CSSProperties };

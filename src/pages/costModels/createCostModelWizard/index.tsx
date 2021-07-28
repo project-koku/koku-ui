@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
-import { formatValue } from 'utils/formatValue';
 
 import { fetchSources as apiSources } from './api';
 import { CostModelContext } from './context';
@@ -72,14 +71,14 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
       onClose={closeFnc}
       footer={isSuccess || isProcess || isAddingRate ? <div /> : null}
       onSave={() => {
-        const { name, type, tiers, markup, description, sources } = context;
+        const { name, type, tiers, markup, description, isDiscount, sources } = context;
         addCostModel({
           name,
           source_type: type,
           description,
           rates: tiers,
           markup: {
-            value: markup,
+            value: isDiscount ? '-' + markup : markup,
             unit: 'percent',
           },
           source_uuids: sources.map(src => src.uuid),
@@ -101,6 +100,8 @@ const defaultState = {
   type: '',
   name: '',
   dirtyName: false,
+  distribution: 'cpu',
+  isDiscount: false,
   description: '',
   markup: '0.00',
   filterName: '',
@@ -136,6 +137,8 @@ interface State {
   name: string;
   dirtyName: boolean;
   description: string;
+  distribution: string;
+  isDiscount: boolean;
   markup: string;
   filterName: string;
   sources: any[];
@@ -204,19 +207,32 @@ class CostModelWizardBase extends React.Component<Props, State> {
           onNameChange: value => this.setState({ name: value, dirtyName: true }),
           description: this.state.description,
           onDescChange: value => this.setState({ description: value }),
+          distribution: this.state.distribution,
+          handleDistributionChange: (_, event) => {
+            const { value } = event.currentTarget;
+            this.setState({ distribution: value });
+          },
           markup: this.state.markup,
-          onMarkupChange: value => {
-            const markupDecimal = Number(value);
-            const dx = value.split('').findIndex(c => c === '.');
-            if (!isNaN(markupDecimal) && dx > -1 && value.length - dx - 1 > 2) {
-              this.setState({
-                markup: formatValue(markupDecimal, 'markup', {
-                  fractionDigits: 2,
-                }) as string,
-              });
-              return;
+          handleMarkupDiscountChange: (_, event) => {
+            const { value } = event.currentTarget;
+            const regex = /^[0-9.]*$/;
+            if (regex.test(value)) {
+              this.setState({ markup: value });
             }
-            this.setState({ markup: value });
+          },
+          isDiscount: this.state.isDiscount,
+          handleSignChange: (_, event) => {
+            const { value } = event.currentTarget;
+            this.setState({ isDiscount: value === 'true' });
+          },
+          markupValidator: () => {
+            return /^\d*(\.?\d{1,2})?$/.test(this.state.markup) ? 'default' : 'error';
+          },
+          handleOnKeyDown: event => {
+            // Prevent 'enter', '+', and '-'
+            if (event.keyCode === 13 || event.keyCode === 187 || event.keyCode === 189) {
+              event.preventDefault();
+            }
           },
           error: this.state.error,
           apiError: this.state.apiError,
@@ -333,7 +349,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
             name: this.state.name,
             type: this.state.type,
             description: this.state.description,
-            markup: this.state.markup,
+            markup: this.state.isDiscount ? '-' + this.state.markup : this.state.markup,
             tiers: this.state.tiers,
             priceListCurrent: this.state.priceListCurrent,
             sources: this.state.sources.filter(src => src.selected),
