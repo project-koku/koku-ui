@@ -107,7 +107,7 @@
     "cost_supplementary_legend_label_no_data": "Supplementary cost (no data)",
     "cost_supplementary_legend_label_plural": "Supplementary cost ($t(months_abbr.{{month}}) {{startDate}}-{{endDate}})",
     "cost_supplementary_legend_tooltip": "Supplementary cost ($t(months_abbr.{{month}}))",
-    "date": "{{date}}-$t(months_abbr.{{month}})",
+    "date": "$t(months_abbr.{{month}}) {{date}}",
     "date_range": "$t(months_abbr.{{month}}) {{startDate}} {{year}}",
     "date_range_plural": "$t(months_abbr.{{month}}) {{startDate}}-{{endDate}} {{year}}",
     "day_of_month_title": "Day {{day}}",
@@ -458,7 +458,7 @@
     "unexpected_title": "Oops!"
   },
   "explorer": {
-    "daily_column_title": "{{date}}-$t(months_abbr.{{month}})",
+    "daily_column_title": "$t(months_abbr.{{month}}) {{date}}",
     "date_range": {
       "current_month_to_date": "Month to date",
       "last_sixty_days": "Last 60 days",
