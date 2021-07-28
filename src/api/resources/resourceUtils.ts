@@ -1,7 +1,8 @@
-import { runResource as runAwsCloudResource } from './awsCloudResource';
+import { runResource as runAwsOcpResource } from './awsOcpResource';
 import { runResource as runAwsResource } from './awsResource';
-import { runResource as runAzureCloudResource } from './azureCloudResource';
+import { runResource as runAzureOcpResource } from './azureOcpResource';
 import { runResource as runAzureResource } from './azureResource';
+import { runResource as runGcpOcpResource } from './gcpOcpResource';
 import { runResource as runGcpResource } from './gcpResource';
 import { runResource as runIbmResource } from './ibmResource';
 import { runResource as runOcpResource } from './ocpResource';
@@ -13,9 +14,9 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
 
   if (
     resourcePathsType === ResourcePathsType.aws ||
-    resourcePathsType === ResourcePathsType.awsCloud ||
+    resourcePathsType === ResourcePathsType.awsOcp ||
     resourcePathsType === ResourcePathsType.azure ||
-    resourcePathsType === ResourcePathsType.azureCloud ||
+    resourcePathsType === ResourcePathsType.azureOcp ||
     resourcePathsType === ResourcePathsType.gcp ||
     resourcePathsType === ResourcePathsType.ibm ||
     resourcePathsType === ResourcePathsType.ocp
@@ -43,17 +44,20 @@ export function runResource(resourcePathsType: ResourcePathsType, resourceType: 
     case ResourcePathsType.aws:
       forecast = runAwsResource(resourceType, query);
       break;
-    case ResourcePathsType.awsCloud:
-      forecast = runAwsCloudResource(resourceType, query);
+    case ResourcePathsType.awsOcp:
+      forecast = runAwsOcpResource(resourceType, query);
       break;
     case ResourcePathsType.azure:
       forecast = runAzureResource(resourceType, query);
       break;
-    case ResourcePathsType.azureCloud:
-      forecast = runAzureCloudResource(resourceType, query);
+    case ResourcePathsType.azureOcp:
+      forecast = runAzureOcpResource(resourceType, query);
       break;
     case ResourcePathsType.gcp:
       forecast = runGcpResource(resourceType, query);
+      break;
+    case ResourcePathsType.gcpOcp:
+      forecast = runGcpOcpResource(resourceType, query);
       break;
     case ResourcePathsType.ibm:
       forecast = runIbmResource(resourceType, query);

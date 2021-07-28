@@ -28,15 +28,14 @@ export const enum DateRangeType {
 // eslint-disable-next-line no-shadow
 export const enum PerspectiveType {
   aws = 'aws',
-  awsCloud = 'aws_cloud', // Aws filtered by Ocp
+  awsOcp = 'aws_ocp', // Aws filtered by Ocp
   azure = 'azure',
-  azureCloud = 'azure_cloud', // Azure filtered by Ocp
+  azureOcp = 'azure_ocp', // Azure filtered by Ocp
   gcp = 'gcp',
+  gcpOcp = 'gcp_ocp', // Gcp filtered by Ocp
   ocp = 'ocp',
   ibm = 'ibm',
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
-  ocpSupplementary = 'ocp_supplementary',
-  ocpUsage = 'ocp_usage',
 }
 
 export const baseQuery: Query = {
@@ -110,42 +109,34 @@ export const groupByOcpOptions: {
 // Infrastructure AWS options
 export const infrastructureAwsOptions = [{ label: 'explorer.perspective.aws', value: 'aws' }];
 
-// Infrastructure AWS cloud options
-export const infrastructureAwsCloudOptions = [{ label: 'explorer.perspective.aws_cloud', value: 'aws_cloud' }];
+// Infrastructure AWS filtered by OpenShift options
+export const infrastructureAwsOcpOptions = [{ label: 'explorer.perspective.aws_ocp', value: 'aws_ocp' }];
 
 // Infrastructure Azure options
 export const infrastructureAzureOptions = [{ label: 'explorer.perspective.azure', value: 'azure' }];
 
-// Infrastructure Azure cloud options
-export const infrastructureAzureCloudOptions = [{ label: 'explorer.perspective.azure_cloud', value: 'azure_cloud' }];
+// Infrastructure Azure filtered by OpenShift options
+export const infrastructureAzureOcpOptions = [{ label: 'explorer.perspective.azure_ocp', value: 'azure_ocp' }];
 
 // Infrastructure GCP options
 export const infrastructureGcpOptions = [{ label: 'explorer.perspective.gcp', value: 'gcp' }];
 
+// Infrastructure GCP filtered by OpenShift options
+export const infrastructureGcpOcpOptions = [{ label: 'explorer.perspective.gcp_ocp', value: 'gcp_ocp' }];
+
 // Infrastructure IBM options
 export const infrastructureIbmOptions = [{ label: 'explorer.perspective.ibm', value: 'ibm' }];
-
-// Infrastructure Ocp options
-export const infrastructureOcpOptions = [{ label: 'explorer.perspective.ocp_usage', value: 'ocp_usage' }];
 
 // Infrastructure Ocp cloud options
 export const infrastructureOcpCloudOptions = [{ label: 'explorer.perspective.ocp_cloud', value: 'ocp_cloud' }];
 
 // Ocp options
-export const ocpOptions = [
-  { label: 'explorer.perspective.ocp', value: 'ocp' },
-  { label: 'explorer.perspective.ocp_supplementary', value: 'ocp_supplementary' },
-];
+export const ocpOptions = [{ label: 'explorer.perspective.ocp', value: 'ocp' }];
 
 export const getComputedReportItemType = (perspective: string) => {
   let result;
   switch (perspective) {
-    case PerspectiveType.ocpSupplementary:
-      result = ComputedReportItemType.supplementary;
-      break;
-    case PerspectiveType.ocpUsage:
-      result = ComputedReportItemType.infrastructure;
-      break;
+    // Removed "OpenShift supplementary & usage" perspectives -- see https://issues.redhat.com/browse/COST-1722
     default:
       result = ComputedReportItemType.cost;
       break;
@@ -156,9 +147,7 @@ export const getComputedReportItemType = (perspective: string) => {
 export const getComputedReportItemValueType = (perspective: string) => {
   let result;
   switch (perspective) {
-    case PerspectiveType.ocpUsage:
-      result = ComputedReportItemValueType.usage;
-      break;
+    // Removed "OpenShift usage" perspective -- see https://issues.redhat.com/browse/COST-1722
     default:
       result = ComputedReportItemValueType.total;
       break;
@@ -248,19 +237,18 @@ export const getGroupByDefault = (perspective: string) => {
   let result;
   switch (perspective) {
     case PerspectiveType.aws:
-    case PerspectiveType.awsCloud:
+    case PerspectiveType.awsOcp:
     case PerspectiveType.gcp:
+    case PerspectiveType.gcpOcp:
     case PerspectiveType.ibm:
       result = 'account';
       break;
     case PerspectiveType.azure:
-    case PerspectiveType.azureCloud:
+    case PerspectiveType.azureOcp:
       result = 'subscription_guid';
       break;
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
-    case PerspectiveType.ocpSupplementary:
-    case PerspectiveType.ocpUsage:
       result = 'project';
       break;
     default:
@@ -274,14 +262,15 @@ export const getGroupByOptions = (perspective: string) => {
   let result;
   switch (perspective) {
     case PerspectiveType.aws:
-    case PerspectiveType.awsCloud:
+    case PerspectiveType.awsOcp:
       result = groupByAwsOptions;
       break;
     case PerspectiveType.azure:
-    case PerspectiveType.azureCloud:
+    case PerspectiveType.azureOcp:
       result = groupByAzureOptions;
       break;
     case PerspectiveType.gcp:
+    case PerspectiveType.gcpOcp:
       result = groupByGcpOptions;
       break;
     case PerspectiveType.ibm:
@@ -289,8 +278,6 @@ export const getGroupByOptions = (perspective: string) => {
       break;
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
-    case PerspectiveType.ocpSupplementary:
-    case PerspectiveType.ocpUsage:
       result = groupByOcpOptions;
       break;
     default:
@@ -306,15 +293,6 @@ export const getOrgReportPathsType = (perspective: string) => {
     case PerspectiveType.aws:
       result = OrgPathsType.aws;
       break;
-    case PerspectiveType.awsCloud:
-    case PerspectiveType.azure:
-    case PerspectiveType.azureCloud:
-    case PerspectiveType.gcp:
-    case PerspectiveType.ibm:
-    case PerspectiveType.ocp:
-    case PerspectiveType.ocpCloud:
-    case PerspectiveType.ocpSupplementary:
-    case PerspectiveType.ocpUsage:
     default:
       result = undefined;
       break;
@@ -325,16 +303,6 @@ export const getOrgReportPathsType = (perspective: string) => {
 export const getReportType = (perspective: string) => {
   let result;
   switch (perspective) {
-    case PerspectiveType.aws:
-    case PerspectiveType.awsCloud:
-    case PerspectiveType.azure:
-    case PerspectiveType.azureCloud:
-    case PerspectiveType.gcp:
-    case PerspectiveType.ibm:
-    case PerspectiveType.ocp:
-    case PerspectiveType.ocpCloud:
-    case PerspectiveType.ocpSupplementary:
-    case PerspectiveType.ocpUsage:
     default:
       result = ReportType.cost;
       break;
@@ -348,17 +316,20 @@ export const getReportPathsType = (perspective: string) => {
     case PerspectiveType.aws:
       result = ReportPathsType.aws;
       break;
-    case PerspectiveType.awsCloud:
-      result = ReportPathsType.awsCloud;
+    case PerspectiveType.awsOcp:
+      result = ReportPathsType.awsOcp;
       break;
     case PerspectiveType.azure:
       result = ReportPathsType.azure;
       break;
-    case PerspectiveType.azureCloud:
-      result = ReportPathsType.azureCloud;
+    case PerspectiveType.azureOcp:
+      result = ReportPathsType.azureOcp;
       break;
     case PerspectiveType.gcp:
       result = ReportPathsType.gcp;
+      break;
+    case PerspectiveType.gcpOcp:
+      result = ReportPathsType.gcpOcp;
       break;
     case PerspectiveType.ibm:
       result = ReportPathsType.ibm;
@@ -368,12 +339,6 @@ export const getReportPathsType = (perspective: string) => {
       break;
     case PerspectiveType.ocpCloud:
       result = ReportPathsType.ocpCloud;
-      break;
-    case PerspectiveType.ocpSupplementary:
-      result = ReportPathsType.ocp;
-      break;
-    case PerspectiveType.ocpUsage:
-      result = ReportPathsType.ocpUsage;
       break;
     default:
       result = undefined;
@@ -388,23 +353,23 @@ export const getResourcePathsType = (perspective: string) => {
     case PerspectiveType.aws:
       return ResourcePathsType.aws;
       break;
-    case PerspectiveType.awsCloud:
-      return ResourcePathsType.awsCloud;
+    case PerspectiveType.awsOcp:
+      return ResourcePathsType.awsOcp;
       break;
     case PerspectiveType.azure:
       return ResourcePathsType.azure;
       break;
-    case PerspectiveType.azureCloud:
-      return ResourcePathsType.azureCloud;
+    case PerspectiveType.azureOcp:
+      return ResourcePathsType.azureOcp;
       break;
     case PerspectiveType.gcp:
       return ResourcePathsType.gcp;
+    case PerspectiveType.gcpOcp:
+      return ResourcePathsType.gcpOcp;
     case PerspectiveType.ibm:
       return ResourcePathsType.ibm;
       break;
     case PerspectiveType.ocp:
-    case PerspectiveType.ocpSupplementary:
-    case PerspectiveType.ocpUsage:
       return ResourcePathsType.ocp;
       break;
     default:
@@ -420,24 +385,25 @@ export const getTagReportPathsType = (perspective: string) => {
     case PerspectiveType.aws:
       return TagPathsType.aws;
       break;
-    case PerspectiveType.awsCloud:
-      return TagPathsType.awsCloud;
+    case PerspectiveType.awsOcp:
+      return TagPathsType.awsOcp;
       break;
     case PerspectiveType.azure:
       return TagPathsType.azure;
       break;
-    case PerspectiveType.azureCloud:
-      return TagPathsType.azureCloud;
+    case PerspectiveType.azureOcp:
+      return TagPathsType.azureOcp;
       break;
     case PerspectiveType.gcp:
       return TagPathsType.gcp;
+      break;
+    case PerspectiveType.gcpOcp:
+      return TagPathsType.gcpOcp;
       break;
     case PerspectiveType.ibm:
       return TagPathsType.ibm;
       break;
     case PerspectiveType.ocp:
-    case PerspectiveType.ocpSupplementary:
-    case PerspectiveType.ocpUsage:
       return TagPathsType.ocp;
       break;
     case PerspectiveType.ocpCloud:

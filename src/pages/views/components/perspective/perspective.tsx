@@ -49,7 +49,29 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
     return label;
   };
 
-  public handleClick = value => {
+  private getDropDown = () => {
+    const { isDisabled, options, t } = this.props;
+    const { isPerspectiveOpen } = this.state;
+    const dropdownItems = this.getDropDownItems();
+
+    if (options.length === 1) {
+      return <div style={styles.perspectiveOptionLabel}>{t(options[0].label)}</div>;
+    }
+    return (
+      <Dropdown
+        onSelect={this.handleSelect}
+        toggle={
+          <DropdownToggle isDisabled={isDisabled} onToggle={this.handleToggle}>
+            {this.getCurrentLabel()}
+          </DropdownToggle>
+        }
+        isOpen={isPerspectiveOpen}
+        dropdownItems={dropdownItems}
+      />
+    );
+  };
+
+  private handleClick = value => {
     const { onItemClicked } = this.props;
     if (onItemClicked) {
       onItemClicked(value);
@@ -69,23 +91,12 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
   };
 
   public render() {
-    const { isDisabled, t } = this.props;
-    const { isPerspectiveOpen } = this.state;
-    const dropdownItems = this.getDropDownItems();
+    const { t } = this.props;
 
     return (
       <div style={styles.perspectiveSelector}>
         <label style={styles.perspectiveLabel}>{t('overview.perspective.label')}</label>
-        <Dropdown
-          onSelect={this.handleSelect}
-          toggle={
-            <DropdownToggle isDisabled={isDisabled} onToggle={this.handleToggle}>
-              {this.getCurrentLabel()}
-            </DropdownToggle>
-          }
-          isOpen={isPerspectiveOpen}
-          dropdownItems={dropdownItems}
-        />
+        {this.getDropDown()}
       </div>
     );
   }

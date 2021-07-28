@@ -21,7 +21,7 @@ import {
   ReportSummaryTrend,
   ReportSummaryUsage,
 } from 'components/reports/reportSummary';
-import { format, getDate, getMonth, startOfMonth } from 'date-fns';
+import { format, getMonth, startOfMonth } from 'date-fns';
 import { cloneDeep } from 'lodash';
 import React from 'react';
 import { WithTranslation } from 'react-i18next';
@@ -516,7 +516,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       <ReportSummaryAlt
         detailsLink={this.getDetailsLink()}
         status={currentReportFetchStatus}
-        subTitle={this.getSubTitle()}
         tabs={this.getTabs()}
         title={this.getTitle()}
       >
@@ -524,22 +523,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         {this.getChart(containerAltHeight, chartAltHeight, details.adjustContainerHeight)}
       </ReportSummaryAlt>
     );
-  };
-
-  private getSubTitle = () => {
-    const { t } = this.props;
-
-    const today = new Date();
-    const month = getMonth(today);
-    const endDate = format(today, 'd');
-    const startDate = format(startOfMonth(today), 'd');
-
-    return t('dashboard.widget_subtitle', {
-      count: getDate(today),
-      endDate,
-      month,
-      startDate,
-    });
   };
 
   private getTab = <T extends DashboardWidget<any>>(tab: T, index: number) => {
@@ -663,12 +646,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const { availableTabs, currentReportFetchStatus, details } = this.props;
 
     return (
-      <ReportSummary
-        detailsLink={this.getDetailsLink()}
-        status={currentReportFetchStatus}
-        subTitle={this.getSubTitle()}
-        title={this.getTitle()}
-      >
+      <ReportSummary detailsLink={this.getDetailsLink()} status={currentReportFetchStatus} title={this.getTitle()}>
         {this.getDetails()}
         {this.getChart(chartStyles.containerTrendHeight, chartStyles.chartHeight, details.adjustContainerHeight)}
         {Boolean(availableTabs) && <div style={styles.tabs}>{this.getTabs()}</div>}

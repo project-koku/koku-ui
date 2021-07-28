@@ -3,6 +3,11 @@ import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg'
 import React from 'react';
 
 export const styles = {
+  date: {
+    alignSelf: 'center',
+    flexGrow: 1,
+    textAlign: 'end',
+  },
   infoIcon: {
     fontSize: global_FontSize_md.value,
   },
@@ -10,6 +15,7 @@ export const styles = {
     fontWeight: 'bold',
   },
   perspective: {
+    display: 'flex',
     marginTop: global_spacer_lg.value,
   },
   tabs: {

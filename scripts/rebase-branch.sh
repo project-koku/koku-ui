@@ -10,10 +10,8 @@ default()
   SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
 
   MAIN_BRANCH="master"
-  CI_BETA_BRANCH="ci-beta"
   CI_STABLE_BRANCH="ci-stable"
-  QA_BETA_BRANCH="qa-beta"
-  QA_STABLE_BRANCH="qa-stable"
+  STAGE_STABLE_BRANCH="stage-stable"
   REACT_INTL_BRANCH="react-intl_changeover"
 
   KOKU_UI_REPO="git@github.com:project-koku/koku-ui.git"
@@ -26,15 +24,18 @@ usage()
 {
 cat <<- EEOOFF
 
-    This script will rebase the selected branch with $MAIN_BRANCH, then push changes to origin
+    This script will rebase the selected branch with $MAIN_BRANCH, then push changes to origin.
+
+    FYI, there are no ci-beta and stage-beta branches -- we push to https://github.com/RedHatInsights/cost-management-build via Travis builds
+
+    Note: The QA environment is no longer supported.
 
     sh [-x] $SCRIPT [-h] -<c|q|s|r>
 
     OPTIONS:
     h       Display this message
     c       CI stable
-    q       QA beta
-    s       QA stable
+    s       Stage stable
     r       React Intl
 
 EEOOFF
@@ -47,8 +48,7 @@ EEOOFF
   while getopts hcqsr c; do
     case $c in
       c) BRANCH=$CI_STABLE_BRANCH;;
-      q) BRANCH=$QA_BETA_BRANCH;;
-      s) BRANCH=$QA_STABLE_BRANCH;;
+      s) BRANCH=$STAGE_STABLE_BRANCH;;
       r) BRANCH=$REACT_INTL_BRANCH;;
       h) usage; exit 0;;
       \?) usage; exit 1;;
@@ -74,6 +74,6 @@ EEOOFF
   else
     echo "Did not push to origin. No changes or check for conflicts"
   fi
-  
+
   rm -rf $TMP_DIR
 }

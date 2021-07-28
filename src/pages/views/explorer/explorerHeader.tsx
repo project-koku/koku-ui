@@ -35,14 +35,14 @@ import {
   getResourcePathsType,
   getRouteForQuery,
   getTagReportPathsType,
-  infrastructureAwsCloudOptions,
+  infrastructureAwsOcpOptions,
   infrastructureAwsOptions,
-  infrastructureAzureCloudOptions,
+  infrastructureAzureOcpOptions,
   infrastructureAzureOptions,
+  // infrastructureGcpOcpOptions, // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
   infrastructureGcpOptions,
   infrastructureIbmOptions,
   // infrastructureOcpCloudOptions, // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1483
-  infrastructureOcpOptions,
   ocpOptions,
   PerspectiveType,
 } from './explorerUtils';
@@ -139,23 +139,25 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     if (aws) {
       options.push(...infrastructureAwsOptions);
     }
-    if (ocp && aws) {
-      options.push(...infrastructureAwsCloudOptions);
+    if (aws && ocp) {
+      options.push(...infrastructureAwsOcpOptions);
     }
     if (gcp) {
       options.push(...infrastructureGcpOptions);
     }
+    // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
+    //
+    // if (gcp && ocp) {
+    //   options.push(...infrastructureGcpOcpOptions);
+    // }
     if (ibm) {
       options.push(...infrastructureIbmOptions);
     }
     if (azure) {
       options.push(...infrastructureAzureOptions);
     }
-    if (ocp && azure) {
-      options.push(...infrastructureAzureCloudOptions);
-    }
-    if (ocp) {
-      options.push(...infrastructureOcpOptions);
+    if (azure && ocp) {
+      options.push(...infrastructureAzureOcpOptions);
     }
 
     return (

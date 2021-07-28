@@ -1,3 +1,5 @@
+import { PagedMetaData, PagedResponse } from 'api/api';
+
 export interface ReportValue {
   units?: string;
   value?: number;
@@ -68,7 +70,7 @@ export interface ReportData extends ReportOrgData {
   values?: ReportAwsItem[] | ReportAzureItem[] | ReportGcpItem[] | ReportOcpItem[] | ReportOrgItem[];
 }
 
-export interface ReportMeta {
+export interface ReportMeta extends PagedMetaData {
   count: number;
   delta?: {
     percent: number;
@@ -96,18 +98,7 @@ export interface ReportMeta {
   };
 }
 
-export interface ReportLinks {
-  first: string;
-  previous?: string;
-  next?: string;
-  last: string;
-}
-
-export interface Report {
-  data: ReportData[];
-  links?: ReportLinks;
-  meta: ReportMeta;
-}
+export interface Report extends PagedResponse<ReportData, ReportMeta> {}
 
 // eslint-disable-next-line no-shadow
 export const enum ReportType {
@@ -125,10 +116,11 @@ export const enum ReportType {
 // eslint-disable-next-line no-shadow
 export const enum ReportPathsType {
   aws = 'aws',
-  awsCloud = 'aws_cloud',
+  awsOcp = 'aws_ocp',
   azure = 'azure',
-  azureCloud = 'azure_cloud',
+  azureOcp = 'azure_ocp',
   gcp = 'gcp',
+  gcpOcp = 'gcp_ocp',
   ibm = 'gcp',
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud',

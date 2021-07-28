@@ -81,14 +81,11 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           />
         </div>
         {Boolean(showContent) && (
-          <div style={styles.cost}>
+          <div>
             <Title headingLevel="h2" style={styles.costValue} size="4xl">
               {formatCurrency(hasCost ? report.meta.total.cost.total.value : 0)}
             </Title>
-            <div style={styles.costLabel}>
-              <div style={styles.costLabelUnit}>{t('details.total_cost')}</div>
-              <div style={styles.costLabelDate}>{getSinceDateRangeString()}</div>
-            </div>
+            <div style={styles.dateTitle}>{getSinceDateRangeString()}</div>
           </div>
         )}
       </header>

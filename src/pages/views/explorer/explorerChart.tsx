@@ -151,17 +151,20 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
       case PerspectiveType.aws:
         result = 'explorer.title.aws';
         break;
-      case PerspectiveType.awsCloud:
-        result = 'explorer.title.aws_cloud';
+      case PerspectiveType.awsOcp:
+        result = 'explorer.title.aws_ocp';
         break;
       case PerspectiveType.azure:
         result = 'explorer.title.azure';
         break;
-      case PerspectiveType.azureCloud:
-        result = 'explorer.title.azure_cloud';
+      case PerspectiveType.azureOcp:
+        result = 'explorer.title.azure_ocp';
         break;
       case PerspectiveType.gcp:
         result = 'explorer.title.gcp';
+        break;
+      case PerspectiveType.gcpOcp:
+        result = 'explorer.title.gcp_ocp';
         break;
       case PerspectiveType.ibm:
         result = 'explorer.title.ibm';
@@ -171,12 +174,6 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
         break;
       case PerspectiveType.ocpCloud:
         result = 'explorer.title.ocp_cloud';
-        break;
-      case PerspectiveType.ocpSupplementary:
-        result = 'explorer.title.ocp_supplementary';
-        break;
-      case PerspectiveType.ocpUsage:
-        result = 'explorer.title.ocp_usage';
         break;
       default:
         result = undefined;

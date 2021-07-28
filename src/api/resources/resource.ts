@@ -1,25 +1,12 @@
+import { PagedMetaData, PagedResponse } from 'api/api';
+
 export interface ResourceData {
   account_alias: string;
   cluster_alias: string;
   value?: string;
 }
 
-export interface ResourceMeta {
-  count: number;
-}
-
-export interface ResourceLinks {
-  first: string;
-  previous?: string;
-  next?: string;
-  last: string;
-}
-
-export interface Resource {
-  meta: ResourceMeta;
-  links: ResourceLinks;
-  data: ResourceData[];
-}
+export interface Resource extends PagedResponse<ResourceData, PagedMetaData> {}
 
 // eslint-disable-next-line no-shadow
 export const enum ResourceType {
@@ -37,10 +24,11 @@ export const enum ResourceType {
 // eslint-disable-next-line no-shadow
 export const enum ResourcePathsType {
   aws = 'aws',
-  awsCloud = 'aws_cloud',
+  awsOcp = 'aws_ocp',
   azure = 'azure',
-  azureCloud = 'azure_cloud',
+  azureOcp = 'azure_ocp',
   gcp = 'gcp',
+  gcpOcp = 'gcp_ocp',
   ibm = 'ibm',
   ocp = 'ocp',
 }
