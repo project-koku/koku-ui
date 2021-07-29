@@ -220,7 +220,7 @@
       "title": "No sources are assigned"
     },
     "examples": {
-      "title": "Examples:",
+      "title": "Examples",
       "noAdjustment": "A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your source(s).",
       "doubleMarkup": "A markup rate of (+) 100% doubles the base costs of your source(s).",
       "reduceBaseToZero": "A discount rate of (-) 100% reduces the base costs of your source(s) to 0.",
@@ -251,6 +251,7 @@
       "ok": "Yes, I want to exit",
       "title": "Exit cost model creation"
     },
+    "description_markup_or_discount_model": "Use markup/discount to manipulate how the raw costs are being calculated for your sources. Note, costs calculated from price list rates will not be affected by this.",
     "description": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
     "empty_state": {
       "add_rate": "Add rate",
@@ -330,7 +331,6 @@
     },
     "steps": {
       "general_info": "Enter information",
-      "markup": "Set markup or discount",
       "price_list": "Price list",
       "review": "Review details",
       "sources": "Assign a source to the cost model"

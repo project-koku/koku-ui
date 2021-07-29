@@ -10,6 +10,7 @@ import {
   List,
   ListItem,
   Modal,
+  ModalVariant,
   Radio,
   Stack,
   StackItem,
@@ -91,7 +92,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
         title={t('cost_models_details.edit_markup_or_discount')}
         isOpen
         onClose={() => onClose({ name: 'updateMarkup', isOpen: false })}
-        variant="small"
+        variant={ModalVariant.medium}
         actions={[
           <Button
             key="proceed"
@@ -177,7 +178,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                     label={t('rate')}
                     helperTextInvalid={t('cost_models_wizard.markup.invalid_markup_text')}
                   >
-                    <InputGroup style={{ width: '150px' }}>
+                    <InputGroup style={styles.rateWidth}>
                       <InputGroupText style={styles.sign}>{isDiscount ? '-' : '+'}</InputGroupText>
                       <TextInput
                         style={{ borderLeft: '0' }}

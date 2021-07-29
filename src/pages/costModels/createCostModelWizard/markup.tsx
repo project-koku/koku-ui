@@ -1,7 +1,12 @@
 import {
   FormGroup,
+  Grid,
+  GridItem,
   InputGroup,
   InputGroupText,
+  List,
+  ListItem,
+  Radio,
   Stack,
   StackItem,
   Text,
@@ -14,66 +19,144 @@ import { Form } from 'components/forms/form';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 
+import { styles } from '../costModel/costCalc.styles';
 import { CostModelContext } from './context';
 
-interface MarkupValidationState {
-  isValid: boolean;
-}
-
-class Markup extends React.Component<WithTranslation, MarkupValidationState> {
-  public state = {
-    isValid: true,
-  };
-
+class MarkupWithDistribution extends React.Component<WithTranslation> {
   public render() {
     const { t } = this.props;
-    const { isValid } = this.state;
 
     return (
       <CostModelContext.Consumer>
-        {({ onMarkupChange, markup }) => {
+        {({
+          handleDistributionChange,
+          handleSignChange,
+          handleOnKeyDown,
+          handleMarkupDiscountChange,
+          markupValidator,
+          markup,
+          isDiscount,
+          distribution,
+          type,
+        }) => {
           return (
             <Stack hasGutter>
               <StackItem>
                 <Title headingLevel="h2" size="xl">
-                  {t('cost_models_wizard.markup.title')}
+                  {t('cost_calculations')}
                 </Title>
               </StackItem>
               <StackItem>
-                <TextContent>
-                  <Text component={TextVariants.h6}>{t('cost_models_wizard.markup.sub_title')}</Text>
-                </TextContent>
+                <Title headingLevel="h3" size="md">
+                  {t('cost_models_details.markup_or_discount')}
+                </Title>
+                {t('cost_models_wizard.description_markup_or_discount_model')}
               </StackItem>
               <StackItem>
                 <Form>
-                  <FormGroup
-                    label={t('cost_models_wizard.markup.markup_label')}
-                    fieldId="markup"
-                    helperTextInvalid={t('cost_models_wizard.markup.invalid_markup_text')}
-                    validated={isValid ? 'default' : 'error'}
-                  >
-                    <InputGroup style={{ width: '150px' }}>
-                      <TextInput
-                        type="text"
-                        id="markup"
-                        name="markup"
-                        value={markup}
-                        onBlur={() => {
-                          this.setState({ isValid: !isNaN(Number(markup)) });
-                        }}
-                        onChange={(value: string) => {
-                          onMarkupChange(value);
-                          if (value !== '-') {
-                            this.setState({ isValid: !isNaN(Number(value)) });
-                          }
-                        }}
-                        validated={isValid ? 'default' : 'error'}
-                      />
-                      <InputGroupText style={{ borderLeft: '0' }}>%</InputGroupText>
-                    </InputGroup>
-                  </FormGroup>
+                  <Grid hasGutter>
+                    <GridItem lg={8} id="refSign">
+                      <FormGroup isInline fieldId="markup-or-discount">
+                        <div style={styles.radioAlign}>
+                          <Radio
+                            isChecked={!isDiscount}
+                            name="discount"
+                            label={t('cost_models_details.markup_plus')}
+                            aria-label={t('cost_models_details.markup_plus')}
+                            id="markup"
+                            value="false" // "+"
+                            onChange={handleSignChange}
+                          />
+                        </div>
+                        <div style={styles.radioAlign}>
+                          <Radio
+                            isChecked={isDiscount}
+                            name="discount"
+                            label={t('cost_models_details.discount_minus')}
+                            aria-label={t('cost_models_details.discount_minus')}
+                            id="discount"
+                            value="true" // '-'
+                            onChange={handleSignChange}
+                          />
+                        </div>
+                      </FormGroup>
+                    </GridItem>
+                    <GridItem lg={4} id="refMarkup">
+                      <FormGroup
+                        isInline
+                        fieldId="rate"
+                        helperTextInvalid={t('cost_models_wizard.markup.invalid_markup_text')}
+                      >
+                        <InputGroup style={styles.rateWidth}>
+                          <InputGroupText style={styles.sign}>{isDiscount ? '-' : '+'}</InputGroupText>
+                          <TextInput
+                            style={{ borderLeft: '0' }}
+                            type="text"
+                            aria-label={t('rate')}
+                            id="markup-input-box"
+                            value={markup}
+                            onKeyDown={handleOnKeyDown}
+                            onChange={handleMarkupDiscountChange}
+                            validated={markupValidator()}
+                          />
+                          <InputGroupText style={styles.percent}>%</InputGroupText>
+                        </InputGroup>
+                      </FormGroup>
+                    </GridItem>
+                  </Grid>
                 </Form>
               </StackItem>
+              <StackItem>
+                <div style={styles.exampleMargin}>
+                  <TextContent>
+                    <Text component={TextVariants.h6}>{t('cost_models_details.examples.title')}</Text>
+                  </TextContent>
+                  <List>
+                    <ListItem>{t('cost_models_details.examples.noAdjustment')}</ListItem>
+                    <ListItem>{t('cost_models_details.examples.doubleMarkup')}</ListItem>
+                    <ListItem>{t('cost_models_details.examples.reduceBaseToZero')}</ListItem>
+                    <ListItem>{t('cost_models_details.examples.reduceBaseToSeventyFive')}</ListItem>
+                  </List>
+                </div>
+              </StackItem>
+              {type === 'OCP' && (
+                <>
+                  <StackItem>
+                    <Title headingLevel="h3" size="md">
+                      {t('cost_models_details.distribution_type')}
+                    </Title>
+                    <TextContent>
+                      <Text style={styles.cardDescription}>
+                        {t('cost_models_details.description_distribution_model')}
+                      </Text>
+                    </TextContent>
+                  </StackItem>
+                  <StackItem isFilled>
+                    <Form>
+                      <FormGroup isInline fieldId="cost-distribution" isRequired>
+                        <Radio
+                          isChecked={distribution === 'cpu'}
+                          name="distribution"
+                          label={t('cpu_title')}
+                          aria-label={t('cpu_title')}
+                          id="cpuDistribution"
+                          value="cpu"
+                          onChange={handleDistributionChange}
+                        />
+                        <Radio
+                          isChecked={distribution === 'memory'}
+                          name="distribution"
+                          label={t('memory_title')}
+                          aria-label={t('memory_title')}
+                          id="memoryDistribution"
+                          value="memory"
+                          onChange={handleDistributionChange}
+                        />
+                      </FormGroup>
+                    </Form>
+                  </StackItem>
+                </>
+              )}
             </Stack>
           );
         }}
@@ -82,4 +165,4 @@ class Markup extends React.Component<WithTranslation, MarkupValidationState> {
   }
 }
 
-export default withTranslation()(Markup);
+export default withTranslation()(MarkupWithDistribution);

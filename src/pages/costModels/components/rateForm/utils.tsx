@@ -153,6 +153,7 @@ export const mergeToRequest = (
     name: costModel.name,
     source_type: 'OCP',
     description: costModel.description,
+    distribution: costModel.distribution,
     source_uuids: costModel.sources.map(src => src.uuid),
     markup: { value: costModel.markup.value, unit: 'percent' },
     rates: [...costModel.rates.slice(0, index), rate, ...costModel.rates.slice(index + 1)],

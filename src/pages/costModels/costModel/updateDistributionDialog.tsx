@@ -4,6 +4,7 @@ import {
   Form,
   FormGroup,
   Modal,
+  ModalVariant,
   Radio,
   Stack,
   StackItem,
@@ -51,7 +52,7 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
         title={t('cost_models_details.distribution_type')}
         isOpen
         onClose={() => onClose({ name: 'updateDistribution', isOpen: false })}
-        variant="small"
+        variant={ModalVariant.small}
         actions={[
           <Button
             key="proceed"
