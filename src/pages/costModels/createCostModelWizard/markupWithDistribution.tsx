@@ -12,8 +12,9 @@ import {
   Text,
   TextContent,
   TextInput,
-  Title,
-} from '@patternfly/react-core';
+  TextVariants,
+  Title
+} from "@patternfly/react-core";
 import { Form } from 'components/forms/form';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -49,7 +50,9 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
                   {t('cost_models_details.markup_or_discount')}
                 </Title>
                 <TextContent>
-                  <Text>{t('cost_models_wizard.description_markup_or_discount_model')}</Text>
+                  <Text component={TextVariants.h6}>
+                    {t('cost_models_wizard.description_markup_or_discount_model')}
+                  </Text>
                 </TextContent>
               </StackItem>
               <StackItem>

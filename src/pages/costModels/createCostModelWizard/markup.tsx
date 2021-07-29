@@ -12,6 +12,7 @@ import {
   Text,
   TextContent,
   TextInput,
+  TextVariants,
   Title,
 } from '@patternfly/react-core';
 import { Form } from 'components/forms/form';
@@ -40,7 +41,9 @@ class Markup extends React.Component<WithTranslation> {
                   {t('cost_models_details.markup_or_discount')}
                 </Title>
                 <TextContent>
-                  <Text>{t('cost_models_wizard.description_markup_or_discount_model')}</Text>
+                  <Text component={TextVariants.h6}>
+                    {t('cost_models_wizard.description_markup_or_discount_model')}
+                  </Text>
                 </TextContent>
               </StackItem>
               <StackItem>
