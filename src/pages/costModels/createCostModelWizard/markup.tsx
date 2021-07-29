@@ -78,7 +78,7 @@ class Markup extends React.Component<WithTranslation> {
                         fieldId="rate"
                         helperTextInvalid={t('cost_models_wizard.markup.invalid_markup_text')}
                       >
-                        <InputGroup style={{ width: '150px' }}>
+                        <InputGroup style={styles.rateWidth}>
                           <InputGroupText style={styles.sign}>{isDiscount ? '-' : '+'}</InputGroupText>
                           <TextInput
                             style={{ borderLeft: '0' }}

@@ -25,4 +25,7 @@ export const styles = {
   exampleMargin: {
     marginLeft: 30,
   },
+  rateWidth: {
+    width: 150,
+  },
 } as { [className: string]: React.CSSProperties };
