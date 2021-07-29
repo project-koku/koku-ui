@@ -71,11 +71,12 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
       onClose={closeFnc}
       footer={isSuccess || isProcess || isAddingRate ? <div /> : null}
       onSave={() => {
-        const { name, type, tiers, markup, description, isDiscount, sources } = context;
+        const { name, type, tiers, markup, description, distribution, isDiscount, sources } = context;
         addCostModel({
           name,
           source_type: type,
           description,
+          distribution,
           rates: tiers,
           markup: {
             value: isDiscount ? '-' + markup : markup,
@@ -349,6 +350,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
             name: this.state.name,
             type: this.state.type,
             description: this.state.description,
+            distribution: this.state.distribution,
             markup: this.state.isDiscount ? '-' + this.state.markup : this.state.markup,
             tiers: this.state.tiers,
             priceListCurrent: this.state.priceListCurrent,
