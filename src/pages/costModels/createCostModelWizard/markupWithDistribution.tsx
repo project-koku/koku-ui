@@ -49,11 +49,7 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
                 <Title headingLevel="h3" size="md">
                   {t('cost_models_details.markup_or_discount')}
                 </Title>
-                <TextContent>
-                  <Text component={TextVariants.h6}>
-                    {t('cost_models_wizard.description_markup_or_discount_model')}
-                  </Text>
-                </TextContent>
+                {t('cost_models_wizard.description_markup_or_discount_model')}
               </StackItem>
               <StackItem>
                 <Form>
