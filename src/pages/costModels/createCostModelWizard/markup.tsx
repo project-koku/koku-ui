@@ -41,9 +41,7 @@ class Markup extends React.Component<WithTranslation> {
                   {t('cost_models_details.markup_or_discount')}
                 </Title>
                 <TextContent>
-                  <Text component={TextVariants.h6}>
-                    {t('cost_models_wizard.description_markup_or_discount_model')}
-                  </Text>
+                  <Text>{t('cost_models_wizard.description_markup_or_discount_model')}</Text>
                 </TextContent>
               </StackItem>
               <StackItem>
@@ -103,7 +101,7 @@ class Markup extends React.Component<WithTranslation> {
               <StackItem>
                 <div style={styles.exampleMargin}>
                   <TextContent>
-                    <Text>{t('cost_models_details.examples.title')}</Text>
+                    <Text component={TextVariants.h6}>{t('cost_models_details.examples.title')}</Text>
                   </TextContent>
                   <List>
                     <ListItem>{t('cost_models_details.examples.noAdjustment')}</ListItem>

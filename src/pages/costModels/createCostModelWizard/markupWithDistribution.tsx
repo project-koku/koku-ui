@@ -13,8 +13,8 @@ import {
   TextContent,
   TextInput,
   TextVariants,
-  Title
-} from "@patternfly/react-core";
+  Title,
+} from '@patternfly/react-core';
 import { Form } from 'components/forms/form';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -112,7 +112,7 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
               <StackItem>
                 <div style={styles.exampleMargin}>
                   <TextContent>
-                    <Text>{t('cost_models_details.examples.title')}</Text>
+                    <Text component={TextVariants.h6}>{t('cost_models_details.examples.title')}</Text>
                   </TextContent>
                   <List>
                     <ListItem>{t('cost_models_details.examples.noAdjustment')}</ListItem>
