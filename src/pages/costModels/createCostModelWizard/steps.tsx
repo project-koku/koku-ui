@@ -2,10 +2,8 @@ import React from 'react';
 
 import GeneralInformation from './generalInformation';
 import Markup from './markup';
-import MarkupWithDistribution from './markupWithDistribution';
 import PriceList from './priceList';
 import Review from './review';
-import ReviewWithDistribution from './reviewWithDistribution';
 import Sources from './sources';
 
 export const nameErrors = (name: string): string | null => {
@@ -113,7 +111,7 @@ export const stepsHash = (t: (text: string) => string) => ({
     {
       id: 3,
       name: t('cost_calculations'),
-      component: <MarkupWithDistribution />,
+      component: <Markup />,
     },
     {
       id: 4,
@@ -123,7 +121,7 @@ export const stepsHash = (t: (text: string) => string) => ({
     {
       id: 5,
       name: t('cost_models_wizard.steps.review'),
-      component: <ReviewWithDistribution />,
+      component: <Review />,
     },
   ],
 });

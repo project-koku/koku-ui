@@ -22,13 +22,23 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 import { styles } from '../costModel/costCalc.styles';
 import { CostModelContext } from './context';
 
-class Markup extends React.Component<WithTranslation> {
+class MarkupWithDistribution extends React.Component<WithTranslation> {
   public render() {
     const { t } = this.props;
 
     return (
       <CostModelContext.Consumer>
-        {({ handleSignChange, handleOnKeyDown, handleMarkupDiscountChange, markupValidator, markup, isDiscount }) => {
+        {({
+          handleDistributionChange,
+          handleSignChange,
+          handleOnKeyDown,
+          handleMarkupDiscountChange,
+          markupValidator,
+          markup,
+          isDiscount,
+          distribution,
+          type,
+        }) => {
           return (
             <Stack hasGutter>
               <StackItem>
@@ -109,6 +119,44 @@ class Markup extends React.Component<WithTranslation> {
                   </List>
                 </div>
               </StackItem>
+              {type === 'OCP' && (
+                <>
+                  <StackItem>
+                    <Title headingLevel="h3" size="md">
+                      {t('cost_models_details.distribution_type')}
+                    </Title>
+                    <TextContent>
+                      <Text style={styles.cardDescription}>
+                        {t('cost_models_details.description_distribution_model')}
+                      </Text>
+                    </TextContent>
+                  </StackItem>
+                  <StackItem isFilled>
+                    <Form>
+                      <FormGroup isInline fieldId="cost-distribution" isRequired>
+                        <Radio
+                          isChecked={distribution === 'cpu'}
+                          name="distribution"
+                          label={t('cpu_title')}
+                          aria-label={t('cpu_title')}
+                          id="cpuDistribution"
+                          value="cpu"
+                          onChange={handleDistributionChange}
+                        />
+                        <Radio
+                          isChecked={distribution === 'memory'}
+                          name="distribution"
+                          label={t('memory_title')}
+                          aria-label={t('memory_title')}
+                          id="memoryDistribution"
+                          value="memory"
+                          onChange={handleDistributionChange}
+                        />
+                      </FormGroup>
+                    </Form>
+                  </StackItem>
+                </>
+              )}
             </Stack>
           );
         }}
@@ -117,4 +165,4 @@ class Markup extends React.Component<WithTranslation> {
   }
 }
 
-export default withTranslation()(Markup);
+export default withTranslation()(MarkupWithDistribution);
