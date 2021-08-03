@@ -15,6 +15,7 @@ import {
   TextListVariants,
   TextVariants,
   Title,
+  TitleSizes,
 } from '@patternfly/react-core';
 import { OkIcon } from '@patternfly/react-icons/dist/js/icons/ok-icon';
 import { RateTable } from 'pages/costModels/components/rateTable';
@@ -29,7 +30,7 @@ const ReviewSuccessBase: React.SFC<WithTranslation> = ({ t }) => (
     {({ onClose, name }) => (
       <EmptyState>
         <EmptyStateIcon icon={OkIcon} color="green" />
-        <Title headingLevel="h2" size="lg">
+        <Title headingLevel="h2" size={TitleSizes.lg}>
           {t('cost_models_wizard.review.title_success')}
         </Title>
         <EmptyStateBody>
@@ -57,7 +58,7 @@ const ReviewDetailsBase: React.SFC<WithTranslation> = ({ t }) => (
           {createError && <Alert variant="danger" title={`${createError}`} />}
           <Stack hasGutter>
             <StackItem>
-              <Title headingLevel="h2" size="xl">
+              <Title headingLevel="h2" size={TitleSizes.xl}>
                 {t('cost_models_wizard.review.title_details')}
               </Title>
             </StackItem>

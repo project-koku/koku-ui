@@ -14,6 +14,7 @@ import {
   TextInput,
   TextVariants,
   Title,
+  TitleSizes,
 } from '@patternfly/react-core';
 import { Form } from 'components/forms/form';
 import React from 'react';
@@ -42,7 +43,7 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
           return (
             <Stack hasGutter>
               <StackItem>
-                <Title headingLevel="h2" size="xl">
+                <Title headingLevel="h2" size={TitleSizes.xl}>
                   {t('cost_calculations')}
                 </Title>
               </StackItem>

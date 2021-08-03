@@ -1,4 +1,4 @@
-import { Button, ButtonVariant, Popover, TextContent, Title } from '@patternfly/react-core';
+import { Button, ButtonVariant, Popover, TextContent, Title, TitleSizes } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
 import React from 'react';
 import { Trans, WithTranslation, withTranslation } from 'react-i18next';
@@ -12,7 +12,7 @@ interface HeaderProps {
 function HeaderBase({ children }: HeaderProps): JSX.Element {
   return (
     <TextContent>
-      <Title headingLevel="h1" size="2xl">
+      <Title headingLevel="h1" size={TitleSizes['2xl']}>
         {children}
       </Title>
     </TextContent>

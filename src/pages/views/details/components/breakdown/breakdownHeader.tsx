@@ -1,6 +1,6 @@
 import './breakdownHeader.scss';
 
-import { Title } from '@patternfly/react-core';
+import { Title, TitleSizes } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/js/icons/angle-left-icon';
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
@@ -99,7 +99,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
               </li>
             </ol>
           </nav>
-          <Title headingLevel="h2" style={styles.title} size="2xl">
+          <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {t('breakdown.title', { value: title })}
             {description && <div style={styles.infoDescription}>{description}</div>}
           </Title>
@@ -112,7 +112,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
         </div>
         <div style={styles.cost}>
           <div style={styles.costLabel}>
-            <Title headingLevel="h2" style={styles.costValue} size="4xl">
+            <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
               <span>{this.getTotalCost()}</span>
             </Title>
           </div>

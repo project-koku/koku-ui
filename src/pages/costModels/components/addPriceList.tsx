@@ -9,6 +9,7 @@ import {
   TextContent,
   TextVariants,
   Title,
+  TitleSizes,
 } from '@patternfly/react-core';
 import { MetricHash } from 'api/metrics';
 import {
@@ -35,7 +36,7 @@ const AddPriceList: React.FunctionComponent<AddPriceListProps> = ({ submitRate, 
   return (
     <Stack hasGutter>
       <StackItem>
-        <Title headingLevel="h2" size="xl">
+        <Title headingLevel="h2" size={TitleSizes.xl}>
           {t('cost_models_wizard.price_list.title')}
         </Title>
       </StackItem>

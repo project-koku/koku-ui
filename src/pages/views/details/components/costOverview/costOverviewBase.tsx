@@ -8,6 +8,7 @@ import {
   GridItem,
   Popover,
   Title,
+  TitleSizes,
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { orgUnitIdKey, Query, tagPrefix } from 'api/queries/query';
@@ -52,7 +53,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
       return (
         <Card>
           <CardTitle>
-            <Title headingLevel="h2" size="lg">
+            <Title headingLevel="h2" size={TitleSizes.lg}>
               {t('breakdown.cluster_title')}
             </Title>
           </CardTitle>
@@ -72,7 +73,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     return (
       <Card>
         <CardTitle>
-          <Title headingLevel="h2" size="lg">
+          <Title headingLevel="h2" size={TitleSizes.lg}>
             {t('breakdown.cost_breakdown_title')}
             <Popover
               aria-label={t('breakdown.cost_breakdown_aria_label')}
@@ -114,7 +115,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     return (
       <Card>
         <CardTitle>
-          <Title headingLevel="h2" size="lg">
+          <Title headingLevel="h2" size={TitleSizes.lg}>
             {t(`breakdown.cpu_title`)}
           </Title>
         </CardTitle>
@@ -132,7 +133,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     return (
       <Card>
         <CardTitle>
-          <Title headingLevel="h2" size="lg">
+          <Title headingLevel="h2" size={TitleSizes.lg}>
             {t(`breakdown.memory_title`)}
           </Title>
         </CardTitle>

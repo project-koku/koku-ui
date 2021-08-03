@@ -1,6 +1,6 @@
 import './reportSummaryAlt.scss';
 
-import { Card, CardBody, CardFooter, CardTitle, Grid, GridItem, Skeleton, Title } from '@patternfly/react-core';
+import { Card, CardBody, CardFooter, CardTitle, Grid, GridItem, Skeleton, Title, TitleSizes } from '@patternfly/react-core';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
@@ -28,7 +28,7 @@ const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = (
       <GridItem xl={8}>
         <div className="cost">
           <CardTitle>
-            <Title headingLevel="h2" size="lg">
+            <Title headingLevel="h2" size={TitleSizes.lg}>
               {title}
             </Title>
             {Boolean(subTitle) && <p className="subtitle">{subTitle}</p>}

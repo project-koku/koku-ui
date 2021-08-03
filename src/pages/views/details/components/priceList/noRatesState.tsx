@@ -1,4 +1,4 @@
-import { EmptyState as PfEmptyState, EmptyStateBody, EmptyStateIcon, Title } from '@patternfly/react-core';
+import { EmptyState as PfEmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@patternfly/react-core';
 import { MoneyCheckAltIcon } from '@patternfly/react-icons/dist/js/icons/money-check-alt-icon';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -14,7 +14,7 @@ const NoRatesStateBase: React.SFC<Props> = ({ t, cluster }) => {
     <div style={styles.container}>
       <PfEmptyState>
         <EmptyStateIcon icon={MoneyCheckAltIcon} />
-        <Title headingLevel="h2" size="xl">
+        <Title headingLevel="h2" size={TitleSizes.xl}>
           {t('no_rates_state.title')}
         </Title>
         <EmptyStateBody>{t('no_rates_state.desc', { cluster })}</EmptyStateBody>

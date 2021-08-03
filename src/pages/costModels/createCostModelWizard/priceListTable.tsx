@@ -11,6 +11,7 @@ import {
   TextContent,
   TextVariants,
   Title,
+  TitleSizes,
 } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/js/icons/plus-circle-icon';
 import { MetricHash } from 'api/metrics';
@@ -40,7 +41,7 @@ const NoTiersEmptyState = ({ t }) => (
   <Bullseye>
     <EmptyState>
       <EmptyStateIcon icon={PlusCircleIcon} />
-      <Title headingLevel="h2" size="lg">
+      <Title headingLevel="h2" size={TitleSizes.lg}>
         {t('cost_models_wizard.empty_state.title')}
       </Title>
       <EmptyStateBody>
@@ -83,7 +84,7 @@ class PriceListTable extends React.Component<Props, State> {
           return (
             <Stack hasGutter>
               <StackItem>
-                <Title headingLevel="h2" size="xl">
+                <Title headingLevel="h2" size={TitleSizes.xl}>
                   {t('cost_models_wizard.price_list.title')}
                 </Title>
               </StackItem>
