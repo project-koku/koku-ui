@@ -1,10 +1,8 @@
 import {
   Alert,
   Button,
-  Form,
-  FormGroup,
-  Grid,
-  GridItem,
+  Flex,
+  FlexItem,
   InputGroup,
   InputGroupText,
   List,
@@ -139,63 +137,54 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
             </TextContent>
           </StackItem>
           <StackItem>
-            <Form
-              onSubmit={e => {
-                e.preventDefault();
-              }}
-            >
-              <Grid hasGutter>
-                <GridItem lg={8} id="refSign">
-                  <FormGroup isInline fieldId="markup-or-discount" label={t('cost_models_details.markup_or_discount')}>
-                    <div style={styles.radioAlign}>
-                      <Radio
-                        isChecked={!isDiscount}
-                        name="discount"
-                        label={t('cost_models_details.markup_plus')}
-                        aria-label={t('cost_models_details.markup_plus')}
-                        id="markup"
-                        value="false" // "+"
-                        onChange={this.handleSignChange}
-                      />
-                    </div>
-                    <div style={styles.radioAlign}>
-                      <Radio
-                        isChecked={isDiscount}
-                        name="discount"
-                        label={t('cost_models_details.discount_minus')}
-                        aria-label={t('cost_models_details.discount_minus')}
-                        id="discount"
-                        value="true" // '-'
-                        onChange={this.handleSignChange}
-                      />
-                    </div>
-                  </FormGroup>
-                </GridItem>
-                <GridItem lg={4} id="refMarkup">
-                  <FormGroup
-                    isInline
-                    fieldId="rate"
-                    label={t('rate')}
-                    helperTextInvalid={t('cost_models_wizard.markup.invalid_markup_text')}
-                  >
-                    <InputGroup style={styles.rateWidth}>
-                      <InputGroupText style={styles.sign}>{isDiscount ? '-' : '+'}</InputGroupText>
-                      <TextInput
-                        style={{ borderLeft: '0' }}
-                        type="text"
-                        aria-label={t('rate')}
-                        id="markup-input-box"
-                        value={this.state.markup}
-                        onKeyDown={this.handleOnKeyDown}
-                        onChange={this.handleMarkupDiscountChange}
-                        validated={this.markupValidator()}
-                      />
-                      <InputGroupText style={styles.percent}>%</InputGroupText>
-                    </InputGroup>
-                  </FormGroup>
-                </GridItem>
-              </Grid>
-            </Form>
+            <TextContent>
+              <Title headingLevel="h6" size="md">
+                {t('cost_models_details.markup_or_discount')}
+              </Title>
+            </TextContent>
+            <Flex style={styles.markupRadioContainer}>
+              <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfCenter' }}>
+                <FlexItem>
+                  <Radio
+                    isChecked={!isDiscount}
+                    name="discount"
+                    label={t('cost_models_details.markup_plus')}
+                    aria-label={t('cost_models_details.markup_plus')}
+                    id="markup"
+                    value="false" // "+"
+                    onChange={this.handleSignChange}
+                    style={styles.markupRadio}
+                  />
+                  <Radio
+                    isChecked={isDiscount}
+                    name="discount"
+                    label={t('cost_models_details.discount_minus')}
+                    aria-label={t('cost_models_details.discount_minus')}
+                    id="discount"
+                    value="true" // '-'
+                    onChange={this.handleSignChange}
+                  />
+                </FlexItem>
+              </Flex>
+              <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfCenter' }}>
+                <FlexItem>
+                  <InputGroup style={styles.rateContainer}>
+                    <InputGroupText style={styles.sign}>{isDiscount ? '-' : '+'}</InputGroupText>
+                    <TextInput
+                      style={styles.inputField}
+                      type="text"
+                      aria-label={t('rate')}
+                      id="markup-input-box"
+                      value={this.state.markup}
+                      onKeyDown={this.handleOnKeyDown}
+                      onChange={this.handleMarkupDiscountChange}
+                      validated={this.markupValidator()}
+                    />
+                    <InputGroupText style={styles.percent}>%</InputGroupText>
+                  </InputGroup>
+                </FlexItem>
+              </Flex>
+            </Flex>
           </StackItem>
           <StackItem />
           <StackItem>
