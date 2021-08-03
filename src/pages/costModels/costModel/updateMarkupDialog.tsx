@@ -1,10 +1,10 @@
 import {
   Alert,
   Button,
+  Flex,
+  FlexItem,
   Form,
   FormGroup,
-  Grid,
-  GridItem,
   InputGroup,
   InputGroupText,
   List,
@@ -139,15 +139,20 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
             </TextContent>
           </StackItem>
           <StackItem>
+            <TextContent>
+              <Title headingLevel="h6" size="md">
+                {t('cost_models_details.markup_or_discount')}
+              </Title>
+            </TextContent>
             <Form
               onSubmit={e => {
                 e.preventDefault();
               }}
             >
-              <Grid hasGutter>
-                <GridItem lg={8} id="refSign">
-                  <FormGroup isInline fieldId="markup-or-discount" label={t('cost_models_details.markup_or_discount')}>
-                    <div style={styles.radioAlign}>
+              <Flex>
+                <Flex direction={{ default: 'column' }}>
+                  <FormGroup fieldId="markup-or-discount">
+                    <FlexItem style={styles.marginTopSix}>
                       <Radio
                         isChecked={!isDiscount}
                         name="discount"
@@ -157,8 +162,8 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                         value="false" // "+"
                         onChange={this.handleSignChange}
                       />
-                    </div>
-                    <div style={styles.radioAlign}>
+                    </FlexItem>
+                    <FlexItem style={styles.marginTopSix}>
                       <Radio
                         isChecked={isDiscount}
                         name="discount"
@@ -168,33 +173,30 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                         value="true" // '-'
                         onChange={this.handleSignChange}
                       />
-                    </div>
+                    </FlexItem>
                   </FormGroup>
-                </GridItem>
-                <GridItem lg={4} id="refMarkup">
-                  <FormGroup
-                    isInline
-                    fieldId="rate"
-                    label={t('rate')}
-                    helperTextInvalid={t('cost_models_wizard.markup.invalid_markup_text')}
-                  >
-                    <InputGroup style={styles.rateWidth}>
-                      <InputGroupText style={styles.sign}>{isDiscount ? '-' : '+'}</InputGroupText>
-                      <TextInput
-                        style={{ borderLeft: '0' }}
-                        type="text"
-                        aria-label={t('rate')}
-                        id="markup-input-box"
-                        value={this.state.markup}
-                        onKeyDown={this.handleOnKeyDown}
-                        onChange={this.handleMarkupDiscountChange}
-                        validated={this.markupValidator()}
-                      />
-                      <InputGroupText style={styles.percent}>%</InputGroupText>
-                    </InputGroup>
+                </Flex>
+                <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfCenter' }}>
+                  <FormGroup fieldId="rate" helperTextInvalid={t('cost_models_wizard.markup.invalid_markup_text')}>
+                    <FlexItem style={styles.marginTopSix}>
+                      <InputGroup>
+                        <InputGroupText style={styles.sign}>{isDiscount ? '-' : '+'}</InputGroupText>
+                        <TextInput
+                          style={styles.inputField}
+                          type="text"
+                          aria-label={t('rate')}
+                          id="markup-input-box"
+                          value={this.state.markup}
+                          onKeyDown={this.handleOnKeyDown}
+                          onChange={this.handleMarkupDiscountChange}
+                          validated={this.markupValidator()}
+                        />
+                        <InputGroupText style={styles.percent}>%</InputGroupText>
+                      </InputGroup>
+                    </FlexItem>
                   </FormGroup>
-                </GridItem>
-              </Grid>
+                </Flex>
+              </Flex>
             </Form>
           </StackItem>
           <StackItem />

@@ -1,7 +1,7 @@
 import {
+  Flex,
+  FlexItem,
   FormGroup,
-  Grid,
-  GridItem,
   InputGroup,
   InputGroupText,
   List,
@@ -13,7 +13,7 @@ import {
   TextContent,
   TextInput,
   TextVariants,
-  Title,
+  Title
 } from '@patternfly/react-core';
 import { Form } from 'components/forms/form';
 import React from 'react';
@@ -54,10 +54,10 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
               </StackItem>
               <StackItem>
                 <Form>
-                  <Grid hasGutter>
-                    <GridItem lg={8} id="refSign">
-                      <FormGroup isInline fieldId="markup-or-discount">
-                        <div style={styles.radioAlign}>
+                  <Flex>
+                    <Flex direction={{ default: 'column' }}>
+                      <FormGroup fieldId="markup-or-discount">
+                        <FlexItem style={styles.marginTopSix}>
                           <Radio
                             isChecked={!isDiscount}
                             name="discount"
@@ -67,8 +67,8 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
                             value="false" // "+"
                             onChange={handleSignChange}
                           />
-                        </div>
-                        <div style={styles.radioAlign}>
+                        </FlexItem>
+                        <FlexItem style={styles.marginTopSix}>
                           <Radio
                             isChecked={isDiscount}
                             name="discount"
@@ -78,32 +78,30 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
                             value="true" // '-'
                             onChange={handleSignChange}
                           />
-                        </div>
+                        </FlexItem>
                       </FormGroup>
-                    </GridItem>
-                    <GridItem lg={4} id="refMarkup">
-                      <FormGroup
-                        isInline
-                        fieldId="rate"
-                        helperTextInvalid={t('cost_models_wizard.markup.invalid_markup_text')}
-                      >
-                        <InputGroup style={styles.rateWidth}>
-                          <InputGroupText style={styles.sign}>{isDiscount ? '-' : '+'}</InputGroupText>
-                          <TextInput
-                            style={{ borderLeft: '0' }}
-                            type="text"
-                            aria-label={t('rate')}
-                            id="markup-input-box"
-                            value={markup}
-                            onKeyDown={handleOnKeyDown}
-                            onChange={handleMarkupDiscountChange}
-                            validated={markupValidator()}
-                          />
-                          <InputGroupText style={styles.percent}>%</InputGroupText>
-                        </InputGroup>
+                    </Flex>
+                    <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfCenter' }}>
+                      <FormGroup fieldId="rate" helperTextInvalid={t('cost_models_wizard.markup.invalid_markup_text')}>
+                        <FlexItem style={styles.marginTopSix}>
+                          <InputGroup>
+                            <InputGroupText style={styles.sign}>{isDiscount ? '-' : '+'}</InputGroupText>
+                            <TextInput
+                              style={styles.inputField}
+                              type="text"
+                              aria-label={t('rate')}
+                              id="markup-input-box"
+                              value={markup}
+                              onKeyDown={handleOnKeyDown}
+                              onChange={handleMarkupDiscountChange}
+                              validated={markupValidator()}
+                            />
+                            <InputGroupText style={styles.percent}>%</InputGroupText>
+                          </InputGroup>
+                        </FlexItem>
                       </FormGroup>
-                    </GridItem>
-                  </Grid>
+                    </Flex>
+                  </Flex>
                 </Form>
               </StackItem>
               <StackItem>
