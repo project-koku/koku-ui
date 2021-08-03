@@ -20,8 +20,14 @@ export const styles = {
     borderLeft: 0,
     width: 150,
   },
-  marginTopSix: {
+  markupRadio: {
+    marginBottom: 6,
+  },
+  markupRadioContainer: {
     marginTop: 6,
+  },
+  rateContainer: {
+    marginLeft: 20,
   },
   percent: {
     borderLeft: 0,
