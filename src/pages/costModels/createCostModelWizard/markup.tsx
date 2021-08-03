@@ -13,7 +13,7 @@ import {
   TextContent,
   TextInput,
   TextVariants,
-  Title
+  Title,
 } from '@patternfly/react-core';
 import { Form } from 'components/forms/form';
 import React from 'react';
