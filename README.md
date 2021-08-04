@@ -15,10 +15,29 @@ To submit an issue please visit https://issues.redhat.com/projects/COST/
 1. Install requirements listed above.
 2. Clone the repository, and open a terminal in the base of this project.
 3. Run the command `yarn` to install all the dependencies.
-4. Clone the [insights-proxy](https://github.com/RedHatInsights/insights-proxy) repository.
-5. Run *insights-proxy* setup steps.
+
+### Running Development Server against a hosted Koku instance with webpack proxy
+Note that this works with stage, prod, and CI environments.
+
+#### Start Development Server
+
+```
+yarn start
+```
+
+Follow the prompts that follow.
+
+* Which platform environment you want to use; `stage`
+* Which the UI environment you want to use; `beta`
+* Do you want to use the Insights proxy; `no`
+
+Point your browser to the [Overview page](https://stage.foo.redhat.com:1337/beta/openshift/cost-management)
 
 ### Running Development Server against a hosted Koku instance behind Insights Proxy
+Note that this only works with prod and CI environments. *This does not work with stage.*
+
+1. Clone the [insights-proxy](https://github.com/RedHatInsights/insights-proxy) repository.
+2. Run *insights-proxy* setup steps.
 
 #### Start Insights Proxy
 
@@ -31,16 +50,14 @@ SPANDX_CONFIG=/path/to/koku-ui/config/spandx.config.js bash /path/to/insights-pr
 #### Start Development Server
 
 ```
-APP_ENV=proxy yarn start
+yarn start
 ```
 
-As a convenience `start:dev` has been provided to work behind the proxy.
+* Which platform environment you want to use; `ci`
+* Which the UI environment you want to use; `beta`
+* Do you want to use the Insights proxy; `yes`
 
-```
-yarn start:dev
-```
-
-Point your browser to the [Overview page](https://ci.foo.redhat.com:1337/beta/cost-management/)
+Point your browser to the [Overview page](https://ci.foo.redhat.com:1337/beta/cost-management)
 
 ### Building
 ```
