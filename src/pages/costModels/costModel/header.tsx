@@ -12,6 +12,7 @@ import {
   Tabs,
   TabTitleText,
   Title,
+  TitleSizes,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import * as H from 'history';
@@ -107,7 +108,7 @@ const Header: React.FunctionComponent<Props> = ({
         </Breadcrumb>
         <Split>
           <SplitItem style={styles.headerDescription}>
-            <Title headingLevel="h2" style={styles.title} size="2xl">
+            <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
               {current.name}
             </Title>
             {current.description}
