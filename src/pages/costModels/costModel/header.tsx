@@ -111,12 +111,8 @@ const Header: React.FunctionComponent<Props> = ({
             <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
               {current.name}
             </Title>
-            {current.description && (
-              <Title headingLevel="h2" style={styles.title} size={TitleSizes.md}>
-                {current.description}
-              </Title>
-            )}
-            <Title headingLevel="h2" style={styles.sourceTypeTitle} size={TitleSizes.md}>
+            {current.description}
+            <Title headingLevel="h2" style={styles.sourceTypeTitle} size="md">
               {t('cost_models_details.cost_model.source_type')}: {current.source_type}
             </Title>
           </SplitItem>
