@@ -1,5 +1,6 @@
 import { EmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
+import { CostModel } from 'api/costModels';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
 import { PaginationToolbarTemplate } from 'pages/costModels/components/paginationToolbarTemplate';
@@ -10,7 +11,6 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { rbacSelectors } from 'store/rbac';
 
-import { CostModel } from 'api/costModels';
 import { SourcesToolbar } from './sourcesToolbar';
 import { styles } from './table.styles';
 
