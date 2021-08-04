@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { rbacSelectors } from 'store/rbac';
 
+import { CostModel } from 'api/costModels';
 import { SourcesToolbar } from './sourcesToolbar';
 import { styles } from './table.styles';
 
@@ -19,6 +20,7 @@ interface Props extends WithTranslation {
   onDelete: (item: any) => void;
   onDeleteText?: string;
   onAdd: () => void;
+  current: CostModel;
 }
 
 interface PaginationQuery {
@@ -42,7 +44,7 @@ class TableBase extends React.Component<Props, State> {
     const {
       pagination: { page, perPage },
     } = this.state;
-    const { onAdd, t, rows, isWritePermission } = this.props;
+    const { current, onAdd, t, rows, isWritePermission } = this.props;
     const filteredRows = rows
       .filter(uuid => {
         if (!this.state.query.name) {
@@ -54,6 +56,9 @@ class TableBase extends React.Component<Props, State> {
     const res = filteredRows.slice((page - 1) * perPage, page * perPage);
     return (
       <>
+        <Title headingLevel="h2" size={TitleSizes.md} style={styles.sourceTypeTitle}>
+          {t('cost_models_details.cost_model.source_type')}: {current.source_type}
+        </Title>
         <SourcesToolbar
           actionButtonProps={{
             isDisabled: !isWritePermission,
