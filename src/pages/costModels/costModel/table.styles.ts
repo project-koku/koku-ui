@@ -6,4 +6,9 @@ export const styles = {
     flexDirection: 'row',
     justifyContent: 'center',
   },
+  sourceTypeTitle: {
+    marginLeft: 20,
+    marginTop: 8,
+    marginBottom: 8,
+  },
 } as { [className: string]: React.CSSProperties };
