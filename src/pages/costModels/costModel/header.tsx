@@ -112,7 +112,7 @@ const Header: React.FunctionComponent<Props> = ({
               {current.name}
             </Title>
             {current.description}
-            <Title headingLevel="h2" style={styles.title} size={TitleSizes.md}>
+            <Title headingLevel="h2" style={styles.sourceTypeTitle} size={TitleSizes.md}>
               {t('cost_models_details.cost_model.source_type')}: {current.source_type}
             </Title>
           </SplitItem>
