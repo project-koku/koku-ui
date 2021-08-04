@@ -1,6 +1,16 @@
 import './overview.scss';
 
-import { Button, ButtonVariant, Popover, Tab, TabContent, Tabs, TabTitleText, Title, TitleSizes } from '@patternfly/react-core';
+import {
+  Button,
+  ButtonVariant,
+  Popover,
+  Tab,
+  TabContent,
+  Tabs,
+  TabTitleText,
+  Title,
+  TitleSizes,
+} from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';

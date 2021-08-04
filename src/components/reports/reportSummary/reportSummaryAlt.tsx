@@ -1,6 +1,16 @@
 import './reportSummaryAlt.scss';
 
-import { Card, CardBody, CardFooter, CardTitle, Grid, GridItem, Skeleton, Title, TitleSizes } from '@patternfly/react-core';
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardTitle,
+  Grid,
+  GridItem,
+  Skeleton,
+  Title,
+  TitleSizes,
+} from '@patternfly/react-core';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
