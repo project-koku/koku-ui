@@ -138,7 +138,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
           </StackItem>
           <StackItem>
             <TextContent>
-              <Title headingLevel="h6" size="md">
+              <Title headingLevel="h2" size="md">
                 {t('cost_models_details.markup_or_discount')}
               </Title>
             </TextContent>
@@ -189,7 +189,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
           <StackItem />
           <StackItem>
             <TextContent>
-              <Title headingLevel="h6" size="md">
+              <Title headingLevel="h3" size="md">
                 {t('cost_models_details.examples.title')}
               </Title>
             </TextContent>

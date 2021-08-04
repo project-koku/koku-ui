@@ -1,4 +1,4 @@
-import { Title } from '@patternfly/react-core';
+import { Title, TitleSizes } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getQuery, parseQuery, Query } from 'api/queries/query';
@@ -256,7 +256,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     return (
       <header style={styles.header}>
         <div>
-          <Title headingLevel="h2" style={styles.title} size="2xl">
+          <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {t('navigation.explorer')}
           </Title>
           <div style={styles.perspectiveContainer}>

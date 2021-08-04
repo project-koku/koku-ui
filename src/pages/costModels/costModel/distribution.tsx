@@ -9,6 +9,7 @@ import {
   DropdownPosition,
   KebabToggle,
   Title,
+  TitleSizes,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
@@ -45,7 +46,7 @@ const DistributionCardBase: React.FunctionComponent<Props> = ({
       <Card style={styles.card}>
         <CardHeader>
           <CardHeaderMain>
-            <Title headingLevel="h2" size="md">
+            <Title headingLevel="h2" size={TitleSizes.md}>
               {t('cost_models_details.distribution_type')}
             </Title>
           </CardHeaderMain>

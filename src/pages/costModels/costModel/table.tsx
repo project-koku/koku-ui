@@ -1,4 +1,4 @@
-import { EmptyState, EmptyStateBody, EmptyStateIcon, Title } from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
@@ -120,7 +120,7 @@ class TableBase extends React.Component<Props, State> {
           <div style={styles.emptyState}>
             <EmptyState>
               <EmptyStateIcon icon={DollarSignIcon} />
-              <Title headingLevel="h2" size="lg">
+              <Title headingLevel="h2" size={TitleSizes.lg}>
                 {t('cost_models_details.empty_state_source.title')}
               </Title>
               <EmptyStateBody>{t('cost_models_details.empty_state_source.description')}</EmptyStateBody>

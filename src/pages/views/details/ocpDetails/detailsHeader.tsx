@@ -1,4 +1,4 @@
-import { Title, Tooltip } from '@patternfly/react-core';
+import { Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -88,7 +88,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     return (
       <header style={styles.header}>
         <div>
-          <Title headingLevel="h2" style={styles.title} size="2xl">
+          <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {t('ocp_details.title')}
           </Title>
           <GroupBy
@@ -103,7 +103,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
         </div>
         {Boolean(showContent) && (
           <div>
-            <Title headingLevel="h2" style={styles.costValue} size="4xl">
+            <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
               <Tooltip
                 content={t('dashboard.total_cost_tooltip', {
                   supplementaryCost,

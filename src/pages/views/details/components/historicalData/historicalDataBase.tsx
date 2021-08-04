@@ -1,4 +1,4 @@
-import { Card, CardBody, CardTitle, Grid, GridItem, Title } from '@patternfly/react-core';
+import { Card, CardBody, CardTitle, Grid, GridItem, Title, TitleSizes } from '@patternfly/react-core';
 import React from 'react';
 import { WithTranslation } from 'react-i18next';
 import {
@@ -29,7 +29,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
     return (
       <Card>
         <CardTitle>
-          <Title headingLevel="h2" size="lg">
+          <Title headingLevel="h2" size={TitleSizes.lg}>
             {t(`breakdown.historical_chart.${widget.reportType}_title`)}
           </Title>
         </CardTitle>
@@ -47,7 +47,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
     return (
       <Card>
         <CardTitle>
-          <Title headingLevel="h2" size="lg">
+          <Title headingLevel="h2" size={TitleSizes.lg}>
             {t(`breakdown.historical_chart.${widget.reportType}_title`)}
           </Title>
         </CardTitle>
@@ -65,7 +65,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
     return (
       <Card>
         <CardTitle>
-          <Title headingLevel="h2" size="lg">
+          <Title headingLevel="h2" size={TitleSizes.lg}>
             {t(`breakdown.historical_chart.${widget.reportType}_title`)}
           </Title>
         </CardTitle>

@@ -1,6 +1,6 @@
 import './reportSummary.scss';
 
-import { Card, CardBody, CardFooter, CardTitle, Skeleton, Title } from '@patternfly/react-core';
+import { Card, CardBody, CardFooter, CardTitle, Skeleton, Title, TitleSizes } from '@patternfly/react-core';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
@@ -17,7 +17,7 @@ interface ReportSummaryProps extends WithTranslation {
 const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({ children, detailsLink, title, subTitle, status }) => (
   <Card className="reportSummary">
     <CardTitle>
-      <Title headingLevel="h2" size="lg">
+      <Title headingLevel="h2" size={TitleSizes.lg}>
         {title}
       </Title>
       {Boolean(subTitle) && <p className="subtitle">{subTitle}</p>}

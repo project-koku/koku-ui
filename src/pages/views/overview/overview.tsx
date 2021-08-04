@@ -1,6 +1,16 @@
 import './overview.scss';
 
-import { Button, ButtonVariant, Popover, Tab, TabContent, Tabs, TabTitleText, Title } from '@patternfly/react-core';
+import {
+  Button,
+  ButtonVariant,
+  Popover,
+  Tab,
+  TabContent,
+  Tabs,
+  TabTitleText,
+  Title,
+  TitleSizes,
+} from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -502,7 +512,7 @@ class OverviewBase extends React.Component<OverviewProps> {
           className={`pf-l-page-header pf-c-page-header pf-l-page__main-section pf-c-page__main-section pf-m-light headerOverride}`}
         >
           <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
-            <Title headingLevel="h2" size="2xl">
+            <Title headingLevel="h1" size={TitleSizes['2xl']}>
               {t('cost_management_overview')}
               <span style={styles.infoIcon}>
                 <Popover
