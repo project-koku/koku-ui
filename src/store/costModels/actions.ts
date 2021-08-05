@@ -8,8 +8,9 @@ import {
   updateCostModel as apiUpdateCostModel,
 } from 'api/costModels';
 import { AxiosError, AxiosResponse } from 'axios';
+import { createIntlEnv } from 'components/i18n/localeEnv';
 import * as H from 'history';
-import i18next from 'i18next';
+import messages from 'locales/messages';
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'store/common';
 import { createAction, createAsyncAction } from 'typesafe-actions';
@@ -118,6 +119,7 @@ export const deleteCostModel = (uuid: string, dialog: string = '', history: H.Hi
 };
 
 export const redirectToCostModelFromSourceUuid = (source_uuid: string, history: H.History): ThunkAction => {
+  const intl = createIntlEnv();
   return (dispatch: Dispatch) => {
     return apiGetCostModels(`source_uuid=${source_uuid}`)
       .then(res => {
@@ -127,8 +129,8 @@ export const redirectToCostModelFromSourceUuid = (source_uuid: string, history: 
       .catch(() => {
         dispatch(
           addNotification({
-            title: i18next.t('cost_models_router.error_title'),
-            description: i18next.t('cost_models_router.server_error'),
+            title: intl.formatMessage(messages.CostModelsRouterErrorTitle),
+            description: intl.formatMessage(messages.CostModelsRouterServerError),
             variant: 'danger',
             dismissable: true,
           })
