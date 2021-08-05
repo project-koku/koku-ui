@@ -193,6 +193,16 @@ export default defineMessages({
     description: 'Cost',
     defaultMessage: 'EN Cost',
   },
+  CostModelsRouterErrorTitle: {
+    id: 'CostModelsRouterErrorTitle',
+    description: 'cost models router error title',
+    defaultMessage: 'EN Fail routing to cost model',
+  },
+  CostModelsRouterServerError: {
+    id: 'CostModelsRouterServerError',
+    description: 'Server error: could not get the cost model.',
+    defaultMessage: 'EN Server error: could not get the cost model.',
+  },
   Custom: {
     id: 'Custom',
     description: 'translate any message',
@@ -460,6 +470,17 @@ export default defineMessages({
     id: 'PercentTotalCost',
     description: '{value} {units} ({percent}%)',
     defaultMessage: 'EN {unit}{value} ({percent}%)',
+  },
+  RbacErrorDescription: {
+    id: 'RbacErrorDescription',
+    description: 'rbac error description',
+    defaultMessage:
+      'EN There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.',
+  },
+  RbacErrorTitle: {
+    id: 'RbacErrorTitle',
+    description: 'rbac error title',
+    defaultMessage: 'EN Failed to get RBAC information',
   },
   Requests: {
     id: 'Requests',
