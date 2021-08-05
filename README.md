@@ -17,7 +17,7 @@ To submit an issue please visit https://issues.redhat.com/projects/COST/
 3. Run the command `yarn` to install all the dependencies.
 
 ### Running Development Server against a hosted Koku instance with webpack proxy
-Note that this works with stage, prod, and CI environments.
+Note that this works with the stage, prod, and CI environments.
 
 #### Start Development Server
 
@@ -34,7 +34,7 @@ Follow the prompts that follow.
 Point your browser to the [Overview page](https://stage.foo.redhat.com:1337/beta/openshift/cost-management)
 
 ### Running Development Server against a hosted Koku instance behind Insights Proxy
-Note that this only works with prod and CI environments. *This does not work with stage.*
+Note that this only works with the prod and CI environments. *This does not work with stage.*
 
 1. Clone the [insights-proxy](https://github.com/RedHatInsights/insights-proxy) repository.
 2. Run *insights-proxy* setup steps.
