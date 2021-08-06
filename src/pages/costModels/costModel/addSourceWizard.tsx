@@ -50,8 +50,8 @@ const sourceTypeMap = {
 };
 
 class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
-  private checkChecked = (a, b) => Object.keys(a).every(key => b[key] && a[key].selected === b[key].selected);
   public state = { checked: {}, initialChecked: {} };
+  private compareSelected = (a, b) => Object.keys(a).every(key => b[key] && a[key].selected === b[key].selected);
   public componentDidMount() {
     const {
       costModel: { source_type },
@@ -87,7 +87,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
           <Button
             key="save"
             isDisabled={
-              this.checkChecked(this.state.checked, this.state.initialChecked) ||
+              this.compareSelected(this.state.checked, this.state.initialChecked) ||
               isUpdateInProgress ||
               this.props.isLoadingSources ||
               this.props.fetchingSourcesError !== null
