@@ -193,6 +193,22 @@ export default defineMessages({
     description: 'Cost',
     defaultMessage: 'EN Cost',
   },
+  CostModelsDetailsAssignSourcesErrorDescription: {
+    id: 'CostModelsDetailsAssignSourcesErrorDescription',
+    description: 'You cannot assign a source at this time',
+    defaultMessage:
+      'EN You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
+  },
+  CostModelsDetailsAssignSourcesErrorTitle: {
+    id: 'CostModelsDetailsAssignSourcesErrorTitle',
+    description: 'This action is temporarily unavailable',
+    defaultMessage: 'EN This action is temporarily unavailable',
+  },
+  CostModelsRefreshDialog: {
+    id: 'CostModelsRefreshDialog',
+    description: 'Refresh this dialog',
+    defaultMessage: 'EN Refresh this dialog',
+  },
   CostModelsRouterErrorTitle: {
     id: 'CostModelsRouterErrorTitle',
     description: 'cost models router error title',
@@ -202,6 +218,22 @@ export default defineMessages({
     id: 'CostModelsRouterServerError',
     description: 'Server error: could not get the cost model.',
     defaultMessage: 'EN Server error: could not get the cost model.',
+  },
+  CostModelsWizardSourceErrorDescription: {
+    id: 'CostModelsWizardSourceErrorDescription',
+    description: 'This step is temporarily unavailable',
+    defaultMessage:
+      'EN Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
+  },
+  CostModelsWizardSourceErrorTitle: {
+    id: 'CostModelsWizardSourceErrorTitle',
+    description: 'This step is temporarily unavailable',
+    defaultMessage: 'EN This step is temporarily unavailable',
+  },
+  CostModelsWizardSourceTitle: {
+    id: 'CostModelsWizardSourceTitle',
+    description: 'Assign sources to the cost model (optional)',
+    defaultMessage: 'EN Assign sources to the cost model (optional)',
   },
   Custom: {
     id: 'Custom',
@@ -470,6 +502,11 @@ export default defineMessages({
     id: 'PercentTotalCost',
     description: '{value} {units} ({percent}%)',
     defaultMessage: 'EN {unit}{value} ({percent}%)',
+  },
+  RedHatStatusUrl: {
+    id: 'RedHatStatusUrl',
+    description: 'Red Hat status url for cloud services',
+    defaultMessage: 'https://status.redhat.com',
   },
   RbacErrorDescription: {
     id: 'RbacErrorDescription',
