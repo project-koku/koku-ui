@@ -131,7 +131,7 @@
   "cost": "Cost",
   "cost_calculations": "Cost calculations",
   "cost_management": "Cost Management",
-  "cost_management_overview": "$t(cost_management) Overview",
+  "cost_management_overview": "$t(cost_management) Overview (STAGE TEST)",
   "cost_models": {
     "add_rate_form": {
       "add_more_tag_values": "Add more tag values",
