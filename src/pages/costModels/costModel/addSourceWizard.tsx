@@ -25,6 +25,7 @@ import AddSourceStep from './addSourceStep';
 
 interface AddSourcesStepState {
   checked: { [uuid: string]: { selected: boolean; meta: Provider } };
+  initialChecked: { [uuid: string]: { selected: boolean; meta: Provider } };
 }
 
 interface Props extends WithTranslation {
@@ -49,7 +50,7 @@ const sourceTypeMap = {
 };
 
 class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
-  public state = { checked: {} };
+  public state = { checked: {}, initialChecked: {}, initialCheckCalled: false };
   public componentDidMount() {
     const {
       costModel: { source_type },
@@ -70,6 +71,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
         };
       }, {}) as { [uuid: string]: { selected: boolean; meta: Provider } };
       this.setState({ checked: initChecked });
+      this.setState({ initialChecked: initChecked });
     }
   }
   public render() {
@@ -83,7 +85,12 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
         actions={[
           <Button
             key="save"
-            isDisabled={isUpdateInProgress || this.props.isLoadingSources || this.props.fetchingSourcesError !== null}
+            isDisabled={
+              this.state.checked === this.state.initialChecked ||
+              isUpdateInProgress ||
+              this.props.isLoadingSources ||
+              this.props.fetchingSourcesError !== null
+            }
             onClick={() => {
               onSave(Object.keys(this.state.checked).filter(uuid => this.state.checked[uuid].selected));
             }}
