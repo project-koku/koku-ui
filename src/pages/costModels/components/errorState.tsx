@@ -12,8 +12,9 @@ import {
 } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
 import global_DangerColor_100 from '@patternfly/react-tokens/dist/js/global_danger_color_100';
+import { createIntlEnv } from 'components/i18n/localeEnv';
+import messages from 'locales/messages';
 import React from 'react';
-import { Trans, useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RootState } from 'store/rootReducer';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
@@ -48,21 +49,21 @@ interface SourcesErrorStateProps {
 }
 
 export const SourceStepErrorState: React.FunctionComponent<SourcesErrorStateProps> = ({ onRefresh }) => {
-  const { t } = useTranslation();
-  const title = t('cost_models_wizard.source.error.title');
-  const description = (
-    <Trans i18nKey="cost_models_wizard.source.error.desc">
-      <a href={t('status_url')} rel="noreferrer" target="_blank" />
-    </Trans>
-  );
-  const actionButton = (
-    <Button onClick={onRefresh}>{t('cost_models_details.assign_sources_error_action_button')}</Button>
-  );
+  const intl = createIntlEnv();
+  const title = intl.formatMessage(messages.CostModelsWizardSourceErrorTitle);
+  const description = intl.formatMessage(messages.CostModelsWizardSourceErrorDescription, {
+    statusUrl: (
+      <a href={intl.formatMessage(messages.RedHatStatusUrl)} rel="noreferrer" target="_blank">
+        "Status Page"
+      </a>
+    ),
+  });
+  const actionButton = <Button onClick={onRefresh}>{intl.formatMessage(messages.CostModelsRefreshDialog)}</Button>;
   return (
     <Stack hasGutter>
       <StackItem>
         <Title headingLevel="h2" size={TitleSizes.xl}>
-          {t('cost_models_wizard.source.title')}
+          {intl.formatMessage(messages.CostModelsWizardSourceTitle)}
         </Title>
       </StackItem>
       <StackItem>
@@ -78,16 +79,16 @@ export const SourceStepErrorState: React.FunctionComponent<SourcesErrorStateProp
 };
 
 export const SourcesModalErrorStateBase: React.FunctionComponent<SourcesErrorStateProps> = ({ onRefresh }) => {
-  const { t } = useTranslation();
-  const title = t('cost_models_details.assign_sources_error_title');
-  const description = (
-    <Trans i18nKey="cost_models_details.assign_sources_error_desc">
-      <a href={t('status_url')} rel="noreferrer" target="_blank" />
-    </Trans>
-  );
-  const actionButton = (
-    <Button onClick={onRefresh}>{t('cost_models_details.assign_sources_error_action_button')}</Button>
-  );
+  const intl = createIntlEnv();
+  const title = intl.formatMessage(messages.CostModelsDetailsAssignSourcesErrorTitle);
+  const description = intl.formatMessage(messages.CostModelsDetailsAssignSourcesErrorDescription, {
+    statusUrl: (
+      <a href={intl.formatMessage(messages.RedHatStatusUrl)} rel="noreferrer" target="_blank">
+        "Status Page"
+      </a>
+    ),
+  });
+  const actionButton = <Button onClick={onRefresh}>{intl.formatMessage(messages.CostModelsRefreshDialog)}</Button>;
   return (
     <ErrorState variant={EmptyStateVariant.large} actionButton={actionButton} description={description} title={title} />
   );
