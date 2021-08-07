@@ -25,7 +25,7 @@ import AddSourceStep from './addSourceStep';
 
 interface AddSourcesStepState {
   checked: { [uuid: string]: { selected: boolean; meta: Provider } };
-  initialChecked: { [uuid: string]: { selected: boolean; meta: Provider } };
+  initialSelectedCount: number;
 }
 
 interface Props extends WithTranslation {
@@ -50,8 +50,18 @@ const sourceTypeMap = {
 };
 
 class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
-  public state = { checked: {}, initialChecked: {} };
-  private compareSelected = (a, b) => Object.keys(a).every(key => b[key] && a[key].selected === b[key].selected);
+  public state = { checked: {}, initialSelectedCount: 0 };
+
+  private getSelectedCount = a => {
+    let cnt = 0;
+    for (const key in a) {
+      if (a[key].selected && a[key].selected === true) {
+        ++cnt;
+      }
+    }
+    return cnt;
+  };
+
   public componentDidMount() {
     const {
       costModel: { source_type },
@@ -72,7 +82,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
         };
       }, {}) as { [uuid: string]: { selected: boolean; meta: Provider } };
       this.setState({ checked: initChecked });
-      this.setState({ initialChecked: initChecked });
+      this.setState({ initialSelectedCount: this.getSelectedCount(initChecked) });
     }
   }
   public render() {
@@ -87,7 +97,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
           <Button
             key="save"
             isDisabled={
-              this.compareSelected(this.state.checked, this.state.initialChecked) ||
+              this.state.initialSelectedCount === this.getSelectedCount(this.state.checked) ||
               isUpdateInProgress ||
               this.props.isLoadingSources ||
               this.props.fetchingSourcesError !== null
