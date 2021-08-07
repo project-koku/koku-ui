@@ -50,6 +50,7 @@ const sourceTypeMap = {
 
 class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
   public state = { checked: {} };
+
   public componentDidMount() {
     const {
       costModel: { source_type },
@@ -58,20 +59,38 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
     const sourceType = sourceTypeMap[source_type];
     fetch(`type=${sourceType}&limit=10&offset=0`);
   }
+
   public componentDidUpdate(prevProps: Props) {
     if (prevProps.isLoadingSources === true && this.props.isLoadingSources === false) {
       const initChecked = this.props.providers.reduce((acc, curr) => {
+        const selected = this.props.costModel.sources.some(p => p.uuid === curr.uuid);
         return {
           ...acc,
           [curr.uuid]: {
-            selected: this.props.costModel.sources.some(p => p.uuid === curr.uuid),
+            disabled: selected,
             meta: curr,
+            selected,
           },
         };
       }, {}) as { [uuid: string]: { selected: boolean; meta: Provider } };
       this.setState({ checked: initChecked });
     }
   }
+
+  private hasSelections = () => {
+    const { checked } = this.state;
+
+    let result = false;
+    const items = Object.keys(checked);
+
+    items.map(key => {
+      if (checked[key].selected && !checked[key].disabled) {
+        result = true;
+      }
+    });
+    return result;
+  };
+
   public render() {
     const { isUpdateInProgress, onClose, isOpen, onSave, t, costModel, updateApiError } = this.props;
     return (
@@ -83,7 +102,12 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
         actions={[
           <Button
             key="save"
-            isDisabled={isUpdateInProgress || this.props.isLoadingSources || this.props.fetchingSourcesError !== null}
+            isDisabled={
+              !this.hasSelections() ||
+              isUpdateInProgress ||
+              this.props.isLoadingSources ||
+              this.props.fetchingSourcesError !== null
+            }
             onClick={() => {
               onSave(Object.keys(this.state.checked).filter(uuid => this.state.checked[uuid].selected));
             }}
