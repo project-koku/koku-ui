@@ -116,7 +116,6 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fracti
       maximumFractionDigits: fractionDigits,
     });
     const parts = formatted.match(/([\D]*)([\d.,]+)([\D]*)/);
-    // return `${parts[1]}${parts[2]}${i18next.t(symbol)}${parts[3]}`;
     return `${parts[1]}${parts[2]}${intl.formatMessage(messages.Custom, { msg: symbol })}${parts[3]}`;
   }
 
