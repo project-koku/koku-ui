@@ -48,7 +48,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
           const disabled = cur.cost_models.length > 0;
           return {
             ...acc,
-            [cur.uuid]: { selected: disabled ? selected : isSelected, meta: cur },
+            [cur.uuid]: { selected: disabled ? selected : isSelected, meta: cur, disabled },
           };
         }, {});
         this.props.setState(

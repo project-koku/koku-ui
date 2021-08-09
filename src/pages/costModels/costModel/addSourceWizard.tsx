@@ -25,7 +25,6 @@ import AddSourceStep from './addSourceStep';
 
 interface AddSourcesStepState {
   checked: { [uuid: string]: { selected: boolean; meta: Provider } };
-  initialSelectedCount: number;
 }
 
 interface Props extends WithTranslation {
@@ -50,17 +49,7 @@ const sourceTypeMap = {
 };
 
 class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
-  public state = { checked: {}, initialSelectedCount: 0 };
-
-  private getSelectedCount = a => {
-    let cnt = 0;
-    for (const key in a) {
-      if (a[key].selected && a[key].selected === true) {
-        ++cnt;
-      }
-    }
-    return cnt;
-  };
+  public state = { checked: {} };
 
   public componentDidMount() {
     const {
@@ -70,21 +59,38 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
     const sourceType = sourceTypeMap[source_type];
     fetch(`type=${sourceType}&limit=10&offset=0`);
   }
+
   public componentDidUpdate(prevProps: Props) {
     if (prevProps.isLoadingSources === true && this.props.isLoadingSources === false) {
       const initChecked = this.props.providers.reduce((acc, curr) => {
+        const selected = this.props.costModel.sources.some(p => p.uuid === curr.uuid);
         return {
           ...acc,
           [curr.uuid]: {
-            selected: this.props.costModel.sources.some(p => p.uuid === curr.uuid),
+            disabled: selected,
+            selected,
             meta: curr,
           },
         };
       }, {}) as { [uuid: string]: { selected: boolean; meta: Provider } };
       this.setState({ checked: initChecked });
-      this.setState({ initialSelectedCount: this.getSelectedCount(initChecked) });
     }
   }
+
+  private hasSelections = () => {
+    const { checked } = this.state;
+
+    let result = false;
+    const items = Object.keys(checked);
+
+    items.map(key => {
+      if (checked[key].selected && !checked[key].disabled) {
+        result = true;
+      }
+    });
+    return result;
+  };
+
   public render() {
     const { isUpdateInProgress, onClose, isOpen, onSave, t, costModel, updateApiError } = this.props;
     return (
@@ -97,7 +103,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
           <Button
             key="save"
             isDisabled={
-              this.state.initialSelectedCount === this.getSelectedCount(this.state.checked) ||
+              !this.hasSelections() ||
               isUpdateInProgress ||
               this.props.isLoadingSources ||
               this.props.fetchingSourcesError !== null
