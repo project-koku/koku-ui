@@ -4,7 +4,7 @@ import { createIntlEnv } from 'components/i18n/localeEnv';
 import messages from 'locales/messages';
 import React from 'react';
 
-class MaintenanceStateBase {
+class MaintenanceState extends React.Component {
   public render() {
     const intl = createIntlEnv();
 
@@ -17,7 +17,7 @@ class MaintenanceStateBase {
               {intl.formatMessage(messages.MaintenanceEmptyStateInfo, {
                 statusUrl: (
                   <a href={intl.formatMessage(messages.RedHatStatusUrl)} rel="noreferrer" target="_blank">
-                    "Status Page"
+                    "status page"
                   </a>
                 ),
               })}
@@ -29,7 +29,5 @@ class MaintenanceStateBase {
     );
   }
 }
-
-const MaintenanceState = MaintenanceStateBase;
 
 export { MaintenanceState };
