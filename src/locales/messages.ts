@@ -377,6 +377,22 @@ export default defineMessages({
     description: 'IBM Cloud Services daily cost comparison ({units})',
     defaultMessage: 'EN IBM Cloud Services daily cost comparison ({units})',
   },
+  MaintenanceEmptyStateDesc: {
+    id: 'MaintenanceEmptyStateDesc',
+    description: 'Cost Management is currently undergoing scheduled maintenance',
+    defaultMessage:
+      'Cost Management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).',
+  },
+  MaintenanceEmptyStateInfo: {
+    id: 'MaintenanceEmptyStateInfo',
+    description: 'more information url',
+    defaultMessage: 'For more information visit {statusUrl}',
+  },
+  MaintenanceEmptyStateThanks: {
+    id: 'MaintenanceEmptyStateThanks',
+    description: 'thanks you for your patience',
+    defaultMessage: 'We will be back soon. Thank you for your patience!',
+  },
   NoDataForDate: {
     id: 'NoDataForDate',
     description: 'No data available for date range',
