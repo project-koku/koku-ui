@@ -399,26 +399,26 @@ export default defineMessages({
     description: 'No data available for date range',
     id: 'NoDataForDate',
   },
+  NoDataStateDesc: {
+    defaultMessage:
+      'EN We have detected a source, but we are not done processing the incoming data. The time to process could take up to 24 hours. Try refreshing the page at a later time.',
+    description: 'still processing request, 24 hour message',
+    id: 'NoDataStateDesc',
+  },
+  NoDataStateRefresh: {
+    defaultMessage: 'EN Refresh this page',
+    description: 'Refresh this page',
+    id: 'NoDataStateRefresh',
+  },
+  NoDataStateTitle: {
+    defaultMessage: 'EN Still processing the data',
+    description: 'Still processing the data',
+    id: 'NoDataStateTitle',
+  },
   OCPCPUUsageAndRequests: {
     defaultMessage: 'EN CPU usage and requests',
     description: 'CPU usage and requests',
     id: 'OCPCPUUsageAndRequests',
-  },
-  NoDataStateDesc: {
-    id: 'NoDataStateDesc',
-    description: 'still processing request, 24 hour message',
-    defaultMessage:
-      'EN We have detected a source, but we are not done processing the incoming data. The time to process could take up to 24 hours. Try refreshing the page at a later time.',
-  },
-  NoDataStateRefresh: {
-    id: 'NoDataStateRefresh',
-    description: 'Refresh this page',
-    defaultMessage: 'EN Refresh this page',
-  },
-  NoDataStateTitle: {
-    id: 'NoDataStateTitle',
-    description: 'Still processing the data',
-    defaultMessage: 'EN Still processing the data',
   },
   OCPCloudDashboardComputeTitle: {
     defaultMessage: 'EN Compute services usage',
