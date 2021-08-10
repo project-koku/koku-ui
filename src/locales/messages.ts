@@ -399,6 +399,22 @@ export default defineMessages({
     defaultMessage:
       '{count, plural, one {EN No data available for {month} {startDate}} other {EN No data available for {month} {startDate}-{endDate}}}',
   },
+  NoDataStateDesc: {
+    id: 'NoDataStateDesc',
+    description: 'still processing request, 24 hour message',
+    defaultMessage:
+      'EN We have detected a source, but we are not done processing the incoming data. The time to process could take up to 24 hours. Try refreshing the page at a later time.',
+  },
+  NoDataStateRefresh: {
+    id: 'NoDataStateRefresh',
+    description: 'Refresh this page',
+    defaultMessage: 'EN Refresh this page',
+  },
+  NoDataStateTitle: {
+    id: 'NoDataStateTitle',
+    description: 'Still processing the data',
+    defaultMessage: 'EN Still processing the data',
+  },
   OCPCloudDashboardComputeTitle: {
     id: 'OCPCloudDashboardComputeTitle',
     description: 'Compute services usage',
