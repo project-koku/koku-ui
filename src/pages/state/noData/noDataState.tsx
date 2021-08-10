@@ -1,29 +1,31 @@
 import { Button, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
 import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/js/icons/file-invoice-dollar-icon';
+import { createIntlEnv } from 'components/i18n/localeEnv';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 interface NoDataStateOwnProps {
   showReload?: boolean;
 }
 
-type NoDataStateProps = NoDataStateOwnProps & WithTranslation & RouteComponentProps<void>;
+type NoDataStateProps = NoDataStateOwnProps & RouteComponentProps<void>;
 
 class NoDataStateBase extends React.Component<NoDataStateProps> {
   public render() {
-    const { showReload = true, t } = this.props;
+    const { showReload = true } = this.props;
+    const intl = createIntlEnv();
 
     return (
       <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
         <EmptyStateIcon icon={FileInvoiceDollarIcon} />
         <Title headingLevel="h5" size="lg">
-          {t('no_data_state.title')}
+          {intl.formatMessage(messages.NoDataStateTitle)}
         </Title>
-        <EmptyStateBody>{t('no_data_state.desc')}</EmptyStateBody>
+        <EmptyStateBody>{intl.formatMessage(messages.NoDataStateDesc)}</EmptyStateBody>
         {showReload && (
           <Button variant="primary" onClick={() => window.location.reload()}>
-            {t('no_data_state.refresh')}
+            {intl.formatMessage(messages.NoDataStateRefresh)}
           </Button>
         )}
       </EmptyState>
@@ -31,6 +33,6 @@ class NoDataStateBase extends React.Component<NoDataStateProps> {
   }
 }
 
-const NoDataState = withRouter(withTranslation()(NoDataStateBase));
+const NoDataState = withRouter(NoDataStateBase);
 
 export { NoDataState };
