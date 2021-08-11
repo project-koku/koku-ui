@@ -1,12 +1,11 @@
 import { DashboardBase } from 'pages/views/overview/components/dashboardBase';
-import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { ibmDashboardSelectors } from 'store/dashboard/ibmDashboard';
 
 import { IbmDashboardWidget } from './ibmDashboardWidget';
 
-type IbmDashboardOwnProps = WithTranslation;
+type IbmDashboardOwnProps = any;
 
 interface IbmDashboardStateProps {
   DashboardWidget: typeof IbmDashboardWidget;
@@ -22,6 +21,6 @@ const mapStateToProps = createMapStateToProps<IbmDashboardOwnProps, IbmDashboard
   };
 });
 
-const IbmDashboard = withTranslation()(connect(mapStateToProps, {})(DashboardBase));
+const IbmDashboard = connect(mapStateToProps, {})(DashboardBase);
 
 export default IbmDashboard;

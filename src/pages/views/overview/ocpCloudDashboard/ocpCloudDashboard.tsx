@@ -1,12 +1,11 @@
 import { DashboardBase } from 'pages/views/overview/components/dashboardBase';
-import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { ocpCloudDashboardSelectors } from 'store/dashboard/ocpCloudDashboard';
 
 import { OcpCloudDashboardWidget } from './ocpCloudDashboardWidget';
 
-type OcpCloudDashboardOwnProps = WithTranslation;
+type OcpCloudDashboardOwnProps = any;
 
 interface OcpCloudDashboardStateProps {
   DashboardWidget: typeof OcpCloudDashboardWidget;
@@ -24,6 +23,6 @@ const mapStateToProps = createMapStateToProps<OcpCloudDashboardOwnProps, OcpClou
   }
 );
 
-const OcpCloudDashboard = withTranslation()(connect(mapStateToProps, {})(DashboardBase));
+const OcpCloudDashboard = connect(mapStateToProps, {})(DashboardBase);
 
 export default OcpCloudDashboard;
