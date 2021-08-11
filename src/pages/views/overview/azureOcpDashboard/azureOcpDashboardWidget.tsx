@@ -3,7 +3,6 @@ import {
   DashboardWidgetOwnProps,
   DashboardWidgetStateProps,
 } from 'pages/views/overview/components/dashboardWidgetBase';
-import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import {
@@ -76,6 +75,6 @@ const mapDispatchToProps: AzureOcpDashboardWidgetDispatchProps = {
   updateTab: azureOcpDashboardActions.changeWidgetTab,
 };
 
-const AzureOcpDashboardWidget = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase));
+const AzureOcpDashboardWidget = connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase);
 
 export { AzureOcpDashboardWidget };

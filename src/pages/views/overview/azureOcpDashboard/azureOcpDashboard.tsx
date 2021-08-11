@@ -1,12 +1,11 @@
 import { DashboardBase } from 'pages/views/overview/components/dashboardBase';
-import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { azureOcpDashboardSelectors } from 'store/dashboard/azureOcpDashboard';
 
 import { AzureOcpDashboardWidget } from './azureOcpDashboardWidget';
 
-type AzureOcpDashboardOwnProps = WithTranslation;
+type AzureOcpDashboardOwnProps = any;
 
 interface AzureOcpDashboardStateProps {
   DashboardWidget: typeof AzureOcpDashboardWidget;
@@ -24,6 +23,6 @@ const mapStateToProps = createMapStateToProps<AzureOcpDashboardOwnProps, AzureOc
   }
 );
 
-const AzureOcpDashboard = withTranslation()(connect(mapStateToProps, {})(DashboardBase));
+const AzureOcpDashboard = connect(mapStateToProps, {})(DashboardBase);
 
 export default AzureOcpDashboard;
