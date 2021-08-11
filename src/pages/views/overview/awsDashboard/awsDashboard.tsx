@@ -1,12 +1,11 @@
 import { DashboardBase } from 'pages/views/overview/components/dashboardBase';
-import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { awsDashboardSelectors } from 'store/dashboard/awsDashboard';
 
 import { AwsDashboardWidget } from './awsDashboardWidget';
 
-type AwsDashboardOwnProps = WithTranslation;
+type AwsDashboardOwnProps = any;
 
 interface AwsDashboardStateProps {
   DashboardWidget: typeof AwsDashboardWidget;
@@ -22,6 +21,6 @@ const mapStateToProps = createMapStateToProps<AwsDashboardOwnProps, AwsDashboard
   };
 });
 
-const AwsDashboard = withTranslation()(connect(mapStateToProps, {})(DashboardBase));
+const AwsDashboard = connect(mapStateToProps, {})(DashboardBase);
 
 export default AwsDashboard;
