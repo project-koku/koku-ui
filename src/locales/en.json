@@ -496,6 +496,7 @@
     "cancel": "Cancel",
     "confirm": "Generate and download",
     "daily": "Daily",
+    "error": "Something went wrong, try fewer selections",
     "file": {
       "daily": "daily",
       "monthly": "monthly",

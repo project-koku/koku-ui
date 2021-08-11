@@ -18,14 +18,11 @@ export interface ExportSubmitOwnProps extends WithTranslation {
   isAllItems?: boolean;
   items?: ComputedReportItem[];
   onClose(isOpen: boolean);
+  onError(error: AxiosError);
   query?: Query;
   reportPathsType: ReportPathsType;
   resolution: string;
   timeScope: number;
-}
-
-interface ExportSubmitStateProps {
-  // TBD...
 }
 
 interface ExportSubmitDispatchProps {
@@ -58,11 +55,14 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   }
 
   public componentDidUpdate(prevProps: ExportSubmitProps) {
-    const { report } = this.props;
+    const { report, reportError } = this.props;
     const { fetchReportClicked } = this.state;
 
     if (prevProps.report !== report && fetchReportClicked) {
       this.getExport();
+    }
+    if (reportError) {
+      this.props.onError(reportError);
     }
   }
 
@@ -94,8 +94,12 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   };
 
   private handleClose = () => {
+    const { reportError } = this.props;
+
     this.setState({ ...this.defaultState }, () => {
-      this.props.onClose(false);
+      if (!reportError) {
+        this.props.onClose(false);
+      }
     });
   };
 
@@ -144,6 +148,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
         time_scope_value: timeScope ? timeScope : undefined,
       },
       filter_by: {},
+      limit: 0,
       order_by: undefined,
       perspective: undefined,
       dateRange: undefined,
