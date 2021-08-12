@@ -30,7 +30,12 @@ import GcpOcpDashboard from 'pages/views/overview/gcpOcpDashboard';
 import IbmDashboard from 'pages/views/overview/ibmDashboard';
 import OcpCloudDashboard from 'pages/views/overview/ocpCloudDashboard';
 import OcpDashboard from 'pages/views/overview/ocpDashboard';
-import { hasCurrentMonthData, hasPreviousMonthData } from 'pages/views/utils/providers';
+import {
+  hasCloudCurrentMonthData,
+  hasCloudPreviousMonthData,
+  hasCurrentMonthData,
+  hasPreviousMonthData,
+} from 'pages/views/utils/providers';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -372,13 +377,15 @@ class OverviewBase extends React.Component<OverviewProps> {
         const hasData = hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders);
         return hasData ? <AwsDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.awsOcp) {
-        const hasData = hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders);
+        const hasData =
+          hasCloudCurrentMonthData(awsProviders, ocpProviders) || hasCloudPreviousMonthData(awsProviders, ocpProviders);
         return hasData ? <AwsOcpDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcp) {
         const hasData = hasCurrentMonthData(gcpProviders) || hasPreviousMonthData(gcpProviders);
         return hasData ? <GcpDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcpOcp) {
-        const hasData = hasCurrentMonthData(gcpProviders) || hasPreviousMonthData(gcpProviders);
+        const hasData =
+          hasCloudCurrentMonthData(gcpProviders, ocpProviders) || hasCloudPreviousMonthData(gcpProviders, ocpProviders);
         return hasData ? <GcpOcpDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.ibm) {
         const hasData = hasCurrentMonthData(ibmProviders) || hasPreviousMonthData(ibmProviders);
@@ -387,7 +394,9 @@ class OverviewBase extends React.Component<OverviewProps> {
         const hasData = hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders);
         return hasData ? <AzureDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azureOcp) {
-        const hasData = hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders);
+        const hasData =
+          hasCloudCurrentMonthData(azureProviders, ocpProviders) ||
+          hasCloudPreviousMonthData(azureProviders, ocpProviders);
         return hasData ? <AzureOcpDashboard /> : noData;
       } else {
         return noData;
