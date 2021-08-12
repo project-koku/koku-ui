@@ -4,7 +4,7 @@ const srcDir = path.resolve(__dirname, '../src/locales');
 
 syncLocales({
   primaryLanguage: 'en',
-  secondaryLanguages: ['de', 'ja'],
+  secondaryLanguages: [], // ['de', 'ja'],
   localesFolder: srcDir,
   // overridePluralRules: pluralResolver => pluralResolver.addRule('he', pluralResolver.getRule('en')),
 });

@@ -1,4 +1,4 @@
-import { Title } from '@patternfly/react-core';
+import { Title, TitleSizes } from '@patternfly/react-core';
 import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
@@ -60,7 +60,7 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
     return (
       <>
         <div style={styles.subTitle}>
-          <Title headingLevel="h2" size="xl">
+          <Title headingLevel="h2" size={TitleSizes.xl}>
             {t('details.cost_value', { value: cost })}
           </Title>
         </div>

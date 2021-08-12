@@ -1,5 +1,6 @@
-import { EmptyState, EmptyStateBody, EmptyStateIcon, Title } from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
+import { CostModel } from 'api/costModels';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
 import { PaginationToolbarTemplate } from 'pages/costModels/components/paginationToolbarTemplate';
@@ -19,6 +20,7 @@ interface Props extends WithTranslation {
   onDelete: (item: any) => void;
   onDeleteText?: string;
   onAdd: () => void;
+  current: CostModel;
 }
 
 interface PaginationQuery {
@@ -42,7 +44,7 @@ class TableBase extends React.Component<Props, State> {
     const {
       pagination: { page, perPage },
     } = this.state;
-    const { onAdd, t, rows, isWritePermission } = this.props;
+    const { current, onAdd, t, rows, isWritePermission } = this.props;
     const filteredRows = rows
       .filter(uuid => {
         if (!this.state.query.name) {
@@ -54,6 +56,9 @@ class TableBase extends React.Component<Props, State> {
     const res = filteredRows.slice((page - 1) * perPage, page * perPage);
     return (
       <>
+        <Title headingLevel="h2" size={TitleSizes.md} style={styles.sourceTypeTitle}>
+          {t('cost_models_details.cost_model.source_type')}: {current.source_type}
+        </Title>
         <SourcesToolbar
           actionButtonProps={{
             isDisabled: !isWritePermission,
@@ -120,7 +125,7 @@ class TableBase extends React.Component<Props, State> {
           <div style={styles.emptyState}>
             <EmptyState>
               <EmptyStateIcon icon={DollarSignIcon} />
-              <Title headingLevel="h2" size="lg">
+              <Title headingLevel="h2" size={TitleSizes.lg}>
                 {t('cost_models_details.empty_state_source.title')}
               </Title>
               <EmptyStateBody>{t('cost_models_details.empty_state_source.description')}</EmptyStateBody>

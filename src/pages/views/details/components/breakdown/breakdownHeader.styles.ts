@@ -1,7 +1,5 @@
 import global_BackgroundColor_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_100';
-import global_Color_200 from '@patternfly/react-tokens/dist/js/global_Color_200';
 import global_disabled_color_100 from '@patternfly/react-tokens/dist/js/global_disabled_color_100';
-import global_FontSize_sm from '@patternfly/react-tokens/dist/js/global_FontSize_sm';
 import global_FontSize_xs from '@patternfly/react-tokens/dist/js/global_FontSize_xs';
 import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
 import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
@@ -22,8 +20,6 @@ export const styles = {
     textAlign: 'right',
   },
   costLabelDate: {
-    fontSize: global_FontSize_sm.value,
-    color: global_Color_200.var,
     textAlign: 'right',
   },
   header: {

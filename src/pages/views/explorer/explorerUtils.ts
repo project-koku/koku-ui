@@ -36,8 +36,6 @@ export const enum PerspectiveType {
   ocp = 'ocp',
   ibm = 'ibm',
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
-  ocpSupplementary = 'ocp_supplementary',
-  ocpUsage = 'ocp_usage',
 }
 
 export const baseQuery: Query = {
@@ -129,27 +127,16 @@ export const infrastructureGcpOcpOptions = [{ label: 'explorer.perspective.gcp_o
 // Infrastructure IBM options
 export const infrastructureIbmOptions = [{ label: 'explorer.perspective.ibm', value: 'ibm' }];
 
-// Infrastructure Ocp options
-export const infrastructureOcpOptions = [{ label: 'explorer.perspective.ocp_usage', value: 'ocp_usage' }];
-
 // Infrastructure Ocp cloud options
 export const infrastructureOcpCloudOptions = [{ label: 'explorer.perspective.ocp_cloud', value: 'ocp_cloud' }];
 
 // Ocp options
-export const ocpOptions = [
-  { label: 'explorer.perspective.ocp', value: 'ocp' },
-  { label: 'explorer.perspective.ocp_supplementary', value: 'ocp_supplementary' },
-];
+export const ocpOptions = [{ label: 'explorer.perspective.ocp', value: 'ocp' }];
 
 export const getComputedReportItemType = (perspective: string) => {
   let result;
   switch (perspective) {
-    case PerspectiveType.ocpSupplementary:
-      result = ComputedReportItemType.supplementary;
-      break;
-    case PerspectiveType.ocpUsage:
-      result = ComputedReportItemType.infrastructure;
-      break;
+    // Removed "OpenShift supplementary & usage" perspectives -- see https://issues.redhat.com/browse/COST-1722
     default:
       result = ComputedReportItemType.cost;
       break;
@@ -160,9 +147,7 @@ export const getComputedReportItemType = (perspective: string) => {
 export const getComputedReportItemValueType = (perspective: string) => {
   let result;
   switch (perspective) {
-    case PerspectiveType.ocpUsage:
-      result = ComputedReportItemValueType.usage;
-      break;
+    // Removed "OpenShift usage" perspective -- see https://issues.redhat.com/browse/COST-1722
     default:
       result = ComputedReportItemValueType.total;
       break;
@@ -264,8 +249,6 @@ export const getGroupByDefault = (perspective: string) => {
       break;
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
-    case PerspectiveType.ocpSupplementary:
-    case PerspectiveType.ocpUsage:
       result = 'project';
       break;
     default:
@@ -295,8 +278,6 @@ export const getGroupByOptions = (perspective: string) => {
       break;
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
-    case PerspectiveType.ocpSupplementary:
-    case PerspectiveType.ocpUsage:
       result = groupByOcpOptions;
       break;
     default:
@@ -359,12 +340,6 @@ export const getReportPathsType = (perspective: string) => {
     case PerspectiveType.ocpCloud:
       result = ReportPathsType.ocpCloud;
       break;
-    case PerspectiveType.ocpSupplementary:
-      result = ReportPathsType.ocp;
-      break;
-    case PerspectiveType.ocpUsage:
-      result = ReportPathsType.ocpUsage;
-      break;
     default:
       result = undefined;
       break;
@@ -395,8 +370,6 @@ export const getResourcePathsType = (perspective: string) => {
       return ResourcePathsType.ibm;
       break;
     case PerspectiveType.ocp:
-    case PerspectiveType.ocpSupplementary:
-    case PerspectiveType.ocpUsage:
       return ResourcePathsType.ocp;
       break;
     default:
@@ -431,8 +404,6 @@ export const getTagReportPathsType = (perspective: string) => {
       return TagPathsType.ibm;
       break;
     case PerspectiveType.ocp:
-    case PerspectiveType.ocpSupplementary:
-    case PerspectiveType.ocpUsage:
       return TagPathsType.ocp;
       break;
     case PerspectiveType.ocpCloud:

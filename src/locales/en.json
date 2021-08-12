@@ -70,62 +70,62 @@
     "raw_cost_title": "Raw cost",
     "summary_title": "Cost by $t(group_by.top_values.{{groupBy}}, { 'count': 2 })",
     "title": "{{value}}",
-    "total_cost_date": "$t(group_by.values.{{value}}) total cost ({{startDate}} $t(months_abbr.{{month}}))",
-    "total_cost_date_plural": "$t(group_by.values.{{value}}) total cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "total_cost_date": "$t(group_by.values.{{value}}) total cost ($t(months_abbr.{{month}}) {{startDate}})",
+    "total_cost_date_plural": "$t(group_by.values.{{value}}) total cost ($t(months_abbr.{{month}}) {{startDate}}-{{endDate}})",
     "usage_cost_desc": "The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.",
     "usage_cost_title": "Usage cost"
   },
   "cancel": "Cancel",
   "chart": {
-    "cost_forecast_cone_legend_label": "Cost confidence ({{startDate}} $t(months_abbr.{{month}}))",
+    "cost_forecast_cone_legend_label": "Cost confidence ($t(months_abbr.{{month}}) {{startDate}})",
     "cost_forecast_cone_legend_label_no_data": "Cost confidence (no data)",
-    "cost_forecast_cone_legend_label_plural": "Cost confidence ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "cost_forecast_cone_legend_label_plural": "Cost confidence ($t(months_abbr.{{month}}) {{startDate}}-{{endDate}})",
     "cost_forecast_cone_legend_tooltip": "Cost confidence ($t(months_abbr.{{month}}))",
     "cost_forecast_cone_tooltip": "{{value0}} - {{value1}}",
-    "cost_forecast_legend_label": "Cost forecast ({{startDate}} $t(months_abbr.{{month}}))",
+    "cost_forecast_legend_label": "Cost forecast ($t(months_abbr.{{month}}) {{startDate}})",
     "cost_forecast_legend_label_no_data": "Cost forecast (no data)",
-    "cost_forecast_legend_label_plural": "Cost forecast ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "cost_forecast_legend_label_plural": "Cost forecast ($t(months_abbr.{{month}}) {{startDate}}-{{endDate}})",
     "cost_forecast_legend_tooltip": "Cost forecast ($t(months_abbr.{{month}}))",
-    "cost_infrastructure_forecast_cone_legend_label": "Infrastructure confidence ({{startDate}} $t(months_abbr.{{month}}))",
+    "cost_infrastructure_forecast_cone_legend_label": "Infrastructure confidence ($t(months_abbr.{{month}}) {{startDate}})",
     "cost_infrastructure_forecast_cone_legend_label_no_data": "Infrastructure confidence (no data)",
-    "cost_infrastructure_forecast_cone_legend_label_plural": "Infrastructure confidence ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "cost_infrastructure_forecast_cone_legend_label_plural": "Infrastructure confidence ($t(months_abbr.{{month}}) {{startDate}}-{{endDate}})",
     "cost_infrastructure_forecast_cone_legend_tooltip": "Infrastructure confidence ($t(months_abbr.{{month}}))",
     "cost_infrastructure_forecast_cone_tooltip": "{{value0}} - {{value1}}",
-    "cost_infrastructure_forecast_legend_label": "Infrastructure forecast ({{startDate}} $t(months_abbr.{{month}}))",
+    "cost_infrastructure_forecast_legend_label": "Infrastructure forecast ($t(months_abbr.{{month}}) {{startDate}})",
     "cost_infrastructure_forecast_legend_label_no_data": "Infrastructure forecast (no data)",
-    "cost_infrastructure_forecast_legend_label_plural": "Infrastructure forecast ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "cost_infrastructure_forecast_legend_label_plural": "Infrastructure forecast ($t(months_abbr.{{month}}) {{startDate}}-{{endDate}})",
     "cost_infrastructure_forecast_legend_tooltip": "Infrastructure forecast ($t(months_abbr.{{month}}))",
-    "cost_infrastructure_legend_label": "Infrastructure cost ({{startDate}} $t(months_abbr.{{month}}))",
+    "cost_infrastructure_legend_label": "Infrastructure cost ($t(months_abbr.{{month}}) {{startDate}})",
     "cost_infrastructure_legend_label_no_data": "Infrastructure cost (no data)",
-    "cost_infrastructure_legend_label_plural": "Infrastructure cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "cost_infrastructure_legend_label_plural": "Infrastructure cost ($t(months_abbr.{{month}}) {{startDate}}-{{endDate}})",
     "cost_infrastructure_legend_tooltip": "Infrastructure cost ($t(months_abbr.{{month}}))",
-    "cost_legend_label": "Cost ({{startDate}} $t(months_abbr.{{month}}))",
+    "cost_legend_label": "Cost ($t(months_abbr.{{month}}) {{startDate}})",
     "cost_legend_label_no_data": "Cost (no data)",
-    "cost_legend_label_plural": "Cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "cost_legend_label_plural": "Cost ($t(months_abbr.{{month}}) {{startDate}}-{{endDate}})",
     "cost_legend_tooltip": "Cost ($t(months_abbr.{{month}}))",
-    "cost_supplementary_legend_label": "Supplementary cost ({{startDate}} $t(months_abbr.{{month}}))",
+    "cost_supplementary_legend_label": "Supplementary cost ($t(months_abbr.{{month}}) {{startDate}})",
     "cost_supplementary_legend_label_no_data": "Supplementary cost (no data)",
-    "cost_supplementary_legend_label_plural": "Supplementary cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "cost_supplementary_legend_label_plural": "Supplementary cost ($t(months_abbr.{{month}}) {{startDate}}-{{endDate}})",
     "cost_supplementary_legend_tooltip": "Supplementary cost ($t(months_abbr.{{month}}))",
-    "date": "{{date}}-$t(months_abbr.{{month}})",
-    "date_range": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
-    "date_range_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}",
+    "date": "$t(months_abbr.{{month}}) {{date}}",
+    "date_range": "$t(months_abbr.{{month}}) {{startDate}} {{year}}",
+    "date_range_plural": "$t(months_abbr.{{month}}) {{startDate}}-{{endDate}} {{year}}",
     "day_of_month_title": "Day {{day}}",
-    "limit_legend_label": "Limit ({{startDate}} $t(months_abbr.{{month}}))",
+    "limit_legend_label": "Limit ($t(months_abbr.{{month}}) {{startDate}})",
     "limit_legend_label_no_data": "Limit (no data)",
-    "limit_legend_label_plural": "Limit ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "limit_legend_label_plural": "Limit ($t(months_abbr.{{month}}) {{startDate}}-{{endDate}})",
     "limit_legend_tooltip": "Limit ($t(months_abbr.{{month}}))",
     "month_legend_label": "$t(months_abbr.{{month}})",
     "no_data": "no data",
     "others": "{{count}} Other",
     "others_plural": "{{count}} Others",
-    "requests_legend_label": "Requests ({{startDate}} $t(months_abbr.{{month}}))",
+    "requests_legend_label": "Requests ($t(months_abbr.{{month}}) {{startDate}})",
     "requests_legend_label_no_data": "Requests (no data)",
-    "requests_legend_label_plural": "Requests ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "requests_legend_label_plural": "Requests ($t(months_abbr.{{month}}) {{startDate}}-{{endDate}})",
     "requests_legend_tooltip": "Requests ($t(months_abbr.{{month}}))",
-    "usage_legend_label": "Usage ({{startDate}} $t(months_abbr.{{month}}))",
+    "usage_legend_label": "Usage ($t(months_abbr.{{month}}) {{startDate}})",
     "usage_legend_label_no_data": "Usage (no data)",
-    "usage_legend_label_plural": "Usage ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "usage_legend_label_plural": "Usage ($t(months_abbr.{{month}}) {{startDate}}-{{endDate}})",
     "usage_legend_tooltip": "Usage ($t(months_abbr.{{month}}))"
   },
   "cost": "Cost",
@@ -220,7 +220,7 @@
       "title": "No sources are assigned"
     },
     "examples": {
-      "title": "Examples:",
+      "title": "Examples",
       "noAdjustment": "A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your source(s).",
       "doubleMarkup": "A markup rate of (+) 100% doubles the base costs of your source(s).",
       "reduceBaseToZero": "A discount rate of (-) 100% reduces the base costs of your source(s) to 0.",
@@ -251,6 +251,7 @@
       "ok": "Yes, I want to exit",
       "title": "Exit cost model creation"
     },
+    "description_markup_or_discount_model": "Use markup/discount to manipulate how the raw costs are being calculated for your sources. Note, costs calculated from price list rates will not be affected by this.",
     "description": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
     "empty_state": {
       "add_rate": "Add rate",
@@ -330,7 +331,6 @@
     },
     "steps": {
       "general_info": "Enter information",
-      "markup": "Set markup or discount",
       "price_list": "Price list",
       "review": "Review details",
       "sources": "Assign a source to the cost model"
@@ -354,9 +354,7 @@
     "network_title": "Network services cost",
     "storage_title": "Storage services usage",
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}",
-    "usage": "Usage",
-    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
-    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
+    "usage": "Usage"
   },
   "description": "Description",
   "details": {
@@ -460,7 +458,7 @@
     "unexpected_title": "Oops!"
   },
   "explorer": {
-    "daily_column_title": "{{date}}-$t(months_abbr.{{month}})",
+    "daily_column_title": "$t(months_abbr.{{month}}) {{date}}",
     "date_range": {
       "current_month_to_date": "Month to date",
       "last_sixty_days": "Last 60 days",
@@ -478,9 +476,7 @@
       "gcp_ocp": "Google Cloud Platform filtered by OpenShift",
       "ibm": "IBM Cloud",
       "ocp": "All OpenShift cost",
-      "ocp_cloud": "All cloud filtered by OpenShift",
-      "ocp_supplementary": "OpenShift supplementary cost",
-      "ocp_usage": "OpenShift usage"
+      "ocp_cloud": "All cloud filtered by OpenShift"
     },
     "title": {
       "aws": "Amazon Web Services - Top 5 Costliest",
@@ -491,9 +487,7 @@
       "gcp_ocp": "Google Cloud Platform filtered by OpenShift - Top 5 Costliest",
       "ibm": "IBM Cloud - Top 5 Costliest",
       "ocp": "All OpenShift cost - Top 5 Costliest",
-      "ocp_cloud": "All cloud filtered by OpenShift - Top 5 Costliest",
-      "ocp_supplementary": "OpenShift supplementary cost - Top 5 Costliest",
-      "ocp_usage": "OpenShift usage - Top 5 Costliest"
+      "ocp_cloud": "All cloud filtered by OpenShift - Top 5 Costliest"
     }
   },
   "export": {
@@ -502,6 +496,7 @@
     "cancel": "Cancel",
     "confirm": "Generate and download",
     "daily": "Daily",
+    "error": "Something went wrong, try fewer selections",
     "file": {
       "daily": "daily",
       "monthly": "monthly",
@@ -607,8 +602,8 @@
       "tag": "Tag"
     }
   },
-  "for_date": "{{value}} for {{startDate}} $t(months_abbr.{{month}})",
-  "for_date_plural": "{{value}} for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
+  "for_date": "{{value}} for $t(months.{{month}}) {{startDate}}",
+  "for_date_plural": "{{value}} for $t(months.{{month}}) {{startDate}}-{{endDate}}",
   "gcp_dashboard": {
     "compute_title": "Compute instances usage",
     "cost_title": "Google Cloud Platform Services cost",
@@ -760,8 +755,8 @@
     "ibm_service_name": "IBM Cloud in $t(cost_management)",
     "ocp_service_name": "OpenShift in $t(cost_management)"
   },
-  "no_data_for_date": "No data available for {{startDate}} $t(months_abbr.{{month}})",
-  "no_data_for_date_plural": "No data available for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
+  "no_data_for_date": "No data available for $t(months_abbr.{{month}}) {{startDate}}",
+  "no_data_for_date_plural": "No data available for $t(months_abbr.{{month}}) {{startDate}}-{{endDate}}",
   "no_data_state": {
     "desc": "We have detected a source, but we are not done processing the incoming data. The time to process could take up to 24 hours. Try refreshing the page at a later time.",
     "refresh": "Refresh this page",
@@ -817,23 +812,6 @@
     "supplementary_cost_desc": "All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.",
     "title": "OpenShift details"
   },
-  "ocp_infrastructure_dashboard": {
-    "cost_title": "OpenShift infrastructure cost",
-    "cost_trend_title": "OpenShift cumulative infrastructure cost comparison ({{units}})",
-    "daily_cost_trend_title": "OpenShift daily infrastructure cost comparison ({{units}})"
-  },
-  "ocp_supplementary_dashboard": {
-    "cost_title": "OpenShift supplementary cost",
-    "cost_trend_title": "OpenShift cumulative supplementary cost comparison ({{units}})",
-    "daily_cost_trend_title": "OpenShift daily supplementary cost comparison ({{units}})"
-  },
-  "ocp_usage_dashboard": {
-    "cost_title": "OpenShift usage cost",
-    "cost_trend_title": "Metering cumulative cost comparison ({{units}})",
-    "cpu_title": "OpenShift CPU usage and requests",
-    "memory_title": "OpenShift memory usage and requests",
-    "volume_title": "OpenShift volume usage and requests"
-  },
   "onboarding": {
     "type_options": {
       "aws": "Amazon Web Services (AWS)",
@@ -866,10 +844,7 @@
       "ibm": "IBM Cloud",
       "label": "Perspective",
       "ocp_all": "All OpenShift",
-      "ocp_ocp": "All cloud filtered by OpenShift",
-      "ocp_infrastructure": "OpenShift infrastructure",
-      "ocp_supplementary": "OpenShift supplementary",
-      "ocp_usage": "OpenShift usage"
+      "ocp_ocp": "All cloud filtered by OpenShift"
     }
   },
   "page_cost_models": {
@@ -907,8 +882,8 @@
   "rate": "Rate",
   "save": "Save",
   "settings": "Settings",
-  "since_date": "{{startDate}} $t(months.{{month}})",
-  "since_date_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})",
+  "since_date": "$t(months.{{month}}) {{startDate}}",
+  "since_date_plural": "$t(months.{{month}}) {{startDate}}-{{endDate}}",
   "sources": "Sources",
   "source_details": {
     "filter": {

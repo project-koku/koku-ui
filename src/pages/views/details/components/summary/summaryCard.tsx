@@ -8,6 +8,7 @@ import {
   CardTitle,
   Skeleton,
   Title,
+  TitleSizes,
 } from '@patternfly/react-core';
 import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
@@ -157,7 +158,7 @@ class SummaryBase extends React.Component<SummaryProps> {
     return (
       <Card style={styles.card}>
         <CardTitle>
-          <Title headingLevel="h2" size="lg">
+          <Title headingLevel="h2" size={TitleSizes.lg}>
             {t('breakdown.summary_title', { groupBy: reportGroupBy })}
           </Title>
         </CardTitle>

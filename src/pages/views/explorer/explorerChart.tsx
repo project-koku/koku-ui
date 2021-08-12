@@ -98,6 +98,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
     return {
       x: xVal,
       y: value === null ? null : yVal, // For displaying "no data" labels in chart tooltips
+      ...(value === null && { _y: 0 }), // Force "no data" tooltips. See https://issues.redhat.com/browse/COST-1765
       date: computedItem.date,
       key: computedItem.id,
       name: computedItem.label ? computedItem.label : computedItem.id, // legend item label
@@ -174,12 +175,6 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
         break;
       case PerspectiveType.ocpCloud:
         result = 'explorer.title.ocp_cloud';
-        break;
-      case PerspectiveType.ocpSupplementary:
-        result = 'explorer.title.ocp_supplementary';
-        break;
-      case PerspectiveType.ocpUsage:
-        result = 'explorer.title.ocp_usage';
         break;
       default:
         result = undefined;

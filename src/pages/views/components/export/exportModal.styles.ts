@@ -4,6 +4,9 @@ import global_spacer_xs from '@patternfly/react-tokens/dist/js/global_spacer_xs'
 import React from 'react';
 
 export const styles = {
+  alert: {
+    marginBottom: global_spacer_md.var,
+  },
   form: {
     marginLeft: global_spacer_sm.var,
   },

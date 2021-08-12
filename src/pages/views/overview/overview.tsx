@@ -1,6 +1,16 @@
 import './overview.scss';
 
-import { Button, ButtonVariant, Popover, Tab, TabContent, Tabs, TabTitleText, Title } from '@patternfly/react-core';
+import {
+  Button,
+  ButtonVariant,
+  Popover,
+  Tab,
+  TabContent,
+  Tabs,
+  TabTitleText,
+  Title,
+  TitleSizes,
+} from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -20,9 +30,6 @@ import GcpOcpDashboard from 'pages/views/overview/gcpOcpDashboard';
 import IbmDashboard from 'pages/views/overview/ibmDashboard';
 import OcpCloudDashboard from 'pages/views/overview/ocpCloudDashboard';
 import OcpDashboard from 'pages/views/overview/ocpDashboard';
-import OcpInfrastructureDashboard from 'pages/views/overview/ocpInfrastructureDashboard';
-import OcpSupplementaryDashboard from 'pages/views/overview/ocpSupplementaryDashboard';
-import OcpUsageDashboard from 'pages/views/overview/ocpUsageDashboard';
 import { hasCurrentMonthData, hasPreviousMonthData } from 'pages/views/utils/providers';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -38,6 +45,7 @@ import {
   providersSelectors,
 } from 'store/providers';
 import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { getSinceDateRangeString } from 'utils/dateRange';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 import { styles } from './overview.styles';
@@ -119,11 +127,7 @@ interface OverviewState {
 type OverviewProps = OverviewOwnProps & OverviewStateProps;
 
 // Ocp options
-const ocpOptions = [
-  { label: 'overview.perspective.ocp_all', value: 'all' },
-  { label: 'overview.perspective.ocp_infrastructure', value: 'infrastructure' },
-  { label: 'overview.perspective.ocp_supplementary', value: 'supplementary' },
-];
+const ocpOptions = [{ label: 'overview.perspective.ocp_all', value: 'all' }];
 
 // Infrastructure AWS options
 const infrastructureAwsOptions = [{ label: 'overview.perspective.aws', value: 'aws' }];
@@ -148,9 +152,6 @@ const infrastructureGcpOptions = [{ label: 'overview.perspective.gcp', value: 'g
 
 // Infrastructure IBM options
 const infrastructureIbmOptions = [{ label: 'overview.perspective.ibm', value: 'ibm' }];
-
-// Infrastructure Ocp options
-const infrastructureOcpOptions = [{ label: 'overview.perspective.ocp_usage', value: 'ocp_usage' }];
 
 // Infrastructure Ocp cloud options
 //
@@ -310,9 +311,6 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (azure && ocp) {
         options.push(...infrastructureAzureOcpOptions);
       }
-      if (ocp) {
-        options.push(...infrastructureOcpOptions);
-      }
     } else {
       options.push(...ocpOptions);
     }
@@ -391,23 +389,15 @@ class OverviewBase extends React.Component<OverviewProps> {
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azureOcp) {
         const hasData = hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders);
         return hasData ? <AzureOcpDashboard /> : noData;
-      } else if (currentInfrastructurePerspective === InfrastructurePerspective.ocpUsage) {
-        const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
-        return hasData ? <OcpUsageDashboard /> : noData;
       } else {
-        const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
-        return hasData ? <OcpCloudDashboard /> : noData; // default
+        return noData;
       }
     } else if (currentTab === OverviewTab.ocp) {
       const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
       if (currentOcpPerspective === OcpPerspective.all) {
         return hasData ? <OcpDashboard /> : noData;
-      } else if (currentOcpPerspective === OcpPerspective.infrastructure) {
-        return hasData ? <OcpInfrastructureDashboard /> : noData;
-      } else if (currentOcpPerspective === OcpPerspective.supplementary) {
-        return hasData ? <OcpSupplementaryDashboard /> : noData;
       } else {
-        return hasData ? <OcpDashboard /> : noData; // default
+        return noData;
       }
     } else {
       return emptyTab;
@@ -522,7 +512,7 @@ class OverviewBase extends React.Component<OverviewProps> {
           className={`pf-l-page-header pf-c-page-header pf-l-page__main-section pf-c-page__main-section pf-m-light headerOverride}`}
         >
           <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
-            <Title headingLevel="h2" size="2xl">
+            <Title headingLevel="h1" size={TitleSizes['2xl']}>
               {t('cost_management_overview')}
               <span style={styles.infoIcon}>
                 <Popover
@@ -558,7 +548,10 @@ class OverviewBase extends React.Component<OverviewProps> {
             </Title>
           </header>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
-          <div style={styles.perspective}>{this.getPerspective()}</div>
+          <div style={styles.perspective}>
+            {this.getPerspective()}
+            <div style={styles.date}>{getSinceDateRangeString()}</div>
+          </div>
         </section>
         <section className="pf-l-page__main-section pf-c-page__main-section" page-type="cost-management-overview">
           {this.getTabContent(availableTabs)}

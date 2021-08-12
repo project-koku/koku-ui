@@ -3,7 +3,7 @@
 name: Pull request
 on:
   pull_request:
-    branches: [ main, master, ci-stable, prod-beta, prod-stable, qa-beta, qa-stable, stage-beta, stage-stable ]
+    branches: [ main, master, ci-stable, prod-beta, prod-stable, qa-beta, qa-stable, stage-beta, stage-stable, react-intl_changeover ]
 env:
   BRANCH: ${{ github.base_ref }}
 
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.x]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2

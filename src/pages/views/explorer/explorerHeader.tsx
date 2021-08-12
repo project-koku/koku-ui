@@ -1,4 +1,4 @@
-import { Title } from '@patternfly/react-core';
+import { Title, TitleSizes } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getQuery, parseQuery, Query } from 'api/queries/query';
@@ -43,7 +43,6 @@ import {
   infrastructureGcpOptions,
   infrastructureIbmOptions,
   // infrastructureOcpCloudOptions, // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1483
-  infrastructureOcpOptions,
   ocpOptions,
   PerspectiveType,
 } from './explorerUtils';
@@ -160,9 +159,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     if (azure && ocp) {
       options.push(...infrastructureAzureOcpOptions);
     }
-    if (ocp) {
-      options.push(...infrastructureOcpOptions);
-    }
 
     return (
       <Perspective
@@ -260,7 +256,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     return (
       <header style={styles.header}>
         <div>
-          <Title headingLevel="h2" style={styles.title} size="2xl">
+          <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {t('navigation.explorer')}
           </Title>
           <div style={styles.perspectiveContainer}>
