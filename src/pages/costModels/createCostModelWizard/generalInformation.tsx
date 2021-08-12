@@ -7,6 +7,7 @@ import {
   TextArea,
   TextInput,
   Title,
+  TitleSizes,
 } from '@patternfly/react-core';
 import { Form } from 'components/forms/form';
 import React from 'react';
@@ -22,7 +23,7 @@ const GeneralInformation: React.SFC<WithTranslation> = ({ t }) => {
       {({ name, dirtyName, description, type, onNameChange, onDescChange, onTypeChange }) => (
         <Stack hasGutter>
           <StackItem>
-            <Title headingLevel="h2" size="xl">
+            <Title headingLevel="h2" size={TitleSizes.xl}>
               {t('cost_models_wizard.general_info.title')}
             </Title>
           </StackItem>

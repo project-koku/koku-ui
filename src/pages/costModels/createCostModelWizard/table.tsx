@@ -1,4 +1,4 @@
-import { Checkbox, Stack, StackItem, Text, TextContent, TextVariants, Title } from '@patternfly/react-core';
+import { Checkbox, Stack, StackItem, Text, TextContent, TextVariants, Title, TitleSizes } from '@patternfly/react-core';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
@@ -18,7 +18,7 @@ const SourcesTable: React.SFC<WithTranslation> = ({ t }) => {
         return (
           <Stack hasGutter>
             <StackItem>
-              <Title headingLevel="h2" size="xl">
+              <Title headingLevel="h2" size={TitleSizes.xl}>
                 {t(`cost_models_wizard.source.title`)}
               </Title>
             </StackItem>

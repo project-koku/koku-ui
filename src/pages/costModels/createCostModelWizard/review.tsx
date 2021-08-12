@@ -15,6 +15,7 @@ import {
   TextListVariants,
   TextVariants,
   Title,
+  TitleSizes,
 } from '@patternfly/react-core';
 import { OkIcon } from '@patternfly/react-icons/dist/js/icons/ok-icon';
 import { RateTable } from 'pages/costModels/components/rateTable';
@@ -29,7 +30,7 @@ const ReviewSuccessBase: React.SFC<WithTranslation> = ({ t }) => (
     {({ onClose, name }) => (
       <EmptyState>
         <EmptyStateIcon icon={OkIcon} color="green" />
-        <Title headingLevel="h2" size="lg">
+        <Title headingLevel="h2" size={TitleSizes.lg}>
           {t('cost_models_wizard.review.title_success')}
         </Title>
         <EmptyStateBody>
@@ -51,13 +52,13 @@ const ReviewSuccess = withTranslation()(ReviewSuccessBase);
 
 const ReviewDetailsBase: React.SFC<WithTranslation> = ({ t }) => (
   <CostModelContext.Consumer>
-    {({ name, description, type, markup, sources, tiers, createError }) => {
+    {({ name, description, distribution, type, markup, sources, tiers, createError, isDiscount }) => {
       return (
         <>
           {createError && <Alert variant="danger" title={`${createError}`} />}
           <Stack hasGutter>
             <StackItem>
-              <Title headingLevel="h2" size="xl">
+              <Title headingLevel="h2" size={TitleSizes.xl}>
                 {t('cost_models_wizard.review.title_details')}
               </Title>
             </StackItem>
@@ -91,7 +92,15 @@ const ReviewDetailsBase: React.SFC<WithTranslation> = ({ t }) => (
                   <TextListItem component={TextListItemVariants.dt}>
                     {t('cost_models_wizard.review.markup')}
                   </TextListItem>
-                  <TextListItem component={TextListItemVariants.dd}>{markup}%</TextListItem>
+                  <TextListItem component={TextListItemVariants.dd}>{isDiscount ? '-' + markup : markup}%</TextListItem>
+                  {type === 'OCP' && (
+                    <>
+                      <TextListItem component={TextListItemVariants.dt}>
+                        {t('cost_models_details.distribution_type')}
+                      </TextListItem>
+                      <TextListItem component={TextListItemVariants.dd}>{distribution}</TextListItem>
+                    </>
+                  )}
                   <TextListItem component={TextListItemVariants.dt}>
                     {t('cost_models_wizard.review.sources')}{' '}
                     {sources.find(src => src.selected && Boolean(src.costmodel)) && (
@@ -116,7 +125,7 @@ const ReviewDetailsBase: React.SFC<WithTranslation> = ({ t }) => (
 
 const ReviewDetails = withTranslation()(ReviewDetailsBase);
 
-const Review = () => {
+const ReviewWithDistribution = () => {
   return (
     <CostModelContext.Consumer>
       {({ createSuccess }) => {
@@ -129,4 +138,4 @@ const Review = () => {
   );
 };
 
-export default Review;
+export default ReviewWithDistribution;

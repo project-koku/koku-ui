@@ -1,4 +1,4 @@
-import { Button, ButtonVariant, Form, FormGroup, Modal, Radio } from '@patternfly/react-core';
+import { Alert, Button, ButtonVariant, Form, FormGroup, Modal, Radio } from '@patternfly/react-core';
 import { Query, tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
@@ -16,8 +16,6 @@ import { styles } from './exportModal.styles';
 import { ExportSubmit } from './exportSubmit';
 
 export interface ExportModalOwnProps extends WithTranslation {
-  error?: AxiosError;
-  export?: string;
   groupBy?: string;
   isAllItems?: boolean;
   isOpen: boolean;
@@ -40,6 +38,7 @@ interface ExportModalDispatchProps {
 }
 
 interface ExportModalState {
+  error?: AxiosError;
   timeScope: number;
   resolution: string;
 }
@@ -64,6 +63,7 @@ const timeScopeOptions: {
 
 export class ExportModalBase extends React.Component<ExportModalProps, ExportModalState> {
   protected defaultState: ExportModalState = {
+    error: undefined,
     timeScope: -1,
     resolution: this.props.resolution || 'monthly',
   };
@@ -80,6 +80,10 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
     this.setState({ ...this.defaultState }, () => {
       this.props.onClose(false);
     });
+  };
+
+  private handleError = (error: AxiosError) => {
+    this.setState({ error });
   };
 
   public handleMonthChange = (_, event) => {
@@ -101,7 +105,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       showTimeScope = true,
       t,
     } = this.props;
-    const { resolution, timeScope } = this.state;
+    const { error, resolution, timeScope } = this.state;
 
     let sortedItems = [...items];
     if (this.props.isOpen) {
@@ -141,6 +145,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             key="confirm"
             timeScope={showTimeScope ? timeScope : undefined}
             onClose={this.handleClose}
+            onError={this.handleError}
             query={query}
             reportPathsType={reportPathsType}
             resolution={resolution}
@@ -155,6 +160,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
           </Button>,
         ]}
       >
+        {error && <Alert variant="danger" style={styles.alert} title={t('export.error')} />}
         <div style={styles.title}>
           <span>{t('export.heading', { groupBy })}</span>
         </div>

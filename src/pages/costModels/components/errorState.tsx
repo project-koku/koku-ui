@@ -8,6 +8,7 @@ import {
   Stack,
   StackItem,
   Title,
+  TitleSizes,
 } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-circle-icon';
 import global_DangerColor_100 from '@patternfly/react-tokens/dist/js/global_danger_color_100';
@@ -60,7 +61,7 @@ export const SourceStepErrorState: React.FunctionComponent<SourcesErrorStateProp
   return (
     <Stack hasGutter>
       <StackItem>
-        <Title headingLevel="h2" size="xl">
+        <Title headingLevel="h2" size={TitleSizes.xl}>
           {t('cost_models_wizard.source.title')}
         </Title>
       </StackItem>

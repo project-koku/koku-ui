@@ -62,8 +62,8 @@ module.exports = (_env, argv) => {
   log.info(`Current branch: ${gitBranch}`);
   log.info(`Beta branches: ${betaBranches}`);
   log.info(`Using deployments: ${appDeployment}`);
-  log.info(`Public path: ${publicPath}`);
   log.info(`Using Insights proxy: ${!useProxy}`);
+  log.info(`Public path: ${publicPath}`);
   log.info('~~~~~~~~~~~~~~~~~~~~~');
 
   const stats = {
@@ -242,7 +242,7 @@ module.exports = (_env, argv) => {
         appUrl: [`/${isBeta ? 'beta/' : ''}openshift/cost-management`],
         proxyVerbose: true,
         publicPath,
-        useCloud: false,
+        useCloud: process.env.CLOUDOT_ENV === 'ci',
       }),
       // Props for webpack-dev-server v4.0.0-beta.2
       //

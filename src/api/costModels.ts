@@ -25,6 +25,7 @@ export interface CostModelRequest {
   name: string;
   source_type: string;
   description: string;
+  distribution: string;
   source_uuids: string[];
   rates: RateRequest[];
   markup: { value: string; unit: string };

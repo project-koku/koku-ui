@@ -8,6 +8,7 @@ import {
   DataListItemCells,
   DataListItemRow,
   Modal,
+  ModalVariant,
   Text,
   TextContent,
   TextVariants,
@@ -18,6 +19,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 
 export interface ColumnManagementModalOption {
+  description?: string;
   hidden?: boolean;
   label: string;
   value: string;
@@ -133,7 +135,7 @@ export class ColumnManagementModalBase extends React.Component<ColumnManagementM
         isOpen={this.props.isOpen}
         onClose={this.handleClose}
         title={t('details.column_management.title')}
-        variant="small"
+        variant={ModalVariant.medium}
         actions={[
           <Button key="save" onClick={this.handleSave} variant={ButtonVariant.link}>
             {t('details.column_management.save')}
@@ -158,6 +160,9 @@ export class ColumnManagementModalBase extends React.Component<ColumnManagementM
                   dataListCells={[
                     <DataListCell id="table-column-management-item1" key="table-column-management-item1">
                       <label htmlFor="check1">{t(option.label)}</label>
+                    </DataListCell>,
+                    <DataListCell id="table-column-management-item2" key="table-column-management-item2">
+                      {option.description && <span>{t(option.description)}</span>}
                     </DataListCell>,
                   ]}
                 />

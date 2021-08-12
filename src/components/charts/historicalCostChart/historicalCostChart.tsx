@@ -9,7 +9,7 @@ import {
   createContainer,
   getInteractiveLegendEvents,
 } from '@patternfly/react-charts';
-import { Title } from '@patternfly/react-core';
+import { Title, TitleSizes } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
 import { getCostRangeString } from 'components/charts/common/chartDatumUtils';
 import { getDateRange } from 'components/charts/common/chartDatumUtils';
@@ -311,7 +311,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
 
     return (
       <div className="chartOverride" ref={this.containerRef}>
-        <Title headingLevel="h2" style={styles.title} size="xl">
+        <Title headingLevel="h2" style={styles.title} size={TitleSizes.xl}>
           {title}
         </Title>
         <div style={{ ...styles.chart, height: adjustedContainerHeight }}>

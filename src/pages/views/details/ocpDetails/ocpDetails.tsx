@@ -83,8 +83,18 @@ const baseQuery: OcpQuery = {
 
 const defaultColumnOptions: ColumnManagementModalOption[] = [
   { label: 'details.month_over_month_change', value: DetailsTableColumnIds.monthOverMonth },
-  { label: 'ocp_details.infrastructure_cost', value: DetailsTableColumnIds.infrastructure, hidden: true },
-  { label: 'ocp_details.supplementary_cost', value: DetailsTableColumnIds.supplementary, hidden: true },
+  {
+    description: 'ocp_details.infrastructure_cost_desc',
+    label: 'ocp_details.infrastructure_cost',
+    value: DetailsTableColumnIds.infrastructure,
+    hidden: true,
+  },
+  {
+    description: 'ocp_details.supplementary_cost_desc',
+    label: 'ocp_details.supplementary_cost',
+    value: DetailsTableColumnIds.supplementary,
+    hidden: true,
+  },
 ];
 
 const reportType = ReportType.cost;

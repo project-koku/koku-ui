@@ -35,11 +35,12 @@ export class ResourceTypeahead extends React.Component<ResourceTypeaheadProps> {
   private handleOnSearch = (value: string) => {
     clearTimeout(this.searchTimeout);
 
+    // Delay was 750ms, but reduced -- https://issues.redhat.com/browse/COST-1742
     this.searchTimeout = setTimeout(() => {
       this.setState({
         currentSearch: value,
       });
-    }, 750);
+    }, 625);
   };
 
   private handleOnSelect = (value: string) => {

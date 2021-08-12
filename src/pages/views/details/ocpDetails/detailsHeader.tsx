@@ -1,5 +1,4 @@
-import { Button, ButtonVariant, Popover, Title, Tooltip } from '@patternfly/react-core';
-import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
+import { Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -89,7 +88,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     return (
       <header style={styles.header}>
         <div>
-          <Title headingLevel="h2" style={styles.title} size="2xl">
+          <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {t('ocp_details.title')}
           </Title>
           <GroupBy
@@ -103,8 +102,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           />
         </div>
         {Boolean(showContent) && (
-          <div style={styles.cost}>
-            <Title headingLevel="h2" style={styles.costValue} size="4xl">
+          <div>
+            <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
               <Tooltip
                 content={t('dashboard.total_cost_tooltip', {
                   supplementaryCost,
@@ -115,31 +114,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                 <span>{cost}</span>
               </Tooltip>
             </Title>
-            <div style={styles.costLabel}>
-              <div style={styles.costLabelUnit}>
-                {t('cost')}
-                <span style={styles.infoIcon}>
-                  <Popover
-                    aria-label={t('ocp_details.supplementary_aria_label')}
-                    enableFlip
-                    bodyContent={
-                      <>
-                        <p style={styles.infoTitle}>{t('ocp_details.supplementary_cost')}</p>
-                        <p>{t('ocp_details.supplementary_cost_desc')}</p>
-                        <br />
-                        <p style={styles.infoTitle}>{t('ocp_details.infrastructure_cost')}</p>
-                        <p>{t('ocp_details.infrastructure_cost_desc')}</p>
-                      </>
-                    }
-                  >
-                    <Button variant={ButtonVariant.plain}>
-                      <OutlinedQuestionCircleIcon style={styles.info} />
-                    </Button>
-                  </Popover>
-                </span>
-              </div>
-              <div style={styles.costLabelDate}>{getSinceDateRangeString()}</div>
-            </div>
+            <div style={styles.dateTitle}>{getSinceDateRangeString()}</div>
           </div>
         )}
       </header>

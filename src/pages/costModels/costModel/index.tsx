@@ -1,4 +1,13 @@
-import { EmptyState, EmptyStateBody, EmptyStateIcon, Grid, GridItem, TabContent, Title } from '@patternfly/react-core';
+import {
+  EmptyState,
+  EmptyStateBody,
+  EmptyStateIcon,
+  Grid,
+  GridItem,
+  TabContent,
+  Title,
+  TitleSizes,
+} from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/js/icons/error-circle-o-icon';
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import PageHeader, { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
@@ -83,7 +92,7 @@ class CostModelInformation extends React.Component<Props, State> {
                     <Main>
                       <EmptyState>
                         <EmptyStateIcon icon={ErrorCircleOIcon} />
-                        <Title headingLevel="h2" size="lg">
+                        <Title headingLevel="h2" size={TitleSizes.lg}>
                           {t('cost_models_details.empty_state_bad_uuid.title')}
                         </Title>
                         <EmptyStateBody>

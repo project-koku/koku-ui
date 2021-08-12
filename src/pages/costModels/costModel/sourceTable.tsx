@@ -82,6 +82,7 @@ class SourceTableBase extends React.Component<Props, State> {
           }}
           onAdd={() => setDialogOpen({ name: 'addSource', isOpen: true })}
           rows={sources.map(p => p.name)}
+          current={costModel}
         />
       </>
     );

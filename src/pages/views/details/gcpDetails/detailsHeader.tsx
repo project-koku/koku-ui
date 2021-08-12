@@ -1,4 +1,4 @@
-import { Title } from '@patternfly/react-core';
+import { Title, TitleSizes } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
 import { GcpQuery, getQuery } from 'api/queries/gcpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -64,7 +64,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     return (
       <header style={styles.header}>
         <div>
-          <Title headingLevel="h2" style={styles.title} size="2xl">
+          <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {t('navigation.gcp_details')}
           </Title>
           <GroupBy
@@ -78,14 +78,11 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           />
         </div>
         {Boolean(showContent) && (
-          <div style={styles.cost}>
-            <Title headingLevel="h2" style={styles.costValue} size="4xl">
+          <div>
+            <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
               {formatCurrency(hasCost ? report.meta.total.cost.total.value : 0)}
             </Title>
-            <div style={styles.costLabel}>
-              <div style={styles.costLabelUnit}>{t('details.total_cost')}</div>
-              <div style={styles.costLabelDate}>{getSinceDateRangeString()}</div>
-            </div>
+            <div style={styles.dateTitle}>{getSinceDateRangeString()}</div>
           </div>
         )}
       </header>

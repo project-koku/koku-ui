@@ -1,4 +1,4 @@
-import { EmptyState, EmptyStateBody, EmptyStateIcon, Title } from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import { OcpCloudQuery, parseQuery } from 'api/queries/ocpCloudQuery';
 import React from 'react';
@@ -86,7 +86,7 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
     >
       <EmptyState>
         {getIcon()}
-        <Title headingLevel="h2" size="lg">
+        <Title headingLevel="h2" size={TitleSizes.lg}>
           {title}
         </Title>
         <EmptyStateBody>{subTitle}</EmptyStateBody>

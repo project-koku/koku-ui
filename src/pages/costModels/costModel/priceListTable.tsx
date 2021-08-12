@@ -8,6 +8,7 @@ import {
   ListItem,
   Pagination,
   Title,
+  TitleSizes,
   Toolbar,
   ToolbarContent,
   ToolbarItem,
@@ -237,7 +238,7 @@ class PriceListTable extends React.Component<Props, State> {
                     <Bullseye>
                       <EmptyState>
                         <EmptyStateIcon icon={FileInvoiceDollarIcon} />
-                        <Title headingLevel="h2" size="lg">
+                        <Title headingLevel="h2" size={TitleSizes.lg}>
                           {t('cost_models_details.empty_state_rate.title')}
                         </Title>
                         <EmptyStateBody>{t('cost_models_details.empty_state_rate.description')}</EmptyStateBody>
