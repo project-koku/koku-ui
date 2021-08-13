@@ -276,6 +276,77 @@ export default defineMessages({
     description: 'total cost is the sum of the infrastructure cost and supplementary cost',
     id: 'DashboardTotalCostTooltip',
   },
+  DetailsColumnManagementTitle: {
+    defaultMessage: 'EN Manage columns',
+    description: 'Manage columns',
+    id: 'DetailsColumnManagementTitle',
+  },
+  FilterByButtonAriaLabel: {
+    defaultMessage: 'EN Filter button for {filterKey} name',
+    description: 'Filter button for {filterKey} name',
+    id: 'FilterByButtonAriaLabel',
+  },
+  FilterByInputAriaLabel: {
+    defaultMessage: 'EN Input for {filterKey} name',
+    description: 'Input for {filterKey} name',
+    id: 'FilterByInputAriaLabel',
+  },
+  FilterByOrgUnitAriaLabel: {
+    defaultMessage: 'EN Organizational units',
+    description: 'Organizational units',
+    id: 'FilterByOrgUnitAriaLabel',
+  },
+  FilterByOrgUnitPlaceholder: {
+    defaultMessage: 'EN Choose unit',
+    description: 'Choose unit',
+    id: 'FilterByOrgUnitPlaceholder',
+  },
+  FilterByPlaceholder: {
+    defaultMessage: 'EN Filter by {filterKey}',
+    description: 'Filter by {filterKey}',
+    id: 'FilterByPlaceholder',
+  },
+  FilterByTagKeyAriaLabel: {
+    defaultMessage: 'EN Tag keys',
+    description: 'Tag keys',
+    id: 'FilterByTagKeyAriaLabel',
+  },
+  FilterByTagKeyPlaceholder: {
+    defaultMessage: 'EN Choose key',
+    description: 'Choose key',
+    id: 'FilterByTagKeyPlaceholder',
+  },
+  FilterByTagValueAriaLabel: {
+    defaultMessage: 'EN Tag values',
+    description: 'Tag values',
+    id: 'FilterByTagValueAriaLabel',
+  },
+  FilterByTagValueButtonAriaLabel: {
+    defaultMessage: 'EN Filter button for tag value',
+    description: 'Filter button for tag value',
+    id: 'FilterByTagValueButtonAriaLabel',
+  },
+  FilterByTagValueInputPlaceholder: {
+    defaultMessage: 'EN Filter by value',
+    description: 'Filter by value',
+    id: 'FilterByTagValueInputPlaceholder',
+  },
+  FilterByTagValuePlaceholder: {
+    defaultMessage: 'EN Choose value',
+    description: 'Choose value',
+    id: 'FilterByTagValuePlaceholder',
+  },
+  FilterByValues: {
+    defaultMessage:
+      '{value, select, account {EN Account} cluster {EN Cluster} name {EN Name} node {EN node} org_unit_id {EN Organizational unit} project {EN Project} region {EN Region} resource_location {Region} service {EN Service} service_name {EN Service_name} subscription_guid {EN Account} tag {EN Tag} other {}}',
+    description: 'Filter by values',
+    id: 'FilterByValues',
+  },
+  FilterByValuesName: {
+    defaultMessage: 'EN Name',
+    description: 'Name',
+    id: 'FilterByValuesName',
+  },
   ForDate: {
     defaultMessage:
       '{count, plural, one {EN {value} for {month} {startDate}} other {EN {value} for {month} {startDate}-{endDate}}}',
@@ -560,6 +631,31 @@ export default defineMessages({
     defaultMessage: '{count, plural, one {EN {month} {startDate}} other {EN {month} {startDate}-{endDate}}}',
     description: 'SinceDate',
     id: 'SinceDate',
+  },
+  ToolBarBulkSelectAll: {
+    defaultMessage: 'EN Select all ({value} items)',
+    description: 'Select all ({value} items)',
+    id: 'ToolBarBulkSelectAll',
+  },
+  ToolBarBulkSelectAriaDeselect: {
+    defaultMessage: 'EN Deselect all items',
+    description: 'Deselect all items',
+    id: 'ToolBarBulkSelectAriaDeselect',
+  },
+  ToolBarBulkSelectAriaSelect: {
+    defaultMessage: 'EN Select all items',
+    description: 'Select all items',
+    id: 'ToolBarBulkSelectAriaSelect',
+  },
+  ToolBarBulkSelectNone: {
+    defaultMessage: 'EN Select none (0 items)',
+    description: 'Select none (0 items)',
+    id: 'ToolBarBulkSelectNone',
+  },
+  ToolBarBulkSelectPage: {
+    defaultMessage: 'EN Select page ({value} items)',
+    description: 'Select page ({value} items)',
+    id: 'ToolBarBulkSelectPage',
   },
   UnitTooltips: {
     defaultMessage:
