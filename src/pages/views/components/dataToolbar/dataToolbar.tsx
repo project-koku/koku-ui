@@ -30,11 +30,12 @@ import { orgUnitIdKey, orgUnitNameKey, Query, tagKey, tagPrefix } from 'api/quer
 import { ResourcePathsType } from 'api/resources/resource';
 import { isResourceTypeValid } from 'api/resources/resourceUtils';
 import { Tag } from 'api/tags/tag';
+import { createIntlEnv } from 'components/i18n/localeEnv';
+import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
 import { ResourceTypeahead } from 'pages/views/components/resourceTypeahead/resourceTypeahead';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
 
@@ -91,7 +92,7 @@ interface GroupByOrgOption extends SelectOptionObject {
   id?: string;
 }
 
-type DataToolbarProps = DataToolbarOwnProps & WithTranslation;
+type DataToolbarProps = DataToolbarOwnProps;
 
 const defaultFilters = {
   tag: {},
@@ -225,8 +226,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Bulk select
 
   public getBulkSelect = () => {
-    const { isAllSelected, isBulkSelectDisabled, isDisabled, itemsPerPage, itemsTotal, selectedItems, t } = this.props;
+    const { isAllSelected, isBulkSelectDisabled, isDisabled, itemsPerPage, itemsTotal, selectedItems } = this.props;
     const { isBulkSelectOpen } = this.state;
+    const intl = createIntlEnv();
 
     const numSelected = isAllSelected ? itemsTotal : selectedItems ? selectedItems.length : 0;
     const allSelected = (isAllSelected || numSelected === itemsTotal) && itemsTotal > 0;
@@ -236,15 +238,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
     const dropdownItems = [
       <DropdownItem key="item-1" onClick={() => this.handleOnBulkSelectClicked('none')}>
-        {t('toolbar.bulk_select.select_none')}
+        {intl.formatMessage(messages.ToolBarBulkSelectNone)}
       </DropdownItem>,
       <DropdownItem key="item-2" onClick={() => this.handleOnBulkSelectClicked('page')}>
-        {t('toolbar.bulk_select.select_page', {
-          value: itemsPerPage,
-        })}
+        {intl.formatMessage(messages.ToolBarBulkSelectPage, { value: itemsPerPage })}
       </DropdownItem>,
       <DropdownItem key="item-3" onClick={() => this.handleOnBulkSelectClicked('all')}>
-        {t('toolbar.bulk_select.select_all', { value: itemsTotal })}
+        {intl.formatMessage(messages.ToolBarBulkSelectAll, { value: itemsTotal })}
       </DropdownItem>,
     ];
 
@@ -259,12 +259,14 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               <DropdownToggleCheckbox
                 id="bulk-select"
                 key="bulk-select"
-                aria-label={anySelected ? t('toolbar.bulk_select.aria_deselect') : t('toolbar.bulk_select.aria_select')}
+                aria-label={intl.formatMessage(
+                  anySelected ? messages.ToolBarBulkSelectAriaDeselect : messages.ToolBarBulkSelectAriaSelect
+                )}
                 isChecked={isChecked}
                 onClick={() => {
                   anySelected ? this.handleOnBulkSelectClicked('none') : this.handleOnBulkSelectClicked('all');
                 }}
-              ></DropdownToggleCheckbox>,
+              />,
             ]}
             onToggle={this.handleOnBulkSelectToggle}
           >
@@ -367,10 +369,10 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   // Category input
-
   public getCategoryInput = categoryOption => {
-    const { isDisabled, resourcePathsType, t } = this.props;
+    const { isDisabled, resourcePathsType } = this.props;
     const { currentCategory, filters, categoryInput } = this.state;
+    const intl = createIntlEnv();
 
     return (
       <ToolbarFilter
@@ -395,16 +397,16 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                 name={`${categoryOption.key}-input`}
                 id={`${categoryOption.key}-input`}
                 type="search"
-                aria-label={t(`filter_by.${categoryOption.key}.input_aria_label`)}
+                aria-label={intl.formatMessage(messages.FilterByInputAriaLabel, { value: categoryOption.key })}
                 onChange={this.handleOnCategoryInputChange}
                 value={categoryInput}
-                placeholder={t(`filter_by.${categoryOption.key}.placeholder`)}
+                placeholder={intl.formatMessage(messages.FilterByPlaceholder, { value: categoryOption.key })}
                 onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
               />
               <Button
                 isDisabled={isDisabled}
                 variant={ButtonVariant.control}
-                aria-label={t(`filter_by.${categoryOption.key}.button_aria_label`)}
+                aria-label={intl.formatMessage(messages.FilterByButtonAriaLabel, { value: categoryOption.key })}
                 onClick={evt => this.onCategoryInput(evt, categoryOption.key)}
               >
                 <SearchIcon />
@@ -417,9 +419,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   private getDefaultCategoryOptions = (): ToolbarChipGroup[] => {
-    const { t } = this.props;
+    const intl = createIntlEnv();
 
-    return [{ name: t('filter_by.values.name'), key: 'name' }];
+    return [{ name: intl.formatMessage(messages.FilterByValuesName), key: 'name' }];
   };
 
   private handleOnCategoryInputChange = (value: string) => {
@@ -480,10 +482,10 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   // Org unit select
-
   public getOrgUnitSelect = () => {
-    const { isDisabled, t } = this.props;
+    const { isDisabled } = this.props;
     const { currentCategory, filters, isOrgUnitSelectExpanded } = this.state;
+    const intl = createIntlEnv();
 
     const options: GroupByOrgOption[] = this.getOrgUnitOptions().map(option => ({
       id: option.key,
@@ -512,7 +514,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       <ToolbarFilter
         categoryName={{
           key: orgUnitIdKey,
-          name: t('filter_by.values.org_unit_id'),
+          name: intl.formatMessage(messages.FilterByValues, { value: 'org_unit_id' }),
         }}
         chips={chips}
         deleteChip={this.onDelete}
@@ -523,12 +525,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           isDisabled={isDisabled}
           className="selectOverride"
           variant={SelectVariant.checkbox}
-          aria-label={t('filter_by.org_unit.aria_label')}
+          aria-label={intl.formatMessage(messages.FilterByOrgUnitAriaLabel)}
           onToggle={this.handleOnOrgUnitToggle}
           onSelect={this.handleOnOrgUnitSelect}
           selections={selections}
           isOpen={isOrgUnitSelectExpanded}
-          placeholderText={t('filter_by.org_unit.placeholder')}
+          placeholderText={intl.formatMessage(messages.FilterByOrgUnitPlaceholder)}
         >
           {options.map(option => (
             <SelectOption description={option.id} key={option.id} value={option} />
@@ -614,8 +616,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Tag key select
 
   public getTagKeySelect = () => {
-    const { isDisabled, t } = this.props;
+    const { isDisabled } = this.props;
     const { currentCategory, currentTagKey, isTagKeySelectExpanded } = this.state;
+    const intl = createIntlEnv();
 
     if (currentCategory !== tagKey) {
       return null;
@@ -630,12 +633,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         <Select
           isDisabled={isDisabled}
           variant={SelectVariant.typeahead}
-          typeAheadAriaLabel={t('filter_by.tag_key.aria_label')}
+          typeAheadAriaLabel={intl.formatMessage(messages.FilterByTagKeyAriaLabel)}
           onClear={this.handleOnTagKeyClear}
           onToggle={this.handleOnTagKeyToggle}
           onSelect={this.handleOnTagKeySelect}
           isOpen={isTagKeySelectExpanded}
-          placeholderText={t('filter_by.tag_key.placeholder')}
+          placeholderText={intl.formatMessage(messages.FilterByTagKeyPlaceholder)}
           selections={currentTagKey}
         >
           {selectOptions}
@@ -709,8 +712,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Tag value select
 
   public getTagValueSelect = tagKeyOption => {
-    const { isDisabled, t } = this.props;
+    const { isDisabled } = this.props;
     const { currentCategory, currentTagKey, filters, isTagValueSelectExpanded, tagKeyValueInput } = this.state;
+    const intl = createIntlEnv();
 
     const selectOptions = this.getTagValueOptions().map(selectOption => {
       return <SelectOption key={selectOption.key} value={selectOption.key} />;
@@ -728,12 +732,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           <Select
             isDisabled={isDisabled}
             variant={SelectVariant.checkbox}
-            aria-label={t('filter_by.tag_value.aria_label')}
+            aria-label={intl.formatMessage(messages.FilterByTagValueAriaLabel)}
             onToggle={this.onTagValueToggle}
             onSelect={this.onTagValueSelect}
             selections={filters.tag[tagKeyOption.key] ? filters.tag[tagKeyOption.key] : []}
             isOpen={isTagValueSelectExpanded}
-            placeholderText={t('filter_by.tag_value.placeholder')}
+            placeholderText={intl.formatMessage(messages.FilterByTagValuePlaceholder)}
           >
             {selectOptions}
           </Select>
@@ -744,16 +748,16 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               name="tagkeyvalue-input"
               id="tagkeyvalue-input"
               type="search"
-              aria-label={t('filter_by.tag_value.aria_label')}
+              aria-label={intl.formatMessage(messages.FilterByTagValueAriaLabel)}
               onChange={this.onTagValueInputChange}
               value={tagKeyValueInput}
-              placeholder={t('filter_by.tag_value.input_placeholder')}
+              placeholder={intl.formatMessage(messages.FilterByTagValueInputPlaceholder)}
               onKeyDown={evt => this.onTagValueInput(evt)}
             />
             <Button
               isDisabled={isDisabled}
               variant={ButtonVariant.control}
-              aria-label={t('filter_by.tag_value.button_aria_label')}
+              aria-label={intl.formatMessage(messages.FilterByTagValueButtonAriaLabel)}
               onClick={evt => this.onTagValueInput(evt)}
             >
               <SearchIcon />
@@ -858,12 +862,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Column management
 
   public getColumnManagement = () => {
-    const { t } = this.props;
-
+    const intl = createIntlEnv();
     return (
       <ToolbarItem>
         <Button onClick={this.handleColumnManagementClicked} variant={ButtonVariant.link}>
-          {t('details.column_management.title')}
+          {intl.formatMessage(messages.DetailsColumnManagementTitle)}
         </Button>
       </ToolbarItem>
     );
@@ -949,6 +952,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   }
 }
 
-const DataToolbar = withTranslation()(DataToolbarBase);
+const DataToolbar = DataToolbarBase;
 
 export { DataToolbar, DataToolbarProps };
