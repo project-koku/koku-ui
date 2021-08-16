@@ -338,7 +338,7 @@ export default defineMessages({
   },
   FilterByValues: {
     defaultMessage:
-      '{value, select, account {EN Account} cluster {EN Cluster} name {EN Name} node {EN node} org_unit_id {EN Organizational unit} project {EN Project} region {EN Region} resource_location {Region} service {EN Service} service_name {EN Service_name} subscription_guid {EN Account} tag {EN Tag} other {}}',
+      '{value, select, account {EN Account} cluster {EN Cluster} name {EN Name} node {EN node} org_unit_id {EN Organizational unit} project {EN Project} region {EN Region} resource_location {EN Region} service {EN Service} service_name {EN Service_name} subscription_guid {EN Account} tag {EN Tag} other {}}',
     description: 'Filter by values',
     id: 'FilterByValues',
   },

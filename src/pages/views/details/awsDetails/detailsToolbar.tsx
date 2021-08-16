@@ -4,9 +4,10 @@ import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { orgUnitIdKey, tagKey } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import { createIntlEnv } from 'components/i18n/localeEnv';
+import messages from 'locales/messages';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
@@ -48,10 +49,7 @@ interface DetailsToolbarState {
   categoryOptions?: ToolbarChipGroup[];
 }
 
-type DetailsToolbarProps = DetailsToolbarOwnProps &
-  DetailsToolbarStateProps &
-  DetailsToolbarDispatchProps &
-  WithTranslation;
+type DetailsToolbarProps = DetailsToolbarOwnProps & DetailsToolbarStateProps & DetailsToolbarDispatchProps;
 
 const orgReportPathsType = OrgPathsType.aws;
 const orgReportType = OrgType.org;
@@ -85,21 +83,22 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { orgReport, t, tagReport } = this.props;
+    const { orgReport, tagReport } = this.props;
+    const intl = createIntlEnv();
 
     const options = [
-      { name: t('filter_by.values.account'), key: 'account' },
-      { name: t('filter_by.values.service'), key: 'service' },
-      { name: t('filter_by.values.region'), key: 'region' },
+      { name: intl.formatMessage(messages.FilterByValues, { value: 'account' }), key: 'account' },
+      { name: intl.formatMessage(messages.FilterByValues, { value: 'service' }), key: 'service' },
+      { name: intl.formatMessage(messages.FilterByValues, { value: 'region' }), key: 'region' },
     ];
     if (orgReport && orgReport.data && orgReport.data.length > 0) {
       options.push({
-        name: t('filter_by.values.org_unit_id'),
+        name: intl.formatMessage(messages.FilterByValues, { value: 'org_unit_id' }),
         key: orgUnitIdKey,
       });
     }
     if (tagReport && tagReport.data && tagReport.data.length > 0) {
-      options.push({ name: t('filter_by.values.tag'), key: tagKey });
+      options.push({ name: intl.formatMessage(messages.FilterByValues, { value: 'tag' }), key: tagKey });
     }
     return options;
   };
@@ -181,6 +180,6 @@ const mapDispatchToProps: DetailsToolbarDispatchProps = {
 };
 
 const DetailsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase);
-const DetailsToolbar = withTranslation()(DetailsToolbarConnect);
+const DetailsToolbar = DetailsToolbarConnect;
 
 export { DetailsToolbar, DetailsToolbarProps };
