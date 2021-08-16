@@ -259,11 +259,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               <DropdownToggleCheckbox
                 id="bulk-select"
                 key="bulk-select"
-                aria-label={
-                  anySelected
-                    ? intl.formatMessage(messages.ToolBarBulkSelectAriaDeselect)
-                    : intl.formatMessage(messages.ToolBarBulkSelectAriaSelect)
-                }
+                aria-label={intl.formatMessage(
+                  anySelected ? messages.ToolBarBulkSelectAriaDeselect : messages.ToolBarBulkSelectAriaSelect
+                )}
                 isChecked={isChecked}
                 onClick={() => {
                   anySelected ? this.handleOnBulkSelectClicked('none') : this.handleOnBulkSelectClicked('all');
