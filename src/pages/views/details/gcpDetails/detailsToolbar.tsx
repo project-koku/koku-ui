@@ -3,9 +3,10 @@ import { GcpQuery, getQuery } from 'api/queries/gcpQuery';
 import { tagKey } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import { createIntlEnv } from 'components/i18n/localeEnv';
+import messages from 'locales/messages';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
@@ -43,10 +44,7 @@ interface DetailsToolbarState {
   categoryOptions?: ToolbarChipGroup[];
 }
 
-type DetailsToolbarProps = DetailsToolbarOwnProps &
-  DetailsToolbarStateProps &
-  DetailsToolbarDispatchProps &
-  WithTranslation;
+type DetailsToolbarProps = DetailsToolbarOwnProps & DetailsToolbarStateProps & DetailsToolbarDispatchProps;
 
 const tagReportType = TagType.tag;
 const tagReportPathsType = TagPathsType.gcp;
@@ -76,17 +74,18 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { t, tagReport } = this.props;
+    const { tagReport } = this.props;
+    const intl = createIntlEnv();
 
     const options = [
-      { name: t('filter_by.values.account'), key: 'account' },
-      { name: t('filter_by.values.project'), key: 'project' },
-      { name: t('filter_by.values.service'), key: 'service' },
-      { name: t('filter_by.values.region'), key: 'region' },
+      { name: intl.formatMessage(messages.FilterByValuesTitleCase, { value: 'account' }), key: 'account' },
+      { name: intl.formatMessage(messages.FilterByValuesTitleCase, { value: 'project' }), key: 'project' },
+      { name: intl.formatMessage(messages.FilterByValuesTitleCase, { value: 'service' }), key: 'service' },
+      { name: intl.formatMessage(messages.FilterByValuesTitleCase, { value: 'region' }), key: 'region' },
     ];
 
     if (tagReport && tagReport.data && tagReport.data.length > 0) {
-      options.push({ name: t('filter_by.values.tag'), key: tagKey });
+      options.push({ name: intl.formatMessage(messages.FilterByValuesTitleCase, { value: 'tag' }), key: tagKey });
     }
     return options;
   };
@@ -162,6 +161,6 @@ const mapDispatchToProps: DetailsToolbarDispatchProps = {
 };
 
 const DetailsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase);
-const DetailsToolbar = withTranslation()(DetailsToolbarConnect);
+const DetailsToolbar = DetailsToolbarConnect;
 
 export { DetailsToolbar, DetailsToolbarProps };
