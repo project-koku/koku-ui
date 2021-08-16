@@ -1,8 +1,9 @@
 import { Select, SelectOption, SelectVariant, ToolbarChipGroup } from '@patternfly/react-core';
 import { getQuery, Query } from 'api/queries/query';
 import { Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
+import { createIntlEnv } from 'components/i18n/localeEnv';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { resourceActions, resourceSelectors } from 'store/resources';
@@ -30,10 +31,7 @@ interface ResourceSelectDispatchProps {
   fetchResource?: typeof resourceActions.fetchResource;
 }
 
-type ResourceSelectProps = ResourceSelectOwnProps &
-  ResourceSelectStateProps &
-  ResourceSelectDispatchProps &
-  WithTranslation;
+type ResourceSelectProps = ResourceSelectOwnProps & ResourceSelectStateProps & ResourceSelectDispatchProps;
 
 class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   protected defaultState: ResourceSelectState = {
@@ -98,6 +96,31 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
     });
   };
 
+  private getFilterKey(key: string) {
+    let result = '';
+    switch (key) {
+      case 'account':
+      case 'subscription_guid':
+        result = 'account';
+        break;
+      case 'region':
+      case 'resource_location':
+        result = 'region';
+        break;
+      case 'service':
+      case 'service_name':
+        result = 'service';
+        break;
+      case 'cluster':
+      case 'name':
+      case 'node':
+      case 'project':
+        result = key;
+        break;
+    }
+    return result;
+  }
+
   private handleOnCreateOption = value => {
     const { createdOptions } = this.state;
 
@@ -153,9 +176,10 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   };
 
   public render() {
-    const { isDisabled, t, resourceType } = this.props;
+    const { isDisabled, resourceType } = this.props;
     const { isSelectExpanded } = this.state;
 
+    const intl = createIntlEnv();
     const selectOptions = this.getSelectOptions();
 
     return (
@@ -170,8 +194,12 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
         onSelect={this.handleOnSelect}
         onToggle={this.handleOnToggle}
         onTypeaheadInputChanged={this.handleOnTypeaheadInputChanged}
-        placeholderText={t(`filter_by.${resourceType}.placeholder`)}
-        typeAheadAriaLabel={t(`filter_by.${resourceType}.aria_label`)}
+        placeholderText={intl.formatMessage(messages.FilterByPlaceholder, {
+          filterKey: this.getFilterKey(resourceType),
+        })}
+        typeAheadAriaLabel={intl.formatMessage(messages.FilterByInputAriaLabel, {
+          filterKey: this.getFilterKey(resourceType),
+        })}
         variant={SelectVariant.typeahead}
       >
         {selectOptions}
@@ -206,6 +234,6 @@ const mapDispatchToProps: ResourceSelectDispatchProps = {
   fetchResource: resourceActions.fetchResource,
 };
 
-const ResourceSelect = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ResourceSelectBase));
+const ResourceSelect = connect(mapStateToProps, mapDispatchToProps)(ResourceSelectBase);
 
 export { ResourceSelect };
