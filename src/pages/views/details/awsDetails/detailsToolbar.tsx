@@ -87,9 +87,9 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     const intl = createIntlEnv();
 
     const options = [
-      { name: intl.formatMessage(messages.FilterByValues, { value: 'account' }), key: 'account' },
-      { name: intl.formatMessage(messages.FilterByValues, { value: 'service' }), key: 'service' },
-      { name: intl.formatMessage(messages.FilterByValues, { value: 'region' }), key: 'region' },
+      { name: intl.formatMessage(messages.FilterByValuesTitleCase, { value: 'account' }), key: 'account' },
+      { name: intl.formatMessage(messages.FilterByValuesTitleCase, { value: 'service' }), key: 'service' },
+      { name: intl.formatMessage(messages.FilterByValuesTitleCase, { value: 'region' }), key: 'region' },
     ];
     if (orgReport && orgReport.data && orgReport.data.length > 0) {
       options.push({

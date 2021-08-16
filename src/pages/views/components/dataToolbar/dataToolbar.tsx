@@ -370,31 +370,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     });
   };
 
-  private getFilterKey(key: string) {
-    let result = '';
-    switch (key) {
-      case 'account':
-      case 'subscription_guid':
-        result = 'account';
-        break;
-      case 'region':
-      case 'resource_location':
-        result = 'region';
-        break;
-      case 'service':
-      case 'service_name':
-        result = 'service';
-        break;
-      case 'cluster':
-      case 'name':
-      case 'node':
-      case 'project':
-        result = key;
-        break;
-    }
-    return result;
-  }
-
   // Category input
   public getCategoryInput = categoryOption => {
     const { isDisabled, resourcePathsType } = this.props;
@@ -425,12 +400,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                 id={`${categoryOption.key}-input`}
                 type="search"
                 aria-label={intl.formatMessage(messages.FilterByInputAriaLabel, {
-                  filterKey: this.getFilterKey(categoryOption.key),
+                  value: intl.formatMessage(messages.FilterByValues, { value: categoryOption.key }),
                 })}
                 onChange={this.handleOnCategoryInputChange}
                 value={categoryInput}
                 placeholder={intl.formatMessage(messages.FilterByPlaceholder, {
-                  filterKey: this.getFilterKey(categoryOption.key),
+                  value: intl.formatMessage(messages.FilterByValues, { value: categoryOption.key }),
                 })}
                 onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
               />
@@ -438,7 +413,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                 isDisabled={isDisabled}
                 variant={ButtonVariant.control}
                 aria-label={intl.formatMessage(messages.FilterByButtonAriaLabel, {
-                  filterKey: this.getFilterKey(categoryOption.key),
+                  value: intl.formatMessage(messages.FilterByValues, { value: categoryOption.key }),
                 })}
                 onClick={evt => this.onCategoryInput(evt, categoryOption.key)}
               >
@@ -790,7 +765,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
             <Button
               isDisabled={isDisabled}
               variant={ButtonVariant.control}
-              // aria-label={t('filter_by.tag_value.button_aria_label')}
               aria-label={intl.formatMessage(messages.FilterByTagValueButtonAriaLabel)}
               onClick={evt => this.onTagValueInput(evt)}
             >

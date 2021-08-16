@@ -282,13 +282,13 @@ export default defineMessages({
     id: 'DetailsColumnManagementTitle',
   },
   FilterByButtonAriaLabel: {
-    defaultMessage: 'EN Filter button for {filterKey} name',
-    description: 'Filter button for {filterKey} name',
+    defaultMessage: 'EN Filter button for {value} name',
+    description: 'Filter button for {value} name',
     id: 'FilterByButtonAriaLabel',
   },
   FilterByInputAriaLabel: {
-    defaultMessage: 'EN Input for {filterKey} name',
-    description: 'Input for {filterKey} name',
+    defaultMessage: 'EN Input for {value} name',
+    description: 'Input for {value} name',
     id: 'FilterByInputAriaLabel',
   },
   FilterByOrgUnitAriaLabel: {
@@ -302,8 +302,8 @@ export default defineMessages({
     id: 'FilterByOrgUnitPlaceholder',
   },
   FilterByPlaceholder: {
-    defaultMessage: 'EN Filter by {filterKey}',
-    description: 'Filter by {filterKey}',
+    defaultMessage: 'EN Filter by {value}',
+    description: 'Filter by {value}',
     id: 'FilterByPlaceholder',
   },
   FilterByTagKeyAriaLabel: {
@@ -338,7 +338,20 @@ export default defineMessages({
   },
   FilterByValues: {
     defaultMessage:
-      '{value, select, account {EN Account} cluster {EN Cluster} name {EN Name} node {EN node} org_unit_id {EN Organizational unit} project {EN Project} region {EN Region} resource_location {EN Region} service {EN Service} service_name {EN Service_name} subscription_guid {EN Account} tag {EN Tag} other {}}',
+      '{value, select, ' +
+      'account {EN account} ' +
+      'cluster {EN cluster} ' +
+      'name {EN name} ' +
+      'node {EN node} ' +
+      'org_unit_id {EN organizational unit} ' +
+      'project {EN project} ' +
+      'region {EN region} ' +
+      'resource_location {EN region} ' +
+      'service {EN service} ' +
+      'service_name {EN service_name} ' +
+      'subscription_guid {EN account} ' +
+      'tag {EN tag} ' +
+      'other {}}',
     description: 'Filter by values',
     id: 'FilterByValues',
   },
@@ -346,6 +359,25 @@ export default defineMessages({
     defaultMessage: 'EN Name',
     description: 'Name',
     id: 'FilterByValuesName',
+  },
+  FilterByValuesTitleCase: {
+    defaultMessage:
+      '{value, select, ' +
+      'account {EN Account} ' +
+      'cluster {EN Cluster} ' +
+      'name {EN Name} ' +
+      'node {EN Node} ' +
+      'org_unit_id {EN Organizational unit} ' +
+      'project {EN Project} ' +
+      'region {EN Region} ' +
+      'resource_location {EN Region} ' +
+      'service {EN Service} ' +
+      'service_name {EN Service_name} ' +
+      'subscription_guid {EN Account} ' +
+      'tag {EN Tag} ' +
+      'other {}}',
+    description: 'Filter by values',
+    id: 'FilterByValues',
   },
   ForDate: {
     defaultMessage:
@@ -659,13 +691,33 @@ export default defineMessages({
   },
   UnitTooltips: {
     defaultMessage:
-      '{units, select, coreHours {{value} EN core-hours} gb {{value} EN GB} gbHours {{value} EN GB-hours} gbMo {{value} EN GB-month} gibibyteMonth {{value} EN GiB-month} hour {{value} EN hours} hrs {{value} EN hours} usd {{value} EN} vmHours {{value} EN VM-hours} other {EN {value}}}',
+      '{units, select, ' +
+      'coreHours {{value} EN core-hours} ' +
+      'gb {{value} EN GB} ' +
+      'gbHours {{value} EN GB-hours} ' +
+      'gbMo {{value} EN GB-month} ' +
+      'gibibyteMonth {{value} EN GiB-month} ' +
+      'hour {{value} EN hours} ' +
+      'hrs {{value} EN hours} ' +
+      'usd {{value} EN} ' +
+      'vmHours {{value} EN VM-hours} ' +
+      'other {EN {value}}}',
     description: 'return value and unit based on key: "units"',
     id: 'UnitTooltips',
   },
   Units: {
     defaultMessage:
-      '{units, select, coreHours {EN core-hours} gb {EN GB} gbHours {EN GB-hours} gbMo {EN GB-month} gibibyteMonth {EN GiB-month} hour {EN hours} hrs {EN hours} usd {$USD} vmHours {EN VM-hours} other {}}',
+      '{units, select, ' +
+      'coreHours {EN core-hours} ' +
+      'gb {EN GB} ' +
+      'gbHours {EN GB-hours} ' +
+      'gbMo {EN GB-month} ' +
+      'gibibyteMonth {EN GiB-month} ' +
+      'hour {EN hours} ' +
+      'hrs {EN hours} ' +
+      'usd {$USD} ' +
+      'vmHours {EN VM-hours} ' +
+      'other {}}',
     description: 'return the proper unit label based on key: "units"',
     id: 'Units',
   },

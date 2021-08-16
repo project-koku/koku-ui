@@ -96,31 +96,6 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
     });
   };
 
-  private getFilterKey(key: string) {
-    let result = '';
-    switch (key) {
-      case 'account':
-      case 'subscription_guid':
-        result = 'account';
-        break;
-      case 'region':
-      case 'resource_location':
-        result = 'region';
-        break;
-      case 'service':
-      case 'service_name':
-        result = 'service';
-        break;
-      case 'cluster':
-      case 'name':
-      case 'node':
-      case 'project':
-        result = key;
-        break;
-    }
-    return result;
-  }
-
   private handleOnCreateOption = value => {
     const { createdOptions } = this.state;
 
@@ -195,10 +170,10 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
         onToggle={this.handleOnToggle}
         onTypeaheadInputChanged={this.handleOnTypeaheadInputChanged}
         placeholderText={intl.formatMessage(messages.FilterByPlaceholder, {
-          filterKey: this.getFilterKey(resourceType),
+          value: intl.formatMessage(messages.FilterByValues, { value: resourceType }),
         })}
         typeAheadAriaLabel={intl.formatMessage(messages.FilterByInputAriaLabel, {
-          filterKey: this.getFilterKey(resourceType),
+          value: intl.formatMessage(messages.FilterByValues, { value: resourceType }),
         })}
         variant={SelectVariant.typeahead}
       >
