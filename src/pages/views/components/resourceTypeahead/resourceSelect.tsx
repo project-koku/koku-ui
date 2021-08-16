@@ -169,12 +169,8 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
         onSelect={this.handleOnSelect}
         onToggle={this.handleOnToggle}
         onTypeaheadInputChanged={this.handleOnTypeaheadInputChanged}
-        placeholderText={intl.formatMessage(messages.FilterByPlaceholder, {
-          value: intl.formatMessage(messages.FilterByValues, { value: resourceType }),
-        })}
-        typeAheadAriaLabel={intl.formatMessage(messages.FilterByInputAriaLabel, {
-          value: intl.formatMessage(messages.FilterByValues, { value: resourceType }),
-        })}
+        placeholderText={intl.formatMessage(messages.FilterByPlaceholder, { value: resourceType })}
+        typeAheadAriaLabel={intl.formatMessage(messages.FilterByInputAriaLabel, { value: resourceType })}
         variant={SelectVariant.typeahead}
       >
         {selectOptions}

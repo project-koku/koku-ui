@@ -282,12 +282,40 @@ export default defineMessages({
     id: 'DetailsColumnManagementTitle',
   },
   FilterByButtonAriaLabel: {
-    defaultMessage: 'EN Filter button for {value} name',
-    description: 'Filter button for {value} name',
+    defaultMessage:
+      '{value, select, ' +
+      'account {EN Filter button for account name} ' +
+      'cluster {EN Filter button for cluster name} ' +
+      'name {EN Filter button for name name} ' +
+      'node {EN Filter button for node name} ' +
+      'org_unit_id {EN Filter button for organizational unit name} ' +
+      'project {EN Filter button for project name} ' +
+      'region {EN Filter button for region name} ' +
+      'resource_location {EN Filter button for region name} ' +
+      'service {EN Filter button for service name} ' +
+      'service_name {EN Filter button for service_name name} ' +
+      'subscription_guid {EN Filter button for account name} ' +
+      'tag {EN Filter button for tag name} ' +
+      'other {}}',
+    description: 'Filter button for "value" name',
     id: 'FilterByButtonAriaLabel',
   },
   FilterByInputAriaLabel: {
-    defaultMessage: 'EN Input for {value} name',
+    defaultMessage:
+      '{value, select, ' +
+      'account {EN Input for account name} ' +
+      'cluster {EN Input for cluster name} ' +
+      'name {EN Input for name name} ' +
+      'node {EN Input for node name} ' +
+      'org_unit_id {EN Input for organizational unit name} ' +
+      'project {EN Input for project name} ' +
+      'region {EN Input for region name} ' +
+      'resource_location {EN Input for region name} ' +
+      'service {EN Input for service name} ' +
+      'service_name {EN Input for service_name name} ' +
+      'subscription_guid {EN Input for account name} ' +
+      'tag {EN Input for tag name} ' +
+      'other {}}',
     description: 'Input for {value} name',
     id: 'FilterByInputAriaLabel',
   },
@@ -302,8 +330,22 @@ export default defineMessages({
     id: 'FilterByOrgUnitPlaceholder',
   },
   FilterByPlaceholder: {
-    defaultMessage: 'EN Filter by {value}',
-    description: 'Filter by {value}',
+    defaultMessage:
+      '{value, select, ' +
+      'account {EN Filter by account} ' +
+      'cluster {EN Filter by cluster} ' +
+      'name {EN Filter by name} ' +
+      'node {EN Filter by node} ' +
+      'org_unit_id {EN Filter by organizational unit} ' +
+      'project {EN Filter by project} ' +
+      'region {EN Filter by region} ' +
+      'resource_location {EN Filter by region} ' +
+      'service {EN Filter by service} ' +
+      'service_name {EN Filter by service_name} ' +
+      'subscription_guid {EN Filter by account} ' +
+      'tag {EN Filter by tag} ' +
+      'other {}}',
+    description: 'Filter by "value"',
     id: 'FilterByPlaceholder',
   },
   FilterByTagKeyAriaLabel: {

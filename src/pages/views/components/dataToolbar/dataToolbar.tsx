@@ -397,22 +397,16 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                 name={`${categoryOption.key}-input`}
                 id={`${categoryOption.key}-input`}
                 type="search"
-                aria-label={intl.formatMessage(messages.FilterByInputAriaLabel, {
-                  value: intl.formatMessage(messages.FilterByValues, { value: categoryOption.key }),
-                })}
+                aria-label={intl.formatMessage(messages.FilterByInputAriaLabel, { value: categoryOption.key })}
                 onChange={this.handleOnCategoryInputChange}
                 value={categoryInput}
-                placeholder={intl.formatMessage(messages.FilterByPlaceholder, {
-                  value: intl.formatMessage(messages.FilterByValues, { value: categoryOption.key }),
-                })}
+                placeholder={intl.formatMessage(messages.FilterByPlaceholder, { value: categoryOption.key })}
                 onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
               />
               <Button
                 isDisabled={isDisabled}
                 variant={ButtonVariant.control}
-                aria-label={intl.formatMessage(messages.FilterByButtonAriaLabel, {
-                  value: intl.formatMessage(messages.FilterByValues, { value: categoryOption.key }),
-                })}
+                aria-label={intl.formatMessage(messages.FilterByButtonAriaLabel, { value: categoryOption.key })}
                 onClick={evt => this.onCategoryInput(evt, categoryOption.key)}
               >
                 <SearchIcon />
