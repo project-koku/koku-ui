@@ -1,13 +1,14 @@
+import { IntlProvider } from '@redhat-cloud-services/frontend-components-translations';
 import { I18nProvider } from 'components/i18n';
 import { getLocale } from 'components/i18n/localeEnv';
 import Maintenance from 'pages/state/maintenance';
 import React from 'react';
-import { IntlProvider } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { createMapStateToProps } from 'store/common';
 
+import messages from '../locales/data.json';
 import { Routes, routes } from './routes';
 
 export interface AppOwnProps {
@@ -81,7 +82,7 @@ export class App extends React.Component<AppProps, AppState> {
     const local = getLocale();
 
     return (
-      <IntlProvider locale={local}>
+      <IntlProvider locale={local} defaultLocale="en" messages={messages}>
         <I18nProvider locale={this.state.locale}>{route}</I18nProvider>
       </IntlProvider>
     );
