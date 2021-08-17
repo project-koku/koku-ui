@@ -1,4 +1,4 @@
-import { MessageDescriptor } from "@formatjs/intl/src/types";
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { createIntlEnv, getDateFnsLocale } from 'components/i18n/localeEnv';
 import { endOfMonth, format, getDate, getMonth, getYear, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
