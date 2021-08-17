@@ -419,7 +419,7 @@ export default defineMessages({
       'tag {EN Tag} ' +
       'other {}}',
     description: 'Filter by values',
-    id: 'FilterByValues',
+    id: 'FilterByValuesTitleCase',
   },
   ForDate: {
     defaultMessage:
