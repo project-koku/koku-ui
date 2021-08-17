@@ -24,7 +24,7 @@ export function getLocalizedMonth(year, month, abbreviate: boolean = false) {
   return monthName;
 }
 
-export function getNoDataForDateRangeString(key: string = 'no_data_for_date', offset: number = 1) {
+export function getNoDataForDateRangeString(offset: number = 1) {
   const intl = createIntlEnv();
   const today = getToday();
 
@@ -39,7 +39,7 @@ export function getNoDataForDateRangeString(key: string = 'no_data_for_date', of
   return intl.formatMessage(messages.NoDataForDate, { count: getDate(today), startDate, endDate, month });
 }
 
-export function getForDateRangeString(value: string | number, key: string = 'for_date', offset: number = 1) {
+export function getForDateRangeString(value: string | number, offset: number = 1) {
   const intl = createIntlEnv();
   const today = getToday();
 
@@ -54,7 +54,7 @@ export function getForDateRangeString(value: string | number, key: string = 'for
   return intl.formatMessage(messages.ForDate, { count: getDate(today), startDate, endDate, month, value });
 }
 
-export function getSinceDateRangeString(key: string = 'since_date') {
+export function getSinceDateRangeString() {
   const intl = createIntlEnv();
   const today = getToday();
   const month = getLocalizedMonth(getYear(today), getMonth(today), false);
