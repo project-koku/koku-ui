@@ -33,9 +33,10 @@ export const getLocale = () => {
 export const getDateFnsLocale = (): Locale => {
   const locale: string = getLocale();
   switch (locale) {
-    case 'en':
-      return enUS;
     case 'eo':
       return eo;
+    case 'en':
+    default:
+      return enUS;
   }
 };
