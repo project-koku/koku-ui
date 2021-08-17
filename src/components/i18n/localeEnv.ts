@@ -5,6 +5,7 @@ export const createIntlEnv = () => {
   const cache = createIntlCache();
   return createIntl(
     {
+      defaultLocale: 'en',
       locale: getLocale(),
       messages: {},
     },
