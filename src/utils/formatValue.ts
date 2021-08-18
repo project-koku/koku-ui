@@ -8,34 +8,22 @@ export interface FormatOptions {
 export type ValueFormatter = (value: number, unit?: string, options?: FormatOptions) => string | number;
 
 export const unitLookupKey = unit => {
-  const lookup = unit ? unit.toLowerCase() : '';
+  const lookup = unit ? unit.replace('-', '_').replace(' ', '_').toLowerCase() : '';
   switch (lookup) {
-    case 'gb-hours':
-      return 'gb_hours';
-      break;
-    case 'gb-mo':
-      return 'gb_mo';
-      break;
-    case 'gibibyte month':
-      return 'gibibyte_month';
-      break;
-    case 'core-hours':
-      return 'core_hours';
-      break;
-    case 'tag-mo':
-      return 'tag_mo';
-      break;
-    case 'vm-hours':
-      return 'vm_hours';
-      break;
+    case 'core_hours':
+    case 'gb':
+    case 'gb_hours':
+    case 'gb_mo':
+    case 'gibibyte_month':
+    case 'hour':
+    case 'hrs':
+    case 'tag_mo':
+    case 'vm_hours':
     case 'usd':
+      return lookup;
     case '$usd':
       return 'usd';
       break;
-    case 'gb':
-    case 'hour':
-    case 'hrs':
-      return lookup;
     default:
       return '';
   }
@@ -49,7 +37,6 @@ export const formatValue: ValueFormatter = (value: number, unit: string, options
     case 'usd':
       return formatCurrency(fValue, lookup, options);
     case 'gb':
-    case 'gbHours':
     case 'gb_hours':
     case 'gb_mo':
     case 'gibibyte_month':
