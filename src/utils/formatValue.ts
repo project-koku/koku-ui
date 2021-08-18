@@ -8,7 +8,7 @@ export interface FormatOptions {
 export type ValueFormatter = (value: number, unit?: string, options?: FormatOptions) => string | number;
 
 export const unitLookupKey = unit => {
-  const lookup = unit ? unit.replace('-', '_').replace(' ', '_').toLowerCase() : '';
+  const lookup = unit ? unit.replace(/[- ]/g, '_').toLowerCase() : '';
   switch (lookup) {
     case 'core_hours':
     case 'gb':
