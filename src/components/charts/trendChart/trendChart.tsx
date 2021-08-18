@@ -23,17 +23,16 @@ import {
   isDataAvailable,
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
-import { createIntlEnv } from 'components/i18n/localeEnv';
 import { getDate } from 'date-fns';
 import messages from 'locales/messages';
-// import i18next from 'i18next';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { noop } from 'utils/noop';
 
 import { chartStyles } from './trendChart.styles';
 
-interface TrendChartProps {
+interface TrendChartOwnProps {
   adjustContainerHeight?: boolean;
   containerHeight?: number;
   currentData: any;
@@ -60,7 +59,9 @@ interface State {
   width: number;
 }
 
-class TrendChart extends React.Component<TrendChartProps, State> {
+type TrendChartProps = TrendChartOwnProps & WrappedComponentProps;
+
+class TrendChartBase extends React.Component<TrendChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   private observer: any = noop;
 
@@ -322,6 +323,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   public render() {
     const {
       height,
+      intl,
       padding = {
         bottom: 50,
         left: 8,
@@ -331,7 +333,6 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       title,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
-    const intl = createIntlEnv();
     const domain = getDomain(series, hiddenSeries);
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
@@ -382,5 +383,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     );
   }
 }
+
+const TrendChart = injectIntl(TrendChartBase);
 
 export { TrendChart, TrendChartProps };

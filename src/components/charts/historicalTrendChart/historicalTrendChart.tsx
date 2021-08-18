@@ -23,16 +23,16 @@ import {
   isDataAvailable,
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
-import { createIntlEnv } from 'components/i18n/localeEnv';
 import { getDate } from 'date-fns';
 import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { noop } from 'utils/noop';
 
 import { chartStyles, styles } from './historicalTrendChart.styles';
 
-interface HistoricalTrendChartProps {
+interface HistoricalTrendChartOwnProps {
   containerHeight?: number;
   currentData: any;
   height: number;
@@ -55,7 +55,9 @@ interface State {
   width: number;
 }
 
-class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, State> {
+type HistoricalTrendChartProps = HistoricalTrendChartOwnProps & WrappedComponentProps;
+
+class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   private observer: any = noop;
 
@@ -221,6 +223,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
   public render() {
     const {
       height,
+      intl,
       containerHeight = height,
       padding = {
         bottom: 120,
@@ -233,7 +236,6 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
       yAxisLabel,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
-    const intl = createIntlEnv();
     const domain = getDomain(series, hiddenSeries);
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
@@ -283,5 +285,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
     );
   }
 }
+
+const HistoricalTrendChart = injectIntl(HistoricalTrendChartBase);
 
 export { HistoricalTrendChart, HistoricalTrendChartProps };

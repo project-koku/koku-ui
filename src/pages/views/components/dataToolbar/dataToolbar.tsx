@@ -30,12 +30,12 @@ import { orgUnitIdKey, orgUnitNameKey, Query, tagKey, tagPrefix } from 'api/quer
 import { ResourcePathsType } from 'api/resources/resource';
 import { isResourceTypeValid } from 'api/resources/resourceUtils';
 import { Tag } from 'api/tags/tag';
-import { createIntlEnv } from 'components/i18n/localeEnv';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
 import { ResourceTypeahead } from 'pages/views/components/resourceTypeahead/resourceTypeahead';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
 
@@ -92,7 +92,7 @@ interface GroupByOrgOption extends SelectOptionObject {
   id?: string;
 }
 
-type DataToolbarProps = DataToolbarOwnProps;
+type DataToolbarProps = DataToolbarOwnProps & WrappedComponentProps;
 
 const defaultFilters = {
   tag: {},
@@ -226,9 +226,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Bulk select
 
   public getBulkSelect = () => {
-    const { isAllSelected, isBulkSelectDisabled, isDisabled, itemsPerPage, itemsTotal, selectedItems } = this.props;
+    const { intl, isAllSelected, isBulkSelectDisabled, isDisabled, itemsPerPage, itemsTotal, selectedItems } =
+      this.props;
     const { isBulkSelectOpen } = this.state;
-    const intl = createIntlEnv();
 
     const numSelected = isAllSelected ? itemsTotal : selectedItems ? selectedItems.length : 0;
     const allSelected = (isAllSelected || numSelected === itemsTotal) && itemsTotal > 0;
@@ -370,9 +370,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
   // Category input
   public getCategoryInput = categoryOption => {
-    const { isDisabled, resourcePathsType } = this.props;
+    const { intl, isDisabled, resourcePathsType } = this.props;
     const { currentCategory, filters, categoryInput } = this.state;
-    const intl = createIntlEnv();
 
     return (
       <ToolbarFilter
@@ -419,7 +418,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   private getDefaultCategoryOptions = (): ToolbarChipGroup[] => {
-    const intl = createIntlEnv();
+    const { intl } = this.props;
 
     return [{ name: intl.formatMessage(messages.FilterByValuesName), key: 'name' }];
   };
@@ -483,9 +482,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
   // Org unit select
   public getOrgUnitSelect = () => {
-    const { isDisabled } = this.props;
+    const { intl, isDisabled } = this.props;
     const { currentCategory, filters, isOrgUnitSelectExpanded } = this.state;
-    const intl = createIntlEnv();
 
     const options: GroupByOrgOption[] = this.getOrgUnitOptions().map(option => ({
       id: option.key,
@@ -616,9 +614,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Tag key select
 
   public getTagKeySelect = () => {
-    const { isDisabled } = this.props;
+    const { intl, isDisabled } = this.props;
     const { currentCategory, currentTagKey, isTagKeySelectExpanded } = this.state;
-    const intl = createIntlEnv();
 
     if (currentCategory !== tagKey) {
       return null;
@@ -712,9 +709,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Tag value select
 
   public getTagValueSelect = tagKeyOption => {
-    const { isDisabled } = this.props;
+    const { intl, isDisabled } = this.props;
     const { currentCategory, currentTagKey, filters, isTagValueSelectExpanded, tagKeyValueInput } = this.state;
-    const intl = createIntlEnv();
 
     const selectOptions = this.getTagValueOptions().map(selectOption => {
       return <SelectOption key={selectOption.key} value={selectOption.key} />;
@@ -862,7 +858,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Column management
 
   public getColumnManagement = () => {
-    const intl = createIntlEnv();
+    const { intl } = this.props;
     return (
       <ToolbarItem>
         <Button onClick={this.handleColumnManagementClicked} variant={ButtonVariant.link}>
@@ -952,6 +948,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   }
 }
 
-const DataToolbar = DataToolbarBase;
+const DataToolbar = injectIntl(DataToolbarBase);
 
 export { DataToolbar, DataToolbarProps };
