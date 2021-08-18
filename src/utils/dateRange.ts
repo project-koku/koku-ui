@@ -42,7 +42,7 @@ export function getNoDataForDateRangeString(key: MessageDescriptor = messages.No
 
 export function getForDateRangeString(
   value: string | number,
-  key: MessageDescriptor = messages.ForDate,
+  message: MessageDescriptor = messages.ForDate,
   offset: number = 1
 ) {
   const intl = createIntlEnv();
@@ -56,7 +56,14 @@ export function getForDateRangeString(
   const endDate = format(today, 'd');
   const startDate = format(startOfMonth(today), 'd');
 
-  return intl.formatMessage(key, { count: getDate(today), startDate, endDate, month, value });
+  return intl.formatMessage(message, {
+    groupByValue: intl.formatMessage(messages.GroupByValues, { value, count: 2 }),
+    count: getDate(today),
+    startDate,
+    endDate,
+    month,
+    offset,
+  });
 }
 
 export function getSinceDateRangeString(key: MessageDescriptor = messages.SinceDate) {

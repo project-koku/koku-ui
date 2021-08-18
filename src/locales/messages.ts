@@ -52,6 +52,14 @@ export default defineMessages({
     description: 'Microsoft Azure filtered by OpenShift cost',
     id: 'AzureOcpDashboardCostTitle',
   },
+  BreakDownTotalCostDate: {
+    defaultMessage:
+      '{count, plural, ' +
+      'one {EN {groupByValue} total cost ({month} {startDate})} ' +
+      'other {EN {groupByValue} total cost ({month} {startDate}-{endDate})}}',
+    description: 'Break down total cost by date',
+    id: 'BreakDownTotalCostDate',
+  },
   ChartCostForecastConeLegendLabel: {
     defaultMessage:
       '{count, plural, one {EN Cost confidence ({month} {startDate})} other {EN Cost confidence ({month} {startDate}-{endDate})}}',
@@ -501,6 +509,26 @@ export default defineMessages({
     defaultMessage: 'EN Services',
     description: 'Services',
     id: 'GroupByTopValueService',
+  },
+  GroupByValues: {
+    defaultMessage:
+      '{value, select, ' +
+      'account {{count, plural, one {EN Account} other {EN Accounts}}} ' +
+      'cluster {{count, plural, one {EN Cluster} other {EN Clusters}}} ' +
+      'instanceType {{count, plural, one {EN Instance Type} other {EN Instance Types}}} ' +
+      'node {{count, plural, one {EN Node} other {EN Node}}} ' +
+      'orgUnitId {{count, plural, one {EN Organizational unit} other {EN Organizational units}}} ' +
+      'pod {{count, plural, one {EN Pod} other {EN Pods}}} ' +
+      'project {{count, plural, one {EN Project} other {EN Projects}}} ' +
+      'region {{count, plural, one {EN Region} other {EN Region}}} ' +
+      'resourceLocation {{count, plural, one {EN Region} other {EN Region}}} ' +
+      'service {{count, plural, one {EN Service} other {EN Services}}} ' +
+      'serviceName {{count, plural, one {EN Service} other {EN Services}}} ' +
+      'subscriptionGuid {{count, plural, one {EN Account} other {EN Accounts}}} ' +
+      'tag {{count, plural, one {EN Tag} other {EN Tags}}} ' +
+      'other {}}',
+    description: 'Group by values',
+    id: 'GroupByValues',
   },
   IBMComputeTitle: {
     defaultMessage: 'EN Compute instances usage',
