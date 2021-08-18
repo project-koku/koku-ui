@@ -4,10 +4,10 @@ import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { orgUnitIdKey, tagKey } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
-import { createIntlEnv } from 'components/i18n/localeEnv';
 import messages from 'locales/messages';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
@@ -49,7 +49,10 @@ interface DetailsToolbarState {
   categoryOptions?: ToolbarChipGroup[];
 }
 
-type DetailsToolbarProps = DetailsToolbarOwnProps & DetailsToolbarStateProps & DetailsToolbarDispatchProps;
+type DetailsToolbarProps = DetailsToolbarOwnProps &
+  DetailsToolbarStateProps &
+  DetailsToolbarDispatchProps &
+  WrappedComponentProps;
 
 const orgReportPathsType = OrgPathsType.aws;
 const orgReportType = OrgType.org;
@@ -83,8 +86,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { orgReport, tagReport } = this.props;
-    const intl = createIntlEnv();
+    const { intl, orgReport, tagReport } = this.props;
 
     const options = [
       { name: intl.formatMessage(messages.FilterByValuesTitleCase, { value: 'account' }), key: 'account' },
@@ -180,6 +182,6 @@ const mapDispatchToProps: DetailsToolbarDispatchProps = {
 };
 
 const DetailsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase);
-const DetailsToolbar = DetailsToolbarConnect;
+const DetailsToolbar = injectIntl(DetailsToolbarConnect);
 
 export { DetailsToolbar, DetailsToolbarProps };

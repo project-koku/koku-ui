@@ -1,11 +1,8 @@
-jest.mock('i18next');
-
-import { createIntlEnv } from 'components/i18n/localeEnv';
+import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 
 describe('getTooltipContent', () => {
   test('format hrs and gb', () => {
-    const intl = createIntlEnv();
     [
       { units: 'hrs', golden: 'hours', withTranslation: messages.UnitTooltips },
       { units: 'gb', golden: 'GB', withTranslation: messages.UnitTooltips },
@@ -19,7 +16,6 @@ describe('getTooltipContent', () => {
     });
   });
   test('format unknown units', () => {
-    const intl = createIntlEnv();
     expect('EN 10').toEqual(intl.formatMessage(messages.UnitTooltips, { units: 'bogus', value: '10' }));
   });
 });
