@@ -2,7 +2,7 @@ jest.mock('date-fns').mock('date-fns/format');
 
 import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { ChartType } from 'components/charts/common/chartDatumUtils';
-import { intl, intlHelper } from 'components/i18n';
+import { intl } from 'components/i18n';
 import { format, getDate, getMonth, startOfMonth } from 'date-fns';
 import { shallow } from 'enzyme';
 import messages from 'locales/messages';
@@ -97,9 +97,9 @@ function getTranslateCallForKeyWithCnt(key: MessageDescriptor, cnt: number) {
   const startDate = 1;
   const endDate = 15;
 
-  return intlHelper(intl.formatMessage(key, { count: cnt, startDate, endDate, month: 'January' }));
+  return intl.formatMessage(key, { count: cnt, startDate, endDate, month: 'January' });
 }
 
 function getTranslateCallForKey(key: MessageDescriptor) {
-  return intlHelper(intl.formatMessage(key));
+  return intl.formatMessage(key);
 }
