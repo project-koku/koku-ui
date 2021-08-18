@@ -1,18 +1,3 @@
-jest.mock('react-i18next', () => ({
-  withTranslation: () => Component => {
-    Component.defaultProps = { ...Component.defaultProps, t: (v: string) => v };
-    return Component;
-  },
-  useTranslation: () => {
-    return {
-      t: (v: string) => v,
-      i18n: {
-        changeLanguage: () => new Promise(() => {}),
-      },
-    };
-  },
-}));
-
 import { render } from '@testing-library/react';
 import { emptyPage, noMatchPageName, page1 } from 'api/costModels.data';
 import { createMemoryHistory } from 'history';
