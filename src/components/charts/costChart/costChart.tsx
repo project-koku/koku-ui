@@ -23,16 +23,16 @@ import {
   isDataAvailable,
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
-import { createIntlEnv } from 'components/i18n/localeEnv';
 import { getDate } from 'date-fns';
 import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { noop } from 'utils/noop';
 
 import { chartStyles } from './costChart.styles';
 
-interface CostChartProps {
+interface CostChartOwnProps {
   adjustContainerHeight?: boolean;
   containerHeight?: number;
   currentCostData: any;
@@ -59,7 +59,9 @@ interface State {
   width: number;
 }
 
-class CostChart extends React.Component<CostChartProps, State> {
+type CostChartProps = CostChartOwnProps & WrappedComponentProps;
+
+class CostChartBase extends React.Component<CostChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   private observer: any = noop;
 
@@ -436,6 +438,7 @@ class CostChart extends React.Component<CostChartProps, State> {
   public render() {
     const {
       height,
+      intl,
       padding = {
         bottom: 50,
         left: 8,
@@ -445,7 +448,6 @@ class CostChart extends React.Component<CostChartProps, State> {
       title,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
-    const intl = createIntlEnv();
     const domain = getDomain(series, hiddenSeries);
     const lastDate = this.getEndDate();
 
@@ -503,5 +505,7 @@ class CostChart extends React.Component<CostChartProps, State> {
     );
   }
 }
+
+const CostChart = injectIntl(CostChartBase);
 
 export { CostChart, CostChartProps };
