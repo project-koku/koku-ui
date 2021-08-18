@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`subtitle is translated with date range 1`] = `"EN January 1-15"`;
+exports[`subtitle is translated with date range 1`] = `"{count, plural, one {EN {month} {startDate}} other {EN {month} {startDate}-{endDate}}}"`;
 
-exports[`subtitle is translated with single date 1`] = `"EN January 1"`;
+exports[`subtitle is translated with single date 1`] = `"{count, plural, one {EN {month} {startDate}} other {EN {month} {startDate}-{endDate}}}"`;
 
 exports[`title is translated 1`] = `"test title"`;
 
