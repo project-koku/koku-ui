@@ -545,16 +545,16 @@ export default defineMessages({
       '{value, select, ' +
       'account {{count, plural, one {EN Account} other {EN Accounts}}} ' +
       'cluster {{count, plural, one {EN Cluster} other {EN Clusters}}} ' +
-      'instanceType {{count, plural, one {EN Instance Type} other {EN Instance Types}}} ' +
+      'instance_type {{count, plural, one {EN Instance Type} other {EN Instance Types}}} ' +
       'node {{count, plural, one {EN Node} other {EN Node}}} ' +
-      'orgUnitId {{count, plural, one {EN Organizational unit} other {EN Organizational units}}} ' +
+      'org_unit_id {{count, plural, one {EN Organizational unit} other {EN Organizational units}}} ' +
       'pod {{count, plural, one {EN Pod} other {EN Pods}}} ' +
       'project {{count, plural, one {EN Project} other {EN Projects}}} ' +
       'region {{count, plural, one {EN Region} other {EN Region}}} ' +
-      'resourceLocation {{count, plural, one {EN Region} other {EN Region}}} ' +
+      'resource_location {{count, plural, one {EN Region} other {EN Region}}} ' +
       'service {{count, plural, one {EN Service} other {EN Services}}} ' +
-      'serviceName {{count, plural, one {EN Service} other {EN Services}}} ' +
-      'subscriptionGuid {{count, plural, one {EN Account} other {EN Accounts}}} ' +
+      'service_name {{count, plural, one {EN Service} other {EN Services}}} ' +
+      'subscription_guid {{count, plural, one {EN Account} other {EN Accounts}}} ' +
       'tag {{count, plural, one {EN Tag} other {EN Tags}}} ' +
       'other {}}',
     description: 'Group by values',
@@ -841,15 +841,15 @@ export default defineMessages({
   UnitTooltips: {
     defaultMessage:
       '{units, select, ' +
-      'coreHours {{value} EN core-hours} ' +
+      'core_hours {{value} EN core-hours} ' +
       'gb {{value} EN GB} ' +
-      'gbHours {{value} EN GB-hours} ' +
-      'gbMo {{value} EN GB-month} ' +
-      'gibibyteMonth {{value} EN GiB-month} ' +
+      'gb_hours {{value} ES GB-hours} ' +
+      'gb_mo {{value} EN GB-month} ' +
+      'gibibyte_month {{value} EN GiB-month} ' +
       'hour {{value} EN hours} ' +
       'hrs {{value} EN hours} ' +
       'usd {{value} EN} ' +
-      'vmHours {{value} EN VM-hours} ' +
+      'vm_hours {{value} EN VM-hours} ' +
       'other {EN {value}}}',
     description: 'return value and unit based on key: "units"',
     id: 'UnitTooltips',
@@ -857,15 +857,15 @@ export default defineMessages({
   Units: {
     defaultMessage:
       '{units, select, ' +
-      'coreHours {EN core-hours} ' +
+      'core_hours {EN core-hours} ' +
       'gb {EN GB} ' +
-      'gbHours {EN GB-hours} ' +
-      'gbMo {EN GB-month} ' +
-      'gibibyteMonth {EN GiB-month} ' +
+      'gb_hours {EN GB-hours} ' +
+      'gb_mo {EN GB-month} ' +
+      'gibibyte_month {EN GiB-month} ' +
       'hour {EN hours} ' +
       'hrs {EN hours} ' +
       'usd {$USD} ' +
-      'vmHours {EN VM-hours} ' +
+      'vm_hours {EN VM-hours} ' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
     id: 'Units',

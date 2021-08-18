@@ -11,22 +11,22 @@ export const unitLookupKey = unit => {
   const lookup = unit ? unit.toLowerCase() : '';
   switch (lookup) {
     case 'gb-hours':
-      return 'gbHours';
+      return 'gb_hours';
       break;
     case 'gb-mo':
-      return 'gbMo';
+      return 'gb_mo';
       break;
     case 'gibibyte month':
-      return 'gibibyteMonth';
+      return 'gibibyte_month';
       break;
     case 'core-hours':
-      return 'coreHours';
+      return 'core_hours';
       break;
     case 'tag-mo':
-      return 'tagMo';
+      return 'tag_mo';
       break;
     case 'vm-hours':
-      return 'vmHours';
+      return 'vm_hours';
       break;
     case 'usd':
     case '$usd':
@@ -50,6 +50,7 @@ export const formatValue: ValueFormatter = (value: number, unit: string, options
       return formatCurrency(fValue, lookup, options);
     case 'gb':
     case 'gbHours':
+    case 'gb_hours':
     case 'gbMo':
     case 'gibibyteMonth':
     case 'tagMo':
