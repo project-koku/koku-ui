@@ -10,7 +10,6 @@ import {
   transformForecastCone,
   transformReport,
 } from 'components/charts/common/chartDatumUtils';
-import { createIntlEnv } from 'components/i18n/localeEnv';
 import {
   ReportSummary,
   ReportSummaryAlt,
@@ -26,6 +25,7 @@ import {
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
+import { WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { DashboardChartType, DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
@@ -64,7 +64,10 @@ interface DashboardWidgetDispatchProps {
   updateTab: (id, availableTabs) => void;
 }
 
-type DashboardWidgetProps = DashboardWidgetOwnProps & DashboardWidgetStateProps & DashboardWidgetDispatchProps;
+type DashboardWidgetProps = DashboardWidgetOwnProps &
+  DashboardWidgetStateProps &
+  DashboardWidgetDispatchProps &
+  WrappedComponentProps;
 
 class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   public state = {
@@ -125,9 +128,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getChartComparison = () => {
-    const { trend } = this.props;
+    const { intl, trend } = this.props;
     const { currentComparison } = this.state;
-    const intl = createIntlEnv();
 
     const units = this.getUnits();
 
@@ -385,8 +387,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     showInfrastructureLabel: boolean = false,
     showSupplementaryLabel: boolean = false
   ) => {
-    const { currentReport, details, previousReport, trend } = this.props;
-    const intl = createIntlEnv();
+    const { currentReport, details, intl, previousReport, trend } = this.props;
     const units = this.getUnits();
     const title = intl.formatMessage(trend.titleKey, { units });
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
@@ -428,8 +429,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   // This chart displays usage and requests
   private getUsageChart = (height: number, adjustContainerHeight: boolean = false) => {
-    const { currentReport, previousReport, trend } = this.props;
-    const intl = createIntlEnv();
+    const { currentReport, intl, previousReport, trend } = this.props;
     const units = this.getUnits();
     const title = intl.formatMessage(trend.titleKey, { units });
 
@@ -485,7 +485,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getDetailsLabel = (key: MessageDescriptor, units: string) => {
-    const intl = createIntlEnv();
+    const { intl } = this.props;
     return key ? intl.formatMessage(key, { units: intl.formatMessage(messages.Units, { units }) }) : undefined;
   };
 
@@ -499,9 +499,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getDetailsLinkTitle = <T extends DashboardWidget<any>>(tab: T) => {
-    const { getIdKeyForTab } = this.props;
+    const { getIdKeyForTab, intl } = this.props;
     const key = getIdKeyForTab(tab) || '';
-    const intl = createIntlEnv();
 
     return intl.formatMessage(messages.GroupByTop, { groupBy: key });
   };
@@ -603,24 +602,22 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getTabTitle = <T extends DashboardWidget<any>>(tab: T) => {
-    const { getIdKeyForTab } = this.props;
+    const { getIdKeyForTab, intl } = this.props;
     const key = getIdKeyForTab(tab) || '';
-    const intl = createIntlEnv();
 
     return intl.formatMessage(messages.GroupByTop, { groupBy: key });
   };
 
   private getTitle = () => {
-    const { titleKey } = this.props;
-    const intl = createIntlEnv();
+    const { intl, titleKey } = this.props;
+
     return intl.formatMessage(titleKey);
   };
 
   private getUnits = () => {
-    const { currentReport, details, trend } = this.props;
+    const { currentReport, details, intl, trend } = this.props;
     const computedReportItem = trend.computedReportItem || 'cost';
     const computedReportItemValue = trend.computedReportItemValue || 'total';
-    const intl = createIntlEnv();
 
     if (details.units) {
       return intl.formatMessage(messages.Units, { units: unitLookupKey(details.units) });

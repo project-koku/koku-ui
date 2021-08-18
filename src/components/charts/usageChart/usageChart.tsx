@@ -23,16 +23,16 @@ import {
   isDataAvailable,
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
-import { createIntlEnv } from 'components/i18n/localeEnv';
 import { getDate } from 'date-fns';
 import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { noop } from 'utils/noop';
 
 import { chartStyles } from './usageChart.styles';
 
-interface UsageChartProps {
+interface UsageChartOwnProps {
   adjustContainerHeight?: boolean;
   containerHeight?: number;
   currentRequestData?: any;
@@ -54,7 +54,9 @@ interface State {
   width: number;
 }
 
-class UsageChart extends React.Component<UsageChartProps, State> {
+type UsageChartProps = UsageChartOwnProps & WrappedComponentProps;
+
+class UsageChartBase extends React.Component<UsageChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   private observer: any = noop;
 
@@ -263,6 +265,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   public render() {
     const {
       height,
+      intl,
       padding = {
         bottom: 75,
         left: 8,
@@ -272,7 +275,6 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       title,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
-    const intl = createIntlEnv();
     const domain = getDomain(series, hiddenSeries);
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
@@ -322,5 +324,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     );
   }
 }
+
+const UsageChart = injectIntl(UsageChartBase);
 
 export { UsageChart, UsageChartProps };
