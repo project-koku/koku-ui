@@ -1,25 +1,25 @@
-jest.mock('i18next');
-
-import { createIntlEnv } from 'components/i18n/localeEnv';
+import { intl } from 'components/i18n';
 import messages from 'locales/messages';
+
+import { getTooltipContent } from './chartDatumUtils';
+
+jest.spyOn(intl, 'formatMessage');
+
+const labelFormatFunc = getTooltipContent(jest.fn(v => v));
 
 describe('getTooltipContent', () => {
   test('format hrs and gb', () => {
-    const intl = createIntlEnv();
     [
-      { units: 'hrs', golden: 'hours', withTranslation: messages.UnitTooltips },
-      { units: 'gb', golden: 'GB', withTranslation: messages.UnitTooltips },
-      { units: 'gbMo', golden: 'GB-month', withTranslation: messages.UnitTooltips },
+      { unit: 'hrs', withTranslation: messages.UnitTooltips },
+      { unit: 'gb', withTranslation: messages.UnitTooltips },
+      { unit: 'gb-mo', withTranslation: messages.UnitTooltips },
     ].forEach(tc => {
-      const labelFormatFunc = (value, unit) => {
-        return value + ' EN ' + unit;
-      };
-      const tValue = labelFormatFunc(10, tc.golden);
-      expect(tValue).toEqual(intl.formatMessage(tc.withTranslation, { units: tc.units, value: '10' }));
+      labelFormatFunc(10, tc.unit);
+      expect(intl.formatMessage).toBeCalledWith(tc.withTranslation, { units: 'hrs', value: 10 });
     });
   });
   test('format unknown units', () => {
-    const intl = createIntlEnv();
-    expect('EN 10').toEqual(intl.formatMessage(messages.UnitTooltips, { units: 'bogus', value: '10' }));
+    expect(intl.formatMessage).not.toBeCalled();
+    expect(labelFormatFunc(10)).toBe('10');
   });
 });

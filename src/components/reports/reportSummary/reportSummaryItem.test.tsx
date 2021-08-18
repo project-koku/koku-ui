@@ -8,7 +8,9 @@ const props: ReportSummaryItemProps = {
   formatOptions: {},
   formatValue: jest.fn(v => `formatted ${v}`),
   label: 'Label',
-  t: jest.fn(v => v),
+  intl: {
+    formatMessage: jest.fn(v => v),
+  } as any,
   totalValue: 1000,
   units: 'units',
   value: 100,
