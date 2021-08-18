@@ -1,4 +1,4 @@
-import { createIntlEnv, getLocale } from 'components/i18n/localeEnv';
+import { getLocale, intl, intlHelper } from 'components/i18n';
 import messages from 'locales/messages';
 
 export interface FormatOptions {
@@ -107,7 +107,6 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fracti
 
   // Apply format and insert symbol next to the numeric portion of the formatted string
   if (format != null) {
-    const intl = createIntlEnv();
     const { val, symbol } = format;
     const formatted = (fValue / val).toLocaleString(getLocale(), {
       style: 'currency',
@@ -116,7 +115,7 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fracti
       maximumFractionDigits: fractionDigits,
     });
     const parts = formatted.match(/([\D]*)([\d.,]+)([\D]*)/);
-    return `${parts[1]}${parts[2]}${intl.formatMessage(messages.Custom, { msg: symbol })}${parts[3]}`;
+    return `${parts[1]}${parts[2]}${intlHelper(intl.formatMessage(messages.Custom, { msg: symbol }))}${parts[3]}`;
   }
 
   // If no format was found, format value without abbreviation

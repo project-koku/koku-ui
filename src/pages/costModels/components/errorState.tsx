@@ -12,9 +12,9 @@ import {
 } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-circle-icon';
 import global_DangerColor_100 from '@patternfly/react-tokens/dist/js/global_danger_color_100';
-import { createIntlEnv } from 'components/i18n/localeEnv';
 import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RootState } from 'store/rootReducer';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
@@ -44,12 +44,11 @@ export const ErrorState: React.FunctionComponent<ErrorStateProps> = ({ variant, 
   );
 };
 
-interface SourcesErrorStateProps {
+interface SourcesErrorStateProps extends WrappedComponentProps {
   onRefresh: () => void;
 }
 
-export const SourceStepErrorState: React.FunctionComponent<SourcesErrorStateProps> = ({ onRefresh }) => {
-  const intl = createIntlEnv();
+export const SourceStepErrorStateBase: React.FunctionComponent<SourcesErrorStateProps> = ({ intl, onRefresh }) => {
   const title = intl.formatMessage(messages.CostModelsWizardSourceErrorTitle);
   const description = intl.formatMessage(messages.CostModelsWizardSourceErrorDescription, {
     statusUrl: (
@@ -77,9 +76,10 @@ export const SourceStepErrorState: React.FunctionComponent<SourcesErrorStateProp
     </Stack>
   );
 };
+const SourceStepErrorState = injectIntl(SourceStepErrorStateBase);
+export { SourceStepErrorState };
 
-export const SourcesModalErrorStateBase: React.FunctionComponent<SourcesErrorStateProps> = ({ onRefresh }) => {
-  const intl = createIntlEnv();
+export const SourcesModalErrorStateBase: React.FunctionComponent<SourcesErrorStateProps> = ({ intl, onRefresh }) => {
   const title = intl.formatMessage(messages.CostModelsDetailsAssignSourcesErrorTitle);
   const description = intl.formatMessage(messages.CostModelsDetailsAssignSourcesErrorDescription, {
     statusUrl: (
@@ -94,28 +94,30 @@ export const SourcesModalErrorStateBase: React.FunctionComponent<SourcesErrorSta
   );
 };
 
-export const SourcesModalErrorState = connect(
-  (state: RootState) => ({
-    query: sourcesSelectors.query(state),
-  }),
-  dispatch => ({
-    fetch: (query: string) => sourcesActions.fetchSources(query)(dispatch),
-  }),
-  (stateProps, dispatchProps) => {
-    const { query } = stateProps;
-    const { fetch } = dispatchProps;
-    const searchTerm = Object.keys(query).reduce((acc, curr) => {
-      if (query[curr] === null) {
-        return acc;
-      }
-      if (acc === '') {
-        return `${curr}=${query[curr]}`;
-      }
-      return `${acc}&${curr}=${query[curr]}`;
-    }, '');
+export const SourcesModalErrorState = injectIntl(
+  connect(
+    (state: RootState) => ({
+      query: sourcesSelectors.query(state),
+    }),
+    dispatch => ({
+      fetch: (query: string) => sourcesActions.fetchSources(query)(dispatch),
+    }),
+    (stateProps, dispatchProps) => {
+      const { query } = stateProps;
+      const { fetch } = dispatchProps;
+      const searchTerm = Object.keys(query).reduce((acc, curr) => {
+        if (query[curr] === null) {
+          return acc;
+        }
+        if (acc === '') {
+          return `${curr}=${query[curr]}`;
+        }
+        return `${acc}&${curr}=${query[curr]}`;
+      }, '');
 
-    return {
-      onRefresh: () => fetch(searchTerm),
-    };
-  }
-)(SourcesModalErrorStateBase);
+      return {
+        onRefresh: () => fetch(searchTerm),
+      };
+    }
+  )(SourcesModalErrorStateBase)
+);
