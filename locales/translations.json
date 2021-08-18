@@ -128,6 +128,8 @@
   "OCPUsageDashboardCostTrendTitle": "EN Metering cumulative cost comparison ({units})",
   "OCPVolumeUsageAndRequests": "EN Volume usage and requests",
   "OpenShift": "EN OpenShift",
+  "OpenShiftCloudInfrastructure": "EN OpenShift cloud infrastructure",
+  "OpenShiftCloudInfrastructureDesc": "EN Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.",
   "OpenShiftDesc": "EN Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.",
   "OverviewInfoArialLabel": "EN A description of perspectives",
   "OverviewTitle": "EN Cost Management Overview",
