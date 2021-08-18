@@ -2,6 +2,11 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
+  AWS: {
+    defaultMessage: 'EN Amazon Web Services',
+    description: 'Amazon Web Services',
+    id: 'AWS',
+  },
   AWSComputeTitle: {
     defaultMessage: 'EN Compute (EC2) instances usage',
     description: 'Compute (EC2) instances usage',
@@ -22,10 +27,20 @@ export default defineMessages({
     description: 'Amazon Web Services cost',
     id: 'AWSDashboardCostTitle',
   },
+  AWSDesc: {
+    defaultMessage: 'EN Raw cost from Amazon Web Services infrastructure.',
+    description: 'Raw cost from Amazon Web Services infrastructure.',
+    id: 'AWSDesc',
+  },
   AWSOcpDashboardCostTitle: {
     defaultMessage: 'EN Amazon Web Services filtered by OpenShift cost',
     description: 'Amazon Web Services filtered by OpenShift cost',
     id: 'AWSOcpDashboardCostTitle',
+  },
+  Azure: {
+    defaultMessage: 'EN Microsoft Azure',
+    description: 'Microsoft Azure',
+    id: 'Azure',
   },
   AzureComputeTitle: {
     defaultMessage: 'EN Virtual machines usage',
@@ -46,6 +61,11 @@ export default defineMessages({
     defaultMessage: 'EN Microsoft Azure cost',
     description: 'Microsoft Azure cost',
     id: 'AzureDashboardCostTitle',
+  },
+  AzureDesc: {
+    defaultMessage: 'EN Raw cost from Azure infrastructure.',
+    description: 'Raw cost from Azure infrastructure.',
+    id: 'AzureDesc',
   },
   AzureOcpDashboardCostTitle: {
     defaultMessage: 'EN Microsoft Azure filtered by OpenShift cost',
@@ -435,6 +455,11 @@ export default defineMessages({
     description: '{value} for date range',
     id: 'ForDate',
   },
+  GCP: {
+    defaultMessage: 'EN Google Cloud Platform',
+    description: 'Google Cloud Platform',
+    id: 'GCP',
+  },
   GCPComputeTitle: {
     defaultMessage: 'EN Compute instances usage',
     description: 'Compute instances usage',
@@ -454,6 +479,11 @@ export default defineMessages({
     defaultMessage: 'EN Google Cloud Platform Services daily cost comparison ({units})',
     description: 'Google Cloud Platform Services daily cost comparison ({units})',
     id: 'GCPDailyCostTrendTitle',
+  },
+  GCPDesc: {
+    defaultMessage: 'EN Raw cost from Google Cloud Platform infrastructure.',
+    description: 'Raw cost from Google Cloud Platform infrastructure.',
+    id: 'GCPDesc',
   },
   GroupByAll: {
     defaultMessage: 'EN All {groupBy}s',
@@ -530,6 +560,11 @@ export default defineMessages({
     description: 'Group by values',
     id: 'GroupByValues',
   },
+  IBM: {
+    defaultMessage: 'EN IBM Cloud',
+    description: 'IBM Cloud',
+    id: 'IBM',
+  },
   IBMComputeTitle: {
     defaultMessage: 'EN Compute instances usage',
     description: 'Compute instances usage',
@@ -549,6 +584,16 @@ export default defineMessages({
     defaultMessage: 'EN IBM Cloud Services daily cost comparison ({units})',
     description: 'IBM Cloud Services daily cost comparison ({units})',
     id: 'IBMDailyCostTrendTitle',
+  },
+  IBMDesc: {
+    defaultMessage: 'EN Raw cost from IBM Cloud infrastructure.',
+    description: 'Raw cost from IBM Cloud infrastructure.',
+    id: 'IBMDesc',
+  },
+  Infrastructure: {
+    defaultMessage: 'EN Infrastructure',
+    description: 'Infrastructure',
+    id: 'Infrastructure',
   },
   MaintenanceEmptyStateDesc: {
     defaultMessage:
@@ -702,6 +747,40 @@ export default defineMessages({
     defaultMessage: 'EN Volume usage and requests',
     description: 'Volume usage and requests',
     id: 'OCPVolumeUsageAndRequests',
+  },
+  OpenShift: {
+    defaultMessage: 'EN OpenShift',
+    description: 'OpenShift',
+    id: 'OpenShift',
+  },
+  OpenShiftCloudInfrastructure: {
+    defaultMessage: 'EN OpenShift cloud infrastructure',
+    description: 'OpenShift cloud infrastructure',
+    id: 'OverviewInfoArialLabel',
+  },
+  OpenShiftCloudInfrastructureDesc: {
+    defaultMessage:
+      'EN Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.',
+    description:
+      'Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.',
+    id: 'OverviewInfoArialLabel',
+  },
+  OpenShiftDesc: {
+    defaultMessage:
+      'EN Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.',
+    description:
+      'Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.',
+    id: 'OpenShiftDesc',
+  },
+  OverviewInfoArialLabel: {
+    defaultMessage: 'EN A description of perspectives',
+    description: 'A description of perspectives',
+    id: 'OverviewInfoArialLabel',
+  },
+  OverviewTitle: {
+    defaultMessage: 'EN Cost Management Overview',
+    description: 'Cost Management Overview',
+    id: 'OverviewTitle',
   },
   PercentTotalCost: {
     defaultMessage: 'EN {unit}{value} ({percent}%)',
