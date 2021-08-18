@@ -2,7 +2,7 @@ jest.mock('date-fns').mock('date-fns/format');
 
 import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { ChartType } from 'components/charts/common/chartDatumUtils';
-import { createIntlEnv } from 'components/i18n/localeEnv';
+import { intl } from 'components/i18n';
 import { format, getDate, getMonth, startOfMonth } from 'date-fns';
 import { shallow } from 'enzyme';
 import messages from 'locales/messages';
@@ -28,7 +28,9 @@ const tmessages = defineMessages({
 const props: DashboardWidgetProps = {
   widgetId: 1,
   id: 1,
-  t: jest.fn(v => v),
+  intl: {
+    formatMessage: jest.fn(v => v),
+  } as any,
   current: { data: [] },
   previous: { data: [] },
   tabs: { data: [] },
@@ -92,7 +94,6 @@ test('trend title is translated', () => {
 });
 
 function getTranslateCallForKeyWithCnt(key: MessageDescriptor, cnt: number) {
-  const intl = createIntlEnv();
   const startDate = 1;
   const endDate = 15;
 
@@ -100,6 +101,5 @@ function getTranslateCallForKeyWithCnt(key: MessageDescriptor, cnt: number) {
 }
 
 function getTranslateCallForKey(key: MessageDescriptor) {
-  const intl = createIntlEnv();
   return intl.formatMessage(key);
 }

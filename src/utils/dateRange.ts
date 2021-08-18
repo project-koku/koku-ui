@@ -1,5 +1,5 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { createIntlEnv, getDateFnsLocale } from 'components/i18n/localeEnv';
+import { getDateFnsLocale, intl, intlHelper } from 'components/i18n';
 import { endOfMonth, format, getDate, getMonth, getYear, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 
@@ -26,7 +26,6 @@ export function getLocalizedMonth(year, month, abbreviate: boolean = false) {
 }
 
 export function getNoDataForDateRangeString(key: MessageDescriptor = messages.NoDataForDate, offset: number = 1) {
-  const intl = createIntlEnv();
   const today = getToday();
 
   if (offset) {
@@ -37,7 +36,7 @@ export function getNoDataForDateRangeString(key: MessageDescriptor = messages.No
   const endDate = format(today, 'd');
   const startDate = format(startOfMonth(today), 'd');
 
-  return intl.formatMessage(key, { count: getDate(today), startDate, endDate, month });
+  return intlHelper(intl.formatMessage(key, { count: getDate(today), startDate, endDate, month }));
 }
 
 export function getForDateRangeString(
@@ -45,7 +44,6 @@ export function getForDateRangeString(
   message: MessageDescriptor = messages.ForDate,
   offset: number = 1
 ) {
-  const intl = createIntlEnv();
   const today = getToday();
 
   if (offset) {
@@ -56,24 +54,25 @@ export function getForDateRangeString(
   const endDate = format(today, 'd');
   const startDate = format(startOfMonth(today), 'd');
 
-  return intl.formatMessage(message, {
-    groupByValue: intl.formatMessage(messages.GroupByValues, { value, count: 2 }),
-    count: getDate(today),
-    startDate,
-    endDate,
-    month,
-    offset,
-  });
+  return intlHelper(
+    intl.formatMessage(message, {
+      groupByValue: intl.formatMessage(messages.GroupByValues, { value, count: 2 }),
+      count: getDate(today),
+      startDate,
+      endDate,
+      month,
+      offset,
+    })
+  );
 }
 
 export function getSinceDateRangeString(key: MessageDescriptor = messages.SinceDate) {
-  const intl = createIntlEnv();
   const today = getToday();
   const month = getLocalizedMonth(getYear(today), getMonth(today), false);
   const endDate = format(today, 'd');
   const startDate = format(startOfMonth(today), 'd');
 
-  return intl.formatMessage(key, { count: getDate(today), startDate, endDate, month });
+  return intlHelper(intl.formatMessage(key, { count: getDate(today), startDate, endDate, month }));
 }
 
 export function getMonthDate(offset: number) {
