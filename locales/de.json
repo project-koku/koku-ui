@@ -89,7 +89,7 @@
   "GroupByTopValueProject": "DE Projects",
   "GroupByTopValueRegion": "DE Regions",
   "GroupByTopValueService": "DE Services",
-  "GroupByValues": "{value, select, account {{count, plural, one {DE Account} other {DE Accounts}}} cluster {{count, plural, one {DE Cluster} other {DE Clusters}}} instanceType {{count, plural, one {DE Instance Type} other {DE Instance Types}}} node {{count, plural, one {DE Node} other {DE Node}}} orgUnitId {{count, plural, one {DE Organizational unit} other {DE Organizational units}}} pod {{count, plural, one {DE Pod} other {DE Pods}}} project {{count, plural, one {DE Project} other {DE Projects}}} region {{count, plural, one {DE Region} other {DE Region}}} resourceLocation {{count, plural, one {DE Region} other {DE Region}}} service {{count, plural, one {DE Service} other {DE Services}}} serviceName {{count, plural, one {DE Service} other {DE Services}}} subscriptionGuid {{count, plural, one {DE Account} other {DE Accounts}}} tag {{count, plural, one {DE Tag} other {DE Tags}}} other {}}",
+  "GroupByValues": "{value, select, account {{count, plural, one {DE Account} other {DE Accounts}}} cluster {{count, plural, one {DE Cluster} other {DE Clusters}}} instance_type {{count, plural, one {DE Instance Type} other {DE Instance Types}}} node {{count, plural, one {DE Node} other {DE Node}}} org_unit_id {{count, plural, one {DE Organizational unit} other {DE Organizational units}}} pod {{count, plural, one {DE Pod} other {DE Pods}}} project {{count, plural, one {DE Project} other {DE Projects}}} region {{count, plural, one {DE Region} other {DE Region}}} resource_location {{count, plural, one {DE Region} other {DE Region}}} service {{count, plural, one {DE Service} other {DE Services}}} service_name {{count, plural, one {DE Service} other {DE Services}}} subscription_guid {{count, plural, one {DE Account} other {DE Accounts}}} tag {{count, plural, one {DE Tag} other {DE Tags}}} other {}}",
   "IBM": "DE IBM Cloud",
   "IBMComputeTitle": "DE Compute instances usage",
   "IBMCostTitle": "DE IBM Cloud Services cost",
@@ -144,7 +144,7 @@
   "ToolBarBulkSelectAriaSelect": "DE Select all items",
   "ToolBarBulkSelectNone": "DE Select none (0 items)",
   "ToolBarBulkSelectPage": "DE Select page ({value} items)",
-  "UnitTooltips": "{units, select, coreHours {{value} DE core-hours} gb {{value} DE GB} gbHours {{value} DE GB-hours} gbMo {{value} DE GB-month} gibibyteMonth {{value} DE GiB-month} hour {{value} DE hours} hrs {{value} DE hours} usd {{value} DE} vmHours {{value} DE VM-hours} other {DE {value}}}",
-  "Units": "{units, select, coreHours {DE core-hours} gb {DE GB} gbHours {DE GB-hours} gbMo {DE GB-month} gibibyteMonth {DE GiB-month} hour {DE hours} hrs {DE hours} usd {$USD} vmHours {DE VM-hours} other {}}",
+  "UnitTooltips": "{units, select, core_hours {{value} DE core-hours} gb {{value} DE GB} gb_hours {{value} ES GB-hours} gb_mo {{value} DE GB-month} gibibyte_month {{value} DE GiB-month} hour {{value} DE hours} hrs {{value} DE hours} usd {{value} DE} vm_hours {{value} DE VM-hours} other {DE {value}}}",
+  "Units": "{units, select, core_hours {DE core-hours} gb {DE GB} gb_hours {DE GB-hours} gb_mo {DE GB-month} gibibyte_month {DE GiB-month} hour {DE hours} hrs {DE hours} usd {$USD} vm_hours {DE VM-hours} other {}}",
   "Usage": "DE Usage"
 }
