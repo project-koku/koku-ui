@@ -22,7 +22,7 @@ describe('formatValue', () => {
   });
 
   test('gb unit calls format storage', () => {
-    const unit = 'gbMo';
+    const unit = 'gb_mo';
     format.formatValue(value, 'gb-mo', formatOptions);
     expect(format.formatUsageGb).toBeCalledWith(value, unit, formatOptions);
   });
