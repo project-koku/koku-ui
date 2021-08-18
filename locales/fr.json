@@ -129,7 +129,7 @@
   "ToolBarBulkSelectAriaSelect": "FR Select all items",
   "ToolBarBulkSelectNone": "FR Select none (0 items)",
   "ToolBarBulkSelectPage": "FR Select page ({value} items)",
-  "UnitTooltips": "{units, select, coreHours {{value} FR core-hours} gb {{value} FR GB} gbHours {{value} FR GB-hours} gbMo {{value} FR GB-month} gibibyteMonth {{value} FR GiB-month} hour {{value} FR hours} hrs {{value} FR hours} usd {{value} EN} vmHours {{value} FR VM-hours} other {FR {value}}}",
+  "UnitTooltips": "{units, select, coreHours {{value} FR core-hours} gb {{value} FR GB} gbHours {{value} FR GB-hours} gbMo {{value} FR GB-month} gibibyteMonth {{value} FR GiB-month} hour {{value} FR hours} hrs {{value} FR hours} usd {{value} FR} vmHours {{value} FR VM-hours} other {FR {value}}}",
   "Units": "{units, select, coreHours {FR core-hours} gb {FR GB} gbHours {FR GB-hours} gbMo {FR GB-month} gibibyteMonth {FR GiB-month} hour {FR hours} hrs {FR hours} usd {$USD} vmHours {FR VM-hours} other {}}",
   "Usage": "FR Usage"
 }
