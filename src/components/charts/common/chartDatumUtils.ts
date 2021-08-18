@@ -396,13 +396,13 @@ export function getTooltipContent(formatValue) {
   return function labelFormatter(value: number, unit: string = null, options: FormatOptions = {}) {
     const lookup = unitLookupKey(unit);
     switch (lookup) {
-      case 'coreHours':
+      case 'core_hours':
       case 'hour':
       case 'hrs':
       case 'gb':
-      case 'gbHours':
-      case 'gbMo':
-      case 'gibibyteMonth':
+      case 'gb_hours':
+      case 'gb_mo':
+      case 'gibibyte_month':
       case 'vmHours':
         return intlHelper(
           intl.formatMessage(messages.UnitTooltips, { units: lookup, value: formatValue(value, unit, options) })
