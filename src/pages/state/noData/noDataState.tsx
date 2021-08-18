@@ -32,6 +32,6 @@ class NoDataStateBase extends React.Component<NoDataStateProps> {
   }
 }
 
-const NoDataState = withRouter(injectIntl(NoDataStateBase));
+const NoDataState = injectIntl(withRouter(NoDataStateBase));
 
 export { NoDataState };
