@@ -4,10 +4,10 @@ import { tagKey } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
 import { AzureTag } from 'api/tags/azureTags';
 import { TagPathsType, TagType } from 'api/tags/tag';
-import { createIntlEnv } from 'components/i18n/localeEnv';
 import messages from 'locales/messages';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
@@ -44,7 +44,10 @@ interface DetailsToolbarState {
   categoryOptions?: ToolbarChipGroup[];
 }
 
-type DetailsToolbarProps = DetailsToolbarOwnProps & DetailsToolbarStateProps & DetailsToolbarDispatchProps;
+type DetailsToolbarProps = DetailsToolbarOwnProps &
+  DetailsToolbarStateProps &
+  DetailsToolbarDispatchProps &
+  WrappedComponentProps;
 
 const tagReportType = TagType.tag;
 const tagReportPathsType = TagPathsType.azure;
@@ -74,8 +77,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { tagReport } = this.props;
-    const intl = createIntlEnv();
+    const { intl, tagReport } = this.props;
 
     const options = [
       {
@@ -163,6 +165,6 @@ const mapDispatchToProps: DetailsToolbarDispatchProps = {
 };
 
 const DetailsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase);
-const DetailsToolbar = DetailsToolbarConnect;
+const DetailsToolbar = injectIntl(DetailsToolbarConnect);
 
 export { DetailsToolbar, DetailsToolbarProps };

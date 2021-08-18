@@ -3,14 +3,14 @@ import './reportSummaryDetails.scss';
 import { Tooltip } from '@patternfly/react-core';
 import { Report, ReportType } from 'api/reports/report';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
-import { createIntlEnv } from 'components/i18n/localeEnv';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
 
-interface ReportSummaryDetailsProps {
+interface ReportSummaryDetailsOwnProps {
   chartType?: DashboardChartType;
   computedReportItem?: string;
   computedReportItemValue?: string;
@@ -29,6 +29,8 @@ interface ReportSummaryDetailsProps {
   usageLabel?: string;
 }
 
+type ReportSummaryDetailsProps = ReportSummaryDetailsOwnProps & WrappedComponentProps;
+
 const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   chartType,
   computedReportItem = 'cost',
@@ -36,6 +38,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   costLabel,
   formatValue,
   formatOptions,
+  intl,
   report,
   requestFormatOptions,
   requestLabel,
@@ -108,7 +111,6 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   }
 
   const getCostLayout = (showAltHeroFont: boolean = false) => {
-    const intl = createIntlEnv();
     let value = cost;
     if (computedReportItem === ComputedReportItemType.infrastructure) {
       value = infrastructureCost;
@@ -138,7 +140,6 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   };
 
   const getRequestLayout = () => {
-    const intl = createIntlEnv();
     if (!usageLabel) {
       return null;
     }
@@ -160,7 +161,6 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   };
 
   const getUsageLayout = () => {
-    const intl = createIntlEnv();
     if (!usageLabel) {
       return null;
     }
@@ -223,6 +223,6 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   }
 };
 
-const ReportSummaryDetails = ReportSummaryDetailsBase;
+const ReportSummaryDetails = injectIntl(ReportSummaryDetailsBase);
 
 export { ReportSummaryDetails, ReportSummaryDetailsProps };

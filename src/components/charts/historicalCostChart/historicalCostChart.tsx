@@ -24,16 +24,16 @@ import {
   isDataAvailable,
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
-import { createIntlEnv } from 'components/i18n/localeEnv';
 import { getDate } from 'date-fns';
 import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { noop } from 'utils/noop';
 
 import { chartStyles, styles } from './historicalCostChart.styles';
 
-interface HistoricalCostChartProps {
+interface HistoricalCostChartOwnProps {
   adjustContainerHeight?: boolean;
   containerHeight?: number;
   currentCostData?: any;
@@ -57,7 +57,9 @@ interface State {
   width: number;
 }
 
-class HistoricalCostChart extends React.Component<HistoricalCostChartProps, State> {
+type HistoricalCostChartProps = HistoricalCostChartOwnProps & WrappedComponentProps;
+
+class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   private observer: any = noop;
 
@@ -274,6 +276,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
     const {
       adjustContainerHeight,
       height,
+      intl,
       containerHeight = height,
       padding = {
         bottom: 120,
@@ -286,7 +289,6 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
       yAxisLabel,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
-    const intl = createIntlEnv();
     const domain = getDomain(series, hiddenSeries);
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
@@ -342,5 +344,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
     );
   }
 }
+
+const HistoricalCostChart = injectIntl(HistoricalCostChartBase);
 
 export { HistoricalCostChart, HistoricalCostChartProps };
