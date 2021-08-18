@@ -51,10 +51,10 @@ export const formatValue: ValueFormatter = (value: number, unit: string, options
     case 'gb':
     case 'gbHours':
     case 'gb_hours':
-    case 'gbMo':
-    case 'gibibyteMonth':
-    case 'tagMo':
-    case 'vmHours':
+    case 'gb_mo':
+    case 'gibibyte_month':
+    case 'tag_mo':
+    case 'vm_hours':
       return formatUsageGb(fValue, lookup, options);
     case 'coreHours':
     case 'hour':
