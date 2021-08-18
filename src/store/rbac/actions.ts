@@ -1,6 +1,6 @@
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import { getRBAC, RBAC } from 'api/rbac';
-import { createIntlEnv } from 'components/i18n/localeEnv';
+import { intl, intlHelper } from 'components/i18n';
 import messages from 'locales/messages';
 import { Dispatch } from 'redux';
 import { createAsyncAction } from 'typesafe-actions';
@@ -12,7 +12,6 @@ export const {
 } = createAsyncAction('fetch/RBAC/request', 'fetch/RBAC/success', 'fetch/RBAC/failure')<void, RBAC, Error>();
 
 export const fetchRbac = (): any => {
-  const intl = createIntlEnv();
   return (dispatch: Dispatch) => {
     dispatch(fetchRbacRequest());
     return getRBAC()
@@ -23,7 +22,7 @@ export const fetchRbac = (): any => {
         dispatch(
           addNotification({
             title: intl.formatMessage(messages.RbacErrorTitle),
-            description: intl.formatMessage(messages.RbacErrorDescription),
+            description: intlHelper(intl.formatMessage(messages.RbacErrorDescription)),
             variant: 'danger',
             dismissable: true,
           })

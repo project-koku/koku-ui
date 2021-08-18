@@ -5,11 +5,13 @@ import { ReportSummaryDetails, ReportSummaryDetailsProps } from './reportSummary
 
 const props: ReportSummaryDetailsProps = {
   formatValue: jest.fn(() => 'formatedValue'),
+  intl: {
+    formatMessage: jest.fn(v => v),
+  } as any,
   report: {
     data: [],
     meta: { total: { cost: { total: { value: 100, units: 'USD' } } } },
   },
-  t: jest.fn(v => v),
 } as any;
 
 test('report total is formated', () => {

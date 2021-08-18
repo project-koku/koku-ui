@@ -3,6 +3,7 @@ import {
   DashboardWidgetOwnProps,
   DashboardWidgetStateProps,
 } from 'pages/views/overview/components/dashboardWidgetBase';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { ibmDashboardActions, ibmDashboardSelectors, IbmDashboardTab } from 'store/dashboard/ibmDashboard';
@@ -70,6 +71,6 @@ const mapDispatchToProps: IbmDashboardWidgetDispatchProps = {
   updateTab: ibmDashboardActions.changeWidgetTab,
 };
 
-const IbmDashboardWidget = connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase);
+const IbmDashboardWidget = injectIntl(connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase));
 
 export { IbmDashboardWidget };
