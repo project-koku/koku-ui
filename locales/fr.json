@@ -128,6 +128,8 @@
   "OCPUsageDashboardCostTrendTitle": "FR Metering cumulative cost comparison ({units})",
   "OCPVolumeUsageAndRequests": "FR Volume usage and requests",
   "OpenShift": "FR OpenShift",
+  "OpenShiftCloudInfrastructure": "FR OpenShift cloud infrastructure",
+  "OpenShiftCloudInfrastructureDesc": "FR Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.",
   "OpenShiftDesc": "FR Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.",
   "OverviewInfoArialLabel": "FR A description of perspectives",
   "OverviewTitle": "FR Cost Management Overview",

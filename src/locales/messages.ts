@@ -756,14 +756,14 @@ export default defineMessages({
   OpenShiftCloudInfrastructure: {
     defaultMessage: 'EN OpenShift cloud infrastructure',
     description: 'OpenShift cloud infrastructure',
-    id: 'OverviewInfoArialLabel',
+    id: 'OpenShiftCloudInfrastructure',
   },
   OpenShiftCloudInfrastructureDesc: {
     defaultMessage:
       'EN Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.',
     description:
       'Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.',
-    id: 'OverviewInfoArialLabel',
+    id: 'OpenShiftCloudInfrastructureDesc',
   },
   OpenShiftDesc: {
     defaultMessage:
