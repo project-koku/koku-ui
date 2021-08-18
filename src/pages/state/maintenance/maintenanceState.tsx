@@ -1,12 +1,14 @@
 import { Stack, StackItem } from '@patternfly/react-core';
 import Maintenance from '@redhat-cloud-services/frontend-components/Maintenance';
-import { createIntlEnv } from 'components/i18n/localeEnv';
 import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
-class MaintenanceState extends React.Component {
+type MaintenanceStateBaseOwnProps = WrappedComponentProps;
+
+class MaintenanceStateBase extends React.Component<MaintenanceStateBaseOwnProps> {
   public render() {
-    const intl = createIntlEnv();
+    const { intl } = this.props;
 
     return (
       <Maintenance
@@ -30,4 +32,5 @@ class MaintenanceState extends React.Component {
   }
 }
 
+const MaintenanceState = injectIntl(MaintenanceStateBase);
 export { MaintenanceState };

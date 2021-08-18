@@ -1,7 +1,7 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Forecast } from 'api/forecasts/forecast';
 import { Report } from 'api/reports/report';
-import { createIntlEnv } from 'components/i18n/localeEnv';
+import { intl, intlHelper } from 'components/i18n';
 import { endOfMonth, format, getDate, getYear, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
@@ -351,7 +351,6 @@ export function getDateRangeString(
   lastOfMonth: boolean = false,
   offset: number = 0
 ) {
-  const intl = createIntlEnv();
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
   const count = getDate(end);
   const endDate = format(end, 'dd');
@@ -360,7 +359,7 @@ export function getDateRangeString(
   const month = Number(format(start, 'M')) - 1;
   const abbrMonth = getAbbreviatedMonth(year, month);
 
-  return intl.formatMessage(messages.ChartDateRange, { count, startDate, endDate, month: abbrMonth, year });
+  return intlHelper(intl.formatMessage(messages.ChartDateRange, { count, startDate, endDate, month: abbrMonth, year }));
 }
 
 export function getMaxValue(datums: ChartDatum[]) {
@@ -395,7 +394,6 @@ export function getMaxMinValues(datums: ChartDatum[]) {
 
 export function getTooltipContent(formatValue) {
   return function labelFormatter(value: number, unit: string = null, options: FormatOptions = {}) {
-    const intl = createIntlEnv();
     const lookup = unitLookupKey(unit);
     switch (lookup) {
       case 'coreHours':
@@ -406,7 +404,9 @@ export function getTooltipContent(formatValue) {
       case 'gbMo':
       case 'gibibyteMonth':
       case 'vmHours':
-        return intl.formatMessage(messages.UnitTooltips, { units: lookup, value: formatValue(value, unit, options) });
+        return intlHelper(
+          intl.formatMessage(messages.UnitTooltips, { units: lookup, value: formatValue(value, unit, options) })
+        );
       default:
         return `${formatValue(value, unit, options)}`;
     }
@@ -437,7 +437,6 @@ export function getCostRangeString(
   lastOfMonth: boolean = false,
   offset: number = 0
 ) {
-  const intl = createIntlEnv();
   if (!(datums && datums.length)) {
     return intl.formatMessage(messages.ChartNoData);
   }
@@ -446,13 +445,15 @@ export function getCostRangeString(
   const year = getYear(end);
   const month = getAbbreviatedMonth(year, start.getMonth());
 
-  return intl.formatMessage(key, {
-    count: getDate(end),
-    startDate: format(start, 'd'),
-    endDate: format(end, 'd'),
-    month,
-    year,
-  });
+  return intlHelper(
+    intl.formatMessage(key, {
+      count: getDate(end),
+      startDate: format(start, 'd'),
+      endDate: format(end, 'd'),
+      month,
+      year,
+    })
+  );
 }
 
 export function getUsageRangeString(

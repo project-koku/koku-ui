@@ -1,20 +1,19 @@
 import { Button, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
 import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/esm/icons/file-invoice-dollar-icon';
-import { createIntlEnv } from 'components/i18n/localeEnv';
 import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 interface NoDataStateOwnProps {
   showReload?: boolean;
 }
 
-type NoDataStateProps = NoDataStateOwnProps & RouteComponentProps<void>;
+type NoDataStateProps = NoDataStateOwnProps & RouteComponentProps<void> & WrappedComponentProps;
 
 class NoDataStateBase extends React.Component<NoDataStateProps> {
   public render() {
-    const { showReload = true } = this.props;
-    const intl = createIntlEnv();
+    const { intl, showReload = true } = this.props;
 
     return (
       <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
@@ -33,6 +32,6 @@ class NoDataStateBase extends React.Component<NoDataStateProps> {
   }
 }
 
-const NoDataState = withRouter(NoDataStateBase);
+const NoDataState = withRouter(injectIntl(NoDataStateBase));
 
 export { NoDataState };

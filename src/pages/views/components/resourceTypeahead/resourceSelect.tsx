@@ -1,9 +1,9 @@
 import { Select, SelectOption, SelectVariant, ToolbarChipGroup } from '@patternfly/react-core';
 import { getQuery, Query } from 'api/queries/query';
 import { Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
-import { createIntlEnv } from 'components/i18n/localeEnv';
 import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { resourceActions, resourceSelectors } from 'store/resources';
@@ -31,7 +31,10 @@ interface ResourceSelectDispatchProps {
   fetchResource?: typeof resourceActions.fetchResource;
 }
 
-type ResourceSelectProps = ResourceSelectOwnProps & ResourceSelectStateProps & ResourceSelectDispatchProps;
+type ResourceSelectProps = ResourceSelectOwnProps &
+  ResourceSelectStateProps &
+  ResourceSelectDispatchProps &
+  WrappedComponentProps;
 
 class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   protected defaultState: ResourceSelectState = {
@@ -157,10 +160,9 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   };
 
   public render() {
-    const { isDisabled, resourceType } = this.props;
+    const { intl, isDisabled, resourceType } = this.props;
     const { isSelectExpanded } = this.state;
 
-    const intl = createIntlEnv();
     const selectOptions = this.getSelectOptions();
 
     return (
@@ -211,6 +213,6 @@ const mapDispatchToProps: ResourceSelectDispatchProps = {
   fetchResource: resourceActions.fetchResource,
 };
 
-const ResourceSelect = connect(mapStateToProps, mapDispatchToProps)(ResourceSelectBase);
+const ResourceSelect = injectIntl(connect(mapStateToProps, mapDispatchToProps)(ResourceSelectBase));
 
 export { ResourceSelect };
