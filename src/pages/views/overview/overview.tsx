@@ -17,6 +17,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData/noData';
 import NoProviders from 'pages/state/noProviders';
@@ -37,7 +38,7 @@ import {
   hasPreviousMonthData,
 } from 'pages/views/utils/providers';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -91,7 +92,7 @@ export const getIdKeyForTab = (tab: OverviewTab) => {
   }
 };
 
-type OverviewOwnProps = RouteComponentProps<void> & WithTranslation;
+type OverviewOwnProps = RouteComponentProps<void> & WrappedComponentProps;
 
 interface OverviewDispatchProps {
   resetState: typeof uiActions.resetState;
@@ -433,12 +434,12 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getTabTitle = (tab: OverviewTab) => {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     if (tab === OverviewTab.infrastructure) {
-      return t('overview.infrastructure');
+      return intl.formatMessage(messages.Infrastructure);
     } else if (tab === OverviewTab.ocp) {
-      return t('overview.ocp');
+      return intl.formatMessage(messages.OpenShift);
     }
   };
 
@@ -496,9 +497,9 @@ class OverviewBase extends React.Component<OverviewProps> {
       azureProvidersFetchStatus,
       gcpProvidersFetchStatus,
       ibmProvidersFetchStatus,
+      intl,
       ocpProvidersFetchStatus,
       userAccessFetchStatus,
-      t,
     } = this.props;
     const availableTabs = this.getAvailableTabs();
     const isLoading =
@@ -517,7 +518,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const noOcpProviders = !this.isOcpAvailable() && ocpProvidersFetchStatus === FetchStatus.complete;
     const noProviders = noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders;
 
-    const title = t('cost_management_overview');
+    const title = intl.formatMessage(messages.OverviewTitle);
 
     if (noProviders) {
       return <NoProviders title={title} />;
@@ -531,30 +532,30 @@ class OverviewBase extends React.Component<OverviewProps> {
         >
           <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
-              {t('cost_management_overview')}
+              {title}
               <span style={styles.infoIcon}>
                 <Popover
-                  aria-label={t('ocp_details.supplementary_aria_label')}
+                  aria-label={intl.formatMessage(messages.OverviewInfoArialLabel)}
                   enableFlip
                   bodyContent={
                     <>
-                      <p style={styles.infoTitle}>{t('overview.ocp_cloud')}</p>
-                      <p>{t('overview.ocp_cloud_desc')}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.OpenShiftCloudInfrastructure)}</p>
+                      <p>{intl.formatMessage(messages.OpenShiftCloudInfrastructureDesc)}</p>
                       <br />
-                      <p style={styles.infoTitle}>{t('overview.ocp')}</p>
-                      <p>{t('overview.ocp_desc')}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.OpenShift)}</p>
+                      <p>{intl.formatMessage(messages.OpenShiftDesc)}</p>
                       <br />
-                      <p style={styles.infoTitle}>{t('overview.gcp')}</p>
-                      <p>{t('overview.gcp_desc')}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.GCP)}</p>
+                      <p>{intl.formatMessage(messages.GCPDesc)}</p>
                       <br />
-                      <p style={styles.infoTitle}>{t('overview.ibm')}</p>
-                      <p>{t('overview.ibm_desc')}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.IBM)}</p>
+                      <p>{intl.formatMessage(messages.IBMDesc)}</p>
                       <br />
-                      <p style={styles.infoTitle}>{t('overview.aws')}</p>
-                      <p>{t('overview.aws_desc')}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.AWS)}</p>
+                      <p>{intl.formatMessage(messages.AWSDesc)}</p>
                       <br />
-                      <p style={styles.infoTitle}>{t('overview.azure')}</p>
-                      <p>{t('overview.azure_desc')}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.Azure)}</p>
+                      <p>{intl.formatMessage(messages.AzureDesc)}</p>
                     </>
                   }
                 >
@@ -675,6 +676,6 @@ const mapDispatchToProps: OverviewDispatchProps = {
   resetState: uiActions.resetState,
 };
 
-const Overview = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(OverviewBase));
+const Overview = injectIntl(connect(mapStateToProps, mapDispatchToProps)(OverviewBase));
 
 export default Overview;
