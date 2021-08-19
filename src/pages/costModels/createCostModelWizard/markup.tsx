@@ -20,7 +20,7 @@ import { Form } from 'components/forms/form';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 
-import { styles } from '../costModel/costCalc.styles';
+import { styles } from 'pages/costModels/costModel/costCalc.styles';
 import { CostModelContext } from './context';
 
 class MarkupWithDistribution extends React.Component<WithTranslation> {
