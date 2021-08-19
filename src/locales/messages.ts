@@ -507,7 +507,7 @@ export default defineMessages({
       'project {{count, plural, one {EN project} other {EN projects}}} ' +
       'region {{count, plural, one {EN region} other {EN region}}} ' +
       'resource_location {{count, plural, one {EN region} other {EN region}}} ' +
-      'service {{count, plural, one {EN service} other {EN Ssrvices}}} ' +
+      'service {{count, plural, one {EN service} other {EN Services}}} ' +
       'service_name {{count, plural, one {EN service} other {EN services}}} ' +
       'subscription_guid {{count, plural, one {EN account} other {EN accounts}}} ' +
       'tag {{count, plural, one {EN tag} other {EN tags}}} ' +
