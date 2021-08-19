@@ -75,8 +75,8 @@ export default defineMessages({
   BreakDownTotalCostDate: {
     defaultMessage:
       '{count, plural, ' +
-      'one {EN {groupByValue} total cost ({month} {startDate})} ' +
-      'other {EN {groupByValue} total cost ({month} {startDate}-{endDate})}}',
+      'one {EN {value} total cost ({month} {startDate})} ' +
+      'other {EN {value} total cost ({month} {startDate}-{endDate})}}',
     description: 'Break down total cost by date',
     id: 'BreakDownTotalCostDate',
   },
@@ -486,79 +486,84 @@ export default defineMessages({
     id: 'GCPDesc',
   },
   GroupByAll: {
-    defaultMessage: 'EN All {groupBy}s',
+    defaultMessage:
+      '{value, select, ' +
+      'account {{count, plural, one {EN All Account} other {EN All Accounts}}} ' +
+      'cluster {{count, plural, one {EN All Cluster} other {EN All Clusters}}} ' +
+      'instance_type {{count, plural, one {EN All Instance type} other {EN All Instance types}}} ' +
+      'node {{count, plural, one {EN All Node} other {EN All Node}}} ' +
+      'org_unit_id {{count, plural, one {EN All Organizational unit} other {EN All Organizational units}}} ' +
+      'pod {{count, plural, one {EN All Pod} other {EN All Pods}}} ' +
+      'project {{count, plural, one {EN All Project} other {EN All Projects}}} ' +
+      'region {{count, plural, one {EN All Region} other {EN All Regions}}} ' +
+      'resource_location {{count, plural, one {EN All Region} other {EN All Regions}}} ' +
+      'service {{count, plural, one {EN All Service} other {EN All Services}}} ' +
+      'service_name {{count, plural, one {EN All Service} other {EN All Services}}} ' +
+      'subscription_guid {{count, plural, one {EN All Account} other {EN All Accounts}}} ' +
+      'tag {{count, plural, one {EN All Tag} other {EN All Tags}}} ' +
+      'other {}}',
     description: 'All group by value',
     id: 'GroupByAll',
   },
   GroupByTop: {
-    defaultMessage: 'EN Top {groupBy}s',
+    defaultMessage:
+      '{value, select, ' +
+      'account {{count, plural, one {EN Top account} other {EN Top accounts}}} ' +
+      'cluster {{count, plural, one {EN Top cluster} other {EN Top clusters}}} ' +
+      'instance_type {{count, plural, one {EN Top instance type} other {EN Top instance types}}} ' +
+      'node {{count, plural, one {EN Top node} other {EN Top node}}} ' +
+      'org_unit_id {{count, plural, one {EN Top organizational unit} other {EN Top organizational units}}} ' +
+      'pod {{count, plural, one {EN Top pod} other {EN Top pods}}} ' +
+      'project {{count, plural, one {EN Top project} other {EN Top projects}}} ' +
+      'region {{count, plural, one {EN Top region} other {EN Top regions}}} ' +
+      'resource_location {{count, plural, one {EN Top region} other {EN Top regions}}} ' +
+      'service {{count, plural, one {EN Top service} other {EN Top services}}} ' +
+      'service_name {{count, plural, one {EN Top service} other {EN Top services}}} ' +
+      'subscription_guid {{count, plural, one {EN Top account} other {EN Top accounts}}} ' +
+      'tag {{count, plural, one {EN Top tag} other {EN Top tags}}} ' +
+      'other {}}',
     description: 'Top group by value',
     id: 'GroupByTop',
-  },
-  GroupByTopValueAccount: {
-    defaultMessage: 'EN accounts',
-    description: 'accounts',
-    id: 'GroupByTopValueAccount',
-  },
-  GroupByTopValueCluster: {
-    defaultMessage: 'EN clusters',
-    description: 'clusters',
-    id: 'GroupByTopValueCluster',
-  },
-  GroupByTopValueInstanceType: {
-    defaultMessage: 'EN Instance types',
-    description: 'Instance types',
-    id: 'GroupByTopValueInstanceType',
-  },
-  GroupByTopValueNode: {
-    defaultMessage: 'EN Nodes',
-    description: 'Nodes',
-    id: 'GroupByTopValueNode',
-  },
-  GroupByTopValueOrganizationalUnitID: {
-    defaultMessage: 'Organizational units',
-    description: 'Organizational units',
-    id: 'GroupByTopValueOrganizationalUnitID',
-  },
-  GroupByTopValuePod: {
-    defaultMessage: 'EN Pods',
-    description: 'Pods',
-    id: 'GroupByTopValuePod',
-  },
-  GroupByTopValueProject: {
-    defaultMessage: 'EN Projects',
-    description: 'Projects',
-    id: 'GroupByTopValueProject',
-  },
-  GroupByTopValueRegion: {
-    defaultMessage: 'EN Regions',
-    description: 'Regions',
-    id: 'GroupByTopValueRegion',
-  },
-  GroupByTopValueService: {
-    defaultMessage: 'EN Services',
-    description: 'Services',
-    id: 'GroupByTopValueService',
   },
   GroupByValues: {
     defaultMessage:
       '{value, select, ' +
+      'account {{count, plural, one {EN account} other {EN accounts}}} ' +
+      'cluster {{count, plural, one {EN cluster} other {EN clusters}}} ' +
+      'instance_type {{count, plural, one {EN instance type} other {EN instance types}}} ' +
+      'node {{count, plural, one {EN node} other {EN node}}} ' +
+      'org_unit_id {{count, plural, one {EN organizational unit} other {EN organizational units}}} ' +
+      'pod {{count, plural, one {EN pod} other {EN pods}}} ' +
+      'project {{count, plural, one {EN project} other {EN projects}}} ' +
+      'region {{count, plural, one {EN region} other {EN regions}}} ' +
+      'resource_location {{count, plural, one {EN region} other {EN regions}}} ' +
+      'service {{count, plural, one {EN service} other {EN Services}}} ' +
+      'service_name {{count, plural, one {EN service} other {EN services}}} ' +
+      'subscription_guid {{count, plural, one {EN account} other {EN accounts}}} ' +
+      'tag {{count, plural, one {EN tag} other {EN tags}}} ' +
+      'other {}}',
+    description: 'Group by values',
+    id: 'GroupByValues',
+  },
+  GroupByValuesTitleCase: {
+    defaultMessage:
+      '{value, select, ' +
       'account {{count, plural, one {EN Account} other {EN Accounts}}} ' +
       'cluster {{count, plural, one {EN Cluster} other {EN Clusters}}} ' +
-      'instance_type {{count, plural, one {EN Instance Type} other {EN Instance Types}}} ' +
+      'instance_type {{count, plural, one {EN Instance type} other {EN Instance types}}} ' +
       'node {{count, plural, one {EN Node} other {EN Node}}} ' +
       'org_unit_id {{count, plural, one {EN Organizational unit} other {EN Organizational units}}} ' +
       'pod {{count, plural, one {EN Pod} other {EN Pods}}} ' +
       'project {{count, plural, one {EN Project} other {EN Projects}}} ' +
-      'region {{count, plural, one {EN Region} other {EN Region}}} ' +
-      'resource_location {{count, plural, one {EN Region} other {EN Region}}} ' +
+      'region {{count, plural, one {EN Region} other {EN Regions}}} ' +
+      'resource_location {{count, plural, one {EN Region} other {EN Regions}}} ' +
       'service {{count, plural, one {EN Service} other {EN Services}}} ' +
       'service_name {{count, plural, one {EN Service} other {EN Services}}} ' +
       'subscription_guid {{count, plural, one {EN Account} other {EN Accounts}}} ' +
       'tag {{count, plural, one {EN Tag} other {EN Tags}}} ' +
       'other {}}',
     description: 'Group by values',
-    id: 'GroupByValues',
+    id: 'GroupByValuesTitleCase',
   },
   IBM: {
     defaultMessage: 'EN IBM Cloud',
