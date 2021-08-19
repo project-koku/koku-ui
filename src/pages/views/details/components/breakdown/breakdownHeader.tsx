@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
 
-import { intl } from '../../../../../components/i18n';
+import { intl } from 'components/i18n';
 import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps {
