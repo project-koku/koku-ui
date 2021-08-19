@@ -56,7 +56,7 @@ export function getForDateRangeString(
 
   return intlHelper(
     intl.formatMessage(message, {
-      groupByValue: intl.formatMessage(messages.GroupByValues, { value, count: 2 }),
+      groupByValue: intl.formatMessage(messages.GroupByValuesTitleCase, { value, count: 2 }),
       count: getDate(today),
       startDate,
       endDate,

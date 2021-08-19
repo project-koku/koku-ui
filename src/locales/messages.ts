@@ -495,57 +495,32 @@ export default defineMessages({
     description: 'Top group by value',
     id: 'GroupByTop',
   },
-  GroupByTopValueAccount: {
-    defaultMessage: 'EN accounts',
-    description: 'accounts',
-    id: 'GroupByTopValueAccount',
-  },
-  GroupByTopValueCluster: {
-    defaultMessage: 'EN clusters',
-    description: 'clusters',
-    id: 'GroupByTopValueCluster',
-  },
-  GroupByTopValueInstanceType: {
-    defaultMessage: 'EN Instance types',
-    description: 'Instance types',
-    id: 'GroupByTopValueInstanceType',
-  },
-  GroupByTopValueNode: {
-    defaultMessage: 'EN Nodes',
-    description: 'Nodes',
-    id: 'GroupByTopValueNode',
-  },
-  GroupByTopValueOrganizationalUnitID: {
-    defaultMessage: 'Organizational units',
-    description: 'Organizational units',
-    id: 'GroupByTopValueOrganizationalUnitID',
-  },
-  GroupByTopValuePod: {
-    defaultMessage: 'EN Pods',
-    description: 'Pods',
-    id: 'GroupByTopValuePod',
-  },
-  GroupByTopValueProject: {
-    defaultMessage: 'EN Projects',
-    description: 'Projects',
-    id: 'GroupByTopValueProject',
-  },
-  GroupByTopValueRegion: {
-    defaultMessage: 'EN Regions',
-    description: 'Regions',
-    id: 'GroupByTopValueRegion',
-  },
-  GroupByTopValueService: {
-    defaultMessage: 'EN Services',
-    description: 'Services',
-    id: 'GroupByTopValueService',
-  },
   GroupByValues: {
+    defaultMessage:
+      '{value, select, ' +
+      'account {{count, plural, one {EN Aacount} other {EN accounts}}} ' +
+      'cluster {{count, plural, one {EN cluster} other {EN clusters}}} ' +
+      'instance_type {{count, plural, one {EN instance type} other {EN instance types}}} ' +
+      'node {{count, plural, one {EN node} other {EN node}}} ' +
+      'org_unit_id {{count, plural, one {EN organizational unit} other {EN organizational units}}} ' +
+      'pod {{count, plural, one {EN pod} other {EN pods}}} ' +
+      'project {{count, plural, one {EN project} other {EN projects}}} ' +
+      'region {{count, plural, one {EN region} other {EN region}}} ' +
+      'resource_location {{count, plural, one {EN region} other {EN region}}} ' +
+      'service {{count, plural, one {EN service} other {EN Ssrvices}}} ' +
+      'service_name {{count, plural, one {EN service} other {EN services}}} ' +
+      'subscription_guid {{count, plural, one {EN account} other {EN accounts}}} ' +
+      'tag {{count, plural, one {EN tag} other {EN tags}}} ' +
+      'other {}}',
+    description: 'Group by values',
+    id: 'GroupByValues',
+  },
+  GroupByValuesTitleCase: {
     defaultMessage:
       '{value, select, ' +
       'account {{count, plural, one {EN Account} other {EN Accounts}}} ' +
       'cluster {{count, plural, one {EN Cluster} other {EN Clusters}}} ' +
-      'instance_type {{count, plural, one {EN Instance Type} other {EN Instance Types}}} ' +
+      'instance_type {{count, plural, one {EN Instance type} other {EN Instance types}}} ' +
       'node {{count, plural, one {EN Node} other {EN Node}}} ' +
       'org_unit_id {{count, plural, one {EN Organizational unit} other {EN Organizational units}}} ' +
       'pod {{count, plural, one {EN Pod} other {EN Pods}}} ' +
@@ -558,7 +533,7 @@ export default defineMessages({
       'tag {{count, plural, one {EN Tag} other {EN Tags}}} ' +
       'other {}}',
     description: 'Group by values',
-    id: 'GroupByValues',
+    id: 'GroupByValuesTitleCase',
   },
   IBM: {
     defaultMessage: 'EN IBM Cloud',
