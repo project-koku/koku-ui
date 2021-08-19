@@ -89,7 +89,7 @@
         "no-new-wrappers": "error",
         "no-prototype-builtins": "off",
         "no-restricted-imports": ["error", {
-            "patterns": ["**.styles.ts", "**.json"]
+            "patterns": ["**.styles", "**.json"]
         }],
         "no-shadow": "error",
         "no-throw-literal": "error",
