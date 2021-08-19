@@ -56,12 +56,11 @@ export function getForDateRangeString(
 
   return intlHelper(
     intl.formatMessage(message, {
-      groupByValue: intl.formatMessage(messages.GroupByValuesTitleCase, { value, count: 2 }),
+      value,
       count: getDate(today),
       startDate,
       endDate,
       month,
-      offset,
     })
   );
 }

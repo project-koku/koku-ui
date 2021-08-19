@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
 
+import { intl } from '../../../../../components/i18n';
 import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps {
@@ -118,7 +119,9 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
             </Title>
           </div>
           <div style={styles.costLabelDate}>
-            {getForDateRangeString(groupByKey, messages.BreakDownTotalCostDate, 0)}
+            {getForDateRangeString(
+              intl.formatMessage(messages.GroupByValuesTitleCase, { value: groupByKey, count: 2 })
+            )}
           </div>
         </div>
       </header>
