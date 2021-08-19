@@ -5,6 +5,7 @@ import { AngleLeftIcon } from '@patternfly/react-icons/dist/js/icons/angle-left-
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
+import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { TagLink } from 'pages/views/details/components/tag/tagLink';
 import { getGroupByOrgValue } from 'pages/views/utils/groupBy';
@@ -118,7 +119,9 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
             </Title>
           </div>
           <div style={styles.costLabelDate}>
-            {getForDateRangeString(groupByKey, messages.BreakDownTotalCostDate, 0)}
+            {getForDateRangeString(
+              intl.formatMessage(messages.GroupByValuesTitleCase, { value: groupByKey, count: 2 })
+            )}
           </div>
         </div>
       </header>
