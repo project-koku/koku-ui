@@ -1,10 +1,11 @@
-import './breakdownHeader.scss';
+mport './breakdownHeader.scss';
 
 import { Title, TitleSizes } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/js/icons/angle-left-icon';
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
+import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { TagLink } from 'pages/views/details/components/tag/tagLink';
 import { getGroupByOrgValue } from 'pages/views/utils/groupBy';
@@ -14,7 +15,6 @@ import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
 
-import { intl } from 'components/i18n';
 import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps {
