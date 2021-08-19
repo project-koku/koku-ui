@@ -17,10 +17,10 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import { Form } from 'components/forms/form';
+import { styles } from 'pages/costModels/costModel/costCalc.styles';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 
-import { styles } from 'pages/costModels/costModel/costCalc.styles';
 import { CostModelContext } from './context';
 
 class MarkupWithDistribution extends React.Component<WithTranslation> {
