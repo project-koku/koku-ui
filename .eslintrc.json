@@ -88,6 +88,9 @@
         "no-eval": "error",
         "no-new-wrappers": "error",
         "no-prototype-builtins": "off",
+        "no-restricted-imports": ["error", {
+            "patterns": ["**.styles.ts", "**.json"]
+        }],
         "no-shadow": "error",
         "no-throw-literal": "error",
         "no-trailing-spaces": "off",
