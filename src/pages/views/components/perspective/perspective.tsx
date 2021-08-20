@@ -1,6 +1,8 @@
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import { styles } from './perspective.styles';
 
@@ -9,7 +11,7 @@ interface PerspectiveOwnProps {
   isDisabled?: boolean;
   onItemClicked(value: string);
   options?: {
-    label: string;
+    label: MessageDescriptor;
     value: string;
   }[];
 }
@@ -18,7 +20,7 @@ interface PerspectiveState {
   isPerspectiveOpen: boolean;
 }
 
-type PerspectiveProps = PerspectiveOwnProps & WithTranslation;
+type PerspectiveProps = PerspectiveOwnProps & WrappedComponentProps;
 
 class PerspectiveBase extends React.Component<PerspectiveProps> {
   protected defaultState: PerspectiveState = {
@@ -27,22 +29,22 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
   public state: PerspectiveState = { ...this.defaultState };
 
   private getDropDownItems = () => {
-    const { options, t } = this.props;
+    const { intl, options } = this.props;
 
     return options.map(option => (
       <DropdownItem component="button" key={option.value} onClick={() => this.handleClick(option.value)}>
-        {t(option.label)}
+        {intl.formatMessage(option.label, { value: option.value })}
       </DropdownItem>
     ));
   };
 
   private getCurrentLabel = () => {
-    const { currentItem, options, t } = this.props;
+    const { currentItem, intl, options } = this.props;
 
     let label = '';
     for (const option of options) {
       if (currentItem === option.value) {
-        label = t(option.label);
+        label = intl.formatMessage(option.label, { value: option.value });
         break;
       }
     }
@@ -50,12 +52,16 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
   };
 
   private getDropDown = () => {
-    const { isDisabled, options, t } = this.props;
+    const { intl, isDisabled, options } = this.props;
     const { isPerspectiveOpen } = this.state;
     const dropdownItems = this.getDropDownItems();
 
     if (options.length === 1) {
-      return <div style={styles.perspectiveOptionLabel}>{t(options[0].label)}</div>;
+      return (
+        <div style={styles.perspectiveOptionLabel}>
+          {intl.formatMessage(options[0].label, { value: options[0].value })}
+        </div>
+      );
     }
     return (
       <Dropdown
@@ -91,17 +97,17 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
   };
 
   public render() {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     return (
       <div style={styles.perspectiveSelector}>
-        <label style={styles.perspectiveLabel}>{t('overview.perspective.label')}</label>
+        <label style={styles.perspectiveLabel}>{intl.formatMessage(messages.Perspective)}</label>
         {this.getDropDown()}
       </div>
     );
   }
 }
 
-const Perspective = withTranslation()(PerspectiveBase);
+const Perspective = injectIntl(PerspectiveBase);
 
 export { Perspective };

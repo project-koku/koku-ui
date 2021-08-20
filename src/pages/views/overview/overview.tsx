@@ -72,9 +72,9 @@ const enum InfrastructurePerspective {
 
 // eslint-disable-next-line no-shadow
 const enum OcpPerspective {
-  all = 'all',
-  infrastructure = 'infrastructure',
-  supplementary = 'supplementary',
+  ocp = 'ocp',
+  infrastructure = 'ocp_infrastructure',
+  supplementary = 'ocp_supplementary',
 }
 
 // eslint-disable-next-line no-shadow
@@ -138,31 +138,31 @@ interface OverviewState {
 type OverviewProps = OverviewOwnProps & OverviewStateProps & OverviewDispatchProps;
 
 // Ocp options
-const ocpOptions = [{ label: 'overview.perspective.ocp_all', value: 'all' }];
+const ocpOptions = [{ label: messages.PerspectiveValues, value: 'ocp' }];
 
 // Infrastructure AWS options
-const infrastructureAwsOptions = [{ label: 'overview.perspective.aws', value: 'aws' }];
+const infrastructureAwsOptions = [{ label: messages.PerspectiveValues, value: 'aws' }];
 
 // Infrastructure AWS filtered by OpenShift options
-const infrastructureAwsOcpOptions = [{ label: 'overview.perspective.aws_ocp', value: 'aws_ocp' }];
+const infrastructureAwsOcpOptions = [{ label: messages.PerspectiveValues, value: 'aws_ocp' }];
 
 // Infrastructure Azure options
-const infrastructureAzureOptions = [{ label: 'overview.perspective.azure', value: 'azure' }];
+const infrastructureAzureOptions = [{ label: messages.PerspectiveValues, value: 'azure' }];
 
 // Infrastructure Azure filtered by OpenShift options
-const infrastructureAzureOcpOptions = [{ label: 'overview.perspective.azure_ocp', value: 'azure_ocp' }];
+const infrastructureAzureOcpOptions = [{ label: messages.PerspectiveValues, value: 'azure_ocp' }];
 
 // Infrastructure GCP options
-const infrastructureGcpOptions = [{ label: 'overview.perspective.gcp', value: 'gcp' }];
+const infrastructureGcpOptions = [{ label: messages.PerspectiveValues, value: 'gcp' }];
 
 // Infrastructure GCP filtered by OCP options
 //
 // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
 //
-// const infrastructureGcpOcpOptions = [{ label: 'overview.perspective.gcp_ocp', value: 'gcp_ocp' }];
+// const infrastructureGcpOcpOptions = [{ label: messages.PerspectiveValues, value: 'gcp_ocp' }];
 
 // Infrastructure IBM options
-const infrastructureIbmOptions = [{ label: 'overview.perspective.ibm', value: 'ibm' }];
+const infrastructureIbmOptions = [{ label: messages.PerspectiveValues, value: 'ibm' }];
 
 // Infrastructure Ocp cloud options
 //
@@ -277,7 +277,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { ocpProviders, ocpProvidersFetchStatus, userAccess } = this.props;
 
     if (isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)) {
-      return OcpPerspective.all;
+      return OcpPerspective.ocp;
     }
     return undefined;
   };
@@ -413,7 +413,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       }
     } else if (currentTab === OverviewTab.ocp) {
       const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
-      if (currentOcpPerspective === OcpPerspective.all) {
+      if (currentOcpPerspective === OcpPerspective.ocp) {
         return hasData ? <OcpDashboard /> : noData;
       } else {
         return noData;
