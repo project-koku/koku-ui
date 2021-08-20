@@ -792,6 +792,27 @@ export default defineMessages({
     description: '{value} {units} ({percent}%)',
     id: 'PercentTotalCost',
   },
+  Perspective: {
+    defaultMessage: 'EN Perspective',
+    description: 'Perspective dropdown label',
+    id: 'Perspective',
+  },
+  PerspectiveValues: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {EN Amazon Web Services} ' +
+      'aws_ocp {EN Amazon Web Services filtered by OpenShift} ' +
+      'azure {EN Microsoft Azure} ' +
+      'azure_ocp {EN Microsoft Azure filtered by OpenShift} ' +
+      'gcp {EN Google Cloud Platform} ' +
+      'gcp_ocp {EN Google Cloud Platform filtered by OpenShift} ' +
+      'ibm {EN IBM Cloud} ' +
+      'ocp {EN All OpenShift} ' +
+      'ocp_cloud {EN All cloud filtered by OpenShift} ' +
+      'other {}}',
+    description: 'Perspective values',
+    id: 'PerspectiveValues',
+  },
   RbacErrorDescription: {
     defaultMessage:
       'EN There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.',
