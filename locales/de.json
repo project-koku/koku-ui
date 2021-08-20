@@ -126,6 +126,8 @@
   "OverviewInfoArialLabel": "DE A description of perspectives",
   "OverviewTitle": "DE Cost Management Overview",
   "PercentTotalCost": "DE {unit}{value} ({percent}%)",
+  "Perspective": "DE Perspective",
+  "PerspectiveValues": "{value, select, aws {DE Amazon Web Services} aws_ocp {DE Amazon Web Services filtered by OpenShift} azure {DE Microsoft Azure} azure_ocp {DE Microsoft Azure filtered by OpenShift} gcp {DE Google Cloud Platform} gcp_ocp {DE Google Cloud Platform filtered by OpenShift} ibm {DE IBM Cloud} ocp {DE All OpenShift} ocp_cloud {DE All cloud filtered by OpenShift} other {}}",
   "RbacErrorDescription": "DE There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.",
   "RbacErrorTitle": "DE Failed to get RBAC information",
   "RedHatStatusUrl": "https://status.redhat.com",
