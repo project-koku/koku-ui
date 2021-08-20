@@ -29,6 +29,7 @@ import {
   providersSelectors,
 } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { uiActions } from 'store/ui';
 import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
@@ -89,6 +90,7 @@ interface ExplorerStateProps {
 
 interface ExplorerDispatchProps {
   fetchReport: typeof reportActions.fetchReport;
+  resetState: typeof uiActions.resetState;
 }
 
 interface ExplorerState {
@@ -128,6 +130,9 @@ class Explorer extends React.Component<ExplorerProps> {
   }
 
   public componentDidMount() {
+    const { resetState } = this.props;
+
+    resetState(); // Clear cached API responses
     this.updateReport();
   }
 
@@ -660,6 +665,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
 
 const mapDispatchToProps: ExplorerDispatchProps = {
   fetchReport: reportActions.fetchReport,
+  resetState: uiActions.resetState,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(Explorer));

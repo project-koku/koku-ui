@@ -1,6 +1,7 @@
 import { Tag } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
+import { resetState } from 'store/ui/uiActions';
 import { ActionType, getType } from 'typesafe-actions';
 
 import { fetchTagFailure, fetchTagRequest, fetchTagSuccess } from './tagActions';
@@ -21,10 +22,16 @@ const defaultState: TagState = {
   errors: new Map(),
 };
 
-export type TagAction = ActionType<typeof fetchTagFailure | typeof fetchTagRequest | typeof fetchTagSuccess>;
+export type TagAction = ActionType<
+  typeof fetchTagFailure | typeof fetchTagRequest | typeof fetchTagSuccess | typeof resetState
+>;
 
 export function tagReducer(state = defaultState, action: TagAction): TagState {
   switch (action.type) {
+    case getType(resetState):
+      state = defaultState;
+      return state;
+
     case getType(fetchTagRequest):
       return {
         ...state,

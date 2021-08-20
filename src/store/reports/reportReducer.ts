@@ -1,6 +1,7 @@
 import { Report } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
+import { resetState } from 'store/ui/uiActions';
 import { ActionType, getType } from 'typesafe-actions';
 
 import { fetchReportFailure, fetchReportRequest, fetchReportSuccess } from './reportActions';
@@ -22,11 +23,15 @@ const defaultState: ReportState = {
 };
 
 export type ReportAction = ActionType<
-  typeof fetchReportFailure | typeof fetchReportRequest | typeof fetchReportSuccess
+  typeof fetchReportFailure | typeof fetchReportRequest | typeof fetchReportSuccess | typeof resetState
 >;
 
 export function reportReducer(state = defaultState, action: ReportAction): ReportState {
   switch (action.type) {
+    case getType(resetState):
+      state = defaultState;
+      return state;
+
     case getType(fetchReportRequest):
       return {
         ...state,

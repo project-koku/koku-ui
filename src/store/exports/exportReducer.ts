@@ -1,6 +1,7 @@
 import { Export } from 'api/exports/export';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
+import { resetState } from 'store/ui/uiActions';
 import { ActionType, getType } from 'typesafe-actions';
 
 import { fetchExportFailure, fetchExportRequest, fetchExportSuccess } from './exportActions';
@@ -22,11 +23,15 @@ const defaultState: ExportState = {
 };
 
 export type ExportAction = ActionType<
-  typeof fetchExportFailure | typeof fetchExportRequest | typeof fetchExportSuccess
+  typeof fetchExportFailure | typeof fetchExportRequest | typeof fetchExportSuccess | typeof resetState
 >;
 
 export function exportReducer(state = defaultState, action: ExportAction): ExportState {
   switch (action.type) {
+    case getType(resetState):
+      state = defaultState;
+      return state;
+
     case getType(fetchExportRequest):
       return {
         ...state,

@@ -21,6 +21,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ibmProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { uiActions } from 'store/ui';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedIbmReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
@@ -41,6 +42,7 @@ interface IbmDetailsStateProps {
 
 interface IbmDetailsDispatchProps {
   fetchReport: typeof reportActions.fetchReport;
+  resetState: typeof uiActions.resetState;
 }
 
 interface IbmDetailsState {
@@ -100,6 +102,9 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
   }
 
   public componentDidMount() {
+    const { resetState } = this.props;
+
+    resetState(); // Clear cached API responses
     this.updateReport();
   }
 
@@ -465,6 +470,7 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
 
 const mapDispatchToProps: IbmDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
+  resetState: uiActions.resetState,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(IbmDetails));
