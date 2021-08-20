@@ -21,6 +21,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { uiActions } from 'store/ui';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
@@ -41,6 +42,7 @@ interface AwsDetailsStateProps {
 
 interface AwsDetailsDispatchProps {
   fetchReport: typeof reportActions.fetchReport;
+  resetState: typeof uiActions.resetState;
 }
 
 interface AwsDetailsState {
@@ -100,6 +102,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   }
 
   public componentDidMount() {
+    const { resetState } = this.props;
+
+    resetState(); // Clear cached API responses
     this.updateReport();
   }
 
@@ -478,6 +483,7 @@ const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStat
 
 const mapDispatchToProps: AwsDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
+  resetState: uiActions.resetState,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(AwsDetails));

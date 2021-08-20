@@ -49,6 +49,7 @@ import {
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
+import { uiActions } from 'store/ui';
 import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
@@ -92,6 +93,10 @@ export const getIdKeyForTab = (tab: OverviewTab) => {
 
 type OverviewOwnProps = RouteComponentProps<void> & WithTranslation;
 
+interface OverviewDispatchProps {
+  resetState: typeof uiActions.resetState;
+}
+
 interface OverviewStateProps {
   awsProviders: Providers;
   awsProvidersFetchStatus: FetchStatus;
@@ -129,7 +134,7 @@ interface OverviewState {
   currentOcpPerspective?: string;
 }
 
-type OverviewProps = OverviewOwnProps & OverviewStateProps;
+type OverviewProps = OverviewOwnProps & OverviewStateProps & OverviewDispatchProps;
 
 // Ocp options
 const ocpOptions = [{ label: 'overview.perspective.ocp_all', value: 'all' }];
@@ -171,6 +176,10 @@ class OverviewBase extends React.Component<OverviewProps> {
   public state: OverviewState = { ...this.defaultState };
 
   public componentDidMount() {
+    const { resetState } = this.props;
+
+    resetState(); // Clear cached API responses
+
     this.setState({
       currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
       currentOcpPerspective: this.getDefaultOcpPerspective(),
@@ -662,6 +671,10 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
   };
 });
 
-const Overview = withTranslation()(connect(mapStateToProps)(OverviewBase));
+const mapDispatchToProps: OverviewDispatchProps = {
+  resetState: uiActions.resetState,
+};
+
+const Overview = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(OverviewBase));
 
 export default Overview;
