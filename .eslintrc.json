@@ -89,7 +89,7 @@
         "no-new-wrappers": "error",
         "no-prototype-builtins": "off",
         "no-restricted-imports": ["error", {
-            "patterns": ["./*/**,", "../*/**", "**.json"]
+            "patterns": ["../*/**"]
         }],
         "no-shadow": "error",
         "no-throw-literal": "error",
