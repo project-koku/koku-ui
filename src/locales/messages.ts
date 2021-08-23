@@ -67,6 +67,11 @@ export default defineMessages({
     description: 'Raw cost from Azure infrastructure.',
     id: 'AzureDesc',
   },
+  AzureDetailsTitle: {
+    defaultMessage: 'EN Microsoft Azure details',
+    description: 'Microsoft Azure details',
+    id: 'AzureDetailsTitle',
+  },
   AzureOcpDashboardCostTitle: {
     defaultMessage: 'EN Microsoft Azure filtered by OpenShift cost',
     description: 'Microsoft Azure filtered by OpenShift cost',
