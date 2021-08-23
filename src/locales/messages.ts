@@ -485,6 +485,11 @@ export default defineMessages({
     description: 'Raw cost from Google Cloud Platform infrastructure.',
     id: 'GCPDesc',
   },
+  GCPDetailsTitle: {
+    defaultMessage: 'EN Google Cloud Platform Details',
+    description: 'Google Cloud Platform Details',
+    id: 'GCPDetailsTitle',
+  },
   GroupByAll: {
     defaultMessage:
       '{value, select, ' +
