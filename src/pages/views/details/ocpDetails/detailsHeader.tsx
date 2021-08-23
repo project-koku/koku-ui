@@ -6,9 +6,10 @@ import { OcpReport } from 'api/reports/ocpReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
+import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
@@ -33,7 +34,7 @@ interface DetailsHeaderStateProps {
 
 interface DetailsHeaderState {}
 
-type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & WithTranslation;
+type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & WrappedComponentProps;
 
 const baseQuery: OcpQuery = {
   delta: 'cost',
@@ -60,7 +61,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   public state: DetailsHeaderState = { ...this.defaultState };
 
   public render() {
-    const { groupBy, onGroupByClicked, providers, providersError, report, t } = this.props;
+    const { groupBy, onGroupByClicked, providers, providersError, report, intl } = this.props;
     const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
 
     let cost: string | React.ReactNode = <EmptyValueState />;
@@ -89,7 +90,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       <header style={styles.header}>
         <div>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {t('ocp_details.title')}
+            {intl.formatMessage(messages.OCPDetailsTitle)}
           </Title>
           <GroupBy
             getIdKeyForGroupBy={getIdKeyForGroupBy}
@@ -105,9 +106,9 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <div>
             <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
               <Tooltip
-                content={t('dashboard.total_cost_tooltip', {
-                  supplementaryCost,
+                content={intl.formatMessage(messages.DashboardTotalCostTooltip, {
                   infrastructureCost,
+                  supplementaryCost,
                 })}
                 enableFlip
               >
@@ -142,6 +143,6 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   };
 });
 
-const DetailsHeader = withTranslation()(connect(mapStateToProps, {})(DetailsHeaderBase));
+const DetailsHeader = injectIntl(connect(mapStateToProps, {})(DetailsHeaderBase));
 
 export { DetailsHeader, DetailsHeaderProps };

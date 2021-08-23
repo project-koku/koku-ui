@@ -2,9 +2,10 @@ import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey, tagPrefix } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import messages from 'locales/messages';
 import { PerspectiveType } from 'pages/views/explorer/explorerUtils';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
@@ -14,7 +15,7 @@ import { styles } from './groupBy.styles';
 import { GroupByOrg } from './groupByOrg';
 import { GroupByTag } from './groupByTag';
 
-interface GroupByOwnProps extends WithTranslation {
+interface GroupByOwnProps extends WrappedComponentProps {
   endDate?: string;
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
@@ -161,7 +162,7 @@ class GroupByBase extends React.Component<GroupByProps> {
   };
 
   private getGroupByItems = () => {
-    const { options, orgReport, tagReport, t } = this.props;
+    const { options, orgReport, tagReport, intl } = this.props;
 
     const allOptions = [...options];
     if (orgReport && orgReport.data && orgReport.data.length > 0) {
@@ -172,7 +173,7 @@ class GroupByBase extends React.Component<GroupByProps> {
     }
     return allOptions.map(option => (
       <DropdownItem component="button" key={option.value} onClick={() => this.handleGroupByClick(option.value)}>
-        {t(`group_by.values.${option.label}`)}
+        {intl.formatMessage(messages.GroupByValuesTitleCase, { value: option.label, count: 1 })}
       </DropdownItem>
     ));
   };
@@ -223,17 +224,17 @@ class GroupByBase extends React.Component<GroupByProps> {
   };
 
   public render() {
-    const { getIdKeyForGroupBy, groupBy, isDisabled = false, onItemClicked, orgReport, t, tagReport } = this.props;
+    const { getIdKeyForGroupBy, groupBy, isDisabled = false, onItemClicked, orgReport, intl, tagReport } = this.props;
     const { currentItem, isGroupByOpen, isGroupByOrgVisible, isGroupByTagVisible } = this.state;
 
     return (
       <div style={styles.groupBySelector}>
-        <label style={styles.groupBySelectorLabel}>{t('group_by.label')}</label>
+        <label style={styles.groupBySelectorLabel}>{intl.formatMessage(messages.GroupByLabel)}</label>
         <Dropdown
           onSelect={this.handleGroupBySelect}
           toggle={
             <DropdownToggle isDisabled={isDisabled} onToggle={this.handleGroupByToggle}>
-              {t(`group_by.values.${currentItem}`)}
+              {intl.formatMessage(messages.GroupByValuesTitleCase, { value: currentItem, count: 1 })}
             </DropdownToggle>
           }
           isOpen={isGroupByOpen}
@@ -320,6 +321,6 @@ const mapDispatchToProps: GroupByDispatchProps = {
 };
 
 const GroupByConnect = connect(mapStateToProps, mapDispatchToProps)(GroupByBase);
-const GroupBy = withTranslation()(GroupByConnect);
+const GroupBy = injectIntl(GroupByConnect);
 
 export { GroupBy, GroupByProps };
