@@ -314,10 +314,45 @@ export default defineMessages({
     description: 'total cost is the sum of the infrastructure cost and supplementary cost',
     id: 'DashboardTotalCostTooltip',
   },
+  DetailsActionsExport: {
+    defaultMessage: 'EN Export data',
+    description: 'Export data',
+    id: 'DetailsActionsExport',
+  },
+  DetailsActionsPriceList: {
+    defaultMessage: 'EN View all price lists',
+    description: 'View all price lists',
+    id: 'DetailsActionsPriceList',
+  },
   DetailsColumnManagementTitle: {
     defaultMessage: 'EN Manage columns',
     description: 'Manage columns',
     id: 'DetailsColumnManagementTitle',
+  },
+  DetailsEmptyState: {
+    defaultMessage: 'EN Processing data to generate a list of all services that sums to a total cost...',
+    description: 'Processing data to generate a list of all services that sums to a total cost...',
+    id: 'DetailsEmptyState',
+  },
+  DetailsResourceNames: {
+    defaultMessage:
+      '{value, select, ' +
+      'account {EN Account names} ' +
+      'cluster {EN Cluster names} ' +
+      'instance_type {EN Instance type names} ' +
+      'node {EN Node names} ' +
+      'org_unit_id {EN Organizational unit names} ' +
+      'pod {EN Pod names} ' +
+      'project {EN Project names} ' +
+      'region {EN Region names} ' +
+      'resource_location {EN Region names} ' +
+      'service {EN Service names} ' +
+      'service_name {EN Service names} ' +
+      'subscription_guid {EN Account names} ' +
+      'tag {EN Tag names} ' +
+      'other {}}',
+    description: 'details table resource names',
+    id: 'DetailsResourceNames',
   },
   ExportAggregateType: {
     defaultMessage: 'EN Select aggregate type',
@@ -702,6 +737,16 @@ export default defineMessages({
     description: 'thanks you for your patience',
     id: 'MaintenanceEmptyStateThanks',
   },
+  MonthOverMonthChange: {
+    defaultMessage: 'EN Month over month change',
+    description: 'Month over month change',
+    id: 'MonthOverMonthChange',
+  },
+  Names: {
+    defaultMessage: 'EN Names',
+    description: 'Names',
+    id: 'Names',
+  },
   NoDataForDate: {
     defaultMessage:
       '{count, plural, one {EN No data available for {month} {startDate}} other {EN No data available for {month} {startDate}-{endDate}}}',
@@ -878,6 +923,16 @@ export default defineMessages({
     description: 'Cost Management Overview',
     id: 'OverviewTitle',
   },
+  Percent: {
+    defaultMessage: 'EN {value}%',
+    description: 'percent value',
+    id: 'Percent',
+  },
+  PercentOfCost: {
+    defaultMessage: 'EN {value} % of cost',
+    description: '{value} % of cost',
+    id: 'PercentOfCost',
+  },
   PercentTotalCost: {
     defaultMessage: 'EN {unit}{value} ({percent}%)',
     description: '{value} {units} ({percent}%)',
@@ -929,6 +984,11 @@ export default defineMessages({
     defaultMessage: '{count, plural, one {EN {month} {startDate}} other {EN {month} {startDate}-{endDate}}}',
     description: 'SinceDate',
     id: 'SinceDate',
+  },
+  TagNames: {
+    defaultMessage: 'EN Tag names',
+    description: 'Tag Names',
+    id: 'TagNames',
   },
   ToolBarBulkSelectAll: {
     defaultMessage: 'EN Select all ({value} items)',
