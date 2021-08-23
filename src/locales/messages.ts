@@ -505,6 +505,11 @@ export default defineMessages({
     description: 'All group by value',
     id: 'GroupByAll',
   },
+  GroupByLabel: {
+    defaultMessage: 'EN Group by',
+    description: 'group by label',
+    id: 'GroupByLabel',
+  },
   GroupByTop: {
     defaultMessage:
       '{value, select, ' +
@@ -697,6 +702,11 @@ export default defineMessages({
     defaultMessage: 'EN OpenShift Volume usage and requests',
     description: 'OpenShift Volume usage and requests',
     id: 'OCPUsageAndRequests',
+  },
+  OCPDetailsTitle: {
+    defaultMessage: 'EN OpenShift details',
+    description: 'OpenShift details title',
+    id: 'OCPDetailsTitle',
   },
   OCPInfrastructureCostTitle: {
     defaultMessage: 'EN OpenShift infrastructure cost',
