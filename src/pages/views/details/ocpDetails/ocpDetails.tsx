@@ -6,7 +6,6 @@ import { tagPrefix } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import { intl, intlHelper } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import Loading from 'pages/state/loading';
@@ -23,6 +22,7 @@ import { getGroupByTagKey } from 'pages/views/utils/groupBy';
 import { hasCurrentMonthData } from 'pages/views/utils/providers';
 import { addQueryFilter, removeQueryFilter } from 'pages/views/utils/query';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -64,7 +64,7 @@ interface OcpDetailsState {
 
 type OcpDetailsOwnProps = RouteComponentProps<void>;
 
-type OcpDetailsProps = OcpDetailsStateProps & OcpDetailsOwnProps & OcpDetailsDispatchProps;
+type OcpDetailsProps = OcpDetailsStateProps & OcpDetailsOwnProps & OcpDetailsDispatchProps & WrappedComponentProps;
 
 const baseQuery: OcpQuery = {
   delta: 'cost',
@@ -434,11 +434,11 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   public render() {
-    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus } = this.props;
+    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
-    const title = intlHelper(intl.formatMessage(messages.OCPDetailsTitle));
+    const title = intl.formatMessage(messages.OCPDetailsTitle);
 
     // Note: Providers are fetched via the InactiveSources component used by all routes
     if (reportError) {
@@ -522,4 +522,5 @@ const mapDispatchToProps: OcpDetailsDispatchProps = {
   resetState: uiActions.resetState,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OcpDetails);
+const OcpDetailsTranslated = injectIntl(OcpDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(OcpDetailsTranslated);
