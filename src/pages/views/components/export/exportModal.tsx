@@ -179,12 +179,12 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                     key={index}
                     id={`resolution-${index}`}
                     isValid={option.value !== undefined}
-                    label={intl.formatMessage(option.label, { value: option.value})}
+                    label={intl.formatMessage(option.label, { value: option.value })}
                     value={option.value}
                     checked={resolution === option.value}
                     name="resolution"
                     onChange={this.handleResolutionChange}
-                    aria-label={intl.formatMessage(option.label, { value: option.value})}
+                    aria-label={intl.formatMessage(option.label, { value: option.value })}
                   />
                 ))}
               </React.Fragment>
