@@ -5,6 +5,7 @@
   "AWSDailyCostTrendTitle": "FR Amazon Web Services daily cost comparison ({units})",
   "AWSDashboardCostTitle": "FR Amazon Web Services cost",
   "AWSDesc": "FR Raw cost from Amazon Web Services infrastructure.",
+  "AWSDetailsTitle": "FR Amazon Web Services Details",
   "AWSOcpDashboardCostTitle": "FR Amazon Web Services filtered by OpenShift cost",
   "Azure": "FR Microsoft Azure",
   "AzureComputeTitle": "FR Virtual machines usage",
