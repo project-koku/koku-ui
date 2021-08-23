@@ -6,6 +6,7 @@ import { tagPrefix } from 'api/queries/query';
 import { GcpReport } from 'api/reports/gcpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData';
 import NoProviders from 'pages/state/noProviders';
@@ -15,7 +16,7 @@ import { getGroupByTagKey } from 'pages/views/utils/groupBy';
 import { hasCurrentMonthData } from 'pages/views/utils/providers';
 import { addQueryFilter, removeQueryFilter } from 'pages/views/utils/query';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -53,7 +54,7 @@ interface GcpDetailsState {
   selectedItems: ComputedReportItem[];
 }
 
-type GcpDetailsOwnProps = RouteComponentProps<void> & WithTranslation;
+type GcpDetailsOwnProps = RouteComponentProps<void> & WrappedComponentProps;
 
 type GcpDetailsProps = GcpDetailsStateProps & GcpDetailsOwnProps & GcpDetailsDispatchProps;
 
@@ -371,11 +372,11 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   };
 
   public render() {
-    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, t } = this.props;
+    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
-    const title = t('navigation.gcp_details');
+    const title = intl.formatMessage(messages.GCPDetailsTitle);
 
     // Note: Providers are fetched via the InactiveSources component used by all routes
     if (reportError) {
@@ -473,4 +474,4 @@ const mapDispatchToProps: GcpDetailsDispatchProps = {
   resetState: uiActions.resetState,
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(GcpDetails));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(GcpDetails));
