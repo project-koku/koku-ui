@@ -62,9 +62,9 @@ interface OcpDetailsState {
   selectedItems: ComputedReportItem[];
 }
 
-type OcpDetailsOwnProps = RouteComponentProps<void>;
+type OcpDetailsOwnProps = RouteComponentProps<void> & WrappedComponentProps;
 
-type OcpDetailsProps = OcpDetailsStateProps & OcpDetailsOwnProps & OcpDetailsDispatchProps & WrappedComponentProps;
+type OcpDetailsProps = OcpDetailsStateProps & OcpDetailsOwnProps & OcpDetailsDispatchProps;
 
 const baseQuery: OcpQuery = {
   delta: 'cost',
