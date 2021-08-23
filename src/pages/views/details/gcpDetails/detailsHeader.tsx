@@ -5,9 +5,10 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { GcpReport } from 'api/reports/gcpReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { gcpProvidersQuery, providersSelectors } from 'store/providers';
@@ -30,7 +31,7 @@ interface DetailsHeaderStateProps {
   providersFetchStatus: FetchStatus;
 }
 
-type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & WithTranslation;
+type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & WrappedComponentProps;
 
 const baseQuery: GcpQuery = {
   delta: 'cost',
@@ -55,7 +56,7 @@ const tagReportPathsType = TagPathsType.gcp;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   public render() {
-    const { groupBy, onGroupByClicked, providers, providersError, report, t } = this.props;
+    const { groupBy, onGroupByClicked, providers, providersError, report, intl } = this.props;
     const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
 
     const hasCost =
@@ -65,7 +66,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       <header style={styles.header}>
         <div>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {t('navigation.gcp_details')}
+            {intl.formatMessage(messages.GCPDetailsTitle)}
           </Title>
           <GroupBy
             getIdKeyForGroupBy={getIdKeyForGroupBy}
@@ -110,6 +111,6 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   };
 });
 
-const DetailsHeader = withTranslation()(connect(mapStateToProps, {})(DetailsHeaderBase));
+const DetailsHeader = injectIntl(connect(mapStateToProps, {})(DetailsHeaderBase));
 
 export { DetailsHeader, DetailsHeaderProps };
