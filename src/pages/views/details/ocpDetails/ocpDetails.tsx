@@ -522,5 +522,4 @@ const mapDispatchToProps: OcpDetailsDispatchProps = {
   resetState: uiActions.resetState,
 };
 
-const OcpDetailsTranslated = injectIntl(OcpDetails);
-export default connect(mapStateToProps, mapDispatchToProps)(OcpDetailsTranslated);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(OcpDetails));
