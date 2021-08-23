@@ -600,6 +600,11 @@ export default defineMessages({
     description: 'Raw cost from IBM Cloud infrastructure.',
     id: 'IBMDesc',
   },
+  IBMDetailsTitle: {
+    defaultMessage: 'EN IBM Cloud Details',
+    description: 'IBM details title',
+    id: 'IBMDetailsTitle',
+  },
   Infrastructure: {
     defaultMessage: 'EN Infrastructure',
     description: 'Infrastructure',
