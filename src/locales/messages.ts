@@ -506,7 +506,7 @@ export default defineMessages({
     id: 'GroupByAll',
   },
   GroupByLabel: {
-    defaultMessage: 'Group by',
+    defaultMessage: 'EN Group by',
     description: 'group by label',
     id: 'GroupByLabel',
   },
