@@ -80,6 +80,11 @@ export default defineMessages({
     description: 'Break down total cost by date',
     id: 'BreakDownTotalCostDate',
   },
+  Cancel: {
+    defaultMessage: 'EN Cancel',
+    description: 'Cancel',
+    id: 'Cancel',
+  },
   ChartCostForecastConeLegendLabel: {
     defaultMessage:
       '{count, plural, one {EN Cost confidence ({month} {startDate})} other {EN Cost confidence ({month} {startDate}-{endDate})}}',
@@ -308,6 +313,67 @@ export default defineMessages({
     defaultMessage: 'EN Manage columns',
     description: 'Manage columns',
     id: 'DetailsColumnManagementTitle',
+  },
+  ExportAggregateType: {
+    defaultMessage: 'EN Select aggregate type',
+    description: 'Export aggregate type',
+    id: 'ExportAggregateType',
+  },
+  ExportAll: {
+    defaultMessage: 'EN All',
+    description: 'Export all',
+    id: 'ExportAll',
+  },
+  ExportDownload: {
+    defaultMessage: 'EN Generate and download',
+    description: 'Export download',
+    id: 'ExportDownload',
+  },
+  ExportError: {
+    defaultMessage: 'EN Something went wrong, please try fewer selections',
+    description: 'Export error',
+    id: 'ExportError',
+  },
+  ExportFileName: {
+    defaultMessage: 'EN {provider}-{groupBy}-{resolution}-{date}',
+    description: 'Export file name',
+    id: 'ExportFileName',
+  },
+  ExportHeading: {
+    defaultMessage: 'EN Aggregates of the following {groupBy} will be exported to a .csv file.',
+    description: 'Export heading',
+    id: 'ExportHeading',
+  },
+  ExportResolution: {
+    defaultMessage: '{value, select, ' + 'daily {EN Daily} ' + 'monthly {EN Monthly} ' + 'other {}}',
+    description: 'Export file name',
+    id: 'ExportFileName',
+  },
+  ExportSelected: {
+    defaultMessage: 'EN Selected {groupBy}',
+    description: 'Selected group by for export',
+    id: 'ExportSelected',
+  },
+  ExportSelectedTags: {
+    defaultMessage: 'EN Selected tags',
+    description: 'Selected tags for export',
+    id: 'ExportSelectedTags',
+  },
+  ExportTimeScope: {
+    defaultMessage:
+      '{value, select, ' + 'current {EN Current {date}} ' + 'previous {EN Previous {date}} ' + 'other {}}',
+    description: 'Export time scope',
+    id: 'ExportTimeScopeTitle',
+  },
+  ExportTimeScopeTitle: {
+    defaultMessage: 'EN Select month',
+    description: 'Export time scope title',
+    id: 'ExportTimeScopeTitle',
+  },
+  ExportTitle: {
+    defaultMessage: 'EN Export',
+    description: 'Export title',
+    id: 'ExportTitle',
   },
   FilterByButtonAriaLabel: {
     defaultMessage:
