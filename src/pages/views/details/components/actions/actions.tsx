@@ -3,16 +3,17 @@ import { ProviderType } from 'api/providers';
 import { Query } from 'api/queries/query';
 import { tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
+import messages from 'locales/messages';
 import { ExportModal } from 'pages/views/components/export/exportModal';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
-interface DetailsActionsOwnProps extends WithTranslation, RouteComponentProps<void> {
+interface DetailsActionsOwnProps extends WrappedComponentProps, RouteComponentProps<void> {
   groupBy: string;
   isDisabled?: boolean;
   item: ComputedReportItem;
@@ -92,7 +93,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
       groupBy,
       isDisabled,
       showPriceListOption,
-      t,
+      intl,
       redirectToCostModel,
       history,
       item: { source_uuid },
@@ -101,7 +102,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     // tslint:disable:jsx-wrap-multiline
     const items = [
       <DropdownItem component="button" isDisabled={isDisabled} key="export-action" onClick={this.handleExportModalOpen}>
-        {t('details.actions.export')}
+        {intl.formatMessage(messages.DetailsActionsExport)}
       </DropdownItem>,
     ];
 
@@ -113,7 +114,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
           isDisabled={isDisabled || groupBy.includes(tagPrefix) || source_uuid.length === 0}
           onClick={() => redirectToCostModel(source_uuid[0], history)}
         >
-          {t('details.actions.price_list')}
+          {intl.formatMessage(messages.DetailsActionsPriceList)}
         </DropdownItem>
       );
     }
@@ -144,6 +145,6 @@ const mapDispatchToProps: DetailsActionsDispatchProps = {
 };
 
 const DetailsActionsConnect = connect(mapStateToProps, mapDispatchToProps)(DetailsActionsBase);
-const Actions = withRouter(withTranslation()(DetailsActionsConnect));
+const Actions = withRouter(injectIntl(DetailsActionsConnect));
 
 export { Actions, DetailsActionsProps };
