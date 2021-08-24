@@ -13,15 +13,16 @@ import {
   TextContent,
   TextVariants,
 } from '@patternfly/react-core';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, MessageDescriptor, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 
 export interface ColumnManagementModalOption {
-  description?: string;
+  description?: MessageDescriptor;
   hidden?: boolean;
-  label: string;
+  label: MessageDescriptor;
   value: string;
 }
 
@@ -36,7 +37,7 @@ export const initHiddenColumns = (options: ColumnManagementModalOption[]): Set<s
   return hiddenColumns;
 };
 
-export interface ColumnManagementModalOwnProps extends WithTranslation {
+export interface ColumnManagementModalOwnProps extends WrappedComponentProps {
   isOpen: boolean;
   options: ColumnManagementModalOption[];
   onClose(isOpen: boolean);
@@ -58,7 +59,7 @@ interface ColumnManagementModalState {
 type ColumnManagementModalProps = ColumnManagementModalOwnProps &
   ColumnManagementModalDispatchProps &
   ColumnManagementModalStateProps &
-  WithTranslation;
+  WrappedComponentProps;
 
 export class ColumnManagementModalBase extends React.Component<ColumnManagementModalProps, ColumnManagementModalState> {
   protected defaultState: ColumnManagementModalState = {
@@ -119,33 +120,37 @@ export class ColumnManagementModalBase extends React.Component<ColumnManagementM
   };
 
   public render() {
-    const { options, t } = this.props;
+    const { options, intl } = this.props;
 
     return (
       <Modal
         description={
           <TextContent>
-            <Text component={TextVariants.p}>Selected categories will be displayed in the table.</Text>
+            <Text component={TextVariants.p}>{intl.formatMessage(messages.ManageColumnsDesc)}</Text>
             <Button isInline onClick={this.selectAll} variant="link">
-              {t('details.column_management.select_all')}
+              {intl.formatMessage(messages.SelectAll)}
             </Button>
           </TextContent>
         }
         // style={styles.modal}
         isOpen={this.props.isOpen}
         onClose={this.handleClose}
-        title={t('details.column_management.title')}
+        title={intl.formatMessage(messages.ManageColumnsTitle)}
         variant={ModalVariant.medium}
         actions={[
           <Button key="save" onClick={this.handleSave} variant={ButtonVariant.link}>
-            {t('details.column_management.save')}
+            {intl.formatMessage(messages.Save)}
           </Button>,
           <Button key="cancel" onClick={this.handleClose} variant={ButtonVariant.link}>
-            {t('details.column_management.cancel')}
+            {intl.formatMessage(messages.Cancel)}
           </Button>,
         ]}
       >
-        <DataList aria-label={t('details.column_management.aria_label')} id="table-column-management" isCompact>
+        <DataList
+          aria-label={intl.formatMessage(messages.ManageColumnsAriaLabel)}
+          id="table-column-management"
+          isCompact
+        >
           {options.map(option => (
             <DataListItem aria-labelledby={option.value} key={option.value}>
               <DataListItemRow>
@@ -159,10 +164,10 @@ export class ColumnManagementModalBase extends React.Component<ColumnManagementM
                 <DataListItemCells
                   dataListCells={[
                     <DataListCell id="table-column-management-item1" key="table-column-management-item1">
-                      <label htmlFor="check1">{t(option.label)}</label>
+                      <label htmlFor="check1">{intl.formatMessage(option.label)}</label>
                     </DataListCell>,
                     <DataListCell id="table-column-management-item2" key="table-column-management-item2">
-                      {option.description && <span>{t(option.description)}</span>}
+                      {option.description && <span>{intl.formatMessage(option.description)}</span>}
                     </DataListCell>,
                   ]}
                 />
@@ -184,6 +189,6 @@ const mapDispatchToProps: ColumnManagementModalDispatchProps = {
 };
 
 const ColumnManagementModalConnect = connect(mapStateToProps, mapDispatchToProps)(ColumnManagementModalBase);
-const ColumnManagementModal = withTranslation()(ColumnManagementModalConnect);
+const ColumnManagementModal = injectIntl(ColumnManagementModalConnect);
 
 export { ColumnManagementModal, ColumnManagementModalProps };
