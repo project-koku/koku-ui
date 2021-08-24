@@ -742,6 +742,21 @@ export default defineMessages({
     description: 'thanks you for your patience',
     id: 'MaintenanceEmptyStateThanks',
   },
+  ManageColumnsAriaLabel: {
+    defaultMessage: 'EN Table column management',
+    description: 'Table column management',
+    id: 'ManageColumnsAriaLabel',
+  },
+  ManageColumnsDesc: {
+    defaultMessage: 'EN Selected categories will be displayed in the table',
+    description: 'Selected categories will be displayed in the table',
+    id: 'ManageColumnsDesc',
+  },
+  ManageColumnsTitle: {
+    defaultMessage: 'EN Manage columns',
+    description: 'Manage columns',
+    id: 'ManageColumnsTitle',
+  },
   MonthOverMonthChange: {
     defaultMessage: 'EN Month over month change',
     description: 'Month over month change',
@@ -839,10 +854,24 @@ export default defineMessages({
     description: 'Infrastructure cost',
     id: 'OCPDetailsInfrastructureCost',
   },
+  OCPDetailsInfrastructureCostDesc: {
+    defaultMessage: 'EN The cost based on raw usage data from the underlying infrastructure.',
+    description: 'The cost based on raw usage data from the underlying infrastructure.',
+    id: 'OCPDetailsInfrastructureCostDesc',
+  },
   OCPDetailsSupplementaryCost: {
     defaultMessage: 'EN Infrastructure cost',
     description: 'Infrastructure cost',
     id: 'OCPDetailsSupplementaryCost',
+  },
+  OCPDetailsSupplementaryCostDesc: {
+    defaultMessage:
+      'EN All costs not directly attributed to the infrastructure. These costs are determined by ' +
+      'applying a price list within a cost model to OpenShift cluster metrics.',
+    description:
+      'All costs not directly attributed to the infrastructure. These costs are determined by applying a ' +
+      'price list within a cost model to OpenShift cluster metrics.',
+    id: 'OCPDetailsSupplementaryCostDesc',
   },
   OCPDetailsTitle: {
     defaultMessage: 'EN OpenShift details',
@@ -994,6 +1023,16 @@ export default defineMessages({
     defaultMessage: 'EN Requests',
     description: 'Requests',
     id: 'Requests',
+  },
+  Save: {
+    defaultMessage: 'EN Save',
+    description: 'Save',
+    id: 'Save',
+  },
+  SelectAll: {
+    defaultMessage: 'EN Select all',
+    description: 'Select all',
+    id: 'SelectAll',
   },
   SinceDate: {
     defaultMessage: '{count, plural, one {EN {month} {startDate}} other {EN {month} {startDate}-{endDate}}}',
