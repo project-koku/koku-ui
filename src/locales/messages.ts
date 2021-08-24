@@ -834,6 +834,16 @@ export default defineMessages({
     description: 'OpenShift Volume usage and requests',
     id: 'OCPUsageAndRequests',
   },
+  OCPDetailsInfrastructureCost: {
+    defaultMessage: 'EN Infrastructure cost',
+    description: 'Infrastructure cost',
+    id: 'OCPDetailsInfrastructureCost',
+  },
+  OCPDetailsSupplementaryCost: {
+    defaultMessage: 'EN Infrastructure cost',
+    description: 'Infrastructure cost',
+    id: 'OCPDetailsSupplementaryCost',
+  },
   OCPDetailsTitle: {
     defaultMessage: 'EN OpenShift details',
     description: 'OpenShift details title',
