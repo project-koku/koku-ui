@@ -1,7 +1,7 @@
 import './awsDetailsTable.scss';
 
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
-import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
+import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { tagPrefix } from 'api/queries/query';
@@ -93,39 +93,39 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const columns =
       groupByTagKey || groupByOrg
         ? [
-            {
-              title: groupByOrg ? t('aws_details.org_unit_column_title') : t('details.tag_names'),
-            },
-            {
-              title: t('details.month_over_month_change'),
-            },
-            {
-              orderBy: 'cost',
-              title: t('cost', { total }),
-              transforms: [sortable],
-            },
-            {
-              title: '',
-            },
-          ]
+          {
+            title: groupByOrg ? t('aws_details.org_unit_column_title') : t('details.tag_names'),
+          },
+          {
+            title: t('details.month_over_month_change'),
+          },
+          {
+            orderBy: 'cost',
+            title: t('cost', { total }),
+            transforms: [sortable],
+          },
+          {
+            title: '',
+          },
+        ]
         : [
-            {
-              orderBy: groupById === 'account' ? 'account_alias' : groupById,
-              title: t('details.resource_names', { groupBy: groupById }),
-              transforms: [sortable],
-            },
-            {
-              title: t('details.month_over_month_change'),
-            },
-            {
-              orderBy: 'cost',
-              title: t('cost'),
-              transforms: [sortable],
-            },
-            {
-              title: '',
-            },
-          ];
+          {
+            orderBy: groupById === 'account' ? 'account_alias' : groupById,
+            title: t('details.resource_names', { groupBy: groupById }),
+            transforms: [sortable],
+          },
+          {
+            title: t('details.month_over_month_change'),
+          },
+          {
+            orderBy: 'cost',
+            title: t('cost'),
+            transforms: [sortable],
+          },
+          {
+            title: '',
+          },
+        ];
 
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({

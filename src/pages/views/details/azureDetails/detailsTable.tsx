@@ -1,7 +1,7 @@
 import './azureDetailsTable.scss';
 
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
-import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
+import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
 import { tagPrefix } from 'api/queries/query';
@@ -90,39 +90,39 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     const columns = groupByTagKey
       ? [
-          {
-            title: t('details.tag_names'),
-          },
-          {
-            title: t('details.month_over_month_change'),
-          },
-          {
-            orderBy: 'cost',
-            title: t('cost', { total }),
-            transforms: [sortable],
-          },
-          {
-            title: '',
-          },
-        ]
+        {
+          title: t('details.tag_names'),
+        },
+        {
+          title: t('details.month_over_month_change'),
+        },
+        {
+          orderBy: 'cost',
+          title: t('cost', { total }),
+          transforms: [sortable],
+        },
+        {
+          title: '',
+        },
+      ]
       : [
-          {
-            orderBy: groupById,
-            title: t('details.resource_names', { groupBy: groupById }),
-            transforms: [sortable],
-          },
-          {
-            title: t('details.month_over_month_change'),
-          },
-          {
-            orderBy: 'cost',
-            title: t('cost'),
-            transforms: [sortable],
-          },
-          {
-            title: '',
-          },
-        ];
+        {
+          orderBy: groupById,
+          title: t('details.resource_names', { groupBy: groupById }),
+          transforms: [sortable],
+        },
+        {
+          title: t('details.month_over_month_change'),
+        },
+        {
+          orderBy: 'cost',
+          title: t('cost'),
+          transforms: [sortable],
+        },
+        {
+          title: '',
+        },
+      ];
 
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({

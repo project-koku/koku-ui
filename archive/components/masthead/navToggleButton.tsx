@@ -1,6 +1,6 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
-import { BarsIcon, TimesIcon } from '@patternfly/react-icons';
-import { css } from '@patternfly/react-styles';
+import BarsIcon from '@patternfly/react-icons/dist/esm/icons/bars-icon';
+import TimesIcon from '@patternfly/react-icons/dist/esm/icons/times-icon';
 import React from 'react';
 import { uiActions } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';

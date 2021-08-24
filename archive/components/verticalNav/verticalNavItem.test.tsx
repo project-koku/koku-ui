@@ -1,4 +1,4 @@
-import { AwardIcon } from '@patternfly/react-icons';
+import { AwardIcon } from '@patternfly/react-icons/dist/esm/icons/award-icon';
 import { mount } from 'enzyme';
 import React from 'react';
 import { BrowserRouter, Link } from 'react-router-dom';

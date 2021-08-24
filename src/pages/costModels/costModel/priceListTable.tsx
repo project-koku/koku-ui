@@ -14,7 +14,7 @@ import {
   ToolbarItem,
   ToolbarItemVariant,
 } from '@patternfly/react-core';
-import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/js/icons/file-invoice-dollar-icon';
+import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/esm/icons/file-invoice-dollar-icon';
 import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';

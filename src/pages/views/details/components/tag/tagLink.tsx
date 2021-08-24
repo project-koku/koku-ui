@@ -1,4 +1,4 @@
-import { TagIcon } from '@patternfly/react-icons/dist/js/icons/tag-icon';
+import { TagIcon } from '@patternfly/react-icons/dist/esm/icons/tag-icon';
 import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';

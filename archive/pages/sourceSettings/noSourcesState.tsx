@@ -5,7 +5,7 @@ import {
   EmptyStateIcon,
   Title,
 } from '@patternfly/react-core';
-import { WrenchIcon } from '@patternfly/react-icons';
+import { WrenchIcon } from '@patternfly/react-icons/dist/esm/icons/wrench-icon';
 import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';

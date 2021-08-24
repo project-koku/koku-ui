@@ -3,7 +3,7 @@ import {
   EmptyStateBody,
   EmptyStateIcon,
 } from '@patternfly/react-core';
-import { CalculatorIcon } from '@patternfly/react-icons';
+import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import {
   sortable,
   SortByDirection,
@@ -124,60 +124,60 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     const columns = groupByTagKey
       ? [
-          // Sorting with tag keys is not supported
-          {
-            title: t('ocp_details.tag_column_title'),
-          },
-          {
-            title: t('ocp_details.change_column_title'),
-          },
-          {
-            title: t('ocp_details.infrastructure_cost_column_title'),
-          },
-          {
-            title: t('ocp_details.supplementary_cost_column_title'),
-          },
-          {
-            orderBy: 'cost',
-            title: t('ocp_details.cost_column_title', { total }),
-            transforms: [sortable],
-          },
-          {
-            title: '',
-          },
-        ]
+        // Sorting with tag keys is not supported
+        {
+          title: t('ocp_details.tag_column_title'),
+        },
+        {
+          title: t('ocp_details.change_column_title'),
+        },
+        {
+          title: t('ocp_details.infrastructure_cost_column_title'),
+        },
+        {
+          title: t('ocp_details.supplementary_cost_column_title'),
+        },
+        {
+          orderBy: 'cost',
+          title: t('ocp_details.cost_column_title', { total }),
+          transforms: [sortable],
+        },
+        {
+          title: '',
+        },
+      ]
       : [
-          {
-            orderBy: groupById,
-            title: t('ocp_details.name_column_title', { groupBy: groupById }),
-            transforms: [sortable],
-          },
-          {
-            title: t('ocp_details.change_column_title'),
-          },
-          {
-            orderBy: 'infrastructure_cost',
-            title: t('ocp_details.infrastructure_cost_column_title'),
+        {
+          orderBy: groupById,
+          title: t('ocp_details.name_column_title', { groupBy: groupById }),
+          transforms: [sortable],
+        },
+        {
+          title: t('ocp_details.change_column_title'),
+        },
+        {
+          orderBy: 'infrastructure_cost',
+          title: t('ocp_details.infrastructure_cost_column_title'),
 
-            // Sort by infrastructure_cost is not supported -- https://github.com/project-koku/koku/issues/796
-            // transforms: [sortable],
-          },
-          {
-            orderBy: 'supplementary_cost',
-            title: t('ocp_details.supplementary_cost_column_title'),
+          // Sort by infrastructure_cost is not supported -- https://github.com/project-koku/koku/issues/796
+          // transforms: [sortable],
+        },
+        {
+          orderBy: 'supplementary_cost',
+          title: t('ocp_details.supplementary_cost_column_title'),
 
-            // Sort by supplementary_cost is not supported -- https://github.com/project-koku/koku/issues/796
-            // transforms: [sortable],
-          },
-          {
-            orderBy: 'cost',
-            title: t('ocp_details.cost_column_title'),
-            transforms: [sortable],
-          },
-          {
-            title: '',
-          },
-        ];
+          // Sort by supplementary_cost is not supported -- https://github.com/project-koku/koku/issues/796
+          // transforms: [sortable],
+        },
+        {
+          orderBy: 'cost',
+          title: t('ocp_details.cost_column_title'),
+          transforms: [sortable],
+        },
+        {
+          title: '',
+        },
+      ];
 
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({
@@ -277,10 +277,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const { report, t } = this.props;
     const total =
       report &&
-      report.meta &&
-      report.meta.total &&
-      report.meta.total.supplementary &&
-      report.meta.total.supplementary.total
+        report.meta &&
+        report.meta.total &&
+        report.meta.total.supplementary &&
+        report.meta.total.supplementary.total
         ? report.meta.total.supplementary.total.value
         : 0;
 
@@ -316,11 +316,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const { report, t } = this.props;
     const total =
       report &&
-      report.meta &&
-      report.meta.total &&
-      report.meta.total.infrastructure &&
-      report.meta.total.infrastructure.total &&
-      report.meta.total.infrastructure.total.value
+        report.meta &&
+        report.meta.total &&
+        report.meta.total.infrastructure &&
+        report.meta.total.infrastructure.total &&
+        report.meta.total.infrastructure.total.value
         ? report.meta.total.infrastructure.total.value
         : 0;
 
@@ -369,26 +369,26 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             )}
             {Boolean(
               showPercentage &&
-                item.deltaPercent !== null &&
-                item.deltaValue > 0
+              item.deltaPercent !== null &&
+              item.deltaValue > 0
             ) && (
-              <span
-                className="fa fa-sort-up"
-                style={styles.infoArrow}
-                key={`month-over-month-icon-${index}`}
-              />
-            )}
+                <span
+                  className="fa fa-sort-up"
+                  style={styles.infoArrow}
+                  key={`month-over-month-icon-${index}`}
+                />
+              )}
             {Boolean(
               showPercentage &&
-                item.deltaPercent !== null &&
-                item.deltaValue < 0
+              item.deltaPercent !== null &&
+              item.deltaValue < 0
             ) && (
-              <span
-                className="fa fa-sort-down"
-                style={{ ...styles.ininfoArrow, ...styles.infoArrowDesc }}
-                key={`month-over-month-icon-${index}`}
-              />
-            )}
+                <span
+                  className="fa fa-sort-down"
+                  style={{ ...styles.ininfoArrow, ...styles.infoArrowDesc }}
+                  key={`month-over-month-icon-${index}`}
+                />
+              )}
           </div>
           <div
             style={styles.infoDescription}
@@ -445,10 +445,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const { report, t } = this.props;
     const cost =
       report &&
-      report.meta &&
-      report.meta.total &&
-      report.meta.total.cost &&
-      report.meta.total.cost.total
+        report.meta &&
+        report.meta.total &&
+        report.meta.total.cost &&
+        report.meta.total.cost.total
         ? report.meta.total.cost.total.value
         : 0;
 

@@ -1,5 +1,5 @@
 import { Button, ButtonVariant, Checkbox, FormGroup, Split, SplitItem } from '@patternfly/react-core';
-import { MinusCircleIcon } from '@patternfly/react-icons/dist/js/icons/minus-circle-icon';
+import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
 import { RateInputBase } from 'pages/costModels/components/inputs/rateInput';
 import { SimpleInput } from 'pages/costModels/components/inputs/simpleInput';
 import React from 'react';

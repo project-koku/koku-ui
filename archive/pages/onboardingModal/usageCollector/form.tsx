@@ -5,7 +5,7 @@ import {
   Popover,
   TextInput,
 } from '@patternfly/react-core';
-import { QuestionCircleIcon } from '@patternfly/react-icons';
+import { QuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/question-circle-icon';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate } from 'react-i18next';
 import { getTestProps, testIds } from 'testIds';

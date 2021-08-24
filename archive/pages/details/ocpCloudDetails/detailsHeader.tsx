@@ -1,5 +1,5 @@
 import { Popover, Title, Tooltip } from '@patternfly/react-core';
-import { QuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/question-circle-icon';
+import { QuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/question-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -55,10 +55,10 @@ const groupByOptions: {
   label: string;
   value: ComputedOcpReportItemsParams['idKey'];
 }[] = [
-  { label: 'cluster', value: 'cluster' },
-  { label: 'node', value: 'node' },
-  { label: 'project', value: 'project' },
-];
+    { label: 'cluster', value: 'cluster' },
+    { label: 'node', value: 'node' },
+    { label: 'project', value: 'project' },
+  ];
 
 const reportPathsType = ReportPathsType.ocpCloud;
 

@@ -3,7 +3,7 @@ import {
   EmptyStateBody,
   EmptyStateIcon,
 } from '@patternfly/react-core';
-import { CalculatorIcon } from '@patternfly/react-icons';
+import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import {
   sortable,
   SortByDirection,
@@ -124,39 +124,39 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     const columns = groupByTagKey
       ? [
-          {
-            title: t('ocp_details.tag_column_title'),
-          },
-          {
-            title: t('aws_details.change_column_title'),
-          },
-          {
-            orderBy: 'cost',
-            title: t('aws_details.cost_column_title', { total }),
-            transforms: [sortable],
-          },
-          {
-            title: '',
-          },
-        ]
+        {
+          title: t('ocp_details.tag_column_title'),
+        },
+        {
+          title: t('aws_details.change_column_title'),
+        },
+        {
+          orderBy: 'cost',
+          title: t('aws_details.cost_column_title', { total }),
+          transforms: [sortable],
+        },
+        {
+          title: '',
+        },
+      ]
       : [
-          {
-            orderBy: groupById === 'account' ? 'account_alias' : groupById,
-            title: t('aws_details.name_column_title', { groupBy: groupById }),
-            transforms: [sortable],
-          },
-          {
-            title: t('aws_details.change_column_title'),
-          },
-          {
-            orderBy: 'cost',
-            title: t('aws_details.cost_column_title'),
-            transforms: [sortable],
-          },
-          {
-            title: '',
-          },
-        ];
+        {
+          orderBy: groupById === 'account' ? 'account_alias' : groupById,
+          title: t('aws_details.name_column_title', { groupBy: groupById }),
+          transforms: [sortable],
+        },
+        {
+          title: t('aws_details.change_column_title'),
+        },
+        {
+          orderBy: 'cost',
+          title: t('aws_details.cost_column_title'),
+          transforms: [sortable],
+        },
+        {
+          title: '',
+        },
+      ];
 
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({
@@ -295,29 +295,29 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             )}
             {Boolean(
               showPercentage &&
-                item.deltaPercent !== null &&
-                item.deltaValue > 0
+              item.deltaPercent !== null &&
+              item.deltaValue > 0
             ) && (
-              <span
-                className="fa fa-sort-up"
-                style={styles.infoArrow}
-                key={`month-over-month-icon-${index}`}
-              />
-            )}
+                <span
+                  className="fa fa-sort-up"
+                  style={styles.infoArrow}
+                  key={`month-over-month-icon-${index}`}
+                />
+              )}
             {Boolean(
               showPercentage &&
-                item.deltaPercent !== null &&
-                item.deltaValue < 0
+              item.deltaPercent !== null &&
+              item.deltaValue < 0
             ) && (
-              <span
-                className="fa fa-sort-down"
-                style={{
-                  ...styles.infoArrow,
-                  ...styles.infoArrowDesc,
-                }}
-                key={`month-over-month-icon-${index}`}
-              />
-            )}
+                <span
+                  className="fa fa-sort-down"
+                  style={{
+                    ...styles.infoArrow,
+                    ...styles.infoArrowDesc,
+                  }}
+                  key={`month-over-month-icon-${index}`}
+                />
+              )}
           </div>
           <div
             style={styles.infoDescription}
@@ -374,10 +374,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const { report, t } = this.props;
     const cost =
       report &&
-      report.meta &&
-      report.meta.total &&
-      report.meta.total.cost &&
-      report.meta.total.cost.total
+        report.meta &&
+        report.meta.total &&
+        report.meta.total.cost &&
+        report.meta.total.cost.total
         ? report.meta.total.cost.total.value
         : 0;
 

@@ -1,7 +1,7 @@
 import './explorerTable.scss';
 
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
-import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
+import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import { nowrap, sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { parseQuery, Query } from 'api/queries/query';
@@ -109,19 +109,19 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     const columns =
       groupByTagKey || groupByOrg
         ? [
-            {
-              cellTransforms: [nowrap],
-              title: groupByOrg ? t('explorer.org_unit_column_title') : t('details.tag_names'),
-            },
-          ]
+          {
+            cellTransforms: [nowrap],
+            title: groupByOrg ? t('explorer.org_unit_column_title') : t('details.tag_names'),
+          },
+        ]
         : [
-            {
-              cellTransforms: [nowrap],
-              orderBy: groupById === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupById,
-              title: t('details.resource_names', { groupBy: groupById }),
-              transforms: [sortable],
-            },
-          ];
+          {
+            cellTransforms: [nowrap],
+            orderBy: groupById === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupById,
+            title: t('details.resource_names', { groupBy: groupById }),
+            transforms: [sortable],
+          },
+        ];
 
     const computedItems = getUnsortedComputedReportItems({
       report,

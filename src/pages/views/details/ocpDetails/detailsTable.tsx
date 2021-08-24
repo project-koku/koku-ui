@@ -1,7 +1,7 @@
 import './detailsTable.scss';
 
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
-import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
+import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { ProviderType } from 'api/providers';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
@@ -99,66 +99,66 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     const columns = groupByTagKey
       ? [
-          // Sorting with tag keys is not supported
-          {
-            title: t('details.tag_names'),
-          },
-          {
-            id: DetailsTableColumnIds.monthOverMonth,
-            title: t('details.month_over_month_change'),
-          },
-          {
-            id: DetailsTableColumnIds.infrastructure,
-            title: t('ocp_details.infrastructure_cost'),
-          },
-          {
-            id: DetailsTableColumnIds.supplementary,
-            title: t('ocp_details.supplementary_cost'),
-          },
-          {
-            orderBy: 'cost',
-            title: t('cost', { total }),
-            transforms: [sortable],
-          },
-          {
-            title: '',
-          },
-        ]
+        // Sorting with tag keys is not supported
+        {
+          title: t('details.tag_names'),
+        },
+        {
+          id: DetailsTableColumnIds.monthOverMonth,
+          title: t('details.month_over_month_change'),
+        },
+        {
+          id: DetailsTableColumnIds.infrastructure,
+          title: t('ocp_details.infrastructure_cost'),
+        },
+        {
+          id: DetailsTableColumnIds.supplementary,
+          title: t('ocp_details.supplementary_cost'),
+        },
+        {
+          orderBy: 'cost',
+          title: t('cost', { total }),
+          transforms: [sortable],
+        },
+        {
+          title: '',
+        },
+      ]
       : [
-          {
-            orderBy: groupById,
-            title: t('details.resource_names', { groupBy: groupById }),
-            transforms: [sortable],
-          },
-          {
-            id: DetailsTableColumnIds.monthOverMonth,
-            title: t('details.month_over_month_change'),
-          },
-          {
-            id: DetailsTableColumnIds.infrastructure,
-            orderBy: 'infrastructure_cost',
-            title: t('ocp_details.infrastructure_cost'),
+        {
+          orderBy: groupById,
+          title: t('details.resource_names', { groupBy: groupById }),
+          transforms: [sortable],
+        },
+        {
+          id: DetailsTableColumnIds.monthOverMonth,
+          title: t('details.month_over_month_change'),
+        },
+        {
+          id: DetailsTableColumnIds.infrastructure,
+          orderBy: 'infrastructure_cost',
+          title: t('ocp_details.infrastructure_cost'),
 
-            // Sort by infrastructure_cost is not supported -- https://github.com/project-koku/koku/issues/796
-            // transforms: [sortable],
-          },
-          {
-            id: DetailsTableColumnIds.supplementary,
-            orderBy: 'supplementary_cost',
-            title: t('ocp_details.supplementary_cost'),
+          // Sort by infrastructure_cost is not supported -- https://github.com/project-koku/koku/issues/796
+          // transforms: [sortable],
+        },
+        {
+          id: DetailsTableColumnIds.supplementary,
+          orderBy: 'supplementary_cost',
+          title: t('ocp_details.supplementary_cost'),
 
-            // Sort by supplementary_cost is not supported -- https://github.com/project-koku/koku/issues/796
-            // transforms: [sortable],
-          },
-          {
-            orderBy: 'cost',
-            title: t('cost'),
-            transforms: [sortable],
-          },
-          {
-            title: '',
-          },
-        ];
+          // Sort by supplementary_cost is not supported -- https://github.com/project-koku/koku/issues/796
+          // transforms: [sortable],
+        },
+        {
+          orderBy: 'cost',
+          title: t('cost'),
+          transforms: [sortable],
+        },
+        {
+          title: '',
+        },
+      ];
 
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({

@@ -22,9 +22,9 @@ import {
   ToolbarItem,
   ToolbarToggleGroup,
 } from '@patternfly/react-core';
-import { ExportIcon } from '@patternfly/react-icons/dist/js/icons/export-icon';
-import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/filter-icon';
-import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
+import { ExportIcon } from '@patternfly/react-icons/dist/esm/icons/export-icon';
+import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
+import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import { Org } from 'api/orgs/org';
 import { orgUnitIdKey, orgUnitNameKey, Query, tagKey, tagPrefix } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
@@ -135,16 +135,16 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         const filters = this.getActiveFilters(query);
         return categoryOptions !== prevProps.categoryOptions || prevProps.groupBy !== groupBy
           ? {
-              categoryInput: '',
-              currentCategory: this.getDefaultCategory(),
-              currentOrgUnit: '',
-              currentTagKey: '',
-              tagKeyValueInput: '',
-              filters,
-            }
+            categoryInput: '',
+            currentCategory: this.getDefaultCategory(),
+            currentOrgUnit: '',
+            currentTagKey: '',
+            tagKeyValueInput: '',
+            filters,
+          }
           : {
-              filters,
-            };
+            filters,
+          };
       });
     }
   }
@@ -442,8 +442,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               prevFilters && prevFilters.includes(categoryInput)
                 ? prevFilters
                 : prevFilters
-                ? [...prevFilters, categoryInput]
-                : [categoryInput],
+                  ? [...prevFilters, categoryInput]
+                  : [categoryInput],
           },
           categoryInput: '',
         };
@@ -467,8 +467,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               prevFilters && prevFilters.includes(value)
                 ? prevFilters
                 : prevFilters
-                ? [...prevFilters, value]
-                : [value],
+                  ? [...prevFilters, value]
+                  : [value],
           },
           categoryInput: '',
         };
