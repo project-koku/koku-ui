@@ -1,5 +1,5 @@
 import { Alert, Button, Modal, Title, TitleSizes } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 

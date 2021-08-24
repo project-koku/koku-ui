@@ -1,5 +1,5 @@
 import { Button, ButtonVariant, FormGroup, Grid, GridItem, Radio, Switch } from '@patternfly/react-core';
-import { PlusCircleIcon } from '@patternfly/react-icons/dist/js/icons/plus-circle-icon';
+import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { MetricHash } from 'api/metrics';
 import { RateInputBase } from 'pages/costModels/components/inputs/rateInput';
 import { Selector } from 'pages/costModels/components/inputs/selector';

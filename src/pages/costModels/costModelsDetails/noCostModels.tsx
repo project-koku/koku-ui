@@ -1,4 +1,4 @@
-import { PlusCircleIcon } from '@patternfly/react-icons/dist/js/icons/plus-circle-icon';
+import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import HookIntoProps from 'hook-into-props';
 import { CreateCostModelButton } from 'pages/costModels/costModelsDetails/createCostModelButton';
 import React from 'react';

@@ -3,9 +3,10 @@ module.exports = {
   clearMocks: true,
   timers: 'fake',
   transform: {
-    '^.+\\.(ts|tsx)$': '<rootDir>/test/transformTS.js',
+    '^.+\\.[jt]sx?$': '<rootDir>/test/transformTS.js',
     '^.+\\.(jpg)$': '<rootDir>/test/transformFile.js',
   },
+  transformIgnorePatterns: ['node_modules/(?!@patternfly/react-icons/dist/esm)'],
   setupFiles: ['./test/test.env.ts'],
   testRegex: '\\.test\\.(jsx?|tsx?)$',
   moduleFileExtensions: ['ts', 'tsx', 'js'],
@@ -13,7 +14,8 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|less|sass|scss)$': '<rootDir>/test/styleMock.js',
   },
+  roots: ['<rootDir>/src'],
   snapshotSerializers: ['enzyme-to-json/serializer'],
-  testPathIgnorePatterns: ['<rootDir>/archive/'],
+  testPathIgnorePatterns: ['node_modules/(?!@patternfly/react-icons/dist/esm)'],
   testURL: 'http://localhost/',
 };

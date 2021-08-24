@@ -13,7 +13,7 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
-import { PlusCircleIcon } from '@patternfly/react-icons/dist/js/icons/plus-circle-icon';
+import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { MetricHash } from 'api/metrics';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { WithPriceListSearch } from 'pages/costModels/components/hoc/withPriceListSearch';
