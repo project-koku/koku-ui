@@ -32,6 +32,11 @@ export default defineMessages({
     description: 'Raw cost from Amazon Web Services infrastructure.',
     id: 'AWSDesc',
   },
+  AWSDetailsTitle: {
+    defaultMessage: 'EN Amazon Web Services Details',
+    description: 'Amazon Web Services Details',
+    id: 'AWSDetailsTitle',
+  },
   AWSOcpDashboardCostTitle: {
     defaultMessage: 'EN Amazon Web Services filtered by OpenShift cost',
     description: 'Amazon Web Services filtered by OpenShift cost',
