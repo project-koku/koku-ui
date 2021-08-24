@@ -16,6 +16,5 @@ module.exports = {
   },
   roots: ['<rootDir>/src'],
   snapshotSerializers: ['enzyme-to-json/serializer'],
-  testPathIgnorePatterns: ['node_modules/(?!@patternfly/react-icons/dist/esm)'],
   testURL: 'http://localhost/',
 };
