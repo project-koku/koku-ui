@@ -1,7 +1,7 @@
 import './breakdownHeader.scss';
 
 import { Title, TitleSizes } from '@patternfly/react-core';
-import { AngleLeftIcon } from '@patternfly/react-icons/dist/js/icons/angle-left-icon';
+import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left-icon';
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';

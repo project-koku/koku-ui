@@ -10,7 +10,7 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
-import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-circle-icon';
+import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
 import global_DangerColor_100 from '@patternfly/react-tokens/dist/js/global_danger_color_100';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';

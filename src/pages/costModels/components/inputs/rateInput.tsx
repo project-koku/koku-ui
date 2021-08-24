@@ -6,7 +6,7 @@ import {
   TextInput,
   TextInputProps,
 } from '@patternfly/react-core';
-import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
+import { DollarSignIcon } from '@patternfly/react-icons/dist/esm/icons/dollar-sign-icon';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 

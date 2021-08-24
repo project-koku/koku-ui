@@ -17,7 +17,7 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
-import { OkIcon } from '@patternfly/react-icons/dist/js/icons/ok-icon';
+import { OkIcon } from '@patternfly/react-icons/dist/esm/icons/ok-icon';
 import { RateTable } from 'pages/costModels/components/rateTable';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';

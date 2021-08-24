@@ -1,5 +1,5 @@
 import { EmptyState as PfEmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@patternfly/react-core';
-import { MoneyCheckAltIcon } from '@patternfly/react-icons/dist/js/icons/money-check-alt-icon';
+import { MoneyCheckAltIcon } from '@patternfly/react-icons/dist/esm/icons/money-check-alt-icon';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 
