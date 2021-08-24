@@ -10,10 +10,11 @@ import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
+import messages from 'locales/messages';
 import { Actions } from 'pages/views/details/components/actions/actions';
 import { getBreakdownPath } from 'pages/views/utils/paths';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { paths } from 'routes';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
@@ -41,7 +42,7 @@ interface DetailsTableState {
   rows?: any[];
 }
 
-type DetailsTableProps = DetailsTableOwnProps & WithTranslation;
+type DetailsTableProps = DetailsTableOwnProps & WrappedComponentProps;
 
 export const DetailsTableColumnIds = {
   infrastructure: 'infrastructure',
@@ -83,7 +84,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   private initDatum = () => {
-    const { hiddenColumns, isAllSelected, query, report, selectedItems, t } = this.props;
+    const { hiddenColumns, isAllSelected, query, report, selectedItems, intl } = this.props;
     if (!query || !report) {
       return;
     }
@@ -91,33 +92,26 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
 
-    const total = formatCurrency(
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
-        ? report.meta.total.cost.total.value
-        : 0
-    );
-
     const columns = groupByTagKey
       ? [
           // Sorting with tag keys is not supported
           {
-            title: t('details.tag_names'),
+            title: intl.formatMessage(messages.TagNames),
           },
           {
-            id: DetailsTableColumnIds.monthOverMonth,
-            title: t('details.month_over_month_change'),
+            title: intl.formatMessage(messages.MonthOverMonthChange),
           },
           {
             id: DetailsTableColumnIds.infrastructure,
-            title: t('ocp_details.infrastructure_cost'),
+            title: intl.formatMessage(messages.OCPDetailsInfrastructureCost),
           },
           {
             id: DetailsTableColumnIds.supplementary,
-            title: t('ocp_details.supplementary_cost'),
+            title: intl.formatMessage(messages.OCPDetailsSupplementaryCost),
           },
           {
             orderBy: 'cost',
-            title: t('cost', { total }),
+            title: intl.formatMessage(messages.Cost),
             transforms: [sortable],
           },
           {
@@ -127,17 +121,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       : [
           {
             orderBy: groupById,
-            title: t('details.resource_names', { groupBy: groupById }),
+            title: intl.formatMessage(messages.DetailsResourceNames, { value: groupById }),
             transforms: [sortable],
           },
           {
             id: DetailsTableColumnIds.monthOverMonth,
-            title: t('details.month_over_month_change'),
+            title: intl.formatMessage(messages.MonthOverMonthChange),
           },
           {
             id: DetailsTableColumnIds.infrastructure,
             orderBy: 'infrastructure_cost',
-            title: t('ocp_details.infrastructure_cost'),
+            title: intl.formatMessage(messages.OCPDetailsInfrastructureCost),
 
             // Sort by infrastructure_cost is not supported -- https://github.com/project-koku/koku/issues/796
             // transforms: [sortable],
@@ -145,14 +139,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           {
             id: DetailsTableColumnIds.supplementary,
             orderBy: 'supplementary_cost',
-            title: t('ocp_details.supplementary_cost'),
+            title: intl.formatMessage(messages.OCPDetailsSupplementaryCost),
 
             // Sort by supplementary_cost is not supported -- https://github.com/project-koku/koku/issues/796
             // transforms: [sortable],
           },
           {
             orderBy: 'cost',
-            title: t('cost'),
+            title: intl.formatMessage(messages.Cost),
             transforms: [sortable],
           },
           {
@@ -266,7 +260,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getEmptyState = () => {
-    const { query, t } = this.props;
+    const { query, intl } = this.props;
 
     for (const val of Object.values(query.filter_by)) {
       if (val !== '*') {
@@ -276,13 +270,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('details.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>{intl.formatMessage(messages.DetailsEmptyState)}</EmptyStateBody>
       </EmptyState>
     );
   };
 
   private getSupplementaryCost = (item: ComputedReportItem, index: number) => {
-    const { report, t } = this.props;
+    const { report, intl } = this.props;
     const cost =
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
         ? report.meta.total.cost.total.value
@@ -292,9 +286,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       <>
         {formatCurrency(item.supplementary.total.value)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
-          {t('percent_of_cost', {
-            value: percentValue,
-          })}
+          {intl.formatMessage(messages.PercentOfCost, { value: percentValue })}
         </div>
       </>
     );
@@ -315,7 +307,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getInfrastructureCost = (item: ComputedReportItem, index: number) => {
-    const { report, t } = this.props;
+    const { report, intl } = this.props;
     const cost =
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
         ? report.meta.total.cost.total.value
@@ -325,16 +317,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       <>
         {formatCurrency(item.infrastructure.total.value)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
-          {t('percent_of_cost', {
-            value: percentValue,
-          })}
+          {intl.formatMessage(messages.PercentOfCost, { value: percentValue })}
         </div>
       </>
     );
   };
 
   private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
-    const { t } = this.props;
+    const { intl } = this.props;
     const value = formatCurrency(Math.abs(item.cost.total.value - item.delta_value));
     const percentage = item.delta_percent !== null ? Math.abs(item.delta_percent).toFixed(2) : 0;
 
@@ -358,7 +348,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       return (
         <div className="monthOverMonthOverride">
           <div className={iconOverride} key={`month-over-month-cost-${index}`}>
-            {showPercentage ? t('percent', { value: percentage }) : <EmptyValueState />}
+            {showPercentage ? intl.formatMessage(messages.Percent, { value: percentage }) : <EmptyValueState />}
             {Boolean(showPercentage && item.delta_percent !== null && item.delta_value > 0) && (
               <span className="fa fa-sort-up" style={styles.infoArrow} key={`month-over-month-icon-${index}`} />
             )}
@@ -400,7 +390,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getTotalCost = (item: ComputedReportItem, index: number) => {
-    const { report, t } = this.props;
+    const { report, intl } = this.props;
     const cost =
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
         ? report.meta.total.cost.total.value
@@ -410,9 +400,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       <>
         {formatCurrency(item.cost.total.value)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
-          {t('percent_of_cost', {
-            value: percentValue,
-          })}
+          {intl.formatMessage(messages.PercentOfCost, { value: percentValue })}
         </div>
       </>
     );
@@ -477,6 +465,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 }
 
-const DetailsTable = withTranslation()(DetailsTableBase);
+const DetailsTable = injectIntl(DetailsTableBase);
 
 export { DetailsTable, DetailsTableProps };

@@ -129,6 +129,8 @@
   "OCPDashboardCostTrendTitle": "EN All OpenShift cumulative cost comparison ({units})",
   "OCPDashboardDailyCostTitle": "EN All OpenShift daily cost comparison ({units})",
   "OCPDashboardMemoryUsageAndRequests": "EN OpenShift Memory usage and requests",
+  "OCPDetailsInfrastructureCost": "EN Infrastructure cost",
+  "OCPDetailsSupplementaryCost": "EN Infrastructure cost",
   "OCPDetailsTitle": "EN OpenShift details",
   "OCPInfrastructureCostTitle": "EN OpenShift infrastructure cost",
   "OCPInfrastructureCostTrendTitle": "EN OpenShift cumulative infrastructure cost comparison ({units})",
