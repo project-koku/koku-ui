@@ -135,16 +135,16 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         const filters = this.getActiveFilters(query);
         return categoryOptions !== prevProps.categoryOptions || prevProps.groupBy !== groupBy
           ? {
-            categoryInput: '',
-            currentCategory: this.getDefaultCategory(),
-            currentOrgUnit: '',
-            currentTagKey: '',
-            tagKeyValueInput: '',
-            filters,
-          }
+              categoryInput: '',
+              currentCategory: this.getDefaultCategory(),
+              currentOrgUnit: '',
+              currentTagKey: '',
+              tagKeyValueInput: '',
+              filters,
+            }
           : {
-            filters,
-          };
+              filters,
+            };
       });
     }
   }
@@ -442,8 +442,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               prevFilters && prevFilters.includes(categoryInput)
                 ? prevFilters
                 : prevFilters
-                  ? [...prevFilters, categoryInput]
-                  : [categoryInput],
+                ? [...prevFilters, categoryInput]
+                : [categoryInput],
           },
           categoryInput: '',
         };
@@ -467,8 +467,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               prevFilters && prevFilters.includes(value)
                 ? prevFilters
                 : prevFilters
-                  ? [...prevFilters, value]
-                  : [value],
+                ? [...prevFilters, value]
+                : [value],
           },
           categoryInput: '',
         };

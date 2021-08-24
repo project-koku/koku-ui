@@ -109,19 +109,19 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     const columns =
       groupByTagKey || groupByOrg
         ? [
-          {
-            cellTransforms: [nowrap],
-            title: groupByOrg ? t('explorer.org_unit_column_title') : t('details.tag_names'),
-          },
-        ]
+            {
+              cellTransforms: [nowrap],
+              title: groupByOrg ? t('explorer.org_unit_column_title') : t('details.tag_names'),
+            },
+          ]
         : [
-          {
-            cellTransforms: [nowrap],
-            orderBy: groupById === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupById,
-            title: t('details.resource_names', { groupBy: groupById }),
-            transforms: [sortable],
-          },
-        ];
+            {
+              cellTransforms: [nowrap],
+              orderBy: groupById === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupById,
+              title: t('details.resource_names', { groupBy: groupById }),
+              transforms: [sortable],
+            },
+          ];
 
     const computedItems = getUnsortedComputedReportItems({
       report,

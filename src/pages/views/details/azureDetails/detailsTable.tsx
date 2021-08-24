@@ -90,39 +90,39 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     const columns = groupByTagKey
       ? [
-        {
-          title: t('details.tag_names'),
-        },
-        {
-          title: t('details.month_over_month_change'),
-        },
-        {
-          orderBy: 'cost',
-          title: t('cost', { total }),
-          transforms: [sortable],
-        },
-        {
-          title: '',
-        },
-      ]
+          {
+            title: t('details.tag_names'),
+          },
+          {
+            title: t('details.month_over_month_change'),
+          },
+          {
+            orderBy: 'cost',
+            title: t('cost', { total }),
+            transforms: [sortable],
+          },
+          {
+            title: '',
+          },
+        ]
       : [
-        {
-          orderBy: groupById,
-          title: t('details.resource_names', { groupBy: groupById }),
-          transforms: [sortable],
-        },
-        {
-          title: t('details.month_over_month_change'),
-        },
-        {
-          orderBy: 'cost',
-          title: t('cost'),
-          transforms: [sortable],
-        },
-        {
-          title: '',
-        },
-      ];
+          {
+            orderBy: groupById,
+            title: t('details.resource_names', { groupBy: groupById }),
+            transforms: [sortable],
+          },
+          {
+            title: t('details.month_over_month_change'),
+          },
+          {
+            orderBy: 'cost',
+            title: t('cost'),
+            transforms: [sortable],
+          },
+          {
+            title: '',
+          },
+        ];
 
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({

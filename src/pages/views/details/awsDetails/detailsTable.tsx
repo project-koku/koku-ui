@@ -93,39 +93,39 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const columns =
       groupByTagKey || groupByOrg
         ? [
-          {
-            title: groupByOrg ? t('aws_details.org_unit_column_title') : t('details.tag_names'),
-          },
-          {
-            title: t('details.month_over_month_change'),
-          },
-          {
-            orderBy: 'cost',
-            title: t('cost', { total }),
-            transforms: [sortable],
-          },
-          {
-            title: '',
-          },
-        ]
+            {
+              title: groupByOrg ? t('aws_details.org_unit_column_title') : t('details.tag_names'),
+            },
+            {
+              title: t('details.month_over_month_change'),
+            },
+            {
+              orderBy: 'cost',
+              title: t('cost', { total }),
+              transforms: [sortable],
+            },
+            {
+              title: '',
+            },
+          ]
         : [
-          {
-            orderBy: groupById === 'account' ? 'account_alias' : groupById,
-            title: t('details.resource_names', { groupBy: groupById }),
-            transforms: [sortable],
-          },
-          {
-            title: t('details.month_over_month_change'),
-          },
-          {
-            orderBy: 'cost',
-            title: t('cost'),
-            transforms: [sortable],
-          },
-          {
-            title: '',
-          },
-        ];
+            {
+              orderBy: groupById === 'account' ? 'account_alias' : groupById,
+              title: t('details.resource_names', { groupBy: groupById }),
+              transforms: [sortable],
+            },
+            {
+              title: t('details.month_over_month_change'),
+            },
+            {
+              orderBy: 'cost',
+              title: t('cost'),
+              transforms: [sortable],
+            },
+            {
+              title: '',
+            },
+          ];
 
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({
