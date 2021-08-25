@@ -547,8 +547,7 @@ export default defineMessages({
     id: 'ExportSelectedTags',
   },
   ExportTimeScope: {
-    defaultMessage:
-      '{value, select, current {EN Current {date}} previous {EN Previous {date}} other {}}',
+    defaultMessage: '{value, select, current {EN Current {date}} previous {EN Previous {date}} other {}}',
     description: 'Export time scope',
     id: 'ExportTimeScope',
   },

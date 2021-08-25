@@ -42,7 +42,10 @@ class ClusterModalBase extends React.Component<ClusterModalProps> {
         style={styles.modal}
         isOpen={isOpen}
         onClose={this.handleClose}
-        title={intl.formatMessage(messages.DetailsClustersModalTitle, { groupBy, name: item.label })}
+        title={intl.formatMessage(messages.DetailsClustersModalTitle, {
+          groupBy: intl.formatMessage(messages.GroupByValues, { value: groupBy, count: 1 }),
+          name: item.label,
+        })}
         width={'50%'}
       >
         <ClusterView item={item} />

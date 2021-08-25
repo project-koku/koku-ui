@@ -119,7 +119,10 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
           </div>
           <div style={styles.costLabelDate}>
             {getForDateRangeString(
-              intl.formatMessage(messages.GroupByValuesTitleCase, { value: groupByKey, count: 2 })
+              intl.formatMessage(messages.GroupByValuesTitleCase, {
+                value: intl.formatMessage(messages.GroupByValues, { value: groupByKey, count: 1 }),
+                count: 2,
+              })
             )}
           </div>
         </div>
