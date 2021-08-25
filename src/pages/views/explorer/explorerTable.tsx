@@ -29,7 +29,7 @@ interface ExplorerTableOwnProps {
   isAllSelected?: boolean;
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
-  onSort(value: string, isSortAscending: boolean);
+  onSort(value: string, date: string, isSortAscending: boolean);
   perspective: PerspectiveType;
   query: AwsQuery;
   report: AwsReport;
@@ -120,6 +120,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
         : [
             {
               cellTransforms: [nowrap],
+              date: undefined,
               orderBy: groupById === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupById,
               title: intl.formatMessage(messages.GroupByValueNames, { groupBy: groupById }),
               transforms: [sortable],
@@ -146,9 +147,10 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       const month = getMonth(mapIdDate);
       columns.push({
         cellTransforms: [nowrap],
-        orderBy: undefined, // TBD...
+        date: mapId,
+        orderBy: 'cost',
         title: intl.formatMessage(messages.ExplorerChartDate, { date, month }),
-        transforms: undefined,
+        transforms: [sortable],
       });
 
       computedItems.map(rowItem => {
@@ -311,9 +313,9 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     const { columns } = this.state;
 
     if (onSort) {
-      const orderBy = columns[index - 1].orderBy;
+      const column = columns[index - 1];
       const isSortAscending = direction === SortByDirection.asc;
-      onSort(orderBy, isSortAscending);
+      onSort(column.orderBy, column.date, isSortAscending);
     }
   };
 
