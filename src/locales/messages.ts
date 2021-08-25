@@ -82,13 +82,73 @@ export default defineMessages({
     description: 'Microsoft Azure filtered by OpenShift cost',
     id: 'AzureOcpDashboardCostTitle',
   },
-  BreakDownTotalCostDate: {
+  BreakdownBackToDetails: {
+    defaultMessage: 'EN Back to {value} {groupBy} details',
+    description: 'Back to {value} {groupBy} details',
+    id: 'BreakdownBackToDetails',
+  },
+  BreakdownCostBreakdownAriaLabel: {
+    defaultMessage: 'EN A description of markup, raw cost and usage cost',
+    description: 'A description of markup, raw cost and usage cost',
+    id: 'BreakdownCostBreakdownAriaLabel',
+  },
+  BreakdownCostBreakdownTitle: {
+    defaultMessage: 'EN Cost breakdown',
+    description: 'A description of markup, raw cost and usage cost',
+    id: 'BreakdownCostBreakdownTitle',
+  },
+  BreakdownCostChartAriaDesc: {
+    defaultMessage: 'EN Breakdown of markup, raw, and usage costs',
+    description: 'Breakdown of markup, raw, and usage costs',
+    id: 'BreakdownCostChartAriaDesc',
+  },
+  BreakdownCostChartTooltip: {
+    defaultMessage: 'EN {name}: {value}',
+    description: '{name}: {value}',
+    id: 'BreakdownCostChartTooltip',
+  },
+  BreakdownCostOverviewTitle: {
+    defaultMessage: 'EN Cost overview',
+    description: 'Cost overview',
+    id: 'BreakdownCostOverviewTitle',
+  },
+  BreakdownHistoricalDataTitle: {
+    defaultMessage: 'EN Historical data',
+    description: 'Historical data',
+    id: 'BreakdownHistoricalDataTitle',
+  },
+  BreakdownSummaryTitle: {
+    defaultMessage:
+      '{value, select, ' +
+      'account {EN Cost by accounts} ' +
+      'cluster {EN Cost by clusters} ' +
+      'instance_type {EN Cost by instance types} ' +
+      'node {EN Cost by Node} ' +
+      'org_unit_id {EN Cost by organizational units} ' +
+      'pod {EN Cost by pods} ' +
+      'project {EN Cost by projects} ' +
+      'region {EN Cost by regions} ' +
+      'resource_location {EN Cost by regions} ' +
+      'service {EN Cost by services} ' +
+      'service_name {EN Cost by services} ' +
+      'subscription_guid {EN Cost by accounts} ' +
+      'tag {EN Cost by tags} ' +
+      'other {}}',
+    description: 'Cost by {value}',
+    id: 'BreakdownSummaryTitle',
+  },
+  BreakdownTitle: {
+    defaultMessage: 'EN {value}',
+    description: 'breakdown title',
+    id: 'BreakdownTitle',
+  },
+  BreakdownTotalCostDate: {
     defaultMessage:
       '{count, plural, ' +
       'one {EN {value} total cost ({month} {startDate})} ' +
       'other {EN {value} total cost ({month} {startDate}-{endDate})}}',
     description: 'Break down total cost by date',
-    id: 'BreakDownTotalCostDate',
+    id: 'BreakdownTotalCostDate',
   },
   Cancel: {
     defaultMessage: 'EN Cancel',
@@ -97,7 +157,8 @@ export default defineMessages({
   },
   ChartCostForecastConeLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Cost confidence ({month} {startDate})} other {EN Cost confidence ({month} {startDate}-{endDate})}}',
+      '{count, plural, one {EN Cost confidence ({month} {startDate})} other {EN Cost confidence ' +
+      '({month} {startDate}-{endDate})}}',
     description: 'Cost forecast cone date label',
     id: 'ChartCostForecastConeLegendLabel',
   },
@@ -113,7 +174,8 @@ export default defineMessages({
   },
   ChartCostForecastLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Cost forecast ({month} {startDate})} other {EN Cost forecast ({month} {startDate}-{endDate})}}',
+      '{count, plural, one {EN Cost forecast ({month} {startDate})} other {EN Cost forecast ' +
+      '({month} {startDate}-{endDate})}}',
     description: 'Cost forecast date label',
     id: 'ChartCostForecastLegendLabel',
   },
@@ -124,7 +186,8 @@ export default defineMessages({
   },
   ChartCostInfrastructureForecastConeLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Infrastructure confidence ({month} {startDate})} other {EN Infrastructure confidence ({month} {startDate}-{endDate})}}',
+      '{count, plural, one {EN Infrastructure confidence ({month} {startDate})} other {EN Infrastructure confidence ' +
+      '({month} {startDate}-{endDate})}}',
     description: 'Infrastructure date label',
     id: 'ChartCostInfrastructureForecastConeLegendLabel',
   },
@@ -135,7 +198,8 @@ export default defineMessages({
   },
   ChartCostInfrastructureForecastLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Infrastructure forecast ({month} {startDate})} other {EN Infrastructure forecast ({month} {startDate}-{endDate})}}',
+      '{count, plural, one {EN Infrastructure forecast ({month} {startDate})} other {EN Infrastructure forecast ' +
+      '({month} {startDate}-{endDate})}}',
     description: 'Infrastructure date label',
     id: 'ChartCostInfrastructureForecastLegendLabel',
   },
@@ -146,7 +210,8 @@ export default defineMessages({
   },
   ChartCostInfrastructureLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Infrastructure ({month} {startDate})} other {EN Infrastructure ({month} {startDate}-{endDate})}}',
+      '{count, plural, one {EN Infrastructure ({month} {startDate})} other {EN Infrastructure ' +
+      '({month} {startDate}-{endDate})}}',
     description: 'Infrastructure date label',
     id: 'ChartCostInfrastructureLegendLabel',
   },
@@ -168,7 +233,8 @@ export default defineMessages({
   },
   ChartCostSupplementaryLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Supplementary cost ({month} {startDate})} other {EN Supplementary cost ({month} {startDate}-{endDate})}}',
+      '{count, plural, one {EN Supplementary cost ({month} {startDate})} other {EN Supplementary cost ' +
+      '({month} {startDate}-{endDate})}}',
     description: 'Supplementary cost date label',
     id: 'ChartCostSupplementaryLegendLabel',
   },
@@ -231,6 +297,11 @@ export default defineMessages({
     description: 'Usage ({month} {startDate})',
     id: 'ChartUsageLegendlabel',
   },
+  Clusters: {
+    defaultMessage: 'EN Clusters',
+    description: 'Clusters',
+    id: 'Clusters',
+  },
   Cost: {
     defaultMessage: 'EN Cost',
     description: 'Cost',
@@ -238,7 +309,8 @@ export default defineMessages({
   },
   CostModelsDetailsAssignSourcesErrorDescription: {
     defaultMessage:
-      'EN You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
+      'EN You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your ' +
+      'organization administrator or visit our {statusUrl} for known outages.',
     description: 'You cannot assign a source at this time',
     id: 'CostModelsDetailsAssignSourcesErrorDescription',
   },
@@ -264,7 +336,9 @@ export default defineMessages({
   },
   CostModelsWizardSourceErrorDescription: {
     defaultMessage:
-      'EN Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
+      'EN Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost ' +
+      'model at a later time. If the problem persists, contact your organization administrator or visit our ' +
+      '{statusUrl} for known outages.',
     description: 'This step is temporarily unavailable',
     id: 'CostModelsWizardSourceErrorDescription',
   },
@@ -277,6 +351,11 @@ export default defineMessages({
     defaultMessage: 'EN Assign sources to the cost model (optional)',
     description: 'Assign sources to the cost model (optional)',
     id: 'CostModelsWizardSourceTitle',
+  },
+  CpuTitle: {
+    defaultMessage: 'EN CPU',
+    description: 'CPU',
+    id: 'CPUTitle',
   },
   Custom: {
     defaultMessage: 'EN {msg}',
@@ -315,7 +394,8 @@ export default defineMessages({
   },
   DashboardTotalCostTooltip: {
     defaultMessage:
-      'EN This total cost is the sum of the infrastructure cost {infrastructureCost} and supplementary cost {supplementaryCost}',
+      'EN This total cost is the sum of the infrastructure cost {infrastructureCost} and supplementary ' +
+      'cost {supplementaryCost}',
     description: 'total cost is the sum of the infrastructure cost and supplementary cost',
     id: 'DashboardTotalCostTooltip',
   },
@@ -329,6 +409,11 @@ export default defineMessages({
     description: 'View all price lists',
     id: 'DetailsActionsPriceList',
   },
+  DetailsClustersModalTitle: {
+    defaultMessage: 'EN, {groupBy} {name} clusters',
+    description: '$t(group_by.values.{{groupBy}}) {{name}} clusters',
+    id: 'DetailsClustersModalTitle',
+  },
   DetailsColumnManagementTitle: {
     defaultMessage: 'EN Manage columns',
     description: 'Manage columns',
@@ -338,6 +423,11 @@ export default defineMessages({
     defaultMessage: 'EN Processing data to generate a list of all services that sums to a total cost...',
     description: 'Processing data to generate a list of all services that sums to a total cost...',
     id: 'DetailsEmptyState',
+  },
+  DetailsMoreClusters: {
+    defaultMessage: 'EN, {value} more...',
+    description: ', {value} more...',
+    id: 'DetailsMoreClusters',
   },
   DetailsResourceNames: {
     defaultMessage:
@@ -358,6 +448,68 @@ export default defineMessages({
       'other {}}',
     description: 'details table resource names',
     id: 'DetailsResourceNames',
+  },
+  DetailsUnusedRequestsLabel: {
+    defaultMessage: 'EN Unrequested capacity',
+    description: 'Unrequested capacity',
+    id: 'DetailsUnusedRequestsLabel',
+  },
+  DetailsUnusedUnits: {
+    defaultMessage: 'EN {units} ({percentage}% of capacity)',
+    description: '{units} ({percentage}% of capacity)',
+    id: 'DetailsUnusedUsageUnits',
+  },
+  DetailsUnusedUsageLabel: {
+    defaultMessage: 'EN Unused capacity',
+    description: 'Unused capacity',
+    id: 'DetailsUnusedUsageLabel',
+  },
+  DetailsUsageCapacity: {
+    defaultMessage: 'EN Capacity - {value} {units}',
+    description: 'Capacity - {value} {units}',
+    id: 'DetailsUsageCapacity',
+  },
+  DetailsUsageLimit: {
+    defaultMessage: 'EN Limit - {value} {units}',
+    description: 'Limit - {value} {units}',
+    id: 'DetailsUsageLimit',
+  },
+  DetailsUsageRequests: {
+    defaultMessage: 'EN Requests - {value} {units}',
+    description: 'Requests - {value} {units}',
+    id: 'DetailsUsageRequests',
+  },
+  DetailsUsageUsage: {
+    defaultMessage: 'EN Usage - {value} {units}',
+    description: 'Usage - {value} {units}',
+    id: 'DetailsUsageLimit',
+  },
+  DetailsViewAll: {
+    defaultMessage:
+      '{value, select, ' +
+      'account {EN View all accounts} ' +
+      'cluster {EN View all clusters} ' +
+      'instance_type {EN View all instance types} ' +
+      'node {EN View all nodes} ' +
+      'org_unit_id {EN View all organizational units} ' +
+      'pod {EN View all pods} ' +
+      'project {EN View all projects} ' +
+      'region {EN View all regions} ' +
+      'resource_location {EN View all regions} ' +
+      'service {EN View all Services} ' +
+      'service_name {EN View all services} ' +
+      'subscription_guid {EN View all accounts} ' +
+      'tag {EN View all tags} ' +
+      'other {}}',
+    description: 'View all {value}',
+    id: 'DetailsViewAll',
+  },
+  DocsCostModelTerminology: {
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#cost-model-terminology',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#cost-model-terminology',
+    id: 'DocsCostModelTerminology',
   },
   ExportAggregateType: {
     defaultMessage: 'EN Select aggregate type',
@@ -686,6 +838,19 @@ export default defineMessages({
     description: 'Group by values',
     id: 'GroupByValuesTitleCase',
   },
+  HistoricalChartTitle: {
+    defaultMessage:
+      '{value, select, ' +
+      'cost {EN Cost comparison} ' +
+      'cpu {EN CPU usage, request, and limit comparison} ' +
+      'instance_type {EN Compute usage comparison} ' +
+      'memory {EN Memory usage, request, and limit comparison} ' +
+      'modal {EN {name} daily usage comparison} ' +
+      'storage {EN Storage usage comparison} ' +
+      'other {}}',
+    description: 'historical chart titles',
+    id: 'HistoricalChartTitle',
+  },
   IBM: {
     defaultMessage: 'EN IBM Cloud',
     description: 'IBM Cloud',
@@ -726,9 +891,15 @@ export default defineMessages({
     description: 'Infrastructure',
     id: 'Infrastructure',
   },
+  LearnMore: {
+    defaultMessage: 'EN Learn more',
+    description: 'Learn more',
+    id: 'LearnMore',
+  },
   MaintenanceEmptyStateDesc: {
     defaultMessage:
-      'EN Cost Management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).',
+      'EN Cost Management is currently undergoing scheduled maintenance and will be unavailable from ' +
+      '13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).',
     description: 'Cost Management is currently undergoing scheduled maintenance',
     id: 'MaintenanceEmptyStateDesc',
   },
@@ -757,6 +928,25 @@ export default defineMessages({
     description: 'Manage columns',
     id: 'ManageColumnsTitle',
   },
+  MarkupDescription: {
+    defaultMessage:
+      'EN The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost ' +
+      'management application',
+    description:
+      'The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost ' +
+      'management application',
+    id: 'MarkupDescription',
+  },
+  MarkupTitle: {
+    defaultMessage: 'EN Markup',
+    description: 'Markup',
+    id: 'MarkupTitle',
+  },
+  MemoryTitle: {
+    defaultMessage: 'EN Memory',
+    description: 'Memory',
+    id: 'MemoryTitle',
+  },
   MonthOverMonthChange: {
     defaultMessage: 'EN Month over month change',
     description: 'Month over month change',
@@ -769,13 +959,15 @@ export default defineMessages({
   },
   NoDataForDate: {
     defaultMessage:
-      '{count, plural, one {EN No data available for {month} {startDate}} other {EN No data available for {month} {startDate}-{endDate}}}',
+      '{count, plural, one {EN No data available for {month} {startDate}} other {EN No data available for ' +
+      '{month} {startDate}-{endDate}}}',
     description: 'No data available for date range',
     id: 'NoDataForDate',
   },
   NoDataStateDesc: {
     defaultMessage:
-      'EN We have detected a source, but we are not done processing the incoming data. The time to process could take up to 24 hours. Try refreshing the page at a later time.',
+      'EN We have detected a source, but we are not done processing the incoming data. The time to process could ' +
+      'take up to 24 hours. Try refreshing the page at a later time.',
     description: 'still processing request, 24 hour message',
     id: 'NoDataStateDesc',
   },
@@ -952,9 +1144,11 @@ export default defineMessages({
   },
   OpenShiftDesc: {
     defaultMessage:
-      'EN Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.',
+      'EN Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated ' +
+      'from metrics.',
     description:
-      'Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.',
+      'Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated ' +
+      'from metrics.',
     id: 'OpenShiftDesc',
   },
   OverviewInfoArialLabel: {
@@ -1003,9 +1197,20 @@ export default defineMessages({
     description: 'Perspective values',
     id: 'PerspectiveValues',
   },
+  RawCostDescription: {
+    defaultMessage: 'EN The costs reported by a cloud provider without any cost model calculations applied.',
+    description: 'The costs reported by a cloud provider without any cost model calculations applied.',
+    id: 'RawCostDescription',
+  },
+  RawCostTitle: {
+    defaultMessage: 'EN Raw cost',
+    description: 'Raw cost',
+    id: 'RawCostTitle',
+  },
   RbacErrorDescription: {
     defaultMessage:
-      'EN There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.',
+      'EN There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, ' +
+      'please contact your admin.',
     description: 'rbac error description',
     id: 'RbacErrorDescription',
   },
@@ -1105,5 +1310,15 @@ export default defineMessages({
     defaultMessage: 'EN Usage',
     description: 'Usage',
     id: 'Usage',
+  },
+  UsageCostDescription: {
+    defaultMessage: 'EN The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.',
+    description: 'The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.',
+    id: 'UsageCostDescription',
+  },
+  UsageCostTitle: {
+    defaultMessage: 'EN Usage cost',
+    description: 'Usage cost',
+    id: 'UsageCostTitle',
   },
 });

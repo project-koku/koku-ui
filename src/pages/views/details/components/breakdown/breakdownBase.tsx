@@ -10,13 +10,15 @@ import NoProviders from 'pages/state/noProviders';
 import NotAvailable from 'pages/state/notAvailable';
 import { hasCurrentMonthData } from 'pages/views/utils/providers';
 import React from 'react';
-import { WithTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 
 import { styles } from './breakdown.styles';
 import { BreakdownHeader } from './breakdownHeader';
+
+import messages from 'locales/messages';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 // eslint-disable-next-line no-shadow
 const enum BreakdownTab {
@@ -67,7 +69,7 @@ interface AvailableTab {
   tab: BreakdownTab;
 }
 
-type BreakdownOwnProps = RouteComponentProps<void> & WithTranslation;
+type BreakdownOwnProps = RouteComponentProps<void> & WrappedComponentProps;
 
 type BreakdownProps = BreakdownOwnProps & BreakdownStateProps & BreakdownDispatchProps;
 
@@ -163,12 +165,12 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   };
 
   private getTabTitle = (tab: BreakdownTab) => {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     if (tab === BreakdownTab.costOverview) {
-      return t('breakdown.cost_overview_title');
+      return intl.formatMessage(messages.BreakdownCostOverviewTitle);
     } else if (tab === BreakdownTab.historicalData) {
-      return t('breakdown.historical_data_title');
+      return intl.formatMessage(messages.BreakdownHistoricalDataTitle);
     }
   };
 
@@ -241,4 +243,4 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   }
 }
 
-export default BreakdownBase;
+export default injectIntl(BreakdownBase);
