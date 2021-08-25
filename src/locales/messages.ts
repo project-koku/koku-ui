@@ -482,7 +482,7 @@ export default defineMessages({
   DetailsUsageUsage: {
     defaultMessage: 'EN Usage - {value} {units}',
     description: 'Usage - {value} {units}',
-    id: 'DetailsUsageLimit',
+    id: 'DetailsUsageUsage',
   },
   DetailsViewAll: {
     defaultMessage:
@@ -544,7 +544,7 @@ export default defineMessages({
   ExportResolution: {
     defaultMessage: '{value, select, ' + 'daily {EN Daily} ' + 'monthly {EN Monthly} ' + 'other {}}',
     description: 'Export file name',
-    id: 'ExportFileName',
+    id: 'ExportResolution',
   },
   ExportSelected: {
     defaultMessage: 'EN Selected {groupBy}',
@@ -560,7 +560,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' + 'current {EN Current {date}} ' + 'previous {EN Previous {date}} ' + 'other {}}',
     description: 'Export time scope',
-    id: 'ExportTimeScopeTitle',
+    id: 'ExportTimeScope',
   },
   ExportTimeScopeTitle: {
     defaultMessage: 'EN Select month',
