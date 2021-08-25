@@ -157,8 +157,7 @@ export default defineMessages({
   },
   ChartCostForecastConeLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Cost confidence ({month} {startDate})} other {EN Cost confidence ' +
-      '({month} {startDate}-{endDate})}}',
+      '{count, plural, one {EN Cost confidence ({month} {startDate})} other {EN Cost confidence ({month} {startDate}-{endDate})}}',
     description: 'Cost forecast cone date label',
     id: 'ChartCostForecastConeLegendLabel',
   },
@@ -174,8 +173,7 @@ export default defineMessages({
   },
   ChartCostForecastLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Cost forecast ({month} {startDate})} other {EN Cost forecast ' +
-      '({month} {startDate}-{endDate})}}',
+      '{count, plural, one {EN Cost forecast ({month} {startDate})} other {EN Cost forecast ({month} {startDate}-{endDate})}}',
     description: 'Cost forecast date label',
     id: 'ChartCostForecastLegendLabel',
   },
@@ -186,8 +184,7 @@ export default defineMessages({
   },
   ChartCostInfrastructureForecastConeLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Infrastructure confidence ({month} {startDate})} other {EN Infrastructure confidence ' +
-      '({month} {startDate}-{endDate})}}',
+      '{count, plural, one {EN Infrastructure confidence ({month} {startDate})} other {EN Infrastructure confidence ({month} {startDate}-{endDate})}}',
     description: 'Infrastructure date label',
     id: 'ChartCostInfrastructureForecastConeLegendLabel',
   },
@@ -198,8 +195,7 @@ export default defineMessages({
   },
   ChartCostInfrastructureForecastLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Infrastructure forecast ({month} {startDate})} other {EN Infrastructure forecast ' +
-      '({month} {startDate}-{endDate})}}',
+      '{count, plural, one {EN Infrastructure forecast ({month} {startDate})} other {EN Infrastructure forecast ({month} {startDate}-{endDate})}}',
     description: 'Infrastructure date label',
     id: 'ChartCostInfrastructureForecastLegendLabel',
   },
@@ -210,8 +206,7 @@ export default defineMessages({
   },
   ChartCostInfrastructureLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Infrastructure ({month} {startDate})} other {EN Infrastructure ' +
-      '({month} {startDate}-{endDate})}}',
+      '{count, plural, one {EN Infrastructure ({month} {startDate})} other {EN Infrastructure ({month} {startDate}-{endDate})}}',
     description: 'Infrastructure date label',
     id: 'ChartCostInfrastructureLegendLabel',
   },
@@ -233,8 +228,7 @@ export default defineMessages({
   },
   ChartCostSupplementaryLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Supplementary cost ({month} {startDate})} other {EN Supplementary cost ' +
-      '({month} {startDate}-{endDate})}}',
+      '{count, plural, one {EN Supplementary cost ({month} {startDate})} other {EN Supplementary cost ({month} {startDate}-{endDate})}}',
     description: 'Supplementary cost date label',
     id: 'ChartCostSupplementaryLegendLabel',
   },
@@ -309,8 +303,7 @@ export default defineMessages({
   },
   CostModelsDetailsAssignSourcesErrorDescription: {
     defaultMessage:
-      'EN You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your ' +
-      'organization administrator or visit our {statusUrl} for known outages.',
+      'EN You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
     description: 'You cannot assign a source at this time',
     id: 'CostModelsDetailsAssignSourcesErrorDescription',
   },
@@ -336,9 +329,7 @@ export default defineMessages({
   },
   CostModelsWizardSourceErrorDescription: {
     defaultMessage:
-      'EN Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost ' +
-      'model at a later time. If the problem persists, contact your organization administrator or visit our ' +
-      '{statusUrl} for known outages.',
+      'EN Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
     description: 'This step is temporarily unavailable',
     id: 'CostModelsWizardSourceErrorDescription',
   },
@@ -394,8 +385,7 @@ export default defineMessages({
   },
   DashboardTotalCostTooltip: {
     defaultMessage:
-      'EN This total cost is the sum of the infrastructure cost {infrastructureCost} and supplementary ' +
-      'cost {supplementaryCost}',
+      'EN This total cost is the sum of the infrastructure cost {infrastructureCost} and supplementary cost {supplementaryCost}',
     description: 'total cost is the sum of the infrastructure cost and supplementary cost',
     id: 'DashboardTotalCostTooltip',
   },
@@ -542,7 +532,7 @@ export default defineMessages({
     id: 'ExportHeading',
   },
   ExportResolution: {
-    defaultMessage: '{value, select, ' + 'daily {EN Daily} ' + 'monthly {EN Monthly} ' + 'other {}}',
+    defaultMessage: '{value, select, daily {EN Daily} monthly {EN Monthly} other {}}',
     description: 'Export file name',
     id: 'ExportResolution',
   },
@@ -558,7 +548,7 @@ export default defineMessages({
   },
   ExportTimeScope: {
     defaultMessage:
-      '{value, select, ' + 'current {EN Current {date}} ' + 'previous {EN Previous {date}} ' + 'other {}}',
+      '{value, select, current {EN Current {date}} previous {EN Previous {date}} other {}}',
     description: 'Export time scope',
     id: 'ExportTimeScope',
   },
@@ -898,8 +888,7 @@ export default defineMessages({
   },
   MaintenanceEmptyStateDesc: {
     defaultMessage:
-      'EN Cost Management is currently undergoing scheduled maintenance and will be unavailable from ' +
-      '13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).',
+      'EN Cost Management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).',
     description: 'Cost Management is currently undergoing scheduled maintenance',
     id: 'MaintenanceEmptyStateDesc',
   },
@@ -930,11 +919,9 @@ export default defineMessages({
   },
   MarkupDescription: {
     defaultMessage:
-      'EN The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost ' +
-      'management application',
+      'EN The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost management application',
     description:
-      'The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost ' +
-      'management application',
+      'The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost management application',
     id: 'MarkupDescription',
   },
   MarkupTitle: {
@@ -959,15 +946,13 @@ export default defineMessages({
   },
   NoDataForDate: {
     defaultMessage:
-      '{count, plural, one {EN No data available for {month} {startDate}} other {EN No data available for ' +
-      '{month} {startDate}-{endDate}}}',
+      '{count, plural, one {EN No data available for {month} {startDate}} other {EN No data available for {month} {startDate}-{endDate}}}',
     description: 'No data available for date range',
     id: 'NoDataForDate',
   },
   NoDataStateDesc: {
     defaultMessage:
-      'EN We have detected a source, but we are not done processing the incoming data. The time to process could ' +
-      'take up to 24 hours. Try refreshing the page at a later time.',
+      'EN We have detected a source, but we are not done processing the incoming data. The time to process could take up to 24 hours. Try refreshing the page at a later time.',
     description: 'still processing request, 24 hour message',
     id: 'NoDataStateDesc',
   },
@@ -1058,11 +1043,9 @@ export default defineMessages({
   },
   OCPDetailsSupplementaryCostDesc: {
     defaultMessage:
-      'EN All costs not directly attributed to the infrastructure. These costs are determined by ' +
-      'applying a price list within a cost model to OpenShift cluster metrics.',
+      'EN All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.',
     description:
-      'All costs not directly attributed to the infrastructure. These costs are determined by applying a ' +
-      'price list within a cost model to OpenShift cluster metrics.',
+      'All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.',
     id: 'OCPDetailsSupplementaryCostDesc',
   },
   OCPDetailsTitle: {
@@ -1144,11 +1127,9 @@ export default defineMessages({
   },
   OpenShiftDesc: {
     defaultMessage:
-      'EN Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated ' +
-      'from metrics.',
+      'EN Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.',
     description:
-      'Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated ' +
-      'from metrics.',
+      'Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.',
     id: 'OpenShiftDesc',
   },
   OverviewInfoArialLabel: {
@@ -1209,8 +1190,7 @@ export default defineMessages({
   },
   RbacErrorDescription: {
     defaultMessage:
-      'EN There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, ' +
-      'please contact your admin.',
+      'EN There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.',
     description: 'rbac error description',
     id: 'RbacErrorDescription',
   },
