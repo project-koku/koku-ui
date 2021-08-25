@@ -4,13 +4,14 @@ import { Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData';
 import NoProviders from 'pages/state/noProviders';
 import NotAvailable from 'pages/state/notAvailable';
 import { hasCurrentMonthData } from 'pages/views/utils/providers';
 import React from 'react';
-import { WithTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { RouteComponentProps } from 'react-router-dom';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
@@ -67,7 +68,7 @@ interface AvailableTab {
   tab: BreakdownTab;
 }
 
-type BreakdownOwnProps = RouteComponentProps<void> & WithTranslation;
+type BreakdownOwnProps = RouteComponentProps<void> & WrappedComponentProps;
 
 type BreakdownProps = BreakdownOwnProps & BreakdownStateProps & BreakdownDispatchProps;
 
@@ -163,12 +164,12 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   };
 
   private getTabTitle = (tab: BreakdownTab) => {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     if (tab === BreakdownTab.costOverview) {
-      return t('breakdown.cost_overview_title');
+      return intl.formatMessage(messages.BreakdownCostOverviewTitle);
     } else if (tab === BreakdownTab.historicalData) {
-      return t('breakdown.historical_data_title');
+      return intl.formatMessage(messages.BreakdownHistoricalDataTitle);
     }
   };
 
@@ -241,4 +242,4 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   }
 }
 
-export default BreakdownBase;
+export default injectIntl(BreakdownBase);
