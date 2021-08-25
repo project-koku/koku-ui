@@ -1,6 +1,7 @@
 import { Card, CardBody, CardTitle, Grid, GridItem, Title, TitleSizes } from '@patternfly/react-core';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import {
   HistoricalDataWidget,
   HistoricalDataWidgetType,
@@ -19,18 +20,18 @@ interface HistoricalDataStateProps {
   widgets: number[];
 }
 
-type HistoricalDataProps = HistoricalDataOwnProps & HistoricalDataStateProps & WithTranslation;
+type HistoricalDataProps = HistoricalDataOwnProps & HistoricalDataStateProps & WrappedComponentProps;
 
-class HistoricalDataBase extends React.Component<HistoricalDataProps> {
+class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
   // Returns cost chart
   private getCostChart = (widget: HistoricalDataWidget) => {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     return (
       <Card>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {t(`breakdown.historical_chart.${widget.reportType}_title`)}
+            {intl.formatMessage(messages.HistoricalChartTitle, { value: widget.reportType })}
           </Title>
         </CardTitle>
         <CardBody>
@@ -42,13 +43,13 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
 
   // Returns trend chart
   private getTrendChart = (widget: HistoricalDataWidget) => {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     return (
       <Card>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {t(`breakdown.historical_chart.${widget.reportType}_title`)}
+            {intl.formatMessage(messages.HistoricalChartTitle, { value: widget.reportType })}
           </Title>
         </CardTitle>
         <CardBody>
@@ -60,13 +61,13 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
 
   // Returns usage chart
   private getUsageChart = (widget: HistoricalDataWidget) => {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     return (
       <Card>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {t(`breakdown.historical_chart.${widget.reportType}_title`)}
+            {intl.formatMessage(messages.HistoricalChartTitle, { value: widget.reportType })}
           </Title>
         </CardTitle>
         <CardBody>
@@ -103,5 +104,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
     );
   }
 }
+
+const HistoricalDataBase = injectIntl(HistoricalDatasBase);
 
 export { HistoricalDataBase };

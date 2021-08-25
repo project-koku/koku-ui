@@ -5,12 +5,11 @@ import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
-import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { TagLink } from 'pages/views/details/components/tag/tagLink';
 import { getGroupByOrgValue } from 'pages/views/utils/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
@@ -28,7 +27,7 @@ interface BreakdownHeaderOwnProps {
   title: string;
 }
 
-type BreakdownHeaderProps = BreakdownHeaderOwnProps & WithTranslation;
+type BreakdownHeaderProps = BreakdownHeaderOwnProps & WrappedComponentProps;
 
 class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   private buildDetailsLink = () => {
@@ -73,7 +72,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   };
 
   public render() {
-    const { description, groupBy, query, t, tabs, tagReportPathsType, title } = this.props;
+    const { description, groupBy, query, intl, tabs, tagReportPathsType, title } = this.props;
 
     const filterByAccount = query && query.filter ? query.filter.account : undefined;
     const groupByOrg = getGroupByOrgValue(query);
@@ -93,16 +92,16 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
                   <AngleLeftIcon />
                 </span>
                 <Link to={this.buildDetailsLink()}>
-                  {t('breakdown.back_to_details', {
-                    groupBy: groupByKey,
+                  {intl.formatMessage(messages.BreakdownBackToDetails, {
                     value: tagReportPathsType,
+                    groupBy: groupByKey,
                   })}
                 </Link>
               </li>
             </ol>
           </nav>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {t('breakdown.title', { value: title })}
+            {intl.formatMessage(messages.BreakdownTitle, { value: title })}
             {description && <div style={styles.infoDescription}>{description}</div>}
           </Title>
           <div style={styles.tabs}>
@@ -120,7 +119,10 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
           </div>
           <div style={styles.costLabelDate}>
             {getForDateRangeString(
-              intl.formatMessage(messages.GroupByValuesTitleCase, { value: groupByKey, count: 2 })
+              intl.formatMessage(messages.GroupByValuesTitleCase, {
+                value: intl.formatMessage(messages.GroupByValues, { value: groupByKey, count: 1 }),
+                count: 2,
+              })
             )}
           </div>
         </div>
@@ -129,6 +131,6 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   }
 }
 
-const BreakdownHeader = withTranslation()(BreakdownHeaderBase);
+const BreakdownHeader = injectIntl(BreakdownHeaderBase);
 
 export { BreakdownHeader, BreakdownHeaderProps };
