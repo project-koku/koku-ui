@@ -4,21 +4,20 @@ import { Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData';
 import NoProviders from 'pages/state/noProviders';
 import NotAvailable from 'pages/state/notAvailable';
 import { hasCurrentMonthData } from 'pages/views/utils/providers';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { RouteComponentProps } from 'react-router-dom';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 
 import { styles } from './breakdown.styles';
 import { BreakdownHeader } from './breakdownHeader';
-
-import messages from 'locales/messages';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 // eslint-disable-next-line no-shadow
 const enum BreakdownTab {
