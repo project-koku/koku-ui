@@ -69,8 +69,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
   };
 
   public render() {
-    const { currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, reportType, intl } =
-      this.props;
+    const { currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, intl } = this.props;
 
     // Current data
     const currentData = transformReport(currentReport, ChartType.rolling, 'date', 'cost');
@@ -102,10 +101,9 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
               height={chartStyles.chartHeight}
               previousCostData={previousData}
               previousInfrastructureCostData={previousInfrastructureCostData}
-              xAxisLabel={intl.formatMessage(messages.HistoricalChartLabel, { value: 'day_of_month' })}
-              yAxisLabel={intl.formatMessage(messages.HistoricalChartLabel, {
-                value: reportType,
-                units: unitLookupKey(costUnits),
+              xAxisLabel={intl.formatMessage(messages.HistoricalChartDayOfMonthLabel)}
+              yAxisLabel={intl.formatMessage(messages.HistoricalChartCostLabel, {
+                value: unitLookupKey(costUnits),
               })}
             />
           )}

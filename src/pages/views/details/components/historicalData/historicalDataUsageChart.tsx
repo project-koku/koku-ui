@@ -105,11 +105,8 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
               previousLimitData={previousLimitData}
               previousRequestData={previousRequestData}
               previousUsageData={previousUsageData}
-              xAxisLabel={intl.formatMessage(messages.HistoricalChartLabel, { value: 'day_of_month' })}
-              yAxisLabel={intl.formatMessage(messages.HistoricalChartLabel, {
-                value: 'units',
-                units: unitLookupKey(usageUnits),
-              })}
+              xAxisLabel={intl.formatMessage(messages.HistoricalChartDayOfMonthLabel)}
+              yAxisLabel={intl.formatMessage(messages.HistoricalChartUnitsLabel, { value: unitLookupKey(usageUnits) })}
             />
           )}
         </div>

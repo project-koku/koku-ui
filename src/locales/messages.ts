@@ -885,17 +885,26 @@ export default defineMessages({
     description: 'Group by values',
     id: 'GroupByValuesTitleCase',
   },
-  HistoricalChartLabel: {
+  HistoricalChartCostLabel: {
     defaultMessage:
       '{value, select, ' +
-      'cost {{units, select, core_hours {EN Cost (core-hours)} gb {EN Cost (GB)} gb_hours {EN Cost (GB-hours)} gb_mo {EN Cost (GB-month)} gibibyte_month {EN Cost (GiB-month)} hour {EN Cost (hours)} hrs {EN Cost (hours)} usd {EN Cost ($USD)} vm_hours {EN Cost (VM-hours)} other {}}} ' +
-      'day_of_month {EN Day of Month} ' +
-      'instance_type {EN hrs} ' +
-      'storage {EN gb-mo} ' +
-      'units {{units, select, core_hours {EN core-hours} gb {EN GB} gb_hours {EN GB-hours} gb_mo {EN GB-month} gibibyte_month {EN GiB-month} hour {EN hours} hrs {EN hours} usd {EN $USD} vm_hours {EN VM-hours} other {}}} ' +
+      'core_hours {EN Cost (core-hours)} ' +
+      'gb {EN Cost (GB)} ' +
+      'gb_hours {EN Cost (GB-hours)} ' +
+      'gb_mo {EN Cost (GB-month)} ' +
+      'gibibyte_month {EN Cost (GiB-month)} ' +
+      'hour {EN Cost (hours)} ' +
+      'hrs {EN Cost (hours)} ' +
+      'usd {EN Cost ($USD)} ' +
+      'vm_hours {EN Cost (VM-hours)} ' +
       'other {}}',
-    description: 'historical chart titles',
-    id: 'HistoricalChartLabel',
+    description: 'historic cost chart labels',
+    id: 'HistoricalChartCostLabel',
+  },
+  HistoricalChartDayOfMonthLabel: {
+    defaultMessage: 'EN Day of Month',
+    description: 'Day of Month',
+    id: 'HistoricalChartDayOfMonthLabel',
   },
   HistoricalChartTitle: {
     defaultMessage:
@@ -909,6 +918,27 @@ export default defineMessages({
       'other {}}',
     description: 'historical chart titles',
     id: 'HistoricalChartTitle',
+  },
+  HistoricalChartUnitsLabel: {
+    defaultMessage:
+      '{value, select, ' +
+      'core_hours {EN core-hours} ' +
+      'gb {EN GB} ' +
+      'gb_hours {EN GB-hours} ' +
+      'gb_mo {EN GB-month} ' +
+      'gibibyte_month {EN GiB-month} ' +
+      'hour {EN hours} ' +
+      'hrs {EN hours} ' +
+      'usd {EN $USD} ' +
+      'vm_hours {EN VM-hours} ' +
+      'other {}}}',
+    description: 'historic chart units label',
+    id: 'HistoricalChartUnitsLabel',
+  },
+  HistoricalChartUsageLabel: {
+    defaultMessage: '{value, select, instance_type {EN hrs} storage {EN gb-mo} other {}}',
+    description: 'historical chart usage labels',
+    id: 'HistoricalChartUsageLabel',
   },
   IBM: {
     defaultMessage: 'EN IBM Cloud',
