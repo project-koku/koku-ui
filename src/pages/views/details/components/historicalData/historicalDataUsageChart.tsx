@@ -3,9 +3,10 @@ import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, transformReport } from 'components/charts/common/chartDatumUtils';
 import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
+import messages from 'locales/messages';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -37,7 +38,7 @@ interface HistoricalDataUsageChartDispatchProps {
 type HistoricalDataUsageChartProps = HistoricalDataUsageChartOwnProps &
   HistoricalDataUsageChartStateProps &
   HistoricalDataUsageChartDispatchProps &
-  WithTranslation;
+  WrappedComponentProps;
 
 class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageChartProps> {
   public componentDidMount() {
@@ -68,7 +69,7 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
   };
 
   public render() {
-    const { currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, t } = this.props;
+    const { currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, intl } = this.props;
 
     // Current data
     const currentLimitData = transformReport(currentReport, ChartType.daily, 'date', 'limit');
@@ -104,9 +105,10 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
               previousLimitData={previousLimitData}
               previousRequestData={previousRequestData}
               previousUsageData={previousUsageData}
-              xAxisLabel={t(`breakdown.historical_chart.day_of_month_label`)}
-              yAxisLabel={t(`breakdown.historical_chart.units_label`, {
-                units: t(`units.${unitLookupKey(usageUnits)}`),
+              xAxisLabel={intl.formatMessage(messages.HistoricalChartLabel, { value: 'day_of_month' })}
+              yAxisLabel={intl.formatMessage(messages.HistoricalChartLabel, {
+                value: 'units',
+                units: unitLookupKey(usageUnits),
               })}
             />
           )}
@@ -193,8 +195,6 @@ const mapDispatchToProps: HistoricalDataUsageChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const HistoricalDataUsageChart = withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(HistoricalDataUsageChartBase)
-);
+const HistoricalDataUsageChart = injectIntl(connect(mapStateToProps, mapDispatchToProps)(HistoricalDataUsageChartBase));
 
 export { HistoricalDataUsageChart, HistoricalDataUsageChartProps };

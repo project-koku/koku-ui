@@ -3,9 +3,10 @@ import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, transformReport } from 'components/charts/common/chartDatumUtils';
 import { HistoricalCostChart } from 'components/charts/historicalCostChart';
+import messages from 'locales/messages';
 import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -37,7 +38,7 @@ interface HistoricalDataCostChartDispatchProps {
 type HistoricalDataCostChartProps = HistoricalDataCostChartOwnProps &
   HistoricalDataCostChartStateProps &
   HistoricalDataCostChartDispatchProps &
-  WithTranslation;
+  WrappedComponentProps;
 
 class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChartProps> {
   public componentDidMount() {
@@ -68,7 +69,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
   };
 
   public render() {
-    const { currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, reportType, t } =
+    const { currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, reportType, intl } =
       this.props;
 
     // Current data
@@ -101,9 +102,10 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
               height={chartStyles.chartHeight}
               previousCostData={previousData}
               previousInfrastructureCostData={previousInfrastructureCostData}
-              xAxisLabel={t(`breakdown.historical_chart.day_of_month_label`)}
-              yAxisLabel={t(`breakdown.historical_chart.${reportType}_label`, {
-                units: t(`units.${unitLookupKey(costUnits)}`),
+              xAxisLabel={intl.formatMessage(messages.HistoricalChartLabel, { value: 'day_of_month' })}
+              yAxisLabel={intl.formatMessage(messages.HistoricalChartLabel, {
+                value: reportType,
+                units: unitLookupKey(costUnits),
               })}
             />
           )}
@@ -183,8 +185,6 @@ const mapDispatchToProps: HistoricalDataCostChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const HistoricalDataCostChart = withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(HistoricalDataCostChartBase)
-);
+const HistoricalDataCostChart = injectIntl(connect(mapStateToProps, mapDispatchToProps)(HistoricalDataCostChartBase));
 
 export { HistoricalDataCostChart, HistoricalDataCostChartProps };
