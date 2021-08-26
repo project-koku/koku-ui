@@ -72,7 +72,7 @@
   "DashboardTotalCostTooltip": "FR This total cost is the sum of the infrastructure cost {infrastructureCost} and supplementary cost {supplementaryCost}",
   "DetailsActionsExport": "FR Export data",
   "DetailsActionsPriceList": "FR View all price lists",
-  "DetailsClustersModalTitle": "FR, {groupBy} {name} clusters",
+  "DetailsClustersModalTitle": "{groupBy, select, account {FR account {name} clusters} cluster {FR cluster {name} clusters} instance_type {FR instance type {name} clusters} node {FR node {name} clusters} org_unit_id {FR organizational unit {name} clusters} pod {FR pod {name} clusters} project {FR project {name} clusters} region {FR region {name} clusters} resource_location {FR region {name} clusters} service {FR service {name} clusters} service_name {FR service {name} clusters} subscription_guid {account {name} clusters} tag {FR tags {name} clusters} other {}}",
   "DetailsColumnManagementTitle": "FR Manage columns",
   "DetailsEmptyState": "FR Processing data to generate a list of all services that sums to a total cost...",
   "DetailsMoreClusters": "FR, {value} more...",

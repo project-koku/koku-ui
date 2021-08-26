@@ -413,7 +413,22 @@ export default defineMessages({
     id: 'DetailsActionsPriceList',
   },
   DetailsClustersModalTitle: {
-    defaultMessage: 'EN, {groupBy} {name} clusters',
+    defaultMessage:
+      '{groupBy, select, ' +
+      'account {EN account {name} clusters} ' +
+      'cluster {EN cluster {name} clusters} ' +
+      'instance_type {EN instance type {name} clusters} ' +
+      'node {EN node {name} clusters} ' +
+      'org_unit_id {EN organizational unit {name} clusters} ' +
+      'pod {EN pod {name} clusters} ' +
+      'project {EN project {name} clusters} ' +
+      'region {EN region {name} clusters} ' +
+      'resource_location {EN region {name} clusters} ' +
+      'service {EN service {name} clusters} ' +
+      'service_name {EN service {name} clusters} ' +
+      'subscription_guid {account {name} clusters} ' +
+      'tag {EN tags {name} clusters} ' +
+      'other {}}',
     description: '{groupBy} {name} clusters',
     id: 'DetailsClustersModalTitle',
   },
