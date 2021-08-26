@@ -122,9 +122,9 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       }
     }
 
-    let selectedLabel = intl.formatMessage(messages.GroupByValues, { value: groupBy, count: 2 });
+    let selectedLabel = intl.formatMessage(messages.ExportSelected, { groupBy });
     if (groupBy.indexOf(tagPrefix) !== -1) {
-      selectedLabel = intl.formatMessage(messages.ExportSelectedTags);
+      selectedLabel = intl.formatMessage(messages.ExportSelected, { groupBy: 'tag' });
     }
 
     const thisMonth = new Date();
@@ -164,11 +164,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       >
         {error && <Alert variant="danger" style={styles.alert} title={intl.formatMessage(messages.ExportError)} />}
         <div style={styles.title}>
-          <span>
-            {intl.formatMessage(messages.ExportHeading, {
-              groupBy: intl.formatMessage(messages.GroupByValues, { value: groupBy, count: 2 }),
-            })}
-          </span>
+          <span>{intl.formatMessage(messages.ExportHeading, { groupBy })}</span>
         </div>
         <Form style={styles.form}>
           {showAggregateType && (

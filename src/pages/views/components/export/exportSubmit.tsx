@@ -90,8 +90,8 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
     // defaultMessage: '{provider}-{groupBy}-{resolution}-{date}',
     const fileName = intl.formatMessage(messages.ExportFileName, {
       provider: reportPathsType,
-      groupBy: intl.formatMessage(messages.GroupByValues, { value: groupBy, count: 2 }),
-      resolution: intl.formatMessage(messages.ExportResolution, { value: resolution }),
+      groupBy,
+      resolution,
       date: timeScope && timeScope === 'previous' ? previousMonth : currentMonth,
     });
 
