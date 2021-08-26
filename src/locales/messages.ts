@@ -420,7 +420,6 @@ export default defineMessages({
       'instance_type {EN instance type {name} clusters} ' +
       'node {EN node {name} clusters} ' +
       'org_unit_id {EN organizational unit {name} clusters} ' +
-      'pod {EN pod {name} clusters} ' +
       'project {EN project {name} clusters} ' +
       'region {EN region {name} clusters} ' +
       'resource_location {EN region {name} clusters} ' +
