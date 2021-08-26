@@ -13,7 +13,7 @@ delete options.sourceMap;
 
 module.exports = {
   process(src, path) {
-    if (path.endsWith('.ts') || path.endsWith('.tsx')) {
+    if (path.endsWith('.ts') || path.endsWith('.tsx') || path.includes('@patternfly/react-icons/dist/esm')) {
       return tsc.transpile(src, options, path, []);
     }
     return src;

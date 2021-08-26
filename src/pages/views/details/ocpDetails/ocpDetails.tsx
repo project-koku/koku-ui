@@ -27,6 +27,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { uiActions } from 'store/ui';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
@@ -47,6 +48,7 @@ interface OcpDetailsStateProps {
 
 interface OcpDetailsDispatchProps {
   fetchReport: typeof reportActions.fetchReport;
+  resetState: typeof uiActions.resetState;
 }
 
 interface OcpDetailsState {
@@ -129,6 +131,9 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   }
 
   public componentDidMount() {
+    const { resetState } = this.props;
+
+    resetState(); // Clear cached API responses
     this.updateReport();
   }
 
@@ -513,6 +518,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
 
 const mapDispatchToProps: OcpDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
+  resetState: uiActions.resetState,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(OcpDetails));

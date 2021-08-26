@@ -1,5 +1,5 @@
 import { Button, ButtonVariant, Popover, TextContent, Title, TitleSizes } from '@patternfly/react-core';
-import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
 import React from 'react';
 import { Trans, WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';

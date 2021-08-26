@@ -1,6 +1,6 @@
 import { Title, TitleSizes, Wizard, WizardStepFunctionType } from '@patternfly/react-core';
 import { Button, Modal } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import { addCostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Rate } from 'api/rates';

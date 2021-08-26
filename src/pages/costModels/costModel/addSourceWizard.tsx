@@ -79,15 +79,14 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
 
   private hasSelections = () => {
     const { checked } = this.state;
-
     let result = false;
-    const items = Object.keys(checked);
 
-    items.map(key => {
-      if (checked[key].selected && !checked[key].disabled) {
+    for (const item of Object.keys(checked)) {
+      if (checked[item].selected && !checked[item].disabled) {
         result = true;
+        break;
       }
-    });
+    }
     return result;
   };
 

@@ -1,7 +1,7 @@
 import './azureDetailsTable.scss';
 
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
-import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
+import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
 import { tagPrefix } from 'api/queries/query';

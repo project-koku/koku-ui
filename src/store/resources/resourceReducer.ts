@@ -1,6 +1,7 @@
 import { Resource } from 'api/resources/resource';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
+import { resetState } from 'store/ui/uiActions';
 import { ActionType, getType } from 'typesafe-actions';
 
 import { fetchResourceFailure, fetchResourceRequest, fetchResourceSuccess } from './resourceActions';
@@ -22,11 +23,15 @@ const defaultState: ResourceState = {
 };
 
 export type ResourceAction = ActionType<
-  typeof fetchResourceFailure | typeof fetchResourceRequest | typeof fetchResourceSuccess
+  typeof fetchResourceFailure | typeof fetchResourceRequest | typeof fetchResourceSuccess | typeof resetState
 >;
 
 export function resourceReducer(state = defaultState, action: ResourceAction): ResourceState {
   switch (action.type) {
+    case getType(resetState):
+      state = defaultState;
+      return state;
+
     case getType(fetchResourceRequest):
       return {
         ...state,
