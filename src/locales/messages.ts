@@ -83,7 +83,22 @@ export default defineMessages({
     id: 'AzureOcpDashboardCostTitle',
   },
   BreakdownBackToDetails: {
-    defaultMessage: 'EN Back to {value} {groupBy} details',
+    defaultMessage:
+      '{groupBy, select, ' +
+      'account {EN Back to {value} account details} ' +
+      'cluster {EN Back to {value} cluster details} ' +
+      'instance_type {EN Back to {value} instance type details} ' +
+      'node {EN Back to {value} node details} ' +
+      'org_unit_id {EN Back to {value} organizational unit details} ' +
+      'pod {EN Back to {value} pod details} ' +
+      'project {EN Back to {value} project details} ' +
+      'region {EN Back to {value} region details} ' +
+      'resource_location {EN Back to {value} region details} ' +
+      'service {EN Back to {value} service details} ' +
+      'service_name {EN Back to {value} service details} ' +
+      'subscription_guid {EN Back to {value} account details} ' +
+      'tag {EN Cost by tags} ' +
+      'other {}}',
     description: 'Back to {value} {groupBy} details',
     id: 'BreakdownBackToDetails',
   },
@@ -401,7 +416,7 @@ export default defineMessages({
   },
   DetailsClustersModalTitle: {
     defaultMessage: 'EN, {groupBy} {name} clusters',
-    description: '$t(group_by.values.{{groupBy}}) {{name}} clusters',
+    description: '{groupBy} {name} clusters',
     id: 'DetailsClustersModalTitle',
   },
   DetailsColumnManagementTitle: {
