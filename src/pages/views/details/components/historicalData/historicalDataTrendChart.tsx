@@ -3,9 +3,10 @@ import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, transformReport } from 'components/charts/common/chartDatumUtils';
 import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
+import messages from 'locales/messages';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -37,7 +38,7 @@ interface HistoricalDataTrendChartDispatchProps {
 type HistoricalDataTrendChartProps = HistoricalDataTrendChartOwnProps &
   HistoricalDataTrendChartStateProps &
   HistoricalDataTrendChartDispatchProps &
-  WithTranslation;
+  WrappedComponentProps;
 
 class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendChartProps> {
   public componentDidMount() {
@@ -68,7 +69,7 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
   };
 
   public render() {
-    const { currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, reportType, t } =
+    const { currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, reportType, intl } =
       this.props;
 
     const isCostChart = reportType === ReportType.cost;
@@ -99,18 +100,12 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 
     let yAxisLabel;
     if (isCostChart) {
-      yAxisLabel = t(`breakdown.historical_chart.${reportType}_label`, {
-        units: t(`units.${unitLookupKey(costUnits)}`),
-      });
+      yAxisLabel = intl.formatMessage(messages.HistoricalChartCostLabel, { value: unitLookupKey(costUnits) });
     } else if (usageUnits && Number.isNaN(Number(currentReport.meta.total.usage.units))) {
-      yAxisLabel = t(`breakdown.historical_chart.units_label`, {
-        units: t(`units.${unitLookupKey(usageUnits)}`),
-      });
+      yAxisLabel = intl.formatMessage(messages.HistoricalChartUnitsLabel, { value: unitLookupKey(usageUnits) });
     } else {
-      usageUnits = t(`breakdown.historical_chart.${reportType}_label`);
-      yAxisLabel = t(`breakdown.historical_chart.units_label`, {
-        units: t(`units.${unitLookupKey(usageUnits)}`),
-      });
+      usageUnits = intl.formatMessage(messages.HistoricalChartUsageLabel, { value: reportType });
+      yAxisLabel = intl.formatMessage(messages.HistoricalChartUnitsLabel, { value: unitLookupKey(usageUnits) });
     }
 
     return (
@@ -128,7 +123,7 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
               height={chartStyles.chartHeight}
               previousData={previousData}
               units={isCostChart ? costUnits : usageUnits}
-              xAxisLabel={t(`breakdown.historical_chart.day_of_month_label`)}
+              xAxisLabel={intl.formatMessage(messages.HistoricalChartDayOfMonthLabel)}
               yAxisLabel={yAxisLabel}
             />
           )}
@@ -210,8 +205,6 @@ const mapDispatchToProps: HistoricalDataTrendChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const HistoricalDataTrendChart = withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(HistoricalDataTrendChartBase)
-);
+const HistoricalDataTrendChart = injectIntl(connect(mapStateToProps, mapDispatchToProps)(HistoricalDataTrendChartBase));
 
 export { HistoricalDataTrendChart, HistoricalDataTrendChartProps };
