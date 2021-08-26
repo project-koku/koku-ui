@@ -90,7 +90,6 @@ export default defineMessages({
       'instance_type {EN Back to {value} instance type details} ' +
       'node {EN Back to {value} node details} ' +
       'org_unit_id {EN Back to {value} organizational unit details} ' +
-      'pod {EN Back to {value} pod details} ' +
       'project {EN Back to {value} project details} ' +
       'region {EN Back to {value} region details} ' +
       'resource_location {EN Back to {value} region details} ' +
@@ -140,7 +139,6 @@ export default defineMessages({
       'instance_type {EN Cost by instance types} ' +
       'node {EN Cost by Node} ' +
       'org_unit_id {EN Cost by organizational units} ' +
-      'pod {EN Cost by pods} ' +
       'project {EN Cost by projects} ' +
       'region {EN Cost by regions} ' +
       'resource_location {EN Cost by regions} ' +
@@ -442,7 +440,6 @@ export default defineMessages({
       'instance_type {EN Instance type names} ' +
       'node {EN Node names} ' +
       'org_unit_id {EN Organizational unit names} ' +
-      'pod {EN Pod names} ' +
       'project {EN Project names} ' +
       'region {EN Region names} ' +
       'resource_location {EN Region names} ' +
@@ -497,7 +494,6 @@ export default defineMessages({
       'instance_type {EN View all instance types} ' +
       'node {EN View all nodes} ' +
       'org_unit_id {EN View all organizational units} ' +
-      'pod {EN View all pods} ' +
       'project {EN View all projects} ' +
       'region {EN View all regions} ' +
       'resource_location {EN View all regions} ' +
@@ -537,12 +533,40 @@ export default defineMessages({
     id: 'ExportError',
   },
   ExportFileName: {
-    defaultMessage: 'EN {provider}-{groupBy}-{resolution}-{date}',
+    defaultMessage:
+      '{groupBy, select, ' +
+      'account {{resolution, select, daily {{provider}-accounts-daily-{date}} monthly {{provider}-accounts-monthly-{date}} other {}}} ' +
+      'cluster {{resolution, select, daily {{provider}-clusters-daily-{date}} monthly {{provider}-clusters-monthly-{date}} other {}}} ' +
+      'instance_type {{resolution, select, daily {{provider}-instances-daily-{date}} monthly {{provider}-instances-monthly-{date}} other {}}} ' +
+      'node {{resolution, select, daily {{provider}-node-daily-{date}} monthly {{provider}-node-monthly-{date}} other {}}} ' +
+      'org_unit_id {{resolution, select, daily {{provider}-org_units-daily-{date}} monthly {{provider}-org_units-monthly-{date}} other {}}} ' +
+      'project {{resolution, select, daily {{provider}-projects-daily-{date}} monthly {{provider}-projects-monthly-{date}} other {}}} ' +
+      'region {{resolution, select, daily {{provider}-regions-daily-{date}} monthly {{provider}-regions-monthly-{date}} other {}}} ' +
+      'resource_location {{resolution, select, daily {{provider}-regions-daily-{date}} monthly {{provider}-regions-monthly-{date}} other {}}} ' +
+      'service {{resolution, select, daily {{provider}-services-daily-{date}} monthly {{provider}-services-monthly-{date}} other {}}} ' +
+      'service_name {{resolution, select, daily {{provider}-services-daily-{date}} monthly {{provider}-services-monthly-{date}} other {}}} ' +
+      'subscription_guid {{resolution, select, daily {{provider}-accounts-daily-{date}} monthly {{provider}-accounts-monthly-{date}} other {}}} ' +
+      'tag {{resolution, select, daily {{provider}-tags-daily-{date}} monthly {{provider}-tags-monthly-{date}} other {}}} ' +
+      'other {}}',
     description: 'Export file name',
     id: 'ExportFileName',
   },
   ExportHeading: {
-    defaultMessage: 'EN Aggregates of the following {groupBy} will be exported to a .csv file.',
+    defaultMessage:
+      '{groupBy, select, ' +
+      'account {EN Aggregates of the following accounts will be exported to a .csv file.} ' +
+      'cluster {EN Aggregates of the following clusters will be exported to a .csv file.} ' +
+      'instance_type {EN Aggregates of the following instance types will be exported to a .csv file.} ' +
+      'node {EN Aggregates of the following nodes will be exported to a .csv file.} ' +
+      'org_unit_id {EN Aggregates of the following organizational units will be exported to a .csv file.} ' +
+      'project {EN Aggregates of the following projects will be exported to a .csv file.} ' +
+      'region {EN Aggregates of the following regions will be exported to a .csv file.} ' +
+      'resource_location {EN Aggregates of the regions will be exported to a .csv file.} ' +
+      'service {EN Aggregates of the following services will be exported to a .csv file.} ' +
+      'service_name {EN Aggregates of the following services will be exported to a .csv file.} ' +
+      'subscription_guid {EN Aggregates of the following accounts will be exported to a .csv file.} ' +
+      'tag {EN Aggregates of the following tags will be exported to a .csv file.} ' +
+      'other {}}',
     description: 'Export heading',
     id: 'ExportHeading',
   },
@@ -552,14 +576,23 @@ export default defineMessages({
     id: 'ExportResolution',
   },
   ExportSelected: {
-    defaultMessage: 'EN Selected {groupBy}',
-    description: 'Selected group by for export',
+    defaultMessage:
+      '{groupBy, select, ' +
+      'account {EN Selected accounts} ' +
+      'cluster {EN Selected clusters} ' +
+      'instance_type {EN Selected instance types} ' +
+      'node {EN Selected nodes} ' +
+      'org_unit_id {EN Selected organizational units} ' +
+      'project {EN Selected projects} ' +
+      'region {EN Selected regions} ' +
+      'resource_location {EN Selected regions} ' +
+      'service {EN Selected services} ' +
+      'service_name {EN Selected services} ' +
+      'subscription_guid {EN Selected accounts} ' +
+      'tag {EN Selected tags} ' +
+      'other {}}',
+    description: 'Selected items for export',
     id: 'ExportSelected',
-  },
-  ExportSelectedTags: {
-    defaultMessage: 'EN Selected tags',
-    description: 'Selected tags for export',
-    id: 'ExportSelectedTags',
   },
   ExportTimeScope: {
     defaultMessage: '{value, select, current {EN Current {date}} previous {EN Previous {date}} other {}}',
@@ -765,7 +798,6 @@ export default defineMessages({
       'instance_type {{count, plural, one {EN All Instance type} other {EN All Instance types}}} ' +
       'node {{count, plural, one {EN All Node} other {EN All Node}}} ' +
       'org_unit_id {{count, plural, one {EN All Organizational unit} other {EN All Organizational units}}} ' +
-      'pod {{count, plural, one {EN All Pod} other {EN All Pods}}} ' +
       'project {{count, plural, one {EN All Project} other {EN All Projects}}} ' +
       'region {{count, plural, one {EN All Region} other {EN All Regions}}} ' +
       'resource_location {{count, plural, one {EN All Region} other {EN All Regions}}} ' +
@@ -790,7 +822,6 @@ export default defineMessages({
       'instance_type {{count, plural, one {EN Top instance type} other {EN Top instance types}}} ' +
       'node {{count, plural, one {EN Top node} other {EN Top node}}} ' +
       'org_unit_id {{count, plural, one {EN Top organizational unit} other {EN Top organizational units}}} ' +
-      'pod {{count, plural, one {EN Top pod} other {EN Top pods}}} ' +
       'project {{count, plural, one {EN Top project} other {EN Top projects}}} ' +
       'region {{count, plural, one {EN Top region} other {EN Top regions}}} ' +
       'resource_location {{count, plural, one {EN Top region} other {EN Top regions}}} ' +
@@ -810,11 +841,10 @@ export default defineMessages({
       'instance_type {{count, plural, one {EN instance type} other {EN instance types}}} ' +
       'node {{count, plural, one {EN node} other {EN node}}} ' +
       'org_unit_id {{count, plural, one {EN organizational unit} other {EN organizational units}}} ' +
-      'pod {{count, plural, one {EN pod} other {EN pods}}} ' +
       'project {{count, plural, one {EN project} other {EN projects}}} ' +
       'region {{count, plural, one {EN region} other {EN regions}}} ' +
       'resource_location {{count, plural, one {EN region} other {EN regions}}} ' +
-      'service {{count, plural, one {EN service} other {EN Services}}} ' +
+      'service {{count, plural, one {EN service} other {EN services}}} ' +
       'service_name {{count, plural, one {EN service} other {EN services}}} ' +
       'subscription_guid {{count, plural, one {EN account} other {EN accounts}}} ' +
       'tag {{count, plural, one {EN tag} other {EN tags}}} ' +
@@ -830,7 +860,6 @@ export default defineMessages({
       'instance_type {{count, plural, one {EN Instance type} other {EN Instance types}}} ' +
       'node {{count, plural, one {EN Node} other {EN Node}}} ' +
       'org_unit_id {{count, plural, one {EN Organizational unit} other {EN Organizational units}}} ' +
-      'pod {{count, plural, one {EN Pod} other {EN Pods}}} ' +
       'project {{count, plural, one {EN Project} other {EN Projects}}} ' +
       'region {{count, plural, one {EN Region} other {EN Regions}}} ' +
       'resource_location {{count, plural, one {EN Region} other {EN Regions}}} ' +
