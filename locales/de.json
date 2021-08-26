@@ -15,7 +15,7 @@
   "AzureDesc": "DE Raw cost from Azure infrastructure.",
   "AzureDetailsTitle": "DE Microsoft Azure details",
   "AzureOcpDashboardCostTitle": "DE Microsoft Azure filtered by OpenShift cost",
-  "BreakdownBackToDetails": "DE Back to {value} {groupBy} details",
+  "BreakdownBackToDetails": "{groupBy, select, account {DE Back to {value} account details} cluster {DE Back to {value} cluster details} instance_type {DE Back to {value} instance type details} node {DE Back to {value} node details} org_unit_id {DE Back to {value} organizational unit details} pod {DE Back to {value} pod details} project {DE Back to {value} project details} region {DE Back to {value} region details} resource_location {DE Back to {value} region details} service {DE Back to {value} service details} service_name {DE Back to {value} service details} subscription_guid {DE Back to {value} account details} tag {DE Cost by tags} other {}}",
   "BreakdownCostBreakdownAriaLabel": "DE A description of markup, raw cost and usage cost",
   "BreakdownCostBreakdownTitle": "DE Cost breakdown",
   "BreakdownCostChartAriaDesc": "DE Breakdown of markup, raw, and usage costs",
