@@ -7,7 +7,7 @@ import {
   SelectProps,
   SelectVariant,
 } from '@patternfly/react-core';
-import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/filter-icon';
+import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import HookIntoProps from 'hook-into-props';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';

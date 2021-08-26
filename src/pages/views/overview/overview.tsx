@@ -11,7 +11,7 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
-import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
@@ -30,7 +30,12 @@ import GcpOcpDashboard from 'pages/views/overview/gcpOcpDashboard';
 import IbmDashboard from 'pages/views/overview/ibmDashboard';
 import OcpCloudDashboard from 'pages/views/overview/ocpCloudDashboard';
 import OcpDashboard from 'pages/views/overview/ocpDashboard';
-import { hasCurrentMonthData, hasPreviousMonthData } from 'pages/views/utils/providers';
+import {
+  hasCloudCurrentMonthData,
+  hasCloudPreviousMonthData,
+  hasCurrentMonthData,
+  hasPreviousMonthData,
+} from 'pages/views/utils/providers';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -44,6 +49,7 @@ import {
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
+import { uiActions } from 'store/ui';
 import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
@@ -87,6 +93,10 @@ export const getIdKeyForTab = (tab: OverviewTab) => {
 
 type OverviewOwnProps = RouteComponentProps<void> & WithTranslation;
 
+interface OverviewDispatchProps {
+  resetState: typeof uiActions.resetState;
+}
+
 interface OverviewStateProps {
   awsProviders: Providers;
   awsProvidersFetchStatus: FetchStatus;
@@ -124,7 +134,7 @@ interface OverviewState {
   currentOcpPerspective?: string;
 }
 
-type OverviewProps = OverviewOwnProps & OverviewStateProps;
+type OverviewProps = OverviewOwnProps & OverviewStateProps & OverviewDispatchProps;
 
 // Ocp options
 const ocpOptions = [{ label: 'overview.perspective.ocp_all', value: 'all' }];
@@ -166,6 +176,10 @@ class OverviewBase extends React.Component<OverviewProps> {
   public state: OverviewState = { ...this.defaultState };
 
   public componentDidMount() {
+    const { resetState } = this.props;
+
+    resetState(); // Clear cached API responses
+
     this.setState({
       currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
       currentOcpPerspective: this.getDefaultOcpPerspective(),
@@ -372,13 +386,15 @@ class OverviewBase extends React.Component<OverviewProps> {
         const hasData = hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders);
         return hasData ? <AwsDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.awsOcp) {
-        const hasData = hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders);
+        const hasData =
+          hasCloudCurrentMonthData(awsProviders, ocpProviders) || hasCloudPreviousMonthData(awsProviders, ocpProviders);
         return hasData ? <AwsOcpDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcp) {
         const hasData = hasCurrentMonthData(gcpProviders) || hasPreviousMonthData(gcpProviders);
         return hasData ? <GcpDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcpOcp) {
-        const hasData = hasCurrentMonthData(gcpProviders) || hasPreviousMonthData(gcpProviders);
+        const hasData =
+          hasCloudCurrentMonthData(gcpProviders, ocpProviders) || hasCloudPreviousMonthData(gcpProviders, ocpProviders);
         return hasData ? <GcpOcpDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.ibm) {
         const hasData = hasCurrentMonthData(ibmProviders) || hasPreviousMonthData(ibmProviders);
@@ -387,7 +403,9 @@ class OverviewBase extends React.Component<OverviewProps> {
         const hasData = hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders);
         return hasData ? <AzureDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azureOcp) {
-        const hasData = hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders);
+        const hasData =
+          hasCloudCurrentMonthData(azureProviders, ocpProviders) ||
+          hasCloudPreviousMonthData(azureProviders, ocpProviders);
         return hasData ? <AzureOcpDashboard /> : noData;
       } else {
         return noData;
@@ -653,6 +671,10 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
   };
 });
 
-const Overview = withTranslation()(connect(mapStateToProps)(OverviewBase));
+const mapDispatchToProps: OverviewDispatchProps = {
+  resetState: uiActions.resetState,
+};
+
+const Overview = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(OverviewBase));
 
 export default Overview;

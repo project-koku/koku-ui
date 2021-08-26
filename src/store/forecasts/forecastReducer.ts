@@ -1,6 +1,7 @@
 import { Forecast } from 'api/forecasts/forecast';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
+import { resetState } from 'store/ui/uiActions';
 import { ActionType, getType } from 'typesafe-actions';
 
 import { fetchForecastFailure, fetchForecastRequest, fetchForecastSuccess } from './forecastActions';
@@ -22,11 +23,15 @@ const defaultState: ForecastState = {
 };
 
 export type ForecastAction = ActionType<
-  typeof fetchForecastFailure | typeof fetchForecastRequest | typeof fetchForecastSuccess
+  typeof fetchForecastFailure | typeof fetchForecastRequest | typeof fetchForecastSuccess | typeof resetState
 >;
 
 export function forecastReducer(state = defaultState, action: ForecastAction): ForecastState {
   switch (action.type) {
+    case getType(resetState):
+      state = defaultState;
+      return state;
+
     case getType(fetchForecastRequest):
       return {
         ...state,

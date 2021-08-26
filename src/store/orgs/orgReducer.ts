@@ -1,6 +1,7 @@
 import { Org } from 'api/orgs/org';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
+import { resetState } from 'store/ui/uiActions';
 import { ActionType, getType } from 'typesafe-actions';
 
 import { fetchOrgFailure, fetchOrgRequest, fetchOrgSuccess } from './orgActions';
@@ -21,10 +22,16 @@ const defaultState: OrgState = {
   errors: new Map(),
 };
 
-export type OrgAction = ActionType<typeof fetchOrgFailure | typeof fetchOrgRequest | typeof fetchOrgSuccess>;
+export type OrgAction = ActionType<
+  typeof fetchOrgFailure | typeof fetchOrgRequest | typeof fetchOrgSuccess | typeof resetState
+>;
 
 export function orgReducer(state = defaultState, action: OrgAction): OrgState {
   switch (action.type) {
+    case getType(resetState):
+      state = defaultState;
+      return state;
+
     case getType(fetchOrgRequest):
       return {
         ...state,

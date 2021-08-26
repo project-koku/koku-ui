@@ -22,9 +22,9 @@ import {
   ToolbarItem,
   ToolbarToggleGroup,
 } from '@patternfly/react-core';
-import { ExportIcon } from '@patternfly/react-icons/dist/js/icons/export-icon';
-import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/filter-icon';
-import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
+import { ExportIcon } from '@patternfly/react-icons/dist/esm/icons/export-icon';
+import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
+import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import { Org } from 'api/orgs/org';
 import { orgUnitIdKey, orgUnitNameKey, Query, tagKey, tagPrefix } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';

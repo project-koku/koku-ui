@@ -21,6 +21,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { gcpProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { uiActions } from 'store/ui';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedGcpReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
@@ -41,6 +42,7 @@ interface GcpDetailsStateProps {
 
 interface GcpDetailsDispatchProps {
   fetchReport: typeof reportActions.fetchReport;
+  resetState: typeof uiActions.resetState;
 }
 
 interface GcpDetailsState {
@@ -100,6 +102,9 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   }
 
   public componentDidMount() {
+    const { resetState } = this.props;
+
+    resetState(); // Clear cached API responses
     this.updateReport();
   }
 
@@ -465,6 +470,7 @@ const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStat
 
 const mapDispatchToProps: GcpDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
+  resetState: uiActions.resetState,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(GcpDetails));

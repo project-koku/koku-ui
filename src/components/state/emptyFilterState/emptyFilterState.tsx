@@ -1,5 +1,5 @@
 import { EmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@patternfly/react-core';
-import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
+import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import { OcpCloudQuery, parseQuery } from 'api/queries/ocpCloudQuery';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';

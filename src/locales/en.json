@@ -844,7 +844,7 @@
       "ibm": "IBM Cloud",
       "label": "Perspective",
       "ocp_all": "All OpenShift",
-      "ocp_ocp": "All cloud filtered by OpenShift"
+      "ocp_cloud": "All cloud filtered by OpenShift"
     }
   },
   "page_cost_models": {

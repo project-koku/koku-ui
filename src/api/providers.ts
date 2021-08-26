@@ -30,6 +30,11 @@ export interface ProviderCostModel {
   uuid: string;
 }
 
+export interface ProviderInfrastructure {
+  type?: string;
+  uuid?: string;
+}
+
 export interface Provider {
   active?: boolean;
   authentication?: ProviderAuthentication;
@@ -40,6 +45,7 @@ export interface Provider {
   current_month_data?: boolean;
   customer?: ProviderCustomer;
   has_data?: boolean;
+  infrastructure?: ProviderInfrastructure;
   name?: string;
   previous_month_data?: boolean;
   type?: string;
