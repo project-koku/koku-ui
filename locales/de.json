@@ -63,7 +63,7 @@
   "CostModelsWizardSourceErrorDescription": "DE Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.",
   "CostModelsWizardSourceErrorTitle": "DE This step is temporarily unavailable",
   "CostModelsWizardSourceTitle": "DE Assign sources to the cost model (optional)",
-  "Custom": "DE {msg}",
+  "Custom": "{value, select, billion {DE B} million {DE M} quadrillion {DE q} thousand {DE K} trillion {DE t} other {}}",
   "DashBoardWidgetSubTitle": "{count, plural, one {DE {month} {startDate}} other {DE {month} {startDate}-{endDate}}}",
   "DashboardCumulativeCostComparison": "DE Cumulative cost comparison ({units})",
   "DashboardDailyUsageComparison": "DE Daily usage comparison ({units})",
