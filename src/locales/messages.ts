@@ -366,8 +366,15 @@ export default defineMessages({
     description: 'CPU',
     id: 'CPUTitle',
   },
-  Custom: {
-    defaultMessage: 'EN {msg}',
+  CurrencyAbbreviations: {
+    defaultMessage:
+      '{value, select, ' +
+      'billion {EN B} ' +
+      'million {EN M} ' +
+      'quadrillion {EN q} ' +
+      'thousand {EN K} ' +
+      'trillion {EN t} ' +
+      'other {}}',
     description: 'translate any message',
     id: 'Custom',
   },
