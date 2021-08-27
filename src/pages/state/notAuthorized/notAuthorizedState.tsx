@@ -1,6 +1,7 @@
 import _NotAuthorized from '@redhat-cloud-services/frontend-components/NotAuthorized';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { paths } from 'routes';
 
@@ -8,46 +9,47 @@ interface NotAuthorizedStateOwnProps {
   pathname?: string;
 }
 
-type NotAuthorizedStateProps = NotAuthorizedStateOwnProps & WithTranslation & RouteComponentProps<void>;
+type NotAuthorizedStateProps = NotAuthorizedStateOwnProps & WrappedComponentProps & RouteComponentProps<void>;
 
 class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps> {
   public render() {
-    const { pathname, t } = this.props;
+    const { intl, pathname } = this.props;
 
-    let serviceName = 'cost_management';
+    let msg;
 
     switch (pathname) {
       case paths.awsDetails:
       case paths.awsDetailsBreakdown:
-        serviceName = 'no_auth_state.aws_service_name';
+        msg = messages.NotAuthorizedStateAws;
         break;
       case paths.azureDetails:
       case paths.azureDetailsBreakdown:
-        serviceName = 'no_auth_state.azure_service_name';
+        msg = messages.NotAuthorizedStateAzure;
         break;
       case paths.costModels:
-        serviceName = 'no_auth_state.cost_models_service_name';
-        break;
-      case paths.explorer:
-        serviceName = 'cost_management';
+        msg = messages.NotAuthorizedStateCostModels;
         break;
       case paths.gcpDetails:
       case paths.gcpDetailsBreakdown:
-        serviceName = 'no_auth_state.gcp_service_name';
+        msg = messages.NotAuthorizedStateGcp;
         break;
       case paths.ibmDetails:
       case paths.ibmDetailsBreakdown:
-        serviceName = 'no_auth_state.ibm_service_name';
+        msg = messages.NotAuthorizedStateIbm;
         break;
       case paths.ocpDetails:
       case paths.ocpDetailsBreakdown:
-        serviceName = 'no_auth_state.ocp_service_name';
+        msg = messages.NotAuthorizedStateOcp;
+        break;
+      case paths.explorer:
+      default:
+        msg = messages.CostManagement;
         break;
     }
-    return <_NotAuthorized serviceName={t(serviceName)} />;
+    return <_NotAuthorized serviceName={intl.formatMessage(msg)} />;
   }
 }
 
-const NotAuthorizedState = withRouter(withTranslation()(NotAuthorizedStateBase));
+const NotAuthorizedState = withRouter(injectIntl(NotAuthorizedStateBase));
 
 export { NotAuthorizedState };
