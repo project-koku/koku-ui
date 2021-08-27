@@ -5,10 +5,11 @@ import { breakdownDescKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import BreakdownBase from 'pages/views/details/components/breakdown/breakdownBase';
 import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -18,7 +19,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type AzureCostOwnProps = WithTranslation;
+type AzureCostOwnProps = WrappedComponentProps;
 
 interface AzureCostStateProps {
   CostOverview?: React.ReactNode;
@@ -80,7 +81,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
     costOverviewComponent: <CostOverview groupBy={groupBy} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
-    emptyStateTitle: props.t('navigation.azure_details'),
+    emptyStateTitle: props.intl.formatMessage(messages.AzureDetailsTitle),
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData />,
@@ -103,6 +104,6 @@ const mapDispatchToProps: AzureCostDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const AzureCost = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
+const AzureCost = injectIntl(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
 
 export default AzureCost;
