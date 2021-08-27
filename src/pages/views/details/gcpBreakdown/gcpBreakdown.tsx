@@ -5,10 +5,11 @@ import { breakdownDescKey, breakdownTitleKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import BreakdownBase from 'pages/views/details/components/breakdown/breakdownBase';
 import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -18,7 +19,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type GcpBreakdownOwnProps = WithTranslation;
+type GcpBreakdownOwnProps = WrappedComponentProps;
 
 interface GcpBreakdownStateProps {
   CostOverview?: React.ReactNode;
@@ -80,7 +81,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
     costOverviewComponent: <CostOverview groupBy={groupBy} query={query} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
-    emptyStateTitle: props.t('navigation.gcp_details'),
+    emptyStateTitle: props.intl.formatMessage(messages.GCPDetailsTitle),
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData />,
@@ -103,6 +104,6 @@ const mapDispatchToProps: BreakdownDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const GcpBreakdown = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
+const GcpBreakdown = injectIntl(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
 
 export default GcpBreakdown;
