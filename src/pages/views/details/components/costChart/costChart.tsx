@@ -119,7 +119,7 @@ class CostChartBase extends React.Component<CostChartProps> {
             padding={{
               bottom: 20,
               left: 0,
-              right: 225, // Adjusted to accommodate legend
+              right: 275, // Adjusted to accommodate legend
               top: 20,
             }}
             themeColor={ChartThemeColor.green}
