@@ -420,7 +420,7 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
       height,
       padding = {
         bottom: 50,
-        left: 20,
+        left: 40,
         right: 8,
         top: 8,
       },
