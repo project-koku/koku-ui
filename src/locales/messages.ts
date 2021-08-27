@@ -1323,6 +1323,21 @@ export default defineMessages({
     description: 'SinceDate',
     id: 'SinceDate',
   },
+  TagHeadingKey: {
+    defaultMessage: 'EN Key',
+    description: 'Key',
+    id: 'TagHeadingKey',
+  },
+  TagHeadingTitle: {
+    defaultMessage: 'EN Tags ({value})',
+    description: 'Tags ({value})',
+    id: 'TagHeadingTitle',
+  },
+  TagHeadingValue: {
+    defaultMessage: 'EN Value',
+    description: 'Value',
+    id: 'TagHeadingValue',
+  },
   TagNames: {
     defaultMessage: 'EN Tag names',
     description: 'Tag Names',
