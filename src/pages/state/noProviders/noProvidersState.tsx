@@ -1,10 +1,12 @@
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Button, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { ProviderType } from 'api/providers';
 import CostIcon from 'components/icons/costIcon';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { getReleasePath } from 'utils/pathname';
 
@@ -14,15 +16,15 @@ interface NoProvidersStateOwnProps {
   providerType?: ProviderType;
 }
 
-type NoProvidersStateProps = NoProvidersStateOwnProps & WithTranslation & RouteComponentProps<void>;
+type NoProvidersStateProps = NoProvidersStateOwnProps & WrappedComponentProps & RouteComponentProps<void>;
 
 class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
-  private getDocLink = (textKey, urlKey) => {
-    const { t } = this.props;
+  private getDocLink = (textKey: MessageDescriptor, urlKey: MessageDescriptor) => {
+    const { intl } = this.props;
 
     return (
-      <a href={t(urlKey)} rel="noreferrer" target="_blank">
-        {t(textKey)}
+      <a href={intl.formatMessage(urlKey)} rel="noreferrer" target="_blank">
+        {intl.formatMessage(textKey)}
         <span style={styles.iconSpacer}>
           <ExternalLinkAltIcon />
         </span>
@@ -36,10 +38,10 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
   };
 
   public render() {
-    const { providerType, t } = this.props;
+    const { intl, providerType } = this.props;
 
-    let descKey = 'no_providers_state.overview_desc';
-    let titleKey = 'no_providers_state.overview_title';
+    let descKey = messages.NoProvidersStateOverviewDesc;
+    let titleKey = messages.NoProvidersStateOverviewTitle;
 
     let docUrlKey;
     let icon;
@@ -47,26 +49,26 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
 
     switch (providerType) {
       case ProviderType.aws:
-        descKey = 'no_providers_state.aws_desc';
-        titleKey = 'no_providers_state.aws_title';
+        descKey = messages.NoProvidersStateAwsDesc;
+        titleKey = messages.NoProvidersStateAwsTitle;
         break;
       case ProviderType.azure:
-        descKey = 'no_providers_state.azure_desc';
-        titleKey = 'no_providers_state.azure_title';
+        descKey = messages.NoProvidersStateAzureDesc;
+        titleKey = messages.NoProvidersStateAzureTitle;
         break;
       case ProviderType.gcp:
-        descKey = 'no_providers_state.gcp_desc';
-        titleKey = 'no_providers_state.gcp_title';
+        descKey = messages.NoProvidersStateGcpDesc;
+        titleKey = messages.NoProvidersStateGcpTitle;
         break;
       case ProviderType.ibm:
-        descKey = 'no_providers_state.ibm_desc';
-        titleKey = 'no_providers_state.ibm_title';
+        descKey = messages.NoProvidersStateIbmDesc;
+        titleKey = messages.NoProvidersStateIbmTitle;
         break;
       case ProviderType.ocp:
-        descKey = 'no_providers_state.ocp_desc';
-        docUrlKey = 'docs.add_ocp_sources';
-        textKey = 'no_providers_state.ocp_add_sources';
-        titleKey = 'no_providers_state.ocp_title';
+        descKey = messages.NoProvidersStateOcpDesc;
+        docUrlKey = messages.DocsAddOcpSources;
+        textKey = messages.NoProvidersStateOcpAddSources;
+        titleKey = messages.NoProvidersStateOcpTitle;
         break;
       default:
         icon = CostIcon;
@@ -75,14 +77,14 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
       <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
         <EmptyStateIcon icon={icon ? icon : PlusCircleIcon} />
         <Title headingLevel="h5" size="lg">
-          {t(titleKey)}
+          {intl.formatMessage(titleKey)}
         </Title>
-        <EmptyStateBody>{t(descKey)}</EmptyStateBody>
+        <EmptyStateBody>{intl.formatMessage(descKey)}</EmptyStateBody>
         {docUrlKey && textKey ? (
           <div style={styles.viewSources}>{this.getDocLink(textKey, docUrlKey)}</div>
         ) : (
           <Button variant="primary" component="a" href={this.getRouteToSources()}>
-            {t('no_providers_state.get_started')}
+            {intl.formatMessage(messages.NoProvidersStateGetStarted)}
           </Button>
         )}
       </EmptyState>
@@ -90,6 +92,6 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
   }
 }
 
-const NoProvidersState = withRouter(withTranslation()(NoProvidersStateBase));
+const NoProvidersState = withRouter(injectIntl(NoProvidersStateBase));
 
 export { NoProvidersState };
