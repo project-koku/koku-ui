@@ -569,6 +569,26 @@ export default defineMessages({
       'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#cost-model-terminology',
     id: 'DocsCostModelTerminology',
   },
+  ErrorStateNotAuthorizedDesc: {
+    defaultMessage: 'EN Contact the cost management administrator to provide access to this application',
+    description: 'Contact the cost management administrator to provide access to this application',
+    id: 'ErrorStateNotAuthorizedDesc',
+  },
+  ErrorStateNotAuthorizedTitle: {
+    defaultMessage: "EN You don't have access to the Cost management application",
+    description: "You don't have access to the Cost management application",
+    id: 'ErrorStateNotAuthorizedTitle',
+  },
+  ErrorStateUnexpectedDesc: {
+    defaultMessage: 'EN We encountered an unexpected error. Contact your administrator.',
+    description: 'We encountered an unexpected error. Contact your administrator.',
+    id: 'ErrorStateUnexpectedDesc',
+  },
+  ErrorStateUnexpectedTitle: {
+    defaultMessage: 'EN Oops!',
+    description: 'Oops!',
+    id: 'ErrorStateUnexpectedTitle',
+  },
   ExportAggregateType: {
     defaultMessage: 'EN Select aggregate type',
     description: 'Export aggregate type',
