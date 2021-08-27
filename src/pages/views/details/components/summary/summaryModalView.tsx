@@ -2,9 +2,10 @@ import { Title, TitleSizes } from '@patternfly/react-core';
 import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
+import messages from 'locales/messages';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -31,7 +32,7 @@ interface SummaryModalViewDispatchProps {
 type SummaryModalViewProps = SummaryModalViewOwnProps &
   SummaryModalViewStateProps &
   SummaryModalViewDispatchProps &
-  WithTranslation;
+  WrappedComponentProps;
 
 const reportType = ReportType.cost;
 
@@ -53,7 +54,7 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
   }
 
   public render() {
-    const { report, reportGroupBy, reportFetchStatus, t } = this.props;
+    const { intl, report, reportGroupBy, reportFetchStatus } = this.props;
 
     const cost = formatCurrency(report && report.meta && report.meta.total ? report.meta.total.cost.total.value : 0);
 
@@ -61,7 +62,7 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
       <>
         <div style={styles.subTitle}>
           <Title headingLevel="h2" size={TitleSizes.xl}>
-            {t('details.cost_value', { value: cost })}
+            {intl.formatMessage(messages.DetailsCostValue, { value: cost })}
           </Title>
         </div>
         <div style={styles.mainContent}>
@@ -126,6 +127,6 @@ const mapDispatchToProps: SummaryModalViewDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryModalView = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(SummaryModalViewBase));
+const SummaryModalView = injectIntl(connect(mapStateToProps, mapDispatchToProps)(SummaryModalViewBase));
 
 export { SummaryModalView, SummaryModalViewProps };
