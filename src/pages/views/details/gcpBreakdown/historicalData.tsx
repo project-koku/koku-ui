@@ -1,5 +1,5 @@
 import { HistoricalDataBase } from 'pages/views/details/components/historicalData/historicalDataBase';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { gcpHistoricalDataSelectors } from 'store/breakdown/historicalData/gcpHistoricalData';
 import { createMapStateToProps } from 'store/common';
@@ -8,7 +8,7 @@ interface HistoricalDataStateProps {
   widgets: number[];
 }
 
-type HistoricalDataOwnProps = WithTranslation;
+type HistoricalDataOwnProps = WrappedComponentProps;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<HistoricalDataOwnProps, HistoricalDataStateProps>((state, props) => {
@@ -18,6 +18,6 @@ const mapStateToProps = createMapStateToProps<HistoricalDataOwnProps, Historical
   };
 });
 
-const HistoricalData = withTranslation()(connect(mapStateToProps, {})(HistoricalDataBase));
+const HistoricalData = injectIntl(connect(mapStateToProps, {})(HistoricalDataBase));
 
 export { HistoricalData };
