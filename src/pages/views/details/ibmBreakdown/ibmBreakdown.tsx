@@ -5,9 +5,11 @@ import { breakdownDescKey, breakdownTitleKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import BreakdownBase from 'pages/views/details/components/breakdown/breakdownBase';
 import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -16,9 +18,6 @@ import { reportActions, reportSelectors } from 'store/reports';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
-
-import messages from 'locales/messages';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 type IbmBreakdownOwnProps = WrappedComponentProps;
 
