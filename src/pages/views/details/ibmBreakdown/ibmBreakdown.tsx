@@ -8,7 +8,6 @@ import { AxiosError } from 'axios';
 import BreakdownBase from 'pages/views/details/components/breakdown/breakdownBase';
 import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -18,7 +17,10 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type IbmBreakdownOwnProps = WithTranslation;
+import messages from 'locales/messages';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
+
+type IbmBreakdownOwnProps = WrappedComponentProps;
 
 interface IbmBreakdownStateProps {
   CostOverview?: React.ReactNode;
@@ -80,7 +82,7 @@ const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, IbmBreakdown
     costOverviewComponent: <CostOverview groupBy={groupBy} query={query} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
-    emptyStateTitle: props.t('navigation.ibm_details'),
+    emptyStateTitle: props.intl.formatMessage(messages.IBMDetailsTitle),
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData />,
@@ -103,6 +105,6 @@ const mapDispatchToProps: BreakdownDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const IbmBreakdown = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
+const IbmBreakdown = injectIntl(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
 
 export default IbmBreakdown;
