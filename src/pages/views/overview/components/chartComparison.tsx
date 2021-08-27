@@ -1,6 +1,5 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
 
 interface ChartComparisonOwnProps {
   currentItem?: string;
@@ -15,7 +14,7 @@ interface ChartComparisonState {
   isChartComparisonOpen: boolean;
 }
 
-type ChartComparisonProps = ChartComparisonOwnProps & WithTranslation;
+type ChartComparisonProps = ChartComparisonOwnProps;
 
 class ChartComparisonBase extends React.Component<ChartComparisonProps> {
   protected defaultState: ChartComparisonState = {
@@ -24,22 +23,22 @@ class ChartComparisonBase extends React.Component<ChartComparisonProps> {
   public state: ChartComparisonState = { ...this.defaultState };
 
   private getDropDownItems = () => {
-    const { options, t } = this.props;
+    const { options } = this.props;
 
     return options.map(option => (
       <DropdownItem component="button" key={option.value} onClick={() => this.handleClick(option.value)}>
-        {t(option.label)}
+        {option.label}
       </DropdownItem>
     ));
   };
 
   private getCurrentLabel = () => {
-    const { currentItem, options, t } = this.props;
+    const { currentItem, options } = this.props;
 
     let label = '';
     for (const option of options) {
       if (currentItem === option.value) {
-        label = t(option.label);
+        label = option.label;
         break;
       }
     }
@@ -66,7 +65,6 @@ class ChartComparisonBase extends React.Component<ChartComparisonProps> {
   };
 
   public render() {
-    // const { t } = this.props;
     const { isChartComparisonOpen } = this.state;
     const dropdownItems = this.getDropDownItems();
 
@@ -81,6 +79,6 @@ class ChartComparisonBase extends React.Component<ChartComparisonProps> {
   }
 }
 
-const ChartComparison = withTranslation()(ChartComparisonBase);
+const ChartComparison = ChartComparisonBase;
 
 export { ChartComparison };
