@@ -1048,6 +1048,16 @@ export default defineMessages({
     description: 'Learn more',
     id: 'LearnMore',
   },
+  LoadingStateDesc: {
+    defaultMessage: 'EN Searching for your sources. Do not refresh the browser',
+    description: 'Searching for your sources. Do not refresh the browser',
+    id: 'LoadingStateDesc',
+  },
+  LoadingStateTitle: {
+    defaultMessage: 'EN Looking for sources...',
+    description: 'Looking for sources',
+    id: 'LoadingStateTitle',
+  },
   MaintenanceEmptyStateDesc: {
     defaultMessage:
       'EN Cost Management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).',
