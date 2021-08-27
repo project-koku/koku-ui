@@ -448,6 +448,11 @@ export default defineMessages({
     description: 'Manage columns',
     id: 'DetailsColumnManagementTitle',
   },
+  DetailsCostValue: {
+    defaultMessage: 'EN Cost: {value}',
+    description: 'Cost value',
+    id: 'DetailsCostValue',
+  },
   DetailsEmptyState: {
     defaultMessage: 'EN Processing data to generate a list of all services that sums to a total cost...',
     description: 'Processing data to generate a list of all services that sums to a total cost...',
@@ -476,6 +481,25 @@ export default defineMessages({
       'other {}}',
     description: 'details table resource names',
     id: 'DetailsResourceNames',
+  },
+  DetailsSummaryModalTitle: {
+    defaultMessage:
+      '{groupBy, select, ' +
+      'account {EN {name} accounts} ' +
+      'cluster {EN {name} clusters} ' +
+      'instance_type {EN {name} instance types} ' +
+      'node {EN {name} nodes} ' +
+      'org_unit_id {EN {name} organizational units} ' +
+      'project {EN {name} projects} ' +
+      'region {EN {name} regions} ' +
+      'resource_location {EN {name} regions} ' +
+      'service {EN {name} services} ' +
+      'service_name {EN {name} services} ' +
+      'subscription_guid {EN {name} accounts} ' +
+      'tag {EN {name} tags} ' +
+      'other {}}',
+    description: ', {value} more...',
+    id: 'DetailsSummaryModalTitle',
   },
   DetailsUnusedRequestsLabel: {
     defaultMessage: 'EN Unrequested capacity',
