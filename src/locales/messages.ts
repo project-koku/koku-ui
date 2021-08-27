@@ -314,6 +314,11 @@ export default defineMessages({
     description: 'Cost',
     id: 'Cost',
   },
+  CostManagement: {
+    defaultMessage: 'EN Cost Management',
+    description: 'Cost Management',
+    id: 'CostManagement',
+  },
   CostModelsDetailsAssignSourcesErrorDescription: {
     defaultMessage:
       'EN You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
@@ -1064,6 +1069,36 @@ export default defineMessages({
     defaultMessage: 'EN Still processing the data',
     description: 'Still processing the data',
     id: 'NoDataStateTitle',
+  },
+  NotAuthorizedStateAws: {
+    defaultMessage: 'EN Amazon Web Services in Cost Management',
+    description: 'Amazon Web Services in Cost Management',
+    id: 'NoAuthorizedStateAws',
+  },
+  NotAuthorizedStateAzure: {
+    defaultMessage: 'EN Microsoft Azure in Cost Management',
+    description: 'Microsoft Azure in Cost Management',
+    id: 'NotAuthorizedStateAzure',
+  },
+  NotAuthorizedStateCostModels: {
+    defaultMessage: 'EN Cost Models in Cost Management',
+    description: 'Cost Models in Cost Management',
+    id: 'NotAuthorizedStateCostModels',
+  },
+  NotAuthorizedStateGcp: {
+    defaultMessage: 'EN Google Cloud Platform in Cost Management',
+    description: 'Google Cloud Platform in Cost Management',
+    id: 'NotAuthorizedStateGcp',
+  },
+  NotAuthorizedStateIbm: {
+    defaultMessage: 'EN IBM Cloud in Cost Management',
+    description: 'IBM Cloud in Cost Management',
+    id: 'NotAuthorizedStateIbm',
+  },
+  NotAuthorizedStateOcp: {
+    defaultMessage: 'EN OpenShift in Cost Management',
+    description: 'OpenShift in Cost Management',
+    id: 'NotAuthorizedStateOcp',
   },
   OCPCPUUsageAndRequests: {
     defaultMessage: 'EN CPU usage and requests',
