@@ -228,9 +228,7 @@ class PriceListTable extends React.Component<Props, State> {
                 {fetchStatus === FetchStatus.complete && Boolean(fetchError) && <Unavailable />}
                 {fetchStatus === FetchStatus.complete &&
                   filtered.length === 0 &&
-                  (search.metrics.length !== 0 || search.measurements.length !== 0) && (
-                    <EmptyFilterState filter={t('cost_models_wizard.price_list.toolbar_top_results_aria_label')} />
-                  )}
+                  (search.metrics.length !== 0 || search.measurements.length !== 0) && <EmptyFilterState />}
                 {fetchStatus === FetchStatus.complete &&
                   filtered.length === 0 &&
                   search.measurements.length === 0 &&
