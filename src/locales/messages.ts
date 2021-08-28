@@ -345,6 +345,11 @@ export default defineMessages({
     description: 'Server error: could not get the cost model.',
     id: 'CostModelsRouterServerError',
   },
+  CostModelsTitle: {
+    defaultMessage: 'EN Cost Models',
+    description: 'Cost Models title',
+    id: 'CostModelsTitle',
+  },
   CostModelsWizardSourceErrorDescription: {
     defaultMessage:
       'EN Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
@@ -569,6 +574,21 @@ export default defineMessages({
       'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#cost-model-terminology',
     id: 'DocsCostModelTerminology',
   },
+  EmptyFilterSourceStateSubtitle: {
+    defaultMessage: 'EN Sorry, no source with the given filter was found.',
+    description: 'Sorry, no source with the given filter was found.',
+    id: 'EmptyFilterStateSubtitle',
+  },
+  EmptyFilterStateSubtitle: {
+    defaultMessage: 'EN Sorry, no data with the given filter was found.',
+    description: 'Sorry, no data with the given filter was found.',
+    id: 'EmptyFilterStateSubtitle',
+  },
+  EmptyFilterStateTitle: {
+    defaultMessage: 'EN No match found',
+    description: 'No match found',
+    id: 'EmptyFilterStateTitle',
+  },
   ErrorStateNotAuthorizedDesc: {
     defaultMessage: 'EN Contact the cost management administrator to provide access to this application',
     description: 'Contact the cost management administrator to provide access to this application',
@@ -588,6 +608,11 @@ export default defineMessages({
     defaultMessage: 'EN Oops!',
     description: 'Oops!',
     id: 'ErrorStateUnexpectedTitle',
+  },
+  ExplorerTitle: {
+    defaultMessage: 'EN Cost Explorer',
+    description: 'Cost Explorer title',
+    id: 'ExplorerTitle',
   },
   ExportAggregateType: {
     defaultMessage: 'EN Select aggregate type',

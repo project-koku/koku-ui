@@ -202,7 +202,10 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                     checked={timeScope === option.value}
                     name="timeScope"
                     onChange={this.handleMonthChange}
-                    aria-label={intl.formatMessage(option.label, { value: option.value })}
+                    aria-label={intl.formatMessage(option.label, {
+                      date: option.value === 'previous' ? previousMonth : currentMonth,
+                      value: option.value,
+                    })}
                   />
                 ))}
               </React.Fragment>
