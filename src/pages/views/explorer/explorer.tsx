@@ -7,6 +7,7 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { Report } from 'api/reports/report';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData';
 import NoProviders from 'pages/state/noProviders';
@@ -16,7 +17,7 @@ import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy'
 import { hasData } from 'pages/views/utils/providers';
 import { addQueryFilter, removeQueryFilter } from 'pages/views/utils/query';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -101,7 +102,7 @@ interface ExplorerState {
   selectedItems: ComputedReportItem[];
 }
 
-type ExplorerOwnProps = RouteComponentProps<void> & WithTranslation;
+type ExplorerOwnProps = RouteComponentProps<void> & WrappedComponentProps;
 
 type ExplorerProps = ExplorerStateProps & ExplorerOwnProps & ExplorerDispatchProps;
 
@@ -425,7 +426,7 @@ class Explorer extends React.Component<ExplorerProps> {
       report,
       reportError,
       reportFetchStatus,
-      t,
+      intl,
       userAccess,
     } = this.props;
 
@@ -442,7 +443,7 @@ class Explorer extends React.Component<ExplorerProps> {
     const groupByTagKey = getGroupByTagKey(query);
     const computedItems = this.getComputedItems();
     const itemsTotal = report && report.meta ? report.meta.count : 0;
-    const title = t('navigation.explorer');
+    const title = intl.formatMessage(messages.CostExplorerTitle);
 
     // Test for no providers
     const noProviders = !(
@@ -668,4 +669,4 @@ const mapDispatchToProps: ExplorerDispatchProps = {
   resetState: uiActions.resetState,
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(Explorer));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Explorer));

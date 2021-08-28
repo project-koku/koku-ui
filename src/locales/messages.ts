@@ -314,6 +314,11 @@ export default defineMessages({
     description: 'Cost',
     id: 'Cost',
   },
+  CostExplorerTitle: {
+    defaultMessage: 'EN Cost Explorer',
+    description: 'Cost Explorer',
+    id: 'CostExplorerTitle',
+  },
   CostManagement: {
     defaultMessage: 'EN Cost Management',
     description: 'Cost Management',
@@ -418,6 +423,25 @@ export default defineMessages({
       'EN This total cost is the sum of the infrastructure cost {infrastructureCost} and supplementary cost {supplementaryCost}',
     description: 'total cost is the sum of the infrastructure cost and supplementary cost',
     id: 'DashboardTotalCostTooltip',
+  },
+  DateMonthAbbr: {
+    defaultMessage:
+      '{month, select, ' +
+      'Jan {EN Jan {date}} ' +
+      'Feb {EN Feb {date}} ' +
+      'Mar {EN Mar {date}} ' +
+      'Apr {EN Apr {date}} ' +
+      'May {EN May {date}} ' +
+      'Jun {EN Jun {date}} ' +
+      'Jul {EN Jul {date}} ' +
+      'Aug {EN Aug {date}} ' +
+      'Sep {EN Sep {date}} ' +
+      'Oct {EN Oct {date}} ' +
+      'Nov {EN Nov {date}} ' +
+      'Dec {EN Dec {date}} ' +
+      'other {}}',
+    description: 'Database services cost',
+    id: 'DateMonthAbbr',
   },
   DetailsActionsExport: {
     defaultMessage: 'EN Export data',
@@ -577,7 +601,7 @@ export default defineMessages({
   EmptyFilterSourceStateSubtitle: {
     defaultMessage: 'EN Sorry, no source with the given filter was found.',
     description: 'Sorry, no source with the given filter was found.',
-    id: 'EmptyFilterStateSubtitle',
+    id: 'EmptyFilterSourceStateSubtitle',
   },
   EmptyFilterStateSubtitle: {
     defaultMessage: 'EN Sorry, no data with the given filter was found.',
@@ -608,6 +632,17 @@ export default defineMessages({
     defaultMessage: 'EN Oops!',
     description: 'Oops!',
     id: 'ErrorStateUnexpectedTitle',
+  },
+  ExplorerDateRange: {
+    defaultMessage:
+      '{value, select, ' +
+      'current_month_to_date {EN Month to date} ' +
+      'last_sixty_days {EN Last 60 days} ' +
+      'last_thirty_days {EN Last 30 days} ' +
+      'previous_month_to_date {EN Previous month and month to date} ' +
+      'other {}}',
+    description: 'date range based on {value}',
+    id: 'ExplorerDateRange',
   },
   ExplorerTitle: {
     defaultMessage: 'EN Cost Explorer',
@@ -935,6 +970,25 @@ export default defineMessages({
     description: 'Top group by value',
     id: 'GroupByTop',
   },
+  GroupByValueNames: {
+    defaultMessage:
+      '{groupBy, select, ' +
+      'account {EN Account names} ' +
+      'cluster {EN Cluster names} ' +
+      'instance_type {EN Instance type names} ' +
+      'node {EN Node names} ' +
+      'org_unit_id {EN Organizational unit names} ' +
+      'project {EN Project names} ' +
+      'region {EN Region names} ' +
+      'resource_location {EN Region names} ' +
+      'service {EN Service names} ' +
+      'service_name {EN Service names} ' +
+      'subscription_guid {EN Account names} ' +
+      'tag {EN Tag names} ' +
+      'other {}}',
+    description: 'Selected items for export',
+    id: 'GroupByValueNames',
+  },
   GroupByValues: {
     defaultMessage:
       '{value, select, ' +
@@ -1183,7 +1237,7 @@ export default defineMessages({
       'EN Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.',
     description:
       'Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.',
-    id: 'NoProvidersStateAwsTitle',
+    id: 'NoProvidersStateAwsDesc',
   },
   NoProvidersStateAwsTitle: {
     defaultMessage: 'EN Track your Amazon Web Services spending!',

@@ -11,9 +11,10 @@ import {
 } from 'components/charts/common/chartDatumUtils';
 import { CostExplorerChart } from 'components/charts/costExplorerChart';
 import { format, getDate, getMonth } from 'date-fns';
+import messages from 'locales/messages';
 import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -34,7 +35,7 @@ import {
   PerspectiveType,
 } from './explorerUtils';
 
-interface ExplorerChartOwnProps extends RouteComponentProps<void>, WithTranslation {
+interface ExplorerChartOwnProps extends RouteComponentProps<void>, WrappedComponentProps {
   computedReportItemType?: ComputedReportItemType;
   computedReportItemValueType?: ComputedReportItemValueType;
   perspective: PerspectiveType;
@@ -90,10 +91,13 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
     reportItem: string = 'cost',
     reportItemValue: string = 'total'
   ): ChartDatum => {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     const computedItemDate = new Date(computedItem.date + 'T00:00:00');
-    const xVal = t('chart.date', { date: getDate(computedItemDate), month: getMonth(computedItemDate) });
+    const xVal = intl.formatMessage(messages.DateMonthAbbr, {
+      date: getDate(computedItemDate),
+      month: getMonth(computedItemDate),
+    });
     const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
     return {
       x: xVal,
@@ -146,42 +150,42 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
     return this.padChartDatums(chartDatums);
   };
 
-  private getChartTitle = (perspective: string) => {
-    let result;
-    switch (perspective) {
-      case PerspectiveType.aws:
-        result = 'explorer.title.aws';
-        break;
-      case PerspectiveType.awsOcp:
-        result = 'explorer.title.aws_ocp';
-        break;
-      case PerspectiveType.azure:
-        result = 'explorer.title.azure';
-        break;
-      case PerspectiveType.azureOcp:
-        result = 'explorer.title.azure_ocp';
-        break;
-      case PerspectiveType.gcp:
-        result = 'explorer.title.gcp';
-        break;
-      case PerspectiveType.gcpOcp:
-        result = 'explorer.title.gcp_ocp';
-        break;
-      case PerspectiveType.ibm:
-        result = 'explorer.title.ibm';
-        break;
-      case PerspectiveType.ocp:
-        result = 'explorer.title.ocp';
-        break;
-      case PerspectiveType.ocpCloud:
-        result = 'explorer.title.ocp_cloud';
-        break;
-      default:
-        result = undefined;
-        break;
-    }
-    return result;
-  };
+  // private getChartTitle = (perspective: string) => {
+  //   let result;
+  //   switch (perspective) {
+  //     case PerspectiveType.aws:
+  //       result = 'explorer.title.aws';
+  //       break;
+  //     case PerspectiveType.awsOcp:
+  //       result = 'explorer.title.aws_ocp';
+  //       break;
+  //     case PerspectiveType.azure:
+  //       result = 'explorer.title.azure';
+  //       break;
+  //     case PerspectiveType.azureOcp:
+  //       result = 'explorer.title.azure_ocp';
+  //       break;
+  //     case PerspectiveType.gcp:
+  //       result = 'explorer.title.gcp';
+  //       break;
+  //     case PerspectiveType.gcpOcp:
+  //       result = 'explorer.title.gcp_ocp';
+  //       break;
+  //     case PerspectiveType.ibm:
+  //       result = 'explorer.title.ibm';
+  //       break;
+  //     case PerspectiveType.ocp:
+  //       result = 'explorer.title.ocp';
+  //       break;
+  //     case PerspectiveType.ocpCloud:
+  //       result = 'explorer.title.ocp_cloud';
+  //       break;
+  //     default:
+  //       result = undefined;
+  //       break;
+  //   }
+  //   return result;
+  // };
 
   private getComputedItems = () => {
     const { report } = this.props;
@@ -244,7 +248,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
   };
 
   public render() {
-    const { perspective, reportFetchStatus, t } = this.props;
+    const { perspective, reportFetchStatus, intl } = this.props;
 
     const datums = this.getChartDatums(this.getComputedItems());
 
@@ -253,7 +257,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
       <>
         <div style={styles.titleContainer}>
           <Title headingLevel="h3" size="md">
-            {t(this.getChartTitle(perspective))}
+            {intl.formatMessage(messages.PerspectiveValues, { value: perspective })}
           </Title>
         </div>
         <div style={styles.chartContainer}>
@@ -340,6 +344,6 @@ const mapDispatchToProps: ExplorerChartDispatchProps = {
 };
 
 const ExplorerChartConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerChartBase);
-const ExplorerChart = withRouter(withTranslation()(ExplorerChartConnect));
+const ExplorerChart = withRouter(injectIntl(ExplorerChartConnect));
 
 export { ExplorerChart, ExplorerChartProps };

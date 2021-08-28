@@ -5,10 +5,11 @@ import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import { Perspective } from 'pages/views/components/perspective/perspective';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -91,7 +92,7 @@ interface ExplorerHeaderState {
 type ExplorerHeaderProps = ExplorerHeaderOwnProps &
   ExplorerHeaderStateProps &
   RouteComponentProps<void> &
-  WithTranslation;
+  WrappedComponentProps;
 
 class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   protected defaultState: ExplorerHeaderState = {
@@ -232,7 +233,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       onGroupByClicked,
       perspective,
       query,
-      t,
+      intl,
       userAccess,
     } = this.props;
 
@@ -257,7 +258,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       <header style={styles.header}>
         <div>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {t('navigation.explorer')}
+            {intl.formatMessage(messages.CostExplorerTitle)}
           </Title>
           <div style={styles.perspectiveContainer}>
             {this.getPerspective(noProviders)}
@@ -413,6 +414,6 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
   }
 );
 
-const ExplorerHeader = withRouter(withTranslation()(connect(mapStateToProps, {})(ExplorerHeaderBase)));
+const ExplorerHeader = withRouter(injectIntl(connect(mapStateToProps, {})(ExplorerHeaderBase)));
 
 export { ExplorerHeader, ExplorerHeaderProps };
