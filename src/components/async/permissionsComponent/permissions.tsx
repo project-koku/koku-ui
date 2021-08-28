@@ -1,10 +1,13 @@
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import Loading from 'pages/state/loading';
 import NotAuthorized from 'pages/state/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { paths, routes } from 'routes';
@@ -42,7 +45,7 @@ interface PermissionsState {
   // TBD...
 }
 
-type PermissionsProps = PermissionsOwnProps & PermissionsDispatchProps & PermissionsStateProps;
+type PermissionsProps = PermissionsOwnProps & PermissionsDispatchProps & PermissionsStateProps & WrappedComponentProps;
 
 class PermissionsBase extends React.Component<PermissionsProps> {
   protected defaultState: PermissionsState = {
@@ -57,8 +60,44 @@ class PermissionsBase extends React.Component<PermissionsProps> {
     fetchUserAccess(UserAccessType.ibm, ibmUserAccessQueryString);
   }
 
+  private getPath() {
+    // cost models may include :uuid
+    const _pathname = location.pathname.startsWith(paths.costModels) ? paths.costModels : location.pathname;
+    const currRoute = routes.find(({ path }) => path === _pathname);
+
+    return currRoute ? currRoute.path : undefined;
+  }
+
+  private getTitle(): MessageDescriptor {
+    switch (this.getPath()) {
+      case paths.explorer:
+        return messages.ExplorerTitle;
+      case paths.overview:
+        return messages.OverviewTitle;
+      case paths.awsDetails:
+      case paths.awsDetailsBreakdown:
+        return messages.AWSDetailsTitle;
+      case paths.azureDetails:
+      case paths.azureDetailsBreakdown:
+        return messages.AzureDetailsTitle;
+      case paths.costModels:
+        return messages.CostModelsTitle;
+      case paths.gcpDetails:
+      case paths.gcpDetailsBreakdown:
+        return messages.GCPDetailsTitle;
+      case paths.ibmDetails:
+      case paths.ibmDetailsBreakdown:
+        return messages.IBMDetailsTitle;
+      case paths.ocpDetails:
+      case paths.ocpDetailsBreakdown:
+        return messages.OCPDetailsTitle;
+      default:
+        return {};
+    }
+  }
+
   private hasPermissions() {
-    const { location, ibmUserAccess, userAccess }: any = this.props;
+    const { ibmUserAccess, userAccess }: any = this.props;
 
     if (!userAccess) {
       return false;
@@ -71,11 +110,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
     const ibm = hasIbmAccess(ibmUserAccess);
     const ocp = hasOcpAccess(userAccess);
 
-    // cost models may include :uuid
-    const _pathname = location.pathname.startsWith(paths.costModels) ? paths.costModels : location.pathname;
-    const currRoute = routes.find(({ path }) => path === _pathname);
-
-    switch (currRoute && currRoute.path) {
+    switch (this.getPath()) {
       case paths.explorer:
       case paths.overview:
         return aws || azure || costModel || gcp || ibm || ocp;
@@ -102,12 +137,12 @@ class PermissionsBase extends React.Component<PermissionsProps> {
   }
 
   public render() {
-    const { children = null, location, userAccess, userAccessFetchStatus, userAccessError } = this.props;
+    const { children = null, intl, location, userAccess, userAccessFetchStatus, userAccessError } = this.props;
 
     if (userAccessFetchStatus === FetchStatus.inProgress) {
       return <Loading />;
     } else if (userAccessError) {
-      return <NotAvailable />;
+      return <NotAvailable title={intl.formatMessage(this.getTitle())} />;
     } else if (userAccess && userAccessFetchStatus === FetchStatus.complete && this.hasPermissions()) {
       return children;
     }
@@ -158,6 +193,7 @@ const mapDispatchToProps: PermissionsDispatchProps = {
   fetchUserAccess: userAccessActions.fetchUserAccess,
 };
 
-const Permissions = withRouter(connect(mapStateToProps, mapDispatchToProps)(PermissionsBase));
+const PermissionsConnect = connect(mapStateToProps, mapDispatchToProps)(PermissionsBase);
+const Permissions = withRouter(injectIntl(PermissionsConnect));
 
 export { Permissions, PermissionsProps };
