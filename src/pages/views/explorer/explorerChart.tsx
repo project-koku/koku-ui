@@ -150,43 +150,6 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
     return this.padChartDatums(chartDatums);
   };
 
-  // private getChartTitle = (perspective: string) => {
-  //   let result;
-  //   switch (perspective) {
-  //     case PerspectiveType.aws:
-  //       result = 'explorer.title.aws';
-  //       break;
-  //     case PerspectiveType.awsOcp:
-  //       result = 'explorer.title.aws_ocp';
-  //       break;
-  //     case PerspectiveType.azure:
-  //       result = 'explorer.title.azure';
-  //       break;
-  //     case PerspectiveType.azureOcp:
-  //       result = 'explorer.title.azure_ocp';
-  //       break;
-  //     case PerspectiveType.gcp:
-  //       result = 'explorer.title.gcp';
-  //       break;
-  //     case PerspectiveType.gcpOcp:
-  //       result = 'explorer.title.gcp_ocp';
-  //       break;
-  //     case PerspectiveType.ibm:
-  //       result = 'explorer.title.ibm';
-  //       break;
-  //     case PerspectiveType.ocp:
-  //       result = 'explorer.title.ocp';
-  //       break;
-  //     case PerspectiveType.ocpCloud:
-  //       result = 'explorer.title.ocp_cloud';
-  //       break;
-  //     default:
-  //       result = undefined;
-  //       break;
-  //   }
-  //   return result;
-  // };
-
   private getComputedItems = () => {
     const { report } = this.props;
 
@@ -257,7 +220,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
       <>
         <div style={styles.titleContainer}>
           <Title headingLevel="h3" size="md">
-            {intl.formatMessage(messages.PerspectiveValues, { value: perspective })}
+            {intl.formatMessage(messages.PerspectiveValuesCostliest, { value: perspective })}
           </Title>
         </div>
         <div style={styles.chartContainer}>

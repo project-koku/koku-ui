@@ -258,7 +258,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       <header style={styles.header}>
         <div>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {intl.formatMessage(messages.CostExplorerTitle)}
+            {intl.formatMessage(messages.ExplorerTitle)}
           </Title>
           <div style={styles.perspectiveContainer}>
             {this.getPerspective(noProviders)}

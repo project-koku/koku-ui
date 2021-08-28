@@ -234,6 +234,7 @@
   "PercentTotalCost": "EN {unit}{value} ({percent}%)",
   "Perspective": "EN Perspective",
   "PerspectiveValues": "{value, select, aws {EN Amazon Web Services} aws_ocp {EN Amazon Web Services filtered by OpenShift} azure {EN Microsoft Azure} azure_ocp {EN Microsoft Azure filtered by OpenShift} gcp {EN Google Cloud Platform} gcp_ocp {EN Google Cloud Platform filtered by OpenShift} ibm {EN IBM Cloud} ocp {EN All OpenShift} ocp_cloud {EN All cloud filtered by OpenShift} other {}}",
+  "PerspectiveValuesCostliest": "{value, select, aws {EN Amazon Web Services - Top 5 Costliest} aws_ocp {EN Amazon Web Services filtered by OpenShift - Top 5 Costliest} azure {EN Microsoft Azure - Top 5 Costliest} azure_ocp {EN Microsoft Azure filtered by OpenShift - Top 5 Costliest} gcp {EN Google Cloud Platform - Top 5 Costliest} gcp_ocp {EN Google Cloud Platform filtered by OpenShift - Top 5 Costliest} ibm {EN IBM Cloud - Top 5 Costliest} ocp {EN All OpenShift} ocp_cloud {EN All cloud filtered by OpenShift - Top 5 Costliest} other {}}",
   "RawCostDescription": "EN The costs reported by a cloud provider without any cost model calculations applied.",
   "RawCostTitle": "EN Raw cost",
   "RbacErrorDescription": "EN There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.",

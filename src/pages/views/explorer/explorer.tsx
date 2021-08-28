@@ -443,7 +443,7 @@ class Explorer extends React.Component<ExplorerProps> {
     const groupByTagKey = getGroupByTagKey(query);
     const computedItems = this.getComputedItems();
     const itemsTotal = report && report.meta ? report.meta.count : 0;
-    const title = intl.formatMessage(messages.CostExplorerTitle);
+    const title = intl.formatMessage(messages.ExplorerTitle);
 
     // Test for no providers
     const noProviders = !(
