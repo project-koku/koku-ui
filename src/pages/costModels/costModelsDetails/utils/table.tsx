@@ -2,10 +2,10 @@ import { Bullseye } from '@patternfly/react-core';
 import { IAction, ICell, SortByDirection } from '@patternfly/react-table';
 import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
 import { CostModel } from 'api/costModels';
+import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { relativeTime } from 'human-date';
 import NoCostModels from 'pages/costModels/costModelsDetails/noCostModels';
-import NoMatchFound from 'pages/costModels/costModelsDetails/noMatchFound';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ export function getRowsByStateName(stateName: string, data: any) {
     component = <NoCostModels />;
   }
   if (stateName === 'no-match') {
-    component = <NoMatchFound />;
+    component = <EmptyFilterState />;
   }
   if (stateName === 'failure') {
     component = <Unavailable />;

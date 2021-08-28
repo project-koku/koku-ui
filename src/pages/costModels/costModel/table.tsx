@@ -2,6 +2,7 @@ import { EmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@
 import { DollarSignIcon } from '@patternfly/react-icons/dist/esm/icons/dollar-sign-icon';
 import { CostModel } from 'api/costModels';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
+import messages from 'locales/messages';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
 import { PaginationToolbarTemplate } from 'pages/costModels/components/paginationToolbarTemplate';
 import SourcesTable from 'pages/costModels/costModel/sourcesTable';
@@ -31,6 +32,7 @@ interface PaginationQuery {
 interface State {
   query: { name: string[] };
   currentFilter: string;
+  filter: string;
   pagination: PaginationQuery;
 }
 
@@ -38,6 +40,7 @@ class TableBase extends React.Component<Props, State> {
   public state = {
     query: { name: [] },
     currentFilter: '',
+    filter: '',
     pagination: { page: 1, perPage: 10 },
   };
   public render() {
@@ -107,6 +110,7 @@ class TableBase extends React.Component<Props, State> {
               this.setState({
                 query: addMultiValueQuery(this.state.query)('name', this.state.currentFilter),
                 currentFilter: '',
+                filter: this.state.currentFilter,
                 pagination: { ...this.state.pagination, page: 1 },
               });
             },
@@ -133,7 +137,7 @@ class TableBase extends React.Component<Props, State> {
           </div>
         )}
         {filteredRows.length === 0 && rows.length > 0 && (
-          <EmptyFilterState filter={this.state.currentFilter} subTitle={t('no_match_found_state.desc')} />
+          <EmptyFilterState filter={this.state.filter} subTitle={messages.EmptyFilterSourceStateSubtitle} />
         )}
         <PaginationToolbarTemplate
           id="costmodels_details_filter_datatoolbar"

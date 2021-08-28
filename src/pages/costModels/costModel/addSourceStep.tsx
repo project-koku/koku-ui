@@ -4,6 +4,7 @@ import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
+import messages from 'locales/messages';
 import { SourcesModalErrorState } from 'pages/costModels/components/errorState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
@@ -26,6 +27,7 @@ interface AddSourcesStepProps extends WithTranslation {
     name: string;
     value: string;
   };
+  filter: string;
   setState: (newState: { [uuid: string]: { selected: boolean; meta: Provider } }) => void;
   checked: { [uuid: string]: { selected: boolean; meta: Provider } };
   costModel: CostModel;
@@ -169,7 +171,9 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
             <TableBody />
           </Table>
         )}
-        {sources.length === 0 && <EmptyFilterState subTitle={this.props.t('no_match_found_state.desc')} />}
+        {sources.length === 0 && (
+          <EmptyFilterState filter={this.props.filter} subTitle={messages.EmptyFilterSourceStateSubtitle} />
+        )}
         <Toolbar id="costmodels_details.sources_pagination_datatoolbar">
           <ToolbarContent
             style={{ flexDirection: 'row-reverse' }}
@@ -209,6 +213,7 @@ export default connect(
         name: sourcesSelectors.currentFilterType(state),
         value: sourcesSelectors.currentFilterValue(state),
       },
+      filter: sourcesSelectors.filter(state),
     };
   }),
   {
