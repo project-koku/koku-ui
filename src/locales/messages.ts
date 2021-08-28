@@ -424,25 +424,6 @@ export default defineMessages({
     description: 'total cost is the sum of the infrastructure cost and supplementary cost',
     id: 'DashboardTotalCostTooltip',
   },
-  DateMonthAbbr: {
-    defaultMessage:
-      '{month, select, ' +
-      'Jan {EN Jan {date}} ' +
-      'Feb {EN Feb {date}} ' +
-      'Mar {EN Mar {date}} ' +
-      'Apr {EN Apr {date}} ' +
-      'May {EN May {date}} ' +
-      'Jun {EN Jun {date}} ' +
-      'Jul {EN Jul {date}} ' +
-      'Aug {EN Aug {date}} ' +
-      'Sep {EN Sep {date}} ' +
-      'Oct {EN Oct {date}} ' +
-      'Nov {EN Nov {date}} ' +
-      'Dec {EN Dec {date}} ' +
-      'other {}}',
-    description: 'Database services cost',
-    id: 'DateMonthAbbr',
-  },
   DetailsActionsExport: {
     defaultMessage: 'EN Export data',
     description: 'Export data',

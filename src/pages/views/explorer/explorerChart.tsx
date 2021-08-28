@@ -21,6 +21,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getLocalizedAbbrMonthCost } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
 import { skeletonWidth } from 'utils/skeleton';
 
@@ -91,13 +92,8 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
     reportItem: string = 'cost',
     reportItemValue: string = 'total'
   ): ChartDatum => {
-    const { intl } = this.props;
-
     const computedItemDate = new Date(computedItem.date + 'T00:00:00');
-    const xVal = intl.formatMessage(messages.DateMonthAbbr, {
-      date: getDate(computedItemDate),
-      month: getMonth(computedItemDate),
-    });
+    const xVal = getLocalizedAbbrMonthCost(getDate(computedItemDate), getMonth(computedItemDate));
     const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
     return {
       x: xVal,

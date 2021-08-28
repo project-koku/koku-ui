@@ -73,7 +73,6 @@
   "DashboardNetworkTitle": "EN Network services cost",
   "DashboardStorageTitle": "EN Storage services cost",
   "DashboardTotalCostTooltip": "EN This total cost is the sum of the infrastructure cost {infrastructureCost} and supplementary cost {supplementaryCost}",
-  "DateMonthAbbr": "{month, select, Jan {EN Jan {date}} Feb {EN Feb {date}} Mar {EN Mar {date}} Apr {EN Apr {date}} May {EN May {date}} Jun {EN Jun {date}} Jul {EN Jul {date}} Aug {EN Aug {date}} Sep {EN Sep {date}} Oct {EN Oct {date}} Nov {EN Nov {date}} Dec {EN Dec {date}} other {}}",
   "DetailsActionsExport": "EN Export data",
   "DetailsActionsPriceList": "EN View all price lists",
   "DetailsClustersModalTitle": "{groupBy, select, account {EN account {name} clusters} cluster {EN cluster {name} clusters} instance_type {EN instance type {name} clusters} node {EN node {name} clusters} org_unit_id {EN organizational unit {name} clusters} project {EN project {name} clusters} region {EN region {name} clusters} resource_location {EN region {name} clusters} service {EN service {name} clusters} service_name {EN service {name} clusters} subscription_guid {account {name} clusters} tag {EN tags {name} clusters} other {}}",
