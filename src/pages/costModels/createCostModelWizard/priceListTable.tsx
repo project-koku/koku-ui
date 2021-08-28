@@ -180,9 +180,7 @@ class PriceListTable extends React.Component<Props, State> {
                         />
                         {res.length === 0 && (this.state.metrics.length !== 0 || this.state.measurements.length !== 0) && (
                           <Bullseye>
-                            <EmptyFilterState
-                              filter={t('cost_models_wizard.price_list.toolbar_top_results_aria_label')}
-                            />
+                            <EmptyFilterState />
                           </Bullseye>
                         )}
                         {res.length === 0 &&
