@@ -4,8 +4,9 @@ import { Alert, AlertActionCloseButton } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import {
@@ -58,7 +59,7 @@ interface InactiveSourcesState {
 type InactiveSourcesProps = InactiveSourcesOwnProps &
   InactiveSourcesDispatchProps &
   InactiveSourcesStateProps &
-  WithTranslation;
+  WrappedComponentProps;
 
 const inactiveSourcesID = 'cost_inactiveSources';
 const tokenID = 'cs_jwt';
@@ -254,13 +255,18 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
       ocpProviders,
       ocpProvidersError,
       ocpProvidersFetchStatus,
-      t,
+      intl,
     } = this.props;
 
     const release = getReleasePath();
     const names = this.getInactiveSourceNames();
+    // const title =
+    //   names.length === 1 ? t('inactive_sources.title', { value: names[0] }) : t('inactive_sources.title_multiple');
+
     const title =
-      names.length === 1 ? t('inactive_sources.title', { value: names[0] }) : t('inactive_sources.title_multiple');
+      names.length === 1
+        ? intl.formatMessage(messages.InactiveSourcesTitle, { value: names[0] })
+        : intl.formatMessage(messages.InactiveSourcesTitleMultiplier);
 
     if (names.length === 0) {
       if (
@@ -298,7 +304,7 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
           actionClose={<AlertActionCloseButton onClose={this.handleOnClose} />}
           actionLinks={
             <React.Fragment>
-              <a href={`${release}/settings/sources`}>{t('inactive_sources.go_to_sources')}</a>
+              <a href={`${release}/settings/sources`}>{intl.formatMessage(messages.InactiveSourcesGoTo)}</a>
             </React.Fragment>
           }
         >
@@ -421,6 +427,6 @@ const mapDispatchToProps: InactiveSourcesDispatchProps = {
   fetchProviders: providersActions.fetchProviders,
 };
 
-const InactiveSources = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(InactiveSourcesBase));
+const InactiveSources = injectIntl(connect(mapStateToProps, mapDispatchToProps)(InactiveSourcesBase));
 
 export { InactiveSources, InactiveSourcesProps };
