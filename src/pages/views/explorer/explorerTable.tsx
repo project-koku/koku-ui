@@ -17,7 +17,6 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { getLocalizedAbbrMonthCost } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 
 import { styles } from './explorerTable.styles';
@@ -146,7 +145,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       columns.push({
         cellTransforms: [nowrap],
         orderBy: undefined, // TBD...
-        title: getLocalizedAbbrMonthCost(date, month),
+        title: intl.formatMessage(messages.ExplorerChartDate, { date, month }),
         transforms: undefined,
       });
 
