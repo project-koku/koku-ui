@@ -625,6 +625,11 @@ export default defineMessages({
     description: 'date range based on {value}',
     id: 'ExplorerDateRange',
   },
+  ExplorerMonthDate: {
+    defaultMessage: 'EN {month} {date}',
+    description: 'Cost {month} {date}',
+    id: 'ExplorerMonthDate',
+  },
   ExplorerTitle: {
     defaultMessage: 'EN Cost Explorer',
     description: 'Cost Explorer title',

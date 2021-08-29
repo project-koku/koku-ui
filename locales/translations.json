@@ -100,6 +100,7 @@
   "ErrorStateUnexpectedDesc": "EN We encountered an unexpected error. Contact your administrator.",
   "ErrorStateUnexpectedTitle": "EN Oops!",
   "ExplorerDateRange": "{value, select, current_month_to_date {EN Month to date} last_sixty_days {EN Last 60 days} last_thirty_days {EN Last 30 days} previous_month_to_date {EN Previous month and month to date} other {}}",
+  "ExplorerMonthDate": "EN {month} {date}",
   "ExplorerTitle": "EN Cost Explorer",
   "ExportAggregateType": "EN Select aggregate type",
   "ExportAll": "EN All",
