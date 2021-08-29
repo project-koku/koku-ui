@@ -1,5 +1,4 @@
 // import { intlHelper as InsightsIntlHelper } from '@redhat-cloud-services/frontend-components-translations/';
-import { enUS, eo } from 'date-fns/locale';
 import { createIntl, createIntlCache } from 'react-intl';
 
 // eslint-disable-next-line no-restricted-imports
@@ -25,13 +24,3 @@ export const intl = createIntl(
 );
 
 export const intlHelper = message => message; // InsightsIntlHelper(message, intlSettings);
-
-export const getDateFnsLocale = (): Locale => {
-  switch (locale) {
-    case 'eo':
-      return eo;
-    case 'en':
-    default:
-      return enUS;
-  }
-};
