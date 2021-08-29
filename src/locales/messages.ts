@@ -157,9 +157,20 @@ export default defineMessages({
   },
   BreakdownTotalCostDate: {
     defaultMessage:
-      '{count, plural, ' +
-      'one {EN {value} total cost ({month} {startDate})} ' +
-      'other {EN {value} total cost ({month} {startDate}-{endDate})}}',
+      '{month, select, ' +
+      '1 {{count, plural, one {EN {value} total cost (Jan {startDate})} other {EN {value} total cost (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {EN {value} total cost (Feb {startDate})} other {EN {value} total cost (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {EN {value} total cost (Mar {startDate})} other {EN {value} total cost (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {EN {value} total cost (Apr {startDate})} other {EN {value} total cost (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {EN {value} total cost (May {startDate})} other {EN {value} total cost (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {EN {value} total cost (Jun {startDate})} other {EN {value} total cost (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {EN {value} total cost (Jul {startDate})} other {EN {value} total cost (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {EN {value} total cost (Aug {startDate})} other {EN {value} total cost (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {EN {value} total cost (Sep {startDate})} other {EN {value} total cost (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {EN {value} total cost (Oct {startDate})} other {EN {value} total cost (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {EN {value} total cost (Nov {startDate})} other {EN {value} total cost (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {EN {value} total cost (Dec {startDate})} other {EN {value} total cost (Dec {startDate}-{endDate})}}} ' +
+      'other {}}',
     description: 'Break down total cost by date',
     id: 'BreakdownTotalCostDate',
   },
@@ -170,12 +181,39 @@ export default defineMessages({
   },
   ChartCostForecastConeLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Cost confidence ({month} {startDate})} other {EN Cost confidence ({month} {startDate}-{endDate})}}',
+      '{month, select, ' +
+      '1 {{count, plural, one {EN Cost confidence (Jan {startDate})} other {EN Cost confidence (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {EN Cost confidence (Feb {startDate})} other {EN Cost confidence (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {EN Cost confidence (Mar {startDate})} other {EN Cost confidence (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {EN Cost confidence (Apr {startDate})} other {EN Cost confidence (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {EN Cost confidence (May {startDate})} other {EN Cost confidence (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {EN Cost confidence (Jun {startDate})} other {EN Cost confidence (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {EN Cost confidence (Jul {startDate})} other {EN Cost confidence (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {EN Cost confidence (Aug {startDate})} other {EN Cost confidence (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {EN Cost confidence (Sep {startDate})} other {EN Cost confidence (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {EN Cost confidence (Oct {startDate})} other {EN Cost confidence (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {EN Cost confidence (Nov {startDate})} other {EN Cost confidence (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {EN Cost confidence (Dec {startDate})} other {EN Cost confidence (Dec {startDate}-{endDate})}}} ' +
+      'other {}}',
     description: 'Cost forecast cone date label',
     id: 'ChartCostForecastConeLegendLabel',
   },
   ChartCostForecastConeLegendTooltip: {
-    defaultMessage: 'EN Cost confidence ({month})',
+    defaultMessage:
+      '{month, select, ' +
+      '1 {EN Cost confidence (Jan)} ' +
+      '2 {EN Cost confidence (Feb)} ' +
+      '3 {EN Cost confidence (Mar)} ' +
+      '4 {EN Cost confidence (Apr)} ' +
+      '5 {EN Cost confidence (May)} ' +
+      '6 {EN Cost confidence (Jun)} ' +
+      '7 {EN Cost confidence (Jul)} ' +
+      '8 {EN Cost confidence (Aug)} ' +
+      '9 {EN Cost confidence (Sep)} ' +
+      '10 {EN Cost confidence (Oct)} ' +
+      '11 {EN Cost confidence (Nov)} ' +
+      '12 {EN Cost confidence (Dec)} ' +
+      'other {}}',
     description: 'Cost confidence forecast date label tooltip',
     id: 'ChartCostForecastConeLegendTooltip',
   },
@@ -186,73 +224,248 @@ export default defineMessages({
   },
   ChartCostForecastLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Cost forecast ({month} {startDate})} other {EN Cost forecast ({month} {startDate}-{endDate})}}',
+      '{month, select, ' +
+      '1 {{count, plural, one {EN Cost forecast (Jan {startDate})} other {EN Cost forecast (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {EN Cost forecast (Feb {startDate})} other {EN Cost forecast (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {EN Cost forecast (Mar {startDate})} other {EN Cost forecast (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {EN Cost forecast (Apr {startDate})} other {EN Cost forecast (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {EN Cost forecast (May {startDate})} other {EN Cost forecast (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {EN Cost forecast (Jun {startDate})} other {EN Cost forecast (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {EN Cost forecast (Jul {startDate})} other {EN Cost forecast (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {EN Cost forecast (Aug {startDate})} other {EN Cost forecast (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {EN Cost forecast (Sep {startDate})} other {EN Cost forecast (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {EN Cost forecast (Oct {startDate})} other {EN Cost forecast (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {EN Cost forecast (Nov {startDate})} other {EN Cost forecast (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {EN Cost forecast (Dec {startDate})} other {EN Cost forecast (Dec {startDate}-{endDate})}}} ' +
+      'other {}}',
     description: 'Cost forecast date label',
     id: 'ChartCostForecastLegendLabel',
   },
   ChartCostForecastLegendTooltip: {
-    defaultMessage: 'EN Cost forecast ({month})',
+    defaultMessage:
+      '{month, select, ' +
+      '1 {EN Cost forecast (Jan)} ' +
+      '2 {EN Cost forecast (Feb)} ' +
+      '3 {EN Cost forecast (Mar)} ' +
+      '4 {EN Cost forecast (Apr)} ' +
+      '5 {EN Cost forecast (May)} ' +
+      '6 {EN Cost forecast (Jun)} ' +
+      '7 {EN Cost forecast (Jul)} ' +
+      '8 {EN Cost forecast (Aug)} ' +
+      '9 {EN Cost forecast (Sep)} ' +
+      '10 {EN Cost forecast (Oct)} ' +
+      '11 {EN Cost forecast (Nov)} ' +
+      '12 {EN Cost forecast (Dec)} ' +
+      'other {}}',
     description: 'Cost forecast date label tooltip',
     id: 'ChartCostForecastLegendTooltip',
   },
   ChartCostInfrastructureForecastConeLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Infrastructure confidence ({month} {startDate})} other {EN Infrastructure confidence ({month} {startDate}-{endDate})}}',
+      '{month, select, ' +
+      '1 {{count, plural, one {EN Infrastructure confidence (Jan {startDate})} other {EN Infrastructure confidence (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {EN Infrastructure confidence (Feb {startDate})} other {EN Infrastructure confidence (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {EN Infrastructure confidence (Mar {startDate})} other {EN Infrastructure confidence (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {EN Infrastructure confidence (Apr {startDate})} other {EN Infrastructure confidence (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {EN Infrastructure confidence (May {startDate})} other {EN Infrastructure confidence (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {EN Infrastructure confidence (Jun {startDate})} other {EN Infrastructure confidence (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {EN Infrastructure confidence (Jul {startDate})} other {EN Infrastructure confidence (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {EN Infrastructure confidence (Aug {startDate})} other {EN Infrastructure confidence (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {EN Infrastructure confidence (Sep {startDate})} other {EN Infrastructure confidence (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {EN Infrastructure confidence (Oct {startDate})} other {EN Infrastructure confidence (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {EN Infrastructure confidence (Nov {startDate})} other {EN Infrastructure confidence (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {EN Infrastructure confidence (Dec {startDate})} other {EN Infrastructure confidence (Dec {startDate}-{endDate})}}} ' +
+      'other {}}',
     description: 'Infrastructure date label',
     id: 'ChartCostInfrastructureForecastConeLegendLabel',
   },
   ChartCostInfrastructureForecastConeLegendTooltip: {
-    defaultMessage: 'EN Infrastructure confidence ({month})',
+    defaultMessage:
+      '{month, select, ' +
+      '1 {EN Infrastructure confidence (Jan)} ' +
+      '2 {EN Infrastructure confidence (Feb)} ' +
+      '3 {EN Infrastructure confidence (Mar)} ' +
+      '4 {EN Infrastructure confidence (Apr)} ' +
+      '5 {EN Infrastructure confidence (May)} ' +
+      '6 {EN Infrastructure confidence (Jun)} ' +
+      '7 {EN Infrastructure confidence (Jul)} ' +
+      '8 {EN Infrastructure confidence (Aug)} ' +
+      '9 {EN Infrastructure confidence (Sep)} ' +
+      '10 {EN Infrastructure confidence (Oct)} ' +
+      '11 {EN Infrastructure confidence (Nov)} ' +
+      '12 {EN Infrastructure confidence (Dec)} ' +
+      'other {}}',
     description: 'Infrastructure date label tooltip',
     id: 'ChartCostInfrastructureForecastConeLegendTooltip',
   },
   ChartCostInfrastructureForecastLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Infrastructure forecast ({month} {startDate})} other {EN Infrastructure forecast ({month} {startDate}-{endDate})}}',
+      '{month, select, ' +
+      '1 {{count, plural, one {EN Infrastructure forecast (Jan {startDate})} other {EN Infrastructure forecast (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {EN Infrastructure forecast (Feb {startDate})} other {EN Infrastructure forecast (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {EN Infrastructure forecast (Mar {startDate})} other {EN Infrastructure forecast (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {EN Infrastructure forecast (Apr {startDate})} other {EN Infrastructure forecast (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {EN Infrastructure forecast (May {startDate})} other {EN Infrastructure forecast (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {EN Infrastructure forecast (Jun {startDate})} other {EN Infrastructure forecast (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {EN Infrastructure forecast (Jul {startDate})} other {EN Infrastructure forecast (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {EN Infrastructure forecast (Aug {startDate})} other {EN Infrastructure forecast (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {EN Infrastructure forecast (Sep {startDate})} other {EN Infrastructure forecast (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {EN Infrastructure forecast (Oct {startDate})} other {EN Infrastructure forecast (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {EN Infrastructure forecast (Nov {startDate})} other {EN Infrastructure forecast (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {EN Infrastructure forecast (Dec {startDate})} other {EN Infrastructure forecast (Dec {startDate}-{endDate})}}} ' +
+      'other {}}',
     description: 'Infrastructure date label',
     id: 'ChartCostInfrastructureForecastLegendLabel',
   },
   ChartCostInfrastructureForecastLegendTooltip: {
-    defaultMessage: 'EN Infrastructure forecast ({month})',
+    defaultMessage:
+      '{month, select, ' +
+      '1 {EN Infrastructure forecast (Jan)} ' +
+      '2 {EN Infrastructure forecast (Feb)} ' +
+      '3 {EN Infrastructure forecast (Mar)} ' +
+      '4 {EN Infrastructure forecast (Apr)} ' +
+      '5 {EN Infrastructure forecast (May)} ' +
+      '6 {EN Infrastructure forecast (Jun)} ' +
+      '7 {EN Infrastructure forecast (Jul)} ' +
+      '8 {EN Infrastructure forecast (Aug)} ' +
+      '9 {EN Infrastructure forecast (Sep)} ' +
+      '10 {EN Infrastructure forecast (Oct)} ' +
+      '11 {EN Infrastructure forecast (Nov)} ' +
+      '12 {EN Infrastructure forecast (Dec)} ' +
+      'other {}}',
     description: 'Infrastructure date label tooltip',
     id: 'ChartCostInfrastructureForecastLegendTooltip',
   },
   ChartCostInfrastructureLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Infrastructure ({month} {startDate})} other {EN Infrastructure ({month} {startDate}-{endDate})}}',
+      '{month, select, ' +
+      '1 {{count, plural, one {EN Infrastructure (Jan {startDate})} other {EN Infrastructure (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {EN Infrastructure (Feb {startDate})} other {EN Infrastructure (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {EN Infrastructure (Mar {startDate})} other {EN Infrastructure (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {EN Infrastructure (Apr {startDate})} other {EN Infrastructure (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {EN Infrastructure (May {startDate})} other {EN Infrastructure (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {EN Infrastructure (Jun {startDate})} other {EN Infrastructure (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {EN Infrastructure (Jul {startDate})} other {EN Infrastructure (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {EN Infrastructure (Aug {startDate})} other {EN Infrastructure (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {EN Infrastructure (Sep {startDate})} other {EN Infrastructure (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {EN Infrastructure (Oct {startDate})} other {EN Infrastructure (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {EN Infrastructure (Nov {startDate})} other {EN Infrastructure (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {EN Infrastructure (Dec {startDate})} other {EN Infrastructure (Dec {startDate}-{endDate})}}} ' +
+      'other {}}',
     description: 'Infrastructure date label',
     id: 'ChartCostInfrastructureLegendLabel',
   },
   ChartCostInfrastructureLegendTooltip: {
-    defaultMessage: 'EN Infrastructure ({month})',
+    defaultMessage:
+      '{month, select, ' +
+      '1 {EN Infrastructure (Jan)} ' +
+      '2 {EN Infrastructure (Feb)} ' +
+      '3 {EN Infrastructure (Mar)} ' +
+      '4 {EN Infrastructure (Apr)} ' +
+      '5 {EN Infrastructure (May)} ' +
+      '6 {EN Infrastructure (Jun)} ' +
+      '7 {EN Infrastructure (Jul)} ' +
+      '8 {EN Infrastructure (Aug)} ' +
+      '9 {EN Infrastructure (Sep)} ' +
+      '10 {EN Infrastructure (Oct)} ' +
+      '11 {EN Infrastructure (Nov)} ' +
+      '12 {EN Infrastructure (Dec)} ' +
+      'other {}}',
     description: 'Infrastructure date label tooltip',
     id: 'ChartCostInfrastructureLegendTooltip',
   },
   ChartCostLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Cost ({month} {startDate})} other {EN Cost ({month} {startDate}-{endDate})}}',
+      '{month, select, ' +
+      '1 {{count, plural, one {EN Cost (Jan {startDate})} other {EN Cost (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {EN Cost (Feb {startDate})} other {EN Cost (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {EN Cost (Mar {startDate})} other {EN Cost (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {EN Cost (Apr {startDate})} other {EN Cost (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {EN Cost (May {startDate})} other {EN Cost (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {EN Cost (Jun {startDate})} other {EN Cost (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {EN Cost (Jul {startDate})} other {EN Cost (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {EN Cost (Aug {startDate})} other {EN Cost (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {EN Cost (Sep {startDate})} other {EN Cost (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {EN Cost (Oct {startDate})} other {EN Cost (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {EN Cost (Nov {startDate})} other {EN Cost (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {EN Cost (Dec {startDate})} other {EN Cost (Dec {startDate}-{endDate})}}} ' +
+      'other {}}',
     description: 'Cost date label',
     id: 'ChartCostLegendLabel',
   },
   ChartCostLegendTooltip: {
-    defaultMessage: 'EN Cost ({month})',
-    description: 'Cost ({month})',
+    defaultMessage:
+      '{month, select, ' +
+      '1 {EN Cost (Jan)} ' +
+      '2 {EN Cost (Feb)} ' +
+      '3 {EN Cost (Mar)} ' +
+      '4 {EN Cost (Apr)} ' +
+      '5 {EN Cost (May)} ' +
+      '6 {EN Cost (Jun)} ' +
+      '7 {EN Cost (Jul)} ' +
+      '8 {EN Cost (Aug)} ' +
+      '9 {EN Cost (Sep)} ' +
+      '10 {EN Cost (Oct)} ' +
+      '11 {EN Cost (Nov)} ' +
+      '12 {EN Cost (Dec)} ' +
+      'other {}}',
+    description: 'Cost (month)',
     id: 'ChartCostLegendTooltip',
   },
   ChartCostSupplementaryLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Supplementary cost ({month} {startDate})} other {EN Supplementary cost ({month} {startDate}-{endDate})}}',
+      '{month, select, ' +
+      '1 {{count, plural, one {EN Supplementary cost (Jan {startDate})} other {EN Supplementary cost (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {EN Supplementary cost (Feb {startDate})} other {EN Supplementary cost (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {EN Supplementary cost (Mar {startDate})} other {EN Supplementary cost (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {EN Supplementary cost (Apr {startDate})} other {EN Supplementary cost (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {EN Supplementary cost (May {startDate})} other {EN Supplementary cost (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {EN Supplementary cost (Jun {startDate})} other {EN Supplementary cost (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {EN Supplementary cost (Jul {startDate})} other {EN Supplementary cost (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {EN Supplementary cost (Aug {startDate})} other {EN Supplementary cost (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {EN Supplementary cost (Sep {startDate})} other {EN Supplementary cost (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {EN Supplementary cost (Oct {startDate})} other {EN Supplementary cost (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {EN Supplementary cost (Nov {startDate})} other {EN Supplementary cost (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {EN Supplementary cost (Dec {startDate})} other {EN Supplementary cost (Dec {startDate}-{endDate})}}} ' +
+      'other {}}',
     description: 'Supplementary cost date label',
     id: 'ChartCostSupplementaryLegendLabel',
   },
   ChartCostSupplementaryLegendTooltip: {
-    defaultMessage: 'EN Supplementary cost ({month})',
-    description: 'Supplementary cost ({month})',
+    defaultMessage:
+      '{month, select, ' +
+      '1 {EN Supplementary cost (Jan)} ' +
+      '2 {EN Supplementary cost (Feb)} ' +
+      '3 {EN Supplementary cost (Mar)} ' +
+      '4 {EN Supplementary cost (Apr)} ' +
+      '5 {EN Supplementary cost (May)} ' +
+      '6 {EN Supplementary cost (Jun)} ' +
+      '7 {EN Supplementary cost (Jul)} ' +
+      '8 {EN Supplementary cost (Aug)} ' +
+      '9 {EN Supplementary cost (Sep)} ' +
+      '10 {EN Supplementary cost (Oct)} ' +
+      '11 {EN Supplementary cost (Nov)} ' +
+      '12 {EN Supplementary cost (Dec)} ' +
+      'other {}}',
+    description: 'Supplementary cost (month)',
     id: 'ChartCostSupplementaryLegendTooltip',
   },
   ChartDateRange: {
     defaultMessage:
-      '{count, plural, one {EN {month} {startDate} {year}} other {EN {startDate}-{endDate} {month} {year}}}',
+      '{month, select, ' +
+      '1 {{count, plural, one {EN Jan {startDate} {year}} other {EN {startDate}-{endDate} Jan {year}}}} ' +
+      '2 {{count, plural, one {EN Feb {startDate} {year}} other {EN {startDate}-{endDate} Feb {year}}}} ' +
+      '3 {{count, plural, one {EN Mar {startDate} {year}} other {EN {startDate}-{endDate} Mar {year}}}} ' +
+      '4 {{count, plural, one {EN Apr {startDate} {year}} other {EN {startDate}-{endDate} Apr {year}}}} ' +
+      '5 {{count, plural, one {EN May {startDate} {year}} other {EN {startDate}-{endDate} May {year}}}} ' +
+      '6 {{count, plural, one {EN Jun {startDate} {year}} other {EN {startDate}-{endDate} Jun {year}}}} ' +
+      '7 {{count, plural, one {EN Jul {startDate} {year}} other {EN {startDate}-{endDate} Jul {year}}}} ' +
+      '8 {{count, plural, one {EN Aug {startDate} {year}} other {EN {startDate}-{endDate} Aug {year}}}} ' +
+      '9 {{count, plural, one {EN Sep {startDate} {year}} other {EN {startDate}-{endDate} Sep {year}}}} ' +
+      '10 {{count, plural, one {EN Oct {startDate} {year}} other {EN {startDate}-{endDate} Oct {year}}}} ' +
+      '11 {{count, plural, one {EN Nov {startDate} {year}} other {EN {startDate}-{endDate} Nov {year}}}} ' +
+      '12 {{count, plural, one {EN Dec {startDate} {year}} other {EN {startDate}-{endDate} Dec {year}}}} ' +
+      'other {}}',
     description: 'Date range that handles singular and plural',
     id: 'ChartDateRange',
   },
@@ -263,13 +476,40 @@ export default defineMessages({
   },
   ChartLimitLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Limit ({month} {startDate})} other {EN Limit ({month} {startDate}-{endDate})}}',
+      '{month, select, ' +
+      '1 {{count, plural, one {EN Limit (Jan {startDate})} other {EN Limit (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {EN Limit (Feb {startDate})} other {EN Limit (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {EN Limit (Mar {startDate})} other {EN Limit (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {EN Limit (Apr {startDate})} other {EN Limit (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {EN Limit (May {startDate})} other {EN Limit (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {EN Limit (Jun {startDate})} other {EN Limit (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {EN Limit (Jul {startDate})} other {EN Limit (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {EN Limit (Aug {startDate})} other {EN Limit (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {EN Limit (Sep {startDate})} other {EN Limit (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {EN Limit (Oct {startDate})} other {EN Limit (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {EN Limit (Nov {startDate})} other {EN Limit (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {EN Limit (Dec {startDate})} other {EN Limit (Dec {startDate}-{endDate})}}} ' +
+      'other {}}',
     description: 'Limit date label',
     id: 'ChartLimitLegendLabel',
   },
   ChartLimitLegendTooltip: {
-    defaultMessage: 'EN Limit ({month})',
-    description: 'Limit ({month})',
+    defaultMessage:
+      '{month, select, ' +
+      '1 {EN Limit (Jan)} ' +
+      '2 {EN Limit (Feb)} ' +
+      '3 {EN Limit (Mar)} ' +
+      '4 {EN Limit (Apr)} ' +
+      '5 {EN Limit (May)} ' +
+      '6 {EN Limit (Jun)} ' +
+      '7 {EN Limit (Jul)} ' +
+      '8 {EN Limit (Aug)} ' +
+      '9 {EN Limit (Sep)} ' +
+      '10 {EN Limit (Oct)} ' +
+      '11 {EN Limit (Nov)} ' +
+      '12 {EN Limit (Dec)} ' +
+      'other {}}',
+    description: 'Limit (month)',
     id: 'ChartLimitLegendTooltip',
   },
   ChartNoData: {
@@ -284,24 +524,78 @@ export default defineMessages({
   },
   ChartRequestsLegendLabel: {
     defaultMessage:
-      '{count, plural, one {EN Requests ({month} {startDate})} other {EN Requests ({month} {startDate}-{endDate})}}',
+      '{month, select, ' +
+      '1 {{count, plural, one {EN Requests (Jan {startDate})} other {EN Requests (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {EN Requests (Feb {startDate})} other {EN Requests (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {EN Requests (Mar {startDate})} other {EN Requests (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {EN Requests (Apr {startDate})} other {EN Requests (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {EN Requests (May {startDate})} other {EN Requests (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {EN Requests (Jun {startDate})} other {EN Requests (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {EN Requests (Jul {startDate})} other {EN Requests (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {EN Requests (Aug {startDate})} other {EN Requests (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {EN Requests (Sep {startDate})} other {EN Requests (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {EN Requests (Oct {startDate})} other {EN Requests (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {EN Requests (Nov {startDate})} other {EN Requests (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {EN Requests (Dec {startDate})} other {EN Requests (Dec {startDate}-{endDate})}}} ' +
+      'other {}}',
     description: 'Requests date label',
     id: 'ChartRequestLegendLabel',
   },
   ChartRequestsLegendTooltip: {
-    defaultMessage: 'EN Requests ({month})',
-    description: 'Requests ({month})',
+    defaultMessage:
+      '{month, select, ' +
+      '1 {EN Requests (Jan)} ' +
+      '2 {EN Requests (Feb)} ' +
+      '3 {EN Requests (Mar)} ' +
+      '4 {EN Requests (Apr)} ' +
+      '5 {EN Requests (May)} ' +
+      '6 {EN Requests (Jun)} ' +
+      '7 {EN Requests (Jul)} ' +
+      '8 {EN Requests (Aug)} ' +
+      '9 {EN Requests (Sep)} ' +
+      '10 {EN Requests (Oct)} ' +
+      '11 {EN Requests (Nov)} ' +
+      '12 {EN Requests (Dec)} ' +
+      'other {}}',
+    description: 'Requests (month)',
     id: 'ChartRequestLegendTooltip',
   },
   ChartUsageLegendTooltip: {
-    defaultMessage: 'EN Usage ({month})',
-    description: 'Usage ({month})',
+    defaultMessage:
+      '{month, select, ' +
+      '1 {EN Usage (Jan)} ' +
+      '2 {EN Usage (Feb)} ' +
+      '3 {EN Usage (Mar)} ' +
+      '4 {EN Usage (Apr)} ' +
+      '5 {EN Usage (May)} ' +
+      '6 {EN Usage (Jun)} ' +
+      '7 {EN Usage (Jul)} ' +
+      '8 {EN Usage (Aug)} ' +
+      '9 {EN Usage (Sep)} ' +
+      '10 {EN Usage (Oct)} ' +
+      '11 {EN Usage (Nov)} ' +
+      '12 {EN Usage (Dec)} ' +
+      'other {}}',
+    description: 'Usage (month)',
     id: 'ChartUsageLegendTooltip',
   },
   ChartUsageLegendlabel: {
     defaultMessage:
-      '{count, plural, one {EN Usage ({month} {startDate})} other {EN Usage ({month} {startDate}-{endDate})}}',
-    description: 'Usage ({month} {startDate})',
+      '{month, select, ' +
+      '1 {{count, plural, one {EN Usage (Jan {startDate})} other {EN Usage (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {EN Usage (Feb {startDate})} other {EN Usage (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {EN Usage (Mar {startDate})} other {EN Usage (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {EN Usage (Apr {startDate})} other {EN Usage (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {EN Usage (May {startDate})} other {EN Usage (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {EN Usage (Jun {startDate})} other {EN Usage (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {EN Usage (Jul {startDate})} other {EN Usage (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {EN Usage (Aug {startDate})} other {EN Usage (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {EN Usage (Sep {startDate})} other {EN Usage (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {EN Usage (Oct {startDate})} other {EN Usage (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {EN Usage (Nov {startDate})} other {EN Usage (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {EN Usage (Dec {startDate})} other {EN Usage (Dec {startDate}-{endDate})}}} ' +
+      'other {}}',
+    description: 'Usage (month {startDate})',
     id: 'ChartUsageLegendlabel',
   },
   Clusters: {
@@ -387,11 +681,6 @@ export default defineMessages({
       'other {}}',
     description: 'translate any message',
     id: 'Custom',
-  },
-  DashBoardWidgetSubTitle: {
-    defaultMessage: '{count, plural, one {EN {month} {startDate}} other {EN {month} {startDate}-{endDate}}}',
-    description: 'dashboard widget subtitle date|dates',
-    id: 'DashBoardWidgetSubTitle',
   },
   DashboardCumulativeCostComparison: {
     defaultMessage: 'EN Cumulative cost comparison ({units})',
@@ -613,6 +902,25 @@ export default defineMessages({
     defaultMessage: 'EN Oops!',
     description: 'Oops!',
     id: 'ErrorStateUnexpectedTitle',
+  },
+  ExplorerChartDate: {
+    defaultMessage:
+      '{month, select, ' +
+      '1 {EN Jan {date}} ' +
+      '2 {EN Feb {date}} ' +
+      '3 {EN Mar {date}} ' +
+      '4 {EN Apr {date}} ' +
+      '5 {EN May {date}} ' +
+      '6 {EN Jun {date}} ' +
+      '7 {EN Jul {date}} ' +
+      '8 {EN Aug {date}} ' +
+      '9 {EN Sep {date}} ' +
+      '10 {EN Oct {date}} ' +
+      '11 {EN Nov {date}} ' +
+      '12 {EN Dec {date}} ' +
+      'other {}}',
+    description: 'Month {date}',
+    id: 'ExplorerDateColumn',
   },
   ExplorerDateRange: {
     defaultMessage:
@@ -874,7 +1182,20 @@ export default defineMessages({
   },
   ForDate: {
     defaultMessage:
-      '{count, plural, one {EN {value} for {month} {startDate}} other {EN {value} for {month} {startDate}-{endDate}}}',
+      '{month, select, ' +
+      '1 {{count, plural, one {EN {value} for Jan {startDate}} other {EN {value} for Jan {startDate}-{endDate}}}} ' +
+      '2 {{count, plural, one {EN {value} for Feb {startDate}} other {EN {value} for Feb {startDate}-{endDate}}}} ' +
+      '3 {{count, plural, one {EN {value} for Mar {startDate}} other {EN {value} for Mar {startDate}-{endDate}}}} ' +
+      '4 {{count, plural, one {EN {value} for Apr {startDate}} other {EN {value} for Apr {startDate}-{endDate}}}} ' +
+      '5 {{count, plural, one {EN {value} for May {startDate}} other {EN {value} for May {startDate}-{endDate}}}} ' +
+      '6 {{count, plural, one {EN {value} for Jun {startDate}} other {EN {value} for Jun {startDate}-{endDate}}}} ' +
+      '7 {{count, plural, one {EN {value} for Jul {startDate}} other {EN {value} for Jul {startDate}-{endDate}}}} ' +
+      '8 {{count, plural, one {EN {value} for Aug {startDate}} other {EN {value} for Aug {startDate}-{endDate}}}} ' +
+      '9 {{count, plural, one {EN {value} for Sep {startDate}} other {EN {value} for Sep {startDate}-{endDate}}}} ' +
+      '10 {{count, plural, one {EN {value} for Oct {startDate}} other {EN {value} for Oct {startDate}-{endDate}}}} ' +
+      '11 {{count, plural, one {EN {value} for Nov {startDate}} other {EN {value} for Nov {startDate}-{endDate}}}} ' +
+      '12 {{count, plural, one {EN {value} for Dec {startDate}} other {EN {value} for Dec {startDate}-{endDate}}}} ' +
+      'other {}}',
     description: '{value} for date range',
     id: 'ForDate',
   },
@@ -1198,7 +1519,20 @@ export default defineMessages({
   },
   NoDataForDate: {
     defaultMessage:
-      '{count, plural, one {EN No data available for {month} {startDate}} other {EN No data available for {month} {startDate}-{endDate}}}',
+      '{month, select, ' +
+      '1 {{count, plural, one {EN No data available for Jan {startDate}} other {EN No data available for Jan {startDate}-{endDate}}}} ' +
+      '2 {{count, plural, one {EN No data available for Feb {startDate}} other {EN No data available for Feb {startDate}-{endDate}}}} ' +
+      '3 {{count, plural, one {EN No data available for Mar {startDate}} other {EN No data available for Mar {startDate}-{endDate}}}} ' +
+      '4 {{count, plural, one {EN No data available for Apr {startDate}} other {EN No data available for Apr {startDate}-{endDate}}}} ' +
+      '5 {{count, plural, one {EN No data available for May {startDate}} other {EN No data available for May {startDate}-{endDate}}}} ' +
+      '6 {{count, plural, one {EN No data available for Jun {startDate}} other {EN No data available for Jun {startDate}-{endDate}}}} ' +
+      '7 {{count, plural, one {EN No data available for Jul {startDate}} other {EN No data available for Jul {startDate}-{endDate}}}} ' +
+      '8 {{count, plural, one {EN No data available for Aug {startDate}} other {EN No data available for Aug {startDate}-{endDate}}}} ' +
+      '9 {{count, plural, one {EN No data available for Sep {startDate}} other {EN No data available for Sep {startDate}-{endDate}}}} ' +
+      '10 {{count, plural, one {EN No data available for Oct {startDate}} other {EN No data available for Oct {startDate}-{endDate}}}} ' +
+      '11 {{count, plural, one {EN No data available for Nov {startDate}} other {EN No data available for Nov {startDate}-{endDate}}}} ' +
+      '12 {{count, plural, one {EN No data available for Dec {startDate}} other {EN No data available for Dec {startDate}-{endDate}}}} ' +
+      'other {}}',
     description: 'No data available for date range',
     id: 'NoDataForDate',
   },
@@ -1600,7 +1934,21 @@ export default defineMessages({
     id: 'SelectAll',
   },
   SinceDate: {
-    defaultMessage: '{count, plural, one {EN {month} {startDate}} other {EN {month} {startDate}-{endDate}}}',
+    defaultMessage:
+      '{month, select, ' +
+      '1 {{count, plural, one {EN January {startDate}} other {EN January {startDate}-{endDate}}}} ' +
+      '2 {{count, plural, one {EN February {startDate}} other {EN February {startDate}-{endDate}}}} ' +
+      '3 {{count, plural, one {EN March {startDate}} other {EN March {startDate}-{endDate}}}} ' +
+      '4 {{count, plural, one {EN April {startDate}} other {EN April {startDate}-{endDate}}}} ' +
+      '5 {{count, plural, one {EN May {startDate}} other {EN May {startDate}-{endDate}}}} ' +
+      '6 {{count, plural, one {EN June {startDate}} other {EN June {startDate}-{endDate}}}} ' +
+      '7 {{count, plural, one {EN July {startDate}} other {EN July {startDate}-{endDate}}}} ' +
+      '8 {{count, plural, one {EN August {startDate}} other {EN August {startDate}-{endDate}}}} ' +
+      '9 {{count, plural, one {EN September {startDate}} other {EN September {startDate}-{endDate}}}} ' +
+      '10 {{count, plural, one {EN October {startDate}} other {EN October {startDate}-{endDate}}}} ' +
+      '11 {{count, plural, one {EN November {startDate}} other {EN November {startDate}-{endDate}}}} ' +
+      '12 {{count, plural, one {EN December {startDate}} other {EN December {startDate}-{endDate}}}} ' +
+      'other {}}',
     description: 'SinceDate',
     id: 'SinceDate',
   },

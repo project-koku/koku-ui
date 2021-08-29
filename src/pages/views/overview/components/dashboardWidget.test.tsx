@@ -77,28 +77,10 @@ test('title is translated', () => {
   expect(getTranslateCallForKey(props.titleKey)).toMatchSnapshot();
 });
 
-test('subtitle is translated with single date', () => {
-  shallow(<DashboardWidgetBase {...props} />);
-  expect(getTranslateCallForKeyWithCnt(messages.DashBoardWidgetSubTitle, 1)).toMatchSnapshot();
-});
-
-test('subtitle is translated with date range', () => {
-  getDateMock.mockReturnValueOnce(2);
-  shallow(<DashboardWidgetBase {...props} />);
-  expect(getTranslateCallForKeyWithCnt(messages.DashBoardWidgetSubTitle, 2)).toMatchSnapshot();
-});
-
 test('trend title is translated', () => {
   shallow(<DashboardWidgetBase {...props} />);
   expect(getTranslateCallForKey(props.trend.titleKey)).toMatchSnapshot();
 });
-
-function getTranslateCallForKeyWithCnt(key: MessageDescriptor, cnt: number) {
-  const startDate = 1;
-  const endDate = 15;
-
-  return intl.formatMessage(key, { count: cnt, startDate, endDate, month: 'January' });
-}
 
 function getTranslateCallForKey(key: MessageDescriptor) {
   return intl.formatMessage(key);
