@@ -608,11 +608,6 @@ export default defineMessages({
     description: 'Cost',
     id: 'Cost',
   },
-  CostExplorerTitle: {
-    defaultMessage: 'EN Cost Explorer',
-    description: 'Cost Explorer',
-    id: 'CostExplorerTitle',
-  },
   CostManagement: {
     defaultMessage: 'EN Cost Management',
     description: 'Cost Management',
