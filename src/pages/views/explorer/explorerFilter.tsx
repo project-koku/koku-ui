@@ -3,9 +3,10 @@ import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import messages from 'locales/messages';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -64,7 +65,7 @@ type ExplorerFilterProps = ExplorerFilterOwnProps &
   ExplorerFilterStateProps &
   ExplorerFilterDispatchProps &
   RouteComponentProps<void> &
-  WithTranslation;
+  WrappedComponentProps;
 
 const orgReportType = OrgType.org;
 const tagReportType = TagType.tag;
@@ -122,24 +123,24 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { orgReport, perspective, t, tagReport } = this.props;
+    const { orgReport, perspective, intl, tagReport } = this.props;
 
     const options = [];
     const groupByOptions = getGroupByOptions(perspective);
     groupByOptions.map(option => {
       options.push({
-        name: t(`filter_by.values.${option.label}`),
+        name: intl.formatMessage(messages.FilterByValues, { value: option.label }),
         key: option.value,
       });
     });
     if (orgReport && orgReport.data && orgReport.data.length > 0) {
       options.push({
-        name: t('filter_by.values.org_unit_id'),
+        name: intl.formatMessage(messages.FilterByValues, { value: 'org_unit_id' }),
         key: orgUnitIdKey,
       });
     }
     if (tagReport && tagReport.data && tagReport.data.length > 0) {
-      options.push({ name: t('filter_by.values.tag'), key: tagKey });
+      options.push({ name: intl.formatMessage(messages.FilterByValues, { value: 'tag' }), key: tagKey });
     }
     return options;
   };
@@ -266,6 +267,6 @@ const mapDispatchToProps: ExplorerFilterDispatchProps = {
 };
 
 const ExplorerFilterConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerFilterBase);
-const ExplorerFilter = withRouter(withTranslation()(ExplorerFilterConnect));
+const ExplorerFilter = withRouter(injectIntl(ExplorerFilterConnect));
 
 export { ExplorerFilter, ExplorerFilterProps };

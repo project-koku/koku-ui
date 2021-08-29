@@ -25,6 +25,12 @@ export function getLocalizedMonth(year, month, abbreviate: boolean = false) {
   return monthName;
 }
 
+// returns localized month name and passed in date
+export function getLocalizedAbbrMonthCost(date, month) {
+  const abbrMonth = getLocalizedMonth(date, month, true);
+  return intlHelper(intl.formatMessage(messages.ExplorerMonthDate, { date, month: abbrMonth }));
+}
+
 export function getNoDataForDateRangeString(message: MessageDescriptor = messages.NoDataForDate, offset: number = 1) {
   const today = getToday();
 
