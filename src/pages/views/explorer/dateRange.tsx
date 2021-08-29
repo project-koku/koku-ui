@@ -1,13 +1,14 @@
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 interface DateRangeOwnProps {
   currentItem?: string;
   isDisabled?: boolean;
   onItemClicked(value: string);
   options?: {
-    label: string;
+    label: MessageDescriptor;
     value: string;
   }[];
 }
@@ -16,7 +17,7 @@ interface DateRangeState {
   isDateRangeOpen: boolean;
 }
 
-type DateRangeProps = DateRangeOwnProps & WithTranslation;
+type DateRangeProps = DateRangeOwnProps & WrappedComponentProps;
 
 class DateRangeBase extends React.Component<DateRangeProps> {
   protected defaultState: DateRangeState = {
@@ -25,22 +26,22 @@ class DateRangeBase extends React.Component<DateRangeProps> {
   public state: DateRangeState = { ...this.defaultState };
 
   private getDropDownItems = () => {
-    const { options, t } = this.props;
+    const { options, intl } = this.props;
 
     return options.map(option => (
       <DropdownItem component="button" key={option.value} onClick={() => this.handleClick(option.value)}>
-        {t(option.label)}
+        {intl.formatMessage(option.label, { value: option.value })}
       </DropdownItem>
     ));
   };
 
   private getCurrentLabel = () => {
-    const { currentItem, options, t } = this.props;
+    const { currentItem, options, intl } = this.props;
 
     let label = '';
     for (const option of options) {
       if (currentItem === option.value) {
-        label = t(option.label);
+        label = intl.formatMessage(option.label, { value: option.value });
         break;
       }
     }
@@ -86,6 +87,6 @@ class DateRangeBase extends React.Component<DateRangeProps> {
   }
 }
 
-const DateRange = withTranslation()(DateRangeBase);
+const DateRange = injectIntl(DateRangeBase);
 
 export { DateRange };
