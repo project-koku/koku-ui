@@ -101,6 +101,9 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   private handleOnCreateOption = value => {
     const { createdOptions } = this.state;
 
+    if (value.trim() === '') {
+      return;
+    }
     let options = [...createdOptions];
     if (options.length > 4) {
       options = options.slice(1, options.length);
@@ -133,6 +136,9 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   private handleOnSelect = (event, value) => {
     const { onSelect } = this.props;
 
+    if (value.trim() === '') {
+      return;
+    }
     if (onSelect) {
       onSelect(value);
     }
