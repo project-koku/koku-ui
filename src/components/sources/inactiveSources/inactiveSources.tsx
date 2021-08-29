@@ -260,9 +260,6 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
 
     const release = getReleasePath();
     const names = this.getInactiveSourceNames();
-    // const title =
-    //   names.length === 1 ? t('inactive_sources.title', { value: names[0] }) : t('inactive_sources.title_multiple');
-
     const title =
       names.length === 1
         ? intl.formatMessage(messages.InactiveSourcesTitle, { value: names[0] })
