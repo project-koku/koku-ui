@@ -1,28 +1,16 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { getDateFnsLocale, intl, intlHelper } from 'components/i18n';
-import { endOfMonth, format, getDate, getMonth, getYear, startOfMonth } from 'date-fns';
+import { intl, intlHelper } from 'components/i18n';
+import { endOfMonth, format, getDate, getMonth, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 
 function getToday(hrs: number = 0, min: number = 0, sec: number = 0) {
   const today = new Date();
+
   today.setHours(hrs);
   today.setMinutes(min);
   today.setSeconds(sec);
 
   return today;
-}
-
-// returns localized abbreviated month name (MMM format)
-export function getAbbreviatedMonth(year, month) {
-  return getLocalizedMonth(year, month, true);
-}
-
-// returns localized month name
-export function getLocalizedMonth(year, month, abbreviate: boolean = false) {
-  const pattern = abbreviate ? 'MMM' : 'MMMM';
-  const monthName = format(new Date(year, month), pattern, { locale: getDateFnsLocale() });
-
-  return monthName;
 }
 
 // returns localized month name and passed in date
@@ -38,7 +26,7 @@ export function getNoDataForDateRangeString(message: MessageDescriptor = message
     today.setMonth(today.getMonth() - offset);
   }
 
-  const month = getAbbreviatedMonth(getYear(today), getMonth(today));
+  const month = getMonth(today) + 1; // Required to obtain correct month
   const endDate = format(today, 'd');
   const startDate = format(startOfMonth(today), 'd');
 
@@ -56,7 +44,7 @@ export function getForDateRangeString(
     today.setMonth(today.getMonth() - offset);
   }
 
-  const month = getLocalizedMonth(getYear(today), getMonth(today));
+  const month = getMonth(today) + 1; // Required to obtain correct month
   const endDate = format(today, 'd');
   const startDate = format(startOfMonth(today), 'd');
 
@@ -73,7 +61,7 @@ export function getForDateRangeString(
 
 export function getSinceDateRangeString(message: MessageDescriptor = messages.SinceDate) {
   const today = getToday();
-  const month = getLocalizedMonth(getYear(today), getMonth(today), false);
+  const month = getMonth(today) + 1; // Required to obtain correct month
   const endDate = format(today, 'd');
   const startDate = format(startOfMonth(today), 'd');
 
