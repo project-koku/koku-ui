@@ -6,7 +6,6 @@ import { endOfMonth, format, getDate, getYear, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
 import { ComputedReportItem, getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { getAbbreviatedMonth } from 'utils/dateRange';
 import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
 import { SortDirection } from 'utils/sort';
 
@@ -297,6 +296,7 @@ export function getDatumDateRange(datums: ChartDatum[], offset: number = 0): [Da
 
     // If datums is empty, obtain the month based on offset (e.g., to show previous month in chart legends)
     if (offset) {
+      today.setDate(1); // Required to obtain correct month
       today.setMonth(today.getMonth() - offset);
     }
     const firstOfMonth = startOfMonth(today);
@@ -352,14 +352,14 @@ export function getDateRangeString(
   offset: number = 0
 ) {
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
+
   const count = getDate(end);
   const endDate = format(end, 'dd');
+  const month = Number(format(start, 'M'));
   const startDate = format(start, 'dd');
   const year = getYear(end);
-  const month = Number(format(start, 'M')) - 1;
-  const abbrMonth = getAbbreviatedMonth(year, month);
 
-  return intlHelper(intl.formatMessage(messages.ChartDateRange, { count, startDate, endDate, month: abbrMonth, year }));
+  return intlHelper(intl.formatMessage(messages.ChartDateRange, { count, startDate, endDate, month, year }));
 }
 
 export function getMaxValue(datums: ChartDatum[]) {
@@ -442,8 +442,9 @@ export function getCostRangeString(
   }
 
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
+
+  const month = Number(format(start, 'M'));
   const year = getYear(end);
-  const month = getAbbreviatedMonth(year, start.getMonth());
 
   return intlHelper(
     intl.formatMessage(key, {
