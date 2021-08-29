@@ -903,6 +903,25 @@ export default defineMessages({
     description: 'Oops!',
     id: 'ErrorStateUnexpectedTitle',
   },
+  ExplorerChartDate: {
+    defaultMessage:
+      '{month, select, ' +
+      '1 {EN Jan {date}} ' +
+      '2 {EN Feb {date}} ' +
+      '3 {EN Mar {date}} ' +
+      '4 {EN Apr {date}} ' +
+      '5 {EN May {date}} ' +
+      '6 {EN Jun {date}} ' +
+      '7 {EN Jul {date}} ' +
+      '8 {EN Aug {date}} ' +
+      '9 {EN Sep {date}} ' +
+      '10 {EN Oct {date}} ' +
+      '11 {EN Nov {date}} ' +
+      '12 {EN Dec {date}} ' +
+      'other {}}',
+    description: 'Month {date}',
+    id: 'ExplorerDateColumn',
+  },
   ExplorerDateRange: {
     defaultMessage:
       '{value, select, ' +
