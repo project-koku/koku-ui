@@ -1063,6 +1063,21 @@ export default defineMessages({
     description: 'IBM details title',
     id: 'IBMDetailsTitle',
   },
+  InactiveSourcesGoTo: {
+    defaultMessage: 'EN Go to Sources for more information',
+    description: 'Go to Sources for more information',
+    id: 'InactiveSourcesGoTo',
+  },
+  InactiveSourcesTitle: {
+    defaultMessage: 'EN A problem was detected with {value}',
+    description: 'A problem was detected with {value}',
+    id: 'InactiveSourcesGoTitle',
+  },
+  InactiveSourcesTitleMultiplier: {
+    defaultMessage: 'EN A problem was detected with the following sources',
+    description: 'A problem was detected with the following sources',
+    id: 'InactiveSourcesTitleMultiplier',
+  },
   Infrastructure: {
     defaultMessage: 'EN Infrastructure',
     description: 'Infrastructure',
