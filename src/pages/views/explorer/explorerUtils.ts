@@ -216,8 +216,18 @@ export const getPerspectiveDefault = ({
   userAccess: UserAccess;
 }) => {
   let result = queryFromRoute.perspective;
+  if (result) {
+    return result;
+  }
 
-  if (!result) {
+  const isLoading =
+    awsProvidersFetchStatus === FetchStatus.inProgress ||
+    azureProvidersFetchStatus === FetchStatus.inProgress ||
+    gcpProvidersFetchStatus === FetchStatus.inProgress ||
+    ibmProvidersFetchStatus === FetchStatus.inProgress ||
+    ocpProvidersFetchStatus === FetchStatus.inProgress;
+
+  if (!isLoading) {
     if (isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)) {
       result = PerspectiveType.ocp;
     } else if (isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus)) {
