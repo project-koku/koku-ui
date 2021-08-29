@@ -314,6 +314,11 @@ export default defineMessages({
     description: 'Cost',
     id: 'Cost',
   },
+  CostExplorerTitle: {
+    defaultMessage: 'EN Cost Explorer',
+    description: 'Cost Explorer',
+    id: 'CostExplorerTitle',
+  },
   CostManagement: {
     defaultMessage: 'EN Cost Management',
     description: 'Cost Management',
@@ -577,7 +582,7 @@ export default defineMessages({
   EmptyFilterSourceStateSubtitle: {
     defaultMessage: 'EN Sorry, no source with the given filter was found.',
     description: 'Sorry, no source with the given filter was found.',
-    id: 'EmptyFilterStateSubtitle',
+    id: 'EmptyFilterSourceStateSubtitle',
   },
   EmptyFilterStateSubtitle: {
     defaultMessage: 'EN Sorry, no data with the given filter was found.',
@@ -608,6 +613,22 @@ export default defineMessages({
     defaultMessage: 'EN Oops!',
     description: 'Oops!',
     id: 'ErrorStateUnexpectedTitle',
+  },
+  ExplorerDateRange: {
+    defaultMessage:
+      '{value, select, ' +
+      'current_month_to_date {EN Month to date} ' +
+      'last_sixty_days {EN Last 60 days} ' +
+      'last_thirty_days {EN Last 30 days} ' +
+      'previous_month_to_date {EN Previous month and month to date} ' +
+      'other {}}',
+    description: 'date range based on {value}',
+    id: 'ExplorerDateRange',
+  },
+  ExplorerMonthDate: {
+    defaultMessage: 'EN {month} {date}',
+    description: 'Cost {month} {date}',
+    id: 'ExplorerMonthDate',
   },
   ExplorerTitle: {
     defaultMessage: 'EN Cost Explorer',
@@ -935,6 +956,25 @@ export default defineMessages({
     description: 'Top group by value',
     id: 'GroupByTop',
   },
+  GroupByValueNames: {
+    defaultMessage:
+      '{groupBy, select, ' +
+      'account {EN Account names} ' +
+      'cluster {EN Cluster names} ' +
+      'instance_type {EN Instance type names} ' +
+      'node {EN Node names} ' +
+      'org_unit_id {EN Organizational unit names} ' +
+      'project {EN Project names} ' +
+      'region {EN Region names} ' +
+      'resource_location {EN Region names} ' +
+      'service {EN Service names} ' +
+      'service_name {EN Service names} ' +
+      'subscription_guid {EN Account names} ' +
+      'tag {EN Tag names} ' +
+      'other {}}',
+    description: 'Selected items for export',
+    id: 'GroupByValueNames',
+  },
   GroupByValues: {
     defaultMessage:
       '{value, select, ' +
@@ -1183,7 +1223,7 @@ export default defineMessages({
       'EN Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.',
     description:
       'Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.',
-    id: 'NoProvidersStateAwsTitle',
+    id: 'NoProvidersStateAwsDesc',
   },
   NoProvidersStateAwsTitle: {
     defaultMessage: 'EN Track your Amazon Web Services spending!',
@@ -1501,6 +1541,22 @@ export default defineMessages({
       'other {}}',
     description: 'Perspective values',
     id: 'PerspectiveValues',
+  },
+  PerspectiveValuesCostliest: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {EN Amazon Web Services - Top 5 Costliest} ' +
+      'aws_ocp {EN Amazon Web Services filtered by OpenShift - Top 5 Costliest} ' +
+      'azure {EN Microsoft Azure - Top 5 Costliest} ' +
+      'azure_ocp {EN Microsoft Azure filtered by OpenShift - Top 5 Costliest} ' +
+      'gcp {EN Google Cloud Platform - Top 5 Costliest} ' +
+      'gcp_ocp {EN Google Cloud Platform filtered by OpenShift - Top 5 Costliest} ' +
+      'ibm {EN IBM Cloud - Top 5 Costliest} ' +
+      'ocp {EN All OpenShift} ' +
+      'ocp_cloud {EN All cloud filtered by OpenShift - Top 5 Costliest} ' +
+      'other {}}',
+    description: 'Perspective values',
+    id: 'PerspectiveValuesCostliest',
   },
   RawCostDescription: {
     defaultMessage: 'EN The costs reported by a cloud provider without any cost model calculations applied.',

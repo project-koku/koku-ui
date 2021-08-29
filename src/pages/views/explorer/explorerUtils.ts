@@ -1,3 +1,4 @@
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { OrgPathsType } from 'api/orgs/org';
 import { Providers } from 'api/providers';
 import { getQueryRoute, Query } from 'api/queries/query';
@@ -51,13 +52,13 @@ export const baseQuery: Query = {
 };
 
 export const dateRangeOptions: {
-  label: string;
+  label: MessageDescriptor;
   value: string;
 }[] = [
-  { label: 'explorer.date_range.current_month_to_date', value: 'current_month_to_date' },
-  { label: 'explorer.date_range.previous_month_to_date', value: 'previous_month_to_date' },
-  { label: 'explorer.date_range.last_thirty_days', value: 'last_thirty_days' },
-  { label: 'explorer.date_range.last_sixty_days', value: 'last_sixty_days' },
+  { label: messages.ExplorerDateRange, value: 'current_month_to_date' },
+  { label: messages.ExplorerDateRange, value: 'previous_month_to_date' },
+  { label: messages.ExplorerDateRange, value: 'last_thirty_days' },
+  { label: messages.ExplorerDateRange, value: 'last_sixty_days' },
 ];
 
 export const groupByAwsOptions: {
