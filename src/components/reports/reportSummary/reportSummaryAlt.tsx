@@ -12,11 +12,11 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FetchStatus } from 'store/common';
 import { skeletonWidth } from 'utils/skeleton';
 
-interface OcpCloudReportSummaryAltProps extends WithTranslation {
+interface OcpCloudReportSummaryAltProps extends WrappedComponentProps {
   children?: React.ReactNode;
   detailsLink?: React.ReactNode;
   status: number;
@@ -71,6 +71,6 @@ const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = (
   </Card>
 );
 
-const ReportSummaryAlt = withTranslation()(OcpCloudReportSummaryAltBase);
+const ReportSummaryAlt = injectIntl(OcpCloudReportSummaryAltBase);
 
 export { ReportSummaryAlt, OcpCloudReportSummaryAltProps };
