@@ -663,6 +663,11 @@ export default defineMessages({
     description: 'Cost Management',
     id: 'CostManagement',
   },
+  CostModelsDetailsAssignSourceAriaLabel: {
+    defaultMessage: 'EN Assign source',
+    description: 'Assign source',
+    id: 'CostModelsDetailsAssignSourceAriaLabel',
+  },
   CostModelsDetailsAssignSourcesErrorDescription: {
     defaultMessage:
       'EN You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
@@ -705,10 +710,30 @@ export default defineMessages({
     description: 'This step is temporarily unavailable',
     id: 'CostModelsWizardSourceErrorTitle',
   },
+  CostModelsWizardSourceTableCostModel: {
+    defaultMessage: 'EN Cost model assigned',
+    description: 'Cost model assigned',
+    id: 'CostModelsWizardSourceTableCostModel',
+  },
+  CostModelsWizardSourceTableDefaultCostModel: {
+    defaultMessage: 'EN Default cost model',
+    description: 'Default cost model',
+    id: 'CostModelsWizardSourceTableDefaultCostModel',
+  },
+  CostModelsWizardSourceTableToolbarAriaLabel: {
+    defaultMessage: 'EN Bottom toolbar containing pagination controls',
+    description: 'Bottom toolbar containing pagination controls',
+    id: 'CostModelsWizardSourceTableToolbarAriaLabel',
+  },
   CostModelsWizardSourceTitle: {
     defaultMessage: 'EN Assign sources to the cost model (optional)',
     description: 'Assign sources to the cost model (optional)',
     id: 'CostModelsWizardSourceTitle',
+  },
+  CostModelsWizardSourceWarning: {
+    defaultMessage: 'EN This source is assigned to {costModel} cost model. You will have to unassigned it first',
+    description: 'This source is assigned to {costModel} cost model. You will have to unassigned it first',
+    id: 'CostModelsWizardSourceWarning',
   },
   CpuTitle: {
     defaultMessage: 'EN CPU',
@@ -1217,11 +1242,6 @@ export default defineMessages({
     description: 'Filter by values',
     id: 'FilterByValues',
   },
-  FilterByValuesName: {
-    defaultMessage: 'EN Name',
-    description: 'Name',
-    id: 'FilterByValuesName',
-  },
   FilterByValuesTitleCase: {
     defaultMessage:
       '{value, select, ' +
@@ -1572,6 +1592,11 @@ export default defineMessages({
     defaultMessage: 'EN Month over month change',
     description: 'Month over month change',
     id: 'MonthOverMonthChange',
+  },
+  Name: {
+    defaultMessage: 'EN Name',
+    description: 'Name',
+    id: 'CostModelsWizardSourceTableName',
   },
   Names: {
     defaultMessage: 'EN Names',
