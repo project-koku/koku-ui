@@ -78,6 +78,7 @@
   "CostModelsWizardSourceErrorTitle": "FR This step is temporarily unavailable",
   "CostModelsWizardSourceTableCostModel": "FR Cost model assigned",
   "CostModelsWizardSourceTableDefaultCostModel": "FR Default cost model",
+  "CostModelsWizardSourceTableFilterPlaceholder": "FR Filter by name...",
   "CostModelsWizardSourceTableName": "FR Name",
   "CostModelsWizardSourceTableToolbarAriaLabel": "FR Bottom toolbar containing pagination controls",
   "CostModelsWizardSourceTitle": "FR Assign sources to the cost model (optional)",

@@ -78,6 +78,7 @@
   "CostModelsWizardSourceErrorTitle": "DE This step is temporarily unavailable",
   "CostModelsWizardSourceTableCostModel": "DE Cost model assigned",
   "CostModelsWizardSourceTableDefaultCostModel": "DE Default cost model",
+  "CostModelsWizardSourceTableFilterPlaceholder": "DE Filter by name...",
   "CostModelsWizardSourceTableName": "DE Name",
   "CostModelsWizardSourceTableToolbarAriaLabel": "DE Bottom toolbar containing pagination controls",
   "CostModelsWizardSourceTitle": "DE Assign sources to the cost model (optional)",
