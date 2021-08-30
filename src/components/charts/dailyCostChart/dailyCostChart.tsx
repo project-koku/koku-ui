@@ -124,7 +124,7 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
         childName: 'previousCost',
         data: this.initDatumChildName(previousCostData, 'previousCost'),
         legendItem: {
-          name: getCostRangeString(previousCostData, costKey, true, true, 1),
+          name: getCostRangeString(previousCostData, costKey, true, true, 1, messages.ChartCostLegendNoDataLabel),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -142,7 +142,7 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
         childName: 'currentCost',
         data: this.initDatumChildName(currentCostData, 'currentCost'),
         legendItem: {
-          name: getCostRangeString(currentCostData, costKey, true, false),
+          name: getCostRangeString(currentCostData, costKey, true, false, 0, messages.ChartCostLegendNoDataLabel),
           symbol: {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
@@ -160,7 +160,14 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
         childName: 'previousInfrastructureCost',
         data: this.initDatumChildName(previousInfrastructureCostData, 'previousInfrastructureCost'),
         legendItem: {
-          name: getCostRangeString(previousInfrastructureCostData, costInfrastructureKey, true, true, 1),
+          name: getCostRangeString(
+            previousInfrastructureCostData,
+            costInfrastructureKey,
+            true,
+            true,
+            1,
+            messages.ChartCostInfrastructureLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.previousColorScale[1],
             type: 'dash',
@@ -178,12 +185,19 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
         childName: 'currentInfrastructureCost',
         data: this.initDatumChildName(currentInfrastructureCostData, 'currentInfrastructureCost'),
         legendItem: {
-          name: getCostRangeString(currentInfrastructureCostData, costInfrastructureKey, true, false),
+          name: getCostRangeString(
+            currentInfrastructureCostData,
+            costInfrastructureKey,
+            true,
+            false,
+            0,
+            messages.ChartCostInfrastructureLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.currentInfrastructureColorScale[1],
             type: 'dash',
           },
-          tooltip: getCostRangeString(currentInfrastructureCostData, costInfrastructureTooltipKey, false, false),
+          tooltip: getCostRangeString(currentInfrastructureCostData, costInfrastructureTooltipKey, false, false, 0),
         },
         isBar: true,
         style: {
@@ -199,7 +213,14 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
         childName: 'forecast',
         data: this.initDatumChildName(forecastData, 'forecast'),
         legendItem: {
-          name: getCostRangeString(forecastData, messages.ChartCostForecastLegendLabel, false, false),
+          name: getCostRangeString(
+            forecastData,
+            messages.ChartCostForecastLegendLabel,
+            false,
+            false,
+            0,
+            messages.ChartCostForecastLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.forecastDataColorScale[0],
             type: 'minus',
@@ -222,7 +243,9 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
             forecastInfrastructureData,
             messages.ChartCostInfrastructureForecastLegendLabel,
             false,
-            false
+            false,
+            0,
+            messages.ChartCostInfrastructureForecastLegendNoDataLabel
           ),
           symbol: {
             fill: chartStyles.forecastInfrastructureDataColorScale[0],
@@ -247,7 +270,14 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
         childName: 'forecastCone',
         data: this.initDatumChildName(forecastConeData, 'forecastCone'),
         legendItem: {
-          name: getCostRangeString(forecastConeData, messages.ChartCostForecastConeLegendLabel, false, false),
+          name: getCostRangeString(
+            forecastConeData,
+            messages.ChartCostForecastConeLegendLabel,
+            false,
+            false,
+            0,
+            messages.ChartCostForecastConeLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.forecastConeDataColorScale[0],
             type: 'triangleLeft',
@@ -270,7 +300,9 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
             forecastInfrastructureConeData,
             messages.ChartCostInfrastructureForecastConeLegendLabel,
             false,
-            false
+            false,
+            0,
+            messages.ChartCostInfrastructureForecastConeLegendNoDataLabel
           ),
           symbol: {
             fill: chartStyles.forecastInfrastructureConeDataColorScale[0],

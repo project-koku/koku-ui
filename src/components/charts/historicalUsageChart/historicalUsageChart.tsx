@@ -108,7 +108,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
     const limitTooltipKey = messages.ChartLimitLegendTooltip;
     const requestKey = messages.ChartRequestsLegendLabel;
     const requestTooltipKey = messages.ChartRequestsLegendTooltip;
-    const usageKey = messages.ChartUsageLegendlabel;
+    const usageKey = messages.ChartUsageLegendLabel;
     const usageTooltipKey = messages.ChartUsageLegendTooltip;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
@@ -118,7 +118,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         childName: 'previousUsage',
         data: previousUsageData,
         legendItem: {
-          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1),
+          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1, messages.ChartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -136,7 +136,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         childName: 'currentUsage',
         data: currentUsageData,
         legendItem: {
-          name: getUsageRangeString(currentUsageData, usageKey, true, false),
+          name: getUsageRangeString(currentUsageData, usageKey, true, false, 0, messages.ChartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
@@ -154,7 +154,14 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         childName: 'previousRequest',
         data: previousRequestData,
         legendItem: {
-          name: getUsageRangeString(previousRequestData, requestKey, true, true, 1),
+          name: getUsageRangeString(
+            previousRequestData,
+            requestKey,
+            true,
+            true,
+            1,
+            messages.ChartRequestsLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.previousColorScale[1],
             type: 'dash',
@@ -172,7 +179,14 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         childName: 'currentRequest',
         data: currentRequestData,
         legendItem: {
-          name: getUsageRangeString(currentRequestData, requestKey, true, false),
+          name: getUsageRangeString(
+            currentRequestData,
+            requestKey,
+            true,
+            false,
+            0,
+            messages.ChartRequestsLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.currentColorScale[1],
             type: 'dash',
@@ -190,7 +204,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         childName: 'previousLimit',
         data: previousLimitData,
         legendItem: {
-          name: getUsageRangeString(previousLimitData, limitKey, true, true, 1),
+          name: getUsageRangeString(previousLimitData, limitKey, true, true, 1, messages.ChartLimitLegendNoDataLabel),
           symbol: {
             fill: chartStyles.previousColorScale[2],
             type: 'minus',
@@ -208,7 +222,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         childName: 'currentLimit',
         data: currentLimitData,
         legendItem: {
-          name: getUsageRangeString(currentLimitData, limitKey, true, false),
+          name: getUsageRangeString(currentLimitData, limitKey, true, false, 0, messages.ChartLimitLegendNoDataLabel),
           symbol: {
             fill: chartStyles.currentColorScale[2],
             type: 'minus',

@@ -86,7 +86,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
   private initDatum = () => {
     const { currentData, previousData, showUsageLegendLabel = false } = this.props;
 
-    const key = showUsageLegendLabel ? messages.ChartUsageLegendlabel : messages.ChartCostLegendLabel;
+    const key = showUsageLegendLabel ? messages.ChartUsageLegendLabel : messages.ChartCostLegendLabel;
     const toolTipKey = showUsageLegendLabel ? messages.ChartUsageLegendTooltip : messages.ChartCostLegendTooltip;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
@@ -96,7 +96,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
         childName: 'previousCost',
         data: previousData,
         legendItem: {
-          name: getCostRangeString(previousData, key, true, true, 1),
+          name: getCostRangeString(previousData, key, true, true, 1, messages.ChartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -114,7 +114,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
         childName: 'currentCost',
         data: currentData,
         legendItem: {
-          name: getCostRangeString(currentData, key, true, false),
+          name: getCostRangeString(currentData, key, true, false, 0, messages.ChartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.currentColorScale[1],
             type: 'minus',
