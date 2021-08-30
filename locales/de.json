@@ -64,7 +64,6 @@
   "ChartUsageLegendTooltip": "{month, select, 1 {DE Usage (Jan)} 2 {DE Usage (Feb)} 3 {DE Usage (Mar)} 4 {DE Usage (Apr)} 5 {DE Usage (May)} 6 {DE Usage (Jun)} 7 {DE Usage (Jul)} 8 {DE Usage (Aug)} 9 {DE Usage (Sep)} 10 {DE Usage (Oct)} 11 {DE Usage (Nov)} 12 {DE Usage (Dec)} other {}}",
   "Clusters": "DE Clusters",
   "Cost": "DE Cost",
-  "CostExplorerTitle": "DE Cost Explorer",
   "CostManagement": "DE Cost Management",
   "CostModelsDetailsAssignSourcesErrorDescription": "DE You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.",
   "CostModelsDetailsAssignSourcesErrorTitle": "DE This action is temporarily unavailable",
