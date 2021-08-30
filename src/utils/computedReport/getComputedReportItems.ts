@@ -1,5 +1,5 @@
 import { Report, ReportData, ReportItem, ReportItemValue, ReportValue } from 'api/reports/report';
-import { intl, intlHelper } from 'components/i18n';
+import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { sort, SortDirection } from 'utils/sort';
 
@@ -161,7 +161,7 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
         let label;
         if (report.meta && report.meta.others && (id === 'Other' || id === 'Others')) {
           // Add count to "Others" label
-          label = intlHelper(intl.formatMessage(messages.ChartOthers, { count: report.meta.others }));
+          label = intl.formatMessage(messages.ChartOthers, { count: report.meta.others });
         } else {
           const itemLabelKey = getItemLabel({ report, idKey, value: val });
           if (itemLabelKey === 'org_entities' && val.alias) {
