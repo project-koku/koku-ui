@@ -78,6 +78,7 @@
   "CostModelsWizardSourceErrorTitle": "EN This step is temporarily unavailable",
   "CostModelsWizardSourceTableCostModel": "EN Cost model assigned",
   "CostModelsWizardSourceTableDefaultCostModel": "EN Default cost model",
+  "CostModelsWizardSourceTableFilterPlaceholder": "EN Filter by name...",
   "CostModelsWizardSourceTableName": "EN Name",
   "CostModelsWizardSourceTableToolbarAriaLabel": "EN Bottom toolbar containing pagination controls",
   "CostModelsWizardSourceTitle": "EN Assign sources to the cost model (optional)",

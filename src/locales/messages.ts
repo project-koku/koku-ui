@@ -730,6 +730,11 @@ export default defineMessages({
     description: 'Default cost model',
     id: 'CostModelsWizardSourceTableDefaultCostModel',
   },
+  CostModelsWizardSourceTableFilterPlaceholder: {
+    defaultMessage: 'EN Filter by name...',
+    description: 'Filter by name',
+    id: 'CostModelsWizardSourceTableFilterPlaceholder',
+  },
   CostModelsWizardSourceTableToolbarAriaLabel: {
     defaultMessage: 'EN Bottom toolbar containing pagination controls',
     description: 'Bottom toolbar containing pagination controls',
