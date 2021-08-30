@@ -9,14 +9,14 @@ import { SourcesModalErrorState } from 'pages/costModels/components/errorState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 
 import { AssignSourcesToolbar } from './assignSourcesModalToolbar';
 
-interface AddSourcesStepProps extends WithTranslation {
+interface AddSourcesStepProps extends WrappedComponentProps {
   providers: Provider[];
   isLoadingSources: boolean;
   fetchingSourcesError: string;
@@ -36,13 +36,15 @@ interface AddSourcesStepProps extends WithTranslation {
 
 class AddSourcesStep extends React.Component<AddSourcesStepProps> {
   public render() {
-    const { costModel } = this.props;
+    const { costModel, intl } = this.props;
+
     if (this.props.isLoadingSources) {
       return <LoadingState />;
     }
     if (this.props.fetchingSourcesError) {
       return <SourcesModalErrorState />;
     }
+
     const onSelect = (_evt, isSelected, rowId) => {
       if (rowId === -1) {
         const newState = this.props.providers.reduce((acc, cur) => {
@@ -68,20 +70,19 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         },
       });
     };
+
     const sources = this.props.providers.map(providerData => {
       const isSelected = this.props.checked[providerData.uuid] ? this.props.checked[providerData.uuid].selected : false;
       const provCostModels =
         providerData.cost_models === undefined
-          ? this.props.t('cost_models_wizard.source_table.default_cost_model')
+          ? intl.formatMessage(messages.CostModelsWizardSourceTableDefaultCostModel)
           : providerData.cost_models.map(cm => cm.name).join(',');
       const warningIcon =
         providerData.cost_models.length &&
         providerData.cost_models.find(cm => cm.name === costModel.name) === undefined ? (
           <WarningIcon
             key={providerData.uuid}
-            text={this.props.t('cost_models_wizard.warning_source', {
-              cost_model: provCostModels,
-            })}
+            text={intl.formatMessage(messages.CostModelsWizardSourceWarning, { costModel: provCostModels })}
           />
         ) : null;
       const cellName = (
@@ -95,6 +96,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         disableSelection: providerData.cost_models.length > 0,
       };
     });
+
     const sourceTypeMap = {
       'OpenShift Container Platform': 'OCP',
       'Microsoft Azure': 'AZURE',
@@ -162,8 +164,11 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         />
         {sources.length > 0 && (
           <Table
-            aria-label={this.props.t('cost_models_details.add_source')}
-            cells={[this.props.t('name'), this.props.t('cost_models_wizard.source_table.column_cost_model')]}
+            aria-label={intl.formatMessage(messages.CostModelsDetailsAssignSourceAriaLabel)}
+            cells={[
+              intl.formatMessage(messages.Name),
+              intl.formatMessage(messages.CostModelsWizardSourceTableCostModel),
+            ]}
             rows={sources}
             onSelect={onSelect}
           >
@@ -177,7 +182,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         <Toolbar id="costmodels_details.sources_pagination_datatoolbar">
           <ToolbarContent
             style={{ flexDirection: 'row-reverse' }}
-            aria-label={this.props.t('cost_models_details.sources_pagination_bottom')}
+            aria-label={intl.formatMessage(messages.CostModelsWizardSourceTableToolbarAriaLabel)}
           >
             <ToolbarItem variant="pagination">
               <Pagination
@@ -206,17 +211,19 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
   }
 }
 
-export default connect(
-  createMapStateToProps(state => {
-    return {
-      currentFilter: {
-        name: sourcesSelectors.currentFilterType(state),
-        value: sourcesSelectors.currentFilterValue(state),
-      },
-      filter: sourcesSelectors.filter(state),
-    };
-  }),
-  {
-    updateFilter: sourcesActions.updateFilterToolbar,
-  }
-)(withTranslation()(AddSourcesStep));
+export default injectIntl(
+  connect(
+    createMapStateToProps(state => {
+      return {
+        currentFilter: {
+          name: sourcesSelectors.currentFilterType(state),
+          value: sourcesSelectors.currentFilterValue(state),
+        },
+        filter: sourcesSelectors.filter(state),
+      };
+    }),
+    {
+      updateFilter: sourcesActions.updateFilterToolbar,
+    }
+  )(AddSourcesStep)
+);
