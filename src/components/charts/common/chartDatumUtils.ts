@@ -1,7 +1,7 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Forecast } from 'api/forecasts/forecast';
 import { Report } from 'api/reports/report';
-import { intl, intlHelper } from 'components/i18n';
+import { intl } from 'components/i18n';
 import { endOfMonth, format, getDate, getYear, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
@@ -359,7 +359,7 @@ export function getDateRangeString(
   const startDate = format(start, 'dd');
   const year = getYear(end);
 
-  return intlHelper(intl.formatMessage(messages.ChartDateRange, { count, startDate, endDate, month, year }));
+  return intl.formatMessage(messages.ChartDateRange, { count, startDate, endDate, month, year });
 }
 
 export function getMaxValue(datums: ChartDatum[]) {
@@ -404,9 +404,7 @@ export function getTooltipContent(formatValue) {
       case 'gb_mo':
       case 'gibibyte_month':
       case 'vmHours':
-        return intlHelper(
-          intl.formatMessage(messages.UnitTooltips, { units: lookup, value: formatValue(value, unit, options) })
-        );
+        return intl.formatMessage(messages.UnitTooltips, { units: lookup, value: formatValue(value, unit, options) });
       default:
         return `${formatValue(value, unit, options)}`;
     }
@@ -447,15 +445,13 @@ export function getCostRangeString(
   const month = Number(format(start, 'M'));
   const year = getYear(end);
 
-  return intlHelper(
-    intl.formatMessage(key, {
-      count: getDate(end),
-      startDate: format(start, 'd'),
-      endDate: format(end, 'd'),
-      month,
-      year,
-    })
-  );
+  return intl.formatMessage(key, {
+    count: getDate(end),
+    startDate: format(start, 'd'),
+    endDate: format(end, 'd'),
+    month,
+    year,
+  });
 }
 
 export function getUsageRangeString(

@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
+import { IntlProvider } from '@redhat-cloud-services/frontend-components-translations';
 import { initApi } from 'api/api';
 import { getLocale } from 'components/i18n';
 import React from 'react';
-import { IntlProvider } from 'react-intl'; // '@redhat-cloud-services/frontend-components-translations';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { getBaseName } from 'utils/getBaseName';
