@@ -1,4 +1,3 @@
-// import { intlHelper as InsightsIntlHelper } from '@redhat-cloud-services/frontend-components-translations/';
 import { createIntl, createIntlCache } from 'react-intl';
 
 // eslint-disable-next-line no-restricted-imports
@@ -10,7 +9,6 @@ export const getLocale = () => {
 };
 
 const cache = createIntlCache();
-// const intlSettings = { locale };
 
 export const intl = createIntl(
   {
@@ -22,5 +20,3 @@ export const intl = createIntl(
   },
   cache
 );
-
-export const intlHelper = message => message; // InsightsIntlHelper(message, intlSettings);

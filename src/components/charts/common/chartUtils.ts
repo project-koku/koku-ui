@@ -1,5 +1,5 @@
 import { getInteractiveLegendItemStyles } from '@patternfly/react-charts';
-import { intl, intlHelper } from 'components/i18n';
+import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
@@ -97,9 +97,9 @@ export const getTooltipLabel = (datum: any, formatDatumValue: ValueFormatter, fo
     datum.y0 !== undefined && datum.y0 !== null ? formatter(datum.y0, datum.units, formatDatumOptions) : undefined;
 
   if (dy !== undefined && dy0 !== undefined) {
-    return intlHelper(intl.formatMessage(messages.ChartCostForecastConeTooltip, { value0: dy0, value1: dy }));
+    return intl.formatMessage(messages.ChartCostForecastConeTooltip, { value0: dy0, value1: dy });
   }
-  return dy !== undefined ? dy : intlHelper(intl.formatMessage(messages.ChartNoData));
+  return dy !== undefined ? dy : intl.formatMessage(messages.ChartNoData);
 };
 
 export const getResizeObserver = (containerRef: HTMLDivElement, handleResize: () => void) => {

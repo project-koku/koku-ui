@@ -1,4 +1,4 @@
-import { getLocale, intl, intlHelper } from 'components/i18n';
+import { getLocale, intl } from 'components/i18n';
 import messages from 'locales/messages';
 
 export interface FormatOptions {
@@ -103,7 +103,7 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fracti
       maximumFractionDigits: fractionDigits,
     });
     const parts = formatted.match(/([\D]*)([\d.,]+)([\D]*)/);
-    const abbr = intlHelper(intl.formatMessage(messages.CurrencyAbbreviations, { value: symbol }));
+    const abbr = intl.formatMessage(messages.CurrencyAbbreviations, { value: symbol });
     return `${parts[1]}${parts[2]}${abbr}${parts[3]}`;
   }
 
