@@ -64,7 +64,6 @@
   "ChartUsageLegendTooltip": "{month, select, 1 {FR Usage (Jan)} 2 {FR Usage (Feb)} 3 {FR Usage (Mar)} 4 {FR Usage (Apr)} 5 {FR Usage (May)} 6 {FR Usage (Jun)} 7 {FR Usage (Jul)} 8 {FR Usage (Aug)} 9 {FR Usage (Sep)} 10 {FR Usage (Oct)} 11 {FR Usage (Nov)} 12 {FR Usage (Dec)} other {}}",
   "Clusters": "FR Clusters",
   "Cost": "FR Cost",
-  "CostExplorerTitle": "FR Cost Explorer",
   "CostManagement": "FR Cost Management",
   "CostModelsDetailsAssignSourcesErrorDescription": "FR You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.",
   "CostModelsDetailsAssignSourcesErrorTitle": "FR This action is temporarily unavailable",
