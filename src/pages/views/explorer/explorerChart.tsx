@@ -220,7 +220,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
       <>
         <div style={styles.titleContainer}>
           <Title headingLevel="h3" size="md">
-            {intl.formatMessage(messages.PerspectiveValuesCostliest, { value: perspective })}
+            {intl.formatMessage(messages.ExplorerChartTitle, { value: perspective })}
           </Title>
         </div>
         <div style={styles.chartContainer}>
