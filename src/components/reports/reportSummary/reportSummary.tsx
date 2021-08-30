@@ -2,11 +2,11 @@ import './reportSummary.scss';
 
 import { Card, CardBody, CardFooter, CardTitle, Skeleton, Title, TitleSizes } from '@patternfly/react-core';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FetchStatus } from 'store/common';
 import { skeletonWidth } from 'utils/skeleton';
 
-interface ReportSummaryProps extends WithTranslation {
+interface ReportSummaryProps extends WrappedComponentProps {
   children?: React.ReactNode;
   detailsLink?: React.ReactNode;
   status: number;
@@ -38,6 +38,6 @@ const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({ children, detailsLin
   </Card>
 );
 
-const ReportSummary = withTranslation()(ReportSummaryBase);
+const ReportSummary = injectIntl(ReportSummaryBase);
 
 export { ReportSummary, ReportSummaryProps };
