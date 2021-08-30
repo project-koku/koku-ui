@@ -10,10 +10,10 @@ import {
   ToolbarItem,
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
+import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Omit } from 'react-redux';
-import messages from '../../../locales/messages';
 
 interface FilterInputProps {
   id: string;
