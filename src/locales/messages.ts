@@ -967,6 +967,22 @@ export default defineMessages({
     description: 'Month {date}',
     id: 'ExplorerDateColumn',
   },
+  ExplorerChartTitle: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {EN Amazon Web Services - Top 5 Costliest} ' +
+      'aws_ocp {EN Amazon Web Services filtered by OpenShift - Top 5 Costliest} ' +
+      'azure {EN Microsoft Azure - Top 5 Costliest} ' +
+      'azure_ocp {EN Microsoft Azure filtered by OpenShift - Top 5 Costliest} ' +
+      'gcp {EN Google Cloud Platform - Top 5 Costliest} ' +
+      'gcp_ocp {EN Google Cloud Platform filtered by OpenShift - Top 5 Costliest} ' +
+      'ibm {EN IBM Cloud - Top 5 Costliest} ' +
+      'ocp {EN All OpenShift - Top 5 Costliest} ' +
+      'ocp_cloud {EN All cloud filtered by OpenShift - Top 5 Costliest} ' +
+      'other {}}',
+    description: 'Explorer chart title',
+    id: 'ExplorerChartTitle',
+  },
   ExplorerDateRange: {
     defaultMessage:
       '{value, select, ' +
@@ -1920,22 +1936,6 @@ export default defineMessages({
       'other {}}',
     description: 'Perspective values',
     id: 'PerspectiveValues',
-  },
-  PerspectiveValuesCostliest: {
-    defaultMessage:
-      '{value, select, ' +
-      'aws {EN Amazon Web Services - Top 5 Costliest} ' +
-      'aws_ocp {EN Amazon Web Services filtered by OpenShift - Top 5 Costliest} ' +
-      'azure {EN Microsoft Azure - Top 5 Costliest} ' +
-      'azure_ocp {EN Microsoft Azure filtered by OpenShift - Top 5 Costliest} ' +
-      'gcp {EN Google Cloud Platform - Top 5 Costliest} ' +
-      'gcp_ocp {EN Google Cloud Platform filtered by OpenShift - Top 5 Costliest} ' +
-      'ibm {EN IBM Cloud - Top 5 Costliest} ' +
-      'ocp {EN All OpenShift} ' +
-      'ocp_cloud {EN All cloud filtered by OpenShift - Top 5 Costliest} ' +
-      'other {}}',
-    description: 'Perspective values',
-    id: 'PerspectiveValuesCostliest',
   },
   RawCostDescription: {
     defaultMessage: 'EN The costs reported by a cloud provider without any cost model calculations applied.',
