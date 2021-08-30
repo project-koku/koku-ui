@@ -121,7 +121,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
         childName: 'previousCost',
         data: previousCostData,
         legendItem: {
-          name: getCostRangeString(previousCostData, costKey, true, true, 1),
+          name: getCostRangeString(previousCostData, costKey, true, true, 1, messages.ChartCostLegendNoDataLabel),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -139,7 +139,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
         childName: 'currentCost',
         data: currentCostData,
         legendItem: {
-          name: getCostRangeString(currentCostData, costKey, true, false),
+          name: getCostRangeString(currentCostData, costKey, true, false, 0, messages.ChartCostLegendNoDataLabel),
           symbol: {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
@@ -157,7 +157,14 @@ class CostChartBase extends React.Component<CostChartProps, State> {
         childName: 'previousInfrastructureCost',
         data: previousInfrastructureCostData,
         legendItem: {
-          name: getCostRangeString(previousInfrastructureCostData, costInfrastructureKey, true, true, 1),
+          name: getCostRangeString(
+            previousInfrastructureCostData,
+            costInfrastructureKey,
+            true,
+            true,
+            1,
+            messages.ChartCostInfrastructureLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.previousColorScale[1],
             type: 'dash',
@@ -175,7 +182,14 @@ class CostChartBase extends React.Component<CostChartProps, State> {
         childName: 'currentInfrastructureCost',
         data: currentInfrastructureCostData,
         legendItem: {
-          name: getCostRangeString(currentInfrastructureCostData, costInfrastructureKey, true, false),
+          name: getCostRangeString(
+            currentInfrastructureCostData,
+            costInfrastructureKey,
+            true,
+            false,
+            0,
+            messages.ChartCostInfrastructureLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.currentInfrastructureColorScale[1],
             type: 'dash',
@@ -196,7 +210,14 @@ class CostChartBase extends React.Component<CostChartProps, State> {
         childName: 'forecast',
         data: forecastData,
         legendItem: {
-          name: getCostRangeString(forecastData, messages.ChartCostForecastLegendLabel, false, false),
+          name: getCostRangeString(
+            forecastData,
+            messages.ChartCostForecastLegendLabel,
+            false,
+            false,
+            0,
+            messages.ChartCostForecastLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.forecastDataColorScale[0],
             type: 'minus',
@@ -218,7 +239,9 @@ class CostChartBase extends React.Component<CostChartProps, State> {
             forecastInfrastructureData,
             messages.ChartCostInfrastructureForecastLegendLabel,
             false,
-            false
+            false,
+            0,
+            messages.ChartCostInfrastructureForecastLegendNoDataLabel
           ),
           symbol: {
             fill: chartStyles.forecastInfrastructureDataColorScale[0],
@@ -246,7 +269,9 @@ class CostChartBase extends React.Component<CostChartProps, State> {
             forecastConeData,
             messages.ChartCostInfrastructureForecastConeLegendLabel,
             false,
-            false
+            false,
+            0,
+            messages.ChartCostInfrastructureForecastConeLegendNoDataLabel
           ),
           symbol: {
             fill: chartStyles.forecastConeDataColorScale[0],
@@ -274,7 +299,9 @@ class CostChartBase extends React.Component<CostChartProps, State> {
             forecastInfrastructureConeData,
             messages.ChartCostInfrastructureForecastConeLegendLabel,
             false,
-            false
+            false,
+            0,
+            messages.ChartCostInfrastructureForecastConeLegendNoDataLabel
           ),
           symbol: {
             fill: chartStyles.forecastInfrastructureConeDataColorScale[0],
