@@ -435,10 +435,11 @@ export function getCostRangeString(
   key: MessageDescriptor = messages.ChartCostLegendLabel,
   firstOfMonth: boolean = false,
   lastOfMonth: boolean = false,
-  offset: number = 0
+  offset: number = 0,
+  noDataKey: MessageDescriptor = messages.ChartNoData
 ) {
   if (!(datums && datums.length)) {
-    return intl.formatMessage(messages.ChartNoData);
+    return intl.formatMessage(noDataKey);
   }
 
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
@@ -459,12 +460,13 @@ export function getCostRangeString(
 
 export function getUsageRangeString(
   datums: ChartDatum[],
-  key: MessageDescriptor = messages.ChartUsageLegendlabel,
+  key: MessageDescriptor = messages.ChartUsageLegendLabel,
   firstOfMonth: boolean = false,
   lastOfMonth: boolean = false,
-  offset: number = 0
+  offset: number = 0,
+  noDataKey: MessageDescriptor = messages.ChartNoData
 ) {
-  return getCostRangeString(datums, key, firstOfMonth, lastOfMonth, offset);
+  return getCostRangeString(datums, key, firstOfMonth, lastOfMonth, offset, noDataKey);
 }
 
 // Returns true if non negative integer
