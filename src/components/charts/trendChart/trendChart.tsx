@@ -105,7 +105,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
     } = this.props;
 
     const key = showUsageLegendLabel
-      ? messages.ChartUsageLegendlabel
+      ? messages.ChartUsageLegendLabel
       : showSupplementaryLabel
       ? messages.ChartCostSupplementaryLegendLabel
       : showInfrastructureLabel
@@ -120,6 +120,14 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
       ? messages.ChartCostInfrastructureLegendTooltip
       : messages.ChartCostLegendTooltip;
 
+    const noDataKey = showUsageLegendLabel
+      ? messages.ChartUsageLegendNoDataLabel
+      : showSupplementaryLabel
+      ? messages.ChartCostSupplementaryLegendNoDataLabel
+      : showInfrastructureLabel
+      ? messages.ChartCostInfrastructureLegendNoDataLabel
+      : messages.ChartCostLegendNoDataLabel;
+
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     const series: ChartSeries[] = [
@@ -127,7 +135,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         childName: 'previousCost',
         data: previousData,
         legendItem: {
-          name: getCostRangeString(previousData, key, true, true, 1),
+          name: getCostRangeString(previousData, key, true, true, 1, noDataKey),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -145,7 +153,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         childName: 'currentCost',
         data: currentData,
         legendItem: {
-          name: getCostRangeString(currentData, key, true, false),
+          name: getCostRangeString(currentData, key, true, false, 0, noDataKey),
           symbol: {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
@@ -166,7 +174,14 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         childName: 'forecast',
         data: forecastData,
         legendItem: {
-          name: getCostRangeString(forecastData, messages.ChartCostForecastLegendLabel, false, false),
+          name: getCostRangeString(
+            forecastData,
+            messages.ChartCostForecastLegendLabel,
+            false,
+            false,
+            0,
+            messages.ChartCostForecastLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.forecastDataColorScale[0],
             type: 'minus',
@@ -184,7 +199,14 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         childName: 'forecastCone',
         data: forecastConeData,
         legendItem: {
-          name: getCostRangeString(forecastConeData, messages.ChartCostForecastConeLegendLabel, false, false),
+          name: getCostRangeString(
+            forecastConeData,
+            messages.ChartCostForecastConeLegendLabel,
+            false,
+            false,
+            0,
+            messages.ChartCostForecastConeLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.forecastConeDataColorScale[0],
             type: 'triangleLeft',

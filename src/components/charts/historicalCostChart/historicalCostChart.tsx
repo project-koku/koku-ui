@@ -106,7 +106,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
         childName: 'previousCost',
         data: previousCostData,
         legendItem: {
-          name: getCostRangeString(previousCostData, costKey, true, true, 1),
+          name: getCostRangeString(previousCostData, costKey, true, true, 1, messages.ChartCostLegendNoDataLabel),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -124,7 +124,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
         childName: 'currentCost',
         data: currentCostData,
         legendItem: {
-          name: getCostRangeString(currentCostData, costKey, true, false),
+          name: getCostRangeString(currentCostData, costKey, true, false, 0, messages.ChartCostLegendNoDataLabel),
           symbol: {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
@@ -142,7 +142,14 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
         childName: 'previousInfrastructureCost',
         data: previousInfrastructureCostData,
         legendItem: {
-          name: getCostRangeString(previousInfrastructureCostData, costInfrastructureKey, true, true, 1),
+          name: getCostRangeString(
+            previousInfrastructureCostData,
+            costInfrastructureKey,
+            true,
+            true,
+            1,
+            messages.ChartCostInfrastructureLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.previousColorScale[1],
             type: 'dash',
@@ -160,7 +167,14 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
         childName: 'currentInfrastructureCost',
         data: currentInfrastructureCostData,
         legendItem: {
-          name: getCostRangeString(currentInfrastructureCostData, costInfrastructureKey, true, false),
+          name: getCostRangeString(
+            currentInfrastructureCostData,
+            costInfrastructureKey,
+            true,
+            false,
+            0,
+            messages.ChartCostInfrastructureLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.currentColorScale[1],
             type: 'dash',

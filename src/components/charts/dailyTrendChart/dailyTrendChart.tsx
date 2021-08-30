@@ -108,7 +108,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
     } = this.props;
 
     const key = showUsageLegendLabel
-      ? messages.ChartUsageLegendlabel
+      ? messages.ChartUsageLegendLabel
       : showSupplementaryLabel
       ? messages.ChartCostSupplementaryLegendLabel
       : showInfrastructureLabel
@@ -123,6 +123,14 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
       ? messages.ChartCostInfrastructureLegendTooltip
       : messages.ChartCostLegendTooltip;
 
+    const noDataKey = showUsageLegendLabel
+      ? messages.ChartUsageLegendNoDataLabel
+      : showSupplementaryLabel
+      ? messages.ChartCostSupplementaryLegendNoDataLabel
+      : showInfrastructureLabel
+      ? messages.ChartCostInfrastructureLegendNoDataLabel
+      : messages.ChartCostLegendNoDataLabel;
+
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     const series: ChartSeries[] = [
@@ -130,7 +138,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
         childName: 'previousCost',
         data: this.initDatumChildName(previousData, 'previousCost'),
         legendItem: {
-          name: getCostRangeString(previousData, key, true, true, 1),
+          name: getCostRangeString(previousData, key, true, true, 1, noDataKey),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -148,7 +156,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
         childName: 'currentCost',
         data: this.initDatumChildName(currentData, 'currentCost'),
         legendItem: {
-          name: getCostRangeString(currentData, key, true, false),
+          name: getCostRangeString(currentData, key, true, false, 0, noDataKey),
           symbol: {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
@@ -169,7 +177,14 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
         childName: 'forecast',
         data: this.initDatumChildName(forecastData, 'forecast'),
         legendItem: {
-          name: getCostRangeString(forecastData, messages.ChartCostForecastLegendTooltip, false, false),
+          name: getCostRangeString(
+            forecastData,
+            messages.ChartCostForecastLegendTooltip,
+            false,
+            false,
+            0,
+            messages.ChartCostForecastLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.forecastDataColorScale[0],
             type: 'minus',
@@ -188,7 +203,14 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
         childName: 'forecastCone',
         data: this.initDatumChildName(forecastConeData, 'forecastCone'),
         legendItem: {
-          name: getCostRangeString(forecastConeData, messages.ChartCostForecastConeLegendLabel, false, false),
+          name: getCostRangeString(
+            forecastConeData,
+            messages.ChartCostForecastConeLegendLabel,
+            false,
+            false,
+            0,
+            messages.ChartCostForecastConeLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.forecastConeDataColorScale[0],
             type: 'minus',

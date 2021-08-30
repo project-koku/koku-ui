@@ -90,7 +90,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
   private initDatum = () => {
     const { currentRequestData, currentUsageData, previousRequestData, previousUsageData } = this.props;
 
-    const usageKey = messages.ChartUsageLegendlabel;
+    const usageKey = messages.ChartUsageLegendLabel;
     const usageTooltipKey = messages.ChartUsageLegendTooltip;
     const requestKey = messages.ChartRequestsLegendLabel;
     const requestTooltipKey = messages.ChartRequestsLegendTooltip;
@@ -102,7 +102,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         childName: 'previousUsage',
         data: previousUsageData,
         legendItem: {
-          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1),
+          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1, messages.ChartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.legendColorScale[0],
             type: 'minus',
@@ -115,7 +115,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         childName: 'currentUsage',
         data: currentUsageData,
         legendItem: {
-          name: getUsageRangeString(currentUsageData, usageKey, true, false),
+          name: getUsageRangeString(currentUsageData, usageKey, true, false, 0, messages.ChartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.legendColorScale[1],
             type: 'minus',
@@ -128,7 +128,14 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         childName: 'previousRequest',
         data: previousRequestData,
         legendItem: {
-          name: getUsageRangeString(previousRequestData, requestKey, true, true, 1),
+          name: getUsageRangeString(
+            previousRequestData,
+            requestKey,
+            true,
+            true,
+            1,
+            messages.ChartRequestsLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.legendColorScale[2],
             type: 'dash',
@@ -141,7 +148,14 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         childName: 'currentRequest',
         data: currentRequestData,
         legendItem: {
-          name: getUsageRangeString(currentRequestData, requestKey, true, false),
+          name: getUsageRangeString(
+            currentRequestData,
+            requestKey,
+            true,
+            false,
+            0,
+            messages.ChartRequestsLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.legendColorScale[3],
             type: 'dash',

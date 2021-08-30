@@ -5,7 +5,6 @@ import { ChartType } from 'components/charts/common/chartDatumUtils';
 import { intl } from 'components/i18n';
 import { format, getDate, getMonth, startOfMonth } from 'date-fns';
 import { shallow } from 'enzyme';
-import messages from 'locales/messages';
 import { DashboardWidgetBase, DashboardWidgetProps } from 'pages/views/overview/components/dashboardWidgetBase';
 import React from 'react';
 import { defineMessages } from 'react-intl';
