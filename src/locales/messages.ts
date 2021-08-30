@@ -679,6 +679,16 @@ export default defineMessages({
     description: 'This action is temporarily unavailable',
     id: 'CostModelsDetailsAssignSourcesErrorTitle',
   },
+  CostModelsDetailsAssignSourcesLabel: {
+    defaultMessage: 'EN Assign source(s)',
+    description: 'Assign source(s)',
+    id: 'CostModelsDetailsAssignSources',
+  },
+  CostModelsDetailsAssignSourcesTitle: {
+    defaultMessage: 'EN Assign sources',
+    description: 'Assign sources',
+    id: 'CostModelsDetailsAssignSourcesTitle',
+  },
   CostModelsRefreshDialog: {
     defaultMessage: 'EN Refresh this dialog',
     description: 'Refresh this dialog',
@@ -729,6 +739,11 @@ export default defineMessages({
     defaultMessage: 'EN Assign sources to the cost model (optional)',
     description: 'Assign sources to the cost model (optional)',
     id: 'CostModelsWizardSourceTitle',
+  },
+  CostModelsWizardSourceTypeLabel: {
+    defaultMessage: 'EN Source type',
+    description: 'Source type',
+    id: 'CostModelsWizardSourceTypeLabel',
   },
   CostModelsWizardSourceWarning: {
     defaultMessage: 'EN This source is assigned to {costModel} cost model. You will have to unassigned it first',
