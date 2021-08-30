@@ -359,44 +359,44 @@ export default defineMessages({
   ChartCostInfrastructureLegendLabel: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN Infrastructure (Jan {startDate})} other {EN Infrastructure (Jan {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {EN Infrastructure (Feb {startDate})} other {EN Infrastructure (Feb {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {EN Infrastructure (Mar {startDate})} other {EN Infrastructure (Mar {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {EN Infrastructure (Apr {startDate})} other {EN Infrastructure (Apr {startDate}-{endDate})}}} ' +
-      '5 {{count, plural, one {EN Infrastructure (May {startDate})} other {EN Infrastructure (May {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {EN Infrastructure (Jun {startDate})} other {EN Infrastructure (Jun {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {EN Infrastructure (Jul {startDate})} other {EN Infrastructure (Jul {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {EN Infrastructure (Aug {startDate})} other {EN Infrastructure (Aug {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {EN Infrastructure (Sep {startDate})} other {EN Infrastructure (Sep {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {EN Infrastructure (Oct {startDate})} other {EN Infrastructure (Oct {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {EN Infrastructure (Nov {startDate})} other {EN Infrastructure (Nov {startDate}-{endDate})}}} ' +
-      '12 {{count, plural, one {EN Infrastructure (Dec {startDate})} other {EN Infrastructure (Dec {startDate}-{endDate})}}} ' +
+      '1 {{count, plural, one {EN Infrastructure cost (Jan {startDate})} other {EN Infrastructure cost (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {EN Infrastructure cost (Feb {startDate})} other {EN Infrastructure cost (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {EN Infrastructure cost (Mar {startDate})} other {EN Infrastructure cost (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {EN Infrastructure cost (Apr {startDate})} other {EN Infrastructure cost (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {EN Infrastructure cost (May {startDate})} other {EN Infrastructure cost (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {EN Infrastructure cost (Jun {startDate})} other {EN Infrastructure cost (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {EN Infrastructure cost (Jul {startDate})} other {EN Infrastructure cost (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {EN Infrastructure cost (Aug {startDate})} other {EN Infrastructure cost (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {EN Infrastructure cost (Sep {startDate})} other {EN Infrastructure cost (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {EN Infrastructure cost (Oct {startDate})} other {EN Infrastructure cost (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {EN Infrastructure cost (Nov {startDate})} other {EN Infrastructure cost (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {EN Infrastructure cost (Dec {startDate})} other {EN Infrastructure cost (Dec {startDate}-{endDate})}}} ' +
       'other {}}',
-    description: 'Infrastructure date label',
+    description: 'Infrastructure cost label',
     id: 'ChartCostInfrastructureLegendLabel',
   },
   ChartCostInfrastructureLegendNoDataLabel: {
-    defaultMessage: 'EN Infrastructure (no data)',
-    description: 'Infrastructure (no data)',
+    defaultMessage: 'EN Infrastructure cost (no data)',
+    description: 'Infrastructure cost (no data)',
     id: 'ChartCostInfrastructureLegendNoDataLabel',
   },
   ChartCostInfrastructureLegendTooltip: {
     defaultMessage:
       '{month, select, ' +
-      '1 {EN Infrastructure (Jan)} ' +
-      '2 {EN Infrastructure (Feb)} ' +
-      '3 {EN Infrastructure (Mar)} ' +
-      '4 {EN Infrastructure (Apr)} ' +
-      '5 {EN Infrastructure (May)} ' +
-      '6 {EN Infrastructure (Jun)} ' +
-      '7 {EN Infrastructure (Jul)} ' +
-      '8 {EN Infrastructure (Aug)} ' +
-      '9 {EN Infrastructure (Sep)} ' +
-      '10 {EN Infrastructure (Oct)} ' +
-      '11 {EN Infrastructure (Nov)} ' +
-      '12 {EN Infrastructure (Dec)} ' +
+      '1 {EN Infrastructure cost (Jan)} ' +
+      '2 {EN Infrastructure cost (Feb)} ' +
+      '3 {EN Infrastructure cost (Mar)} ' +
+      '4 {EN Infrastructure cost (Apr)} ' +
+      '5 {EN Infrastructure cost (May)} ' +
+      '6 {EN Infrastructure cost (Jun)} ' +
+      '7 {EN Infrastructure cost (Jul)} ' +
+      '8 {EN Infrastructure cost (Aug)} ' +
+      '9 {EN Infrastructure cost (Sep)} ' +
+      '10 {EN Infrastructure cost (Oct)} ' +
+      '11 {EN Infrastructure cost (Nov)} ' +
+      '12 {EN Infrastructure cost (Dec)} ' +
       'other {}}',
-    description: 'Infrastructure date label tooltip',
+    description: 'Infrastructure cost label tooltip',
     id: 'ChartCostInfrastructureLegendTooltip',
   },
   ChartCostLegendLabel: {
