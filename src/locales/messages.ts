@@ -648,6 +648,11 @@ export default defineMessages({
     description: 'Usage (month)',
     id: 'ChartUsageLegendTooltip',
   },
+  Close: {
+    defaultMessage: 'EN Close',
+    description: 'Close',
+    id: 'Close',
+  },
   Clusters: {
     defaultMessage: 'EN Clusters',
     description: 'Clusters',
@@ -688,6 +693,23 @@ export default defineMessages({
     defaultMessage: 'EN Assign sources',
     description: 'Assign sources',
     id: 'CostModelsDetailsAssignSourcesTitle',
+  },
+  CostModelsDialogDelete: {
+    defaultMessage: 'EN Unassign',
+    description: 'Unassign',
+    id: 'CostModelsDialogDelete',
+  },
+  CostModelsDialogDeleteSource: {
+    defaultMessage: 'EN Unassign source',
+    description: 'Unassign source',
+    id: 'CostModelsDialogDeleteSource',
+  },
+  CostModelsDialogDeleteSourceDesc: {
+    defaultMessage:
+      'EN This will remove the assignment of {source} from the {costModel} cost model. You can then assign the cost model to a new source.',
+    description:
+      'This will remove the assignment of {source} from the {costModel} cost model. You can then assign the cost model to a new source.',
+    id: 'CostModelsDialogDeleteSourceDesc',
   },
   CostModelsRefreshDialog: {
     defaultMessage: 'EN Refresh this dialog',
