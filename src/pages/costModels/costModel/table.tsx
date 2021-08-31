@@ -7,7 +7,7 @@ import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/comp
 import { PaginationToolbarTemplate } from 'pages/costModels/components/paginationToolbarTemplate';
 import SourcesTable from 'pages/costModels/costModel/sourcesTable';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { rbacSelectors } from 'store/rbac';
@@ -15,7 +15,7 @@ import { rbacSelectors } from 'store/rbac';
 import { SourcesToolbar } from './sourcesToolbar';
 import { styles } from './table.styles';
 
-interface Props extends WithTranslation {
+interface Props extends WrappedComponentProps {
   isWritePermission: boolean;
   rows: string[];
   onDelete: (item: any) => void;
@@ -47,7 +47,9 @@ class TableBase extends React.Component<Props, State> {
     const {
       pagination: { page, perPage },
     } = this.state;
-    const { current, onAdd, t, rows, isWritePermission } = this.props;
+
+    const { current, intl, isWritePermission, onAdd, rows } = this.props;
+
     const filteredRows = rows
       .filter(uuid => {
         if (!this.state.query.name) {
@@ -57,16 +59,17 @@ class TableBase extends React.Component<Props, State> {
       })
       .map(uuid => [uuid]);
     const res = filteredRows.slice((page - 1) * perPage, page * perPage);
+
     return (
       <>
         <Title headingLevel="h2" size={TitleSizes.md} style={styles.sourceTypeTitle}>
-          {t('cost_models_details.cost_model.source_type')}: {current.source_type}
+          {intl.formatMessage(messages.CostModelsSourceType)}: {current.source_type}
         </Title>
         <SourcesToolbar
           actionButtonProps={{
             isDisabled: !isWritePermission,
             onClick: onAdd,
-            children: t('toolbar.sources.assign_sources'),
+            children: intl.formatMessage(messages.CostModelsAssignSource),
           }}
           filter={{
             onClearAll: () =>
@@ -81,7 +84,7 @@ class TableBase extends React.Component<Props, State> {
               });
             },
             query: this.state.query,
-            categoryNames: { name: t('name') },
+            categoryNames: { name: intl.formatMessage(messages.Name) },
           }}
           paginationProps={{
             isCompact: true,
@@ -115,7 +118,7 @@ class TableBase extends React.Component<Props, State> {
               });
             },
             value: this.state.currentFilter,
-            placeholder: t('toolbar.sources.filter_placeholder'),
+            placeholder: intl.formatMessage(messages.CostModelsFilterPlaceholder),
           }}
         />
         {res.length > 0 && (
@@ -130,9 +133,9 @@ class TableBase extends React.Component<Props, State> {
             <EmptyState>
               <EmptyStateIcon icon={DollarSignIcon} />
               <Title headingLevel="h2" size={TitleSizes.lg}>
-                {t('cost_models_details.empty_state_source.title')}
+                {intl.formatMessage(messages.CostModelsSourceEmptyStateDesc)}
               </Title>
-              <EmptyStateBody>{t('cost_models_details.empty_state_source.description')}</EmptyStateBody>
+              <EmptyStateBody>{intl.formatMessage(messages.CostModelsSourceEmptyStateTitle)}</EmptyStateBody>
             </EmptyState>
           </div>
         )}
@@ -165,8 +168,10 @@ class TableBase extends React.Component<Props, State> {
   }
 }
 
-export default connect(
-  createMapStateToProps(state => ({
-    isWritePermission: rbacSelectors.isCostModelWritePermission(state),
-  }))
-)(withTranslation()(TableBase));
+export default injectIntl(
+  connect(
+    createMapStateToProps(state => ({
+      isWritePermission: rbacSelectors.isCostModelWritePermission(state),
+    }))
+  )(TableBase)
+);

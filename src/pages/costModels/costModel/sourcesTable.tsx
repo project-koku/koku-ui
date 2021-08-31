@@ -1,52 +1,66 @@
-import { IAction, ICell, IRow } from '@patternfly/react-table';
-import { TableTemplate } from 'pages/costModels/components/tableTemplate';
+import { IAction, ICell, IRow, Table, TableBody, TableGridBreakpoint, TableHeader } from '@patternfly/react-table';
+import messages from 'locales/messages';
+import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
-import { RootState } from 'store';
+import { createMapStateToProps } from 'store/common';
 import { costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 
-const genActions = (canWrite: boolean, showDeleteDialog: (rowId: number) => void): IAction[] => {
-  if (canWrite) {
-    return [
-      {
-        title: 'cost_models_details.action_unassign',
-        onClick: (_evt, rowIndex: number) => showDeleteDialog(rowIndex),
-      },
-    ];
-  }
-  return [
-    {
-      style: { pointerEvents: 'auto' },
-      tooltip: 'cost_models.read_only_tooltip',
-      isDisabled: true,
-      title: 'cost_models_details.action_unassign',
-    },
-  ];
-};
-
-interface OwnProps {
+interface SourcesTableOwnProps extends WrappedComponentProps {
   showDeleteDialog: (rowId: number) => void;
 }
 
-const SourcesTable = connect(
-  (state: RootState) => {
-    return {
-      canWrite: rbacSelectors.isCostModelWritePermission(state),
-      costModels: costModelsSelectors.costModels(state),
-    };
-  },
-  undefined,
-  (stateProps, _, ownProps: OwnProps) => {
-    const actions = genActions(stateProps.canWrite, ownProps.showDeleteDialog);
-    const rows: (IRow | string[])[] =
-      stateProps.costModels.length > 0 ? stateProps.costModels[0].sources.map(source => [source.name]) : [];
-    return {
-      'aria-label': 'sources-table',
-      cells: ['name'] as (string | ICell)[],
-      rows,
-      actions,
-    };
-  }
-)(TableTemplate);
+interface SourcesTableStateProps {
+  canWrite: boolean;
+  costModels: any[];
+}
 
-export default SourcesTable;
+type SourcesTableProps = SourcesTableOwnProps & SourcesTableStateProps & WrappedComponentProps;
+
+const SourcesTable: React.FunctionComponent<SourcesTableProps> = ({ canWrite, costModels, intl, showDeleteDialog }) => {
+  const getActions = (): IAction[] => {
+    if (canWrite) {
+      return [
+        {
+          title: intl.formatMessage(messages.CostModelsSourceDelete),
+          onClick: (_evt, rowIndex: number) => showDeleteDialog(rowIndex),
+        },
+      ];
+    }
+    return [
+      {
+        style: { pointerEvents: 'auto' },
+        tooltip: intl.formatMessage(messages.CostModelsReadOnly),
+        isDisabled: true,
+        title: intl.formatMessage(messages.CostModelsSourceDelete),
+      },
+    ];
+  };
+
+  const actions = getActions();
+  const cells = [intl.formatMessage(messages.Name)] as (string | ICell)[];
+  const rows: (IRow | string[])[] = costModels.length > 0 ? costModels[0].sources.map(source => [source.name]) : [];
+
+  return (
+    <Table
+      actions={actions}
+      aria-label={intl.formatMessage(messages.CostModelsSourceTableAriaLabel)}
+      cells={cells}
+      gridBreakPoint={TableGridBreakpoint.grid2xl}
+      rows={rows}
+    >
+      <TableHeader />
+      <TableBody />
+    </Table>
+  );
+};
+
+const mapStateToProps = createMapStateToProps<SourcesTableOwnProps, SourcesTableStateProps>(state => {
+  return {
+    canWrite: rbacSelectors.isCostModelWritePermission(state),
+    costModels: costModelsSelectors.costModels(state),
+  };
+});
+
+export default injectIntl(connect(mapStateToProps)(SourcesTable));
