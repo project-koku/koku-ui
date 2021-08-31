@@ -420,7 +420,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   private getDefaultCategoryOptions = (): ToolbarChipGroup[] => {
     const { intl } = this.props;
 
-    return [{ name: intl.formatMessage(messages.Name), key: 'name' }];
+    return [{ name: intl.formatMessage(messages.Name, { count: 1 }), key: 'name' }];
   };
 
   private handleOnCategoryInputChange = (value: string) => {
