@@ -663,63 +663,84 @@ export default defineMessages({
     description: 'Cost',
     id: 'Cost',
   },
+  CostCalculations: {
+    defaultMessage: 'EN Cost calculations',
+    description: 'Cost calculations',
+    id: 'CostCalculations',
+  },
   CostManagement: {
     defaultMessage: 'EN Cost Management',
     description: 'Cost Management',
     id: 'CostManagement',
   },
-  CostModelsAssignSource: {
+  CostModelsDescTooLong: {
+    defaultMessage: 'EN Should not exceed 500 characters',
+    description: 'Should not exceed 500 characters',
+    id: 'CostModelsDescTooLong',
+  },
+  CostModelsDetailsAssignSourceAriaLabel: {
     defaultMessage: 'EN Assign source',
     description: 'Assign source',
-    id: 'CostModelsAssignSource',
+    id: 'CostModelsDetailsAssignSourceAriaLabel',
   },
-  CostModelsAssignSources: {
-    defaultMessage: 'EN Assign source(s)',
-    description: 'Assign source(s)',
-    id: 'CostModelsAssignSources',
-  },
-  CostModelsAssignSourcesErrorDescription: {
+  CostModelsDetailsAssignSourcesErrorDescription: {
     defaultMessage:
       'EN You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
     description: 'You cannot assign a source at this time',
-    id: 'CostModelsAssignSourcesErrorDescription',
+    id: 'CostModelsDetailsAssignSourcesErrorDescription',
   },
-  CostModelsAssignSourcesErrorTitle: {
+  CostModelsDetailsAssignSourcesErrorTitle: {
     defaultMessage: 'EN This action is temporarily unavailable',
     description: 'This action is temporarily unavailable',
-    id: 'CostModelsAssignSourcesErrorTitle',
+    id: 'CostModelsDetailsAssignSourcesErrorTitle',
   },
-  CostModelsDistributionDesc: {
+  CostModelsDetailsAssignSourcesLabel: {
+    defaultMessage: 'EN Assign source(s)',
+    description: 'Assign source(s)',
+    id: 'CostModelsDetailsAssignSources',
+  },
+  CostModelsDetailsAssignSourcesTitle: {
+    defaultMessage: 'EN Assign sources',
+    description: 'Assign sources',
+    id: 'CostModelsDetailsAssignSourcesTitle',
+  },
+  CostModelsExamplesDoubleMarkup: {
+    defaultMessage: 'EN A markup rate of (+) 100% doubles the base costs of your source(s).',
+    description: 'A markup rate of (+) 100% doubles the base costs of your source(s).',
+    id: 'CostModelsExamplesDoubleMarkup',
+  },
+  CostModelsExamplesNoAdjust: {
     defaultMessage:
-      'EN The following is the type of metric that is set to be used when distributing costs to the project level breakdowns.',
+      'EN A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your source(s).',
     description:
-      'The following is the type of metric that is set to be used when distributing costs to the project level breakdowns.',
-    id: 'CostModelsDistributionDesc',
+      'A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your source(s).',
+    id: 'CostModelsExamplesNoAdjust',
   },
-  CostModelsDistributionEdit: {
-    defaultMessage: 'EN Edit distribution',
-    description: 'Edit distribution',
-    id: 'CostModelsDistributionEdit',
+  CostModelsExamplesReduceSeventyfive: {
+    defaultMessage:
+      'EN A discount rate of (-) 25% reduces the base costs of your source(s) to 75% of the original value.',
+    description: 'A discount rate of (-) 25% reduces the base costs of your source(s) to 75% of the original value.',
+    id: 'CostModelsExaCostModelsExamplesReduceSeventyfivemplesNoAdjust',
   },
-  CostModelsDistributionType: {
-    defaultMessage: 'EN Distribution type',
-    description: 'Distribution type',
-    id: 'CostModelsDistributionType',
+  CostModelsExamplesReduceZero: {
+    defaultMessage: 'EN A discount rate of (-) 100% reduces the base costs of your source(s) to 0.',
+    description: 'A discount rate of (-) 100% reduces the base costs of your source(s) to 0.',
+    id: 'CostModelsExamplesReduceZero',
   },
-  CostModelsFilterPlaceholder: {
-    defaultMessage: 'EN Filter by name...',
-    description: 'Filter by name',
-    id: 'CostModelsFilterPlaceholder',
-  },
-  CostModelsReadOnly: {
-    defaultMessage: 'EN You have read only permissions',
-    description: 'You have read only permissions',
-    id: 'CostModelsReadOnly',
+  CostModelsInfoTooLong: {
+    defaultMessage: 'EN Should not exceed 100 characters',
+    description: 'Should not exceed 100 characters',
+    id: 'CostModelsInfoTooLong',
   },
   CostModelsRefreshDialog: {
     defaultMessage: 'EN Refresh this dialog',
     description: 'Refresh this dialog',
     id: 'CostModelsRefreshDialog',
+  },
+  CostModelsRequiredField: {
+    defaultMessage: 'EN This field is required',
+    description: 'This field is required',
+    id: 'CostModelsRequiredField',
   },
   CostModelsRouterErrorTitle: {
     defaultMessage: 'EN Fail routing to cost model',
@@ -731,77 +752,35 @@ export default defineMessages({
     description: 'Server error: could not get the cost model.',
     id: 'CostModelsRouterServerError',
   },
-  CostModelsSourceDelete: {
-    defaultMessage: 'EN Unassign',
-    description: 'Unassign',
-    id: 'CostModelsSourceDelete',
-  },
-  CostModelsSourceDeleteSource: {
-    defaultMessage: 'EN Unassign source',
-    description: 'Unassign source',
-    id: 'CostModelsSourceDeleteSource',
-  },
-  CostModelsSourceDeleteSourceDesc: {
-    defaultMessage:
-      'EN This will remove the assignment of {source} from the {costModel} cost model. You can then assign the cost model to a new source.',
-    description:
-      'This will remove the assignment of {source} from the {costModel} cost model. You can then assign the cost model to a new source.',
-    id: 'CostModelsSourceDeleteSourceDesc',
-  },
-  CostModelsSourceEmptyStateDesc: {
-    defaultMessage: 'EN Select the source(s) you want to apply this cost model to.',
-    description: 'Select the source(s) you want to apply this cost model to.',
-    id: 'CostModelsSourceEmptyStateDesc',
-  },
-  CostModelsSourceEmptyStateTitle: {
-    defaultMessage: 'EN No sources are assigned',
-    description: 'No sources are assigned',
-    id: 'CostModelsSourceEmptyStateTitle',
-  },
-  CostModelsSourceTableAriaLabel: {
-    defaultMessage: 'EN Sources table',
-    description: 'Sources table',
-    id: 'CostModelsSourcesTableAriaLabel',
-  },
-  CostModelsSourceType: {
-    defaultMessage: 'EN Source type',
-    description: 'Source type',
-    id: 'CostModelsSourceType',
-  },
-  CostModelsTagRateTableAriaLabel: {
-    defaultMessage: 'EN Tag rates',
-    description: 'Tag rates',
-    id: 'CostModelsTagRateTableAriaLabel',
-  },
-  CostModelsTagRateTableDefault: {
-    defaultMessage: 'EN Default',
-    description: 'Default',
-    id: 'CostModelsTagRateTableDefault',
-  },
-  CostModelsTagRateTableDesc: {
-    defaultMessage: 'EN Description',
-    description: 'Description',
-    id: 'CostModelsTagRateTableDescription',
-  },
-  CostModelsTagRateTableKey: {
-    defaultMessage: 'EN Tag key',
-    description: 'Tag key',
-    id: 'CostModelsTagRateTableKey',
-  },
-  CostModelsTagRateTableRate: {
-    defaultMessage: 'EN Rate',
-    description: 'Rate',
-    id: 'CostModelsTagRateTableRate',
-  },
-  CostModelsTagRateTableValue: {
-    defaultMessage: 'EN Tag value',
-    description: 'Tag value',
-    id: 'CostModelsTagRateTableValue',
-  },
   CostModelsTitle: {
     defaultMessage: 'EN Cost Models',
     description: 'Cost Models title',
     id: 'CostModelsTitle',
+  },
+  CostModelsWizardEmptySourceTypeLabel: {
+    defaultMessage: 'EN Select source type',
+    description: 'Select source type',
+    id: 'CostModelsWizardEmptySourceTypeLabel',
+  },
+  CostModelsWizardGeneralInfoTitle: {
+    defaultMessage: 'EN Enter general information',
+    description: 'Enter general information',
+    id: 'CostModelsWizardGeneralInfoTitle',
+  },
+  CostModelsWizardOnboardAWS: {
+    defaultMessage: 'EN Amazon Web Services (AWS)',
+    description: 'Amazon Web Services (AWS)',
+    id: 'CostModelsWizardOnboardAWS',
+  },
+  CostModelsWizardOnboardAzure: {
+    defaultMessage: 'EN Microsoft Azure',
+    description: 'Microsoft Azure',
+    id: 'CostModelsWizardOnboardAzure',
+  },
+  CostModelsWizardOnboardOCP: {
+    defaultMessage: 'EN Red Hat OpenShift Container Platform',
+    description: 'Red Hat OpenShift Container Platform',
+    id: 'CostModelsWizardOnboardOCP',
   },
   CostModelsWizardSourceErrorDescription: {
     defaultMessage:
@@ -824,6 +803,11 @@ export default defineMessages({
     description: 'Default cost model',
     id: 'CostModelsWizardSourceTableDefaultCostModel',
   },
+  CostModelsWizardSourceTableFilterPlaceholder: {
+    defaultMessage: 'EN Filter by name...',
+    description: 'Filter by name',
+    id: 'CostModelsWizardSourceTableFilterPlaceholder',
+  },
   CostModelsWizardSourceTableToolbarAriaLabel: {
     defaultMessage: 'EN Bottom toolbar containing pagination controls',
     description: 'Bottom toolbar containing pagination controls',
@@ -834,15 +818,72 @@ export default defineMessages({
     description: 'Assign sources to the cost model (optional)',
     id: 'CostModelsWizardSourceTitle',
   },
+  CostModelsWizardSourceTypeLabel: {
+    defaultMessage: 'EN Source type',
+    description: 'Source type',
+    id: 'CostModelsWizardSourceTypeLabel',
+  },
   CostModelsWizardSourceWarning: {
     defaultMessage: 'EN This source is assigned to {costModel} cost model. You will have to unassigned it first',
     description: 'This source is assigned to {costModel} cost model. You will have to unassigned it first',
     id: 'CostModelsWizardSourceWarning',
   },
+  CostModelsWizardStepsGenInfo: {
+    defaultMessage: 'EN Enter information',
+    description: 'Enter information',
+    id: 'CostModelsWizardStepsGenInfo',
+  },
+  CostModelsWizardStepsPriceList: {
+    defaultMessage: 'EN Price list',
+    description: 'Price list',
+    id: 'CostModelsWizardStepsPriceList',
+  },
+  CostModelsWizardStepsReview: {
+    defaultMessage: 'EN Review details',
+    description: 'Review details',
+    id: 'CostModelsWizardStepsReview',
+  },
+  CostModelsWizardStepsSources: {
+    defaultMessage: 'EN Assign a source to the cost model',
+    description: 'Assign a source to the cost model',
+    id: 'CostModelsWizardStepsSources',
+  },
   CpuTitle: {
     defaultMessage: 'EN CPU',
     description: 'CPU',
     id: 'CPUTitle',
+  },
+  Create: {
+    defaultMessage: 'EN Create',
+    description: 'Create',
+    id: 'Create',
+  },
+  CreateCostModelConfirmMsg: {
+    defaultMessage: 'EN Are you sure you want to stop creating a cost model? All settings will be discarded.',
+    description: 'Are you sure you want to stop creating a cost model? All settings will be discarded.',
+    id: 'CreateCostModelConfirmMsg',
+  },
+  CreateCostModelDesc: {
+    defaultMessage: 'EN Create a cost model',
+    description: 'Create a cost model',
+    id: 'CreateCostModelDesc',
+  },
+  CreateCostModelNoContinue: {
+    defaultMessage: 'EN No, I want to continue',
+    description: 'No, I want to continue',
+    id: 'CreateCostModelNoContinue',
+  },
+  CreateCostModelTitle: {
+    defaultMessage:
+      'EN A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
+    description:
+      'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
+    id: 'CreateCostModelTitle',
+  },
+  CreateCostModelYesExit: {
+    defaultMessage: 'EN Exit cost model creation',
+    description: 'Exit cost model creation',
+    id: 'CreateCostModelYesExit',
   },
   CurrencyAbbreviations: {
     defaultMessage:
@@ -886,6 +927,11 @@ export default defineMessages({
       'EN This total cost is the sum of the infrastructure cost {infrastructureCost} and supplementary cost {supplementaryCost}',
     description: 'total cost is the sum of the infrastructure cost and supplementary cost',
     id: 'DashboardTotalCostTooltip',
+  },
+  Description: {
+    defaultMessage: 'EN description',
+    description: 'description',
+    id: 'Description',
   },
   DetailsActionsExport: {
     defaultMessage: 'EN Export data',
@@ -1028,12 +1074,36 @@ export default defineMessages({
     description: 'View all {value}',
     id: 'DetailsViewAll',
   },
+  DiscountMinus: {
+    defaultMessage: 'EN Discount (-)',
+    description: 'Discount (-)',
+    id: 'DiscountMinus',
+  },
+  DistributionModelDesc: {
+    defaultMessage:
+      'EN This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.',
+    description:
+      'This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.',
+    id: 'DistributionModelDesc',
+  },
+  DistributionType: {
+    defaultMessage: 'EN Distribution type',
+    description: 'Distribution type',
+    id: 'DistributionType',
+  },
   DocsAddOcpSources: {
     defaultMessage:
       'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/adding_an_openshift_container_platform_source_to_cost_management',
     description:
       'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/adding_an_openshift_container_platform_source_to_cost_management',
     id: 'DocsAddOcpSources',
+  },
+  DocsConfigCostModels: {
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#assembly-setting-up-cost-models',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#assembly-setting-up-cost-models',
+    id: 'DocsConfigCostModels',
   },
   DocsCostModelTerminology: {
     defaultMessage:
@@ -1076,6 +1146,11 @@ export default defineMessages({
     defaultMessage: 'EN Oops!',
     description: 'Oops!',
     id: 'ErrorStateUnexpectedTitle',
+  },
+  ExamplesTitle: {
+    defaultMessage: 'EN Examples',
+    description: 'Examples',
+    id: 'ExamplesTitle',
   },
   ExplorerChartDate: {
     defaultMessage:
@@ -1682,6 +1757,23 @@ export default defineMessages({
       'The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost management application',
     id: 'MarkupDescription',
   },
+  MarkupOrDiscountModalDesc: {
+    defaultMessage:
+      'EN Use markup/discount to manipulate how the raw costs are being calculated for your sources. Note, costs calculated from price list rates will not be affected by this.',
+    description:
+      'Use markup/discount to manipulate how the raw costs are being calculated for your sources. Note, costs calculated from price list rates will not be affected by this.',
+    id: 'MarkupOrDiscountModalDesc',
+  },
+  MarkupOrDiscountTitle: {
+    defaultMessage: 'EN Markup (+)',
+    description: 'Markup (+)',
+    id: 'MarkupOrDiscountTitle',
+  },
+  MarkupPlus: {
+    defaultMessage: 'EN Manage columns',
+    description: 'Manage columns',
+    id: 'MarkupPlus',
+  },
   MarkupTitle: {
     defaultMessage: 'EN Markup',
     description: 'Markup',
@@ -1698,19 +1790,14 @@ export default defineMessages({
     id: 'MonthOverMonthChange',
   },
   Name: {
-    defaultMessage: 'EN Name',
-    description: 'Name',
-    id: 'CostModelsWizardSourceTableName',
+    defaultMessage: '{count, plural, one {EN name} other {EN names}}',
+    description: 'Name plural or singular',
+    id: 'Name',
   },
-  Names: {
-    defaultMessage: 'EN Names',
-    description: 'Names',
-    id: 'Names',
-  },
-  No: {
-    defaultMessage: 'EN No',
-    description: 'No',
-    id: 'No',
+  NameTitleCase: {
+    defaultMessage: '{count, plural, one {EN Name} other {EN Names}}',
+    description: 'Name in title case plural or singular',
+    id: 'NameTitleCase',
   },
   NoDataForDate: {
     defaultMessage:
@@ -2071,6 +2158,11 @@ export default defineMessages({
     description: 'Perspective values',
     id: 'PerspectiveValues',
   },
+  Rate: {
+    defaultMessage: 'EN Rate',
+    description: 'Rate',
+    id: 'Rate',
+  },
   RawCostDescription: {
     defaultMessage: 'EN The costs reported by a cloud provider without any cost model calculations applied.',
     description: 'The costs reported by a cloud provider without any cost model calculations applied.',
@@ -2222,10 +2314,5 @@ export default defineMessages({
     defaultMessage: 'EN Usage cost',
     description: 'Usage cost',
     id: 'UsageCostTitle',
-  },
-  Yes: {
-    defaultMessage: 'EN Yes',
-    description: 'Yes',
-    id: 'Yes',
   },
 });
