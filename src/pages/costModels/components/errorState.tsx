@@ -80,8 +80,8 @@ const SourceStepErrorState = injectIntl(SourceStepErrorStateBase);
 export { SourceStepErrorState };
 
 export const SourcesModalErrorStateBase: React.FunctionComponent<SourcesErrorStateProps> = ({ intl, onRefresh }) => {
-  const title = intl.formatMessage(messages.CostModelsDetailsAssignSourcesErrorTitle);
-  const description = intl.formatMessage(messages.CostModelsDetailsAssignSourcesErrorDescription, {
+  const title = intl.formatMessage(messages.CostModelsAssignSourcesErrorTitle);
+  const description = intl.formatMessage(messages.CostModelsAssignSourcesErrorDescription, {
     statusUrl: (
       <a href={intl.formatMessage(messages.RedHatStatusUrl)} rel="noreferrer" target="_blank">
         "Status Page"
