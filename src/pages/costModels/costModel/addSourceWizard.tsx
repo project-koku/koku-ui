@@ -97,7 +97,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
     return (
       <Modal
         isOpen={isOpen}
-        title={intl.formatMessage(messages.CostModelsDetailsAssignSourcesTitle)}
+        title={intl.formatMessage(messages.CostModelsAssignSource)}
         onClose={onClose}
         variant="large"
         actions={[
@@ -113,7 +113,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
               onSave(Object.keys(this.state.checked).filter(uuid => this.state.checked[uuid].selected));
             }}
           >
-            {intl.formatMessage(messages.CostModelsDetailsAssignSourcesLabel)}
+            {intl.formatMessage(messages.CostModelsAssignSources)}
           </Button>,
           <Button key="cancel" variant="link" isDisabled={isUpdateInProgress} onClick={onClose}>
             {intl.formatMessage(messages.Cancel)}
@@ -136,9 +136,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
               </GridItem>
               <GridItem span={2}>
                 <TextContent>
-                  <Text component={TextVariants.h6}>
-                    {intl.formatMessage(messages.CostModelsWizardSourceTypeLabel)}
-                  </Text>
+                  <Text component={TextVariants.h6}>{intl.formatMessage(messages.CostModelsSourceType)}</Text>
                 </TextContent>
               </GridItem>
               <GridItem span={10}>

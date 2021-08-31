@@ -648,6 +648,11 @@ export default defineMessages({
     description: 'Usage (month)',
     id: 'ChartUsageLegendTooltip',
   },
+  Close: {
+    defaultMessage: 'EN Close',
+    description: 'Close',
+    id: 'Close',
+  },
   Clusters: {
     defaultMessage: 'EN Clusters',
     description: 'Clusters',
@@ -663,31 +668,36 @@ export default defineMessages({
     description: 'Cost Management',
     id: 'CostManagement',
   },
-  CostModelsDetailsAssignSourceAriaLabel: {
+  CostModelsAssignSource: {
     defaultMessage: 'EN Assign source',
     description: 'Assign source',
-    id: 'CostModelsDetailsAssignSourceAriaLabel',
+    id: 'CostModelsAssignSource',
   },
-  CostModelsDetailsAssignSourcesErrorDescription: {
+  CostModelsAssignSources: {
+    defaultMessage: 'EN Assign source(s)',
+    description: 'Assign source(s)',
+    id: 'CostModelsAssignSources',
+  },
+  CostModelsAssignSourcesErrorDescription: {
     defaultMessage:
       'EN You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
     description: 'You cannot assign a source at this time',
-    id: 'CostModelsDetailsAssignSourcesErrorDescription',
+    id: 'CostModelsAssignSourcesErrorDescription',
   },
-  CostModelsDetailsAssignSourcesErrorTitle: {
+  CostModelsAssignSourcesErrorTitle: {
     defaultMessage: 'EN This action is temporarily unavailable',
     description: 'This action is temporarily unavailable',
-    id: 'CostModelsDetailsAssignSourcesErrorTitle',
+    id: 'CostModelsAssignSourcesErrorTitle',
   },
-  CostModelsDetailsAssignSourcesLabel: {
-    defaultMessage: 'EN Assign source(s)',
-    description: 'Assign source(s)',
-    id: 'CostModelsDetailsAssignSources',
+  CostModelsFilterPlaceholder: {
+    defaultMessage: 'EN Filter by name...',
+    description: 'Filter by name',
+    id: 'CostModelsFilterPlaceholder',
   },
-  CostModelsDetailsAssignSourcesTitle: {
-    defaultMessage: 'EN Assign sources',
-    description: 'Assign sources',
-    id: 'CostModelsDetailsAssignSourcesTitle',
+  CostModelsReadOnly: {
+    defaultMessage: 'EN You have read only permissions',
+    description: 'You have read only permissions',
+    id: 'CostModelsReadOnly',
   },
   CostModelsRefreshDialog: {
     defaultMessage: 'EN Refresh this dialog',
@@ -703,6 +713,73 @@ export default defineMessages({
     defaultMessage: 'EN Server error: could not get the cost model.',
     description: 'Server error: could not get the cost model.',
     id: 'CostModelsRouterServerError',
+  },
+  CostModelsSourceDelete: {
+    defaultMessage: 'EN Unassign',
+    description: 'Unassign',
+    id: 'CostModelsSourceDelete',
+  },
+  CostModelsSourceDeleteSource: {
+    defaultMessage: 'EN Unassign source',
+    description: 'Unassign source',
+    id: 'CostModelsSourceDeleteSource',
+  },
+  CostModelsSourceDeleteSourceDesc: {
+    defaultMessage:
+      'EN This will remove the assignment of {source} from the {costModel} cost model. You can then assign the cost model to a new source.',
+    description:
+      'This will remove the assignment of {source} from the {costModel} cost model. You can then assign the cost model to a new source.',
+    id: 'CostModelsSourceDeleteSourceDesc',
+  },
+  CostModelsSourceEmptyStateDesc: {
+    defaultMessage: 'EN Select the source(s) you want to apply this cost model to.',
+    description: 'Select the source(s) you want to apply this cost model to.',
+    id: 'CostModelsSourceEmptyStateDesc',
+  },
+  CostModelsSourceEmptyStateTitle: {
+    defaultMessage: 'EN No sources are assigned',
+    description: 'No sources are assigned',
+    id: 'CostModelsSourceEmptyStateTitle',
+  },
+  CostModelsSourceTableAriaLabel: {
+    defaultMessage: 'EN Sources table',
+    description: 'Sources table',
+    id: 'CostModelsSourcesTableAriaLabel',
+  },
+  CostModelsSourceType: {
+    defaultMessage: 'EN Source type',
+    description: 'Source type',
+    id: 'CostModelsSourceType',
+  },
+  CostModelsTagRateTableAriaLabel: {
+    defaultMessage: 'EN Tag rates',
+    description: 'Tag rates',
+    id: 'CostModelsTagRateTableAriaLabel',
+  },
+  CostModelsTagRateTableDefault: {
+    defaultMessage: 'EN Default',
+    description: 'Default',
+    id: 'CostModelsTagRateTableDefault',
+  },
+  CostModelsTagRateTableDesc: {
+    defaultMessage: 'EN Description',
+    description: 'Description',
+    id: 'CostModelsTagRateTableDescription',
+  },
+  CostModelsTagRateTableKey: {
+    defaultMessage: 'EN Tag key',
+    description: 'Tag key',
+    id: 'CostModelsTagRateTableKey',
+  },
+  CostModelsTagRateTableRate: {
+    defaultMessage: 'EN Rate',
+    description: 'Rate',
+    id: 'CostModelsTagRateTableRate',
+  },
+  CostModelsTagRateTableValue: {
+    defaultMessage: 'EN Tag value',
+    description: 'Tag value',
+    id: 'CostModelsTagRateTableValue',
   },
   CostModelsTitle: {
     defaultMessage: 'EN Cost Models',
@@ -730,11 +807,6 @@ export default defineMessages({
     description: 'Default cost model',
     id: 'CostModelsWizardSourceTableDefaultCostModel',
   },
-  CostModelsWizardSourceTableFilterPlaceholder: {
-    defaultMessage: 'EN Filter by name...',
-    description: 'Filter by name',
-    id: 'CostModelsWizardSourceTableFilterPlaceholder',
-  },
   CostModelsWizardSourceTableToolbarAriaLabel: {
     defaultMessage: 'EN Bottom toolbar containing pagination controls',
     description: 'Bottom toolbar containing pagination controls',
@@ -744,11 +816,6 @@ export default defineMessages({
     defaultMessage: 'EN Assign sources to the cost model (optional)',
     description: 'Assign sources to the cost model (optional)',
     id: 'CostModelsWizardSourceTitle',
-  },
-  CostModelsWizardSourceTypeLabel: {
-    defaultMessage: 'EN Source type',
-    description: 'Source type',
-    id: 'CostModelsWizardSourceTypeLabel',
   },
   CostModelsWizardSourceWarning: {
     defaultMessage: 'EN This source is assigned to {costModel} cost model. You will have to unassigned it first',
@@ -1623,6 +1690,11 @@ export default defineMessages({
     description: 'Names',
     id: 'Names',
   },
+  No: {
+    defaultMessage: 'EN No',
+    description: 'No',
+    id: 'No',
+  },
   NoDataForDate: {
     defaultMessage:
       '{month, select, ' +
@@ -2133,5 +2205,10 @@ export default defineMessages({
     defaultMessage: 'EN Usage cost',
     description: 'Usage cost',
     id: 'UsageCostTitle',
+  },
+  Yes: {
+    defaultMessage: 'EN Yes',
+    description: 'Yes',
+    id: 'Yes',
   },
 });
