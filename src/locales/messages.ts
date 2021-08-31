@@ -689,6 +689,23 @@ export default defineMessages({
     description: 'This action is temporarily unavailable',
     id: 'CostModelsAssignSourcesErrorTitle',
   },
+  CostModelsDistributionDesc: {
+    defaultMessage:
+      'EN The following is the type of metric that is set to be used when distributing costs to the project level breakdowns.',
+    description:
+      'The following is the type of metric that is set to be used when distributing costs to the project level breakdowns.',
+    id: 'CostModelsDistributionDesc',
+  },
+  CostModelsDistributionEdit: {
+    defaultMessage: 'EN Edit distribution',
+    description: 'Edit distribution',
+    id: 'CostModelsDistributionEdit',
+  },
+  CostModelsDistributionType: {
+    defaultMessage: 'EN Distribution type',
+    description: 'Distribution type',
+    id: 'CostModelsDistributionType',
+  },
   CostModelsFilterPlaceholder: {
     defaultMessage: 'EN Filter by name...',
     description: 'Filter by name',
