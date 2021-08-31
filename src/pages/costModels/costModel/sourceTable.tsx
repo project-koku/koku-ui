@@ -51,7 +51,7 @@ class SourceTableBase extends React.Component<Props, State> {
         <Dialog
           isSmall
           isOpen={isDialogOpen.deleteSource}
-          title={intl.formatMessage(messages.CostModelsDialogDeleteSource)}
+          title={intl.formatMessage(messages.CostModelsSourceDeleteSource)}
           onClose={() => {
             setDialogOpen({ name: 'deleteSource', isOpen: false });
             this.setState({ dialogSource: null });
@@ -69,16 +69,16 @@ class SourceTableBase extends React.Component<Props, State> {
           }}
           body={
             <>
-              {intl.formatMessage(messages.CostModelsDialogDeleteSourceDesc, {
+              {intl.formatMessage(messages.CostModelsSourceDeleteSourceDesc, {
                 source: this.state.dialogSource,
                 costModel: costModel.name,
               })}
             </>
           }
-          actionText={intl.formatMessage(messages.CostModelsDialogDeleteSource)}
+          actionText={intl.formatMessage(messages.CostModelsSourceDeleteSource)}
         />
         <Table
-          onDeleteText={intl.formatMessage(messages.CostModelsDialogDelete)}
+          onDeleteText={intl.formatMessage(messages.CostModelsSourceDelete)}
           onDelete={item => {
             this.setState({ dialogSource: item[0] });
             setDialogOpen({ name: 'deleteSource', isOpen: true });
