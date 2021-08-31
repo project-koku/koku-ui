@@ -49,7 +49,7 @@ const DistributionCardBase: React.FunctionComponent<Props> = ({
         <CardHeader>
           <CardHeaderMain>
             <Title headingLevel="h2" size={TitleSizes.md}>
-              {intl.formatMessage(messages.CostModelsDistributionType)}
+              {intl.formatMessage(messages.DistributionType)}
             </Title>
           </CardHeaderMain>
           <CardActions>

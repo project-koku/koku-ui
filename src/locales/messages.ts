@@ -699,16 +699,6 @@ export default defineMessages({
     description: 'Should not exceed 500 characters',
     id: 'CostModelsDescTooLong',
   },
-  CostModelsDetailsAssignSourceAriaLabel: {
-    defaultMessage: 'EN Assign source',
-    description: 'Assign source',
-    id: 'CostModelsDetailsAssignSourceAriaLabel',
-  },
-  CostModelsDetailsAssignSourcesLabel: {
-    defaultMessage: 'EN Assign source(s)',
-    description: 'Assign source(s)',
-    id: 'CostModelsDetailsAssignSources',
-  },
   CostModelsDetailsAssignSourcesTitle: {
     defaultMessage: 'EN Assign sources',
     description: 'Assign sources',
@@ -725,11 +715,6 @@ export default defineMessages({
     defaultMessage: 'EN Edit distribution',
     description: 'Edit distribution',
     id: 'CostModelsDistributionEdit',
-  },
-  CostModelsDistributionType: {
-    defaultMessage: 'EN Distribution type',
-    description: 'Distribution type',
-    id: 'CostModelsDistributionType',
   },
   CostModelsExamplesDoubleMarkup: {
     defaultMessage: 'EN A markup rate of (+) 100% doubles the base costs of your source(s).',
@@ -836,11 +821,6 @@ export default defineMessages({
     description: 'Default',
     id: 'CostModelsTagRateTableDefault',
   },
-  CostModelsTagRateTableDesc: {
-    defaultMessage: 'EN Description',
-    description: 'Description',
-    id: 'CostModelsTagRateTableDescription',
-  },
   CostModelsTagRateTableKey: {
     defaultMessage: 'EN Tag key',
     description: 'Tag key',
@@ -875,11 +855,6 @@ export default defineMessages({
     defaultMessage: 'EN Amazon Web Services (AWS)',
     description: 'Amazon Web Services (AWS)',
     id: 'CostModelsWizardOnboardAWS',
-  },
-  CostModelsWizardOnboardAzure: {
-    defaultMessage: 'EN Microsoft Azure',
-    description: 'Microsoft Azure',
-    id: 'CostModelsWizardOnboardAzure',
   },
   CostModelsWizardOnboardOCP: {
     defaultMessage: 'EN Red Hat OpenShift Container Platform',
@@ -916,11 +891,6 @@ export default defineMessages({
     defaultMessage: 'EN Assign sources to the cost model (optional)',
     description: 'Assign sources to the cost model (optional)',
     id: 'CostModelsWizardSourceTitle',
-  },
-  CostModelsWizardSourceTypeLabel: {
-    defaultMessage: 'EN Source type',
-    description: 'Source type',
-    id: 'CostModelsWizardSourceTypeLabel',
   },
   CostModelsWizardSourceWarning: {
     defaultMessage: 'EN This source is assigned to {costModel} cost model. You will have to unassigned it first',
@@ -1899,7 +1869,7 @@ export default defineMessages({
     id: 'NameTitleCase',
   },
   No: {
-    defaultMessage: 'EN No',
+    defaultMessage: 'EN no',
     description: 'no',
     id: 'No',
   },
