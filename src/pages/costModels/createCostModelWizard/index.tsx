@@ -14,8 +14,13 @@ import { metricsSelectors } from 'store/metrics';
 
 import { fetchSources as apiSources } from './api';
 import { CostModelContext } from './context';
+import GeneralInformation from './generalInformation';
+import Markup from './markup';
 import { parseApiError } from './parseError';
-import { stepsHash, validatorsHash } from './steps';
+import PriceList from './priceList';
+import Review from './review';
+import Sources from './sources';
+import { validatorsHash } from './steps';
 
 interface InternalWizardBaseProps extends WrappedComponentProps {
   isProcess: boolean;
@@ -186,6 +191,110 @@ class CostModelWizardBase extends React.Component<Props, State> {
     const closeConfirmDialog = () => {
       this.setState({ isDialogOpen: false }, this.props.openWizard);
     };
+
+    const stepsHash = () => ({
+      '': [
+        {
+          id: 1,
+          name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),
+          component: <GeneralInformation />,
+        },
+      ],
+      AZURE: [
+        {
+          id: 1,
+          name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),
+          component: <GeneralInformation />,
+        },
+        {
+          id: 2,
+          name: intl.formatMessage(messages.CostCalculations),
+          component: <Markup />,
+        },
+        {
+          id: 3,
+          name: intl.formatMessage(messages.CostModelsWizardStepsSources),
+          component: <Sources />,
+        },
+        {
+          id: 4,
+          name: intl.formatMessage(messages.CostModelsWizardStepsReview),
+          component: <Review />,
+        },
+      ],
+      AWS: [
+        {
+          id: 1,
+          name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),
+          component: <GeneralInformation />,
+        },
+        {
+          id: 2,
+          name: intl.formatMessage(messages.CostCalculations),
+          component: <Markup />,
+        },
+        {
+          id: 3,
+          name: intl.formatMessage(messages.CostModelsWizardStepsSources),
+          component: <Sources />,
+        },
+        {
+          id: 4,
+          name: intl.formatMessage(messages.CostModelsWizardStepsReview),
+          component: <Review />,
+        },
+      ],
+      GCP: [
+        {
+          id: 1,
+          name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),
+          component: <GeneralInformation />,
+        },
+        {
+          id: 2,
+          name: intl.formatMessage(messages.CostCalculations),
+          component: <Markup />,
+        },
+        {
+          id: 3,
+          name: intl.formatMessage(messages.CostModelsWizardStepsSources),
+          component: <Sources />,
+        },
+        {
+          id: 4,
+          name: intl.formatMessage(messages.CostModelsWizardStepsReview),
+          component: <Review />,
+        },
+      ],
+      OCP: [
+        {
+          id: 1,
+          name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),
+          component: <GeneralInformation />,
+        },
+        {
+          id: 2,
+          name: intl.formatMessage(messages.CostModelsWizardStepsPriceList),
+          component: <PriceList />,
+        },
+        {
+          id: 3,
+          name: intl.formatMessage(messages.CostCalculations),
+          component: <Markup />,
+        },
+        {
+          id: 4,
+          name: intl.formatMessage(messages.CostModelsWizardStepsSources),
+          component: <Sources />,
+        },
+        {
+          id: 5,
+          name: intl.formatMessage(messages.CostModelsWizardStepsReview),
+          component: <Review />,
+        },
+      ],
+    });
+
     const CancelButton = (
       <Button key="cancel" variant="link" onClick={closeConfirmDialog}>
         {intl.formatMessage(messages.CreateCostModelNoContinue)}
@@ -342,7 +451,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           isOpen={this.props.isOpen}
           onMove={curr => this.setState({ step: Number(curr.id) })}
           // steps={stepsHash(t)[this.state.type]}
-          steps={stepsHash(intl)[this.state.type]}
+          steps={stepsHash()[this.state.type]}
           current={this.state.step}
           validators={validatorsHash[this.state.type]}
           setError={errorMessage => this.setState({ createError: errorMessage })}
