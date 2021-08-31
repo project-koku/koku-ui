@@ -648,6 +648,11 @@ export default defineMessages({
     description: 'Usage (month)',
     id: 'ChartUsageLegendTooltip',
   },
+  Close: {
+    defaultMessage: 'EN Close',
+    description: 'Close',
+    id: 'Close',
+  },
   Clusters: {
     defaultMessage: 'EN Clusters',
     description: 'Clusters',
