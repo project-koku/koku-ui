@@ -671,7 +671,7 @@ export default defineMessages({
   CostModelsAssignSource: {
     defaultMessage: 'EN Assign source',
     description: 'Assign source',
-    id: 'CostModelsDetailsAssignSource',
+    id: 'CostModelsAssignSource',
   },
   CostModelsAssignSources: {
     defaultMessage: 'EN Assign source(s)',
@@ -687,7 +687,7 @@ export default defineMessages({
   CostModelsAssignSourcesErrorTitle: {
     defaultMessage: 'EN This action is temporarily unavailable',
     description: 'This action is temporarily unavailable',
-    id: 'CostModelsDetailsAssignSourcesErrorTitle',
+    id: 'CostModelsAssignSourcesErrorTitle',
   },
   CostModelsFilterPlaceholder: {
     defaultMessage: 'EN Filter by name...',
