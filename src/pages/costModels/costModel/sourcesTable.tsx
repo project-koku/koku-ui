@@ -7,7 +7,7 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 
-interface SourcesTableOwnProps extends WrappedComponentProps {
+interface SourcesTableOwnProps {
   showDeleteDialog: (rowId: number) => void;
 }
 
@@ -56,11 +56,13 @@ const SourcesTable: React.FunctionComponent<SourcesTableProps> = ({ canWrite, co
   );
 };
 
-const mapStateToProps = createMapStateToProps<SourcesTableOwnProps, SourcesTableStateProps>(state => {
-  return {
-    canWrite: rbacSelectors.isCostModelWritePermission(state),
-    costModels: costModelsSelectors.costModels(state),
-  };
-});
-
-export default injectIntl(connect(mapStateToProps)(SourcesTable));
+export default injectIntl(
+  connect(
+    createMapStateToProps<SourcesTableOwnProps, SourcesTableStateProps>(state => {
+      return {
+        canWrite: rbacSelectors.isCostModelWritePermission(state),
+        costModels: costModelsSelectors.costModels(state),
+      };
+    })
+  )(SourcesTable)
+);
