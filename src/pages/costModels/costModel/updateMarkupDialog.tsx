@@ -18,8 +18,9 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -27,7 +28,7 @@ import { formatValue } from 'utils/formatValue';
 
 import { styles } from './costCalc.styles';
 
-interface Props extends WithTranslation {
+interface Props extends WrappedComponentProps {
   isLoading: boolean;
   onClose: typeof costModelsActions.setCostModelDialog;
   updateCostModel: typeof costModelsActions.updateCostModel;
@@ -83,11 +84,11 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
   };
 
   public render() {
-    const { error, current, onClose, updateCostModel, isLoading, t } = this.props;
+    const { error, current, intl, isLoading, onClose, updateCostModel } = this.props;
     const { isDiscount } = this.state;
     return (
       <Modal
-        title={t('cost_models_details.edit_markup_or_discount')}
+        title={intl.formatMessage(messages.EditMarkupOrDiscount)}
         isOpen
         onClose={() => onClose({ name: 'updateMarkup', isOpen: false })}
         variant={ModalVariant.medium}
@@ -115,7 +116,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
               isLoading
             }
           >
-            {t('save')}
+            {intl.formatMessage(messages.Save)}
           </Button>,
           <Button
             key="cancel"
@@ -123,7 +124,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
             onClick={() => onClose({ name: 'updateMarkup', isOpen: false })}
             isDisabled={isLoading}
           >
-            {t('cancel')}
+            {intl.formatMessage(messages.Cancel)}
           </Button>,
         ]}
       >
@@ -131,15 +132,13 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
           <StackItem>{error && <Alert variant="danger" title={`${error}`} />}</StackItem>
           <StackItem>
             <TextContent>
-              <Text style={styles.cardDescription}>
-                {t('cost_models_details.description_markup_or_discount_model')}
-              </Text>
+              <Text style={styles.cardDescription}>{intl.formatMessage(messages.MarkupOrDiscountModalDesc)}</Text>
             </TextContent>
           </StackItem>
           <StackItem>
             <TextContent>
               <Title headingLevel="h2" size="md">
-                {t('cost_models_details.markup_or_discount')}
+                {intl.formatMessage(messages.MarkupOrDiscount)}
               </Title>
             </TextContent>
             <Flex style={styles.markupRadioContainer}>
@@ -148,8 +147,8 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                   <Radio
                     isChecked={!isDiscount}
                     name="discount"
-                    label={t('cost_models_details.markup_plus')}
-                    aria-label={t('cost_models_details.markup_plus')}
+                    label={intl.formatMessage(messages.MarkupPlus)}
+                    aria-label={intl.formatMessage(messages.MarkupPlus)}
                     id="markup"
                     value="false" // "+"
                     onChange={this.handleSignChange}
@@ -158,8 +157,8 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                   <Radio
                     isChecked={isDiscount}
                     name="discount"
-                    label={t('cost_models_details.discount_minus')}
-                    aria-label={t('cost_models_details.discount_minus')}
+                    label={intl.formatMessage(messages.DiscountMinus)}
+                    aria-label={intl.formatMessage(messages.DiscountMinus)}
                     id="discount"
                     value="true" // '-'
                     onChange={this.handleSignChange}
@@ -173,7 +172,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                     <TextInput
                       style={styles.inputField}
                       type="text"
-                      aria-label={t('rate')}
+                      aria-label={intl.formatMessage(messages.Rate)}
                       id="markup-input-box"
                       value={this.state.markup}
                       onKeyDown={this.handleOnKeyDown}
@@ -190,14 +189,14 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
           <StackItem>
             <TextContent>
               <Title headingLevel="h3" size="md">
-                {t('cost_models_details.examples.title')}
+                {intl.formatMessage(messages.ExamplesTitle)}
               </Title>
             </TextContent>
             <List>
-              <ListItem>{t('cost_models_details.examples.noAdjustment')}</ListItem>
-              <ListItem>{t('cost_models_details.examples.doubleMarkup')}</ListItem>
-              <ListItem>{t('cost_models_details.examples.reduceBaseToZero')}</ListItem>
-              <ListItem>{t('cost_models_details.examples.reduceBaseToSeventyFive')}</ListItem>
+              <ListItem>{intl.formatMessage(messages.CostModelsExamplesNoAdjust)}</ListItem>
+              <ListItem>{intl.formatMessage(messages.CostModelsExamplesDoubleMarkup)}</ListItem>
+              <ListItem>{intl.formatMessage(messages.CostModelsExamplesReduceZero)}</ListItem>
+              <ListItem>{intl.formatMessage(messages.CostModelsExamplesReduceSeventyfive)}</ListItem>
             </List>
           </StackItem>
         </Stack>
@@ -216,16 +215,18 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   };
 };
 
-export default connect(
-  createMapStateToProps(state => {
-    return {
-      isLoading: costModelsSelectors.updateProcessing(state),
-      error: costModelsSelectors.updateError(state),
-    };
-  }),
-  {
-    onClose: costModelsActions.setCostModelDialog,
-    updateCostModel: costModelsActions.updateCostModel,
-  },
-  mergeProps
-)(withTranslation()(UpdateMarkupModelBase));
+export default injectIntl(
+  connect(
+    createMapStateToProps(state => {
+      return {
+        isLoading: costModelsSelectors.updateProcessing(state),
+        error: costModelsSelectors.updateError(state),
+      };
+    }),
+    {
+      onClose: costModelsActions.setCostModelDialog,
+      updateCostModel: costModelsActions.updateCostModel,
+    },
+    mergeProps
+  )(UpdateMarkupModelBase)
+);

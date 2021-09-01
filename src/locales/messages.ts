@@ -1181,6 +1181,16 @@ export default defineMessages({
       'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#cost-model-terminology',
     id: 'DocsCostModelTerminology',
   },
+  EditMarkup: {
+    defaultMessage: 'EN Edit markup',
+    description: 'Edit markup',
+    id: 'EditMarkup',
+  },
+  EditMarkupOrDiscount: {
+    defaultMessage: 'EN Edit markup or discount',
+    description: 'Edit markup or discount',
+    id: 'EditMarkupOrDiscount',
+  },
   EmptyFilterSourceStateSubtitle: {
     defaultMessage: 'EN Sorry, no source with the given filter was found.',
     description: 'Sorry, no source with the given filter was found.',
@@ -1826,11 +1836,6 @@ export default defineMessages({
       'The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost management application',
     id: 'MarkupDescription',
   },
-  MarkupEdit: {
-    defaultMessage: 'EN Edit markup',
-    description: 'Edit markup',
-    id: 'MarkupEdit',
-  },
   MarkupOrDiscount: {
     defaultMessage: 'EN Markup or Discount',
     description: 'Markup or Discount',
@@ -1850,14 +1855,9 @@ export default defineMessages({
       'Use markup/discount to manipulate how the raw costs are being calculated for your sources. Note, costs calculated from price list rates will not be affected by this.',
     id: 'MarkupOrDiscountModalDesc',
   },
-  MarkupOrDiscountTitle: {
-    defaultMessage: 'EN Markup (+)',
-    description: 'Markup (+)',
-    id: 'MarkupOrDiscountTitle',
-  },
   MarkupPlus: {
-    defaultMessage: 'EN Manage columns',
-    description: 'Manage columns',
+    defaultMessage: 'EN Markup (+)',
+    description: 'EN Markup (+)',
     id: 'MarkupPlus',
   },
   MarkupTitle: {
