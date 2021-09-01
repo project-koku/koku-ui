@@ -45,29 +45,6 @@ interface State {
 
 class PriceListTable extends React.Component<Props, State> {
   public state = { metrics: [], measurements: [] };
-
-  NoTiersEmptyState = ({ intl } = this.props) => (
-    <Bullseye>
-      <EmptyState>
-        <EmptyStateIcon icon={PlusCircleIcon} />
-        <Title headingLevel="h2" size={TitleSizes.lg}>
-          {intl.formatMessage(messages.CostModelsWizardEmptyStateTitle)}
-        </Title>
-        <EmptyStateBody>
-          {intl.formatMessage(messages.CostModelsWizardEmptyStateSkipStep, {
-            value: <strong>{intl.formatMessage(messages.CreateRate)}</strong>,
-          })}
-          <br />
-          {intl.formatMessage(messages.CostModelsWizardEmptyStateSkipStep, {
-            value: <strong>{intl.formatMessage(messages.Next)}</strong>,
-          })}
-          <br />
-          {intl.formatMessage(messages.CostModelsWizardEmptyStateOtherTime)}
-        </EmptyStateBody>
-      </EmptyState>
-    </Bullseye>
-  );
-
   public render() {
     const { metricsHash, intl, addRateAction, deleteRateAction, items } = this.props;
     const metricOpts = Object.keys(metricsHash).map(m => ({
@@ -80,6 +57,29 @@ class PriceListTable extends React.Component<Props, State> {
         .map(m => ({ label: m, value: m }));
       return [...acc, ...measurs];
     }, []);
+
+    const NoTiersEmptyState = () => (
+      <Bullseye>
+        <EmptyState>
+          <EmptyStateIcon icon={PlusCircleIcon} />
+          <Title headingLevel="h2" size={TitleSizes.lg}>
+            {intl.formatMessage(messages.CostModelsWizardEmptyStateTitle)}
+          </Title>
+          <EmptyStateBody>
+            {intl.formatMessage(messages.CostModelsWizardEmptyStateSkipStep, {
+              value: <strong>{intl.formatMessage(messages.CreateRate)}</strong>,
+            })}
+            <br />
+            {intl.formatMessage(messages.CostModelsWizardEmptyStateSkipStep, {
+              value: <strong>{intl.formatMessage(messages.Next)}</strong>,
+            })}
+            <br />
+            {intl.formatMessage(messages.CostModelsWizardEmptyStateOtherTime)}
+          </EmptyStateBody>
+        </EmptyState>
+      </Bullseye>
+    );
+
     return (
       <CostModelContext.Consumer>
         {({ priceListPagination }) => {
@@ -185,8 +185,7 @@ class PriceListTable extends React.Component<Props, State> {
                         )}
                         {res.length === 0 &&
                           this.state.metrics.length === 0 &&
-                          this.state.measurements.length === 0 &&
-                          this.NoTiersEmptyState}
+                          this.state.measurements.length === 0 && <NoTiersEmptyState />}
                         {res.length > 0 && (
                           <RateTable
                             isCompact
