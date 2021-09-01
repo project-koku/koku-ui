@@ -13,8 +13,8 @@ const TagRateTable: React.FunctionComponent<TagRateTableProps> = ({ intl, tagRat
   const cells = [
     intl.formatMessage(messages.CostModelsTagRateTableKey),
     intl.formatMessage(messages.CostModelsTagRateTableValue),
-    intl.formatMessage(messages.CostModelsTagRateTableRate),
-    intl.formatMessage(messages.CostModelsTagRateTableDesc),
+    intl.formatMessage(messages.Rate),
+    intl.formatMessage(messages.Description),
     intl.formatMessage(messages.CostModelsTagRateTableDefault),
   ];
 
