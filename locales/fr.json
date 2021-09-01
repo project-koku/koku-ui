@@ -157,6 +157,7 @@
   "DocsConfigCostModels": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#assembly-setting-up-cost-models",
   "DocsCostModelTerminology": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#cost-model-terminology",
   "Edit": "FR Edit",
+  "EditCostModel": "FR Edit cost model",
   "EditMarkup": "FR Edit markup",
   "EditMarkupOrDiscount": "FR Edit markup or discount",
   "EmptyFilterSourceStateSubtitle": "FR Sorry, no source with the given filter was found.",

@@ -1211,6 +1211,11 @@ export default defineMessages({
     description: 'Edit',
     id: 'Edit',
   },
+  EditCostModel: {
+    defaultMessage: 'EN Edit cost model',
+    description: 'Edit cost model',
+    id: 'EditCostModel',
+  },
   EditMarkup: {
     defaultMessage: 'EN Edit markup',
     description: 'Edit markup',
