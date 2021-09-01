@@ -1826,6 +1826,23 @@ export default defineMessages({
       'The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost management application',
     id: 'MarkupDescription',
   },
+  MarkupEdit: {
+    defaultMessage: 'EN Edit markup',
+    description: 'Edit markup',
+    id: 'MarkupEdit',
+  },
+  MarkupOrDiscount: {
+    defaultMessage: 'EN Markup or Discount',
+    description: 'Markup or Discount',
+    id: 'MarkupOrDiscount',
+  },
+  MarkupOrDiscountDesc: {
+    defaultMessage:
+      'EN This Percentage is applied to raw cost calculations by multiplying the cost with this percentage. Costs calculated from price list rates will not be effected.',
+    description:
+      'This Percentage is applied to raw cost calculations by multiplying the cost with this percentage. Costs calculated from price list rates will not be effected.',
+    id: 'MarkupOrDiscountDesc',
+  },
   MarkupOrDiscountModalDesc: {
     defaultMessage:
       'EN Use markup/discount to manipulate how the raw costs are being calculated for your sources. Note, costs calculated from price list rates will not be affected by this.',
