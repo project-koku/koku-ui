@@ -76,7 +76,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
         <>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
           <Form>
-            <FormGroup label={intl.formatMessage(messages.Names, { count: 2 })} isRequired fieldId="name">
+            <FormGroup label={intl.formatMessage(messages.Names, { count: 1 })} isRequired fieldId="name">
               <TextInput
                 isRequired
                 type="text"
