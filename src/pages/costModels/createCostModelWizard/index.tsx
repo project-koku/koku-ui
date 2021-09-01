@@ -450,7 +450,6 @@ class CostModelWizardBase extends React.Component<Props, State> {
           }}
           isOpen={this.props.isOpen}
           onMove={curr => this.setState({ step: Number(curr.id) })}
-          // steps={stepsHash(t)[this.state.type]}
           steps={stepsHash()[this.state.type]}
           current={this.state.step}
           validators={validatorsHash[this.state.type]}

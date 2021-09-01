@@ -916,11 +916,6 @@ export default defineMessages({
     description: 'Amazon Web Services (AWS)',
     id: 'CostModelsWizardOnboardAWS',
   },
-  CostModelsWizardOnboardAzure: {
-    defaultMessage: 'EN Microsoft Azure',
-    description: 'Microsoft Azure',
-    id: 'CostModelsWizardOnboardAzure',
-  },
   CostModelsWizardOnboardOCP: {
     defaultMessage: 'EN Red Hat OpenShift Container Platform',
     description: 'Red Hat OpenShift Container Platform',
@@ -1299,6 +1294,11 @@ export default defineMessages({
     defaultMessage: 'EN Edit',
     description: 'Edit',
     id: 'Edit',
+  },
+  EditCostModel: {
+    defaultMessage: 'EN Edit cost model',
+    description: 'Edit cost model',
+    id: 'EditCostModel',
   },
   EditMarkup: {
     defaultMessage: 'EN Edit markup',
@@ -1989,6 +1989,11 @@ export default defineMessages({
     description: 'Measurement',
     id: 'Measurement',
   },
+  MeasurementPlaceholder: {
+    defaultMessage: 'EN Filter by measurements',
+    description: 'Filter by measurements',
+    id: 'MeasurementPlaceholder',
+  },
   MemoryTitle: {
     defaultMessage: 'EN Memory',
     description: 'Memory',
@@ -1998,6 +2003,11 @@ export default defineMessages({
     defaultMessage: 'EN Metric',
     description: 'Metric',
     id: 'Metric',
+  },
+  MetricPlaceholder: {
+    defaultMessage: 'EN Filter by measurements',
+    description: 'Filter by measurements',
+    id: 'MetricPlaceholder',
   },
   MonthOverMonthChange: {
     defaultMessage: 'EN Month over month change',
@@ -2387,6 +2397,37 @@ export default defineMessages({
     defaultMessage: 'EN Price list',
     description: 'Price list',
     id: 'PriceList',
+  },
+  PriceListAddRate: {
+    defaultMessage: 'EN Add rate',
+    description: 'Add rate',
+    id: 'PriceListAddRate',
+  },
+  PriceListDeleteRate: {
+    defaultMessage: 'EN Delete rate',
+    description: 'Delete rate',
+    id: 'PriceListDeleteRate',
+  },
+  PriceListDeleteRateDesc: {
+    defaultMessage:
+      '{count, plural, one {EN This action will remove {metric} rate from {costModel}} other {EN This action will remove {metric} rate from {costModel}, which is assigned to the following sources:}}',
+    description: 'This action will remove {metric} rate from {costModel}, which is assigned to the following sources:',
+    id: 'PriceListDesc',
+  },
+  PriceListEditRate: {
+    defaultMessage: 'EN Edit rate',
+    description: 'Edit rate',
+    id: 'PriceListEditRate',
+  },
+  PriceListEmptyRate: {
+    defaultMessage: 'EN No rates are set',
+    description: 'No rates are set',
+    id: 'PriceListEmptyRateDesc',
+  },
+  PriceListEmptyRateDesc: {
+    defaultMessage: 'EN To add rates to the price list, click on the "Add" rate button above.',
+    description: 'To add rates to the price list, click on the "Add" rate button above.',
+    id: 'PriceListEmptyRateDesc',
   },
   Rate: {
     defaultMessage: 'EN Rate',
