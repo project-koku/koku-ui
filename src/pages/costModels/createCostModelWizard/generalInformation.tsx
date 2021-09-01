@@ -38,7 +38,7 @@ const GeneralInformation: React.SFC<WrappedComponentProps> = ({ intl }) => {
               <FormGroup
                 helperTextInvalid={nameErrors(name)}
                 validated={nameErrors(name) === null || !dirtyName ? 'default' : 'error'}
-                label={intl.formatMessage(messages.Name, { count: 1 })}
+                label={intl.formatMessage(messages.Names, { count: 1 })}
                 isRequired
                 fieldId="name"
               >
@@ -68,11 +68,7 @@ const GeneralInformation: React.SFC<WrappedComponentProps> = ({ intl }) => {
                   onChange={onDescChange}
                 />
               </FormGroup>
-              <FormGroup
-                label={intl.formatMessage(messages.CostModelsWizardSourceTypeLabel)}
-                isRequired
-                fieldId="source-type"
-              >
+              <FormGroup label={intl.formatMessage(messages.CostModelsSourceType)} isRequired fieldId="source-type">
                 <FormSelect id="source-type" value={type} onChange={onTypeChange}>
                   <FormSelectOption
                     value=""

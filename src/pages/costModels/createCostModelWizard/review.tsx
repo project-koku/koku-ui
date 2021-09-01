@@ -75,7 +75,7 @@ const ReviewDetailsBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
               <TextContent>
                 <TextList component={TextListVariants.dl}>
                   <TextListItem component={TextListItemVariants.dt}>
-                    {intl.formatMessage(messages.Name, { count: 1 })}
+                    {intl.formatMessage(messages.Names, { count: 1 })}
                   </TextListItem>
                   <TextListItem component={TextListItemVariants.dd}>{name}</TextListItem>
                   <TextListItem component={TextListItemVariants.dt}>
