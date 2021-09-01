@@ -112,7 +112,9 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
         ? [
             {
               cellTransforms: [nowrap],
-              title: intl.formatMessage(groupByOrg ? messages.Names : messages.TagNames),
+              title: groupByOrg
+                ? intl.formatMessage(messages.Names, { count: 2 })
+                : intl.formatMessage(messages.TagNames),
             },
           ]
         : [

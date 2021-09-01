@@ -89,7 +89,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       groupByTagKey || groupByOrg
         ? [
             {
-              title: intl.formatMessage(groupByOrg ? messages.Names : messages.TagNames),
+              title: groupByOrg
+                ? intl.formatMessage(messages.Names, { count: 2 })
+                : intl.formatMessage(messages.TagNames),
             },
             {
               title: intl.formatMessage(messages.MonthOverMonthChange),
