@@ -673,6 +673,11 @@ export default defineMessages({
     description: 'Cost Management',
     id: 'CostManagement',
   },
+  CostModels: {
+    defaultMessage: 'EN Cost Models',
+    description: 'Cost Models',
+    id: 'CostModels',
+  },
   CostModelsAssignSource: {
     defaultMessage: 'EN Assign source',
     description: 'Assign source',
@@ -693,6 +698,26 @@ export default defineMessages({
     defaultMessage: 'EN This action is temporarily unavailable',
     description: 'This action is temporarily unavailable',
     id: 'CostModelsAssignSourcesErrorTitle',
+  },
+  CostModelsAvailaleSources: {
+    defaultMessage: 'EN The following sources are assigned to my production cost model:',
+    description: 'The following sources are assigned to my production cost model:',
+    id: 'CostModelsAvailaleSources',
+  },
+  CostModelsDelete: {
+    defaultMessage: 'EN Delete cost model',
+    description: 'Delete cost model',
+    id: 'CostModelsDeleteTitle',
+  },
+  CostModelsDeleteDesc: {
+    defaultMessage: 'EN This action will delete {costModel} cost model from the system. This action cannot be undone.',
+    description: 'This action will delete {costModel} cost model from the system. This action cannot be undone.',
+    id: 'CostModelsDelete',
+  },
+  CostModelsDeleteSource: {
+    defaultMessage: 'EN You must unassign any sources before you can delete this cost model.',
+    description: 'You must unassign any sources before you can delete this cost model.',
+    id: 'CostModelsDeleteSource',
   },
   CostModelsDescTooLong: {
     defaultMessage: 'EN Should not exceed 500 characters',
@@ -835,11 +860,6 @@ export default defineMessages({
     defaultMessage: 'EN Tag value',
     description: 'Tag value',
     id: 'CostModelsTagRateTableValue',
-  },
-  CostModelsTitle: {
-    defaultMessage: 'EN Cost Models',
-    description: 'Cost Models title',
-    id: 'CostModelsTitle',
   },
   CostModelsWizardEmptySourceTypeLabel: {
     defaultMessage: 'EN Select source type',
@@ -996,6 +1016,11 @@ export default defineMessages({
       'EN This total cost is the sum of the infrastructure cost {infrastructureCost} and supplementary cost {supplementaryCost}',
     description: 'total cost is the sum of the infrastructure cost and supplementary cost',
     id: 'DashboardTotalCostTooltip',
+  },
+  Delete: {
+    defaultMessage: 'EN Delete',
+    description: 'Delete',
+    id: 'Delete',
   },
   Description: {
     defaultMessage: 'EN description',
@@ -1180,6 +1205,11 @@ export default defineMessages({
     description:
       'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#cost-model-terminology',
     id: 'DocsCostModelTerminology',
+  },
+  Edit: {
+    defaultMessage: 'EN Edit',
+    description: 'Edit',
+    id: 'Edit',
   },
   EditMarkup: {
     defaultMessage: 'EN Edit markup',
@@ -2249,6 +2279,11 @@ export default defineMessages({
     description: 'Perspective values',
     id: 'PerspectiveValues',
   },
+  PriceList: {
+    defaultMessage: 'EN Price list',
+    description: 'Price list',
+    id: 'PriceList',
+  },
   Rate: {
     defaultMessage: 'EN Rate',
     description: 'Rate',
@@ -2313,6 +2348,11 @@ export default defineMessages({
       'other {}}',
     description: 'SinceDate',
     id: 'SinceDate',
+  },
+  Sources: {
+    defaultMessage: 'EN Sources',
+    description: 'Sources',
+    id: 'Sources',
   },
   TagHeadingKey: {
     defaultMessage: 'EN Key',
