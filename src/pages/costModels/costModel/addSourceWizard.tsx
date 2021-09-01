@@ -126,7 +126,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
             <Grid>
               <GridItem span={2}>
                 <TextContent>
-                  <Text component={TextVariants.h6}>{intl.formatMessage(messages.Name, { count: 1 })}</Text>
+                  <Text component={TextVariants.h6}>{intl.formatMessage(messages.Names, { count: 1 })}</Text>
                 </TextContent>
               </GridItem>
               <GridItem span={10}>

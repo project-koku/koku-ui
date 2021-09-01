@@ -1858,15 +1858,15 @@ export default defineMessages({
     description: 'Month over month change',
     id: 'MonthOverMonthChange',
   },
-  Name: {
-    defaultMessage: '{count, plural, one {EN name} other {EN names}}',
-    description: 'Name plural or singular',
-    id: 'Name',
-  },
   NameTitleCase: {
     defaultMessage: '{count, plural, one {EN Name} other {EN Names}}',
     description: 'Name in title case plural or singular',
     id: 'NameTitleCase',
+  },
+  Names: {
+    defaultMessage: '{count, plural, one {EN name} other {EN names}}',
+    description: 'Name plural or singular',
+    id: 'Name',
   },
   No: {
     defaultMessage: 'EN no',

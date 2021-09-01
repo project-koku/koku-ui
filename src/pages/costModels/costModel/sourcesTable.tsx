@@ -39,7 +39,7 @@ const SourcesTable: React.FunctionComponent<SourcesTableProps> = ({ canWrite, co
   };
 
   const actions = getActions();
-  const cells = [intl.formatMessage(messages.Name, { count: 1 })] as (string | ICell)[];
+  const cells = [intl.formatMessage(messages.Names, { count: 1 })] as (string | ICell)[];
   const rows: (IRow | string[])[] = costModels.length > 0 ? costModels[0].sources.map(source => [source.name]) : [];
 
   return (
