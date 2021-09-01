@@ -1,12 +1,13 @@
 import { Alert, Button, Form, FormGroup, Modal, TextArea, TextInput } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
-interface Props extends WithTranslation {
+interface Props extends WrappedComponentProps {
   costModel?: CostModel[];
   isProcessing?: boolean;
   onProceed?: () => void;
@@ -30,11 +31,11 @@ class UpdateCostModelBase extends React.Component<Props, State> {
     };
   }
   public render() {
-    const { updateCostModel, updateError, costModel, isProcessing, setDialogOpen, t } = this.props;
+    const { costModel, intl, isProcessing, setDialogOpen, updateCostModel, updateError } = this.props;
     const current = costModel[0];
     return (
       <Modal
-        title={t('cost_models_details.edit_cost_model')}
+        title={intl.formatMessage(messages.EditCostModel)}
         isOpen
         onClose={() => setDialogOpen({ name: 'updateCostModel', isOpen: false })}
         variant="small"
@@ -60,7 +61,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
               isProcessing || (this.state.name === current.name && this.state.description === current.description)
             }
           >
-            {t('cost_models_details.save_button')}
+            {intl.formatMessage(messages.Save)}
           </Button>,
           <Button
             key="cancel"
@@ -68,14 +69,14 @@ class UpdateCostModelBase extends React.Component<Props, State> {
             onClick={() => setDialogOpen({ name: 'updateCostModel', isOpen: false })}
             isDisabled={isProcessing}
           >
-            {t('dialog.cancel')}
+            {intl.formatMessage(messages.Cancel)}
           </Button>,
         ]}
       >
         <>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
           <Form>
-            <FormGroup label={t('name')} isRequired fieldId="name">
+            <FormGroup label={intl.formatMessage(messages.Names, { count: 2 })} isRequired fieldId="name">
               <TextInput
                 isRequired
                 type="text"
@@ -85,7 +86,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
                 onChange={value => this.setState({ name: value })}
               />
             </FormGroup>
-            <FormGroup label={t('description')} fieldId="description">
+            <FormGroup label={intl.formatMessage(messages.Description)} fieldId="description">
               <TextArea
                 type="text"
                 id="description"
@@ -101,9 +102,9 @@ class UpdateCostModelBase extends React.Component<Props, State> {
   }
 }
 
-const UpdateCostModelModal = withTranslation()(
+const UpdateCostModelModal = injectIntl(
   connect(
-    createMapStateToProps<WithTranslation, any>(state => ({
+    createMapStateToProps(state => ({
       costModel: costModelsSelectors.costModels(state),
       isProcessing: costModelsSelectors.updateProcessing(state),
       updateError: costModelsSelectors.updateError(state),
