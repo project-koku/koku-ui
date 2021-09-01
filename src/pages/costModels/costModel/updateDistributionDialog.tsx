@@ -12,15 +12,16 @@ import {
   TextContent,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
 import { styles } from './costCalc.styles';
 
-interface Props extends WithTranslation {
+interface Props extends WrappedComponentProps {
   isLoading: boolean;
   onClose: typeof costModelsActions.setCostModelDialog;
   updateCostModel: typeof costModelsActions.updateCostModel;
@@ -46,10 +47,10 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
   };
 
   public render() {
-    const { error, current, onClose, updateCostModel, isLoading, t } = this.props;
+    const { error, current, intl, isLoading, onClose, updateCostModel } = this.props;
     return (
       <Modal
-        title={t('cost_models_details.distribution_type')}
+        title={intl.formatMessage(messages.DistributionType)}
         isOpen
         onClose={() => onClose({ name: 'updateDistribution', isOpen: false })}
         variant={ModalVariant.small}
@@ -68,7 +69,7 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
               updateCostModel(current.uuid, newState, 'updateDistribution');
             }}
           >
-            {t('save')}
+            {intl.formatMessage(messages.Save)}
           </Button>,
           <Button
             key="cancel"
@@ -76,7 +77,7 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
             onClick={() => onClose({ name: 'updateDistribution', isOpen: false })}
             isDisabled={isLoading}
           >
-            {t('cancel')}
+            {intl.formatMessage(messages.Cancel)}
           </Button>,
         ]}
       >
@@ -84,7 +85,7 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
           <StackItem>{error && <Alert variant="danger" title={`${error}`} />}</StackItem>
           <StackItem>
             <TextContent>
-              <Text style={styles.cardDescription}>{t('cost_models_details.description_distribution_model')}</Text>
+              <Text style={styles.cardDescription}>{intl.formatMessage(messages.DistributionModelDesc)}</Text>
             </TextContent>
           </StackItem>
           <StackItem>
@@ -93,8 +94,8 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
                 <Radio
                   isChecked={this.state.distribution === 'cpu'}
                   name="distribution"
-                  label={t('cpu_title')}
-                  aria-label={t('cpu_title')}
+                  label={intl.formatMessage(messages.CpuTitle)}
+                  aria-label={intl.formatMessage(messages.CpuTitle)}
                   id="cpuDistribution"
                   value="cpu"
                   onChange={this.handleDistributionChange}
@@ -102,8 +103,8 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
                 <Radio
                   isChecked={this.state.distribution === 'memory'}
                   name="distribution"
-                  label={t('memory_title')}
-                  aria-label={t('memory_title')}
+                  label={intl.formatMessage(messages.MemoryTitle)}
+                  aria-label={intl.formatMessage(messages.MemoryTitle)}
                   id="memoryDistribution"
                   value="memory"
                   onChange={this.handleDistributionChange}
@@ -127,16 +128,18 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   };
 };
 
-export default connect(
-  createMapStateToProps(state => {
-    return {
-      isLoading: costModelsSelectors.updateProcessing(state),
-      error: costModelsSelectors.updateError(state),
-    };
-  }),
-  {
-    onClose: costModelsActions.setCostModelDialog,
-    updateCostModel: costModelsActions.updateCostModel,
-  },
-  mergeProps
-)(withTranslation()(UpdateDistributionModelBase));
+export default injectIntl(
+  connect(
+    createMapStateToProps(state => {
+      return {
+        isLoading: costModelsSelectors.updateProcessing(state),
+        error: costModelsSelectors.updateError(state),
+      };
+    }),
+    {
+      onClose: costModelsActions.setCostModelDialog,
+      updateCostModel: costModelsActions.updateCostModel,
+    },
+    mergeProps
+  )(UpdateDistributionModelBase)
+);
