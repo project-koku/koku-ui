@@ -82,6 +82,11 @@ export default defineMessages({
     description: 'Microsoft Azure filtered by OpenShift cost',
     id: 'AzureOcpDashboardCostTitle',
   },
+  Back: {
+    defaultMessage: 'EN Back',
+    description: 'Back',
+    id: 'Back',
+  },
   BreakdownBackToDetails: {
     defaultMessage:
       '{groupBy, select, ' +
@@ -173,6 +178,11 @@ export default defineMessages({
       'other {}}',
     description: 'Break down total cost by date',
     id: 'BreakdownTotalCostDate',
+  },
+  CalculationType: {
+    defaultMessage: 'EN Calculation type',
+    description: 'Calculation type',
+    id: 'CalculationType',
   },
   Cancel: {
     defaultMessage: 'EN Cancel',
@@ -861,15 +871,45 @@ export default defineMessages({
     description: 'Tag value',
     id: 'CostModelsTagRateTableValue',
   },
+  CostModelsWizardCreatePriceList: {
+    defaultMessage: 'EN Create a price list',
+    description: 'Create a price list',
+    id: 'CostModelsWizardCreatePriceList',
+  },
   CostModelsWizardEmptySourceTypeLabel: {
     defaultMessage: 'EN Select source type',
     description: 'Select source type',
     id: 'CostModelsWizardEmptySourceTypeLabel',
   },
+  CostModelsWizardEmptyStateCreate: {
+    defaultMessage: 'EN To create a price list, begin by clicking the {value} button.',
+    description: 'To create a price list, begin by clicking the <0>Create rate</0> button.',
+    id: 'CostModelsWizardEmptyStateCreate',
+  },
+  CostModelsWizardEmptyStateOtherTime: {
+    defaultMessage: 'EN You can create a price list or modify one at a later time.',
+    description: 'You can create a price list or modify one at a later time.',
+    id: 'CostModelsWizardEmptyStateOtherTime',
+  },
+  CostModelsWizardEmptyStateSkipStep: {
+    defaultMessage: 'EN To skip this step, click the {value} button.',
+    description: 'To skip this step, click the <0>next</0> button.',
+    id: 'CostModelsWizardEmptyStateSkipStep',
+  },
+  CostModelsWizardEmptyStateTitle: {
+    defaultMessage: 'EN A price list has not been created.',
+    description: 'A price list has not been created.',
+    id: 'CostModelsWizardEmptyStateTitle',
+  },
   CostModelsWizardGeneralInfoTitle: {
     defaultMessage: 'EN Enter general information',
     description: 'Enter general information',
     id: 'CostModelsWizardGeneralInfoTitle',
+  },
+  CostModelsWizardNoRatesAdded: {
+    defaultMessage: 'EN No rates were added to the price list',
+    description: 'No rates were added to the price list',
+    id: 'CostModelsWizardNoRatesAdded',
   },
   CostModelsWizardOnboardAWS: {
     defaultMessage: 'EN Amazon Web Services (AWS)',
@@ -880,6 +920,35 @@ export default defineMessages({
     defaultMessage: 'EN Red Hat OpenShift Container Platform',
     description: 'Red Hat OpenShift Container Platform',
     id: 'CostModelsWizardOnboardOCP',
+  },
+  CostModelsWizardReviewMarkDiscount: {
+    defaultMessage: 'EN Markup/Discount',
+    description: 'No Markup/Discount',
+    id: 'CostModelsWizardReviewMarkDiscount',
+  },
+  CostModelsWizardReviewSources: {
+    defaultMessage: 'EN Assigned sources',
+    description: 'No Assigned sources',
+    id: 'CostModelsWizardReviewSources',
+  },
+  CostModelsWizardReviewStatusSubDetails: {
+    defaultMessage:
+      'EN Review and confirm your cost model configuration and assignments. Click {create} to create the cost model, or {back} to revise.',
+    description:
+      'Review and confirm your cost model configuration and assignments. Click <0>Create</0> to create the cost model, or <1>Back</1> to revise.',
+    id: 'CostModelsWizardReviewStatusSubDetails',
+  },
+  CostModelsWizardReviewStatusSubTitle: {
+    defaultMessage:
+      'EN Costs for resources connected to the assigned sources will now be calculated using the newly created {value} cost model.',
+    description:
+      'Costs for resources connected to the assigned sources will now be calculated using the newly created {value} cost model.',
+    id: 'CostModelsWizardReviewStatusSubTitle',
+  },
+  CostModelsWizardReviewStatusTitle: {
+    defaultMessage: 'EN Creation successful',
+    description: 'Creation successful',
+    id: 'CostModelsWizardReviewStatusTitle',
   },
   CostModelsWizardSourceErrorDescription: {
     defaultMessage:
@@ -937,6 +1006,16 @@ export default defineMessages({
     description: 'Assign a source to the cost model',
     id: 'CostModelsWizardStepsSources',
   },
+  CostModelsWizardSubTitleTable: {
+    defaultMessage: 'EN The following is a list of rates you have set so far for this price list.',
+    description: 'The following is a list of rates you have set so far for this price list.',
+    id: 'CostModelsWizardSubTitleTable',
+  },
+  CostModelsWizardWarningSources: {
+    defaultMessage: 'EN Cannot assign cost model to a source that is already assigned to another one',
+    description: 'No Cannot assign cost model to a source that is already assigned to another one',
+    id: 'CostModelsWizardWarningSources',
+  },
   CpuTitle: {
     defaultMessage: 'EN CPU',
     description: 'CPU',
@@ -953,8 +1032,10 @@ export default defineMessages({
     id: 'CreateCostModelConfirmMsg',
   },
   CreateCostModelDesc: {
-    defaultMessage: 'EN Create a cost model',
-    description: 'Create a cost model',
+    defaultMessage:
+      'EN A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
+    description:
+      'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
     id: 'CreateCostModelDesc',
   },
   CreateCostModelNoContinue: {
@@ -963,16 +1044,19 @@ export default defineMessages({
     id: 'CreateCostModelNoContinue',
   },
   CreateCostModelTitle: {
-    defaultMessage:
-      'EN A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
-    description:
-      'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
+    defaultMessage: 'EN Create a cost model',
+    description: 'Create a cost model',
     id: 'CreateCostModelTitle',
   },
   CreateCostModelYesExit: {
     defaultMessage: 'EN Exit cost model creation',
     description: 'Exit cost model creation',
     id: 'CreateCostModelYesExit',
+  },
+  CreateRate: {
+    defaultMessage: 'EN Create rate',
+    description: 'Create rate',
+    id: 'CreateRate',
   },
   CurrencyAbbreviations: {
     defaultMessage:
@@ -1940,6 +2024,11 @@ export default defineMessages({
     description: 'Name plural or singular',
     id: 'Name',
   },
+  Next: {
+    defaultMessage: 'EN next',
+    description: 'next',
+    id: 'Next',
+  },
   No: {
     defaultMessage: 'EN no',
     description: 'no',
@@ -2455,6 +2544,16 @@ export default defineMessages({
     description: 'Select page ({value} items)',
     id: 'ToolBarBulkSelectPage',
   },
+  ToolBarPriceListMeasurementPlaceHolder: {
+    defaultMessage: 'EN Filter by measurements',
+    description: 'Filter by measurements',
+    id: 'ToolBarPriceListMeasurementPlaceHolder',
+  },
+  ToolBarPriceListMetricPlaceHolder: {
+    defaultMessage: 'EN Filter by metrics',
+    description: 'Filter by metrics',
+    id: 'ToolBarPriceListMetricPlaceHolder',
+  },
   UnitTooltips: {
     defaultMessage:
       '{units, select, ' +
@@ -2501,6 +2600,11 @@ export default defineMessages({
     defaultMessage: 'EN Usage cost',
     description: 'Usage cost',
     id: 'UsageCostTitle',
+  },
+  Various: {
+    defaultMessage: 'EN Various',
+    description: 'Various',
+    id: 'Various',
   },
   Yes: {
     defaultMessage: 'EN Yes',

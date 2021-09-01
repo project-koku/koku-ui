@@ -166,7 +166,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
           <Table
             aria-label={intl.formatMessage(messages.CostModelsAssignSource)}
             cells={[
-              intl.formatMessage(messages.Names, { count: 1 }),
+              intl.formatMessage(messages.NameTitleCase, { count: 1 }),
               intl.formatMessage(messages.CostModelsWizardSourceTableCostModel),
             ]}
             rows={sources}
