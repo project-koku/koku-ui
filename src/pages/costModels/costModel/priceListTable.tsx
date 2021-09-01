@@ -246,7 +246,6 @@ class PriceListTable extends React.Component<Props, State> {
                 {fetchStatus === FetchStatus.complete && filtered.length > 0 && (
                   <>
                     <RateTable
-                      t={t}
                       tiers={filtered}
                       actions={[
                         {
