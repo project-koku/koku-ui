@@ -1900,10 +1900,30 @@ export default defineMessages({
     description: 'Markup',
     id: 'MarkupTitle',
   },
+  Measurement: {
+    defaultMessage: 'EN Measurement',
+    description: 'Measurement',
+    id: 'Measurement',
+  },
+  MeasurementPlaceholder: {
+    defaultMessage: 'EN Filter by measurements',
+    description: 'Filter by measurements',
+    id: 'MeasurementPlaceholder',
+  },
   MemoryTitle: {
     defaultMessage: 'EN Memory',
     description: 'Memory',
     id: 'MemoryTitle',
+  },
+  Metric: {
+    defaultMessage: 'EN Metric',
+    description: 'Metric',
+    id: 'Metric',
+  },
+  MetricPlaceholder: {
+    defaultMessage: 'EN Filter by measurements',
+    description: 'Filter by measurements',
+    id: 'MetricPlaceholder',
   },
   MonthOverMonthChange: {
     defaultMessage: 'EN Month over month change',
@@ -2288,6 +2308,37 @@ export default defineMessages({
     defaultMessage: 'EN Price list',
     description: 'Price list',
     id: 'PriceList',
+  },
+  PriceListAddRate: {
+    defaultMessage: 'EN Add rate',
+    description: 'Add rate',
+    id: 'PriceListAddRate',
+  },
+  PriceListDeleteRate: {
+    defaultMessage: 'EN Delete rate',
+    description: 'Delete rate',
+    id: 'PriceListDeleteRate',
+  },
+  PriceListDeleteRateDesc: {
+    defaultMessage:
+      '{count, plural, one {EN This action will remove {metric} rate from {costModel}} other {EN This action will remove {metric} rate from {costModel}, which is assigned to the following sources:}}',
+    description: 'This action will remove {metric} rate from {costModel}, which is assigned to the following sources:',
+    id: 'PriceListDesc',
+  },
+  PriceListEditRate: {
+    defaultMessage: 'EN Edit rate',
+    description: 'Edit rate',
+    id: 'PriceListEditRate',
+  },
+  PriceListEmptyRate: {
+    defaultMessage: 'EN No rates are set',
+    description: 'No rates are set',
+    id: 'PriceListEmptyRateDesc',
+  },
+  PriceListEmptyRateDesc: {
+    defaultMessage: 'EN To add rates to the price list, click on the "Add" rate button above.',
+    description: 'To add rates to the price list, click on the "Add" rate button above.',
+    id: 'PriceListEmptyRateDesc',
   },
   Rate: {
     defaultMessage: 'EN Rate',
