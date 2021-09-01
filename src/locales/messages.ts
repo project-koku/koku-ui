@@ -1037,8 +1037,10 @@ export default defineMessages({
     id: 'CreateCostModelConfirmMsg',
   },
   CreateCostModelDesc: {
-    defaultMessage: 'EN Create a cost model',
-    description: 'Create a cost model',
+    defaultMessage:
+      'EN A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
+    description:
+      'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
     id: 'CreateCostModelDesc',
   },
   CreateCostModelNoContinue: {
@@ -1047,10 +1049,8 @@ export default defineMessages({
     id: 'CreateCostModelNoContinue',
   },
   CreateCostModelTitle: {
-    defaultMessage:
-      'EN A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
-    description:
-      'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
+    defaultMessage: 'EN Create a cost model',
+    description: 'Create a cost model',
     id: 'CreateCostModelTitle',
   },
   CreateCostModelYesExit: {
