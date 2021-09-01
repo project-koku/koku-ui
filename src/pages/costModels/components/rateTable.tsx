@@ -10,20 +10,20 @@ import {
   TableVariant,
 } from '@patternfly/react-table';
 import { Rate } from 'api/rates';
-import { WithT } from 'i18next';
 import React from 'react';
 import { formatCurrency } from 'utils/formatValue';
 
 import { compareBy } from './rateForm/utils';
 import TagRateTable from './tagRateTable';
 
-interface RateTableProps extends WithT {
+interface RateTableProps {
   tiers: Rate[];
   actions?: IActions;
   isCompact?: boolean;
+  t?: any;
 }
 
-export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isCompact }) => {
+export const RateTable: React.SFC<RateTableProps> = ({ t = v => v, tiers, actions, isCompact }) => {
   const [expanded, setExpanded] = React.useState({});
   const [sortBy, setSortBy] = React.useState<ISortBy>({});
   const cells = [
