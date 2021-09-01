@@ -50,7 +50,7 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
               </StackItem>
               <StackItem>
                 <Title headingLevel="h3" size="md">
-                  {intl.formatMessage(messages.MarkupOrDiscountTitle)}
+                  {intl.formatMessage(messages.MarkupOrDiscount)}
                 </Title>
                 {intl.formatMessage(messages.MarkupOrDiscountModalDesc)}
               </StackItem>
