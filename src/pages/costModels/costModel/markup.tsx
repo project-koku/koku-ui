@@ -71,7 +71,7 @@ const MarkupCardBase: React.FunctionComponent<Props> = ({
                     onClick={() => setCostModelDialog({ isOpen: true, name: 'updateMarkup' })}
                     component="button"
                   >
-                    {intl.formatMessage(messages.MarkupEdit)}
+                    {intl.formatMessage(messages.EditMarkup)}
                   </DropdownItem>
                 </ReadOnlyTooltip>,
               ]}
