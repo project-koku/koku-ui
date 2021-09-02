@@ -107,6 +107,7 @@
   "CostModelsTagRateTableKey": "DE Tag key",
   "CostModelsTagRateTableRate": "DE Rate",
   "CostModelsTagRateTableValue": "DE Tag value",
+  "CostModelsWizardCreateCostModel": "DE Create cost model",
   "CostModelsWizardCreatePriceList": "DE Create a price list",
   "CostModelsWizardEmptySourceTypeLabel": "DE Select source type",
   "CostModelsWizardEmptyStateCreate": "DE To create a price list, begin by clicking the {value} button.",
