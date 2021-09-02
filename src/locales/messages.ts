@@ -709,10 +709,20 @@ export default defineMessages({
     description: 'This action is temporarily unavailable',
     id: 'CostModelsAssignSourcesErrorTitle',
   },
-  CostModelsAvailaleSources: {
+  CostModelsAvailableSources: {
     defaultMessage: 'EN The following sources are assigned to my production cost model:',
     description: 'The following sources are assigned to my production cost model:',
-    id: 'CostModelsAvailaleSources',
+    id: 'CostModelsAvailableSources',
+  },
+  CostModelsCanDelete: {
+    defaultMessage: 'EN This action will delete {name} cost model from the system. This action cannot be undone',
+    description: 'This action will delete {name} cost model from the system. This action cannot be undone',
+    id: 'CostModelsCanDelete',
+  },
+  CostModelsCanNotDelete: {
+    defaultMessage: 'EN The following sources are assigned to {name} cost model:',
+    description: 'The following sources are assigned to {name} cost model:',
+    id: 'CostModelsCanNotDelete',
   },
   CostModelsDelete: {
     defaultMessage: 'EN Delete cost model',
