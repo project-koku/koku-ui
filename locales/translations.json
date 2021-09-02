@@ -107,6 +107,7 @@
   "CostModelsTagRateTableKey": "EN Tag key",
   "CostModelsTagRateTableRate": "EN Rate",
   "CostModelsTagRateTableValue": "EN Tag value",
+  "CostModelsWizardCreateCostModel": "EN Create cost model",
   "CostModelsWizardCreatePriceList": "EN Create a price list",
   "CostModelsWizardEmptySourceTypeLabel": "EN Select source type",
   "CostModelsWizardEmptyStateCreate": "EN To create a price list, begin by clicking the {value} button.",

@@ -1,8 +1,9 @@
 import { Button } from '@patternfly/react-core';
+import messages from 'locales/messages';
 import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
 import { CostModelWizard } from 'pages/costModels/createCostModelWizard';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RootState } from 'store';
@@ -25,24 +26,24 @@ const buttonMapDispatchToProps = (dispatch: Dispatch) => {
 const buttonMergeProps = (
   stateProps: ReturnType<typeof buttonMapStateToProps>,
   dispatchProps: ReturnType<typeof buttonMapDispatchToProps>,
-  ownProps: WithTranslation
+  ownProps: WrappedComponentProps
 ) => {
-  const { t } = ownProps;
+  const { intl } = ownProps;
   const { canWrite } = stateProps;
   const { openWizard } = dispatchProps;
 
   return {
     isDisabled: !canWrite,
-    tooltip: t('cost_models.read_only_tooltip'),
+    tooltip: intl.formatMessage(messages.CostModelsReadOnly),
     children: (
       <Button isDisabled={!canWrite} onClick={openWizard}>
-        {t('page_cost_models.create_cost_model')}
+        {intl.formatMessage(messages.CostModelsWizardCreateCostModel)}
       </Button>
     ),
   };
 };
 
-export const CreateCostModelButton = withTranslation()(
+export const CreateCostModelButton = injectIntl(
   connect(buttonMapStateToProps, buttonMapDispatchToProps, buttonMergeProps)(ReadOnlyTooltip)
 );
 
