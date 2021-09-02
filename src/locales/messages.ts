@@ -876,6 +876,11 @@ export default defineMessages({
     description: 'Tag value',
     id: 'CostModelsTagRateTableValue',
   },
+  CostModelsWizardCreateCostModel: {
+    defaultMessage: 'EN Create cost model',
+    description: 'Create cost model',
+    id: 'CostModelsWizardCreateCostModel',
+  },
   CostModelsWizardCreatePriceList: {
     defaultMessage: 'EN Create a price list',
     description: 'Create a price list',

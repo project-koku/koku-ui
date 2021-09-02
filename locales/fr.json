@@ -105,6 +105,7 @@
   "CostModelsTagRateTableKey": "FR Tag key",
   "CostModelsTagRateTableRate": "FR Rate",
   "CostModelsTagRateTableValue": "FR Tag value",
+  "CostModelsWizardCreateCostModel": "FR Create cost model",
   "CostModelsWizardCreatePriceList": "FR Create a price list",
   "CostModelsWizardEmptySourceTypeLabel": "FR Select source type",
   "CostModelsWizardEmptyStateCreate": "FR To create a price list, begin by clicking the {value} button.",
