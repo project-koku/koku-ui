@@ -7,6 +7,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import { styles } from './emptyFilterState.styles';
+import { intlMock } from 'components/i18n';
 
 interface EmptyFilterStateProps extends WrappedComponentProps {
   filter?: string;
@@ -19,7 +20,7 @@ interface EmptyFilterStateProps extends WrappedComponentProps {
 const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
   filter,
   icon = SearchIcon,
-  intl,
+  intl = intlMock,
   showMargin = true,
 
   // destructure last
