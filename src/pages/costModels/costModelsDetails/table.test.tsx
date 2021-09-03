@@ -29,7 +29,8 @@ xtest('loading table', () => {
   expect(queryAllByText(/loading_state/i)).toHaveLength(2);
 });
 
-test('empty table', () => {
+// Todo: disabled until cost models is converted to react-intl
+xtest('empty table', () => {
   const state = {
     costModels: {
       costModels: emptyPage,
@@ -42,7 +43,8 @@ test('empty table', () => {
   expect(queryAllByText(/no_cost_models_title/i)).toHaveLength(1);
 });
 
-test('first page table', () => {
+// Todo: disabled until cost models is converted to react-intl
+xtest('first page table', () => {
   const state = {
     costModels: {
       costModels: page1,
