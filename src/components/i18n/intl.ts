@@ -22,6 +22,6 @@ export const intl = createIntl(
 );
 
 // Default object for testing
-export const intlMock = {
+export const intlMock: any = {
   formatMessage: ({ defaultMessage }) => defaultMessage,
 };
