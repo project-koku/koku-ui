@@ -784,6 +784,11 @@ export default defineMessages({
     description: 'Should not exceed 100 characters',
     id: 'CostModelsInfoTooLong',
   },
+  CostModelsLastChange: {
+    defaultMessage: 'EN Last change',
+    description: 'Last change',
+    id: 'CostModelsLastChange',
+  },
   CostModelsReadOnly: {
     defaultMessage: 'EN You have read only permissions',
     description: 'You have read only permissions',
@@ -925,11 +930,6 @@ export default defineMessages({
     defaultMessage: 'EN Markup/Discount',
     description: 'No Markup/Discount',
     id: 'CostModelsWizardReviewMarkDiscount',
-  },
-  CostModelsWizardReviewSources: {
-    defaultMessage: 'EN Assigned sources',
-    description: 'No Assigned sources',
-    id: 'CostModelsWizardReviewSources',
   },
   CostModelsWizardReviewStatusSubDetails: {
     defaultMessage:
