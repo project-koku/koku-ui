@@ -85,7 +85,7 @@ const Header: React.FunctionComponent<Props> = ({
                 {intl.formatMessage(messages.CostModelsDeleteSource)}
                 <br />
                 <br />
-                {intl.formatMessage(messages.CostModelsAvailaleSources)}
+                {intl.formatMessage(messages.CostModelsAvailableSources)}
                 <br />
                 <List>
                   {current.sources.map(provider => (
