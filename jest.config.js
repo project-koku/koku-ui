@@ -7,7 +7,7 @@ module.exports = {
     '^.+\\.(jpg)$': '<rootDir>/test/transformFile.js',
   },
   transformIgnorePatterns: ['node_modules/(?!@patternfly/react-icons/dist/esm)'],
-  setupFiles: ['./test/test.env.ts'],
+  setupFiles: ['./test/testEnv.ts'],
   testRegex: '\\.test\\.(jsx?|tsx?)$',
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   moduleDirectories: ['node_modules', '<rootDir>/src'],
