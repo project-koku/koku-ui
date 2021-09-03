@@ -10,6 +10,7 @@ import { Dispatch } from 'redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
+import { intlMock } from 'components/i18n';
 
 import { CostModelsQuery, parseOrdering } from './utils/query';
 import { createActions, createOnSort, getRowsByStateName } from './utils/table';
@@ -37,7 +38,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
   public render() {
     const {
       actionResolver,
-      intl,
+      intl = intlMock,
       canWrite,
       costData,
       history: { push },
@@ -85,7 +86,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
           cells={cells}
           onSort={onSort}
           sortBy={sortBy}
-          aria-label={this.props['aria-label']}
+          aria-label={intl.formatMessage(messages.CostModelsTableAriaLabel)}
         >
           <TableHeader />
           <TableBody />
