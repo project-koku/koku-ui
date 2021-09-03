@@ -1,5 +1,6 @@
 import { Alert, Button, Modal, Title, TitleSizes } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
+import { intlMock } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -17,7 +18,7 @@ interface Props extends WrappedComponentProps {
 }
 
 const DialogBase: React.SFC<Props> = ({
-  intl,
+  intl = intlMock,
   onClose,
   onProceed,
   title,

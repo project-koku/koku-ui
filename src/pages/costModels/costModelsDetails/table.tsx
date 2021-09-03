@@ -1,6 +1,7 @@
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
 import { ICell, IRowData, sortable, Table, TableBody, TableGridBreakpoint, TableHeader } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
+import { intlMock } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -37,7 +38,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
   public render() {
     const {
       actionResolver,
-      intl,
+      intl = intlMock,
       canWrite,
       costData,
       history: { push },
@@ -85,7 +86,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
           cells={cells}
           onSort={onSort}
           sortBy={sortBy}
-          aria-label={this.props['aria-label']}
+          aria-label={intl.formatMessage(messages.CostModelsTableAriaLabel)}
         >
           <TableHeader />
           <TableBody />
@@ -95,7 +96,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<CostModelsTableOwnProps, CostModelsTableStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<CostModelsTableOwnProps, CostModelsTableStateProps>(state => {
   return {
     canWrite: rbacSelectors.isCostModelWritePermission(state),
     query: costModelsSelectors.query(state) as CostModelsQuery,

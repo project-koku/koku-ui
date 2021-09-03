@@ -23,14 +23,13 @@ const renderUI = (state: Partial<RootState>) => {
   );
 };
 
-// Todo: disabled until cost models is converted to react-intl
-xtest('loading table', () => {
+test('loading table', () => {
   const { queryAllByText } = renderUI({});
-  expect(queryAllByText(/loading_state/i)).toHaveLength(2);
+  expect(queryAllByText(/Looking for sources/i)).toHaveLength(1);
 });
 
-// Todo: disabled until cost models is converted to react-intl
-xtest('empty table', () => {
+// Todo: Replace no_cost_models_title with default message string
+test('empty table', () => {
   const state = {
     costModels: {
       costModels: emptyPage,
@@ -43,8 +42,7 @@ xtest('empty table', () => {
   expect(queryAllByText(/no_cost_models_title/i)).toHaveLength(1);
 });
 
-// Todo: disabled until cost models is converted to react-intl
-xtest('first page table', () => {
+test('first page table', () => {
   const state = {
     costModels: {
       costModels: page1,
@@ -59,8 +57,7 @@ xtest('first page table', () => {
   expect(queryAllByText(/Cost Management OpenShift Cost Model/i)).toHaveLength(1);
 });
 
-// Todo: disabled until cost models is converted to react-intl
-xtest('no match table', () => {
+test('no match table', () => {
   const state = {
     costModels: {
       costModels: noMatchPageName,
@@ -70,5 +67,5 @@ xtest('no match table', () => {
     },
   };
   const { queryAllByText } = renderUI(state);
-  expect(queryAllByText(/empty_filter_state./i)).toHaveLength(2);
+  expect(queryAllByText(/No match found/i)).toHaveLength(1);
 });

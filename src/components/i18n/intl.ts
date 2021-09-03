@@ -20,3 +20,8 @@ export const intl = createIntl(
   },
   cache
 );
+
+// Default object for testing
+export const intlMock: any = {
+  formatMessage: ({ defaultMessage }) => defaultMessage,
+};

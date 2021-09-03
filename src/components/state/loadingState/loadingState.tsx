@@ -1,4 +1,5 @@
 import { EmptyState, EmptyStateBody, EmptyStateVariant, Spinner, Title } from '@patternfly/react-core';
+import { intlMock } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -7,7 +8,7 @@ interface LoadingStateProps extends WrappedComponentProps {
   icon?: string;
 }
 
-const LoadingStateBase: React.SFC<LoadingStateProps> = ({ intl }) => {
+const LoadingStateBase: React.SFC<LoadingStateProps> = ({ intl = intlMock }) => {
   const title = intl.formatMessage(messages.LoadingStateTitle);
   const subTitle = intl.formatMessage(messages.LoadingStateDesc);
 
