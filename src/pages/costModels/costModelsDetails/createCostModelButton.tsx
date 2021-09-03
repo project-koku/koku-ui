@@ -1,4 +1,5 @@
 import { Button } from '@patternfly/react-core';
+import { intlMock } from 'components/i18n';
 import messages from 'locales/messages';
 import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
 import { CostModelWizard } from 'pages/costModels/createCostModelWizard';
@@ -9,7 +10,6 @@ import { Dispatch } from 'redux';
 import { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
-import { intlMock } from 'components/i18n';
 
 const buttonMapStateToProps = (state: RootState) => {
   return {
