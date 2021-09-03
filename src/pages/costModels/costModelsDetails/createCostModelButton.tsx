@@ -9,6 +9,7 @@ import { Dispatch } from 'redux';
 import { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
+import { intlMock } from 'components/i18n';
 
 const buttonMapStateToProps = (state: RootState) => {
   return {
@@ -28,7 +29,7 @@ const buttonMergeProps = (
   dispatchProps: ReturnType<typeof buttonMapDispatchToProps>,
   ownProps: WrappedComponentProps
 ) => {
-  const { intl } = ownProps;
+  const { intl = intlMock } = ownProps;
   const { canWrite } = stateProps;
   const { openWizard } = dispatchProps;
 
