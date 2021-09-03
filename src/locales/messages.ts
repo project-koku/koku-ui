@@ -861,6 +861,11 @@ export default defineMessages({
     description: 'Source type',
     id: 'CostModelsSourceType',
   },
+  CostModelsTableAriaLabel: {
+    defaultMessage: 'EN Cost models table',
+    description: 'Cost models table',
+    id: 'CostModelsTableAriaLabel',
+  },
   CostModelsTagRateTableAriaLabel: {
     defaultMessage: 'EN Tag rates',
     description: 'Tag rates',
