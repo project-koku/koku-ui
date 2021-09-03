@@ -1,9 +1,9 @@
 import { Alert, Button, Modal, Title, TitleSizes } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
+import { intlMock } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { intlMock } from 'components/i18n';
 
 interface Props extends WrappedComponentProps {
   isSmall?: boolean;
