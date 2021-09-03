@@ -1,6 +1,7 @@
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
 import { ICell, IRowData, sortable, Table, TableBody, TableGridBreakpoint, TableHeader } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
+import { intlMock } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -10,7 +11,6 @@ import { Dispatch } from 'redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
-import { intlMock } from 'components/i18n';
 
 import { CostModelsQuery, parseOrdering } from './utils/query';
 import { createActions, createOnSort, getRowsByStateName } from './utils/table';
@@ -96,7 +96,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<CostModelsTableOwnProps, CostModelsTableStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<CostModelsTableOwnProps, CostModelsTableStateProps>(state => {
   return {
     canWrite: rbacSelectors.isCostModelWritePermission(state),
     query: costModelsSelectors.query(state) as CostModelsQuery,

@@ -1,8 +1,8 @@
 import { EmptyState, EmptyStateBody, EmptyStateVariant, Spinner, Title } from '@patternfly/react-core';
+import { intlMock } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { intlMock } from 'components/i18n';
 
 interface LoadingStateProps extends WrappedComponentProps {
   icon?: string;
