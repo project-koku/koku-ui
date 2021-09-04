@@ -19,9 +19,9 @@ import { metricsSelectors } from 'store/metrics';
 interface AddRateModalBaseOwnProps {
   isOpen?: boolean;
   isProcessing?: boolean;
+  metricsHash?: MetricHash;
   onClose?: () => void;
   updateError?: string;
-  metricsHash?: MetricHash;
 }
 
 interface AddRateModalBaseStateProps {
@@ -36,10 +36,10 @@ export const AddRateModalBase: React.FunctionComponent<AddRateModalBaseProps> = 
   intl,
   isOpen,
   isProcessing,
-  onClose,
-  updateError,
   metricsHash,
+  onClose,
   updateCostModel,
+  updateError,
 }) => {
   const rateFormData = useRateData(metricsHash);
   const canSubmit = React.useMemo(() => isReadyForSubmit(rateFormData), [rateFormData.errors, rateFormData.rateKind]);
