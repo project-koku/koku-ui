@@ -414,6 +414,6 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
   }
 );
 
-const ExplorerHeader = withRouter(injectIntl(connect(mapStateToProps, {})(ExplorerHeaderBase)));
+const ExplorerHeader = injectIntl(withRouter(connect(mapStateToProps, {})(ExplorerHeaderBase)));
 
 export { ExplorerHeader, ExplorerHeaderProps };
