@@ -1318,8 +1318,10 @@ export default defineMessages({
     id: 'DocsCostModelTerminology',
   },
   DocsUsingCostModels: {
-    defaultMessage: 'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models',
-    description: 'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models',
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models',
     id: 'DocsUsingCostModels',
   },
   Edit: {
