@@ -4,12 +4,14 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { formatCurrency } from 'utils/formatValue';
+import { intl as defaultIntl } from 'components/i18n';
 
 interface TagRateTableProps extends WrappedComponentProps {
   tagRates: TagRates;
 }
 
-const TagRateTable: React.FunctionComponent<TagRateTableProps> = ({ intl, tagRates }) => {
+// defaultIntl required for testing
+const TagRateTable: React.FunctionComponent<TagRateTableProps> = ({ intl = defaultIntl, tagRates }) => {
   const cells = [
     intl.formatMessage(messages.CostModelsTagRateTableKey),
     intl.formatMessage(messages.CostModelsTagRateTableValue),
