@@ -1,7 +1,7 @@
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
 import { ICell, IRowData, sortable, Table, TableBody, TableGridBreakpoint, TableHeader } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
-import { intlMock } from 'components/i18n';
+import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -38,7 +38,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
   public render() {
     const {
       actionResolver,
-      intl = intlMock,
+      intl = defaultIntl, // Default required for testing
       canWrite,
       costData,
       history: { push },
