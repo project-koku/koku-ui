@@ -1608,6 +1608,7 @@ export default defineMessages({
       '{value, select, ' +
       'account {EN Filter by account} ' +
       'cluster {EN Filter by cluster} ' +
+      'description {EN Filter by description} ' +
       'name {EN Filter by name} ' +
       'node {EN Filter by node} ' +
       'org_unit_id {EN Filter by organizational unit} ' +
@@ -1616,6 +1617,7 @@ export default defineMessages({
       'resource_location {EN Filter by region} ' +
       'service {EN Filter by service} ' +
       'service_name {EN Filter by service_name} ' +
+      'source_type {EN Filter by source type} ' +
       'subscription_guid {EN Filter by account} ' +
       'tag {EN Filter by tag} ' +
       'other {}}',

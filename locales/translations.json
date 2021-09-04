@@ -212,7 +212,7 @@
   "FilterByInputAriaLabel": "{value, select, account {EN Input for account name} cluster {EN Input for cluster name} name {EN Input for name name} node {EN Input for node name} org_unit_id {EN Input for organizational unit name} project {EN Input for project name} region {EN Input for region name} resource_location {EN Input for region name} service {EN Input for service name} service_name {EN Input for service_name name} subscription_guid {EN Input for account name} tag {EN Input for tag name} other {}}",
   "FilterByOrgUnitAriaLabel": "EN Organizational units",
   "FilterByOrgUnitPlaceholder": "EN Choose unit",
-  "FilterByPlaceholder": "{value, select, account {EN Filter by account} cluster {EN Filter by cluster} name {EN Filter by name} node {EN Filter by node} org_unit_id {EN Filter by organizational unit} project {EN Filter by project} region {EN Filter by region} resource_location {EN Filter by region} service {EN Filter by service} service_name {EN Filter by service_name} subscription_guid {EN Filter by account} tag {EN Filter by tag} other {}}",
+  "FilterByPlaceholder": "{value, select, account {EN Filter by account} cluster {EN Filter by cluster} description {EN Filter by description} name {EN Filter by name} node {EN Filter by node} org_unit_id {EN Filter by organizational unit} project {EN Filter by project} region {EN Filter by region} resource_location {EN Filter by region} service {EN Filter by service} service_name {EN Filter by service_name} source_type {EN Filter by source type} subscription_guid {EN Filter by account} tag {EN Filter by tag} other {}}",
   "FilterByTagKeyAriaLabel": "EN Tag keys",
   "FilterByTagKeyPlaceholder": "EN Choose key",
   "FilterByTagValueAriaLabel": "EN Tag values",
