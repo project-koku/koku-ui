@@ -8,9 +8,11 @@ import {
   SelectVariant,
 } from '@patternfly/react-core';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
+import { intl as defaultIntl } from 'components/i18n';
 import HookIntoProps from 'hook-into-props';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Dispatch } from 'redux';
@@ -41,18 +43,18 @@ const selectorMapDispatchToProps = (dispatch: Dispatch) => {
 const selectorMergeProps = (
   stateProps: ReturnType<typeof selectorMapStateToProps>,
   dispatchProps: ReturnType<typeof selectorMapDispatchToProps>,
-  ownProps: Opener & WithTranslation
+  ownProps: Opener & WrappedComponentProps
 ) => {
-  const { t } = ownProps;
+  const { intl = defaultIntl } = ownProps; // Default required for testing
   const options = [
     <SelectOption key="name" value="name">
-      {t('name')}
+      {intl.formatMessage(messages.Names, { count: 1 })}
     </SelectOption>,
     <SelectOption key="description" value="description">
-      {t('description')}
+      {intl.formatMessage(messages.Description)}
     </SelectOption>,
     <SelectOption key="sourceType" value="sourceType">
-      {t('page_cost_models.source_type')}
+      {intl.formatMessage(messages.CostModelsSourceType)}
     </SelectOption>,
   ];
   return {
@@ -72,7 +74,7 @@ const selectorMergeProps = (
 export const CostModelsFilterSelector = HookIntoProps(() => {
   const [isOpen, setIsOpen] = React.useState(false);
   return { isOpen, setIsOpen };
-})(withTranslation()(connect(selectorMapStateToProps, selectorMapDispatchToProps, selectorMergeProps)(Select)));
+})(injectIntl(connect(selectorMapStateToProps, selectorMapDispatchToProps, selectorMergeProps)(Select)));
 
 const topPaginationMapStateToProps = (state: RootState) => {
   const { count, page, perPage } = costModelsSelectors.pagination(state);
