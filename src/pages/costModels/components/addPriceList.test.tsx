@@ -62,7 +62,6 @@ const qr = {
   supplradio: /supplementary/i,
   regular: '#regular-rate',
   regularError: '#regular-rate-helper',
-  submit: 'cost_models_wizard.price_list.create_rate',
   cancel: 'cost_models_wizard.price_list.cancel',
   switch: 'Enter rate by tag',
   tagKey: '#tag-key',
@@ -147,10 +146,11 @@ describe('add-a-new-rate', () => {
     fireEvent.change(container.querySelector(qr.regular), { target: { value: '0.2' } });
 
     // making sure button is enabled
-    expect(getByText(/cost_models_wizard.price_list.create_rate/i).closest('button').disabled).toBeFalsy();
-    fireEvent.click(getByText(qr.submit));
+    expect(getByText(/Create rate/i).closest('button').disabled).toBeFalsy();
+    fireEvent.click(getByText(/Create rate/i).closest('button'));
     expect(submit).toHaveBeenCalled();
   });
+
   test('tag rates', () => {
     const submit = jest.fn();
     const cancel = jest.fn();
@@ -191,22 +191,23 @@ describe('add-a-new-rate', () => {
     expect(getByText('cost_models.add_rate_form.not_positive')).toBeTruthy();
 
     // setting a valid rate - now form is valid and can be submitted
-    expect(getByText(/create_rate/i).closest('button').disabled).toBeTruthy();
+    expect(getByText(/Create rate/i).closest('button').disabled).toBeTruthy();
     fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '0.23' } });
     fireEvent.change(container.querySelector(qr.descriptionNth(0)), { target: { value: 'default worker' } });
-    expect(getByText(/create_rate/i).closest('button').disabled).toBeFalsy();
+    expect(getByText(/Create rate/i).closest('button').disabled).toBeFalsy();
 
     // set tag to default
     fireEvent.click(container.querySelector(qr.defaultNth(0)));
 
     // add a new rate disables the submit button
     fireEvent.click(getByTestId('add_more'));
-    expect(getByText(/create_rate/i).closest('button').disabled).toBeTruthy();
+    expect(getByText(/Create rate/i).closest('button').disabled).toBeTruthy();
     fireEvent.click(getByTestId('remove_tag_1'));
-    expect(getByText(/create_rate/i).closest('button').disabled).toBeFalsy();
-    fireEvent.click(getByText(qr.submit));
+    expect(getByText(/Create rate/i).closest('button').disabled).toBeFalsy();
+    fireEvent.click(getByText(/Create rate/i).closest('button'));
     expect(submit).toHaveBeenCalled();
   });
+
   test('tag rates duplicate tag key', () => {
     const submit = jest.fn();
     const cancel = jest.fn();
