@@ -963,6 +963,13 @@ export default defineMessages({
     description: 'Red Hat OpenShift Container Platform',
     id: 'CostModelsWizardOnboardOCP',
   },
+  CostModelsWizardPriceListMetric: {
+    defaultMessage:
+      'EN Select the metric you want to assign a price to, and specify a measurement unit and rate. You can optionally set multiple rates for particular tags.',
+    description:
+      'Select the metric you want to assign a price to, and specify a measurement unit and rate. You can optionally set multiple rates for particular tags.',
+    id: 'CostModelsWizardPriceListMetric',
+  },
   CostModelsWizardReviewMarkDiscount: {
     defaultMessage: 'EN Markup/Discount',
     description: 'No Markup/Discount',
