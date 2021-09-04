@@ -977,6 +977,17 @@ export default defineMessages({
     description: 'Creation successful',
     id: 'CostModelsWizardReviewStatusTitle',
   },
+  CostModelsWizardSourceCaption: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {EN Select from the following Amazon Web Services sources:} ' +
+      'azure {EN Select from the following Microsoft Azure sources:} ' +
+      'gcp {EN Select from the following Google Cloud Platform sources:} ' +
+      'ocp {EN Select from the following OpenShift sources:} ' +
+      'other {}}',
+    description: 'Select from the following {value} sources:',
+    id: 'CostModelsWizardSourceCaption',
+  },
   CostModelsWizardSourceErrorDescription: {
     defaultMessage:
       'EN Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
@@ -988,6 +999,18 @@ export default defineMessages({
     description: 'This step is temporarily unavailable',
     id: 'CostModelsWizardSourceErrorTitle',
   },
+  CostModelsWizardSourceSubtitle: {
+    defaultMessage:
+      'EN Select one or more sources to this cost model. You can skip this step and assign the cost model to a source at a later time. A source will be unavailable for selection if a cost model is already assigned to it.',
+    description:
+      'Select one or more sources to this cost model. You can skip this step and assign the cost model to a source at a later time. A source will be unavailable for selection if a cost model is already assigned to it.',
+    id: 'CostModelsWizardSourceSubtitle',
+  },
+  CostModelsWizardSourceTableAriaLabel: {
+    defaultMessage: 'EN Assign sources to cost model table',
+    description: 'Assign sources to cost model table',
+    id: 'CostModelsWizardSourceTableAriaLabel',
+  },
   CostModelsWizardSourceTableCostModel: {
     defaultMessage: 'EN Cost model assigned',
     description: 'Cost model assigned',
@@ -997,11 +1020,6 @@ export default defineMessages({
     defaultMessage: 'EN Default cost model',
     description: 'Default cost model',
     id: 'CostModelsWizardSourceTableDefaultCostModel',
-  },
-  CostModelsWizardSourceTableToolbarAriaLabel: {
-    defaultMessage: 'EN Bottom toolbar containing pagination controls',
-    description: 'Bottom toolbar containing pagination controls',
-    id: 'CostModelsWizardSourceTableToolbarAriaLabel',
   },
   CostModelsWizardSourceTitle: {
     defaultMessage: 'EN Assign sources to the cost model (optional)',
