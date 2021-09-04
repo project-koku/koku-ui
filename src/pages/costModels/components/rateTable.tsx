@@ -10,6 +10,7 @@ import {
   TableVariant,
 } from '@patternfly/react-table';
 import { Rate } from 'api/rates';
+import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -24,7 +25,8 @@ interface RateTableProps extends WrappedComponentProps {
   isCompact?: boolean;
 }
 
-const RateTableBase: React.SFC<RateTableProps> = ({ intl, tiers, actions, isCompact }) => {
+// defaultIntl required for testing
+const RateTableBase: React.SFC<RateTableProps> = ({ intl = defaultIntl, tiers, actions, isCompact }) => {
   const [expanded, setExpanded] = React.useState({});
   const [sortBy, setSortBy] = React.useState<ISortBy>({});
   const cells = [
