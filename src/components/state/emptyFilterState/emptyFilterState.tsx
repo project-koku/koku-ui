@@ -2,7 +2,7 @@ import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { EmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import { OcpCloudQuery, parseQuery } from 'api/queries/ocpCloudQuery';
-import { intlMock } from 'components/i18n';
+import { intl as defaultIntl} from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -20,7 +20,7 @@ interface EmptyFilterStateProps extends WrappedComponentProps {
 const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
   filter,
   icon = SearchIcon,
-  intl = intlMock,
+  intl = defaultIntl, // Default required for testing
   showMargin = true,
 
   // destructure last
