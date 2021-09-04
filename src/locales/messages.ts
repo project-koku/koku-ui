@@ -799,6 +799,13 @@ export default defineMessages({
     description: 'Last change',
     id: 'CostModelsLastChange',
   },
+  CostModelsPopover: {
+    defaultMessage:
+      'EN A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}',
+    description:
+      'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}',
+    id: 'CostModelsPopover',
+  },
   CostModelsReadOnly: {
     defaultMessage: 'EN You have read only permissions',
     description: 'You have read only permissions',
@@ -1309,6 +1316,13 @@ export default defineMessages({
     description:
       'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#cost-model-terminology',
     id: 'DocsCostModelTerminology',
+  },
+  DocsUsingCostModels: {
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models',
+    id: 'DocsUsingCostModels',
   },
   Edit: {
     defaultMessage: 'EN Edit',

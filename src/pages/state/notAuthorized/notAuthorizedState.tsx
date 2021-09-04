@@ -50,6 +50,6 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps> {
   }
 }
 
-const NotAuthorizedState = withRouter(injectIntl(NotAuthorizedStateBase));
+const NotAuthorizedState = injectIntl(withRouter(NotAuthorizedStateBase));
 
 export { NotAuthorizedState };

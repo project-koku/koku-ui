@@ -92,6 +92,6 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
   }
 }
 
-const NoProvidersState = withRouter(injectIntl(NoProvidersStateBase));
+const NoProvidersState = injectIntl(withRouter(NoProvidersStateBase));
 
 export { NoProvidersState };

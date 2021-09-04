@@ -114,6 +114,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 };
 
 const CostModelsTableConnect = connect(mapStateToProps, mapDispatchToProps)(CostModelsTableBase);
-const CostModelsTable = withRouter(injectIntl(CostModelsTableConnect));
+const CostModelsTable = injectIntl(withRouter(CostModelsTableConnect));
 
 export default CostModelsTable;
