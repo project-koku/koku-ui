@@ -898,6 +898,16 @@ export default defineMessages({
     description: 'Tag value',
     id: 'CostModelsTagRateTableValue',
   },
+  CostModelsUUIDEmptyState: {
+    defaultMessage: 'EN Cost model can not be found',
+    description: 'Cost model can not be found',
+    id: 'CostModelsUUIDEmptyState',
+  },
+  CostModelsUUIDEmptyStateDesc: {
+    defaultMessage: 'EN Cost model with uuid: {uuid} does not exist.',
+    description: 'Cost model with uuid: {uuid} does not exist.',
+    id: 'CostModelsUUIDEmptyStateDesc',
+  },
   CostModelsWizardCreateCostModel: {
     defaultMessage: 'EN Create cost model',
     description: 'Create cost model',
