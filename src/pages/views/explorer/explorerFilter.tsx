@@ -267,6 +267,6 @@ const mapDispatchToProps: ExplorerFilterDispatchProps = {
 };
 
 const ExplorerFilterConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerFilterBase);
-const ExplorerFilter = withRouter(injectIntl(ExplorerFilterConnect));
+const ExplorerFilter = injectIntl(withRouter(ExplorerFilterConnect));
 
 export { ExplorerFilter, ExplorerFilterProps };
