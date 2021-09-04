@@ -62,8 +62,7 @@ const qr = {
   supplradio: /supplementary/i,
   regular: '#regular-rate',
   regularError: '#regular-rate-helper',
-  submit: 'Create rate',
-  cancel: 'Cancel',
+  cancel: 'cost_models_wizard.price_list.cancel',
   switch: 'Enter rate by tag',
   tagKey: '#tag-key',
   descriptionNth: (id: number) => `#desc_${id}`,
@@ -148,9 +147,10 @@ describe('add-a-new-rate', () => {
 
     // making sure button is enabled
     expect(getByText(/Create rate/i).closest('button').disabled).toBeFalsy();
-    fireEvent.click(getByText(qr.submit));
+    fireEvent.click(getByText(/Create rate/i).closest('button'));
     expect(submit).toHaveBeenCalled();
   });
+
   test('tag rates', () => {
     const submit = jest.fn();
     const cancel = jest.fn();
@@ -204,9 +204,10 @@ describe('add-a-new-rate', () => {
     expect(getByText(/Create rate/i).closest('button').disabled).toBeTruthy();
     fireEvent.click(getByTestId('remove_tag_1'));
     expect(getByText(/Create rate/i).closest('button').disabled).toBeFalsy();
-    fireEvent.click(getByText(qr.submit));
+    fireEvent.click(getByText(/Create rate/i).closest('button'));
     expect(submit).toHaveBeenCalled();
   });
+
   test('tag rates duplicate tag key', () => {
     const submit = jest.fn();
     const cancel = jest.fn();
