@@ -145,6 +145,6 @@ const mapDispatchToProps: DetailsActionsDispatchProps = {
 };
 
 const DetailsActionsConnect = connect(mapStateToProps, mapDispatchToProps)(DetailsActionsBase);
-const Actions = withRouter(injectIntl(DetailsActionsConnect));
+const Actions = injectIntl(withRouter(DetailsActionsConnect));
 
 export { Actions, DetailsActionsProps };

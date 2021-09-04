@@ -307,6 +307,6 @@ const mapDispatchToProps: ExplorerChartDispatchProps = {
 };
 
 const ExplorerChartConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerChartBase);
-const ExplorerChart = withRouter(injectIntl(ExplorerChartConnect));
+const ExplorerChart = injectIntl(withRouter(ExplorerChartConnect));
 
 export { ExplorerChart, ExplorerChartProps };
