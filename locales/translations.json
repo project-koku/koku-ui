@@ -110,6 +110,8 @@
   "CostModelsTagRateTableKey": "EN Tag key",
   "CostModelsTagRateTableRate": "EN Rate",
   "CostModelsTagRateTableValue": "EN Tag value",
+  "CostModelsUUIDEmptyState": "EN Cost model can not be found",
+  "CostModelsUUIDEmptyStateDesc": "EN Cost model with uuid: {uuid} does not exist.",
   "CostModelsWizardCreateCostModel": "EN Create cost model",
   "CostModelsWizardCreatePriceList": "EN Create a price list",
   "CostModelsWizardEmptySourceTypeLabel": "EN Select source type",

@@ -110,6 +110,8 @@
   "CostModelsTagRateTableKey": "FR Tag key",
   "CostModelsTagRateTableRate": "FR Rate",
   "CostModelsTagRateTableValue": "FR Tag value",
+  "CostModelsUUIDEmptyState": "FR Cost model can not be found",
+  "CostModelsUUIDEmptyStateDesc": "FR Cost model with uuid: {uuid} does not exist.",
   "CostModelsWizardCreateCostModel": "FR Create cost model",
   "CostModelsWizardCreatePriceList": "FR Create a price list",
   "CostModelsWizardEmptySourceTypeLabel": "FR Select source type",

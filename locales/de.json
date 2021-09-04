@@ -110,6 +110,8 @@
   "CostModelsTagRateTableKey": "DE Tag key",
   "CostModelsTagRateTableRate": "DE Rate",
   "CostModelsTagRateTableValue": "DE Tag value",
+  "CostModelsUUIDEmptyState": "DE Cost model can not be found",
+  "CostModelsUUIDEmptyStateDesc": "DE Cost model with uuid: {uuid} does not exist.",
   "CostModelsWizardCreateCostModel": "DE Create cost model",
   "CostModelsWizardCreatePriceList": "DE Create a price list",
   "CostModelsWizardEmptySourceTypeLabel": "DE Select source type",
