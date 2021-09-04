@@ -180,10 +180,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
           <EmptyFilterState filter={this.props.filter} subTitle={messages.EmptyFilterSourceStateSubtitle} />
         )}
         <Toolbar id="costmodels_details.sources_pagination_datatoolbar">
-          <ToolbarContent
-            style={{ flexDirection: 'row-reverse' }}
-            aria-label={intl.formatMessage(messages.CostModelsWizardSourceTableToolbarAriaLabel)}
-          >
+          <ToolbarContent style={{ flexDirection: 'row-reverse' }}>
             <ToolbarItem variant="pagination">
               <Pagination
                 itemCount={this.props.pagination.count}
