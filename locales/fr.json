@@ -123,6 +123,7 @@
   "CostModelsWizardNoRatesAdded": "FR No rates were added to the price list",
   "CostModelsWizardOnboardAWS": "FR Amazon Web Services (AWS)",
   "CostModelsWizardOnboardOCP": "FR Red Hat OpenShift Container Platform",
+  "CostModelsWizardPriceListMetric": "FR Select the metric you want to assign a price to, and specify a measurement unit and rate. You can optionally set multiple rates for particular tags.",
   "CostModelsWizardReviewMarkDiscount": "FR Markup/Discount",
   "CostModelsWizardReviewStatusSubDetails": "FR Review and confirm your cost model configuration and assignments. Click {create} to create the cost model, or {back} to revise.",
   "CostModelsWizardReviewStatusSubTitle": "FR Costs for resources connected to the assigned sources will now be calculated using the newly created {value} cost model.",
