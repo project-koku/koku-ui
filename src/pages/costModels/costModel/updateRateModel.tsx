@@ -2,6 +2,7 @@ import { Alert, Button, Modal, Stack, StackItem } from '@patternfly/react-core';
 import { CostModelRequest } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Form } from 'components/forms/form';
+import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import {
   canSubmit as isReadyForSubmit,
@@ -17,7 +18,6 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
-import { intl as defaultIntl } from 'components/i18n';
 
 interface UpdateRateModaBaseOwnProps {
   index: number;
