@@ -1,4 +1,5 @@
 import { Modal, ModalProps, ModalVariant } from '@patternfly/react-core';
+import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
@@ -29,7 +30,7 @@ const mergeProps = (
   dispatchProps: ReturnType<typeof mapDispatchToProps>,
   ownProps: WrappedComponentProps
 ) => {
-  const { intl } = ownProps;
+  const { intl = defaultIntl } = ownProps; // Default required for testing
   const stateName = getDialogStateName(stateProps.isLoading, stateProps.isOpen, stateProps.deleteError);
   const data = stateProps.dialogData && stateProps.dialogData.costModel ? stateProps.dialogData.costModel : null;
   const name = data ? data.name : '';

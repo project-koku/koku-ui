@@ -21,15 +21,13 @@ const renderUI = (state: Partial<RootState>) => {
   );
 };
 
-// Todo: disabled until cost models is converted to react-intl
-xtest('delete dialog closed', () => {
+test('delete dialog closed', () => {
   const { queryAllByText } = renderUI({});
-  expect(queryAllByText(/cannot_delete/i)).toHaveLength(0);
-  expect(queryAllByText(/can_delete/i)).toHaveLength(0);
+  expect(queryAllByText(/The following sources are assigned to/i)).toHaveLength(0);
+  expect(queryAllByText(/This action will delete/i)).toHaveLength(0);
 });
 
-// Todo: disabled until cost models is converted to react-intl
-xtest('delete dialog open', () => {
+test('delete dialog open', () => {
   const state = {
     costModels: {
       isDialogOpen: {
@@ -57,15 +55,15 @@ xtest('delete dialog open', () => {
       },
     },
   };
-  const { getByText, queryAllByText } = renderUI(state);
-  expect(queryAllByText(/delete_title/i)).toHaveLength(1);
-  expect(queryAllByText(/can_delete/i)).toHaveLength(1);
-  expect(queryAllByText(/cannot_delete/i)).toHaveLength(0);
-  fireEvent.click(getByText(/delete_cost_model/i));
-  expect(getByText(/delete_cost_model/i).closest('button').disabled).toBeTruthy();
+  const { getAllByText, queryAllByText } = renderUI(state);
+  expect(queryAllByText(/Delete cost model/i)).toHaveLength(2);
+  expect(queryAllByText(/This action will delete/i)).toHaveLength(1);
+  expect(queryAllByText(/The following sources are assigned to/i)).toHaveLength(0);
+  fireEvent.click(getAllByText(/Delete cost model/i)[1]);
+  expect(getAllByText(/Delete cost model/i)[1].disabled).toBeTruthy();
 });
-// Todo: disabled until cost models is converted to react-intl
-xtest('delete dialog error', () => {
+
+test('delete dialog error', () => {
   const state = {
     costModels: {
       isDialogOpen: {
@@ -94,9 +92,9 @@ xtest('delete dialog error', () => {
     },
   };
   const { getByText, queryAllByText } = renderUI(state);
-  expect(queryAllByText(/delete_title/i)).toHaveLength(1);
-  expect(queryAllByText(/can_delete/i)).toHaveLength(0);
-  expect(queryAllByText(/cannot_delete/i)).toHaveLength(2);
-  fireEvent.click(getByText(/cancel/i));
-  expect(queryAllByText(/delete_title/i)).toHaveLength(0);
+  expect(queryAllByText(/Delete cost model/i)).toHaveLength(1);
+  expect(queryAllByText(/This action will delete/i)).toHaveLength(0);
+  expect(queryAllByText(/The following sources are assigned to/i)).toHaveLength(1);
+  fireEvent.click(getByText(/Cancel/i));
+  expect(queryAllByText(/Delete cost model/i)).toHaveLength(0);
 });
