@@ -1,5 +1,5 @@
 import { Button } from '@patternfly/react-core';
-import { intlMock } from 'components/i18n';
+import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
 import { CostModelWizard } from 'pages/costModels/createCostModelWizard';
@@ -29,7 +29,7 @@ const buttonMergeProps = (
   dispatchProps: ReturnType<typeof buttonMapDispatchToProps>,
   ownProps: WrappedComponentProps
 ) => {
-  const { intl = intlMock } = ownProps;
+  const { intl = defaultIntl } = ownProps; // Default required for testing
   const { canWrite } = stateProps;
   const { openWizard } = dispatchProps;
 
