@@ -5,8 +5,7 @@ import React from 'react';
 import { RateTable } from './rateTable';
 
 describe('rate-table', () => {
-  // Todo: disabled until cost models is converted to react-intl
-  xtest('smoke-test', () => {
+  test('smoke-test', () => {
     const tiers: Rate[] = [
       {
         description: 'rate 1',
@@ -68,8 +67,7 @@ describe('rate-table', () => {
     expect(getByText('rate 2')).toBeTruthy();
     expect(getByText('grafana')).toBeTruthy();
   });
-  test.skip('sort by metric & measurement', () => {
-    // Todo: disabled until cost models is converted to react-intl
+  test('sort by metric & measurement', () => {
     // eslint-disable-next-line no-console
     console.error = jest.fn();
     const tiers: Rate[] = [
