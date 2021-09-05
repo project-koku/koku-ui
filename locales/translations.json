@@ -279,6 +279,7 @@
   "MarkupTitle": "EN Markup",
   "Measurement": "EN Measurement",
   "MeasurementPlaceholder": "EN Filter by measurements",
+  "MeasurementValues": "{value, select, count {{count, plural, one {EN Count} other {EN Count ({units})}}} request {{count, plural, one {EN Request} other {EN Request ({units})}}} usage {{count, plural, one {EN Usage} other {EN Usage ({units})}}} other {}}",
   "MemoryTitle": "EN Memory",
   "Metric": "EN Metric",
   "MetricPlaceholder": "EN Filter by metrics",

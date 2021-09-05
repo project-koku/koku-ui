@@ -967,7 +967,7 @@ export default defineMessages({
   },
   CostModelsWizardEmptyStateCreate: {
     defaultMessage: 'EN To create a price list, begin by clicking the {value} button.',
-    description: 'To create a price list, begin by clicking the <0>Create rate</0> button.',
+    description: 'To create a price list, begin by clicking the {Create rate} button.',
     id: 'CostModelsWizardEmptyStateCreate',
   },
   CostModelsWizardEmptyStateOtherTime: {
@@ -977,7 +977,7 @@ export default defineMessages({
   },
   CostModelsWizardEmptyStateSkipStep: {
     defaultMessage: 'EN To skip this step, click the {value} button.',
-    description: 'To skip this step, click the <0>next</0> button.',
+    description: 'To skip this step, click the {next} button.',
     id: 'CostModelsWizardEmptyStateSkipStep',
   },
   CostModelsWizardEmptyStateTitle: {
@@ -1021,7 +1021,7 @@ export default defineMessages({
     defaultMessage:
       'EN Review and confirm your cost model configuration and assignments. Click {create} to create the cost model, or {back} to revise.',
     description:
-      'Review and confirm your cost model configuration and assignments. Click <0>Create</0> to create the cost model, or <1>Back</1> to revise.',
+      'Review and confirm your cost model configuration and assignments. Click {Create} to create the cost model, or {Back} to revise.',
     id: 'CostModelsWizardReviewStatusSubDetails',
   },
   CostModelsWizardReviewStatusSubTitle: {
@@ -2106,6 +2106,16 @@ export default defineMessages({
     defaultMessage: 'EN Filter by measurements',
     description: 'Filter by measurements',
     id: 'MeasurementPlaceholder',
+  },
+  MeasurementValues: {
+    defaultMessage:
+      '{value, select, ' +
+      'count {{count, plural, one {EN Count} other {EN Count ({units})}}} ' +
+      'request {{count, plural, one {EN Request} other {EN Request ({units})}}} ' +
+      'usage {{count, plural, one {EN Usage} other {EN Usage ({units})}}} ' +
+      'other {}}',
+    description: 'Measurement values',
+    id: 'MeasurementValues',
   },
   MemoryTitle: {
     defaultMessage: 'EN Memory',

@@ -49,6 +49,22 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({ intl = defaultIn
     addTag,
     errors,
   } = rateFormData;
+  const getMetricLabel = m => {
+    // Match message descriptor or default to API string
+    const value = m.replace(/ /g, '_').toLowerCase();
+    const label = intl.formatMessage(messages.MetricValues, { value });
+    return label ? label : m;
+  };
+  const getMeasurementLabel = (m, u) => {
+    // Match message descriptor or default to API string
+    const units = intl.formatMessage(messages.Units, { units: u.replace(/-/g, '_').toLowerCase() });
+    const label = intl.formatMessage(messages.MeasurementValues, {
+      value: m.toLowerCase(),
+      units: units ? units : u,
+      count: 2,
+    });
+    return label ? label : m;
+  };
   const metricOptions = React.useMemo(() => {
     return Object.keys(metricsHash);
   }, [metricsHash]);
@@ -91,7 +107,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({ intl = defaultIn
               },
               ...metricOptions.map(opt => {
                 return {
-                  label: opt,
+                  label: getMetricLabel(opt),
                   value: opt,
                   isDisabled: false,
                 };
@@ -118,7 +134,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({ intl = defaultIn
                 },
                 ...measurementOptions.map(opt => {
                   return {
-                    label: `${opt} (${metricsHash[metric][opt].label_measurement_unit})`,
+                    label: getMeasurementLabel(opt, metricsHash[metric][opt].label_measurement_unit),
                     value: opt,
                     isDisabled: false,
                   };
