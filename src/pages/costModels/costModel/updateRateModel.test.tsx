@@ -338,13 +338,17 @@ describe('update-rate', () => {
     fireEvent.change(getByDisplayValue(/usage/i), { target: { value: 'Request' } });
 
     fireEvent.click(getByLabelText(regExp(messages.CostModelsEnterTagRate)));
-    fireEvent.change(getByLabelText(regExp(messages.CostModelsFilterTagKey)), { target: { value: 'openshift-region-1' } });
+    fireEvent.change(getByLabelText(regExp(messages.CostModelsFilterTagKey)), {
+      target: { value: 'openshift-region-1' },
+    });
     expect(queryByText(regExp(messages.PriceListDuplicate))).toBeTruthy();
   });
 
   test('duplicate tag key from tag rate', () => {
     const { queryByText, getByLabelText } = render(<RenderFormDataUI index={2} />);
-    fireEvent.change(getByLabelText(regExp(messages.CostModelsFilterTagKey)), { target: { value: 'openshift-region-1' } });
+    fireEvent.change(getByLabelText(regExp(messages.CostModelsFilterTagKey)), {
+      target: { value: 'openshift-region-1' },
+    });
     expect(queryByText(regExp(messages.PriceListDuplicate))).toBeTruthy();
   });
 });
