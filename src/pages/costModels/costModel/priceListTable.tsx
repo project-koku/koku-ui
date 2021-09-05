@@ -76,14 +76,21 @@ class PriceListTable extends React.Component<Props, State> {
   };
   public render() {
     const { intl, fetchStatus, fetchError, isDialogOpen, isWritePermission, metricsHash } = this.props;
+
+    // Match message descriptor or default to API string
+    const getMetricLabel = m => {
+      const value = m.replace(/ /g, '_').toLowerCase();
+      const label = intl.formatMessage(messages.MetricValues, { value });
+      return label ? label : m;
+    };
     const metricOpts = Object.keys(metricsHash).map(m => ({
-      label: m,
+      label: getMetricLabel(m), // metric
       value: m,
     }));
     const measurementOpts = metricOpts.reduce((acc, curr) => {
       const measurs = Object.keys(metricsHash[curr.value])
         .filter(m => !acc.map(i => i.value).includes(m))
-        .map(m => ({ label: m, value: m }));
+        .map(m => ({ label: getMetricLabel(m), value: m }));
       return [...acc, ...measurs];
     }, []);
 
