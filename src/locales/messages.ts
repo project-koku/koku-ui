@@ -2122,6 +2122,19 @@ export default defineMessages({
     description: 'Filter by metrics',
     id: 'MetricPlaceholder',
   },
+  MetricValues: {
+    defaultMessage:
+      '{value, select, ' +
+      'cpu {EN CPU} ' +
+      'cluster {EN Cluster} ' +
+      'memory {EN Memory} ' +
+      'node {EN Node} ' +
+      'persistent_volume_claims {EN Persistent volume claims} ' +
+      'storage {EN Storage} ' +
+      'other {}}',
+    description: 'Metric values',
+    id: 'MetricValues',
+  },
   MonthOverMonthChange: {
     defaultMessage: 'EN Month over month change',
     description: 'Month over month change',

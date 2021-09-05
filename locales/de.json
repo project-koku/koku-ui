@@ -282,6 +282,7 @@
   "MemoryTitle": "DE Memory",
   "Metric": "DE Metric",
   "MetricPlaceholder": "DE Filter by metrics",
+  "MetricValues": "{value, select, cpu {DE CPU} cluster {DE Cluster} memory {DE Memory} node {DE Node} persistent_volume_claims {DE Persistent volume claims} storage {DE Storage} other {}}",
   "MonthOverMonthChange": "DE Month over month change",
   "Name": "{count, plural, one {DE name} other {DE names}}",
   "NameTitleCase": "{count, plural, one {DE Name} other {DE Names}}",

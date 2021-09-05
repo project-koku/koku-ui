@@ -282,6 +282,7 @@
   "MemoryTitle": "FR Memory",
   "Metric": "FR Metric",
   "MetricPlaceholder": "FR Filter by metrics",
+  "MetricValues": "{value, select, cpu {FR CPU} cluster {FR Cluster} memory {FR Memory} node {FR Node} persistent_volume_claims {FR Persistent volume claims} storage {FR Storage} other {}}",
   "MonthOverMonthChange": "FR Month over month change",
   "Name": "{count, plural, one {FR name} other {FR names}}",
   "NameTitleCase": "{count, plural, one {FR Name} other {FR Names}}",
