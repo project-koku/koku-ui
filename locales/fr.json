@@ -281,7 +281,7 @@
   "MeasurementPlaceholder": "FR Filter by measurements",
   "MemoryTitle": "FR Memory",
   "Metric": "FR Metric",
-  "MetricPlaceholder": "FR Filter by measurements",
+  "MetricPlaceholder": "FR Filter by metrics",
   "MonthOverMonthChange": "FR Month over month change",
   "Name": "{count, plural, one {FR name} other {FR names}}",
   "NameTitleCase": "{count, plural, one {FR Name} other {FR Names}}",

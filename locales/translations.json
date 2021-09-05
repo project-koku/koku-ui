@@ -281,7 +281,7 @@
   "MeasurementPlaceholder": "EN Filter by measurements",
   "MemoryTitle": "EN Memory",
   "Metric": "EN Metric",
-  "MetricPlaceholder": "EN Filter by measurements",
+  "MetricPlaceholder": "EN Filter by metrics",
   "MonthOverMonthChange": "EN Month over month change",
   "Name": "{count, plural, one {EN name} other {EN names}}",
   "NameTitleCase": "{count, plural, one {EN Name} other {EN Names}}",

@@ -281,7 +281,7 @@
   "MeasurementPlaceholder": "DE Filter by measurements",
   "MemoryTitle": "DE Memory",
   "Metric": "DE Metric",
-  "MetricPlaceholder": "DE Filter by measurements",
+  "MetricPlaceholder": "DE Filter by metrics",
   "MonthOverMonthChange": "DE Month over month change",
   "Name": "{count, plural, one {DE name} other {DE names}}",
   "NameTitleCase": "{count, plural, one {DE Name} other {DE Names}}",
