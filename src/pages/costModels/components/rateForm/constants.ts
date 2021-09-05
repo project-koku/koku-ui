@@ -1,8 +1,10 @@
+import messages from 'locales/messages';
+
 export const textHelpers = {
-  duplicate: 'cost_models.add_rate_form.duplicate',
-  required: 'cost_models.required_field',
-  not_number: 'cost_models.add_rate_form.not_number',
-  not_positive: 'cost_models.add_rate_form.not_positive',
-  description_too_long: 'cost_models.description_too_long',
-  tag_too_long: 'cost_models.add_rate_form.tag_too_long',
+  duplicate: messages.PriceListDuplicate,
+  required: messages.CostModelsRequiredField,
+  not_number: messages.PriceListNumberRate,
+  not_positive: messages.PriceListPosNumberRate,
+  description_too_long: messages.CostModelsDescTooLong,
+  tag_too_long: messages.CostModelsInfoTooLong,
 };
