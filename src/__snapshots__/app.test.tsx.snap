@@ -1,17 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders login if isLoggedIn is false 1`] = `
-<I18nProvider
-  locale="en"
->
-  <Routes />
-</I18nProvider>
-`;
+exports[`renders login if isLoggedIn is false 1`] = `<Routes />`;
 
-exports[`renders page layout 1`] = `
-<I18nProvider
-  locale="en"
->
-  <Routes />
-</I18nProvider>
-`;
+exports[`renders page layout 1`] = `<Routes />`;
