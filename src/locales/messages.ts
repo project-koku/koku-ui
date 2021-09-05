@@ -2107,6 +2107,16 @@ export default defineMessages({
     description: 'Filter by measurements',
     id: 'MeasurementPlaceholder',
   },
+  MeasurementValues: {
+    defaultMessage:
+      '{value, select, ' +
+      'count {{count, plural, one {EN Count} other {EN Count ({units})}}} ' +
+      'request {{count, plural, one {EN Request} other {EN Request ({units})}}} ' +
+      'usage {{count, plural, one {EN Usage} other {EN Usage ({units})}}} ' +
+      'other {}}',
+    description: 'Measurement values',
+    id: 'MeasurementValues',
+  },
   MemoryTitle: {
     defaultMessage: 'EN Memory',
     description: 'Memory',

@@ -279,6 +279,7 @@
   "MarkupTitle": "FR Markup",
   "Measurement": "FR Measurement",
   "MeasurementPlaceholder": "FR Filter by measurements",
+  "MeasurementValues": "{value, select, count {{count, plural, one {FR Count} other {FR Count ({units})}}} request {{count, plural, one {FR Request} other {FR Request ({units})}}} usage {{count, plural, one {FR Usage} other {FR Usage ({units})}}} other {}}",
   "MemoryTitle": "FR Memory",
   "Metric": "FR Metric",
   "MetricPlaceholder": "FR Filter by metrics",

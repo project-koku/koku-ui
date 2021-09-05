@@ -279,6 +279,7 @@
   "MarkupTitle": "DE Markup",
   "Measurement": "DE Measurement",
   "MeasurementPlaceholder": "DE Filter by measurements",
+  "MeasurementValues": "{value, select, count {{count, plural, one {DE Count} other {DE Count ({units})}}} request {{count, plural, one {DE Request} other {DE Request ({units})}}} usage {{count, plural, one {DE Usage} other {DE Usage ({units})}}} other {}}",
   "MemoryTitle": "DE Memory",
   "Metric": "DE Metric",
   "MetricPlaceholder": "DE Filter by metrics",
