@@ -32,9 +32,8 @@ interface AddPriceListOwnProps {
 
 type AddPriceListProps = AddPriceListOwnProps & WrappedComponentProps;
 
-// defaultIntl required for testing
 const AddPriceList: React.FunctionComponent<AddPriceListProps> = ({
-  intl = defaultIntl,
+  intl = defaultIntl, // Default required for testing
   submitRate,
   cancel,
   metricsHash,
