@@ -1,22 +1,26 @@
 import { Button, ButtonVariant, FormGroup, Grid, GridItem, Radio, Switch } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { MetricHash } from 'api/metrics';
-import { RateInputBase } from 'pages/costModels/components/inputs/rateInput';
+import { intl as defaultIntl } from 'components/i18n';
+import messages from 'locales/messages';
+import { RateInput } from 'pages/costModels/components/inputs/rateInput';
 import { Selector } from 'pages/costModels/components/inputs/selector';
 import { SimpleInput } from 'pages/costModels/components/inputs/simpleInput';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import { TaggingRatesForm } from './taggingRatesForm';
 import { UseRateData } from './useRateForm';
 
-interface RateFormProps {
+interface RateFormOwnProps {
   rateFormData: UseRateData;
   metricsHash: MetricHash;
 }
 
-export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, rateFormData }) => {
-  const { t } = useTranslation();
+type RateFormProps = RateFormOwnProps & WrappedComponentProps;
+
+// defaultIntl required for testing
+const RateFormBase: React.FunctionComponent<RateFormProps> = ({ intl = defaultIntl, metricsHash, rateFormData }) => {
   const {
     step,
     description,
@@ -64,7 +68,7 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
       <SimpleInput
         style={style}
         id="description"
-        label="description"
+        label={messages.Description}
         value={description}
         validated={errors.description ? 'error' : 'default'}
         helperTextInvalid={errors.description}
@@ -76,12 +80,12 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
             isRequired
             style={style}
             id="metric"
-            label="cost_models.add_rate_form.metric_select"
+            label={messages.Metric}
             value={metric}
             onChange={setMetric}
             options={[
               {
-                label: 'cost_models.add_rate_form.default_option',
+                label: messages.Select,
                 value: '',
                 isDisabled: true,
               },
@@ -103,12 +107,12 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
               isInvalid={errors.measurement && measurementDirty}
               style={style}
               id="measurement"
-              label="cost_models.add_rate_form.measurement_select"
+              label={messages.Measurement}
               value={measurement}
               onChange={setMeasurement}
               options={[
                 {
-                  label: 'cost_models.add_rate_form.default_option',
+                  label: messages.Select,
                   value: '',
                   isDisabled: true,
                 },
@@ -127,33 +131,38 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
       {step === 'set_rate' ? (
         <>
           <>
-            <FormGroup isInline style={style} fieldId="calculation" label={t('cost_models.calculation_type')}>
+            <FormGroup
+              isInline
+              style={style}
+              fieldId="calculation"
+              label={intl.formatMessage(messages.CalculationType)}
+            >
               <Radio
                 name="calculation"
                 id="calculation_infra"
-                label={t('cost_models.add_rate_form.infrastructure')}
+                label={intl.formatMessage(messages.Infrastructure)}
                 isChecked={calculation === 'Infrastructure'}
                 onChange={() => setCalculation('Infrastructure')}
               />
               <Radio
                 name="calculation"
                 id="calculation_suppl"
-                label={t('cost_models.add_rate_form.supplementary')}
+                label={intl.formatMessage(messages.Supplementary)}
                 isChecked={calculation === 'Supplementary'}
                 onChange={() => setCalculation('Supplementary')}
               />
             </FormGroup>
             {metric !== 'Cluster' ? (
               <Switch
-                aria-label="Enter rate by tag"
-                label={t('cost_models.add_rate_form.rate_switch')}
+                aria-label={intl.formatMessage(messages.CostModelsEnterTagRate)}
+                label={intl.formatMessage(messages.CostModelsEnterTagRate)}
                 isChecked={rateKind === 'tagging'}
                 onChange={toggleTaggingRate}
               />
             ) : null}
           </>
           {rateKind === 'regular' ? (
-            <RateInputBase
+            <RateInput
               style={style}
               helperTextInvalid={errors.tieredRates}
               validated={errors.tieredRates && regularDirty ? 'error' : 'default'}
@@ -169,8 +178,8 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
                 value={tagKey}
                 onChange={setTagKey}
                 id="tag-key"
-                label={t('cost_models.add_rate_form.tag_key')}
-                placeholder={t('cost_models.add_rate_form.enter_a_tag_key')}
+                label={messages.CostModelsFilterTagKey}
+                placeholder={intl.formatMessage(messages.CostModelsEnterTagKey)}
                 validated={errors.tagKey && isTagKeyDirty ? 'error' : 'default'}
                 helperTextInvalid={errors.tagKey}
               />
@@ -187,7 +196,7 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
                 removeTag={removeTag}
               />
               <Button data-testid="add_more" style={addStyle} variant={ButtonVariant.link} onClick={addTag}>
-                <PlusCircleIcon /> {t('cost_models.add_rate_form.add_more_tag_values')}
+                <PlusCircleIcon /> {intl.formatMessage(messages.CostModelsAddTagValues)}
               </Button>
             </>
           )}
@@ -196,3 +205,6 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
     </>
   );
 };
+
+const RateForm = injectIntl(RateFormBase);
+export { RateForm };
