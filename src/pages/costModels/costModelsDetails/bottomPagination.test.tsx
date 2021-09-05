@@ -1,4 +1,3 @@
-jest.unmock('react-i18next');
 import { render } from '@testing-library/react';
 import { emptyPage, page1 } from 'api/costModels.data';
 import { createMemoryHistory } from 'history';

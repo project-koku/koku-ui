@@ -1,4 +1,3 @@
-import { I18nProvider } from 'components/i18n';
 import Maintenance from 'pages/state/maintenance';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -76,7 +75,7 @@ export class App extends React.Component<AppProps, AppState> {
     const { maintenanceMode } = this.state;
     const route = maintenanceMode ? <Maintenance /> : <Routes />;
 
-    return <I18nProvider locale="en">{route}</I18nProvider>;
+    return route;
   }
 }
 
