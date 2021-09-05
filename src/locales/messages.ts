@@ -766,6 +766,23 @@ export default defineMessages({
     description: 'Edit distribution',
     id: 'CostModelsDistributionEdit',
   },
+  CostModelsEmptyState: {
+    defaultMessage: 'EN What is your hybrid cloud costing you?',
+    description: 'What is your hybrid cloud costing you?',
+    id: 'CostModelsEmptyState',
+  },
+  CostModelsEmptyStateDesc: {
+    defaultMessage:
+      'EN Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the button below to begin the journey.',
+    description:
+      'Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the button below to begin the journey.',
+    id: 'CostModelsEmptyStateDesc',
+  },
+  CostModelsEmptyStateLearnMore: {
+    defaultMessage: 'EN Read about setting up a cost model',
+    description: 'Read about setting up a cost model',
+    id: 'CostModelsEmptyStateLearnMore',
+  },
   CostModelsEnterTagKey: {
     defaultMessage: 'EN Enter a tag key',
     description: 'Enter a tag key',
