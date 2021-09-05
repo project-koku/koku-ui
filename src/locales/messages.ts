@@ -688,6 +688,11 @@ export default defineMessages({
     description: 'Cost Models',
     id: 'CostModels',
   },
+  CostModelsAddTagValues: {
+    defaultMessage: 'EN Add more tag values',
+    description: 'Add more tag values',
+    id: 'CostModelsAddTagValues',
+  },
   CostModelsAssignSource: {
     defaultMessage: 'EN Assign source',
     description: 'Assign source',
@@ -761,6 +766,21 @@ export default defineMessages({
     description: 'Edit distribution',
     id: 'CostModelsDistributionEdit',
   },
+  CostModelsEnterTagKey: {
+    defaultMessage: 'EN Enter a tag key',
+    description: 'Enter a tag key',
+    id: 'CostModelsEnterTagKey',
+  },
+  CostModelsEnterTagRate: {
+    defaultMessage: 'EN Enter rate by tag',
+    description: 'Enter rate by tag',
+    id: 'CostModelsEnterTagRate',
+  },
+  CostModelsEnterTagValue: {
+    defaultMessage: 'EN Enter a tag value',
+    description: 'Enter a tag value',
+    id: 'CostModelsEnterTagValue',
+  },
   CostModelsExamplesDoubleMarkup: {
     defaultMessage: 'EN A markup rate of (+) 100% doubles the base costs of your source(s).',
     description: 'A markup rate of (+) 100% doubles the base costs of your source(s).',
@@ -788,6 +808,11 @@ export default defineMessages({
     defaultMessage: 'EN Filter by name...',
     description: 'Filter by name',
     id: 'CostModelsFilterPlaceholder',
+  },
+  CostModelsFilterTagKey: {
+    defaultMessage: 'EN Filter by tag key',
+    description: 'Filter by tag key',
+    id: 'CostModelsFilterTagKey',
   },
   CostModelsInfoTooLong: {
     defaultMessage: 'EN Should not exceed 100 characters',
@@ -2485,6 +2510,11 @@ export default defineMessages({
     description: 'This action will remove {metric} rate from {costModel}, which is assigned to the following sources:',
     id: 'PriceListDesc',
   },
+  PriceListDuplicate: {
+    defaultMessage: 'EN This tag key is already in use',
+    description: 'This tag key is already in use',
+    id: 'PriceListDuplicate',
+  },
   PriceListEditRate: {
     defaultMessage: 'EN Edit rate',
     description: 'Edit rate',
@@ -2499,6 +2529,16 @@ export default defineMessages({
     defaultMessage: 'EN To add rates to the price list, click on the "Add" rate button above.',
     description: 'To add rates to the price list, click on the "Add" rate button above.',
     id: 'PriceListEmptyRateDesc',
+  },
+  PriceListNumberRate: {
+    defaultMessage: 'EN Rate must be a number',
+    description: 'Rate must be a number',
+    id: 'PriceListNumberRate',
+  },
+  PriceListPosNumberRate: {
+    defaultMessage: 'EN Rate must be a positive number',
+    description: 'Rate must be a positive number',
+    id: 'PriceListPosNumberRate',
   },
   Rate: {
     defaultMessage: 'EN Rate',
@@ -2541,6 +2581,11 @@ export default defineMessages({
     description: 'Save',
     id: 'Save',
   },
+  Select: {
+    defaultMessage: 'EN Select...',
+    description: 'Select...',
+    id: 'Select',
+  },
   SelectAll: {
     defaultMessage: 'EN Select all',
     description: 'Select all',
@@ -2569,6 +2614,11 @@ export default defineMessages({
     defaultMessage: 'EN Sources',
     description: 'Sources',
     id: 'Sources',
+  },
+  Supplementary: {
+    defaultMessage: 'EN Supplementary',
+    description: 'Supplementary',
+    id: 'Supplementary',
   },
   TagHeadingKey: {
     defaultMessage: 'EN Key',

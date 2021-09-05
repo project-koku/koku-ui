@@ -51,7 +51,7 @@ export type RateFormTagValue = typeof initialRateFormData['taggingRates']['tagVa
 export type taggingRates = typeof initialRateFormData['taggingRates'];
 export type RateFormErrors = typeof initialRateFormData['errors'];
 
-export const checkRateOnChange = (regular: string): string => {
+export const checkRateOnChange = (regular: string) => {
   if (regular.length === 0) {
     return textHelpers.required;
   }
@@ -253,14 +253,14 @@ export function compareBy(
   return m1 > m2 ? -1 : m1 < m2 ? 1 : 0;
 }
 
-export const descriptionErrors = (value: string): string | null => {
+export const descriptionErrors = (value: string) => {
   if (value.length > 500) {
     return textHelpers.description_too_long;
   }
   return null;
 };
 
-export const tagKeyValueErrors = (value: string): string | null => {
+export const tagKeyValueErrors = (value: string) => {
   if (value.length === 0) {
     return textHelpers.required;
   }

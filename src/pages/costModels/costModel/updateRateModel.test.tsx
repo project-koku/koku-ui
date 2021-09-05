@@ -250,94 +250,96 @@ describe('update-rate', () => {
   test('submit regular', () => {
     const { getByDisplayValue, getByText } = render(<RenderFormDataUI index={0} />);
     fireEvent.change(getByDisplayValue(/openshift-aws-node/i), { target: { value: 'a new description' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
-    fireEvent.click(getByText(/save/i));
+    expect(getByText(/Save/).closest('button').disabled).toBeFalsy();
+    fireEvent.click(getByText(/Save/));
   });
 
   test('regular', () => {
     const { getByLabelText, getByDisplayValue, getByText } = render(<RenderFormDataUI index={0} />);
     fireEvent.change(getByDisplayValue(/openshift-aws-node/i), { target: { value: 'a new description' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
+    expect(getByText(/Save/).closest('button').disabled).toBeFalsy();
     fireEvent.change(getByDisplayValue(/a new description/i), { target: { value: 'openshift-aws-node' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeTruthy();
+    expect(getByText(/Save/).closest('button').disabled).toBeTruthy();
 
     fireEvent.change(getByDisplayValue(/usage/i), { target: { value: 'Request' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
+    expect(getByText(/Save/).closest('button').disabled).toBeFalsy();
     fireEvent.change(getByDisplayValue(/request/i), { target: { value: 'Usage' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeTruthy();
+    expect(getByText(/Save/).closest('button').disabled).toBeTruthy();
 
     fireEvent.change(getByDisplayValue(/cpu/i), { target: { value: 'Memory' } });
-    fireEvent.change(getByDisplayValue(/default_option/i), { target: { value: 'Usage' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
+    fireEvent.change(getByDisplayValue(/Select.../i), { target: { value: 'Usage' } });
+    expect(getByText(/Save/).closest('button').disabled).toBeFalsy();
     fireEvent.change(getByDisplayValue(/memory/i), { target: { value: 'CPU' } });
-    fireEvent.change(getByDisplayValue(/default_option/i), { target: { value: 'Usage' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeTruthy();
+    fireEvent.change(getByDisplayValue(/Select.../i), { target: { value: 'Usage' } });
+    expect(getByText(/Save/).closest('button').disabled).toBeTruthy();
 
     fireEvent.click(getByLabelText(/infrastructure/i));
-    expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
+    expect(getByText(/Save/).closest('button').disabled).toBeFalsy();
     fireEvent.click(getByLabelText(/supplementary/i));
-    expect(getByText(/save/i).closest('button').disabled).toBeTruthy();
+    expect(getByText(/Save/).closest('button').disabled).toBeTruthy();
 
     fireEvent.change(getByDisplayValue(/55/i), { target: { value: '55.3' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
+    expect(getByText(/Save/).closest('button').disabled).toBeFalsy();
     fireEvent.change(getByDisplayValue(/55.3/i), { target: { value: '55' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeTruthy();
+    expect(getByText(/Save/).closest('button').disabled).toBeTruthy();
 
     fireEvent.click(getByLabelText(/enter rate by tag/i));
-    expect(getByText(/save/i).closest('button').disabled).toBeTruthy();
-    fireEvent.change(getByLabelText(/cost_models.add_rate_form.tag_key/i), { target: { value: 'openshift' } });
-    fireEvent.change(getByLabelText(/cost_models.tag_value/i), { target: { value: 'worker' } });
-    fireEvent.change(getByLabelText(/cost_models.rate/i), { target: { value: '0.321' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
-    fireEvent.click(getByText(/save/i));
+    expect(getByText(/Save/).closest('button').disabled).toBeTruthy();
+    fireEvent.change(getByLabelText(/Filter by tag key/i), { target: { value: 'openshift' } });
+    fireEvent.change(getByLabelText(/Tag value/i), { target: { value: 'worker' } });
+    fireEvent.change(getByLabelText(/Rate/), { target: { value: '0.321' } });
+    expect(getByText(/Save/).closest('button').disabled).toBeFalsy();
+    fireEvent.click(getByText(/Save/));
   });
 
   test('tag', () => {
     const { getByTestId, getAllByLabelText, getByDisplayValue, getByText } = render(<RenderFormDataUI index={1} />);
     fireEvent.change(getByDisplayValue(/^container/i), { target: { value: 'container1' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
+    expect(getByText(/Save/).closest('button').disabled).toBeFalsy();
     fireEvent.change(getByDisplayValue(/^container1/i), { target: { value: 'container' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeTruthy();
+    expect(getByText(/Save/).closest('button').disabled).toBeTruthy();
 
     fireEvent.change(getByDisplayValue(/any container/i), { target: { value: 'any container1' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
+    expect(getByText(/Save/).closest('button').disabled).toBeFalsy();
     fireEvent.change(getByDisplayValue(/any container1/i), { target: { value: 'any container' } });
 
     fireEvent.change(getByDisplayValue(/0.4/i), { target: { value: '1.23' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
+    expect(getByText(/Save/).closest('button').disabled).toBeFalsy();
     fireEvent.change(getByDisplayValue(/1.23/i), { target: { value: '0.4' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeTruthy();
+    expect(getByText(/Save/).closest('button').disabled).toBeTruthy();
 
     fireEvent.click(getAllByLabelText(/Default/i)[1]);
-    expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
+    expect(getByText(/Save/).closest('button').disabled).toBeFalsy();
     fireEvent.click(getAllByLabelText(/Default/i)[0]);
-    expect(getByText(/save/i).closest('button').disabled).toBeTruthy();
+    expect(getByText(/Save/).closest('button').disabled).toBeTruthy();
 
     fireEvent.click(getByTestId(/add_more/i));
-    fireEvent.change(getAllByLabelText(/cost_models.tag_value/i)[4], {
+    fireEvent.change(getAllByLabelText(/Tag value/i)[4], {
       target: { value: 'something random' },
     });
-    fireEvent.change(getAllByLabelText(/cost_models.rate/i)[4], { target: { value: '1.01' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
+    fireEvent.change(getAllByLabelText(/Rate/)[4], { target: { value: '1.01' } });
+    expect(getByText(/Save/).closest('button').disabled).toBeFalsy();
     fireEvent.click(getByTestId('remove_tag_4'));
-    expect(getByText(/save/i).closest('button').disabled).toBeTruthy();
+    expect(getByText(/Save/).closest('button').disabled).toBeTruthy();
 
     fireEvent.change(getByDisplayValue(/openshift-region-1/i), { target: { value: 'openshift-2' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
+    expect(getByText(/Save/).closest('button').disabled).toBeFalsy();
     fireEvent.change(getByDisplayValue(/openshift-2/i), { target: { value: 'openshift-region-1' } });
-    expect(getByText(/save/i).closest('button').disabled).toBeTruthy();
+    expect(getByText(/Save/).closest('button').disabled).toBeTruthy();
   });
+
   test('duplicate tag key from regular rate', () => {
     const { queryByText, getByLabelText, getByDisplayValue } = render(<RenderFormDataUI index={0} />);
     fireEvent.change(getByDisplayValue(/usage/i), { target: { value: 'Request' } });
 
     fireEvent.click(getByLabelText(/enter rate by tag/i));
-    fireEvent.change(getByLabelText(/cost_models.add_rate_form.tag_key/i), { target: { value: 'openshift-region-1' } });
-    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeTruthy();
+    fireEvent.change(getByLabelText(/Filter by tag key/i), { target: { value: 'openshift-region-1' } });
+    expect(queryByText(/This tag key is already in use/i)).toBeTruthy();
   });
+
   test('duplicate tag key from tag rate', () => {
     const { queryByText, getByLabelText } = render(<RenderFormDataUI index={2} />);
-    fireEvent.change(getByLabelText(/cost_models.add_rate_form.tag_key/i), { target: { value: 'openshift-region-1' } });
-    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeTruthy();
+    fireEvent.change(getByLabelText(/Filter by tag key/i), { target: { value: 'openshift-region-1' } });
+    expect(queryByText(/This tag key is already in use/i)).toBeTruthy();
   });
 });
