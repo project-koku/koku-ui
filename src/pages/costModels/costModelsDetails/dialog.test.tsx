@@ -1,5 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
+import messages from 'locales/messages';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
@@ -20,6 +21,10 @@ const renderUI = (state: Partial<RootState>) => {
     </Provider>
   );
 };
+
+function regExp(msg) {
+  return new RegExp(msg.defaultMessage);
+}
 
 test('delete dialog closed', () => {
   const { queryAllByText } = renderUI({});
@@ -56,11 +61,11 @@ test('delete dialog open', () => {
     },
   };
   const { getAllByText, queryAllByText } = renderUI(state);
-  expect(queryAllByText(/Delete cost model/i)).toHaveLength(2);
+  expect(queryAllByText(regExp(messages.CostModelsDelete))).toHaveLength(2);
   expect(queryAllByText(/This action will delete/i)).toHaveLength(1);
   expect(queryAllByText(/The following sources are assigned to/i)).toHaveLength(0);
-  fireEvent.click(getAllByText(/Delete cost model/i)[1]);
-  expect(getAllByText(/Delete cost model/i)[1].disabled).toBeTruthy();
+  fireEvent.click(getAllByText(regExp(messages.CostModelsDelete))[1]);
+  expect(getAllByText(regExp(messages.CostModelsDelete))[1].disabled).toBeTruthy();
 });
 
 test('delete dialog error', () => {
@@ -92,9 +97,9 @@ test('delete dialog error', () => {
     },
   };
   const { getByText, queryAllByText } = renderUI(state);
-  expect(queryAllByText(/Delete cost model/i)).toHaveLength(1);
+  expect(queryAllByText(regExp(messages.CostModelsDelete))).toHaveLength(1);
   expect(queryAllByText(/This action will delete/i)).toHaveLength(0);
   expect(queryAllByText(/The following sources are assigned to/i)).toHaveLength(1);
-  fireEvent.click(getByText(/Cancel/i));
-  expect(queryAllByText(/Delete cost model/i)).toHaveLength(0);
+  fireEvent.click(getByText(regExp(messages.Cancel)));
+  expect(queryAllByText(regExp(messages.CostModelsDelete))).toHaveLength(0);
 });

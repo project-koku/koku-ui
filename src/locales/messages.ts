@@ -732,12 +732,12 @@ export default defineMessages({
   CostModelsDelete: {
     defaultMessage: 'EN Delete cost model',
     description: 'Delete cost model',
-    id: 'CostModelsDeleteTitle',
+    id: 'CostModelsDelete',
   },
   CostModelsDeleteDesc: {
     defaultMessage: 'EN This action will delete {costModel} cost model from the system. This action cannot be undone.',
     description: 'This action will delete {costModel} cost model from the system. This action cannot be undone.',
-    id: 'CostModelsDelete',
+    id: 'CostModelsDeleteDesc',
   },
   CostModelsDeleteSource: {
     defaultMessage: 'EN You must unassign any sources before you can delete this cost model.',
