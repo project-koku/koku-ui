@@ -62,7 +62,6 @@ const qr = {
   supplradio: /supplementary/i,
   regular: '#regular-rate',
   regularError: '#regular-rate-helper',
-  cancel: 'cost_models_wizard.price_list.cancel',
   switch: 'Enter rate by tag',
   tagKey: '#tag-key',
   descriptionNth: (id: number) => `#desc_${id}`,
@@ -128,19 +127,19 @@ describe('add-a-new-rate', () => {
     // selecting metric will reset both measurement and cost type
     fireEvent.click(getByLabelText(qr.infraradio));
     fireEvent.change(container.querySelector(qr.metric), { target: { value: 'Memory' } });
-    expect(getByText('cost_models.required_field')).toBeTruthy();
+    expect(getByText(/This field is required/i)).toBeTruthy();
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
     expect(getByLabelText(qr.supplradio).checked).toBeTruthy();
     fireEvent.click(getByLabelText(qr.infraradio));
 
     // setting rate to anything but a number
     fireEvent.change(container.querySelector(qr.regular), { target: { value: 'A' } });
-    expect(getByText('cost_models.add_rate_form.not_number')).toBeTruthy();
+    expect(getByText(/Rate must be a number/i)).toBeTruthy();
 
     // setting rate to a negative number - validation is done on blur
     fireEvent.change(container.querySelector(qr.regular), { target: { value: '-12' } });
     fireEvent.blur(container.querySelector(qr.regular));
-    expect(getByText('cost_models.add_rate_form.not_positive')).toBeTruthy();
+    expect(getByText(/Rate must be a positive number/i)).toBeTruthy();
 
     // setting rate to a valid number
     fireEvent.change(container.querySelector(qr.regular), { target: { value: '0.2' } });
@@ -161,34 +160,34 @@ describe('add-a-new-rate', () => {
     fireEvent.change(container.querySelector(qr.metric), { target: { value: 'CPU' } });
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
-    fireEvent.click(getByLabelText(qr.switch));
+    fireEvent.click(getByLabelText(/Enter rate by tag/i));
 
     // tag key is required validation
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'test' } });
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: '' } });
-    expect(getByText('cost_models.required_field')).toBeTruthy();
+    expect(getByText(/This field is required/i)).toBeTruthy();
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'openshift' } });
-    expect(queryByText('cost_models.required_field')).toBeFalsy();
+    expect(queryByText(/This field is required/i)).toBeFalsy();
 
     // tag value is required validation
     fireEvent.change(container.querySelector(qr.tagValueNth(0)), { target: { value: 'test' } });
     fireEvent.change(container.querySelector(qr.tagValueNth(0)), { target: { value: '' } });
-    expect(getByText('cost_models.required_field')).toBeTruthy();
+    expect(getByText(/This field is required/i)).toBeTruthy();
     fireEvent.change(container.querySelector(qr.tagValueNth(0)), { target: { value: 'worker' } });
-    expect(queryByText('cost_models.required_field')).toBeFalsy();
+    expect(queryByText(/This field is required/i)).toBeFalsy();
 
     // rate must be a number
     fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: 'test' } });
-    expect(getByText('cost_models.add_rate_form.not_number')).toBeTruthy();
+    expect(getByText(/Rate must be a number/i)).toBeTruthy();
 
     // rate is required
     fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '' } });
-    expect(getByText('cost_models.required_field')).toBeTruthy();
+    expect(getByText(/This field is required/i)).toBeTruthy();
 
     // rate must be positive
     fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '-0.23' } });
     fireEvent.blur(container.querySelector(qr.rateNth(0)));
-    expect(getByText('cost_models.add_rate_form.not_positive')).toBeTruthy();
+    expect(getByText(/Rate must be a positive number/i)).toBeTruthy();
 
     // setting a valid rate - now form is valid and can be submitted
     expect(getByText(/Create rate/i).closest('button').disabled).toBeTruthy();
@@ -214,30 +213,31 @@ describe('add-a-new-rate', () => {
     const { container, queryByText, getByLabelText } = render(<RenderFormDataUI submit={submit} cancel={cancel} />);
     fireEvent.change(container.querySelector(qr.metric), { target: { value: 'Memory' } });
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
-    fireEvent.click(getByLabelText(qr.switch));
+    fireEvent.click(getByLabelText(/Enter rate by tag/i));
 
     // tag key is duplicated
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'app' } });
-    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeTruthy();
+    expect(queryByText(/This tag key is already in use/i)).toBeTruthy();
 
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'app1' } });
-    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeFalsy();
+    expect(queryByText(/This tag key is already in use/i)).toBeFalsy();
 
     // change measurement will set tag key as not duplicate
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'app' } });
-    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeTruthy();
+    expect(queryByText(/This tag key is already in use/i)).toBeTruthy();
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Usage' } });
-    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeFalsy();
+    expect(queryByText(/This tag key is already in use/i)).toBeFalsy();
 
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
-    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeTruthy();
+    expect(queryByText(/This tag key is already in use/i)).toBeTruthy();
   });
+
   test('hide "enter tag rates" switch on Cluster metric', () => {
     const submit = jest.fn();
     const cancel = jest.fn();
     const { container, queryAllByLabelText } = render(<RenderFormDataUI submit={submit} cancel={cancel} />);
     fireEvent.change(container.querySelector(qr.metric), { target: { value: 'Cluster' } });
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Currency' } });
-    expect(queryAllByLabelText(qr.switch)).toHaveLength(0);
+    expect(queryAllByLabelText(/Enter rate by tag/i)).toHaveLength(0);
   });
 });
