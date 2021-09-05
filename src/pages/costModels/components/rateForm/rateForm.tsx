@@ -55,8 +55,9 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({ intl = defaultIn
     const label = intl.formatMessage(messages.MetricValues, { value });
     return label ? label : m;
   };
-  const getMeasurementLabel = (m, units) => {
+  const getMeasurementLabel = (m, u) => {
     // Match message descriptor or default to API string
+    const units = intl.formatMessage(messages.Units, { units: u.replace(/-/g, '_').toLowerCase() });
     const label = intl.formatMessage(messages.MeasurementValues, { value: m.toLowerCase(), units, count: 2 });
     return label ? label : m;
   };
