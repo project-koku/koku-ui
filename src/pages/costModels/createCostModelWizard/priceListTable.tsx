@@ -54,6 +54,10 @@ class PriceListTable extends React.Component<Props, State> {
       const label = intl.formatMessage(messages.MetricValues, { value });
       return label ? label : m;
     };
+    const getMeasurementLabel = m => {
+      const label = intl.formatMessage(messages.MeasurementValues, { value: m.toLowerCase(), count: 1 });
+      return label ? label : m;
+    };
     const metricOpts = Object.keys(metricsHash).map(m => ({
       label: getMetricLabel(m),
       value: m,
@@ -61,7 +65,7 @@ class PriceListTable extends React.Component<Props, State> {
     const measurementOpts = metricOpts.reduce((acc, curr) => {
       const measurs = Object.keys(metricsHash[curr.value])
         .filter(m => !acc.map(i => i.value).includes(m))
-        .map(m => ({ label: getMetricLabel(m), value: m }));
+        .map(m => ({ label: getMeasurementLabel(m), value: m }));
       return [...acc, ...measurs];
     }, []);
 
