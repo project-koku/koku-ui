@@ -2118,8 +2118,8 @@ export default defineMessages({
     id: 'Metric',
   },
   MetricPlaceholder: {
-    defaultMessage: 'EN Filter by measurements',
-    description: 'Filter by measurements',
+    defaultMessage: 'EN Filter by metrics',
+    description: 'Filter by metrics',
     id: 'MetricPlaceholder',
   },
   MonthOverMonthChange: {
