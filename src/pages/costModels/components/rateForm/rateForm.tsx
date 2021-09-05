@@ -49,13 +49,14 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({ intl = defaultIn
     addTag,
     errors,
   } = rateFormData;
-  // Match message descriptor or default to API string
   const getMetricLabel = m => {
+    // Match message descriptor or default to API string
     const value = m.replace(/ /g, '_').toLowerCase();
     const label = intl.formatMessage(messages.MetricValues, { value });
     return label ? label : m;
   };
   const getMeasurementLabel = (m, units) => {
+    // Match message descriptor or default to API string
     const label = intl.formatMessage(messages.MeasurementValues, { value: m.toLowerCase(), units, count: 2 });
     return label ? label : m;
   };
