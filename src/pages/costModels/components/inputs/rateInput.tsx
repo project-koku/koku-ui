@@ -1,3 +1,4 @@
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import {
   FormGroup,
   FormGroupProps,
@@ -7,37 +8,36 @@ import {
   TextInputProps,
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/esm/icons/dollar-sign-icon';
+import { intl as defaultIntl } from 'components/i18n';
+import messages from 'locales/messages';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 type RateFormGroup = Pick<FormGroupProps, 'fieldId' | 'style'>;
 interface UniqueProps {
-  label?: string;
-  helperTextInvalid?: string;
+  label?: MessageDescriptor | string;
+  helperTextInvalid?: MessageDescriptor | string;
 }
 type RateTextInput = Pick<TextInputProps, 'value' | 'onChange' | 'validated' | 'onBlur'>;
-type RateInputBaseProps = RateFormGroup & RateTextInput & UniqueProps;
+type RateInputBaseProps = RateFormGroup & RateTextInput & UniqueProps & WrappedComponentProps;
 
-export const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
+const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
   fieldId,
-  label = 'cost_models.rate',
-  helperTextInvalid = 'cost_models.add_rate_form.error_message',
+  helperTextInvalid: helpText = messages.PriceListPosNumberRate,
+  intl = defaultIntl, // Default required for testing
+  label = messages.Rate,
+  onBlur,
+  onChange,
   style,
   validated,
   value,
-  onChange,
-  onBlur,
 }) => {
-  const { t } = useTranslation();
-  const invalidTextI18n = t(helperTextInvalid);
-  const labelI18n = t(label);
   return (
     <FormGroup
       isRequired
       style={style}
-      label={labelI18n}
       fieldId={fieldId}
-      helperTextInvalid={invalidTextI18n}
+      label={label !== null && typeof label === 'object' ? intl.formatMessage(label) : label}
+      helperTextInvalid={helpText !== null && typeof helpText === 'object' ? intl.formatMessage(helpText) : helpText}
       validated={validated}
     >
       <InputGroup>
@@ -59,3 +59,6 @@ export const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
     </FormGroup>
   );
 };
+
+const RateInput = injectIntl(RateInputBase);
+export { RateInput };
