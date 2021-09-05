@@ -1,28 +1,30 @@
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
+import { intl as defaultIntl } from 'components/i18n';
 import HookIntoProps from 'hook-into-props';
+import messages from 'locales/messages';
 import { CreateCostModelButton } from 'pages/costModels/costModelsDetails/createCostModelButton';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { injectIntl } from 'react-intl';
 
 import EmptyStateBase from './emptyStateBase';
 
-const NoCostModels = HookIntoProps(() => {
-  const { t } = useTranslation();
+// defaultIntl required for testing
+const NoCostModels = HookIntoProps(({ intl = defaultIntl }) => {
   return {
-    title: t('page_cost_models.no_cost_models_title'),
-    description: t('page_cost_models.no_cost_models_description'),
+    title: intl.formatMessage(messages.CostModelsEmptyState),
+    description: intl.formatMessage(messages.CostModelsEmptyStateDesc),
     icon: PlusCircleIcon,
     actions: (
       <>
         <CreateCostModelButton />
         <br />
         <br />
-        <a href={t('docs.config_cost_models')} rel="noreferrer" target="_blank">
-          {t('page_cost_models.no_cost_models_learn_more')}
+        <a href={intl.formatMessage(messages.DocsConfigCostModels)} rel="noreferrer" target="_blank">
+          {intl.formatMessage(messages.CostModelsEmptyStateLearnMore)}
         </a>
       </>
     ),
   };
 })(EmptyStateBase);
 
-export default NoCostModels;
+export default injectIntl(NoCostModels);

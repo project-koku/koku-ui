@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import { emptyPage, noMatchPageName, page1 } from 'api/costModels.data';
 import { createMemoryHistory } from 'history';
+import messages from 'locales/messages';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
@@ -23,6 +24,10 @@ const renderUI = (state: Partial<RootState>) => {
   );
 };
 
+function regExp(msg) {
+  return new RegExp(msg.defaultMessage);
+}
+
 test('loading table', () => {
   const { queryAllByText } = renderUI({});
   expect(queryAllByText(/Looking for sources/i)).toHaveLength(1);
@@ -39,7 +44,7 @@ test('empty table', () => {
     },
   };
   const { queryAllByText } = renderUI(state);
-  expect(queryAllByText(/no_cost_models_title/i)).toHaveLength(1);
+  expect(queryAllByText(regExp(messages.CostModelsEmptyState))).toHaveLength(1);
 });
 
 test('first page table', () => {
