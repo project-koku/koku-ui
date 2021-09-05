@@ -282,6 +282,7 @@
   "MemoryTitle": "EN Memory",
   "Metric": "EN Metric",
   "MetricPlaceholder": "EN Filter by metrics",
+  "MetricValues": "{value, select, cpu {EN CPU} cluster {EN Cluster} memory {EN Memory} node {EN Node} persistent_volume_claims {EN Persistent volume claims} storage {EN Storage} other {}}",
   "MonthOverMonthChange": "EN Month over month change",
   "Name": "{count, plural, one {EN name} other {EN names}}",
   "NameTitleCase": "{count, plural, one {EN Name} other {EN Names}}",
