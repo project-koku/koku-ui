@@ -2563,7 +2563,7 @@ export default defineMessages({
   PriceListEmptyRate: {
     defaultMessage: 'EN No rates are set',
     description: 'No rates are set',
-    id: 'PriceListEmptyRateDesc',
+    id: 'PriceListEmptyRate',
   },
   PriceListEmptyRateDesc: {
     defaultMessage: 'EN To add rates to the price list, click on the "Add" rate button above.',
