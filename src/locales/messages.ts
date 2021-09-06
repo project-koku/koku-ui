@@ -1744,7 +1744,7 @@ export default defineMessages({
       'region {EN Region} ' +
       'resource_location {EN Region} ' +
       'service {EN Service} ' +
-      'service_name {EN Service_name} ' +
+      'service_name {EN Account} ' +
       'subscription_guid {EN Account} ' +
       'tag {EN Tag} ' +
       'other {}}',

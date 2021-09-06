@@ -107,7 +107,7 @@ const descriptionMergeProps = (
   const children =
     filterType === 'description' ? (
       <FilterInput
-        placeholder={intl.formatMessage(messages.FilterByPlaceholder, { value: 'description' })}
+        placeholder={intl.formatMessage(messages.FilterByPlaceholder, { value: filterType })}
         value={value}
         onChange={(text: string) => setValue(text)}
         onKeyPress={onKeyPress(push, 'description', { ...initialCostModelsQuery, ...query }, { value, setValue })}
@@ -150,7 +150,7 @@ const nameFilterMergeProps = (
   const children =
     filterType === 'name' ? (
       <FilterInput
-        placeholder={intl.formatMessage(messages.FilterByPlaceholder, { value: 'description' })}
+        placeholder={intl.formatMessage(messages.FilterByPlaceholder, { value: filterType })}
         value={value}
         onChange={(text: string) => setValue(text)}
         onKeyPress={onKeyPress(push, 'name', { ...initialCostModelsQuery, ...query }, { value, setValue })}
