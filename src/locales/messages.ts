@@ -2494,7 +2494,7 @@ export default defineMessages({
     id: 'OverviewTitle',
   },
   Percent: {
-    defaultMessage: 'EN {value}%',
+    defaultMessage: 'EN {value} %',
     description: 'percent value',
     id: 'Percent',
   },
@@ -2504,8 +2504,8 @@ export default defineMessages({
     id: 'PercentOfCost',
   },
   PercentTotalCost: {
-    defaultMessage: 'EN {unit}{value} ({percent}%)',
-    description: '{value} {units} ({percent}%)',
+    defaultMessage: 'EN {value} {units} ({percent} %)',
+    description: '{value} {units} ({percent} %)',
     id: 'PercentTotalCost',
   },
   Perspective: {
