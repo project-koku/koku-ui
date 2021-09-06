@@ -705,7 +705,7 @@ export default defineMessages({
   },
   CostModelsAssignSourcesErrorDescription: {
     defaultMessage:
-      'EN You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
+      'EN You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {url} for known outages.',
     description: 'You cannot assign a source at this time',
     id: 'CostModelsAssignSourcesErrorDescription',
   },
@@ -1049,7 +1049,7 @@ export default defineMessages({
   },
   CostModelsWizardSourceErrorDescription: {
     defaultMessage:
-      'EN Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
+      'EN Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {url} for known outages.',
     description: 'This step is temporarily unavailable',
     id: 'CostModelsWizardSourceErrorDescription',
   },
@@ -2037,7 +2037,7 @@ export default defineMessages({
     id: 'MaintenanceEmptyStateDesc',
   },
   MaintenanceEmptyStateInfo: {
-    defaultMessage: 'EN For more information visit {statusUrl}',
+    defaultMessage: 'EN For more information visit {url}',
     description: 'more information url',
     id: 'MaintenanceEmptyStateInfo',
   },

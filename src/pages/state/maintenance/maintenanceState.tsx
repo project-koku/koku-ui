@@ -17,7 +17,7 @@ class MaintenanceStateBase extends React.Component<MaintenanceStateBaseOwnProps>
             <StackItem>{intl.formatMessage(messages.MaintenanceEmptyStateDesc)}</StackItem>
             <StackItem>
               {intl.formatMessage(messages.MaintenanceEmptyStateInfo, {
-                statusUrl: (
+                url: (
                   <a href={intl.formatMessage(messages.RedHatStatusUrl)} rel="noreferrer" target="_blank">
                     "status page"
                   </a>
