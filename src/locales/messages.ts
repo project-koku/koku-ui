@@ -811,8 +811,7 @@ export default defineMessages({
     id: 'CostModelsExamplesNoAdjust',
   },
   CostModelsExamplesReduceSeventyfive: {
-    defaultMessage:
-      'A discount rate of (-) 25% reduces the base costs of your source(s) to 75% of the original value.',
+    defaultMessage: 'A discount rate of (-) 25% reduces the base costs of your source(s) to 75% of the original value.',
     description: 'A discount rate of (-) 25% reduces the base costs of your source(s) to 75% of the original value.',
     id: 'CostModelsExamplesReduceSeventyfive',
   },
