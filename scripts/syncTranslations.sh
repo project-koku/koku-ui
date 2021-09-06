@@ -69,7 +69,7 @@ EEOOFF
     sed "s|{value,|<value,|g" |
     sed "s|{units,|<units,|g" |
 
-    # Props
+    # Value keys
     sed "s|{back}|<back>|g" |
     sed "s|{costModel}|<costModel>|g" |
     sed "s|{count}|<count>|g" |
@@ -104,7 +104,7 @@ EEOOFF
     sed "s| {| {$PREFIX |g" |
     sed "s|: \"|: \"$PREFIX |g" |
 
-    # Fixes
+    # Clean up
     sed "s|$PREFIX <count,|{count,|g" |
     sed "s|$PREFIX <groupBy,|{groupBy,|g" |
     sed "s|$PREFIX <month,|{month,|g" |
