@@ -705,7 +705,7 @@ export default defineMessages({
   },
   CostModelsAssignSourcesErrorDescription: {
     defaultMessage:
-      'EN You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
+      'EN You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {url} for known outages.',
     description: 'You cannot assign a source at this time',
     id: 'CostModelsAssignSourcesErrorDescription',
   },
@@ -1049,7 +1049,7 @@ export default defineMessages({
   },
   CostModelsWizardSourceErrorDescription: {
     defaultMessage:
-      'EN Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {statusUrl} for known outages.',
+      'EN Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {url} for known outages.',
     description: 'This step is temporarily unavailable',
     id: 'CostModelsWizardSourceErrorDescription',
   },
@@ -2037,7 +2037,7 @@ export default defineMessages({
     id: 'MaintenanceEmptyStateDesc',
   },
   MaintenanceEmptyStateInfo: {
-    defaultMessage: 'EN For more information visit {statusUrl}',
+    defaultMessage: 'EN For more information visit {url}',
     description: 'more information url',
     id: 'MaintenanceEmptyStateInfo',
   },
@@ -2494,7 +2494,7 @@ export default defineMessages({
     id: 'OverviewTitle',
   },
   Percent: {
-    defaultMessage: 'EN {value}%',
+    defaultMessage: 'EN {value} %',
     description: 'percent value',
     id: 'Percent',
   },
@@ -2504,8 +2504,8 @@ export default defineMessages({
     id: 'PercentOfCost',
   },
   PercentTotalCost: {
-    defaultMessage: 'EN {unit}{value} ({percent}%)',
-    description: '{value} {units} ({percent}%)',
+    defaultMessage: 'EN {value} {units} ({percent} %)',
+    description: '{value} {units} ({percent} %)',
     id: 'PercentTotalCost',
   },
   Perspective: {
@@ -2563,7 +2563,7 @@ export default defineMessages({
   PriceListEmptyRate: {
     defaultMessage: 'EN No rates are set',
     description: 'No rates are set',
-    id: 'PriceListEmptyRateDesc',
+    id: 'PriceListEmptyRate',
   },
   PriceListEmptyRateDesc: {
     defaultMessage: 'EN To add rates to the price list, click on the "Add" rate button above.',
@@ -2718,15 +2718,15 @@ export default defineMessages({
   UnitTooltips: {
     defaultMessage:
       '{units, select, ' +
-      'core_hours {{value} EN core-hours} ' +
-      'gb {{value} EN GB} ' +
-      'gb_hours {{value} ES GB-hours} ' +
-      'gb_mo {{value} EN GB-month} ' +
-      'gibibyte_month {{value} EN GiB-month} ' +
-      'hour {{value} EN hours} ' +
-      'hrs {{value} EN hours} ' +
-      'usd {{value} EN} ' +
-      'vm_hours {{value} EN VM-hours} ' +
+      'core_hours {EN {value} core-hours} ' +
+      'gb {EN {value} GB} ' +
+      'gb_hours {EN {value} GB-hours} ' +
+      'gb_mo {EN {value} GB-month} ' +
+      'gibibyte_month {EN {value} GiB-month} ' +
+      'hour {EN {value} hours} ' +
+      'hrs {EN {value} hours} ' +
+      'usd {EN {value}} ' +
+      'vm_hours {EN {value} VM-hours} ' +
       'other {EN {value}}}',
     description: 'return value and unit based on key: "units"',
     id: 'UnitTooltips',
@@ -2741,7 +2741,7 @@ export default defineMessages({
       'gibibyte_month {EN GiB-month} ' +
       'hour {EN hours} ' +
       'hrs {EN hours} ' +
-      'usd {$USD} ' +
+      'usd {EN $USD} ' +
       'vm_hours {EN VM-hours} ' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
