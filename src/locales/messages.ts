@@ -2718,16 +2718,16 @@ export default defineMessages({
   UnitTooltips: {
     defaultMessage:
       '{units, select, ' +
-      'core_hours {{value} EN core-hours} ' +
-      'gb {{value} EN GB} ' +
-      'gb_hours {{value} ES GB-hours} ' +
-      'gb_mo {{value} EN GB-month} ' +
-      'gibibyte_month {{value} EN GiB-month} ' +
-      'hour {{value} EN hours} ' +
-      'hrs {{value} EN hours} ' +
-      'usd {{value} EN} ' +
-      'vm_hours {{value} EN VM-hours} ' +
-      'other {EN {value}}}',
+      'core_hours {EN {value} core-hours} ' +
+      'gb {EN {value} GB} ' +
+      'gb_hours {EN {value} GB-hours} ' +
+      'gb_mo {EN {value} GB-month} ' +
+      'gibibyte_month {EN {value} GiB-month} ' +
+      'hour {EN {value} hours} ' +
+      'hrs {EN {value} hours} ' +
+      'usd {EN {value}} ' +
+      'vm_hours {EN {value} VM-hours} ' +
+      'other {{EN value}}}',
     description: 'return value and unit based on key: "units"',
     id: 'UnitTooltips',
   },
@@ -2741,7 +2741,7 @@ export default defineMessages({
       'gibibyte_month {EN GiB-month} ' +
       'hour {EN hours} ' +
       'hrs {EN hours} ' +
-      'usd {$USD} ' +
+      'usd {EN $USD} ' +
       'vm_hours {EN VM-hours} ' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
