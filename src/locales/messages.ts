@@ -1675,7 +1675,7 @@ export default defineMessages({
       'region {EN Filter by region} ' +
       'resource_location {EN Filter by region} ' +
       'service {EN Filter by service} ' +
-      'service_name {EN Filter by service_name} ' +
+      'service_name {EN Filter by service} ' +
       'source_type {EN Filter by source type} ' +
       'subscription_guid {EN Filter by account} ' +
       'tag {EN Filter by tag} ' +
@@ -1725,7 +1725,7 @@ export default defineMessages({
       'region {EN region} ' +
       'resource_location {EN region} ' +
       'service {EN service} ' +
-      'service_name {EN service_name} ' +
+      'service_name {EN service} ' +
       'subscription_guid {EN account} ' +
       'tag {EN tag} ' +
       'other {}}',
@@ -1744,7 +1744,7 @@ export default defineMessages({
       'region {EN Region} ' +
       'resource_location {EN Region} ' +
       'service {EN Service} ' +
-      'service_name {EN Account} ' +
+      'service_name {EN Service} ' +
       'subscription_guid {EN Account} ' +
       'tag {EN Tag} ' +
       'other {}}',
