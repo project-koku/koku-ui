@@ -3,279 +3,279 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   AWS: {
-    defaultMessage: 'EN Amazon Web Services',
+    defaultMessage: 'Amazon Web Services',
     description: 'Amazon Web Services',
     id: 'AWS',
   },
   AWSComputeTitle: {
-    defaultMessage: 'EN Compute (EC2) instances usage',
+    defaultMessage: 'Compute (EC2) instances usage',
     description: 'Compute (EC2) instances usage',
     id: 'AWSComputeTitle',
   },
   AWSCostTrendTitle: {
-    defaultMessage: 'EN Amazon Web Services cumulative cost comparison ({units})',
+    defaultMessage: 'Amazon Web Services cumulative cost comparison ({units})',
     description: 'Amazon Web Services cumulative cost comparison ({units})',
     id: 'AWSCostTrendTitle',
   },
   AWSDailyCostTrendTitle: {
-    defaultMessage: 'EN Amazon Web Services daily cost comparison ({units})',
+    defaultMessage: 'Amazon Web Services daily cost comparison ({units})',
     description: 'Amazon Web Services daily cost comparison ({units})',
     id: 'AWSDailyCostTrendTitle',
   },
   AWSDashboardCostTitle: {
-    defaultMessage: 'EN Amazon Web Services cost',
+    defaultMessage: 'Amazon Web Services cost',
     description: 'Amazon Web Services cost',
     id: 'AWSDashboardCostTitle',
   },
   AWSDesc: {
-    defaultMessage: 'EN Raw cost from Amazon Web Services infrastructure.',
+    defaultMessage: 'Raw cost from Amazon Web Services infrastructure.',
     description: 'Raw cost from Amazon Web Services infrastructure.',
     id: 'AWSDesc',
   },
   AWSDetailsTitle: {
-    defaultMessage: 'EN Amazon Web Services Details',
+    defaultMessage: 'Amazon Web Services Details',
     description: 'Amazon Web Services Details',
     id: 'AWSDetailsTitle',
   },
   AWSOcpDashboardCostTitle: {
-    defaultMessage: 'EN Amazon Web Services filtered by OpenShift cost',
+    defaultMessage: 'Amazon Web Services filtered by OpenShift cost',
     description: 'Amazon Web Services filtered by OpenShift cost',
     id: 'AWSOcpDashboardCostTitle',
   },
   Azure: {
-    defaultMessage: 'EN Microsoft Azure',
+    defaultMessage: 'Microsoft Azure',
     description: 'Microsoft Azure',
     id: 'Azure',
   },
   AzureComputeTitle: {
-    defaultMessage: 'EN Virtual machines usage',
+    defaultMessage: 'Virtual machines usage',
     description: 'Virtual machines usage',
     id: 'AzureComputeTitle',
   },
   AzureCostTrendTitle: {
-    defaultMessage: 'EN Microsoft Azure cumulative cost comparison ({units})',
+    defaultMessage: 'Microsoft Azure cumulative cost comparison ({units})',
     description: 'Microsoft Azure cumulative cost comparison ({units})',
     id: 'AzureCostTrendTitle',
   },
   AzureDailyCostTrendTitle: {
-    defaultMessage: 'EN Microsoft Azure daily cost comparison ({units})',
+    defaultMessage: 'Microsoft Azure daily cost comparison ({units})',
     description: 'Microsoft Azure daily cost comparison ({units})',
     id: 'AzureDailyCostTrendTitle',
   },
   AzureDashboardCostTitle: {
-    defaultMessage: 'EN Microsoft Azure cost',
+    defaultMessage: 'Microsoft Azure cost',
     description: 'Microsoft Azure cost',
     id: 'AzureDashboardCostTitle',
   },
   AzureDesc: {
-    defaultMessage: 'EN Raw cost from Azure infrastructure.',
+    defaultMessage: 'Raw cost from Azure infrastructure.',
     description: 'Raw cost from Azure infrastructure.',
     id: 'AzureDesc',
   },
   AzureDetailsTitle: {
-    defaultMessage: 'EN Microsoft Azure details',
+    defaultMessage: 'Microsoft Azure details',
     description: 'Microsoft Azure details',
     id: 'AzureDetailsTitle',
   },
   AzureOcpDashboardCostTitle: {
-    defaultMessage: 'EN Microsoft Azure filtered by OpenShift cost',
+    defaultMessage: 'Microsoft Azure filtered by OpenShift cost',
     description: 'Microsoft Azure filtered by OpenShift cost',
     id: 'AzureOcpDashboardCostTitle',
   },
   Back: {
-    defaultMessage: 'EN Back',
+    defaultMessage: 'Back',
     description: 'Back',
     id: 'Back',
   },
   BreakdownBackToDetails: {
     defaultMessage:
       '{groupBy, select, ' +
-      'account {EN Back to {value} account details} ' +
-      'cluster {EN Back to {value} cluster details} ' +
-      'instance_type {EN Back to {value} instance type details} ' +
-      'node {EN Back to {value} node details} ' +
-      'org_unit_id {EN Back to {value} organizational unit details} ' +
-      'project {EN Back to {value} project details} ' +
-      'region {EN Back to {value} region details} ' +
-      'resource_location {EN Back to {value} region details} ' +
-      'service {EN Back to {value} service details} ' +
-      'service_name {EN Back to {value} service details} ' +
-      'subscription_guid {EN Back to {value} account details} ' +
-      'tag {EN Cost by tags} ' +
+      'account {Back to {value} account details} ' +
+      'cluster {Back to {value} cluster details} ' +
+      'instance_type {Back to {value} instance type details} ' +
+      'node {Back to {value} node details} ' +
+      'org_unit_id {Back to {value} organizational unit details} ' +
+      'project {Back to {value} project details} ' +
+      'region {Back to {value} region details} ' +
+      'resource_location {Back to {value} region details} ' +
+      'service {Back to {value} service details} ' +
+      'service_name {Back to {value} service details} ' +
+      'subscription_guid {Back to {value} account details} ' +
+      'tag {Cost by tags} ' +
       'other {}}',
     description: 'Back to {value} {groupBy} details',
     id: 'BreakdownBackToDetails',
   },
   BreakdownCostBreakdownAriaLabel: {
-    defaultMessage: 'EN A description of markup, raw cost and usage cost',
+    defaultMessage: 'A description of markup, raw cost and usage cost',
     description: 'A description of markup, raw cost and usage cost',
     id: 'BreakdownCostBreakdownAriaLabel',
   },
   BreakdownCostBreakdownTitle: {
-    defaultMessage: 'EN Cost breakdown',
+    defaultMessage: 'Cost breakdown',
     description: 'A description of markup, raw cost and usage cost',
     id: 'BreakdownCostBreakdownTitle',
   },
   BreakdownCostChartAriaDesc: {
-    defaultMessage: 'EN Breakdown of markup, raw, and usage costs',
+    defaultMessage: 'Breakdown of markup, raw, and usage costs',
     description: 'Breakdown of markup, raw, and usage costs',
     id: 'BreakdownCostChartAriaDesc',
   },
   BreakdownCostChartTooltip: {
-    defaultMessage: 'EN {name}: {value}',
+    defaultMessage: '{name}: {value}',
     description: '{name}: {value}',
     id: 'BreakdownCostChartTooltip',
   },
   BreakdownCostOverviewTitle: {
-    defaultMessage: 'EN Cost overview',
+    defaultMessage: 'Cost overview',
     description: 'Cost overview',
     id: 'BreakdownCostOverviewTitle',
   },
   BreakdownHistoricalDataTitle: {
-    defaultMessage: 'EN Historical data',
+    defaultMessage: 'Historical data',
     description: 'Historical data',
     id: 'BreakdownHistoricalDataTitle',
   },
   BreakdownSummaryTitle: {
     defaultMessage:
       '{value, select, ' +
-      'account {EN Cost by accounts} ' +
-      'cluster {EN Cost by clusters} ' +
-      'instance_type {EN Cost by instance types} ' +
-      'node {EN Cost by Node} ' +
-      'org_unit_id {EN Cost by organizational units} ' +
-      'project {EN Cost by projects} ' +
-      'region {EN Cost by regions} ' +
-      'resource_location {EN Cost by regions} ' +
-      'service {EN Cost by services} ' +
-      'service_name {EN Cost by services} ' +
-      'subscription_guid {EN Cost by accounts} ' +
-      'tag {EN Cost by tags} ' +
+      'account {Cost by accounts} ' +
+      'cluster {Cost by clusters} ' +
+      'instance_type {Cost by instance types} ' +
+      'node {Cost by Node} ' +
+      'org_unit_id {Cost by organizational units} ' +
+      'project {Cost by projects} ' +
+      'region {Cost by regions} ' +
+      'resource_location {Cost by regions} ' +
+      'service {Cost by services} ' +
+      'service_name {Cost by services} ' +
+      'subscription_guid {Cost by accounts} ' +
+      'tag {Cost by tags} ' +
       'other {}}',
     description: 'Cost by {value}',
     id: 'BreakdownSummaryTitle',
   },
   BreakdownTitle: {
-    defaultMessage: 'EN {value}',
+    defaultMessage: '{value}',
     description: 'breakdown title',
     id: 'BreakdownTitle',
   },
   BreakdownTotalCostDate: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN {value} total cost (Jan {startDate})} other {EN {value} total cost (Jan {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {EN {value} total cost (Feb {startDate})} other {EN {value} total cost (Feb {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {EN {value} total cost (Mar {startDate})} other {EN {value} total cost (Mar {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {EN {value} total cost (Apr {startDate})} other {EN {value} total cost (Apr {startDate}-{endDate})}}} ' +
-      '5 {{count, plural, one {EN {value} total cost (May {startDate})} other {EN {value} total cost (May {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {EN {value} total cost (Jun {startDate})} other {EN {value} total cost (Jun {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {EN {value} total cost (Jul {startDate})} other {EN {value} total cost (Jul {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {EN {value} total cost (Aug {startDate})} other {EN {value} total cost (Aug {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {EN {value} total cost (Sep {startDate})} other {EN {value} total cost (Sep {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {EN {value} total cost (Oct {startDate})} other {EN {value} total cost (Oct {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {EN {value} total cost (Nov {startDate})} other {EN {value} total cost (Nov {startDate}-{endDate})}}} ' +
-      '12 {{count, plural, one {EN {value} total cost (Dec {startDate})} other {EN {value} total cost (Dec {startDate}-{endDate})}}} ' +
+      '1 {{count, plural, one {{value} total cost (Jan {startDate})} other {{value} total cost (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {{value} total cost (Feb {startDate})} other {{value} total cost (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {{value} total cost (Mar {startDate})} other {{value} total cost (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {{value} total cost (Apr {startDate})} other {{value} total cost (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {{value} total cost (May {startDate})} other {{value} total cost (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {{value} total cost (Jun {startDate})} other {{value} total cost (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {{value} total cost (Jul {startDate})} other {{value} total cost (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {{value} total cost (Aug {startDate})} other {{value} total cost (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {{value} total cost (Sep {startDate})} other {{value} total cost (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {{value} total cost (Oct {startDate})} other {{value} total cost (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {{value} total cost (Nov {startDate})} other {{value} total cost (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {{value} total cost (Dec {startDate})} other {{value} total cost (Dec {startDate}-{endDate})}}} ' +
       'other {}}',
     description: 'Break down total cost by date',
     id: 'BreakdownTotalCostDate',
   },
   CalculationType: {
-    defaultMessage: 'EN Calculation type',
+    defaultMessage: 'Calculation type',
     description: 'Calculation type',
     id: 'CalculationType',
   },
   Cancel: {
-    defaultMessage: 'EN Cancel',
+    defaultMessage: 'Cancel',
     description: 'Cancel',
     id: 'Cancel',
   },
   ChartCostForecastConeLegendLabel: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN Cost confidence (Jan {startDate})} other {EN Cost confidence (Jan {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {EN Cost confidence (Feb {startDate})} other {EN Cost confidence (Feb {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {EN Cost confidence (Mar {startDate})} other {EN Cost confidence (Mar {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {EN Cost confidence (Apr {startDate})} other {EN Cost confidence (Apr {startDate}-{endDate})}}} ' +
-      '5 {{count, plural, one {EN Cost confidence (May {startDate})} other {EN Cost confidence (May {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {EN Cost confidence (Jun {startDate})} other {EN Cost confidence (Jun {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {EN Cost confidence (Jul {startDate})} other {EN Cost confidence (Jul {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {EN Cost confidence (Aug {startDate})} other {EN Cost confidence (Aug {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {EN Cost confidence (Sep {startDate})} other {EN Cost confidence (Sep {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {EN Cost confidence (Oct {startDate})} other {EN Cost confidence (Oct {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {EN Cost confidence (Nov {startDate})} other {EN Cost confidence (Nov {startDate}-{endDate})}}} ' +
-      '12 {{count, plural, one {EN Cost confidence (Dec {startDate})} other {EN Cost confidence (Dec {startDate}-{endDate})}}} ' +
+      '1 {{count, plural, one {Cost confidence (Jan {startDate})} other {Cost confidence (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {Cost confidence (Feb {startDate})} other {Cost confidence (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {Cost confidence (Mar {startDate})} other {Cost confidence (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {Cost confidence (Apr {startDate})} other {Cost confidence (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {Cost confidence (May {startDate})} other {Cost confidence (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {Cost confidence (Jun {startDate})} other {Cost confidence (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {Cost confidence (Jul {startDate})} other {Cost confidence (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {Cost confidence (Aug {startDate})} other {Cost confidence (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {Cost confidence (Sep {startDate})} other {Cost confidence (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {Cost confidence (Oct {startDate})} other {Cost confidence (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {Cost confidence (Nov {startDate})} other {Cost confidence (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {Cost confidence (Dec {startDate})} other {Cost confidence (Dec {startDate}-{endDate})}}} ' +
       'other {}}',
     description: 'Cost forecast cone date label',
     id: 'ChartCostForecastConeLegendLabel',
   },
   ChartCostForecastConeLegendNoDataLabel: {
-    defaultMessage: 'EN Cost confidence (no data)',
+    defaultMessage: 'Cost confidence (no data)',
     description: 'Cost confidence (no data)',
     id: 'ChartCostForecastConeLegendNoDataLabel',
   },
   ChartCostForecastConeLegendTooltip: {
     defaultMessage:
       '{month, select, ' +
-      '1 {EN Cost confidence (Jan)} ' +
-      '2 {EN Cost confidence (Feb)} ' +
-      '3 {EN Cost confidence (Mar)} ' +
-      '4 {EN Cost confidence (Apr)} ' +
-      '5 {EN Cost confidence (May)} ' +
-      '6 {EN Cost confidence (Jun)} ' +
-      '7 {EN Cost confidence (Jul)} ' +
-      '8 {EN Cost confidence (Aug)} ' +
-      '9 {EN Cost confidence (Sep)} ' +
-      '10 {EN Cost confidence (Oct)} ' +
-      '11 {EN Cost confidence (Nov)} ' +
-      '12 {EN Cost confidence (Dec)} ' +
+      '1 {Cost confidence (Jan)} ' +
+      '2 {Cost confidence (Feb)} ' +
+      '3 {Cost confidence (Mar)} ' +
+      '4 {Cost confidence (Apr)} ' +
+      '5 {Cost confidence (May)} ' +
+      '6 {Cost confidence (Jun)} ' +
+      '7 {Cost confidence (Jul)} ' +
+      '8 {Cost confidence (Aug)} ' +
+      '9 {Cost confidence (Sep)} ' +
+      '10 {Cost confidence (Oct)} ' +
+      '11 {Cost confidence (Nov)} ' +
+      '12 {Cost confidence (Dec)} ' +
       'other {}}',
     description: 'Cost confidence forecast date label tooltip',
     id: 'ChartCostForecastConeLegendTooltip',
   },
   ChartCostForecastConeTooltip: {
-    defaultMessage: 'EN {value0} - {value1}',
+    defaultMessage: '{value0} - {value1}',
     description: '{value0} - {value1}',
     id: 'ChartCostForecastConeTooltip',
   },
   ChartCostForecastLegendLabel: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN Cost forecast (Jan {startDate})} other {EN Cost forecast (Jan {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {EN Cost forecast (Feb {startDate})} other {EN Cost forecast (Feb {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {EN Cost forecast (Mar {startDate})} other {EN Cost forecast (Mar {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {EN Cost forecast (Apr {startDate})} other {EN Cost forecast (Apr {startDate}-{endDate})}}} ' +
-      '5 {{count, plural, one {EN Cost forecast (May {startDate})} other {EN Cost forecast (May {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {EN Cost forecast (Jun {startDate})} other {EN Cost forecast (Jun {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {EN Cost forecast (Jul {startDate})} other {EN Cost forecast (Jul {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {EN Cost forecast (Aug {startDate})} other {EN Cost forecast (Aug {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {EN Cost forecast (Sep {startDate})} other {EN Cost forecast (Sep {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {EN Cost forecast (Oct {startDate})} other {EN Cost forecast (Oct {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {EN Cost forecast (Nov {startDate})} other {EN Cost forecast (Nov {startDate}-{endDate})}}} ' +
-      '12 {{count, plural, one {EN Cost forecast (Dec {startDate})} other {EN Cost forecast (Dec {startDate}-{endDate})}}} ' +
+      '1 {{count, plural, one {Cost forecast (Jan {startDate})} other {Cost forecast (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {Cost forecast (Feb {startDate})} other {Cost forecast (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {Cost forecast (Mar {startDate})} other {Cost forecast (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {Cost forecast (Apr {startDate})} other {Cost forecast (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {Cost forecast (May {startDate})} other {Cost forecast (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {Cost forecast (Jun {startDate})} other {Cost forecast (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {Cost forecast (Jul {startDate})} other {Cost forecast (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {Cost forecast (Aug {startDate})} other {Cost forecast (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {Cost forecast (Sep {startDate})} other {Cost forecast (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {Cost forecast (Oct {startDate})} other {Cost forecast (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {Cost forecast (Nov {startDate})} other {Cost forecast (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {Cost forecast (Dec {startDate})} other {Cost forecast (Dec {startDate}-{endDate})}}} ' +
       'other {}}',
     description: 'Cost forecast date label',
     id: 'ChartCostForecastLegendLabel',
   },
   ChartCostForecastLegendNoDataLabel: {
-    defaultMessage: 'EN Cost forecast (no data)',
+    defaultMessage: 'Cost forecast (no data)',
     description: 'Cost forecast (no data)',
     id: 'ChartCostForecastLegendNoDataLabel',
   },
   ChartCostForecastLegendTooltip: {
     defaultMessage:
       '{month, select, ' +
-      '1 {EN Cost forecast (Jan)} ' +
-      '2 {EN Cost forecast (Feb)} ' +
-      '3 {EN Cost forecast (Mar)} ' +
-      '4 {EN Cost forecast (Apr)} ' +
-      '5 {EN Cost forecast (May)} ' +
-      '6 {EN Cost forecast (Jun)} ' +
-      '7 {EN Cost forecast (Jul)} ' +
-      '8 {EN Cost forecast (Aug)} ' +
-      '9 {EN Cost forecast (Sep)} ' +
-      '10 {EN Cost forecast (Oct)} ' +
-      '11 {EN Cost forecast (Nov)} ' +
-      '12 {EN Cost forecast (Dec)} ' +
+      '1 {Cost forecast (Jan)} ' +
+      '2 {Cost forecast (Feb)} ' +
+      '3 {Cost forecast (Mar)} ' +
+      '4 {Cost forecast (Apr)} ' +
+      '5 {Cost forecast (May)} ' +
+      '6 {Cost forecast (Jun)} ' +
+      '7 {Cost forecast (Jul)} ' +
+      '8 {Cost forecast (Aug)} ' +
+      '9 {Cost forecast (Sep)} ' +
+      '10 {Cost forecast (Oct)} ' +
+      '11 {Cost forecast (Nov)} ' +
+      '12 {Cost forecast (Dec)} ' +
       'other {}}',
     description: 'Cost forecast date label tooltip',
     id: 'ChartCostForecastLegendTooltip',
@@ -283,42 +283,42 @@ export default defineMessages({
   ChartCostInfrastructureForecastConeLegendLabel: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN Infrastructure confidence (Jan {startDate})} other {EN Infrastructure confidence (Jan {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {EN Infrastructure confidence (Feb {startDate})} other {EN Infrastructure confidence (Feb {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {EN Infrastructure confidence (Mar {startDate})} other {EN Infrastructure confidence (Mar {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {EN Infrastructure confidence (Apr {startDate})} other {EN Infrastructure confidence (Apr {startDate}-{endDate})}}} ' +
-      '5 {{count, plural, one {EN Infrastructure confidence (May {startDate})} other {EN Infrastructure confidence (May {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {EN Infrastructure confidence (Jun {startDate})} other {EN Infrastructure confidence (Jun {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {EN Infrastructure confidence (Jul {startDate})} other {EN Infrastructure confidence (Jul {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {EN Infrastructure confidence (Aug {startDate})} other {EN Infrastructure confidence (Aug {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {EN Infrastructure confidence (Sep {startDate})} other {EN Infrastructure confidence (Sep {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {EN Infrastructure confidence (Oct {startDate})} other {EN Infrastructure confidence (Oct {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {EN Infrastructure confidence (Nov {startDate})} other {EN Infrastructure confidence (Nov {startDate}-{endDate})}}} ' +
-      '12 {{count, plural, one {EN Infrastructure confidence (Dec {startDate})} other {EN Infrastructure confidence (Dec {startDate}-{endDate})}}} ' +
+      '1 {{count, plural, one {Infrastructure confidence (Jan {startDate})} other {Infrastructure confidence (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {Infrastructure confidence (Feb {startDate})} other {Infrastructure confidence (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {Infrastructure confidence (Mar {startDate})} other {Infrastructure confidence (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {Infrastructure confidence (Apr {startDate})} other {Infrastructure confidence (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {Infrastructure confidence (May {startDate})} other {Infrastructure confidence (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {Infrastructure confidence (Jun {startDate})} other {Infrastructure confidence (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {Infrastructure confidence (Jul {startDate})} other {Infrastructure confidence (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {Infrastructure confidence (Aug {startDate})} other {Infrastructure confidence (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {Infrastructure confidence (Sep {startDate})} other {Infrastructure confidence (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {Infrastructure confidence (Oct {startDate})} other {Infrastructure confidence (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {Infrastructure confidence (Nov {startDate})} other {Infrastructure confidence (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {Infrastructure confidence (Dec {startDate})} other {Infrastructure confidence (Dec {startDate}-{endDate})}}} ' +
       'other {}}',
     description: 'Infrastructure date label',
     id: 'ChartCostInfrastructureForecastConeLegendLabel',
   },
   ChartCostInfrastructureForecastConeLegendNoDataLabel: {
-    defaultMessage: 'EN Infrastructure confidence (no data)',
+    defaultMessage: 'Infrastructure confidence (no data)',
     description: 'Infrastructure confidence (no data)',
     id: 'ChartCostInfrastructureForecastConeLegendNoDataLabel',
   },
   ChartCostInfrastructureForecastConeLegendTooltip: {
     defaultMessage:
       '{month, select, ' +
-      '1 {EN Infrastructure confidence (Jan)} ' +
-      '2 {EN Infrastructure confidence (Feb)} ' +
-      '3 {EN Infrastructure confidence (Mar)} ' +
-      '4 {EN Infrastructure confidence (Apr)} ' +
-      '5 {EN Infrastructure confidence (May)} ' +
-      '6 {EN Infrastructure confidence (Jun)} ' +
-      '7 {EN Infrastructure confidence (Jul)} ' +
-      '8 {EN Infrastructure confidence (Aug)} ' +
-      '9 {EN Infrastructure confidence (Sep)} ' +
-      '10 {EN Infrastructure confidence (Oct)} ' +
-      '11 {EN Infrastructure confidence (Nov)} ' +
-      '12 {EN Infrastructure confidence (Dec)} ' +
+      '1 {Infrastructure confidence (Jan)} ' +
+      '2 {Infrastructure confidence (Feb)} ' +
+      '3 {Infrastructure confidence (Mar)} ' +
+      '4 {Infrastructure confidence (Apr)} ' +
+      '5 {Infrastructure confidence (May)} ' +
+      '6 {Infrastructure confidence (Jun)} ' +
+      '7 {Infrastructure confidence (Jul)} ' +
+      '8 {Infrastructure confidence (Aug)} ' +
+      '9 {Infrastructure confidence (Sep)} ' +
+      '10 {Infrastructure confidence (Oct)} ' +
+      '11 {Infrastructure confidence (Nov)} ' +
+      '12 {Infrastructure confidence (Dec)} ' +
       'other {}}',
     description: 'Infrastructure date label tooltip',
     id: 'ChartCostInfrastructureForecastConeLegendTooltip',
@@ -326,42 +326,42 @@ export default defineMessages({
   ChartCostInfrastructureForecastLegendLabel: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN Infrastructure forecast (Jan {startDate})} other {EN Infrastructure forecast (Jan {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {EN Infrastructure forecast (Feb {startDate})} other {EN Infrastructure forecast (Feb {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {EN Infrastructure forecast (Mar {startDate})} other {EN Infrastructure forecast (Mar {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {EN Infrastructure forecast (Apr {startDate})} other {EN Infrastructure forecast (Apr {startDate}-{endDate})}}} ' +
-      '5 {{count, plural, one {EN Infrastructure forecast (May {startDate})} other {EN Infrastructure forecast (May {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {EN Infrastructure forecast (Jun {startDate})} other {EN Infrastructure forecast (Jun {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {EN Infrastructure forecast (Jul {startDate})} other {EN Infrastructure forecast (Jul {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {EN Infrastructure forecast (Aug {startDate})} other {EN Infrastructure forecast (Aug {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {EN Infrastructure forecast (Sep {startDate})} other {EN Infrastructure forecast (Sep {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {EN Infrastructure forecast (Oct {startDate})} other {EN Infrastructure forecast (Oct {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {EN Infrastructure forecast (Nov {startDate})} other {EN Infrastructure forecast (Nov {startDate}-{endDate})}}} ' +
-      '12 {{count, plural, one {EN Infrastructure forecast (Dec {startDate})} other {EN Infrastructure forecast (Dec {startDate}-{endDate})}}} ' +
+      '1 {{count, plural, one {Infrastructure forecast (Jan {startDate})} other {Infrastructure forecast (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {Infrastructure forecast (Feb {startDate})} other {Infrastructure forecast (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {Infrastructure forecast (Mar {startDate})} other {Infrastructure forecast (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {Infrastructure forecast (Apr {startDate})} other {Infrastructure forecast (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {Infrastructure forecast (May {startDate})} other {Infrastructure forecast (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {Infrastructure forecast (Jun {startDate})} other {Infrastructure forecast (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {Infrastructure forecast (Jul {startDate})} other {Infrastructure forecast (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {Infrastructure forecast (Aug {startDate})} other {Infrastructure forecast (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {Infrastructure forecast (Sep {startDate})} other {Infrastructure forecast (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {Infrastructure forecast (Oct {startDate})} other {Infrastructure forecast (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {Infrastructure forecast (Nov {startDate})} other {Infrastructure forecast (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {Infrastructure forecast (Dec {startDate})} other {Infrastructure forecast (Dec {startDate}-{endDate})}}} ' +
       'other {}}',
     description: 'Infrastructure date label',
     id: 'ChartCostInfrastructureForecastLegendLabel',
   },
   ChartCostInfrastructureForecastLegendNoDataLabel: {
-    defaultMessage: 'EN Infrastructure forecast (no data)',
+    defaultMessage: 'Infrastructure forecast (no data)',
     description: 'Infrastructure forecast (no data)',
     id: 'ChartCostInfrastructureForecastLegendNoDataLabel',
   },
   ChartCostInfrastructureForecastLegendTooltip: {
     defaultMessage:
       '{month, select, ' +
-      '1 {EN Infrastructure forecast (Jan)} ' +
-      '2 {EN Infrastructure forecast (Feb)} ' +
-      '3 {EN Infrastructure forecast (Mar)} ' +
-      '4 {EN Infrastructure forecast (Apr)} ' +
-      '5 {EN Infrastructure forecast (May)} ' +
-      '6 {EN Infrastructure forecast (Jun)} ' +
-      '7 {EN Infrastructure forecast (Jul)} ' +
-      '8 {EN Infrastructure forecast (Aug)} ' +
-      '9 {EN Infrastructure forecast (Sep)} ' +
-      '10 {EN Infrastructure forecast (Oct)} ' +
-      '11 {EN Infrastructure forecast (Nov)} ' +
-      '12 {EN Infrastructure forecast (Dec)} ' +
+      '1 {Infrastructure forecast (Jan)} ' +
+      '2 {Infrastructure forecast (Feb)} ' +
+      '3 {Infrastructure forecast (Mar)} ' +
+      '4 {Infrastructure forecast (Apr)} ' +
+      '5 {Infrastructure forecast (May)} ' +
+      '6 {Infrastructure forecast (Jun)} ' +
+      '7 {Infrastructure forecast (Jul)} ' +
+      '8 {Infrastructure forecast (Aug)} ' +
+      '9 {Infrastructure forecast (Sep)} ' +
+      '10 {Infrastructure forecast (Oct)} ' +
+      '11 {Infrastructure forecast (Nov)} ' +
+      '12 {Infrastructure forecast (Dec)} ' +
       'other {}}',
     description: 'Infrastructure date label tooltip',
     id: 'ChartCostInfrastructureForecastLegendTooltip',
@@ -369,42 +369,42 @@ export default defineMessages({
   ChartCostInfrastructureLegendLabel: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN Infrastructure cost (Jan {startDate})} other {EN Infrastructure cost (Jan {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {EN Infrastructure cost (Feb {startDate})} other {EN Infrastructure cost (Feb {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {EN Infrastructure cost (Mar {startDate})} other {EN Infrastructure cost (Mar {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {EN Infrastructure cost (Apr {startDate})} other {EN Infrastructure cost (Apr {startDate}-{endDate})}}} ' +
-      '5 {{count, plural, one {EN Infrastructure cost (May {startDate})} other {EN Infrastructure cost (May {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {EN Infrastructure cost (Jun {startDate})} other {EN Infrastructure cost (Jun {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {EN Infrastructure cost (Jul {startDate})} other {EN Infrastructure cost (Jul {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {EN Infrastructure cost (Aug {startDate})} other {EN Infrastructure cost (Aug {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {EN Infrastructure cost (Sep {startDate})} other {EN Infrastructure cost (Sep {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {EN Infrastructure cost (Oct {startDate})} other {EN Infrastructure cost (Oct {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {EN Infrastructure cost (Nov {startDate})} other {EN Infrastructure cost (Nov {startDate}-{endDate})}}} ' +
-      '12 {{count, plural, one {EN Infrastructure cost (Dec {startDate})} other {EN Infrastructure cost (Dec {startDate}-{endDate})}}} ' +
+      '1 {{count, plural, one {Infrastructure cost (Jan {startDate})} other {Infrastructure cost (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {Infrastructure cost (Feb {startDate})} other {Infrastructure cost (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {Infrastructure cost (Mar {startDate})} other {Infrastructure cost (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {Infrastructure cost (Apr {startDate})} other {Infrastructure cost (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {Infrastructure cost (May {startDate})} other {Infrastructure cost (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {Infrastructure cost (Jun {startDate})} other {Infrastructure cost (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {Infrastructure cost (Jul {startDate})} other {Infrastructure cost (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {Infrastructure cost (Aug {startDate})} other {Infrastructure cost (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {Infrastructure cost (Sep {startDate})} other {Infrastructure cost (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {Infrastructure cost (Oct {startDate})} other {Infrastructure cost (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {Infrastructure cost (Nov {startDate})} other {Infrastructure cost (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {Infrastructure cost (Dec {startDate})} other {Infrastructure cost (Dec {startDate}-{endDate})}}} ' +
       'other {}}',
     description: 'Infrastructure cost label',
     id: 'ChartCostInfrastructureLegendLabel',
   },
   ChartCostInfrastructureLegendNoDataLabel: {
-    defaultMessage: 'EN Infrastructure cost (no data)',
+    defaultMessage: 'Infrastructure cost (no data)',
     description: 'Infrastructure cost (no data)',
     id: 'ChartCostInfrastructureLegendNoDataLabel',
   },
   ChartCostInfrastructureLegendTooltip: {
     defaultMessage:
       '{month, select, ' +
-      '1 {EN Infrastructure cost (Jan)} ' +
-      '2 {EN Infrastructure cost (Feb)} ' +
-      '3 {EN Infrastructure cost (Mar)} ' +
-      '4 {EN Infrastructure cost (Apr)} ' +
-      '5 {EN Infrastructure cost (May)} ' +
-      '6 {EN Infrastructure cost (Jun)} ' +
-      '7 {EN Infrastructure cost (Jul)} ' +
-      '8 {EN Infrastructure cost (Aug)} ' +
-      '9 {EN Infrastructure cost (Sep)} ' +
-      '10 {EN Infrastructure cost (Oct)} ' +
-      '11 {EN Infrastructure cost (Nov)} ' +
-      '12 {EN Infrastructure cost (Dec)} ' +
+      '1 {Infrastructure cost (Jan)} ' +
+      '2 {Infrastructure cost (Feb)} ' +
+      '3 {Infrastructure cost (Mar)} ' +
+      '4 {Infrastructure cost (Apr)} ' +
+      '5 {Infrastructure cost (May)} ' +
+      '6 {Infrastructure cost (Jun)} ' +
+      '7 {Infrastructure cost (Jul)} ' +
+      '8 {Infrastructure cost (Aug)} ' +
+      '9 {Infrastructure cost (Sep)} ' +
+      '10 {Infrastructure cost (Oct)} ' +
+      '11 {Infrastructure cost (Nov)} ' +
+      '12 {Infrastructure cost (Dec)} ' +
       'other {}}',
     description: 'Infrastructure cost label tooltip',
     id: 'ChartCostInfrastructureLegendTooltip',
@@ -412,42 +412,42 @@ export default defineMessages({
   ChartCostLegendLabel: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN Cost (Jan {startDate})} other {EN Cost (Jan {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {EN Cost (Feb {startDate})} other {EN Cost (Feb {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {EN Cost (Mar {startDate})} other {EN Cost (Mar {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {EN Cost (Apr {startDate})} other {EN Cost (Apr {startDate}-{endDate})}}} ' +
-      '5 {{count, plural, one {EN Cost (May {startDate})} other {EN Cost (May {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {EN Cost (Jun {startDate})} other {EN Cost (Jun {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {EN Cost (Jul {startDate})} other {EN Cost (Jul {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {EN Cost (Aug {startDate})} other {EN Cost (Aug {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {EN Cost (Sep {startDate})} other {EN Cost (Sep {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {EN Cost (Oct {startDate})} other {EN Cost (Oct {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {EN Cost (Nov {startDate})} other {EN Cost (Nov {startDate}-{endDate})}}} ' +
-      '12 {{count, plural, one {EN Cost (Dec {startDate})} other {EN Cost (Dec {startDate}-{endDate})}}} ' +
+      '1 {{count, plural, one {Cost (Jan {startDate})} other {Cost (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {Cost (Feb {startDate})} other {Cost (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {Cost (Mar {startDate})} other {Cost (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {Cost (Apr {startDate})} other {Cost (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {Cost (May {startDate})} other {Cost (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {Cost (Jun {startDate})} other {Cost (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {Cost (Jul {startDate})} other {Cost (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {Cost (Aug {startDate})} other {Cost (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {Cost (Sep {startDate})} other {Cost (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {Cost (Oct {startDate})} other {Cost (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {Cost (Nov {startDate})} other {Cost (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {Cost (Dec {startDate})} other {Cost (Dec {startDate}-{endDate})}}} ' +
       'other {}}',
     description: 'Cost date label',
     id: 'ChartCostLegendLabel',
   },
   ChartCostLegendNoDataLabel: {
-    defaultMessage: 'EN Cost (no data)',
+    defaultMessage: 'Cost (no data)',
     description: 'Cost (no data)',
     id: 'ChartCostLegendNoDataLabel',
   },
   ChartCostLegendTooltip: {
     defaultMessage:
       '{month, select, ' +
-      '1 {EN Cost (Jan)} ' +
-      '2 {EN Cost (Feb)} ' +
-      '3 {EN Cost (Mar)} ' +
-      '4 {EN Cost (Apr)} ' +
-      '5 {EN Cost (May)} ' +
-      '6 {EN Cost (Jun)} ' +
-      '7 {EN Cost (Jul)} ' +
-      '8 {EN Cost (Aug)} ' +
-      '9 {EN Cost (Sep)} ' +
-      '10 {EN Cost (Oct)} ' +
-      '11 {EN Cost (Nov)} ' +
-      '12 {EN Cost (Dec)} ' +
+      '1 {Cost (Jan)} ' +
+      '2 {Cost (Feb)} ' +
+      '3 {Cost (Mar)} ' +
+      '4 {Cost (Apr)} ' +
+      '5 {Cost (May)} ' +
+      '6 {Cost (Jun)} ' +
+      '7 {Cost (Jul)} ' +
+      '8 {Cost (Aug)} ' +
+      '9 {Cost (Sep)} ' +
+      '10 {Cost (Oct)} ' +
+      '11 {Cost (Nov)} ' +
+      '12 {Cost (Dec)} ' +
       'other {}}',
     description: 'Cost (month)',
     id: 'ChartCostLegendTooltip',
@@ -455,42 +455,42 @@ export default defineMessages({
   ChartCostSupplementaryLegendLabel: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN Supplementary cost (Jan {startDate})} other {EN Supplementary cost (Jan {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {EN Supplementary cost (Feb {startDate})} other {EN Supplementary cost (Feb {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {EN Supplementary cost (Mar {startDate})} other {EN Supplementary cost (Mar {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {EN Supplementary cost (Apr {startDate})} other {EN Supplementary cost (Apr {startDate}-{endDate})}}} ' +
-      '5 {{count, plural, one {EN Supplementary cost (May {startDate})} other {EN Supplementary cost (May {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {EN Supplementary cost (Jun {startDate})} other {EN Supplementary cost (Jun {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {EN Supplementary cost (Jul {startDate})} other {EN Supplementary cost (Jul {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {EN Supplementary cost (Aug {startDate})} other {EN Supplementary cost (Aug {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {EN Supplementary cost (Sep {startDate})} other {EN Supplementary cost (Sep {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {EN Supplementary cost (Oct {startDate})} other {EN Supplementary cost (Oct {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {EN Supplementary cost (Nov {startDate})} other {EN Supplementary cost (Nov {startDate}-{endDate})}}} ' +
-      '12 {{count, plural, one {EN Supplementary cost (Dec {startDate})} other {EN Supplementary cost (Dec {startDate}-{endDate})}}} ' +
+      '1 {{count, plural, one {Supplementary cost (Jan {startDate})} other {Supplementary cost (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {Supplementary cost (Feb {startDate})} other {Supplementary cost (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {Supplementary cost (Mar {startDate})} other {Supplementary cost (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {Supplementary cost (Apr {startDate})} other {Supplementary cost (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {Supplementary cost (May {startDate})} other {Supplementary cost (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {Supplementary cost (Jun {startDate})} other {Supplementary cost (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {Supplementary cost (Jul {startDate})} other {Supplementary cost (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {Supplementary cost (Aug {startDate})} other {Supplementary cost (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {Supplementary cost (Sep {startDate})} other {Supplementary cost (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {Supplementary cost (Oct {startDate})} other {Supplementary cost (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {Supplementary cost (Nov {startDate})} other {Supplementary cost (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {Supplementary cost (Dec {startDate})} other {Supplementary cost (Dec {startDate}-{endDate})}}} ' +
       'other {}}',
     description: 'Supplementary cost date label',
     id: 'ChartCostSupplementaryLegendLabel',
   },
   ChartCostSupplementaryLegendNoDataLabel: {
-    defaultMessage: 'EN Supplementary cost (no data)',
+    defaultMessage: 'Supplementary cost (no data)',
     description: 'Supplementary cost (no data)',
     id: 'ChartCostSupplementaryLegendNoDataLabel',
   },
   ChartCostSupplementaryLegendTooltip: {
     defaultMessage:
       '{month, select, ' +
-      '1 {EN Supplementary cost (Jan)} ' +
-      '2 {EN Supplementary cost (Feb)} ' +
-      '3 {EN Supplementary cost (Mar)} ' +
-      '4 {EN Supplementary cost (Apr)} ' +
-      '5 {EN Supplementary cost (May)} ' +
-      '6 {EN Supplementary cost (Jun)} ' +
-      '7 {EN Supplementary cost (Jul)} ' +
-      '8 {EN Supplementary cost (Aug)} ' +
-      '9 {EN Supplementary cost (Sep)} ' +
-      '10 {EN Supplementary cost (Oct)} ' +
-      '11 {EN Supplementary cost (Nov)} ' +
-      '12 {EN Supplementary cost (Dec)} ' +
+      '1 {Supplementary cost (Jan)} ' +
+      '2 {Supplementary cost (Feb)} ' +
+      '3 {Supplementary cost (Mar)} ' +
+      '4 {Supplementary cost (Apr)} ' +
+      '5 {Supplementary cost (May)} ' +
+      '6 {Supplementary cost (Jun)} ' +
+      '7 {Supplementary cost (Jul)} ' +
+      '8 {Supplementary cost (Aug)} ' +
+      '9 {Supplementary cost (Sep)} ' +
+      '10 {Supplementary cost (Oct)} ' +
+      '11 {Supplementary cost (Nov)} ' +
+      '12 {Supplementary cost (Dec)} ' +
       'other {}}',
     description: 'Supplementary cost (month)',
     id: 'ChartCostSupplementaryLegendTooltip',
@@ -498,119 +498,119 @@ export default defineMessages({
   ChartDateRange: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN Jan {startDate} {year}} other {EN {startDate}-{endDate} Jan {year}}}} ' +
-      '2 {{count, plural, one {EN Feb {startDate} {year}} other {EN {startDate}-{endDate} Feb {year}}}} ' +
-      '3 {{count, plural, one {EN Mar {startDate} {year}} other {EN {startDate}-{endDate} Mar {year}}}} ' +
-      '4 {{count, plural, one {EN Apr {startDate} {year}} other {EN {startDate}-{endDate} Apr {year}}}} ' +
-      '5 {{count, plural, one {EN May {startDate} {year}} other {EN {startDate}-{endDate} May {year}}}} ' +
-      '6 {{count, plural, one {EN Jun {startDate} {year}} other {EN {startDate}-{endDate} Jun {year}}}} ' +
-      '7 {{count, plural, one {EN Jul {startDate} {year}} other {EN {startDate}-{endDate} Jul {year}}}} ' +
-      '8 {{count, plural, one {EN Aug {startDate} {year}} other {EN {startDate}-{endDate} Aug {year}}}} ' +
-      '9 {{count, plural, one {EN Sep {startDate} {year}} other {EN {startDate}-{endDate} Sep {year}}}} ' +
-      '10 {{count, plural, one {EN Oct {startDate} {year}} other {EN {startDate}-{endDate} Oct {year}}}} ' +
-      '11 {{count, plural, one {EN Nov {startDate} {year}} other {EN {startDate}-{endDate} Nov {year}}}} ' +
-      '12 {{count, plural, one {EN Dec {startDate} {year}} other {EN {startDate}-{endDate} Dec {year}}}} ' +
+      '1 {{count, plural, one {Jan {startDate} {year}} other {{startDate}-{endDate} Jan {year}}}} ' +
+      '2 {{count, plural, one {Feb {startDate} {year}} other {{startDate}-{endDate} Feb {year}}}} ' +
+      '3 {{count, plural, one {Mar {startDate} {year}} other {{startDate}-{endDate} Mar {year}}}} ' +
+      '4 {{count, plural, one {Apr {startDate} {year}} other {{startDate}-{endDate} Apr {year}}}} ' +
+      '5 {{count, plural, one {May {startDate} {year}} other {{startDate}-{endDate} May {year}}}} ' +
+      '6 {{count, plural, one {Jun {startDate} {year}} other {{startDate}-{endDate} Jun {year}}}} ' +
+      '7 {{count, plural, one {Jul {startDate} {year}} other {{startDate}-{endDate} Jul {year}}}} ' +
+      '8 {{count, plural, one {Aug {startDate} {year}} other {{startDate}-{endDate} Aug {year}}}} ' +
+      '9 {{count, plural, one {Sep {startDate} {year}} other {{startDate}-{endDate} Sep {year}}}} ' +
+      '10 {{count, plural, one {Oct {startDate} {year}} other {{startDate}-{endDate} Oct {year}}}} ' +
+      '11 {{count, plural, one {Nov {startDate} {year}} other {{startDate}-{endDate} Nov {year}}}} ' +
+      '12 {{count, plural, one {Dec {startDate} {year}} other {{startDate}-{endDate} Dec {year}}}} ' +
       'other {}}',
     description: 'Date range that handles singular and plural',
     id: 'ChartDateRange',
   },
   ChartDayOfTheMonth: {
-    defaultMessage: 'EN Day {day}',
+    defaultMessage: 'Day {day}',
     description: 'The day of the month',
     id: 'ChartDayOfTheMonth',
   },
   ChartLimitLegendLabel: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN Limit (Jan {startDate})} other {EN Limit (Jan {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {EN Limit (Feb {startDate})} other {EN Limit (Feb {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {EN Limit (Mar {startDate})} other {EN Limit (Mar {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {EN Limit (Apr {startDate})} other {EN Limit (Apr {startDate}-{endDate})}}} ' +
-      '5 {{count, plural, one {EN Limit (May {startDate})} other {EN Limit (May {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {EN Limit (Jun {startDate})} other {EN Limit (Jun {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {EN Limit (Jul {startDate})} other {EN Limit (Jul {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {EN Limit (Aug {startDate})} other {EN Limit (Aug {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {EN Limit (Sep {startDate})} other {EN Limit (Sep {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {EN Limit (Oct {startDate})} other {EN Limit (Oct {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {EN Limit (Nov {startDate})} other {EN Limit (Nov {startDate}-{endDate})}}} ' +
-      '12 {{count, plural, one {EN Limit (Dec {startDate})} other {EN Limit (Dec {startDate}-{endDate})}}} ' +
+      '1 {{count, plural, one {Limit (Jan {startDate})} other {Limit (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {Limit (Feb {startDate})} other {Limit (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {Limit (Mar {startDate})} other {Limit (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {Limit (Apr {startDate})} other {Limit (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {Limit (May {startDate})} other {Limit (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {Limit (Jun {startDate})} other {Limit (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {Limit (Jul {startDate})} other {Limit (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {Limit (Aug {startDate})} other {Limit (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {Limit (Sep {startDate})} other {Limit (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {Limit (Oct {startDate})} other {Limit (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {Limit (Nov {startDate})} other {Limit (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {Limit (Dec {startDate})} other {Limit (Dec {startDate}-{endDate})}}} ' +
       'other {}}',
     description: 'Limit date label',
     id: 'ChartLimitLegendLabel',
   },
   ChartLimitLegendNoDataLabel: {
-    defaultMessage: 'EN Limit (no data)',
+    defaultMessage: 'Limit (no data)',
     description: 'Limit (no data)',
     id: 'ChartLimitLegendNoDataLabel',
   },
   ChartLimitLegendTooltip: {
     defaultMessage:
       '{month, select, ' +
-      '1 {EN Limit (Jan)} ' +
-      '2 {EN Limit (Feb)} ' +
-      '3 {EN Limit (Mar)} ' +
-      '4 {EN Limit (Apr)} ' +
-      '5 {EN Limit (May)} ' +
-      '6 {EN Limit (Jun)} ' +
-      '7 {EN Limit (Jul)} ' +
-      '8 {EN Limit (Aug)} ' +
-      '9 {EN Limit (Sep)} ' +
-      '10 {EN Limit (Oct)} ' +
-      '11 {EN Limit (Nov)} ' +
-      '12 {EN Limit (Dec)} ' +
+      '1 {Limit (Jan)} ' +
+      '2 {Limit (Feb)} ' +
+      '3 {Limit (Mar)} ' +
+      '4 {Limit (Apr)} ' +
+      '5 {Limit (May)} ' +
+      '6 {Limit (Jun)} ' +
+      '7 {Limit (Jul)} ' +
+      '8 {Limit (Aug)} ' +
+      '9 {Limit (Sep)} ' +
+      '10 {Limit (Oct)} ' +
+      '11 {Limit (Nov)} ' +
+      '12 {Limit (Dec)} ' +
       'other {}}',
     description: 'Limit (month)',
     id: 'ChartLimitLegendTooltip',
   },
   ChartNoData: {
-    defaultMessage: 'EN no data',
+    defaultMessage: 'no data',
     description: 'no data',
     id: 'ChartNoData',
   },
   ChartOthers: {
-    defaultMessage: '{count, plural, one {EN {count} Other} other {EN {count} Others}}',
+    defaultMessage: '{count, plural, one {{count} Other} other {{count} Others}}',
     description: 'Other || Others',
     id: 'ChartOthers',
   },
   ChartRequestsLegendLabel: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN Requests (Jan {startDate})} other {EN Requests (Jan {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {EN Requests (Feb {startDate})} other {EN Requests (Feb {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {EN Requests (Mar {startDate})} other {EN Requests (Mar {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {EN Requests (Apr {startDate})} other {EN Requests (Apr {startDate}-{endDate})}}} ' +
-      '5 {{count, plural, one {EN Requests (May {startDate})} other {EN Requests (May {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {EN Requests (Jun {startDate})} other {EN Requests (Jun {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {EN Requests (Jul {startDate})} other {EN Requests (Jul {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {EN Requests (Aug {startDate})} other {EN Requests (Aug {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {EN Requests (Sep {startDate})} other {EN Requests (Sep {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {EN Requests (Oct {startDate})} other {EN Requests (Oct {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {EN Requests (Nov {startDate})} other {EN Requests (Nov {startDate}-{endDate})}}} ' +
-      '12 {{count, plural, one {EN Requests (Dec {startDate})} other {EN Requests (Dec {startDate}-{endDate})}}} ' +
+      '1 {{count, plural, one {Requests (Jan {startDate})} other {Requests (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {Requests (Feb {startDate})} other {Requests (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {Requests (Mar {startDate})} other {Requests (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {Requests (Apr {startDate})} other {Requests (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {Requests (May {startDate})} other {Requests (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {Requests (Jun {startDate})} other {Requests (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {Requests (Jul {startDate})} other {Requests (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {Requests (Aug {startDate})} other {Requests (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {Requests (Sep {startDate})} other {Requests (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {Requests (Oct {startDate})} other {Requests (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {Requests (Nov {startDate})} other {Requests (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {Requests (Dec {startDate})} other {Requests (Dec {startDate}-{endDate})}}} ' +
       'other {}}',
     description: 'Requests date label',
     id: 'ChartRequestLegendLabel',
   },
   ChartRequestsLegendNoDataLabel: {
-    defaultMessage: 'EN Requests (no data)',
+    defaultMessage: 'Requests (no data)',
     description: 'Requests (no data)',
     id: 'ChartRequestsLegendNoDataLabel',
   },
   ChartRequestsLegendTooltip: {
     defaultMessage:
       '{month, select, ' +
-      '1 {EN Requests (Jan)} ' +
-      '2 {EN Requests (Feb)} ' +
-      '3 {EN Requests (Mar)} ' +
-      '4 {EN Requests (Apr)} ' +
-      '5 {EN Requests (May)} ' +
-      '6 {EN Requests (Jun)} ' +
-      '7 {EN Requests (Jul)} ' +
-      '8 {EN Requests (Aug)} ' +
-      '9 {EN Requests (Sep)} ' +
-      '10 {EN Requests (Oct)} ' +
-      '11 {EN Requests (Nov)} ' +
-      '12 {EN Requests (Dec)} ' +
+      '1 {Requests (Jan)} ' +
+      '2 {Requests (Feb)} ' +
+      '3 {Requests (Mar)} ' +
+      '4 {Requests (Apr)} ' +
+      '5 {Requests (May)} ' +
+      '6 {Requests (Jun)} ' +
+      '7 {Requests (Jul)} ' +
+      '8 {Requests (Aug)} ' +
+      '9 {Requests (Sep)} ' +
+      '10 {Requests (Oct)} ' +
+      '11 {Requests (Nov)} ' +
+      '12 {Requests (Dec)} ' +
       'other {}}',
     description: 'Requests (month)',
     id: 'ChartRequestLegendTooltip',
@@ -618,667 +618,666 @@ export default defineMessages({
   ChartUsageLegendLabel: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN Usage (Jan {startDate})} other {EN Usage (Jan {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {EN Usage (Feb {startDate})} other {EN Usage (Feb {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {EN Usage (Mar {startDate})} other {EN Usage (Mar {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {EN Usage (Apr {startDate})} other {EN Usage (Apr {startDate}-{endDate})}}} ' +
-      '5 {{count, plural, one {EN Usage (May {startDate})} other {EN Usage (May {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {EN Usage (Jun {startDate})} other {EN Usage (Jun {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {EN Usage (Jul {startDate})} other {EN Usage (Jul {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {EN Usage (Aug {startDate})} other {EN Usage (Aug {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {EN Usage (Sep {startDate})} other {EN Usage (Sep {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {EN Usage (Oct {startDate})} other {EN Usage (Oct {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {EN Usage (Nov {startDate})} other {EN Usage (Nov {startDate}-{endDate})}}} ' +
-      '12 {{count, plural, one {EN Usage (Dec {startDate})} other {EN Usage (Dec {startDate}-{endDate})}}} ' +
+      '1 {{count, plural, one {Usage (Jan {startDate})} other {Usage (Jan {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {Usage (Feb {startDate})} other {Usage (Feb {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {Usage (Mar {startDate})} other {Usage (Mar {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {Usage (Apr {startDate})} other {Usage (Apr {startDate}-{endDate})}}} ' +
+      '5 {{count, plural, one {Usage (May {startDate})} other {Usage (May {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {Usage (Jun {startDate})} other {Usage (Jun {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {Usage (Jul {startDate})} other {Usage (Jul {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {Usage (Aug {startDate})} other {Usage (Aug {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {Usage (Sep {startDate})} other {Usage (Sep {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {Usage (Oct {startDate})} other {Usage (Oct {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {Usage (Nov {startDate})} other {Usage (Nov {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {Usage (Dec {startDate})} other {Usage (Dec {startDate}-{endDate})}}} ' +
       'other {}}',
     description: 'Usage (month {startDate})',
     id: 'ChartUsageLegendLabel',
   },
   ChartUsageLegendNoDataLabel: {
-    defaultMessage: 'EN Usage (no data)',
+    defaultMessage: 'Usage (no data)',
     description: 'Usage (no data)',
     id: 'ChartUsageLegendNoDataLabel',
   },
   ChartUsageLegendTooltip: {
     defaultMessage:
       '{month, select, ' +
-      '1 {EN Usage (Jan)} ' +
-      '2 {EN Usage (Feb)} ' +
-      '3 {EN Usage (Mar)} ' +
-      '4 {EN Usage (Apr)} ' +
-      '5 {EN Usage (May)} ' +
-      '6 {EN Usage (Jun)} ' +
-      '7 {EN Usage (Jul)} ' +
-      '8 {EN Usage (Aug)} ' +
-      '9 {EN Usage (Sep)} ' +
-      '10 {EN Usage (Oct)} ' +
-      '11 {EN Usage (Nov)} ' +
-      '12 {EN Usage (Dec)} ' +
+      '1 {Usage (Jan)} ' +
+      '2 {Usage (Feb)} ' +
+      '3 {Usage (Mar)} ' +
+      '4 {Usage (Apr)} ' +
+      '5 {Usage (May)} ' +
+      '6 {Usage (Jun)} ' +
+      '7 {Usage (Jul)} ' +
+      '8 {Usage (Aug)} ' +
+      '9 {Usage (Sep)} ' +
+      '10 {Usage (Oct)} ' +
+      '11 {Usage (Nov)} ' +
+      '12 {Usage (Dec)} ' +
       'other {}}',
     description: 'Usage (month)',
     id: 'ChartUsageLegendTooltip',
   },
   Close: {
-    defaultMessage: 'EN Close',
+    defaultMessage: 'Close',
     description: 'Close',
     id: 'Close',
   },
   Clusters: {
-    defaultMessage: 'EN Clusters',
+    defaultMessage: 'Clusters',
     description: 'Clusters',
     id: 'Clusters',
   },
   Cost: {
-    defaultMessage: 'EN Cost',
+    defaultMessage: 'Cost',
     description: 'Cost',
     id: 'Cost',
   },
   CostCalculations: {
-    defaultMessage: 'EN Cost calculations',
+    defaultMessage: 'Cost calculations',
     description: 'Cost calculations',
     id: 'CostCalculations',
   },
   CostManagement: {
-    defaultMessage: 'EN Cost Management',
+    defaultMessage: 'Cost Management',
     description: 'Cost Management',
     id: 'CostManagement',
   },
   CostModels: {
-    defaultMessage: 'EN Cost Models',
+    defaultMessage: 'Cost Models',
     description: 'Cost Models',
     id: 'CostModels',
   },
   CostModelsAddTagValues: {
-    defaultMessage: 'EN Add more tag values',
+    defaultMessage: 'Add more tag values',
     description: 'Add more tag values',
     id: 'CostModelsAddTagValues',
   },
   CostModelsAssignSource: {
-    defaultMessage: 'EN Assign source',
+    defaultMessage: 'Assign source',
     description: 'Assign source',
     id: 'CostModelsAssignSource',
   },
   CostModelsAssignSources: {
-    defaultMessage: 'EN Assign source(s)',
+    defaultMessage: 'Assign source(s)',
     description: 'Assign source(s)',
     id: 'CostModelsAssignSources',
   },
   CostModelsAssignSourcesErrorDescription: {
     defaultMessage:
-      'EN You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {url} for known outages.',
+      'You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {url} for known outages.',
     description: 'You cannot assign a source at this time',
     id: 'CostModelsAssignSourcesErrorDescription',
   },
   CostModelsAssignSourcesErrorTitle: {
-    defaultMessage: 'EN This action is temporarily unavailable',
+    defaultMessage: 'This action is temporarily unavailable',
     description: 'This action is temporarily unavailable',
     id: 'CostModelsAssignSourcesErrorTitle',
   },
   CostModelsAvailableSources: {
-    defaultMessage: 'EN The following sources are assigned to my production cost model:',
+    defaultMessage: 'The following sources are assigned to my production cost model:',
     description: 'The following sources are assigned to my production cost model:',
     id: 'CostModelsAvailableSources',
   },
   CostModelsCanDelete: {
-    defaultMessage: 'EN This action will delete {name} cost model from the system. This action cannot be undone',
+    defaultMessage: 'This action will delete {name} cost model from the system. This action cannot be undone',
     description: 'This action will delete {name} cost model from the system. This action cannot be undone',
     id: 'CostModelsCanDelete',
   },
   CostModelsCanNotDelete: {
-    defaultMessage: 'EN The following sources are assigned to {name} cost model:',
+    defaultMessage: 'The following sources are assigned to {name} cost model:',
     description: 'The following sources are assigned to {name} cost model:',
     id: 'CostModelsCanNotDelete',
   },
   CostModelsDelete: {
-    defaultMessage: 'EN Delete cost model',
+    defaultMessage: 'Delete cost model',
     description: 'Delete cost model',
     id: 'CostModelsDelete',
   },
   CostModelsDeleteDesc: {
-    defaultMessage: 'EN This action will delete {costModel} cost model from the system. This action cannot be undone.',
+    defaultMessage: 'This action will delete {costModel} cost model from the system. This action cannot be undone.',
     description: 'This action will delete {costModel} cost model from the system. This action cannot be undone.',
     id: 'CostModelsDeleteDesc',
   },
   CostModelsDeleteSource: {
-    defaultMessage: 'EN You must unassign any sources before you can delete this cost model.',
+    defaultMessage: 'You must unassign any sources before you can delete this cost model.',
     description: 'You must unassign any sources before you can delete this cost model.',
     id: 'CostModelsDeleteSource',
   },
   CostModelsDescTooLong: {
-    defaultMessage: 'EN Should not exceed 500 characters',
+    defaultMessage: 'Should not exceed 500 characters',
     description: 'Should not exceed 500 characters',
     id: 'CostModelsDescTooLong',
   },
   CostModelsDetailsAssignSourcesTitle: {
-    defaultMessage: 'EN Assign sources',
+    defaultMessage: 'Assign sources',
     description: 'Assign sources',
     id: 'CostModelsDetailsAssignSourcesTitle',
   },
   CostModelsDistributionDesc: {
     defaultMessage:
-      'EN The following is the type of metric that is set to be used when distributing costs to the project level breakdowns.',
+      'The following is the type of metric that is set to be used when distributing costs to the project level breakdowns.',
     description:
       'The following is the type of metric that is set to be used when distributing costs to the project level breakdowns.',
     id: 'CostModelsDistributionDesc',
   },
   CostModelsDistributionEdit: {
-    defaultMessage: 'EN Edit distribution',
+    defaultMessage: 'Edit distribution',
     description: 'Edit distribution',
     id: 'CostModelsDistributionEdit',
   },
   CostModelsEmptyState: {
-    defaultMessage: 'EN What is your hybrid cloud costing you?',
+    defaultMessage: 'What is your hybrid cloud costing you?',
     description: 'What is your hybrid cloud costing you?',
     id: 'CostModelsEmptyState',
   },
   CostModelsEmptyStateDesc: {
     defaultMessage:
-      'EN Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the button below to begin the journey.',
+      'Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the button below to begin the journey.',
     description:
       'Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the button below to begin the journey.',
     id: 'CostModelsEmptyStateDesc',
   },
   CostModelsEmptyStateLearnMore: {
-    defaultMessage: 'EN Read about setting up a cost model',
+    defaultMessage: 'Read about setting up a cost model',
     description: 'Read about setting up a cost model',
     id: 'CostModelsEmptyStateLearnMore',
   },
   CostModelsEnterTagKey: {
-    defaultMessage: 'EN Enter a tag key',
+    defaultMessage: 'Enter a tag key',
     description: 'Enter a tag key',
     id: 'CostModelsEnterTagKey',
   },
   CostModelsEnterTagRate: {
-    defaultMessage: 'EN Enter rate by tag',
+    defaultMessage: 'Enter rate by tag',
     description: 'Enter rate by tag',
     id: 'CostModelsEnterTagRate',
   },
   CostModelsEnterTagValue: {
-    defaultMessage: 'EN Enter a tag value',
+    defaultMessage: 'Enter a tag value',
     description: 'Enter a tag value',
     id: 'CostModelsEnterTagValue',
   },
   CostModelsExamplesDoubleMarkup: {
-    defaultMessage: 'EN A markup rate of (+) 100% doubles the base costs of your source(s).',
+    defaultMessage: 'A markup rate of (+) 100% doubles the base costs of your source(s).',
     description: 'A markup rate of (+) 100% doubles the base costs of your source(s).',
     id: 'CostModelsExamplesDoubleMarkup',
   },
   CostModelsExamplesNoAdjust: {
     defaultMessage:
-      'EN A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your source(s).',
+      'A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your source(s).',
     description:
       'A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your source(s).',
     id: 'CostModelsExamplesNoAdjust',
   },
   CostModelsExamplesReduceSeventyfive: {
-    defaultMessage:
-      'EN A discount rate of (-) 25% reduces the base costs of your source(s) to 75% of the original value.',
+    defaultMessage: 'A discount rate of (-) 25% reduces the base costs of your source(s) to 75% of the original value.',
     description: 'A discount rate of (-) 25% reduces the base costs of your source(s) to 75% of the original value.',
     id: 'CostModelsExamplesReduceSeventyfive',
   },
   CostModelsExamplesReduceZero: {
-    defaultMessage: 'EN A discount rate of (-) 100% reduces the base costs of your source(s) to 0.',
+    defaultMessage: 'A discount rate of (-) 100% reduces the base costs of your source(s) to 0.',
     description: 'A discount rate of (-) 100% reduces the base costs of your source(s) to 0.',
     id: 'CostModelsExamplesReduceZero',
   },
   CostModelsFilterPlaceholder: {
-    defaultMessage: 'EN Filter by name...',
+    defaultMessage: 'Filter by name...',
     description: 'Filter by name',
     id: 'CostModelsFilterPlaceholder',
   },
   CostModelsFilterTagKey: {
-    defaultMessage: 'EN Filter by tag key',
+    defaultMessage: 'Filter by tag key',
     description: 'Filter by tag key',
     id: 'CostModelsFilterTagKey',
   },
   CostModelsInfoTooLong: {
-    defaultMessage: 'EN Should not exceed 100 characters',
+    defaultMessage: 'Should not exceed 100 characters',
     description: 'Should not exceed 100 characters',
     id: 'CostModelsInfoTooLong',
   },
   CostModelsLastChange: {
-    defaultMessage: 'EN Last change',
+    defaultMessage: 'Last change',
     description: 'Last change',
     id: 'CostModelsLastChange',
   },
   CostModelsPopover: {
     defaultMessage:
-      'EN A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}',
+      'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}',
     description:
       'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}',
     id: 'CostModelsPopover',
   },
   CostModelsReadOnly: {
-    defaultMessage: 'EN You have read only permissions',
+    defaultMessage: 'You have read only permissions',
     description: 'You have read only permissions',
     id: 'CostModelsReadOnly',
   },
   CostModelsRefreshDialog: {
-    defaultMessage: 'EN Refresh this dialog',
+    defaultMessage: 'Refresh this dialog',
     description: 'Refresh this dialog',
     id: 'CostModelsRefreshDialog',
   },
   CostModelsRequiredField: {
-    defaultMessage: 'EN This field is required',
+    defaultMessage: 'This field is required',
     description: 'This field is required',
     id: 'CostModelsRequiredField',
   },
   CostModelsRouterErrorTitle: {
-    defaultMessage: 'EN Fail routing to cost model',
+    defaultMessage: 'Fail routing to cost model',
     description: 'cost models router error title',
     id: 'CostModelsRouterErrorTitle',
   },
   CostModelsRouterServerError: {
-    defaultMessage: 'EN Server error: could not get the cost model.',
+    defaultMessage: 'Server error: could not get the cost model.',
     description: 'Server error: could not get the cost model.',
     id: 'CostModelsRouterServerError',
   },
   CostModelsSourceDelete: {
-    defaultMessage: 'EN Unassign',
+    defaultMessage: 'Unassign',
     description: 'Unassign',
     id: 'CostModelsSourceDelete',
   },
   CostModelsSourceDeleteSource: {
-    defaultMessage: 'EN Unassign source',
+    defaultMessage: 'Unassign source',
     description: 'Unassign source',
     id: 'CostModelsSourceDeleteSource',
   },
   CostModelsSourceDeleteSourceDesc: {
     defaultMessage:
-      'EN This will remove the assignment of {source} from the {costModel} cost model. You can then assign the cost model to a new source.',
+      'This will remove the assignment of {source} from the {costModel} cost model. You can then assign the cost model to a new source.',
     description:
       'This will remove the assignment of {source} from the {costModel} cost model. You can then assign the cost model to a new source.',
     id: 'CostModelsSourceDeleteSourceDesc',
   },
   CostModelsSourceEmptyStateDesc: {
-    defaultMessage: 'EN Select the source(s) you want to apply this cost model to.',
+    defaultMessage: 'Select the source(s) you want to apply this cost model to.',
     description: 'Select the source(s) you want to apply this cost model to.',
     id: 'CostModelsSourceEmptyStateDesc',
   },
   CostModelsSourceEmptyStateTitle: {
-    defaultMessage: 'EN No sources are assigned',
+    defaultMessage: 'No sources are assigned',
     description: 'No sources are assigned',
     id: 'CostModelsSourceEmptyStateTitle',
   },
   CostModelsSourceTableAriaLabel: {
-    defaultMessage: 'EN Sources table',
+    defaultMessage: 'Sources table',
     description: 'Sources table',
     id: 'CostModelsSourcesTableAriaLabel',
   },
   CostModelsSourceType: {
-    defaultMessage: 'EN Source type',
+    defaultMessage: 'Source type',
     description: 'Source type',
     id: 'CostModelsSourceType',
   },
   CostModelsTableAriaLabel: {
-    defaultMessage: 'EN Cost models table',
+    defaultMessage: 'Cost models table',
     description: 'Cost models table',
     id: 'CostModelsTableAriaLabel',
   },
   CostModelsTagRateTableAriaLabel: {
-    defaultMessage: 'EN Tag rates',
+    defaultMessage: 'Tag rates',
     description: 'Tag rates',
     id: 'CostModelsTagRateTableAriaLabel',
   },
   CostModelsTagRateTableDefault: {
-    defaultMessage: 'EN Default',
+    defaultMessage: 'Default',
     description: 'Default',
     id: 'CostModelsTagRateTableDefault',
   },
   CostModelsTagRateTableKey: {
-    defaultMessage: 'EN Tag key',
+    defaultMessage: 'Tag key',
     description: 'Tag key',
     id: 'CostModelsTagRateTableKey',
   },
   CostModelsTagRateTableRate: {
-    defaultMessage: 'EN Rate',
+    defaultMessage: 'Rate',
     description: 'Rate',
     id: 'CostModelsTagRateTableRate',
   },
   CostModelsTagRateTableValue: {
-    defaultMessage: 'EN Tag value',
+    defaultMessage: 'Tag value',
     description: 'Tag value',
     id: 'CostModelsTagRateTableValue',
   },
   CostModelsUUIDEmptyState: {
-    defaultMessage: 'EN Cost model can not be found',
+    defaultMessage: 'Cost model can not be found',
     description: 'Cost model can not be found',
     id: 'CostModelsUUIDEmptyState',
   },
   CostModelsUUIDEmptyStateDesc: {
-    defaultMessage: 'EN Cost model with uuid: {uuid} does not exist.',
+    defaultMessage: 'Cost model with uuid: {uuid} does not exist.',
     description: 'Cost model with uuid: {uuid} does not exist.',
     id: 'CostModelsUUIDEmptyStateDesc',
   },
   CostModelsWizardCreateCostModel: {
-    defaultMessage: 'EN Create cost model',
+    defaultMessage: 'Create cost model',
     description: 'Create cost model',
     id: 'CostModelsWizardCreateCostModel',
   },
   CostModelsWizardCreatePriceList: {
-    defaultMessage: 'EN Create a price list',
+    defaultMessage: 'Create a price list',
     description: 'Create a price list',
     id: 'CostModelsWizardCreatePriceList',
   },
   CostModelsWizardEmptySourceTypeLabel: {
-    defaultMessage: 'EN Select source type',
+    defaultMessage: 'Select source type',
     description: 'Select source type',
     id: 'CostModelsWizardEmptySourceTypeLabel',
   },
   CostModelsWizardEmptyStateCreate: {
-    defaultMessage: 'EN To create a price list, begin by clicking the {value} button.',
+    defaultMessage: 'To create a price list, begin by clicking the {value} button.',
     description: 'To create a price list, begin by clicking the {Create rate} button.',
     id: 'CostModelsWizardEmptyStateCreate',
   },
   CostModelsWizardEmptyStateOtherTime: {
-    defaultMessage: 'EN You can create a price list or modify one at a later time.',
+    defaultMessage: 'You can create a price list or modify one at a later time.',
     description: 'You can create a price list or modify one at a later time.',
     id: 'CostModelsWizardEmptyStateOtherTime',
   },
   CostModelsWizardEmptyStateSkipStep: {
-    defaultMessage: 'EN To skip this step, click the {value} button.',
+    defaultMessage: 'To skip this step, click the {value} button.',
     description: 'To skip this step, click the {next} button.',
     id: 'CostModelsWizardEmptyStateSkipStep',
   },
   CostModelsWizardEmptyStateTitle: {
-    defaultMessage: 'EN A price list has not been created.',
+    defaultMessage: 'A price list has not been created.',
     description: 'A price list has not been created.',
     id: 'CostModelsWizardEmptyStateTitle',
   },
   CostModelsWizardGeneralInfoTitle: {
-    defaultMessage: 'EN Enter general information',
+    defaultMessage: 'Enter general information',
     description: 'Enter general information',
     id: 'CostModelsWizardGeneralInfoTitle',
   },
   CostModelsWizardNoRatesAdded: {
-    defaultMessage: 'EN No rates were added to the price list',
+    defaultMessage: 'No rates were added to the price list',
     description: 'No rates were added to the price list',
     id: 'CostModelsWizardNoRatesAdded',
   },
   CostModelsWizardOnboardAWS: {
-    defaultMessage: 'EN Amazon Web Services (AWS)',
+    defaultMessage: 'Amazon Web Services (AWS)',
     description: 'Amazon Web Services (AWS)',
     id: 'CostModelsWizardOnboardAWS',
   },
   CostModelsWizardOnboardOCP: {
-    defaultMessage: 'EN Red Hat OpenShift Container Platform',
+    defaultMessage: 'Red Hat OpenShift Container Platform',
     description: 'Red Hat OpenShift Container Platform',
     id: 'CostModelsWizardOnboardOCP',
   },
   CostModelsWizardPriceListMetric: {
     defaultMessage:
-      'EN Select the metric you want to assign a price to, and specify a measurement unit and rate. You can optionally set multiple rates for particular tags.',
+      'Select the metric you want to assign a price to, and specify a measurement unit and rate. You can optionally set multiple rates for particular tags.',
     description:
       'Select the metric you want to assign a price to, and specify a measurement unit and rate. You can optionally set multiple rates for particular tags.',
     id: 'CostModelsWizardPriceListMetric',
   },
   CostModelsWizardReviewMarkDiscount: {
-    defaultMessage: 'EN Markup/Discount',
+    defaultMessage: 'Markup/Discount',
     description: 'No Markup/Discount',
     id: 'CostModelsWizardReviewMarkDiscount',
   },
   CostModelsWizardReviewStatusSubDetails: {
     defaultMessage:
-      'EN Review and confirm your cost model configuration and assignments. Click {create} to create the cost model, or {back} to revise.',
+      'Review and confirm your cost model configuration and assignments. Click {create} to create the cost model, or {back} to revise.',
     description:
       'Review and confirm your cost model configuration and assignments. Click {Create} to create the cost model, or {Back} to revise.',
     id: 'CostModelsWizardReviewStatusSubDetails',
   },
   CostModelsWizardReviewStatusSubTitle: {
     defaultMessage:
-      'EN Costs for resources connected to the assigned sources will now be calculated using the newly created {value} cost model.',
+      'Costs for resources connected to the assigned sources will now be calculated using the newly created {value} cost model.',
     description:
       'Costs for resources connected to the assigned sources will now be calculated using the newly created {value} cost model.',
     id: 'CostModelsWizardReviewStatusSubTitle',
   },
   CostModelsWizardReviewStatusTitle: {
-    defaultMessage: 'EN Creation successful',
+    defaultMessage: 'Creation successful',
     description: 'Creation successful',
     id: 'CostModelsWizardReviewStatusTitle',
   },
   CostModelsWizardSourceCaption: {
     defaultMessage:
       '{value, select, ' +
-      'aws {EN Select from the following Amazon Web Services sources:} ' +
-      'azure {EN Select from the following Microsoft Azure sources:} ' +
-      'gcp {EN Select from the following Google Cloud Platform sources:} ' +
-      'ocp {EN Select from the following OpenShift sources:} ' +
+      'aws {Select from the following Amazon Web Services sources:} ' +
+      'azure {Select from the following Microsoft Azure sources:} ' +
+      'gcp {Select from the following Google Cloud Platform sources:} ' +
+      'ocp {Select from the following OpenShift sources:} ' +
       'other {}}',
     description: 'Select from the following {value} sources:',
     id: 'CostModelsWizardSourceCaption',
   },
   CostModelsWizardSourceErrorDescription: {
     defaultMessage:
-      'EN Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {url} for known outages.',
+      'Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {url} for known outages.',
     description: 'This step is temporarily unavailable',
     id: 'CostModelsWizardSourceErrorDescription',
   },
   CostModelsWizardSourceErrorTitle: {
-    defaultMessage: 'EN This step is temporarily unavailable',
+    defaultMessage: 'This step is temporarily unavailable',
     description: 'This step is temporarily unavailable',
     id: 'CostModelsWizardSourceErrorTitle',
   },
   CostModelsWizardSourceSubtitle: {
     defaultMessage:
-      'EN Select one or more sources to this cost model. You can skip this step and assign the cost model to a source at a later time. A source will be unavailable for selection if a cost model is already assigned to it.',
+      'Select one or more sources to this cost model. You can skip this step and assign the cost model to a source at a later time. A source will be unavailable for selection if a cost model is already assigned to it.',
     description:
       'Select one or more sources to this cost model. You can skip this step and assign the cost model to a source at a later time. A source will be unavailable for selection if a cost model is already assigned to it.',
     id: 'CostModelsWizardSourceSubtitle',
   },
   CostModelsWizardSourceTableAriaLabel: {
-    defaultMessage: 'EN Assign sources to cost model table',
+    defaultMessage: 'Assign sources to cost model table',
     description: 'Assign sources to cost model table',
     id: 'CostModelsWizardSourceTableAriaLabel',
   },
   CostModelsWizardSourceTableCostModel: {
-    defaultMessage: 'EN Cost model assigned',
+    defaultMessage: 'Cost model assigned',
     description: 'Cost model assigned',
     id: 'CostModelsWizardSourceTableCostModel',
   },
   CostModelsWizardSourceTableDefaultCostModel: {
-    defaultMessage: 'EN Default cost model',
+    defaultMessage: 'Default cost model',
     description: 'Default cost model',
     id: 'CostModelsWizardSourceTableDefaultCostModel',
   },
   CostModelsWizardSourceTitle: {
-    defaultMessage: 'EN Assign sources to the cost model (optional)',
+    defaultMessage: 'Assign sources to the cost model (optional)',
     description: 'Assign sources to the cost model (optional)',
     id: 'CostModelsWizardSourceTitle',
   },
   CostModelsWizardSourceWarning: {
-    defaultMessage: 'EN This source is assigned to {costModel} cost model. You will have to unassigned it first',
+    defaultMessage: 'This source is assigned to {costModel} cost model. You will have to unassigned it first',
     description: 'This source is assigned to {costModel} cost model. You will have to unassigned it first',
     id: 'CostModelsWizardSourceWarning',
   },
   CostModelsWizardStepsGenInfo: {
-    defaultMessage: 'EN Enter information',
+    defaultMessage: 'Enter information',
     description: 'Enter information',
     id: 'CostModelsWizardStepsGenInfo',
   },
   CostModelsWizardStepsPriceList: {
-    defaultMessage: 'EN Price list',
+    defaultMessage: 'Price list',
     description: 'Price list',
     id: 'CostModelsWizardStepsPriceList',
   },
   CostModelsWizardStepsReview: {
-    defaultMessage: 'EN Review details',
+    defaultMessage: 'Review details',
     description: 'Review details',
     id: 'CostModelsWizardStepsReview',
   },
   CostModelsWizardStepsSources: {
-    defaultMessage: 'EN Assign a source to the cost model',
+    defaultMessage: 'Assign a source to the cost model',
     description: 'Assign a source to the cost model',
     id: 'CostModelsWizardStepsSources',
   },
   CostModelsWizardSubTitleTable: {
-    defaultMessage: 'EN The following is a list of rates you have set so far for this price list.',
+    defaultMessage: 'The following is a list of rates you have set so far for this price list.',
     description: 'The following is a list of rates you have set so far for this price list.',
     id: 'CostModelsWizardSubTitleTable',
   },
   CostModelsWizardWarningSources: {
-    defaultMessage: 'EN Cannot assign cost model to a source that is already assigned to another one',
+    defaultMessage: 'Cannot assign cost model to a source that is already assigned to another one',
     description: 'No Cannot assign cost model to a source that is already assigned to another one',
     id: 'CostModelsWizardWarningSources',
   },
   CpuTitle: {
-    defaultMessage: 'EN CPU',
+    defaultMessage: 'CPU',
     description: 'CPU',
     id: 'CPUTitle',
   },
   Create: {
-    defaultMessage: 'EN Create',
+    defaultMessage: 'Create',
     description: 'Create',
     id: 'Create',
   },
   CreateCostModelConfirmMsg: {
-    defaultMessage: 'EN Are you sure you want to stop creating a cost model? All settings will be discarded.',
+    defaultMessage: 'Are you sure you want to stop creating a cost model? All settings will be discarded.',
     description: 'Are you sure you want to stop creating a cost model? All settings will be discarded.',
     id: 'CreateCostModelConfirmMsg',
   },
   CreateCostModelDesc: {
     defaultMessage:
-      'EN A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
+      'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
     description:
       'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
     id: 'CreateCostModelDesc',
   },
   CreateCostModelNoContinue: {
-    defaultMessage: 'EN No, I want to continue',
+    defaultMessage: 'No, I want to continue',
     description: 'No, I want to continue',
     id: 'CreateCostModelNoContinue',
   },
   CreateCostModelTitle: {
-    defaultMessage: 'EN Create a cost model',
+    defaultMessage: 'Create a cost model',
     description: 'Create a cost model',
     id: 'CreateCostModelTitle',
   },
   CreateCostModelYesExit: {
-    defaultMessage: 'EN Exit cost model creation',
+    defaultMessage: 'Exit cost model creation',
     description: 'Exit cost model creation',
     id: 'CreateCostModelYesExit',
   },
   CreateRate: {
-    defaultMessage: 'EN Create rate',
+    defaultMessage: 'Create rate',
     description: 'Create rate',
     id: 'CreateRate',
   },
   CurrencyAbbreviations: {
     defaultMessage:
       '{value, select, ' +
-      'billion {EN B} ' +
-      'million {EN M} ' +
-      'quadrillion {EN q} ' +
-      'thousand {EN K} ' +
-      'trillion {EN t} ' +
+      'billion {B} ' +
+      'million {M} ' +
+      'quadrillion {q} ' +
+      'thousand {K} ' +
+      'trillion {t} ' +
       'other {}}',
     description: 'translate any message',
     id: 'Custom',
   },
   DashboardCumulativeCostComparison: {
-    defaultMessage: 'EN Cumulative cost comparison ({units})',
+    defaultMessage: 'Cumulative cost comparison ({units})',
     description: 'Cumulative cost comparison ({units})',
     id: 'DashboardCumulativeCostComparison',
   },
   DashboardDailyUsageComparison: {
-    defaultMessage: 'EN Daily usage comparison ({units})',
+    defaultMessage: 'Daily usage comparison ({units})',
     description: 'Daily usage comparison ({units})',
     id: 'DashboardDailyUsageComparison',
   },
   DashboardDatabaseTitle: {
-    defaultMessage: 'EN Database services cost',
+    defaultMessage: 'Database services cost',
     description: 'Database services cost',
     id: 'DashboardDatabaseTitle',
   },
   DashboardNetworkTitle: {
-    defaultMessage: 'EN Network services cost',
+    defaultMessage: 'Network services cost',
     description: 'Network services cost',
     id: 'DashboardNetworkTitle',
   },
   DashboardStorageTitle: {
-    defaultMessage: 'EN Storage services cost',
+    defaultMessage: 'Storage services cost',
     description: 'Storage services cost',
     id: 'DashboardStorageTitle',
   },
   DashboardTotalCostTooltip: {
     defaultMessage:
-      'EN This total cost is the sum of the infrastructure cost {infrastructureCost} and supplementary cost {supplementaryCost}',
+      'This total cost is the sum of the infrastructure cost {infrastructureCost} and supplementary cost {supplementaryCost}',
     description: 'total cost is the sum of the infrastructure cost and supplementary cost',
     id: 'DashboardTotalCostTooltip',
   },
   Delete: {
-    defaultMessage: 'EN Delete',
+    defaultMessage: 'Delete',
     description: 'Delete',
     id: 'Delete',
   },
   Description: {
-    defaultMessage: 'EN description',
+    defaultMessage: 'description',
     description: 'description',
     id: 'Description',
   },
   DetailsActionsExport: {
-    defaultMessage: 'EN Export data',
+    defaultMessage: 'Export data',
     description: 'Export data',
     id: 'DetailsActionsExport',
   },
   DetailsActionsPriceList: {
-    defaultMessage: 'EN View all price lists',
+    defaultMessage: 'View all price lists',
     description: 'View all price lists',
     id: 'DetailsActionsPriceList',
   },
   DetailsClustersModalTitle: {
     defaultMessage:
       '{groupBy, select, ' +
-      'account {EN account {name} clusters} ' +
-      'cluster {EN cluster {name} clusters} ' +
-      'instance_type {EN instance type {name} clusters} ' +
-      'node {EN node {name} clusters} ' +
-      'org_unit_id {EN organizational unit {name} clusters} ' +
-      'project {EN project {name} clusters} ' +
-      'region {EN region {name} clusters} ' +
-      'resource_location {EN region {name} clusters} ' +
-      'service {EN service {name} clusters} ' +
-      'service_name {EN service {name} clusters} ' +
+      'account {account {name} clusters} ' +
+      'cluster {cluster {name} clusters} ' +
+      'instance_type {instance type {name} clusters} ' +
+      'node {node {name} clusters} ' +
+      'org_unit_id {organizational unit {name} clusters} ' +
+      'project {project {name} clusters} ' +
+      'region {region {name} clusters} ' +
+      'resource_location {region {name} clusters} ' +
+      'service {service {name} clusters} ' +
+      'service_name {service {name} clusters} ' +
       'subscription_guid {account {name} clusters} ' +
-      'tag {EN tags {name} clusters} ' +
+      'tag {tags {name} clusters} ' +
       'other {}}',
     description: '{groupBy} {name} clusters',
     id: 'DetailsClustersModalTitle',
   },
   DetailsColumnManagementTitle: {
-    defaultMessage: 'EN Manage columns',
+    defaultMessage: 'Manage columns',
     description: 'Manage columns',
     id: 'DetailsColumnManagementTitle',
   },
   DetailsCostValue: {
-    defaultMessage: 'EN Cost: {value}',
+    defaultMessage: 'Cost: {value}',
     description: 'Cost value',
     id: 'DetailsCostValue',
   },
   DetailsEmptyState: {
-    defaultMessage: 'EN Processing data to generate a list of all services that sums to a total cost...',
+    defaultMessage: 'Processing data to generate a list of all services that sums to a total cost...',
     description: 'Processing data to generate a list of all services that sums to a total cost...',
     id: 'DetailsEmptyState',
   },
   DetailsMoreClusters: {
-    defaultMessage: 'EN, {value} more...',
+    defaultMessage: ', {value} more...',
     description: ', {value} more...',
     id: 'DetailsMoreClusters',
   },
   DetailsResourceNames: {
     defaultMessage:
       '{value, select, ' +
-      'account {EN Account names} ' +
-      'cluster {EN Cluster names} ' +
-      'instance_type {EN Instance type names} ' +
-      'node {EN Node names} ' +
-      'org_unit_id {EN Organizational unit names} ' +
-      'project {EN Project names} ' +
-      'region {EN Region names} ' +
-      'resource_location {EN Region names} ' +
-      'service {EN Service names} ' +
-      'service_name {EN Service names} ' +
-      'subscription_guid {EN Account names} ' +
-      'tag {EN Tag names} ' +
+      'account {Account names} ' +
+      'cluster {Cluster names} ' +
+      'instance_type {Instance type names} ' +
+      'node {Node names} ' +
+      'org_unit_id {Organizational unit names} ' +
+      'project {Project names} ' +
+      'region {Region names} ' +
+      'resource_location {Region names} ' +
+      'service {Service names} ' +
+      'service_name {Service names} ' +
+      'subscription_guid {Account names} ' +
+      'tag {Tag names} ' +
       'other {}}',
     description: 'details table resource names',
     id: 'DetailsResourceNames',
@@ -1286,90 +1285,90 @@ export default defineMessages({
   DetailsSummaryModalTitle: {
     defaultMessage:
       '{groupBy, select, ' +
-      'account {EN {name} accounts} ' +
-      'cluster {EN {name} clusters} ' +
-      'instance_type {EN {name} instance types} ' +
-      'node {EN {name} nodes} ' +
-      'org_unit_id {EN {name} organizational units} ' +
-      'project {EN {name} projects} ' +
-      'region {EN {name} regions} ' +
-      'resource_location {EN {name} regions} ' +
-      'service {EN {name} services} ' +
-      'service_name {EN {name} services} ' +
-      'subscription_guid {EN {name} accounts} ' +
-      'tag {EN {name} tags} ' +
+      'account {{name} accounts} ' +
+      'cluster {{name} clusters} ' +
+      'instance_type {{name} instance types} ' +
+      'node {{name} nodes} ' +
+      'org_unit_id {{name} organizational units} ' +
+      'project {{name} projects} ' +
+      'region {{name} regions} ' +
+      'resource_location {{name} regions} ' +
+      'service {{name} services} ' +
+      'service_name {{name} services} ' +
+      'subscription_guid {{name} accounts} ' +
+      'tag {{name} tags} ' +
       'other {}}',
     description: ', {value} more...',
     id: 'DetailsSummaryModalTitle',
   },
   DetailsUnusedRequestsLabel: {
-    defaultMessage: 'EN Unrequested capacity',
+    defaultMessage: 'Unrequested capacity',
     description: 'Unrequested capacity',
     id: 'DetailsUnusedRequestsLabel',
   },
   DetailsUnusedUnits: {
-    defaultMessage: 'EN {units} ({percentage}% of capacity)',
+    defaultMessage: '{units} ({percentage}% of capacity)',
     description: '{units} ({percentage}% of capacity)',
     id: 'DetailsUnusedUsageUnits',
   },
   DetailsUnusedUsageLabel: {
-    defaultMessage: 'EN Unused capacity',
+    defaultMessage: 'Unused capacity',
     description: 'Unused capacity',
     id: 'DetailsUnusedUsageLabel',
   },
   DetailsUsageCapacity: {
-    defaultMessage: 'EN Capacity - {value} {units}',
+    defaultMessage: 'Capacity - {value} {units}',
     description: 'Capacity - {value} {units}',
     id: 'DetailsUsageCapacity',
   },
   DetailsUsageLimit: {
-    defaultMessage: 'EN Limit - {value} {units}',
+    defaultMessage: 'Limit - {value} {units}',
     description: 'Limit - {value} {units}',
     id: 'DetailsUsageLimit',
   },
   DetailsUsageRequests: {
-    defaultMessage: 'EN Requests - {value} {units}',
+    defaultMessage: 'Requests - {value} {units}',
     description: 'Requests - {value} {units}',
     id: 'DetailsUsageRequests',
   },
   DetailsUsageUsage: {
-    defaultMessage: 'EN Usage - {value} {units}',
+    defaultMessage: 'Usage - {value} {units}',
     description: 'Usage - {value} {units}',
     id: 'DetailsUsageUsage',
   },
   DetailsViewAll: {
     defaultMessage:
       '{value, select, ' +
-      'account {EN View all accounts} ' +
-      'cluster {EN View all clusters} ' +
-      'instance_type {EN View all instance types} ' +
-      'node {EN View all nodes} ' +
-      'org_unit_id {EN View all organizational units} ' +
-      'project {EN View all projects} ' +
-      'region {EN View all regions} ' +
-      'resource_location {EN View all regions} ' +
-      'service {EN View all Services} ' +
-      'service_name {EN View all services} ' +
-      'subscription_guid {EN View all accounts} ' +
-      'tag {EN View all tags} ' +
+      'account {View all accounts} ' +
+      'cluster {View all clusters} ' +
+      'instance_type {View all instance types} ' +
+      'node {View all nodes} ' +
+      'org_unit_id {View all organizational units} ' +
+      'project {View all projects} ' +
+      'region {View all regions} ' +
+      'resource_location {View all regions} ' +
+      'service {View all Services} ' +
+      'service_name {View all services} ' +
+      'subscription_guid {View all accounts} ' +
+      'tag {View all tags} ' +
       'other {}}',
     description: 'View all {value}',
     id: 'DetailsViewAll',
   },
   DiscountMinus: {
-    defaultMessage: 'EN Discount (-)',
+    defaultMessage: 'Discount (-)',
     description: 'Discount (-)',
     id: 'DiscountMinus',
   },
   DistributionModelDesc: {
     defaultMessage:
-      'EN This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.',
+      'This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.',
     description:
       'This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.',
     id: 'DistributionModelDesc',
   },
   DistributionType: {
-    defaultMessage: 'EN Distribution type',
+    defaultMessage: 'Distribution type',
     description: 'Distribution type',
     id: 'DistributionType',
   },
@@ -1402,80 +1401,80 @@ export default defineMessages({
     id: 'DocsUsingCostModels',
   },
   Edit: {
-    defaultMessage: 'EN Edit',
+    defaultMessage: 'Edit',
     description: 'Edit',
     id: 'Edit',
   },
   EditCostModel: {
-    defaultMessage: 'EN Edit cost model',
+    defaultMessage: 'Edit cost model',
     description: 'Edit cost model',
     id: 'EditCostModel',
   },
   EditMarkup: {
-    defaultMessage: 'EN Edit markup',
+    defaultMessage: 'Edit markup',
     description: 'Edit markup',
     id: 'EditMarkup',
   },
   EditMarkupOrDiscount: {
-    defaultMessage: 'EN Edit markup or discount',
+    defaultMessage: 'Edit markup or discount',
     description: 'Edit markup or discount',
     id: 'EditMarkupOrDiscount',
   },
   EmptyFilterSourceStateSubtitle: {
-    defaultMessage: 'EN Sorry, no source with the given filter was found.',
+    defaultMessage: 'Sorry, no source with the given filter was found.',
     description: 'Sorry, no source with the given filter was found.',
     id: 'EmptyFilterSourceStateSubtitle',
   },
   EmptyFilterStateSubtitle: {
-    defaultMessage: 'EN Sorry, no data with the given filter was found.',
+    defaultMessage: 'Sorry, no data with the given filter was found.',
     description: 'Sorry, no data with the given filter was found.',
     id: 'EmptyFilterStateSubtitle',
   },
   EmptyFilterStateTitle: {
-    defaultMessage: 'EN No match found',
+    defaultMessage: 'No match found',
     description: 'No match found',
     id: 'EmptyFilterStateTitle',
   },
   ErrorStateNotAuthorizedDesc: {
-    defaultMessage: 'EN Contact the cost management administrator to provide access to this application',
+    defaultMessage: 'Contact the cost management administrator to provide access to this application',
     description: 'Contact the cost management administrator to provide access to this application',
     id: 'ErrorStateNotAuthorizedDesc',
   },
   ErrorStateNotAuthorizedTitle: {
-    defaultMessage: "EN You don't have access to the Cost management application",
+    defaultMessage: "You don't have access to the Cost management application",
     description: "You don't have access to the Cost management application",
     id: 'ErrorStateNotAuthorizedTitle',
   },
   ErrorStateUnexpectedDesc: {
-    defaultMessage: 'EN We encountered an unexpected error. Contact your administrator.',
+    defaultMessage: 'We encountered an unexpected error. Contact your administrator.',
     description: 'We encountered an unexpected error. Contact your administrator.',
     id: 'ErrorStateUnexpectedDesc',
   },
   ErrorStateUnexpectedTitle: {
-    defaultMessage: 'EN Oops!',
+    defaultMessage: 'Oops!',
     description: 'Oops!',
     id: 'ErrorStateUnexpectedTitle',
   },
   ExamplesTitle: {
-    defaultMessage: 'EN Examples',
+    defaultMessage: 'Examples',
     description: 'Examples',
     id: 'ExamplesTitle',
   },
   ExplorerChartDate: {
     defaultMessage:
       '{month, select, ' +
-      '1 {EN Jan {date}} ' +
-      '2 {EN Feb {date}} ' +
-      '3 {EN Mar {date}} ' +
-      '4 {EN Apr {date}} ' +
-      '5 {EN May {date}} ' +
-      '6 {EN Jun {date}} ' +
-      '7 {EN Jul {date}} ' +
-      '8 {EN Aug {date}} ' +
-      '9 {EN Sep {date}} ' +
-      '10 {EN Oct {date}} ' +
-      '11 {EN Nov {date}} ' +
-      '12 {EN Dec {date}} ' +
+      '1 {Jan {date}} ' +
+      '2 {Feb {date}} ' +
+      '3 {Mar {date}} ' +
+      '4 {Apr {date}} ' +
+      '5 {May {date}} ' +
+      '6 {Jun {date}} ' +
+      '7 {Jul {date}} ' +
+      '8 {Aug {date}} ' +
+      '9 {Sep {date}} ' +
+      '10 {Oct {date}} ' +
+      '11 {Nov {date}} ' +
+      '12 {Dec {date}} ' +
       'other {}}',
     description: 'Month {date}',
     id: 'ExplorerDateColumn',
@@ -1483,15 +1482,15 @@ export default defineMessages({
   ExplorerChartTitle: {
     defaultMessage:
       '{value, select, ' +
-      'aws {EN Amazon Web Services - Top 5 Costliest} ' +
-      'aws_ocp {EN Amazon Web Services filtered by OpenShift - Top 5 Costliest} ' +
-      'azure {EN Microsoft Azure - Top 5 Costliest} ' +
-      'azure_ocp {EN Microsoft Azure filtered by OpenShift - Top 5 Costliest} ' +
-      'gcp {EN Google Cloud Platform - Top 5 Costliest} ' +
-      'gcp_ocp {EN Google Cloud Platform filtered by OpenShift - Top 5 Costliest} ' +
-      'ibm {EN IBM Cloud - Top 5 Costliest} ' +
-      'ocp {EN All OpenShift - Top 5 Costliest} ' +
-      'ocp_cloud {EN All cloud filtered by OpenShift - Top 5 Costliest} ' +
+      'aws {Amazon Web Services - Top 5 Costliest} ' +
+      'aws_ocp {Amazon Web Services filtered by OpenShift - Top 5 Costliest} ' +
+      'azure {Microsoft Azure - Top 5 Costliest} ' +
+      'azure_ocp {Microsoft Azure filtered by OpenShift - Top 5 Costliest} ' +
+      'gcp {Google Cloud Platform - Top 5 Costliest} ' +
+      'gcp_ocp {Google Cloud Platform filtered by OpenShift - Top 5 Costliest} ' +
+      'ibm {IBM Cloud - Top 5 Costliest} ' +
+      'ocp {All OpenShift - Top 5 Costliest} ' +
+      'ocp_cloud {All cloud filtered by OpenShift - Top 5 Costliest} ' +
       'other {}}',
     description: 'Explorer chart title',
     id: 'ExplorerChartTitle',
@@ -1499,41 +1498,41 @@ export default defineMessages({
   ExplorerDateRange: {
     defaultMessage:
       '{value, select, ' +
-      'current_month_to_date {EN Month to date} ' +
-      'last_sixty_days {EN Last 60 days} ' +
-      'last_thirty_days {EN Last 30 days} ' +
-      'previous_month_to_date {EN Previous month and month to date} ' +
+      'current_month_to_date {Month to date} ' +
+      'last_sixty_days {Last 60 days} ' +
+      'last_thirty_days {Last 30 days} ' +
+      'previous_month_to_date {Previous month and month to date} ' +
       'other {}}',
     description: 'date range based on {value}',
     id: 'ExplorerDateRange',
   },
   ExplorerMonthDate: {
-    defaultMessage: 'EN {month} {date}',
+    defaultMessage: '{month} {date}',
     description: 'Cost {month} {date}',
     id: 'ExplorerMonthDate',
   },
   ExplorerTitle: {
-    defaultMessage: 'EN Cost Explorer',
+    defaultMessage: 'Cost Explorer',
     description: 'Cost Explorer title',
     id: 'ExplorerTitle',
   },
   ExportAggregateType: {
-    defaultMessage: 'EN Select aggregate type',
+    defaultMessage: 'Select aggregate type',
     description: 'Export aggregate type',
     id: 'ExportAggregateType',
   },
   ExportAll: {
-    defaultMessage: 'EN All',
+    defaultMessage: 'All',
     description: 'Export all',
     id: 'ExportAll',
   },
   ExportDownload: {
-    defaultMessage: 'EN Generate and download',
+    defaultMessage: 'Generate and download',
     description: 'Export download',
     id: 'ExportDownload',
   },
   ExportError: {
-    defaultMessage: 'EN Something went wrong, please try fewer selections',
+    defaultMessage: 'Something went wrong, please try fewer selections',
     description: 'Export error',
     id: 'ExportError',
   },
@@ -1559,76 +1558,76 @@ export default defineMessages({
   ExportHeading: {
     defaultMessage:
       '{groupBy, select, ' +
-      'account {EN Aggregates of the following accounts will be exported to a .csv file.} ' +
-      'cluster {EN Aggregates of the following clusters will be exported to a .csv file.} ' +
-      'instance_type {EN Aggregates of the following instance types will be exported to a .csv file.} ' +
-      'node {EN Aggregates of the following nodes will be exported to a .csv file.} ' +
-      'org_unit_id {EN Aggregates of the following organizational units will be exported to a .csv file.} ' +
-      'project {EN Aggregates of the following projects will be exported to a .csv file.} ' +
-      'region {EN Aggregates of the following regions will be exported to a .csv file.} ' +
-      'resource_location {EN Aggregates of the regions will be exported to a .csv file.} ' +
-      'service {EN Aggregates of the following services will be exported to a .csv file.} ' +
-      'service_name {EN Aggregates of the following services will be exported to a .csv file.} ' +
-      'subscription_guid {EN Aggregates of the following accounts will be exported to a .csv file.} ' +
-      'tag {EN Aggregates of the following tags will be exported to a .csv file.} ' +
+      'account {Aggregates of the following accounts will be exported to a .csv file.} ' +
+      'cluster {Aggregates of the following clusters will be exported to a .csv file.} ' +
+      'instance_type {Aggregates of the following instance types will be exported to a .csv file.} ' +
+      'node {Aggregates of the following nodes will be exported to a .csv file.} ' +
+      'org_unit_id {Aggregates of the following organizational units will be exported to a .csv file.} ' +
+      'project {Aggregates of the following projects will be exported to a .csv file.} ' +
+      'region {Aggregates of the following regions will be exported to a .csv file.} ' +
+      'resource_location {Aggregates of the regions will be exported to a .csv file.} ' +
+      'service {Aggregates of the following services will be exported to a .csv file.} ' +
+      'service_name {Aggregates of the following services will be exported to a .csv file.} ' +
+      'subscription_guid {Aggregates of the following accounts will be exported to a .csv file.} ' +
+      'tag {Aggregates of the following tags will be exported to a .csv file.} ' +
       'other {}}',
     description: 'Export heading',
     id: 'ExportHeading',
   },
   ExportResolution: {
-    defaultMessage: '{value, select, daily {EN Daily} monthly {EN Monthly} other {}}',
+    defaultMessage: '{value, select, daily {Daily} monthly {Monthly} other {}}',
     description: 'Export file name',
     id: 'ExportResolution',
   },
   ExportSelected: {
     defaultMessage:
       '{groupBy, select, ' +
-      'account {EN Selected accounts} ' +
-      'cluster {EN Selected clusters} ' +
-      'instance_type {EN Selected instance types} ' +
-      'node {EN Selected nodes} ' +
-      'org_unit_id {EN Selected organizational units} ' +
-      'project {EN Selected projects} ' +
-      'region {EN Selected regions} ' +
-      'resource_location {EN Selected regions} ' +
-      'service {EN Selected services} ' +
-      'service_name {EN Selected services} ' +
-      'subscription_guid {EN Selected accounts} ' +
-      'tag {EN Selected tags} ' +
+      'account {Selected accounts} ' +
+      'cluster {Selected clusters} ' +
+      'instance_type {Selected instance types} ' +
+      'node {Selected nodes} ' +
+      'org_unit_id {Selected organizational units} ' +
+      'project {Selected projects} ' +
+      'region {Selected regions} ' +
+      'resource_location {Selected regions} ' +
+      'service {Selected services} ' +
+      'service_name {Selected services} ' +
+      'subscription_guid {Selected accounts} ' +
+      'tag {Selected tags} ' +
       'other {}}',
     description: 'Selected items for export',
     id: 'ExportSelected',
   },
   ExportTimeScope: {
-    defaultMessage: '{value, select, current {EN Current {date}} previous {EN Previous {date}} other {}}',
+    defaultMessage: '{value, select, current {Current {date}} previous {Previous {date}} other {}}',
     description: 'Export time scope',
     id: 'ExportTimeScope',
   },
   ExportTimeScopeTitle: {
-    defaultMessage: 'EN Select month',
+    defaultMessage: 'Select month',
     description: 'Export time scope title',
     id: 'ExportTimeScopeTitle',
   },
   ExportTitle: {
-    defaultMessage: 'EN Export',
+    defaultMessage: 'Export',
     description: 'Export title',
     id: 'ExportTitle',
   },
   FilterByButtonAriaLabel: {
     defaultMessage:
       '{value, select, ' +
-      'account {EN Filter button for account name} ' +
-      'cluster {EN Filter button for cluster name} ' +
-      'name {EN Filter button for name name} ' +
-      'node {EN Filter button for node name} ' +
-      'org_unit_id {EN Filter button for organizational unit name} ' +
-      'project {EN Filter button for project name} ' +
-      'region {EN Filter button for region name} ' +
-      'resource_location {EN Filter button for region name} ' +
-      'service {EN Filter button for service name} ' +
-      'service_name {EN Filter button for service_name name} ' +
-      'subscription_guid {EN Filter button for account name} ' +
-      'tag {EN Filter button for tag name} ' +
+      'account {Filter button for account name} ' +
+      'cluster {Filter button for cluster name} ' +
+      'name {Filter button for name name} ' +
+      'node {Filter button for node name} ' +
+      'org_unit_id {Filter button for organizational unit name} ' +
+      'project {Filter button for project name} ' +
+      'region {Filter button for region name} ' +
+      'resource_location {Filter button for region name} ' +
+      'service {Filter button for service name} ' +
+      'service_name {Filter button for service_name name} ' +
+      'subscription_guid {Filter button for account name} ' +
+      'tag {Filter button for tag name} ' +
       'other {}}',
     description: 'Filter button for "value" name',
     id: 'FilterByButtonAriaLabel',
@@ -1636,98 +1635,98 @@ export default defineMessages({
   FilterByInputAriaLabel: {
     defaultMessage:
       '{value, select, ' +
-      'account {EN Input for account name} ' +
-      'cluster {EN Input for cluster name} ' +
-      'name {EN Input for name name} ' +
-      'node {EN Input for node name} ' +
-      'org_unit_id {EN Input for organizational unit name} ' +
-      'project {EN Input for project name} ' +
-      'region {EN Input for region name} ' +
-      'resource_location {EN Input for region name} ' +
-      'service {EN Input for service name} ' +
-      'service_name {EN Input for service_name name} ' +
-      'subscription_guid {EN Input for account name} ' +
-      'tag {EN Input for tag name} ' +
+      'account {Input for account name} ' +
+      'cluster {Input for cluster name} ' +
+      'name {Input for name name} ' +
+      'node {Input for node name} ' +
+      'org_unit_id {Input for organizational unit name} ' +
+      'project {Input for project name} ' +
+      'region {Input for region name} ' +
+      'resource_location {Input for region name} ' +
+      'service {Input for service name} ' +
+      'service_name {Input for service_name name} ' +
+      'subscription_guid {Input for account name} ' +
+      'tag {Input for tag name} ' +
       'other {}}',
     description: 'Input for {value} name',
     id: 'FilterByInputAriaLabel',
   },
   FilterByOrgUnitAriaLabel: {
-    defaultMessage: 'EN Organizational units',
+    defaultMessage: 'Organizational units',
     description: 'Organizational units',
     id: 'FilterByOrgUnitAriaLabel',
   },
   FilterByOrgUnitPlaceholder: {
-    defaultMessage: 'EN Choose unit',
+    defaultMessage: 'Choose unit',
     description: 'Choose unit',
     id: 'FilterByOrgUnitPlaceholder',
   },
   FilterByPlaceholder: {
     defaultMessage:
       '{value, select, ' +
-      'account {EN Filter by account} ' +
-      'cluster {EN Filter by cluster} ' +
-      'description {EN Filter by description} ' +
-      'name {EN Filter by name} ' +
-      'node {EN Filter by node} ' +
-      'org_unit_id {EN Filter by organizational unit} ' +
-      'project {EN Filter by project} ' +
-      'region {EN Filter by region} ' +
-      'resource_location {EN Filter by region} ' +
-      'service {EN Filter by service} ' +
-      'service_name {EN Filter by service} ' +
-      'source_type {EN Filter by source type} ' +
-      'subscription_guid {EN Filter by account} ' +
-      'tag {EN Filter by tag} ' +
+      'account {Filter by account} ' +
+      'cluster {Filter by cluster} ' +
+      'description {Filter by description} ' +
+      'name {Filter by name} ' +
+      'node {Filter by node} ' +
+      'org_unit_id {Filter by organizational unit} ' +
+      'project {Filter by project} ' +
+      'region {Filter by region} ' +
+      'resource_location {Filter by region} ' +
+      'service {Filter by service} ' +
+      'service_name {Filter by service} ' +
+      'source_type {Filter by source type} ' +
+      'subscription_guid {Filter by account} ' +
+      'tag {Filter by tag} ' +
       'other {}}',
     description: 'Filter by "value"',
     id: 'FilterByPlaceholder',
   },
   FilterByTagKeyAriaLabel: {
-    defaultMessage: 'EN Tag keys',
+    defaultMessage: 'Tag keys',
     description: 'Tag keys',
     id: 'FilterByTagKeyAriaLabel',
   },
   FilterByTagKeyPlaceholder: {
-    defaultMessage: 'EN Choose key',
+    defaultMessage: 'Choose key',
     description: 'Choose key',
     id: 'FilterByTagKeyPlaceholder',
   },
   FilterByTagValueAriaLabel: {
-    defaultMessage: 'EN Tag values',
+    defaultMessage: 'Tag values',
     description: 'Tag values',
     id: 'FilterByTagValueAriaLabel',
   },
   FilterByTagValueButtonAriaLabel: {
-    defaultMessage: 'EN Filter button for tag value',
+    defaultMessage: 'Filter button for tag value',
     description: 'Filter button for tag value',
     id: 'FilterByTagValueButtonAriaLabel',
   },
   FilterByTagValueInputPlaceholder: {
-    defaultMessage: 'EN Filter by value',
+    defaultMessage: 'Filter by value',
     description: 'Filter by value',
     id: 'FilterByTagValueInputPlaceholder',
   },
   FilterByTagValuePlaceholder: {
-    defaultMessage: 'EN Choose value',
+    defaultMessage: 'Choose value',
     description: 'Choose value',
     id: 'FilterByTagValuePlaceholder',
   },
   FilterByValues: {
     defaultMessage:
       '{value, select, ' +
-      'account {EN account} ' +
-      'cluster {EN cluster} ' +
-      'name {EN name} ' +
-      'node {EN node} ' +
-      'org_unit_id {EN organizational unit} ' +
-      'project {EN project} ' +
-      'region {EN region} ' +
-      'resource_location {EN region} ' +
-      'service {EN service} ' +
-      'service_name {EN service} ' +
-      'subscription_guid {EN account} ' +
-      'tag {EN tag} ' +
+      'account {account} ' +
+      'cluster {cluster} ' +
+      'name {name} ' +
+      'node {node} ' +
+      'org_unit_id {organizational unit} ' +
+      'project {project} ' +
+      'region {region} ' +
+      'resource_location {region} ' +
+      'service {service} ' +
+      'service_name {service} ' +
+      'subscription_guid {account} ' +
+      'tag {tag} ' +
       'other {}}',
     description: 'Filter by values',
     id: 'FilterByValues',
@@ -1735,18 +1734,18 @@ export default defineMessages({
   FilterByValuesTitleCase: {
     defaultMessage:
       '{value, select, ' +
-      'account {EN Account} ' +
-      'cluster {EN Cluster} ' +
-      'name {EN Name} ' +
-      'node {EN Node} ' +
-      'org_unit_id {EN Organizational unit} ' +
-      'project {EN Project} ' +
-      'region {EN Region} ' +
-      'resource_location {EN Region} ' +
-      'service {EN Service} ' +
-      'service_name {EN Service} ' +
-      'subscription_guid {EN Account} ' +
-      'tag {EN Tag} ' +
+      'account {Account} ' +
+      'cluster {Cluster} ' +
+      'name {Name} ' +
+      'node {Node} ' +
+      'org_unit_id {Organizational unit} ' +
+      'project {Project} ' +
+      'region {Region} ' +
+      'resource_location {Region} ' +
+      'service {Service} ' +
+      'service_name {Service} ' +
+      'subscription_guid {Account} ' +
+      'tag {Tag} ' +
       'other {}}',
     description: 'Filter by values',
     id: 'FilterByValuesTitleCase',
@@ -1754,96 +1753,96 @@ export default defineMessages({
   ForDate: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN {value} for Jan {startDate}} other {EN {value} for Jan {startDate}-{endDate}}}} ' +
-      '2 {{count, plural, one {EN {value} for Feb {startDate}} other {EN {value} for Feb {startDate}-{endDate}}}} ' +
-      '3 {{count, plural, one {EN {value} for Mar {startDate}} other {EN {value} for Mar {startDate}-{endDate}}}} ' +
-      '4 {{count, plural, one {EN {value} for Apr {startDate}} other {EN {value} for Apr {startDate}-{endDate}}}} ' +
-      '5 {{count, plural, one {EN {value} for May {startDate}} other {EN {value} for May {startDate}-{endDate}}}} ' +
-      '6 {{count, plural, one {EN {value} for Jun {startDate}} other {EN {value} for Jun {startDate}-{endDate}}}} ' +
-      '7 {{count, plural, one {EN {value} for Jul {startDate}} other {EN {value} for Jul {startDate}-{endDate}}}} ' +
-      '8 {{count, plural, one {EN {value} for Aug {startDate}} other {EN {value} for Aug {startDate}-{endDate}}}} ' +
-      '9 {{count, plural, one {EN {value} for Sep {startDate}} other {EN {value} for Sep {startDate}-{endDate}}}} ' +
-      '10 {{count, plural, one {EN {value} for Oct {startDate}} other {EN {value} for Oct {startDate}-{endDate}}}} ' +
-      '11 {{count, plural, one {EN {value} for Nov {startDate}} other {EN {value} for Nov {startDate}-{endDate}}}} ' +
-      '12 {{count, plural, one {EN {value} for Dec {startDate}} other {EN {value} for Dec {startDate}-{endDate}}}} ' +
+      '1 {{count, plural, one {{value} for Jan {startDate}} other {{value} for Jan {startDate}-{endDate}}}} ' +
+      '2 {{count, plural, one {{value} for Feb {startDate}} other {{value} for Feb {startDate}-{endDate}}}} ' +
+      '3 {{count, plural, one {{value} for Mar {startDate}} other {{value} for Mar {startDate}-{endDate}}}} ' +
+      '4 {{count, plural, one {{value} for Apr {startDate}} other {{value} for Apr {startDate}-{endDate}}}} ' +
+      '5 {{count, plural, one {{value} for May {startDate}} other {{value} for May {startDate}-{endDate}}}} ' +
+      '6 {{count, plural, one {{value} for Jun {startDate}} other {{value} for Jun {startDate}-{endDate}}}} ' +
+      '7 {{count, plural, one {{value} for Jul {startDate}} other {{value} for Jul {startDate}-{endDate}}}} ' +
+      '8 {{count, plural, one {{value} for Aug {startDate}} other {{value} for Aug {startDate}-{endDate}}}} ' +
+      '9 {{count, plural, one {{value} for Sep {startDate}} other {{value} for Sep {startDate}-{endDate}}}} ' +
+      '10 {{count, plural, one {{value} for Oct {startDate}} other {{value} for Oct {startDate}-{endDate}}}} ' +
+      '11 {{count, plural, one {{value} for Nov {startDate}} other {{value} for Nov {startDate}-{endDate}}}} ' +
+      '12 {{count, plural, one {{value} for Dec {startDate}} other {{value} for Dec {startDate}-{endDate}}}} ' +
       'other {}}',
     description: '{value} for date range',
     id: 'ForDate',
   },
   GCP: {
-    defaultMessage: 'EN Google Cloud Platform',
+    defaultMessage: 'Google Cloud Platform',
     description: 'Google Cloud Platform',
     id: 'GCP',
   },
   GCPComputeTitle: {
-    defaultMessage: 'EN Compute instances usage',
+    defaultMessage: 'Compute instances usage',
     description: 'Compute instances usage',
     id: 'GCPComputeTitle',
   },
   GCPCostTitle: {
-    defaultMessage: 'EN Google Cloud Platform Services cost',
+    defaultMessage: 'Google Cloud Platform Services cost',
     description: 'Google Cloud Platform Services cost',
     id: 'GCPCostTitle',
   },
   GCPCostTrendTitle: {
-    defaultMessage: 'EN Google Cloud Platform Services cumulative cost comparison ({units})',
+    defaultMessage: 'Google Cloud Platform Services cumulative cost comparison ({units})',
     description: 'Google Cloud Platform Services cumulative cost comparison ({units})',
     id: 'GCPCostTrendTitle',
   },
   GCPDailyCostTrendTitle: {
-    defaultMessage: 'EN Google Cloud Platform Services daily cost comparison ({units})',
+    defaultMessage: 'Google Cloud Platform Services daily cost comparison ({units})',
     description: 'Google Cloud Platform Services daily cost comparison ({units})',
     id: 'GCPDailyCostTrendTitle',
   },
   GCPDesc: {
-    defaultMessage: 'EN Raw cost from Google Cloud Platform infrastructure.',
+    defaultMessage: 'Raw cost from Google Cloud Platform infrastructure.',
     description: 'Raw cost from Google Cloud Platform infrastructure.',
     id: 'GCPDesc',
   },
   GCPDetailsTitle: {
-    defaultMessage: 'EN Google Cloud Platform Details',
+    defaultMessage: 'Google Cloud Platform Details',
     description: 'Google Cloud Platform Details',
     id: 'GCPDetailsTitle',
   },
   GroupByAll: {
     defaultMessage:
       '{value, select, ' +
-      'account {{count, plural, one {EN All Account} other {EN All Accounts}}} ' +
-      'cluster {{count, plural, one {EN All Cluster} other {EN All Clusters}}} ' +
-      'instance_type {{count, plural, one {EN All Instance type} other {EN All Instance types}}} ' +
-      'node {{count, plural, one {EN All Node} other {EN All Node}}} ' +
-      'org_unit_id {{count, plural, one {EN All Organizational unit} other {EN All Organizational units}}} ' +
-      'project {{count, plural, one {EN All Project} other {EN All Projects}}} ' +
-      'region {{count, plural, one {EN All Region} other {EN All Regions}}} ' +
-      'resource_location {{count, plural, one {EN All Region} other {EN All Regions}}} ' +
-      'service {{count, plural, one {EN All Service} other {EN All Services}}} ' +
-      'service_name {{count, plural, one {EN All Service} other {EN All Services}}} ' +
-      'subscription_guid {{count, plural, one {EN All Account} other {EN All Accounts}}} ' +
-      'tag {{count, plural, one {EN All Tag} other {EN All Tags}}} ' +
+      'account {{count, plural, one {All Account} other {All Accounts}}} ' +
+      'cluster {{count, plural, one {All Cluster} other {All Clusters}}} ' +
+      'instance_type {{count, plural, one {All Instance type} other {All Instance types}}} ' +
+      'node {{count, plural, one {All Node} other {All Node}}} ' +
+      'org_unit_id {{count, plural, one {All Organizational unit} other {All Organizational units}}} ' +
+      'project {{count, plural, one {All Project} other {All Projects}}} ' +
+      'region {{count, plural, one {All Region} other {All Regions}}} ' +
+      'resource_location {{count, plural, one {All Region} other {All Regions}}} ' +
+      'service {{count, plural, one {All Service} other {All Services}}} ' +
+      'service_name {{count, plural, one {All Service} other {All Services}}} ' +
+      'subscription_guid {{count, plural, one {All Account} other {All Accounts}}} ' +
+      'tag {{count, plural, one {All Tag} other {All Tags}}} ' +
       'other {}}',
     description: 'All group by value',
     id: 'GroupByAll',
   },
   GroupByLabel: {
-    defaultMessage: 'EN Group by',
+    defaultMessage: 'Group by',
     description: 'group by label',
     id: 'GroupByLabel',
   },
   GroupByTop: {
     defaultMessage:
       '{value, select, ' +
-      'account {{count, plural, one {EN Top account} other {EN Top accounts}}} ' +
-      'cluster {{count, plural, one {EN Top cluster} other {EN Top clusters}}} ' +
-      'instance_type {{count, plural, one {EN Top instance type} other {EN Top instance types}}} ' +
-      'node {{count, plural, one {EN Top node} other {EN Top node}}} ' +
-      'org_unit_id {{count, plural, one {EN Top organizational unit} other {EN Top organizational units}}} ' +
-      'project {{count, plural, one {EN Top project} other {EN Top projects}}} ' +
-      'region {{count, plural, one {EN Top region} other {EN Top regions}}} ' +
-      'resource_location {{count, plural, one {EN Top region} other {EN Top regions}}} ' +
-      'service {{count, plural, one {EN Top service} other {EN Top services}}} ' +
-      'service_name {{count, plural, one {EN Top service} other {EN Top services}}} ' +
-      'subscription_guid {{count, plural, one {EN Top account} other {EN Top accounts}}} ' +
-      'tag {{count, plural, one {EN Top tag} other {EN Top tags}}} ' +
+      'account {{count, plural, one {Top account} other {Top accounts}}} ' +
+      'cluster {{count, plural, one {Top cluster} other {Top clusters}}} ' +
+      'instance_type {{count, plural, one {Top instance type} other {Top instance types}}} ' +
+      'node {{count, plural, one {Top node} other {Top node}}} ' +
+      'org_unit_id {{count, plural, one {Top organizational unit} other {Top organizational units}}} ' +
+      'project {{count, plural, one {Top project} other {Top projects}}} ' +
+      'region {{count, plural, one {Top region} other {Top regions}}} ' +
+      'resource_location {{count, plural, one {Top region} other {Top regions}}} ' +
+      'service {{count, plural, one {Top service} other {Top services}}} ' +
+      'service_name {{count, plural, one {Top service} other {Top services}}} ' +
+      'subscription_guid {{count, plural, one {Top account} other {Top accounts}}} ' +
+      'tag {{count, plural, one {Top tag} other {Top tags}}} ' +
       'other {}}',
     description: 'Top group by value',
     id: 'GroupByTop',
@@ -1851,18 +1850,18 @@ export default defineMessages({
   GroupByValueNames: {
     defaultMessage:
       '{groupBy, select, ' +
-      'account {EN Account names} ' +
-      'cluster {EN Cluster names} ' +
-      'instance_type {EN Instance type names} ' +
-      'node {EN Node names} ' +
-      'org_unit_id {EN Organizational unit names} ' +
-      'project {EN Project names} ' +
-      'region {EN Region names} ' +
-      'resource_location {EN Region names} ' +
-      'service {EN Service names} ' +
-      'service_name {EN Service names} ' +
-      'subscription_guid {EN Account names} ' +
-      'tag {EN Tag names} ' +
+      'account {Account names} ' +
+      'cluster {Cluster names} ' +
+      'instance_type {Instance type names} ' +
+      'node {Node names} ' +
+      'org_unit_id {Organizational unit names} ' +
+      'project {Project names} ' +
+      'region {Region names} ' +
+      'resource_location {Region names} ' +
+      'service {Service names} ' +
+      'service_name {Service names} ' +
+      'subscription_guid {Account names} ' +
+      'tag {Tag names} ' +
       'other {}}',
     description: 'Selected items for export',
     id: 'GroupByValueNames',
@@ -1870,18 +1869,18 @@ export default defineMessages({
   GroupByValues: {
     defaultMessage:
       '{value, select, ' +
-      'account {{count, plural, one {EN account} other {EN accounts}}} ' +
-      'cluster {{count, plural, one {EN cluster} other {EN clusters}}} ' +
-      'instance_type {{count, plural, one {EN instance type} other {EN instance types}}} ' +
-      'node {{count, plural, one {EN node} other {EN node}}} ' +
-      'org_unit_id {{count, plural, one {EN organizational unit} other {EN organizational units}}} ' +
-      'project {{count, plural, one {EN project} other {EN projects}}} ' +
-      'region {{count, plural, one {EN region} other {EN regions}}} ' +
-      'resource_location {{count, plural, one {EN region} other {EN regions}}} ' +
-      'service {{count, plural, one {EN service} other {EN services}}} ' +
-      'service_name {{count, plural, one {EN service} other {EN services}}} ' +
-      'subscription_guid {{count, plural, one {EN account} other {EN accounts}}} ' +
-      'tag {{count, plural, one {EN tag} other {EN tags}}} ' +
+      'account {{count, plural, one {account} other {accounts}}} ' +
+      'cluster {{count, plural, one {cluster} other {clusters}}} ' +
+      'instance_type {{count, plural, one {instance type} other {instance types}}} ' +
+      'node {{count, plural, one {node} other {node}}} ' +
+      'org_unit_id {{count, plural, one {organizational unit} other {organizational units}}} ' +
+      'project {{count, plural, one {project} other {projects}}} ' +
+      'region {{count, plural, one {region} other {regions}}} ' +
+      'resource_location {{count, plural, one {region} other {regions}}} ' +
+      'service {{count, plural, one {service} other {services}}} ' +
+      'service_name {{count, plural, one {service} other {services}}} ' +
+      'subscription_guid {{count, plural, one {account} other {accounts}}} ' +
+      'tag {{count, plural, one {tag} other {tags}}} ' +
       'other {}}',
     description: 'Group by values',
     id: 'GroupByValues',
@@ -1889,18 +1888,18 @@ export default defineMessages({
   GroupByValuesTitleCase: {
     defaultMessage:
       '{value, select, ' +
-      'account {{count, plural, one {EN Account} other {EN Accounts}}} ' +
-      'cluster {{count, plural, one {EN Cluster} other {EN Clusters}}} ' +
-      'instance_type {{count, plural, one {EN Instance type} other {EN Instance types}}} ' +
-      'node {{count, plural, one {EN Node} other {EN Node}}} ' +
-      'org_unit_id {{count, plural, one {EN Organizational unit} other {EN Organizational units}}} ' +
-      'project {{count, plural, one {EN Project} other {EN Projects}}} ' +
-      'region {{count, plural, one {EN Region} other {EN Regions}}} ' +
-      'resource_location {{count, plural, one {EN Region} other {EN Regions}}} ' +
-      'service {{count, plural, one {EN Service} other {EN Services}}} ' +
-      'service_name {{count, plural, one {EN Service} other {EN Services}}} ' +
-      'subscription_guid {{count, plural, one {EN Account} other {EN Accounts}}} ' +
-      'tag {{count, plural, one {EN Tag} other {EN Tags}}} ' +
+      'account {{count, plural, one {Account} other {Accounts}}} ' +
+      'cluster {{count, plural, one {Cluster} other {Clusters}}} ' +
+      'instance_type {{count, plural, one {Instance type} other {Instance types}}} ' +
+      'node {{count, plural, one {Node} other {Node}}} ' +
+      'org_unit_id {{count, plural, one {Organizational unit} other {Organizational units}}} ' +
+      'project {{count, plural, one {Project} other {Projects}}} ' +
+      'region {{count, plural, one {Region} other {Regions}}} ' +
+      'resource_location {{count, plural, one {Region} other {Regions}}} ' +
+      'service {{count, plural, one {Service} other {Services}}} ' +
+      'service_name {{count, plural, one {Service} other {Services}}} ' +
+      'subscription_guid {{count, plural, one {Account} other {Accounts}}} ' +
+      'tag {{count, plural, one {Tag} other {Tags}}} ' +
       'other {}}',
     description: 'Group by values',
     id: 'GroupByValuesTitleCase',
@@ -1908,33 +1907,33 @@ export default defineMessages({
   HistoricalChartCostLabel: {
     defaultMessage:
       '{value, select, ' +
-      'core_hours {EN Cost (core-hours)} ' +
-      'gb {EN Cost (GB)} ' +
-      'gb_hours {EN Cost (GB-hours)} ' +
-      'gb_mo {EN Cost (GB-month)} ' +
-      'gibibyte_month {EN Cost (GiB-month)} ' +
-      'hour {EN Cost (hours)} ' +
-      'hrs {EN Cost (hours)} ' +
-      'usd {EN Cost ($USD)} ' +
-      'vm_hours {EN Cost (VM-hours)} ' +
+      'core_hours {Cost (core-hours)} ' +
+      'gb {Cost (GB)} ' +
+      'gb_hours {Cost (GB-hours)} ' +
+      'gb_mo {Cost (GB-month)} ' +
+      'gibibyte_month {Cost (GiB-month)} ' +
+      'hour {Cost (hours)} ' +
+      'hrs {Cost (hours)} ' +
+      'usd {Cost ($USD)} ' +
+      'vm_hours {Cost (VM-hours)} ' +
       'other {}}',
     description: 'historic cost chart labels',
     id: 'HistoricalChartCostLabel',
   },
   HistoricalChartDayOfMonthLabel: {
-    defaultMessage: 'EN Day of Month',
+    defaultMessage: 'Day of Month',
     description: 'Day of Month',
     id: 'HistoricalChartDayOfMonthLabel',
   },
   HistoricalChartTitle: {
     defaultMessage:
       '{value, select, ' +
-      'cost {EN Cost comparison} ' +
-      'cpu {EN CPU usage, request, and limit comparison} ' +
-      'instance_type {EN Compute usage comparison} ' +
-      'memory {EN Memory usage, request, and limit comparison} ' +
-      'modal {EN {name} daily usage comparison} ' +
-      'storage {EN Storage usage comparison} ' +
+      'cost {Cost comparison} ' +
+      'cpu {CPU usage, request, and limit comparison} ' +
+      'instance_type {Compute usage comparison} ' +
+      'memory {Memory usage, request, and limit comparison} ' +
+      'modal {{name} daily usage comparison} ' +
+      'storage {Storage usage comparison} ' +
       'other {}}',
     description: 'historical chart titles',
     id: 'HistoricalChartTitle',
@@ -1942,667 +1941,667 @@ export default defineMessages({
   HistoricalChartUnitsLabel: {
     defaultMessage:
       '{value, select, ' +
-      'core_hours {EN core-hours} ' +
-      'gb {EN GB} ' +
-      'gb_hours {EN GB-hours} ' +
-      'gb_mo {EN GB-month} ' +
-      'gibibyte_month {EN GiB-month} ' +
-      'hour {EN hours} ' +
-      'hrs {EN hours} ' +
-      'usd {EN $USD} ' +
-      'vm_hours {EN VM-hours} ' +
+      'core_hours {core-hours} ' +
+      'gb {GB} ' +
+      'gb_hours {GB-hours} ' +
+      'gb_mo {GB-month} ' +
+      'gibibyte_month {GiB-month} ' +
+      'hour {hours} ' +
+      'hrs {hours} ' +
+      'usd {$USD} ' +
+      'vm_hours {VM-hours} ' +
       'other {}}}',
     description: 'historic chart units label',
     id: 'HistoricalChartUnitsLabel',
   },
   HistoricalChartUsageLabel: {
-    defaultMessage: '{value, select, instance_type {EN hrs} storage {EN gb-mo} other {}}',
+    defaultMessage: '{value, select, instance_type {hrs} storage {gb-mo} other {}}',
     description: 'historical chart usage labels',
     id: 'HistoricalChartUsageLabel',
   },
   IBM: {
-    defaultMessage: 'EN IBM Cloud',
+    defaultMessage: 'IBM Cloud',
     description: 'IBM Cloud',
     id: 'IBM',
   },
   IBMComputeTitle: {
-    defaultMessage: 'EN Compute instances usage',
+    defaultMessage: 'Compute instances usage',
     description: 'Compute instances usage',
     id: 'IBMComputeTitle',
   },
   IBMCostTitle: {
-    defaultMessage: 'EN IBM Cloud Services cost',
+    defaultMessage: 'IBM Cloud Services cost',
     description: 'IBM Cloud Services cost',
     id: 'IBMCostTitle',
   },
   IBMCostTrendTitle: {
-    defaultMessage: 'EN IBM Cloud Services cumulative cost comparison ({units})',
+    defaultMessage: 'IBM Cloud Services cumulative cost comparison ({units})',
     description: 'IBM Cloud Services cumulative cost comparison ({units})',
     id: 'IBMCostTrendTitle',
   },
   IBMDailyCostTrendTitle: {
-    defaultMessage: 'EN IBM Cloud Services daily cost comparison ({units})',
+    defaultMessage: 'IBM Cloud Services daily cost comparison ({units})',
     description: 'IBM Cloud Services daily cost comparison ({units})',
     id: 'IBMDailyCostTrendTitle',
   },
   IBMDesc: {
-    defaultMessage: 'EN Raw cost from IBM Cloud infrastructure.',
+    defaultMessage: 'Raw cost from IBM Cloud infrastructure.',
     description: 'Raw cost from IBM Cloud infrastructure.',
     id: 'IBMDesc',
   },
   IBMDetailsTitle: {
-    defaultMessage: 'EN IBM Cloud Details',
+    defaultMessage: 'IBM Cloud Details',
     description: 'IBM details title',
     id: 'IBMDetailsTitle',
   },
   InactiveSourcesGoTo: {
-    defaultMessage: 'EN Go to Sources for more information',
+    defaultMessage: 'Go to Sources for more information',
     description: 'Go to Sources for more information',
     id: 'InactiveSourcesGoTo',
   },
   InactiveSourcesTitle: {
-    defaultMessage: 'EN A problem was detected with {value}',
+    defaultMessage: 'A problem was detected with {value}',
     description: 'A problem was detected with {value}',
     id: 'InactiveSourcesGoTitle',
   },
   InactiveSourcesTitleMultiplier: {
-    defaultMessage: 'EN A problem was detected with the following sources',
+    defaultMessage: 'A problem was detected with the following sources',
     description: 'A problem was detected with the following sources',
     id: 'InactiveSourcesTitleMultiplier',
   },
   Infrastructure: {
-    defaultMessage: 'EN Infrastructure',
+    defaultMessage: 'Infrastructure',
     description: 'Infrastructure',
     id: 'Infrastructure',
   },
   LearnMore: {
-    defaultMessage: 'EN Learn more',
+    defaultMessage: 'Learn more',
     description: 'Learn more',
     id: 'LearnMore',
   },
   LoadingStateDesc: {
-    defaultMessage: 'EN Searching for your sources. Do not refresh the browser',
+    defaultMessage: 'Searching for your sources. Do not refresh the browser',
     description: 'Searching for your sources. Do not refresh the browser',
     id: 'LoadingStateDesc',
   },
   LoadingStateTitle: {
-    defaultMessage: 'EN Looking for sources...',
+    defaultMessage: 'Looking for sources...',
     description: 'Looking for sources',
     id: 'LoadingStateTitle',
   },
   MaintenanceEmptyStateDesc: {
     defaultMessage:
-      'EN Cost Management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).',
+      'Cost Management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).',
     description: 'Cost Management is currently undergoing scheduled maintenance',
     id: 'MaintenanceEmptyStateDesc',
   },
   MaintenanceEmptyStateInfo: {
-    defaultMessage: 'EN For more information visit {url}',
+    defaultMessage: 'For more information visit {url}',
     description: 'more information url',
     id: 'MaintenanceEmptyStateInfo',
   },
   MaintenanceEmptyStateThanks: {
-    defaultMessage: 'EN We will be back soon. Thank you for your patience!',
+    defaultMessage: 'We will be back soon. Thank you for your patience!',
     description: 'thanks you for your patience',
     id: 'MaintenanceEmptyStateThanks',
   },
   ManageColumnsAriaLabel: {
-    defaultMessage: 'EN Table column management',
+    defaultMessage: 'Table column management',
     description: 'Table column management',
     id: 'ManageColumnsAriaLabel',
   },
   ManageColumnsDesc: {
-    defaultMessage: 'EN Selected categories will be displayed in the table',
+    defaultMessage: 'Selected categories will be displayed in the table',
     description: 'Selected categories will be displayed in the table',
     id: 'ManageColumnsDesc',
   },
   ManageColumnsTitle: {
-    defaultMessage: 'EN Manage columns',
+    defaultMessage: 'Manage columns',
     description: 'Manage columns',
     id: 'ManageColumnsTitle',
   },
   MarkupDescription: {
     defaultMessage:
-      'EN The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost management application',
+      'The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost management application',
     description:
       'The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost management application',
     id: 'MarkupDescription',
   },
   MarkupOrDiscount: {
-    defaultMessage: 'EN Markup or Discount',
+    defaultMessage: 'Markup or Discount',
     description: 'Markup or Discount',
     id: 'MarkupOrDiscount',
   },
   MarkupOrDiscountDesc: {
     defaultMessage:
-      'EN This Percentage is applied to raw cost calculations by multiplying the cost with this percentage. Costs calculated from price list rates will not be effected.',
+      'This Percentage is applied to raw cost calculations by multiplying the cost with this percentage. Costs calculated from price list rates will not be effected.',
     description:
       'This Percentage is applied to raw cost calculations by multiplying the cost with this percentage. Costs calculated from price list rates will not be effected.',
     id: 'MarkupOrDiscountDesc',
   },
   MarkupOrDiscountModalDesc: {
     defaultMessage:
-      'EN Use markup/discount to manipulate how the raw costs are being calculated for your sources. Note, costs calculated from price list rates will not be affected by this.',
+      'Use markup/discount to manipulate how the raw costs are being calculated for your sources. Note, costs calculated from price list rates will not be affected by this.',
     description:
       'Use markup/discount to manipulate how the raw costs are being calculated for your sources. Note, costs calculated from price list rates will not be affected by this.',
     id: 'MarkupOrDiscountModalDesc',
   },
   MarkupPlus: {
-    defaultMessage: 'EN Markup (+)',
-    description: 'EN Markup (+)',
+    defaultMessage: 'Markup (+)',
+    description: 'Markup (+)',
     id: 'MarkupPlus',
   },
   MarkupTitle: {
-    defaultMessage: 'EN Markup',
+    defaultMessage: 'Markup',
     description: 'Markup',
     id: 'MarkupTitle',
   },
   Measurement: {
-    defaultMessage: 'EN Measurement',
+    defaultMessage: 'Measurement',
     description: 'Measurement',
     id: 'Measurement',
   },
   MeasurementPlaceholder: {
-    defaultMessage: 'EN Filter by measurements',
+    defaultMessage: 'Filter by measurements',
     description: 'Filter by measurements',
     id: 'MeasurementPlaceholder',
   },
   MeasurementValues: {
     defaultMessage:
       '{value, select, ' +
-      'count {{count, plural, one {EN Count} other {EN Count ({units})}}} ' +
-      'request {{count, plural, one {EN Request} other {EN Request ({units})}}} ' +
-      'usage {{count, plural, one {EN Usage} other {EN Usage ({units})}}} ' +
+      'count {{count, plural, one {Count} other {Count ({units})}}} ' +
+      'request {{count, plural, one {Request} other {Request ({units})}}} ' +
+      'usage {{count, plural, one {Usage} other {Usage ({units})}}} ' +
       'other {}}',
     description: 'Measurement values',
     id: 'MeasurementValues',
   },
   MemoryTitle: {
-    defaultMessage: 'EN Memory',
+    defaultMessage: 'Memory',
     description: 'Memory',
     id: 'MemoryTitle',
   },
   Metric: {
-    defaultMessage: 'EN Metric',
+    defaultMessage: 'Metric',
     description: 'Metric',
     id: 'Metric',
   },
   MetricPlaceholder: {
-    defaultMessage: 'EN Filter by metrics',
+    defaultMessage: 'Filter by metrics',
     description: 'Filter by metrics',
     id: 'MetricPlaceholder',
   },
   MetricValues: {
     defaultMessage:
       '{value, select, ' +
-      'cpu {EN CPU} ' +
-      'cluster {EN Cluster} ' +
-      'memory {EN Memory} ' +
-      'node {EN Node} ' +
-      'persistent_volume_claims {EN Persistent volume claims} ' +
-      'storage {EN Storage} ' +
+      'cpu {CPU} ' +
+      'cluster {Cluster} ' +
+      'memory {Memory} ' +
+      'node {Node} ' +
+      'persistent_volume_claims {Persistent volume claims} ' +
+      'storage {Storage} ' +
       'other {}}',
     description: 'Metric values',
     id: 'MetricValues',
   },
   MonthOverMonthChange: {
-    defaultMessage: 'EN Month over month change',
+    defaultMessage: 'Month over month change',
     description: 'Month over month change',
     id: 'MonthOverMonthChange',
   },
   NameTitleCase: {
-    defaultMessage: '{count, plural, one {EN Name} other {EN Names}}',
+    defaultMessage: '{count, plural, one {Name} other {Names}}',
     description: 'Name in title case plural or singular',
     id: 'NameTitleCase',
   },
   Names: {
-    defaultMessage: '{count, plural, one {EN name} other {EN names}}',
+    defaultMessage: '{count, plural, one {name} other {names}}',
     description: 'Name plural or singular',
     id: 'Name',
   },
   Next: {
-    defaultMessage: 'EN next',
+    defaultMessage: 'next',
     description: 'next',
     id: 'Next',
   },
   No: {
-    defaultMessage: 'EN no',
+    defaultMessage: 'no',
     description: 'no',
     id: 'No',
   },
   NoDataForDate: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN No data available for Jan {startDate}} other {EN No data available for Jan {startDate}-{endDate}}}} ' +
-      '2 {{count, plural, one {EN No data available for Feb {startDate}} other {EN No data available for Feb {startDate}-{endDate}}}} ' +
-      '3 {{count, plural, one {EN No data available for Mar {startDate}} other {EN No data available for Mar {startDate}-{endDate}}}} ' +
-      '4 {{count, plural, one {EN No data available for Apr {startDate}} other {EN No data available for Apr {startDate}-{endDate}}}} ' +
-      '5 {{count, plural, one {EN No data available for May {startDate}} other {EN No data available for May {startDate}-{endDate}}}} ' +
-      '6 {{count, plural, one {EN No data available for Jun {startDate}} other {EN No data available for Jun {startDate}-{endDate}}}} ' +
-      '7 {{count, plural, one {EN No data available for Jul {startDate}} other {EN No data available for Jul {startDate}-{endDate}}}} ' +
-      '8 {{count, plural, one {EN No data available for Aug {startDate}} other {EN No data available for Aug {startDate}-{endDate}}}} ' +
-      '9 {{count, plural, one {EN No data available for Sep {startDate}} other {EN No data available for Sep {startDate}-{endDate}}}} ' +
-      '10 {{count, plural, one {EN No data available for Oct {startDate}} other {EN No data available for Oct {startDate}-{endDate}}}} ' +
-      '11 {{count, plural, one {EN No data available for Nov {startDate}} other {EN No data available for Nov {startDate}-{endDate}}}} ' +
-      '12 {{count, plural, one {EN No data available for Dec {startDate}} other {EN No data available for Dec {startDate}-{endDate}}}} ' +
+      '1 {{count, plural, one {No data available for Jan {startDate}} other {No data available for Jan {startDate}-{endDate}}}} ' +
+      '2 {{count, plural, one {No data available for Feb {startDate}} other {No data available for Feb {startDate}-{endDate}}}} ' +
+      '3 {{count, plural, one {No data available for Mar {startDate}} other {No data available for Mar {startDate}-{endDate}}}} ' +
+      '4 {{count, plural, one {No data available for Apr {startDate}} other {No data available for Apr {startDate}-{endDate}}}} ' +
+      '5 {{count, plural, one {No data available for May {startDate}} other {No data available for May {startDate}-{endDate}}}} ' +
+      '6 {{count, plural, one {No data available for Jun {startDate}} other {No data available for Jun {startDate}-{endDate}}}} ' +
+      '7 {{count, plural, one {No data available for Jul {startDate}} other {No data available for Jul {startDate}-{endDate}}}} ' +
+      '8 {{count, plural, one {No data available for Aug {startDate}} other {No data available for Aug {startDate}-{endDate}}}} ' +
+      '9 {{count, plural, one {No data available for Sep {startDate}} other {No data available for Sep {startDate}-{endDate}}}} ' +
+      '10 {{count, plural, one {No data available for Oct {startDate}} other {No data available for Oct {startDate}-{endDate}}}} ' +
+      '11 {{count, plural, one {No data available for Nov {startDate}} other {No data available for Nov {startDate}-{endDate}}}} ' +
+      '12 {{count, plural, one {No data available for Dec {startDate}} other {No data available for Dec {startDate}-{endDate}}}} ' +
       'other {}}',
     description: 'No data available for date range',
     id: 'NoDataForDate',
   },
   NoDataStateDesc: {
     defaultMessage:
-      'EN We have detected a source, but we are not done processing the incoming data. The time to process could take up to 24 hours. Try refreshing the page at a later time.',
+      'We have detected a source, but we are not done processing the incoming data. The time to process could take up to 24 hours. Try refreshing the page at a later time.',
     description: 'still processing request, 24 hour message',
     id: 'NoDataStateDesc',
   },
   NoDataStateRefresh: {
-    defaultMessage: 'EN Refresh this page',
+    defaultMessage: 'Refresh this page',
     description: 'Refresh this page',
     id: 'NoDataStateRefresh',
   },
   NoDataStateTitle: {
-    defaultMessage: 'EN Still processing the data',
+    defaultMessage: 'Still processing the data',
     description: 'Still processing the data',
     id: 'NoDataStateTitle',
   },
   NoProvidersStateAwsDesc: {
     defaultMessage:
-      'EN Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.',
+      'Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.',
     description:
       'Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.',
     id: 'NoProvidersStateAwsDesc',
   },
   NoProvidersStateAwsTitle: {
-    defaultMessage: 'EN Track your Amazon Web Services spending!',
+    defaultMessage: 'Track your Amazon Web Services spending!',
     description: 'Track your Amazon Web Services spending!',
     id: 'NoProvidersStateAwsTitle',
   },
   NoProvidersStateAzureDesc: {
     defaultMessage:
-      'EN Add a Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
+      'Add a Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
     description:
       'Add a Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
     id: 'NoProvidersStateAzureDesc',
   },
   NoProvidersStateAzureTitle: {
-    defaultMessage: 'EN Track your Microsoft Azure spending!',
+    defaultMessage: 'Track your Microsoft Azure spending!',
     description: 'Track your Microsoft Azure spending!',
     id: 'NoProvidersStateAzureTitle',
   },
   NoProvidersStateGcpDesc: {
     defaultMessage:
-      'EN Add a Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
+      'Add a Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
     description:
       'Add a Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
     id: 'NoProvidersStateGcpDesc',
   },
   NoProvidersStateGcpTitle: {
-    defaultMessage: 'EN Track your Google Cloud Platform spending!',
+    defaultMessage: 'Track your Google Cloud Platform spending!',
     description: 'Track your Google Cloud Platform spending!',
     id: 'NoProvidersStateGcpTitle',
   },
   NoProvidersStateGetStarted: {
-    defaultMessage: 'EN Get started with Sources',
+    defaultMessage: 'Get started with Sources',
     description: 'Get started with Sources',
     id: 'NoProvidersStateGetStarted',
   },
   NoProvidersStateIbmDesc: {
     defaultMessage:
-      'EN Add an IBM Cloud account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
+      'Add an IBM Cloud account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
     description:
       'Add an IBM Cloud account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
     id: 'NoProvidersStateIbmDesc',
   },
   NoProvidersStateIbmTitle: {
-    defaultMessage: 'EN Track your IBM Cloud spending!',
+    defaultMessage: 'Track your IBM Cloud spending!',
     description: 'Track your IBM Cloud spending!',
     id: 'NoProvidersStateIbmTitle',
   },
   NoProvidersStateOcpAddSources: {
-    defaultMessage: 'EN Add an OpenShift cluster to Cost Management',
+    defaultMessage: 'Add an OpenShift cluster to Cost Management',
     description: 'Add an OpenShift cluster to Cost Management',
     id: 'NoProvidersStateOcpAddSources',
   },
   NoProvidersStateOcpDesc: {
     defaultMessage:
-      'EN Add an OpenShift Container Platform cluster to see a total cost breakdown of your pods by cluster, node, project, or labels.',
+      'Add an OpenShift Container Platform cluster to see a total cost breakdown of your pods by cluster, node, project, or labels.',
     description:
       'Add an OpenShift Container Platform cluster to see a total cost breakdown of your pods by cluster, node, project, or labels.',
     id: 'NoProvidersStateOcpDesc',
   },
   NoProvidersStateOcpTitle: {
-    defaultMessage: 'EN Track your OpenShift spending!',
+    defaultMessage: 'Track your OpenShift spending!',
     description: 'Track your OpenShift spending!',
     id: 'NoProvidersStateOcpTitle',
   },
   NoProvidersStateOverviewDesc: {
     defaultMessage:
-      'EN Add a source, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage.',
+      'Add a source, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage.',
     description:
       'Add a source, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage.',
     id: 'NoProvidersStateOverviewDesc',
   },
   NoProvidersStateOverviewTitle: {
-    defaultMessage: 'EN Track your spending!',
+    defaultMessage: 'Track your spending!',
     description: 'Track your spending!',
     id: 'NoProvidersStateOverviewTitle',
   },
   NotAuthorizedStateAws: {
-    defaultMessage: 'EN Amazon Web Services in Cost Management',
+    defaultMessage: 'Amazon Web Services in Cost Management',
     description: 'Amazon Web Services in Cost Management',
     id: 'NoAuthorizedStateAws',
   },
   NotAuthorizedStateAzure: {
-    defaultMessage: 'EN Microsoft Azure in Cost Management',
+    defaultMessage: 'Microsoft Azure in Cost Management',
     description: 'Microsoft Azure in Cost Management',
     id: 'NotAuthorizedStateAzure',
   },
   NotAuthorizedStateCostModels: {
-    defaultMessage: 'EN Cost Models in Cost Management',
+    defaultMessage: 'Cost Models in Cost Management',
     description: 'Cost Models in Cost Management',
     id: 'NotAuthorizedStateCostModels',
   },
   NotAuthorizedStateGcp: {
-    defaultMessage: 'EN Google Cloud Platform in Cost Management',
+    defaultMessage: 'Google Cloud Platform in Cost Management',
     description: 'Google Cloud Platform in Cost Management',
     id: 'NotAuthorizedStateGcp',
   },
   NotAuthorizedStateIbm: {
-    defaultMessage: 'EN IBM Cloud in Cost Management',
+    defaultMessage: 'IBM Cloud in Cost Management',
     description: 'IBM Cloud in Cost Management',
     id: 'NotAuthorizedStateIbm',
   },
   NotAuthorizedStateOcp: {
-    defaultMessage: 'EN OpenShift in Cost Management',
+    defaultMessage: 'OpenShift in Cost Management',
     description: 'OpenShift in Cost Management',
     id: 'NotAuthorizedStateOcp',
   },
   OCPCPUUsageAndRequests: {
-    defaultMessage: 'EN CPU usage and requests',
+    defaultMessage: 'CPU usage and requests',
     description: 'CPU usage and requests',
     id: 'OCPCPUUsageAndRequests',
   },
   OCPCloudDashboardComputeTitle: {
-    defaultMessage: 'EN Compute services usage',
+    defaultMessage: 'Compute services usage',
     description: 'Compute services usage',
     id: 'OCPCloudDashboardComputeTitle',
   },
   OCPCloudDashboardCostTitle: {
-    defaultMessage: 'EN All cloud filtered by OpenShift cost',
+    defaultMessage: 'All cloud filtered by OpenShift cost',
     description: 'All cloud filtered by OpenShift cost',
     id: 'OCPCloudDashboardCostTitle',
   },
   OCPCloudDashboardCostTrendTitle: {
-    defaultMessage: 'EN All cloud filtered by OpenShift cumulative cost comparison ({units})',
+    defaultMessage: 'All cloud filtered by OpenShift cumulative cost comparison ({units})',
     description: 'All cloud filtered by OpenShift cumulative cost comparison ({units})',
     id: 'OCPCloudDashboardCostTrendTitle',
   },
   OCPCloudDashboardDailyCostTrendTitle: {
-    defaultMessage: 'EN All cloud filtered by OpenShift daily cost comparison ({units})',
+    defaultMessage: 'All cloud filtered by OpenShift daily cost comparison ({units})',
     description: 'All cloud filtered by OpenShift daily cost comparison ({units})',
     id: 'OCPCloudDashboardDailyCostTrendTitle',
   },
   OCPDailyUsageAndRequestComparison: {
-    defaultMessage: 'EN Daily usage and requests comparison ({units})',
+    defaultMessage: 'Daily usage and requests comparison ({units})',
     description: 'Daily usage and requests comparison',
     id: 'OCPDailyUsageAndRequestComparison',
   },
   OCPDashboardCPUUsageAndRequests: {
-    defaultMessage: 'EN OpenShift CPU usage and requests',
+    defaultMessage: 'OpenShift CPU usage and requests',
     description: 'OpenShift CPU usage and requests',
     id: 'OCPDashboardCPUUsageAndRequests',
   },
   OCPDashboardCostTitle: {
-    defaultMessage: 'EN All OpenShift cost',
+    defaultMessage: 'All OpenShift cost',
     description: 'All OpenShift cost',
     id: 'OCPDashboardCostTitle',
   },
   OCPDashboardCostTrendTitle: {
-    defaultMessage: 'EN All OpenShift cumulative cost comparison ({units})',
+    defaultMessage: 'All OpenShift cumulative cost comparison ({units})',
     description: 'All OpenShift cumulative cost comparison in units',
     id: 'OCPDashboardCostTrendTitle',
   },
   OCPDashboardDailyCostTitle: {
-    defaultMessage: 'EN All OpenShift daily cost comparison ({units})',
+    defaultMessage: 'All OpenShift daily cost comparison ({units})',
     description: 'All OpenShift daily cost comparison in units',
     id: 'OCPDashboardDailyCostTitle',
   },
   OCPDashboardMemoryUsageAndRequests: {
-    defaultMessage: 'EN OpenShift Memory usage and requests',
+    defaultMessage: 'OpenShift Memory usage and requests',
     description: 'OpenShift Memory usage and requests',
     id: 'OCPDashboardMemoryUsageAndRequests',
   },
   OCPDashboardVolumeUsageAndRequests: {
-    defaultMessage: 'EN OpenShift Volume usage and requests',
+    defaultMessage: 'OpenShift Volume usage and requests',
     description: 'OpenShift Volume usage and requests',
     id: 'OCPUsageAndRequests',
   },
   OCPDetailsInfrastructureCost: {
-    defaultMessage: 'EN Infrastructure cost',
+    defaultMessage: 'Infrastructure cost',
     description: 'Infrastructure cost',
     id: 'OCPDetailsInfrastructureCost',
   },
   OCPDetailsInfrastructureCostDesc: {
-    defaultMessage: 'EN The cost based on raw usage data from the underlying infrastructure.',
+    defaultMessage: 'The cost based on raw usage data from the underlying infrastructure.',
     description: 'The cost based on raw usage data from the underlying infrastructure.',
     id: 'OCPDetailsInfrastructureCostDesc',
   },
   OCPDetailsSupplementaryCost: {
-    defaultMessage: 'EN Infrastructure cost',
+    defaultMessage: 'Infrastructure cost',
     description: 'Infrastructure cost',
     id: 'OCPDetailsSupplementaryCost',
   },
   OCPDetailsSupplementaryCostDesc: {
     defaultMessage:
-      'EN All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.',
+      'All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.',
     description:
       'All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.',
     id: 'OCPDetailsSupplementaryCostDesc',
   },
   OCPDetailsTitle: {
-    defaultMessage: 'EN OpenShift details',
+    defaultMessage: 'OpenShift details',
     description: 'OpenShift details title',
     id: 'OCPDetailsTitle',
   },
   OCPInfrastructureCostTitle: {
-    defaultMessage: 'EN OpenShift infrastructure cost',
+    defaultMessage: 'OpenShift infrastructure cost',
     description: 'OpenShift infrastructure cost',
     id: 'OCPInfrastructureCostTitle',
   },
   OCPInfrastructureCostTrendTitle: {
-    defaultMessage: 'EN OpenShift cumulative infrastructure cost comparison ({units})',
+    defaultMessage: 'OpenShift cumulative infrastructure cost comparison ({units})',
     description: 'OpenShift cumulative infrastructure cost comparison with units',
     id: 'OCPInfrastructureCostTrendTitle',
   },
   OCPInfrastructureDailyCostTrendTitle: {
-    defaultMessage: 'EN OpenShift daily infrastructure cost comparison ({units})',
+    defaultMessage: 'OpenShift daily infrastructure cost comparison ({units})',
     description: 'OpenShift daily infrastructure cost comparison with units',
     id: 'OCPInfrastructureDailyCostTrendTitle',
   },
   OCPMemoryUsageAndRequests: {
-    defaultMessage: 'EN Memory usage and requests',
+    defaultMessage: 'Memory usage and requests',
     description: 'Memory usage and requests',
     id: 'OCPMemoryUsageAndRequests',
   },
   OCPSupplementaryCostTitle: {
-    defaultMessage: 'EN OpenShift supplementary cost',
+    defaultMessage: 'OpenShift supplementary cost',
     description: 'OpenShift supplementary cost',
     id: 'OCPSupplementaryCostTitle',
   },
   OCPSupplementaryCostTrendTitle: {
-    defaultMessage: 'EN OpenShift cumulative supplementary cost comparison ({units})',
+    defaultMessage: 'OpenShift cumulative supplementary cost comparison ({units})',
     description: 'OpenShift cumulative supplementary cost comparison with units',
     id: 'OCPSupplementaryCostTrendTitle',
   },
   OCPSupplementaryDailyCostTrendTitle: {
-    defaultMessage: 'EN OpenShift daily supplementary cost comparison ({units})',
+    defaultMessage: 'OpenShift daily supplementary cost comparison ({units})',
     description: 'OpenShift daily supplementary cost comparison with units',
     id: 'OCPSupplementaryDailyCostTrendTitle',
   },
   OCPUsageCostTitle: {
-    defaultMessage: 'EN OpenShift usage cost',
+    defaultMessage: 'OpenShift usage cost',
     description: 'OpenShift usage cost',
     id: 'OCPUsageCostTitle',
   },
   OCPUsageDashboardCPUTitle: {
-    defaultMessage: 'EN OpenShift CPU usage and requests',
+    defaultMessage: 'OpenShift CPU usage and requests',
     description: 'OpenShift CPU usage and requests',
     id: 'OCPUsageDashboardCPUTitle',
   },
   OCPUsageDashboardCostTrendTitle: {
-    defaultMessage: 'EN Metering cumulative cost comparison ({units})',
+    defaultMessage: 'Metering cumulative cost comparison ({units})',
     description: 'Metering cumulative cost comparison with units',
     id: 'OCPUsageDashboardCostTrendTitle',
   },
   OCPVolumeUsageAndRequests: {
-    defaultMessage: 'EN Volume usage and requests',
+    defaultMessage: 'Volume usage and requests',
     description: 'Volume usage and requests',
     id: 'OCPVolumeUsageAndRequests',
   },
   OpenShift: {
-    defaultMessage: 'EN OpenShift',
+    defaultMessage: 'OpenShift',
     description: 'OpenShift',
     id: 'OpenShift',
   },
   OpenShiftCloudInfrastructure: {
-    defaultMessage: 'EN OpenShift cloud infrastructure',
+    defaultMessage: 'OpenShift cloud infrastructure',
     description: 'OpenShift cloud infrastructure',
     id: 'OpenShiftCloudInfrastructure',
   },
   OpenShiftCloudInfrastructureDesc: {
     defaultMessage:
-      'EN Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.',
+      'Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.',
     description:
       'Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.',
     id: 'OpenShiftCloudInfrastructureDesc',
   },
   OpenShiftDesc: {
     defaultMessage:
-      'EN Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.',
+      'Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.',
     description:
       'Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.',
     id: 'OpenShiftDesc',
   },
   OverviewInfoArialLabel: {
-    defaultMessage: 'EN A description of perspectives',
+    defaultMessage: 'A description of perspectives',
     description: 'A description of perspectives',
     id: 'OverviewInfoArialLabel',
   },
   OverviewTitle: {
-    defaultMessage: 'EN Cost Management Overview',
+    defaultMessage: 'Cost Management Overview',
     description: 'Cost Management Overview',
     id: 'OverviewTitle',
   },
   Percent: {
-    defaultMessage: 'EN {value} %',
+    defaultMessage: '{value} %',
     description: 'percent value',
     id: 'Percent',
   },
   PercentOfCost: {
-    defaultMessage: 'EN {value} % of cost',
+    defaultMessage: '{value} % of cost',
     description: '{value} % of cost',
     id: 'PercentOfCost',
   },
   PercentTotalCost: {
-    defaultMessage: 'EN {value} {units} ({percent} %)',
+    defaultMessage: '{value} {units} ({percent} %)',
     description: '{value} {units} ({percent} %)',
     id: 'PercentTotalCost',
   },
   Perspective: {
-    defaultMessage: 'EN Perspective',
+    defaultMessage: 'Perspective',
     description: 'Perspective dropdown label',
     id: 'Perspective',
   },
   PerspectiveValues: {
     defaultMessage:
       '{value, select, ' +
-      'aws {EN Amazon Web Services} ' +
-      'aws_ocp {EN Amazon Web Services filtered by OpenShift} ' +
-      'azure {EN Microsoft Azure} ' +
-      'azure_ocp {EN Microsoft Azure filtered by OpenShift} ' +
-      'gcp {EN Google Cloud Platform} ' +
-      'gcp_ocp {EN Google Cloud Platform filtered by OpenShift} ' +
-      'ibm {EN IBM Cloud} ' +
-      'ocp {EN All OpenShift} ' +
-      'ocp_cloud {EN All cloud filtered by OpenShift} ' +
+      'aws {Amazon Web Services} ' +
+      'aws_ocp {Amazon Web Services filtered by OpenShift} ' +
+      'azure {Microsoft Azure} ' +
+      'azure_ocp {Microsoft Azure filtered by OpenShift} ' +
+      'gcp {Google Cloud Platform} ' +
+      'gcp_ocp {Google Cloud Platform filtered by OpenShift} ' +
+      'ibm {IBM Cloud} ' +
+      'ocp {All OpenShift} ' +
+      'ocp_cloud {All cloud filtered by OpenShift} ' +
       'other {}}',
     description: 'Perspective values',
     id: 'PerspectiveValues',
   },
   PriceList: {
-    defaultMessage: 'EN Price list',
+    defaultMessage: 'Price list',
     description: 'Price list',
     id: 'PriceList',
   },
   PriceListAddRate: {
-    defaultMessage: 'EN Add rate',
+    defaultMessage: 'Add rate',
     description: 'Add rate',
     id: 'PriceListAddRate',
   },
   PriceListDeleteRate: {
-    defaultMessage: 'EN Delete rate',
+    defaultMessage: 'Delete rate',
     description: 'Delete rate',
     id: 'PriceListDeleteRate',
   },
   PriceListDeleteRateDesc: {
     defaultMessage:
-      '{count, plural, one {EN This action will remove {metric} rate from {costModel}} other {EN This action will remove {metric} rate from {costModel}, which is assigned to the following sources:}}',
+      '{count, plural, one {This action will remove {metric} rate from {costModel}} other {This action will remove {metric} rate from {costModel}, which is assigned to the following sources:}}',
     description: 'This action will remove {metric} rate from {costModel}, which is assigned to the following sources:',
     id: 'PriceListDesc',
   },
   PriceListDuplicate: {
-    defaultMessage: 'EN This tag key is already in use',
+    defaultMessage: 'This tag key is already in use',
     description: 'This tag key is already in use',
     id: 'PriceListDuplicate',
   },
   PriceListEditRate: {
-    defaultMessage: 'EN Edit rate',
+    defaultMessage: 'Edit rate',
     description: 'Edit rate',
     id: 'PriceListEditRate',
   },
   PriceListEmptyRate: {
-    defaultMessage: 'EN No rates are set',
+    defaultMessage: 'No rates are set',
     description: 'No rates are set',
     id: 'PriceListEmptyRate',
   },
   PriceListEmptyRateDesc: {
-    defaultMessage: 'EN To add rates to the price list, click on the "Add" rate button above.',
+    defaultMessage: 'To add rates to the price list, click on the "Add" rate button above.',
     description: 'To add rates to the price list, click on the "Add" rate button above.',
     id: 'PriceListEmptyRateDesc',
   },
   PriceListNumberRate: {
-    defaultMessage: 'EN Rate must be a number',
+    defaultMessage: 'Rate must be a number',
     description: 'Rate must be a number',
     id: 'PriceListNumberRate',
   },
   PriceListPosNumberRate: {
-    defaultMessage: 'EN Rate must be a positive number',
+    defaultMessage: 'Rate must be a positive number',
     description: 'Rate must be a positive number',
     id: 'PriceListPosNumberRate',
   },
   Rate: {
-    defaultMessage: 'EN Rate',
+    defaultMessage: 'Rate',
     description: 'Rate',
     id: 'Rate',
   },
   RawCostDescription: {
-    defaultMessage: 'EN The costs reported by a cloud provider without any cost model calculations applied.',
+    defaultMessage: 'The costs reported by a cloud provider without any cost model calculations applied.',
     description: 'The costs reported by a cloud provider without any cost model calculations applied.',
     id: 'RawCostDescription',
   },
   RawCostTitle: {
-    defaultMessage: 'EN Raw cost',
+    defaultMessage: 'Raw cost',
     description: 'Raw cost',
     id: 'RawCostTitle',
   },
   RbacErrorDescription: {
     defaultMessage:
-      'EN There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.',
+      'There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.',
     description: 'rbac error description',
     id: 'RbacErrorDescription',
   },
   RbacErrorTitle: {
-    defaultMessage: 'EN Failed to get RBAC information',
+    defaultMessage: 'Failed to get RBAC information',
     description: 'rbac error title',
     id: 'RbacErrorTitle',
   },
@@ -2612,163 +2611,163 @@ export default defineMessages({
     id: 'RedHatStatusUrl',
   },
   Requests: {
-    defaultMessage: 'EN Requests',
+    defaultMessage: 'Requests',
     description: 'Requests',
     id: 'Requests',
   },
   Save: {
-    defaultMessage: 'EN Save',
+    defaultMessage: 'Save',
     description: 'Save',
     id: 'Save',
   },
   Select: {
-    defaultMessage: 'EN Select...',
+    defaultMessage: 'Select...',
     description: 'Select...',
     id: 'Select',
   },
   SelectAll: {
-    defaultMessage: 'EN Select all',
+    defaultMessage: 'Select all',
     description: 'Select all',
     id: 'SelectAll',
   },
   SinceDate: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {EN January {startDate}} other {EN January {startDate}-{endDate}}}} ' +
-      '2 {{count, plural, one {EN February {startDate}} other {EN February {startDate}-{endDate}}}} ' +
-      '3 {{count, plural, one {EN March {startDate}} other {EN March {startDate}-{endDate}}}} ' +
-      '4 {{count, plural, one {EN April {startDate}} other {EN April {startDate}-{endDate}}}} ' +
-      '5 {{count, plural, one {EN May {startDate}} other {EN May {startDate}-{endDate}}}} ' +
-      '6 {{count, plural, one {EN June {startDate}} other {EN June {startDate}-{endDate}}}} ' +
-      '7 {{count, plural, one {EN July {startDate}} other {EN July {startDate}-{endDate}}}} ' +
-      '8 {{count, plural, one {EN August {startDate}} other {EN August {startDate}-{endDate}}}} ' +
-      '9 {{count, plural, one {EN September {startDate}} other {EN September {startDate}-{endDate}}}} ' +
-      '10 {{count, plural, one {EN October {startDate}} other {EN October {startDate}-{endDate}}}} ' +
-      '11 {{count, plural, one {EN November {startDate}} other {EN November {startDate}-{endDate}}}} ' +
-      '12 {{count, plural, one {EN December {startDate}} other {EN December {startDate}-{endDate}}}} ' +
+      '1 {{count, plural, one {January {startDate}} other {January {startDate}-{endDate}}}} ' +
+      '2 {{count, plural, one {February {startDate}} other {February {startDate}-{endDate}}}} ' +
+      '3 {{count, plural, one {March {startDate}} other {March {startDate}-{endDate}}}} ' +
+      '4 {{count, plural, one {April {startDate}} other {April {startDate}-{endDate}}}} ' +
+      '5 {{count, plural, one {May {startDate}} other {May {startDate}-{endDate}}}} ' +
+      '6 {{count, plural, one {June {startDate}} other {June {startDate}-{endDate}}}} ' +
+      '7 {{count, plural, one {July {startDate}} other {July {startDate}-{endDate}}}} ' +
+      '8 {{count, plural, one {August {startDate}} other {August {startDate}-{endDate}}}} ' +
+      '9 {{count, plural, one {September {startDate}} other {September {startDate}-{endDate}}}} ' +
+      '10 {{count, plural, one {October {startDate}} other {October {startDate}-{endDate}}}} ' +
+      '11 {{count, plural, one {November {startDate}} other {November {startDate}-{endDate}}}} ' +
+      '12 {{count, plural, one {December {startDate}} other {December {startDate}-{endDate}}}} ' +
       'other {}}',
     description: 'SinceDate',
     id: 'SinceDate',
   },
   Sources: {
-    defaultMessage: 'EN Sources',
+    defaultMessage: 'Sources',
     description: 'Sources',
     id: 'Sources',
   },
   Supplementary: {
-    defaultMessage: 'EN Supplementary',
+    defaultMessage: 'Supplementary',
     description: 'Supplementary',
     id: 'Supplementary',
   },
   TagHeadingKey: {
-    defaultMessage: 'EN Key',
+    defaultMessage: 'Key',
     description: 'Key',
     id: 'TagHeadingKey',
   },
   TagHeadingTitle: {
-    defaultMessage: 'EN Tags ({value})',
+    defaultMessage: 'Tags ({value})',
     description: 'Tags ({value})',
     id: 'TagHeadingTitle',
   },
   TagHeadingValue: {
-    defaultMessage: 'EN Value',
+    defaultMessage: 'Value',
     description: 'Value',
     id: 'TagHeadingValue',
   },
   TagNames: {
-    defaultMessage: 'EN Tag names',
+    defaultMessage: 'Tag names',
     description: 'Tag Names',
     id: 'TagNames',
   },
   ToolBarBulkSelectAll: {
-    defaultMessage: 'EN Select all ({value} items)',
+    defaultMessage: 'Select all ({value} items)',
     description: 'Select all ({value} items)',
     id: 'ToolBarBulkSelectAll',
   },
   ToolBarBulkSelectAriaDeselect: {
-    defaultMessage: 'EN Deselect all items',
+    defaultMessage: 'Deselect all items',
     description: 'Deselect all items',
     id: 'ToolBarBulkSelectAriaDeselect',
   },
   ToolBarBulkSelectAriaSelect: {
-    defaultMessage: 'EN Select all items',
+    defaultMessage: 'Select all items',
     description: 'Select all items',
     id: 'ToolBarBulkSelectAriaSelect',
   },
   ToolBarBulkSelectNone: {
-    defaultMessage: 'EN Select none (0 items)',
+    defaultMessage: 'Select none (0 items)',
     description: 'Select none (0 items)',
     id: 'ToolBarBulkSelectNone',
   },
   ToolBarBulkSelectPage: {
-    defaultMessage: 'EN Select page ({value} items)',
+    defaultMessage: 'Select page ({value} items)',
     description: 'Select page ({value} items)',
     id: 'ToolBarBulkSelectPage',
   },
   ToolBarPriceListMeasurementPlaceHolder: {
-    defaultMessage: 'EN Filter by measurements',
+    defaultMessage: 'Filter by measurements',
     description: 'Filter by measurements',
     id: 'ToolBarPriceListMeasurementPlaceHolder',
   },
   ToolBarPriceListMetricPlaceHolder: {
-    defaultMessage: 'EN Filter by metrics',
+    defaultMessage: 'Filter by metrics',
     description: 'Filter by metrics',
     id: 'ToolBarPriceListMetricPlaceHolder',
   },
   UnitTooltips: {
     defaultMessage:
       '{units, select, ' +
-      'core_hours {EN {value} core-hours} ' +
-      'gb {EN {value} GB} ' +
-      'gb_hours {EN {value} GB-hours} ' +
-      'gb_mo {EN {value} GB-month} ' +
-      'gibibyte_month {EN {value} GiB-month} ' +
-      'hour {EN {value} hours} ' +
-      'hrs {EN {value} hours} ' +
-      'usd {EN {value}} ' +
-      'vm_hours {EN {value} VM-hours} ' +
-      'other {EN {value}}}',
+      'core_hours {{value} core-hours} ' +
+      'gb {{value} GB} ' +
+      'gb_hours {{value} GB-hours} ' +
+      'gb_mo {{value} GB-month} ' +
+      'gibibyte_month {{value} GiB-month} ' +
+      'hour {{value} hours} ' +
+      'hrs {{value} hours} ' +
+      'usd {{value}} ' +
+      'vm_hours {{value} VM-hours} ' +
+      'other {{value}}}',
     description: 'return value and unit based on key: "units"',
     id: 'UnitTooltips',
   },
   Units: {
     defaultMessage:
       '{units, select, ' +
-      'core_hours {EN core-hours} ' +
-      'gb {EN GB} ' +
-      'gb_hours {EN GB-hours} ' +
-      'gb_mo {EN GB-month} ' +
-      'gibibyte_month {EN GiB-month} ' +
-      'hour {EN hours} ' +
-      'hrs {EN hours} ' +
-      'usd {EN $USD} ' +
-      'vm_hours {EN VM-hours} ' +
+      'core_hours {core-hours} ' +
+      'gb {GB} ' +
+      'gb_hours {GB-hours} ' +
+      'gb_mo {GB-month} ' +
+      'gibibyte_month {GiB-month} ' +
+      'hour {hours} ' +
+      'hrs {hours} ' +
+      'usd {$USD} ' +
+      'vm_hours {VM-hours} ' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
     id: 'Units',
   },
   Usage: {
-    defaultMessage: 'EN Usage',
+    defaultMessage: 'Usage',
     description: 'Usage',
     id: 'Usage',
   },
   UsageCostDescription: {
-    defaultMessage: 'EN The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.',
+    defaultMessage: 'The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.',
     description: 'The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.',
     id: 'UsageCostDescription',
   },
   UsageCostTitle: {
-    defaultMessage: 'EN Usage cost',
+    defaultMessage: 'Usage cost',
     description: 'Usage cost',
     id: 'UsageCostTitle',
   },
   Various: {
-    defaultMessage: 'EN Various',
+    defaultMessage: 'Various',
     description: 'Various',
     id: 'Various',
   },
   Yes: {
-    defaultMessage: 'EN Yes',
+    defaultMessage: 'Yes',
     description: 'Yes',
     id: 'Yes',
   },
