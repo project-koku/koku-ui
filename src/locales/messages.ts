@@ -2727,7 +2727,7 @@ export default defineMessages({
       'hrs {EN {value} hours} ' +
       'usd {EN {value}} ' +
       'vm_hours {EN {value} VM-hours} ' +
-      'other {{EN value}}}',
+      'other {EN {value}}}',
     description: 'return value and unit based on key: "units"',
     id: 'UnitTooltips',
   },
