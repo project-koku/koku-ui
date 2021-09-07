@@ -28177,7 +28177,7 @@
     "Description": [
       {
         "type": 0,
-        "value": "description"
+        "value": "Description"
       }
     ],
     "DetailsActionsExport": [
@@ -33523,32 +33523,6 @@
       }
     ],
     "Name": [
-      {
-        "offset": 0,
-        "options": {
-          "one": {
-            "value": [
-              {
-                "type": 0,
-                "value": "name"
-              }
-            ]
-          },
-          "other": {
-            "value": [
-              {
-                "type": 0,
-                "value": "names"
-              }
-            ]
-          }
-        },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
-      }
-    ],
-    "NameTitleCase": [
       {
         "offset": 0,
         "options": {

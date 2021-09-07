@@ -1215,8 +1215,8 @@ export default defineMessages({
     id: 'Delete',
   },
   Description: {
-    defaultMessage: 'description',
-    description: 'description',
+    defaultMessage: 'Description',
+    description: 'Description',
     id: 'Description',
   },
   DetailsActionsExport: {
@@ -2135,13 +2135,8 @@ export default defineMessages({
     description: 'Month over month change',
     id: 'MonthOverMonthChange',
   },
-  NameTitleCase: {
-    defaultMessage: '{count, plural, one {Name} other {Names}}',
-    description: 'Name in title case plural or singular',
-    id: 'NameTitleCase',
-  },
   Names: {
-    defaultMessage: '{count, plural, one {name} other {names}}',
+    defaultMessage: '{count, plural, one {Name} other {Names}}',
     description: 'Name plural or singular',
     id: 'Name',
   },
