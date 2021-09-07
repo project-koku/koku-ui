@@ -502,7 +502,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Jan "
+                        "value": "DE  total cost (January "
                       },
                       {
                         "type": 1,
@@ -522,7 +522,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Jan "
+                        "value": "DE  total cost (January "
                       },
                       {
                         "type": 1,
@@ -562,7 +562,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Feb "
+                        "value": "DE  total cost (February "
                       },
                       {
                         "type": 1,
@@ -582,7 +582,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Feb "
+                        "value": "DE  total cost (February "
                       },
                       {
                         "type": 1,
@@ -622,7 +622,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Mar "
+                        "value": "DE  total cost (March "
                       },
                       {
                         "type": 1,
@@ -642,7 +642,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Mar "
+                        "value": "DE  total cost (March "
                       },
                       {
                         "type": 1,
@@ -682,7 +682,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Apr "
+                        "value": "DE  total cost (April "
                       },
                       {
                         "type": 1,
@@ -702,7 +702,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Apr "
+                        "value": "DE  total cost (April "
                       },
                       {
                         "type": 1,
@@ -802,7 +802,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Jun "
+                        "value": "DE  total cost (June "
                       },
                       {
                         "type": 1,
@@ -822,7 +822,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Jun "
+                        "value": "DE  total cost (June "
                       },
                       {
                         "type": 1,
@@ -862,7 +862,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Jul "
+                        "value": "DE  total cost (July "
                       },
                       {
                         "type": 1,
@@ -882,7 +882,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Jul "
+                        "value": "DE  total cost (July "
                       },
                       {
                         "type": 1,
@@ -922,7 +922,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Aug "
+                        "value": "DE  total cost (August "
                       },
                       {
                         "type": 1,
@@ -942,7 +942,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Aug "
+                        "value": "DE  total cost (August "
                       },
                       {
                         "type": 1,
@@ -982,7 +982,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Sep "
+                        "value": "DE  total cost (September "
                       },
                       {
                         "type": 1,
@@ -1002,7 +1002,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Sep "
+                        "value": "DE  total cost (September "
                       },
                       {
                         "type": 1,
@@ -1042,7 +1042,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Oct "
+                        "value": "DE  total cost (October "
                       },
                       {
                         "type": 1,
@@ -1062,7 +1062,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Oct "
+                        "value": "DE  total cost (October "
                       },
                       {
                         "type": 1,
@@ -1102,7 +1102,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Nov "
+                        "value": "DE  total cost (November "
                       },
                       {
                         "type": 1,
@@ -1122,7 +1122,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Nov "
+                        "value": "DE  total cost (November "
                       },
                       {
                         "type": 1,
@@ -1162,7 +1162,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Dec "
+                        "value": "DE  total cost (December "
                       },
                       {
                         "type": 1,
@@ -1182,7 +1182,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  total cost (Dec "
+                        "value": "DE  total cost (December "
                       },
                       {
                         "type": 1,
@@ -12698,113 +12698,6 @@
             "value": [
               {
                 "type": 0,
-                "value": "DE account"
-              }
-            ]
-          },
-          "cluster": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE cluster"
-              }
-            ]
-          },
-          "name": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE name"
-              }
-            ]
-          },
-          "node": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE node"
-              }
-            ]
-          },
-          "org_unit_id": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE organizational unit"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          },
-          "project": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE project"
-              }
-            ]
-          },
-          "region": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE region"
-              }
-            ]
-          },
-          "resource_location": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE region"
-              }
-            ]
-          },
-          "service": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE service"
-              }
-            ]
-          },
-          "service_name": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE service"
-              }
-            ]
-          },
-          "subscription_guid": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE account"
-              }
-            ]
-          },
-          "tag": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE tag"
-              }
-            ]
-          }
-        },
-        "type": 5,
-        "value": "value"
-      }
-    ],
-    "FilterByValuesTitleCase": [
-      {
-        "options": {
-          "account": {
-            "value": [
-              {
-                "type": 0,
                 "value": "DE Account"
               }
             ]
@@ -12921,7 +12814,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Jan "
+                        "value": "DE  for January "
                       },
                       {
                         "type": 1,
@@ -12937,7 +12830,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Jan "
+                        "value": "DE  for January "
                       },
                       {
                         "type": 1,
@@ -12973,7 +12866,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Feb "
+                        "value": "DE  for February "
                       },
                       {
                         "type": 1,
@@ -12989,7 +12882,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Feb "
+                        "value": "DE  for February "
                       },
                       {
                         "type": 1,
@@ -13025,7 +12918,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Mar "
+                        "value": "DE  for March "
                       },
                       {
                         "type": 1,
@@ -13041,7 +12934,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Mar "
+                        "value": "DE  for March "
                       },
                       {
                         "type": 1,
@@ -13077,7 +12970,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Apr "
+                        "value": "DE  for April "
                       },
                       {
                         "type": 1,
@@ -13093,7 +12986,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Apr "
+                        "value": "DE  for April "
                       },
                       {
                         "type": 1,
@@ -13181,7 +13074,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Jun "
+                        "value": "DE  for June "
                       },
                       {
                         "type": 1,
@@ -13197,7 +13090,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Jun "
+                        "value": "DE  for June "
                       },
                       {
                         "type": 1,
@@ -13233,7 +13126,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Jul "
+                        "value": "DE  for July "
                       },
                       {
                         "type": 1,
@@ -13249,7 +13142,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Jul "
+                        "value": "DE  for July "
                       },
                       {
                         "type": 1,
@@ -13285,7 +13178,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Aug "
+                        "value": "DE  for August "
                       },
                       {
                         "type": 1,
@@ -13301,7 +13194,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Aug "
+                        "value": "DE  for August "
                       },
                       {
                         "type": 1,
@@ -13337,7 +13230,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Sep "
+                        "value": "DE  for September "
                       },
                       {
                         "type": 1,
@@ -13353,7 +13246,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Sep "
+                        "value": "DE  for September "
                       },
                       {
                         "type": 1,
@@ -13389,7 +13282,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Oct "
+                        "value": "DE  for October "
                       },
                       {
                         "type": 1,
@@ -13405,7 +13298,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Oct "
+                        "value": "DE  for October "
                       },
                       {
                         "type": 1,
@@ -13441,7 +13334,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Nov "
+                        "value": "DE  for November "
                       },
                       {
                         "type": 1,
@@ -13457,7 +13350,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Nov "
+                        "value": "DE  for November "
                       },
                       {
                         "type": 1,
@@ -13493,7 +13386,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Dec "
+                        "value": "DE  for December "
                       },
                       {
                         "type": 1,
@@ -13509,7 +13402,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "DE  for Dec "
+                        "value": "DE  for December "
                       },
                       {
                         "type": 1,
@@ -15332,10 +15225,6 @@
         },
         "type": 5,
         "value": "value"
-      },
-      {
-        "type": 0,
-        "value": "DE }"
       }
     ],
     "HistoricalChartUsageLabel": [
@@ -17085,6 +16974,16 @@
       {
         "type": 0,
         "value": "DE Select all"
+      }
+    ],
+    "Selected": [
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": "DE  selected"
       }
     ],
     "SinceDate": [
@@ -34939,6 +34838,16 @@
         "value": "Select all"
       }
     ],
+    "Selected": [
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " selected"
+      }
+    ],
     "SinceDate": [
       {
         "options": {
@@ -36317,7 +36226,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Jan "
+                        "value": "FR  total cost (January "
                       },
                       {
                         "type": 1,
@@ -36337,7 +36246,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Jan "
+                        "value": "FR  total cost (January "
                       },
                       {
                         "type": 1,
@@ -36377,7 +36286,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Feb "
+                        "value": "FR  total cost (February "
                       },
                       {
                         "type": 1,
@@ -36397,7 +36306,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Feb "
+                        "value": "FR  total cost (February "
                       },
                       {
                         "type": 1,
@@ -36437,7 +36346,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Mar "
+                        "value": "FR  total cost (March "
                       },
                       {
                         "type": 1,
@@ -36457,7 +36366,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Mar "
+                        "value": "FR  total cost (March "
                       },
                       {
                         "type": 1,
@@ -36497,7 +36406,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Apr "
+                        "value": "FR  total cost (April "
                       },
                       {
                         "type": 1,
@@ -36517,7 +36426,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Apr "
+                        "value": "FR  total cost (April "
                       },
                       {
                         "type": 1,
@@ -36617,7 +36526,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Jun "
+                        "value": "FR  total cost (June "
                       },
                       {
                         "type": 1,
@@ -36637,7 +36546,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Jun "
+                        "value": "FR  total cost (June "
                       },
                       {
                         "type": 1,
@@ -36677,7 +36586,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Jul "
+                        "value": "FR  total cost (July "
                       },
                       {
                         "type": 1,
@@ -36697,7 +36606,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Jul "
+                        "value": "FR  total cost (July "
                       },
                       {
                         "type": 1,
@@ -36737,7 +36646,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Aug "
+                        "value": "FR  total cost (August "
                       },
                       {
                         "type": 1,
@@ -36757,7 +36666,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Aug "
+                        "value": "FR  total cost (August "
                       },
                       {
                         "type": 1,
@@ -36797,7 +36706,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Sep "
+                        "value": "FR  total cost (September "
                       },
                       {
                         "type": 1,
@@ -36817,7 +36726,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Sep "
+                        "value": "FR  total cost (September "
                       },
                       {
                         "type": 1,
@@ -36857,7 +36766,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Oct "
+                        "value": "FR  total cost (October "
                       },
                       {
                         "type": 1,
@@ -36877,7 +36786,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Oct "
+                        "value": "FR  total cost (October "
                       },
                       {
                         "type": 1,
@@ -36917,7 +36826,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Nov "
+                        "value": "FR  total cost (November "
                       },
                       {
                         "type": 1,
@@ -36937,7 +36846,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Nov "
+                        "value": "FR  total cost (November "
                       },
                       {
                         "type": 1,
@@ -36977,7 +36886,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Dec "
+                        "value": "FR  total cost (December "
                       },
                       {
                         "type": 1,
@@ -36997,7 +36906,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  total cost (Dec "
+                        "value": "FR  total cost (December "
                       },
                       {
                         "type": 1,
@@ -48513,113 +48422,6 @@
             "value": [
               {
                 "type": 0,
-                "value": "FR account"
-              }
-            ]
-          },
-          "cluster": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR cluster"
-              }
-            ]
-          },
-          "name": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR name"
-              }
-            ]
-          },
-          "node": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR node"
-              }
-            ]
-          },
-          "org_unit_id": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR organizational unit"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          },
-          "project": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR project"
-              }
-            ]
-          },
-          "region": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR region"
-              }
-            ]
-          },
-          "resource_location": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR region"
-              }
-            ]
-          },
-          "service": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR service"
-              }
-            ]
-          },
-          "service_name": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR service"
-              }
-            ]
-          },
-          "subscription_guid": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR account"
-              }
-            ]
-          },
-          "tag": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR tag"
-              }
-            ]
-          }
-        },
-        "type": 5,
-        "value": "value"
-      }
-    ],
-    "FilterByValuesTitleCase": [
-      {
-        "options": {
-          "account": {
-            "value": [
-              {
-                "type": 0,
                 "value": "FR Account"
               }
             ]
@@ -48736,7 +48538,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Jan "
+                        "value": "FR  for January "
                       },
                       {
                         "type": 1,
@@ -48752,7 +48554,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Jan "
+                        "value": "FR  for January "
                       },
                       {
                         "type": 1,
@@ -48788,7 +48590,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Feb "
+                        "value": "FR  for February "
                       },
                       {
                         "type": 1,
@@ -48804,7 +48606,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Feb "
+                        "value": "FR  for February "
                       },
                       {
                         "type": 1,
@@ -48840,7 +48642,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Mar "
+                        "value": "FR  for March "
                       },
                       {
                         "type": 1,
@@ -48856,7 +48658,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Mar "
+                        "value": "FR  for March "
                       },
                       {
                         "type": 1,
@@ -48892,7 +48694,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Apr "
+                        "value": "FR  for April "
                       },
                       {
                         "type": 1,
@@ -48908,7 +48710,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Apr "
+                        "value": "FR  for April "
                       },
                       {
                         "type": 1,
@@ -48996,7 +48798,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Jun "
+                        "value": "FR  for June "
                       },
                       {
                         "type": 1,
@@ -49012,7 +48814,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Jun "
+                        "value": "FR  for June "
                       },
                       {
                         "type": 1,
@@ -49048,7 +48850,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Jul "
+                        "value": "FR  for July "
                       },
                       {
                         "type": 1,
@@ -49064,7 +48866,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Jul "
+                        "value": "FR  for July "
                       },
                       {
                         "type": 1,
@@ -49100,7 +48902,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Aug "
+                        "value": "FR  for August "
                       },
                       {
                         "type": 1,
@@ -49116,7 +48918,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Aug "
+                        "value": "FR  for August "
                       },
                       {
                         "type": 1,
@@ -49152,7 +48954,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Sep "
+                        "value": "FR  for September "
                       },
                       {
                         "type": 1,
@@ -49168,7 +48970,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Sep "
+                        "value": "FR  for September "
                       },
                       {
                         "type": 1,
@@ -49204,7 +49006,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Oct "
+                        "value": "FR  for October "
                       },
                       {
                         "type": 1,
@@ -49220,7 +49022,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Oct "
+                        "value": "FR  for October "
                       },
                       {
                         "type": 1,
@@ -49256,7 +49058,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Nov "
+                        "value": "FR  for November "
                       },
                       {
                         "type": 1,
@@ -49272,7 +49074,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Nov "
+                        "value": "FR  for November "
                       },
                       {
                         "type": 1,
@@ -49308,7 +49110,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Dec "
+                        "value": "FR  for December "
                       },
                       {
                         "type": 1,
@@ -49324,7 +49126,7 @@
                       },
                       {
                         "type": 0,
-                        "value": "FR  for Dec "
+                        "value": "FR  for December "
                       },
                       {
                         "type": 1,
@@ -51147,10 +50949,6 @@
         },
         "type": 5,
         "value": "value"
-      },
-      {
-        "type": 0,
-        "value": "FR }"
       }
     ],
     "HistoricalChartUsageLabel": [
@@ -52900,6 +52698,16 @@
       {
         "type": 0,
         "value": "FR Select all"
+      }
+    ],
+    "Selected": [
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": "FR  selected"
       }
     ],
     "SinceDate": [

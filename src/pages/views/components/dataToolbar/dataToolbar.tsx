@@ -270,7 +270,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
             ]}
             onToggle={this.handleOnBulkSelectToggle}
           >
-            {numSelected !== 0 && <React.Fragment>{numSelected} selected</React.Fragment>}
+            {numSelected !== 0 && (
+              <React.Fragment>{intl.formatMessage(messages.Selected, { value: numSelected })}</React.Fragment>
+            )}
           </DropdownToggle>
         }
         isOpen={isBulkSelectOpen}

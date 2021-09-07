@@ -2611,6 +2611,11 @@ export default defineMessages({
     description: 'Select all',
     id: 'SelectAll',
   },
+  Selected: {
+    defaultMessage: '{value} selected',
+    description: '{value} selected',
+    id: 'Selected',
+  },
   SinceDate: {
     defaultMessage:
       '{month, select, ' +
