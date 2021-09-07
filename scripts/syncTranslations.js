@@ -1,4 +1,4 @@
-// Note the translations.json file must be first converted to an abstract syntax tree (AST)
+// Note the en.json file must be first converted to an abstract syntax tree (AST)
 
 const program = require('commander');
 const { readFileSync, writeFileSync } = require('fs');
@@ -21,7 +21,7 @@ if (options.locale) {
 }
 
 const getTranslations = () => {
-  const filename = `${rootFolder}${LANG_DIR}translations.json`;
+  const filename = `${rootFolder}${LANG_DIR}en.json`;
   return readFileSync(filename, 'utf8');
 }
 

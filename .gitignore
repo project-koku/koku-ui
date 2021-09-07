@@ -53,3 +53,4 @@ dist/
 .idea
 /build/
 report.*.json
+locales/*[en|de|fr].json
