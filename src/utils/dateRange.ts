@@ -20,7 +20,7 @@ export function getNoDataForDateRangeString(message: MessageDescriptor = message
     today.setMonth(today.getMonth() - offset);
   }
 
-  const month = getMonth(today) + 1; // Required to obtain correct month
+  const month = getMonth(today);
   const endDate = format(today, 'd');
   const startDate = format(startOfMonth(today), 'd');
 
@@ -38,7 +38,7 @@ export function getForDateRangeString(
     today.setMonth(today.getMonth() - offset);
   }
 
-  const month = getMonth(today) + 1; // Required to obtain correct month
+  const month = getMonth(today);
   const endDate = format(today, 'd');
   const startDate = format(startOfMonth(today), 'd');
 
@@ -53,7 +53,7 @@ export function getForDateRangeString(
 
 export function getSinceDateRangeString(message: MessageDescriptor = messages.SinceDate) {
   const today = getToday();
-  const month = getMonth(today) + 1; // Required to obtain correct month
+  const month = getMonth(today);
   const endDate = format(today, 'd');
   const startDate = format(startOfMonth(today), 'd');
 

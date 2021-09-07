@@ -355,7 +355,7 @@ export function getDateRangeString(
 
   const count = getDate(end);
   const endDate = format(end, 'dd');
-  const month = Number(format(start, 'M'));
+  const month = Number(format(start, 'M')) - 1; // Required to obtain correct month message
   const startDate = format(start, 'dd');
   const year = getYear(end);
 
@@ -442,7 +442,7 @@ export function getCostRangeString(
 
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
 
-  const month = Number(format(start, 'M'));
+  const month = Number(format(start, 'M')) - 1; // Required to obtain correct month message
   const year = getYear(end);
 
   return intl.formatMessage(key, {
