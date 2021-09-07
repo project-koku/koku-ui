@@ -699,8 +699,8 @@ export default defineMessages({
     id: 'CostModelsAssignSource',
   },
   CostModelsAssignSources: {
-    defaultMessage: 'Assign source(s)',
-    description: 'Assign source(s)',
+    defaultMessage: 'Assign sources',
+    description: 'Assign sources',
     id: 'CostModelsAssignSources',
   },
   CostModelsAssignSourcesErrorDescription: {
@@ -1041,7 +1041,7 @@ export default defineMessages({
       'aws {Select from the following Amazon Web Services sources:} ' +
       'azure {Select from the following Microsoft Azure sources:} ' +
       'gcp {Select from the following Google Cloud Platform sources:} ' +
-      'ocp {Select from the following OpenShift sources:} ' +
+      'ocp {Select from the following Red Hat OpenShift sources:} ' +
       'other {}}',
     description: 'Select from the following {value} sources:',
     id: 'CostModelsWizardSourceCaption',

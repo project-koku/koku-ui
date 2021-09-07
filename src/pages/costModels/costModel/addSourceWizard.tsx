@@ -97,7 +97,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
     return (
       <Modal
         isOpen={isOpen}
-        title={intl.formatMessage(messages.CostModelsAssignSource)}
+        title={intl.formatMessage(messages.CostModelsAssignSources)}
         onClose={onClose}
         variant="large"
         actions={[

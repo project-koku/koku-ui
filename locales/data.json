@@ -27381,7 +27381,7 @@
     "CostModelsAssignSources": [
       {
         "type": 0,
-        "value": "Assign source(s)"
+        "value": "Assign sources"
       }
     ],
     "CostModelsAssignSourcesErrorDescription": [
@@ -27893,7 +27893,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Select from the following OpenShift sources:"
+                "value": "Select from the following Red Hat OpenShift sources:"
               }
             ]
           },
