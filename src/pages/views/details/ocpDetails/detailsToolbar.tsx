@@ -80,10 +80,10 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     const { intl, tagReport } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.FilterByValuesTitleCase, { value: 'cluster' }), key: 'cluster' },
-      { name: intl.formatMessage(messages.FilterByValuesTitleCase, { value: 'node' }), key: 'node' },
-      { name: intl.formatMessage(messages.FilterByValuesTitleCase, { value: 'project' }), key: 'project' },
-      { name: intl.formatMessage(messages.FilterByValuesTitleCase, { value: 'tag' }), key: tagKey },
+      { name: intl.formatMessage(messages.FilterByValues, { value: 'cluster' }), key: 'cluster' },
+      { name: intl.formatMessage(messages.FilterByValues, { value: 'node' }), key: 'node' },
+      { name: intl.formatMessage(messages.FilterByValues, { value: 'project' }), key: 'project' },
+      { name: intl.formatMessage(messages.FilterByValues, { value: 'tag' }), key: tagKey },
     ];
 
     return tagReport && tagReport.data && tagReport.data.length
