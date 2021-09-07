@@ -163,18 +163,18 @@ export default defineMessages({
   BreakdownTotalCostDate: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {{value} total cost (Jan {startDate})} other {{value} total cost (Jan {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {{value} total cost (Feb {startDate})} other {{value} total cost (Feb {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {{value} total cost (Mar {startDate})} other {{value} total cost (Mar {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {{value} total cost (Apr {startDate})} other {{value} total cost (Apr {startDate}-{endDate})}}} ' +
+      '1 {{count, plural, one {{value} total cost (January {startDate})} other {{value} total cost (January {startDate}-{endDate})}}} ' +
+      '2 {{count, plural, one {{value} total cost (February {startDate})} other {{value} total cost (February {startDate}-{endDate})}}} ' +
+      '3 {{count, plural, one {{value} total cost (March {startDate})} other {{value} total cost (March {startDate}-{endDate})}}} ' +
+      '4 {{count, plural, one {{value} total cost (April {startDate})} other {{value} total cost (April {startDate}-{endDate})}}} ' +
       '5 {{count, plural, one {{value} total cost (May {startDate})} other {{value} total cost (May {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {{value} total cost (Jun {startDate})} other {{value} total cost (Jun {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {{value} total cost (Jul {startDate})} other {{value} total cost (Jul {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {{value} total cost (Aug {startDate})} other {{value} total cost (Aug {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {{value} total cost (Sep {startDate})} other {{value} total cost (Sep {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {{value} total cost (Oct {startDate})} other {{value} total cost (Oct {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {{value} total cost (Nov {startDate})} other {{value} total cost (Nov {startDate}-{endDate})}}} ' +
-      '12 {{count, plural, one {{value} total cost (Dec {startDate})} other {{value} total cost (Dec {startDate}-{endDate})}}} ' +
+      '6 {{count, plural, one {{value} total cost (June {startDate})} other {{value} total cost (June {startDate}-{endDate})}}} ' +
+      '7 {{count, plural, one {{value} total cost (July {startDate})} other {{value} total cost (July {startDate}-{endDate})}}} ' +
+      '8 {{count, plural, one {{value} total cost (August {startDate})} other {{value} total cost (August {startDate}-{endDate})}}} ' +
+      '9 {{count, plural, one {{value} total cost (September {startDate})} other {{value} total cost (September {startDate}-{endDate})}}} ' +
+      '10 {{count, plural, one {{value} total cost (October {startDate})} other {{value} total cost (October {startDate}-{endDate})}}} ' +
+      '11 {{count, plural, one {{value} total cost (November {startDate})} other {{value} total cost (November {startDate}-{endDate})}}} ' +
+      '12 {{count, plural, one {{value} total cost (December {startDate})} other {{value} total cost (December {startDate}-{endDate})}}} ' +
       'other {}}',
     description: 'Break down total cost by date',
     id: 'BreakdownTotalCostDate',
@@ -1753,18 +1753,18 @@ export default defineMessages({
   ForDate: {
     defaultMessage:
       '{month, select, ' +
-      '1 {{count, plural, one {{value} for Jan {startDate}} other {{value} for Jan {startDate}-{endDate}}}} ' +
-      '2 {{count, plural, one {{value} for Feb {startDate}} other {{value} for Feb {startDate}-{endDate}}}} ' +
-      '3 {{count, plural, one {{value} for Mar {startDate}} other {{value} for Mar {startDate}-{endDate}}}} ' +
-      '4 {{count, plural, one {{value} for Apr {startDate}} other {{value} for Apr {startDate}-{endDate}}}} ' +
+      '1 {{count, plural, one {{value} for January {startDate}} other {{value} for January {startDate}-{endDate}}}} ' +
+      '2 {{count, plural, one {{value} for February {startDate}} other {{value} for February {startDate}-{endDate}}}} ' +
+      '3 {{count, plural, one {{value} for March {startDate}} other {{value} for March {startDate}-{endDate}}}} ' +
+      '4 {{count, plural, one {{value} for April {startDate}} other {{value} for April {startDate}-{endDate}}}} ' +
       '5 {{count, plural, one {{value} for May {startDate}} other {{value} for May {startDate}-{endDate}}}} ' +
-      '6 {{count, plural, one {{value} for Jun {startDate}} other {{value} for Jun {startDate}-{endDate}}}} ' +
-      '7 {{count, plural, one {{value} for Jul {startDate}} other {{value} for Jul {startDate}-{endDate}}}} ' +
-      '8 {{count, plural, one {{value} for Aug {startDate}} other {{value} for Aug {startDate}-{endDate}}}} ' +
-      '9 {{count, plural, one {{value} for Sep {startDate}} other {{value} for Sep {startDate}-{endDate}}}} ' +
-      '10 {{count, plural, one {{value} for Oct {startDate}} other {{value} for Oct {startDate}-{endDate}}}} ' +
-      '11 {{count, plural, one {{value} for Nov {startDate}} other {{value} for Nov {startDate}-{endDate}}}} ' +
-      '12 {{count, plural, one {{value} for Dec {startDate}} other {{value} for Dec {startDate}-{endDate}}}} ' +
+      '6 {{count, plural, one {{value} for June {startDate}} other {{value} for June {startDate}-{endDate}}}} ' +
+      '7 {{count, plural, one {{value} for July {startDate}} other {{value} for July {startDate}-{endDate}}}} ' +
+      '8 {{count, plural, one {{value} for August {startDate}} other {{value} for August {startDate}-{endDate}}}} ' +
+      '9 {{count, plural, one {{value} for September {startDate}} other {{value} for September {startDate}-{endDate}}}} ' +
+      '10 {{count, plural, one {{value} for October {startDate}} other {{value} for October {startDate}-{endDate}}}} ' +
+      '11 {{count, plural, one {{value} for November {startDate}} other {{value} for November {startDate}-{endDate}}}} ' +
+      '12 {{count, plural, one {{value} for December {startDate}} other {{value} for December {startDate}-{endDate}}}} ' +
       'other {}}',
     description: '{value} for date range',
     id: 'ForDate',
