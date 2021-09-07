@@ -717,7 +717,7 @@ export default defineMessages({
   CostModelsAssignedSources: {
     defaultMessage: 'Assigned sources',
     description: 'Assigned sourcess',
-    id: 'CostModelsAssignSources',
+    id: 'CostModelsAssignedSources',
   },
   CostModelsAvailableSources: {
     defaultMessage: 'The following sources are assigned to my production cost model:',

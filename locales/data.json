@@ -27374,8 +27374,28 @@
     ],
     "CostModelsAssignSources": [
       {
-        "type": 0,
-        "value": "Assigned sources"
+        "offset": 0,
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Assign source"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Assign sources"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
       }
     ],
     "CostModelsAssignSourcesErrorDescription": [
@@ -27402,6 +27422,12 @@
       {
         "type": 0,
         "value": "Assign source(s)"
+      }
+    ],
+    "CostModelsAssignedSources": [
+      {
+        "type": 0,
+        "value": "Assigned sources"
       }
     ],
     "CostModelsAvailableSources": [
