@@ -1141,6 +1141,16 @@ export default defineMessages({
       'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
     id: 'CreateCostModelDesc',
   },
+  CreateCostModelExit: {
+    defaultMessage: 'Exit cost model creation',
+    description: 'Exit cost model creation',
+    id: 'CreateCostModelExit',
+  },
+  CreateCostModelExitYes: {
+    defaultMessage: 'Yes, I want to exit',
+    description: 'Yes, I want to exit',
+    id: 'CreateCostModelExitYes',
+  },
   CreateCostModelNoContinue: {
     defaultMessage: 'No, I want to continue',
     description: 'No, I want to continue',
@@ -1150,11 +1160,6 @@ export default defineMessages({
     defaultMessage: 'Create a cost model',
     description: 'Create a cost model',
     id: 'CreateCostModelTitle',
-  },
-  CreateCostModelYesExit: {
-    defaultMessage: 'Exit cost model creation',
-    description: 'Exit cost model creation',
-    id: 'CreateCostModelYesExit',
   },
   CreateRate: {
     defaultMessage: 'Create rate',

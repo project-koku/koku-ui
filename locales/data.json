@@ -10155,6 +10155,18 @@
         "value": "DE A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources."
       }
     ],
+    "CreateCostModelExit": [
+      {
+        "type": 0,
+        "value": "DE Exit cost model creation"
+      }
+    ],
+    "CreateCostModelExitYes": [
+      {
+        "type": 0,
+        "value": "DE Yes, I want to exit"
+      }
+    ],
     "CreateCostModelNoContinue": [
       {
         "type": 0,
@@ -10165,12 +10177,6 @@
       {
         "type": 0,
         "value": "DE Create a cost model"
-      }
-    ],
-    "CreateCostModelYesExit": [
-      {
-        "type": 0,
-        "value": "DE Exit cost model creation"
       }
     ],
     "CreateRate": [
@@ -28017,6 +28023,18 @@
         "value": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources."
       }
     ],
+    "CreateCostModelExit": [
+      {
+        "type": 0,
+        "value": "Exit cost model creation"
+      }
+    ],
+    "CreateCostModelExitYes": [
+      {
+        "type": 0,
+        "value": "Yes, I want to exit"
+      }
+    ],
     "CreateCostModelNoContinue": [
       {
         "type": 0,
@@ -28027,12 +28045,6 @@
       {
         "type": 0,
         "value": "Create a cost model"
-      }
-    ],
-    "CreateCostModelYesExit": [
-      {
-        "type": 0,
-        "value": "Exit cost model creation"
       }
     ],
     "CreateRate": [
@@ -45879,6 +45891,18 @@
         "value": "FR A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources."
       }
     ],
+    "CreateCostModelExit": [
+      {
+        "type": 0,
+        "value": "FR Exit cost model creation"
+      }
+    ],
+    "CreateCostModelExitYes": [
+      {
+        "type": 0,
+        "value": "FR Yes, I want to exit"
+      }
+    ],
     "CreateCostModelNoContinue": [
       {
         "type": 0,
@@ -45889,12 +45913,6 @@
       {
         "type": 0,
         "value": "FR Create a cost model"
-      }
-    ],
-    "CreateCostModelYesExit": [
-      {
-        "type": 0,
-        "value": "FR Exit cost model creation"
       }
     ],
     "CreateRate": [
