@@ -1715,25 +1715,6 @@ export default defineMessages({
   FilterByValues: {
     defaultMessage:
       '{value, select, ' +
-      'account {account} ' +
-      'cluster {cluster} ' +
-      'name {name} ' +
-      'node {node} ' +
-      'org_unit_id {organizational unit} ' +
-      'project {project} ' +
-      'region {region} ' +
-      'resource_location {region} ' +
-      'service {service} ' +
-      'service_name {service} ' +
-      'subscription_guid {account} ' +
-      'tag {tag} ' +
-      'other {}}',
-    description: 'Filter by values',
-    id: 'FilterByValues',
-  },
-  FilterByValuesTitleCase: {
-    defaultMessage:
-      '{value, select, ' +
       'account {Account} ' +
       'cluster {Cluster} ' +
       'name {Name} ' +
@@ -1748,7 +1729,7 @@ export default defineMessages({
       'tag {Tag} ' +
       'other {}}',
     description: 'Filter by values',
-    id: 'FilterByValuesTitleCase',
+    id: 'FilterByValues',
   },
   ForDate: {
     defaultMessage:
