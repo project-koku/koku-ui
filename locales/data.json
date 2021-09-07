@@ -17920,6 +17920,12 @@
         "value": "Raw cost from Amazon Web Services infrastructure."
       }
     ],
+    "AWSDetailsTable": [
+      {
+        "type": 0,
+        "value": "Amazon Web Services details table"
+      }
+    ],
     "AWSDetailsTitle": [
       {
         "type": 0,
@@ -17982,6 +17988,12 @@
       {
         "type": 0,
         "value": "Raw cost from Azure infrastructure."
+      }
+    ],
+    "AzureDetailsTable": [
+      {
+        "type": 0,
+        "value": "Microsoft Azure details table"
       }
     ],
     "AzureDetailsTitle": [
@@ -18195,6 +18207,12 @@
         },
         "type": 5,
         "value": "groupBy"
+      }
+    ],
+    "BreakdownBackToDetailsAriaLabel": [
+      {
+        "type": 0,
+        "value": "Back to details"
       }
     ],
     "BreakdownCostBreakdownAriaLabel": [
@@ -27608,6 +27626,12 @@
         "value": "learnMore"
       }
     ],
+    "CostModelsPopoverAriaLabel": [
+      {
+        "type": 0,
+        "value": "Cost model info popover"
+      }
+    ],
     "CostModelsReadOnly": [
       {
         "type": 0,
@@ -27682,6 +27706,12 @@
       {
         "type": 0,
         "value": "No sources are assigned"
+      }
+    ],
+    "CostModelsSourceTablePaginationAriaLabel": [
+      {
+        "type": 0,
+        "value": "Sources table pagination controls"
       }
     ],
     "CostModelsSourceType": [
@@ -29335,6 +29365,12 @@
       {
         "type": 1,
         "value": "date"
+      }
+    ],
+    "ExplorerTableAriaLabel": [
+      {
+        "type": 0,
+        "value": "Cost Explorer table"
       }
     ],
     "ExplorerTitle": [
@@ -31385,6 +31421,12 @@
         "value": "Raw cost from Google Cloud Platform infrastructure."
       }
     ],
+    "GCPDetailsTable": [
+      {
+        "type": 0,
+        "value": "Google Cloud Platform details table"
+      }
+    ],
     "GCPDetailsTitle": [
       {
         "type": 0,
@@ -33206,6 +33248,12 @@
         "value": "Raw cost from IBM Cloud infrastructure."
       }
     ],
+    "IBMDetailsTable": [
+      {
+        "type": 0,
+        "value": "IBM Cloud details table"
+      }
+    ],
     "IBMDetailsTitle": [
       {
         "type": 0,
@@ -34391,6 +34439,12 @@
       {
         "type": 0,
         "value": "All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics."
+      }
+    ],
+    "OCPDetailsTable": [
+      {
+        "type": 0,
+        "value": "OpenShift details table"
       }
     ],
     "OCPDetailsTitle": [

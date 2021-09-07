@@ -58,7 +58,7 @@ class TagViewBase extends React.Component<TagViewProps> {
         <div style={styles.groupByHeading}>
           <span>{groupByValue}</span>
         </div>
-        <DataList aria-label="Simple data list example" isCompact>
+        <DataList aria-label={intl.formatMessage(messages.TagNames)} isCompact>
           <DataListItem aria-labelledby="heading1">
             <DataListItemRow>
               <DataListItemCells

@@ -85,7 +85,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
     return (
       <header style={styles.header}>
         <div>
-          <nav aria-label="breadcrumb" className="breadcrumbOverride">
+          <nav aria-label={intl.formatMessage(messages.BreakdownBackToDetailsAriaLabel)} className="breadcrumbOverride">
             <ol className="pf-c-breadcrumb__list">
               <li className="pf-c-breadcrumb__item">
                 <span className="pf-c-breadcrumb__item-divider">
