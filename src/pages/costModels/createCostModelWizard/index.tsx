@@ -302,7 +302,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
     );
     const OkButton = (
       <Button key="ok" variant="primary" onClick={() => this.setState({ ...defaultState })}>
-        {intl.formatMessage(messages.CreateCostModelYesExit)}
+        {intl.formatMessage(messages.CreateCostModelExitYes)}
       </Button>
     );
 
@@ -468,11 +468,11 @@ class CostModelWizardBase extends React.Component<Props, State> {
           }}
         />
         <Modal
-          aria-label={intl.formatMessage(messages.CreateCostModelYesExit)}
+          aria-label={intl.formatMessage(messages.CreateCostModelExit)}
           isOpen={this.state.isDialogOpen}
           header={
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
-              <ExclamationTriangleIcon color="orange" /> {intl.formatMessage(messages.CreateCostModelYesExit)}
+              <ExclamationTriangleIcon color="orange" /> {intl.formatMessage(messages.CreateCostModelExit)}
             </Title>
           }
           onClose={closeConfirmDialog}
