@@ -69,7 +69,7 @@ class TableBase extends React.Component<Props, State> {
           actionButtonProps={{
             isDisabled: !isWritePermission,
             onClick: onAdd,
-            children: intl.formatMessage(messages.CostModelsAssignSource),
+            children: intl.formatMessage(messages.CostModelsAssignSources, { count: 1 }),
           }}
           filter={{
             onClearAll: () =>

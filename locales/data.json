@@ -27372,16 +27372,30 @@
         "value": "Add more tag values"
       }
     ],
-    "CostModelsAssignSource": [
-      {
-        "type": 0,
-        "value": "Assign source"
-      }
-    ],
     "CostModelsAssignSources": [
       {
-        "type": 0,
-        "value": "Assign source(s)"
+        "offset": 0,
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Assign source"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Assign sources"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
       }
     ],
     "CostModelsAssignSourcesErrorDescription": [
@@ -27402,6 +27416,18 @@
       {
         "type": 0,
         "value": "This action is temporarily unavailable"
+      }
+    ],
+    "CostModelsAssignSourcesParen": [
+      {
+        "type": 0,
+        "value": "Assign source(s)"
+      }
+    ],
+    "CostModelsAssignedSources": [
+      {
+        "type": 0,
+        "value": "Assigned sources"
       }
     ],
     "CostModelsAvailableSources": [
@@ -27893,7 +27919,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Select from the following OpenShift sources:"
+                "value": "Select from the following Red Hat OpenShift sources:"
               }
             ]
           },
