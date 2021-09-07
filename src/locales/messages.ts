@@ -693,14 +693,9 @@ export default defineMessages({
     description: 'Add more tag values',
     id: 'CostModelsAddTagValues',
   },
-  CostModelsAssignSource: {
-    defaultMessage: 'Assign source',
-    description: 'Assign source',
-    id: 'CostModelsAssignSource',
-  },
   CostModelsAssignSources: {
-    defaultMessage: 'Assign sources',
-    description: 'Assign sources',
+    defaultMessage: '{count, plural, one {Assign source} other {Assign sources}}',
+    description: 'Assign sources -- plural or singular',
     id: 'CostModelsAssignSources',
   },
   CostModelsAssignSourcesErrorDescription: {
@@ -713,6 +708,16 @@ export default defineMessages({
     defaultMessage: 'This action is temporarily unavailable',
     description: 'This action is temporarily unavailable',
     id: 'CostModelsAssignSourcesErrorTitle',
+  },
+  CostModelsAssignSourcesParen: {
+    defaultMessage: 'Assign source(s)',
+    description: 'Assign source(s)',
+    id: 'CostModelsAssignSourcesParen',
+  },
+  CostModelsAssignedSources: {
+    defaultMessage: 'Assigned sources',
+    description: 'Assigned sourcess',
+    id: 'CostModelsAssignSources',
   },
   CostModelsAvailableSources: {
     defaultMessage: 'The following sources are assigned to my production cost model:',

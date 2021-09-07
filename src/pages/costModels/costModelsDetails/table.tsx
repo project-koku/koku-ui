@@ -55,7 +55,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
         transforms: [sortable],
         data: { orderName: 'source_type' },
       },
-      { title: intl.formatMessage(messages.CostModelsAssignSources) },
+      { title: intl.formatMessage(messages.CostModelsAssignedSources) },
       {
         title: intl.formatMessage(messages.CostModelsLastChange),
         transforms: [sortable],

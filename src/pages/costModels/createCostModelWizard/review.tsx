@@ -109,7 +109,7 @@ const ReviewDetailsBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
                     </>
                   )}
                   <TextListItem component={TextListItemVariants.dt}>
-                    {intl.formatMessage(messages.CostModelsAssignSources)}{' '}
+                    {intl.formatMessage(messages.CostModelsAssignSources, { count: 2 })}{' '}
                     {sources.find(src => src.selected && Boolean(src.costmodel)) && (
                       <WarningIcon text={intl.formatMessage(messages.CostModelsWizardWarningSources)} />
                     )}

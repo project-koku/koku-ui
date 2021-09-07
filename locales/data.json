@@ -27372,16 +27372,10 @@
         "value": "Add more tag values"
       }
     ],
-    "CostModelsAssignSource": [
-      {
-        "type": 0,
-        "value": "Assign source"
-      }
-    ],
     "CostModelsAssignSources": [
       {
         "type": 0,
-        "value": "Assign sources"
+        "value": "Assigned sources"
       }
     ],
     "CostModelsAssignSourcesErrorDescription": [
@@ -27402,6 +27396,12 @@
       {
         "type": 0,
         "value": "This action is temporarily unavailable"
+      }
+    ],
+    "CostModelsAssignSourcesParen": [
+      {
+        "type": 0,
+        "value": "Assign source(s)"
       }
     ],
     "CostModelsAvailableSources": [
