@@ -5,7 +5,7 @@ const last = require('lodash/last');
 
 let LANG_DIR = 'locales/';
 let LANG_PATTERN = '';
-let IGNORED = ['data'];
+let IGNORED = ['translations', 'data'];
 
 program
   .option('-p, --pattern <value>', 'file pattern')
@@ -35,10 +35,7 @@ if (program.langPattern) {
 
 const mergedTranslations = globSync(`${rootFolder}${LANG_PATTERN}`)
   .map(filename => {
-    let locale = last(filename.split('/')).split('.json')[0];
-    if (locale === 'translations') {
-      locale = 'en';
-    }
+    const locale = last(filename.split('/')).split('.json')[0];
 
     if (!IGNORED.includes(locale)) {
       return { [locale]: JSON.parse(fs.readFileSync(filename, 'utf8')) };
