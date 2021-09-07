@@ -1950,7 +1950,7 @@ export default defineMessages({
       'hrs {hours} ' +
       'usd {$USD} ' +
       'vm_hours {VM-hours} ' +
-      'other {}}}',
+      'other {}}',
     description: 'historic chart units label',
     id: 'HistoricalChartUnitsLabel',
   },
