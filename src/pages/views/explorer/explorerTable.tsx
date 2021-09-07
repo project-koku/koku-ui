@@ -318,13 +318,13 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
   };
 
   public render() {
-    const { isLoading } = this.props;
+    const { intl, isLoading } = this.props;
     const { columns, loadingRows, rows } = this.state;
 
     return (
       <div style={styles.tableContainer}>
         <Table
-          aria-label="explorer-table"
+          aria-label={intl.formatMessage(messages.ExplorerTableAriaLabel)}
           canSelectAll={false}
           cells={columns}
           className="explorerTableOverride"

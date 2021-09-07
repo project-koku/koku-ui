@@ -27,7 +27,7 @@ const mapStateToProps = (state: RootState, ownProps: WrappedComponentProps) => {
     <>
       {intl.formatMessage(messages.CostModels)}
       <Popover
-        aria-label="page header popver"
+        aria-label={intl.formatMessage(messages.CostModelsPopoverAriaLabel)}
         bodyContent={intl.formatMessage(messages.CostModelsPopover, {
           learnMore: (
             <a href={intl.formatMessage(messages.DocsUsingCostModels)} rel="noreferrer" target="_blank">

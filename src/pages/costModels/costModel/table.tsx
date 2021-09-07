@@ -144,7 +144,7 @@ class TableBase extends React.Component<Props, State> {
         )}
         <PaginationToolbarTemplate
           id="costmodels_details_filter_datatoolbar"
-          aria-label="cost_models_details.sources_filter_controller"
+          aria-label={intl.formatMessage(messages.CostModelsSourceTablePaginationAriaLabel)}
           variant="bottom"
           itemCount={filteredRows.length}
           perPage={perPage}

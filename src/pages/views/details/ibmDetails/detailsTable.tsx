@@ -356,13 +356,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   public render() {
-    const { isLoading } = this.props;
+    const { intl, isLoading } = this.props;
     const { columns, loadingRows, rows } = this.state;
 
     return (
       <>
         <Table
-          aria-label="details-table"
+          aria-label={intl.formatMessage(messages.IBMDetailsTableAriaLabel)}
           canSelectAll={false}
           cells={columns}
           className="tableOverride"

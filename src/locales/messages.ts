@@ -32,6 +32,11 @@ export default defineMessages({
     description: 'Raw cost from Amazon Web Services infrastructure.',
     id: 'AWSDesc',
   },
+  AWSDetailsTableAriaLabel: {
+    defaultMessage: 'Amazon Web Services details table',
+    description: 'Amazon Web Services details table',
+    id: 'AWSDetailsTable',
+  },
   AWSDetailsTitle: {
     defaultMessage: 'Amazon Web Services Details',
     description: 'Amazon Web Services Details',
@@ -72,6 +77,11 @@ export default defineMessages({
     description: 'Raw cost from Azure infrastructure.',
     id: 'AzureDesc',
   },
+  AzureDetailsTableAriaLabel: {
+    defaultMessage: 'Microsoft Azure details table',
+    description: 'Microsoft Azure details table',
+    id: 'AzureDetailsTable',
+  },
   AzureDetailsTitle: {
     defaultMessage: 'Microsoft Azure details',
     description: 'Microsoft Azure details',
@@ -105,6 +115,11 @@ export default defineMessages({
       'other {}}',
     description: 'Back to {value} {groupBy} details',
     id: 'BreakdownBackToDetails',
+  },
+  BreakdownBackToDetailsAriaLabel: {
+    defaultMessage: 'Back to details',
+    description: 'Back to details',
+    id: 'BreakdownBackToDetailsAriaLabel',
   },
   BreakdownCostBreakdownAriaLabel: {
     defaultMessage: 'A description of markup, raw cost and usage cost',
@@ -852,6 +867,11 @@ export default defineMessages({
       'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}',
     id: 'CostModelsPopover',
   },
+  CostModelsPopoverAriaLabel: {
+    defaultMessage: 'Cost model info popover',
+    description: 'Cost model info popover',
+    id: 'CostModelsPopoverAriaLabel',
+  },
   CostModelsReadOnly: {
     defaultMessage: 'You have read only permissions',
     description: 'You have read only permissions',
@@ -908,6 +928,11 @@ export default defineMessages({
     defaultMessage: 'Sources table',
     description: 'Sources table',
     id: 'CostModelsSourcesTableAriaLabel',
+  },
+  CostModelsSourceTablePaginationAriaLabel: {
+    defaultMessage: 'Sources table pagination controls',
+    description: 'Sources table pagination controls',
+    id: 'CostModelsSourceTablePaginationAriaLabel',
   },
   CostModelsSourceType: {
     defaultMessage: 'Source type',
@@ -1521,6 +1546,11 @@ export default defineMessages({
     description: 'Cost {month} {date}',
     id: 'ExplorerMonthDate',
   },
+  ExplorerTableAriaLabel: {
+    defaultMessage: 'Cost Explorer table',
+    description: 'Cost Explorer table',
+    id: 'ExplorerTableAriaLabel',
+  },
   ExplorerTitle: {
     defaultMessage: 'Cost Explorer',
     description: 'Cost Explorer title',
@@ -1790,6 +1820,11 @@ export default defineMessages({
     description: 'Raw cost from Google Cloud Platform infrastructure.',
     id: 'GCPDesc',
   },
+  GCPDetailsTableAriaLabel: {
+    defaultMessage: 'Google Cloud Platform details table',
+    description: 'Google Cloud Platform details table',
+    id: 'GCPDetailsTable',
+  },
   GCPDetailsTitle: {
     defaultMessage: 'Google Cloud Platform Details',
     description: 'Google Cloud Platform Details',
@@ -1979,6 +2014,11 @@ export default defineMessages({
     defaultMessage: 'Raw cost from IBM Cloud infrastructure.',
     description: 'Raw cost from IBM Cloud infrastructure.',
     id: 'IBMDesc',
+  },
+  IBMDetailsTableAriaLabel: {
+    defaultMessage: 'IBM Cloud details table',
+    description: 'IBM Cloud details table',
+    id: 'IBMDetailsTable',
   },
   IBMDetailsTitle: {
     defaultMessage: 'IBM Cloud Details',
@@ -2383,6 +2423,11 @@ export default defineMessages({
     description:
       'All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.',
     id: 'OCPDetailsSupplementaryCostDesc',
+  },
+  OCPDetailsTableAriaLabel: {
+    defaultMessage: 'OpenShift details table',
+    description: 'OpenShift details table',
+    id: 'OCPDetailsTable',
   },
   OCPDetailsTitle: {
     defaultMessage: 'OpenShift details',
