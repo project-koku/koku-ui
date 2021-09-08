@@ -4,6 +4,6 @@ exports[`formatCurrency defaults fractionDigits 1`] = `"$100.11"`;
 
 exports[`formatCurrency uses specified fractionDigits 1`] = `"$100"`;
 
-exports[`formatValue null unit returns value fixed to fractionDigits 1`] = `"100.1"`;
+exports[`formatValue null unit returns value fixed to fractionDigits 1`] = `"100"`;
 
 exports[`formatValue unknown unit returns value fixed to fractionDigits 1`] = `"100"`;

@@ -10,7 +10,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { formatValue, unitLookupKey } from 'utils/formatValue';
+import { formatValue } from 'utils/formatValue';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './historicalChart.styles';
@@ -84,6 +84,8 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
         ? currentReport.meta.total.cost.total.units
         : 'USD';
 
+    const test = intl.formatMessage(messages.Currency, { units: costUnits });
+
     return (
       <div style={styles.chartContainer}>
         <div style={styles.costChart}>
@@ -103,7 +105,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
               previousInfrastructureCostData={previousInfrastructureCostData}
               xAxisLabel={intl.formatMessage(messages.HistoricalChartDayOfMonthLabel)}
               yAxisLabel={intl.formatMessage(messages.HistoricalChartCostLabel, {
-                value: intl.formatMessage(messages.Units, { units: unitLookupKey(costUnits) }),
+                units: test,
               })}
             />
           )}

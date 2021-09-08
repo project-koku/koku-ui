@@ -93,19 +93,19 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
         ? currentReport.meta.total.cost.total.units
         : 'USD';
 
-    let usageUnits =
+    const usageUnits =
       currentReport && currentReport.meta && currentReport.meta.total && currentReport.meta.total.usage
         ? currentReport.meta.total.usage.units
         : undefined;
 
     let yAxisLabel;
-    const units = intl.formatMessage(messages.Units, { units: unitLookupKey(costUnits) });
     if (isCostChart) {
+      const units = intl.formatMessage(messages.Currency, { units: costUnits });
       yAxisLabel = intl.formatMessage(messages.HistoricalChartCostLabel, { units });
     } else if (usageUnits && Number.isNaN(Number(currentReport.meta.total.usage.units))) {
-      yAxisLabel = intl.formatMessage(messages.Units, { units });
+      yAxisLabel = intl.formatMessage(messages.Units, { units: unitLookupKey(usageUnits) });
     } else {
-      usageUnits = intl.formatMessage(messages.HistoricalChartUsageLabel, { value: reportType });
+      const units = intl.formatMessage(messages.HistoricalChartUsageLabel, { value: reportType });
       yAxisLabel = intl.formatMessage(messages.Units, { units });
     }
 

@@ -622,20 +622,23 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     if (details.units) {
       return intl.formatMessage(messages.Units, { units: unitLookupKey(details.units) });
     }
+    if (!currentReport) {
+      return '';
+    }
 
-    let units;
     const hasTotal = currentReport && currentReport.meta && currentReport.meta.total;
     if (computedReportItem === ComputedReportItemType.usage) {
       const hasUsage = hasTotal && currentReport.meta.total.usage;
-      units = hasUsage ? unitLookupKey(currentReport.meta.total.usage.units) : '';
+      const units = hasUsage ? unitLookupKey(currentReport.meta.total.usage.units) : '';
+      return intl.formatMessage(messages.Units, { units });
     } else {
       const hasCost =
         hasTotal &&
         currentReport.meta.total[computedReportItem] &&
         currentReport.meta.total[computedReportItem][computedReportItemValue];
-      units = hasCost ? unitLookupKey(currentReport.meta.total[computedReportItem][computedReportItemValue].units) : '';
+      const units = hasCost ? currentReport.meta.total[computedReportItem][computedReportItemValue].units : '';
+      return intl.formatMessage(messages.Currency, { units });
     }
-    return units ? intl.formatMessage(messages.Units, { units }) : '';
   };
 
   private getVerticalLayout = () => {
