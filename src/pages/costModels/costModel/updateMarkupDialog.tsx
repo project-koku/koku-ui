@@ -51,7 +51,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
 
     this.state = {
       markup:
-        (formatValue(Number(noSignValue), 'markup', {
+        (formatValue(Number(noSignValue), 'unknown', {
           fractionDigits: 2,
         }) as string) || '0.00',
       origIsDiscount: isNegative,

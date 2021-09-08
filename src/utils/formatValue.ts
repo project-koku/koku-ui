@@ -28,6 +28,7 @@ export const unitLookupKey = (units): string => {
   }
 };
 
+// Returns formatted units or currency with given currency-code
 export const formatValue: ValueFormatter = (value, units, options: FormatOptions = {}) => {
   const lookup = unitLookupKey(units);
   const fValue = value || 0;
@@ -46,7 +47,7 @@ export const formatValue: ValueFormatter = (value, units, options: FormatOptions
       return formatUsageGb(fValue, options);
   }
 
-  // Format currency
+  // Format currency for charts
   if (units && units.length === 3) {
     return formatCurrency(fValue, units, options);
   }

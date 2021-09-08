@@ -42,7 +42,7 @@ const MarkupCardBase: React.FunctionComponent<Props> = ({
   const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
   const markupValue =
     current && current.markup && current.markup.value
-      ? formatValue(Number(current.markup.value), 'markup', {
+      ? formatValue(Number(current.markup.value), current.markup.unit, {
           fractionDigits: 2,
         })
       : '0.0';

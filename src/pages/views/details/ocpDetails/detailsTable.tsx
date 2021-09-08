@@ -284,7 +284,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const percentValue = cost === 0 ? cost.toFixed(2) : ((item.supplementary.total.value / cost) * 100).toFixed(2);
     return (
       <>
-        {formatCurrency(item.supplementary.total.value)}
+        {formatCurrency(item.supplementary.total.value, item.supplementary.total.units)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {intl.formatMessage(messages.PercentOfCost, { value: percentValue })}
         </div>
@@ -315,7 +315,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const percentValue = cost === 0 ? cost.toFixed(2) : ((item.infrastructure.total.value / cost) * 100).toFixed(2);
     return (
       <>
-        {formatCurrency(item.infrastructure.total.value)}
+        {formatCurrency(item.infrastructure.total.value, item.infrastructure.total.units)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {intl.formatMessage(messages.PercentOfCost, { value: percentValue })}
         </div>
@@ -325,7 +325,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
     const { intl } = this.props;
-    const value = formatCurrency(Math.abs(item.cost.total.value - item.delta_value));
+    const value = formatCurrency(Math.abs(item.cost.total.value - item.delta_value), item.cost.total.units);
     const percentage = item.delta_percent !== null ? Math.abs(item.delta_percent).toFixed(2) : 0;
 
     const showPercentage = !(percentage === 0 || percentage === '0.00');
@@ -398,7 +398,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const percentValue = cost === 0 ? cost.toFixed(2) : ((item.cost.total.value / cost) * 100).toFixed(2);
     return (
       <>
-        {formatCurrency(item.cost.total.value)}
+        {formatCurrency(item.cost.total.value, item.cost.total.units)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {intl.formatMessage(messages.PercentOfCost, { value: percentValue })}
         </div>

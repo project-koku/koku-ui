@@ -349,7 +349,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
       <Grid hasGutter>
         <GridItem md={12} lg={6}>
           <div>{intl.formatMessage(messages.DetailsUnusedUsageLabel)}</div>
-          <div style={styles.capacity}>{formatValue(unusedUsageCapacity)}</div>
+          <div style={styles.capacity}>{formatValue(unusedUsageCapacity, usageUnits)}</div>
           <div>
             {intl.formatMessage(messages.DetailsUnusedUnits, {
               percentage: formatValue(unusedUsageCapacityPercentage, usageUnits),
@@ -359,7 +359,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
         </GridItem>
         <GridItem md={12} lg={6}>
           <div>{intl.formatMessage(messages.DetailsUnusedRequestsLabel)}</div>
-          <div style={styles.capacity}>{formatValue(unusedRequestCapacity)}</div>
+          <div style={styles.capacity}>{formatValue(unusedRequestCapacity, requestUnits)}</div>
           <div>
             {intl.formatMessage(messages.DetailsUnusedUnits, {
               percentage: formatValue(unusedRequestCapacityPercentage, requestUnits),

@@ -237,7 +237,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
     const { intl } = this.props;
-    const value = formatCurrency(Math.abs(item.cost.total.value - item.delta_value));
+    const value = formatCurrency(Math.abs(item.cost.total.value - item.delta_value), item.cost.total.units);
     const percentage = item.delta_percent !== null ? Math.abs(item.delta_percent).toFixed(2) : 0;
 
     const showPercentage = !(percentage === 0 || percentage === '0.00');
@@ -314,7 +314,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     return (
       <>
-        {formatCurrency(item.cost.total.value)}
+        {formatCurrency(item.cost.total.value, item.cost.total.units)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {intl.formatMessage(messages.PercentOfCost, { value: percentValue })}
         </div>
