@@ -5,10 +5,11 @@ export interface FormatOptions {
   fractionDigits?: number;
 }
 
-export type ValueFormatter = (value: number, unit?: string, options?: FormatOptions) => string | number;
+export type ValueFormatter = (value: number, units: string, options?: FormatOptions) => string | number;
+type UnitsFormatter = (value: number, options?: FormatOptions) => string | number;
 
 // Returns i18n key for given units
-export const unitLookupKey = units => {
+export const unitLookupKey = (units): string => {
   const lookup = units ? units.replace(/[- ]/g, '_').toLowerCase() : '';
 
   switch (lookup) {
@@ -27,7 +28,7 @@ export const unitLookupKey = units => {
   }
 };
 
-export const formatValue: ValueFormatter = (value: number, units: string, options: FormatOptions = {}) => {
+export const formatValue: ValueFormatter = (value, units, options: FormatOptions = {}) => {
   const lookup = unitLookupKey(units);
   const fValue = value || 0;
 
@@ -35,14 +36,14 @@ export const formatValue: ValueFormatter = (value: number, units: string, option
     case 'core_hours':
     case 'hour':
     case 'hrs':
-      return formatUsageHrs(fValue, lookup, options);
+      return formatUsageHrs(fValue, options);
     case 'gb':
     case 'gb_hours':
     case 'gb_mo':
     case 'gibibyte_month':
     case 'tag_mo':
     case 'vm_hours':
-      return formatUsageGb(fValue, lookup, options);
+      return formatUsageGb(fValue, options);
   }
 
   // Format currency
@@ -61,7 +62,7 @@ const unknownTypeFormatter: ValueFormatter = (value, _unit, { fractionDigits = 0
 
 // Some currencies do not have decimals, such as JPY, and some have 3 decimals such as IQD.
 // See https://docs.adyen.com/development-resources/currency-codes
-export const formatCurrency: ValueFormatter = (value: number, units: string, { fractionDigits } = {}) => {
+export const formatCurrency: ValueFormatter = (value: number, units: string, { fractionDigits } = {}): string => {
   let fValue = value;
   if (!value) {
     fValue = 0;
@@ -111,14 +112,14 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, units = 'USD')
   return formatCurrency(value, units, { fractionDigits: 0 });
 };
 
-export const formatUsageGb: ValueFormatter = (value, _units, { fractionDigits = 0 } = {}) => {
+const formatUsageGb: UnitsFormatter = (value, { fractionDigits = 0 } = {}) => {
   return value.toLocaleString(getLocale(), {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
 };
 
-export const formatUsageHrs: ValueFormatter = (value, _units, { fractionDigits = 0 } = {}) => {
+const formatUsageHrs: UnitsFormatter = (value, { fractionDigits = 0 } = {}) => {
   return value.toLocaleString(getLocale(), {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
