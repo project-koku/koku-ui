@@ -1931,19 +1931,8 @@ export default defineMessages({
     id: 'GroupByValuesTitleCase',
   },
   HistoricalChartCostLabel: {
-    defaultMessage:
-      '{value, select, ' +
-      'core_hours {Cost (core-hours)} ' +
-      'gb {Cost (GB)} ' +
-      'gb_hours {Cost (GB-hours)} ' +
-      'gb_mo {Cost (GB-month)} ' +
-      'gibibyte_month {Cost (GiB-month)} ' +
-      'hour {Cost (hours)} ' +
-      'hrs {Cost (hours)} ' +
-      'usd {Cost ($USD)} ' +
-      'vm_hours {Cost (VM-hours)} ' +
-      'other {}}',
-    description: 'historic cost chart labels',
+    defaultMessage: 'Cost ({units})',
+    description: 'Cost ({units})',
     id: 'HistoricalChartCostLabel',
   },
   HistoricalChartDayOfMonthLabel: {
@@ -1963,22 +1952,6 @@ export default defineMessages({
       'other {}}',
     description: 'historical chart titles',
     id: 'HistoricalChartTitle',
-  },
-  HistoricalChartUnitsLabel: {
-    defaultMessage:
-      '{value, select, ' +
-      'core_hours {core-hours} ' +
-      'gb {GB} ' +
-      'gb_hours {GB-hours} ' +
-      'gb_mo {GB-month} ' +
-      'gibibyte_month {GiB-month} ' +
-      'hour {hours} ' +
-      'hrs {hours} ' +
-      'usd {$USD} ' +
-      'vm_hours {VM-hours} ' +
-      'other {}}',
-    description: 'historic chart units label',
-    id: 'HistoricalChartUnitsLabel',
   },
   HistoricalChartUsageLabel: {
     defaultMessage: '{value, select, instance_type {hrs} storage {gb-mo} other {}}',
@@ -2760,7 +2733,6 @@ export default defineMessages({
       'gibibyte_month {{value} GiB-month} ' +
       'hour {{value} hours} ' +
       'hrs {{value} hours} ' +
-      'usd {{value}} ' +
       'vm_hours {{value} VM-hours} ' +
       'other {{value}}}',
     description: 'return value and unit based on key: "units"',

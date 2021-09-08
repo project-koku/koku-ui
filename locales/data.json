@@ -32936,85 +32936,16 @@
     ],
     "HistoricalChartCostLabel": [
       {
-        "options": {
-          "core_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cost (core-hours)"
-              }
-            ]
-          },
-          "gb": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cost (GB)"
-              }
-            ]
-          },
-          "gb_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cost (GB-hours)"
-              }
-            ]
-          },
-          "gb_mo": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cost (GB-month)"
-              }
-            ]
-          },
-          "gibibyte_month": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cost (GiB-month)"
-              }
-            ]
-          },
-          "hour": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cost (hours)"
-              }
-            ]
-          },
-          "hrs": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cost (hours)"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          },
-          "usd": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cost ($USD)"
-              }
-            ]
-          },
-          "vm_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cost (VM-hours)"
-              }
-            ]
-          }
-        },
-        "type": 5,
-        "value": "value"
+        "type": 0,
+        "value": "Cost ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
       }
     ],
     "HistoricalChartDayOfMonthLabel": [
@@ -33078,89 +33009,6 @@
               {
                 "type": 0,
                 "value": "Storage usage comparison"
-              }
-            ]
-          }
-        },
-        "type": 5,
-        "value": "value"
-      }
-    ],
-    "HistoricalChartUnitsLabel": [
-      {
-        "options": {
-          "core_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "core-hours"
-              }
-            ]
-          },
-          "gb": {
-            "value": [
-              {
-                "type": 0,
-                "value": "GB"
-              }
-            ]
-          },
-          "gb_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "GB-hours"
-              }
-            ]
-          },
-          "gb_mo": {
-            "value": [
-              {
-                "type": 0,
-                "value": "GB-month"
-              }
-            ]
-          },
-          "gibibyte_month": {
-            "value": [
-              {
-                "type": 0,
-                "value": "GiB-month"
-              }
-            ]
-          },
-          "hour": {
-            "value": [
-              {
-                "type": 0,
-                "value": "hours"
-              }
-            ]
-          },
-          "hrs": {
-            "value": [
-              {
-                "type": 0,
-                "value": "hours"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          },
-          "usd": {
-            "value": [
-              {
-                "type": 0,
-                "value": "$USD"
-              }
-            ]
-          },
-          "vm_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "VM-hours"
               }
             ]
           }
@@ -35643,14 +35491,6 @@
             ]
           },
           "other": {
-            "value": [
-              {
-                "type": 1,
-                "value": "value"
-              }
-            ]
-          },
-          "usd": {
             "value": [
               {
                 "type": 1,

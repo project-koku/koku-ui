@@ -103,7 +103,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
               previousInfrastructureCostData={previousInfrastructureCostData}
               xAxisLabel={intl.formatMessage(messages.HistoricalChartDayOfMonthLabel)}
               yAxisLabel={intl.formatMessage(messages.HistoricalChartCostLabel, {
-                value: unitLookupKey(costUnits),
+                value: intl.formatMessage(messages.Units, { units: unitLookupKey(costUnits) }),
               })}
             />
           )}
