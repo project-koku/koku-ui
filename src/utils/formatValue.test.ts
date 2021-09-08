@@ -1,7 +1,6 @@
 import * as format from './formatValue';
 
 jest.spyOn(format, 'formatCurrency');
-jest.spyOn(format, 'formatUsageGb');
 
 describe('formatValue', () => {
   const formatOptions: format.FormatOptions = {};
@@ -19,12 +18,6 @@ describe('formatValue', () => {
     const unit = 'usd';
     format.formatValue(value, unit, formatOptions);
     expect(format.formatCurrency).toBeCalledWith(value, unit, formatOptions);
-  });
-
-  test('gb unit calls format storage', () => {
-    const unit = 'gb_mo';
-    format.formatValue(value, 'gb-mo', formatOptions);
-    expect(format.formatUsageGb).toBeCalledWith(value, unit, formatOptions);
   });
 
   test('null unit returns value fixed to fractionDigits', () => {
@@ -51,6 +44,6 @@ describe('formatCurrency', () => {
   });
 
   test('null value returns $0', () => {
-    expect(format.formatCurrency(null, 'usd', { fractionDigits: 0 })).toBe('$0');
+    expect(format.formatCurrency(null, 'usd', { fractionDigits: 0 })).toBe(0);
   });
 });

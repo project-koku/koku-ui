@@ -56,7 +56,11 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
   public render() {
     const { intl, report, reportGroupBy, reportFetchStatus } = this.props;
 
-    const cost = formatCurrency(report && report.meta && report.meta.total ? report.meta.total.cost.total.value : 0);
+    const hasTotal = report && report.meta && report.meta.total;
+    const cost = formatCurrency(
+      hasTotal ? report.meta.total.cost.total.value : 0,
+      hasTotal ? report.meta.total.cost.total.units : 'USD'
+    );
 
     return (
       <>

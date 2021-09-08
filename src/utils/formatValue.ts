@@ -5,10 +5,13 @@ export interface FormatOptions {
   fractionDigits?: number;
 }
 
-export type ValueFormatter = (value: number, unit?: string, options?: FormatOptions) => string | number;
+export type ValueFormatter = (value: number, units: string, options?: FormatOptions) => string | number;
+type UnitsFormatter = (value: number, options?: FormatOptions) => string | number;
 
-export const unitLookupKey = unit => {
-  const lookup = unit ? unit.replace(/[- ]/g, '_').toLowerCase() : '';
+// Returns i18n key for given units
+export const unitLookupKey = (units): string => {
+  const lookup = units ? units.replace(/[- ]/g, '_').toLowerCase() : '';
+
   switch (lookup) {
     case 'core_hours':
     case 'gb':
@@ -19,37 +22,36 @@ export const unitLookupKey = unit => {
     case 'hrs':
     case 'tag_mo':
     case 'vm_hours':
-    case 'usd':
       return lookup;
-    case '$usd':
-      return 'usd';
-      break;
     default:
       return '';
   }
 };
 
-export const formatValue: ValueFormatter = (value: number, unit: string, options: FormatOptions = {}) => {
-  const lookup = unitLookupKey(unit);
+// Returns formatted units or currency with given currency-code
+export const formatValue: ValueFormatter = (value, units, options: FormatOptions = {}) => {
+  const lookup = unitLookupKey(units);
   const fValue = value || 0;
 
   switch (lookup) {
-    case 'usd':
-      return formatCurrency(fValue, lookup, options);
+    case 'core_hours':
+    case 'hour':
+    case 'hrs':
+      return formatUsageHrs(fValue, options);
     case 'gb':
     case 'gb_hours':
     case 'gb_mo':
     case 'gibibyte_month':
     case 'tag_mo':
     case 'vm_hours':
-      return formatUsageGb(fValue, lookup, options);
-    case 'coreHours':
-    case 'hour':
-    case 'hrs':
-      return formatUsageHrs(fValue, lookup, options);
-    default:
-      return unknownTypeFormatter(fValue, lookup, options);
+      return formatUsageGb(fValue, options);
   }
+
+  // Format currency for charts
+  if (units && units.length === 3) {
+    return formatCurrency(fValue, units, options);
+  }
+  return unknownTypeFormatter(fValue, lookup);
 };
 
 const unknownTypeFormatter: ValueFormatter = (value, _unit, { fractionDigits = 0 } = {}) => {
@@ -59,20 +61,25 @@ const unknownTypeFormatter: ValueFormatter = (value, _unit, { fractionDigits = 0
   });
 };
 
-export const formatCurrency: ValueFormatter = (value, unit, { fractionDigits = 2 } = {}) => {
+// Some currencies do not have decimals, such as JPY, and some have 3 decimals such as IQD.
+// See https://docs.adyen.com/development-resources/currency-codes
+export const formatCurrency: ValueFormatter = (value: number, units: string, { fractionDigits } = {}): string => {
   let fValue = value;
   if (!value) {
     fValue = 0;
   }
-  return fValue.toLocaleString(getLocale(), {
-    style: 'currency',
-    currency: unit || 'USD',
+  const options = {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
+  };
+  return intl.formatNumber(fValue, {
+    style: 'currency',
+    currency: units ? units.toUpperCase() : 'USD',
+    ...(fractionDigits !== undefined && options),
   });
 };
 
-export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fractionDigits = 2 } = {}) => {
+export const formatCurrencyAbbreviation: ValueFormatter = (value, units = 'USD') => {
   let fValue = value;
   if (!value) {
     fValue = 0;
@@ -96,34 +103,24 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fracti
   // Apply format and insert symbol next to the numeric portion of the formatted string
   if (format != null) {
     const { val, symbol } = format;
-    const formatted = (fValue / val).toLocaleString(getLocale(), {
-      style: 'currency',
-      currency: unit || 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: fractionDigits,
+    return intl.formatMessage(messages.CurrencyAbbreviations, {
+      symbol,
+      value: formatCurrency(fValue / val, units, { fractionDigits: 0 }),
     });
-    const parts = formatted.match(/([\D]*)([\d.,]+)([\D]*)/);
-    const abbr = intl.formatMessage(messages.CurrencyAbbreviations, { value: symbol });
-    return `${parts[1]}${parts[2]}${abbr}${parts[3]}`;
   }
 
   // If no format was found, format value without abbreviation
-  return fValue.toLocaleString(getLocale(), {
-    style: 'currency',
-    currency: unit || 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: fractionDigits,
-  });
+  return formatCurrency(value, units, { fractionDigits: 0 });
 };
 
-export const formatUsageGb: ValueFormatter = (value, _unit, { fractionDigits = 0 } = {}) => {
+const formatUsageGb: UnitsFormatter = (value, { fractionDigits = 0 } = {}) => {
   return value.toLocaleString(getLocale(), {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
 };
 
-export const formatUsageHrs: ValueFormatter = (value, _unit, { fractionDigits = 0 } = {}) => {
+const formatUsageHrs: UnitsFormatter = (value, { fractionDigits = 0 } = {}) => {
   return value.toLocaleString(getLocale(), {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,

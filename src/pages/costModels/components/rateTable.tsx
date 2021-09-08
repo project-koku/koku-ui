@@ -81,7 +81,7 @@ const RateTableBase: React.SFC<RateTableProps> = ({ intl = defaultIntl, tiers, a
             {
               title:
                 rateKind === 'regular'
-                  ? `${formatCurrency(Number(tier.tiered_rates[0].value), 'USD')}`
+                  ? `${formatCurrency(Number(tier.tiered_rates[0].value), tier.tiered_rates[0].unit)}`
                   : intl.formatMessage(messages.Various),
               props: { isOpen, style: { padding: rateKind === 'tagging' ? '' : '1.5rem 1rem' } },
             },

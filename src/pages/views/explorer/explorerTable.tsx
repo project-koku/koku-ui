@@ -196,7 +196,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
         cells.push({
           title:
             item[reportItem] && item[reportItem][reportItemValue]
-              ? formatCurrency(item[reportItem][reportItemValue].value)
+              ? formatCurrency(item[reportItem][reportItemValue].value, item[reportItem][reportItemValue].units)
               : intl.formatMessage(messages.ChartNoData),
         });
       });

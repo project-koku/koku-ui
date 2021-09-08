@@ -28109,22 +28109,161 @@
         "value": "Create rate"
       }
     ],
+    "Currency": [
+      {
+        "options": {
+          "AUD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "AU$"
+              }
+            ]
+          },
+          "CAD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "C$"
+              }
+            ]
+          },
+          "CHF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CHF"
+              }
+            ]
+          },
+          "CNY": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CN¥"
+              }
+            ]
+          },
+          "DKK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Dkr"
+              }
+            ]
+          },
+          "EUR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "€"
+              }
+            ]
+          },
+          "GBP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "£"
+              }
+            ]
+          },
+          "HKD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "HK$"
+              }
+            ]
+          },
+          "JPY": {
+            "value": [
+              {
+                "type": 0,
+                "value": "¥"
+              }
+            ]
+          },
+          "NOK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Nkr"
+              }
+            ]
+          },
+          "NZD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "NZ$"
+              }
+            ]
+          },
+          "SEK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Skr"
+              }
+            ]
+          },
+          "SGD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "S$"
+              }
+            ]
+          },
+          "USD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "$USD"
+              }
+            ]
+          },
+          "ZAR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "R"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "units"
+      }
+    ],
     "Custom": [
       {
         "options": {
           "billion": {
             "value": [
               {
+                "type": 1,
+                "value": "value"
+              },
+              {
                 "type": 0,
-                "value": "B"
+                "value": " B"
               }
             ]
           },
           "million": {
             "value": [
               {
+                "type": 1,
+                "value": "value"
+              },
+              {
                 "type": 0,
-                "value": "M"
+                "value": " M"
               }
             ]
           },
@@ -28134,30 +28273,42 @@
           "quadrillion": {
             "value": [
               {
+                "type": 1,
+                "value": "value"
+              },
+              {
                 "type": 0,
-                "value": "q"
+                "value": " q"
               }
             ]
           },
           "thousand": {
             "value": [
               {
+                "type": 1,
+                "value": "value"
+              },
+              {
                 "type": 0,
-                "value": "K"
+                "value": " K"
               }
             ]
           },
           "trillion": {
             "value": [
               {
+                "type": 1,
+                "value": "value"
+              },
+              {
                 "type": 0,
-                "value": "t"
+                "value": " t"
               }
             ]
           }
         },
         "type": 5,
-        "value": "value"
+        "value": "symbol"
       }
     ],
     "DashboardCumulativeCostComparison": [
@@ -35576,14 +35727,6 @@
           },
           "other": {
             "value": []
-          },
-          "usd": {
-            "value": [
-              {
-                "type": 0,
-                "value": "$USD"
-              }
-            ]
           },
           "vm_hours": {
             "value": [

@@ -1196,16 +1196,38 @@ export default defineMessages({
     description: 'Create rate',
     id: 'CreateRate',
   },
+  Currency: {
+    defaultMessage:
+      '{units, select, ' +
+      'AUD {AU$}' +
+      'CAD {C$}' +
+      'CHF {CHF}' +
+      'CNY {CN¥}' +
+      'DKK {Dkr}' +
+      'EUR {€}' +
+      'GBP {£}' +
+      'HKD {HK$}' +
+      'JPY {¥}' +
+      'NOK {Nkr}' +
+      'NZD {NZ$}' +
+      'SEK {Skr}' +
+      'SGD {S$}' +
+      'USD {$USD} ' +
+      'ZAR {R}' +
+      'other {}}',
+    description: 'return the proper unit label based on key: "units"',
+    id: 'Currency',
+  },
   CurrencyAbbreviations: {
     defaultMessage:
-      '{value, select, ' +
-      'billion {B} ' +
-      'million {M} ' +
-      'quadrillion {q} ' +
-      'thousand {K} ' +
-      'trillion {t} ' +
+      '{symbol, select, ' +
+      'billion {{value} B} ' +
+      'million {{value} M} ' +
+      'quadrillion {{value} q} ' +
+      'thousand {{value} K} ' +
+      'trillion {{value} t} ' +
       'other {}}',
-    description: 'translate any message',
+    description: 'str.match(/([\\D]*)([\\d.,]+)([\\D]*)/)',
     id: 'Custom',
   },
   DashboardCumulativeCostComparison: {
@@ -2748,7 +2770,6 @@ export default defineMessages({
       'gibibyte_month {GiB-month} ' +
       'hour {hours} ' +
       'hrs {hours} ' +
-      'usd {$USD} ' +
       'vm_hours {VM-hours} ' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',

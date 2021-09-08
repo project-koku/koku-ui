@@ -2,6 +2,7 @@ const mockedReactIntl = jest.genMockFromModule('react-intl') as any;
 
 const intl = {
   formatMessage: ({ defaultMessage }) => defaultMessage,
+  formatNumber: jest.fn(v => v),
 };
 
 mockedReactIntl.createIntl = () => intl;

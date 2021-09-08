@@ -27,7 +27,7 @@ const TagRateTable: React.FunctionComponent<TagRateTableProps> = ({ intl = defau
         cells: [
           ix === 0 ? tagRates.tag_key : '',
           tagValue.tag_value,
-          formatCurrency(tagValue.value),
+          formatCurrency(tagValue.value, tagValue.unit),
           tagValue.description,
           tagValue.default ? intl.formatMessage(messages.Yes) : intl.formatMessage(messages.No),
         ],
