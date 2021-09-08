@@ -35577,14 +35577,6 @@
           "other": {
             "value": []
           },
-          "usd": {
-            "value": [
-              {
-                "type": 0,
-                "value": "$USD"
-              }
-            ]
-          },
           "vm_hours": {
             "value": [
               {

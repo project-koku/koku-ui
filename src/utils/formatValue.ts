@@ -7,8 +7,8 @@ export interface FormatOptions {
 
 export type ValueFormatter = (value: number, unit?: string, options?: FormatOptions) => string | number;
 
-export const unitLookupKey = unit => {
-  const lookup = unit ? unit.replace(/[- ]/g, '_').toLowerCase() : '';
+export const unitLookupKey = units => {
+  const lookup = units ? units.replace(/[- ]/g, '_').toLowerCase() : '';
   switch (lookup) {
     case 'core_hours':
     case 'gb':
@@ -19,23 +19,21 @@ export const unitLookupKey = unit => {
     case 'hrs':
     case 'tag_mo':
     case 'vm_hours':
-    case 'usd':
-      return lookup;
-    case '$usd':
-      return 'usd';
       break;
     default:
       return '';
   }
 };
 
-export const formatValue: ValueFormatter = (value: number, unit: string, options: FormatOptions = {}) => {
-  const lookup = unitLookupKey(unit);
+export const formatValue: ValueFormatter = (value: number, units: string, options: FormatOptions = {}) => {
+  const lookup = unitLookupKey(units);
   const fValue = value || 0;
 
   switch (lookup) {
-    case 'usd':
-      return formatCurrency(fValue, lookup, options);
+    case 'coreHours':
+    case 'hour':
+    case 'hrs':
+      return formatUsageHrs(fValue, lookup, options);
     case 'gb':
     case 'gb_hours':
     case 'gb_mo':
@@ -43,13 +41,13 @@ export const formatValue: ValueFormatter = (value: number, unit: string, options
     case 'tag_mo':
     case 'vm_hours':
       return formatUsageGb(fValue, lookup, options);
-    case 'coreHours':
-    case 'hour':
-    case 'hrs':
-      return formatUsageHrs(fValue, lookup, options);
-    default:
-      return unknownTypeFormatter(fValue, lookup, options);
   }
+
+  // Format currency
+  if (units && units.length === 3) {
+    return formatCurrency(fValue, units, options);
+  }
+  return unknownTypeFormatter(fValue, lookup);
 };
 
 const unknownTypeFormatter: ValueFormatter = (value, _unit, { fractionDigits = 0 } = {}) => {
@@ -59,20 +57,29 @@ const unknownTypeFormatter: ValueFormatter = (value, _unit, { fractionDigits = 0
   });
 };
 
-export const formatCurrency: ValueFormatter = (value, unit, { fractionDigits = 2 } = {}) => {
+// Some currencies do not have decimals, such as JPY, and some have 3 decimals such as IQD.
+export const formatCurrency: ValueFormatter = (value, units = 'USD') => {
+  let fValue = value;
+  if (!value) {
+    fValue = 0;
+  }
+  return intl.formatNumber(fValue, { style: 'currency', currency: units.toUpperCase() });
+
+  /*
   let fValue = value;
   if (!value) {
     fValue = 0;
   }
   return fValue.toLocaleString(getLocale(), {
     style: 'currency',
-    currency: unit || 'USD',
-    minimumFractionDigits: fractionDigits,
-    maximumFractionDigits: fractionDigits,
+    currency: 'GBP', // unit || 'USD',
+    // minimumFractionDigits: fractionDigits,
+    // maximumFractionDigits: fractionDigits,
   });
+  */
 };
 
-export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fractionDigits = 2 } = {}) => {
+export const formatCurrencyAbbreviation: ValueFormatter = (value, units = 'USD', { fractionDigits = 2 } = {}) => {
   let fValue = value;
   if (!value) {
     fValue = 0;
@@ -98,7 +105,7 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fracti
     const { val, symbol } = format;
     const formatted = (fValue / val).toLocaleString(getLocale(), {
       style: 'currency',
-      currency: unit || 'USD',
+      currency: units,
       minimumFractionDigits: 0,
       maximumFractionDigits: fractionDigits,
     });
@@ -110,20 +117,20 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fracti
   // If no format was found, format value without abbreviation
   return fValue.toLocaleString(getLocale(), {
     style: 'currency',
-    currency: unit || 'USD',
+    currency: units,
     minimumFractionDigits: 0,
     maximumFractionDigits: fractionDigits,
   });
 };
 
-export const formatUsageGb: ValueFormatter = (value, _unit, { fractionDigits = 0 } = {}) => {
+export const formatUsageGb: ValueFormatter = (value, _units, { fractionDigits = 0 } = {}) => {
   return value.toLocaleString(getLocale(), {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
 };
 
-export const formatUsageHrs: ValueFormatter = (value, _unit, { fractionDigits = 0 } = {}) => {
+export const formatUsageHrs: ValueFormatter = (value, _units, { fractionDigits = 0 } = {}) => {
   return value.toLocaleString(getLocale(), {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,

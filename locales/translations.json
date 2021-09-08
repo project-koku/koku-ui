@@ -396,7 +396,7 @@
   "ToolBarPriceListMeasurementPlaceHolder": "Filter by measurements",
   "ToolBarPriceListMetricPlaceHolder": "Filter by metrics",
   "UnitTooltips": "{units, select, core_hours {{value} core-hours} gb {{value} GB} gb_hours {{value} GB-hours} gb_mo {{value} GB-month} gibibyte_month {{value} GiB-month} hour {{value} hours} hrs {{value} hours} vm_hours {{value} VM-hours} other {{value}}}",
-  "Units": "{units, select, core_hours {core-hours} gb {GB} gb_hours {GB-hours} gb_mo {GB-month} gibibyte_month {GiB-month} hour {hours} hrs {hours} usd {$USD} vm_hours {VM-hours} other {}}",
+  "Units": "{units, select, core_hours {core-hours} gb {GB} gb_hours {GB-hours} gb_mo {GB-month} gibibyte_month {GiB-month} hour {hours} hrs {hours} vm_hours {VM-hours} other {}}",
   "Usage": "Usage",
   "UsageCostDescription": "The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.",
   "UsageCostTitle": "Usage cost",
