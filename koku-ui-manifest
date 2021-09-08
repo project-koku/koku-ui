@@ -341,7 +341,7 @@ mgmt_services/cost-mgmt:koku-ui/awesome-only-resolves-last-promise:1.0.3.yarnloc
 mgmt_services/cost-mgmt:koku-ui/aws-sign2:0.7.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/aws4:1.11.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/axe-core:4.3.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/axios:0.21.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/axios:0.21.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/axios:0.21.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/axobject-query:2.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/babel-eslint:9.0.0.yarnlock
@@ -702,6 +702,7 @@ mgmt_services/cost-mgmt:koku-ui/flatted:3.2.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/focus-trap:6.2.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.14.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.14.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.14.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/for-in:1.0.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/forever-agent:0.6.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/form-data:3.0.1.yarnlock
