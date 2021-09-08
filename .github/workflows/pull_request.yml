@@ -3,7 +3,7 @@
 name: Pull request
 on:
   pull_request:
-    branches: [ main, master, ci-stable, prod-beta, prod-stable, qa-beta, qa-stable, stage-beta, stage-stable, react-intl_changeover ]
+    branches: [ main, master, prod-beta, prod-stable, stage-beta, stage-stable ]
 env:
   BRANCH: ${{ github.base_ref }}
 
