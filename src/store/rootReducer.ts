@@ -23,15 +23,6 @@ import { gcpOcpDashboardReducer, gcpOcpDashboardStateKey } from 'store/dashboard
 import { ibmDashboardReducer, ibmDashboardStateKey } from 'store/dashboard/ibmDashboard';
 import { ocpCloudDashboardReducer, ocpCloudDashboardStateKey } from 'store/dashboard/ocpCloudDashboard';
 import { ocpDashboardReducer, ocpDashboardStateKey } from 'store/dashboard/ocpDashboard';
-import {
-  ocpInfrastructureDashboardReducer,
-  ocpInfrastructureDashboardStateKey,
-} from 'store/dashboard/ocpInfrastructureDashboard';
-import {
-  ocpSupplementaryDashboardReducer,
-  ocpSupplementaryDashboardStateKey,
-} from 'store/dashboard/ocpSupplementaryDashboard';
-import { ocpUsageDashboardReducer, ocpUsageDashboardStateKey } from 'store/dashboard/ocpUsageDashboard';
 import { exportReducer, exportStateKey } from 'store/exports';
 import { forecastReducer, forecastStateKey } from 'store/forecasts';
 import { orgReducer, orgStateKey } from 'store/orgs';
@@ -73,9 +64,6 @@ export const rootReducer = combineReducers({
   [ocpDashboardStateKey]: ocpDashboardReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
   [ocpHistoricalDataStateKey]: ocpHistoricalDataReducer,
-  [ocpInfrastructureDashboardStateKey]: ocpInfrastructureDashboardReducer,
-  [ocpSupplementaryDashboardStateKey]: ocpSupplementaryDashboardReducer,
-  [ocpUsageDashboardStateKey]: ocpUsageDashboardReducer,
   [orgStateKey]: orgReducer,
   [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,
