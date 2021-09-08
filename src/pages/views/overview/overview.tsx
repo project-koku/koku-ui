@@ -67,14 +67,11 @@ const enum InfrastructurePerspective {
   gcpOcp = 'gcp_ocp', // GCP filtered by Ocp
   ibm = 'ibm',
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
-  ocpUsage = 'ocp_usage',
 }
 
 // eslint-disable-next-line no-shadow
 const enum OcpPerspective {
   ocp = 'ocp',
-  infrastructure = 'ocp_infrastructure',
-  supplementary = 'ocp_supplementary',
 }
 
 // eslint-disable-next-line no-shadow
