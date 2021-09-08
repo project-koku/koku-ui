@@ -1,12 +1,6 @@
-jest.mock('react-i18next', () => ({
-  withTranslation: () => Component => {
-    Component.defaultProps = { ...Component.defaultProps, t: (v: string) => v };
-    return Component;
-  },
-}));
-
 import { fireEvent, render } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
+import messages from 'locales/messages';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
@@ -28,10 +22,14 @@ const renderUI = (state: Partial<RootState>) => {
   );
 };
 
+function regExp(msg) {
+  return new RegExp(msg.defaultMessage);
+}
+
 test('delete dialog closed', () => {
   const { queryAllByText } = renderUI({});
-  expect(queryAllByText(/cannot_delete/i)).toHaveLength(0);
-  expect(queryAllByText(/can_delete/i)).toHaveLength(0);
+  expect(queryAllByText(/The following sources are assigned to/i)).toHaveLength(0);
+  expect(queryAllByText(/This action will delete/i)).toHaveLength(0);
 });
 
 test('delete dialog open', () => {
@@ -62,12 +60,12 @@ test('delete dialog open', () => {
       },
     },
   };
-  const { getByText, queryAllByText } = renderUI(state);
-  expect(queryAllByText(/delete_title/i)).toHaveLength(1);
-  expect(queryAllByText(/can_delete/i)).toHaveLength(1);
-  expect(queryAllByText(/cannot_delete/i)).toHaveLength(0);
-  fireEvent.click(getByText(/delete_cost_model/i));
-  expect(getByText(/delete_cost_model/i).closest('button').disabled).toBeTruthy();
+  const { getAllByText, queryAllByText } = renderUI(state);
+  expect(queryAllByText(regExp(messages.CostModelsDelete))).toHaveLength(2);
+  expect(queryAllByText(/This action will delete/i)).toHaveLength(1);
+  expect(queryAllByText(/The following sources are assigned to/i)).toHaveLength(0);
+  fireEvent.click(getAllByText(regExp(messages.CostModelsDelete))[1]);
+  expect(getAllByText(regExp(messages.CostModelsDelete))[1].disabled).toBeTruthy();
 });
 
 test('delete dialog error', () => {
@@ -99,9 +97,9 @@ test('delete dialog error', () => {
     },
   };
   const { getByText, queryAllByText } = renderUI(state);
-  expect(queryAllByText(/delete_title/i)).toHaveLength(1);
-  expect(queryAllByText(/can_delete/i)).toHaveLength(0);
-  expect(queryAllByText(/cannot_delete/i)).toHaveLength(2);
-  fireEvent.click(getByText(/cancel/i));
-  expect(queryAllByText(/delete_title/i)).toHaveLength(0);
+  expect(queryAllByText(regExp(messages.CostModelsDelete))).toHaveLength(1);
+  expect(queryAllByText(/This action will delete/i)).toHaveLength(0);
+  expect(queryAllByText(/The following sources are assigned to/i)).toHaveLength(1);
+  fireEvent.click(getByText(regExp(messages.Cancel)));
+  expect(queryAllByText(regExp(messages.CostModelsDelete))).toHaveLength(0);
 });

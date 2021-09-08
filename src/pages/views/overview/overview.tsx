@@ -17,6 +17,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData/noData';
 import NoProviders from 'pages/state/noProviders';
@@ -37,7 +38,7 @@ import {
   hasPreviousMonthData,
 } from 'pages/views/utils/providers';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -71,9 +72,9 @@ const enum InfrastructurePerspective {
 
 // eslint-disable-next-line no-shadow
 const enum OcpPerspective {
-  all = 'all',
-  infrastructure = 'infrastructure',
-  supplementary = 'supplementary',
+  ocp = 'ocp',
+  infrastructure = 'ocp_infrastructure',
+  supplementary = 'ocp_supplementary',
 }
 
 // eslint-disable-next-line no-shadow
@@ -91,7 +92,7 @@ export const getIdKeyForTab = (tab: OverviewTab) => {
   }
 };
 
-type OverviewOwnProps = RouteComponentProps<void> & WithTranslation;
+type OverviewOwnProps = RouteComponentProps<void> & WrappedComponentProps;
 
 interface OverviewDispatchProps {
   resetState: typeof uiActions.resetState;
@@ -137,31 +138,31 @@ interface OverviewState {
 type OverviewProps = OverviewOwnProps & OverviewStateProps & OverviewDispatchProps;
 
 // Ocp options
-const ocpOptions = [{ label: 'overview.perspective.ocp_all', value: 'all' }];
+const ocpOptions = [{ label: messages.PerspectiveValues, value: 'ocp' }];
 
 // Infrastructure AWS options
-const infrastructureAwsOptions = [{ label: 'overview.perspective.aws', value: 'aws' }];
+const infrastructureAwsOptions = [{ label: messages.PerspectiveValues, value: 'aws' }];
 
 // Infrastructure AWS filtered by OpenShift options
-const infrastructureAwsOcpOptions = [{ label: 'overview.perspective.aws_ocp', value: 'aws_ocp' }];
+const infrastructureAwsOcpOptions = [{ label: messages.PerspectiveValues, value: 'aws_ocp' }];
 
 // Infrastructure Azure options
-const infrastructureAzureOptions = [{ label: 'overview.perspective.azure', value: 'azure' }];
+const infrastructureAzureOptions = [{ label: messages.PerspectiveValues, value: 'azure' }];
 
 // Infrastructure Azure filtered by OpenShift options
-const infrastructureAzureOcpOptions = [{ label: 'overview.perspective.azure_ocp', value: 'azure_ocp' }];
+const infrastructureAzureOcpOptions = [{ label: messages.PerspectiveValues, value: 'azure_ocp' }];
 
 // Infrastructure GCP options
-const infrastructureGcpOptions = [{ label: 'overview.perspective.gcp', value: 'gcp' }];
+const infrastructureGcpOptions = [{ label: messages.PerspectiveValues, value: 'gcp' }];
 
 // Infrastructure GCP filtered by OCP options
 //
 // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
 //
-// const infrastructureGcpOcpOptions = [{ label: 'overview.perspective.gcp_ocp', value: 'gcp_ocp' }];
+// const infrastructureGcpOcpOptions = [{ label: messages.PerspectiveValues, value: 'gcp_ocp' }];
 
 // Infrastructure IBM options
-const infrastructureIbmOptions = [{ label: 'overview.perspective.ibm', value: 'ibm' }];
+const infrastructureIbmOptions = [{ label: messages.PerspectiveValues, value: 'ibm' }];
 
 // Infrastructure Ocp cloud options
 //
@@ -276,7 +277,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { ocpProviders, ocpProvidersFetchStatus, userAccess } = this.props;
 
     if (isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)) {
-      return OcpPerspective.all;
+      return OcpPerspective.ocp;
     }
     return undefined;
   };
@@ -412,7 +413,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       }
     } else if (currentTab === OverviewTab.ocp) {
       const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
-      if (currentOcpPerspective === OcpPerspective.all) {
+      if (currentOcpPerspective === OcpPerspective.ocp) {
         return hasData ? <OcpDashboard /> : noData;
       } else {
         return noData;
@@ -433,12 +434,12 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getTabTitle = (tab: OverviewTab) => {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     if (tab === OverviewTab.infrastructure) {
-      return t('overview.infrastructure');
+      return intl.formatMessage(messages.Infrastructure);
     } else if (tab === OverviewTab.ocp) {
-      return t('overview.ocp');
+      return intl.formatMessage(messages.OpenShift);
     }
   };
 
@@ -496,9 +497,9 @@ class OverviewBase extends React.Component<OverviewProps> {
       azureProvidersFetchStatus,
       gcpProvidersFetchStatus,
       ibmProvidersFetchStatus,
+      intl,
       ocpProvidersFetchStatus,
       userAccessFetchStatus,
-      t,
     } = this.props;
     const availableTabs = this.getAvailableTabs();
     const isLoading =
@@ -517,7 +518,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const noOcpProviders = !this.isOcpAvailable() && ocpProvidersFetchStatus === FetchStatus.complete;
     const noProviders = noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders;
 
-    const title = t('cost_management_overview');
+    const title = intl.formatMessage(messages.OverviewTitle);
 
     if (noProviders) {
       return <NoProviders title={title} />;
@@ -531,30 +532,30 @@ class OverviewBase extends React.Component<OverviewProps> {
         >
           <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
-              {t('cost_management_overview')}
+              {title}
               <span style={styles.infoIcon}>
                 <Popover
-                  aria-label={t('ocp_details.supplementary_aria_label')}
+                  aria-label={intl.formatMessage(messages.OverviewInfoArialLabel)}
                   enableFlip
                   bodyContent={
                     <>
-                      <p style={styles.infoTitle}>{t('overview.ocp_cloud')}</p>
-                      <p>{t('overview.ocp_cloud_desc')}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.OpenShiftCloudInfrastructure)}</p>
+                      <p>{intl.formatMessage(messages.OpenShiftCloudInfrastructureDesc)}</p>
                       <br />
-                      <p style={styles.infoTitle}>{t('overview.ocp')}</p>
-                      <p>{t('overview.ocp_desc')}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.OpenShift)}</p>
+                      <p>{intl.formatMessage(messages.OpenShiftDesc)}</p>
                       <br />
-                      <p style={styles.infoTitle}>{t('overview.gcp')}</p>
-                      <p>{t('overview.gcp_desc')}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.GCP)}</p>
+                      <p>{intl.formatMessage(messages.GCPDesc)}</p>
                       <br />
-                      <p style={styles.infoTitle}>{t('overview.ibm')}</p>
-                      <p>{t('overview.ibm_desc')}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.IBM)}</p>
+                      <p>{intl.formatMessage(messages.IBMDesc)}</p>
                       <br />
-                      <p style={styles.infoTitle}>{t('overview.aws')}</p>
-                      <p>{t('overview.aws_desc')}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.AWS)}</p>
+                      <p>{intl.formatMessage(messages.AWSDesc)}</p>
                       <br />
-                      <p style={styles.infoTitle}>{t('overview.azure')}</p>
-                      <p>{t('overview.azure_desc')}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.Azure)}</p>
+                      <p>{intl.formatMessage(messages.AzureDesc)}</p>
                     </>
                   }
                 >
@@ -675,6 +676,6 @@ const mapDispatchToProps: OverviewDispatchProps = {
   resetState: uiActions.resetState,
 };
 
-const Overview = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(OverviewBase));
+const Overview = injectIntl(connect(mapStateToProps, mapDispatchToProps)(OverviewBase));
 
 export default Overview;

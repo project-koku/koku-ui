@@ -4,8 +4,9 @@ import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/
 import { addCostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Rate } from 'api/rates';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
@@ -13,10 +14,15 @@ import { metricsSelectors } from 'store/metrics';
 
 import { fetchSources as apiSources } from './api';
 import { CostModelContext } from './context';
+import GeneralInformation from './generalInformation';
+import Markup from './markup';
 import { parseApiError } from './parseError';
-import { stepsHash, validatorsHash } from './steps';
+import PriceList from './priceList';
+import Review from './review';
+import Sources from './sources';
+import { validatorsHash } from './steps';
 
-interface InternalWizardBaseProps extends WithTranslation {
+interface InternalWizardBaseProps extends WrappedComponentProps {
   isProcess: boolean;
   isSuccess: boolean;
   closeFnc: () => void;
@@ -33,7 +39,7 @@ interface InternalWizardBaseProps extends WithTranslation {
 }
 
 const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
-  t,
+  intl,
   isProcess,
   isSuccess,
   closeFnc,
@@ -56,13 +62,13 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
   newSteps[current - 1].enableNext = validators[current - 1](context);
   const isAddingRate = context.type === 'OCP' && current === 2 && !validators[current - 1](context);
   if (current === steps.length && context.type !== '') {
-    newSteps[current - 1].nextButtonText = t('cost_models_wizard.review.create_button');
+    newSteps[current - 1].nextButtonText = intl.formatMessage(messages.Create);
   }
   return isOpen ? (
     <Wizard
       isOpen
-      title={t('cost_models_wizard.title')}
-      description={t('cost_models_wizard.description')}
+      title={intl.formatMessage(messages.CreateCostModelTitle)}
+      description={intl.formatMessage(messages.CreateCostModelDesc)}
       steps={newSteps}
       startAtStep={current}
       onNext={onMove}
@@ -94,7 +100,7 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
   ) : null;
 };
 
-const InternalWizard = withTranslation()(InternalWizardBase);
+const InternalWizard = injectIntl(InternalWizardBase);
 
 const defaultState = {
   step: 1,
@@ -168,7 +174,7 @@ interface State {
   isDialogOpen: boolean;
 }
 
-interface Props extends WithTranslation {
+interface Props extends WrappedComponentProps {
   isOpen: boolean;
   closeWizard: () => void;
   openWizard: () => void;
@@ -179,20 +185,124 @@ interface Props extends WithTranslation {
 class CostModelWizardBase extends React.Component<Props, State> {
   public state = defaultState;
   public render() {
-    const { metricsHash, t } = this.props;
+    const { metricsHash, intl } = this.props;
     /*
      */
     const closeConfirmDialog = () => {
       this.setState({ isDialogOpen: false }, this.props.openWizard);
     };
+
+    const stepsHash = () => ({
+      '': [
+        {
+          id: 1,
+          name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),
+          component: <GeneralInformation />,
+        },
+      ],
+      AZURE: [
+        {
+          id: 1,
+          name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),
+          component: <GeneralInformation />,
+        },
+        {
+          id: 2,
+          name: intl.formatMessage(messages.CostCalculations),
+          component: <Markup />,
+        },
+        {
+          id: 3,
+          name: intl.formatMessage(messages.CostModelsWizardStepsSources),
+          component: <Sources />,
+        },
+        {
+          id: 4,
+          name: intl.formatMessage(messages.CostModelsWizardStepsReview),
+          component: <Review />,
+        },
+      ],
+      AWS: [
+        {
+          id: 1,
+          name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),
+          component: <GeneralInformation />,
+        },
+        {
+          id: 2,
+          name: intl.formatMessage(messages.CostCalculations),
+          component: <Markup />,
+        },
+        {
+          id: 3,
+          name: intl.formatMessage(messages.CostModelsWizardStepsSources),
+          component: <Sources />,
+        },
+        {
+          id: 4,
+          name: intl.formatMessage(messages.CostModelsWizardStepsReview),
+          component: <Review />,
+        },
+      ],
+      GCP: [
+        {
+          id: 1,
+          name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),
+          component: <GeneralInformation />,
+        },
+        {
+          id: 2,
+          name: intl.formatMessage(messages.CostCalculations),
+          component: <Markup />,
+        },
+        {
+          id: 3,
+          name: intl.formatMessage(messages.CostModelsWizardStepsSources),
+          component: <Sources />,
+        },
+        {
+          id: 4,
+          name: intl.formatMessage(messages.CostModelsWizardStepsReview),
+          component: <Review />,
+        },
+      ],
+      OCP: [
+        {
+          id: 1,
+          name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),
+          component: <GeneralInformation />,
+        },
+        {
+          id: 2,
+          name: intl.formatMessage(messages.PriceList),
+          component: <PriceList />,
+        },
+        {
+          id: 3,
+          name: intl.formatMessage(messages.CostCalculations),
+          component: <Markup />,
+        },
+        {
+          id: 4,
+          name: intl.formatMessage(messages.CostModelsWizardStepsSources),
+          component: <Sources />,
+        },
+        {
+          id: 5,
+          name: intl.formatMessage(messages.CostModelsWizardStepsReview),
+          component: <Review />,
+        },
+      ],
+    });
+
     const CancelButton = (
       <Button key="cancel" variant="link" onClick={closeConfirmDialog}>
-        {t('cost_models_wizard.confirm.cancel')}
+        {intl.formatMessage(messages.CreateCostModelNoContinue)}
       </Button>
     );
     const OkButton = (
       <Button key="ok" variant="primary" onClick={() => this.setState({ ...defaultState })}>
-        {t('cost_models_wizard.confirm.ok')}
+        {intl.formatMessage(messages.CreateCostModelExitYes)}
       </Button>
     );
 
@@ -340,7 +450,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           }}
           isOpen={this.props.isOpen}
           onMove={curr => this.setState({ step: Number(curr.id) })}
-          steps={stepsHash(t)[this.state.type]}
+          steps={stepsHash()[this.state.type]}
           current={this.state.step}
           validators={validatorsHash[this.state.type]}
           setError={errorMessage => this.setState({ createError: errorMessage })}
@@ -358,18 +468,18 @@ class CostModelWizardBase extends React.Component<Props, State> {
           }}
         />
         <Modal
-          aria-label={t('cost_models_wizard.confirm.title')}
+          aria-label={intl.formatMessage(messages.CreateCostModelExit)}
           isOpen={this.state.isDialogOpen}
           header={
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
-              <ExclamationTriangleIcon color="orange" /> {t('cost_models_wizard.confirm.title')}
+              <ExclamationTriangleIcon color="orange" /> {intl.formatMessage(messages.CreateCostModelExit)}
             </Title>
           }
           onClose={closeConfirmDialog}
           actions={[OkButton, CancelButton]}
           variant="small"
         >
-          {t('cost_models_wizard.confirm.message')}
+          {intl.formatMessage(messages.CreateCostModelConfirmMsg)}
         </Modal>
       </CostModelContext.Provider>
     );
@@ -381,4 +491,4 @@ export const CostModelWizard = connect(
     metricsHash: metricsSelectors.metrics(state),
   })),
   { fetch: costModelsActions.fetchCostModels }
-)(withTranslation()(CostModelWizardBase));
+)(injectIntl(CostModelWizardBase));

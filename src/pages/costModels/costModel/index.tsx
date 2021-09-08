@@ -13,6 +13,7 @@ import Main from '@redhat-cloud-services/frontend-components/Main';
 import PageHeader, { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { CostModel } from 'api/costModels';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import DistributionCard from 'pages/costModels/costModel/distribution';
 import MarkupCard from 'pages/costModels/costModel/markup';
 import PriceListTable from 'pages/costModels/costModel/priceListTable';
@@ -21,7 +22,7 @@ import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError
 import Loading from 'pages/state/loading';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
-import { Translation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -47,7 +48,7 @@ interface OwnProps {
   fetchCostModels: typeof costModelsActions.fetchCostModels;
 }
 
-type Props = OwnProps & RouteComponentProps<{ uuid: string }>;
+type Props = OwnProps & RouteComponentProps<{ uuid: string }> & WrappedComponentProps;
 
 interface State {
   tabIndex: number;
@@ -67,50 +68,47 @@ class CostModelInformation extends React.Component<Props, State> {
   }
 
   public render() {
-    const { costModels, metricsStatus, rbacStatus, costModelStatus, rbacError, costModelError, metricsError } =
+    const { costModels, costModelError, costModelStatus, intl, metricsError, metricsStatus, rbacError, rbacStatus } =
       this.props;
+
     if (
       metricsStatus !== FetchStatus.complete ||
       rbacStatus !== FetchStatus.complete ||
       costModelStatus !== FetchStatus.complete
     ) {
-      return <Translation>{t => <Loading title={t('cost_models_details.header.title')} />}</Translation>;
+      return <Loading title={intl.formatMessage(messages.CostModels)} />;
     }
+
     const fetchError = metricsError || rbacError || costModelError;
     if (fetchError) {
       if (costModelError !== null) {
         const costModelErrMessage = parseApiError(costModelError);
         if (costModelErrMessage === 'detail: Invalid provider uuid') {
           return (
-            <Translation>
-              {t => {
-                return (
-                  <>
-                    <PageHeader>
-                      <PageHeaderTitle title={t('cost_models_details.header.title')} />
-                    </PageHeader>
-                    <Main>
-                      <EmptyState>
-                        <EmptyStateIcon icon={ErrorCircleOIcon} />
-                        <Title headingLevel="h2" size={TitleSizes.lg}>
-                          {t('cost_models_details.empty_state_bad_uuid.title')}
-                        </Title>
-                        <EmptyStateBody>
-                          {t('cost_models_details.empty_state_bad_uuid.description', {
-                            uuid: this.props.match.params.uuid,
-                          })}
-                        </EmptyStateBody>
-                      </EmptyState>
-                    </Main>
-                  </>
-                );
-              }}
-            </Translation>
+            <>
+              <PageHeader>
+                <PageHeaderTitle title={intl.formatMessage(messages.CostModels)} />
+              </PageHeader>
+              <Main>
+                <EmptyState>
+                  <EmptyStateIcon icon={ErrorCircleOIcon} />
+                  <Title headingLevel="h2" size={TitleSizes.lg}>
+                    {intl.formatMessage(messages.CostModelsUUIDEmptyState)}
+                  </Title>
+                  <EmptyStateBody>
+                    {intl.formatMessage(messages.CostModelsUUIDEmptyStateDesc, {
+                      uuid: this.props.match.params.uuid,
+                    })}
+                  </EmptyStateBody>
+                </EmptyState>
+              </Main>
+            </>
           );
         }
       }
-      return <Translation>{t => <NotAvailable title={t('cost_models_details.header.title')} />}</Translation>;
+      return <NotAvailable title={intl.formatMessage(messages.CostModels)} />;
     }
+
     const current = costModels[0];
     const sources = current.sources;
     return (
@@ -173,24 +171,26 @@ class CostModelInformation extends React.Component<Props, State> {
   }
 }
 
-export default connect(
-  createMapStateToProps(store => {
-    return {
-      costModels: costModelsSelectors.costModels(store),
-      costModelError: costModelsSelectors.error(store),
-      costModelStatus: costModelsSelectors.status(store),
-      metricsHash: metricsSelectors.metrics(store),
-      maxRate: metricsSelectors.maxRate(store),
-      costTypes: metricsSelectors.costTypes(store),
-      metricsError: metricsSelectors.metricsState(store).error,
-      metricsStatus: metricsSelectors.status(store),
-      rbacError: rbacSelectors.selectRbacState(store).error,
-      rbacStatus: rbacSelectors.selectRbacState(store).status,
-    };
-  }),
-  {
-    fetchMetrics: metricsActions.fetchMetrics,
-    fetchRbac: rbacActions.fetchRbac,
-    fetchCostModels: costModelsActions.fetchCostModels,
-  }
-)(CostModelInformation);
+export default injectIntl(
+  connect(
+    createMapStateToProps(store => {
+      return {
+        costModels: costModelsSelectors.costModels(store),
+        costModelError: costModelsSelectors.error(store),
+        costModelStatus: costModelsSelectors.status(store),
+        metricsHash: metricsSelectors.metrics(store),
+        maxRate: metricsSelectors.maxRate(store),
+        costTypes: metricsSelectors.costTypes(store),
+        metricsError: metricsSelectors.metricsState(store).error,
+        metricsStatus: metricsSelectors.status(store),
+        rbacError: rbacSelectors.selectRbacState(store).error,
+        rbacStatus: rbacSelectors.selectRbacState(store).status,
+      };
+    }),
+    {
+      fetchMetrics: metricsActions.fetchMetrics,
+      fetchRbac: rbacActions.fetchRbac,
+      fetchCostModels: costModelsActions.fetchCostModels,
+    }
+  )(CostModelInformation)
+);

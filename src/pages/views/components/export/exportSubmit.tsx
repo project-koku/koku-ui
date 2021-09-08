@@ -5,15 +5,16 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { format } from 'date-fns';
 import fileDownload from 'js-file-download';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/exports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
-export interface ExportSubmitOwnProps extends WithTranslation {
+export interface ExportSubmitOwnProps {
   groupBy?: string;
   isAllItems?: boolean;
   items?: ComputedReportItem[];
@@ -22,7 +23,7 @@ export interface ExportSubmitOwnProps extends WithTranslation {
   query?: Query;
   reportPathsType: ReportPathsType;
   resolution: string;
-  timeScope: number;
+  timeScope: 'current' | 'previous';
 }
 
 interface ExportSubmitDispatchProps {
@@ -40,7 +41,10 @@ interface ExportSubmitState {
   fetchReportClicked: boolean;
 }
 
-type ExportSubmitProps = ExportSubmitOwnProps & ExportSubmitDispatchProps & ExportSubmitStateProps & WithTranslation;
+type ExportSubmitProps = ExportSubmitOwnProps &
+  ExportSubmitDispatchProps &
+  ExportSubmitStateProps &
+  WrappedComponentProps;
 
 const reportType = ReportType.cost;
 
@@ -76,18 +80,19 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   };
 
   private getFileName = () => {
-    const { groupBy, reportPathsType, resolution, t, timeScope } = this.props;
+    const { groupBy, intl, reportPathsType, resolution, timeScope } = this.props;
 
     const thisMonth = new Date();
     const lastMonth = new Date().setMonth(thisMonth.getMonth() - 1);
     const currentMonth = format(thisMonth, 'MMMM_yyyy');
     const previousMonth = format(lastMonth - 1, 'MMMM_yyyy');
 
-    const fileName = t('export.file.name', {
+    // defaultMessage: '{provider}-{groupBy}-{resolution}-{date}',
+    const fileName = intl.formatMessage(messages.ExportFileName, {
       provider: reportPathsType,
       groupBy,
       resolution,
-      date: timeScope && timeScope === -2 ? previousMonth : currentMonth,
+      date: timeScope && timeScope === 'previous' ? previousMonth : currentMonth,
     });
 
     return `${fileName}.csv`;
@@ -119,7 +124,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   };
 
   public render() {
-    const { reportFetchStatus, t } = this.props;
+    const { intl, reportFetchStatus } = this.props;
 
     return (
       <Button
@@ -129,7 +134,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
         onClick={this.handleFetchReport}
         variant={ButtonVariant.primary}
       >
-        {t('export.confirm')}
+        {intl.formatMessage(messages.ExportDownload)}
       </Button>
     );
   }
@@ -145,7 +150,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
         limit: undefined,
         offset: undefined,
         resolution: resolution ? resolution : undefined,
-        time_scope_value: timeScope ? timeScope : undefined,
+        time_scope_value: timeScope === 'previous' ? -2 : -1,
       },
       filter_by: {},
       limit: 0,
@@ -212,6 +217,6 @@ const mapDispatchToProps: ExportSubmitDispatchProps = {
 };
 
 const ExportSubmitConnect = connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase);
-const ExportSubmit = withTranslation()(ExportSubmitConnect);
+const ExportSubmit = injectIntl(ExportSubmitConnect);
 
 export { ExportSubmit, ExportSubmitProps };

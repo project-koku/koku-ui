@@ -4,12 +4,13 @@ import { Tooltip } from '@patternfly/react-core';
 import { Report, ReportType } from 'api/reports/report';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
 
-interface ReportSummaryDetailsProps extends WithTranslation {
+interface ReportSummaryDetailsOwnProps {
   chartType?: DashboardChartType;
   computedReportItem?: string;
   computedReportItemValue?: string;
@@ -28,6 +29,8 @@ interface ReportSummaryDetailsProps extends WithTranslation {
   usageLabel?: string;
 }
 
+type ReportSummaryDetailsProps = ReportSummaryDetailsOwnProps & WrappedComponentProps;
+
 const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   chartType,
   computedReportItem = 'cost',
@@ -35,6 +38,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   costLabel,
   formatValue,
   formatOptions,
+  intl,
   report,
   requestFormatOptions,
   requestLabel,
@@ -42,7 +46,6 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   showTooltip = false,
   showUnits = false,
   showUsageFirst = false,
-  t,
   units,
   usageFormatOptions,
   usageLabel,
@@ -121,10 +124,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
       <div className="valueContainer">
         {showTooltip ? (
           <Tooltip
-            content={t('dashboard.total_cost_tooltip', {
-              infrastructureCost,
-              supplementaryCost,
-            })}
+            content={intl.formatMessage(messages.DashboardTotalCostTooltip, { infrastructureCost, supplementaryCost })}
             enableFlip
           >
             <div className={`value${altHeroFont}`}>{value}</div>
@@ -145,7 +145,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     }
     const usageUnits: string = hasRequest ? report.meta.total.request.units : '';
     const _units = unitLookupKey(usageUnits);
-    const unitsLabel = t(`units.${_units}`);
+    const unitsLabel = intl.formatMessage(messages.Units, { units: _units });
 
     return (
       <div className="valueContainer">
@@ -167,7 +167,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     const usageUnits: string = hasUsage ? report.meta.total.usage.units : '';
     // added as a work-around for azure #1079
     const _units = unitLookupKey(units ? units : usageUnits);
-    const unitsLabel = t(`units.${_units}`);
+    const unitsLabel = intl.formatMessage(messages.Units, { units: _units });
 
     return (
       <div className="valueContainer">
@@ -223,6 +223,6 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   }
 };
 
-const ReportSummaryDetails = withTranslation()(ReportSummaryDetailsBase);
+const ReportSummaryDetails = injectIntl(ReportSummaryDetailsBase);
 
 export { ReportSummaryDetails, ReportSummaryDetailsProps };

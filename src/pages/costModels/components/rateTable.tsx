@@ -10,28 +10,31 @@ import {
   TableVariant,
 } from '@patternfly/react-table';
 import { Rate } from 'api/rates';
-import { WithT } from 'i18next';
+import { intl as defaultIntl } from 'components/i18n';
+import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { formatCurrency } from 'utils/formatValue';
 
 import { compareBy } from './rateForm/utils';
 import TagRateTable from './tagRateTable';
 
-interface RateTableProps extends WithT {
+interface RateTableProps extends WrappedComponentProps {
   tiers: Rate[];
   actions?: IActions;
   isCompact?: boolean;
 }
 
-export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isCompact }) => {
+// defaultIntl required for testing
+const RateTableBase: React.SFC<RateTableProps> = ({ intl = defaultIntl, tiers, actions, isCompact }) => {
   const [expanded, setExpanded] = React.useState({});
   const [sortBy, setSortBy] = React.useState<ISortBy>({});
   const cells = [
-    { title: t('description') },
-    { title: t('cost_models.table.metric'), transforms: [sortable] },
-    { title: t('cost_models.table.measurement'), transforms: [sortable] },
-    { title: t('cost_models.calculation_type') },
-    { title: t('cost_models.rate'), cellTransforms: [compoundExpand] },
+    { title: intl.formatMessage(messages.Description) },
+    { title: intl.formatMessage(messages.Metric), transforms: [sortable] },
+    { title: intl.formatMessage(messages.Measurement), transforms: [sortable] },
+    { title: intl.formatMessage(messages.CalculationType) },
+    { title: intl.formatMessage(messages.Rate), cellTransforms: [compoundExpand] },
   ];
   const onSort = (_event, index: number, direction: SortByDirection) => {
     setSortBy({ index, direction });
@@ -79,7 +82,7 @@ export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isComp
               title:
                 rateKind === 'regular'
                   ? `${formatCurrency(Number(tier.tiered_rates[0].value), 'USD')}`
-                  : t('cost_models.table.tagged_rates'),
+                  : intl.formatMessage(messages.Various),
               props: { isOpen, style: { padding: rateKind === 'tagging' ? '' : '1.5rem 1rem' } },
             },
           ],
@@ -100,7 +103,7 @@ export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isComp
     <Table
       onSort={onSort}
       sortBy={sortBy}
-      aria-label="price list"
+      aria-label={intl.formatMessage(messages.CostModelsWizardCreatePriceList)}
       variant={isCompact ? TableVariant.compact : undefined}
       rows={rows}
       cells={cells}
@@ -112,3 +115,6 @@ export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isComp
     </Table>
   );
 };
+
+const RateTable = injectIntl(RateTableBase);
+export { RateTable };

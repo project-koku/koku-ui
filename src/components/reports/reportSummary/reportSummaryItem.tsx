@@ -1,12 +1,13 @@
 import './reportSummaryItem.scss';
 
 import { Progress, ProgressSize } from '@patternfly/react-core';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { unitLookupKey } from 'utils/formatValue';
 
-interface ReportSummaryItemProps extends WithTranslation {
+interface ReportSummaryItemOwnProps {
   formatValue: ValueFormatter;
   formatOptions?: FormatOptions;
   label: string;
@@ -15,21 +16,22 @@ interface ReportSummaryItemProps extends WithTranslation {
   value: number;
 }
 
+type ReportSummaryItemProps = ReportSummaryItemOwnProps & WrappedComponentProps;
+
 const ReportSummaryItemBase: React.SFC<ReportSummaryItemProps> = ({
+  intl,
   label,
   formatOptions,
   formatValue,
-  t,
   totalValue,
   units,
   value,
 }) => {
   const lookup = unitLookupKey(units);
-  const unitsLabel = lookup !== 'usd' ? t(`units.${lookup}`) : undefined;
-
+  const unitsLabel = lookup !== 'usd' ? intl.formatMessage(messages.Units, { units: lookup }) : undefined;
   const percent = !totalValue ? 0 : (value / totalValue) * 100;
   const percentVal = Number(percent.toFixed(2));
-  const percentLabel = t('percent_of_total', {
+  const percentLabel = intl.formatMessage(messages.PercentTotalCost, {
     percent: percentVal,
     units: unitsLabel,
     value: formatValue(value, units, formatOptions),
@@ -46,6 +48,6 @@ ReportSummaryItemBase.defaultProps = {
   formatValue: v => v,
 };
 
-const ReportSummaryItem = withTranslation()(ReportSummaryItemBase);
+const ReportSummaryItem = injectIntl(ReportSummaryItemBase);
 
 export { ReportSummaryItem, ReportSummaryItemProps };

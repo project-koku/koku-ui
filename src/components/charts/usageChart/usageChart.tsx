@@ -24,14 +24,15 @@ import {
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
 import { getDate } from 'date-fns';
-import i18next from 'i18next';
+import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { noop } from 'utils/noop';
 
 import { chartStyles } from './usageChart.styles';
 
-interface UsageChartProps {
+interface UsageChartOwnProps {
   adjustContainerHeight?: boolean;
   containerHeight?: number;
   currentRequestData?: any;
@@ -53,7 +54,9 @@ interface State {
   width: number;
 }
 
-class UsageChart extends React.Component<UsageChartProps, State> {
+type UsageChartProps = UsageChartOwnProps & WrappedComponentProps;
+
+class UsageChartBase extends React.Component<UsageChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   private observer: any = noop;
 
@@ -87,10 +90,10 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   private initDatum = () => {
     const { currentRequestData, currentUsageData, previousRequestData, previousUsageData } = this.props;
 
-    const usageKey = 'chart.usage_legend_label';
-    const usageTooltipKey = 'chart.usage_legend_tooltip';
-    const requestKey = 'chart.requests_legend_label';
-    const requestTooltipKey = 'chart.requests_legend_tooltip';
+    const usageKey = messages.ChartUsageLegendLabel;
+    const usageTooltipKey = messages.ChartUsageLegendTooltip;
+    const requestKey = messages.ChartRequestsLegendLabel;
+    const requestTooltipKey = messages.ChartRequestsLegendTooltip;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -99,7 +102,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         childName: 'previousUsage',
         data: previousUsageData,
         legendItem: {
-          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1),
+          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1, messages.ChartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.legendColorScale[0],
             type: 'minus',
@@ -112,7 +115,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         childName: 'currentUsage',
         data: currentUsageData,
         legendItem: {
-          name: getUsageRangeString(currentUsageData, usageKey, true, false),
+          name: getUsageRangeString(currentUsageData, usageKey, true, false, 0, messages.ChartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.legendColorScale[1],
             type: 'minus',
@@ -125,7 +128,14 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         childName: 'previousRequest',
         data: previousRequestData,
         legendItem: {
-          name: getUsageRangeString(previousRequestData, requestKey, true, true, 1),
+          name: getUsageRangeString(
+            previousRequestData,
+            requestKey,
+            true,
+            true,
+            1,
+            messages.ChartRequestsLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.legendColorScale[2],
             type: 'dash',
@@ -138,7 +148,14 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         childName: 'currentRequest',
         data: currentRequestData,
         legendItem: {
-          name: getUsageRangeString(currentRequestData, requestKey, true, false),
+          name: getUsageRangeString(
+            currentRequestData,
+            requestKey,
+            true,
+            false,
+            0,
+            messages.ChartRequestsLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.legendColorScale[3],
             type: 'dash',
@@ -262,6 +279,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   public render() {
     const {
       height,
+      intl,
       padding = {
         bottom: 75,
         left: 8,
@@ -271,7 +289,6 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       title,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
-
     const domain = getDomain(series, hiddenSeries);
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
@@ -283,7 +300,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
           labelComponent: (
             <ChartLegendTooltip
               legendData={getLegendData(series, hiddenSeries, true)}
-              title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+              title={datum => intl.formatMessage(messages.ChartDayOfTheMonth, { day: datum.x })}
             />
           ),
         })
@@ -321,5 +338,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     );
   }
 }
+
+const UsageChart = injectIntl(UsageChartBase);
 
 export { UsageChart, UsageChartProps };

@@ -1,9 +1,10 @@
 import { Modal } from '@patternfly/react-core';
 import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import messages from 'locales/messages';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
@@ -29,7 +30,7 @@ interface TagModalDispatchProps {
   fetchTag?: typeof tagActions.fetchTag;
 }
 
-type TagModalProps = TagModalOwnProps & TagModalStateProps & TagModalDispatchProps & WithTranslation;
+type TagModalProps = TagModalOwnProps & TagModalStateProps & TagModalDispatchProps & WrappedComponentProps;
 
 const tagReportType = TagType.tag;
 
@@ -75,7 +76,7 @@ class TagModalBase extends React.Component<TagModalProps> {
   };
 
   public render() {
-    const { groupBy, isOpen, query, tagReport, t } = this.props;
+    const { groupBy, isOpen, query, tagReport, intl } = this.props;
 
     // Match page header description
     const groupByValue = query && query.filter && query.filter.account ? query.filter.account : this.props.groupByValue;
@@ -84,9 +85,7 @@ class TagModalBase extends React.Component<TagModalProps> {
       <Modal
         isOpen={isOpen}
         onClose={this.handleClose}
-        title={t('tag.title', {
-          value: this.getTagValueCount(),
-        })}
+        title={intl.formatMessage(messages.TagHeadingTitle, { value: this.getTagValueCount() })}
         width={'50%'}
       >
         <TagView groupBy={groupBy} groupByValue={groupByValue} tagReport={tagReport} />
@@ -134,6 +133,6 @@ const mapDispatchToProps: TagModalDispatchProps = {
   fetchTag: tagActions.fetchTag,
 };
 
-const TagModal = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TagModalBase));
+const TagModal = injectIntl(connect(mapStateToProps, mapDispatchToProps)(TagModalBase));
 
 export { TagModal };

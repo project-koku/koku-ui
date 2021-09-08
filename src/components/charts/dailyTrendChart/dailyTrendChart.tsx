@@ -27,14 +27,15 @@ import {
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
 import { getDate } from 'date-fns';
-import i18next from 'i18next';
+import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { noop } from 'utils/noop';
 
 import { chartStyles } from './dailyTrendChart.styles';
 
-interface DailyTrendChartProps {
+interface DailyTrendChartOwnProps {
   adjustContainerHeight?: boolean;
   containerHeight?: number;
   currentData: any;
@@ -61,7 +62,9 @@ interface State {
   width: number;
 }
 
-class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
+type DailyTrendChartProps = DailyTrendChartOwnProps & WrappedComponentProps;
+
+class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   private observer: any = noop;
 
@@ -105,20 +108,28 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     } = this.props;
 
     const key = showUsageLegendLabel
-      ? 'chart.usage_legend_label'
+      ? messages.ChartUsageLegendLabel
       : showSupplementaryLabel
-      ? 'chart.cost_supplementary_legend_label'
+      ? messages.ChartCostSupplementaryLegendLabel
       : showInfrastructureLabel
-      ? 'chart.cost_infrastructure_legend_label'
-      : 'chart.cost_legend_label';
+      ? messages.ChartCostInfrastructureLegendLabel
+      : messages.ChartCostLegendLabel;
 
     const tooltipKey = showUsageLegendLabel
-      ? 'chart.usage_legend_tooltip'
+      ? messages.ChartUsageLegendTooltip
       : showSupplementaryLabel
-      ? 'chart.cost_supplementary_legend_tooltip'
+      ? messages.ChartCostSupplementaryLegendTooltip
       : showInfrastructureLabel
-      ? 'chart.cost_infrastructure_legend_tooltip'
-      : 'chart.cost_legend_tooltip';
+      ? messages.ChartCostInfrastructureLegendTooltip
+      : messages.ChartCostLegendTooltip;
+
+    const noDataKey = showUsageLegendLabel
+      ? messages.ChartUsageLegendNoDataLabel
+      : showSupplementaryLabel
+      ? messages.ChartCostSupplementaryLegendNoDataLabel
+      : showInfrastructureLabel
+      ? messages.ChartCostInfrastructureLegendNoDataLabel
+      : messages.ChartCostLegendNoDataLabel;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -127,7 +138,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
         childName: 'previousCost',
         data: this.initDatumChildName(previousData, 'previousCost'),
         legendItem: {
-          name: getCostRangeString(previousData, key, true, true, 1),
+          name: getCostRangeString(previousData, key, true, true, 1, noDataKey),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -145,7 +156,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
         childName: 'currentCost',
         data: this.initDatumChildName(currentData, 'currentCost'),
         legendItem: {
-          name: getCostRangeString(currentData, key, true, false),
+          name: getCostRangeString(currentData, key, true, false, 0, noDataKey),
           symbol: {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
@@ -166,12 +177,19 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
         childName: 'forecast',
         data: this.initDatumChildName(forecastData, 'forecast'),
         legendItem: {
-          name: getCostRangeString(forecastData, 'chart.cost_forecast_legend_label', false, false),
+          name: getCostRangeString(
+            forecastData,
+            messages.ChartCostForecastLegendTooltip,
+            false,
+            false,
+            0,
+            messages.ChartCostForecastLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.forecastDataColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(forecastData, 'chart.cost_forecast_legend_tooltip', false, false),
+          tooltip: getCostRangeString(forecastData, messages.ChartCostForecastConeLegendTooltip, false, false),
         },
         isBar: true,
         isForecast: true,
@@ -185,12 +203,19 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
         childName: 'forecastCone',
         data: this.initDatumChildName(forecastConeData, 'forecastCone'),
         legendItem: {
-          name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
+          name: getCostRangeString(
+            forecastConeData,
+            messages.ChartCostForecastConeLegendLabel,
+            false,
+            false,
+            0,
+            messages.ChartCostForecastConeLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.forecastConeDataColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_tooltip', false, false),
+          tooltip: getCostRangeString(forecastConeData, messages.ChartCostForecastConeLegendTooltip, false, false),
         },
         isForecast: true,
         isLine: true,
@@ -369,6 +394,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
   public render() {
     const {
       height,
+      intl,
       padding = {
         bottom: 50,
         left: 8,
@@ -378,7 +404,6 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
       title,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
-
     const domain = getDomain(series, hiddenSeries);
     const lastDate = this.getEndDate();
 
@@ -395,7 +420,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
           labelComponent: (
             <ChartLegendTooltip
               legendData={getLegendData(series, hiddenSeries, true)}
-              title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+              title={datum => intl.formatMessage(messages.ChartDayOfTheMonth, { day: datum.x })}
             />
           ),
         })
@@ -448,5 +473,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     );
   }
 }
+
+const DailyTrendChart = injectIntl(DailyTrendChartBase);
 
 export { DailyTrendChart, DailyTrendChartProps };

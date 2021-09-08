@@ -1,28 +1,31 @@
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { EmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import { OcpCloudQuery, parseQuery } from 'api/queries/ocpCloudQuery';
+import { intl as defaultIntl } from 'components/i18n';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import { styles } from './emptyFilterState.styles';
 
-interface EmptyFilterStateProps extends WithTranslation {
+interface EmptyFilterStateProps extends WrappedComponentProps {
   filter?: string;
   icon?: any;
   showMargin?: boolean;
-  subTitle?: string;
-  title?: string;
+  subTitle?: MessageDescriptor;
+  title?: MessageDescriptor;
 }
 
 const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
   filter,
   icon = SearchIcon,
+  intl = defaultIntl, // Default required for testing
   showMargin = true,
-  t,
 
   // destructure last
-  subTitle = t('empty_filter_state.subtitle'),
-  title = t('empty_filter_state.title'),
+  subTitle = messages.EmptyFilterStateSubtitle,
+  title = messages.EmptyFilterStateTitle,
 }) => {
   const getIcon = () => {
     const trim = (val: string) => val.replace(/\s+/g, '').toLowerCase();
@@ -31,7 +34,7 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
     let showAltIcon1 = false;
     let showAltIcon2 = false;
 
-    if (filter && !Array.isArray(filter)) {
+    if (filter && filter.length && !Array.isArray(filter)) {
       for (const val of filter.split(',')) {
         if (filterTest1(val)) {
           showAltIcon1 = true;
@@ -87,14 +90,14 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
       <EmptyState>
         {getIcon()}
         <Title headingLevel="h2" size={TitleSizes.lg}>
-          {title}
+          {intl.formatMessage(title)}
         </Title>
-        <EmptyStateBody>{subTitle}</EmptyStateBody>
+        <EmptyStateBody>{intl.formatMessage(subTitle)}</EmptyStateBody>
       </EmptyState>
     </div>
   );
 };
 
-const EmptyFilterState = withTranslation()(EmptyFilterStateBase);
+const EmptyFilterState = injectIntl(EmptyFilterStateBase);
 
 export { EmptyFilterState };

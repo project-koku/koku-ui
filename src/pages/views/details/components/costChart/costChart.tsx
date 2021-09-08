@@ -1,8 +1,9 @@
 import { ChartLabel, ChartLegend, ChartPie, ChartThemeColor } from '@patternfly/react-charts';
 import { Skeleton } from '@patternfly/react-core';
 import { Report } from 'api/reports/report';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
@@ -23,7 +24,7 @@ interface CostChartDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type CostChartProps = CostChartOwnProps & CostChartStateProps & CostChartDispatchProps & WithTranslation;
+type CostChartProps = CostChartOwnProps & CostChartStateProps & CostChartDispatchProps & WrappedComponentProps;
 
 class CostChartBase extends React.Component<CostChartProps> {
   // Override legend layout
@@ -46,7 +47,7 @@ class CostChartBase extends React.Component<CostChartProps> {
   };
 
   public render() {
-    const { report, reportFetchStatus, t } = this.props;
+    const { report, reportFetchStatus, intl } = this.props;
 
     const hasCost = report && report.meta && report.meta.total && report.meta.total.cost;
     const hasMarkup = hasCost && report.meta.total.cost.markup;
@@ -65,9 +66,9 @@ class CostChartBase extends React.Component<CostChartProps> {
     const raw = formatValue(hasRaw ? report.meta.total.cost.raw.value : 0, rawUnits);
     const usage = formatValue(hasUsage ? report.meta.total.cost.usage.value : 0, usageUnits);
 
-    const markupLabel = t('breakdown.cost_chart.markup_label');
-    const rawLabel = t('breakdown.cost_chart.raw_label');
-    const usageLabel = t('breakdown.cost_chart.usage_label');
+    const markupLabel = intl.formatMessage(messages.MarkupTitle);
+    const rawLabel = intl.formatMessage(messages.RawCostTitle);
+    const usageLabel = intl.formatMessage(messages.UsageCostTitle);
 
     // Override legend label layout
     const LegendLabel = this.getLegendLabel();
@@ -86,8 +87,8 @@ class CostChartBase extends React.Component<CostChartProps> {
           this.getSkeleton()
         ) : (
           <ChartPie
-            ariaDesc={t('breakdown.cost_chart.aria_desc')}
-            ariaTitle={t('breakdown.cost_chart.aria_title')}
+            ariaDesc={intl.formatMessage(messages.BreakdownCostChartAriaDesc)}
+            ariaTitle={intl.formatMessage(messages.BreakdownCostBreakdownTitle)}
             constrainToVisibleArea
             data={[
               { x: rawLabel, y: rawValue, units: rawUnits },
@@ -96,10 +97,10 @@ class CostChartBase extends React.Component<CostChartProps> {
             ]}
             height={chartStyles.chartHeight}
             labels={({ datum }) =>
-              t('breakdown.cost_chart.tooltip', {
+              intl.formatMessage(messages.BreakdownCostChartTooltip, {
                 name: datum.x,
                 value: formatValue(datum.y, datum.units),
-              }) as string
+              })
             }
             legendComponent={Legend}
             legendData={[
@@ -118,7 +119,7 @@ class CostChartBase extends React.Component<CostChartProps> {
             padding={{
               bottom: 20,
               left: 0,
-              right: 225, // Adjusted to accommodate legend
+              right: 275, // Adjusted to accommodate legend
               top: 20,
             }}
             themeColor={ChartThemeColor.green}
@@ -130,6 +131,6 @@ class CostChartBase extends React.Component<CostChartProps> {
   }
 }
 
-const CostChart = withTranslation()(CostChartBase);
+const CostChart = injectIntl(CostChartBase);
 
 export { CostChart, CostChartProps };

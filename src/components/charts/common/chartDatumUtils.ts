@@ -1,7 +1,9 @@
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Forecast } from 'api/forecasts/forecast';
 import { Report } from 'api/reports/report';
+import { intl } from 'components/i18n';
 import { endOfMonth, format, getDate, getYear, startOfMonth } from 'date-fns';
-import i18next from 'i18next';
+import messages from 'locales/messages';
 import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
 import { ComputedReportItem, getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
@@ -294,6 +296,7 @@ export function getDatumDateRange(datums: ChartDatum[], offset: number = 0): [Da
 
     // If datums is empty, obtain the month based on offset (e.g., to show previous month in chart legends)
     if (offset) {
+      today.setDate(1); // Required to obtain correct month
       today.setMonth(today.getMonth() - offset);
     }
     const firstOfMonth = startOfMonth(today);
@@ -352,49 +355,11 @@ export function getDateRangeString(
 
   const count = getDate(end);
   const endDate = format(end, 'dd');
-  const month = Number(format(start, 'M')) - 1;
-  const month_abbr = Number(format(start, 'MMM')) - 1;
+  const month = Number(format(start, 'M')) - 1; // Required to obtain correct month message
   const startDate = format(start, 'dd');
   const year = getYear(end);
 
-  if (i18next && i18next.t) {
-    return i18next.t(`chart.date_range`, {
-      count,
-      endDate,
-      month,
-      startDate,
-      year,
-    });
-  }
-  // Federated modules may not have access to the i18next package
-  if (count > 1) {
-    return `${startDate}-${endDate} ${month_abbr} ${year}`;
-  }
-  return `${startDate} ${month_abbr} ${year}`;
-}
-
-export function getMonthRangeString(
-  datums: ChartDatum[],
-  key: string = 'chart.month_legend_label',
-  offset: number = 0
-): [string, string] {
-  const [start, end] = getDateRange(datums, true, false, offset);
-
-  const startMonth = Number(format(start, 'MMM')) - 1;
-  const endMonth = Number(format(end, 'M')) - 1;
-
-  if (i18next && i18next.t) {
-    return [
-      i18next.t(key, {
-        month: startMonth,
-      }),
-      i18next.t(key, {
-        month: endMonth,
-      }),
-    ];
-  }
-  // Federated modules may not have access to the i18next package
-  return [`${startMonth}`, `${endMonth}`];
+  return intl.formatMessage(messages.ChartDateRange, { count, startDate, endDate, month, year });
 }
 
 export function getMaxValue(datums: ChartDatum[]) {
@@ -431,17 +396,15 @@ export function getTooltipContent(formatValue) {
   return function labelFormatter(value: number, unit: string = null, options: FormatOptions = {}) {
     const lookup = unitLookupKey(unit);
     switch (lookup) {
-      case 'core-hours':
+      case 'core_hours':
       case 'hour':
       case 'hrs':
       case 'gb':
-      case 'gb-hours':
-      case 'gb-mo':
-      case 'gibibyte month':
-      case 'vm-hours':
-        return i18next.t(`unit_tooltips.${lookup}`, {
-          value: `${formatValue(value, unit, options)}`,
-        });
+      case 'gb_hours':
+      case 'gb_mo':
+      case 'gibibyte_month':
+      case 'vmHours':
+        return intl.formatMessage(messages.UnitTooltips, { units: lookup, value: formatValue(value, unit, options) });
       default:
         return `${formatValue(value, unit, options)}`;
     }
@@ -467,33 +430,39 @@ export function getTooltipLabel(
 
 export function getCostRangeString(
   datums: ChartDatum[],
-  key: string = 'chart.cost_legend_label',
+  key: MessageDescriptor = messages.ChartCostLegendLabel,
   firstOfMonth: boolean = false,
   lastOfMonth: boolean = false,
-  offset: number = 0
+  offset: number = 0,
+  noDataKey: MessageDescriptor = messages.ChartNoData
 ) {
   if (!(datums && datums.length)) {
-    return i18next.t(`${key}_no_data`);
+    return intl.formatMessage(noDataKey);
   }
+
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
 
-  return i18next.t(key, {
+  const month = Number(format(start, 'M')) - 1; // Required to obtain correct month message
+  const year = getYear(end);
+
+  return intl.formatMessage(key, {
     count: getDate(end),
-    endDate: format(end, 'd'),
-    month: Number(format(start, 'M')) - 1,
     startDate: format(start, 'd'),
-    year: getYear(end),
+    endDate: format(end, 'd'),
+    month,
+    year,
   });
 }
 
 export function getUsageRangeString(
   datums: ChartDatum[],
-  key: string = 'chart.usage_legend_label',
+  key: MessageDescriptor = messages.ChartUsageLegendLabel,
   firstOfMonth: boolean = false,
   lastOfMonth: boolean = false,
-  offset: number = 0
+  offset: number = 0,
+  noDataKey: MessageDescriptor = messages.ChartNoData
 ) {
-  return getCostRangeString(datums, key, firstOfMonth, lastOfMonth, offset);
+  return getCostRangeString(datums, key, firstOfMonth, lastOfMonth, offset, noDataKey);
 }
 
 // Returns true if non negative integer

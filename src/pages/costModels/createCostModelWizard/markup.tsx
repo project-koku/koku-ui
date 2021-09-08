@@ -17,15 +17,16 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import { Form } from 'components/forms/form';
+import messages from 'locales/messages';
 import { styles } from 'pages/costModels/costModel/costCalc.styles';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import { CostModelContext } from './context';
 
-class MarkupWithDistribution extends React.Component<WithTranslation> {
+class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
   public render() {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     return (
       <CostModelContext.Consumer>
@@ -44,14 +45,14 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
             <Stack hasGutter>
               <StackItem>
                 <Title headingLevel="h2" size={TitleSizes.xl}>
-                  {t('cost_calculations')}
+                  {intl.formatMessage(messages.CostCalculations)}
                 </Title>
               </StackItem>
               <StackItem>
                 <Title headingLevel="h3" size="md">
-                  {t('cost_models_details.markup_or_discount')}
+                  {intl.formatMessage(messages.MarkupOrDiscount)}
                 </Title>
-                {t('cost_models_wizard.description_markup_or_discount_model')}
+                {intl.formatMessage(messages.MarkupOrDiscountModalDesc)}
               </StackItem>
               <StackItem>
                 <Flex style={styles.markupRadioContainer}>
@@ -60,8 +61,8 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
                       <Radio
                         isChecked={!isDiscount}
                         name="discount"
-                        label={t('cost_models_details.markup_plus')}
-                        aria-label={t('cost_models_details.markup_plus')}
+                        label={intl.formatMessage(messages.MarkupPlus)}
+                        aria-label={intl.formatMessage(messages.MarkupPlus)}
                         id="markup"
                         value="false" // "+"
                         onChange={handleSignChange}
@@ -70,8 +71,8 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
                       <Radio
                         isChecked={isDiscount}
                         name="discount"
-                        label={t('cost_models_details.discount_minus')}
-                        aria-label={t('cost_models_details.discount_minus')}
+                        label={intl.formatMessage(messages.DiscountMinus)}
+                        aria-label={intl.formatMessage(messages.DiscountMinus)}
                         id="discount"
                         value="true" // '-'
                         onChange={handleSignChange}
@@ -85,7 +86,7 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
                         <TextInput
                           style={styles.inputField}
                           type="text"
-                          aria-label={t('rate')}
+                          aria-label={intl.formatMessage(messages.Rate)}
                           id="markup-input-box"
                           value={markup}
                           onKeyDown={handleOnKeyDown}
@@ -101,13 +102,13 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
               <StackItem>
                 <div style={styles.exampleMargin}>
                   <TextContent>
-                    <Text component={TextVariants.h6}>{t('cost_models_details.examples.title')}</Text>
+                    <Text component={TextVariants.h6}>{intl.formatMessage(messages.ExamplesTitle)}</Text>
                   </TextContent>
                   <List>
-                    <ListItem>{t('cost_models_details.examples.noAdjustment')}</ListItem>
-                    <ListItem>{t('cost_models_details.examples.doubleMarkup')}</ListItem>
-                    <ListItem>{t('cost_models_details.examples.reduceBaseToZero')}</ListItem>
-                    <ListItem>{t('cost_models_details.examples.reduceBaseToSeventyFive')}</ListItem>
+                    <ListItem>{intl.formatMessage(messages.CostModelsExamplesNoAdjust)}</ListItem>
+                    <ListItem>{intl.formatMessage(messages.CostModelsExamplesDoubleMarkup)}</ListItem>
+                    <ListItem>{intl.formatMessage(messages.CostModelsExamplesReduceZero)}</ListItem>
+                    <ListItem>{intl.formatMessage(messages.CostModelsExamplesReduceSeventyfive)}</ListItem>
                   </List>
                 </div>
               </StackItem>
@@ -115,12 +116,10 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
                 <>
                   <StackItem>
                     <Title headingLevel="h3" size="md">
-                      {t('cost_models_details.distribution_type')}
+                      {intl.formatMessage(messages.DistributionType)}
                     </Title>
                     <TextContent>
-                      <Text style={styles.cardDescription}>
-                        {t('cost_models_details.description_distribution_model')}
-                      </Text>
+                      <Text style={styles.cardDescription}>{intl.formatMessage(messages.DistributionModelDesc)}</Text>
                     </TextContent>
                   </StackItem>
                   <StackItem isFilled>
@@ -129,8 +128,8 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
                         <Radio
                           isChecked={distribution === 'cpu'}
                           name="distribution"
-                          label={t('cpu_title')}
-                          aria-label={t('cpu_title')}
+                          label={intl.formatMessage(messages.CpuTitle)}
+                          aria-label={intl.formatMessage(messages.CpuTitle)}
                           id="cpuDistribution"
                           value="cpu"
                           onChange={handleDistributionChange}
@@ -138,8 +137,8 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
                         <Radio
                           isChecked={distribution === 'memory'}
                           name="distribution"
-                          label={t('memory_title')}
-                          aria-label={t('memory_title')}
+                          label={intl.formatMessage(messages.MemoryTitle)}
+                          aria-label={intl.formatMessage(messages.MemoryTitle)}
                           id="memoryDistribution"
                           value="memory"
                           onChange={handleDistributionChange}
@@ -157,4 +156,4 @@ class MarkupWithDistribution extends React.Component<WithTranslation> {
   }
 }
 
-export default withTranslation()(MarkupWithDistribution);
+export default injectIntl(MarkupWithDistribution);

@@ -24,14 +24,15 @@ import {
   isDataHidden,
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
-import i18next from 'i18next';
+import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { formatCurrencyAbbreviation, FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { noop } from 'utils/noop';
 
 import { chartStyles } from './costExplorerChart.styles';
 
-interface CostExplorerChartProps {
+interface CostExplorerChartOwnProps {
   adjustContainerHeight?: boolean;
   containerHeight?: number;
   formatDatumValue?: ValueFormatter;
@@ -55,7 +56,9 @@ interface State {
   units?: string;
 }
 
-class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
+type CostExplorerChartProps = CostExplorerChartOwnProps & WrappedComponentProps;
+
+class CostExplorerChartBase extends React.Component<CostExplorerChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   private observer: any = noop;
 
@@ -418,9 +421,10 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
   public render() {
     const {
       height,
+      intl,
       padding = {
         bottom: 50,
-        left: 20,
+        left: 40,
         right: 8,
         top: 8,
       },
@@ -434,7 +438,7 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
           labelComponent: (
             <ChartLegendTooltip
               legendData={getLegendData(series, hiddenSeries, true)}
-              title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+              title={datum => intl.formatMessage(messages.ChartDayOfTheMonth, { day: datum.x })}
             />
           ),
         })
@@ -472,5 +476,7 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
     );
   }
 }
+
+const CostExplorerChart = injectIntl(CostExplorerChartBase);
 
 export { CostExplorerChart, CostExplorerChartProps };

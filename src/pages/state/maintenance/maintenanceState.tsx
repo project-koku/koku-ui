@@ -1,24 +1,30 @@
 import { Stack, StackItem } from '@patternfly/react-core';
 import Maintenance from '@redhat-cloud-services/frontend-components/Maintenance';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
-type MaintenanceStateOwnProps = WithTranslation;
-type MaintenanceStateProps = MaintenanceStateOwnProps;
+type MaintenanceStateBaseOwnProps = WrappedComponentProps;
 
-class MaintenanceStateBase extends React.Component<MaintenanceStateProps> {
+class MaintenanceStateBase extends React.Component<MaintenanceStateBaseOwnProps> {
   public render() {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     return (
       <Maintenance
         description={
           <Stack>
-            <StackItem>{t('maintenance.empty_state_desc')}</StackItem>
+            <StackItem>{intl.formatMessage(messages.MaintenanceEmptyStateDesc)}</StackItem>
             <StackItem>
-              {t('maintenance.empty_state_info')} <a href="https://status.redhat.com">status.redhat.com</a>.
+              {intl.formatMessage(messages.MaintenanceEmptyStateInfo, {
+                url: (
+                  <a href={intl.formatMessage(messages.RedHatStatusUrl)} rel="noreferrer" target="_blank">
+                    "status page"
+                  </a>
+                ),
+              })}
             </StackItem>
-            <StackItem>{t('maintenance.empty_state_thanks')}</StackItem>
+            <StackItem>{intl.formatMessage(messages.MaintenanceEmptyStateThanks)}</StackItem>
           </Stack>
         }
       />
@@ -26,6 +32,5 @@ class MaintenanceStateBase extends React.Component<MaintenanceStateProps> {
   }
 }
 
-const MaintenanceState = withTranslation()(MaintenanceStateBase);
-
+const MaintenanceState = injectIntl(MaintenanceStateBase);
 export { MaintenanceState };

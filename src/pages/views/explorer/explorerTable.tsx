@@ -9,9 +9,10 @@ import { AwsReport } from 'api/reports/awsReports';
 import { ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartDatumUtils';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { format, getDate, getMonth } from 'date-fns';
+import messages from 'locales/messages';
 import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
@@ -51,7 +52,7 @@ interface ExplorerTableState {
   rows?: any[];
 }
 
-type ExplorerTableProps = ExplorerTableOwnProps & ExplorerTableStateProps & WithTranslation;
+type ExplorerTableProps = ExplorerTableOwnProps & ExplorerTableStateProps & WrappedComponentProps;
 
 class ExplorerTableBase extends React.Component<ExplorerTableProps> {
   public state: ExplorerTableState = {
@@ -94,7 +95,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       report,
       selectedItems,
       start_date,
-      t,
+      intl,
     } = this.props;
     if (!query || !report) {
       return;
@@ -111,14 +112,16 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
         ? [
             {
               cellTransforms: [nowrap],
-              title: groupByOrg ? t('explorer.org_unit_column_title') : t('details.tag_names'),
+              title: groupByOrg
+                ? intl.formatMessage(messages.Names, { count: 2 })
+                : intl.formatMessage(messages.TagNames),
             },
           ]
         : [
             {
               cellTransforms: [nowrap],
               orderBy: groupById === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupById,
-              title: t('details.resource_names', { groupBy: groupById }),
+              title: intl.formatMessage(messages.GroupByValueNames, { groupBy: groupById }),
               transforms: [sortable],
             },
           ];
@@ -144,7 +147,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       columns.push({
         cellTransforms: [nowrap],
         orderBy: undefined, // TBD...
-        title: t('explorer.daily_column_title', { date, month }),
+        title: intl.formatMessage(messages.ExplorerChartDate, { date, month }),
         transforms: undefined,
       });
 
@@ -194,7 +197,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
           title:
             item[reportItem] && item[reportItem][reportItemValue]
               ? formatCurrency(item[reportItem][reportItemValue].value)
-              : t('explorer.no_data'),
+              : intl.formatMessage(messages.ChartNoData),
         });
       });
 
@@ -243,7 +246,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
   };
 
   private getEmptyState = () => {
-    const { query, t } = this.props;
+    const { query, intl } = this.props;
 
     for (const val of Object.values(query.filter_by)) {
       if (val !== '*') {
@@ -253,7 +256,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('details.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>{intl.formatMessage(messages.DetailsEmptyState)}</EmptyStateBody>
       </EmptyState>
     );
   };
@@ -315,13 +318,13 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
   };
 
   public render() {
-    const { isLoading } = this.props;
+    const { intl, isLoading } = this.props;
     const { columns, loadingRows, rows } = this.state;
 
     return (
       <div style={styles.tableContainer}>
         <Table
-          aria-label="explorer-table"
+          aria-label={intl.formatMessage(messages.ExplorerTableAriaLabel)}
           canSelectAll={false}
           cells={columns}
           className="explorerTableOverride"
@@ -358,6 +361,6 @@ const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTab
 const mapDispatchToProps: ExplorerTableDispatchProps = {};
 
 const ExplorerTableConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerTableBase);
-const ExplorerTable = withTranslation()(ExplorerTableConnect);
+const ExplorerTable = injectIntl(ExplorerTableConnect);
 
 export { ExplorerTable, ExplorerTableProps };

@@ -1,6 +1,7 @@
 import { Report } from 'api/reports/report';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { getTestProps, testIds } from 'testIds';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
@@ -17,7 +18,7 @@ interface ClusterState {
   showAll: boolean;
 }
 
-type ClusterProps = ClusterOwnProps & WithTranslation;
+type ClusterProps = ClusterOwnProps & WrappedComponentProps;
 
 class ClusterBase extends React.Component<ClusterProps> {
   protected defaultState: ClusterState = {
@@ -43,7 +44,7 @@ class ClusterBase extends React.Component<ClusterProps> {
   };
 
   public render() {
-    const { groupBy, report, t } = this.props;
+    const { groupBy, report, intl } = this.props;
     const { isOpen, showAll } = this.state;
 
     let charCount = 0;
@@ -87,9 +88,7 @@ class ClusterBase extends React.Component<ClusterProps> {
         {Boolean(someClusters) && someClusters.map((cluster, index) => <span key={index}>{cluster}</span>)}
         {Boolean(someClusters.length < allClusters.length) && (
           <a {...getTestProps(testIds.details.cluster_lnk)} href="#/" onClick={this.handleOpen}>
-            {t('details.more_clusters', {
-              value: allClusters.length - someClusters.length,
-            })}
+            {intl.formatMessage(messages.DetailsMoreClusters, { value: allClusters.length - someClusters.length })}
           </a>
         )}
         <ClusterModal groupBy={groupBy} isOpen={isOpen} item={item} onClose={this.handleClose} />
@@ -98,6 +97,6 @@ class ClusterBase extends React.Component<ClusterProps> {
   }
 }
 
-const Cluster = withTranslation()(ClusterBase);
+const Cluster = injectIntl(ClusterBase);
 
 export { Cluster, ClusterProps };

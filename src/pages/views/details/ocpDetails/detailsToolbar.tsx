@@ -4,9 +4,10 @@ import { tagKey } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
 import { OcpTag } from 'api/tags/ocpTags';
 import { TagPathsType, TagType } from 'api/tags/tag';
+import messages from 'locales/messages';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
@@ -46,7 +47,7 @@ interface DetailsToolbarState {
 type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarStateProps &
   DetailsToolbarDispatchProps &
-  WithTranslation;
+  WrappedComponentProps;
 
 const tagReportType = TagType.tag;
 const tagReportPathsType = TagPathsType.ocp;
@@ -76,13 +77,13 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { tagReport, t } = this.props;
+    const { intl, tagReport } = this.props;
 
     const options = [
-      { name: t('filter_by.values.cluster'), key: 'cluster' },
-      { name: t('filter_by.values.node'), key: 'node' },
-      { name: t('filter_by.values.project'), key: 'project' },
-      { name: t('filter_by.values.tag'), key: tagKey },
+      { name: intl.formatMessage(messages.FilterByValues, { value: 'cluster' }), key: 'cluster' },
+      { name: intl.formatMessage(messages.FilterByValues, { value: 'node' }), key: 'node' },
+      { name: intl.formatMessage(messages.FilterByValues, { value: 'project' }), key: 'project' },
+      { name: intl.formatMessage(messages.FilterByValues, { value: 'tag' }), key: tagKey },
     ];
 
     return tagReport && tagReport.data && tagReport.data.length
@@ -161,6 +162,6 @@ const mapDispatchToProps: DetailsToolbarDispatchProps = {
 };
 
 const DetailsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase);
-const DetailsToolbar = withTranslation()(DetailsToolbarConnect);
+const DetailsToolbar = injectIntl(DetailsToolbarConnect);
 
 export { DetailsToolbar, DetailsToolbarProps };

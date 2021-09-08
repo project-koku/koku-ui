@@ -9,10 +9,11 @@ import { AzureReport } from 'api/reports/azureReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
+import messages from 'locales/messages';
 import { Actions } from 'pages/views/details/components/actions/actions';
 import { getBreakdownPath } from 'pages/views/utils/paths';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { paths } from 'routes';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
@@ -39,7 +40,7 @@ interface DetailsTableState {
   rows?: any[];
 }
 
-type DetailsTableProps = DetailsTableOwnProps & WithTranslation;
+type DetailsTableProps = DetailsTableOwnProps & WrappedComponentProps;
 
 const reportPathsType = ReportPathsType.azure;
 
@@ -74,7 +75,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   private initDatum = () => {
-    const { isAllSelected, query, report, selectedItems, t } = this.props;
+    const { isAllSelected, query, report, selectedItems, intl } = this.props;
     if (!query || !report) {
       return;
     }
@@ -82,23 +83,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
 
-    const total = formatCurrency(
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
-        ? report.meta.total.cost.total.value
-        : 0
-    );
-
     const columns = groupByTagKey
       ? [
           {
-            title: t('details.tag_names'),
+            title: intl.formatMessage(messages.TagNames),
           },
           {
-            title: t('details.month_over_month_change'),
+            title: intl.formatMessage(messages.MonthOverMonthChange),
           },
           {
             orderBy: 'cost',
-            title: t('cost', { total }),
+            title: intl.formatMessage(messages.Cost),
             transforms: [sortable],
           },
           {
@@ -108,15 +103,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       : [
           {
             orderBy: groupById,
-            title: t('details.resource_names', { groupBy: groupById }),
+            title: intl.formatMessage(messages.DetailsResourceNames, { value: groupById }),
             transforms: [sortable],
           },
           {
-            title: t('details.month_over_month_change'),
+            title: intl.formatMessage(messages.MonthOverMonthChange),
           },
           {
             orderBy: 'cost',
-            title: t('cost'),
+            title: intl.formatMessage(messages.Cost),
             transforms: [sortable],
           },
           {
@@ -211,7 +206,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getEmptyState = () => {
-    const { query, t } = this.props;
+    const { query, intl } = this.props;
 
     for (const val of Object.values(query.filter_by)) {
       if (val !== '*') {
@@ -221,7 +216,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('details.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>{intl.formatMessage(messages.DetailsEmptyState)}</EmptyStateBody>
       </EmptyState>
     );
   };
@@ -241,7 +236,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
-    const { t } = this.props;
+    const { intl } = this.props;
     const value = formatCurrency(Math.abs(item.cost.total.value - item.delta_value));
     const percentage = item.delta_percent !== null ? Math.abs(item.delta_percent).toFixed(2) : 0;
 
@@ -265,7 +260,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       return (
         <div className="monthOverMonthOverride">
           <div className={iconOverride} key={`month-over-month-cost-${index}`}>
-            {showPercentage ? t('percent', { value: percentage }) : <EmptyValueState />}
+            {showPercentage ? intl.formatMessage(messages.Percent, { value: percentage }) : <EmptyValueState />}
             {Boolean(showPercentage && item.delta_percent !== null && item.delta_value > 0) && (
               <span className="fa fa-sort-up" style={styles.infoArrow} key={`month-over-month-icon-${index}`} />
             )}
@@ -310,7 +305,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getTotalCost = (item: ComputedReportItem, index: number) => {
-    const { report, t } = this.props;
+    const { report, intl } = this.props;
     const cost =
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
         ? report.meta.total.cost.total.value
@@ -321,9 +316,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       <>
         {formatCurrency(item.cost.total.value)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
-          {t('percent_of_cost', {
-            value: percentValue,
-          })}
+          {intl.formatMessage(messages.PercentOfCost, { value: percentValue })}
         </div>
       </>
     );
@@ -363,13 +356,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   public render() {
-    const { isLoading } = this.props;
+    const { intl, isLoading } = this.props;
     const { columns, loadingRows, rows } = this.state;
 
     return (
       <>
         <Table
-          aria-label="details-table"
+          aria-label={intl.formatMessage(messages.AzureDetailsTableAriaLabel)}
           canSelectAll={false}
           cells={columns}
           className="tableOverride"
@@ -388,6 +381,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 }
 
-const DetailsTable = withTranslation()(DetailsTableBase);
+const DetailsTable = injectIntl(DetailsTableBase);
 
 export { DetailsTable, DetailsTableProps };

@@ -1,7 +1,8 @@
 import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRow } from '@patternfly/react-core';
 import { Tag } from 'api/tags/tag';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 
 import { styles } from './tag.styles';
@@ -12,7 +13,7 @@ interface TagViewOwnProps {
   tagReport?: Tag;
 }
 
-type TagViewProps = TagViewOwnProps & WithTranslation;
+type TagViewProps = TagViewOwnProps & WrappedComponentProps;
 
 class TagViewBase extends React.Component<TagViewProps> {
   private getDataListItems = () => {
@@ -44,30 +45,32 @@ class TagViewBase extends React.Component<TagViewProps> {
   };
 
   public render() {
-    const { groupBy, groupByValue, t } = this.props;
+    const { groupBy, groupByValue, intl } = this.props;
     const dataListItems = this.getDataListItems();
 
     return (
       <>
         <div>
-          <span style={styles.dataListHeading}>{t(`group_by.values.${groupBy}`)}</span>
+          <span style={styles.dataListHeading}>
+            {intl.formatMessage(messages.GroupByValues, { value: groupBy, count: 1 })}
+          </span>
         </div>
         <div style={styles.groupByHeading}>
           <span>{groupByValue}</span>
         </div>
-        <DataList aria-label="Simple data list example" isCompact>
+        <DataList aria-label={intl.formatMessage(messages.TagNames)} isCompact>
           <DataListItem aria-labelledby="heading1">
             <DataListItemRow>
               <DataListItemCells
                 dataListCells={[
                   <DataListCell key="primary content">
                     <span id="heading1" style={styles.dataListHeading}>
-                      {t('tag.heading_key')}
+                      {intl.formatMessage(messages.TagHeadingKey)}
                     </span>
                   </DataListCell>,
                   <DataListCell key="secondary content">
                     <span id="heading2" style={styles.dataListHeading}>
-                      {t('tag.heading_value')}
+                      {intl.formatMessage(messages.TagHeadingValue)}
                     </span>
                   </DataListCell>,
                 ]}
@@ -81,6 +84,6 @@ class TagViewBase extends React.Component<TagViewProps> {
   }
 }
 
-const TagView = withTranslation()(connect()(TagViewBase));
+const TagView = injectIntl(connect()(TagViewBase));
 
 export { TagView, TagViewProps };

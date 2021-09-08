@@ -1,12 +1,12 @@
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface ClusterViewOwnProps {
   item: ComputedReportItem;
 }
 
-type ClusterViewProps = ClusterViewOwnProps & WithTranslation;
+type ClusterViewProps = ClusterViewOwnProps & WrappedComponentProps;
 
 class ClusterViewBase extends React.Component<ClusterViewProps> {
   public render() {
@@ -19,6 +19,6 @@ class ClusterViewBase extends React.Component<ClusterViewProps> {
   }
 }
 
-const ClusterView = withTranslation()(ClusterViewBase);
+const ClusterView = injectIntl(ClusterViewBase);
 
 export { ClusterView, ClusterViewBase };

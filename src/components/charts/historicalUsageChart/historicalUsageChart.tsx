@@ -25,14 +25,15 @@ import {
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
 import { getDate } from 'date-fns';
-import i18next from 'i18next';
+import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { noop } from 'utils/noop';
 
 import { chartStyles, styles } from './historicalUsageChart.styles';
 
-interface HistoricalUsageChartProps {
+interface HistoricalUsageChartOwnProps {
   adjustContainerHeight?: boolean;
   containerHeight?: number;
   currentLimitData?: any;
@@ -58,7 +59,9 @@ interface State {
   width: number;
 }
 
-class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, State> {
+type HistoricalUsageChartProps = HistoricalUsageChartOwnProps & WrappedComponentProps;
+
+class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   private observer: any = noop;
 
@@ -101,12 +104,12 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
       previousUsageData,
     } = this.props;
 
-    const limitKey = 'chart.limit_legend_label';
-    const limitTooltipKey = 'chart.limit_legend_tooltip';
-    const requestKey = 'chart.requests_legend_label';
-    const requestTooltipKey = 'chart.requests_legend_tooltip';
-    const usageKey = 'chart.usage_legend_label';
-    const usageTooltipKey = 'chart.usage_legend_tooltip';
+    const limitKey = messages.ChartLimitLegendLabel;
+    const limitTooltipKey = messages.ChartLimitLegendTooltip;
+    const requestKey = messages.ChartRequestsLegendLabel;
+    const requestTooltipKey = messages.ChartRequestsLegendTooltip;
+    const usageKey = messages.ChartUsageLegendLabel;
+    const usageTooltipKey = messages.ChartUsageLegendTooltip;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -115,7 +118,7 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
         childName: 'previousUsage',
         data: previousUsageData,
         legendItem: {
-          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1),
+          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1, messages.ChartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -133,7 +136,7 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
         childName: 'currentUsage',
         data: currentUsageData,
         legendItem: {
-          name: getUsageRangeString(currentUsageData, usageKey, true, false),
+          name: getUsageRangeString(currentUsageData, usageKey, true, false, 0, messages.ChartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
@@ -151,7 +154,14 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
         childName: 'previousRequest',
         data: previousRequestData,
         legendItem: {
-          name: getUsageRangeString(previousRequestData, requestKey, true, true, 1),
+          name: getUsageRangeString(
+            previousRequestData,
+            requestKey,
+            true,
+            true,
+            1,
+            messages.ChartRequestsLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.previousColorScale[1],
             type: 'dash',
@@ -169,7 +179,14 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
         childName: 'currentRequest',
         data: currentRequestData,
         legendItem: {
-          name: getUsageRangeString(currentRequestData, requestKey, true, false),
+          name: getUsageRangeString(
+            currentRequestData,
+            requestKey,
+            true,
+            false,
+            0,
+            messages.ChartRequestsLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.currentColorScale[1],
             type: 'dash',
@@ -187,7 +204,7 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
         childName: 'previousLimit',
         data: previousLimitData,
         legendItem: {
-          name: getUsageRangeString(previousLimitData, limitKey, true, true, 1),
+          name: getUsageRangeString(previousLimitData, limitKey, true, true, 1, messages.ChartLimitLegendNoDataLabel),
           symbol: {
             fill: chartStyles.previousColorScale[2],
             type: 'minus',
@@ -205,7 +222,7 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
         childName: 'currentLimit',
         data: currentLimitData,
         legendItem: {
-          name: getUsageRangeString(currentLimitData, limitKey, true, false),
+          name: getUsageRangeString(currentLimitData, limitKey, true, false, 0, messages.ChartLimitLegendNoDataLabel),
           symbol: {
             fill: chartStyles.currentColorScale[2],
             type: 'minus',
@@ -320,6 +337,7 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
     const {
       adjustContainerHeight,
       height,
+      intl,
       containerHeight = height,
       padding = {
         bottom: 130,
@@ -332,7 +350,6 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
       yAxisLabel,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
-
     const domain = getDomain(series, hiddenSeries);
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
@@ -350,7 +367,7 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
           labelComponent: (
             <ChartLegendTooltip
               legendData={getLegendData(series, hiddenSeries, true)}
-              title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+              title={datum => intl.formatMessage(messages.ChartDayOfTheMonth, { day: datum.x })}
             />
           ),
         })
@@ -388,5 +405,7 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
     );
   }
 }
+
+const HistoricalUsageChart = injectIntl(HistoricalUsageChartBase);
 
 export { HistoricalUsageChart, HistoricalUsageChartProps };

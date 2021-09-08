@@ -3,7 +3,7 @@ import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
@@ -34,7 +34,7 @@ interface TagLinkDispatchProps {
   fetchTag?: typeof tagActions.fetchTag;
 }
 
-type TagLinkProps = TagLinkOwnProps & TagLinkStateProps & TagLinkDispatchProps & WithTranslation;
+type TagLinkProps = TagLinkOwnProps & TagLinkStateProps & TagLinkDispatchProps & WrappedComponentProps;
 
 const tagReportType = TagType.tag;
 
@@ -141,6 +141,6 @@ const mapDispatchToProps: TagLinkDispatchProps = {
   fetchTag: tagActions.fetchTag,
 };
 
-const TagLink = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TagLinkBase));
+const TagLink = injectIntl(connect(mapStateToProps, mapDispatchToProps)(TagLinkBase));
 
 export { TagLink, TagLinkProps };

@@ -25,14 +25,15 @@ import {
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
 import { getDate } from 'date-fns';
-import i18next from 'i18next';
+import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { noop } from 'utils/noop';
 
 import { chartStyles, styles } from './historicalCostChart.styles';
 
-interface HistoricalCostChartProps {
+interface HistoricalCostChartOwnProps {
   adjustContainerHeight?: boolean;
   containerHeight?: number;
   currentCostData?: any;
@@ -56,7 +57,9 @@ interface State {
   width: number;
 }
 
-class HistoricalCostChart extends React.Component<HistoricalCostChartProps, State> {
+type HistoricalCostChartProps = HistoricalCostChartOwnProps & WrappedComponentProps;
+
+class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   private observer: any = noop;
 
@@ -91,10 +94,10 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
     const { currentCostData, currentInfrastructureCostData, previousCostData, previousInfrastructureCostData } =
       this.props;
 
-    const costKey = 'chart.cost_legend_label';
-    const costInfrastructureKey = 'chart.cost_infrastructure_legend_label';
-    const costInfrastructureTooltipKey = 'chart.cost_infrastructure_legend_tooltip';
-    const costTooltipKey = 'chart.cost_legend_tooltip';
+    const costKey = messages.ChartCostLegendLabel;
+    const costInfrastructureKey = messages.ChartCostInfrastructureLegendLabel;
+    const costInfrastructureTooltipKey = messages.ChartCostInfrastructureLegendTooltip;
+    const costTooltipKey = messages.ChartCostLegendTooltip;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -103,7 +106,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
         childName: 'previousCost',
         data: previousCostData,
         legendItem: {
-          name: getCostRangeString(previousCostData, costKey, true, true, 1),
+          name: getCostRangeString(previousCostData, costKey, true, true, 1, messages.ChartCostLegendNoDataLabel),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -121,7 +124,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
         childName: 'currentCost',
         data: currentCostData,
         legendItem: {
-          name: getCostRangeString(currentCostData, costKey, true, false),
+          name: getCostRangeString(currentCostData, costKey, true, false, 0, messages.ChartCostLegendNoDataLabel),
           symbol: {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
@@ -139,7 +142,14 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
         childName: 'previousInfrastructureCost',
         data: previousInfrastructureCostData,
         legendItem: {
-          name: getCostRangeString(previousInfrastructureCostData, costInfrastructureKey, true, true, 1),
+          name: getCostRangeString(
+            previousInfrastructureCostData,
+            costInfrastructureKey,
+            true,
+            true,
+            1,
+            messages.ChartCostInfrastructureLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.previousColorScale[1],
             type: 'dash',
@@ -157,7 +167,14 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
         childName: 'currentInfrastructureCost',
         data: currentInfrastructureCostData,
         legendItem: {
-          name: getCostRangeString(currentInfrastructureCostData, costInfrastructureKey, true, false),
+          name: getCostRangeString(
+            currentInfrastructureCostData,
+            costInfrastructureKey,
+            true,
+            false,
+            0,
+            messages.ChartCostInfrastructureLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.currentColorScale[1],
             type: 'dash',
@@ -273,6 +290,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
     const {
       adjustContainerHeight,
       height,
+      intl,
       containerHeight = height,
       padding = {
         bottom: 120,
@@ -285,7 +303,6 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
       yAxisLabel,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
-
     const domain = getDomain(series, hiddenSeries);
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
@@ -303,7 +320,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
           labelComponent: (
             <ChartLegendTooltip
               legendData={getLegendData(series, hiddenSeries, true)}
-              title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+              title={datum => intl.formatMessage(messages.ChartDayOfTheMonth, { day: datum.x })}
             />
           ),
         })
@@ -341,5 +358,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
     );
   }
 }
+
+const HistoricalCostChart = injectIntl(HistoricalCostChartBase);
 
 export { HistoricalCostChart, HistoricalCostChartProps };

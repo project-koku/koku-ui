@@ -16,12 +16,13 @@ import {
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import * as H from 'history';
+import messages from 'locales/messages';
 import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
 import { styles } from 'pages/costModels/costModel/costModelsDetails.styles';
 import Dialog from 'pages/costModels/costModel/dialog';
 import UpdateCostModelModal from 'pages/costModels/costModel/updateCostModel';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { paths } from 'routes';
 import { createMapStateToProps } from 'store/common';
@@ -29,7 +30,7 @@ import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 import { getBaseName } from 'utils/getBaseName';
 
-interface Props extends WithTranslation {
+interface Props extends WrappedComponentProps {
   historyObject: H.History;
   tabRefs: any[];
   tabIndex: number;
@@ -44,7 +45,7 @@ interface Props extends WithTranslation {
 }
 
 const Header: React.FunctionComponent<Props> = ({
-  t,
+  intl,
   tabRefs,
   tabIndex,
   onSelectTab,
@@ -66,7 +67,7 @@ const Header: React.FunctionComponent<Props> = ({
       <Dialog
         isSmall
         isOpen={isDialogOpen.deleteCostModel}
-        title={t('dialog.delete_cost_model_title')}
+        title={intl.formatMessage(messages.CostModelsDelete)}
         onClose={() => setDialogOpen({ name: 'deleteCostModel', isOpen: false })}
         error={deleteError}
         isProcessing={isDeleteProcessing}
@@ -76,17 +77,15 @@ const Header: React.FunctionComponent<Props> = ({
         body={
           <>
             {current.sources.length === 0 &&
-              t('dialog.delete_cost_model_body_green', {
-                cost_model: current.name,
+              intl.formatMessage(messages.CostModelsDeleteDesc, {
+                costModel: current.name,
               })}
             {current.sources.length > 0 && (
               <>
-                {t('dialog.delete_cost_model_body_red', {
-                  cost_model: current.name,
-                })}
+                {intl.formatMessage(messages.CostModelsDeleteSource)}
                 <br />
                 <br />
-                {t('dialog.delete_cost_model_body_red_costmodel_delete')}
+                {intl.formatMessage(messages.CostModelsAvailableSources)}
                 <br />
                 <List>
                   {current.sources.map(provider => (
@@ -97,12 +96,12 @@ const Header: React.FunctionComponent<Props> = ({
             )}
           </>
         }
-        actionText={current.sources.length === 0 ? t('dialog.deleteCostModel') : ''}
+        actionText={current.sources.length === 0 ? intl.formatMessage(messages.CostModelsDelete) : ''}
       />
       <header style={styles.headerCostModel}>
         <Breadcrumb style={styles.breadcrumb}>
           <BreadcrumbItem to={`${baseName}${paths.costModels}`}>
-            {t('cost_models_details.cost_model.cost_models')}
+            {intl.formatMessage(messages.CostModels)}
           </BreadcrumbItem>
           <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>
         </Breadcrumb>
@@ -131,7 +130,7 @@ const Header: React.FunctionComponent<Props> = ({
                       })
                     }
                   >
-                    {t('cost_models_details.action_edit')}
+                    {intl.formatMessage(messages.Edit)}
                   </DropdownItem>
                 </ReadOnlyTooltip>,
                 <ReadOnlyTooltip key="delete" isDisabled={!isWritePermission}>
@@ -144,7 +143,7 @@ const Header: React.FunctionComponent<Props> = ({
                       })
                     }
                   >
-                    {t('cost_models_details.action_delete')}
+                    {intl.formatMessage(messages.Delete)}
                   </DropdownItem>
                 </ReadOnlyTooltip>,
               ]}
@@ -155,19 +154,19 @@ const Header: React.FunctionComponent<Props> = ({
           <Tabs activeKey={tabIndex} onSelect={(_evt, index: number) => onSelectTab(index)}>
             <Tab
               eventKey={0}
-              title={<TabTitleText>{t('price_list')}</TabTitleText>}
+              title={<TabTitleText>{intl.formatMessage(messages.PriceList)}</TabTitleText>}
               tabContentId="refPriceList"
               tabContentRef={tabRefs[0]}
             />
             <Tab
               eventKey={1}
-              title={<TabTitleText>{t('cost_calculations')}</TabTitleText>}
+              title={<TabTitleText>{intl.formatMessage(messages.CostCalculations)}</TabTitleText>}
               tabContentId="refMarkup"
               tabContentRef={tabRefs[1]}
             />
             <Tab
               eventKey={2}
-              title={<TabTitleText>{t('sources')}</TabTitleText>}
+              title={<TabTitleText>{intl.formatMessage(messages.Sources)}</TabTitleText>}
               tabContentId="refSources"
               tabContentRef={tabRefs[2]}
             />
@@ -176,13 +175,13 @@ const Header: React.FunctionComponent<Props> = ({
           <Tabs activeKey={tabIndex} onSelect={(_evt, index: number) => onSelectTab(index)}>
             <Tab
               eventKey={0}
-              title={<TabTitleText>{t('cost_calculations')}</TabTitleText>}
+              title={<TabTitleText>{intl.formatMessage(messages.CostCalculations)}</TabTitleText>}
               tabContentId="refMarkup"
               tabContentRef={tabRefs[0]}
             />
             <Tab
               eventKey={1}
-              title={<TabTitleText>{t('sources')}</TabTitleText>}
+              title={<TabTitleText>{intl.formatMessage(messages.Sources)}</TabTitleText>}
               tabContentId="refSources"
               tabContentRef={tabRefs[1]}
             />
@@ -193,15 +192,17 @@ const Header: React.FunctionComponent<Props> = ({
   );
 };
 
-export default connect(
-  createMapStateToProps(state => ({
-    isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
-    isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
-    deleteError: costModelsSelectors.deleteError(state),
-    isWritePermission: rbacSelectors.isCostModelWritePermission(state),
-  })),
-  {
-    setDialogOpen: costModelsActions.setCostModelDialog,
-    deleteCostModel: costModelsActions.deleteCostModel,
-  }
-)(withTranslation()(Header));
+export default injectIntl(
+  connect(
+    createMapStateToProps(state => ({
+      isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
+      isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
+      deleteError: costModelsSelectors.deleteError(state),
+      isWritePermission: rbacSelectors.isCostModelWritePermission(state),
+    })),
+    {
+      setDialogOpen: costModelsActions.setCostModelDialog,
+      deleteCostModel: costModelsActions.deleteCostModel,
+    }
+  )(Header)
+);
