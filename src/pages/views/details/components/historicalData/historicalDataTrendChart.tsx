@@ -99,13 +99,14 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
         : undefined;
 
     let yAxisLabel;
+    const units = intl.formatMessage(messages.Units, { units: unitLookupKey(costUnits) });
     if (isCostChart) {
-      yAxisLabel = intl.formatMessage(messages.HistoricalChartCostLabel, { value: unitLookupKey(costUnits) });
+      yAxisLabel = intl.formatMessage(messages.HistoricalChartCostLabel, { units });
     } else if (usageUnits && Number.isNaN(Number(currentReport.meta.total.usage.units))) {
-      yAxisLabel = intl.formatMessage(messages.HistoricalChartUnitsLabel, { value: unitLookupKey(usageUnits) });
+      yAxisLabel = intl.formatMessage(messages.Units, { units });
     } else {
       usageUnits = intl.formatMessage(messages.HistoricalChartUsageLabel, { value: reportType });
-      yAxisLabel = intl.formatMessage(messages.HistoricalChartUnitsLabel, { value: unitLookupKey(usageUnits) });
+      yAxisLabel = intl.formatMessage(messages.Units, { units });
     }
 
     return (
