@@ -24,7 +24,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
-import { formatValue } from 'utils/formatValue';
+import { formatValue } from 'utils/valueFormatter';
 
 import { styles } from './costCalc.styles';
 

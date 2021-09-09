@@ -1,9 +1,9 @@
-import * as format from './formatValue';
+import * as format from './valueFormatter';
 
 jest.spyOn(format, 'formatCurrency');
 
 describe('formatValue', () => {
-  const formatOptions: format.FormatOptions = {};
+  const valueFormatterOptions: format.ValueFormatterOptions = {};
   const value = 100.11;
 
   test('null value returns 0', () => {
@@ -14,36 +14,36 @@ describe('formatValue', () => {
     expect(formatted).toMatchSnapshot();
   });
 
-  test('usd unit calls formatCurrency', () => {
-    const unit = 'usd';
-    format.formatValue(value, unit, formatOptions);
-    expect(format.formatCurrency).toBeCalledWith(value, unit, formatOptions);
+  test('USD unit calls formatCurrency', () => {
+    const units = 'USD';
+    format.formatCurrency(value, units, valueFormatterOptions);
+    expect(format.formatCurrency).toBeCalledWith(value, units, valueFormatterOptions);
   });
 
   test('null unit returns value fixed to fractionDigits', () => {
-    const unit = null;
-    const formatted = format.formatValue(value, unit, { fractionDigits: 1 });
+    const units = null;
+    const formatted = format.formatValue(value, units, { fractionDigits: 1 });
     expect(formatted).toMatchSnapshot();
   });
 });
 
 describe('formatCurrency', () => {
   const value = 100.11;
-  const unit = 'USD';
+  const units = 'USD';
 
   test('defaults fractionDigits', () => {
-    const formattedValue = format.formatCurrency(value, unit);
-    expect(formattedValue).toMatchSnapshot();
+    const formatted = format.formatCurrency(value, units);
+    expect(formatted).toMatchSnapshot();
   });
 
   test('uses specified fractionDigits', () => {
-    const formattedValue = format.formatCurrency(value, unit, {
+    const formatted = format.formatCurrency(value, units, {
       fractionDigits: 0,
     });
-    expect(formattedValue).toMatchSnapshot();
+    expect(formatted).toMatchSnapshot();
   });
 
   test('null value returns $0', () => {
-    expect(format.formatCurrency(null, 'usd', { fractionDigits: 0 })).toBe(0);
+    expect(format.formatCurrency(null, 'USD', { fractionDigits: 0 })).toBe(0);
   });
 });

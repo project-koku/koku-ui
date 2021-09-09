@@ -39,7 +39,7 @@ const props: DashboardWidgetProps = {
   trend: {
     type: ChartType.rolling,
     titleKey: tmessages.TestTrendTitle,
-    formatOptions: {},
+    valueFormatterOptions: {},
   },
   status: FetchStatus.none,
   currentQuery: '',
@@ -48,9 +48,9 @@ const props: DashboardWidgetProps = {
   details: {
     breakdownDescKeyRange: 'detail description range',
     breakdownDescKeySingle: 'detail description single',
-    formatOptions: {},
+    valueFormatterOptions: {},
   },
-  topItems: { formatOptions: {} },
+  topItems: { valueFormatterOptions: {} },
 } as any;
 
 const getDateMock = getDate as jest.Mock;

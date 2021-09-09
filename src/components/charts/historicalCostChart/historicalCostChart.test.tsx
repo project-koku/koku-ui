@@ -30,11 +30,11 @@ const props: HistoricalCostChartProps = {
   currentCostData,
   currentInfrastructureCostData,
   height: 100,
-  formatDatumValue: jest.fn(),
-  formatDatumOptions: {},
   previousCostData,
   previousInfrastructureCostData,
   title: 'Usage Title',
+  valueFormatter: jest.fn(),
+  valueFormatterOptions: {},
 };
 
 test('reports are formatted to datums', () => {
@@ -72,11 +72,11 @@ test('labels formats with datum and value formatted from props', () => {
     x: 1,
     y: 1,
     key: '1-1-1',
-    units: 'units',
+    units: 'hrs',
   };
   const group = view.find(Chart);
   group.props().containerComponent.props.labels({ datum });
-  expect(props.formatDatumValue).toBeCalledWith(datum.y, datum.units, props.formatDatumOptions);
+  expect(props.valueFormatter).toBeCalledWith(datum.y, datum.units, props.valueFormatterOptions);
   expect(view.find(Chart).prop('height')).toBe(props.height);
 });
 

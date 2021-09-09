@@ -77,14 +77,14 @@ test('getQueryForWidget', () => {
     reportType: ReportType.cost,
     availableTabs: [IbmDashboardTab.accounts],
     currentTab: IbmDashboardTab.accounts,
-    details: { formatOptions: {} },
+    details: { valueFormatterOptions: {} },
     trend: {
       titleKey: '',
       type: ChartType.daily,
-      formatOptions: {},
+      valueFormatterOptions: {},
     },
     topItems: {
-      formatOptions: {},
+      valueFormatterOptions: {},
     },
   };
 

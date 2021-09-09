@@ -1,12 +1,12 @@
 import { getLocale, intl } from 'components/i18n';
 import messages from 'locales/messages';
 
-export interface FormatOptions {
+export interface ValueFormatterOptions {
   fractionDigits?: number;
 }
 
-export type ValueFormatter = (value: number, units: string, options?: FormatOptions) => string | number;
-type UnitsFormatter = (value: number, options?: FormatOptions) => string | number;
+export type ValueFormatter = (value: number, units: string, options?: ValueFormatterOptions) => string | number;
+type UnitsFormatter = (value: number, options?: ValueFormatterOptions) => string | number;
 
 // Returns i18n key for given units
 export const unitLookupKey = (units): string => {
@@ -24,12 +24,12 @@ export const unitLookupKey = (units): string => {
     case 'vm_hours':
       return lookup;
     default:
-      return '';
+      return undefined;
   }
 };
 
 // Returns formatted units or currency with given currency-code
-export const formatValue: ValueFormatter = (value, units, options: FormatOptions = {}) => {
+export const formatValue: ValueFormatter = (value, units, options: ValueFormatterOptions = {}) => {
   const lookup = unitLookupKey(units);
   const fValue = value || 0;
 
@@ -46,19 +46,7 @@ export const formatValue: ValueFormatter = (value, units, options: FormatOptions
     case 'vm_hours':
       return formatUsageGb(fValue, options);
   }
-
-  // Format currency for charts
-  if (units && units.length === 3) {
-    return formatCurrency(fValue, units, options);
-  }
-  return unknownTypeFormatter(fValue, lookup);
-};
-
-const unknownTypeFormatter: ValueFormatter = (value, _unit, { fractionDigits = 0 } = {}) => {
-  return value.toLocaleString(getLocale(), {
-    minimumFractionDigits: fractionDigits,
-    maximumFractionDigits: fractionDigits,
-  });
+  return unknownTypeFormatter(fValue);
 };
 
 // Some currencies do not have decimals, such as JPY, and some have 3 decimals such as IQD.
@@ -121,6 +109,13 @@ const formatUsageGb: UnitsFormatter = (value, { fractionDigits = 0 } = {}) => {
 };
 
 const formatUsageHrs: UnitsFormatter = (value, { fractionDigits = 0 } = {}) => {
+  return value.toLocaleString(getLocale(), {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  });
+};
+
+const unknownTypeFormatter: UnitsFormatter = (value, { fractionDigits = 0 } = {}) => {
   return value.toLocaleString(getLocale(), {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,

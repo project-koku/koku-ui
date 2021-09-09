@@ -14,7 +14,7 @@ import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { formatCurrency } from 'utils/formatValue';
+import { formatCurrency } from 'utils/valueFormatter';
 
 import { compareBy } from './rateForm/utils';
 import TagRateTable from './tagRateTable';

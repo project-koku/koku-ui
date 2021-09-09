@@ -14,9 +14,9 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { noop } from 'utils/noop';
 import { skeletonWidth } from 'utils/skeleton';
+import { formatValue, unitLookupKey } from 'utils/valueFormatter';
 
 import { styles } from './usageChart.styles';
 
@@ -98,7 +98,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     const hasLimit = hasTotal && report.meta.total.limit && report.meta.total.limit !== null;
     const limit = Math.trunc(hasLimit ? report.meta.total.limit.value : 0);
     const limitUnits = intl.formatMessage(messages.Units, {
-      units: unitLookupKey(hasLimit ? report.meta.total.limit.units : ''),
+      units: unitLookupKey(hasLimit ? report.meta.total.limit.units : undefined),
     });
     datum.limit = {
       legend: intl.formatMessage(messages.DetailsUsageLimit, {
@@ -115,7 +115,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     const hasRequest = hasTotal && report.meta.total.request && report.meta.total.request !== null;
     const request = Math.trunc(hasRequest ? report.meta.total.request.value : 0);
     const requestUnits = intl.formatMessage(messages.Units, {
-      units: unitLookupKey(hasRequest ? report.meta.total.request.units : ''),
+      units: unitLookupKey(hasRequest ? report.meta.total.request.units : undefined),
     });
     datum.ranges = [
       {
@@ -134,7 +134,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     const hasUsage = hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
     const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
     const usageUnits = intl.formatMessage(messages.Units, {
-      units: unitLookupKey(hasUsage ? report.meta.total.usage.units : ''),
+      units: unitLookupKey(hasUsage ? report.meta.total.usage.units : undefined),
     });
     datum.usage = [
       {
@@ -166,7 +166,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     const hasLimit = hasTotal && report.meta.total.limit && report.meta.total.limit !== null;
     const limit = Math.trunc(hasLimit ? report.meta.total.limit.value : 0);
     const limitUnits = intl.formatMessage(messages.Units, {
-      units: unitLookupKey(hasLimit ? report.meta.total.limit.units : ''),
+      units: unitLookupKey(hasLimit ? report.meta.total.limit.units : undefined),
     });
     datum.limit = {
       legend: intl.formatMessage(messages.DetailsUsageLimit, {
@@ -183,7 +183,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     const hasCapacity = hasTotal && report.meta.total.request && report.meta.total.request !== null;
     const capacity = Math.trunc(hasCapacity ? report.meta.total.capacity.value : 0);
     const capacityUnits = intl.formatMessage(messages.Units, {
-      units: unitLookupKey(hasCapacity ? report.meta.total.capacity.units : ''),
+      units: unitLookupKey(hasCapacity ? report.meta.total.capacity.units : undefined),
     });
     datum.ranges = [
       {
@@ -203,11 +203,11 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     const hasUsage = hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
     const request = Math.trunc(hasRequest ? report.meta.total.request.value : 0);
     const requestUnits = intl.formatMessage(messages.Units, {
-      units: unitLookupKey(hasRequest ? report.meta.total.request.units : ''),
+      units: unitLookupKey(hasRequest ? report.meta.total.request.units : undefined),
     });
     const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
     const usageUnits = intl.formatMessage(messages.Units, {
-      units: unitLookupKey(hasUsage ? report.meta.total.usage.units : ''),
+      units: unitLookupKey(hasUsage ? report.meta.total.usage.units : undefined),
     });
     datum.usage = [
       {
@@ -325,11 +325,11 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     const capacity = Math.trunc(hasCapacity ? report.meta.total.capacity.value : 0);
     const request = Math.trunc(hasRequest ? report.meta.total.request.value : 0);
     const requestUnits = intl.formatMessage(messages.Units, {
-      units: unitLookupKey(hasRequest ? report.meta.total.request.units : ''),
+      units: unitLookupKey(hasRequest ? report.meta.total.request.units : undefined),
     });
     const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
     const usageUnits = intl.formatMessage(messages.Units, {
-      units: unitLookupKey(hasUsage ? report.meta.total.usage.units : ''),
+      units: unitLookupKey(hasUsage ? report.meta.total.usage.units : undefined),
     });
 
     // Show negative values https://github.com/project-koku/koku-ui/issues/1214

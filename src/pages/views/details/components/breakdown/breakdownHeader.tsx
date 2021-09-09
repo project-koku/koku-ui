@@ -12,7 +12,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
-import { formatValue } from 'utils/formatValue';
+import { formatCurrency } from 'utils/valueFormatter';
 
 import { styles } from './breakdownHeader.styles';
 
@@ -63,7 +63,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
 
     const hasCost =
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total;
-    const cost = formatValue(
+    const cost = formatCurrency(
       hasCost ? report.meta.total.cost.total.value : 0,
       hasCost ? report.meta.total.cost.total.units : 'USD'
     );

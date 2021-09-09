@@ -28,7 +28,7 @@ import React from 'react';
 import { WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { DashboardChartType, DashboardWidget } from 'store/dashboard/common/dashboardCommon';
-import { formatValue, unitLookupKey } from 'utils/formatValue';
+import { formatCurrency, formatValue, unitLookupKey } from 'utils/valueFormatter';
 
 import { ChartComparison } from './chartComparison';
 import { chartStyles, styles } from './dashboardWidget.styles';
@@ -127,12 +127,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     }
   };
 
+  // This dropdown is for cumulative and daily cost
   private getChartComparison = () => {
     const { intl, trend } = this.props;
     const { currentComparison } = this.state;
 
-    const units = this.getUnits();
-
+    const units = intl.formatMessage(messages.Currency, { units: this.getUnits() });
     const cumulativeTitle = intl.formatMessage(trend.titleKey, { units });
     const dailyTitle = intl.formatMessage(trend.dailyTitleKey, { units });
 
@@ -198,12 +198,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           forecastData={forecastData.forecastData}
           forecastInfrastructureConeData={forecastInfrastructureData.forecastConeData}
           forecastInfrastructureData={forecastInfrastructureData.forecastData}
-          formatDatumValue={formatValue}
-          formatDatumOptions={trend.formatOptions}
           height={height}
           previousCostData={previousCostData}
           previousInfrastructureCostData={previousInfrastructureData}
           showForecast={trend.computedForecastItem !== undefined}
+          valueFormatter={formatCurrency}
+          valueFormatterOptions={trend.valueFormatterOptions}
         />
       </>
     );
@@ -245,14 +245,14 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           currentData={currentData}
           forecastData={forecastData}
           forecastConeData={forecastConeData}
-          formatDatumValue={formatValue}
-          formatDatumOptions={trend.formatOptions}
           height={height}
           previousData={previousData}
           showForecast={trend.computedForecastItem !== undefined}
           showInfrastructureLabel={showInfrastructureLabel}
           showSupplementaryLabel={showSupplementaryLabel}
           showUsageLegendLabel={details.showUsageLegendLabel}
+          valueFormatter={formatCurrency}
+          valueFormatterOptions={trend.valueFormatterOptions}
           units={units}
         />
       </>
@@ -280,6 +280,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           report.meta && report.meta.total && report.meta.total[computedForecastItem]
             ? report.meta.total[computedForecastItem].total.value
             : 0;
+        const units =
+          report.meta && report.meta.total && report.meta.total[computedForecastItem]
+            ? report.meta.total[computedForecastItem].total.units
+            : 'USD';
 
         // Find last currentData date with values
         const reportedValues = report.data.filter(val => val.values.length);
@@ -324,7 +328,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
                     },
                     total: {
                       value: total,
-                      units: 'USD',
+                      units,
                     },
                   },
                   infrastructure: {
@@ -336,7 +340,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
                     },
                     total: {
                       value: total,
-                      units: 'USD',
+                      units,
                     },
                   },
                   supplementary: {
@@ -348,7 +352,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
                     },
                     total: {
                       value: total,
-                      units: 'USD',
+                      units,
                     },
                   },
                 },
@@ -389,7 +393,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   ) => {
     const { currentReport, details, intl, previousReport, trend } = this.props;
     const units = this.getUnits();
-    const title = intl.formatMessage(trend.titleKey, { units });
+    const title = intl.formatMessage(trend.titleKey, { units: intl.formatMessage(messages.Currency, { units }) });
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
 
@@ -413,8 +417,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         currentData={currentData}
         forecastData={forecastData}
         forecastConeData={forecastConeData}
-        formatDatumValue={formatValue}
-        formatDatumOptions={trend.formatOptions}
         height={height}
         previousData={previousData}
         showForecast={trend.computedForecastItem !== undefined}
@@ -423,6 +425,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         showUsageLegendLabel={details.showUsageLegendLabel}
         title={title}
         units={units}
+        valueFormatter={formatCurrency}
+        valueFormatterOptions={trend.valueFormatterOptions}
       />
     );
   };
@@ -430,8 +434,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   // This chart displays usage and requests
   private getUsageChart = (height: number, adjustContainerHeight: boolean = false) => {
     const { currentReport, intl, previousReport, trend } = this.props;
-    const units = this.getUnits();
-    const title = intl.formatMessage(trend.titleKey, { units });
+
+    const title = intl.formatMessage(trend.titleKey, {
+      units: intl.formatMessage(messages.Units, { units: this.getUnits() }),
+    });
 
     // Request data
     const currentRequestData = transformReport(currentReport, trend.type, 'date', 'request');
@@ -447,12 +453,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         containerHeight={chartStyles.containerUsageHeight}
         currentRequestData={currentRequestData}
         currentUsageData={currentUsageData}
-        formatDatumValue={formatValue}
-        formatDatumOptions={trend.formatOptions}
         height={height}
         previousRequestData={previousRequestData}
         previousUsageData={previousUsageData}
         title={title}
+        valueFormatter={formatValue}
+        valueFormatterOptions={trend.valueFormatterOptions}
       />
     );
   };
@@ -469,17 +475,17 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         computedReportItem={computedReportItem}
         computedReportItemValue={computedReportItemValue}
         costLabel={this.getDetailsLabel(details.costKey, units)}
-        formatOptions={details.formatOptions}
-        formatValue={formatValue}
         report={currentReport}
         reportType={reportType}
         requestLabel={this.getDetailsLabel(details.requestKey, units)}
         showTooltip={details.showTooltip}
         showUnits={details.showUnits}
         showUsageFirst={details.showUsageFirst}
-        units={details.units}
-        usageFormatOptions={details.usageFormatOptions}
+        units={units}
+        usageValueFormatterOptions={details.usageValueFormatterOptions}
         usageLabel={this.getDetailsLabel(details.usageKey, units)}
+        valueFormatter={this.getValueFormatter()}
+        valueFormatterOptions={details.valueFormatterOptions}
       />
     );
   };
@@ -551,7 +557,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getTabItem = <T extends DashboardWidget<any>>(tab: T, reportItem) => {
-    const { availableTabs, details, getIdKeyForTab, tabsReport, topItems, trend } = this.props;
+    const { availableTabs, getIdKeyForTab, tabsReport, topItems, trend } = this.props;
     const { activeTabKey } = this.state;
 
     const currentTab = getIdKeyForTab(tab);
@@ -579,12 +585,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       return (
         <ReportSummaryItem
           key={`${reportItem.id}-item`}
-          formatOptions={topItems.formatOptions}
-          formatValue={formatValue}
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={totalValue}
-          units={details.units ? details.units : this.getUnits()}
+          units={this.getUnits()}
           value={reportItem[computedReportItem][computedReportItemValue].value}
+          valueFormatterOptions={topItems.valueFormatterOptions}
+          valueFormatter={this.getValueFormatter()}
         />
       );
     } else {
@@ -615,12 +621,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getUnits = () => {
-    const { currentReport, details, intl, trend } = this.props;
+    const { currentReport, details, trend } = this.props;
     const computedReportItem = trend.computedReportItem || 'cost';
     const computedReportItemValue = trend.computedReportItemValue || 'total';
 
     if (details.units) {
-      return intl.formatMessage(messages.Units, { units: unitLookupKey(details.units) });
+      return details.units;
     }
     if (!currentReport) {
       return '';
@@ -629,16 +635,19 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const hasTotal = currentReport && currentReport.meta && currentReport.meta.total;
     if (computedReportItem === ComputedReportItemType.usage) {
       const hasUsage = hasTotal && currentReport.meta.total.usage;
-      const units = hasUsage ? unitLookupKey(currentReport.meta.total.usage.units) : '';
-      return intl.formatMessage(messages.Units, { units });
+      return hasUsage ? currentReport.meta.total.usage.units : undefined;
     } else {
       const hasCost =
         hasTotal &&
         currentReport.meta.total[computedReportItem] &&
         currentReport.meta.total[computedReportItem][computedReportItemValue];
-      const units = hasCost ? currentReport.meta.total[computedReportItem][computedReportItemValue].units : '';
-      return intl.formatMessage(messages.Currency, { units });
+      return hasCost ? currentReport.meta.total[computedReportItem][computedReportItemValue].units : 'USD';
     }
+  };
+
+  private getValueFormatter = () => {
+    const units = this.getUnits();
+    return unitLookupKey(units) ? formatValue : formatCurrency;
   };
 
   private getVerticalLayout = () => {

@@ -23,16 +23,16 @@ export const computeWidget: IbmDashboardWidget = {
   reportType: ReportType.instanceType,
   details: {
     costKey: messages.Cost,
-    formatOptions: {
-      fractionDigits: 2,
-    },
     showUnits: true,
     showUsageFirst: true,
     showUsageLegendLabel: true,
-    usageFormatOptions: {
+    usageKey: messages.Usage,
+    usageValueFormatterOptions: {
       fractionDigits: 0,
     },
-    usageKey: messages.Usage,
+    valueFormatterOptions: {
+      fractionDigits: 2,
+    },
   },
   filter: {
     service: 'Compute Engine',
@@ -43,14 +43,14 @@ export const computeWidget: IbmDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    formatOptions: {
-      fractionDigits: 2,
-    },
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
+    valueFormatterOptions: {
+      fractionDigits: 2,
+    },
   },
   topItems: {
-    formatOptions: {},
+    valueFormatterOptions: {},
   },
   // availableTabs: [
   //   IbmDashboardTab.instanceType,
@@ -71,10 +71,10 @@ export const costSummaryWidget: IbmDashboardWidget = {
   details: {
     adjustContainerHeight: true,
     costKey: messages.Cost,
-    formatOptions: {
+    showHorizontal: true,
+    valueFormatterOptions: {
       fractionDigits: 2,
     },
-    showHorizontal: true,
     viewAllPath: paths.ibmDetails,
   },
   tabsFilter: {
@@ -84,13 +84,13 @@ export const costSummaryWidget: IbmDashboardWidget = {
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    formatOptions: {},
     dailyTitleKey: messages.IBMDailyCostTrendTitle,
     titleKey: messages.IBMCostTrendTitle,
     type: ChartType.rolling,
+    valueFormatterOptions: {},
   },
   topItems: {
-    formatOptions: {},
+    valueFormatterOptions: {},
   },
   availableTabs: [IbmDashboardTab.services, IbmDashboardTab.projects, IbmDashboardTab.regions],
   chartType: DashboardChartType.dailyTrend,
@@ -104,10 +104,10 @@ export const databaseWidget: IbmDashboardWidget = {
   reportType: ReportType.database,
   details: {
     costKey: messages.Cost,
-    formatOptions: {
+    showUnits: true,
+    valueFormatterOptions: {
       fractionDigits: 2,
     },
-    showUnits: true,
   },
   filter: {
     service: 'Bigtable,Datastore,Database Migrations,Firestore,MemoryStore,Spanner,SQL',
@@ -118,12 +118,12 @@ export const databaseWidget: IbmDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    formatOptions: {},
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
+    valueFormatterOptions: {},
   },
   topItems: {
-    formatOptions: {},
+    valueFormatterOptions: {},
   },
   // availableTabs: [
   //   IbmDashboardTab.services,
@@ -141,10 +141,10 @@ export const networkWidget: IbmDashboardWidget = {
   reportType: ReportType.network,
   details: {
     costKey: messages.Cost,
-    formatOptions: {
+    showUnits: true,
+    valueFormatterOptions: {
       fractionDigits: 2,
     },
-    showUnits: true,
   },
   filter: {
     service:
@@ -157,12 +157,12 @@ export const networkWidget: IbmDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    formatOptions: {},
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
+    valueFormatterOptions: {},
   },
   topItems: {
-    formatOptions: {},
+    valueFormatterOptions: {},
   },
   // availableTabs: [
   //   IbmDashboardTab.services,
@@ -180,28 +180,28 @@ export const storageWidget: IbmDashboardWidget = {
   reportType: ReportType.storage,
   details: {
     costKey: messages.Cost,
-    formatOptions: {
-      fractionDigits: 2,
-    },
     showUnits: true,
     showUsageFirst: true,
     showUsageLegendLabel: true,
-    usageFormatOptions: {
+    usageKey: messages.Usage,
+    usageValueFormatterOptions: {
       fractionDigits: 0,
     },
-    usageKey: messages.Usage,
+    valueFormatterOptions: {
+      fractionDigits: 2,
+    },
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    formatOptions: {
-      fractionDigits: 2,
-    },
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
+    valueFormatterOptions: {
+      fractionDigits: 2,
+    },
   },
   topItems: {
-    formatOptions: {},
+    valueFormatterOptions: {},
   },
   // availableTabs: [
   //   IbmDashboardTab.services,

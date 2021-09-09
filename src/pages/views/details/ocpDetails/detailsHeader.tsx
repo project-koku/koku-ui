@@ -15,7 +15,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
 import { ComputedOcpReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
-import { formatValue } from 'utils/formatValue';
+import { formatCurrency } from 'utils/valueFormatter';
 
 import { styles } from './detailsHeader.styles';
 
@@ -72,15 +72,15 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       const hasCost = report.meta.total.cost && report.meta.total.cost.total;
       const hasSupplementaryCost = report.meta.total.supplementary && report.meta.total.supplementary.total;
       const hasInfrastructureCost = report.meta.total.infrastructure && report.meta.total.infrastructure.total;
-      cost = formatValue(
+      cost = formatCurrency(
         hasCost ? report.meta.total.cost.total.value : 0,
         hasCost ? report.meta.total.cost.total.units : 'USD'
       );
-      supplementaryCost = formatValue(
+      supplementaryCost = formatCurrency(
         hasSupplementaryCost ? report.meta.total.supplementary.total.value : 0,
         hasSupplementaryCost ? report.meta.total.supplementary.total.units : 'USD'
       );
-      infrastructureCost = formatValue(
+      infrastructureCost = formatCurrency(
         hasInfrastructureCost ? report.meta.total.infrastructure.total.value : 0,
         hasInfrastructureCost ? report.meta.total.infrastructure.total.units : 'USD'
       );

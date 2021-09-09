@@ -5,8 +5,6 @@ import React from 'react';
 import { ReportSummaryItem, ReportSummaryItemProps } from './reportSummaryItem';
 
 const props: ReportSummaryItemProps = {
-  formatOptions: {},
-  formatValue: jest.fn(v => `formatted ${v}`),
   label: 'Label',
   intl: {
     formatMessage: jest.fn(v => v),
@@ -14,12 +12,14 @@ const props: ReportSummaryItemProps = {
   totalValue: 1000,
   units: 'units',
   value: 100,
+  valueFormatterOptions: {},
+  valueFormatter: jest.fn(v => `formatted ${v}`),
 };
 
 // Temporarily disabled formatValue test until PF4 progress bar supports custom labels
 xtest('formats value', () => {
   shallow(<ReportSummaryItem {...props} />);
-  expect(props.formatValue).toBeCalledWith(props.value, props.units, props.formatOptions);
+  expect(props.valueFormatter).toBeCalledWith(props.value, props.units, props.valueFormatterOptions);
 });
 
 test('gets percentage from value and total value', () => {

@@ -14,7 +14,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ibmProvidersQuery, providersSelectors } from 'store/providers';
 import { ComputedIbmReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedIbmReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
-import { formatCurrency } from 'utils/formatValue';
+import { formatCurrency } from 'utils/valueFormatter';
 
 import { styles } from './detailsHeader.styles';
 
