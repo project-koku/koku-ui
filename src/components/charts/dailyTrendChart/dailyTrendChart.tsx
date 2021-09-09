@@ -30,8 +30,8 @@ import { getDate } from 'date-fns';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { noop } from 'utils/noop';
+import { ValueFormatter, ValueFormatterOptions } from 'utils/valueFormatter';
 
 import { chartStyles } from './dailyTrendChart.styles';
 
@@ -44,8 +44,6 @@ interface DailyTrendChartOwnProps {
   height?: number;
   legendItemsPerRow?: number;
   previousData?: any;
-  formatDatumValue: ValueFormatter;
-  formatDatumOptions?: FormatOptions;
   padding?: any;
   showForecast?: boolean; // Show forecast legend regardless if data is available
   showInfrastructureLabel?: boolean; // Show supplementary cost labels
@@ -53,6 +51,8 @@ interface DailyTrendChartOwnProps {
   showUsageLegendLabel?: boolean; // The cost legend label is shown by default
   title?: string;
   units?: string;
+  valueFormatter: ValueFormatter;
+  valueFormatterOptions?: ValueFormatterOptions;
 }
 
 interface State {
@@ -315,7 +315,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
 
   // Returns CursorVoronoiContainer component
   private getCursorVoronoiContainer = () => {
-    const { formatDatumValue, formatDatumOptions } = this.props;
+    const { valueFormatter, valueFormatterOptions } = this.props;
 
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
@@ -323,7 +323,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={({ datum }) => getTooltipLabel(datum, formatDatumValue, formatDatumOptions)}
+        labels={({ datum }) => getTooltipLabel(datum, valueFormatter, valueFormatterOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{

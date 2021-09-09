@@ -27,8 +27,8 @@ import { getDate } from 'date-fns';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { noop } from 'utils/noop';
+import { ValueFormatter, ValueFormatterOptions } from 'utils/valueFormatter';
 
 import { chartStyles, styles } from './historicalTrendChart.styles';
 
@@ -38,12 +38,12 @@ interface HistoricalTrendChartOwnProps {
   height: number;
   padding?: any;
   previousData?: any;
-  formatDatumValue: ValueFormatter;
-  formatDatumOptions?: FormatOptions;
   legendItemsPerRow?: number;
   title?: string;
   showUsageLegendLabel?: boolean;
   units?: string;
+  valueFormatter: ValueFormatter;
+  valueFormatterOptions?: ValueFormatterOptions;
   xAxisLabel?: string;
   yAxisLabel?: string;
 }
@@ -148,7 +148,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
 
   // Returns CursorVoronoiContainer component
   private getCursorVoronoiContainer = () => {
-    const { formatDatumValue, formatDatumOptions } = this.props;
+    const { valueFormatter, valueFormatterOptions } = this.props;
 
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
@@ -156,7 +156,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={({ datum }) => getTooltipLabel(datum, formatDatumValue, formatDatumOptions)}
+        labels={({ datum }) => getTooltipLabel(datum, valueFormatter, valueFormatterOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{

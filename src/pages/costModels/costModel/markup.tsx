@@ -20,7 +20,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
-import { formatValue } from 'utils/formatValue';
+import { formatValue } from 'utils/valueFormatter';
 
 import { styles } from './costCalc.styles';
 import UpdateMarkupDialog from './updateMarkupDialog';

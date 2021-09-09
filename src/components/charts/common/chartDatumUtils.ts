@@ -6,8 +6,8 @@ import { endOfMonth, format, getDate, getYear, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
 import { ComputedReportItem, getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { formatCurrency, FormatOptions, unitLookupKey } from 'utils/formatValue';
 import { SortDirection } from 'utils/sort';
+import { formatCurrency, unitLookupKey, ValueFormatterOptions } from 'utils/valueFormatter';
 
 export interface ChartDatum {
   childName?: string;
@@ -392,13 +392,13 @@ export function getMaxMinValues(datums: ChartDatum[]) {
   return { max, min };
 }
 
-export function getTooltipContent(formatDatumValue) {
-  return function labelFormatter(value: number, unit: string = null, options: FormatOptions = {}) {
+export function getTooltipContent(valueFormatter) {
+  return function labelFormatter(value: number, unit: string = null, options: ValueFormatterOptions = {}) {
     const lookup = unitLookupKey(unit);
     if (lookup) {
       return intl.formatMessage(messages.UnitTooltips, {
         units: lookup,
-        value: formatDatumValue(value, unit, options),
+        value: valueFormatter(value, unit, options),
       });
     }
     return formatCurrency(value, unit, options);

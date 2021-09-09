@@ -20,10 +20,10 @@ const props: UsageChartProps = {
   currentRequestData,
   currentUsageData,
   height: 100,
-  formatDatumValue: jest.fn(),
-  formatDatumOptions: {},
   previousRequestData,
   previousUsageData,
+  valueFormatter: jest.fn(),
+  valueFormatterOptions: {},
 };
 
 test('reports are formatted to datums', () => {
@@ -65,7 +65,7 @@ test('labels formats with datum and value formatted from props', () => {
   };
   const group = view.find(Chart);
   group.props().containerComponent.props.labels({ datum });
-  expect(props.formatDatumValue).toBeCalledWith(datum.y, datum.units, props.formatDatumOptions);
+  expect(props.valueFormatter).toBeCalledWith(datum.y, datum.units, props.valueFormatterOptions);
   expect(view.find(Chart).prop('height')).toBe(props.height);
 });
 

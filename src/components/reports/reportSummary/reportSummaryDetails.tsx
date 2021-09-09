@@ -8,25 +8,25 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
-import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
+import { unitLookupKey, ValueFormatter, ValueFormatterOptions } from 'utils/valueFormatter';
 
 interface ReportSummaryDetailsOwnProps {
   chartType?: DashboardChartType;
   computedReportItem?: string;
   computedReportItemValue?: string;
   costLabel?: string;
-  formatValue?: ValueFormatter; // This may be formatCurrency or formatValue
-  formatOptions?: FormatOptions;
   report: Report;
-  requestFormatOptions?: FormatOptions;
+  requestValueFormatterOptions?: ValueFormatterOptions;
   requestLabel?: string;
   reportType?: ReportType;
   showTooltip?: boolean;
   showUnits?: boolean;
   showUsageFirst?: boolean;
   units?: string;
-  usageFormatOptions?: FormatOptions;
+  usageValueFormatterOptions?: ValueFormatterOptions;
   usageLabel?: string;
+  valueFormatter?: ValueFormatter; // This may be formatCurrency or formatValue
+  valueFormatterOptions?: ValueFormatterOptions;
 }
 
 type ReportSummaryDetailsProps = ReportSummaryDetailsOwnProps & WrappedComponentProps;
@@ -36,19 +36,19 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   computedReportItem = 'cost',
   computedReportItemValue = 'total',
   costLabel,
-  formatValue,
-  formatOptions,
   intl,
   report,
-  requestFormatOptions,
+  requestValueFormatterOptions,
   requestLabel,
   reportType,
   showTooltip = false,
   showUnits = false,
   showUsageFirst = false,
   units,
-  usageFormatOptions,
+  usageValueFormatterOptions,
   usageLabel,
+  valueFormatter,
+  valueFormatterOptions,
 }) => {
   let cost: string | React.ReactNode = <EmptyValueState />;
   let supplementaryCost: string | React.ReactNode = <EmptyValueState />;
@@ -73,39 +73,39 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   const hasUsage = hasTotal && report.meta.total.usage;
 
   if (hasTotal) {
-    cost = formatValue(
+    cost = valueFormatter(
       hasCost ? report.meta.total.cost.total.value : 0,
       hasCost ? report.meta.total.cost.total.units : 'USD',
-      formatOptions
+      valueFormatterOptions
     );
-    supplementaryCost = formatValue(
+    supplementaryCost = valueFormatter(
       hasSupplementaryCost ? report.meta.total.supplementary.total.value : 0,
       hasSupplementaryCost ? report.meta.total.supplementary.total.units : 'USD',
-      formatOptions
+      valueFormatterOptions
     );
-    infrastructureCost = formatValue(
+    infrastructureCost = valueFormatter(
       hasInfrastructureCost ? report.meta.total.infrastructure[computedReportItemValue].value : 0,
       hasInfrastructureCost ? report.meta.total.infrastructure[computedReportItemValue].units : 'USD',
-      formatOptions
+      valueFormatterOptions
     );
-    request = formatValue(
+    request = valueFormatter(
       hasRequest ? report.meta.total.request.value : 0,
       hasRequest ? report.meta.total.request.units : undefined,
-      requestFormatOptions ? usageFormatOptions : formatOptions
+      requestValueFormatterOptions ? usageValueFormatterOptions : valueFormatterOptions
     );
 
     if (hasUsage && report.meta.total.usage.value >= 0) {
-      usage = formatValue(
+      usage = valueFormatter(
         hasUsage ? report.meta.total.usage.value : 0,
         hasUsage ? report.meta.total.usage.units : undefined,
-        usageFormatOptions ? usageFormatOptions : formatOptions
+        usageValueFormatterOptions ? usageValueFormatterOptions : valueFormatterOptions
       );
     } else {
       // Workaround for https://github.com/project-koku/koku-ui/issues/1058
-      usage = formatValue(
+      usage = valueFormatter(
         hasUsage ? (report.meta.total.usage as any) : 0,
         hasCount ? report.meta.total.count.units : undefined,
-        usageFormatOptions ? usageFormatOptions : formatOptions
+        usageValueFormatterOptions ? usageValueFormatterOptions : valueFormatterOptions
       );
     }
   }

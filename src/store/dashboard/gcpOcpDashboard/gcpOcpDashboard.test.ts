@@ -88,14 +88,14 @@ test('getQueryForWidget', () => {
     reportType: ReportType.cost,
     availableTabs: [GcpOcpDashboardTab.accounts],
     currentTab: GcpOcpDashboardTab.accounts,
-    details: { formatOptions: {} },
+    details: { valueFormatterOptions: {} },
     trend: {
       titleKey: '',
       type: ChartType.daily,
-      formatOptions: {},
+      valueFormatterOptions: {},
     },
     topItems: {
-      formatOptions: {},
+      valueFormatterOptions: {},
     },
   };
 

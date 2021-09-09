@@ -1,9 +1,9 @@
-import * as format from './formatValue';
+import * as format from './valueFormatter';
 
 jest.spyOn(format, 'formatCurrency');
 
 describe('formatValue', () => {
-  const formatOptions: format.FormatOptions = {};
+  const valueFormatterOptions: format.ValueFormatterOptions = {};
   const value = 100.11;
 
   test('null value returns 0', () => {
@@ -16,8 +16,8 @@ describe('formatValue', () => {
 
   test('USD unit calls formatCurrency', () => {
     const units = 'USD';
-    format.formatCurrency(value, units, formatOptions);
-    expect(format.formatCurrency).toBeCalledWith(value, units, formatOptions);
+    format.formatCurrency(value, units, valueFormatterOptions);
+    expect(format.formatCurrency).toBeCalledWith(value, units, valueFormatterOptions);
   });
 
   test('null unit returns value fixed to fractionDigits', () => {

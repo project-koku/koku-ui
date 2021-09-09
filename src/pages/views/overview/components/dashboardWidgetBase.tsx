@@ -28,7 +28,7 @@ import React from 'react';
 import { WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { DashboardChartType, DashboardWidget } from 'store/dashboard/common/dashboardCommon';
-import { formatCurrency, formatValue, unitLookupKey } from 'utils/formatValue';
+import { formatCurrency, formatValue, unitLookupKey } from 'utils/valueFormatter';
 
 import { ChartComparison } from './chartComparison';
 import { chartStyles, styles } from './dashboardWidget.styles';
@@ -198,12 +198,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           forecastData={forecastData.forecastData}
           forecastInfrastructureConeData={forecastInfrastructureData.forecastConeData}
           forecastInfrastructureData={forecastInfrastructureData.forecastData}
-          formatDatumValue={formatCurrency}
-          formatDatumOptions={trend.formatOptions}
           height={height}
           previousCostData={previousCostData}
           previousInfrastructureCostData={previousInfrastructureData}
           showForecast={trend.computedForecastItem !== undefined}
+          valueFormatter={formatCurrency}
+          valueFormatterOptions={trend.valueFormatterOptions}
         />
       </>
     );
@@ -245,14 +245,14 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           currentData={currentData}
           forecastData={forecastData}
           forecastConeData={forecastConeData}
-          formatDatumValue={formatCurrency}
-          formatDatumOptions={trend.formatOptions}
           height={height}
           previousData={previousData}
           showForecast={trend.computedForecastItem !== undefined}
           showInfrastructureLabel={showInfrastructureLabel}
           showSupplementaryLabel={showSupplementaryLabel}
           showUsageLegendLabel={details.showUsageLegendLabel}
+          valueFormatter={formatCurrency}
+          valueFormatterOptions={trend.valueFormatterOptions}
           units={units}
         />
       </>
@@ -417,8 +417,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         currentData={currentData}
         forecastData={forecastData}
         forecastConeData={forecastConeData}
-        formatDatumValue={formatCurrency}
-        formatDatumOptions={trend.formatOptions}
         height={height}
         previousData={previousData}
         showForecast={trend.computedForecastItem !== undefined}
@@ -427,6 +425,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         showUsageLegendLabel={details.showUsageLegendLabel}
         title={title}
         units={units}
+        valueFormatter={formatCurrency}
+        valueFormatterOptions={trend.valueFormatterOptions}
       />
     );
   };
@@ -453,12 +453,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         containerHeight={chartStyles.containerUsageHeight}
         currentRequestData={currentRequestData}
         currentUsageData={currentUsageData}
-        formatDatumValue={formatValue}
-        formatDatumOptions={trend.formatOptions}
         height={height}
         previousRequestData={previousRequestData}
         previousUsageData={previousUsageData}
         title={title}
+        valueFormatter={formatValue}
+        valueFormatterOptions={trend.valueFormatterOptions}
       />
     );
   };
@@ -475,8 +475,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         computedReportItem={computedReportItem}
         computedReportItemValue={computedReportItemValue}
         costLabel={this.getDetailsLabel(details.costKey, units)}
-        formatOptions={details.formatOptions}
-        formatValue={this.getFormatter()}
         report={currentReport}
         reportType={reportType}
         requestLabel={this.getDetailsLabel(details.requestKey, units)}
@@ -484,8 +482,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         showUnits={details.showUnits}
         showUsageFirst={details.showUsageFirst}
         units={units}
-        usageFormatOptions={details.usageFormatOptions}
+        usageValueFormatterOptions={details.usageValueFormatterOptions}
         usageLabel={this.getDetailsLabel(details.usageKey, units)}
+        valueFormatter={this.getValueFormatter()}
+        valueFormatterOptions={details.valueFormatterOptions}
       />
     );
   };
@@ -509,11 +509,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const key = getIdKeyForTab(tab) || '';
 
     return intl.formatMessage(messages.GroupByAll, { value: key, count: 2 });
-  };
-
-  private getFormatter = () => {
-    const units = this.getUnits();
-    return unitLookupKey(units) ? formatValue : formatCurrency;
   };
 
   private getHorizontalLayout = () => {
@@ -590,12 +585,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       return (
         <ReportSummaryItem
           key={`${reportItem.id}-item`}
-          formatOptions={topItems.formatOptions}
-          formatValue={this.getFormatter()}
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={totalValue}
           units={this.getUnits()}
           value={reportItem[computedReportItem][computedReportItemValue].value}
+          valueFormatterOptions={topItems.valueFormatterOptions}
+          valueFormatter={this.getValueFormatter()}
         />
       );
     } else {
@@ -648,6 +643,11 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         currentReport.meta.total[computedReportItem][computedReportItemValue];
       return hasCost ? currentReport.meta.total[computedReportItem][computedReportItemValue].units : 'USD';
     }
+  };
+
+  private getValueFormatter = () => {
+    const units = this.getUnits();
+    return unitLookupKey(units) ? formatValue : formatCurrency;
   };
 
   private getVerticalLayout = () => {

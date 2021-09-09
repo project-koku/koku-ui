@@ -84,15 +84,15 @@ test('getQueryForWidget', () => {
     reportType: ReportType.cost,
     availableTabs: [OcpCloudDashboardTab.accounts],
     currentTab: OcpCloudDashboardTab.accounts,
-    details: { formatOptions: {} },
+    details: { valueFormatterOptions: {} },
     trend: {
       computedReportItem: ComputedReportItemType.cost,
       titleKey: '',
       type: ChartType.daily,
-      formatOptions: {},
+      valueFormatterOptions: {},
     },
     topItems: {
-      formatOptions: {},
+      valueFormatterOptions: {},
     },
   };
 

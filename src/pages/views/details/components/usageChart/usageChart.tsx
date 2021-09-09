@@ -14,9 +14,9 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { noop } from 'utils/noop';
 import { skeletonWidth } from 'utils/skeleton';
+import { formatValue, unitLookupKey } from 'utils/valueFormatter';
 
 import { styles } from './usageChart.styles';
 

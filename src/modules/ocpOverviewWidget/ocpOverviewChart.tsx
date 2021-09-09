@@ -13,9 +13,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { unitLookupKey } from 'utils/formatValue';
-import { formatValue } from 'utils/formatValue';
 import { skeletonWidth } from 'utils/skeleton';
+import { unitLookupKey } from 'utils/valueFormatter';
+import { formatValue } from 'utils/valueFormatter';
 
 import { chartStyles, styles } from './ocpOverviewChart.styles';
 
@@ -107,7 +107,7 @@ class OcpOverviewChartBase extends React.Component<OcpOverviewChartProps> {
         adjustContainerHeight
         containerHeight={chartStyles.chartContainerHeight}
         currentData={currentData}
-        formatDatumValue={formatValue}
+        valueFormatter={formatValue}
         height={chartStyles.chartHeight}
         previousData={previousData}
         units={units}

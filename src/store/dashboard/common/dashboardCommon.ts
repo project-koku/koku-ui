@@ -11,7 +11,7 @@ export const enum DashboardChartType {
   usage = 'usage', // This displays daily usage and requests
 }
 
-export interface ValueFormatOptions {
+export interface ValueValueFormatterOptions {
   fractionDigits?: number;
 }
 
@@ -22,8 +22,7 @@ export interface DashboardWidget<T> {
   details: {
     adjustContainerHeight?: boolean; // Adjust chart container height for responsiveness
     costKey?: MessageDescriptor; // i18n key
-    formatOptions: ValueFormatOptions;
-    requestFormatOptions?: {
+    requestValueFormatterOptions?: {
       fractionDigits?: number;
     };
     requestKey?: MessageDescriptor;
@@ -32,10 +31,11 @@ export interface DashboardWidget<T> {
     showUnits?: boolean; // Show units
     showUsageFirst?: boolean; // Show usage before cost
     showUsageLegendLabel?: boolean;
-    units?: string; // Override units shown as workaround for missing Azure API units
-    usageFormatOptions?: ValueFormatOptions;
     usageKey?: MessageDescriptor; // i18n key
+    valueFormatterOptions: ValueValueFormatterOptions;
     viewAllPath?: string; // View all link to details page
+    units?: string; // Override units shown as workaround for missing Azure API units
+    usageValueFormatterOptions?: ValueValueFormatterOptions;
   };
   filter?: {
     limit?: number;
@@ -64,9 +64,9 @@ export interface DashboardWidget<T> {
     showSupplementaryLabel?: boolean; // Trend chart legend items show "Supplementary cost" instead of "cost"
     titleKey: MessageDescriptor;
     type: number;
-    formatOptions: ValueFormatOptions;
+    valueFormatterOptions: ValueValueFormatterOptions;
   };
   topItems?: {
-    formatOptions: any;
+    valueFormatterOptions: any;
   };
 }

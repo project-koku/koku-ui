@@ -6,8 +6,8 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
-import { formatCurrency } from 'utils/formatValue';
 import { skeletonWidth } from 'utils/skeleton';
+import { formatCurrency } from 'utils/valueFormatter';
 
 import { chartStyles, styles } from './costChart.styles';
 
