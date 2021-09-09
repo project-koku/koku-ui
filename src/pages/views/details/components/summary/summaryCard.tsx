@@ -24,7 +24,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { formatValue } from 'utils/formatValue';
+import { formatCurrency } from 'utils/formatValue';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { styles } from './summaryCard.styles';
@@ -90,7 +90,7 @@ class SummaryBase extends React.Component<SummaryProps> {
             <ReportSummaryItem
               key={`${reportItem.id}-item`}
               formatOptions={{}}
-              formatValue={formatValue}
+              formatValue={formatCurrency}
               label={reportItem.label ? reportItem.label.toString() : undefined}
               totalValue={report.meta.total.cost.total.value}
               units={report.meta.total.cost.total.units}

@@ -24,7 +24,7 @@ export const unitLookupKey = (units): string => {
     case 'vm_hours':
       return lookup;
     default:
-      return '';
+      return undefined;
   }
 };
 
@@ -46,19 +46,7 @@ export const formatValue: ValueFormatter = (value, units, options: FormatOptions
     case 'vm_hours':
       return formatUsageGb(fValue, options);
   }
-
-  // Format currency for charts
-  if (units && units.length === 3) {
-    return formatCurrency(fValue, units, options);
-  }
-  return unknownTypeFormatter(fValue, lookup);
-};
-
-const unknownTypeFormatter: ValueFormatter = (value, _unit, { fractionDigits = 0 } = {}) => {
-  return value.toLocaleString(getLocale(), {
-    minimumFractionDigits: fractionDigits,
-    maximumFractionDigits: fractionDigits,
-  });
+  return unknownTypeFormatter(fValue);
 };
 
 // Some currencies do not have decimals, such as JPY, and some have 3 decimals such as IQD.
@@ -121,6 +109,13 @@ const formatUsageGb: UnitsFormatter = (value, { fractionDigits = 0 } = {}) => {
 };
 
 const formatUsageHrs: UnitsFormatter = (value, { fractionDigits = 0 } = {}) => {
+  return value.toLocaleString(getLocale(), {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  });
+};
+
+const unknownTypeFormatter: UnitsFormatter = (value, { fractionDigits = 0 } = {}) => {
   return value.toLocaleString(getLocale(), {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,

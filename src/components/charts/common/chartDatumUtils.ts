@@ -6,7 +6,7 @@ import { endOfMonth, format, getDate, getYear, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
 import { ComputedReportItem, getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
+import { formatCurrency, FormatOptions, unitLookupKey } from 'utils/formatValue';
 import { SortDirection } from 'utils/sort';
 
 export interface ChartDatum {
@@ -392,40 +392,17 @@ export function getMaxMinValues(datums: ChartDatum[]) {
   return { max, min };
 }
 
-export function getTooltipContent(formatValue) {
+export function getTooltipContent(formatDatumValue) {
   return function labelFormatter(value: number, unit: string = null, options: FormatOptions = {}) {
     const lookup = unitLookupKey(unit);
-    switch (lookup) {
-      case 'core_hours':
-      case 'hour':
-      case 'hrs':
-      case 'gb':
-      case 'gb_hours':
-      case 'gb_mo':
-      case 'gibibyte_month':
-      case 'vmHours':
-        return intl.formatMessage(messages.UnitTooltips, { units: lookup, value: formatValue(value, unit, options) });
-      default:
-        return `${formatValue(value, unit, options)}`;
+    if (lookup) {
+      return intl.formatMessage(messages.UnitTooltips, {
+        units: lookup,
+        value: formatDatumValue(value, unit, options),
+      });
     }
+    return formatCurrency(value, unit, options);
   };
-}
-
-export function getTooltipLabel(
-  datum: ChartDatum,
-  formatValue: ValueFormatter,
-  formatOptions?: FormatOptions,
-  idKey: any = 'date',
-  units?: string
-) {
-  if (!datum.key) {
-    return '';
-  }
-  if (idKey === 'date') {
-    const date = format(new Date(datum.key), 'dd MMM yyyy');
-    return `${date} ${formatValue(datum.y, units ? units : datum.units, formatOptions)}`;
-  }
-  return datum.key.toString();
 }
 
 export function getCostRangeString(

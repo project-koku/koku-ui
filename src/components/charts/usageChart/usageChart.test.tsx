@@ -61,7 +61,7 @@ test('labels formats with datum and value formatted from props', () => {
     x: 1,
     y: 1,
     key: '1-1-1',
-    units: 'units',
+    units: 'hrs',
   };
   const group = view.find(Chart);
   group.props().containerComponent.props.labels({ datum });

@@ -6,7 +6,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
-import { formatValue } from 'utils/formatValue';
+import { formatCurrency } from 'utils/formatValue';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './costChart.styles';
@@ -62,9 +62,9 @@ class CostChartBase extends React.Component<CostChartProps> {
     const rawValue = hasRaw ? report.meta.total.cost.raw.value : 0;
     const usageValue = hasUsage ? report.meta.total.cost.usage.value : 0;
 
-    const markup = formatValue(hasMarkup ? report.meta.total.cost.markup.value : 0, markupUnits);
-    const raw = formatValue(hasRaw ? report.meta.total.cost.raw.value : 0, rawUnits);
-    const usage = formatValue(hasUsage ? report.meta.total.cost.usage.value : 0, usageUnits);
+    const markup = formatCurrency(hasMarkup ? report.meta.total.cost.markup.value : 0, markupUnits);
+    const raw = formatCurrency(hasRaw ? report.meta.total.cost.raw.value : 0, rawUnits);
+    const usage = formatCurrency(hasUsage ? report.meta.total.cost.usage.value : 0, usageUnits);
 
     const markupLabel = intl.formatMessage(messages.MarkupTitle);
     const rawLabel = intl.formatMessage(messages.RawCostTitle);
@@ -99,7 +99,7 @@ class CostChartBase extends React.Component<CostChartProps> {
             labels={({ datum }) =>
               intl.formatMessage(messages.BreakdownCostChartTooltip, {
                 name: datum.x,
-                value: formatValue(datum.y, datum.units),
+                value: formatCurrency(datum.y, datum.units),
               })
             }
             legendComponent={Legend}

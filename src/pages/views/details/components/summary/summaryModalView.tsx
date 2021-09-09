@@ -9,7 +9,6 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { formatValue } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
 
 import { styles } from './summaryModal.styles';
@@ -76,7 +75,7 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
                 <ReportSummaryItem
                   key={_item.id}
                   formatOptions={{}}
-                  formatValue={formatValue}
+                  formatValue={formatCurrency}
                   label={_item.label ? _item.label.toString() : ''}
                   totalValue={report.meta.total.cost.total.value}
                   units={report.meta.total.cost.total.units}

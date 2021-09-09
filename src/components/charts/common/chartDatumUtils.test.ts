@@ -20,6 +20,6 @@ describe('getTooltipContent', () => {
   });
   test('format unknown units', () => {
     expect(intl.formatMessage).not.toBeCalled();
-    expect(labelFormatFunc(10)).toBe('10');
+    expect(labelFormatFunc(10)).toBe(10);
   });
 });

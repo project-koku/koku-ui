@@ -15,7 +15,7 @@ interface ReportSummaryDetailsOwnProps {
   computedReportItem?: string;
   computedReportItemValue?: string;
   costLabel?: string;
-  formatValue?: ValueFormatter;
+  formatValue?: ValueFormatter; // This may be formatCurrency or formatValue
   formatOptions?: FormatOptions;
   report: Report;
   requestFormatOptions?: FormatOptions;
@@ -90,21 +90,21 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     );
     request = formatValue(
       hasRequest ? report.meta.total.request.value : 0,
-      hasRequest ? report.meta.total.request.units : '',
+      hasRequest ? report.meta.total.request.units : undefined,
       requestFormatOptions ? usageFormatOptions : formatOptions
     );
 
     if (hasUsage && report.meta.total.usage.value >= 0) {
       usage = formatValue(
         hasUsage ? report.meta.total.usage.value : 0,
-        hasUsage ? report.meta.total.usage.units : '',
+        hasUsage ? report.meta.total.usage.units : undefined,
         usageFormatOptions ? usageFormatOptions : formatOptions
       );
     } else {
       // Workaround for https://github.com/project-koku/koku-ui/issues/1058
       usage = formatValue(
         hasUsage ? (report.meta.total.usage as any) : 0,
-        hasCount ? report.meta.total.count.units : '',
+        hasCount ? report.meta.total.count.units : undefined,
         usageFormatOptions ? usageFormatOptions : formatOptions
       );
     }
@@ -143,7 +143,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     if (!usageLabel) {
       return null;
     }
-    const usageUnits: string = hasRequest ? report.meta.total.request.units : '';
+    const usageUnits: string = hasRequest ? report.meta.total.request.units : undefined;
     const _units = unitLookupKey(usageUnits);
     const unitsLabel = intl.formatMessage(messages.Units, { units: _units });
 
@@ -164,7 +164,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     if (!usageLabel) {
       return null;
     }
-    const usageUnits: string = hasUsage ? report.meta.total.usage.units : '';
+    const usageUnits: string = hasUsage ? report.meta.total.usage.units : undefined;
     // added as a work-around for azure #1079
     const _units = unitLookupKey(units ? units : usageUnits);
     const unitsLabel = intl.formatMessage(messages.Units, { units: _units });
