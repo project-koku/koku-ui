@@ -30,5 +30,3 @@ export function fetchUserAccess(reportType: UserAccessType, query: string) {
       });
   };
 }
-
-export const clearuserAccessFailure = createAction('userAccess/clear/failure');
