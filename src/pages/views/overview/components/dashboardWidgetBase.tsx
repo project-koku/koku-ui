@@ -132,7 +132,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const { intl, trend } = this.props;
     const { currentComparison } = this.state;
 
-    const units = intl.formatMessage(messages.Currency, { units: this.getUnits() });
+    const units = intl.formatMessage(messages.CurrencyUnits, { units: this.getUnits() });
     const cumulativeTitle = intl.formatMessage(trend.titleKey, { units });
     const dailyTitle = intl.formatMessage(trend.dailyTitleKey, { units });
 
@@ -393,7 +393,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   ) => {
     const { currentReport, details, intl, previousReport, trend } = this.props;
     const units = this.getUnits();
-    const title = intl.formatMessage(trend.titleKey, { units: intl.formatMessage(messages.Currency, { units }) });
+    const title = intl.formatMessage(trend.titleKey, { units: intl.formatMessage(messages.CurrencyUnits, { units }) });
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
 

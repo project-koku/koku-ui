@@ -1197,6 +1197,45 @@ export default defineMessages({
     id: 'CreateRate',
   },
   Currency: {
+    defaultMessage: 'Currency',
+    description: 'Currency',
+    id: 'Currency',
+  },
+  CurrencyAbbreviations: {
+    defaultMessage:
+      '{symbol, select, ' +
+      'billion {{value} B} ' +
+      'million {{value} M} ' +
+      'quadrillion {{value} q} ' +
+      'thousand {{value} K} ' +
+      'trillion {{value} t} ' +
+      'other {}}',
+    description: 'str.match(/([\\D]*)([\\d.,]+)([\\D]*)/)',
+    id: 'Custom',
+  },
+  CurrencyOptions: {
+    defaultMessage:
+      '{units, select, ' +
+      'AUD {AUD (AU$) - Australian Dollar}' +
+      'CAD {CAD (C$) - Canadian Dollar}' +
+      'CHF {CHF (CHF) - Swiss Franc}' +
+      'CNY {CNY (CN¥) - Chinese Yuan}' +
+      'DKK {DKK (Dkr) - Danish Krone}' +
+      'EUR {EUR (€) - Euro}' +
+      'GBP {GBP (£) - British Pound}' +
+      'HKD {HKD (HK$) - Hong Kong Dollar}' +
+      'JPY {JPY (¥) - Japanese Yen}' +
+      'NOK {NOK (Nkr) - Norwegian Krone}' +
+      'NZD {NZD (NZ$) - New Zealand Dollar}' +
+      'SEK {SEK (Skr) - Swedish Krona}' +
+      'SGD {SGD (S$) - Singapore Dollar}' +
+      'USD {USD ($) - United States Dollar} ' +
+      'ZAR {ZAR (R) - South African Rand}' +
+      'other {}}',
+    description: 'return the proper unit label based on key: "units"',
+    id: 'CurrencyUnits',
+  },
+  CurrencyUnits: {
     defaultMessage:
       '{units, select, ' +
       'AUD {AU$}' +
@@ -1216,19 +1255,7 @@ export default defineMessages({
       'ZAR {R}' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
-    id: 'Currency',
-  },
-  CurrencyAbbreviations: {
-    defaultMessage:
-      '{symbol, select, ' +
-      'billion {{value} B} ' +
-      'million {{value} M} ' +
-      'quadrillion {{value} q} ' +
-      'thousand {{value} K} ' +
-      'trillion {{value} t} ' +
-      'other {}}',
-    description: 'str.match(/([\\D]*)([\\d.,]+)([\\D]*)/)',
-    id: 'Custom',
+    id: 'CurrencyUnits',
   },
   DashboardCumulativeCostComparison: {
     defaultMessage: 'Cumulative cost comparison ({units})',

@@ -100,7 +100,7 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 
     let yAxisLabel;
     if (isCostChart) {
-      const units = intl.formatMessage(messages.Currency, { units: costUnits });
+      const units = intl.formatMessage(messages.CurrencyUnits, { units: costUnits });
       yAxisLabel = intl.formatMessage(messages.HistoricalChartCostLabel, { units });
     } else if (usageUnits && Number.isNaN(Number(currentReport.meta.total.usage.units))) {
       yAxisLabel = intl.formatMessage(messages.Units, { units: unitLookupKey(usageUnits) });
