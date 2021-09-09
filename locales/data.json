@@ -28111,6 +28111,12 @@
     ],
     "Currency": [
       {
+        "type": 0,
+        "value": "Currency"
+      }
+    ],
+    "CurrencyUnits": [
+      {
         "options": {
           "AUD": {
             "value": [

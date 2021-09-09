@@ -84,7 +84,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
         ? currentReport.meta.total.cost.total.units
         : 'USD';
 
-    const test = intl.formatMessage(messages.Currency, { units: costUnits });
+    const test = intl.formatMessage(messages.CurrencyUnits, { units: costUnits });
 
     return (
       <div style={styles.chartContainer}>
