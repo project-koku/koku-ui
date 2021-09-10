@@ -28115,6 +28115,208 @@
         "value": "Currency"
       }
     ],
+    "CurrencyAbbreviations": [
+      {
+        "options": {
+          "billion": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " B"
+              }
+            ]
+          },
+          "million": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " M"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "quadrillion": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " q"
+              }
+            ]
+          },
+          "thousand": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " K"
+              }
+            ]
+          },
+          "trillion": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " t"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "symbol"
+      }
+    ],
+    "CurrencyOptions": [
+      {
+        "options": {
+          "AUD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "AUD (AU$) - Australian Dollar"
+              }
+            ]
+          },
+          "CAD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CAD (C$) - Canadian Dollar"
+              }
+            ]
+          },
+          "CHF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CHF (CHF) - Swiss Franc"
+              }
+            ]
+          },
+          "CNY": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CNY (CN¥) - Chinese Yuan"
+              }
+            ]
+          },
+          "DKK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DKK (Dkr) - Danish Krone"
+              }
+            ]
+          },
+          "EUR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "EUR (€) - Euro"
+              }
+            ]
+          },
+          "GBP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GBP (£) - British Pound"
+              }
+            ]
+          },
+          "HKD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "HKD (HK$) - Hong Kong Dollar"
+              }
+            ]
+          },
+          "JPY": {
+            "value": [
+              {
+                "type": 0,
+                "value": "JPY (¥) - Japanese Yen"
+              }
+            ]
+          },
+          "NOK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "NOK (Nkr) - Norwegian Krone"
+              }
+            ]
+          },
+          "NZD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "NZD (NZ$) - New Zealand Dollar"
+              }
+            ]
+          },
+          "SEK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SEK (Skr) - Swedish Krona"
+              }
+            ]
+          },
+          "SGD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SGD (S$) - Singapore Dollar"
+              }
+            ]
+          },
+          "USD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "USD ($) - United States Dollar"
+              }
+            ]
+          },
+          "ZAR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ZAR (R) - South African Rand"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "units"
+      }
+    ],
     "CurrencyUnits": [
       {
         "options": {
@@ -28244,77 +28446,6 @@
         },
         "type": 5,
         "value": "units"
-      }
-    ],
-    "Custom": [
-      {
-        "options": {
-          "billion": {
-            "value": [
-              {
-                "type": 1,
-                "value": "value"
-              },
-              {
-                "type": 0,
-                "value": " B"
-              }
-            ]
-          },
-          "million": {
-            "value": [
-              {
-                "type": 1,
-                "value": "value"
-              },
-              {
-                "type": 0,
-                "value": " M"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          },
-          "quadrillion": {
-            "value": [
-              {
-                "type": 1,
-                "value": "value"
-              },
-              {
-                "type": 0,
-                "value": " q"
-              }
-            ]
-          },
-          "thousand": {
-            "value": [
-              {
-                "type": 1,
-                "value": "value"
-              },
-              {
-                "type": 0,
-                "value": " K"
-              }
-            ]
-          },
-          "trillion": {
-            "value": [
-              {
-                "type": 1,
-                "value": "value"
-              },
-              {
-                "type": 0,
-                "value": " t"
-              }
-            ]
-          }
-        },
-        "type": 5,
-        "value": "symbol"
       }
     ],
     "DashboardCumulativeCostComparison": [
