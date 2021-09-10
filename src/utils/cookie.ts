@@ -12,10 +12,9 @@ export const getCookie = name => {
   return cookie ? cookie.pop() : '';
 };
 
-// Returns the last 40 chars of the session token
+// Returns session token
 export const getTokenCookie = () => {
-  const token = getCookie('cs_jwt');
-  return token.substring(token.length - 40, token.length);
+  return getCookie('cs_jwt');
 };
 
 export const setSessionCookie = (name, value) => {

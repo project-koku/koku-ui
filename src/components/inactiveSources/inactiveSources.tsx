@@ -18,7 +18,7 @@ import {
   providersActions,
   providersSelectors,
 } from 'store/providers';
-import { getTokenCookie } from 'utils/cookie';
+import { deleteInactiveSourcesToken, initInactiveSourcesToken, isInactiveSourcesTokenValid } from 'utils/localStorage';
 import { getReleasePath } from 'utils/pathname';
 
 interface InactiveSourcesOwnProps {
@@ -60,8 +60,6 @@ type InactiveSourcesProps = InactiveSourcesOwnProps &
   InactiveSourcesDispatchProps &
   InactiveSourcesStateProps &
   WrappedComponentProps;
-
-const inactiveSourcesID = 'cost_inactiveSources';
 
 class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
   protected defaultState: InactiveSourcesState = {
@@ -220,18 +218,17 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
   };
 
   private handleOnClose = () => {
-    localStorage.setItem(inactiveSourcesID, getTokenCookie());
+    initInactiveSourcesToken();
     this.forceUpdate();
   };
 
   private isAlertClosed = () => {
-    // Keep closed if token matches current session
-    const result = localStorage.getItem(inactiveSourcesID) === getTokenCookie();
-    return result;
+    // Keep closed if token is valid for current session
+    return isInactiveSourcesTokenValid();
   };
 
   private resetAlert = () => {
-    localStorage.removeItem(inactiveSourcesID);
+    deleteInactiveSourcesToken();
   };
 
   public render() {
