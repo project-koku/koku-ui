@@ -11,14 +11,13 @@ export interface CurrencyData {
 
 export interface Currency extends PagedResponse<CurrencyData, CurrencyData> {}
 
-export function fetchCurrency(query: string) {
+export function fetchCurrency() {
   const insights = (window as any).insights;
-  const queryString = query ? `?${query}` : '';
   if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
     return insights.chrome.auth.getUser().then(() => {
-      return axios.get<Currency>(`currency/${queryString}`);
+      return axios.get<Currency>(`currency/?limit=20`);
     });
   } else {
-    return axios.get<Currency>(`currency/${queryString}`);
+    return axios.get<Currency>(`currency/?limit=20`);
   }
 }

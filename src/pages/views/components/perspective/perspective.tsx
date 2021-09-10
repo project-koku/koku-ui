@@ -1,5 +1,5 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
+import { Dropdown, DropdownItem, DropdownToggle, Title } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -101,7 +101,9 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
 
     return (
       <div style={styles.perspectiveSelector}>
-        <label style={styles.perspectiveLabel}>{intl.formatMessage(messages.Perspective)}</label>
+        <Title headingLevel="h3" size="md" style={styles.perspectiveLabel}>
+          {intl.formatMessage(messages.Perspective)}
+        </Title>
         {this.getDropDown()}
       </div>
     );

@@ -1,4 +1,4 @@
-import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
+import { Dropdown, DropdownItem, DropdownToggle, Title } from '@patternfly/react-core';
 import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey, tagPrefix } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
@@ -229,7 +229,9 @@ class GroupByBase extends React.Component<GroupByProps> {
 
     return (
       <div style={styles.groupBySelector}>
-        <label style={styles.groupBySelectorLabel}>{intl.formatMessage(messages.GroupByLabel)}</label>
+        <Title headingLevel="h3" size="md" style={styles.groupBySelectorLabel}>
+          {intl.formatMessage(messages.GroupByLabel)}
+        </Title>
         <Dropdown
           onSelect={this.handleGroupBySelect}
           toggle={

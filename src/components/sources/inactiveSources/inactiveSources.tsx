@@ -18,7 +18,7 @@ import {
   providersActions,
   providersSelectors,
 } from 'store/providers';
-import { deleteSessionCookie, getCookieValue, setSessionCookie } from 'utils/cookie';
+import { deleteSessionCookie, getCookie, getTokenCookie, setSessionCookie } from 'utils/cookie';
 import { getReleasePath } from 'utils/pathname';
 
 interface InactiveSourcesOwnProps {
@@ -62,7 +62,6 @@ type InactiveSourcesProps = InactiveSourcesOwnProps &
   WrappedComponentProps;
 
 const inactiveSourcesID = 'cost_inactiveSources';
-const tokenID = 'cs_jwt';
 
 class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
   protected defaultState: InactiveSourcesState = {
@@ -221,21 +220,18 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
   };
 
   private handleOnClose = () => {
-    setSessionCookie(inactiveSourcesID, getCookieValue(tokenID));
+    setSessionCookie(inactiveSourcesID, getTokenCookie());
     this.forceUpdate();
   };
 
   private isAlertClosed = () => {
     // Keep closed if token matches current session
-    const result = getCookieValue(tokenID) === getCookieValue(inactiveSourcesID);
+    const result = getCookie(inactiveSourcesID) === getTokenCookie();
     return result;
   };
 
   private resetAlert = () => {
-    // Delete only if cookie exists
-    if (getCookieValue(inactiveSourcesID)) {
-      deleteSessionCookie(inactiveSourcesID);
-    }
+    deleteSessionCookie(inactiveSourcesID);
   };
 
   public render() {
