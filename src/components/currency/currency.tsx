@@ -8,7 +8,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { currencyActions, currencySelectors } from 'store/currency';
-import { deleteSessionCookie, getCookieValue, setSessionCookie } from 'utils/cookie';
+import { deleteSessionCookie, getCookie, getTokenCookie, setSessionCookie } from 'utils/cookie';
 
 import { styles } from './currency.styles';
 
@@ -40,7 +40,6 @@ type CurrencyProps = CurrencyOwnProps & CurrencyDispatchProps & CurrencyStatePro
 
 const currencyTokenID = 'cost_currency_token';
 const currencyUnitsID = 'cost_currency_units';
-const tokenID = 'cs_jwt';
 
 class CurrencyBase extends React.Component<CurrencyProps> {
   protected defaultState: CurrencyState = {
@@ -86,7 +85,7 @@ class CurrencyBase extends React.Component<CurrencyProps> {
     const { intl } = this.props;
     const { currentItem } = this.state;
 
-    const cookieValue = getCookieValue(currencyUnitsID);
+    const cookieValue = getCookie(currencyUnitsID);
     const units = cookieValue ? cookieValue : currentItem;
 
     return intl.formatMessage(messages.CurrencyOptions, { units });
@@ -114,7 +113,7 @@ class CurrencyBase extends React.Component<CurrencyProps> {
 
   private handleClick = value => {
     setSessionCookie(currencyUnitsID, value);
-    // setSessionCookie(currencyTokenID, getCookieValue(tokenID));
+    setSessionCookie(currencyTokenID, getTokenCookie());
     this.setState({ currentItem: value });
   };
 
@@ -133,21 +132,16 @@ class CurrencyBase extends React.Component<CurrencyProps> {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   private resetCurrency = () => {
-    if (getCookieValue(tokenID) !== getCookieValue(currencyTokenID)) {
-      // Delete only if cookie exists
-      if (getCookieValue(currencyUnitsID)) {
-        deleteSessionCookie(currencyUnitsID);
-      }
-      if (getCookieValue(currencyTokenID)) {
-        deleteSessionCookie(currencyTokenID);
-      }
+    if (getCookie(currencyTokenID) !== getTokenCookie()) {
+      deleteSessionCookie(currencyUnitsID);
+      deleteSessionCookie(currencyTokenID);
     }
   };
 
   public render() {
     const { intl } = this.props;
 
-    // this.resetCurrency();
+    this.resetCurrency();
 
     return (
       <div style={styles.currencySelector}>
