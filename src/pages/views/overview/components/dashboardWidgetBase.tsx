@@ -474,25 +474,25 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         chartType={chartType}
         computedReportItem={computedReportItem}
         computedReportItemValue={computedReportItemValue}
-        costLabel={this.getDetailsLabel(details.costKey, units)}
+        costLabel={this.getDetailsLabel(details.costKey)}
         report={currentReport}
         reportType={reportType}
-        requestLabel={this.getDetailsLabel(details.requestKey, units)}
+        requestLabel={this.getDetailsLabel(details.requestKey)}
         showTooltip={details.showTooltip}
         showUnits={details.showUnits}
         showUsageFirst={details.showUsageFirst}
         units={units}
         usageValueFormatterOptions={details.usageValueFormatterOptions}
-        usageLabel={this.getDetailsLabel(details.usageKey, units)}
+        usageLabel={this.getDetailsLabel(details.usageKey)}
         valueFormatter={this.getValueFormatter()}
         valueFormatterOptions={details.valueFormatterOptions}
       />
     );
   };
 
-  private getDetailsLabel = (key: MessageDescriptor, units: string) => {
+  private getDetailsLabel = (key: MessageDescriptor) => {
     const { intl } = this.props;
-    return key ? intl.formatMessage(key, { units: intl.formatMessage(messages.Units, { units }) }) : undefined;
+    return key ? intl.formatMessage(key) : undefined;
   };
 
   private getDetailsLink = () => {

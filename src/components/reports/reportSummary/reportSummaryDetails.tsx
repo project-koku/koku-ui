@@ -144,8 +144,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
       return null;
     }
     const usageUnits: string = hasRequest ? report.meta.total.request.units : undefined;
-    const _units = unitLookupKey(usageUnits);
-    const unitsLabel = intl.formatMessage(messages.Units, { units: _units });
+    const unitsLabel = intl.formatMessage(messages.Units, { units: unitLookupKey(usageUnits) });
 
     return (
       <div className="valueContainer">
