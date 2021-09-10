@@ -129,8 +129,6 @@ class CurrencyBase extends React.Component<CurrencyProps> {
     });
   };
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   private resetCurrency = () => {
     if (getCookie(currencyTokenID) !== getTokenCookie()) {
       deleteSessionCookie(currencyUnitsID);
