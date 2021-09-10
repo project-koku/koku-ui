@@ -106,7 +106,7 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
       yAxisLabel = intl.formatMessage(messages.Units, { units: unitLookupKey(usageUnits) });
     } else {
       const units = intl.formatMessage(messages.HistoricalChartUsageLabel, { value: reportType });
-      yAxisLabel = intl.formatMessage(messages.Units, { units });
+      yAxisLabel = intl.formatMessage(messages.Units, { units: unitLookupKey(units) });
     }
 
     return (
