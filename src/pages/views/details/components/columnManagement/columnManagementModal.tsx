@@ -164,7 +164,7 @@ export class ColumnManagementModalBase extends React.Component<ColumnManagementM
                 <DataListItemCells
                   dataListCells={[
                     <DataListCell id="table-column-management-item1" key="table-column-management-item1">
-                      <label htmlFor="check1">{intl.formatMessage(option.label)}</label>
+                      <span>{intl.formatMessage(option.label)}</span>
                     </DataListCell>,
                     <DataListCell id="table-column-management-item2" key="table-column-management-item2">
                       {option.description && <span>{intl.formatMessage(option.description)}</span>}

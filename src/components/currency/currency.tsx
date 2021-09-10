@@ -1,5 +1,5 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
+import { Dropdown, DropdownItem, DropdownToggle, Title } from '@patternfly/react-core';
 import { Currency } from 'api/currency';
 import { AxiosError } from 'axios';
 import messages from 'locales/messages';
@@ -145,9 +145,9 @@ class CurrencyBase extends React.Component<CurrencyProps> {
 
     return (
       <div style={styles.currencySelector}>
-        <label htmlFor="currencyDropdown" style={styles.currencyLabel}>
+        <Title headingLevel="h2" size="md" style={styles.currencyLabel}>
           {intl.formatMessage(messages.Currency)}
-        </label>
+        </Title>
         {this.getDropDown()}
       </div>
     );
