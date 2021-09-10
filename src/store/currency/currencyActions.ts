@@ -12,15 +12,15 @@ export const fetchCurrencyRequest = createAction('currency/fetch/request')<Curre
 export const fetchCurrencySuccess = createAction('currency/fetch/success')<Currency, CurrencyActionMeta>();
 export const fetchCurrencyFailure = createAction('currency/fetch/failure')<AxiosError, CurrencyActionMeta>();
 
-export function fetchCurrency(query: string = undefined) {
+export function fetchCurrency() {
   return dispatch => {
     const meta: CurrencyActionMeta = {
-      reportId: getReportId(query),
+      reportId: getReportId(),
     };
 
     dispatch(fetchCurrencyRequest(meta));
 
-    return apiGetCurrency(query)
+    return apiGetCurrency()
       .then(res => {
         dispatch(fetchCurrencySuccess(res.data, meta));
       })
