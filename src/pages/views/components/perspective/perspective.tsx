@@ -65,6 +65,7 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
     }
     return (
       <Dropdown
+        id="perspectiveDropdown"
         onSelect={this.handleSelect}
         toggle={
           <DropdownToggle isDisabled={isDisabled} onToggle={this.handleToggle}>
@@ -101,7 +102,9 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
 
     return (
       <div style={styles.perspectiveSelector}>
-        <label style={styles.perspectiveLabel}>{intl.formatMessage(messages.Perspective)}</label>
+        <label htmlFor="perspectiveDropdown" style={styles.perspectiveLabel}>
+          {intl.formatMessage(messages.Perspective)}
+        </label>
         {this.getDropDown()}
       </div>
     );
