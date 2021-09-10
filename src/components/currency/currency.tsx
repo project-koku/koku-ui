@@ -8,7 +8,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { currencyActions, currencySelectors } from 'store/currency';
-import { getTokenCookie } from 'utils/cookie';
+import { getCurrencyUnits, invalidateCurrencyUnits, setCurrencyUnits } from 'utils/localStorage';
 
 import { styles } from './currency.styles';
 
@@ -37,9 +37,6 @@ interface CurrencyOptions {
 }
 
 type CurrencyProps = CurrencyOwnProps & CurrencyDispatchProps & CurrencyStateProps & WrappedComponentProps;
-
-const currencyTokenID = 'cost_currency_token';
-const currencyUnitsID = 'cost_currency_units';
 
 class CurrencyBase extends React.Component<CurrencyProps> {
   protected defaultState: CurrencyState = {
@@ -85,8 +82,8 @@ class CurrencyBase extends React.Component<CurrencyProps> {
     const { intl } = this.props;
     const { currentItem } = this.state;
 
-    const cookieValue = localStorage.getItem(currencyUnitsID);
-    const units = cookieValue ? cookieValue : currentItem;
+    const currencyUnits = getCurrencyUnits(); // Get currency units from local storage
+    const units = currencyUnits ? currencyUnits : currentItem;
 
     return intl.formatMessage(messages.CurrencyOptions, { units });
   };
@@ -112,8 +109,7 @@ class CurrencyBase extends React.Component<CurrencyProps> {
   };
 
   private handleClick = value => {
-    localStorage.setItem(currencyUnitsID, value);
-    localStorage.setItem(currencyTokenID, getTokenCookie());
+    setCurrencyUnits(value); // Set currency units via local storage
     this.setState({ currentItem: value });
   };
 
@@ -129,17 +125,11 @@ class CurrencyBase extends React.Component<CurrencyProps> {
     });
   };
 
-  private resetCurrency = () => {
-    if (localStorage.getItem(currencyTokenID) !== getTokenCookie()) {
-      localStorage.removeItem(currencyUnitsID);
-      localStorage.removeItem(currencyTokenID);
-    }
-  };
-
   public render() {
     const { intl } = this.props;
 
-    this.resetCurrency();
+    // Delete currency units if current session is not valid
+    invalidateCurrencyUnits();
 
     return (
       <div style={styles.currencySelector}>
