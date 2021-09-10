@@ -18,7 +18,7 @@ import {
   providersActions,
   providersSelectors,
 } from 'store/providers';
-import { deleteSessionCookie, getCookie, getTokenCookie, setSessionCookie } from 'utils/cookie';
+import { getTokenCookie } from 'utils/cookie';
 import { getReleasePath } from 'utils/pathname';
 
 interface InactiveSourcesOwnProps {
@@ -220,18 +220,18 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
   };
 
   private handleOnClose = () => {
-    setSessionCookie(inactiveSourcesID, getTokenCookie());
+    localStorage.setItem(inactiveSourcesID, getTokenCookie());
     this.forceUpdate();
   };
 
   private isAlertClosed = () => {
     // Keep closed if token matches current session
-    const result = getCookie(inactiveSourcesID) === getTokenCookie();
+    const result = localStorage.getItem(inactiveSourcesID) === getTokenCookie();
     return result;
   };
 
   private resetAlert = () => {
-    deleteSessionCookie(inactiveSourcesID);
+    localStorage.removeItem(inactiveSourcesID);
   };
 
   public render() {
