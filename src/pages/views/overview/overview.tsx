@@ -4,6 +4,8 @@ import {
   Button,
   ButtonVariant,
   Popover,
+  Split,
+  SplitItem,
   Tab,
   TabContent,
   Tabs,
@@ -17,6 +19,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
+import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData/noData';
@@ -527,41 +530,49 @@ class OverviewBase extends React.Component<OverviewProps> {
         <section
           className={`pf-l-page-header pf-c-page-header pf-l-page__main-section pf-c-page__main-section pf-m-light headerOverride}`}
         >
-          <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
-            <Title headingLevel="h1" size={TitleSizes['2xl']}>
-              {title}
-              <span style={styles.infoIcon}>
-                <Popover
-                  aria-label={intl.formatMessage(messages.OverviewInfoArialLabel)}
-                  enableFlip
-                  bodyContent={
-                    <>
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.OpenShiftCloudInfrastructure)}</p>
-                      <p>{intl.formatMessage(messages.OpenShiftCloudInfrastructureDesc)}</p>
-                      <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.OpenShift)}</p>
-                      <p>{intl.formatMessage(messages.OpenShiftDesc)}</p>
-                      <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.GCP)}</p>
-                      <p>{intl.formatMessage(messages.GCPDesc)}</p>
-                      <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.IBM)}</p>
-                      <p>{intl.formatMessage(messages.IBMDesc)}</p>
-                      <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.AWS)}</p>
-                      <p>{intl.formatMessage(messages.AWSDesc)}</p>
-                      <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.Azure)}</p>
-                      <p>{intl.formatMessage(messages.AzureDesc)}</p>
-                    </>
-                  }
-                >
-                  <Button variant={ButtonVariant.plain}>
-                    <OutlinedQuestionCircleIcon />
-                  </Button>
-                </Popover>
-              </span>
-            </Title>
+          <header className="pf-u-justify-content-space-between pf-u-align-items-center">
+            <Split>
+              <SplitItem>
+                <Title headingLevel="h1" size={TitleSizes['2xl']}>
+                  {title}
+                  <span style={styles.infoIcon}>
+                    <Popover
+                      aria-label={intl.formatMessage(messages.OverviewInfoArialLabel)}
+                      enableFlip
+                      bodyContent={
+                        <>
+                          <p style={styles.infoTitle}>{intl.formatMessage(messages.OpenShiftCloudInfrastructure)}</p>
+                          <p>{intl.formatMessage(messages.OpenShiftCloudInfrastructureDesc)}</p>
+                          <br />
+                          <p style={styles.infoTitle}>{intl.formatMessage(messages.OpenShift)}</p>
+                          <p>{intl.formatMessage(messages.OpenShiftDesc)}</p>
+                          <br />
+                          <p style={styles.infoTitle}>{intl.formatMessage(messages.GCP)}</p>
+                          <p>{intl.formatMessage(messages.GCPDesc)}</p>
+                          <br />
+                          <p style={styles.infoTitle}>{intl.formatMessage(messages.IBM)}</p>
+                          <p>{intl.formatMessage(messages.IBMDesc)}</p>
+                          <br />
+                          <p style={styles.infoTitle}>{intl.formatMessage(messages.AWS)}</p>
+                          <p>{intl.formatMessage(messages.AWSDesc)}</p>
+                          <br />
+                          <p style={styles.infoTitle}>{intl.formatMessage(messages.Azure)}</p>
+                          <p>{intl.formatMessage(messages.AzureDesc)}</p>
+                        </>
+                      }
+                    >
+                      <Button variant={ButtonVariant.plain}>
+                        <OutlinedQuestionCircleIcon />
+                      </Button>
+                    </Popover>
+                  </span>
+                </Title>
+              </SplitItem>
+              <SplitItem isFilled></SplitItem>
+              <SplitItem>
+                <Currency />
+              </SplitItem>
+            </Split>
           </header>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
           <div style={styles.perspective}>
