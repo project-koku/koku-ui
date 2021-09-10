@@ -1211,7 +1211,7 @@ export default defineMessages({
       'trillion {{value} t} ' +
       'other {}}',
     description: 'str.match(/([\\D]*)([\\d.,]+)([\\D]*)/)',
-    id: 'Custom',
+    id: 'CurrencyAbbreviations',
   },
   CurrencyOptions: {
     defaultMessage:
@@ -1233,7 +1233,7 @@ export default defineMessages({
       'ZAR {ZAR (R) - South African Rand}' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
-    id: 'CurrencyUnits',
+    id: 'CurrencyOptions',
   },
   CurrencyUnits: {
     defaultMessage:
