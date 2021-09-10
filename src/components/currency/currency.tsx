@@ -8,7 +8,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { currencyActions, currencySelectors } from 'store/currency';
-import { deleteSessionCookie, getCookie, getTokenCookie, setSessionCookie } from 'utils/cookie';
+import { getTokenCookie } from 'utils/cookie';
 
 import { styles } from './currency.styles';
 
@@ -85,7 +85,7 @@ class CurrencyBase extends React.Component<CurrencyProps> {
     const { intl } = this.props;
     const { currentItem } = this.state;
 
-    const cookieValue = getCookie(currencyUnitsID);
+    const cookieValue = localStorage.getItem(currencyUnitsID);
     const units = cookieValue ? cookieValue : currentItem;
 
     return intl.formatMessage(messages.CurrencyOptions, { units });
@@ -112,8 +112,8 @@ class CurrencyBase extends React.Component<CurrencyProps> {
   };
 
   private handleClick = value => {
-    setSessionCookie(currencyUnitsID, value);
-    setSessionCookie(currencyTokenID, getTokenCookie());
+    localStorage.setItem(currencyUnitsID, value);
+    localStorage.setItem(currencyTokenID, getTokenCookie());
     this.setState({ currentItem: value });
   };
 
@@ -130,9 +130,9 @@ class CurrencyBase extends React.Component<CurrencyProps> {
   };
 
   private resetCurrency = () => {
-    if (getCookie(currencyTokenID) !== getTokenCookie()) {
-      deleteSessionCookie(currencyUnitsID);
-      deleteSessionCookie(currencyTokenID);
+    if (localStorage.getItem(currencyTokenID) !== getTokenCookie()) {
+      localStorage.removeItem(currencyUnitsID);
+      localStorage.removeItem(currencyTokenID);
     }
   };
 

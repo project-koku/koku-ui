@@ -1,6 +1,4 @@
-const tokenID = 'cs_jwt';
-
-export function deleteSessionCookie(name) {
+export const deleteSessionCookie = name => {
   // Delete only if cookie exists
   if (getCookie(name)) {
     const now = new Date();
@@ -9,19 +7,17 @@ export function deleteSessionCookie(name) {
   }
 }
 
-export function getCookie(name) {
+export const getCookie = name => {
   const cookie = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
   return cookie ? cookie.pop() : '';
 }
 
-// Returns a relatively unique string to help determine a new user login
-export function getTokenCookie() {
-  const token = getCookie(tokenID);
-
-  // Return the last 20 chars of the session token to avoid crashing APIs due to header length
-  return token.substring(token.length - 20, token.length);
+// Returns the last 40 chars of the session token
+export const getTokenCookie = () => {
+  const token = getCookie('cs_jwt');
+  return token.substring(token.length - 40, token.length);
 }
 
-export function setSessionCookie(name, value) {
+export const setSessionCookie = (name, value) => {
   document.cookie = `${name}=${value}; path=/`;
 }
