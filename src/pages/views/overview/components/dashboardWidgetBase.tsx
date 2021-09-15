@@ -132,15 +132,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const { intl, trend } = this.props;
     const { currentComparison } = this.state;
 
-    let units;
-    const computedReportItem = trend.computedReportItem || 'cost';
-
-    if (computedReportItem === ComputedReportItemType.usage) {
-      units = intl.formatMessage(messages.Units, { units: unitsLookupKey(this.getUnits()) });
-    } else {
-      units = intl.formatMessage(messages.CurrencyUnits, { units: this.getUnits() });
-    }
-
+    const units = this.getFormattedUnits();
     const cumulativeTitle = intl.formatMessage(trend.titleKey, { units });
     const dailyTitle = intl.formatMessage(trend.dailyTitleKey, { units });
 
@@ -399,17 +391,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   ) => {
     const { currentReport, details, intl, previousReport, trend } = this.props;
 
-    let units;
     const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementary cost, etc.
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
-
-    if (computedReportItem === ComputedReportItemType.usage) {
-      units = intl.formatMessage(messages.Units, { units: unitsLookupKey(this.getUnits()) });
-    } else {
-      units = intl.formatMessage(messages.CurrencyUnits, { units: this.getUnits() });
-    }
-
-    const title = intl.formatMessage(trend.titleKey, { units });
+    const title = intl.formatMessage(trend.titleKey, { units: this.getFormattedUnits() });
 
     // Cost data
     const currentData = transformReport(currentReport, trend.type, 'date', computedReportItem, computedReportItemValue);
@@ -438,7 +422,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         showSupplementaryLabel={showSupplementaryLabel}
         showUsageLegendLabel={details.showUsageLegendLabel}
         title={title}
-        units={units}
+        units={this.getUnits()}
         valueFormatter={formatCurrency}
         valueFormatterOptions={trend.valueFormatterOptions}
       />
@@ -450,7 +434,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const { currentReport, intl, previousReport, trend } = this.props;
 
     const title = intl.formatMessage(trend.titleKey, {
-      units: intl.formatMessage(messages.Units, { units: unitsLookupKey(this.getUnits()) }),
+      units: this.getFormattedUnits(),
     });
 
     // Request data
@@ -521,6 +505,18 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const key = getIdKeyForTab(tab) || '';
 
     return intl.formatMessage(messages.GroupByAll, { value: key, count: 2 });
+  };
+
+  private getFormattedUnits = () => {
+    const { intl, trend } = this.props;
+
+    const computedReportItem = trend.computedReportItem || 'cost';
+    const units = this.getUnits();
+
+    if (computedReportItem === ComputedReportItemType.usage) {
+      return intl.formatMessage(messages.Units, { units: unitsLookupKey(units) });
+    }
+    return intl.formatMessage(messages.CurrencyUnits, { units });
   };
 
   private getHorizontalLayout = () => {
