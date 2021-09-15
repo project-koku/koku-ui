@@ -5,6 +5,7 @@ import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
+import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
 import { TagLink } from 'pages/views/details/components/tag/tagLink';
 import { getGroupByOrgValue } from 'pages/views/utils/groupBy';
@@ -84,7 +85,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
 
     return (
       <header style={styles.header}>
-        <div>
+        <div style={styles.headerContent}>
           <nav aria-label={intl.formatMessage(messages.BreakdownBackToDetailsAriaLabel)} className="breadcrumbOverride">
             <ol className="pf-c-breadcrumb__list">
               <li className="pf-c-breadcrumb__item">
@@ -100,29 +101,34 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
               </li>
             </ol>
           </nav>
+          <Currency />
+        </div>
+        <div style={styles.headerContent}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.BreakdownTitle, { value: title })}
             {description && <div style={styles.infoDescription}>{description}</div>}
           </Title>
+          <div style={styles.cost}>
+            <div style={styles.costLabel}>
+              <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
+                <span>{this.getTotalCost()}</span>
+              </Title>
+            </div>
+            <div style={styles.costLabelDate}>
+              {getForDateRangeString(
+                intl.formatMessage(messages.GroupByValuesTitleCase, { value: groupByKey, count: 2 }),
+                messages.BreakdownTotalCostDate,
+                0
+              )}
+            </div>
+          </div>
+        </div>
+        <div>
           <div style={styles.tabs}>
             {tabs}
             <div style={styles.tag}>
               {Boolean(showTags) && <TagLink id="tags" tagReportPathsType={tagReportPathsType} />}
             </div>
-          </div>
-        </div>
-        <div style={styles.cost}>
-          <div style={styles.costLabel}>
-            <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
-              <span>{this.getTotalCost()}</span>
-            </Title>
-          </div>
-          <div style={styles.costLabelDate}>
-            {getForDateRangeString(
-              intl.formatMessage(messages.GroupByValuesTitleCase, { value: groupByKey, count: 2 }),
-              messages.BreakdownTotalCostDate,
-              0
-            )}
           </div>
         </div>
       </header>
