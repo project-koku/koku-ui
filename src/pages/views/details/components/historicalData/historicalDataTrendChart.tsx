@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { skeletonWidth } from 'utils/skeleton';
-import { formatValue, unitLookupKey } from 'utils/valueFormatter';
+import { formatValue, unitsLookupKey } from 'utils/valueFormatter';
 
 import { chartStyles, styles } from './historicalChart.styles';
 
@@ -103,10 +103,10 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
       const units = intl.formatMessage(messages.CurrencyUnits, { units: costUnits });
       yAxisLabel = intl.formatMessage(messages.HistoricalChartCostLabel, { units });
     } else if (usageUnits && Number.isNaN(Number(currentReport.meta.total.usage.units))) {
-      yAxisLabel = intl.formatMessage(messages.Units, { units: unitLookupKey(usageUnits) });
+      yAxisLabel = intl.formatMessage(messages.Units, { units: unitsLookupKey(usageUnits) });
     } else {
       const units = intl.formatMessage(messages.HistoricalChartUsageLabel, { value: reportType });
-      yAxisLabel = intl.formatMessage(messages.Units, { units: unitLookupKey(units) });
+      yAxisLabel = intl.formatMessage(messages.Units, { units: unitsLookupKey(units) });
     }
 
     return (

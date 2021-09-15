@@ -7,7 +7,7 @@ import messages from 'locales/messages';
 import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
 import { ComputedReportItem, getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { SortDirection } from 'utils/sort';
-import { formatCurrency, unitLookupKey, ValueFormatterOptions } from 'utils/valueFormatter';
+import { formatCurrency, unitsLookupKey, ValueFormatterOptions } from 'utils/valueFormatter';
 
 export interface ChartDatum {
   childName?: string;
@@ -394,7 +394,7 @@ export function getMaxMinValues(datums: ChartDatum[]) {
 
 export function getTooltipContent(valueFormatter) {
   return function labelFormatter(value: number, unit: string = null, options: ValueFormatterOptions = {}) {
-    const lookup = unitLookupKey(unit);
+    const lookup = unitsLookupKey(unit);
     if (lookup) {
       return intl.formatMessage(messages.UnitTooltips, {
         units: lookup,

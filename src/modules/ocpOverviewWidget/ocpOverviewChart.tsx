@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { skeletonWidth } from 'utils/skeleton';
-import { unitLookupKey } from 'utils/valueFormatter';
+import { unitsLookupKey } from 'utils/valueFormatter';
 import { formatValue } from 'utils/valueFormatter';
 
 import { chartStyles, styles } from './ocpOverviewChart.styles';
@@ -133,7 +133,7 @@ class OcpOverviewChartBase extends React.Component<OcpOverviewChartProps> {
       currentReport.meta.total[computedReportItem] &&
       currentReport.meta.total[computedReportItem][computedReportItemValue];
 
-    return hasCost ? unitLookupKey(currentReport.meta.total[computedReportItem][computedReportItemValue].units) : '';
+    return hasCost ? unitsLookupKey(currentReport.meta.total[computedReportItem][computedReportItemValue].units) : '';
   };
 
   private updateReport = () => {

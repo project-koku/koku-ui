@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { skeletonWidth } from 'utils/skeleton';
-import { formatValue, unitLookupKey } from 'utils/valueFormatter';
+import { formatValue, unitsLookupKey } from 'utils/valueFormatter';
 
 import { chartStyles, styles } from './historicalChart.styles';
 
@@ -106,7 +106,7 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
               previousRequestData={previousRequestData}
               previousUsageData={previousUsageData}
               xAxisLabel={intl.formatMessage(messages.HistoricalChartDayOfMonthLabel)}
-              yAxisLabel={intl.formatMessage(messages.Units, { units: unitLookupKey(usageUnits) })}
+              yAxisLabel={intl.formatMessage(messages.Units, { units: unitsLookupKey(usageUnits) })}
             />
           )}
         </div>

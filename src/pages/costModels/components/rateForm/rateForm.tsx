@@ -8,7 +8,7 @@ import { Selector } from 'pages/costModels/components/inputs/selector';
 import { SimpleInput } from 'pages/costModels/components/inputs/simpleInput';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { unitLookupKey } from 'utils/valueFormatter';
+import { unitsLookupKey } from 'utils/valueFormatter';
 
 import { TaggingRatesForm } from './taggingRatesForm';
 import { UseRateData } from './useRateForm';
@@ -59,7 +59,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({ intl = defaultIn
   const getMeasurementLabel = (m, u) => {
     // Match message descriptor or default to API string
     const _units = u.replace(/-/g, '_').toLowerCase();
-    const units = intl.formatMessage(messages.Units, { units: unitLookupKey(_units) });
+    const units = intl.formatMessage(messages.Units, { units: unitsLookupKey(_units) });
     const label = intl.formatMessage(messages.MeasurementValues, {
       value: m.toLowerCase(),
       units: units ? units : u,

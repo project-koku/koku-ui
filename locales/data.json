@@ -28491,7 +28491,7 @@
     "DashboardStorageTitle": [
       {
         "type": 0,
-        "value": "Storage services cost"
+        "value": "Storage services usage"
       }
     ],
     "DashboardTotalCostTooltip": [

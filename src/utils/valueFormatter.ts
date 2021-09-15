@@ -9,7 +9,7 @@ export type ValueFormatter = (value: number, units: string, options?: ValueForma
 type UnitsFormatter = (value: number, options?: ValueFormatterOptions) => string | number;
 
 // Returns i18n key for given units
-export const unitLookupKey = (units): string => {
+export const unitsLookupKey = (units): string => {
   const lookup = units ? units.replace(/[- ]/g, '_').toLowerCase() : '';
 
   switch (lookup) {
@@ -30,7 +30,7 @@ export const unitLookupKey = (units): string => {
 
 // Returns formatted units or currency with given currency-code
 export const formatValue: ValueFormatter = (value, units, options: ValueFormatterOptions = {}) => {
-  const lookup = unitLookupKey(units);
+  const lookup = unitsLookupKey(units);
   const fValue = value || 0;
 
   switch (lookup) {

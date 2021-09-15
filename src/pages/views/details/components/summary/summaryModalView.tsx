@@ -79,7 +79,6 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
                   totalValue={report.meta.total.cost.total.value}
                   units={report.meta.total.cost.total.units}
                   value={_item.cost.total.value}
-                  valueFormatter={formatCurrency}
                 />
               ))
             }
