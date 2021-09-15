@@ -8,7 +8,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
-import { unitLookupKey, ValueFormatter, ValueFormatterOptions } from 'utils/valueFormatter';
+import { formatCurrency, formatValue, unitsLookupKey, ValueFormatterOptions } from 'utils/valueFormatter';
 
 interface ReportSummaryDetailsOwnProps {
   chartType?: DashboardChartType;
@@ -25,7 +25,6 @@ interface ReportSummaryDetailsOwnProps {
   units?: string;
   usageValueFormatterOptions?: ValueFormatterOptions;
   usageLabel?: string;
-  valueFormatter?: ValueFormatter; // This may be formatCurrency or formatValue
   valueFormatterOptions?: ValueFormatterOptions;
 }
 
@@ -47,7 +46,6 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   units,
   usageValueFormatterOptions,
   usageLabel,
-  valueFormatter,
   valueFormatterOptions,
 }) => {
   let cost: string | React.ReactNode = <EmptyValueState />;
@@ -73,36 +71,36 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   const hasUsage = hasTotal && report.meta.total.usage;
 
   if (hasTotal) {
-    cost = valueFormatter(
+    cost = formatCurrency(
       hasCost ? report.meta.total.cost.total.value : 0,
       hasCost ? report.meta.total.cost.total.units : 'USD',
       valueFormatterOptions
     );
-    supplementaryCost = valueFormatter(
+    supplementaryCost = formatCurrency(
       hasSupplementaryCost ? report.meta.total.supplementary.total.value : 0,
       hasSupplementaryCost ? report.meta.total.supplementary.total.units : 'USD',
       valueFormatterOptions
     );
-    infrastructureCost = valueFormatter(
+    infrastructureCost = formatCurrency(
       hasInfrastructureCost ? report.meta.total.infrastructure[computedReportItemValue].value : 0,
       hasInfrastructureCost ? report.meta.total.infrastructure[computedReportItemValue].units : 'USD',
       valueFormatterOptions
     );
-    request = valueFormatter(
+    request = formatValue(
       hasRequest ? report.meta.total.request.value : 0,
       hasRequest ? report.meta.total.request.units : undefined,
       requestValueFormatterOptions ? usageValueFormatterOptions : valueFormatterOptions
     );
 
     if (hasUsage && report.meta.total.usage.value >= 0) {
-      usage = valueFormatter(
+      usage = formatValue(
         hasUsage ? report.meta.total.usage.value : 0,
         hasUsage ? report.meta.total.usage.units : undefined,
         usageValueFormatterOptions ? usageValueFormatterOptions : valueFormatterOptions
       );
     } else {
       // Workaround for https://github.com/project-koku/koku-ui/issues/1058
-      usage = valueFormatter(
+      usage = formatValue(
         hasUsage ? (report.meta.total.usage as any) : 0,
         hasCount ? report.meta.total.count.units : undefined,
         usageValueFormatterOptions ? usageValueFormatterOptions : valueFormatterOptions
@@ -144,7 +142,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
       return null;
     }
     const usageUnits: string = hasRequest ? report.meta.total.request.units : undefined;
-    const unitsLabel = intl.formatMessage(messages.Units, { units: unitLookupKey(usageUnits) });
+    const unitsLabel = intl.formatMessage(messages.Units, { units: unitsLookupKey(usageUnits) });
 
     return (
       <div className="valueContainer">
@@ -165,7 +163,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     }
     const usageUnits: string = hasUsage ? report.meta.total.usage.units : undefined;
     // added as a work-around for azure #1079
-    const _units = unitLookupKey(units ? units : usageUnits);
+    const _units = unitsLookupKey(units ? units : usageUnits);
     const unitsLabel = intl.formatMessage(messages.Units, { units: _units });
 
     return (
