@@ -46,7 +46,7 @@ export const formatValue: ValueFormatter = (value, units, options: ValueFormatte
     case 'vm_hours':
       return formatUsageGb(fValue, options);
   }
-  return unknownTypeFormatter(fValue);
+  return unknownTypeFormatter(fValue, options);
 };
 
 // Some currencies do not have decimals, such as JPY, and some have 3 decimals such as IQD.
