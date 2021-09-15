@@ -5,6 +5,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { IbmReport } from 'api/reports/ibmReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
+import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import React from 'react';
@@ -64,10 +65,13 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
 
     return (
       <header style={styles.header}>
-        <div>
+        <div style={styles.headerContent}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.IBMDetailsTitle)}
           </Title>
+          <Currency />
+        </div>
+        <div style={styles.headerContent}>
           <GroupBy
             getIdKeyForGroupBy={getIdKeyForGroupBy}
             groupBy={groupBy}
@@ -77,18 +81,18 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             showTags
             tagReportPathsType={tagReportPathsType}
           />
+          {Boolean(showContent) && (
+            <div>
+              <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
+                {formatCurrency(
+                  hasCost ? report.meta.total.cost.total.value : 0,
+                  hasCost ? report.meta.total.cost.total.units : 'USD'
+                )}
+              </Title>
+              <div style={styles.dateTitle}>{getSinceDateRangeString()}</div>
+            </div>
+          )}
         </div>
-        {Boolean(showContent) && (
-          <div>
-            <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
-              {formatCurrency(
-                hasCost ? report.meta.total.cost.total.value : 0,
-                hasCost ? report.meta.total.cost.total.units : 'USD'
-              )}
-            </Title>
-            <div style={styles.dateTitle}>{getSinceDateRangeString()}</div>
-          </div>
-        )}
       </header>
     );
   }

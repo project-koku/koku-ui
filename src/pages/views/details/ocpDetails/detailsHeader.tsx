@@ -5,6 +5,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { OcpReport } from 'api/reports/ocpReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
+import { Currency } from 'components/currency/currency';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
@@ -88,10 +89,13 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
 
     return (
       <header style={styles.header}>
-        <div>
+        <div style={styles.headerContent}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.OCPDetailsTitle)}
           </Title>
+          <Currency />
+        </div>
+        <div style={styles.headerContent}>
           <GroupBy
             getIdKeyForGroupBy={getIdKeyForGroupBy}
             groupBy={groupBy}
@@ -101,10 +105,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             showTags
             tagReportPathsType={tagReportPathsType}
           />
-        </div>
-        {Boolean(showContent) && (
-          <div>
-            <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
+          {Boolean(showContent) && (
+            <div>
               <Tooltip
                 content={intl.formatMessage(messages.DashboardTotalCostTooltip, {
                   infrastructureCost,
@@ -112,12 +114,14 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                 })}
                 enableFlip
               >
-                <span>{cost}</span>
+                <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
+                  {cost}
+                </Title>
               </Tooltip>
-            </Title>
-            <div style={styles.dateTitle}>{getSinceDateRangeString()}</div>
-          </div>
-        )}
+              <div style={styles.dateTitle}>{getSinceDateRangeString()}</div>
+            </div>
+          )}
+        </div>
       </header>
     );
   }
