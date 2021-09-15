@@ -5,6 +5,7 @@ import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
+import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import { Perspective } from 'pages/views/components/perspective/perspective';
@@ -256,39 +257,40 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
     return (
       <header style={styles.header}>
-        <div>
+        <div style={styles.headerContent}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.ExplorerTitle)}
           </Title>
-          <div style={styles.perspectiveContainer}>
-            {this.getPerspective(noProviders)}
-            <div style={styles.groupBy}>
-              <GroupBy
-                endDate={end_date}
-                getIdKeyForGroupBy={getIdKeyForGroupBy}
-                groupBy={groupBy}
-                isDisabled={noProviders}
-                onItemClicked={onGroupByClicked}
-                options={groupByOptions}
-                orgReportPathsType={orgReportPathsType}
-                perspective={perspective}
-                showOrgs={orgReportPathsType}
-                showTags={tagReportPathsType}
-                startDate={start_date}
-                tagReportPathsType={tagReportPathsType}
-              />
-            </div>
-          </div>
-          <ExplorerFilter
-            groupBy={groupBy}
-            isDisabled={noProviders}
-            onFilterAdded={onFilterAdded}
-            onFilterRemoved={onFilterRemoved}
-            perspective={perspective}
-            query={query}
-            resourcePathsType={resourcePathsType}
-          />
+          <Currency />
         </div>
+        <div style={styles.perspectiveContainer}>
+          {this.getPerspective(noProviders)}
+          <div style={styles.groupBy}>
+            <GroupBy
+              endDate={end_date}
+              getIdKeyForGroupBy={getIdKeyForGroupBy}
+              groupBy={groupBy}
+              isDisabled={noProviders}
+              onItemClicked={onGroupByClicked}
+              options={groupByOptions}
+              orgReportPathsType={orgReportPathsType}
+              perspective={perspective}
+              showOrgs={orgReportPathsType}
+              showTags={tagReportPathsType}
+              startDate={start_date}
+              tagReportPathsType={tagReportPathsType}
+            />
+          </div>
+        </div>
+        <ExplorerFilter
+          groupBy={groupBy}
+          isDisabled={noProviders}
+          onFilterAdded={onFilterAdded}
+          onFilterRemoved={onFilterRemoved}
+          perspective={perspective}
+          query={query}
+          resourcePathsType={resourcePathsType}
+        />
       </header>
     );
   }

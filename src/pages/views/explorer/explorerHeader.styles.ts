@@ -30,13 +30,15 @@ export const styles = {
     paddingLeft: global_spacer_lg.var,
   },
   header: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    backgroundColor: global_BackgroundColor_light_100.var,
     paddingBottom: global_spacer_sm.var,
     paddingLeft: global_spacer_lg.var,
     paddingRight: global_spacer_lg.var,
     paddingTop: global_spacer_lg.var,
-    backgroundColor: global_BackgroundColor_light_100.var,
+  },
+  headerContent: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   perspectiveContainer: {
     display: 'flex',
