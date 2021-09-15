@@ -173,7 +173,7 @@
   "DashboardDailyUsageComparison": "Daily usage comparison ({units})",
   "DashboardDatabaseTitle": "Database services cost",
   "DashboardNetworkTitle": "Network services cost",
-  "DashboardStorageTitle": "Storage services cost",
+  "DashboardStorageTitle": "Storage services usage",
   "DashboardTotalCostTooltip": "This total cost is the sum of the infrastructure cost {infrastructureCost} and supplementary cost {supplementaryCost}",
   "Delete": "Delete",
   "Description": "Description",

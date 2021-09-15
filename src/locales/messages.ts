@@ -1278,8 +1278,8 @@ export default defineMessages({
     id: 'DashboardNetworkTitle',
   },
   DashboardStorageTitle: {
-    defaultMessage: 'Storage services cost',
-    description: 'Storage services cost',
+    defaultMessage: 'Storage services usage',
+    description: 'Storage services usage',
     id: 'DashboardStorageTitle',
   },
   DashboardTotalCostTooltip: {
