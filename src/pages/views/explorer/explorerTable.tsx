@@ -141,25 +141,29 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     ) {
       const mapId = format(currentDate, 'yyyy-MM-dd');
 
+      let isSortable = true;
+      computedItems.map(rowItem => {
+        const item = rowItem.get(mapId);
+        if (!item) {
+          isSortable = false;
+          rowItem.set(mapId, {
+            date: mapId,
+          });
+        }
+      });
+
       // Add column headings
       const mapIdDate = new Date(mapId + 'T00:00:00');
       const date = getDate(mapIdDate);
       const month = getMonth(mapIdDate);
       columns.push({
         cellTransforms: [nowrap],
-        date: mapId,
-        orderBy: 'cost',
         title: intl.formatMessage(messages.ExplorerChartDate, { date, month }),
-        transforms: [sortable],
-      });
-
-      computedItems.map(rowItem => {
-        const item = rowItem.get(mapId);
-        if (!item) {
-          rowItem.set(mapId, {
-            date: mapId,
-          });
-        }
+        ...(isSortable && {
+          date: mapId,
+          orderBy: 'cost',
+          transforms: [sortable],
+        }),
       });
     }
 
@@ -274,8 +278,12 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       for (const key of Object.keys(query.order_by)) {
         let c = 0;
         for (const column of columns) {
-          if (column.orderBy === key) {
+          if (column.orderBy === key && !column.date) {
             direction = query.order_by[key] === 'asc' ? SortByDirection.asc : SortByDirection.desc;
+            index = c + 1;
+            break;
+          } else if (column.date === query.order_by[key]) {
+            direction = query.order_by.cost === 'asc' ? SortByDirection.asc : SortByDirection.desc;
             index = c + 1;
             break;
           }
