@@ -24,7 +24,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
-import { formatValue } from 'utils/valueFormatter';
+import { formatPercentage } from 'utils/format';
 
 import { styles } from './costCalc.styles';
 
@@ -50,10 +50,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
     const noSignValue = isNegative ? initialMarkup.substring(1) : initialMarkup;
 
     this.state = {
-      markup:
-        (formatValue(Number(noSignValue), 'unknown', {
-          fractionDigits: 2,
-        }) as string) || '0.00',
+      markup: (formatPercentage(Number(noSignValue)) as string) || '0.00',
       origIsDiscount: isNegative,
       isDiscount: isNegative,
     };
@@ -168,7 +165,11 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
               <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfCenter' }}>
                 <FlexItem>
                   <InputGroup style={styles.rateContainer}>
-                    <InputGroupText style={styles.sign}>{isDiscount ? '-' : '+'}</InputGroupText>
+                    <InputGroupText style={styles.sign}>
+                      {isDiscount
+                        ? intl.formatMessage(messages.DiscountMinus)
+                        : intl.formatMessage(messages.MarkupPlus)}
+                    </InputGroupText>
                     <TextInput
                       style={styles.inputField}
                       type="text"
@@ -179,7 +180,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                       onChange={this.handleMarkupDiscountChange}
                       validated={this.markupValidator()}
                     />
-                    <InputGroupText style={styles.percent}>%</InputGroupText>
+                    <InputGroupText style={styles.percent}>{intl.formatMessage(messages.PercentSymbol)}</InputGroupText>
                   </InputGroup>
                 </FlexItem>
               </Flex>

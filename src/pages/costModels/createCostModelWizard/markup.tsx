@@ -82,7 +82,11 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
                   <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfCenter' }}>
                     <FlexItem>
                       <InputGroup style={styles.rateContainer}>
-                        <InputGroupText style={styles.sign}>{isDiscount ? '-' : '+'}</InputGroupText>
+                        <InputGroupText style={styles.sign}>
+                          {isDiscount
+                            ? intl.formatMessage(messages.DiscountMinus)
+                            : intl.formatMessage(messages.MarkupPlus)}
+                        </InputGroupText>
                         <TextInput
                           style={styles.inputField}
                           type="text"
@@ -93,7 +97,9 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
                           onChange={handleMarkupDiscountChange}
                           validated={markupValidator()}
                         />
-                        <InputGroupText style={styles.percent}>%</InputGroupText>
+                        <InputGroupText style={styles.percent}>
+                          {intl.formatMessage(messages.PercentSymbol)}
+                        </InputGroupText>
                       </InputGroup>
                     </FlexItem>
                   </Flex>

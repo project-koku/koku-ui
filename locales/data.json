@@ -34757,6 +34757,12 @@
         "value": " % of cost"
       }
     ],
+    "PercentSymbol": [
+      {
+        "type": 0,
+        "value": "%"
+      }
+    ],
     "PercentTotalCost": [
       {
         "type": 1,
