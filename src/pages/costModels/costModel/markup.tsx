@@ -20,7 +20,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
-import { formatValue } from 'utils/valueFormatter';
+import { formatPercentage } from 'utils/format';
 
 import { styles } from './costCalc.styles';
 import UpdateMarkupDialog from './updateMarkupDialog';
@@ -41,11 +41,7 @@ const MarkupCardBase: React.FunctionComponent<Props> = ({
 }) => {
   const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
   const markupValue =
-    current && current.markup && current.markup.value
-      ? formatValue(Number(current.markup.value), current.markup.unit, {
-          fractionDigits: 2,
-        })
-      : '0.0';
+    current && current.markup && current.markup.value ? formatPercentage(Number(current.markup.value)) : '0.0';
 
   return (
     <>

@@ -4,15 +4,15 @@ import { Progress, ProgressSize } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { ValueFormatterOptions } from 'utils/valueFormatter';
-import { formatCurrency, unitsLookupKey } from 'utils/valueFormatter';
+import { FormatOptions } from 'utils/format';
+import { formatCurrency, formatPercentage, unitsLookupKey } from 'utils/format';
 
 interface ReportSummaryItemOwnProps {
   label: string;
   totalValue: number;
   units: string;
   value: number;
-  valueFormatterOptions?: ValueFormatterOptions;
+  formatOptions?: FormatOptions;
 }
 
 type ReportSummaryItemProps = ReportSummaryItemOwnProps & WrappedComponentProps;
@@ -23,20 +23,20 @@ const ReportSummaryItemBase: React.SFC<ReportSummaryItemProps> = ({
   totalValue,
   units,
   value,
-  valueFormatterOptions,
+  formatOptions,
 }) => {
   const unitsLabel = intl.formatMessage(messages.Units, { units: unitsLookupKey(units) });
   const percent = !totalValue ? 0 : (value / totalValue) * 100;
-  const percentVal = Number(percent.toFixed(2));
+  const percentVal = formatPercentage(percent);
   const percentLabel = intl.formatMessage(messages.PercentTotalCost, {
     percent: percentVal,
     units: unitsLabel,
-    value: formatCurrency(value, units, valueFormatterOptions),
+    value: formatCurrency(value, units, formatOptions),
   });
 
   return (
     <li className="reportSummaryItem">
-      <Progress label={percentLabel} value={percentVal} title={label} size={ProgressSize.sm} />
+      <Progress label={percentLabel} value={Number(percentVal)} title={label} size={ProgressSize.sm} />
     </li>
   );
 };
