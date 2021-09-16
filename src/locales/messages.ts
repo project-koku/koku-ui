@@ -1583,6 +1583,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'current_month_to_date {Month to date} ' +
+      'last_ninety_days {Last 90 days} ' +
       'last_sixty_days {Last 60 days} ' +
       'last_thirty_days {Last 30 days} ' +
       'previous_month_to_date {Previous month and month to date} ' +

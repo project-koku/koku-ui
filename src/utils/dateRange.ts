@@ -102,3 +102,8 @@ export function getLast30DaysDate() {
 export function getLast60DaysDate() {
   return getLastDaysDate(60);
 }
+
+// Returns 91 days, including today's date
+export function getLast90DaysDate() {
+  return getLastDaysDate(90);
+}
