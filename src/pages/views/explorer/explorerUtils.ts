@@ -15,7 +15,7 @@ import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputed
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
 import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
-import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate } from 'utils/dateRange';
+import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate, getLast90DaysDate } from 'utils/dateRange';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 // The date range drop down has the options below (if today is Jan 18th…)
@@ -23,8 +23,9 @@ import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcp
 export const enum DateRangeType {
   currentMonthToDate = 'current_month_to_date', // Current month (Jan 1 - Jan 18)
   previousMonthToDate = 'previous_month_to_date', // Previous and current month (Dec 1 - Jan 18)
-  lastThirtyDays = 'last_thirty_days', // Last 30 days (Dec 18 - Jan 17)
+  lastNinetyDays = 'last_ninety_days', // Last 90 days
   lastSixtyDays = 'last_sixty_days', // Last 60 days (Nov 18 - Jan 17)
+  lastThirtyDays = 'last_thirty_days', // Last 30 days (Dec 18 - Jan 17)
 }
 
 // eslint-disable-next-line no-shadow
@@ -59,6 +60,7 @@ export const dateRangeOptions: {
   { label: messages.ExplorerDateRange, value: 'previous_month_to_date' },
   { label: messages.ExplorerDateRange, value: 'last_thirty_days' },
   { label: messages.ExplorerDateRange, value: 'last_sixty_days' },
+  { label: messages.ExplorerDateRange, value: 'last_ninety_days' },
 ];
 
 export const groupByAwsOptions: {
@@ -171,6 +173,9 @@ export const getDateRange = (dateRangeType: DateRangeType) => {
         end_date: format(endDate, 'yyyy-MM-dd'),
         start_date: format(startDate, 'yyyy-MM-dd'),
       };
+      break;
+    case DateRangeType.lastNinetyDays:
+      dateRange = getLast90DaysDate();
       break;
     case DateRangeType.lastSixtyDays:
       dateRange = getLast60DaysDate();

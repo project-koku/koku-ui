@@ -29609,6 +29609,14 @@
               }
             ]
           },
+          "last_ninety_days": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Last 90 days"
+              }
+            ]
+          },
           "last_sixty_days": {
             "value": [
               {
