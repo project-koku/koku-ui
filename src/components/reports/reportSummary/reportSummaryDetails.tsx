@@ -8,24 +8,24 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
-import { formatCurrency, formatValue, unitsLookupKey, ValueFormatterOptions } from 'utils/valueFormatter';
+import { formatCurrency, FormatOptions, formatUnits, unitsLookupKey } from 'utils/format';
 
 interface ReportSummaryDetailsOwnProps {
   chartType?: DashboardChartType;
   computedReportItem?: string;
   computedReportItemValue?: string;
   costLabel?: string;
+  formatOptions?: FormatOptions;
   report: Report;
-  requestValueFormatterOptions?: ValueFormatterOptions;
+  requestFormatOptions?: FormatOptions;
   requestLabel?: string;
   reportType?: ReportType;
   showTooltip?: boolean;
   showUnits?: boolean;
   showUsageFirst?: boolean;
   units?: string;
-  usageValueFormatterOptions?: ValueFormatterOptions;
+  usageFormatOptions?: FormatOptions;
   usageLabel?: string;
-  valueFormatterOptions?: ValueFormatterOptions;
 }
 
 type ReportSummaryDetailsProps = ReportSummaryDetailsOwnProps & WrappedComponentProps;
@@ -35,18 +35,18 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   computedReportItem = 'cost',
   computedReportItemValue = 'total',
   costLabel,
+  formatOptions,
   intl,
   report,
-  requestValueFormatterOptions,
+  requestFormatOptions,
   requestLabel,
   reportType,
   showTooltip = false,
   showUnits = false,
   showUsageFirst = false,
   units,
-  usageValueFormatterOptions,
+  usageFormatOptions,
   usageLabel,
-  valueFormatterOptions,
 }) => {
   let cost: string | React.ReactNode = <EmptyValueState />;
   let supplementaryCost: string | React.ReactNode = <EmptyValueState />;
@@ -74,36 +74,36 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     cost = formatCurrency(
       hasCost ? report.meta.total.cost.total.value : 0,
       hasCost ? report.meta.total.cost.total.units : 'USD',
-      valueFormatterOptions
+      formatOptions
     );
     supplementaryCost = formatCurrency(
       hasSupplementaryCost ? report.meta.total.supplementary.total.value : 0,
       hasSupplementaryCost ? report.meta.total.supplementary.total.units : 'USD',
-      valueFormatterOptions
+      formatOptions
     );
     infrastructureCost = formatCurrency(
       hasInfrastructureCost ? report.meta.total.infrastructure[computedReportItemValue].value : 0,
       hasInfrastructureCost ? report.meta.total.infrastructure[computedReportItemValue].units : 'USD',
-      valueFormatterOptions
+      formatOptions
     );
-    request = formatValue(
+    request = formatUnits(
       hasRequest ? report.meta.total.request.value : 0,
       hasRequest ? report.meta.total.request.units : undefined,
-      requestValueFormatterOptions ? usageValueFormatterOptions : valueFormatterOptions
+      requestFormatOptions ? usageFormatOptions : formatOptions
     );
 
     if (hasUsage && report.meta.total.usage.value >= 0) {
-      usage = formatValue(
+      usage = formatUnits(
         hasUsage ? report.meta.total.usage.value : 0,
         hasUsage ? report.meta.total.usage.units : undefined,
-        usageValueFormatterOptions ? usageValueFormatterOptions : valueFormatterOptions
+        usageFormatOptions ? usageFormatOptions : formatOptions
       );
     } else {
       // Workaround for https://github.com/project-koku/koku-ui/issues/1058
-      usage = formatValue(
+      usage = formatUnits(
         hasUsage ? (report.meta.total.usage as any) : 0,
         hasCount ? report.meta.total.count.units : undefined,
-        usageValueFormatterOptions ? usageValueFormatterOptions : valueFormatterOptions
+        usageFormatOptions ? usageFormatOptions : formatOptions
       );
     }
   }

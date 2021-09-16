@@ -24,7 +24,7 @@ export const costSummaryWidget: AzureOcpDashboardWidget = {
   details: {
     costKey: messages.Cost,
     showHorizontal: true,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
@@ -38,10 +38,10 @@ export const costSummaryWidget: AzureOcpDashboardWidget = {
     dailyTitleKey: messages.AzureDailyCostTrendTitle,
     titleKey: messages.AzureCostTrendTitle,
     type: ChartType.rolling,
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   availableTabs: [
     AzureOcpDashboardTab.service_names,
@@ -60,7 +60,7 @@ export const databaseWidget: AzureOcpDashboardWidget = {
   details: {
     costKey: messages.Cost,
     showUnits: true,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
@@ -75,10 +75,10 @@ export const databaseWidget: AzureOcpDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   // availableTabs: [
   //   AzureOcpDashboardTab.service_names,
@@ -97,7 +97,7 @@ export const networkWidget: AzureOcpDashboardWidget = {
   details: {
     costKey: messages.Cost,
     showUnits: true,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
@@ -112,10 +112,10 @@ export const networkWidget: AzureOcpDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   // availableTabs: [
   //   AzureOcpDashboardTab.service_names,
@@ -137,10 +137,10 @@ export const storageWidget: AzureOcpDashboardWidget = {
     showUsageFirst: true,
     showUsageLegendLabel: true,
     usageKey: messages.Usage,
-    usageValueFormatterOptions: {
+    usageFormatOptions: {
       fractionDigits: 0,
     },
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
@@ -155,12 +155,12 @@ export const storageWidget: AzureOcpDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   // availableTabs: [
   //   AzureOcpDashboardTab.service_names,
@@ -182,10 +182,10 @@ export const virtualMachineWidget: AzureOcpDashboardWidget = {
     showUsageFirst: true,
     showUsageLegendLabel: true,
     usageKey: messages.Usage,
-    usageValueFormatterOptions: {
+    usageFormatOptions: {
       fractionDigits: 0,
     },
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
@@ -200,12 +200,12 @@ export const virtualMachineWidget: AzureOcpDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   // availableTabs: [
   //   AzureOcpDashboardTab.instanceType,

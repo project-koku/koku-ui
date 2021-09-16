@@ -10,8 +10,8 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
+import { formatUnits, unitsLookupKey } from 'utils/format';
 import { skeletonWidth } from 'utils/skeleton';
-import { formatValue, unitsLookupKey } from 'utils/valueFormatter';
 
 import { chartStyles, styles } from './historicalChart.styles';
 
@@ -99,8 +99,8 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
               currentLimitData={currentLimitData}
               currentRequestData={currentRequestData}
               currentUsageData={currentUsageData}
-              valueFormatter={formatValue}
-              valueFormatterOptions={{}}
+              formatter={formatUnits}
+              formatOptions={{}}
               height={chartStyles.chartHeight}
               previousLimitData={previousLimitData}
               previousRequestData={previousRequestData}

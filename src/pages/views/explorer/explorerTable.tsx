@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { formatCurrency } from 'utils/valueFormatter';
+import { formatCurrency } from 'utils/format';
 
 import { styles } from './explorerTable.styles';
 import { DateRangeType, getDateRange, getDateRangeDefault, PerspectiveType } from './explorerUtils';

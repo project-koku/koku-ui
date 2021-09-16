@@ -27,14 +27,16 @@ import {
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { formatCurrencyAbbreviation, FormatOptions, Formatter } from 'utils/format';
 import { noop } from 'utils/noop';
-import { formatCurrencyAbbreviation, ValueFormatter, ValueFormatterOptions } from 'utils/valueFormatter';
 
 import { chartStyles } from './costExplorerChart.styles';
 
 interface CostExplorerChartOwnProps {
   adjustContainerHeight?: boolean;
   containerHeight?: number;
+  formatOptions?: FormatOptions;
+  formatter?: Formatter;
   height?: number;
   legendItemsPerRow?: number;
   padding?: any;
@@ -44,8 +46,6 @@ interface CostExplorerChartOwnProps {
   top4thData: any;
   top5thData: any;
   top6thData: any;
-  valueFormatter?: ValueFormatter;
-  valueFormatterOptions?: ValueFormatterOptions;
 }
 
 interface State {
@@ -276,7 +276,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
 
   // Returns CursorVoronoiContainer component
   private getCursorVoronoiContainer = () => {
-    const { valueFormatter, valueFormatterOptions } = this.props;
+    const { formatter, formatOptions } = this.props;
 
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
@@ -284,7 +284,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={({ datum }) => getTooltipLabel(datum, valueFormatter, valueFormatterOptions)}
+        labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{

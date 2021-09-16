@@ -27,8 +27,8 @@ import { getDate } from 'date-fns';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { FormatOptions, Formatter } from 'utils/format';
 import { noop } from 'utils/noop';
-import { ValueFormatter, ValueFormatterOptions } from 'utils/valueFormatter';
 
 import { chartStyles } from './trendChart.styles';
 
@@ -38,6 +38,8 @@ interface TrendChartOwnProps {
   currentData: any;
   forecastData?: any;
   forecastConeData?: any;
+  formatOptions?: FormatOptions;
+  formatter: Formatter;
   height?: number;
   legendItemsPerRow?: number;
   previousData?: any;
@@ -48,8 +50,6 @@ interface TrendChartOwnProps {
   showUsageLegendLabel?: boolean; // The cost legend label is shown by default
   title?: string;
   units?: string;
-  valueFormatter: ValueFormatter;
-  valueFormatterOptions?: ValueFormatterOptions;
 }
 
 interface State {
@@ -264,7 +264,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
 
   // Returns CursorVoronoiContainer component
   private getCursorVoronoiContainer = () => {
-    const { valueFormatter, valueFormatterOptions } = this.props;
+    const { formatter, formatOptions } = this.props;
 
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
@@ -272,7 +272,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={({ datum }) => getTooltipLabel(datum, valueFormatter, valueFormatterOptions)}
+        labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{

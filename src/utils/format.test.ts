@@ -1,28 +1,28 @@
-import * as format from './valueFormatter';
+import * as format from './format';
 
 jest.spyOn(format, 'formatCurrency');
 
-describe('formatValue', () => {
-  const valueFormatterOptions: format.ValueFormatterOptions = {};
+describe('formatUnits', () => {
+  const formatOptions: format.FormatOptions = {};
   const value = 100.11;
 
   test('null value returns 0', () => {
-    expect(format.formatValue(null, 'unknownUnit')).toBe('0');
+    expect(format.formatUnits(null, 'unknownUnit')).toBe('0');
   });
   test('unknown unit returns value fixed to fractionDigits', () => {
-    const formatted = format.formatValue(value, 'unknownUnit');
+    const formatted = format.formatUnits(value, 'unknownUnit');
     expect(formatted).toMatchSnapshot();
   });
 
   test('USD unit calls formatCurrency', () => {
     const units = 'USD';
-    format.formatCurrency(value, units, valueFormatterOptions);
-    expect(format.formatCurrency).toBeCalledWith(value, units, valueFormatterOptions);
+    format.formatCurrency(value, units, formatOptions);
+    expect(format.formatCurrency).toBeCalledWith(value, units, formatOptions);
   });
 
   test('null unit returns value fixed to fractionDigits', () => {
     const units = null;
-    const formatted = format.formatValue(value, units, { fractionDigits: 1 });
+    const formatted = format.formatUnits(value, units, { fractionDigits: 1 });
     expect(formatted).toMatchSnapshot();
   });
 });

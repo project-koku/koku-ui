@@ -8,7 +8,7 @@ import { Selector } from 'pages/costModels/components/inputs/selector';
 import { SimpleInput } from 'pages/costModels/components/inputs/simpleInput';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { unitsLookupKey } from 'utils/valueFormatter';
+import { unitsLookupKey } from 'utils/format';
 
 import { TaggingRatesForm } from './taggingRatesForm';
 import { UseRateData } from './useRateForm';

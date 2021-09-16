@@ -14,9 +14,9 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
+import { formatPercentage, formatUnits, unitsLookupKey } from 'utils/format';
 import { noop } from 'utils/noop';
 import { skeletonWidth } from 'utils/skeleton';
-import { formatValue, unitsLookupKey } from 'utils/valueFormatter';
 
 import { styles } from './usageChart.styles';
 
@@ -349,21 +349,21 @@ class UsageChartBase extends React.Component<UsageChartProps> {
       <Grid hasGutter>
         <GridItem md={12} lg={6}>
           <div>{intl.formatMessage(messages.DetailsUnusedUsageLabel)}</div>
-          <div style={styles.capacity}>{formatValue(unusedUsageCapacity, usageUnits)}</div>
+          <div style={styles.capacity}>{formatUnits(unusedUsageCapacity, usageUnits)}</div>
           <div>
             {intl.formatMessage(messages.DetailsUnusedUnits, {
-              percentage: formatValue(unusedUsageCapacityPercentage, usageUnits),
+              percentage: formatPercentage(unusedUsageCapacityPercentage, { fractionDigits: 0 }),
               units: usageUnits,
             })}
           </div>
         </GridItem>
         <GridItem md={12} lg={6}>
           <div>{intl.formatMessage(messages.DetailsUnusedRequestsLabel)}</div>
-          <div style={styles.capacity}>{formatValue(unusedRequestCapacity, requestUnits)}</div>
+          <div style={styles.capacity}>{formatUnits(unusedRequestCapacity, requestUnits)}</div>
           <div>
             {intl.formatMessage(messages.DetailsUnusedUnits, {
-              percentage: formatValue(unusedRequestCapacityPercentage, requestUnits),
-              units: usageUnits,
+              percentage: formatPercentage(unusedRequestCapacityPercentage, { fractionDigits: 0 }),
+              units: requestUnits,
             })}
           </div>
         </GridItem>

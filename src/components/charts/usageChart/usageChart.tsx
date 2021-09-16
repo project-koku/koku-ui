@@ -27,8 +27,8 @@ import { getDate } from 'date-fns';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { FormatOptions, Formatter } from 'utils/format';
 import { noop } from 'utils/noop';
-import { ValueFormatter, ValueFormatterOptions } from 'utils/valueFormatter';
 
 import { chartStyles } from './usageChart.styles';
 
@@ -43,8 +43,8 @@ interface UsageChartOwnProps {
   previousRequestData?: any;
   previousUsageData?: any;
   title?: string;
-  valueFormatter?: ValueFormatter;
-  valueFormatterOptions?: ValueFormatterOptions;
+  formatter?: Formatter;
+  formatOptions?: FormatOptions;
 }
 
 interface State {
@@ -197,7 +197,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
 
   // Returns CursorVoronoiContainer component
   private getCursorVoronoiContainer = () => {
-    const { valueFormatter, valueFormatterOptions } = this.props;
+    const { formatter, formatOptions } = this.props;
 
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
@@ -205,7 +205,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={({ datum }) => getTooltipLabel(datum, valueFormatter, valueFormatterOptions)}
+        labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{

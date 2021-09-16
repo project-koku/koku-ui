@@ -88,14 +88,14 @@ test('getQueryForWidget', () => {
     reportType: ReportType.cost,
     availableTabs: [AzureDashboardTab.subscription_guids],
     currentTab: AzureDashboardTab.subscription_guids,
-    details: { valueFormatterOptions: {} },
+    details: { formatOptions: {} },
     trend: {
+      formatOptions: {},
       titleKey: '',
       type: ChartType.daily,
-      valueFormatterOptions: {},
     },
     topItems: {
-      valueFormatterOptions: {},
+      formatOptions: {},
     },
   };
 

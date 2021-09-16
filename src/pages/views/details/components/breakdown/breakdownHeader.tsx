@@ -13,7 +13,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
-import { formatCurrency } from 'utils/valueFormatter';
+import { formatCurrency } from 'utils/format';
 
 import { styles } from './breakdownHeader.styles';
 

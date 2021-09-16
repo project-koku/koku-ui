@@ -25,10 +25,10 @@ export const costSummaryWidget: AzureDashboardWidget = {
   details: {
     adjustContainerHeight: true,
     costKey: messages.Cost,
-    showHorizontal: true,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
+    showHorizontal: true,
     viewAllPath: paths.azureDetails,
   },
   tabsFilter: {
@@ -39,12 +39,12 @@ export const costSummaryWidget: AzureDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     dailyTitleKey: messages.AzureDailyCostTrendTitle,
+    formatOptions: {},
     titleKey: messages.AzureCostTrendTitle,
     type: ChartType.rolling,
-    valueFormatterOptions: {},
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   availableTabs: [
     AzureDashboardTab.service_names,
@@ -62,10 +62,10 @@ export const databaseWidget: AzureDashboardWidget = {
   reportType: ReportType.database,
   details: {
     costKey: messages.Cost,
-    showUnits: true,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
+    showUnits: true,
   },
   filter: {
     service_name: 'Database,Cosmos DB,Cache for Redis',
@@ -76,12 +76,12 @@ export const databaseWidget: AzureDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    formatOptions: {},
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
-    valueFormatterOptions: {},
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   // availableTabs: [
   //   AzureDashboardTab.service_names,
@@ -99,10 +99,10 @@ export const networkWidget: AzureDashboardWidget = {
   reportType: ReportType.network,
   details: {
     costKey: messages.Cost,
-    showUnits: true,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
+    showUnits: true,
   },
   filter: {
     service_name: 'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
@@ -113,12 +113,12 @@ export const networkWidget: AzureDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    formatOptions: {},
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
-    valueFormatterOptions: {},
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   // availableTabs: [
   //   AzureDashboardTab.service_names,
@@ -136,15 +136,15 @@ export const storageWidget: AzureDashboardWidget = {
   reportType: ReportType.storage,
   details: {
     costKey: messages.Cost,
+    formatOptions: {
+      fractionDigits: 2,
+    },
     showUnits: true,
     showUsageFirst: true,
     showUsageLegendLabel: true,
     usageKey: messages.Usage,
-    usageValueFormatterOptions: {
+    usageFormatOptions: {
       fractionDigits: 0,
-    },
-    valueFormatterOptions: {
-      fractionDigits: 2,
     },
   },
   filter: {
@@ -156,14 +156,14 @@ export const storageWidget: AzureDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.DashboardDailyUsageComparison,
-    type: ChartType.daily,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
+    titleKey: messages.DashboardDailyUsageComparison,
+    type: ChartType.daily,
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   // availableTabs: [
   //   AzureDashboardTab.service_names,
@@ -181,15 +181,15 @@ export const virtualMachineWidget: AzureDashboardWidget = {
   reportType: ReportType.instanceType,
   details: {
     costKey: messages.Cost,
+    formatOptions: {
+      fractionDigits: 2,
+    },
     showUnits: true,
     showUsageFirst: true,
     showUsageLegendLabel: true,
     usageKey: messages.Usage,
-    usageValueFormatterOptions: {
+    usageFormatOptions: {
       fractionDigits: 0,
-    },
-    valueFormatterOptions: {
-      fractionDigits: 2,
     },
   },
   filter: {
@@ -201,14 +201,14 @@ export const virtualMachineWidget: AzureDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.DashboardDailyUsageComparison,
-    type: ChartType.daily,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
+    titleKey: messages.DashboardDailyUsageComparison,
+    type: ChartType.daily,
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   // availableTabs: [
   //   AzureDashboardTab.instanceType,

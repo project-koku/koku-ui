@@ -25,11 +25,11 @@ export const costSummaryWidget: OcpDashboardWidget = {
   details: {
     adjustContainerHeight: true,
     costKey: messages.Cost,
-    showHorizontal: true,
-    showTooltip: true,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
+    showHorizontal: true,
+    showTooltip: true,
     viewAllPath: paths.ocpDetails,
   },
   trend: {
@@ -38,15 +38,15 @@ export const costSummaryWidget: OcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     dailyTitleKey: messages.OCPDashboardDailyCostTitle,
+    formatOptions: {},
     titleKey: messages.OCPDashboardCostTrendTitle,
     type: ChartType.rolling,
-    valueFormatterOptions: {},
   },
   tabsFilter: {
     limit: 3,
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   chartType: DashboardChartType.dailyTrend, // No longer showing infrastructure via DashboardChartType.dailyCost
@@ -59,31 +59,31 @@ export const cpuWidget: OcpDashboardWidget = {
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cpu,
   details: {
-    requestValueFormatterOptions: {
+    formatOptions: {
+      fractionDigits: 0,
+    },
+    requestFormatOptions: {
       fractionDigits: 0,
     },
     requestKey: messages.Requests,
     showUnits: true,
     showUsageFirst: true,
     usageKey: messages.Usage,
-    usageValueFormatterOptions: {
-      fractionDigits: 0,
-    },
-    valueFormatterOptions: {
+    usageFormatOptions: {
       fractionDigits: 0,
     },
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.OCPDailyUsageAndRequestComparison,
-    type: ChartType.daily,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
+    titleKey: messages.OCPDailyUsageAndRequestComparison,
+    type: ChartType.daily,
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   // availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   chartType: DashboardChartType.usage,
@@ -96,31 +96,31 @@ export const memoryWidget: OcpDashboardWidget = {
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.memory,
   details: {
-    requestValueFormatterOptions: {
+    formatOptions: {
+      fractionDigits: 0,
+    },
+    requestFormatOptions: {
       fractionDigits: 0,
     },
     requestKey: messages.Requests,
     showUnits: true,
     showUsageFirst: true,
     usageKey: messages.Usage,
-    usageValueFormatterOptions: {
-      fractionDigits: 0,
-    },
-    valueFormatterOptions: {
+    usageFormatOptions: {
       fractionDigits: 0,
     },
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.OCPDailyUsageAndRequestComparison,
-    type: ChartType.daily,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
+    titleKey: messages.OCPDailyUsageAndRequestComparison,
+    type: ChartType.daily,
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   // availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   chartType: DashboardChartType.usage,
@@ -133,31 +133,31 @@ export const volumeWidget: OcpDashboardWidget = {
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.volume,
   details: {
-    requestValueFormatterOptions: {
+    formatOptions: {
+      fractionDigits: 0,
+    },
+    requestFormatOptions: {
       fractionDigits: 0,
     },
     requestKey: messages.Requests,
     showUnits: true,
     showUsageFirst: true,
     usageKey: messages.Usage,
-    usageValueFormatterOptions: {
-      fractionDigits: 0,
-    },
-    valueFormatterOptions: {
+    usageFormatOptions: {
       fractionDigits: 0,
     },
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.OCPDailyUsageAndRequestComparison,
-    type: ChartType.daily,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
+    titleKey: messages.OCPDailyUsageAndRequestComparison,
+    type: ChartType.daily,
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   // availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   chartType: DashboardChartType.usage,
