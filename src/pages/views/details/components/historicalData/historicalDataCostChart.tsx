@@ -10,8 +10,8 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
+import { formatUnits } from 'utils/format';
 import { skeletonWidth } from 'utils/skeleton';
-import { formatValue } from 'utils/valueFormatter';
 
 import { chartStyles, styles } from './historicalChart.styles';
 
@@ -98,8 +98,8 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
               containerHeight={chartStyles.chartContainerHeight - 25}
               currentCostData={currentData}
               currentInfrastructureCostData={currentInfrastructureCostData}
-              valueFormatter={formatValue}
-              valueFormatterOptions={{}}
+              formatOptions={{}}
+              formatter={formatUnits}
               height={chartStyles.chartHeight}
               previousCostData={previousData}
               previousInfrastructureCostData={previousInfrastructureCostData}

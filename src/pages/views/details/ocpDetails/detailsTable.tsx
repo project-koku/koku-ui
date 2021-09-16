@@ -20,7 +20,7 @@ import { paths } from 'routes';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dateRange';
-import { formatCurrency } from 'utils/valueFormatter';
+import { formatCurrency, formatPercentage } from 'utils/format';
 
 import { styles } from './detailsTable.styles';
 
@@ -326,7 +326,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
     const { intl } = this.props;
     const value = formatCurrency(Math.abs(item.cost.total.value - item.delta_value), item.cost.total.units);
-    const percentage = item.delta_percent !== null ? Math.abs(item.delta_percent).toFixed(2) : 0;
+    const percentage = item.delta_percent !== null ? formatPercentage(Math.abs(item.delta_percent)) : 0;
 
     const showPercentage = !(percentage === 0 || percentage === '0.00');
     const showValue = item.delta_percent !== null; // Workaround for https://github.com/project-koku/koku/issues/1395

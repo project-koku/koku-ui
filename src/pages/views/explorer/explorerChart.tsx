@@ -21,8 +21,8 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { formatUnits } from 'utils/format';
 import { skeletonWidth } from 'utils/skeleton';
-import { formatValue } from 'utils/valueFormatter';
 
 import { chartStyles, styles } from './explorerChart.styles';
 import {
@@ -231,8 +231,8 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
               <CostExplorerChart
                 adjustContainerHeight
                 containerHeight={chartStyles.chartContainerHeight}
-                valueFormatter={formatValue}
-                valueFormatterOptions={{}}
+                formatOptions={{}}
+                formatter={formatUnits}
                 height={chartStyles.chartHeight}
                 top1stData={datums.length > 0 ? datums[0] : []}
                 top2ndData={datums.length > 1 ? datums[1] : []}

@@ -87,8 +87,8 @@ class SummaryBase extends React.Component<SummaryProps> {
         {({ items }) =>
           items.map(reportItem => (
             <ReportSummaryItem
+              formatOptions={{}}
               key={`${reportItem.id}-item`}
-              valueFormatterOptions={{}}
               label={reportItem.label ? reportItem.label.toString() : undefined}
               totalValue={report.meta.total.cost.total.value}
               units={report.meta.total.cost.total.units}

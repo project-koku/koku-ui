@@ -1,12 +1,13 @@
 import { getLocale, intl } from 'components/i18n';
 import messages from 'locales/messages';
 
-export interface ValueFormatterOptions {
+export interface FormatOptions {
   fractionDigits?: number;
 }
 
-export type ValueFormatter = (value: number, units: string, options?: ValueFormatterOptions) => string | number;
-type UnitsFormatter = (value: number, options?: ValueFormatterOptions) => string | number;
+export type Formatter = (value: number, units: string, options?: FormatOptions) => string | number;
+export type PercentageFormatter = (value: number, options?: FormatOptions) => string | number;
+type UnitsFormatter = (value: number, options?: FormatOptions) => string | number;
 
 // Returns i18n key for given units
 export const unitsLookupKey = (units): string => {
@@ -28,30 +29,9 @@ export const unitsLookupKey = (units): string => {
   }
 };
 
-// Returns formatted units or currency with given currency-code
-export const formatValue: ValueFormatter = (value, units, options: ValueFormatterOptions = {}) => {
-  const lookup = unitsLookupKey(units);
-  const fValue = value || 0;
-
-  switch (lookup) {
-    case 'core_hours':
-    case 'hour':
-    case 'hrs':
-      return formatUsageHrs(fValue, options);
-    case 'gb':
-    case 'gb_hours':
-    case 'gb_mo':
-    case 'gibibyte_month':
-    case 'tag_mo':
-    case 'vm_hours':
-      return formatUsageGb(fValue, options);
-  }
-  return unknownTypeFormatter(fValue, options);
-};
-
 // Some currencies do not have decimals, such as JPY, and some have 3 decimals such as IQD.
 // See https://docs.adyen.com/development-resources/currency-codes
-export const formatCurrency: ValueFormatter = (value: number, units: string, { fractionDigits } = {}): string => {
+export const formatCurrency: Formatter = (value: number, units: string, { fractionDigits } = {}): string => {
   let fValue = value;
   if (!value) {
     fValue = 0;
@@ -67,7 +47,7 @@ export const formatCurrency: ValueFormatter = (value: number, units: string, { f
   });
 };
 
-export const formatCurrencyAbbreviation: ValueFormatter = (value, units = 'USD') => {
+export const formatCurrencyAbbreviation: Formatter = (value, units = 'USD') => {
   let fValue = value;
   if (!value) {
     fValue = 0;
@@ -99,6 +79,34 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, units = 'USD')
 
   // If no format was found, format value without abbreviation
   return formatCurrency(value, units, { fractionDigits: 0 });
+};
+
+// Returns formatted units or currency with given currency-code
+export const formatUnits: Formatter = (value, units, options: FormatOptions = {}) => {
+  const lookup = unitsLookupKey(units);
+  const fValue = value || 0;
+
+  switch (lookup) {
+    case 'core_hours':
+    case 'hour':
+    case 'hrs':
+      return formatUsageHrs(fValue, options);
+    case 'gb':
+    case 'gb_hours':
+    case 'gb_mo':
+    case 'gibibyte_month':
+    case 'tag_mo':
+    case 'vm_hours':
+      return formatUsageGb(fValue, options);
+  }
+  return unknownTypeFormatter(fValue, options);
+};
+
+export const formatPercentage: PercentageFormatter = (value, { fractionDigits = 2 } = {}) => {
+  return value.toLocaleString(getLocale(), {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  });
 };
 
 const formatUsageGb: UnitsFormatter = (value, { fractionDigits = 0 } = {}) => {

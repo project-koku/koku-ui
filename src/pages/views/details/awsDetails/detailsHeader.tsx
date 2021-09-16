@@ -16,7 +16,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
 import { ComputedAwsReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
-import { formatCurrency } from 'utils/valueFormatter';
+import { formatCurrency } from 'utils/format';
 
 import { styles } from './detailsHeader.styles';
 

@@ -23,10 +23,10 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
   reportType: ReportType.cost,
   details: {
     costKey: messages.Cost,
-    showHorizontal: true,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
+    showHorizontal: true,
   },
   tabsFilter: {
     limit: 3,
@@ -36,12 +36,12 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     dailyTitleKey: messages.OCPCloudDashboardDailyCostTrendTitle,
+    formatOptions: {},
     titleKey: messages.OCPCloudDashboardCostTrendTitle,
     type: ChartType.rolling,
-    valueFormatterOptions: {},
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   availableTabs: [OcpCloudDashboardTab.services, OcpCloudDashboardTab.accounts, OcpCloudDashboardTab.regions],
   chartType: DashboardChartType.dailyTrend,
@@ -57,15 +57,15 @@ export const computeWidget: OcpCloudDashboardWidget = {
   reportType: ReportType.instanceType,
   details: {
     costKey: messages.Cost,
+    formatOptions: {
+      fractionDigits: 2,
+    },
     showUnits: true,
     showUsageFirst: true,
     showUsageLegendLabel: true,
     usageKey: messages.Usage,
-    usageValueFormatterOptions: {
+    usageFormatOptions: {
       fractionDigits: 0,
-    },
-    valueFormatterOptions: {
-      fractionDigits: 2,
     },
   },
   filter: {
@@ -76,7 +76,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
@@ -91,7 +91,7 @@ export const databaseWidget: OcpCloudDashboardWidget = {
   details: {
     costKey: messages.Cost,
     showUnits: true,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
@@ -105,7 +105,7 @@ export const databaseWidget: OcpCloudDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   chartType: DashboardChartType.trend,
 };
@@ -118,7 +118,7 @@ export const networkWidget: OcpCloudDashboardWidget = {
   details: {
     costKey: messages.Cost,
     showUnits: true,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
@@ -132,7 +132,7 @@ export const networkWidget: OcpCloudDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   chartType: DashboardChartType.trend,
 };
@@ -148,10 +148,10 @@ export const storageWidget: OcpCloudDashboardWidget = {
     showUsageFirst: true,
     showUsageLegendLabel: true,
     usageKey: messages.Usage,
-    usageValueFormatterOptions: {
+    usageFormatOptions: {
       fractionDigits: 0,
     },
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
@@ -160,7 +160,7 @@ export const storageWidget: OcpCloudDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },

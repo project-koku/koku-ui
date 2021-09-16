@@ -26,10 +26,10 @@ export const computeWidget: AwsDashboardWidget = {
     showUsageFirst: true,
     showUsageLegendLabel: true,
     usageKey: messages.Usage,
-    usageValueFormatterOptions: {
+    usageFormatOptions: {
       fractionDigits: 0,
     },
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
@@ -44,12 +44,12 @@ export const computeWidget: AwsDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   // availableTabs: [
   //   AwsDashboardTab.instanceType,
@@ -71,7 +71,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
     adjustContainerHeight: true,
     costKey: messages.Cost,
     showHorizontal: true,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
     viewAllPath: paths.awsDetails,
@@ -86,10 +86,10 @@ export const costSummaryWidget: AwsDashboardWidget = {
     dailyTitleKey: messages.AWSDailyCostTrendTitle,
     titleKey: messages.AWSCostTrendTitle,
     type: ChartType.rolling,
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   availableTabs: [AwsDashboardTab.services, AwsDashboardTab.accounts, AwsDashboardTab.regions],
   chartType: DashboardChartType.dailyTrend,
@@ -104,7 +104,7 @@ export const databaseWidget: AwsDashboardWidget = {
   details: {
     costKey: messages.Cost,
     showUnits: true,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
@@ -119,10 +119,10 @@ export const databaseWidget: AwsDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   // availableTabs: [
   //   AwsDashboardTab.services,
@@ -141,7 +141,7 @@ export const networkWidget: AwsDashboardWidget = {
   details: {
     costKey: messages.Cost,
     showUnits: true,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
@@ -156,10 +156,10 @@ export const networkWidget: AwsDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   // availableTabs: [
   //   AwsDashboardTab.services,
@@ -182,10 +182,10 @@ export const storageWidget: AwsDashboardWidget = {
     showUsageFirst: true,
     showUsageLegendLabel: true,
     usageKey: messages.Usage,
-    usageValueFormatterOptions: {
+    usageFormatOptions: {
       fractionDigits: 0,
     },
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
@@ -194,12 +194,12 @@ export const storageWidget: AwsDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
-    valueFormatterOptions: {
+    formatOptions: {
       fractionDigits: 2,
     },
   },
   topItems: {
-    valueFormatterOptions: {},
+    formatOptions: {},
   },
   // availableTabs: [
   //   AwsDashboardTab.services,

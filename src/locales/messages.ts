@@ -2555,6 +2555,11 @@ export default defineMessages({
     description: '{value} % of cost',
     id: 'PercentOfCost',
   },
+  PercentSymbol: {
+    defaultMessage: '%',
+    description: 'percent symbol',
+    id: 'PercentSymbol',
+  },
   PercentTotalCost: {
     defaultMessage: '{value} {units} ({percent} %)',
     description: '{value} {units} ({percent} %)',
