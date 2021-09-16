@@ -34,7 +34,7 @@
 .explorerTableOverride {
   &.pf-c-table {
     thead th + th + th {
-      min-width: 100px;
+      min-width: 125px;
     }
     thead th:first-child, tbody td:first-child {
       background-clip: padding-box;

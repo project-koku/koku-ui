@@ -381,11 +381,15 @@ class Explorer extends React.Component<ExplorerProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSort = (sortType: string, isSortAscending: boolean) => {
+  private handleSort = (sortType: string, date: string, isSortAscending: boolean) => {
     const { history, query } = this.props;
     const newQuery = { ...JSON.parse(JSON.stringify(query)) };
     newQuery.order_by = {};
     newQuery.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
+
+    if (date) {
+      newQuery.order_by.date = date;
+    }
     const filteredQuery = getRouteForQuery(history, newQuery);
     history.replace(filteredQuery);
   };

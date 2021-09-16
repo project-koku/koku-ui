@@ -29,7 +29,7 @@ interface ExplorerTableOwnProps {
   isAllSelected?: boolean;
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
-  onSort(value: string, isSortAscending: boolean);
+  onSort(value: string, date: string, isSortAscending: boolean);
   perspective: PerspectiveType;
   query: AwsQuery;
   report: AwsReport;
@@ -120,6 +120,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
         : [
             {
               cellTransforms: [nowrap],
+              date: undefined,
               orderBy: groupById === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupById,
               title: intl.formatMessage(messages.GroupByValueNames, { groupBy: groupById }),
               transforms: [sortable],
@@ -140,24 +141,29 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     ) {
       const mapId = format(currentDate, 'yyyy-MM-dd');
 
+      let isSortable = true;
+      computedItems.map(rowItem => {
+        const item = rowItem.get(mapId);
+        if (!item) {
+          isSortable = false;
+          rowItem.set(mapId, {
+            date: mapId,
+          });
+        }
+      });
+
       // Add column headings
       const mapIdDate = new Date(mapId + 'T00:00:00');
       const date = getDate(mapIdDate);
       const month = getMonth(mapIdDate);
       columns.push({
         cellTransforms: [nowrap],
-        orderBy: undefined, // TBD...
         title: intl.formatMessage(messages.ExplorerChartDate, { date, month }),
-        transforms: undefined,
-      });
-
-      computedItems.map(rowItem => {
-        const item = rowItem.get(mapId);
-        if (!item) {
-          rowItem.set(mapId, {
-            date: mapId,
-          });
-        }
+        ...(isSortable && {
+          date: mapId,
+          orderBy: 'cost',
+          transforms: [sortable],
+        }),
       });
     }
 
@@ -272,8 +278,12 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       for (const key of Object.keys(query.order_by)) {
         let c = 0;
         for (const column of columns) {
-          if (column.orderBy === key) {
+          if (column.orderBy === key && !column.date) {
             direction = query.order_by[key] === 'asc' ? SortByDirection.asc : SortByDirection.desc;
+            index = c + 1;
+            break;
+          } else if (column.date === query.order_by[key]) {
+            direction = query.order_by.cost === 'asc' ? SortByDirection.asc : SortByDirection.desc;
             index = c + 1;
             break;
           }
@@ -311,9 +321,9 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     const { columns } = this.state;
 
     if (onSort) {
-      const orderBy = columns[index - 1].orderBy;
+      const column = columns[index - 1];
       const isSortAscending = direction === SortByDirection.asc;
-      onSort(orderBy, isSortAscending);
+      onSort(column.orderBy, column.date, isSortAscending);
     }
   };
 
