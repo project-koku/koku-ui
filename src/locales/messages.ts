@@ -2546,6 +2546,51 @@ export default defineMessages({
     description: 'Cost Management Overview',
     id: 'OverviewTitle',
   },
+  PageTitleAWS: {
+    defaultMessage: 'Amazon Web Services - Cost Management | Red Hat OpenShift Cluster Manager',
+    description: 'Amazon Web Services - Cost Management | Red Hat OpenShift Cluster Manager',
+    id: 'PageTitleAWS',
+  },
+  PageTitleAzure: {
+    defaultMessage: 'Microsoft Azure - Cost Management | Red Hat OpenShift Cluster Manager',
+    description: 'Microsoft Azure - Cost Management | Red Hat OpenShift Cluster Manager',
+    id: 'PageTitleAzure',
+  },
+  PageTitleCostModels: {
+    defaultMessage: 'Cost Models - Cost Management | Red Hat OpenShift Cluster Manager',
+    description: 'Cost Models - Cost Management | Red Hat OpenShift Cluster Manager',
+    id: 'PageTitleCostModels',
+  },
+  PageTitleDefault: {
+    defaultMessage: 'Cost Management | Red Hat OpenShift Cluster Manager',
+    description: 'Cost Management | Red Hat OpenShift Cluster Manager',
+    id: 'PageTitleDefault',
+  },
+  PageTitleExplorer: {
+    defaultMessage: 'Cost Explorer - Cost Management | Red Hat OpenShift Cluster Manager',
+    description: 'Cost Explorer - Cost Management | Red Hat OpenShift Cluster Manager',
+    id: 'PageTitleExplorer',
+  },
+  PageTitleGCP: {
+    defaultMessage: 'Google Cloud Platform - Cost Management | Red Hat OpenShift Cluster Manager',
+    description: 'Google Cloud Platform - Cost Management | Red Hat OpenShift Cluster Manager',
+    id: 'PageTitleGCP',
+  },
+  PageTitleIBM: {
+    defaultMessage: 'IBM Cloud - Cost Management | Red Hat OpenShift Cluster Manager',
+    description: 'IBM Cloud - Cost Management | Red Hat OpenShift Cluster Manager',
+    id: 'PageTitleIBM',
+  },
+  PageTitleOCP: {
+    defaultMessage: 'OpenShift - Cost Management | Red Hat OpenShift Cluster Manager',
+    description: 'OpenShift - Cost Management | Red Hat OpenShift Cluster Manager',
+    id: 'PageTitleOpenShift',
+  },
+  PageTitleOverview: {
+    defaultMessage: 'Overview - Cost Management | Red Hat OpenShift Cluster Manager',
+    description: 'Overview - Cost Management | Red Hat OpenShift Cluster Manager',
+    id: 'PageTitleOverview',
+  },
   Percent: {
     defaultMessage: '{value} %',
     description: 'percent value',

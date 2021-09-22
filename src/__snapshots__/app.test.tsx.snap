@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders login if isLoggedIn is false 1`] = `<Routes />`;
+exports[`renders login if isLoggedIn is false 1`] = `
+<withRouter(PageTitleBase)>
+  <Routes />
+</withRouter(PageTitleBase)>
+`;
 
-exports[`renders page layout 1`] = `<Routes />`;
+exports[`renders page layout 1`] = `
+<withRouter(PageTitleBase)>
+  <Routes />
+</withRouter(PageTitleBase)>
+`;

@@ -1,3 +1,4 @@
+import { PageTitle } from 'components/pageTitle/pageTitle';
 import Maintenance from 'pages/state/maintenance';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -75,7 +76,7 @@ export class App extends React.Component<AppProps, AppState> {
     const { maintenanceMode } = this.state;
     const route = maintenanceMode ? <Maintenance /> : <Routes />;
 
-    return route;
+    return <PageTitle>{route}</PageTitle>;
   }
 }
 
