@@ -52,6 +52,12 @@
         "value": "DE Raw cost from Amazon Web Services infrastructure."
       }
     ],
+    "AWSDetailsTable": [
+      {
+        "type": 0,
+        "value": "DE Amazon Web Services details table"
+      }
+    ],
     "AWSDetailsTitle": [
       {
         "type": 0,
@@ -114,6 +120,12 @@
       {
         "type": 0,
         "value": "DE Raw cost from Azure infrastructure."
+      }
+    ],
+    "AzureDetailsTable": [
+      {
+        "type": 0,
+        "value": "DE Microsoft Azure details table"
       }
     ],
     "AzureDetailsTitle": [
@@ -327,6 +339,12 @@
         },
         "type": 5,
         "value": "groupBy"
+      }
+    ],
+    "BreakdownBackToDetailsAriaLabel": [
+      {
+        "type": 0,
+        "value": "DE Back to details"
       }
     ],
     "BreakdownCostBreakdownAriaLabel": [
@@ -9504,16 +9522,30 @@
         "value": "DE Add more tag values"
       }
     ],
-    "CostModelsAssignSource": [
-      {
-        "type": 0,
-        "value": "DE Assign source"
-      }
-    ],
     "CostModelsAssignSources": [
       {
-        "type": 0,
-        "value": "DE Assign source(s)"
+        "offset": 0,
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE Assign source"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE Assign sources"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
       }
     ],
     "CostModelsAssignSourcesErrorDescription": [
@@ -9534,6 +9566,18 @@
       {
         "type": 0,
         "value": "DE This action is temporarily unavailable"
+      }
+    ],
+    "CostModelsAssignSourcesParen": [
+      {
+        "type": 0,
+        "value": "DE Assign source(s)"
+      }
+    ],
+    "CostModelsAssignedSources": [
+      {
+        "type": 0,
+        "value": "DE Assigned sources"
       }
     ],
     "CostModelsAvailableSources": [
@@ -9714,6 +9758,12 @@
         "value": "learnMore"
       }
     ],
+    "CostModelsPopoverAriaLabel": [
+      {
+        "type": 0,
+        "value": "DE Cost model info popover"
+      }
+    ],
     "CostModelsReadOnly": [
       {
         "type": 0,
@@ -9788,6 +9838,12 @@
       {
         "type": 0,
         "value": "DE No sources are assigned"
+      }
+    ],
+    "CostModelsSourceTablePaginationAriaLabel": [
+      {
+        "type": 0,
+        "value": "DE Sources table pagination controls"
       }
     ],
     "CostModelsSourceType": [
@@ -10025,7 +10081,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "DE Select from the following OpenShift sources:"
+                "value": "DE Select from the following Red Hat OpenShift sources:"
               }
             ]
           },
@@ -10185,22 +10241,36 @@
         "value": "DE Create rate"
       }
     ],
-    "Custom": [
+    "Currency": [
+      {
+        "type": 0,
+        "value": "DE Currency"
+      }
+    ],
+    "CurrencyAbbreviations": [
       {
         "options": {
           "billion": {
             "value": [
               {
+                "type": 1,
+                "value": "value"
+              },
+              {
                 "type": 0,
-                "value": "DE B"
+                "value": "DE  B"
               }
             ]
           },
           "million": {
             "value": [
               {
+                "type": 1,
+                "value": "value"
+              },
+              {
                 "type": 0,
-                "value": "DE M"
+                "value": "DE  M"
               }
             ]
           },
@@ -10210,30 +10280,304 @@
           "quadrillion": {
             "value": [
               {
+                "type": 1,
+                "value": "value"
+              },
+              {
                 "type": 0,
-                "value": "DE q"
+                "value": "DE  q"
               }
             ]
           },
           "thousand": {
             "value": [
               {
+                "type": 1,
+                "value": "value"
+              },
+              {
                 "type": 0,
-                "value": "DE K"
+                "value": "DE  K"
               }
             ]
           },
           "trillion": {
             "value": [
               {
+                "type": 1,
+                "value": "value"
+              },
+              {
                 "type": 0,
-                "value": "DE t"
+                "value": "DE  t"
               }
             ]
           }
         },
         "type": 5,
-        "value": "value"
+        "value": "symbol"
+      }
+    ],
+    "CurrencyOptions": [
+      {
+        "options": {
+          "AUD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE AUD (AU$) - Australian Dollar"
+              }
+            ]
+          },
+          "CAD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE CAD (C$) - Canadian Dollar"
+              }
+            ]
+          },
+          "CHF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE CHF (CHF) - Swiss Franc"
+              }
+            ]
+          },
+          "CNY": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE CNY (CN¥) - Chinese Yuan"
+              }
+            ]
+          },
+          "DKK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE DKK (Dkr) - Danish Krone"
+              }
+            ]
+          },
+          "EUR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE EUR (€) - Euro"
+              }
+            ]
+          },
+          "GBP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE GBP (£) - British Pound"
+              }
+            ]
+          },
+          "HKD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE HKD (HK$) - Hong Kong Dollar"
+              }
+            ]
+          },
+          "JPY": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE JPY (¥) - Japanese Yen"
+              }
+            ]
+          },
+          "NOK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE NOK (Nkr) - Norwegian Krone"
+              }
+            ]
+          },
+          "NZD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE NZD (NZ$) - New Zealand Dollar"
+              }
+            ]
+          },
+          "SEK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE SEK (Skr) - Swedish Krona"
+              }
+            ]
+          },
+          "SGD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE SGD (S$) - Singapore Dollar"
+              }
+            ]
+          },
+          "USD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE USD ($) - United States Dollar"
+              }
+            ]
+          },
+          "ZAR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE ZAR (R) - South African Rand"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "units"
+      }
+    ],
+    "CurrencyUnits": [
+      {
+        "options": {
+          "AUD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE AU$"
+              }
+            ]
+          },
+          "CAD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE C$"
+              }
+            ]
+          },
+          "CHF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE CHF"
+              }
+            ]
+          },
+          "CNY": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE CN¥"
+              }
+            ]
+          },
+          "DKK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE Dkr"
+              }
+            ]
+          },
+          "EUR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE €"
+              }
+            ]
+          },
+          "GBP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE £"
+              }
+            ]
+          },
+          "HKD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE HK$"
+              }
+            ]
+          },
+          "JPY": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE ¥"
+              }
+            ]
+          },
+          "NOK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE Nkr"
+              }
+            ]
+          },
+          "NZD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE NZ$"
+              }
+            ]
+          },
+          "SEK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE Skr"
+              }
+            ]
+          },
+          "SGD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE S$"
+              }
+            ]
+          },
+          "USD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE $USD"
+              }
+            ]
+          },
+          "ZAR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE R"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "units"
       }
     ],
     "DashboardCumulativeCostComparison": [
@@ -10279,7 +10623,7 @@
     "DashboardStorageTitle": [
       {
         "type": 0,
-        "value": "DE Storage services cost"
+        "value": "DE Storage services usage"
       }
     ],
     "DashboardTotalCostTooltip": [
@@ -10309,7 +10653,7 @@
     "Description": [
       {
         "type": 0,
-        "value": "DE description"
+        "value": "DE Description"
       }
     ],
     "DetailsActionsExport": [
@@ -11397,6 +11741,14 @@
               }
             ]
           },
+          "last_ninety_days": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE Last 90 days"
+              }
+            ]
+          },
           "last_sixty_days": {
             "value": [
               {
@@ -11441,6 +11793,12 @@
       {
         "type": 1,
         "value": "date"
+      }
+    ],
+    "ExplorerTableAriaLabel": [
+      {
+        "type": 0,
+        "value": "DE Cost Explorer table"
       }
     ],
     "ExplorerTitle": [
@@ -13491,6 +13849,12 @@
         "value": "DE Raw cost from Google Cloud Platform infrastructure."
       }
     ],
+    "GCPDetailsTable": [
+      {
+        "type": 0,
+        "value": "DE Google Cloud Platform details table"
+      }
+    ],
     "GCPDetailsTitle": [
       {
         "type": 0,
@@ -15000,85 +15364,16 @@
     ],
     "HistoricalChartCostLabel": [
       {
-        "options": {
-          "core_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Cost (core-hours)"
-              }
-            ]
-          },
-          "gb": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Cost (GB)"
-              }
-            ]
-          },
-          "gb_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Cost (GB-hours)"
-              }
-            ]
-          },
-          "gb_mo": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Cost (GB-month)"
-              }
-            ]
-          },
-          "gibibyte_month": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Cost (GiB-month)"
-              }
-            ]
-          },
-          "hour": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Cost (hours)"
-              }
-            ]
-          },
-          "hrs": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Cost (hours)"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          },
-          "usd": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Cost ($USD)"
-              }
-            ]
-          },
-          "vm_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Cost (VM-hours)"
-              }
-            ]
-          }
-        },
-        "type": 5,
-        "value": "value"
+        "type": 0,
+        "value": "DE Cost ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
       }
     ],
     "HistoricalChartDayOfMonthLabel": [
@@ -15142,89 +15437,6 @@
               {
                 "type": 0,
                 "value": "DE Storage usage comparison"
-              }
-            ]
-          }
-        },
-        "type": 5,
-        "value": "value"
-      }
-    ],
-    "HistoricalChartUnitsLabel": [
-      {
-        "options": {
-          "core_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE core-hours"
-              }
-            ]
-          },
-          "gb": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE GB"
-              }
-            ]
-          },
-          "gb_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE GB-hours"
-              }
-            ]
-          },
-          "gb_mo": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE GB-month"
-              }
-            ]
-          },
-          "gibibyte_month": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE GiB-month"
-              }
-            ]
-          },
-          "hour": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE hours"
-              }
-            ]
-          },
-          "hrs": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE hours"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          },
-          "usd": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE $USD"
-              }
-            ]
-          },
-          "vm_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE VM-hours"
               }
             ]
           }
@@ -15310,6 +15522,12 @@
       {
         "type": 0,
         "value": "DE Raw cost from IBM Cloud infrastructure."
+      }
+    ],
+    "IBMDetailsTable": [
+      {
+        "type": 0,
+        "value": "DE IBM Cloud details table"
       }
     ],
     "IBMDetailsTitle": [
@@ -15655,32 +15873,6 @@
       }
     ],
     "Name": [
-      {
-        "offset": 0,
-        "options": {
-          "one": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE name"
-              }
-            ]
-          },
-          "other": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE names"
-              }
-            ]
-          }
-        },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
-      }
-    ],
-    "NameTitleCase": [
       {
         "offset": 0,
         "options": {
@@ -16525,6 +16717,12 @@
         "value": "DE All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics."
       }
     ],
+    "OCPDetailsTable": [
+      {
+        "type": 0,
+        "value": "DE OpenShift details table"
+      }
+    ],
     "OCPDetailsTitle": [
       {
         "type": 0,
@@ -16679,6 +16877,54 @@
         "value": "DE Cost Management Overview"
       }
     ],
+    "PageTitleAWS": [
+      {
+        "type": 0,
+        "value": "DE Amazon Web Services - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleAzure": [
+      {
+        "type": 0,
+        "value": "DE Microsoft Azure - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleCostModels": [
+      {
+        "type": 0,
+        "value": "DE Cost Models - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleDefault": [
+      {
+        "type": 0,
+        "value": "DE Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleExplorer": [
+      {
+        "type": 0,
+        "value": "DE Cost Explorer - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleGCP": [
+      {
+        "type": 0,
+        "value": "DE IBM Cloud - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleOpenShift": [
+      {
+        "type": 0,
+        "value": "DE OpenShift - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleOverview": [
+      {
+        "type": 0,
+        "value": "DE Overview - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
     "Percent": [
       {
         "type": 1,
@@ -16697,6 +16943,12 @@
       {
         "type": 0,
         "value": "DE  % of cost"
+      }
+    ],
+    "PercentSymbol": [
+      {
+        "type": 0,
+        "value": "DE %"
       }
     ],
     "PercentTotalCost": [
@@ -17728,14 +17980,6 @@
               }
             ]
           },
-          "usd": {
-            "value": [
-              {
-                "type": 1,
-                "value": "value"
-              }
-            ]
-          },
           "vm_hours": {
             "value": [
               {
@@ -17814,14 +18058,6 @@
           },
           "other": {
             "value": []
-          },
-          "usd": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE $USD"
-              }
-            ]
           },
           "vm_hours": {
             "value": [
@@ -34745,6 +34981,60 @@
         "value": "Cost Management Overview"
       }
     ],
+    "PageTitleAWS": [
+      {
+        "type": 0,
+        "value": "Amazon Web Services - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleAzure": [
+      {
+        "type": 0,
+        "value": "Microsoft Azure - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleCostModels": [
+      {
+        "type": 0,
+        "value": "Cost Models - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleDefault": [
+      {
+        "type": 0,
+        "value": "Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleExplorer": [
+      {
+        "type": 0,
+        "value": "Cost Explorer - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleGCP": [
+      {
+        "type": 0,
+        "value": "Google Cloud Platform - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleIBM": [
+      {
+        "type": 0,
+        "value": "IBM Cloud - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleOpenShift": [
+      {
+        "type": 0,
+        "value": "OpenShift - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleOverview": [
+      {
+        "type": 0,
+        "value": "Overview - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
     "Percent": [
       {
         "type": 1,
@@ -35976,6 +36266,12 @@
         "value": "FR Raw cost from Amazon Web Services infrastructure."
       }
     ],
+    "AWSDetailsTable": [
+      {
+        "type": 0,
+        "value": "FR Amazon Web Services details table"
+      }
+    ],
     "AWSDetailsTitle": [
       {
         "type": 0,
@@ -36038,6 +36334,12 @@
       {
         "type": 0,
         "value": "FR Raw cost from Azure infrastructure."
+      }
+    ],
+    "AzureDetailsTable": [
+      {
+        "type": 0,
+        "value": "FR Microsoft Azure details table"
       }
     ],
     "AzureDetailsTitle": [
@@ -36251,6 +36553,12 @@
         },
         "type": 5,
         "value": "groupBy"
+      }
+    ],
+    "BreakdownBackToDetailsAriaLabel": [
+      {
+        "type": 0,
+        "value": "FR Back to details"
       }
     ],
     "BreakdownCostBreakdownAriaLabel": [
@@ -45428,16 +45736,30 @@
         "value": "FR Add more tag values"
       }
     ],
-    "CostModelsAssignSource": [
-      {
-        "type": 0,
-        "value": "FR Assign source"
-      }
-    ],
     "CostModelsAssignSources": [
       {
-        "type": 0,
-        "value": "FR Assign source(s)"
+        "offset": 0,
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR Assign source"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR Assign sources"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
       }
     ],
     "CostModelsAssignSourcesErrorDescription": [
@@ -45458,6 +45780,18 @@
       {
         "type": 0,
         "value": "FR This action is temporarily unavailable"
+      }
+    ],
+    "CostModelsAssignSourcesParen": [
+      {
+        "type": 0,
+        "value": "FR Assign source(s)"
+      }
+    ],
+    "CostModelsAssignedSources": [
+      {
+        "type": 0,
+        "value": "FR Assigned sources"
       }
     ],
     "CostModelsAvailableSources": [
@@ -45638,6 +45972,12 @@
         "value": "learnMore"
       }
     ],
+    "CostModelsPopoverAriaLabel": [
+      {
+        "type": 0,
+        "value": "FR Cost model info popover"
+      }
+    ],
     "CostModelsReadOnly": [
       {
         "type": 0,
@@ -45712,6 +46052,12 @@
       {
         "type": 0,
         "value": "FR No sources are assigned"
+      }
+    ],
+    "CostModelsSourceTablePaginationAriaLabel": [
+      {
+        "type": 0,
+        "value": "FR Sources table pagination controls"
       }
     ],
     "CostModelsSourceType": [
@@ -45949,7 +46295,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "FR Select from the following OpenShift sources:"
+                "value": "FR Select from the following Red Hat OpenShift sources:"
               }
             ]
           },
@@ -46109,22 +46455,36 @@
         "value": "FR Create rate"
       }
     ],
-    "Custom": [
+    "Currency": [
+      {
+        "type": 0,
+        "value": "FR Currency"
+      }
+    ],
+    "CurrencyAbbreviations": [
       {
         "options": {
           "billion": {
             "value": [
               {
+                "type": 1,
+                "value": "value"
+              },
+              {
                 "type": 0,
-                "value": "FR B"
+                "value": "FR  B"
               }
             ]
           },
           "million": {
             "value": [
               {
+                "type": 1,
+                "value": "value"
+              },
+              {
                 "type": 0,
-                "value": "FR M"
+                "value": "FR  M"
               }
             ]
           },
@@ -46134,30 +46494,304 @@
           "quadrillion": {
             "value": [
               {
+                "type": 1,
+                "value": "value"
+              },
+              {
                 "type": 0,
-                "value": "FR q"
+                "value": "FR  q"
               }
             ]
           },
           "thousand": {
             "value": [
               {
+                "type": 1,
+                "value": "value"
+              },
+              {
                 "type": 0,
-                "value": "FR K"
+                "value": "FR  K"
               }
             ]
           },
           "trillion": {
             "value": [
               {
+                "type": 1,
+                "value": "value"
+              },
+              {
                 "type": 0,
-                "value": "FR t"
+                "value": "FR  t"
               }
             ]
           }
         },
         "type": 5,
-        "value": "value"
+        "value": "symbol"
+      }
+    ],
+    "CurrencyOptions": [
+      {
+        "options": {
+          "AUD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR AUD (AU$) - Australian Dollar"
+              }
+            ]
+          },
+          "CAD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR CAD (C$) - Canadian Dollar"
+              }
+            ]
+          },
+          "CHF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR CHF (CHF) - Swiss Franc"
+              }
+            ]
+          },
+          "CNY": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR CNY (CN¥) - Chinese Yuan"
+              }
+            ]
+          },
+          "DKK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR DKK (Dkr) - Danish Krone"
+              }
+            ]
+          },
+          "EUR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR EUR (€) - Euro"
+              }
+            ]
+          },
+          "GBP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR GBP (£) - British Pound"
+              }
+            ]
+          },
+          "HKD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR HKD (HK$) - Hong Kong Dollar"
+              }
+            ]
+          },
+          "JPY": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR JPY (¥) - Japanese Yen"
+              }
+            ]
+          },
+          "NOK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR NOK (Nkr) - Norwegian Krone"
+              }
+            ]
+          },
+          "NZD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR NZD (NZ$) - New Zealand Dollar"
+              }
+            ]
+          },
+          "SEK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR SEK (Skr) - Swedish Krona"
+              }
+            ]
+          },
+          "SGD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR SGD (S$) - Singapore Dollar"
+              }
+            ]
+          },
+          "USD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR USD ($) - United States Dollar"
+              }
+            ]
+          },
+          "ZAR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR ZAR (R) - South African Rand"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "units"
+      }
+    ],
+    "CurrencyUnits": [
+      {
+        "options": {
+          "AUD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR AU$"
+              }
+            ]
+          },
+          "CAD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR C$"
+              }
+            ]
+          },
+          "CHF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR CHF"
+              }
+            ]
+          },
+          "CNY": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR CN¥"
+              }
+            ]
+          },
+          "DKK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR Dkr"
+              }
+            ]
+          },
+          "EUR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR €"
+              }
+            ]
+          },
+          "GBP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR £"
+              }
+            ]
+          },
+          "HKD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR HK$"
+              }
+            ]
+          },
+          "JPY": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR ¥"
+              }
+            ]
+          },
+          "NOK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR Nkr"
+              }
+            ]
+          },
+          "NZD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR NZ$"
+              }
+            ]
+          },
+          "SEK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR Skr"
+              }
+            ]
+          },
+          "SGD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR S$"
+              }
+            ]
+          },
+          "USD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR $USD"
+              }
+            ]
+          },
+          "ZAR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR R"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "units"
       }
     ],
     "DashboardCumulativeCostComparison": [
@@ -46203,7 +46837,7 @@
     "DashboardStorageTitle": [
       {
         "type": 0,
-        "value": "FR Storage services cost"
+        "value": "FR Storage services usage"
       }
     ],
     "DashboardTotalCostTooltip": [
@@ -46233,7 +46867,7 @@
     "Description": [
       {
         "type": 0,
-        "value": "FR description"
+        "value": "FR Description"
       }
     ],
     "DetailsActionsExport": [
@@ -47321,6 +47955,14 @@
               }
             ]
           },
+          "last_ninety_days": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR Last 90 days"
+              }
+            ]
+          },
           "last_sixty_days": {
             "value": [
               {
@@ -47365,6 +48007,12 @@
       {
         "type": 1,
         "value": "date"
+      }
+    ],
+    "ExplorerTableAriaLabel": [
+      {
+        "type": 0,
+        "value": "FR Cost Explorer table"
       }
     ],
     "ExplorerTitle": [
@@ -49415,6 +50063,12 @@
         "value": "FR Raw cost from Google Cloud Platform infrastructure."
       }
     ],
+    "GCPDetailsTable": [
+      {
+        "type": 0,
+        "value": "FR Google Cloud Platform details table"
+      }
+    ],
     "GCPDetailsTitle": [
       {
         "type": 0,
@@ -50924,85 +51578,16 @@
     ],
     "HistoricalChartCostLabel": [
       {
-        "options": {
-          "core_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Cost (core-hours)"
-              }
-            ]
-          },
-          "gb": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Cost (GB)"
-              }
-            ]
-          },
-          "gb_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Cost (GB-hours)"
-              }
-            ]
-          },
-          "gb_mo": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Cost (GB-month)"
-              }
-            ]
-          },
-          "gibibyte_month": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Cost (GiB-month)"
-              }
-            ]
-          },
-          "hour": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Cost (hours)"
-              }
-            ]
-          },
-          "hrs": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Cost (hours)"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          },
-          "usd": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Cost ($USD)"
-              }
-            ]
-          },
-          "vm_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Cost (VM-hours)"
-              }
-            ]
-          }
-        },
-        "type": 5,
-        "value": "value"
+        "type": 0,
+        "value": "FR Cost ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
       }
     ],
     "HistoricalChartDayOfMonthLabel": [
@@ -51066,89 +51651,6 @@
               {
                 "type": 0,
                 "value": "FR Storage usage comparison"
-              }
-            ]
-          }
-        },
-        "type": 5,
-        "value": "value"
-      }
-    ],
-    "HistoricalChartUnitsLabel": [
-      {
-        "options": {
-          "core_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR core-hours"
-              }
-            ]
-          },
-          "gb": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR GB"
-              }
-            ]
-          },
-          "gb_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR GB-hours"
-              }
-            ]
-          },
-          "gb_mo": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR GB-month"
-              }
-            ]
-          },
-          "gibibyte_month": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR GiB-month"
-              }
-            ]
-          },
-          "hour": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR hours"
-              }
-            ]
-          },
-          "hrs": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR hours"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          },
-          "usd": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR $USD"
-              }
-            ]
-          },
-          "vm_hours": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR VM-hours"
               }
             ]
           }
@@ -51234,6 +51736,12 @@
       {
         "type": 0,
         "value": "FR Raw cost from IBM Cloud infrastructure."
+      }
+    ],
+    "IBMDetailsTable": [
+      {
+        "type": 0,
+        "value": "FR IBM Cloud details table"
       }
     ],
     "IBMDetailsTitle": [
@@ -51579,32 +52087,6 @@
       }
     ],
     "Name": [
-      {
-        "offset": 0,
-        "options": {
-          "one": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR name"
-              }
-            ]
-          },
-          "other": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR names"
-              }
-            ]
-          }
-        },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
-      }
-    ],
-    "NameTitleCase": [
       {
         "offset": 0,
         "options": {
@@ -52449,6 +52931,12 @@
         "value": "FR All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics."
       }
     ],
+    "OCPDetailsTable": [
+      {
+        "type": 0,
+        "value": "FR OpenShift details table"
+      }
+    ],
     "OCPDetailsTitle": [
       {
         "type": 0,
@@ -52603,6 +53091,54 @@
         "value": "FR Cost Management Overview"
       }
     ],
+    "PageTitleAWS": [
+      {
+        "type": 0,
+        "value": "FR Amazon Web Services - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleAzure": [
+      {
+        "type": 0,
+        "value": "FR Microsoft Azure - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleCostModels": [
+      {
+        "type": 0,
+        "value": "FR Cost Models - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleDefault": [
+      {
+        "type": 0,
+        "value": "FR Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleExplorer": [
+      {
+        "type": 0,
+        "value": "FR Cost Explorer - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleGCP": [
+      {
+        "type": 0,
+        "value": "FR IBM Cloud - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleOpenShift": [
+      {
+        "type": 0,
+        "value": "FR OpenShift - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
+    "PageTitleOverview": [
+      {
+        "type": 0,
+        "value": "FR Overview - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
     "Percent": [
       {
         "type": 1,
@@ -52621,6 +53157,12 @@
       {
         "type": 0,
         "value": "FR  % of cost"
+      }
+    ],
+    "PercentSymbol": [
+      {
+        "type": 0,
+        "value": "FR %"
       }
     ],
     "PercentTotalCost": [
@@ -53652,14 +54194,6 @@
               }
             ]
           },
-          "usd": {
-            "value": [
-              {
-                "type": 1,
-                "value": "value"
-              }
-            ]
-          },
           "vm_hours": {
             "value": [
               {
@@ -53738,14 +54272,6 @@
           },
           "other": {
             "value": []
-          },
-          "usd": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR $USD"
-              }
-            ]
           },
           "vm_hours": {
             "value": [

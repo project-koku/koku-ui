@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { createMapStateToProps } from 'store/common';
+import { PageTitle } from 'components/pageTitle/pageTitle';
 
 import { Routes, routes } from './routes';
 
@@ -75,7 +76,7 @@ export class App extends React.Component<AppProps, AppState> {
     const { maintenanceMode } = this.state;
     const route = maintenanceMode ? <Maintenance /> : <Routes />;
 
-    return route;
+    return <PageTitle>{route}</PageTitle>;
   }
 }
 

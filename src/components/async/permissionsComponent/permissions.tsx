@@ -61,7 +61,8 @@ class PermissionsBase extends React.Component<PermissionsProps> {
     const { location }: any = this.props;
 
     // cost models may include :uuid
-    const _pathname = location.pathname.startsWith(paths.costModels) ? paths.costModels : location.pathname;
+    const _pathname =
+      location.pathname && location.pathname.startsWith(paths.costModels) ? paths.costModels : location.pathname;
     const currRoute = routes.find(({ path }) => path === _pathname);
 
     return currRoute ? currRoute.path : undefined;
