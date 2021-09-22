@@ -1,10 +1,10 @@
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { paths, routes } from 'routes';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { paths, routes } from 'routes';
 
-interface PageTitleOwnProps extends RouteComponentProps<void>  {
+interface PageTitleOwnProps extends RouteComponentProps<void> {
   children?: React.ReactNode;
 }
 

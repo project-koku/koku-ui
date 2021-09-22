@@ -1,10 +1,10 @@
+import { PageTitle } from 'components/pageTitle/pageTitle';
 import Maintenance from 'pages/state/maintenance';
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { createMapStateToProps } from 'store/common';
-import { PageTitle } from 'components/pageTitle/pageTitle';
 
 import { Routes, routes } from './routes';
 
