@@ -99,7 +99,9 @@ const ReviewDetailsBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
                   <TextListItem component={TextListItemVariants.dt}>
                     {intl.formatMessage(messages.CostModelsWizardReviewMarkDiscount)}
                   </TextListItem>
-                  <TextListItem component={TextListItemVariants.dd}>{isDiscount ? '-' + markup : markup}%</TextListItem>
+                  <TextListItem component={TextListItemVariants.dd}>
+                    {intl.formatMessage(messages.Percent, { value: isDiscount ? '-' + markup : markup })}
+                  </TextListItem>
                   {type === 'OCP' && (
                     <>
                       <TextListItem component={TextListItemVariants.dt}>

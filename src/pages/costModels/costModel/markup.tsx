@@ -76,7 +76,7 @@ const MarkupCardBase: React.FunctionComponent<Props> = ({
         </CardHeader>
         <CardBody style={styles.cardDescription}>{intl.formatMessage(messages.MarkupOrDiscountDesc)}</CardBody>
         <CardBody isFilled />
-        <CardBody style={styles.cardBody}>{markupValue}%</CardBody>
+        <CardBody style={styles.cardBody}>{intl.formatMessage(messages.Percent, { value: markupValue })}</CardBody>
         <CardBody isFilled />
       </Card>
     </>
