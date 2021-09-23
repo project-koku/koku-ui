@@ -89,21 +89,21 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     request = formatUnits(
       hasRequest ? report.meta.total.request.value : 0,
       hasRequest ? report.meta.total.request.units : undefined,
-      requestFormatOptions ? usageFormatOptions : formatOptions
+      requestFormatOptions
     );
 
     if (hasUsage && report.meta.total.usage.value >= 0) {
       usage = formatUnits(
         hasUsage ? report.meta.total.usage.value : 0,
         hasUsage ? report.meta.total.usage.units : undefined,
-        usageFormatOptions ? usageFormatOptions : formatOptions
+        usageFormatOptions
       );
     } else {
       // Workaround for https://github.com/project-koku/koku-ui/issues/1058
       usage = formatUnits(
         hasUsage ? (report.meta.total.usage as any) : 0,
         hasCount ? report.meta.total.count.units : undefined,
-        usageFormatOptions ? usageFormatOptions : formatOptions
+        usageFormatOptions
       );
     }
   }

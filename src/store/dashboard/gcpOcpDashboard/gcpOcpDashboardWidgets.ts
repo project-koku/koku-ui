@@ -26,12 +26,6 @@ export const computeWidget: GcpOcpDashboardWidget = {
     showUsageFirst: true,
     showUsageLegendLabel: true,
     usageKey: messages.Usage,
-    usageFormatOptions: {
-      fractionDigits: 0,
-    },
-    formatOptions: {
-      fractionDigits: 2,
-    },
   },
   filter: {
     service: 'Compute Engine',
@@ -44,12 +38,6 @@ export const computeWidget: GcpOcpDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
-    formatOptions: {
-      fractionDigits: 2,
-    },
-  },
-  topItems: {
-    formatOptions: {},
   },
   // availableTabs: [
   //   GcpOcpDashboardTab.instanceType,
@@ -71,9 +59,6 @@ export const costSummaryWidget: GcpOcpDashboardWidget = {
     adjustContainerHeight: true,
     costKey: messages.Cost,
     showHorizontal: true,
-    formatOptions: {
-      fractionDigits: 2,
-    },
   },
   tabsFilter: {
     limit: 3,
@@ -85,10 +70,6 @@ export const costSummaryWidget: GcpOcpDashboardWidget = {
     dailyTitleKey: messages.GCPDailyCostTrendTitle,
     titleKey: messages.GCPCostTrendTitle,
     type: ChartType.rolling,
-    formatOptions: {},
-  },
-  topItems: {
-    formatOptions: {},
   },
   availableTabs: [GcpOcpDashboardTab.services, GcpOcpDashboardTab.projects, GcpOcpDashboardTab.regions],
   chartType: DashboardChartType.dailyTrend,
@@ -103,9 +84,6 @@ export const databaseWidget: GcpOcpDashboardWidget = {
   details: {
     costKey: messages.Cost,
     showUnits: true,
-    formatOptions: {
-      fractionDigits: 2,
-    },
   },
   filter: {
     service: 'Bigtable,Datastore,Database Migrations,Firestore,MemoryStore,Spanner,SQL',
@@ -118,10 +96,6 @@ export const databaseWidget: GcpOcpDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
-    formatOptions: {},
-  },
-  topItems: {
-    formatOptions: {},
   },
   // availableTabs: [
   //   GcpOcpDashboardTab.services,
@@ -140,9 +114,6 @@ export const networkWidget: GcpOcpDashboardWidget = {
   details: {
     costKey: messages.Cost,
     showUnits: true,
-    formatOptions: {
-      fractionDigits: 2,
-    },
   },
   filter: {
     service:
@@ -157,10 +128,6 @@ export const networkWidget: GcpOcpDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
-    formatOptions: {},
-  },
-  topItems: {
-    formatOptions: {},
   },
   // availableTabs: [
   //   GcpOcpDashboardTab.services,
@@ -182,24 +149,12 @@ export const storageWidget: GcpOcpDashboardWidget = {
     showUsageFirst: true,
     showUsageLegendLabel: true,
     usageKey: messages.Usage,
-    usageFormatOptions: {
-      fractionDigits: 0,
-    },
-    formatOptions: {
-      fractionDigits: 2,
-    },
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
-    formatOptions: {
-      fractionDigits: 2,
-    },
-  },
-  topItems: {
-    formatOptions: {},
   },
   // availableTabs: [
   //   GcpOcpDashboardTab.services,

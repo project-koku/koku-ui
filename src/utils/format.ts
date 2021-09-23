@@ -2,7 +2,8 @@ import { getLocale, intl } from 'components/i18n';
 import messages from 'locales/messages';
 
 export interface FormatOptions {
-  fractionDigits?: number;
+  minimumFractionDigits?: number;
+  maximumFractionDigits?: number;
 }
 
 export type Formatter = (value: number, units: string, options?: FormatOptions) => string | number;
@@ -31,19 +32,16 @@ export const unitsLookupKey = (units): string => {
 
 // Some currencies do not have decimals, such as JPY, and some have 3 decimals such as IQD.
 // See https://docs.adyen.com/development-resources/currency-codes
-export const formatCurrency: Formatter = (value: number, units: string, { fractionDigits } = {}): string => {
+export const formatCurrency: Formatter = (value: number, units: string, options: FormatOptions = {}): string => {
   let fValue = value;
   if (!value) {
     fValue = 0;
   }
-  const options = {
-    minimumFractionDigits: fractionDigits,
-    maximumFractionDigits: fractionDigits,
-  };
+  // Don't specify default fraction digits here, rely on react-intl instead
   return intl.formatNumber(fValue, {
     style: 'currency',
     currency: units ? units.toUpperCase() : 'USD',
-    ...(fractionDigits !== undefined && options),
+    ...options,
   });
 };
 
@@ -73,16 +71,22 @@ export const formatCurrencyAbbreviation: Formatter = (value, units = 'USD') => {
     const { val, symbol } = format;
     return intl.formatMessage(messages.CurrencyAbbreviations, {
       symbol,
-      value: formatCurrency(fValue / val, units, { fractionDigits: 0 }),
+      value: formatCurrency(fValue / val, units, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }),
     });
   }
 
   // If no format was found, format value without abbreviation
-  return formatCurrency(value, units, { fractionDigits: 0 });
+  return formatCurrency(value, units, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
 };
 
 // Returns formatted units or currency with given currency-code
-export const formatUnits: Formatter = (value, units, options: FormatOptions = {}) => {
+export const formatUnits: Formatter = (value, units, options) => {
   const lookup = unitsLookupKey(units);
   const fValue = value || 0;
 
@@ -102,30 +106,36 @@ export const formatUnits: Formatter = (value, units, options: FormatOptions = {}
   return unknownTypeFormatter(fValue, options);
 };
 
-export const formatPercentage: PercentageFormatter = (value, { fractionDigits = 2 } = {}) => {
-  return value.toLocaleString(getLocale(), {
-    minimumFractionDigits: fractionDigits,
-    maximumFractionDigits: fractionDigits,
-  });
+export const formatPercentage: PercentageFormatter = (
+  value,
+  options: FormatOptions = {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }
+) => {
+  return value.toLocaleString(getLocale(), options);
 };
 
-const formatUsageGb: UnitsFormatter = (value, { fractionDigits = 0 } = {}) => {
-  return value.toLocaleString(getLocale(), {
-    minimumFractionDigits: fractionDigits,
-    maximumFractionDigits: fractionDigits,
-  });
+const formatUsageGb: UnitsFormatter = (
+  value,
+  options: FormatOptions = {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }
+) => {
+  return value.toLocaleString(getLocale(), options);
 };
 
-const formatUsageHrs: UnitsFormatter = (value, { fractionDigits = 0 } = {}) => {
-  return value.toLocaleString(getLocale(), {
-    minimumFractionDigits: fractionDigits,
-    maximumFractionDigits: fractionDigits,
-  });
+const formatUsageHrs: UnitsFormatter = (
+  value,
+  options: FormatOptions = {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }
+) => {
+  return value.toLocaleString(getLocale(), options);
 };
 
-const unknownTypeFormatter: UnitsFormatter = (value, { fractionDigits = 0 } = {}) => {
-  return value.toLocaleString(getLocale(), {
-    minimumFractionDigits: fractionDigits,
-    maximumFractionDigits: fractionDigits,
-  });
+const unknownTypeFormatter = (value, options) => {
+  return value.toLocaleString(getLocale(), options);
 };

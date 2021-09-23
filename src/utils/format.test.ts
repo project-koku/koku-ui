@@ -9,7 +9,7 @@ describe('formatUnits', () => {
   test('null value returns 0', () => {
     expect(format.formatUnits(null, 'unknownUnit')).toBe('0');
   });
-  test('unknown unit returns value fixed to fractionDigits', () => {
+  test('unknown unit returns value fixed to fraction digits', () => {
     const formatted = format.formatUnits(value, 'unknownUnit');
     expect(formatted).toMatchSnapshot();
   });
@@ -20,9 +20,12 @@ describe('formatUnits', () => {
     expect(format.formatCurrency).toBeCalledWith(value, units, formatOptions);
   });
 
-  test('null unit returns value fixed to fractionDigits', () => {
+  test('null unit returns value fixed to fraction digits', () => {
     const units = null;
-    const formatted = format.formatUnits(value, units, { fractionDigits: 1 });
+    const formatted = format.formatUnits(value, units, {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    });
     expect(formatted).toMatchSnapshot();
   });
 });
@@ -31,19 +34,25 @@ describe('formatCurrency', () => {
   const value = 100.11;
   const units = 'USD';
 
-  test('defaults fractionDigits', () => {
+  test('defaults fraction digits', () => {
     const formatted = format.formatCurrency(value, units);
     expect(formatted).toMatchSnapshot();
   });
 
-  test('uses specified fractionDigits', () => {
+  test('uses specified fraction digits', () => {
     const formatted = format.formatCurrency(value, units, {
-      fractionDigits: 0,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     });
     expect(formatted).toMatchSnapshot();
   });
 
   test('null value returns $0', () => {
-    expect(format.formatCurrency(null, 'USD', { fractionDigits: 0 })).toBe(0);
+    expect(
+      format.formatCurrency(null, 'USD', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })
+    ).toBe(0);
   });
 });
