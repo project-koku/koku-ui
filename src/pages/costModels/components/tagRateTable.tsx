@@ -4,7 +4,7 @@ import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { formatCurrency } from 'utils/format';
+import { formatRate } from 'utils/format';
 
 interface TagRateTableProps extends WrappedComponentProps {
   tagRates: TagRates;
@@ -27,7 +27,7 @@ const TagRateTable: React.FunctionComponent<TagRateTableProps> = ({ intl = defau
         cells: [
           ix === 0 ? tagRates.tag_key : '',
           tagValue.tag_value,
-          formatCurrency(tagValue.value, tagValue.unit),
+          formatRate(tagValue.value, tagValue.unit),
           tagValue.description,
           tagValue.default ? intl.formatMessage(messages.Yes) : intl.formatMessage(messages.No),
         ],

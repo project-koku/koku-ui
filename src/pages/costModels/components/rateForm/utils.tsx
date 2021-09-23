@@ -2,6 +2,7 @@ import { SortByDirection } from '@patternfly/react-table';
 import { CostModel, CostModelRequest } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Rate, RateRequest, TagRates } from 'api/rates';
+import { getLocale } from 'components/i18n';
 
 import { textHelpers } from './constants';
 
@@ -51,15 +52,33 @@ export type RateFormTagValue = typeof initialRateFormData['taggingRates']['tagVa
 export type taggingRates = typeof initialRateFormData['taggingRates'];
 export type RateFormErrors = typeof initialRateFormData['errors'];
 
+// Parse localized rates with a comma decimal separator (e.g., 1.234,56 in German is 1,234.56 USD)
+const parseLocalizedRate = (rate: string) => {
+  // Get decimal separator used by current browser locale
+  const decimalSeparator = Number('1.1').toLocaleString(getLocale(), {}).substring(1, 2);
+
+  // Remove thousands separator and normalize decimal separator (to USD for now)
+  const thousandsSeparator = decimalSeparator === ',' ? /\./g : /,/g;
+  const result = rate.replace(thousandsSeparator, '').replace(decimalSeparator, '.');
+  return result;
+};
+
 export const checkRateOnChange = (regular: string) => {
-  if (regular.length === 0) {
+  const rate = parseLocalizedRate(regular);
+
+  if (rate.length === 0) {
     return textHelpers.required;
   }
-  if (isNaN(Number(regular))) {
+  if (isNaN(Number(rate))) {
     return textHelpers.not_number;
   }
-  if (Number(regular) < 0) {
+  if (Number(rate) < 0) {
     return textHelpers.not_positive;
+  }
+  // Test number of decimals
+  const decimals = rate.split('.');
+  if (decimals[1] && decimals[1].length > 10) {
+    return textHelpers.rate_too_long;
   }
   return null;
 };
@@ -170,7 +189,7 @@ export const transformFormDataToRequest = (rateFormData: RateFormData, metricsHa
             return {
               tag_value: tvalue.tagValue,
               unit: 'USD',
-              value: Number(tvalue.value),
+              value: Number(parseLocalizedRate(tvalue.value)),
               description: tvalue.description,
               default: ix === rateFormData.taggingRates.defaultTag,
             };
@@ -178,7 +197,7 @@ export const transformFormDataToRequest = (rateFormData: RateFormData, metricsHa
         }
       : rateFormData.tieredRates.map(tiered => {
           return {
-            value: Number(tiered.value),
+            value: Number(parseLocalizedRate(tiered.value)),
             unit: 'USD',
             usage: { unit: 'USD' },
           };

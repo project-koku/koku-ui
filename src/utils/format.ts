@@ -85,6 +85,19 @@ export const formatCurrencyAbbreviation: Formatter = (value, units = 'USD') => {
   });
 };
 
+// Cost model rates may contain up to 10 decimals
+// https://issues.redhat.com/browse/COST-1884
+export const formatRate: Formatter = (
+  value: number,
+  units: string,
+  options: FormatOptions = {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 10,
+  }
+): string => {
+  return formatCurrency(value, units, options) as string;
+};
+
 // Returns formatted units or currency with given currency-code
 export const formatUnits: Formatter = (value, units, options) => {
   const lookup = unitsLookupKey(units);

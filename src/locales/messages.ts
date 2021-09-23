@@ -872,6 +872,11 @@ export default defineMessages({
     description: 'Cost model info popover',
     id: 'CostModelsPopoverAriaLabel',
   },
+  CostModelsRateTooLong: {
+    defaultMessage: 'Should not exceed 10 decimals',
+    description: 'Should not exceed 10 decimals',
+    id: 'CostModelsRateTooLong',
+  },
   CostModelsReadOnly: {
     defaultMessage: 'You have read only permissions',
     description: 'You have read only permissions',
