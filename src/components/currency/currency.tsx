@@ -128,6 +128,10 @@ class CurrencyBase extends React.Component<CurrencyProps> {
   public render() {
     const { intl } = this.props;
 
+    if (!insights.chrome.isBeta()) {
+      return null;
+    }
+
     // Delete currency units if current session is not valid
     invalidateCurrencyUnits();
 
