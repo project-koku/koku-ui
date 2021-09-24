@@ -10,6 +10,13 @@ export type Formatter = (value: number, units: string, options?: FormatOptions) 
 export type PercentageFormatter = (value: number, options?: FormatOptions) => string | number;
 type UnitsFormatter = (value: number, options?: FormatOptions) => string | number;
 
+// Returns the number of decimals for given string
+export const countDecimals = (value: string, useLocale: boolean = false) => {
+  const decimalSeparator = useLocale ? Number('1.1').toLocaleString(getLocale(), {}).substring(1, 2) : '.';
+  const decimals = value.split(decimalSeparator);
+  return decimals[1] ? decimals[1].length : 0;
+};
+
 // Returns i18n key for given units
 export const unitsLookupKey = (units): string => {
   const lookup = units ? units.replace(/[- ]/g, '_').toLowerCase() : '';
@@ -85,7 +92,7 @@ export const formatCurrencyAbbreviation: Formatter = (value, units = 'USD') => {
   });
 };
 
-// Cost model rates may contain up to 10 decimals
+// Cost model rates may contain 0 to 10 decimals
 // https://issues.redhat.com/browse/COST-1884
 export const formatRate: Formatter = (
   value: number,
@@ -96,6 +103,22 @@ export const formatRate: Formatter = (
   }
 ): string => {
   return formatCurrency(value, units, options) as string;
+};
+
+// Some locales have a comma decimal separator (e.g., "1.234,56" in German is "1,234.56" USD).
+// This function formats a given rate using the current browser locale, but without a currency symbol.
+//
+// It does not replace the thousands separator or other special characters, so we don't hide errors from text inputs.
+// This is expected to be used in conjunction with a validator, ensuring thousands separators are not accepted.
+// For example, if the user enters "1,234,56" or "1.234.56", a validator should generate an isNaN error.
+//
+// Note: Use locale='en' to format as USD when submitting API values.
+export const formatRateRaw = (value: string, locale = getLocale()) => {
+  // Get decimal separator used by current browser locale
+  const decimalSeparator = Number('1.1').toLocaleString(locale, {}).substring(1, 2);
+
+  const search = decimalSeparator === ',' ? /\./g : /,/g;
+  return value.replace(search, decimalSeparator);
 };
 
 // Returns formatted units or currency with given currency-code

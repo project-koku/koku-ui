@@ -1,6 +1,7 @@
 import { MetricHash } from 'api/metrics';
 import { Rate } from 'api/rates';
 import React from 'react';
+import { formatRateRaw } from 'utils/format';
 
 import { textHelpers } from './constants';
 import {
@@ -124,10 +125,10 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
     case 'UPDATE_REGULAR': {
       return {
         ...state,
-        tieredRates: [{ value: action.value, isDirty: true }],
+        tieredRates: [{ value: formatRateRaw(action.value, 'en'), isDirty: true }],
         errors: {
           ...state.errors,
-          tieredRates: checkRateOnChange(action.value),
+          tieredRates: checkRateOnChange(formatRateRaw(action.value, 'en')),
         },
       };
     }
