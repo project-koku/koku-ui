@@ -14,7 +14,7 @@ import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { formatCurrency } from 'utils/format';
+import { formatRate } from 'utils/format';
 
 import { compareBy } from './rateForm/utils';
 import TagRateTable from './tagRateTable';
@@ -81,7 +81,7 @@ const RateTableBase: React.SFC<RateTableProps> = ({ intl = defaultIntl, tiers, a
             {
               title:
                 rateKind === 'regular'
-                  ? `${formatCurrency(Number(tier.tiered_rates[0].value), tier.tiered_rates[0].unit)}`
+                  ? `${formatRate(Number(tier.tiered_rates[0].value), tier.tiered_rates[0].unit)}`
                   : intl.formatMessage(messages.Various),
               props: { isOpen, style: { padding: rateKind === 'tagging' ? '' : '1.5rem 1rem' } },
             },

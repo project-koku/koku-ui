@@ -592,7 +592,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     if (activeTab === currentTab) {
       return (
         <ReportSummaryItem
-          formatOptions={topItems.formatOptions}
+          formatOptions={topItems ? topItems.formatOptions : undefined}
           key={`${reportItem.id}-item`}
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={totalValue}

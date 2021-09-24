@@ -105,6 +105,7 @@
   "CostModelsLastChange": "Last change",
   "CostModelsPopover": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}",
   "CostModelsPopoverAriaLabel": "Cost model info popover",
+  "CostModelsRateTooLong": "Should not exceed 10 decimals",
   "CostModelsReadOnly": "You have read only permissions",
   "CostModelsRefreshDialog": "Refresh this dialog",
   "CostModelsRequiredField": "This field is required",

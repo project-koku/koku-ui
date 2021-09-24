@@ -19,10 +19,8 @@ export interface DashboardWidget<T> {
   details: {
     adjustContainerHeight?: boolean; // Adjust chart container height for responsiveness
     costKey?: MessageDescriptor; // i18n key
-    formatOptions: FormatOptions;
-    requestFormatOptions?: {
-      fractionDigits?: number;
-    };
+    formatOptions?: FormatOptions;
+    requestFormatOptions?: FormatOptions;
     requestKey?: MessageDescriptor;
     showHorizontal?: boolean; // Show horizontal layout
     showTooltip?: boolean; // Show cost tooltip
@@ -56,7 +54,7 @@ export interface DashboardWidget<T> {
     computedForecastInfrastructureItem?: string; // The computed forecast infrastructure item to use in charts.
     computedReportItem: string; // The computed report item to use in charts, summary, etc.
     computedReportItemValue: string; // The computed report value (e.g., raw, markup, total, or usage)
-    formatOptions: FormatOptions;
+    formatOptions?: FormatOptions;
     dailyTitleKey?: MessageDescriptor;
     showInfrastructureLabel?: boolean; // Trend chart legend items show "Infrastructure cost" instead of "cost"
     showSupplementaryLabel?: boolean; // Trend chart legend items show "Supplementary cost" instead of "cost"
@@ -64,6 +62,6 @@ export interface DashboardWidget<T> {
     type: number;
   };
   topItems?: {
-    formatOptions: any;
+    formatOptions?: FormatOptions;
   };
 }

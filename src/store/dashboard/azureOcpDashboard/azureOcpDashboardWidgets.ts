@@ -24,9 +24,6 @@ export const costSummaryWidget: AzureOcpDashboardWidget = {
   details: {
     costKey: messages.Cost,
     showHorizontal: true,
-    formatOptions: {
-      fractionDigits: 2,
-    },
   },
   tabsFilter: {
     limit: 3,
@@ -38,10 +35,6 @@ export const costSummaryWidget: AzureOcpDashboardWidget = {
     dailyTitleKey: messages.AzureDailyCostTrendTitle,
     titleKey: messages.AzureCostTrendTitle,
     type: ChartType.rolling,
-    formatOptions: {},
-  },
-  topItems: {
-    formatOptions: {},
   },
   availableTabs: [
     AzureOcpDashboardTab.service_names,
@@ -60,9 +53,6 @@ export const databaseWidget: AzureOcpDashboardWidget = {
   details: {
     costKey: messages.Cost,
     showUnits: true,
-    formatOptions: {
-      fractionDigits: 2,
-    },
   },
   filter: {
     service_name: 'Database,Cosmos DB,Cache for Redis',
@@ -75,10 +65,6 @@ export const databaseWidget: AzureOcpDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
-    formatOptions: {},
-  },
-  topItems: {
-    formatOptions: {},
   },
   // availableTabs: [
   //   AzureOcpDashboardTab.service_names,
@@ -97,9 +83,6 @@ export const networkWidget: AzureOcpDashboardWidget = {
   details: {
     costKey: messages.Cost,
     showUnits: true,
-    formatOptions: {
-      fractionDigits: 2,
-    },
   },
   filter: {
     service_name: 'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
@@ -112,10 +95,6 @@ export const networkWidget: AzureOcpDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
-    formatOptions: {},
-  },
-  topItems: {
-    formatOptions: {},
   },
   // availableTabs: [
   //   AzureOcpDashboardTab.service_names,
@@ -137,12 +116,6 @@ export const storageWidget: AzureOcpDashboardWidget = {
     showUsageFirst: true,
     showUsageLegendLabel: true,
     usageKey: messages.Usage,
-    usageFormatOptions: {
-      fractionDigits: 0,
-    },
-    formatOptions: {
-      fractionDigits: 2,
-    },
   },
   filter: {
     service_name: 'Storage',
@@ -155,12 +128,6 @@ export const storageWidget: AzureOcpDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
-    formatOptions: {
-      fractionDigits: 2,
-    },
-  },
-  topItems: {
-    formatOptions: {},
   },
   // availableTabs: [
   //   AzureOcpDashboardTab.service_names,
@@ -182,12 +149,6 @@ export const virtualMachineWidget: AzureOcpDashboardWidget = {
     showUsageFirst: true,
     showUsageLegendLabel: true,
     usageKey: messages.Usage,
-    usageFormatOptions: {
-      fractionDigits: 0,
-    },
-    formatOptions: {
-      fractionDigits: 2,
-    },
   },
   filter: {
     service_name: 'Virtual Machines',
@@ -200,12 +161,6 @@ export const virtualMachineWidget: AzureOcpDashboardWidget = {
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
-    formatOptions: {
-      fractionDigits: 2,
-    },
-  },
-  topItems: {
-    formatOptions: {},
   },
   // availableTabs: [
   //   AzureOcpDashboardTab.instanceType,

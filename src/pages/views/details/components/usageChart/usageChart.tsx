@@ -352,7 +352,10 @@ class UsageChartBase extends React.Component<UsageChartProps> {
           <div style={styles.capacity}>{formatUnits(unusedUsageCapacity, usageUnits)}</div>
           <div>
             {intl.formatMessage(messages.DetailsUnusedUnits, {
-              percentage: formatPercentage(unusedUsageCapacityPercentage, { fractionDigits: 0 }),
+              percentage: formatPercentage(unusedUsageCapacityPercentage, {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              }),
               units: usageUnits,
             })}
           </div>
@@ -362,7 +365,10 @@ class UsageChartBase extends React.Component<UsageChartProps> {
           <div style={styles.capacity}>{formatUnits(unusedRequestCapacity, requestUnits)}</div>
           <div>
             {intl.formatMessage(messages.DetailsUnusedUnits, {
-              percentage: formatPercentage(unusedRequestCapacityPercentage, { fractionDigits: 0 }),
+              percentage: formatPercentage(unusedRequestCapacityPercentage, {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              }),
               units: requestUnits,
             })}
           </div>
