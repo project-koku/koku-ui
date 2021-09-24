@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
+import { countDecimals, formatRaw } from 'utils/format';
 
 import { fetchSources as apiSources } from './api';
 import { CostModelContext } from './context';
@@ -110,7 +111,7 @@ const defaultState = {
   distribution: 'cpu',
   isDiscount: false,
   description: '',
-  markup: '0.00',
+  markup: '0',
   filterName: '',
   sources: [],
   error: null,
@@ -326,10 +327,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           markup: this.state.markup,
           handleMarkupDiscountChange: (_, event) => {
             const { value } = event.currentTarget;
-            const regex = /^[0-9.]*$/;
-            if (regex.test(value)) {
-              this.setState({ markup: value });
-            }
+            this.setState({ markup: formatRaw(value, 'en') });
           },
           isDiscount: this.state.isDiscount,
           handleSignChange: (_, event) => {
@@ -337,7 +335,17 @@ class CostModelWizardBase extends React.Component<Props, State> {
             this.setState({ isDiscount: value === 'true' });
           },
           markupValidator: () => {
-            return /^\d*(\.?\d{1,2})?$/.test(this.state.markup) ? 'default' : 'error';
+            const { markup } = this.state;
+
+            if (isNaN(Number(markup))) {
+              return messages.MarkupOrDiscountNumber;
+            }
+            // Test number of decimals
+            const decimals = countDecimals(markup);
+            if (decimals > 10) {
+              return messages.MarkupOrDiscountTooLong;
+            }
+            return undefined;
           },
           handleOnKeyDown: event => {
             // Prevent 'enter', '+', and '-'
