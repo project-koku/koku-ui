@@ -1046,6 +1046,11 @@ export default defineMessages({
       'Select the metric you want to assign a price to, and specify a measurement unit and rate. You can optionally set multiple rates for particular tags.',
     id: 'CostModelsWizardPriceListMetric',
   },
+  CostModelsWizardRateAriaLabel: {
+    defaultMessage: 'Assign rate',
+    description: 'Assign rate',
+    id: 'CostModelsWizardRateAriaLabel',
+  },
   CostModelsWizardReviewMarkDiscount: {
     defaultMessage: 'Markup/Discount',
     description: 'No Markup/Discount',

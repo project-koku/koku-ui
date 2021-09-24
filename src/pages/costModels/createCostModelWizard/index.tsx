@@ -469,7 +469,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
             type: this.state.type,
             description: this.state.description,
             distribution: this.state.distribution,
-            markup: this.state.isDiscount ? '-' + this.state.markup : this.state.markup,
+            markup: `${this.state.isDiscount ? '-' : ''}${this.state.markup}`,
             tiers: this.state.tiers,
             priceListCurrent: this.state.priceListCurrent,
             sources: this.state.sources.filter(src => src.selected),

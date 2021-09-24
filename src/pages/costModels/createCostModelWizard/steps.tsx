@@ -1,5 +1,6 @@
 import messages from 'locales/messages';
 import { MessageDescriptor } from 'react-intl';
+import { countDecimals } from 'utils/format';
 
 export const nameErrors = (name: string): MessageDescriptor | null => {
   if (name.length === 0) {
@@ -18,30 +19,45 @@ export const descriptionErrors = (description: string): MessageDescriptor | null
   return null;
 };
 
+const isMarkupValid = value => {
+  if (value.trim() === '') {
+    return false;
+  }
+  if (isNaN(Number(value))) {
+    return false;
+  }
+  // Test number of decimals
+  const decimals = countDecimals(value);
+  if (decimals > 10) {
+    return false;
+  }
+  return true;
+};
+
 export const validatorsHash = {
   '': [() => false],
   AWS: [
     ctx => nameErrors(ctx.name) === null && descriptionErrors(ctx.description) === null && ctx.type !== '',
-    ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
+    ctx => isMarkupValid(ctx.markup),
     () => true,
     () => true,
   ],
   AZURE: [
     ctx => nameErrors(ctx.name) === null && descriptionErrors(ctx.description) === null && ctx.type !== '',
-    ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
+    ctx => isMarkupValid(ctx.markup),
     () => true,
     () => true,
   ],
   GCP: [
     ctx => nameErrors(ctx.name) === null && descriptionErrors(ctx.description) === null && ctx.type !== '',
-    ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
+    ctx => isMarkupValid(ctx.markup),
     () => true,
     () => true,
   ],
   OCP: [
     ctx => nameErrors(ctx.name) === null && descriptionErrors(ctx.description) === null && ctx.type !== '',
     ctx => ctx.priceListCurrent.justSaved,
-    ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
+    ctx => isMarkupValid(ctx.markup),
     () => true,
     () => true,
   ],
