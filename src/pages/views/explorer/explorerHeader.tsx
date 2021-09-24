@@ -44,7 +44,7 @@ import {
   // infrastructureGcpOcpOptions, // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
   infrastructureGcpOptions,
   infrastructureIbmOptions,
-  // infrastructureOcpCloudOptions, // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1483
+  infrastructureOcpCloudOptions,
   ocpOptions,
   PerspectiveType,
 } from './explorerUtils';
@@ -134,9 +134,11 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     const options = [];
     if (ocp) {
       options.push(...ocpOptions);
-      // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1483
-      //
-      // options.push(...infrastructureOcpCloudOptions);
+
+      // Todo: Show new features in beta environment only
+      if (insights.chrome.isBeta()) {
+        options.push(...infrastructureOcpCloudOptions);
+      }
     }
     if (aws) {
       options.push(...infrastructureAwsOptions);
