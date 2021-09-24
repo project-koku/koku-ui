@@ -3,6 +3,8 @@ import {
   Button,
   Flex,
   FlexItem,
+  Form,
+  FormGroup,
   InputGroup,
   InputGroupText,
   List,
@@ -24,7 +26,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
-import { formatPercentage } from 'utils/format';
+import { countDecimals, formatRaw } from 'utils/format';
 
 import { styles } from './costCalc.styles';
 
@@ -38,21 +40,18 @@ interface Props extends WrappedComponentProps {
 
 interface State {
   markup: string;
-  origIsDiscount: boolean;
   isDiscount: boolean;
 }
 
 class UpdateMarkupModelBase extends React.Component<Props, State> {
   constructor(props) {
     super(props);
-    const initialMarkup = this.props.current.markup.value;
-    const isNegative = Number(initialMarkup) < 0;
-    const noSignValue = isNegative ? initialMarkup.substring(1) : initialMarkup;
+    const initialMarkup = Number(this.props.current.markup.value); // Drop trailing zeros from API value
+    const isNegative = initialMarkup < 0;
 
     this.state = {
-      markup: (formatPercentage(Number(noSignValue)) as string) || '0.00',
-      origIsDiscount: isNegative,
       isDiscount: isNegative,
+      markup: isNegative ? initialMarkup.toString().substring(1) : initialMarkup.toString(),
     };
   }
 
@@ -63,14 +62,8 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
 
   private handleMarkupDiscountChange = (_, event) => {
     const { value } = event.currentTarget;
-    const regex = /^[0-9.]*$/;
-    if (regex.test(value)) {
-      this.setState({ markup: value });
-    }
-  };
 
-  private markupValidator = () => {
-    return /^\d*(\.?\d{1,2})?$/.test(this.state.markup) ? 'default' : 'error';
+    this.setState({ markup: formatRaw(value, 'en') });
   };
 
   private handleOnKeyDown = event => {
@@ -80,9 +73,28 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
     }
   };
 
+  private markupValidator = () => {
+    const { markup } = this.state;
+
+    if (isNaN(Number(markup))) {
+      return messages.MarkupOrDiscountNumber;
+    }
+    // Test number of decimals
+    const decimals = countDecimals(markup);
+    if (decimals > 10) {
+      return messages.MarkupOrDiscountTooLong;
+    }
+    return undefined;
+  };
+
   public render() {
     const { error, current, intl, isLoading, onClose, updateCostModel } = this.props;
     const { isDiscount } = this.state;
+
+    const helpText = this.markupValidator();
+    const validated = helpText ? 'error' : 'default';
+    const markup = `${isDiscount ? '-' : ''}${this.state.markup}`;
+
     return (
       <Modal
         title={intl.formatMessage(messages.EditMarkupOrDiscount)}
@@ -99,19 +111,13 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                 source_uuids: current.sources.map(provider => provider.uuid),
                 source_type: current.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
                 markup: {
-                  value: this.state.isDiscount ? '-' + this.state.markup : this.state.markup,
+                  value: markup,
                   unit: 'percent',
                 },
               };
               updateCostModel(current.uuid, newState, 'updateMarkup');
             }}
-            isDisabled={
-              isNaN(Number(this.state.markup)) ||
-              (Number(this.state.markup) ===
-                Number(this.state.origIsDiscount ? current.markup.value.substring(1) : current.markup.value || 0) &&
-                this.state.isDiscount === this.state.origIsDiscount) ||
-              isLoading
-            }
+            isDisabled={isLoading || validated === 'error' || Number(markup) === Number(current.markup.value)}
           >
             {intl.formatMessage(messages.Save)}
           </Button>,
@@ -164,24 +170,35 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
               </Flex>
               <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfCenter' }}>
                 <FlexItem>
-                  <InputGroup style={styles.rateContainer}>
-                    <InputGroupText style={styles.sign}>
-                      {isDiscount
-                        ? intl.formatMessage(messages.DiscountMinus)
-                        : intl.formatMessage(messages.MarkupPlus)}
-                    </InputGroupText>
-                    <TextInput
-                      style={styles.inputField}
-                      type="text"
-                      aria-label={intl.formatMessage(messages.Rate)}
-                      id="markup-input-box"
-                      value={this.state.markup}
-                      onKeyDown={this.handleOnKeyDown}
-                      onChange={this.handleMarkupDiscountChange}
-                      validated={this.markupValidator()}
-                    />
-                    <InputGroupText style={styles.percent}>{intl.formatMessage(messages.PercentSymbol)}</InputGroupText>
-                  </InputGroup>
+                  <Form>
+                    <FormGroup
+                      fieldId="markup-input-box"
+                      helperTextInvalid={helpText ? intl.formatMessage(helpText) : undefined}
+                      style={styles.rateContainer}
+                      validated={validated}
+                    >
+                      <InputGroup>
+                        <InputGroupText style={styles.sign}>
+                          {isDiscount
+                            ? intl.formatMessage(messages.DiscountMinus)
+                            : intl.formatMessage(messages.MarkupPlus)}
+                        </InputGroupText>
+                        <TextInput
+                          style={styles.inputField}
+                          type="text"
+                          aria-label={intl.formatMessage(messages.Rate)}
+                          id="markup-input-box"
+                          value={formatRaw(this.state.markup)}
+                          onKeyDown={this.handleOnKeyDown}
+                          onChange={this.handleMarkupDiscountChange}
+                          validated={validated}
+                        />
+                        <InputGroupText style={styles.percent}>
+                          {intl.formatMessage(messages.PercentSymbol)}
+                        </InputGroupText>
+                      </InputGroup>
+                    </FormGroup>
+                  </Form>
                 </FlexItem>
               </Flex>
             </Flex>

@@ -2,7 +2,7 @@ import { SortByDirection } from '@patternfly/react-table';
 import { CostModel, CostModelRequest } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Rate, RateRequest, TagRates } from 'api/rates';
-import { countDecimals, formatRateRaw } from 'utils/format';
+import { countDecimals, formatRaw } from 'utils/format';
 
 import { textHelpers } from './constants';
 
@@ -176,7 +176,7 @@ export const transformFormDataToRequest = (rateFormData: RateFormData, metricsHa
             return {
               tag_value: tvalue.tagValue,
               unit: 'USD',
-              value: formatRateRaw(tvalue.value, 'en'),
+              value: formatRaw(tvalue.value, 'en'),
               description: tvalue.description,
               default: ix === rateFormData.taggingRates.defaultTag,
             };
@@ -184,7 +184,7 @@ export const transformFormDataToRequest = (rateFormData: RateFormData, metricsHa
         }
       : rateFormData.tieredRates.map(tiered => {
           return {
-            value: formatRateRaw(tiered.value, 'en'),
+            value: formatRaw(tiered.value, 'en'),
             unit: 'USD',
             usage: { unit: 'USD' },
           };

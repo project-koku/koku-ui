@@ -12,7 +12,7 @@ import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { formatRateRaw } from 'utils/format';
+import { formatRaw } from 'utils/format';
 type RateFormGroup = Pick<FormGroupProps, 'fieldId' | 'style'>;
 interface UniqueProps {
   label?: MessageDescriptor | string;
@@ -58,7 +58,7 @@ const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
           aria-label={`rate input ${fieldId}`}
           id={fieldId}
           placeholder="0.00"
-          value={formatRateRaw(value as string)}
+          value={formatRaw(value as string)}
           onChange={onChange}
           onKeyDown={handleOnKeyDown}
           validated={validated}

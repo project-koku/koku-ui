@@ -113,7 +113,7 @@ export const formatRate: Formatter = (
 // For example, if the user enters "1,234,56" or "1.234.56", a validator should generate an isNaN error.
 //
 // Note: Use locale='en' to format as USD when submitting API values.
-export const formatRateRaw = (value: string, locale = getLocale()) => {
+export const formatRaw = (value: string, locale = getLocale()) => {
   // Get decimal separator used by current browser locale
   const decimalSeparator = Number('1.1').toLocaleString(locale, {}).substring(1, 2);
 
@@ -172,6 +172,6 @@ const formatUsageHrs: UnitsFormatter = (
   return value.toLocaleString(getLocale(), options);
 };
 
-const unknownTypeFormatter = (value, options) => {
+const unknownTypeFormatter = (value: number, options: FormatOptions) => {
   return value.toLocaleString(getLocale(), options);
 };

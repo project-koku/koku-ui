@@ -33768,6 +33768,18 @@
         "value": "Use markup/discount to manipulate how the raw costs are being calculated for your sources. Note, costs calculated from price list rates will not be affected by this."
       }
     ],
+    "MarkupOrDiscountNumber": [
+      {
+        "type": 0,
+        "value": "Markup or discount must be a number"
+      }
+    ],
+    "MarkupOrDiscountTooLong": [
+      {
+        "type": 0,
+        "value": "Should not exceed 10 decimals"
+      }
+    ],
     "MarkupPlus": [
       {
         "type": 0,

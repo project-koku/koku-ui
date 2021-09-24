@@ -2145,6 +2145,16 @@ export default defineMessages({
       'Use markup/discount to manipulate how the raw costs are being calculated for your sources. Note, costs calculated from price list rates will not be affected by this.',
     id: 'MarkupOrDiscountModalDesc',
   },
+  MarkupOrDiscountNumber: {
+    defaultMessage: 'Markup or discount must be a number',
+    description: 'Markup or discount must be a number',
+    id: 'MarkupOrDiscountNumber',
+  },
+  MarkupOrDiscountTooLong: {
+    defaultMessage: 'Should not exceed 10 decimals',
+    description: 'Should not exceed 10 decimals',
+    id: 'MarkupOrDiscountTooLong',
+  },
   MarkupPlus: {
     defaultMessage: 'Markup (+)',
     description: 'Markup (+)',
