@@ -21,7 +21,7 @@ import messages from 'locales/messages';
 import { styles } from 'pages/costModels/costModel/costCalc.styles';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { formatRaw } from 'utils/format';
+import { countDecimals, formatRaw } from 'utils/format';
 
 import { CostModelContext } from './context';
 
@@ -29,20 +29,37 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
   public render() {
     const { intl } = this.props;
 
+    const handleOnKeyDown = event => {
+      // Prevent 'enter', '+', and '-'
+      if (event.keyCode === 13 || event.keyCode === 187 || event.keyCode === 189) {
+        event.preventDefault();
+      }
+    };
+
+    const markupValidator = value => {
+      if (isNaN(Number(value))) {
+        return messages.MarkupOrDiscountNumber;
+      }
+      // Test number of decimals
+      const decimals = countDecimals(value);
+      if (decimals > 10) {
+        return messages.MarkupOrDiscountTooLong;
+      }
+      return undefined;
+    };
+
     return (
       <CostModelContext.Consumer>
         {({
           handleDistributionChange,
           handleSignChange,
-          handleOnKeyDown,
           handleMarkupDiscountChange,
-          markupValidator,
           markup,
           isDiscount,
           distribution,
           type,
         }) => {
-          const helpText = markupValidator();
+          const helpText = markupValidator(markup);
           const validated = helpText ? 'error' : 'default';
 
           return (
