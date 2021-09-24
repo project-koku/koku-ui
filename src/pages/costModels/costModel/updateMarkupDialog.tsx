@@ -117,7 +117,12 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
               };
               updateCostModel(current.uuid, newState, 'updateMarkup');
             }}
-            isDisabled={isLoading || validated === 'error' || Number(markup) === Number(current.markup.value)}
+            isDisabled={
+              isLoading ||
+              validated === 'error' ||
+              markup.trim().length === 0 ||
+              Number(markup) === Number(current.markup.value)
+            }
           >
             {intl.formatMessage(messages.Save)}
           </Button>,
@@ -184,14 +189,16 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                             : intl.formatMessage(messages.MarkupPlus)}
                         </InputGroupText>
                         <TextInput
-                          style={styles.inputField}
-                          type="text"
                           aria-label={intl.formatMessage(messages.Rate)}
                           id="markup-input-box"
-                          value={formatRaw(this.state.markup)}
+                          isRequired
                           onKeyDown={this.handleOnKeyDown}
                           onChange={this.handleMarkupDiscountChange}
+                          placeholder={formatRaw('0')}
+                          style={styles.inputField}
+                          type="text"
                           validated={validated}
+                          value={formatRaw(this.state.markup)}
                         />
                         <InputGroupText style={styles.percent}>
                           {intl.formatMessage(messages.PercentSymbol)}

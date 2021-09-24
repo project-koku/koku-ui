@@ -99,14 +99,16 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
                                 : intl.formatMessage(messages.MarkupPlus)}
                             </InputGroupText>
                             <TextInput
-                              style={styles.inputField}
-                              type="text"
                               aria-label={intl.formatMessage(messages.Rate)}
                               id="markup-input-box"
-                              value={formatRaw(markup)}
+                              isRequired
                               onKeyDown={handleOnKeyDown}
                               onChange={handleMarkupDiscountChange}
+                              placeholder={formatRaw('0')}
+                              style={styles.inputField}
+                              type="text"
                               validated={validated}
+                              value={formatRaw(markup)}
                             />
                             <InputGroupText style={styles.percent}>
                               {intl.formatMessage(messages.PercentSymbol)}
