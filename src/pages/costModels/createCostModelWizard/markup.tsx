@@ -21,6 +21,7 @@ import messages from 'locales/messages';
 import { styles } from 'pages/costModels/costModel/costCalc.styles';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { formatRaw } from 'utils/format';
 
 import { CostModelContext } from './context';
 
@@ -41,6 +42,9 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
           distribution,
           type,
         }) => {
+          const helpText = markupValidator();
+          const validated = helpText ? 'error' : 'default';
+
           return (
             <Stack hasGutter>
               <StackItem>
@@ -81,26 +85,35 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
                   </Flex>
                   <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfCenter' }}>
                     <FlexItem>
-                      <InputGroup style={styles.rateContainer}>
-                        <InputGroupText style={styles.sign}>
-                          {isDiscount
-                            ? intl.formatMessage(messages.DiscountMinus)
-                            : intl.formatMessage(messages.MarkupPlus)}
-                        </InputGroupText>
-                        <TextInput
-                          style={styles.inputField}
-                          type="text"
-                          aria-label={intl.formatMessage(messages.Rate)}
-                          id="markup-input-box"
-                          value={markup}
-                          onKeyDown={handleOnKeyDown}
-                          onChange={handleMarkupDiscountChange}
-                          validated={markupValidator()}
-                        />
-                        <InputGroupText style={styles.percent}>
-                          {intl.formatMessage(messages.PercentSymbol)}
-                        </InputGroupText>
-                      </InputGroup>
+                      <Form>
+                        <FormGroup
+                          fieldId="markup-input-box"
+                          helperTextInvalid={helpText ? intl.formatMessage(helpText) : undefined}
+                          style={styles.rateContainer}
+                          validated={validated}
+                        >
+                          <InputGroup>
+                            <InputGroupText style={styles.sign}>
+                              {isDiscount
+                                ? intl.formatMessage(messages.DiscountMinus)
+                                : intl.formatMessage(messages.MarkupPlus)}
+                            </InputGroupText>
+                            <TextInput
+                              style={styles.inputField}
+                              type="text"
+                              aria-label={intl.formatMessage(messages.Rate)}
+                              id="markup-input-box"
+                              value={formatRaw(markup)}
+                              onKeyDown={handleOnKeyDown}
+                              onChange={handleMarkupDiscountChange}
+                              validated={validated}
+                            />
+                            <InputGroupText style={styles.percent}>
+                              {intl.formatMessage(messages.PercentSymbol)}
+                            </InputGroupText>
+                          </InputGroup>
+                        </FormGroup>
+                      </Form>
                     </FlexItem>
                   </Flex>
                 </Flex>

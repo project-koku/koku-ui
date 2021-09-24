@@ -46,7 +46,7 @@ interface State {
 class UpdateMarkupModelBase extends React.Component<Props, State> {
   constructor(props) {
     super(props);
-    const initialMarkup = Number(this.props.current.markup.value); // Drop trailing zeros from API value
+    const initialMarkup = Number(this.props.current.markup.value || 0); // Drop trailing zeros from API value
     const isNegative = initialMarkup < 0;
 
     this.state = {

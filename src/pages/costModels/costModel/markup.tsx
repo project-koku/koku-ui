@@ -40,8 +40,13 @@ const MarkupCardBase: React.FunctionComponent<Props> = ({
   isUpdateDialogOpen,
 }) => {
   const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
-  const markupValue =
-    current && current.markup && current.markup.value ? formatPercentage(Number(current.markup.value)) : '0.0';
+  const markupValue = formatPercentage(
+    current && current.markup && current.markup.value ? Number(current.markup.value) : 0,
+    {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 10,
+    }
+  );
 
   return (
     <>
