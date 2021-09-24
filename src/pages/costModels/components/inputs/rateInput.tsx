@@ -55,9 +55,9 @@ const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
           onBlur={onBlur}
           isRequired
           type="text"
-          aria-label={`rate input ${fieldId}`}
+          aria-label={intl.formatMessage(messages.CostModelsWizardRateAriaLabel)}
           id={fieldId}
-          placeholder="0.00"
+          placeholder={formatRaw('0.00')}
           value={formatRaw(value as string)}
           onChange={onChange}
           onKeyDown={handleOnKeyDown}
