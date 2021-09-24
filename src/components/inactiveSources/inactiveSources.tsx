@@ -18,7 +18,7 @@ import {
   providersActions,
   providersSelectors,
 } from 'store/providers';
-import { deleteInactiveSourcesToken, initInactiveSourcesToken, isInactiveSourcesTokenValid } from 'utils/localStorage';
+import { deleteInactiveSourcesToken, isInactiveSourcesTokenValid, saveInactiveSourcesToken } from 'utils/localStorage';
 import { getReleasePath } from 'utils/pathname';
 
 interface InactiveSourcesOwnProps {
@@ -218,7 +218,7 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
   };
 
   private handleOnClose = () => {
-    initInactiveSourcesToken();
+    saveInactiveSourcesToken();
     this.forceUpdate();
   };
 

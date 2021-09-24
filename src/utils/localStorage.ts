@@ -54,14 +54,14 @@ export const isCurrencyTokenValid = () => {
   return getCurrencyToken() === getPartialTokenCookie();
 };
 
-// Initialize inactive sources token, used by isInactiveSourcesTokenValid
-export const initInactiveSourcesToken = () => {
-  setInactiveSourcesToken(getPartialTokenCookie());
-};
-
 // Returns true if inactive sources token is valid for current session
 export const isInactiveSourcesTokenValid = () => {
   return getInactiveSourcesToken() === getPartialTokenCookie();
+};
+
+// Save inactive sources token, used by isInactiveSourcesTokenValid
+export const saveInactiveSourcesToken = () => {
+  setInactiveSourcesToken(getPartialTokenCookie());
 };
 
 // Set currency token, used by isCurrencyTokenValid
