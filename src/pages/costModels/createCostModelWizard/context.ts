@@ -22,8 +22,6 @@ export const defaultCostModelContext = {
   handleMarkupDiscountChange: (...args: any[]) => null,
   handleDistributionChange: (...args: any[]) => null,
   handleSignChange: (...args: any[]) => null,
-  markupValidator: (...args: any[]) => null,
-  handleOnKeyDown: (...args: any[]) => null,
   setSources: (value: any) => null,
   dataFetched: false,
   loading: false,

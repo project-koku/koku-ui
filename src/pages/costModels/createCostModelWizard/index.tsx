@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
-import { countDecimals, formatRaw } from 'utils/format';
+import { formatRaw } from 'utils/format';
 
 import { fetchSources as apiSources } from './api';
 import { CostModelContext } from './context';
@@ -86,7 +86,7 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
           distribution,
           rates: tiers,
           markup: {
-            value: isDiscount ? '-' + markup : markup,
+            value: `${isDiscount ? '-' : ''}${markup}`,
             unit: 'percent',
           },
           source_uuids: sources.map(src => src.uuid),
@@ -333,25 +333,6 @@ class CostModelWizardBase extends React.Component<Props, State> {
           handleSignChange: (_, event) => {
             const { value } = event.currentTarget;
             this.setState({ isDiscount: value === 'true' });
-          },
-          markupValidator: () => {
-            const { markup } = this.state;
-
-            if (isNaN(Number(markup))) {
-              return messages.MarkupOrDiscountNumber;
-            }
-            // Test number of decimals
-            const decimals = countDecimals(markup);
-            if (decimals > 10) {
-              return messages.MarkupOrDiscountTooLong;
-            }
-            return undefined;
-          },
-          handleOnKeyDown: event => {
-            // Prevent 'enter', '+', and '-'
-            if (event.keyCode === 13 || event.keyCode === 187 || event.keyCode === 189) {
-              event.preventDefault();
-            }
           },
           error: this.state.error,
           apiError: this.state.apiError,
