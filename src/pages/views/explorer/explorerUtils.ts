@@ -60,8 +60,12 @@ export const dateRangeOptions: {
   { label: messages.ExplorerDateRange, value: 'previous_month_to_date' },
   { label: messages.ExplorerDateRange, value: 'last_thirty_days' },
   { label: messages.ExplorerDateRange, value: 'last_sixty_days' },
-  { label: messages.ExplorerDateRange, value: 'last_ninety_days' },
 ];
+
+// Todo: Show new features in beta environment only
+if (insights.chrome.isBeta()) {
+  dateRangeOptions.push({ label: messages.ExplorerDateRange, value: 'last_ninety_days' });
+}
 
 export const groupByAwsOptions: {
   label: string;
