@@ -1,8 +1,9 @@
 import { getTokenCookie } from 'utils/cookie';
 
-const currencyTokenID = 'cost_currency_token';
-const currencyUnitsID = 'cost_currency_units';
-const inactiveSourcesTokenID = 'cost_inactive_sources';
+const costTypeID = 'cost_type';
+const currencyID = 'cost_management_currency';
+const inactiveSourcesID = 'cost_management_inactive_sources';
+const sessionTokenID = 'cost_management_session';
 
 // Returns a subset of the token cookie
 export const getPartialTokenCookie = () => {
@@ -10,72 +11,116 @@ export const getPartialTokenCookie = () => {
   return token.substring(token.length - 40, token.length);
 };
 
-// Deletes currency token, used by isCurrencyTokenValid
-export const deleteCurrencyToken = () => {
-  localStorage.removeItem(currencyTokenID);
+/**
+ * Session
+ */
+
+// Deletes session token
+export const deleteSessionToken = () => {
+  localStorage.removeItem(sessionTokenID);
 };
 
-// Deletes currency units
-export const deleteCurrencyUnits = () => {
-  localStorage.removeItem(currencyUnitsID);
-  deleteCurrencyToken(); // Delete token used by isCurrencyTokenValid
+// Returns session token
+export const getSessionToken = () => {
+  return localStorage.getItem(sessionTokenID);
 };
 
-// Deletes inactive sources token
-export const deleteInactiveSourcesToken = () => {
-  localStorage.removeItem(inactiveSourcesTokenID);
+// Returns true if session is valid
+export const isSessionValid = () => {
+  return getSessionToken() === getPartialTokenCookie();
 };
 
-// Returns currency token, used by isCurrencyTokenValid
-export const getCurrencyToken = () => {
-  return localStorage.getItem(currencyTokenID);
+// Save inactive sources token
+export const saveSessionToken = () => {
+  localStorage.setItem(sessionTokenID, getPartialTokenCookie());
 };
 
-// Returns currency units
-export const getCurrencyUnits = () => {
-  const units = localStorage.getItem(currencyUnitsID);
-  return units ? units : 'USD';
+/**
+ * Cost type
+ */
+
+// Delete cost type
+export const deleteCostType = () => {
+  localStorage.removeItem(costTypeID);
 };
 
-// Returns inactive sources token
-export const getInactiveSourcesToken = () => {
-  return localStorage.getItem(inactiveSourcesTokenID);
+// Returns cost type
+export const getCostType = () => {
+  return localStorage.getItem(costTypeID);
 };
 
-// Deletes currency units current session is not valid
-export const invalidateCurrencyUnits = () => {
-  if (!isCurrencyTokenValid()) {
-    deleteCurrencyUnits();
+// Invalidates cost type if current session is not valid
+export const invalidateCostType = () => {
+  if (!isSessionValid()) {
+    deleteSessionToken();
+    deleteCostType();
   }
 };
 
-// Returns true if currency token is valid for current session
-export const isCurrencyTokenValid = () => {
-  return getCurrencyToken() === getPartialTokenCookie();
+// Set cost type
+export const setCostType = (value: string) => {
+  localStorage.setItem(costTypeID, value);
+  saveSessionToken();
 };
 
-// Returns true if inactive sources token is valid for current session
-export const isInactiveSourcesTokenValid = () => {
-  return getInactiveSourcesToken() === getPartialTokenCookie();
+/**
+ * Currency
+ */
+
+// Deletes currency
+export const deleteCurrency = () => {
+  localStorage.removeItem(currencyID);
 };
 
-// Save inactive sources token, used by isInactiveSourcesTokenValid
-export const saveInactiveSourcesToken = () => {
-  setInactiveSourcesToken(getPartialTokenCookie());
+// Returns currency
+export const getCurrency = () => {
+  const units = localStorage.getItem(currencyID);
+  return units ? units : 'USD';
 };
 
-// Set currency token, used by isCurrencyTokenValid
-export const setCurrencyToken = value => {
-  localStorage.setItem(currencyTokenID, value);
+// Invalidates currency if current session is not valid
+export const invalidateCurrency = () => {
+  if (!isSessionValid()) {
+    deleteSessionToken();
+    deleteCurrency();
+  }
 };
 
-// Set currency units
-export const setCurrencyUnits = value => {
-  localStorage.setItem(currencyUnitsID, value);
-  setCurrencyToken(getPartialTokenCookie()); // Save token used by isCurrencyTokenValid
+// Set currency
+export const setCurrency = (value: string) => {
+  localStorage.setItem(currencyID, value);
+  saveSessionToken();
 };
 
-// Set inactive sources token
-export const setInactiveSourcesToken = value => {
-  localStorage.setItem(inactiveSourcesTokenID, value);
+/**
+ * Inactive sources
+ */
+
+// Deletes inactive sources
+export const deleteInactiveSources = () => {
+  localStorage.removeItem(inactiveSourcesID);
+};
+
+// Returns inactive sources
+export const getInactiveSources = () => {
+  return localStorage.getItem(inactiveSourcesID);
+};
+
+// Invalidates inactive sources if current session is not valid
+export const invalidateInactiveSources = () => {
+  if (!isSessionValid()) {
+    deleteSessionToken();
+    deleteInactiveSources();
+  }
+};
+
+// Returns true if inactive sources is valid for the current session
+export const isInactiveSourcesValid = () => {
+  return getInactiveSources() && isSessionValid();
+};
+
+// Set inactive sources
+export const setInactiveSources = (value: string) => {
+  localStorage.setItem(inactiveSourcesID, value);
+  saveSessionToken();
 };

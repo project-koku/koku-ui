@@ -18,7 +18,12 @@ import {
   providersActions,
   providersSelectors,
 } from 'store/providers';
-import { deleteInactiveSourcesToken, isInactiveSourcesTokenValid, saveInactiveSourcesToken } from 'utils/localStorage';
+import {
+  deleteInactiveSources,
+  invalidateInactiveSources,
+  isInactiveSourcesValid,
+  setInactiveSources,
+} from 'utils/localStorage';
 import { getReleasePath } from 'utils/pathname';
 
 interface InactiveSourcesOwnProps {
@@ -218,17 +223,13 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
   };
 
   private handleOnClose = () => {
-    saveInactiveSourcesToken();
+    setInactiveSources('true');
     this.forceUpdate();
   };
 
   private isAlertClosed = () => {
     // Keep closed if token is valid for current session
-    return isInactiveSourcesTokenValid();
-  };
-
-  private resetAlert = () => {
-    deleteInactiveSourcesToken();
+    return isInactiveSourcesValid();
   };
 
   public render() {
@@ -276,14 +277,16 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
         ocpProvidersFetchStatus === FetchStatus.complete &&
         !ocpProvidersError
       ) {
-        this.resetAlert(); // Reset cookie for new alerts
+        deleteInactiveSources(); // Reset cookie for new alerts
       }
       return null;
     }
     if (this.isAlertClosed()) {
       return null; // Don't display alert
     }
-    this.resetAlert(); // Clean up previous cookie, if any
+
+    // Clear local storage value if current session is not valid
+    invalidateInactiveSources();
 
     return (
       <div className="alert">

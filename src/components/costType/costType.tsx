@@ -8,7 +8,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { currencyActions, currencySelectors } from 'store/currency';
-import { getCurrency, invalidateCurrency, setCurrency } from 'utils/localStorage';
+import { getCurrencyUnits, invalidateCurrencyUnits, setCurrencyUnits } from 'utils/localStorage';
 
 import { styles } from './currency.styles';
 
@@ -82,7 +82,7 @@ class CurrencyBase extends React.Component<CurrencyProps> {
     const { intl } = this.props;
     const { currentItem } = this.state;
 
-    const currencyUnits = getCurrency(); // Get currency units from local storage
+    const currencyUnits = getCurrencyUnits(); // Get currency units from local storage
     const units = currencyUnits ? currencyUnits : currentItem;
 
     return intl.formatMessage(messages.CurrencyOptions, { units });
@@ -109,7 +109,7 @@ class CurrencyBase extends React.Component<CurrencyProps> {
   };
 
   private handleClick = value => {
-    setCurrency(value); // Set currency units via local storage
+    setCurrencyUnits(value); // Set currency units via local storage
     this.setState({ currentItem: value });
   };
 
@@ -133,8 +133,8 @@ class CurrencyBase extends React.Component<CurrencyProps> {
       return null;
     }
 
-    // Clear local storage value if current session is not valid
-    invalidateCurrency();
+    // Delete currency units if current session is not valid
+    invalidateCurrencyUnits();
 
     return (
       <div style={styles.currencySelector}>
