@@ -1,5 +1,5 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Dropdown, DropdownItem, DropdownToggle, Title } from '@patternfly/react-core';
+import { Dropdown, DropdownItem, DropdownPosition, DropdownToggle, Title } from '@patternfly/react-core';
 import { Currency } from 'api/currency';
 import { AxiosError } from 'axios';
 import messages from 'locales/messages';
@@ -97,6 +97,7 @@ class CurrencyBase extends React.Component<CurrencyProps> {
       <Dropdown
         id="currencyDropdown"
         onSelect={this.handleSelect}
+        position={DropdownPosition.right}
         toggle={
           <DropdownToggle isDisabled={isDisabled} onToggle={this.handleToggle}>
             {this.getCurrentLabel()}
