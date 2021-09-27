@@ -51,6 +51,7 @@ interface BreakdownStateProps {
   reportFetchStatus: FetchStatus;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
+  showCostType?: boolean;
   tagReportPathsType: TagPathsType;
   title: string;
 }
@@ -202,6 +203,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
       report,
       reportError,
       reportFetchStatus,
+      showCostType,
       tagReportPathsType,
       title,
     } = this.props;
@@ -232,6 +234,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
           groupBy={groupBy}
           query={query}
           report={report}
+          showCostType={showCostType}
           tabs={this.getTabs(availableTabs)}
           tagReportPathsType={tagReportPathsType}
           title={title}

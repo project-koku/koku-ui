@@ -5,6 +5,7 @@ import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
+import { CostType } from 'components/costType/costType';
 import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
 import { TagLink } from 'pages/views/details/components/tag/tagLink';
@@ -23,6 +24,7 @@ interface BreakdownHeaderOwnProps {
   groupBy?: string;
   query: Query;
   report: Report;
+  showCostType?: boolean;
   tabs: React.ReactNode;
   tagReportPathsType: TagPathsType;
   title: string;
@@ -73,7 +75,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   };
 
   public render() {
-    const { description, groupBy, query, intl, tabs, tagReportPathsType, title } = this.props;
+    const { description, groupBy, query, intl, showCostType = false, tabs, tagReportPathsType, title } = this.props;
 
     const filterByAccount = query && query.filter ? query.filter.account : undefined;
     const groupByOrg = getGroupByOrgValue(query);
@@ -107,6 +109,11 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.BreakdownTitle, { value: title })}
             {description && <div style={styles.infoDescription}>{description}</div>}
+            {showCostType && (
+              <div style={styles.costType}>
+                <CostType />
+              </div>
+            )}
           </Title>
           <div style={styles.cost}>
             <div style={styles.costLabel}>

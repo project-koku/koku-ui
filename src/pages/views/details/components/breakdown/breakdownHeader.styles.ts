@@ -22,6 +22,9 @@ export const styles = {
   costLabelDate: {
     textAlign: 'right',
   },
+  costType: {
+    marginTop: global_spacer_md.var,
+  },
   header: {
     backgroundColor: global_BackgroundColor_100.var,
     paddingLeft: global_spacer_lg.var,
