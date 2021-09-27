@@ -97,6 +97,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     reportFetchStatus,
     reportType,
     reportPathsType,
+    showCostType: true,
     tagReportPathsType: TagPathsType.aws,
     title: query[breakdownTitleKey] ? query[breakdownTitleKey] : groupByValue,
   };

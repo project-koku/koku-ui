@@ -26,6 +26,10 @@ export const styles = {
     fontSize: global_FontSize_sm.value,
     color: global_Color_200.var,
   },
+  costType: {
+    display: 'flex',
+    marginLeft: global_spacer_md.var,
+  },
   groupBy: {
     paddingLeft: global_spacer_lg.var,
   },

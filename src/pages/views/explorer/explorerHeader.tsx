@@ -5,6 +5,7 @@ import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
+import { CostType } from 'components/costType/costType';
 import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
@@ -41,7 +42,6 @@ import {
   infrastructureAwsOptions,
   infrastructureAzureOcpOptions,
   infrastructureAzureOptions,
-  // infrastructureGcpOcpOptions, // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
   infrastructureGcpOptions,
   infrastructureIbmOptions,
   infrastructureOcpCloudOptions,
@@ -283,6 +283,11 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
               tagReportPathsType={tagReportPathsType}
             />
           </div>
+          {perspective === PerspectiveType.aws && (
+            <div style={styles.costType}>
+              <CostType />
+            </div>
+          )}
         </div>
         <ExplorerFilter
           groupBy={groupBy}

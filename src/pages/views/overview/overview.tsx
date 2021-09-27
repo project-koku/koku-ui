@@ -17,6 +17,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
+import { CostType } from 'components/costType/costType';
 import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
 import Loading from 'pages/state/loading';
@@ -223,6 +224,22 @@ class OverviewBase extends React.Component<OverviewProps> {
       });
     }
     return availableTabs;
+  };
+
+  private getCostType = () => {
+    const { currentInfrastructurePerspective, currentOcpPerspective } = this.state;
+
+    const currentItem =
+      this.getCurrentTab() === OverviewTab.infrastructure ? currentInfrastructurePerspective : currentOcpPerspective;
+
+    if (currentItem === InfrastructurePerspective.aws) {
+      return (
+        <div style={styles.costType}>
+          <CostType />
+        </div>
+      );
+    }
+    return null;
   };
 
   private getCurrentTab = () => {
@@ -564,7 +581,10 @@ class OverviewBase extends React.Component<OverviewProps> {
           </div>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
           <div style={styles.headerContent}>
-            {this.getPerspective()}
+            <div style={styles.headerContentLeft}>
+              {this.getPerspective()}
+              {this.getCostType()}
+            </div>
             <div style={styles.date}>{getSinceDateRangeString()}</div>
           </div>
         </header>

@@ -28321,6 +28321,48 @@
         "value": "Cannot assign cost model to a source that is already assigned to another one"
       }
     ],
+    "CostTypeAmortized": [
+      {
+        "type": 0,
+        "value": "Amortized"
+      }
+    ],
+    "CostTypeAmortizedDesc": [
+      {
+        "type": 0,
+        "value": "Recurring and/or upfront costs are distributed evenly across the month"
+      }
+    ],
+    "CostTypeBlended": [
+      {
+        "type": 0,
+        "value": "Blended"
+      }
+    ],
+    "CostTypeBlendedDesc": [
+      {
+        "type": 0,
+        "value": "Using a blended rate to calcuate cost usage"
+      }
+    ],
+    "CostTypeLabel": [
+      {
+        "type": 0,
+        "value": "Show cost as"
+      }
+    ],
+    "CostTypeUnblended": [
+      {
+        "type": 0,
+        "value": "Unblended"
+      }
+    ],
+    "CostTypeUnblendedDesc": [
+      {
+        "type": 0,
+        "value": "Usage cost on the day you are charged"
+      }
+    ],
     "Create": [
       {
         "type": 0,
