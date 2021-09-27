@@ -1,79 +1,58 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Dropdown, DropdownItem, DropdownToggle, Title } from '@patternfly/react-core';
-import { Currency } from 'api/currency';
-import { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { connect } from 'react-redux';
-import { createMapStateToProps, FetchStatus } from 'store/common';
-import { currencyActions, currencySelectors } from 'store/currency';
-import { getCurrencyUnits, invalidateCurrencyUnits, setCurrencyUnits } from 'utils/localStorage';
+import { getCostType, invalidateCostType, setCostType } from 'utils/localStorage';
 
-import { styles } from './currency.styles';
+import { styles } from './costType.styles';
 
-interface CurrencyOwnProps {
+interface CostTypeOwnProps {
   isDisabled?: boolean;
 }
 
-interface CurrencyDispatchProps {
-  fetchCurrency?: typeof currencyActions.fetchCurrency;
-}
-
-interface CurrencyStateProps {
-  currency: Currency;
-  currencyError: AxiosError;
-  currencyFetchStatus?: FetchStatus;
-}
-
-interface CurrencyState {
+interface CostTypeState {
   currentItem: string;
-  isCurrencyOpen: boolean;
+  isCostTypeOpen: boolean;
 }
 
-interface CurrencyOptions {
+type CostTypeProps = CostTypeOwnProps & WrappedComponentProps;
+
+// eslint-disable-next-line no-shadow
+const enum CostTypes {
+  amortized = 'amortized',
+  blended = 'blended',
+  unblended = 'unblended',
+}
+
+export const costTypeOptions: {
+  desc: MessageDescriptor;
   label: MessageDescriptor;
   value: string;
-}
+}[] = [
+  { desc: messages.CostTypeUnblendedDesc, label: messages.CostTypeUnblended, value: CostTypes.unblended },
+  { desc: messages.CostTypeAmortizedDesc, label: messages.CostTypeAmortized, value: CostTypes.amortized },
+  { desc: messages.CostTypeBlendedDesc, label: messages.CostTypeBlended, value: CostTypes.blended },
+];
 
-type CurrencyProps = CurrencyOwnProps & CurrencyDispatchProps & CurrencyStateProps & WrappedComponentProps;
-
-class CurrencyBase extends React.Component<CurrencyProps> {
-  protected defaultState: CurrencyState = {
-    currentItem: 'USD',
-    isCurrencyOpen: false,
+class CostTypeBase extends React.Component<CostTypeProps> {
+  protected defaultState: CostTypeState = {
+    currentItem: CostTypes.unblended,
+    isCostTypeOpen: false,
   };
-  public state: CurrencyState = { ...this.defaultState };
-
-  public componentDidMount() {
-    const { fetchCurrency } = this.props;
-
-    fetchCurrency();
-  }
-
-  private getOptions = () => {
-    const { currency } = this.props;
-
-    const options: CurrencyOptions[] = [];
-
-    if (currency) {
-      currency.data.map(val => {
-        options.push({
-          label: messages.CurrencyOptions,
-          value: val.code,
-        });
-      });
-    }
-    return options;
-  };
+  public state: CostTypeState = { ...this.defaultState };
 
   private getDropDownItems = () => {
     const { intl } = this.props;
 
-    const options = this.getOptions();
-    return options.map(option => (
-      <DropdownItem component="button" key={option.value} onClick={() => this.handleClick(option.value)}>
-        {intl.formatMessage(option.label, { units: option.value })}
+    return costTypeOptions.map(option => (
+      <DropdownItem
+        component="button"
+        description={intl.formatMessage(option.desc)}
+        key={option.value}
+        onClick={() => this.handleClick(option.value)}
+      >
+        {intl.formatMessage(option.label)}
       </DropdownItem>
     ));
   };
@@ -82,46 +61,53 @@ class CurrencyBase extends React.Component<CurrencyProps> {
     const { intl } = this.props;
     const { currentItem } = this.state;
 
-    const currencyUnits = getCurrencyUnits(); // Get currency units from local storage
-    const units = currencyUnits ? currencyUnits : currentItem;
+    const costType = getCostType() || currentItem; // Get cost type from local storage
 
-    return intl.formatMessage(messages.CurrencyOptions, { units });
+    switch (costType) {
+      case 'amortized':
+        return intl.formatMessage(messages.CostTypeAmortized);
+      case 'blended':
+        return intl.formatMessage(messages.CostTypeBlended);
+      default:
+      case 'unblended':
+        return intl.formatMessage(messages.CostTypeUnblended);
+    }
   };
 
   private getDropDown = () => {
     const { isDisabled } = this.props;
-    const { isCurrencyOpen } = this.state;
+    const { isCostTypeOpen } = this.state;
     const dropdownItems = this.getDropDownItems();
 
     return (
       <Dropdown
-        id="currencyDropdown"
+        id="costTypeDropdown"
         onSelect={this.handleSelect}
         toggle={
           <DropdownToggle isDisabled={isDisabled} onToggle={this.handleToggle}>
             {this.getCurrentLabel()}
           </DropdownToggle>
         }
-        isOpen={isCurrencyOpen}
+        isOpen={isCostTypeOpen}
         dropdownItems={dropdownItems}
       />
     );
   };
 
   private handleClick = value => {
-    setCurrencyUnits(value); // Set currency units via local storage
+    setCostType(value); // Set cost type via local storage
     this.setState({ currentItem: value });
   };
 
   private handleSelect = () => {
     this.setState({
-      isCurrencyOpen: !this.state.isCurrencyOpen,
+      isCostTypeOpen: !this.state.isCostTypeOpen,
     });
   };
 
-  private handleToggle = isCurrencyOpen => {
+  private handleToggle = isCostTypeOpen => {
     this.setState({
-      isCurrencyOpen,
+      isCostTypeOpen,
     });
   };
 
@@ -133,13 +119,13 @@ class CurrencyBase extends React.Component<CurrencyProps> {
       return null;
     }
 
-    // Delete currency units if current session is not valid
-    invalidateCurrencyUnits();
+    // Clear local storage value if current session is not valid
+    invalidateCostType();
 
     return (
-      <div style={styles.currencySelector}>
-        <Title headingLevel="h2" size="md" style={styles.currencyLabel}>
-          {intl.formatMessage(messages.Currency)}
+      <div style={styles.costSelector}>
+        <Title headingLevel="h3" size="md" style={styles.costLabel}>
+          {intl.formatMessage(messages.CostTypeLabel)}
         </Title>
         {this.getDropDown()}
       </div>
@@ -147,23 +133,5 @@ class CurrencyBase extends React.Component<CurrencyProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<CurrencyOwnProps, CurrencyStateProps>(state => {
-  const currency = currencySelectors.selectCurrency(state);
-  const currencyError = currencySelectors.selectCurrencyError(state);
-  const currencyFetchStatus = currencySelectors.selectCurrencyFetchStatus(state);
-
-  return {
-    currency,
-    currencyError,
-    currencyFetchStatus,
-  };
-});
-
-const mapDispatchToProps: CurrencyDispatchProps = {
-  fetchCurrency: currencyActions.fetchCurrency,
-};
-
-const CurrencyConnect = connect(mapStateToProps, mapDispatchToProps)(CurrencyBase);
-const Currency = injectIntl(CurrencyConnect);
-
-export { Currency };
+const CostType = injectIntl(CostTypeBase);
+export { CostType };

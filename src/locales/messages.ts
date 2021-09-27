@@ -1159,6 +1159,41 @@ export default defineMessages({
     description: 'No Cannot assign cost model to a source that is already assigned to another one',
     id: 'CostModelsWizardWarningSources',
   },
+  CostTypeAmortized: {
+    defaultMessage: 'Amortized',
+    description: 'Amortized cost type',
+    id: 'CostTypeAmortized',
+  },
+  CostTypeAmortizedDesc: {
+    defaultMessage: 'Recurring and/or upfront costs are distributed evenly across the month',
+    description: 'Recurring and/or upfront costs are distributed evenly across the month',
+    id: 'CostTypeAmortizedDesc',
+  },
+  CostTypeBlended: {
+    defaultMessage: 'Blended',
+    description: 'Blended cost type',
+    id: 'CostTypeBlended',
+  },
+  CostTypeBlendedDesc: {
+    defaultMessage: 'Using a blended rate to calcuate cost usage',
+    description: 'Using a blended rate to calcuate cost usage',
+    id: 'CostTypeBlendedDesc',
+  },
+  CostTypeLabel: {
+    defaultMessage: 'Show cost as',
+    description: 'Show cost as',
+    id: 'CostTypeLabel',
+  },
+  CostTypeUnblended: {
+    defaultMessage: 'Unblended',
+    description: 'Unblended cost type',
+    id: 'CostTypeUnblended',
+  },
+  CostTypeUnblendedDesc: {
+    defaultMessage: 'Usage cost on the day you are charged',
+    description: 'Usage cost on the day you are charged',
+    id: 'CostTypeUnblendedDesc',
+  },
   CpuTitle: {
     defaultMessage: 'CPU',
     description: 'CPU',
