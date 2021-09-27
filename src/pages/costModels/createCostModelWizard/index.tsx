@@ -104,25 +104,24 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
 const InternalWizard = injectIntl(InternalWizardBase);
 
 const defaultState = {
-  step: 1,
-  type: '',
-  name: '',
-  dirtyName: false,
-  distribution: 'cpu',
-  isDiscount: false,
-  description: '',
-  markup: '0',
-  filterName: '',
-  sources: [],
-  error: null,
   apiError: null,
+  createError: null,
+  createProcess: false,
+  createSuccess: false,
+  currencyUnits: 'USD',
   dataFetched: false,
-  query: {},
+  description: '',
+  distribution: 'cpu',
+  dirtyName: false,
+  error: null,
+  filterName: '',
+  isDialogOpen: false,
+  isDiscount: false,
+  loading: false,
+  markup: '0',
+  name: '',
   page: 1,
   perPage: 10,
-  total: 0,
-  loading: false,
-  tiers: [] as Rate[],
   priceListCurrent: {
     metric: '',
     measurement: '',
@@ -133,32 +132,33 @@ const defaultState = {
     page: 1,
     perPage: 10,
   },
-  createError: null,
-  createSuccess: false,
-  createProcess: false,
-  isDialogOpen: false,
+  query: {},
+  sources: [],
+  step: 1,
+  tiers: [] as Rate[],
+  total: 0,
+  type: '',
 };
 
 interface State {
-  step: number;
-  type: string;
-  name: string;
-  dirtyName: boolean;
-  description: string;
-  distribution: string;
-  isDiscount: boolean;
-  markup: string;
-  filterName: string;
-  sources: any[];
-  error: any;
   apiError: any;
+  createError: any;
+  createProcess: boolean;
+  createSuccess: boolean;
+  currencyUnits: string;
   dataFetched: boolean;
-  query: { name?: string[] };
+  description: string;
+  dirtyName: boolean;
+  distribution: string;
+  error: any;
+  filterName: string;
+  isDialogOpen: boolean;
+  isDiscount: boolean;
+  loading: boolean;
+  markup: string;
+  name: string;
   page: number;
   perPage: number;
-  total: number;
-  loading: boolean;
-  tiers: Rate[];
   priceListCurrent: {
     metric: string;
     measurement: string;
@@ -169,10 +169,12 @@ interface State {
     page: number;
     perPage: number;
   };
-  createError: any;
-  createSuccess: boolean;
-  createProcess: boolean;
-  isDialogOpen: boolean;
+  query: { name?: string[] };
+  step: number;
+  sources: any[];
+  tiers: Rate[];
+  total: number;
+  type: string;
 }
 
 interface Props extends WrappedComponentProps {
@@ -310,89 +312,18 @@ class CostModelWizardBase extends React.Component<Props, State> {
     return (
       <CostModelContext.Provider
         value={{
-          metricsHash,
-          step: this.state.step,
-          type: this.state.type,
-          onTypeChange: value => this.setState({ type: value, dataFetched: false, loading: false }),
-          name: this.state.name,
-          dirtyName: this.state.dirtyName,
-          onNameChange: value => this.setState({ name: value, dirtyName: true }),
-          description: this.state.description,
-          onDescChange: value => this.setState({ description: value }),
-          distribution: this.state.distribution,
-          handleDistributionChange: (_, event) => {
-            const { value } = event.currentTarget;
-            this.setState({ distribution: value });
-          },
-          markup: this.state.markup,
-          handleMarkupDiscountChange: (_, event) => {
-            const { value } = event.currentTarget;
-            this.setState({ markup: formatRaw(value, 'en') });
-          },
-          isDiscount: this.state.isDiscount,
-          handleSignChange: (_, event) => {
-            const { value } = event.currentTarget;
-            this.setState({ isDiscount: value === 'true' });
-          },
-          error: this.state.error,
           apiError: this.state.apiError,
-          sources: this.state.sources,
-          dataFetched: this.state.dataFetched,
-          setSources: sources => this.setState({ sources, dataFetched: true, loading: false }),
-          onSourceSelect: (rowId, isSelected) => {
-            if (rowId === -1) {
-              return this.setState({
-                sources: this.state.sources.map(s => ({
-                  ...s,
-                  selected: isSelected,
-                })),
-              });
-            }
-            const newSources = [...this.state.sources];
-            newSources[rowId].selected = isSelected;
-            return this.setState({ sources: newSources });
-          },
-          total: this.state.total,
-          page: this.state.page,
-          onPageChange: (_evt, page) => this.setState({ page }),
-          onPerPageChange: (_evt, perPage) => this.setState({ page: 1, perPage }),
-          perPage: this.state.perPage,
-          filterName: this.state.filterName,
-          onFilterChange: value => this.setState({ filterName: value }),
-          query: this.state.query,
           clearQuery: () => this.setState({ query: {} }),
-          loading: this.state.loading,
-          tiers: this.state.tiers,
-          submitTiers: (tiers: Rate[]) => {
-            this.setState({
-              tiers,
-            });
-          },
-          priceListPagination: {
-            page: this.state.priceListPagination.page,
-            perPage: this.state.priceListPagination.perPage,
-            onPageSet: (_evt, page) =>
-              this.setState({
-                priceListPagination: {
-                  ...this.state.priceListPagination,
-                  page,
-                },
-              }),
-            onPerPageSet: (_evt, perPage) =>
-              this.setState({
-                priceListPagination: {
-                  page: 1,
-                  perPage,
-                },
-              }),
-          },
-          goToAddPL: (value?: boolean) =>
-            this.setState({
-              priceListCurrent: {
-                ...this.state.priceListCurrent,
-                justSaved: value ? value : false,
-              },
-            }),
+          createError: this.state.createError,
+          createProcess: this.state.createProcess,
+          createSuccess: this.state.createSuccess,
+          currencyUnits: this.state.currencyUnits,
+          description: this.state.description,
+          dataFetched: this.state.dataFetched,
+          dirtyName: this.state.dirtyName,
+          distribution: this.state.distribution,
+          error: this.state.error,
+          filterName: this.state.filterName,
           fetchSources: (type, query, page, perPage) => {
             this.setState({ loading: true, apiError: null, filterName: '' }, () =>
               apiSources({ type, query, page, perPage })
@@ -417,10 +348,83 @@ class CostModelWizardBase extends React.Component<Props, State> {
                 )
             );
           },
-          createSuccess: this.state.createSuccess,
-          createError: this.state.createError,
-          createProcess: this.state.createProcess,
+          goToAddPL: (value?: boolean) =>
+            this.setState({
+              priceListCurrent: {
+                ...this.state.priceListCurrent,
+                justSaved: value ? value : false,
+              },
+            }),
+          handleDistributionChange: (_, event) => {
+            const { value } = event.currentTarget;
+            this.setState({ distribution: value });
+          },
+          handleMarkupDiscountChange: (_, event) => {
+            const { value } = event.currentTarget;
+            this.setState({ markup: formatRaw(value, 'en') });
+          },
+          handleSignChange: (_, event) => {
+            const { value } = event.currentTarget;
+            this.setState({ isDiscount: value === 'true' });
+          },
+          isDiscount: this.state.isDiscount,
+          loading: this.state.loading,
+          metricsHash,
           onClose: () => this.setState({ ...defaultState }, this.props.closeWizard),
+          onCurrencyChange: value => this.setState({ currencyUnits: value }),
+          onDescChange: value => this.setState({ description: value }),
+          onFilterChange: value => this.setState({ filterName: value }),
+          onNameChange: value => this.setState({ name: value, dirtyName: true }),
+          onPageChange: (_evt, page) => this.setState({ page }),
+          onPerPageChange: (_evt, perPage) => this.setState({ page: 1, perPage }),
+          onSourceSelect: (rowId, isSelected) => {
+            if (rowId === -1) {
+              return this.setState({
+                sources: this.state.sources.map(s => ({
+                  ...s,
+                  selected: isSelected,
+                })),
+              });
+            }
+            const newSources = [...this.state.sources];
+            newSources[rowId].selected = isSelected;
+            return this.setState({ sources: newSources });
+          },
+          onTypeChange: value => this.setState({ type: value, dataFetched: false, loading: false }),
+          page: this.state.page,
+          priceListPagination: {
+            page: this.state.priceListPagination.page,
+            perPage: this.state.priceListPagination.perPage,
+            onPageSet: (_evt, page) =>
+              this.setState({
+                priceListPagination: {
+                  ...this.state.priceListPagination,
+                  page,
+                },
+              }),
+            onPerPageSet: (_evt, perPage) =>
+              this.setState({
+                priceListPagination: {
+                  page: 1,
+                  perPage,
+                },
+              }),
+          },
+          markup: this.state.markup,
+          name: this.state.name,
+          perPage: this.state.perPage,
+          query: this.state.query,
+          setSources: sources => this.setState({ sources, dataFetched: true, loading: false }),
+          sources: this.state.sources,
+          step: this.state.step,
+          submitTiers: (tiers: Rate[]) => {
+            this.setState({
+              tiers,
+            });
+          },
+          tiers: this.state.tiers,
+          total: this.state.total,
+          type: this.state.type,
         }}
       >
         <InternalWizard
