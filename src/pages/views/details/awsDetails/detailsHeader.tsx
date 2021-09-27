@@ -6,6 +6,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AwsReport } from 'api/reports/awsReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
+import { CostType } from 'components/costType/costType';
 import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
@@ -73,17 +74,22 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <Currency />
         </div>
         <div style={styles.headerContent}>
-          <GroupBy
-            getIdKeyForGroupBy={getIdKeyForGroupBy}
-            groupBy={groupBy}
-            isDisabled={!showContent}
-            onItemClicked={onGroupByClicked}
-            options={groupByOptions}
-            orgReportPathsType={orgReportPathsType}
-            showOrgs
-            showTags
-            tagReportPathsType={tagReportPathsType}
-          />
+          <div style={styles.headerContentLeft}>
+            <GroupBy
+              getIdKeyForGroupBy={getIdKeyForGroupBy}
+              groupBy={groupBy}
+              isDisabled={!showContent}
+              onItemClicked={onGroupByClicked}
+              options={groupByOptions}
+              orgReportPathsType={orgReportPathsType}
+              showOrgs
+              showTags
+              tagReportPathsType={tagReportPathsType}
+            />
+            <div style={styles.costType}>
+              <CostType />
+            </div>
+          </div>
           {Boolean(showContent) && (
             <div>
               <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
