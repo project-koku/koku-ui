@@ -41,7 +41,7 @@ const PriceList = () => {
         currencyUnits={currencyUnits}
         metricsHash={metricsHash}
         submitRate={(rateFormData: RateFormData) => {
-          const rate = transformFormDataToRequest(rateFormData, metricsHash);
+          const rate = transformFormDataToRequest(rateFormData, metricsHash, currencyUnits);
           submit(rate);
         }}
         cancel={() => {

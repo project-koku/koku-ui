@@ -94,7 +94,7 @@ class PriceListTable extends React.Component<Props, State> {
 
     return (
       <CostModelContext.Consumer>
-        {({ currencyUnits, priceListPagination }) => {
+        {({ priceListPagination }) => {
           return (
             <Stack hasGutter>
               <StackItem>
@@ -208,7 +208,6 @@ class PriceListTable extends React.Component<Props, State> {
                                 },
                               },
                             ]}
-                            currencyUnits={currencyUnits}
                             isCompact
                             tiers={res}
                           />
