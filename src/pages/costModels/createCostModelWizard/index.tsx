@@ -5,6 +5,7 @@ import { addCostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Rate } from 'api/rates';
 import messages from 'locales/messages';
+import { cloneDeep } from 'lodash';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
@@ -309,6 +310,26 @@ class CostModelWizardBase extends React.Component<Props, State> {
       </Button>
     );
 
+    // When currency is updated, tiers must be same units
+    const transformTiers = (tiers, currencyUnits = 'USD') => {
+      const rates = cloneDeep(tiers);
+
+      rates.map(val => {
+        if (val.tiered_rates) {
+          for (const rate of val.tiered_rates) {
+            rate.unit = currencyUnits;
+            rate.usage.unit = currencyUnits;
+          }
+        }
+        if (val.tag_rates) {
+          for (const rate of val.tag_rates.tag_values) {
+            rate.unit = currencyUnits;
+          }
+        }
+      });
+      return rates;
+    };
+
     return (
       <CostModelContext.Provider
         value={{
@@ -371,7 +392,8 @@ class CostModelWizardBase extends React.Component<Props, State> {
           loading: this.state.loading,
           metricsHash,
           onClose: () => this.setState({ ...defaultState }, this.props.closeWizard),
-          onCurrencyChange: value => this.setState({ currencyUnits: value }),
+          onCurrencyChange: value =>
+            this.setState({ currencyUnits: value, tiers: transformTiers(this.state.tiers, value) }),
           onDescChange: value => this.setState({ description: value }),
           onFilterChange: value => this.setState({ filterName: value }),
           onNameChange: value => this.setState({ name: value, dirtyName: true }),
@@ -455,7 +477,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
             description: this.state.description,
             distribution: this.state.distribution,
             markup: `${this.state.isDiscount ? '-' : ''}${this.state.markup}`,
-            tiers: this.state.tiers,
+            tiers: transformTiers(this.state.tiers, 'USD'), // Todo: Temporarily transform to USD for APIs
             priceListCurrent: this.state.priceListCurrent,
             sources: this.state.sources.filter(src => src.selected),
           }}
