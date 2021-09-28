@@ -7,21 +7,26 @@ import {
   TextInput,
   TextInputProps,
 } from '@patternfly/react-core';
-import { DollarSignIcon } from '@patternfly/react-icons/dist/esm/icons/dollar-sign-icon';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { formatRaw } from 'utils/format';
-type RateFormGroup = Pick<FormGroupProps, 'fieldId' | 'style'>;
+
+import { styles } from './rateInput.styles';
+
 interface UniqueProps {
+  currencyUnits?: string;
   label?: MessageDescriptor | string;
   helperTextInvalid?: MessageDescriptor | string;
 }
+
+type RateFormGroup = Pick<FormGroupProps, 'fieldId' | 'style'>;
 type RateTextInput = Pick<TextInputProps, 'value' | 'onChange' | 'validated' | 'onBlur'>;
 type RateInputBaseProps = RateFormGroup & RateTextInput & UniqueProps & WrappedComponentProps;
 
 const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
+  currencyUnits = 'USD',
   fieldId,
   helperTextInvalid: helpText = messages.PriceListPosNumberRate,
   intl = defaultIntl, // Default required for testing
@@ -48,8 +53,8 @@ const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
       validated={validated}
     >
       <InputGroup>
-        <InputGroupText>
-          <DollarSignIcon />
+        <InputGroupText style={styles.currency}>
+          {intl.formatMessage(messages.CurrencyUnits, { units: currencyUnits })}
         </InputGroupText>
         <TextInput
           onBlur={onBlur}

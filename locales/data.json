@@ -29632,6 +29632,12 @@
         "value": "No match found"
       }
     ],
+    "EqualsSymbol": [
+      {
+        "type": 0,
+        "value": "="
+      }
+    ],
     "ErrorStateNotAuthorizedDesc": [
       {
         "type": 0,

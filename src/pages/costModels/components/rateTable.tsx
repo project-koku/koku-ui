@@ -20,13 +20,13 @@ import { compareBy } from './rateForm/utils';
 import TagRateTable from './tagRateTable';
 
 interface RateTableProps extends WrappedComponentProps {
-  tiers: Rate[];
   actions?: IActions;
   isCompact?: boolean;
+  tiers: Rate[];
 }
 
 // defaultIntl required for testing
-const RateTableBase: React.SFC<RateTableProps> = ({ intl = defaultIntl, tiers, actions, isCompact }) => {
+const RateTableBase: React.SFC<RateTableProps> = ({ actions, intl = defaultIntl, isCompact, tiers }) => {
   const [expanded, setExpanded] = React.useState({});
   const [sortBy, setSortBy] = React.useState<ISortBy>({});
   const cells = [

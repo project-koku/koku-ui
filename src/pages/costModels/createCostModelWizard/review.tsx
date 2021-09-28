@@ -51,7 +51,7 @@ const ReviewSuccess = injectIntl(ReviewSuccessBase);
 
 const ReviewDetailsBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
   <CostModelContext.Consumer>
-    {({ name, description, distribution, type, markup, sources, tiers, createError, isDiscount }) => {
+    {({ createError, description, distribution, isDiscount, markup, name, sources, tiers, type }) => {
       return (
         <>
           {createError && <Alert variant="danger" title={`${createError}`} />}

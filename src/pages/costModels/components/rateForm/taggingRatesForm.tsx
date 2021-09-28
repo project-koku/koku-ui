@@ -11,24 +11,26 @@ import { UseRateData } from './useRateForm';
 import { RateFormErrors, RateFormTagValue } from './utils';
 
 interface TaggingRatesFormOwnProps {
+  currencyUnits?: string;
+  defaultTag: UseRateData['taggingRates']['defaultTag'];
+  errors: Pick<RateFormErrors, 'tagValueValues' | 'tagValues' | 'tagDescription'>;
+  removeTag: UseRateData['removeTag'];
   tagValues: RateFormTagValue[];
   updateDefaultTag: UseRateData['updateDefaultTag'];
-  defaultTag: UseRateData['taggingRates']['defaultTag'];
   updateTag: UseRateData['updateTag'];
-  removeTag: UseRateData['removeTag'];
-  errors: Pick<RateFormErrors, 'tagValueValues' | 'tagValues' | 'tagDescription'>;
 }
 
 type TaggingRatesFormProps = TaggingRatesFormOwnProps & WrappedComponentProps;
 
 const TaggingRatesFormBase: React.FunctionComponent<TaggingRatesFormProps> = ({
+  currencyUnits,
+  defaultTag,
+  errors,
   intl = defaultIntl, // Default required for testing
   tagValues,
   updateDefaultTag,
-  defaultTag,
-  updateTag,
   removeTag,
-  errors,
+  updateTag,
 }) => {
   const style = { width: '200px' };
   const elementStyle = {
@@ -41,7 +43,7 @@ const TaggingRatesFormBase: React.FunctionComponent<TaggingRatesFormProps> = ({
       {tagValues.map((tag, ix: number) => {
         return (
           <Split hasGutter key={ix}>
-            <SplitItem style={elementStyle}>=</SplitItem>
+            <SplitItem style={elementStyle}>{intl.formatMessage(messages.EqualsSymbol)}</SplitItem>
             <SplitItem>
               <SimpleInput
                 isRequired
@@ -57,12 +59,13 @@ const TaggingRatesFormBase: React.FunctionComponent<TaggingRatesFormProps> = ({
             </SplitItem>
             <SplitItem>
               <RateInput
-                style={style}
+                currencyUnits={currencyUnits}
                 fieldId={`rate_${ix}`}
+                helperTextInvalid={errors.tagValues[ix]}
+                onChange={value => updateTag({ value }, ix)}
+                style={style}
                 validated={tagValues[ix].isDirty && errors.tagValues[ix] ? 'error' : 'default'}
                 value={tag.value}
-                onChange={value => updateTag({ value }, ix)}
-                helperTextInvalid={errors.tagValues[ix]}
               />
             </SplitItem>
             <SplitItem>

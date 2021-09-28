@@ -1564,6 +1564,11 @@ export default defineMessages({
     description: 'No match found',
     id: 'EmptyFilterStateTitle',
   },
+  EqualsSymbol: {
+    defaultMessage: '=',
+    description: 'equals',
+    id: 'EqualsSymbol',
+  },
   ErrorStateNotAuthorizedDesc: {
     defaultMessage: 'Contact the cost management administrator to provide access to this application',
     description: 'Contact the cost management administrator to provide access to this application',
