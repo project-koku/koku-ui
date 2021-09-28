@@ -125,18 +125,23 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                     <FormSelectOption value="OCP" label={intl.formatMessage(messages.CostModelsWizardOnboardOCP)} />
                   </FormSelect>
                 </FormGroup>
-                <FormGroup label={intl.formatMessage(messages.Currency)} fieldId="currency-units">
-                  <FormSelect id="currency-units" value={currencyUnits} onChange={onCurrencyChange}>
-                    {currency &&
-                      currency.data.map(val => (
-                        <FormSelectOption
-                          key={val.code}
-                          label={intl.formatMessage(messages.CurrencyOptions, { units: val.code })}
-                          value={val.code}
-                        />
-                      ))}
-                  </FormSelect>
-                </FormGroup>
+                {
+                  /* Todo: Show new features in beta environment only */
+                  insights.chrome.isBeta() && (
+                    <FormGroup label={intl.formatMessage(messages.Currency)} fieldId="currency-units">
+                      <FormSelect id="currency-units" value={currencyUnits} onChange={onCurrencyChange}>
+                        {currency &&
+                          currency.data.map(val => (
+                            <FormSelectOption
+                              key={val.code}
+                              label={intl.formatMessage(messages.CurrencyOptions, { units: val.code })}
+                              value={val.code}
+                            />
+                          ))}
+                      </FormSelect>
+                    </FormGroup>
+                  )
+                }
               </Form>
             </StackItem>
           </Stack>
