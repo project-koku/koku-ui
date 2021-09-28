@@ -26,7 +26,7 @@ type RateTextInput = Pick<TextInputProps, 'value' | 'onChange' | 'validated' | '
 type RateInputBaseProps = RateFormGroup & RateTextInput & UniqueProps & WrappedComponentProps;
 
 const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
-  currencyUnits,
+  currencyUnits = 'USD',
   fieldId,
   helperTextInvalid: helpText = messages.PriceListPosNumberRate,
   intl = defaultIntl, // Default required for testing

@@ -87,6 +87,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
     paddingLeft: '0',
     textAlign: 'left',
   } as React.CSSProperties;
+
   return (
     <>
       <SimpleInput
