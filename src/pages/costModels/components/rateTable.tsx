@@ -20,13 +20,14 @@ import { compareBy } from './rateForm/utils';
 import TagRateTable from './tagRateTable';
 
 interface RateTableProps extends WrappedComponentProps {
-  tiers: Rate[];
+  currencyUnits?: string;
   actions?: IActions;
   isCompact?: boolean;
+  tiers: Rate[];
 }
 
 // defaultIntl required for testing
-const RateTableBase: React.SFC<RateTableProps> = ({ intl = defaultIntl, tiers, actions, isCompact }) => {
+const RateTableBase: React.SFC<RateTableProps> = ({ actions, currencyUnits, intl = defaultIntl, isCompact, tiers }) => {
   const [expanded, setExpanded] = React.useState({});
   const [sortBy, setSortBy] = React.useState<ISortBy>({});
   const cells = [
@@ -60,7 +61,7 @@ const RateTableBase: React.SFC<RateTableProps> = ({ intl = defaultIntl, tiers, a
             parent: ix + counter,
             cells: [
               {
-                title: <TagRateTable tagRates={tier.tag_rates} />,
+                title: <TagRateTable currencyunits={currencyUnits} tagRates={tier.tag_rates} />,
                 props: { colSpan: 6, className: 'pf-m-no-padding' },
               },
             ],
@@ -81,7 +82,7 @@ const RateTableBase: React.SFC<RateTableProps> = ({ intl = defaultIntl, tiers, a
             {
               title:
                 rateKind === 'regular'
-                  ? `${formatRate(Number(tier.tiered_rates[0].value), tier.tiered_rates[0].unit)}`
+                  ? `${formatRate(Number(tier.tiered_rates[0].value), currencyUnits || tier.tiered_rates[0].unit)}`
                   : intl.formatMessage(messages.Various),
               props: { isOpen, style: { padding: rateKind === 'tagging' ? '' : '1.5rem 1rem' } },
             },

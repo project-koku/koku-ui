@@ -14,6 +14,7 @@ import { TaggingRatesForm } from './taggingRatesForm';
 import { UseRateData } from './useRateForm';
 
 interface RateFormOwnProps {
+  currencyUnits?: string;
   rateFormData: UseRateData;
   metricsHash: MetricHash;
 }
@@ -21,14 +22,28 @@ interface RateFormOwnProps {
 type RateFormProps = RateFormOwnProps & WrappedComponentProps;
 
 // defaultIntl required for testing
-const RateFormBase: React.FunctionComponent<RateFormProps> = ({ intl = defaultIntl, metricsHash, rateFormData }) => {
+const RateFormBase: React.FunctionComponent<RateFormProps> = ({
+  currencyUnits,
+  intl = defaultIntl,
+  metricsHash,
+  rateFormData,
+}) => {
   const {
-    step,
-    description,
-    metric,
-    measurement: { value: measurement, isDirty: measurementDirty },
+    addTag,
     calculation,
+    description,
+    errors,
+    measurement: { value: measurement, isDirty: measurementDirty },
+    metric,
     rateKind,
+    removeTag,
+    setCalculation,
+    setDescription,
+    setMeasurement,
+    setMetric,
+    setRegular,
+    setTagKey,
+    step,
     taggingRates: {
       tagKey: { value: tagKey, isDirty: isTagKeyDirty },
       defaultTag,
@@ -37,18 +52,9 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({ intl = defaultIn
     tieredRates: {
       0: { value: regular, isDirty: regularDirty },
     },
-    setDescription,
-    setMetric,
-    setMeasurement,
-    setCalculation,
-    setRegular,
     toggleTaggingRate,
-    setTagKey,
-    updateTag,
     updateDefaultTag,
-    removeTag,
-    addTag,
-    errors,
+    updateTag,
   } = rateFormData;
   const getMetricLabel = m => {
     // Match message descriptor or default to API string
@@ -181,12 +187,13 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({ intl = defaultIn
           </>
           {rateKind === 'regular' ? (
             <RateInput
-              style={style}
+              currencyUnits={currencyUnits}
+              fieldId="regular-rate"
               helperTextInvalid={errors.tieredRates}
+              onChange={setRegular}
+              style={style}
               validated={errors.tieredRates && regularDirty ? 'error' : 'default'}
               value={regular}
-              onChange={setRegular}
-              fieldId="regular-rate"
             />
           ) : (
             <>
@@ -202,16 +209,17 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({ intl = defaultIn
                 helperTextInvalid={errors.tagKey}
               />
               <TaggingRatesForm
+                currencyUnits={currencyUnits}
+                defaultTag={defaultTag}
                 errors={{
                   tagValues: errors.tagValues,
                   tagValueValues: errors.tagValueValues,
                   tagDescription: errors.tagDescription,
                 }}
-                updateDefaultTag={updateDefaultTag}
-                defaultTag={defaultTag}
-                tagValues={tagValues}
-                updateTag={updateTag}
                 removeTag={removeTag}
+                tagValues={tagValues}
+                updateDefaultTag={updateDefaultTag}
+                updateTag={updateTag}
               />
               <Button data-testid="add_more" style={addStyle} variant={ButtonVariant.link} onClick={addTag}>
                 <PlusCircleIcon /> {intl.formatMessage(messages.CostModelsAddTagValues)}

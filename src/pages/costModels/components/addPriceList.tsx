@@ -25,18 +25,20 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 interface AddPriceListOwnProps {
+  cancel: () => void;
+  currencyUnits?: string;
   metricsHash: MetricHash;
   submitRate: (data: RateFormData) => void;
-  cancel: () => void;
 }
 
 type AddPriceListProps = AddPriceListOwnProps & WrappedComponentProps;
 
 const AddPriceList: React.FunctionComponent<AddPriceListProps> = ({
-  intl = defaultIntl, // Default required for testing
-  submitRate,
   cancel,
+  currencyUnits,
+  intl = defaultIntl, // Default required for testing
   metricsHash,
+  submitRate,
 }) => {
   const { tiers } = React.useContext(CostModelContext);
   const rateFormData = useRateData(metricsHash, undefined, tiers);
@@ -55,7 +57,7 @@ const AddPriceList: React.FunctionComponent<AddPriceListProps> = ({
       </StackItem>
       <StackItem>
         <Form>
-          <RateForm metricsHash={metricsHash} rateFormData={rateFormData} />
+          <RateForm currencyUnits={currencyUnits} metricsHash={metricsHash} rateFormData={rateFormData} />
         </Form>
       </StackItem>
       <StackItem>
