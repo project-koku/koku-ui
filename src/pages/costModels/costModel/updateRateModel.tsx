@@ -51,6 +51,26 @@ const UpdateRateModalBase: React.FunctionComponent<UpdateRateModalBaseProps> = (
   const canSubmit = React.useMemo(() => isReadyForSubmit(rateFormData), [rateFormData]);
   const gotDiffs = React.useMemo(() => hasDiff(rate, rateFormData), [rateFormData]);
 
+  const getCurrencyUnits = tiers => {
+    if (tiers === null) {
+      return 'USD';
+    }
+    if (tiers.tiered_rates) {
+      for (const tier of tiers.tiered_rates) {
+        if (tier.unit || tier.usage) {
+          return tier.unit || tier.usage.unit;
+        }
+      }
+    }
+    if (tiers.tag_rates) {
+      for (const tier of tiers.tag_rates.tag_values) {
+        if (tier.unit) {
+          return tier.unit;
+        }
+      }
+    }
+  };
+
   const onProceed = () => {
     const costModelReq = mergeToRequest(metricsHash, costModel, rateFormData, index);
     updateCostModel(costModel.uuid, costModelReq);
@@ -66,12 +86,13 @@ const UpdateRateModalBase: React.FunctionComponent<UpdateRateModalBaseProps> = (
               orate =>
                 orate.metric.name !== rate.metric.name ||
                 orate.cost_type !== rate.cost_type ||
-                orate.tag_rates.tag_key !== rate.tag_rates.tag_key
+                (orate.tag_rates && rate.tag_rates && orate.tag_rates.tag_key !== rate.tag_rates.tag_key)
             )
           : costModel.rates
       )
     );
   }, [isOpen]);
+
   return (
     <Modal
       title={intl.formatMessage(messages.PriceListEditRate)}
@@ -100,7 +121,7 @@ const UpdateRateModalBase: React.FunctionComponent<UpdateRateModalBaseProps> = (
         )}
         <StackItem>
           <Form>
-            <RateForm metricsHash={metricsHash} rateFormData={rateFormData} />
+            <RateForm currencyUnits={getCurrencyUnits(rate)} metricsHash={metricsHash} rateFormData={rateFormData} />
           </Form>
         </StackItem>
       </Stack>
