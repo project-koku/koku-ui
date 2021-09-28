@@ -50,19 +50,19 @@ interface State {
 }
 
 interface Props extends WrappedComponentProps {
-  fetchError: AxiosError;
-  fetchStatus: FetchStatus;
-  current: CostModel;
-  costModel?: string;
   assignees?: string[];
-  updateCostModel: typeof costModelsActions.updateCostModel;
+  costModel?: string;
+  current: CostModel;
+  costTypes: string[];
   error: string;
   isDialogOpen: { deleteRate: boolean; updateRate: boolean; addRate: boolean };
-  setDialogOpen: typeof costModelsActions.setCostModelDialog;
   isLoading: boolean;
-  metricsHash: MetricHash;
   isWritePermission: boolean;
-  costTypes: string[];
+  fetchError: AxiosError;
+  fetchStatus: FetchStatus;
+  metricsHash: MetricHash;
+  updateCostModel: typeof costModelsActions.updateCostModel;
+  setDialogOpen: typeof costModelsActions.setCostModelDialog;
 }
 
 class PriceListTable extends React.Component<Props, State> {
@@ -75,7 +75,7 @@ class PriceListTable extends React.Component<Props, State> {
     },
   };
   public render() {
-    const { intl, fetchStatus, fetchError, isDialogOpen, isWritePermission, metricsHash } = this.props;
+    const { fetchStatus, fetchError, intl, isDialogOpen, isWritePermission, metricsHash } = this.props;
 
     const getMetricLabel = m => {
       // Match message descriptor or default to API string
@@ -260,7 +260,6 @@ class PriceListTable extends React.Component<Props, State> {
                 {fetchStatus === FetchStatus.complete && filtered.length > 0 && (
                   <>
                     <RateTable
-                      tiers={filtered}
                       actions={[
                         {
                           title: intl.formatMessage(messages.PriceListEditRate),
@@ -302,6 +301,7 @@ class PriceListTable extends React.Component<Props, State> {
                           },
                         },
                       ]}
+                      tiers={filtered}
                     />
 
                     <Toolbar id="price-list-toolbar-bottom">

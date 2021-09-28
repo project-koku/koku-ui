@@ -32,10 +32,10 @@ import { metricsSelectors } from 'store/metrics';
 import { CostModelContext } from './context';
 
 interface Props extends WrappedComponentProps {
-  metricsHash: MetricHash;
   addRateAction: () => void;
-  items: any[];
   deleteRateAction: (data: any) => void;
+  items: any[];
+  metricsHash: MetricHash;
 }
 
 interface State {
@@ -46,7 +46,7 @@ interface State {
 class PriceListTable extends React.Component<Props, State> {
   public state = { metrics: [], measurements: [] };
   public render() {
-    const { metricsHash, intl, addRateAction, deleteRateAction, items } = this.props;
+    const { addRateAction, deleteRateAction, intl, items, metricsHash } = this.props;
 
     const getMetricLabel = m => {
       // Match message descriptor or default to API string
@@ -94,7 +94,7 @@ class PriceListTable extends React.Component<Props, State> {
 
     return (
       <CostModelContext.Consumer>
-        {({ priceListPagination }) => {
+        {({ currencyUnits, priceListPagination }) => {
           return (
             <Stack hasGutter>
               <StackItem>
@@ -200,8 +200,6 @@ class PriceListTable extends React.Component<Props, State> {
                           this.state.measurements.length === 0 && <NoTiersEmptyState />}
                         {res.length > 0 && (
                           <RateTable
-                            isCompact
-                            tiers={res}
                             actions={[
                               {
                                 title: 'Remove',
@@ -210,6 +208,9 @@ class PriceListTable extends React.Component<Props, State> {
                                 },
                               },
                             ]}
+                            currencyUnits={currencyUnits}
+                            isCompact
+                            tiers={res}
                           />
                         )}
                         <PaginationToolbarTemplate

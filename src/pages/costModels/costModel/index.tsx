@@ -34,12 +34,12 @@ import { styles } from './costModelInfo.styles';
 import Header from './header';
 
 interface OwnProps {
-  markup: { value: string };
   costModels: CostModel[];
   costModelStatus: FetchStatus;
   costModelError: AxiosError;
   distribution: { value: string };
   fetchMetrics: typeof metricsActions.fetchMetrics;
+  markup: { value: string };
   metricsStatus: FetchStatus;
   metricsError: AxiosError;
   fetchRbac: typeof rbacActions.fetchRbac;
@@ -125,7 +125,7 @@ class CostModelInformation extends React.Component<Props, State> {
             <>
               <TabContent eventKey={0} id="refPriceList" ref={this.tabRefs[0]} hidden={this.state.tabIndex !== 0}>
                 <div style={styles.costmodelsContainer}>
-                  <PriceListTable costModel={current.name} assignees={sources.map(p => p.name)} current={current} />
+                  <PriceListTable assignees={sources.map(p => p.name)} costModel={current.name} current={current} />
                 </div>
               </TabContent>
               <TabContent
