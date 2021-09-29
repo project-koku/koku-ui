@@ -28495,7 +28495,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "AUD (AU$) - Australian Dollar"
+                "value": "AUD (A$) - Australian Dollar"
               }
             ]
           },
@@ -28503,7 +28503,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "CAD (C$) - Canadian Dollar"
+                "value": "CAD (CA$) - Canadian Dollar"
               }
             ]
           },
@@ -28527,7 +28527,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "DKK (Dkr) - Danish Krone"
+                "value": "DKK (DKK) - Danish Krone"
               }
             ]
           },
@@ -28567,7 +28567,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "NOK (Nkr) - Norwegian Krone"
+                "value": "NOK (NOK) - Norwegian Krone"
               }
             ]
           },
@@ -28583,7 +28583,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "SEK (Skr) - Swedish Krona"
+                "value": "SEK (SEK) - Swedish Krona"
               }
             ]
           },
@@ -28591,7 +28591,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "SGD (S$) - Singapore Dollar"
+                "value": "SGD (SGD) - Singapore Dollar"
               }
             ]
           },
@@ -28607,7 +28607,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "ZAR (R) - South African Rand"
+                "value": "ZAR (ZAR) - South African Rand"
               }
             ]
           },
@@ -28626,7 +28626,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "AU$"
+                "value": "A$"
               }
             ]
           },
@@ -28634,7 +28634,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "C$"
+                "value": "CA$"
               }
             ]
           },
@@ -28658,7 +28658,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Dkr"
+                "value": "DKK"
               }
             ]
           },
@@ -28698,7 +28698,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Nkr"
+                "value": "NOK"
               }
             ]
           },
@@ -28714,7 +28714,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Skr"
+                "value": "SEK"
               }
             ]
           },
@@ -28722,7 +28722,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "S$"
+                "value": "SGD"
               }
             ]
           },
@@ -28730,7 +28730,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "$USD"
+                "value": "$"
               }
             ]
           },
@@ -28738,7 +28738,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "R"
+                "value": "ZAR"
               }
             ]
           },
