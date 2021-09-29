@@ -9,5 +9,6 @@ export const styles = {
   costLabel: {
     marginBottom: 0,
     marginRight: global_spacer_md.var,
+    whiteSpace: 'nowrap',
   },
 } as { [className: string]: React.CSSProperties };

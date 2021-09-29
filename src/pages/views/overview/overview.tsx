@@ -350,7 +350,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     return (
       <Perspective
         currentItem={currentItem || options[0].value}
-        onItemClicked={this.handlePerspectiveClick}
+        onSelected={this.handlePerspectiveSelected}
         options={options}
       />
     );
@@ -457,7 +457,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     }
   };
 
-  private handlePerspectiveClick = (value: string) => {
+  private handlePerspectiveSelected = (value: string) => {
     const currentTab = this.getCurrentTab();
     this.setState({
       ...(currentTab === OverviewTab.infrastructure && {

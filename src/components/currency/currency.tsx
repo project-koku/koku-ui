@@ -1,5 +1,6 @@
-import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Dropdown, DropdownItem, DropdownPosition, DropdownToggle, Title } from '@patternfly/react-core';
+import './currency.scss';
+
+import { Select, SelectOption, SelectOptionObject, SelectVariant, Title } from '@patternfly/react-core';
 import { Currency } from 'api/currency';
 import { AxiosError } from 'axios';
 import messages from 'locales/messages';
@@ -28,12 +29,12 @@ interface CurrencyStateProps {
 
 interface CurrencyState {
   currentItem: string;
-  isCurrencyOpen: boolean;
+  isSelectOpen: boolean;
 }
 
-interface CurrencyOptions {
-  label: MessageDescriptor;
-  value: string;
+interface CurrencyOption extends SelectOptionObject {
+  toString(): string; // label
+  value?: string;
 }
 
 type CurrencyProps = CurrencyOwnProps & CurrencyDispatchProps & CurrencyStateProps & WrappedComponentProps;
@@ -41,7 +42,7 @@ type CurrencyProps = CurrencyOwnProps & CurrencyDispatchProps & CurrencyStatePro
 class CurrencyBase extends React.Component<CurrencyProps> {
   protected defaultState: CurrencyState = {
     currentItem: 'USD',
-    isCurrencyOpen: false,
+    isSelectOpen: false,
   };
   public state: CurrencyState = { ...this.defaultState };
 
@@ -51,79 +52,70 @@ class CurrencyBase extends React.Component<CurrencyProps> {
     fetchCurrency();
   }
 
-  private getOptions = () => {
-    const { currency } = this.props;
+  private getSelectOptions = (): CurrencyOption[] => {
+    const { currency, intl } = this.props;
 
-    const options: CurrencyOptions[] = [];
+    const options: CurrencyOption[] = [];
 
     if (currency) {
       currency.data.map(val => {
         options.push({
-          label: messages.CurrencyOptions,
+          toString: () => intl.formatMessage(messages.CurrencyOptions, { units: val.code }),
           value: val.code,
         });
+      });
+    } else {
+      options.push({
+        toString: () => intl.formatMessage(messages.CurrencyOptions, { units: 'USD' }),
+        value: 'USD',
       });
     }
     return options;
   };
 
-  private getDropDownItems = () => {
-    const { intl } = this.props;
-
-    const options = this.getOptions();
-    return options.map(option => (
-      <DropdownItem component="button" key={option.value} onClick={() => this.handleClick(option.value)}>
-        {intl.formatMessage(option.label, { units: option.value })}
-      </DropdownItem>
-    ));
-  };
-
-  private getCurrentLabel = () => {
-    const { intl } = this.props;
+  private getCurrentItem = () => {
     const { currentItem } = this.state;
 
     const currencyUnits = getCurrency(); // Get currency units from local storage
-    const units = currencyUnits ? currencyUnits : currentItem;
-
-    return intl.formatMessage(messages.CurrencyOptions, { units });
+    return currencyUnits ? currencyUnits : currentItem;
   };
 
-  private getDropDown = () => {
+  private getSelect = () => {
     const { isDisabled } = this.props;
-    const { isCurrencyOpen } = this.state;
-    const dropdownItems = this.getDropDownItems();
+    const { isSelectOpen } = this.state;
+
+    const currentItem = this.getCurrentItem();
+    const selectOptions = this.getSelectOptions();
+    const selection = selectOptions.find((item: CurrencyOption) => item.value === currentItem);
 
     return (
-      <Dropdown
-        id="currencyDropdown"
+      <Select
+        className="currencyOverride"
+        id="currencySelect"
+        isDisabled={isDisabled}
+        isOpen={isSelectOpen}
         onSelect={this.handleSelect}
-        position={DropdownPosition.right}
-        toggle={
-          <DropdownToggle isDisabled={isDisabled} onToggle={this.handleToggle}>
-            {this.getCurrentLabel()}
-          </DropdownToggle>
-        }
-        isOpen={isCurrencyOpen}
-        dropdownItems={dropdownItems}
-      />
+        onToggle={this.handleToggle}
+        selections={selection}
+        variant={SelectVariant.single}
+      >
+        {selectOptions.map(item => (
+          <SelectOption key={item.value} value={item} />
+        ))}
+      </Select>
     );
   };
 
-  private handleClick = value => {
-    setCurrency(value); // Set currency units via local storage
-    this.setState({ currentItem: value });
+  private handleSelect = (event, selection: CurrencyOption) => {
+    this.setState({
+      currentItem: selection.value,
+      isSelectOpen: false,
+    });
+    setCurrency(selection.value); // Set currency units via local storage
   };
 
-  private handleSelect = () => {
-    this.setState({
-      isCurrencyOpen: !this.state.isCurrencyOpen,
-    });
-  };
-
-  private handleToggle = isCurrencyOpen => {
-    this.setState({
-      isCurrencyOpen,
-    });
+  private handleToggle = isSelectOpen => {
+    this.setState({ isSelectOpen });
   };
 
   public render() {
@@ -142,7 +134,7 @@ class CurrencyBase extends React.Component<CurrencyProps> {
         <Title headingLevel="h2" size="md" style={styles.currencyLabel}>
           {intl.formatMessage(messages.Currency)}
         </Title>
-        {this.getDropDown()}
+        {this.getSelect()}
       </div>
     );
   }

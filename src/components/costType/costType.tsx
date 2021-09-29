@@ -1,5 +1,4 @@
-import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Dropdown, DropdownItem, DropdownToggle, Title } from '@patternfly/react-core';
+import { Select, SelectOption, SelectOptionObject, SelectVariant, Title } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -13,7 +12,13 @@ interface CostTypeOwnProps {
 
 interface CostTypeState {
   currentItem: string;
-  isCostTypeOpen: boolean;
+  isSelectOpen: boolean;
+}
+
+interface CostTypeOption extends SelectOptionObject {
+  desc?: string;
+  toString(): string; // label
+  value?: string;
 }
 
 type CostTypeProps = CostTypeOwnProps & WrappedComponentProps;
@@ -25,90 +30,78 @@ const enum CostTypes {
   unblended = 'unblended',
 }
 
-export const costTypeOptions: {
-  desc: MessageDescriptor;
-  label: MessageDescriptor;
-  value: string;
-}[] = [
-  { desc: messages.CostTypeUnblendedDesc, label: messages.CostTypeUnblended, value: CostTypes.unblended },
-  { desc: messages.CostTypeAmortizedDesc, label: messages.CostTypeAmortized, value: CostTypes.amortized },
-  { desc: messages.CostTypeBlendedDesc, label: messages.CostTypeBlended, value: CostTypes.blended },
-];
-
 class CostTypeBase extends React.Component<CostTypeProps> {
   protected defaultState: CostTypeState = {
     currentItem: CostTypes.unblended,
-    isCostTypeOpen: false,
+    isSelectOpen: false,
   };
   public state: CostTypeState = { ...this.defaultState };
 
-  private getDropDownItems = () => {
+  private getSelectOptions = (): CostTypeOption[] => {
     const { intl } = this.props;
 
-    return costTypeOptions.map(option => (
-      <DropdownItem
-        component="button"
-        description={intl.formatMessage(option.desc)}
-        key={option.value}
-        onClick={() => this.handleClick(option.value)}
-      >
-        {intl.formatMessage(option.label)}
-      </DropdownItem>
-    ));
+    const options: CostTypeOption[] = [
+      {
+        desc: intl.formatMessage(messages.CostTypeUnblendedDesc),
+        toString: () => intl.formatMessage(messages.CostTypeUnblended),
+        value: CostTypes.unblended,
+      },
+      {
+        desc: intl.formatMessage(messages.CostTypeAmortizedDesc),
+        toString: () => intl.formatMessage(messages.CostTypeAmortized),
+        value: CostTypes.amortized,
+      },
+      {
+        desc: intl.formatMessage(messages.CostTypeBlendedDesc),
+        toString: () => intl.formatMessage(messages.CostTypeBlended),
+        value: CostTypes.blended,
+      },
+    ];
+    return options;
   };
 
-  private getCurrentLabel = () => {
-    const { intl } = this.props;
+  private getCurrentItem = () => {
     const { currentItem } = this.state;
 
-    const costType = getCostType() || currentItem; // Get cost type from local storage
-
-    switch (costType) {
-      case 'amortized':
-        return intl.formatMessage(messages.CostTypeAmortized);
-      case 'blended':
-        return intl.formatMessage(messages.CostTypeBlended);
-      default:
-      case 'unblended':
-        return intl.formatMessage(messages.CostTypeUnblended);
-    }
+    const costType = getCostType(); // Get currency units from local storage
+    return costType ? costType : currentItem;
   };
 
-  private getDropDown = () => {
+  private getSelect = () => {
     const { isDisabled } = this.props;
-    const { isCostTypeOpen } = this.state;
-    const dropdownItems = this.getDropDownItems();
+    const { isSelectOpen } = this.state;
+
+    const currentItem = this.getCurrentItem();
+    const selectOptions = this.getSelectOptions();
+    const selection = selectOptions.find((item: CostTypeOption) => item.value === currentItem);
 
     return (
-      <Dropdown
-        id="costTypeDropdown"
+      <Select
+        id="costTypeSelect"
+        isDisabled={isDisabled}
+        isOpen={isSelectOpen}
         onSelect={this.handleSelect}
-        toggle={
-          <DropdownToggle isDisabled={isDisabled} onToggle={this.handleToggle}>
-            {this.getCurrentLabel()}
-          </DropdownToggle>
-        }
-        isOpen={isCostTypeOpen}
-        dropdownItems={dropdownItems}
-      />
+        onToggle={this.handleToggle}
+        selections={selection}
+        variant={SelectVariant.single}
+      >
+        {selectOptions.map(item => (
+          <SelectOption key={item.value} value={item} />
+        ))}
+      </Select>
     );
   };
 
-  private handleClick = value => {
-    setCostType(value); // Set cost type via local storage
-    this.setState({ currentItem: value });
+  private handleSelect = (event, selection: CostTypeOption) => {
+    this.setState({
+      currentItem: selection.value,
+      isSelectOpen: false,
+    });
+    setCostType(selection.value); // Set currency units via local storage
   };
 
-  private handleSelect = () => {
-    this.setState({
-      isCostTypeOpen: !this.state.isCostTypeOpen,
-    });
-  };
-
-  private handleToggle = isCostTypeOpen => {
-    this.setState({
-      isCostTypeOpen,
-    });
+  private handleToggle = isSelectOpen => {
+    this.setState({ isSelectOpen });
   };
 
   public render() {
@@ -127,7 +120,7 @@ class CostTypeBase extends React.Component<CostTypeProps> {
         <Title headingLevel="h3" size="md" style={styles.costLabel}>
           {intl.formatMessage(messages.CostTypeLabel)}
         </Title>
-        {this.getDropDown()}
+        {this.getSelect()}
       </div>
     );
   }
