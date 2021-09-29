@@ -1258,46 +1258,48 @@ export default defineMessages({
     description: 'str.match(/([\\D]*)([\\d.,]+)([\\D]*)/)',
     id: 'CurrencyAbbreviations',
   },
+  // See https://www.localeplanet.com/icu/currency.html
   CurrencyOptions: {
     defaultMessage:
       '{units, select, ' +
-      'AUD {AUD (AU$) - Australian Dollar}' +
-      'CAD {CAD (C$) - Canadian Dollar}' +
+      'AUD {AUD (A$) - Australian Dollar}' +
+      'CAD {CAD (CA$) - Canadian Dollar}' +
       'CHF {CHF (CHF) - Swiss Franc}' +
       'CNY {CNY (CN¥) - Chinese Yuan}' +
-      'DKK {DKK (Dkr) - Danish Krone}' +
+      'DKK {DKK (DKK) - Danish Krone}' +
       'EUR {EUR (€) - Euro}' +
       'GBP {GBP (£) - British Pound}' +
       'HKD {HKD (HK$) - Hong Kong Dollar}' +
       'JPY {JPY (¥) - Japanese Yen}' +
-      'NOK {NOK (Nkr) - Norwegian Krone}' +
+      'NOK {NOK (NOK) - Norwegian Krone}' +
       'NZD {NZD (NZ$) - New Zealand Dollar}' +
-      'SEK {SEK (Skr) - Swedish Krona}' +
-      'SGD {SGD (S$) - Singapore Dollar}' +
+      'SEK {SEK (SEK) - Swedish Krona}' +
+      'SGD {SGD (SGD) - Singapore Dollar}' +
       'USD {USD ($) - United States Dollar} ' +
-      'ZAR {ZAR (R) - South African Rand}' +
+      'ZAR {ZAR (ZAR) - South African Rand}' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
     id: 'CurrencyOptions',
   },
+  // See https://www.localeplanet.com/icu/currency.html
   CurrencyUnits: {
     defaultMessage:
       '{units, select, ' +
-      'AUD {AU$}' +
-      'CAD {C$}' +
+      'AUD {A$}' +
+      'CAD {CA$}' +
       'CHF {CHF}' +
       'CNY {CN¥}' +
-      'DKK {Dkr}' +
+      'DKK {DKK}' +
       'EUR {€}' +
       'GBP {£}' +
       'HKD {HK$}' +
       'JPY {¥}' +
-      'NOK {Nkr}' +
+      'NOK {NOK}' +
       'NZD {NZ$}' +
-      'SEK {Skr}' +
-      'SGD {S$}' +
-      'USD {$USD} ' +
-      'ZAR {R}' +
+      'SEK {SEK}' +
+      'SGD {SGD}' +
+      'USD {$} ' +
+      'ZAR {ZAR}' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
     id: 'CurrencyUnits',
