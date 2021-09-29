@@ -33,8 +33,8 @@ interface CurrencyState {
 }
 
 interface CurrencyOption extends SelectOptionObject {
-  id?: string;
-  toString(): string;
+  toString(): string; // label
+  value?: string;
 }
 
 type CurrencyProps = CurrencyOwnProps & CurrencyDispatchProps & CurrencyStateProps & WrappedComponentProps;
@@ -52,7 +52,7 @@ class CurrencyBase extends React.Component<CurrencyProps> {
     fetchCurrency();
   }
 
-  private getOptions = (): CurrencyOption[] => {
+  private getSelectOptions = (): CurrencyOption[] => {
     const { currency, intl } = this.props;
 
     const options: CurrencyOption[] = [];
@@ -60,14 +60,14 @@ class CurrencyBase extends React.Component<CurrencyProps> {
     if (currency) {
       currency.data.map(val => {
         options.push({
-          id: val.code,
           toString: () => intl.formatMessage(messages.CurrencyOptions, { units: val.code }),
+          value: val.code,
         });
       });
     } else {
       options.push({
-        id: 'USD',
         toString: () => intl.formatMessage(messages.CurrencyOptions, { units: 'USD' }),
+        value: 'USD',
       });
     }
     return options;
@@ -85,8 +85,8 @@ class CurrencyBase extends React.Component<CurrencyProps> {
     const { isSelectOpen } = this.state;
 
     const currentItem = this.getCurrentItem();
-    const selections = this.getOptions();
-    const selection = selections.find((item: CurrencyOption) => item.id === currentItem);
+    const selectOptions = this.getSelectOptions();
+    const selection = selectOptions.find((item: CurrencyOption) => item.value === currentItem);
 
     return (
       <Select
@@ -99,8 +99,8 @@ class CurrencyBase extends React.Component<CurrencyProps> {
         selections={selection}
         variant={SelectVariant.single}
       >
-        {selections.map(item => (
-          <SelectOption key={item.id} value={item} />
+        {selectOptions.map(item => (
+          <SelectOption key={item.value} value={item} />
         ))}
       </Select>
     );
@@ -108,10 +108,10 @@ class CurrencyBase extends React.Component<CurrencyProps> {
 
   private handleSelect = (event, selection: CurrencyOption) => {
     this.setState({
-      currentItem: selection.id,
+      currentItem: selection.value,
       isSelectOpen: false,
     });
-    setCurrency(selection.id); // Set currency units via local storage
+    setCurrency(selection.value); // Set currency units via local storage
   };
 
   private handleToggle = isSelectOpen => {

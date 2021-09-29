@@ -17,8 +17,8 @@ interface CostTypeState {
 
 interface CostTypeOption extends SelectOptionObject {
   desc?: string;
-  id?: string;
-  toString(): string;
+  toString(): string; // label
+  value?: string;
 }
 
 type CostTypeProps = CostTypeOwnProps & WrappedComponentProps;
@@ -37,24 +37,24 @@ class CostTypeBase extends React.Component<CostTypeProps> {
   };
   public state: CostTypeState = { ...this.defaultState };
 
-  private getOptions = (): CostTypeOption[] => {
+  private getSelectOptions = (): CostTypeOption[] => {
     const { intl } = this.props;
 
     const options: CostTypeOption[] = [
       {
         desc: intl.formatMessage(messages.CostTypeUnblendedDesc),
-        id: CostTypes.unblended,
         toString: () => intl.formatMessage(messages.CostTypeUnblended),
+        value: CostTypes.unblended,
       },
       {
-        id: CostTypes.amortized,
         desc: intl.formatMessage(messages.CostTypeAmortizedDesc),
         toString: () => intl.formatMessage(messages.CostTypeAmortized),
+        value: CostTypes.amortized,
       },
       {
-        id: CostTypes.blended,
         desc: intl.formatMessage(messages.CostTypeBlendedDesc),
         toString: () => intl.formatMessage(messages.CostTypeBlended),
+        value: CostTypes.blended,
       },
     ];
     return options;
@@ -72,8 +72,8 @@ class CostTypeBase extends React.Component<CostTypeProps> {
     const { isSelectOpen } = this.state;
 
     const currentItem = this.getCurrentItem();
-    const selections = this.getOptions();
-    const selection = selections.find((item: CostTypeOption) => item.id === currentItem);
+    const selectOptions = this.getSelectOptions();
+    const selection = selectOptions.find((item: CostTypeOption) => item.value === currentItem);
 
     return (
       <Select
@@ -85,8 +85,8 @@ class CostTypeBase extends React.Component<CostTypeProps> {
         selections={selection}
         variant={SelectVariant.single}
       >
-        {selections.map(item => (
-          <SelectOption key={item.id} value={item} />
+        {selectOptions.map(item => (
+          <SelectOption key={item.value} value={item} />
         ))}
       </Select>
     );
@@ -94,10 +94,10 @@ class CostTypeBase extends React.Component<CostTypeProps> {
 
   private handleSelect = (event, selection: CostTypeOption) => {
     this.setState({
-      currentItem: selection.id,
+      currentItem: selection.value,
       isSelectOpen: false,
     });
-    setCostType(selection.id); // Set currency units via local storage
+    setCostType(selection.value); // Set currency units via local storage
   };
 
   private handleToggle = isSelectOpen => {
