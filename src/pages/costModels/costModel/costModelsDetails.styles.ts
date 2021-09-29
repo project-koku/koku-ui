@@ -21,6 +21,10 @@ export const styles = {
     paddingLeft: global_spacer_lg.value,
     paddingRight: global_spacer_lg.value,
   },
+  currency: {
+    paddingBottom: global_spacer_md.value,
+    paddingTop: global_spacer_lg.value,
+  },
   tableContainer: {
     marginLeft: global_spacer_lg.value,
     marginRight: global_spacer_lg.value,

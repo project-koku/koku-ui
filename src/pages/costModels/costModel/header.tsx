@@ -11,6 +11,11 @@ import {
   Tab,
   Tabs,
   TabTitleText,
+  TextContent,
+  TextList,
+  TextListItem,
+  TextListItemVariants,
+  TextListVariants,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
@@ -150,6 +155,14 @@ const Header: React.FunctionComponent<Props> = ({
             />
           </SplitItem>
         </Split>
+        <TextContent style={styles.currency}>
+          <TextList component={TextListVariants.dl}>
+            <TextListItem component={TextListItemVariants.dt}>{intl.formatMessage(messages.Currency)}</TextListItem>
+            <TextListItem component={TextListItemVariants.dd}>
+              {intl.formatMessage(messages.CurrencyOptions, { units: current.currency || 'USD' })}
+            </TextListItem>
+          </TextList>
+        </TextContent>
         {current.source_type === 'OpenShift Container Platform' ? (
           <Tabs activeKey={tabIndex} onSelect={(_evt, index: number) => onSelectTab(index)}>
             <Tab
