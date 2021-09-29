@@ -9,6 +9,7 @@ export const styles = {
   perspectiveLabel: {
     marginBottom: 0,
     marginRight: global_spacer_md.var,
+    whiteSpace: 'nowrap',
   },
   perspectiveOptionLabel: {
     marginBottom: 6,
