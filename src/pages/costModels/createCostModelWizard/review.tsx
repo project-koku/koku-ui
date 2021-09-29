@@ -51,7 +51,7 @@ const ReviewSuccess = injectIntl(ReviewSuccessBase);
 
 const ReviewDetailsBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
   <CostModelContext.Consumer>
-    {({ createError, description, distribution, isDiscount, markup, name, sources, tiers, type }) => {
+    {({ createError, currencyUnits, description, distribution, isDiscount, markup, name, sources, tiers, type }) => {
       return (
         <>
           {createError && <Alert variant="danger" title={`${createError}`} />}
@@ -82,6 +82,12 @@ const ReviewDetailsBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
                     {intl.formatMessage(messages.Description)}
                   </TextListItem>
                   <TextListItem component={TextListItemVariants.dd}>{description}</TextListItem>
+                  <TextListItem component={TextListItemVariants.dt}>
+                    {intl.formatMessage(messages.Currency)}
+                  </TextListItem>
+                  <TextListItem component={TextListItemVariants.dd}>
+                    {intl.formatMessage(messages.CurrencyOptions, { units: currencyUnits })}
+                  </TextListItem>
                   {type === 'OCP' && (
                     <>
                       <TextListItem component={TextListItemVariants.dt}>
