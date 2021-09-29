@@ -510,6 +510,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     }
 
     // Todo: selectOverride is a workaround for https://github.com/patternfly/patternfly-react/issues/4477
+    // and https://github.com/patternfly/patternfly-react/issues/6371
     return (
       <ToolbarFilter
         categoryName={{
