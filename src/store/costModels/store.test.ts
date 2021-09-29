@@ -18,14 +18,15 @@ import { reducer as costModelsReducer, stateKey } from './reducer';
 import * as selectors from './selectors';
 
 const costmodel1: CostModel = {
-  uuid: '123abcd345def',
-  name: 'cost-model-1',
-  description: 'testing',
-  source_type: 'OpenShift Container Platform',
-  rates: [] as Rate[],
   created_timestamp: new Date(2019, 7, 1, 0, 0, 0, 0),
-  updated_timestamp: new Date(2019, 7, 1, 0, 0, 0, 0),
+  currency: 'USD',
+  description: 'testing',
+  name: 'cost-model-1',
+  rates: [] as Rate[],
   sources: [] as CostModelProvider[],
+  source_type: 'OpenShift Container Platform',
+  updated_timestamp: new Date(2019, 7, 1, 0, 0, 0, 0),
+  uuid: '123abcd345def',
 };
 
 const updated_costmodel1: CostModel = {
@@ -214,9 +215,10 @@ describe('query selector', () => {
       })
     );
     expect(selectors.query(store.getState())).toEqual({
+      currency: null,
+      description: null,
       limit: null,
       name: null,
-      description: null,
       source_type: null,
       offset: null,
       ordering: null,
@@ -238,9 +240,10 @@ describe('query selector', () => {
       })
     );
     expect(selectors.query(store.getState())).toEqual({
+      currency: null,
+      description: null,
       limit: null,
       name: null,
-      description: null,
       source_type: null,
       offset: null,
       ordering: null,
@@ -262,9 +265,10 @@ describe('query selector', () => {
       })
     );
     expect(selectors.query(store.getState())).toEqual({
+      currency: null,
+      description: null,
       limit: '10',
       name: 'costmodel1',
-      description: null,
       offset: '10',
       ordering: '-name',
       source_type: 'OCP',
