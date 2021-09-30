@@ -9,26 +9,28 @@ export interface CostModelProvider {
 }
 
 export interface CostModel {
-  uuid: string;
-  name: string;
+  created_timestamp: Date;
+  currency?: string;
   description: string;
   distribution: string;
+  markup: { value: string; unit: string };
+  name: string;
+  rates: Rate[];
   sources: CostModelProvider[];
   source_type: string;
-  markup: { value: string; unit: string };
-  rates: Rate[];
-  created_timestamp: Date;
   updated_timestamp: Date;
+  uuid: string;
 }
 
 export interface CostModelRequest {
-  name: string;
-  source_type: string;
+  currency?: string;
   description: string;
   distribution: string;
-  source_uuids: string[];
-  rates: RateRequest[];
   markup: { value: string; unit: string };
+  name: string;
+  rates: RateRequest[];
+  source_type: string;
+  source_uuids: string[];
 }
 
 export type CostModels = PagedResponse<CostModel>;
