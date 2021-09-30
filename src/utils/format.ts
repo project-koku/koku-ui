@@ -37,7 +37,17 @@ export const unitsLookupKey = (units): string => {
   }
 };
 
-// Some currencies do not have decimals, such as JPY, and some have 3 decimals such as IQD.
+// Currencies are formatted differently, depending on the locale you're using. For example, the dollar
+// sign may appear on the left or the right of the currency symbol for French Vs German.
+//
+// Using the ISO currency code AUD, $12.34 USD is formatted per the locales below.
+// See ICU currencies https://www.localeplanet.com/icu/currency.html
+//
+// en: A$12.34
+// fr: 12,34 $AU
+// de: 12,34 AU$
+//
+// Note: Some currencies do not have decimals, such as JPY, and some have 3 decimals such as IQD.
 // See https://docs.adyen.com/development-resources/currency-codes
 export const formatCurrency: Formatter = (value: number, units: string, options: FormatOptions = {}): string => {
   let fValue = value;
