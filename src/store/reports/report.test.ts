@@ -1,10 +1,10 @@
 jest.mock('api/reports/reportUtils');
 
+import { waitFor } from '@testing-library/react';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { runReport } from 'api/reports/reportUtils';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
-import { wait } from 'testUtils';
 
 import * as actions from './reportActions';
 import { reportStateKey } from './reportCommon';
@@ -32,6 +32,9 @@ const reportPathsType = ReportPathsType.aws;
 runReportMock.mockResolvedValue({ data: mockReport });
 global.Date.now = jest.fn(() => 12345);
 
+jest.spyOn(actions, 'fetchReport');
+jest.spyOn(selectors, 'selectReportFetchStatus');
+
 test('default state', () => {
   const store = createReportsStore();
   expect(selectors.selectReportState(store.getState())).toMatchSnapshot();
@@ -44,7 +47,7 @@ test('fetch report success', async () => {
   expect(selectors.selectReportFetchStatus(store.getState(), reportPathsType, reportType, query)).toBe(
     FetchStatus.inProgress
   );
-  await wait();
+  await waitFor(() => expect(selectors.selectReportFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
   expect(selectors.selectReport(finishedState, reportPathsType, reportType, query)).toMatchSnapshot();
   expect(selectors.selectReportFetchStatus(finishedState, reportPathsType, reportType, query)).toBe(
@@ -62,7 +65,7 @@ test('fetch report failure', async () => {
   expect(selectors.selectReportFetchStatus(store.getState(), reportPathsType, reportType, query)).toBe(
     FetchStatus.inProgress
   );
-  await wait();
+  await waitFor(() => expect(selectors.selectReportFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
   expect(selectors.selectReportFetchStatus(finishedState, reportPathsType, reportType, query)).toBe(
     FetchStatus.complete
@@ -80,7 +83,7 @@ test('does not fetch report if the request is in progress', () => {
 test('report is not refetched if it has not expired', async () => {
   const store = createReportsStore();
   store.dispatch(actions.fetchReport(reportPathsType, reportType, query));
-  await wait();
+  await waitFor(() => expect(actions.fetchReport).toHaveBeenCalled());
   store.dispatch(actions.fetchReport(reportPathsType, reportType, query));
   expect(runReport).toHaveBeenCalledTimes(1);
 });

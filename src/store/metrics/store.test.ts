@@ -1,9 +1,9 @@
 jest.mock('api/metrics');
 
+import { waitFor } from '@testing-library/react';
 import { fetchRateMetrics } from 'api/metrics';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
-import { wait } from 'testUtils';
 
 import * as actions from './actions';
 import { reducer as metricsReducer, stateKey } from './reducer';
@@ -13,6 +13,9 @@ const createCostModelsStore = createMockStoreCreator({
 });
 
 const mockfetcher = fetchRateMetrics as jest.Mock;
+
+jest.spyOn(actions, 'fetchMetrics');
+jest.spyOn(selectors, 'status');
 
 test('default state', async () => {
   const store = createCostModelsStore();
@@ -61,7 +64,7 @@ test('fetch metrics', async () => {
   const store = createCostModelsStore();
   store.dispatch(actions.fetchMetrics());
   expect(selectors.status(store.getState())).toBe(FetchStatus.inProgress);
-  await wait();
+  await waitFor(() => expect(selectors.status).toHaveBeenCalled());
   expect(selectors.status(store.getState())).toBe(FetchStatus.complete);
   expect(selectors.error(store.getState())).toBe('');
   expect(selectors.metrics(store.getState())).toEqual({
@@ -109,7 +112,7 @@ test('fetch metrics null', async () => {
   );
   const store = createCostModelsStore();
   store.dispatch(actions.fetchMetrics());
-  await wait();
+  await waitFor(() => expect(actions.fetchMetrics).toHaveBeenCalled());
   expect(selectors.metrics(store.getState())).toEqual({});
   expect(selectors.maxRate(store.getState())).toEqual(0);
 });
@@ -118,7 +121,7 @@ test('fetch metrics error', async () => {
   mockfetcher.mockReturnValueOnce(Promise.reject('Failure!'));
   const store = createCostModelsStore();
   store.dispatch(actions.fetchMetrics());
-  await wait();
+  await waitFor(() => expect(actions.fetchMetrics).toHaveBeenCalled());
   expect(selectors.error(store.getState())).toEqual('unknown');
   expect(selectors.metrics(store.getState())).toEqual({});
   expect(selectors.maxRate(store.getState())).toEqual(0);

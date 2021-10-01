@@ -11,7 +11,7 @@ Object {
 exports[`fetch resource success 1`] = `
 Object {
   "data": Array [],
-  "timeRequested": 12345,
+  "timeRequested": 1633111747966,
   "total": Object {
     "units": "USD",
     "value": 100,

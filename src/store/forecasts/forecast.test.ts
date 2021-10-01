@@ -1,10 +1,10 @@
 jest.mock('api/forecasts/forecastUtils');
 
+import { waitFor } from '@testing-library/react';
 import { Forecast, ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { runForecast } from 'api/forecasts/forecastUtils';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
-import { wait } from 'testUtils';
 
 import * as actions from './forecastActions';
 import { forecastStateKey } from './forecastCommon';
@@ -32,6 +32,9 @@ const forecastPathsType = ForecastPathsType.aws;
 runForecastMock.mockResolvedValue({ data: mockForecast });
 global.Date.now = jest.fn(() => 12345);
 
+jest.spyOn(actions, 'fetchForecast');
+jest.spyOn(selectors, 'selectForecastFetchStatus');
+
 test('default state', () => {
   const store = createForecastsStore();
   expect(selectors.selectForecastState(store.getState())).toMatchSnapshot();
@@ -44,7 +47,7 @@ test('fetch forecast success', async () => {
   expect(selectors.selectForecastFetchStatus(store.getState(), forecastPathsType, forecastType, query)).toBe(
     FetchStatus.inProgress
   );
-  await wait();
+  await waitFor(() => expect(selectors.selectForecastFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
   expect(selectors.selectForecast(finishedState, forecastPathsType, forecastType, query)).toMatchSnapshot();
   expect(selectors.selectForecastFetchStatus(finishedState, forecastPathsType, forecastType, query)).toBe(
@@ -62,7 +65,7 @@ test('fetch forecast failure', async () => {
   expect(selectors.selectForecastFetchStatus(store.getState(), forecastPathsType, forecastType, query)).toBe(
     FetchStatus.inProgress
   );
-  await wait();
+  await waitFor(() => expect(selectors.selectForecastFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
   expect(selectors.selectForecastFetchStatus(finishedState, forecastPathsType, forecastType, query)).toBe(
     FetchStatus.complete
@@ -80,7 +83,7 @@ test('does not fetch forecast if the request is in progress', () => {
 test('forecast is not refetched if it has not expired', async () => {
   const store = createForecastsStore();
   store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, query));
-  await wait();
+  await waitFor(() => expect(actions.fetchForecast).toHaveBeenCalled());
   store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, query));
   expect(runForecast).toHaveBeenCalledTimes(1);
 });

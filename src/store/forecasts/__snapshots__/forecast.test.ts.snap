@@ -11,7 +11,7 @@ Object {
 exports[`fetch forecast success 1`] = `
 Object {
   "data": Array [],
-  "timeRequested": 12345,
+  "timeRequested": 1633111751762,
   "total": Object {
     "units": "USD",
     "value": 100,

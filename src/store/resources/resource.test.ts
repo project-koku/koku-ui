@@ -1,10 +1,10 @@
 jest.mock('api/resources/resourceUtils');
 
+import { waitFor } from '@testing-library/react';
 import { Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
 import { runResource } from 'api/resources/resourceUtils';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
-import { wait } from 'testUtils';
 
 import * as actions from './resourceActions';
 import { resourceStateKey } from './resourceCommon';
@@ -32,6 +32,9 @@ const resourcePathsType = ResourcePathsType.aws;
 runResourceMock.mockResolvedValue({ data: mockResource });
 global.Date.now = jest.fn(() => 12345);
 
+jest.spyOn(actions, 'fetchResource');
+jest.spyOn(selectors, 'selectResourceFetchStatus');
+
 test('default state', () => {
   const store = createResourcesStore();
   expect(selectors.selectResourceState(store.getState())).toMatchSnapshot();
@@ -44,7 +47,7 @@ test('fetch resource success', async () => {
   expect(selectors.selectResourceFetchStatus(store.getState(), resourcePathsType, resourceType, query)).toBe(
     FetchStatus.inProgress
   );
-  await wait();
+  await waitFor(() => expect(selectors.selectResourceFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
   expect(selectors.selectResource(finishedState, resourcePathsType, resourceType, query)).toMatchSnapshot();
   expect(selectors.selectResourceFetchStatus(finishedState, resourcePathsType, resourceType, query)).toBe(
@@ -62,7 +65,7 @@ test('fetch resource failure', async () => {
   expect(selectors.selectResourceFetchStatus(store.getState(), resourcePathsType, resourceType, query)).toBe(
     FetchStatus.inProgress
   );
-  await wait();
+  await waitFor(() => expect(selectors.selectResourceFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
   expect(selectors.selectResourceFetchStatus(finishedState, resourcePathsType, resourceType, query)).toBe(
     FetchStatus.complete
@@ -80,7 +83,7 @@ test('does not fetch resource if the request is in progress', () => {
 test('resource is not refetched if it has not expired', async () => {
   const store = createResourcesStore();
   store.dispatch(actions.fetchResource(resourcePathsType, resourceType, query));
-  await wait();
+  await waitFor(() => expect(actions.fetchResource).toHaveBeenCalled());
   store.dispatch(actions.fetchResource(resourcePathsType, resourceType, query));
   expect(runResource).toHaveBeenCalledTimes(1);
 });

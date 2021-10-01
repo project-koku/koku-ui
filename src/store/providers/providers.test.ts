@@ -1,10 +1,10 @@
 jest.mock('api/providers');
 
+import { waitFor } from '@testing-library/react';
 import { fetchProviders, Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
-import { wait } from 'testUtils';
 
 import * as actions from './providersActions';
 import { awsProvidersQuery, stateKey } from './providersCommon';
@@ -52,6 +52,8 @@ const providersMock: Providers = {
 
 fetchProvidersMock.mockReturnValue(Promise.resolve({ data: providersMock }));
 
+jest.spyOn(selectors, 'selectProvidersFetchStatus');
+
 test('default state', async () => {
   const store = createProdvidersStore();
   expect(selectors.selectProvidersState(store.getState())).toMatchSnapshot();
@@ -63,7 +65,7 @@ test('fetch providers success', async () => {
   store.dispatch(actions.fetchProviders(ProviderType.aws, query));
   expect(fetchProvidersMock).toBeCalled();
   expect(selectors.selectProvidersFetchStatus(store.getState(), ProviderType.aws, query)).toBe(FetchStatus.inProgress);
-  await wait();
+  await waitFor(() => expect(selectors.selectProvidersFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
   expect(selectors.selectProvidersFetchStatus(finishedState, ProviderType.aws, query)).toBe(FetchStatus.complete);
 });
@@ -76,7 +78,7 @@ test('fetch providers failure', async () => {
   store.dispatch(actions.fetchProviders(ProviderType.aws, query));
   expect(fetchProvidersMock).toBeCalled();
   expect(selectors.selectProvidersFetchStatus(store.getState(), ProviderType.aws, query)).toBe(FetchStatus.inProgress);
-  await wait();
+  await waitFor(() => expect(selectors.selectProvidersFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
   expect(selectors.selectProvidersFetchStatus(finishedState, ProviderType.aws, query)).toBe(FetchStatus.complete);
 });
