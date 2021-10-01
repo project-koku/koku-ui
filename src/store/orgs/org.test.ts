@@ -48,7 +48,7 @@ test('fetch org report success', async () => {
     FetchStatus.inProgress
   );
   await waitFor(() => expect(selectors.selectOrgFetchStatus).toHaveBeenCalled());
-  const finishedState = store.getState();\
+  const finishedState = store.getState();
   expect(selectors.selectOrgFetchStatus(finishedState, orgReportPathsType, orgReportType, query)).toBe(
     FetchStatus.complete
   );
