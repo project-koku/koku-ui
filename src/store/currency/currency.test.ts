@@ -1,9 +1,9 @@
 jest.mock('api/currency');
 
+import { waitFor } from '@testing-library/react';
 import { Currency, fetchCurrency } from 'api/currency';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
-import { wait } from 'testUtils';
 
 import * as actions from './currencyActions';
 import { stateKey } from './currencyCommon';
@@ -29,6 +29,8 @@ const currencyMock: Currency = {
 
 fetchCurrencyMock.mockReturnValue(Promise.resolve({ data: currencyMock }));
 
+jest.spyOn(selectors, 'selectCurrencyFetchStatus');
+
 test('default state', async () => {
   const store = createProdvidersStore();
   expect(selectors.selectCurrencyState(store.getState())).toMatchSnapshot();
@@ -39,7 +41,7 @@ test('fetch currency success', async () => {
   store.dispatch(actions.fetchCurrency());
   expect(fetchCurrencyMock).toBeCalled();
   expect(selectors.selectCurrencyFetchStatus(store.getState())).toBe(FetchStatus.inProgress);
-  await wait();
+  await waitFor(() => expect(selectors.selectCurrencyFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
   expect(selectors.selectCurrencyFetchStatus(finishedState)).toBe(FetchStatus.complete);
 });
@@ -51,7 +53,7 @@ test('fetch currency failure', async () => {
   store.dispatch(actions.fetchCurrency());
   expect(fetchCurrencyMock).toBeCalled();
   expect(selectors.selectCurrencyFetchStatus(store.getState())).toBe(FetchStatus.inProgress);
-  await wait();
+  await waitFor(() => expect(selectors.selectCurrencyFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
   expect(selectors.selectCurrencyFetchStatus(finishedState)).toBe(FetchStatus.complete);
 });
