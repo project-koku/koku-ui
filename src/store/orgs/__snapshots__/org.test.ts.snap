@@ -7,14 +7,3 @@ Object {
   "fetchStatus": Map {},
 }
 `;
-
-exports[`fetch org report success 1`] = `
-Object {
-  "data": Array [],
-  "timeRequested": 1633111748530,
-  "total": Object {
-    "units": "USD",
-    "value": 100,
-  },
-}
-`;

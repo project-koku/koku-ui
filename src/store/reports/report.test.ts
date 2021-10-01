@@ -49,7 +49,6 @@ test('fetch report success', async () => {
   );
   await waitFor(() => expect(selectors.selectReportFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectReport(finishedState, reportPathsType, reportType, query)).toMatchSnapshot();
   expect(selectors.selectReportFetchStatus(finishedState, reportPathsType, reportType, query)).toBe(
     FetchStatus.complete
   );

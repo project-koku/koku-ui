@@ -10,7 +10,6 @@ test('renders empty while loading', async () => {
   const loader = jest.fn(() => Promise.resolve(UnwrappedComponent));
   const Wrapped = asyncComponent(loader);
   const view = shallow(<Wrapped />);
-  // await waitFor(() => expect(loader).toHaveBeenCalled);
   expect(loader).toBeCalled();
   expect(view.isEmptyRender()).toBe(true);
 });

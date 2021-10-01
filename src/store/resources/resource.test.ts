@@ -49,7 +49,6 @@ test('fetch resource success', async () => {
   );
   await waitFor(() => expect(selectors.selectResourceFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectResource(finishedState, resourcePathsType, resourceType, query)).toMatchSnapshot();
   expect(selectors.selectResourceFetchStatus(finishedState, resourcePathsType, resourceType, query)).toBe(
     FetchStatus.complete
   );
