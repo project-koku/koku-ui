@@ -9,17 +9,17 @@ export interface CostModelProvider {
 }
 
 export interface CostModel {
-  created_timestamp: Date;
+  created_timestamp?: Date;
   currency?: string;
   description: string;
   distribution: string;
   markup: { value: string; unit: string };
   name: string;
   rates: Rate[];
-  sources: CostModelProvider[];
+  sources?: CostModelProvider[];
   source_type: string;
-  updated_timestamp: Date;
-  uuid: string;
+  updated_timestamp?: Date;
+  uuid?: string;
 }
 
 export interface CostModelRequest {

@@ -73,7 +73,7 @@ export const updateCostModel = (uuid: string, request: CostModelRequest, dialog:
     dispatch(updateCostModelsRequest());
 
     return apiUpdateCostModel(uuid, request)
-      .then(res => {
+      .then((res: any) => {
         dispatch(updateCostModelsSuccess(res));
         if (dialog !== null) {
           fetchCostModels(`uuid=${uuid}`)(dispatch);
