@@ -65,7 +65,7 @@ class CurrencyBase extends React.Component<CurrencyProps> {
 
     const currentItem = this.getCurrentItem();
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((item: CurrencyOption) => item.value === currentItem);
+    const selection = selectOptions.find((option: CurrencyOption) => option.value === currentItem);
 
     return (
       <Select
@@ -78,8 +78,8 @@ class CurrencyBase extends React.Component<CurrencyProps> {
         selections={selection}
         variant={SelectVariant.single}
       >
-        {selectOptions.map(item => (
-          <SelectOption key={item.value} value={item} />
+        {selectOptions.map(option => (
+          <SelectOption key={option.value} value={option} />
         ))}
       </Select>
     );

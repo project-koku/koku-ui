@@ -60,7 +60,7 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
     }
 
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((item: PerspectiveOption) => item.value === currentItem);
+    const selection = selectOptions.find((option: PerspectiveOption) => option.value === currentItem);
 
     return (
       <Select
@@ -72,8 +72,8 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
         selections={selection}
         variant={SelectVariant.single}
       >
-        {selectOptions.map(item => (
-          <SelectOption key={item.value} value={item} />
+        {selectOptions.map(option => (
+          <SelectOption key={option.value} value={option} />
         ))}
       </Select>
     );

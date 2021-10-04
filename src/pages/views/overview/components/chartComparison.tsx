@@ -36,7 +36,7 @@ class ChartComparisonBase extends React.Component<ChartComparisonProps> {
     const { currentItem, isSelectOpen } = this.state;
 
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((item: ComparisonOption) => item.value === currentItem);
+    const selection = selectOptions.find((option: ComparisonOption) => option.value === currentItem);
 
     return (
       <Select
@@ -48,8 +48,8 @@ class ChartComparisonBase extends React.Component<ChartComparisonProps> {
         selections={selection}
         variant={SelectVariant.single}
       >
-        {selectOptions.map(item => (
-          <SelectOption key={item.value} value={item} />
+        {selectOptions.map(option => (
+          <SelectOption key={option.value} value={option} />
         ))}
       </Select>
     );
