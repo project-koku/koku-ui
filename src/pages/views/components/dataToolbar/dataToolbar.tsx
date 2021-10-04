@@ -80,7 +80,7 @@ interface DataToolbarState {
   currentTagKey?: string;
   filters: Filters;
   isBulkSelectOpen: boolean;
-  isCategoryDropdownOpen: boolean;
+  isCategorySelectOpen: boolean;
   isOrgUnitSelectExpanded: boolean;
   isTagValueDropdownOpen: boolean;
   isTagKeySelectExpanded: boolean;
@@ -90,6 +90,11 @@ interface DataToolbarState {
 
 interface GroupByOrgOption extends SelectOptionObject {
   id?: string;
+}
+
+interface CategoryOption extends SelectOptionObject {
+  toString(): string; // label
+  value?: string;
 }
 
 type DataToolbarProps = DataToolbarOwnProps & WrappedComponentProps;
@@ -107,7 +112,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     categoryInput: '',
     filters: cloneDeep(defaultFilters),
     isBulkSelectOpen: false,
-    isCategoryDropdownOpen: false,
+    isCategorySelectOpen: false,
     isOrgUnitSelectExpanded: false,
     isTagValueDropdownOpen: false,
     isTagKeySelectExpanded: false,
@@ -301,72 +306,65 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     });
   };
 
-  // Category dropdown
+  // Category select
 
-  public getCategoryDropdown() {
+  public getCategorySelect() {
     const { categoryOptions, isDisabled } = this.props;
-    const { isCategoryDropdownOpen } = this.state;
+    const { currentCategory, isCategorySelectOpen } = this.state;
 
     if (!categoryOptions) {
       return null;
     }
+
+    const selectOptions = this.getCategorySelectOptions();
+    const selection = selectOptions.find((option: CategoryOption) => option.value === currentCategory);
+
     return (
       <ToolbarItem>
-        <Dropdown
+        <Select
+          id="categorySelect"
+          isDisabled={isDisabled}
+          isOpen={isCategorySelectOpen}
           onSelect={this.handleOnCategorySelect}
-          position={DropdownPosition.left}
-          toggle={
-            <DropdownToggle isDisabled={isDisabled} onToggle={this.handleOnCategoryToggle} style={{ width: '100%' }}>
-              <FilterIcon /> {this.getCurrentCategoryOption().name}
-            </DropdownToggle>
-          }
-          isOpen={isCategoryDropdownOpen}
-          dropdownItems={
-            categoryOptions &&
-            categoryOptions.map(option => (
-              <DropdownItem key={option.key} onClick={() => this.handleOnCategoryClick(option.key)}>
-                {option.name}
-              </DropdownItem>
-            ))
-          }
-          style={{ width: '100%' }}
-        />
+          onToggle={this.handleOnCategoryToggle}
+          selections={selection}
+          toggleIcon={<FilterIcon />}
+          variant={SelectVariant.single}
+        >
+          {selectOptions.map(option => (
+            <SelectOption key={option.value} value={option} />
+          ))}
+        </Select>
       </ToolbarItem>
     );
   }
 
-  private getCurrentCategoryOption = (): ToolbarChipGroup => {
+  private getCategorySelectOptions = (): CategoryOption[] => {
     const { categoryOptions } = this.props;
-    const { currentCategory } = this.state;
 
-    if (!categoryOptions) {
-      return undefined;
-    }
-    for (const option of categoryOptions) {
-      if (currentCategory === option.key) {
-        return option;
-      }
-    }
-    return categoryOptions[0];
-  };
+    const options: CategoryOption[] = [];
 
-  private handleOnCategoryClick = value => {
-    this.setState({
-      currentCategory: value,
+    categoryOptions.map(option => {
+      options.push({
+        toString: () => option.name,
+        value: option.key,
+      });
     });
+    return options;
   };
 
-  private handleOnCategorySelect = () => {
+  private handleOnCategorySelect = (event, selection: CategoryOption) => {
     this.setState({
       categoryInput: '',
+      currentCategory: selection.value,
       currentTagKey: undefined,
-      isCategoryDropdownOpen: !this.state.isCategoryDropdownOpen,
+      isCategorySelectOpen: !this.state.isCategorySelectOpen,
     });
   };
 
   private handleOnCategoryToggle = isOpen => {
     this.setState({
-      isCategoryDropdownOpen: isOpen,
+      isCategorySelectOpen: isOpen,
     });
   };
 
@@ -923,7 +921,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               {showBulkSelect && <ToolbarItem variant="bulk-select">{this.getBulkSelect()}</ToolbarItem>}
               {showFilter && (
                 <ToolbarGroup variant="filter-group">
-                  {this.getCategoryDropdown()}
+                  {this.getCategorySelect()}
                   {this.getTagKeySelect()}
                   {this.getTagKeyOptions().map(option => this.getTagValueSelect(option))}
                   {this.getOrgUnitSelect()}

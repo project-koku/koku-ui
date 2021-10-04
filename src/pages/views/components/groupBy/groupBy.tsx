@@ -182,7 +182,7 @@ class GroupByBase extends React.Component<GroupByProps> {
     const { currentItem, isGroupByOpen } = this.state;
 
     const selectOptions = this.getGroupByOptions();
-    const selection = selectOptions.find((item: GroupByOption) => item.value === currentItem);
+    const selection = selectOptions.find((option: GroupByOption) => option.value === currentItem);
 
     return (
       <Select
@@ -194,8 +194,8 @@ class GroupByBase extends React.Component<GroupByProps> {
         selections={selection}
         variant={SelectVariant.single}
       >
-        {selectOptions.map(item => (
-          <SelectOption key={item.value} value={item} />
+        {selectOptions.map(option => (
+          <SelectOption key={option.value} value={option} />
         ))}
       </Select>
     );

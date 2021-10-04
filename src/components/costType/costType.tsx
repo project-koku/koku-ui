@@ -73,7 +73,7 @@ class CostTypeBase extends React.Component<CostTypeProps> {
 
     const currentItem = this.getCurrentItem();
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((item: CostTypeOption) => item.value === currentItem);
+    const selection = selectOptions.find((option: CostTypeOption) => option.value === currentItem);
 
     return (
       <Select
@@ -85,8 +85,8 @@ class CostTypeBase extends React.Component<CostTypeProps> {
         selections={selection}
         variant={SelectVariant.single}
       >
-        {selectOptions.map(item => (
-          <SelectOption key={item.value} value={item} />
+        {selectOptions.map(option => (
+          <SelectOption key={option.value} value={option} />
         ))}
       </Select>
     );
