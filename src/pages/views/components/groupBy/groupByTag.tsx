@@ -11,7 +11,7 @@ import { styles } from './groupBy.styles';
 interface GroupByTagOwnProps {
   groupBy?: string;
   isDisabled?: boolean;
-  onItemClicked(value: string);
+  onSelected(value: string);
   options: {
     label: string;
     value: string;
@@ -35,7 +35,7 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
   constructor(props: GroupByTagProps) {
     super(props);
     this.handleGroupByClear = this.handleGroupByClear.bind(this);
-    this.handleGroupBySelect = this.handleGroupBySelect.bind(this);
+    this.handleGroupBySelected = this.handleGroupBySelected.bind(this);
     this.handleGroupByToggle = this.handleGroupByToggle.bind(this);
   }
 
@@ -107,15 +107,15 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
     });
   };
 
-  private handleGroupBySelect = (event, selection) => {
-    const { onItemClicked } = this.props;
+  private handleGroupBySelected = (event, selection) => {
+    const { onSelected } = this.props;
 
     this.setState({
       currentItem: selection,
       isGroupByOpen: false,
     });
-    if (onItemClicked) {
-      onItemClicked(`${tagPrefix}${selection}`);
+    if (onSelected) {
+      onSelected(`${tagPrefix}${selection}`);
     }
   };
 
@@ -134,7 +134,7 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
           isDisabled={isDisabled}
           onClear={this.handleGroupByClear}
           onToggle={this.handleGroupByToggle}
-          onSelect={this.handleGroupBySelect}
+          onSelect={this.handleGroupBySelected}
           isOpen={isGroupByOpen}
           placeholderText={intl.formatMessage(messages.FilterByTagKeyPlaceholder)}
           selections={currentItem}

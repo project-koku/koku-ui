@@ -21,7 +21,7 @@ import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
   groupBy?: string;
-  onGroupByClicked(value: string);
+  onGroupBySelected(value: string);
   report: AzureReport;
 }
 
@@ -56,7 +56,7 @@ const tagReportPathsType = TagPathsType.azure;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   public render() {
-    const { groupBy, onGroupByClicked, providers, providersError, report, intl } = this.props;
+    const { groupBy, onGroupBySelected, providers, providersError, report, intl } = this.props;
     const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
 
     const hasCost =
@@ -75,7 +75,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             getIdKeyForGroupBy={getIdKeyForGroupBy}
             groupBy={groupBy}
             isDisabled={!showContent}
-            onItemClicked={onGroupByClicked}
+            onSelected={onGroupBySelected}
             options={groupByOptions}
             showTags
             tagReportPathsType={tagReportPathsType}

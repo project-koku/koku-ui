@@ -11,7 +11,7 @@ interface GroupByOrgOwnProps {
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
   isDisabled?: boolean;
-  onItemClicked(value: string);
+  onSelected(value: string);
   options: {
     label: string;
     value: string;
@@ -41,7 +41,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
   constructor(props: GroupByOrgProps) {
     super(props);
     this.handleGroupByClear = this.handleGroupByClear.bind(this);
-    this.handleGroupBySelect = this.handleGroupBySelect.bind(this);
+    this.handleGroupBySelected = this.handleGroupBySelected.bind(this);
     this.handleGroupByToggle = this.handleGroupByToggle.bind(this);
   }
 
@@ -114,15 +114,15 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
     });
   };
 
-  private handleGroupBySelect = (event, selection: GroupByOrgOption) => {
-    const { onItemClicked } = this.props;
+  private handleGroupBySelected = (event, selection: GroupByOrgOption) => {
+    const { onSelected } = this.props;
 
     this.setState({
       currentItem: selection.id,
       isGroupByOpen: false,
     });
-    if (onItemClicked) {
-      onItemClicked(`${orgUnitIdKey}${selection.id}`);
+    if (onSelected) {
+      onSelected(`${orgUnitIdKey}${selection.id}`);
     }
   };
 
@@ -144,7 +144,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
           isDisabled={isDisabled}
           onClear={this.handleGroupByClear}
           onToggle={this.handleGroupByToggle}
-          onSelect={this.handleGroupBySelect}
+          onSelect={this.handleGroupBySelected}
           isOpen={isGroupByOpen}
           placeholderText={intl.formatMessage(messages.FilterByOrgUnitPlaceholder)}
           selections={selection}
