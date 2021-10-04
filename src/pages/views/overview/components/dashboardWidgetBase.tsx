@@ -138,7 +138,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     const options = [
       { label: dailyTitle, value: Comparison.daily },
-      { label: cumulativeTitle, value: Comparison.cumulative },
+      { label: cumulativeTitle, value: Comparison.cumulative, default: true },
     ];
 
     return (
@@ -188,7 +188,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const ReportSummaryComponent = daily ? ReportSummaryDailyCost : ReportSummaryCost;
     return (
       <>
-        <div style={styles.comparison}>{this.getChartComparison()}</div>
+        <div style={styles.comparisonContainer}>
+          <div style={styles.comparison}>{this.getChartComparison()}</div>
+        </div>
         <ReportSummaryComponent
           adjustContainerHeight={adjustContainerHeight}
           containerHeight={containerHeight}
@@ -236,7 +238,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const ReportSummaryComponent = daily ? ReportSummaryDailyTrend : ReportSummaryTrend;
     return (
       <>
-        <div style={styles.comparison}>{this.getChartComparison()}</div>
+        <div style={styles.comparisonContainer}>
+          <div style={styles.comparison}>{this.getChartComparison()}</div>
+        </div>
         <ReportSummaryComponent
           adjustContainerHeight={adjustContainerHeight}
           containerHeight={containerHeight}

@@ -1,81 +1,93 @@
-import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
+import { Select, SelectOption, SelectOptionObject, SelectVariant } from '@patternfly/react-core';
 import React from 'react';
 
 interface ChartComparisonOwnProps {
   currentItem?: string;
+  isDisabled?: boolean;
   onItemClicked(value: string);
   options?: {
+    default?: boolean;
     label: string;
     value: string;
   }[];
 }
 
 interface ChartComparisonState {
-  isChartComparisonOpen: boolean;
+  currentItem?: string;
+  isSelectOpen: boolean;
+}
+
+interface ComparisonOption extends SelectOptionObject {
+  toString(): string; // label
+  value?: string;
 }
 
 type ChartComparisonProps = ChartComparisonOwnProps;
 
 class ChartComparisonBase extends React.Component<ChartComparisonProps> {
   protected defaultState: ChartComparisonState = {
-    isChartComparisonOpen: false,
+    currentItem: this.props.options ? this.props.options.find(option => option.default).value : undefined,
+    isSelectOpen: false,
   };
   public state: ChartComparisonState = { ...this.defaultState };
 
-  private getDropDownItems = () => {
+  private getSelect = () => {
+    const { isDisabled } = this.props;
+    const { currentItem, isSelectOpen } = this.state;
+
+    const selectOptions = this.getSelectOptions();
+    const selection = selectOptions.find((item: ComparisonOption) => item.value === currentItem);
+
+    return (
+      <Select
+        id="comparisonSelect"
+        isDisabled={isDisabled}
+        isOpen={isSelectOpen}
+        onSelect={this.handleSelect}
+        onToggle={this.handleToggle}
+        selections={selection}
+        variant={SelectVariant.single}
+      >
+        {selectOptions.map(item => (
+          <SelectOption key={item.value} value={item} />
+        ))}
+      </Select>
+    );
+  };
+
+  private getSelectOptions = (): ComparisonOption[] => {
     const { options } = this.props;
 
-    return options.map(option => (
-      <DropdownItem component="button" key={option.value} onClick={() => this.handleClick(option.value)}>
-        {option.label}
-      </DropdownItem>
-    ));
+    const selectOptions: ComparisonOption[] = [];
+
+    options.map(option => {
+      selectOptions.push({
+        toString: () => option.label,
+        value: option.value,
+      });
+    });
+
+    return selectOptions;
   };
 
-  private getCurrentLabel = () => {
-    const { currentItem, options } = this.props;
-
-    let label = '';
-    for (const option of options) {
-      if (currentItem === option.value) {
-        label = option.label;
-        break;
-      }
-    }
-    return label;
-  };
-
-  public handleClick = value => {
+  private handleSelect = (event, selection: ComparisonOption) => {
     const { onItemClicked } = this.props;
+
     if (onItemClicked) {
-      onItemClicked(value);
+      onItemClicked(selection.value);
     }
-  };
-
-  private handleSelect = () => {
     this.setState({
-      isChartComparisonOpen: !this.state.isChartComparisonOpen,
+      currentItem: selection.value,
+      isSelectOpen: false,
     });
   };
 
-  private handleToggle = isChartComparisonOpen => {
-    this.setState({
-      isChartComparisonOpen,
-    });
+  private handleToggle = isSelectOpen => {
+    this.setState({ isSelectOpen });
   };
 
   public render() {
-    const { isChartComparisonOpen } = this.state;
-    const dropdownItems = this.getDropDownItems();
-
-    return (
-      <Dropdown
-        onSelect={this.handleSelect}
-        toggle={<DropdownToggle onToggle={this.handleToggle}>{this.getCurrentLabel()}</DropdownToggle>}
-        isOpen={isChartComparisonOpen}
-        dropdownItems={dropdownItems}
-      />
-    );
+    return this.getSelect();
   }
 }
 
