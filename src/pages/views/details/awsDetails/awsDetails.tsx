@@ -290,7 +290,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     history.replace(this.getRouteForQuery(filteredQuery, true));
   };
 
-  private handleGroupByClick = groupBy => {
+  private handleGroupBySelected = groupBy => {
     const { history, query } = this.props;
 
     let groupByKey = groupBy;
@@ -410,7 +410,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     }
     return (
       <div style={styles.awsDetails}>
-        <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
+        <DetailsHeader groupBy={groupById} onGroupBySelected={this.handleGroupBySelected} report={report} />
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}

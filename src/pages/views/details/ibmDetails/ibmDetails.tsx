@@ -287,7 +287,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
     history.replace(this.getRouteForQuery(filteredQuery, true));
   };
 
-  private handleGroupByClick = groupBy => {
+  private handleGroupBySelected = groupBy => {
     const { history, query } = this.props;
     const groupByKey: keyof IbmQuery['group_by'] = groupBy as any;
     const newQuery = {
@@ -397,7 +397,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
     }
     return (
       <div style={styles.ibmDetails}>
-        <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
+        <DetailsHeader groupBy={groupById} onGroupBySelected={this.handleGroupBySelected} report={report} />
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}

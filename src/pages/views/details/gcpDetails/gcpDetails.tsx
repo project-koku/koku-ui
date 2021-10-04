@@ -287,7 +287,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
     history.replace(this.getRouteForQuery(filteredQuery, true));
   };
 
-  private handleGroupByClick = groupBy => {
+  private handleGroupBySelected = groupBy => {
     const { history, query } = this.props;
     const groupByKey: keyof GcpQuery['group_by'] = groupBy as any;
     const newQuery = {
@@ -397,7 +397,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
     }
     return (
       <div style={styles.gcpDetails}>
-        <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
+        <DetailsHeader groupBy={groupById} onGroupBySelected={this.handleGroupBySelected} report={report} />
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}

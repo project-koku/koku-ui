@@ -288,7 +288,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     history.replace(this.getRouteForQuery(filteredQuery, true));
   };
 
-  private handleGroupByClick = groupBy => {
+  private handleGroupBySelected = groupBy => {
     const { history, query } = this.props;
     const groupByKey: keyof AzureQuery['group_by'] = groupBy as any;
     const newQuery = {
@@ -398,7 +398,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     }
     return (
       <div style={styles.azureDetails}>
-        <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
+        <DetailsHeader groupBy={groupById} onGroupBySelected={this.handleGroupBySelected} report={report} />
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}

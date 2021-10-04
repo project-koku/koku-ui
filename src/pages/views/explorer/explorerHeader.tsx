@@ -53,7 +53,7 @@ interface ExplorerHeaderOwnProps {
   groupBy?: string;
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
-  onGroupByClicked(value: string);
+  onGroupBySelected(value: string);
   onPerspectiveClicked(value: string);
   perspective: PerspectiveType;
 }
@@ -233,7 +233,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       ocpProvidersFetchStatus,
       onFilterAdded,
       onFilterRemoved,
-      onGroupByClicked,
+      onGroupBySelected,
       perspective,
       query,
       intl,
@@ -273,7 +273,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
               getIdKeyForGroupBy={getIdKeyForGroupBy}
               groupBy={groupBy}
               isDisabled={noProviders}
-              onItemClicked={onGroupByClicked}
+              onSelected={onGroupBySelected}
               options={groupByOptions}
               orgReportPathsType={orgReportPathsType}
               perspective={perspective}

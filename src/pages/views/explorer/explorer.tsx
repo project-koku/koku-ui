@@ -307,7 +307,7 @@ class Explorer extends React.Component<ExplorerProps> {
     history.replace(getRouteForQuery(history, filteredQuery, true));
   };
 
-  private handleGroupByClick = groupBy => {
+  private handleGroupBySelected = groupBy => {
     const { history, query } = this.props;
 
     let groupByKey = groupBy;
@@ -483,7 +483,7 @@ class Explorer extends React.Component<ExplorerProps> {
           groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
           onFilterAdded={this.handleFilterAdded}
           onFilterRemoved={this.handleFilterRemoved}
-          onGroupByClicked={this.handleGroupByClick}
+          onGroupBySelected={this.handleGroupBySelected}
           onPerspectiveClicked={this.handlePerspectiveClick}
           perspective={perspective}
         />
