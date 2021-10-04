@@ -52,27 +52,6 @@ class CurrencyBase extends React.Component<CurrencyProps> {
     fetchCurrency();
   }
 
-  private getSelectOptions = (): CurrencyOption[] => {
-    const { currency, intl } = this.props;
-
-    const options: CurrencyOption[] = [];
-
-    if (currency) {
-      currency.data.map(val => {
-        options.push({
-          toString: () => intl.formatMessage(messages.CurrencyOptions, { units: val.code }),
-          value: val.code,
-        });
-      });
-    } else {
-      options.push({
-        toString: () => intl.formatMessage(messages.CurrencyOptions, { units: 'USD' }),
-        value: 'USD',
-      });
-    }
-    return options;
-  };
-
   private getCurrentItem = () => {
     const { currentItem } = this.state;
 
@@ -104,6 +83,27 @@ class CurrencyBase extends React.Component<CurrencyProps> {
         ))}
       </Select>
     );
+  };
+
+  private getSelectOptions = (): CurrencyOption[] => {
+    const { currency, intl } = this.props;
+
+    const options: CurrencyOption[] = [];
+
+    if (currency) {
+      currency.data.map(val => {
+        options.push({
+          toString: () => intl.formatMessage(messages.CurrencyOptions, { units: val.code }),
+          value: val.code,
+        });
+      });
+    } else {
+      options.push({
+        toString: () => intl.formatMessage(messages.CurrencyOptions, { units: 'USD' }),
+        value: 'USD',
+      });
+    }
+    return options;
   };
 
   private handleSelect = (event, selection: CurrencyOption) => {
