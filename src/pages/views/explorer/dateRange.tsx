@@ -1,5 +1,5 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
+import { Select, SelectOption, SelectOptionObject, SelectVariant } from '@patternfly/react-core';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 
@@ -14,76 +14,77 @@ interface DateRangeOwnProps {
 }
 
 interface DateRangeState {
-  isDateRangeOpen: boolean;
+  isSelectOpen: boolean;
+}
+
+interface DateRangeOption extends SelectOptionObject {
+  toString(): string; // label
+  value?: string;
 }
 
 type DateRangeProps = DateRangeOwnProps & WrappedComponentProps;
 
 class DateRangeBase extends React.Component<DateRangeProps> {
   protected defaultState: DateRangeState = {
-    isDateRangeOpen: false,
+    isSelectOpen: false,
   };
   public state: DateRangeState = { ...this.defaultState };
 
-  private getDropDownItems = () => {
-    const { options, intl } = this.props;
+  private getSelect = () => {
+    const { currentItem, isDisabled } = this.props;
+    const { isSelectOpen } = this.state;
 
-    return options.map(option => (
-      <DropdownItem component="button" key={option.value} onClick={() => this.handleClick(option.value)}>
-        {intl.formatMessage(option.label, { value: option.value })}
-      </DropdownItem>
-    ));
+    const selectOptions = this.getSelectOptions();
+    const selection = selectOptions.find((option: DateRangeOption) => option.value === currentItem);
+
+    return (
+      <Select
+        id="dateRangeSelect"
+        isDisabled={isDisabled}
+        isOpen={isSelectOpen}
+        onSelect={this.handleSelect}
+        onToggle={this.handleToggle}
+        selections={selection}
+        variant={SelectVariant.single}
+      >
+        {selectOptions.map(option => (
+          <SelectOption key={option.value} value={option} />
+        ))}
+      </Select>
+    );
   };
 
-  private getCurrentLabel = () => {
-    const { currentItem, options, intl } = this.props;
+  private getSelectOptions = (): DateRangeOption[] => {
+    const { intl, options } = this.props;
 
-    let label = '';
-    for (const option of options) {
-      if (currentItem === option.value) {
-        label = intl.formatMessage(option.label, { value: option.value });
-        break;
-      }
-    }
-    return label;
+    const selectOptions: DateRangeOption[] = [];
+
+    options.map(option => {
+      selectOptions.push({
+        toString: () => intl.formatMessage(option.label, { value: option.value }),
+        value: option.value,
+      });
+    });
+    return selectOptions;
   };
 
-  public handleClick = value => {
+  private handleSelect = (event, selection: DateRangeOption) => {
     const { onItemClicked } = this.props;
+
     if (onItemClicked) {
-      onItemClicked(value);
+      onItemClicked(selection.value);
     }
-  };
-
-  private handleSelect = () => {
     this.setState({
-      isDateRangeOpen: !this.state.isDateRangeOpen,
+      isSelectOpen: false,
     });
   };
 
-  private handleToggle = isDateRangeOpen => {
-    this.setState({
-      isDateRangeOpen,
-    });
+  private handleToggle = isSelectOpen => {
+    this.setState({ isSelectOpen });
   };
 
   public render() {
-    const { isDisabled } = this.props;
-    const { isDateRangeOpen } = this.state;
-    const dropdownItems = this.getDropDownItems();
-
-    return (
-      <Dropdown
-        onSelect={this.handleSelect}
-        toggle={
-          <DropdownToggle isDisabled={isDisabled} onToggle={this.handleToggle}>
-            {this.getCurrentLabel()}
-          </DropdownToggle>
-        }
-        isOpen={isDateRangeOpen}
-        dropdownItems={dropdownItems}
-      />
-    );
+    return this.getSelect();
   }
 }
 
