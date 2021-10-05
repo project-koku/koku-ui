@@ -110,11 +110,13 @@ export const formatCurrencyRateRaw: Formatter = (
 
 // Formats without currency symbol
 export const formatCurrencyRaw: Formatter = (value: number, units: string, options: FormatOptions = {}) => {
-  const result = formatCurrency(value, units, {
+  return formatCurrency(value, units, {
     currencyDisplay: 'code',
     ...options,
-  } as any);
-  return result.replace(units, '').trim();
+  } as any)
+    .toString()
+    .replace(units, '')
+    .trim();
 };
 
 // Returns formatted units or currency with given currency-code
@@ -182,7 +184,7 @@ const formatUsageHrs: UnitsFormatter = (
 
 // Returns true if given percentage or currency format is valid for current locale
 export const isCurrencyFormatValid = (value: string) => {
-  const decimalSeparator = intl.formatNumber(1.1).replace(/1/g, '');
+  const decimalSeparator = intl.formatNumber(1.1).toString().replace(/1/g, '');
 
   // ^[1-9] The number must start with 1-9
   // \d* The number can then have any number of any digits
@@ -193,7 +195,9 @@ export const isCurrencyFormatValid = (value: string) => {
   //
   // See https://stackoverflow.com/questions/2227370/currency-validation
   const regex =
-    decimalSeparator === '.' ? /^[0-9]\d*(((,\d{3}){1})*(\.\d{0,10})?)$/ : /^[0-9]\d*(((\.\d{3}){1})*(,\d{0,10})?)$/;
+    decimalSeparator === '.'
+      ? /^-?[0-9]\d*(((,\d{3}){1})*(\.\d{0,10})?)$/
+      : /^-?[0-9]\d*(((\.\d{3}){1})*(,\d{0,10})?)$/;
 
   return regex.test(value);
 };
@@ -209,11 +213,11 @@ export const unFormat = (value: string) => {
   if (!value) {
     return value;
   }
-  const groupSeparator = intl.formatNumber(1111).replace(/1/g, '');
-  const decimalSeparator = intl.formatNumber(1.1).replace(/1/g, '');
+  const groupSeparator = intl.formatNumber(1111).toString().replace(/1/g, '');
+  const decimalSeparator = intl.formatNumber(1.1).toString().replace(/1/g, '');
 
-  let rawValue = value.replace(new RegExp('\\' + groupSeparator, 'g'), '');
-  rawValue = rawValue.replace(new RegExp('\\' + decimalSeparator, 'g'), '.');
+  let rawValue = value.toString().replace(groupSeparator === ',' ? /,/g : /\./g, '');
+  rawValue = rawValue.replace(decimalSeparator === '.' ? /\./g : /,/g, '.');
 
   return Number.isNaN(rawValue) ? '0' : rawValue;
 };

@@ -22,7 +22,7 @@ import TagRateTable from './tagRateTable';
 interface RateTableProps extends WrappedComponentProps {
   actions?: IActions;
   isCompact?: boolean;
-  isNormalized?: boolean;
+  isNormalized?: boolean; // Normalize rates to format currency in current locale
   tiers: Rate[];
 }
 

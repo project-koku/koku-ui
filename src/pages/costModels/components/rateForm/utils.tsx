@@ -59,7 +59,7 @@ export const checkRateOnChange = (regular: string) => {
   if (!isCurrencyFormatValid(regular)) {
     return textHelpers.not_number;
   }
-  if (Number(regular) < 0) {
+  if (Number(unFormat(regular)) < 0) {
     return textHelpers.not_positive;
   }
   // Test number of decimals
@@ -154,7 +154,7 @@ export const mergeToRequest = (
   if (index < 0) {
     index = costModel.rates.length;
   }
-  const rate = transformFormDataToRequest(rateFormData, metricsHash) as RateRequest;
+  const rate = transformFormDataToRequest(rateFormData, metricsHash, costModel.currency, true) as RateRequest;
   return {
     name: costModel.name,
     source_type: 'OCP',
@@ -169,7 +169,8 @@ export const mergeToRequest = (
 export const transformFormDataToRequest = (
   rateFormData: RateFormData,
   metricsHash: MetricHash,
-  currencyUnits: string = 'USD'
+  currencyUnits: string = 'USD',
+  isNormalized: boolean = false // Normalize rates for API requests
 ): Rate => {
   const ratesKey = rateFormData.rateKind === 'tagging' ? 'tag_rates' : 'tiered_rates';
   const ratesBody =
@@ -180,7 +181,7 @@ export const transformFormDataToRequest = (
             return {
               tag_value: tvalue.tagValue,
               unit: currencyUnits,
-              value: unFormat(tvalue.value),
+              value: isNormalized ? unFormat(tvalue.value) : tvalue.value,
               description: tvalue.description,
               default: ix === rateFormData.taggingRates.defaultTag,
             };
@@ -188,7 +189,7 @@ export const transformFormDataToRequest = (
         }
       : rateFormData.tieredRates.map(tiered => {
           return {
-            value: unFormat(tiered.value),
+            value: isNormalized ? unFormat(tiered.value) : tiered.value,
             unit: currencyUnits,
             usage: { unit: currencyUnits },
           };

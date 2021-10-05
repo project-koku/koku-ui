@@ -8,7 +8,7 @@ import { formatCurrencyRate, unFormat } from 'utils/format';
 
 interface TagRateTableProps extends WrappedComponentProps {
   tagRates: TagRates;
-  isNormalized?: boolean;
+  isNormalized?: boolean; // Normalize rates to format currency in current locale
 }
 
 // defaultIntl required for testing

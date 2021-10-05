@@ -40,6 +40,28 @@ interface InternalWizardBaseProps extends WrappedComponentProps {
   metricsHash: MetricHash;
 }
 
+// Normalize rates for API requests
+const transformTiers = (tiers, currencyUnits = 'USD', isNormalized = true) => {
+  const rates = cloneDeep(tiers);
+
+  rates.map(val => {
+    if (val.tiered_rates) {
+      for (const rate of val.tiered_rates) {
+        rate.unit = currencyUnits;
+        rate.usage.unit = currencyUnits;
+        rate.value = isNormalized ? unFormat(rate.value) : rate.value;
+      }
+    }
+    if (val.tag_rates) {
+      for (const rate of val.tag_rates.tag_values) {
+        rate.unit = currencyUnits;
+        rate.value = isNormalized ? unFormat(rate.value) : rate.value;
+      }
+    }
+  });
+  return rates;
+};
+
 const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
   intl,
   isProcess,
@@ -67,28 +89,6 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
     newSteps[current - 1].nextButtonText = intl.formatMessage(messages.Create);
   }
 
-  // Normalize currency for APIs
-  const transformTiers = (tiers, currencyUnits = 'USD') => {
-    const rates = cloneDeep(tiers);
-
-    rates.map(val => {
-      if (val.tiered_rates) {
-        for (const rate of val.tiered_rates) {
-          rate.unit = currencyUnits;
-          rate.usage.unit = currencyUnits;
-          rate.value = unFormat(rate.value);
-        }
-      }
-      if (val.tag_rates) {
-        for (const rate of val.tag_rates.tag_values) {
-          rate.unit = currencyUnits;
-          rate.value = unFormat(rate.value);
-        }
-      }
-    });
-    return rates;
-  };
-
   return isOpen ? (
     <Wizard
       isOpen
@@ -108,7 +108,7 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
           source_type: type,
           description,
           distribution,
-          rates: transformTiers(tiers, 'USD'), // Todo: Temporarily transform to USD for APIs,
+          rates: transformTiers(tiers, 'USD', true), // Todo: Temporarily transform to USD for APIs,
           markup: {
             value: `${isDiscount ? '-' : ''}${unFormat(markup)}`,
             unit: 'percent',
@@ -395,7 +395,8 @@ class CostModelWizardBase extends React.Component<Props, State> {
           loading: this.state.loading,
           metricsHash,
           onClose: () => this.setState({ ...defaultState }, this.props.closeWizard),
-          onCurrencyChange: value => this.setState({ currencyUnits: value, tiers: this.state.tiers }),
+          onCurrencyChange: value =>
+            this.setState({ currencyUnits: value, tiers: transformTiers(this.state.tiers, value, false) }),
           onDescChange: value => this.setState({ description: value }),
           onFilterChange: value => this.setState({ filterName: value }),
           onNameChange: value => this.setState({ name: value, dirtyName: true }),
