@@ -186,7 +186,7 @@ const formatUsageHrs: UnitsFormatter = (
 export const isCurrencyFormatValid = (value: string) => {
   const decimalSeparator = intl.formatNumber(1.1).toString().replace(/1/g, '');
 
-  // ^[1-9] The number must start with 1-9
+  // ^[0-9] The number must start with 0-9
   // \d* The number can then have any number of any digits
   // (...)$ look at the next group from the end (...)$
   // (...)*(...)? Look for groups optionally. The first is for the comma, the second is for the decimal.
