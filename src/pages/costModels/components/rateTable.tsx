@@ -14,7 +14,7 @@ import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { formatRate } from 'utils/format';
+import { formatCurrencyRate, unFormat } from 'utils/format';
 
 import { compareBy } from './rateForm/utils';
 import TagRateTable from './tagRateTable';
@@ -22,11 +22,18 @@ import TagRateTable from './tagRateTable';
 interface RateTableProps extends WrappedComponentProps {
   actions?: IActions;
   isCompact?: boolean;
+  isNormalized?: boolean;
   tiers: Rate[];
 }
 
 // defaultIntl required for testing
-const RateTableBase: React.SFC<RateTableProps> = ({ actions, intl = defaultIntl, isCompact, tiers }) => {
+const RateTableBase: React.SFC<RateTableProps> = ({
+  actions,
+  intl = defaultIntl,
+  isCompact,
+  isNormalized = false,
+  tiers,
+}) => {
   const [expanded, setExpanded] = React.useState({});
   const [sortBy, setSortBy] = React.useState<ISortBy>({});
   const cells = [
@@ -60,7 +67,7 @@ const RateTableBase: React.SFC<RateTableProps> = ({ actions, intl = defaultIntl,
             parent: ix + counter,
             cells: [
               {
-                title: <TagRateTable tagRates={tier.tag_rates} />,
+                title: <TagRateTable isNormalized={isNormalized} tagRates={tier.tag_rates} />,
                 props: { colSpan: 6, className: 'pf-m-no-padding' },
               },
             ],
@@ -69,6 +76,9 @@ const RateTableBase: React.SFC<RateTableProps> = ({ actions, intl = defaultIntl,
         counter += 1;
       }
       const isOpen = rateKind === 'tagging' ? expanded[ix + counter - 1] || false : undefined;
+      const tierRate = tier.tiered_rates ? tier.tiered_rates[0].value : 0;
+      const tierRateValue = Number(isNormalized ? unFormat(tierRate.toString()) : tierRate);
+
       return [
         ...acc,
         {
@@ -81,7 +91,7 @@ const RateTableBase: React.SFC<RateTableProps> = ({ actions, intl = defaultIntl,
             {
               title:
                 rateKind === 'regular'
-                  ? `${formatRate(Number(tier.tiered_rates[0].value), tier.tiered_rates[0].unit)}`
+                  ? formatCurrencyRate(tierRateValue, tier.tiered_rates[0].unit)
                   : intl.formatMessage(messages.Various),
               props: { isOpen, style: { padding: rateKind === 'tagging' ? '' : '1.5rem 1rem' } },
             },

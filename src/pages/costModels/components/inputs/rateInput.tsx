@@ -11,7 +11,7 @@ import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { formatRaw } from 'utils/format';
+import { formatCurrencyRaw } from 'utils/format';
 
 import { styles } from './rateInput.styles';
 
@@ -62,8 +62,8 @@ const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
           type="text"
           aria-label={intl.formatMessage(messages.CostModelsWizardRateAriaLabel)}
           id={fieldId}
-          placeholder={formatRaw('0.00')}
-          value={formatRaw(value as string)}
+          placeholder={formatCurrencyRaw(0, currencyUnits, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          value={value}
           onChange={onChange}
           onKeyDown={handleOnKeyDown}
           validated={validated}

@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
-import { formatRaw } from 'utils/format';
+import { unFormat } from 'utils/format';
 
 import { fetchSources as apiSources } from './api';
 import { CostModelContext } from './context';
@@ -66,6 +66,29 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
   if (current === steps.length && context.type !== '') {
     newSteps[current - 1].nextButtonText = intl.formatMessage(messages.Create);
   }
+
+  // Normalize currency for APIs
+  const transformTiers = (tiers, currencyUnits = 'USD') => {
+    const rates = cloneDeep(tiers);
+
+    rates.map(val => {
+      if (val.tiered_rates) {
+        for (const rate of val.tiered_rates) {
+          rate.unit = currencyUnits;
+          rate.usage.unit = currencyUnits;
+          rate.value = unFormat(rate.value);
+        }
+      }
+      if (val.tag_rates) {
+        for (const rate of val.tag_rates.tag_values) {
+          rate.unit = currencyUnits;
+          rate.value = unFormat(rate.value);
+        }
+      }
+    });
+    return rates;
+  };
+
   return isOpen ? (
     <Wizard
       isOpen
@@ -85,9 +108,9 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
           source_type: type,
           description,
           distribution,
-          rates: tiers,
+          rates: transformTiers(tiers, 'USD'), // Todo: Temporarily transform to USD for APIs,
           markup: {
-            value: `${isDiscount ? '-' : ''}${markup}`,
+            value: `${isDiscount ? '-' : ''}${unFormat(markup)}`,
             unit: 'percent',
           },
           source_uuids: sources.map(src => src.uuid),
@@ -310,26 +333,6 @@ class CostModelWizardBase extends React.Component<Props, State> {
       </Button>
     );
 
-    // When currency is updated, tiers must be same units
-    const transformTiers = (tiers, currencyUnits = 'USD') => {
-      const rates = cloneDeep(tiers);
-
-      rates.map(val => {
-        if (val.tiered_rates) {
-          for (const rate of val.tiered_rates) {
-            rate.unit = currencyUnits;
-            rate.usage.unit = currencyUnits;
-          }
-        }
-        if (val.tag_rates) {
-          for (const rate of val.tag_rates.tag_values) {
-            rate.unit = currencyUnits;
-          }
-        }
-      });
-      return rates;
-    };
-
     return (
       <CostModelContext.Provider
         value={{
@@ -382,7 +385,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           },
           handleMarkupDiscountChange: (_, event) => {
             const { value } = event.currentTarget;
-            this.setState({ markup: formatRaw(value, 'en') });
+            this.setState({ markup: value });
           },
           handleSignChange: (_, event) => {
             const { value } = event.currentTarget;
@@ -392,8 +395,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           loading: this.state.loading,
           metricsHash,
           onClose: () => this.setState({ ...defaultState }, this.props.closeWizard),
-          onCurrencyChange: value =>
-            this.setState({ currencyUnits: value, tiers: transformTiers(this.state.tiers, value) }),
+          onCurrencyChange: value => this.setState({ currencyUnits: value, tiers: this.state.tiers }),
           onDescChange: value => this.setState({ description: value }),
           onFilterChange: value => this.setState({ filterName: value }),
           onNameChange: value => this.setState({ name: value, dirtyName: true }),
@@ -477,7 +479,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
             description: this.state.description,
             distribution: this.state.distribution,
             markup: `${this.state.isDiscount ? '-' : ''}${this.state.markup}`,
-            tiers: transformTiers(this.state.tiers, 'USD'), // Todo: Temporarily transform to USD for APIs
+            tiers: this.state.tiers,
             priceListCurrent: this.state.priceListCurrent,
             sources: this.state.sources.filter(src => src.selected),
           }}

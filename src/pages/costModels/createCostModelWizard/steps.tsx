@@ -1,6 +1,6 @@
 import messages from 'locales/messages';
 import { MessageDescriptor } from 'react-intl';
-import { countDecimals } from 'utils/format';
+import { countDecimals, isPercentageFormatValid } from 'utils/format';
 
 export const nameErrors = (name: string): MessageDescriptor | null => {
   if (name.length === 0) {
@@ -23,7 +23,7 @@ const isMarkupValid = value => {
   if (value.trim() === '') {
     return false;
   }
-  if (isNaN(Number(value))) {
+  if (!isPercentageFormatValid(value)) {
     return false;
   }
   // Test number of decimals

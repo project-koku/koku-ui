@@ -26,7 +26,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
-import { countDecimals, formatRaw } from 'utils/format';
+import { countDecimals, formatPercentageMarkup, isPercentageFormatValid, unFormat } from 'utils/format';
 
 import { styles } from './costCalc.styles';
 
@@ -48,10 +48,11 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
     super(props);
     const initialMarkup = Number(this.props.current.markup.value || 0); // Drop trailing zeros from API value
     const isNegative = initialMarkup < 0;
+    const markupValue = isNegative ? initialMarkup.toString().substring(1) : initialMarkup.toString();
 
     this.state = {
       isDiscount: isNegative,
-      markup: isNegative ? initialMarkup.toString().substring(1) : initialMarkup.toString(),
+      markup: formatPercentageMarkup(Number(markupValue)),
     };
   }
 
@@ -63,7 +64,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
   private handleMarkupDiscountChange = (_, event) => {
     const { value } = event.currentTarget;
 
-    this.setState({ markup: formatRaw(value, 'en') });
+    this.setState({ markup: value });
   };
 
   private handleOnKeyDown = event => {
@@ -76,7 +77,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
   private markupValidator = () => {
     const { markup } = this.state;
 
-    if (isNaN(Number(markup))) {
+    if (!isPercentageFormatValid(markup)) {
       return messages.MarkupOrDiscountNumber;
     }
     // Test number of decimals
@@ -93,7 +94,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
 
     const helpText = this.markupValidator();
     const validated = helpText ? 'error' : 'default';
-    const markup = `${isDiscount ? '-' : ''}${this.state.markup}`;
+    const markup = `${isDiscount ? '-' : ''}${unFormat(this.state.markup)}`;
 
     return (
       <Modal
@@ -194,11 +195,11 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                           isRequired
                           onKeyDown={this.handleOnKeyDown}
                           onChange={this.handleMarkupDiscountChange}
-                          placeholder={formatRaw('0')}
+                          placeholder={'0'}
                           style={styles.inputField}
                           type="text"
                           validated={validated}
-                          value={formatRaw(this.state.markup)}
+                          value={this.state.markup}
                         />
                         <InputGroupText style={styles.percent}>
                           {intl.formatMessage(messages.PercentSymbol)}

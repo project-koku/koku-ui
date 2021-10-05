@@ -6,35 +6,15 @@ export interface FormatOptions {
   maximumFractionDigits?: number;
 }
 
-export type Formatter = (value: number, units: string, options?: FormatOptions) => string | number;
-export type PercentageFormatter = (value: number, options?: FormatOptions) => string | number;
-type UnitsFormatter = (value: number, options?: FormatOptions) => string | number;
+export type Formatter = (value: number, units: string, options?: FormatOptions) => string;
+export type PercentageFormatter = (value: number, options?: FormatOptions) => string;
+type UnitsFormatter = (value: number, options?: FormatOptions) => string;
 
 // Returns the number of decimals for given string
-export const countDecimals = (value: string, useLocale: boolean = false) => {
+export const countDecimals = (value: string, useLocale: boolean = true) => {
   const decimalSeparator = useLocale ? Number('1.1').toLocaleString(getLocale(), {}).substring(1, 2) : '.';
   const decimals = value.split(decimalSeparator);
   return decimals[1] ? decimals[1].length : 0;
-};
-
-// Returns i18n key for given units
-export const unitsLookupKey = (units): string => {
-  const lookup = units ? units.replace(/[- ]/g, '_').toLowerCase() : '';
-
-  switch (lookup) {
-    case 'core_hours':
-    case 'gb':
-    case 'gb_hours':
-    case 'gb_mo':
-    case 'gibibyte_month':
-    case 'hour':
-    case 'hrs':
-    case 'tag_mo':
-    case 'vm_hours':
-      return lookup;
-    default:
-      return undefined;
-  }
 };
 
 // Currencies are formatted differently, depending on the locale you're using. For example, the dollar
@@ -49,7 +29,7 @@ export const unitsLookupKey = (units): string => {
 //
 // Note: Some currencies do not have decimals, such as JPY, and some have 3 decimals such as IQD.
 // See https://docs.adyen.com/development-resources/currency-codes
-export const formatCurrency: Formatter = (value: number, units: string, options: FormatOptions = {}): string => {
+export const formatCurrency: Formatter = (value: number, units: string, options: FormatOptions = {}) => {
   let fValue = value;
   if (!value) {
     fValue = 0;
@@ -102,33 +82,39 @@ export const formatCurrencyAbbreviation: Formatter = (value, units = 'USD') => {
   });
 };
 
-// Cost model rates may contain 0 to 10 decimals
+// Formats cost model rates with 0 to 10 decimals
 // https://issues.redhat.com/browse/COST-1884
-export const formatRate: Formatter = (
+export const formatCurrencyRate: Formatter = (
   value: number,
   units: string,
   options: FormatOptions = {
     minimumFractionDigits: 0,
     maximumFractionDigits: 10,
   }
-): string => {
-  return formatCurrency(value, units, options) as string;
+) => {
+  return formatCurrency(value, units, options);
 };
 
-// Some locales have a comma decimal separator (e.g., "1.234,56" in German is "1,234.56" USD).
-// This function formats a given rate using the current browser locale, but without a currency symbol.
-//
-// It does not replace the thousands separator or other special characters, so we don't hide errors from text inputs.
-// This is expected to be used in conjunction with a validator, ensuring thousands separators are not accepted.
-// For example, if the user enters "1,234,56" or "1.234.56", a validator should generate an isNaN error.
-//
-// Note: Use locale='en' to format as USD when submitting API values.
-export const formatRaw = (value: string, locale = getLocale()) => {
-  // Get decimal separator used by current browser locale
-  const decimalSeparator = Number('1.1').toLocaleString(locale, {}).substring(1, 2);
+// Formats cost model rates with 0 to 10 decimals
+// https://issues.redhat.com/browse/COST-1884
+export const formatCurrencyRateRaw: Formatter = (
+  value: number,
+  units: string,
+  options: FormatOptions = {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 10,
+  }
+) => {
+  return formatCurrencyRaw(value, units, options);
+};
 
-  const search = decimalSeparator === ',' ? /\./g : /,/g;
-  return value.replace(search, decimalSeparator);
+// Formats without currency symbol
+export const formatCurrencyRaw: Formatter = (value: number, units: string, options: FormatOptions = {}) => {
+  const result = formatCurrency(value, units, {
+    currencyDisplay: 'code',
+    ...options,
+  } as any);
+  return result.replace(units, '').trim();
 };
 
 // Returns formatted units or currency with given currency-code
@@ -162,6 +148,18 @@ export const formatPercentage: PercentageFormatter = (
   return value.toLocaleString(getLocale(), options);
 };
 
+// Formats cost model markup with 0 to 10 decimals
+// https://issues.redhat.com/browse/COST-1884
+export const formatPercentageMarkup: PercentageFormatter = (
+  value,
+  options: FormatOptions = {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 10,
+  }
+) => {
+  return value.toLocaleString(getLocale(), options);
+};
+
 const formatUsageGb: UnitsFormatter = (
   value,
   options: FormatOptions = {
@@ -182,6 +180,64 @@ const formatUsageHrs: UnitsFormatter = (
   return value.toLocaleString(getLocale(), options);
 };
 
+// Returns true if given percentage or currency format is valid for current locale
+export const isCurrencyFormatValid = (value: string) => {
+  const decimalSeparator = intl.formatNumber(1.1).replace(/1/g, '');
+
+  // ^[1-9] The number must start with 1-9
+  // \d* The number can then have any number of any digits
+  // (...)$ look at the next group from the end (...)$
+  // (...)*(...)? Look for groups optionally. The first is for the comma, the second is for the decimal.
+  // (,\d{3}){1} Look for one occurrence of a comma followed by exactly three digits
+  // \.\d{0,10} Look for a decimal followed by zero, one, or 10 digits.
+  //
+  // See https://stackoverflow.com/questions/2227370/currency-validation
+  const regex =
+    decimalSeparator === '.' ? /^[0-9]\d*(((,\d{3}){1})*(\.\d{0,10})?)$/ : /^[0-9]\d*(((\.\d{3}){1})*(,\d{0,10})?)$/;
+
+  return regex.test(value);
+};
+
+// Returns true if given percentage is valid for current locale
+export const isPercentageFormatValid = (value: string) => {
+  return isCurrencyFormatValid(value);
+};
+
+// Some locales have a comma decimal separator (e.g., "1.234,56" in German is "1,234.56" in USD).
+// This function normalizes a given currency or percentage for APIs.
+export const unFormat = (value: string) => {
+  if (!value) {
+    return value;
+  }
+  const groupSeparator = intl.formatNumber(1111).replace(/1/g, '');
+  const decimalSeparator = intl.formatNumber(1.1).replace(/1/g, '');
+
+  let rawValue = value.replace(new RegExp('\\' + groupSeparator, 'g'), '');
+  rawValue = rawValue.replace(new RegExp('\\' + decimalSeparator, 'g'), '.');
+
+  return Number.isNaN(rawValue) ? '0' : rawValue;
+};
+
 const unknownTypeFormatter = (value: number, options: FormatOptions) => {
   return value.toLocaleString(getLocale(), options);
+};
+
+// Returns i18n key for given units
+export const unitsLookupKey = (units): string => {
+  const lookup = units ? units.replace(/[- ]/g, '_').toLowerCase() : '';
+
+  switch (lookup) {
+    case 'core_hours':
+    case 'gb':
+    case 'gb_hours':
+    case 'gb_mo':
+    case 'gibibyte_month':
+    case 'hour':
+    case 'hrs':
+    case 'tag_mo':
+    case 'vm_hours':
+      return lookup;
+    default:
+      return undefined;
+  }
 };

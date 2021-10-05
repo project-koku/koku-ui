@@ -2,7 +2,7 @@ import { SortByDirection } from '@patternfly/react-table';
 import { CostModel, CostModelRequest } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Rate, RateRequest, TagRates } from 'api/rates';
-import { countDecimals, formatRaw } from 'utils/format';
+import { countDecimals, formatCurrencyRateRaw, isCurrencyFormatValid, unFormat } from 'utils/format';
 
 import { textHelpers } from './constants';
 
@@ -56,7 +56,7 @@ export const checkRateOnChange = (regular: string) => {
   if (regular.length === 0) {
     return textHelpers.required;
   }
-  if (isNaN(Number(regular))) {
+  if (!isCurrencyFormatValid(regular)) {
     return textHelpers.not_number;
   }
   if (Number(regular) < 0) {
@@ -107,7 +107,7 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
     tagRates.tagValues = item.tag_values.map(tvalue => {
       return {
         tagValue: tvalue.tag_value,
-        value: tvalue.value.toString(),
+        value: formatCurrencyRateRaw(tvalue.value, tvalue.unit),
         description: tvalue.description,
         isDirty: false,
         isTagValueDirty: false,
@@ -121,7 +121,7 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
   if (rateKind === 'regular') {
     tieredRates = rate.tiered_rates.map(tieredRate => {
       return {
-        value: tieredRate.value.toString(),
+        value: formatCurrencyRateRaw(tieredRate.value, tieredRate.unit),
         isDirty: true,
       };
     });
@@ -180,7 +180,7 @@ export const transformFormDataToRequest = (
             return {
               tag_value: tvalue.tagValue,
               unit: currencyUnits,
-              value: formatRaw(tvalue.value, 'en'),
+              value: unFormat(tvalue.value),
               description: tvalue.description,
               default: ix === rateFormData.taggingRates.defaultTag,
             };
@@ -188,7 +188,7 @@ export const transformFormDataToRequest = (
         }
       : rateFormData.tieredRates.map(tiered => {
           return {
-            value: formatRaw(tiered.value, 'en'),
+            value: unFormat(tiered.value),
             unit: currencyUnits,
             usage: { unit: currencyUnits },
           };

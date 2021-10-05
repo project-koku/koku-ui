@@ -23,7 +23,7 @@ export function hasDiff(rate: Rate, rateFormData: RateFormData): boolean {
     return true;
   }
   if (rateKind === 'regular') {
-    if (rate.tiered_rates[0].value !== Number(rateFormData.tieredRates[0].value)) {
+    if (Number(rate.tiered_rates[0].value) !== Number(rateFormData.tieredRates[0].value)) {
       return true;
     }
   }
@@ -40,7 +40,7 @@ export function hasDiff(rate: Rate, rateFormData: RateFormData): boolean {
       const isCurDefault = rateFormData.taggingRates.defaultTag === ix;
       return (
         tvalue.tag_value !== cur.tagValue ||
-        tvalue.value !== Number(cur.value) ||
+        Number(tvalue.value) !== Number(cur.value) ||
         tvalue.description !== cur.description ||
         tvalue.default !== isCurDefault
       );
