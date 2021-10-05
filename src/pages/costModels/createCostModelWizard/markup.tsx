@@ -21,7 +21,7 @@ import messages from 'locales/messages';
 import { styles } from 'pages/costModels/costModel/costCalc.styles';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { countDecimals, formatRaw } from 'utils/format';
+import { countDecimals, isPercentageFormatValid } from 'utils/format';
 
 import { CostModelContext } from './context';
 
@@ -37,7 +37,7 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
     };
 
     const markupValidator = value => {
-      if (isNaN(Number(value))) {
+      if (!isPercentageFormatValid(value)) {
         return messages.MarkupOrDiscountNumber;
       }
       // Test number of decimals
@@ -121,11 +121,11 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
                               isRequired
                               onKeyDown={handleOnKeyDown}
                               onChange={handleMarkupDiscountChange}
-                              placeholder={formatRaw('0')}
+                              placeholder={'0'}
                               style={styles.inputField}
                               type="text"
                               validated={validated}
-                              value={formatRaw(markup)}
+                              value={markup}
                             />
                             <InputGroupText style={styles.percent}>
                               {intl.formatMessage(messages.PercentSymbol)}
