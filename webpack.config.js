@@ -221,15 +221,13 @@ module.exports = (_env, argv) => {
       ],
     },
     devServer: {
-      stats,
-      contentBase: false,
+      allowedHosts: 'all',
       historyApiFallback: {
         index: `${publicPath}index.html`,
       },
       host: '0.0.0.0',
       hot: false, // default is true, which currently does not work with Insights and federated modules?
       port,
-      disableHostCheck: true,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
@@ -244,21 +242,6 @@ module.exports = (_env, argv) => {
         publicPath,
         useCloud: process.env.CLOUDOT_ENV === 'ci',
       }),
-      // Props for webpack-dev-server v4.0.0-beta.2
-      //
-      // host: 'localhost',
-      // port: 8002,
-      // historyApiFallback: {
-      //   index: `${publicPath}index.html`,
-      // },
-      // // hot: !isProduction,
-      // hot: false, // default is true, which currently does not work with Insights and federated modules?
-      // firewall: false,
-      // transportMode: 'sockjs',
-      // headers: {
-      //   'Access-Control-Allow-Origin': '*',
-      //   'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-      // },
     },
   };
 };
