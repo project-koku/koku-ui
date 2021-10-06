@@ -191,13 +191,11 @@ export const isCurrencyFormatValid = (value: string) => {
   // (...)$ look at the next group from the end (...)$
   // (...)*(...)? Look for groups optionally. The first is for the comma, the second is for the decimal.
   // (,\d{3}){1} Look for one occurrence of a comma followed by exactly three digits
-  // \.\d{0,10} Look for a decimal followed by zero, one, or 10 digits.
+  // \.\d Look for a decimal followed by any number of any digits
   //
   // See https://stackoverflow.com/questions/2227370/currency-validation
   const regex =
-    decimalSeparator === '.'
-      ? /^-?[0-9]\d*(((,\d{3}){1})*(\.\d{0,10})?)$/
-      : /^-?[0-9]\d*(((\.\d{3}){1})*(,\d{0,10})?)$/;
+    decimalSeparator === '.' ? /^-?[0-9]\d*(((,\d{3}){1})*(\.\d*)?)$/ : /^-?[0-9]\d*(((\.\d{3}){1})*(,\d*)?)$/;
 
   return regex.test(value);
 };
