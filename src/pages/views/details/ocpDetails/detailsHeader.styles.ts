@@ -26,6 +26,10 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
   },
+  headerContentLeft: {
+    display: 'flex',
+    minHeight: '90px',
+  },
   info: {
     verticalAlign: 'middle',
   },

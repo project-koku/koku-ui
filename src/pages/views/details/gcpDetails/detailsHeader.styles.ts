@@ -25,6 +25,10 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
   },
+  headerContentLeft: {
+    display: 'flex',
+    minHeight: '90px',
+  },
   title: {
     paddingBottom: global_spacer_sm.var,
   },

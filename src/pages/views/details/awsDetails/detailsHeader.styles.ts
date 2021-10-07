@@ -32,6 +32,7 @@ export const styles = {
   },
   headerContentLeft: {
     display: 'flex',
+    minHeight: '90px',
   },
   title: {
     paddingBottom: global_spacer_sm.var,
