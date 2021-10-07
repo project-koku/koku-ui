@@ -71,15 +71,17 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <Currency />
         </div>
         <div style={styles.headerContent}>
-          <GroupBy
-            getIdKeyForGroupBy={getIdKeyForGroupBy}
-            groupBy={groupBy}
-            isDisabled={!showContent}
-            onSelected={onGroupBySelected}
-            options={groupByOptions}
-            showTags
-            tagReportPathsType={tagReportPathsType}
-          />
+          <div style={styles.headerContentLeft}>
+            <GroupBy
+              getIdKeyForGroupBy={getIdKeyForGroupBy}
+              groupBy={groupBy}
+              isDisabled={!showContent}
+              onSelected={onGroupBySelected}
+              options={groupByOptions}
+              showTags
+              tagReportPathsType={tagReportPathsType}
+            />
+          </div>
           {Boolean(showContent) && (
             <div>
               <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
