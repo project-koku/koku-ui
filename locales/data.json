@@ -16780,7 +16780,7 @@
     "OCPDetailsSupplementaryCost": [
       {
         "type": 0,
-        "value": "Infrastructure cost"
+        "value": "Supplementary cost"
       }
     ],
     "OCPDetailsSupplementaryCostDesc": [

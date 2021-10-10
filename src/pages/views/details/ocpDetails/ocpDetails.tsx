@@ -93,7 +93,7 @@ const defaultColumnOptions: ColumnManagementModalOption[] = [
     hidden: true,
   },
   {
-    description: messages.OCPDetailsInfrastructureCostDesc,
+    description: messages.OCPDetailsSupplementaryCostDesc,
     label: messages.OCPDetailsSupplementaryCost,
     value: DetailsTableColumnIds.supplementary,
     hidden: true,
