@@ -236,7 +236,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     return datum;
   }
 
-  private getCpuChart = () => {
+  private getChart = () => {
     const { groupBy, reportFetchStatus, report } = this.props;
     const { width } = this.state;
 
@@ -423,7 +423,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   public render() {
     return (
       <div className="chartOverride" ref={this.containerRef}>
-        {this.getCpuChart()}
+        {this.getChart()}
       </div>
     );
   }
