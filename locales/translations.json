@@ -348,7 +348,7 @@
   "OCPDashboardMemoryUsageAndRequests": "OpenShift Memory usage and requests",
   "OCPDetailsInfrastructureCost": "Infrastructure cost",
   "OCPDetailsInfrastructureCostDesc": "The cost based on raw usage data from the underlying infrastructure.",
-  "OCPDetailsSupplementaryCost": "Infrastructure cost",
+  "OCPDetailsSupplementaryCost": "Supplementary cost",
   "OCPDetailsSupplementaryCostDesc": "All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.",
   "OCPDetailsTable": "OpenShift details table",
   "OCPDetailsTitle": "OpenShift details",

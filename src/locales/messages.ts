@@ -2498,8 +2498,8 @@ export default defineMessages({
     id: 'OCPDetailsInfrastructureCostDesc',
   },
   OCPDetailsSupplementaryCost: {
-    defaultMessage: 'Infrastructure cost',
-    description: 'Infrastructure cost',
+    defaultMessage: 'Supplementary cost',
+    description: 'Supplementary cost',
     id: 'OCPDetailsSupplementaryCost',
   },
   OCPDetailsSupplementaryCostDesc: {
