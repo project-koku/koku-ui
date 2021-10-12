@@ -183,6 +183,12 @@ module.exports = (_env, argv) => {
       federatedPlugin({
         root: __dirname,
         moduleName,
+        /**
+         * There is a know issue with apps using yarn to build their applications that the router package is not properly shared
+         * Same issue was encountered in application services
+         * Package can be re-enabled for sharing once chrome starts providing global routing pakcage to all applications
+         */
+        exclude: ['react-router-dom'],
         exposes: {
           './RootApp': path.resolve(__dirname, './src/federatedEntry.tsx'),
           // Shared component module path. Must include default export!
