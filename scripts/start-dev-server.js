@@ -17,14 +17,12 @@ async function setEnv() {
         name: 'clouddotEnv',
         message: 'Which platform environment you want to use',
         choices: ['stage', 'prod', 'ci'],
-        when: answers => answers.localApi === false,
       },
       {
         type: 'list',
         name: 'uiEnv',
         message: 'Which UI environment you want to use?',
         choices: ['beta', 'stable'],
-        when: answers => answers.localApi === false,
       },
       {
         name: 'insightsProxy',
