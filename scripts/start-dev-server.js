@@ -24,19 +24,12 @@ async function setEnv() {
         message: 'Which UI environment you want to use?',
         choices: ['beta', 'stable'],
       },
-      {
-        name: 'insightsProxy',
-        message: 'Do you want to use the Insights proxy?',
-        type: 'confirm',
-        default: true,
-        when: answers => answers.localApi === false,
-      },
     ])
     .then(answers => {
       const { uiEnv, clouddotEnv, insightsProxy, localApi } = answers;
       process.env.BETA_ENV = uiEnv === 'beta' ? 'true' : 'false';
       process.env.CLOUDOT_ENV = clouddotEnv ? clouddotEnv : 'stage';
-      process.env.USE_PROXY = insightsProxy ? 'true' : 'false';
+      process.env.USE_PROXY = 'true';
       process.env.USE_LOCAL_ROUTES = localApi.toString();
       if (localApi) {
         process.env.USE_PROXY = 'false';
