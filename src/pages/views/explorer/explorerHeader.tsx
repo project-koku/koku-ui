@@ -134,11 +134,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     const options = [];
     if (ocp) {
       options.push(...ocpOptions);
-
-      // Todo: Show new features in beta environment only
-      if (insights.chrome.isBeta()) {
-        options.push(...infrastructureOcpCloudOptions);
-      }
+      options.push(...infrastructureOcpCloudOptions);
     }
     if (aws) {
       options.push(...infrastructureAwsOptions);
