@@ -30,7 +30,7 @@ async function setEnv() {
         name: 'insightsProxy',
         message: 'Do you want to use the Insights proxy?',
         type: 'confirm',
-        default: false,
+        default: true,
         when: answers => answers.localApi === false,
       },
     ])
@@ -38,9 +38,9 @@ async function setEnv() {
       const { uiEnv, clouddotEnv, insightsProxy, localApi } = answers;
       process.env.BETA_ENV = uiEnv === 'beta' ? 'true' : 'false';
       process.env.CLOUDOT_ENV = clouddotEnv ? clouddotEnv : 'stage';
-      process.env.USE_PROXY = insightsProxy ? insightsProxy.toString() : 'false';
+      process.env.USE_PROXY = insightsProxy ? 'true' : 'false';
       process.env.USE_LOCAL_ROUTES = localApi.toString();
-      if (localApi.toString()) {
+      if (localApi) {
         process.env.USE_PROXY = 'false';
         process.env.BETA_ENV = 'true';
       }
