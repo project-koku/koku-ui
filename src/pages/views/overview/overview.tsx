@@ -266,10 +266,7 @@ class OverviewBase extends React.Component<OverviewProps> {
 
   private getDefaultInfrastructurePerspective = () => {
     if (this.isOcpAvailable()) {
-      // Todo: Show new features in beta environment only
-      if (insights.chrome.isBeta()) {
-        return InfrastructurePerspective.ocpCloud;
-      }
+      return InfrastructurePerspective.ocpCloud;
     }
     if (this.isAwsAvailable()) {
       return InfrastructurePerspective.aws;
@@ -312,10 +309,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const options = [];
     if (this.getCurrentTab() === OverviewTab.infrastructure) {
       if (ocp) {
-        // Todo: Show new features in beta environment only
-        if (insights.chrome.isBeta()) {
-          options.push(...infrastructureOcpCloudOptions);
-        }
+        options.push(...infrastructureOcpCloudOptions);
       }
       if (aws) {
         options.push(...infrastructureAwsOptions);
