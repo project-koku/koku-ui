@@ -66,10 +66,11 @@ module.exports = (_env, argv) => {
 
   log.info('~~~Using variables~~~');
   log.info(`isProduction: ${isProduction}`);
+  log.info(`isBeta: ${isBeta}`);
   log.info(`Current branch: ${gitBranch}`);
   log.info(`Beta branches: ${betaBranches}`);
   log.info(`Using deployments: ${appDeployment}`);
-  log.info(`Using Insights proxy: ${!useProxy}`);
+  log.info(`Using Insights proxy: ${useProxy}`);
   log.info(`Public path: ${publicPath}`);
   log.info('~~~~~~~~~~~~~~~~~~~~~');
 
