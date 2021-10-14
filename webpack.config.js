@@ -60,7 +60,7 @@ module.exports = (_env, argv) => {
   const publicPath = `/${appDeployment}/${insights.appname}/`;
   // Moved multiple entries to index.tsx in order to help speed up webpack
   const entry = path.join(srcDir, 'index.tsx');
-  const useProxy = process.env.USE_PROXY.toLowerCase() !== 'false';
+  const useProxy = process.env.USE_PROXY !== 'false';
   const port = useProxy ? 1337 : 8002;
   let standalone = {};
 
