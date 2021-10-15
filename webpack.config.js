@@ -31,7 +31,7 @@ const {
 const gitRevisionPlugin = new GitRevisionPlugin({
   branch: true,
 });
-const betaBranches = ['master', 'qa-beta', 'ci-beta', 'prod-beta'];
+const betaBranches = ['master', 'stage-beta', 'prod-beta'];
 const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
 
 const localhost = process.env.PLATFORM === 'linux' ? 'localhost' : 'host.docker.internal';
@@ -62,7 +62,7 @@ module.exports = (_env, argv) => {
   const entry = path.join(srcDir, 'index.tsx');
   const useProxy = process.env.USE_PROXY !== 'false';
   const port = useProxy ? 1337 : 8002;
-  let standalone = {};
+  const standalone = { rbac, backofficeProxy, ...defaultServices };
 
   log.info('~~~Using variables~~~');
   log.info(`isProduction: ${isProduction}`);
@@ -70,7 +70,8 @@ module.exports = (_env, argv) => {
   log.info(`Current branch: ${gitBranch}`);
   log.info(`Beta branches: ${betaBranches}`);
   log.info(`Using deployments: ${appDeployment}`);
-  log.info(`Using Insights proxy: ${useProxy}`);
+  log.info(`Using proxy: ${useProxy}`);
+  log.info(`Using local routes: ${useLocalRoutes}`);
   log.info(`Public path: ${publicPath}`);
   log.info('~~~~~~~~~~~~~~~~~~~~~');
 
@@ -95,7 +96,6 @@ module.exports = (_env, argv) => {
     const localKoku = 'http://' + localKukoHost + ':' + localKokuPort;
 
     routes['/api/cost-management/v1/'] = { host: localKoku };
-    standalone = { rbac, backofficeProxy, ...defaultServices };
   }
 
   return {
@@ -256,7 +256,7 @@ module.exports = (_env, argv) => {
         proxyVerbose: true,
         publicPath,
         routes,
-        standalone,
+        ...(useLocalRoutes && { standalone }),
         useCloud: process.env.CLOUDOT_ENV === 'ci',
       }),
     },
