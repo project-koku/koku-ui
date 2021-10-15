@@ -21,6 +21,12 @@ const distDir = path.resolve(__dirname, './dist/');
 const betaEnv = process.env.BETA_ENV;
 const nodeEnv = process.env.NODE_ENV;
 
+const {
+  rbac,
+  backofficeProxy,
+  defaultServices,
+} = require('@redhat-cloud-services/frontend-components-config-utilities/standalone');
+
 // See index.js from @redhat-cloud-services/frontend-components-config
 const gitRevisionPlugin = new GitRevisionPlugin({
   branch: true,
@@ -54,15 +60,17 @@ module.exports = (_env, argv) => {
   const publicPath = `/${appDeployment}/${insights.appname}/`;
   // Moved multiple entries to index.tsx in order to help speed up webpack
   const entry = path.join(srcDir, 'index.tsx');
-  const useProxy = process.env.USE_PROXY === 'true';
+  const useProxy = process.env.USE_PROXY !== 'false';
   const port = useProxy ? 1337 : 8002;
+  let standalone = {};
 
   log.info('~~~Using variables~~~');
   log.info(`isProduction: ${isProduction}`);
+  log.info(`isBeta: ${isBeta}`);
   log.info(`Current branch: ${gitBranch}`);
   log.info(`Beta branches: ${betaBranches}`);
   log.info(`Using deployments: ${appDeployment}`);
-  log.info(`Using Insights proxy: ${!useProxy}`);
+  log.info(`Using Insights proxy: ${useProxy}`);
   log.info(`Public path: ${publicPath}`);
   log.info('~~~~~~~~~~~~~~~~~~~~~');
 
@@ -73,20 +81,21 @@ module.exports = (_env, argv) => {
   };
 
   const routes = {
-    // For local API development
-    // '/api/cost-management/v1/': { host: 'http://localhost:8000' },
-    //
     // For testing cloud-services-config https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
     // '/beta/config': {
     //   host: `http://${localhost}:8889`,
     // },
   };
+
+  // For local API development route will be set to :
+  // '/api/cost-management/v1/': { host: 'http://localhost:8000' },
   if (useLocalRoutes) {
-    const localKokuPort = process.env.LOCAL_API_PORT ? process.env.LOCAL_API_PORT : '80';
-    const localKoku = 'http://' + process.env.LOCAL_API + ':' + localKokuPort;
-    routes['/api/cost-management/'] = {
-      host: localKoku,
-    };
+    const localKokuPort = process.env.LOCAL_API_PORT ? process.env.LOCAL_API_PORT : '8000';
+    const localKukoHost = process.env.LOCAL_API ? process.env.LOCAL_API : 'localhost';
+    const localKoku = 'http://' + localKukoHost + ':' + localKokuPort;
+
+    routes['/api/cost-management/v1/'] = { host: localKoku };
+    standalone = { rbac, backofficeProxy, ...defaultServices };
   }
 
   return {
@@ -246,6 +255,8 @@ module.exports = (_env, argv) => {
         appUrl: [`/${isBeta ? 'beta/' : ''}openshift/cost-management`],
         proxyVerbose: true,
         publicPath,
+        routes,
+        standalone,
         useCloud: process.env.CLOUDOT_ENV === 'ci',
       }),
     },

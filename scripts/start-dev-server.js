@@ -7,32 +7,34 @@ async function setEnv() {
   return inquirer
     .prompt([
       {
+        name: 'localApi',
+        message: 'Do you want to use local api?',
+        type: 'confirm',
+        default: false,
+      },
+      {
         type: 'list',
         name: 'clouddotEnv',
         message: 'Which platform environment you want to use',
         choices: ['stage', 'prod', 'ci'],
       },
-      { type: 'list', name: 'uiEnv', message: 'Which UI environment you want to use?', choices: ['beta', 'stable'] },
       {
-        name: 'insightsProxy',
-        message: 'Do you want to use the Insights proxy?',
-        type: 'confirm',
-        default: false,
+        type: 'list',
+        name: 'uiEnv',
+        message: 'Which UI environment you want to use?',
+        choices: ['beta', 'stable'],
       },
-      // {
-      //   name: 'localApi',
-      //   message: 'Do you want to use local api?',
-      //   type: 'confirm',
-      //   default: false,
-      // },
     ])
     .then(answers => {
       const { uiEnv, clouddotEnv, insightsProxy, localApi } = answers;
-
       process.env.BETA_ENV = uiEnv === 'beta' ? 'true' : 'false';
-      process.env.CLOUDOT_ENV = clouddotEnv;
-      process.env.USE_PROXY = (!insightsProxy).toString(); // Set 'true' for webpack proxy
-      // process.env.USE_LOCAL_ROUTES = localApi.toString();
+      process.env.CLOUDOT_ENV = clouddotEnv ? clouddotEnv : 'stage';
+      process.env.USE_PROXY = 'true';
+      process.env.USE_LOCAL_ROUTES = localApi.toString();
+      if (localApi) {
+        process.env.USE_PROXY = 'false';
+        process.env.BETA_ENV = 'true';
+      }
     });
 }
 
