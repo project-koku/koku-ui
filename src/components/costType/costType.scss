@@ -1,0 +1,10 @@
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+// Workaround for https://github.com/patternfly/patternfly-react/issues/6371
+.selectOverride {
+  &.pf-c-select {
+    .pf-c-select__menu-item-description {
+      width: max-content;
+    }
+  }
+}

@@ -1,13 +1,30 @@
+import './costType.scss';
+
 import { Select, SelectOption, SelectOptionObject, SelectVariant, Title } from '@patternfly/react-core';
+import { CostType } from 'api/costType';
+import { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { connect } from 'react-redux';
+import { createMapStateToProps, FetchStatus } from 'store/common';
+import { costTypeActions, costTypeSelectors } from 'store/costType';
 import { getCostType, invalidateCostType, setCostType } from 'utils/localStorage';
 
 import { styles } from './costType.styles';
 
 interface CostTypeOwnProps {
   isDisabled?: boolean;
+}
+
+interface CostTypeDispatchProps {
+  fetchCostType?: typeof costTypeActions.fetchCostType;
+}
+
+interface CostTypeStateProps {
+  costType: CostType;
+  costTypeError: AxiosError;
+  costTypeFetchStatus?: FetchStatus;
 }
 
 interface CostTypeState {
@@ -21,13 +38,13 @@ interface CostTypeOption extends SelectOptionObject {
   value?: string;
 }
 
-type CostTypeProps = CostTypeOwnProps & WrappedComponentProps;
+type CostTypeProps = CostTypeOwnProps & CostTypeDispatchProps & CostTypeStateProps & WrappedComponentProps;
 
 // eslint-disable-next-line no-shadow
 const enum CostTypes {
-  amortized = 'amortized',
-  blended = 'blended',
-  unblended = 'unblended',
+  amortized = 'savingsplan_effective_cost',
+  blended = 'blended_cost',
+  unblended = 'unblended_cost',
 }
 
 class CostTypeBase extends React.Component<CostTypeProps> {
@@ -37,28 +54,11 @@ class CostTypeBase extends React.Component<CostTypeProps> {
   };
   public state: CostTypeState = { ...this.defaultState };
 
-  private getSelectOptions = (): CostTypeOption[] => {
-    const { intl } = this.props;
+  public componentDidMount() {
+    const { fetchCostType } = this.props;
 
-    const options: CostTypeOption[] = [
-      {
-        desc: intl.formatMessage(messages.CostTypeUnblendedDesc),
-        toString: () => intl.formatMessage(messages.CostTypeUnblended),
-        value: CostTypes.unblended,
-      },
-      {
-        desc: intl.formatMessage(messages.CostTypeAmortizedDesc),
-        toString: () => intl.formatMessage(messages.CostTypeAmortized),
-        value: CostTypes.amortized,
-      },
-      {
-        desc: intl.formatMessage(messages.CostTypeBlendedDesc),
-        toString: () => intl.formatMessage(messages.CostTypeBlended),
-        value: CostTypes.blended,
-      },
-    ];
-    return options;
-  };
+    fetchCostType();
+  }
 
   private getCurrentItem = () => {
     const { currentItem } = this.state;
@@ -77,6 +77,7 @@ class CostTypeBase extends React.Component<CostTypeProps> {
 
     return (
       <Select
+        className="selectOverride"
         id="costTypeSelect"
         isDisabled={isDisabled}
         isOpen={isSelectOpen}
@@ -86,10 +87,51 @@ class CostTypeBase extends React.Component<CostTypeProps> {
         variant={SelectVariant.single}
       >
         {selectOptions.map(option => (
-          <SelectOption key={option.value} value={option} />
+          <SelectOption description={option.desc} key={option.value} value={option} />
         ))}
       </Select>
     );
+  };
+
+  private getSelectOptions = (): CostTypeOption[] => {
+    const { costType, intl } = this.props;
+
+    const options: CostTypeOption[] = [];
+
+    if (costType) {
+      costType.data.map(val => {
+        switch (val.code) {
+          case CostTypes.amortized:
+            options.push({
+              desc: intl.formatMessage(messages.CostTypeAmortizedDesc),
+              toString: () => intl.formatMessage(messages.CostTypeAmortized),
+              value: CostTypes.amortized,
+            });
+            break;
+          case CostTypes.blended:
+            options.push({
+              desc: intl.formatMessage(messages.CostTypeBlendedDesc),
+              toString: () => intl.formatMessage(messages.CostTypeBlended),
+              value: CostTypes.blended,
+            });
+            break;
+          case CostTypes.unblended:
+            options.push({
+              desc: intl.formatMessage(messages.CostTypeUnblendedDesc),
+              toString: () => intl.formatMessage(messages.CostTypeUnblended),
+              value: CostTypes.unblended,
+            });
+            break;
+        }
+      });
+    } else {
+      options.push({
+        desc: intl.formatMessage(messages.CostTypeUnblendedDesc),
+        toString: () => intl.formatMessage(messages.CostTypeUnblended),
+        value: CostTypes.unblended,
+      });
+    }
+    return options;
   };
 
   private handleSelect = (event, selection: CostTypeOption) => {
@@ -126,5 +168,23 @@ class CostTypeBase extends React.Component<CostTypeProps> {
   }
 }
 
-const CostType = injectIntl(CostTypeBase);
+const mapStateToProps = createMapStateToProps<CostTypeOwnProps, CostTypeStateProps>(state => {
+  const costType = costTypeSelectors.selectCostType(state);
+  const costTypeError = costTypeSelectors.selectCostTypeError(state);
+  const costTypeFetchStatus = costTypeSelectors.selectCostTypeFetchStatus(state);
+
+  return {
+    costType,
+    costTypeError,
+    costTypeFetchStatus,
+  };
+});
+
+const mapDispatchToProps: CostTypeDispatchProps = {
+  fetchCostType: costTypeActions.fetchCostType,
+};
+
+const CostTypeConnect = connect(mapStateToProps, mapDispatchToProps)(CostTypeBase);
+const CostType = injectIntl(CostTypeConnect);
+
 export { CostType };
