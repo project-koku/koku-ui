@@ -21,7 +21,7 @@ async function setEnv() {
       {
         type: 'list',
         name: 'uiEnv',
-        message: 'Which UI environment you want to use?',
+        message: 'Which Chrome environment you want to use?',
         choices: ['beta', 'stable'],
       },
     ])
