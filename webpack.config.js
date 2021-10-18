@@ -91,10 +91,7 @@ module.exports = (_env, argv) => {
   // For local API development route will be set to :
   // '/api/cost-management/v1/': { host: 'http://localhost:8000' },
   if (useLocalRoutes) {
-    const localKokuPort = process.env.LOCAL_API_PORT ? process.env.LOCAL_API_PORT : '8000';
-    const localKukoHost = process.env.LOCAL_API ? process.env.LOCAL_API : 'localhost';
-    const localKoku = 'http://' + localKukoHost + ':' + localKokuPort;
-
+    const localKoku = 'http://' + process.env.LOCAL_API_HOST + ':' + process.env.LOCAL_API_PORT;
     routes['/api/cost-management/v1/'] = { host: localKoku };
   }
 
