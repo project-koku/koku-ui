@@ -21,7 +21,7 @@ async function setEnv() {
       {
         type: 'list',
         name: 'uiEnv',
-        message: 'Which UI environment you want to use?',
+        message: 'Which Chrome environment you want to use?',
         choices: ['beta', 'stable'],
       },
     ])
@@ -33,7 +33,6 @@ async function setEnv() {
       process.env.USE_LOCAL_ROUTES = localApi.toString();
       if (localApi) {
         process.env.USE_PROXY = 'false';
-        process.env.BETA_ENV = 'true';
       }
     });
 }
