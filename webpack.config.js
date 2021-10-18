@@ -63,6 +63,8 @@ module.exports = (_env, argv) => {
   const useProxy = process.env.USE_PROXY !== 'false';
   const port = useProxy ? 1337 : 8002;
   const standalone = { rbac, backofficeProxy, ...defaultServices };
+  const localAPIHost = process.env.LOCAL_API_HOST;
+  const localAPIPort = process.env.LOCAL_API_PORT;
 
   log.info('~~~Using variables~~~');
   log.info(`isProduction: ${isProduction}`);
@@ -72,6 +74,10 @@ module.exports = (_env, argv) => {
   log.info(`Using deployments: ${appDeployment}`);
   log.info(`Using proxy: ${useProxy}`);
   log.info(`Using local routes: ${useLocalRoutes}`);
+  if (useLocalRoutes) {
+    log.info(`Using local API host: ${localAPIHost}`);
+    log.info(`Using local API port: ${localAPIPort}`);
+  }
   log.info(`Public path: ${publicPath}`);
   log.info('~~~~~~~~~~~~~~~~~~~~~');
 
@@ -91,8 +97,7 @@ module.exports = (_env, argv) => {
   // For local API development route will be set to :
   // '/api/cost-management/v1/': { host: 'http://localhost:8000' },
   if (useLocalRoutes) {
-    const localKoku = 'http://' + process.env.LOCAL_API_HOST + ':' + process.env.LOCAL_API_PORT;
-    routes['/api/cost-management/v1/'] = { host: localKoku };
+    routes['/api/cost-management/v1/'] = { host: 'http://' + localAPIHost + ':' + localAPIPort };
   }
 
   return {
