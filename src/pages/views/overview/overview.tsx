@@ -553,9 +553,14 @@ class OverviewBase extends React.Component<OverviewProps> {
                       <br />
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.GCP)}</p>
                       <p>{intl.formatMessage(messages.GCPDesc)}</p>
-                      <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.IBM)}</p>
-                      <p>{intl.formatMessage(messages.IBMDesc)}</p>
+                      {/* Todo: Show new features in beta environment only */}
+                      {insights.chrome.isBeta() && (
+                        <>
+                          <br />
+                          <p style={styles.infoTitle}>{intl.formatMessage(messages.IBM)}</p>
+                          <p>{intl.formatMessage(messages.IBMDesc)}</p>
+                        </>
+                      )}
                       <br />
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.AWS)}</p>
                       <p>{intl.formatMessage(messages.AWSDesc)}</p>
