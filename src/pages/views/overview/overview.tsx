@@ -35,7 +35,9 @@ import OcpCloudDashboard from 'pages/views/overview/ocpCloudDashboard';
 import OcpDashboard from 'pages/views/overview/ocpDashboard';
 import {
   hasCloudCurrentMonthData,
+  hasCloudData,
   hasCloudPreviousMonthData,
+  hasCloudProvider,
   hasCurrentMonthData,
   hasPreviousMonthData,
 } from 'pages/views/utils/providers';
@@ -293,6 +295,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getPerspective = () => {
+    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders } = this.props;
     const { currentInfrastructurePerspective, currentOcpPerspective } = this.state;
 
     const aws = this.isAwsAvailable();
@@ -308,13 +311,18 @@ class OverviewBase extends React.Component<OverviewProps> {
     // Dynamically show options if providers are available
     const options = [];
     if (this.getCurrentTab() === OverviewTab.infrastructure) {
-      if (ocp) {
+      const hasAwsProvider = hasCloudProvider(awsProviders, ocpProviders);
+      const hasAzureProvider = hasCloudProvider(azureProviders, ocpProviders);
+      const hasGcpProvider = hasCloudProvider(gcpProviders, ocpProviders);
+      const hasIbmProvider = hasCloudProvider(ibmProviders, ocpProviders);
+
+      if (hasAwsProvider || hasAzureProvider || hasGcpProvider || hasIbmProvider) {
         options.push(...infrastructureOcpCloudOptions);
       }
       if (aws) {
         options.push(...infrastructureAwsOptions);
       }
-      if (aws && ocp) {
+      if (hasAwsProvider) {
         options.push(...infrastructureAwsOcpOptions);
       }
       if (gcp) {
@@ -322,7 +330,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       }
       // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
       //
-      // if (gcp && ocp) {
+      // if (hasGcpProvider) {
       //   options.push(...infrastructureGcpOcpOptions);
       // }
       if (ibm) {
@@ -331,7 +339,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (azure) {
         options.push(...infrastructureAzureOptions);
       }
-      if (azure && ocp) {
+      if (hasAzureProvider) {
         options.push(...infrastructureAzureOcpOptions);
       }
     } else {
@@ -389,7 +397,11 @@ class OverviewBase extends React.Component<OverviewProps> {
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === OverviewTab.infrastructure) {
       if (currentInfrastructurePerspective === InfrastructurePerspective.ocpCloud) {
-        const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
+        const hasData =
+          hasCloudData(awsProviders, ocpProviders) ||
+          hasCloudData(azureProviders, ocpProviders) ||
+          hasCloudData(gcpProviders, ocpProviders) ||
+          hasCloudData(ibmProviders, ocpProviders);
         return hasData ? <OcpCloudDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.aws) {
         const hasData = hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders);

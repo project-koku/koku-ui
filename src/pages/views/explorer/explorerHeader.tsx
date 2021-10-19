@@ -10,6 +10,7 @@ import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import { Perspective } from 'pages/views/components/perspective/perspective';
+import { hasCloudProvider } from 'pages/views/utils/providers';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
@@ -118,6 +119,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   }
 
   private getPerspective = (isDisabled: boolean) => {
+    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders } = this.props;
     const { currentPerspective } = this.state;
 
     const aws = this.isAwsAvailable();
@@ -130,16 +132,23 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       return null;
     }
 
+    const hasAwsProvider = hasCloudProvider(awsProviders, ocpProviders);
+    const hasAzureProvider = hasCloudProvider(azureProviders, ocpProviders);
+    const hasGcpProvider = hasCloudProvider(gcpProviders, ocpProviders);
+    const hasIbmProvider = hasCloudProvider(ibmProviders, ocpProviders);
+
     // Dynamically show options if providers are available
     const options = [];
     if (ocp) {
       options.push(...ocpOptions);
+    }
+    if (hasAwsProvider || hasAzureProvider || hasGcpProvider || hasIbmProvider) {
       options.push(...infrastructureOcpCloudOptions);
     }
     if (aws) {
       options.push(...infrastructureAwsOptions);
     }
-    if (aws && ocp) {
+    if (hasAwsProvider) {
       options.push(...infrastructureAwsOcpOptions);
     }
     if (gcp) {
@@ -147,7 +156,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     }
     // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
     //
-    // if (gcp && ocp) {
+    // if (hasGcpProvider) {
     //   options.push(...infrastructureGcpOcpOptions);
     // }
     if (ibm) {
@@ -156,7 +165,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     if (azure) {
       options.push(...infrastructureAzureOptions);
     }
-    if (azure && ocp) {
+    if (hasAzureProvider) {
       options.push(...infrastructureAzureOcpOptions);
     }
 
