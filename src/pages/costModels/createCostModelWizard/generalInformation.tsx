@@ -120,7 +120,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                       label={intl.formatMessage(messages.CostModelsWizardEmptySourceTypeLabel)}
                     />
                     <FormSelectOption value="AWS" label={intl.formatMessage(messages.CostModelsWizardOnboardAWS)} />
-                    <FormSelectOption value="AZURE" label={intl.formatMessage(messages.Azure)} />
+                    <FormSelectOption value="Azure" label={intl.formatMessage(messages.Azure)} />
                     <FormSelectOption value="GCP" label={intl.formatMessage(messages.GCP)} />
                     <FormSelectOption value="OCP" label={intl.formatMessage(messages.CostModelsWizardOnboardOCP)} />
                   </FormSelect>

@@ -227,7 +227,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           component: <GeneralInformation />,
         },
       ],
-      AZURE: [
+      Azure: [
         {
           id: 1,
           name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),

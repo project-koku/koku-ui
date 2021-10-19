@@ -99,7 +99,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
 
     const sourceTypeMap = {
       'OpenShift Container Platform': 'OCP',
-      'Microsoft Azure': 'AZURE',
+      'Microsoft Azure': 'Azure',
       'Amazon Web Services': 'AWS',
     };
 

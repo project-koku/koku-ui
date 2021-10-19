@@ -11,7 +11,7 @@ class Sources extends React.Component {
     super(props);
     this.fetchData = () => {
       const { type, query, page, perPage, fetchSources } = this.context;
-      const sourceType = type === 'AZURE' ? 'Azure' : type;
+      const sourceType = type === 'Azure' ? 'Azure' : type;
       fetchSources(sourceType, query, page, perPage);
     };
   }

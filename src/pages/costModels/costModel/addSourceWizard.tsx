@@ -45,7 +45,7 @@ interface Props extends WrappedComponentProps {
 
 const sourceTypeMap = {
   'OpenShift Container Platform': 'OCP',
-  'Microsoft Azure': 'AZURE',
+  'Microsoft Azure': 'Azure',
   'Amazon Web Services': 'AWS',
 };
 

@@ -15,7 +15,7 @@ const SourcesTable: React.SFC<WrappedComponentProps> = ({ intl }) => {
   return (
     <CostModelContext.Consumer>
       {({ loading, onSourceSelect, sources, perPage, page, type, query, fetchSources, filterName, onFilterChange }) => {
-        const sourceType = type === 'AZURE' ? 'Azure' : type;
+        const sourceType = type === 'Azure' ? 'Azure' : type;
         return (
           <Stack hasGutter>
             <StackItem>
