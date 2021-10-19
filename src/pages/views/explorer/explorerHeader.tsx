@@ -10,6 +10,7 @@ import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import { Perspective } from 'pages/views/components/perspective/perspective';
+import { hasCloudProvider } from 'pages/views/utils/providers';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
@@ -48,7 +49,6 @@ import {
   ocpOptions,
   PerspectiveType,
 } from './explorerUtils';
-import { hasCloudProvider } from '../utils/providers';
 
 interface ExplorerHeaderOwnProps {
   groupBy?: string;
