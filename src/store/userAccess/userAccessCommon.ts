@@ -13,7 +13,7 @@ export const awsUserAccessQuery: UserAccessQuery = {
 };
 
 export const azureUserAccessQuery: UserAccessQuery = {
-  type: 'AZURE',
+  type: 'Azure',
 };
 
 export const costModelUserAccessQuery: UserAccessQuery = {

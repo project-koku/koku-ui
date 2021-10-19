@@ -42,7 +42,7 @@ export const validatorsHash = {
     () => true,
     () => true,
   ],
-  AZURE: [
+  Azure: [
     ctx => nameErrors(ctx.name) === null && descriptionErrors(ctx.description) === null && ctx.type !== '',
     ctx => isMarkupValid(ctx.markup),
     () => true,
