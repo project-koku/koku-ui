@@ -110,7 +110,6 @@ Requirements:
 1. Setup koku-ui
 ```
 > yarn install
-> export KEYCLOAK_PORT=4020 
 ```
 
 2. Start koku-ui dev server (Answer **"yes"** to the first question to run against local APIs)

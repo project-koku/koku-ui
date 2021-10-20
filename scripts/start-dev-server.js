@@ -33,6 +33,7 @@ async function setEnv() {
       process.env.USE_LOCAL_ROUTES = localApi.toString();
       if (localApi) {
         process.env.USE_PROXY = 'false';
+        process.env.KEYCLOAK_PORT = 4020;
       }
     });
 }
