@@ -80,7 +80,7 @@ yarn update:manifest
 ### koku
 Requirements:
 
-Refer to the Koku project README file
+Refer to the Koku project [README](https://github.com/project-koku/koku#readme)
 
 1. setup & run koku (Refer to Koku repository for more details)
 ```
