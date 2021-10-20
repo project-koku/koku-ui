@@ -87,6 +87,7 @@ Refer to the Koku project [README](https://github.com/project-koku/koku#readme)
 > git clone git@github.com:project-koku/koku.git
 > cd [KOKU_GIT_REPO]
 > pipenv shell "pre-commit install"
+> pipenv install --dev
 > make docker-up-min or make make docker-up-min-presto (do not rebuild docker images)
 > make create-test-customer
 > make load-test-customer-data
