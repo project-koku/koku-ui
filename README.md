@@ -97,7 +97,7 @@ Refer to the Koku project README file
 > docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"
 ```
 
-3. Watch Koku logs (optional)
+3. Watch Koku logs in another terminal (optional)
 ```
 > docker-compose logs -f koku-server koku-worker
 ```
@@ -115,19 +115,16 @@ Requirements:
 
 2. Start koku-ui dev server (Answer **"yes"** to the first question to run against local APIs)
 
-**Note: After answering yes to the first question in most cases take the default values**
 ```
 > yarn start
 yarn run v1.22.10
 $ node scripts/start-dev-server.js
 ? Do you want to use local api? Yes
-? local api host? localhost
-? Local api port? 8000
 ? Which platform environment you want to use stage
 ? Which Chrome environment you want to use? beta
 ```
 
-4. open the following URL 
+4. Open the following URL 
 ```
  http://localhost:8002/beta/openshift/cost-management
 ```
@@ -153,6 +150,11 @@ Follow [setting up koku](#koku) to config the koku backend
 3. Start the dev server
 ```
 > npm run start:standalone:beta
+```
+
+4. Open the following URL
+```
+http://localhost:1337/beta/settings/applications/cost-management
 ```
 
 ### Useful Links
