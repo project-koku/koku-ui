@@ -76,6 +76,85 @@ Produces a file used by product security for vulnerability and compliance tracki
 yarn update:manifest
 ```
 
+## Running Koku-UI & Koku-API locally 
+### koku
+Requirements:
+
+Refer to the Koku project README file
+
+1. setup & run koku (Refer to Koku repository for more details)
+```
+> git clone git@github.com:project-koku/koku.git
+> cd [KOKU_GIT_REPO]
+> pipenv shell "pre-commit install"
+> make docker-up-min or make make docker-up-min-presto (do not rebuild docker images)
+> make create-test-customer
+> make load-test-customer-data
+```
+
+2. Check to see if containers are running (optional)
+```
+> docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"
+```
+
+3. Watch Koku logs (optional)
+```
+> docker-compose logs -f koku-server koku-worker
+```
+
+### koku-ui
+Requirements:
+
+[Reference here](#requirements)
+
+1. Setup koku-ui
+```
+> yarn install
+> export KEYCLOAK_PORT=4020 
+```
+
+2. Start koku-ui dev server (Answer **"yes"** to the first question to run against local APIs)
+
+**Note: After answering yes to the first question in most cases take the default values**
+```
+> yarn start
+yarn run v1.22.10
+$ node scripts/start-dev-server.js
+? Do you want to use local api? Yes
+? local api host? localhost
+? Local api port? 8000
+? Which platform environment you want to use stage
+? Which Chrome environment you want to use? beta
+```
+
+4. open the following URL 
+```
+ http://localhost:8002/beta/openshift/cost-management
+```
+
+## Running Frontend-settings & Koku-API locally
+
+Follow [setting up koku](#koku) to config the koku backend
+
+1. Clone settings-frontend
+```
+> git clone https://github.com/RedHatInsights/settings-frontend.git
+> cd settings-frontend <— where ever it has been cloned to
+> npm install
+```
+
+2. Set the following in your environment
+```
+> export API_PORT=8000
+> export LOCAL_API="/api/cost-management/v1/"
+> export KEYCLOAK_PORT=4020
+```
+
+3. Start the dev server
+```
+> npm run start:standalone:beta
+```
+
 ### Useful Links
 
 #### Libs
