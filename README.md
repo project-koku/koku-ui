@@ -32,7 +32,7 @@ Produces a file used by product security for vulnerability and compliance tracki
 yarn update:manifest
 ```
 
-## Running Koku-UI against a hosted Koku-API, using webpack proxy
+## Running Koku-UI against a hosted Koku API, using webpack proxy
 Note that this approach currently supports the Insights stage-beta, stage-stable, prod-beta, and prod-stable environments.
 
 1. Start development server
@@ -51,7 +51,7 @@ Follow the prompts that follow.
 https://stage.foo.redhat.com:1337/beta/openshift/cost-management
 ```
 
-## Running local instances of Koku-UI & Koku-API
+## Running local instances of Koku-UI & Koku API
 #### Koku-UI
 
 1. Start development server (Answer `yes` to run against local APIs)
@@ -70,10 +70,10 @@ Follow the prompts that follow.
  http://localhost:8002/beta/openshift/cost-management
 ```
 
-#### Koku-API
+#### Koku API
 Refer to the project [README][koku-readme] for requirements
 
-1. Setup & run Koku-API (see the project [README][koku-readme] for more details)
+1. Setup & run Koku API (see the project [README][koku-readme] for more details)
 ```
 > git clone git@github.com:project-koku/koku.git
 > cd [KOKU_GIT_REPO]
@@ -89,14 +89,14 @@ Refer to the project [README][koku-readme] for requirements
 > docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"
 ```
 
-3. Watch the Koku-API logs in another terminal (optional)
+3. Watch the Koku API logs in another terminal (optional)
 ```
 > docker-compose logs -f koku-server koku-worker
 ```
 
-## Running local instances of Settings-Frontend & Koku-API
+## Running local instances of Settings-Frontend & Koku API
 
-Follow the [steps](#koku-api) to run a local Koku-API instance
+Follow the [steps](#koku) to run a local Koku API instance
 
 1. Clone and install the Settings-Frontend repo
 ```
