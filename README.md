@@ -73,7 +73,7 @@ Follow the prompts that follow.
 #### Koku API
 Refer to the project [README][koku-readme] for prerequisites
 
-1. Setup & run Koku API (see the project [README][koku-readme] for more details)
+1. Setup & run Koku API (see project [README][koku-readme] for more details)
 ```
 > git clone git@github.com:project-koku/koku.git
 > cd [KOKU_GIT_REPO]
@@ -98,7 +98,7 @@ Refer to the project [README][koku-readme] for prerequisites
 
 Follow the [steps](#koku-api) to run a local Koku API instance
 
-1. Clone and install the Settings-Frontend repo
+1. Clone the Settings-Frontend repository and install dependencies
 ```
 > git clone https://github.com/RedHatInsights/settings-frontend.git
 > cd [SETTINGS_FRONTEND_GIT_REPO]
