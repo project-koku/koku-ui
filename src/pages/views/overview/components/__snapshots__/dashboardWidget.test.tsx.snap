@@ -1,18 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`subtitle is translated with date range 1`] = `undefined`;
+exports[`title is translated 1`] = `"test title"`;
 
-exports[`subtitle is translated with single date 1`] = `undefined`;
-
-exports[`title is translated 1`] = `
-Array [
-  "title",
-  Object {
-    "endDate": "formated date",
-    "month": 1,
-    "startDate": "formated date",
-  },
-]
-`;
-
-exports[`trend title is translated 1`] = `undefined`;
+exports[`trend title is translated 1`] = `"test trend title"`;

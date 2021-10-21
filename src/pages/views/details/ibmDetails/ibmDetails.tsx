@@ -6,6 +6,7 @@ import { tagPrefix } from 'api/queries/query';
 import { IbmReport } from 'api/reports/ibmReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData';
 import NoProviders from 'pages/state/noProviders';
@@ -15,7 +16,7 @@ import { getGroupByTagKey } from 'pages/views/utils/groupBy';
 import { hasCurrentMonthData } from 'pages/views/utils/providers';
 import { addQueryFilter, removeQueryFilter } from 'pages/views/utils/query';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -53,7 +54,7 @@ interface IbmDetailsState {
   selectedItems: ComputedReportItem[];
 }
 
-type IbmDetailsOwnProps = RouteComponentProps<void> & WithTranslation;
+type IbmDetailsOwnProps = RouteComponentProps<void> & WrappedComponentProps;
 
 type IbmDetailsProps = IbmDetailsStateProps & IbmDetailsOwnProps & IbmDetailsDispatchProps;
 
@@ -286,7 +287,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
     history.replace(this.getRouteForQuery(filteredQuery, true));
   };
 
-  private handleGroupByClick = groupBy => {
+  private handleGroupBySelected = groupBy => {
     const { history, query } = this.props;
     const groupByKey: keyof IbmQuery['group_by'] = groupBy as any;
     const newQuery = {
@@ -371,11 +372,11 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
   };
 
   public render() {
-    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, t } = this.props;
+    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
-    const title = t('navigation.ibm_details');
+    const title = intl.formatMessage(messages.IBMDetailsTitle);
 
     // Note: Providers are fetched via the InactiveSources component used by all routes
     if (reportError) {
@@ -396,7 +397,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
     }
     return (
       <div style={styles.ibmDetails}>
-        <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
+        <DetailsHeader groupBy={groupById} onGroupBySelected={this.handleGroupBySelected} report={report} />
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}
@@ -473,4 +474,4 @@ const mapDispatchToProps: IbmDetailsDispatchProps = {
   resetState: uiActions.resetState,
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(IbmDetails));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(IbmDetails));

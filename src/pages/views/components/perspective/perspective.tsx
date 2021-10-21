@@ -1,107 +1,113 @@
-import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
+import { MessageDescriptor } from '@formatjs/intl/src/types';
+import { Select, SelectOption, SelectOptionObject, SelectVariant, Title } from '@patternfly/react-core';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import { styles } from './perspective.styles';
 
 interface PerspectiveOwnProps {
-  currentItem?: string;
+  currentItem: string;
   isDisabled?: boolean;
-  onItemClicked(value: string);
+  onSelected(value: string);
   options?: {
-    label: string;
+    label: MessageDescriptor;
     value: string;
   }[];
 }
 
 interface PerspectiveState {
-  isPerspectiveOpen: boolean;
+  isSelectOpen: boolean;
 }
 
-type PerspectiveProps = PerspectiveOwnProps & WithTranslation;
+interface PerspectiveOption extends SelectOptionObject {
+  toString(): string; // label
+  value?: string;
+}
+
+type PerspectiveProps = PerspectiveOwnProps & WrappedComponentProps;
 
 class PerspectiveBase extends React.Component<PerspectiveProps> {
   protected defaultState: PerspectiveState = {
-    isPerspectiveOpen: false,
+    isSelectOpen: false,
   };
   public state: PerspectiveState = { ...this.defaultState };
 
-  private getDropDownItems = () => {
-    const { options, t } = this.props;
+  private getSelectOptions = (): PerspectiveOption[] => {
+    const { intl, options } = this.props;
 
-    return options.map(option => (
-      <DropdownItem component="button" key={option.value} onClick={() => this.handleClick(option.value)}>
-        {t(option.label)}
-      </DropdownItem>
-    ));
+    const selections: PerspectiveOption[] = [];
+
+    options.map(option => {
+      selections.push({
+        toString: () => intl.formatMessage(option.label, { value: option.value }),
+        value: option.value,
+      });
+    });
+    return selections;
   };
 
-  private getCurrentLabel = () => {
-    const { currentItem, options, t } = this.props;
-
-    let label = '';
-    for (const option of options) {
-      if (currentItem === option.value) {
-        label = t(option.label);
-        break;
-      }
-    }
-    return label;
-  };
-
-  private getDropDown = () => {
-    const { isDisabled, options, t } = this.props;
-    const { isPerspectiveOpen } = this.state;
-    const dropdownItems = this.getDropDownItems();
+  private getSelect = () => {
+    const { currentItem, intl, isDisabled, options } = this.props;
+    const { isSelectOpen } = this.state;
 
     if (options.length === 1) {
-      return <div style={styles.perspectiveOptionLabel}>{t(options[0].label)}</div>;
+      return (
+        <div style={styles.perspectiveOptionLabel}>
+          {intl.formatMessage(options[0].label, { value: options[0].value })}
+        </div>
+      );
     }
+
+    const selectOptions = this.getSelectOptions();
+    const selection = selectOptions.find((option: PerspectiveOption) => option.value === currentItem);
+
     return (
-      <Dropdown
+      <Select
+        id="perspectiveSelect"
+        isDisabled={isDisabled}
+        isOpen={isSelectOpen}
         onSelect={this.handleSelect}
-        toggle={
-          <DropdownToggle isDisabled={isDisabled} onToggle={this.handleToggle}>
-            {this.getCurrentLabel()}
-          </DropdownToggle>
-        }
-        isOpen={isPerspectiveOpen}
-        dropdownItems={dropdownItems}
-      />
+        onToggle={this.handleToggle}
+        selections={selection}
+        variant={SelectVariant.single}
+      >
+        {selectOptions.map(option => (
+          <SelectOption key={option.value} value={option} />
+        ))}
+      </Select>
     );
   };
 
-  private handleClick = value => {
-    const { onItemClicked } = this.props;
-    if (onItemClicked) {
-      onItemClicked(value);
+  private handleSelect = (event, selection: PerspectiveOption) => {
+    const { onSelected } = this.props;
+
+    if (onSelected) {
+      onSelected(selection.value);
     }
-  };
-
-  private handleSelect = () => {
     this.setState({
-      isPerspectiveOpen: !this.state.isPerspectiveOpen,
+      isSelectOpen: false,
     });
   };
 
-  private handleToggle = isPerspectiveOpen => {
-    this.setState({
-      isPerspectiveOpen,
-    });
+  private handleToggle = isSelectOpen => {
+    this.setState({ isSelectOpen });
   };
 
   public render() {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     return (
       <div style={styles.perspectiveSelector}>
-        <label style={styles.perspectiveLabel}>{t('overview.perspective.label')}</label>
-        {this.getDropDown()}
+        <Title headingLevel="h3" size="md" style={styles.perspectiveLabel}>
+          {intl.formatMessage(messages.Perspective)}
+        </Title>
+        {this.getSelect()}
       </div>
     );
   }
 }
 
-const Perspective = withTranslation()(PerspectiveBase);
+const Perspective = injectIntl(PerspectiveBase);
 
 export { Perspective };

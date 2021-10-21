@@ -1,4 +1,4 @@
-import { I18nProvider } from 'components/i18n';
+import { PageTitle } from 'components/pageTitle/pageTitle';
 import Maintenance from 'pages/state/maintenance';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -19,7 +19,6 @@ interface AppDispatchProps {
 }
 
 interface AppState {
-  locale: string;
   maintenanceMode: boolean;
 }
 
@@ -30,7 +29,7 @@ export class App extends React.Component<AppProps, AppState> {
 
   // Todo: Will Insights provide a flag to enable maintenance mode?
   // https://docs.google.com/document/d/1VLs7vFczWUzyIpH6EUsTEpJugDsjeuh4a_azs6IJbC0/edit#
-  public state: AppState = { locale: 'en', maintenanceMode: false };
+  public state: AppState = { maintenanceMode: false };
 
   public componentDidMount() {
     const { history, location } = this.props;
@@ -77,7 +76,7 @@ export class App extends React.Component<AppProps, AppState> {
     const { maintenanceMode } = this.state;
     const route = maintenanceMode ? <Maintenance /> : <Routes />;
 
-    return <I18nProvider locale={this.state.locale}>{route}</I18nProvider>;
+    return <PageTitle>{route}</PageTitle>;
   }
 }
 

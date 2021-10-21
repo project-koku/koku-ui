@@ -55,6 +55,24 @@ const _hasCloudData = (providers: Providers, ocpProviders: Providers, dataType: 
   return result;
 };
 
+// Ensure at least one cloud source provider
+const _hasCloudProvider = (providers: Providers, ocpProviders: Providers) => {
+  let result = false;
+
+  if (providers && providers.data) {
+    for (const provider of providers.data) {
+      const ocpProvider = _getOcpProvider(ocpProviders, provider.uuid);
+
+      // Ensure AWS provider is filtered by OpenShift
+      if (ocpProvider) {
+        result = true;
+        break;
+      }
+    }
+  }
+  return result;
+};
+
 // Ensure at least one cloud source provider has data available for the current month (e.g., "AWS filtered by OpenShift")
 export const hasCloudCurrentMonthData = (providers: Providers, ocpProviders: Providers) => {
   return _hasCloudData(providers, ocpProviders, DataType.currentMonthData);
@@ -68,6 +86,11 @@ export const hasCloudData = (providers: Providers, ocpProviders: Providers) => {
 // Ensure at least one cloud source provider has data available for the previous month (e.g., "AWS filtered by OpenShift")
 export const hasCloudPreviousMonthData = (providers: Providers, ocpProviders: Providers) => {
   return _hasCloudData(providers, ocpProviders, DataType.previousMonthData);
+};
+
+// Ensure at least one cloud source provider (e.g., "AWS filtered by OpenShift"), regardless if there is OCP data
+export const hasCloudProvider = (providers: Providers, ocpProviders: Providers) => {
+  return _hasCloudProvider(providers, ocpProviders);
 };
 
 // Ensure at least one source provider has data available for the current month

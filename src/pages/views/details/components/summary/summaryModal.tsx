@@ -3,8 +3,9 @@ import './summaryModal.scss';
 import { Modal } from '@patternfly/react-core';
 import { Query } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import { SummaryModalView } from './summaryModalView';
 
@@ -18,7 +19,7 @@ interface SummaryModalOwnProps {
   reportPathsType: ReportPathsType;
 }
 
-type SummaryModalProps = SummaryModalOwnProps & WithTranslation;
+type SummaryModalProps = SummaryModalOwnProps & WrappedComponentProps;
 
 class SummaryModalBase extends React.Component<SummaryModalProps> {
   constructor(props: SummaryModalProps) {
@@ -36,14 +37,14 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
   };
 
   public render() {
-    const { groupByValue, isOpen, reportGroupBy, reportPathsType, t } = this.props;
+    const { groupByValue, intl, isOpen, reportGroupBy, reportPathsType } = this.props;
 
     return (
       <Modal
         className="modalOverride"
         isOpen={isOpen}
         onClose={this.handleClose}
-        title={t('details.summary_modal_title', {
+        title={intl.formatMessage(messages.DetailsSummaryModalTitle, {
           groupBy: reportGroupBy,
           name: groupByValue,
         })}
@@ -55,6 +56,6 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
   }
 }
 
-const SummaryModal = withTranslation()(SummaryModalBase);
+const SummaryModal = injectIntl(SummaryModalBase);
 
 export { SummaryModal };

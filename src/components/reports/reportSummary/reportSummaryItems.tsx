@@ -3,7 +3,7 @@ import './reportSummaryItems.scss';
 import { Skeleton } from '@patternfly/react-core';
 import { Report, ReportItem } from 'api/reports/report';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FetchStatus } from 'store/common';
 import {
   ComputedReportItem,
@@ -21,7 +21,7 @@ interface ReportSummaryItemsOwnProps extends ComputedReportItemsParams<Report, R
   status?: number;
 }
 
-type ReportSummaryItemsProps = ReportSummaryItemsOwnProps & WithTranslation;
+type ReportSummaryItemsProps = ReportSummaryItemsOwnProps & WrappedComponentProps;
 
 class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
   public shouldComponentUpdate(nextProps: ReportSummaryItemsProps) {
@@ -69,6 +69,6 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
   }
 }
 
-const ReportSummaryItems = withTranslation()(ReportSummaryItemsBase);
+const ReportSummaryItems = injectIntl(ReportSummaryItemsBase);
 
 export { ReportSummaryItems, ReportSummaryItemsProps, ReportSummaryItemsRenderProps };

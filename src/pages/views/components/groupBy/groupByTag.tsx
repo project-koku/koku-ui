@@ -1,16 +1,17 @@
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import { parseQuery, Query, tagPrefix } from 'api/queries/query';
 import { Tag } from 'api/tags/tag';
+import messages from 'locales/messages';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import { styles } from './groupBy.styles';
 
 interface GroupByTagOwnProps {
   groupBy?: string;
   isDisabled?: boolean;
-  onItemClicked(value: string);
+  onSelected(value: string);
   options: {
     label: string;
     value: string;
@@ -23,7 +24,7 @@ interface GroupByTagState {
   isGroupByOpen: boolean;
 }
 
-type GroupByTagProps = GroupByTagOwnProps & WithTranslation;
+type GroupByTagProps = GroupByTagOwnProps & WrappedComponentProps;
 
 class GroupByTagBase extends React.Component<GroupByTagProps> {
   protected defaultState: GroupByTagState = {
@@ -34,7 +35,7 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
   constructor(props: GroupByTagProps) {
     super(props);
     this.handleGroupByClear = this.handleGroupByClear.bind(this);
-    this.handleGroupBySelect = this.handleGroupBySelect.bind(this);
+    this.handleGroupBySelected = this.handleGroupBySelected.bind(this);
     this.handleGroupByToggle = this.handleGroupByToggle.bind(this);
   }
 
@@ -106,15 +107,15 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
     });
   };
 
-  private handleGroupBySelect = (event, selection) => {
-    const { onItemClicked } = this.props;
+  private handleGroupBySelected = (event, selection) => {
+    const { onSelected } = this.props;
 
     this.setState({
       currentItem: selection,
       isGroupByOpen: false,
     });
-    if (onItemClicked) {
-      onItemClicked(`${tagPrefix}${selection}`);
+    if (onSelected) {
+      onSelected(`${tagPrefix}${selection}`);
     }
   };
 
@@ -123,19 +124,19 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
   };
 
   public render() {
-    const { isDisabled, t } = this.props;
+    const { isDisabled, intl } = this.props;
     const { currentItem, isGroupByOpen } = this.state;
 
     return (
       <div style={styles.groupBySelector}>
         <Select
-          aria-label={t('group_by.tag_key_aria_label')}
+          aria-label={intl.formatMessage(messages.FilterByTagKeyAriaLabel)}
           isDisabled={isDisabled}
           onClear={this.handleGroupByClear}
           onToggle={this.handleGroupByToggle}
-          onSelect={this.handleGroupBySelect}
+          onSelect={this.handleGroupBySelected}
           isOpen={isGroupByOpen}
-          placeholderText={t('group_by.tag_key_placeholder')}
+          placeholderText={intl.formatMessage(messages.FilterByTagKeyPlaceholder)}
           selections={currentItem}
           variant={SelectVariant.typeahead}
         >
@@ -146,6 +147,6 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
   }
 }
 
-const GroupByTag = withTranslation()(GroupByTagBase);
+const GroupByTag = injectIntl(GroupByTagBase);
 
 export { GroupByTag, GroupByTagProps };

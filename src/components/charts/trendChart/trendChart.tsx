@@ -24,24 +24,25 @@ import {
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
 import { getDate } from 'date-fns';
-import i18next from 'i18next';
+import messages from 'locales/messages';
 import React from 'react';
-import { FormatOptions, ValueFormatter } from 'utils/formatValue';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { FormatOptions, Formatter } from 'utils/format';
 import { noop } from 'utils/noop';
 
 import { chartStyles } from './trendChart.styles';
 
-interface TrendChartProps {
+interface TrendChartOwnProps {
   adjustContainerHeight?: boolean;
   containerHeight?: number;
   currentData: any;
   forecastData?: any;
   forecastConeData?: any;
+  formatOptions?: FormatOptions;
+  formatter: Formatter;
   height?: number;
   legendItemsPerRow?: number;
   previousData?: any;
-  formatDatumValue: ValueFormatter;
-  formatDatumOptions?: FormatOptions;
   padding?: any;
   showForecast?: boolean; // Show forecast legend regardless if data is available
   showInfrastructureLabel?: boolean; // Show supplementary cost labels
@@ -58,7 +59,9 @@ interface State {
   width: number;
 }
 
-class TrendChart extends React.Component<TrendChartProps, State> {
+type TrendChartProps = TrendChartOwnProps & WrappedComponentProps;
+
+class TrendChartBase extends React.Component<TrendChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   private observer: any = noop;
 
@@ -102,20 +105,28 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     } = this.props;
 
     const key = showUsageLegendLabel
-      ? 'chart.usage_legend_label'
+      ? messages.ChartUsageLegendLabel
       : showSupplementaryLabel
-      ? 'chart.cost_supplementary_legend_label'
+      ? messages.ChartCostSupplementaryLegendLabel
       : showInfrastructureLabel
-      ? 'chart.cost_infrastructure_legend_label'
-      : 'chart.cost_legend_label';
+      ? messages.ChartCostInfrastructureLegendLabel
+      : messages.ChartCostLegendLabel;
 
     const tooltipKey = showUsageLegendLabel
-      ? 'chart.usage_legend_tooltip'
+      ? messages.ChartUsageLegendTooltip
       : showSupplementaryLabel
-      ? 'chart.cost_supplementary_legend_tooltip'
+      ? messages.ChartCostSupplementaryLegendTooltip
       : showInfrastructureLabel
-      ? 'chart.cost_infrastructure_legend_tooltip'
-      : 'chart.cost_legend_tooltip';
+      ? messages.ChartCostInfrastructureLegendTooltip
+      : messages.ChartCostLegendTooltip;
+
+    const noDataKey = showUsageLegendLabel
+      ? messages.ChartUsageLegendNoDataLabel
+      : showSupplementaryLabel
+      ? messages.ChartCostSupplementaryLegendNoDataLabel
+      : showInfrastructureLabel
+      ? messages.ChartCostInfrastructureLegendNoDataLabel
+      : messages.ChartCostLegendNoDataLabel;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -124,7 +135,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         childName: 'previousCost',
         data: previousData,
         legendItem: {
-          name: getCostRangeString(previousData, key, true, true, 1),
+          name: getCostRangeString(previousData, key, true, true, 1, noDataKey),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -142,7 +153,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         childName: 'currentCost',
         data: currentData,
         legendItem: {
-          name: getCostRangeString(currentData, key, true, false),
+          name: getCostRangeString(currentData, key, true, false, 0, noDataKey),
           symbol: {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
@@ -163,12 +174,19 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         childName: 'forecast',
         data: forecastData,
         legendItem: {
-          name: getCostRangeString(forecastData, 'chart.cost_forecast_legend_label', false, false),
+          name: getCostRangeString(
+            forecastData,
+            messages.ChartCostForecastLegendLabel,
+            false,
+            false,
+            0,
+            messages.ChartCostForecastLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.forecastDataColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(forecastData, 'chart.cost_forecast_legend_tooltip', false, false),
+          tooltip: getCostRangeString(forecastData, messages.ChartCostForecastLegendTooltip, false, false),
         },
         style: {
           data: {
@@ -181,12 +199,19 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         childName: 'forecastCone',
         data: forecastConeData,
         legendItem: {
-          name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
+          name: getCostRangeString(
+            forecastConeData,
+            messages.ChartCostForecastConeLegendLabel,
+            false,
+            false,
+            0,
+            messages.ChartCostForecastConeLegendNoDataLabel
+          ),
           symbol: {
             fill: chartStyles.forecastConeDataColorScale[0],
             type: 'triangleLeft',
           },
-          tooltip: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_tooltip', false, false),
+          tooltip: getCostRangeString(forecastConeData, messages.ChartCostForecastConeLegendTooltip, false, false),
         },
         style: {
           data: {
@@ -239,7 +264,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
   // Returns CursorVoronoiContainer component
   private getCursorVoronoiContainer = () => {
-    const { formatDatumValue, formatDatumOptions } = this.props;
+    const { formatter, formatOptions } = this.props;
 
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
@@ -247,7 +272,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={({ datum }) => getTooltipLabel(datum, formatDatumValue, formatDatumOptions)}
+        labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -320,6 +345,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   public render() {
     const {
       height,
+      intl,
       padding = {
         bottom: 50,
         left: 8,
@@ -329,25 +355,19 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       title,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
-
     const domain = getDomain(series, hiddenSeries);
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
-
-    // Federated modules may not have access to the i18next package
-    let tooltipTitle;
-    if (i18next && i18next.t) {
-      tooltipTitle = datum => i18next.t('chart.day_of_month_title', { day: datum.x });
-    } else {
-      tooltipTitle = datum => `Day ${datum.x}`;
-    }
 
     // Clone original container. See https://issues.redhat.com/browse/COST-762
     const container = cursorVoronoiContainer
       ? React.cloneElement(cursorVoronoiContainer, {
           disable: !isDataAvailable(series, hiddenSeries),
           labelComponent: (
-            <ChartLegendTooltip legendData={getLegendData(series, hiddenSeries, true)} title={tooltipTitle} />
+            <ChartLegendTooltip
+              legendData={getLegendData(series, hiddenSeries, true)}
+              title={datum => intl.formatMessage(messages.ChartDayOfTheMonth, { day: datum.x })}
+            />
           ),
         })
       : undefined;
@@ -385,5 +405,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     );
   }
 }
+
+const TrendChart = injectIntl(TrendChartBase);
 
 export { TrendChart, TrendChartProps };

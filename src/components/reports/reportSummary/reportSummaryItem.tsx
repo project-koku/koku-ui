@@ -1,51 +1,46 @@
 import './reportSummaryItem.scss';
 
 import { Progress, ProgressSize } from '@patternfly/react-core';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { unitLookupKey } from 'utils/formatValue';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { FormatOptions } from 'utils/format';
+import { formatCurrency, formatPercentage, unitsLookupKey } from 'utils/format';
 
-interface ReportSummaryItemProps extends WithTranslation {
-  formatValue: ValueFormatter;
-  formatOptions?: FormatOptions;
+interface ReportSummaryItemOwnProps {
   label: string;
   totalValue: number;
   units: string;
   value: number;
+  formatOptions?: FormatOptions;
 }
 
+type ReportSummaryItemProps = ReportSummaryItemOwnProps & WrappedComponentProps;
+
 const ReportSummaryItemBase: React.SFC<ReportSummaryItemProps> = ({
+  intl,
   label,
-  formatOptions,
-  formatValue,
-  t,
   totalValue,
   units,
   value,
+  formatOptions,
 }) => {
-  const lookup = unitLookupKey(units);
-  const unitsLabel = lookup !== 'usd' ? t(`units.${lookup}`) : undefined;
-
+  const unitsLabel = intl.formatMessage(messages.Units, { units: unitsLookupKey(units) });
   const percent = !totalValue ? 0 : (value / totalValue) * 100;
-  const percentVal = Number(percent.toFixed(2));
-  const percentLabel = t('percent_of_total', {
+  const percentVal = formatPercentage(percent);
+  const percentLabel = intl.formatMessage(messages.PercentTotalCost, {
     percent: percentVal,
     units: unitsLabel,
-    value: formatValue(value, units, formatOptions),
+    value: formatCurrency(value, units, formatOptions),
   });
 
   return (
     <li className="reportSummaryItem">
-      <Progress label={percentLabel} value={percentVal} title={label} size={ProgressSize.sm} />
+      <Progress label={percentLabel} value={Number(percentVal)} title={label} size={ProgressSize.sm} />
     </li>
   );
 };
 
-ReportSummaryItemBase.defaultProps = {
-  formatValue: v => v,
-};
-
-const ReportSummaryItem = withTranslation()(ReportSummaryItemBase);
+const ReportSummaryItem = injectIntl(ReportSummaryItemBase);
 
 export { ReportSummaryItem, ReportSummaryItemProps };

@@ -6,6 +6,7 @@ import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData';
 import NoProviders from 'pages/state/noProviders';
@@ -15,7 +16,7 @@ import { getGroupByTagKey } from 'pages/views/utils/groupBy';
 import { hasCurrentMonthData } from 'pages/views/utils/providers';
 import { addQueryFilter, removeQueryFilter } from 'pages/views/utils/query';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -53,7 +54,7 @@ interface AwsDetailsState {
   selectedItems: ComputedReportItem[];
 }
 
-type AwsDetailsOwnProps = RouteComponentProps<void> & WithTranslation;
+type AwsDetailsOwnProps = RouteComponentProps<void> & WrappedComponentProps;
 
 type AwsDetailsProps = AwsDetailsStateProps & AwsDetailsOwnProps & AwsDetailsDispatchProps;
 
@@ -289,7 +290,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     history.replace(this.getRouteForQuery(filteredQuery, true));
   };
 
-  private handleGroupByClick = groupBy => {
+  private handleGroupBySelected = groupBy => {
     const { history, query } = this.props;
 
     let groupByKey = groupBy;
@@ -384,11 +385,11 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   public render() {
-    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, t } = this.props;
+    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
-    const title = t('navigation.aws_details');
+    const title = intl.formatMessage(messages.AWSDetailsTitle);
 
     // Note: Providers are fetched via the InactiveSources component used by all routes
     if (reportError) {
@@ -409,7 +410,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     }
     return (
       <div style={styles.awsDetails}>
-        <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
+        <DetailsHeader groupBy={groupById} onGroupBySelected={this.handleGroupBySelected} report={report} />
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}
@@ -486,4 +487,4 @@ const mapDispatchToProps: AwsDetailsDispatchProps = {
   resetState: uiActions.resetState,
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(AwsDetails));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(AwsDetails));

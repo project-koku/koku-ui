@@ -1,9 +1,11 @@
 import { Alert, Button, Modal, Title, TitleSizes } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
+import { intl as defaultIntl } from 'components/i18n';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
-interface Props extends WithTranslation {
+interface Props extends WrappedComponentProps {
   isSmall?: boolean;
   onClose: () => void;
   onProceed: () => void;
@@ -16,7 +18,7 @@ interface Props extends WithTranslation {
 }
 
 const DialogBase: React.SFC<Props> = ({
-  t,
+  intl = defaultIntl, // Default required for testing
   onClose,
   onProceed,
   title,
@@ -29,7 +31,7 @@ const DialogBase: React.SFC<Props> = ({
 }) => {
   const CancelButtonSecondary = (
     <Button key="cancel" variant="link" onClick={onClose} isDisabled={isProcessing}>
-      {t('dialog.cancel')}
+      {intl.formatMessage(messages.Cancel)}
     </Button>
   );
   const ProceedButton = (
@@ -39,7 +41,7 @@ const DialogBase: React.SFC<Props> = ({
   );
   const CloseButtonPrimary = (
     <Button key="close" variant="primary" onClick={onClose} isDisabled={isProcessing}>
-      {t('dialog.close')}
+      {intl.formatMessage(messages.Close)}
     </Button>
   );
   const actions = actionText !== '' ? [ProceedButton, CancelButtonSecondary] : [CloseButtonPrimary];
@@ -62,4 +64,4 @@ const DialogBase: React.SFC<Props> = ({
   );
 };
 
-export default withTranslation()(DialogBase);
+export default injectIntl(DialogBase);

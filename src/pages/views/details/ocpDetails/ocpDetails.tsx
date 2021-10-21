@@ -6,6 +6,7 @@ import { tagPrefix } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData';
@@ -21,7 +22,7 @@ import { getGroupByTagKey } from 'pages/views/utils/groupBy';
 import { hasCurrentMonthData } from 'pages/views/utils/providers';
 import { addQueryFilter, removeQueryFilter } from 'pages/views/utils/query';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -61,7 +62,7 @@ interface OcpDetailsState {
   selectedItems: ComputedReportItem[];
 }
 
-type OcpDetailsOwnProps = RouteComponentProps<void> & WithTranslation;
+type OcpDetailsOwnProps = RouteComponentProps<void> & WrappedComponentProps;
 
 type OcpDetailsProps = OcpDetailsStateProps & OcpDetailsOwnProps & OcpDetailsDispatchProps;
 
@@ -84,16 +85,16 @@ const baseQuery: OcpQuery = {
 };
 
 const defaultColumnOptions: ColumnManagementModalOption[] = [
-  { label: 'details.month_over_month_change', value: DetailsTableColumnIds.monthOverMonth },
+  { label: messages.MonthOverMonthChange, value: DetailsTableColumnIds.monthOverMonth },
   {
-    description: 'ocp_details.infrastructure_cost_desc',
-    label: 'ocp_details.infrastructure_cost',
+    description: messages.OCPDetailsInfrastructureCostDesc,
+    label: messages.OCPDetailsInfrastructureCost,
     value: DetailsTableColumnIds.infrastructure,
     hidden: true,
   },
   {
-    description: 'ocp_details.supplementary_cost_desc',
-    label: 'ocp_details.supplementary_cost',
+    description: messages.OCPDetailsSupplementaryCostDesc,
+    label: messages.OCPDetailsSupplementaryCost,
     value: DetailsTableColumnIds.supplementary,
     hidden: true,
   },
@@ -348,7 +349,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     history.replace(this.getRouteForQuery(filteredQuery, true));
   };
 
-  private handleGroupByClick = groupBy => {
+  private handleGroupBySelected = groupBy => {
     const { history, query } = this.props;
     const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
     const newQuery = {
@@ -433,11 +434,11 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   public render() {
-    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, t } = this.props;
+    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
-    const title = t('navigation.ocp_details');
+    const title = intl.formatMessage(messages.OCPDetailsTitle);
 
     // Note: Providers are fetched via the InactiveSources component used by all routes
     if (reportError) {
@@ -458,7 +459,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     }
     return (
       <div style={styles.ocpDetails}>
-        <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
+        <DetailsHeader groupBy={groupById} onGroupBySelected={this.handleGroupBySelected} report={report} />
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}
@@ -521,4 +522,4 @@ const mapDispatchToProps: OcpDetailsDispatchProps = {
   resetState: uiActions.resetState,
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(OcpDetails));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(OcpDetails));

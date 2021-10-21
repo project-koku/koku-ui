@@ -1,12 +1,11 @@
 import { DashboardBase } from 'pages/views/overview/components/dashboardBase';
-import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { gcpOcpDashboardSelectors } from 'store/dashboard/gcpOcpDashboard';
 
 import { GcpOcpDashboardWidget } from './gcpOcpDashboardWidget';
 
-type GcpOcpDashboardOwnProps = WithTranslation;
+type GcpOcpDashboardOwnProps = any;
 
 interface GcpOcpDashboardStateProps {
   DashboardWidget: typeof GcpOcpDashboardWidget;
@@ -22,6 +21,6 @@ const mapStateToProps = createMapStateToProps<GcpOcpDashboardOwnProps, GcpOcpDas
   };
 });
 
-const GcpOcpDashboard = withTranslation()(connect(mapStateToProps, {})(DashboardBase));
+const GcpOcpDashboard = connect(mapStateToProps, {})(DashboardBase);
 
 export default GcpOcpDashboard;

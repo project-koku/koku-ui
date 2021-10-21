@@ -1,16 +1,9 @@
 import { UserAccessType } from 'api/userAccess';
 import { RootState } from 'store/rootReducer';
 
-import { getReportId, stateKey, userAccessKey } from './userAccessCommon';
+import { getReportId, stateKey } from './userAccessCommon';
 
 export const selectUserAccessState = (state: RootState) => state[stateKey];
-
-// Add provider
-
-export const selectAddProviderFetchStatus = (state: RootState) =>
-  selectUserAccessState(state).fetchStatus.get(userAccessKey);
-
-export const selectAddProviderError = (state: RootState) => selectUserAccessState(state).errors.get(userAccessKey);
 
 // Fetch userAccess
 

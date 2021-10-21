@@ -13,8 +13,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { unitLookupKey } from 'utils/formatValue';
-import { formatValue } from 'utils/formatValue';
+import { unitsLookupKey } from 'utils/format';
+import { formatUnits } from 'utils/format';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './ocpOverviewChart.styles';
@@ -107,7 +107,7 @@ class OcpOverviewChartBase extends React.Component<OcpOverviewChartProps> {
         adjustContainerHeight
         containerHeight={chartStyles.chartContainerHeight}
         currentData={currentData}
-        formatDatumValue={formatValue}
+        formatter={formatUnits}
         height={chartStyles.chartHeight}
         previousData={previousData}
         units={units}
@@ -133,7 +133,7 @@ class OcpOverviewChartBase extends React.Component<OcpOverviewChartProps> {
       currentReport.meta.total[computedReportItem] &&
       currentReport.meta.total[computedReportItem][computedReportItemValue];
 
-    return hasCost ? unitLookupKey(currentReport.meta.total[computedReportItem][computedReportItemValue].units) : '';
+    return hasCost ? unitsLookupKey(currentReport.meta.total[computedReportItem][computedReportItemValue].units) : '';
   };
 
   private updateReport = () => {

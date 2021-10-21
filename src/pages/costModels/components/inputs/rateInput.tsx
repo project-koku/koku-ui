@@ -1,3 +1,4 @@
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import {
   FormGroup,
   FormGroupProps,
@@ -6,56 +7,71 @@ import {
   TextInput,
   TextInputProps,
 } from '@patternfly/react-core';
-import { DollarSignIcon } from '@patternfly/react-icons/dist/esm/icons/dollar-sign-icon';
+import { intl as defaultIntl } from 'components/i18n';
+import messages from 'locales/messages';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { formatCurrencyRaw } from 'utils/format';
+
+import { styles } from './rateInput.styles';
+
+interface UniqueProps {
+  currencyUnits?: string;
+  label?: MessageDescriptor | string;
+  helperTextInvalid?: MessageDescriptor | string;
+}
 
 type RateFormGroup = Pick<FormGroupProps, 'fieldId' | 'style'>;
-interface UniqueProps {
-  label?: string;
-  helperTextInvalid?: string;
-}
 type RateTextInput = Pick<TextInputProps, 'value' | 'onChange' | 'validated' | 'onBlur'>;
-type RateInputBaseProps = RateFormGroup & RateTextInput & UniqueProps;
+type RateInputBaseProps = RateFormGroup & RateTextInput & UniqueProps & WrappedComponentProps;
 
-export const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
+const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
+  currencyUnits = 'USD',
   fieldId,
-  label = 'cost_models.rate',
-  helperTextInvalid = 'cost_models.add_rate_form.error_message',
+  helperTextInvalid: helpText = messages.PriceListPosNumberRate,
+  intl = defaultIntl, // Default required for testing
+  label = messages.Rate,
+  onBlur,
+  onChange,
   style,
   validated,
   value,
-  onChange,
-  onBlur,
 }) => {
-  const { t } = useTranslation();
-  const invalidTextI18n = t(helperTextInvalid);
-  const labelI18n = t(label);
+  const handleOnKeyDown = event => {
+    // Prevent 'enter' and '+'
+    if (event.keyCode === 13 || event.keyCode === 187) {
+      event.preventDefault();
+    }
+  };
   return (
     <FormGroup
       isRequired
       style={style}
-      label={labelI18n}
       fieldId={fieldId}
-      helperTextInvalid={invalidTextI18n}
+      label={label !== null && typeof label === 'object' ? intl.formatMessage(label) : label}
+      helperTextInvalid={helpText !== null && typeof helpText === 'object' ? intl.formatMessage(helpText) : helpText}
       validated={validated}
     >
       <InputGroup>
-        <InputGroupText>
-          <DollarSignIcon />
+        <InputGroupText style={styles.currency}>
+          {intl.formatMessage(messages.CurrencyUnits, { units: currencyUnits })}
         </InputGroupText>
         <TextInput
           onBlur={onBlur}
           isRequired
           type="text"
-          aria-label={`rate input ${fieldId}`}
+          aria-label={intl.formatMessage(messages.CostModelsWizardRateAriaLabel)}
           id={fieldId}
-          placeholder="0.00"
+          placeholder={formatCurrencyRaw(0, currencyUnits, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           value={value}
           onChange={onChange}
+          onKeyDown={handleOnKeyDown}
           validated={validated}
         />
       </InputGroup>
     </FormGroup>
   );
 };
+
+const RateInput = injectIntl(RateInputBase);
+export { RateInput };

@@ -1,26 +1,44 @@
 jest.mock('date-fns').mock('date-fns/format');
 
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { ChartType } from 'components/charts/common/chartDatumUtils';
+import { intl } from 'components/i18n';
 import { format, getDate, getMonth, startOfMonth } from 'date-fns';
 import { shallow } from 'enzyme';
 import { DashboardWidgetBase, DashboardWidgetProps } from 'pages/views/overview/components/dashboardWidgetBase';
 import React from 'react';
+import { defineMessages } from 'react-intl';
 import { FetchStatus } from 'store/common';
 import { mockDate } from 'testUtils';
+
+const tmessages = defineMessages({
+  TestTitle: {
+    id: 'TestTitle',
+    description: 'test title',
+    defaultMessage: 'test title',
+  },
+  TestTrendTitle: {
+    id: 'TestTrendTitle',
+    description: 'test trend title',
+    defaultMessage: 'test trend title',
+  },
+});
 
 const props: DashboardWidgetProps = {
   widgetId: 1,
   id: 1,
-  t: jest.fn(v => v),
+  intl: {
+    formatMessage: jest.fn(v => v),
+  } as any,
   current: { data: [] },
   previous: { data: [] },
   tabs: { data: [] },
   fetchReports: jest.fn(),
   updateTab: jest.fn(),
-  titleKey: 'title',
+  titleKey: tmessages.TestTitle,
   trend: {
     type: ChartType.rolling,
-    titleKey: 'trend title',
+    titleKey: tmessages.TestTrendTitle,
     formatOptions: {},
   },
   status: FetchStatus.none,
@@ -43,7 +61,7 @@ const getMonthMock = getMonth as jest.Mock;
 beforeEach(() => {
   mockDate();
   getDateMock.mockReturnValue(1);
-  formatMock.mockReturnValue('formated date');
+  formatMock.mockReturnValue('formatted date');
   startOfMonthMock.mockReturnValue(1);
   getMonthMock.mockReturnValue(1);
 });
@@ -58,22 +76,11 @@ test('title is translated', () => {
   expect(getTranslateCallForKey(props.titleKey)).toMatchSnapshot();
 });
 
-test('subtitle is translated with single date', () => {
-  shallow(<DashboardWidgetBase {...props} />);
-  expect(getTranslateCallForKey('dashboard.widget_subtitle')).toMatchSnapshot();
-});
-
-test('subtitle is translated with date range', () => {
-  getDateMock.mockReturnValueOnce(2);
-  shallow(<DashboardWidgetBase {...props} />);
-  expect(getTranslateCallForKey('dashboard.widget_subtitle')).toMatchSnapshot();
-});
-
 test('trend title is translated', () => {
   shallow(<DashboardWidgetBase {...props} />);
   expect(getTranslateCallForKey(props.trend.titleKey)).toMatchSnapshot();
 });
 
-function getTranslateCallForKey(key: string) {
-  return (props.t as jest.Mock).mock.calls.find(([k]) => k === key);
+function getTranslateCallForKey(key: MessageDescriptor) {
+  return intl.formatMessage(key);
 }

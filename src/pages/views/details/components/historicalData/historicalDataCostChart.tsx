@@ -3,13 +3,14 @@ import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, transformReport } from 'components/charts/common/chartDatumUtils';
 import { HistoricalCostChart } from 'components/charts/historicalCostChart';
+import messages from 'locales/messages';
 import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { formatValue, unitLookupKey } from 'utils/formatValue';
+import { formatUnits } from 'utils/format';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './historicalChart.styles';
@@ -37,7 +38,7 @@ interface HistoricalDataCostChartDispatchProps {
 type HistoricalDataCostChartProps = HistoricalDataCostChartOwnProps &
   HistoricalDataCostChartStateProps &
   HistoricalDataCostChartDispatchProps &
-  WithTranslation;
+  WrappedComponentProps;
 
 class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChartProps> {
   public componentDidMount() {
@@ -68,8 +69,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
   };
 
   public render() {
-    const { currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, reportType, t } =
-      this.props;
+    const { currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, intl } = this.props;
 
     // Current data
     const currentData = transformReport(currentReport, ChartType.rolling, 'date', 'cost');
@@ -84,6 +84,8 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
         ? currentReport.meta.total.cost.total.units
         : 'USD';
 
+    const test = intl.formatMessage(messages.CurrencyUnits, { units: costUnits });
+
     return (
       <div style={styles.chartContainer}>
         <div style={styles.costChart}>
@@ -96,14 +98,14 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
               containerHeight={chartStyles.chartContainerHeight - 25}
               currentCostData={currentData}
               currentInfrastructureCostData={currentInfrastructureCostData}
-              formatDatumValue={formatValue}
-              formatDatumOptions={{}}
+              formatOptions={{}}
+              formatter={formatUnits}
               height={chartStyles.chartHeight}
               previousCostData={previousData}
               previousInfrastructureCostData={previousInfrastructureCostData}
-              xAxisLabel={t(`breakdown.historical_chart.day_of_month_label`)}
-              yAxisLabel={t(`breakdown.historical_chart.${reportType}_label`, {
-                units: t(`units.${unitLookupKey(costUnits)}`),
+              xAxisLabel={intl.formatMessage(messages.HistoricalChartDayOfMonthLabel)}
+              yAxisLabel={intl.formatMessage(messages.HistoricalChartCostLabel, {
+                units: test,
               })}
             />
           )}
@@ -183,8 +185,6 @@ const mapDispatchToProps: HistoricalDataCostChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const HistoricalDataCostChart = withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(HistoricalDataCostChartBase)
-);
+const HistoricalDataCostChart = injectIntl(connect(mapStateToProps, mapDispatchToProps)(HistoricalDataCostChartBase));
 
 export { HistoricalDataCostChart, HistoricalDataCostChartProps };

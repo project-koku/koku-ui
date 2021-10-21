@@ -16,6 +16,7 @@ import {
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { MetricHash } from 'api/metrics';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
+import messages from 'locales/messages';
 import { WithPriceListSearch } from 'pages/costModels/components/hoc/withPriceListSearch';
 import PaginationToolbarTemplate from 'pages/costModels/components/paginationToolbarTemplate';
 import { PriceListToolbar } from 'pages/costModels/components/priceListToolbar';
@@ -23,41 +24,19 @@ import { RateTable } from 'pages/costModels/components/rateTable';
 import { CheckboxSelector } from 'pages/costModels/components/toolbar/checkboxSelector';
 import { PrimarySelector } from 'pages/costModels/components/toolbar/primarySelector';
 import React from 'react';
-import { Trans, WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
 
 import { CostModelContext } from './context';
 
-interface Props extends WithTranslation {
-  metricsHash: MetricHash;
+interface Props extends WrappedComponentProps {
   addRateAction: () => void;
-  items: any[];
   deleteRateAction: (data: any) => void;
+  items: any[];
+  metricsHash: MetricHash;
 }
-
-const NoTiersEmptyState = ({ t }) => (
-  <Bullseye>
-    <EmptyState>
-      <EmptyStateIcon icon={PlusCircleIcon} />
-      <Title headingLevel="h2" size={TitleSizes.lg}>
-        {t('cost_models_wizard.empty_state.title')}
-      </Title>
-      <EmptyStateBody>
-        <Trans i18nKey="cost_models_wizard.empty_state.desc_create">
-          <strong>{t('cost_models_wizard.price_list.create_rate')}</strong>
-        </Trans>
-        <br />
-        <Trans i18nKey="cost_models_wizard.empty_state.desc_skip">
-          <strong>{t('cost_models_wizard.empty_state.next')}</strong>
-        </Trans>
-        <br />
-        <Trans i18nKey="cost_models_wizard.empty_state.desc_other_time" />
-      </EmptyStateBody>
-    </EmptyState>
-  </Bullseye>
-);
 
 interface State {
   metrics: string[];
@@ -67,17 +46,52 @@ interface State {
 class PriceListTable extends React.Component<Props, State> {
   public state = { metrics: [], measurements: [] };
   public render() {
-    const { metricsHash, t, addRateAction, deleteRateAction, items } = this.props;
+    const { addRateAction, deleteRateAction, intl, items, metricsHash } = this.props;
+
+    const getMetricLabel = m => {
+      // Match message descriptor or default to API string
+      const value = m.replace(/ /g, '_').toLowerCase();
+      const label = intl.formatMessage(messages.MetricValues, { value });
+      return label ? label : m;
+    };
+    const getMeasurementLabel = m => {
+      // Match message descriptor or default to API string
+      const label = intl.formatMessage(messages.MeasurementValues, { value: m.toLowerCase(), count: 1 });
+      return label ? label : m;
+    };
     const metricOpts = Object.keys(metricsHash).map(m => ({
-      label: m,
+      label: getMetricLabel(m),
       value: m,
     }));
     const measurementOpts = metricOpts.reduce((acc, curr) => {
       const measurs = Object.keys(metricsHash[curr.value])
         .filter(m => !acc.map(i => i.value).includes(m))
-        .map(m => ({ label: m, value: m }));
+        .map(m => ({ label: getMeasurementLabel(m), value: m }));
       return [...acc, ...measurs];
     }, []);
+
+    const NoTiersEmptyState = () => (
+      <Bullseye>
+        <EmptyState>
+          <EmptyStateIcon icon={PlusCircleIcon} />
+          <Title headingLevel="h2" size={TitleSizes.lg}>
+            {intl.formatMessage(messages.CostModelsWizardEmptyStateTitle)}
+          </Title>
+          <EmptyStateBody>
+            {intl.formatMessage(messages.CostModelsWizardEmptyStateSkipStep, {
+              value: <strong>{intl.formatMessage(messages.CreateRate)}</strong>,
+            })}
+            <br />
+            {intl.formatMessage(messages.CostModelsWizardEmptyStateSkipStep, {
+              value: <strong>{intl.formatMessage(messages.Next)}</strong>,
+            })}
+            <br />
+            {intl.formatMessage(messages.CostModelsWizardEmptyStateOtherTime)}
+          </EmptyStateBody>
+        </EmptyState>
+      </Bullseye>
+    );
+
     return (
       <CostModelContext.Consumer>
         {({ priceListPagination }) => {
@@ -85,12 +99,12 @@ class PriceListTable extends React.Component<Props, State> {
             <Stack hasGutter>
               <StackItem>
                 <Title headingLevel="h2" size={TitleSizes.xl}>
-                  {t('cost_models_wizard.price_list.title')}
+                  {intl.formatMessage(messages.CostModelsWizardCreatePriceList)}
                 </Title>
               </StackItem>
               <StackItem>
                 <TextContent>
-                  <Text component={TextVariants.h6}>{t('cost_models_wizard.price_list.sub_title_table')}</Text>
+                  <Text component={TextVariants.h6}>{intl.formatMessage(messages.CostModelsWizardSubTitleTable)}</Text>
                 </TextContent>
               </StackItem>
               <StackItem>
@@ -122,11 +136,11 @@ class PriceListTable extends React.Component<Props, State> {
                               setPrimary={(primary: string) => setSearch({ primary })}
                               options={[
                                 {
-                                  label: t('toolbar.pricelist.metric'),
+                                  label: intl.formatMessage(messages.Metric),
                                   value: 'metrics',
                                 },
                                 {
-                                  label: t('toolbar.pricelist.measurement'),
+                                  label: intl.formatMessage(messages.Measurement),
                                   value: 'measurements',
                                 },
                               ]}
@@ -138,7 +152,7 @@ class PriceListTable extends React.Component<Props, State> {
                               component: (
                                 <CheckboxSelector
                                   isDisabled={items.length === 0}
-                                  placeholderText={t('toolbar.pricelist.measurement_placeholder')}
+                                  placeholderText={intl.formatMessage(messages.ToolBarPriceListMeasurementPlaceHolder)}
                                   selections={search.measurements}
                                   setSelections={(selection: string) => onSelect('measurements', selection)}
                                   options={measurementOpts}
@@ -152,7 +166,7 @@ class PriceListTable extends React.Component<Props, State> {
                               component: (
                                 <CheckboxSelector
                                   isDisabled={items.length === 0}
-                                  placeholderText={t('toolbar.pricelist.metric_placeholder')}
+                                  placeholderText={intl.formatMessage(messages.ToolBarPriceListMetricPlaceHolder)}
                                   selections={search.metrics}
                                   setSelections={(selection: string) => onSelect('metrics', selection)}
                                   options={metricOpts}
@@ -163,9 +177,7 @@ class PriceListTable extends React.Component<Props, State> {
                               filters: search.metrics,
                             },
                           ]}
-                          button={
-                            <Button onClick={addRateAction}>{t('cost_models_wizard.price_list.create_rate')}</Button>
-                          }
+                          button={<Button onClick={addRateAction}>{intl.formatMessage(messages.CreateRate)}</Button>}
                           onClear={onClearAll}
                           pagination={
                             <Pagination
@@ -180,19 +192,14 @@ class PriceListTable extends React.Component<Props, State> {
                         />
                         {res.length === 0 && (this.state.metrics.length !== 0 || this.state.measurements.length !== 0) && (
                           <Bullseye>
-                            <EmptyFilterState
-                              filter={t('cost_models_wizard.price_list.toolbar_top_results_aria_label')}
-                            />
+                            <EmptyFilterState />
                           </Bullseye>
                         )}
                         {res.length === 0 &&
                           this.state.metrics.length === 0 &&
-                          this.state.measurements.length === 0 && <NoTiersEmptyState t={t} />}
+                          this.state.measurements.length === 0 && <NoTiersEmptyState />}
                         {res.length > 0 && (
                           <RateTable
-                            isCompact
-                            t={t}
-                            tiers={res}
                             actions={[
                               {
                                 title: 'Remove',
@@ -201,6 +208,9 @@ class PriceListTable extends React.Component<Props, State> {
                                 },
                               },
                             ]}
+                            isCompact
+                            isNormalized
+                            tiers={res}
                           />
                         )}
                         <PaginationToolbarTemplate
@@ -228,4 +238,4 @@ export default connect(
   createMapStateToProps(state => ({
     metricsHash: metricsSelectors.metrics(state),
   }))
-)(withTranslation()(PriceListTable));
+)(injectIntl(PriceListTable));

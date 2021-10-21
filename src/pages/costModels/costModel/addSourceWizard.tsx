@@ -12,9 +12,10 @@ import {
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
+import messages from 'locales/messages';
 import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -27,7 +28,7 @@ interface AddSourcesStepState {
   checked: { [uuid: string]: { selected: boolean; meta: Provider } };
 }
 
-interface Props extends WithTranslation {
+interface Props extends WrappedComponentProps {
   onClose: () => void;
   onSave: (sources_uuid: string[]) => void;
   isOpen: boolean;
@@ -44,7 +45,7 @@ interface Props extends WithTranslation {
 
 const sourceTypeMap = {
   'OpenShift Container Platform': 'OCP',
-  'Microsoft Azure': 'AZURE',
+  'Microsoft Azure': 'Azure',
   'Amazon Web Services': 'AWS',
 };
 
@@ -91,11 +92,12 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
   };
 
   public render() {
-    const { isUpdateInProgress, onClose, isOpen, onSave, t, costModel, updateApiError } = this.props;
+    const { intl, isUpdateInProgress, onClose, isOpen, onSave, costModel, updateApiError } = this.props;
+
     return (
       <Modal
         isOpen={isOpen}
-        title={t('cost_models_details.assign_sources')}
+        title={intl.formatMessage(messages.CostModelsAssignSources, { count: 2 })}
         onClose={onClose}
         variant="large"
         actions={[
@@ -111,10 +113,10 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
               onSave(Object.keys(this.state.checked).filter(uuid => this.state.checked[uuid].selected));
             }}
           >
-            {t('cost_models_details.action_assign')}
+            {intl.formatMessage(messages.CostModelsAssignSourcesParen)}
           </Button>,
           <Button key="cancel" variant="link" isDisabled={isUpdateInProgress} onClick={onClose}>
-            {t('cost_models_wizard.cancel_button')}
+            {intl.formatMessage(messages.Cancel)}
           </Button>,
         ]}
       >
@@ -124,7 +126,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
             <Grid>
               <GridItem span={2}>
                 <TextContent>
-                  <Text component={TextVariants.h6}>{t('name')}</Text>
+                  <Text component={TextVariants.h6}>{intl.formatMessage(messages.Names, { count: 1 })}</Text>
                 </TextContent>
               </GridItem>
               <GridItem span={10}>
@@ -134,7 +136,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
               </GridItem>
               <GridItem span={2}>
                 <TextContent>
-                  <Text component={TextVariants.h6}>{t('cost_models_wizard.general_info.source_type_label')}</Text>
+                  <Text component={TextVariants.h6}>{intl.formatMessage(messages.CostModelsSourceType)}</Text>
                 </TextContent>
               </GridItem>
               <GridItem span={10}>
@@ -165,19 +167,21 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
   }
 }
 
-export default connect(
-  createMapStateToProps(state => {
-    return {
-      pagination: sourcesSelectors.pagination(state),
-      query: sourcesSelectors.query(state),
-      providers: sourcesSelectors.sources(state),
-      isLoadingSources: sourcesSelectors.status(state) === FetchStatus.inProgress,
-      isUpdateInProgress: costModelsSelectors.updateProcessing(state),
-      updateApiError: costModelsSelectors.updateError(state),
-      fetchingSourcesError: sourcesSelectors.error(state) ? parseApiError(sourcesSelectors.error(state)) : null,
-    };
-  }),
-  {
-    fetch: sourcesActions.fetchSources,
-  }
-)(withTranslation()(AddSourceWizardBase));
+export default injectIntl(
+  connect(
+    createMapStateToProps(state => {
+      return {
+        pagination: sourcesSelectors.pagination(state),
+        query: sourcesSelectors.query(state),
+        providers: sourcesSelectors.sources(state),
+        isLoadingSources: sourcesSelectors.status(state) === FetchStatus.inProgress,
+        isUpdateInProgress: costModelsSelectors.updateProcessing(state),
+        updateApiError: costModelsSelectors.updateError(state),
+        fetchingSourcesError: sourcesSelectors.error(state) ? parseApiError(sourcesSelectors.error(state)) : null,
+      };
+    }),
+    {
+      fetch: sourcesActions.fetchSources,
+    }
+  )(AddSourceWizardBase)
+);

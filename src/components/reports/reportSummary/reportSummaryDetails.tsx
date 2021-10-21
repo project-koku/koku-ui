@@ -4,17 +4,17 @@ import { Tooltip } from '@patternfly/react-core';
 import { Report, ReportType } from 'api/reports/report';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
-import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
+import { formatCurrency, FormatOptions, formatUnits, unitsLookupKey } from 'utils/format';
 
-interface ReportSummaryDetailsProps extends WithTranslation {
+interface ReportSummaryDetailsOwnProps {
   chartType?: DashboardChartType;
   computedReportItem?: string;
   computedReportItemValue?: string;
   costLabel?: string;
-  formatValue?: ValueFormatter;
   formatOptions?: FormatOptions;
   report: Report;
   requestFormatOptions?: FormatOptions;
@@ -28,13 +28,15 @@ interface ReportSummaryDetailsProps extends WithTranslation {
   usageLabel?: string;
 }
 
+type ReportSummaryDetailsProps = ReportSummaryDetailsOwnProps & WrappedComponentProps;
+
 const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   chartType,
   computedReportItem = 'cost',
   computedReportItemValue = 'total',
   costLabel,
-  formatValue,
   formatOptions,
+  intl,
   report,
   requestFormatOptions,
   requestLabel,
@@ -42,7 +44,6 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   showTooltip = false,
   showUnits = false,
   showUsageFirst = false,
-  t,
   units,
   usageFormatOptions,
   usageLabel,
@@ -70,39 +71,39 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   const hasUsage = hasTotal && report.meta.total.usage;
 
   if (hasTotal) {
-    cost = formatValue(
+    cost = formatCurrency(
       hasCost ? report.meta.total.cost.total.value : 0,
       hasCost ? report.meta.total.cost.total.units : 'USD',
       formatOptions
     );
-    supplementaryCost = formatValue(
+    supplementaryCost = formatCurrency(
       hasSupplementaryCost ? report.meta.total.supplementary.total.value : 0,
       hasSupplementaryCost ? report.meta.total.supplementary.total.units : 'USD',
       formatOptions
     );
-    infrastructureCost = formatValue(
+    infrastructureCost = formatCurrency(
       hasInfrastructureCost ? report.meta.total.infrastructure[computedReportItemValue].value : 0,
       hasInfrastructureCost ? report.meta.total.infrastructure[computedReportItemValue].units : 'USD',
       formatOptions
     );
-    request = formatValue(
+    request = formatUnits(
       hasRequest ? report.meta.total.request.value : 0,
-      hasRequest ? report.meta.total.request.units : '',
-      requestFormatOptions ? usageFormatOptions : formatOptions
+      hasRequest ? report.meta.total.request.units : undefined,
+      requestFormatOptions
     );
 
     if (hasUsage && report.meta.total.usage.value >= 0) {
-      usage = formatValue(
+      usage = formatUnits(
         hasUsage ? report.meta.total.usage.value : 0,
-        hasUsage ? report.meta.total.usage.units : '',
-        usageFormatOptions ? usageFormatOptions : formatOptions
+        hasUsage ? report.meta.total.usage.units : undefined,
+        usageFormatOptions
       );
     } else {
       // Workaround for https://github.com/project-koku/koku-ui/issues/1058
-      usage = formatValue(
+      usage = formatUnits(
         hasUsage ? (report.meta.total.usage as any) : 0,
-        hasCount ? report.meta.total.count.units : '',
-        usageFormatOptions ? usageFormatOptions : formatOptions
+        hasCount ? report.meta.total.count.units : undefined,
+        usageFormatOptions
       );
     }
   }
@@ -121,10 +122,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
       <div className="valueContainer">
         {showTooltip ? (
           <Tooltip
-            content={t('dashboard.total_cost_tooltip', {
-              infrastructureCost,
-              supplementaryCost,
-            })}
+            content={intl.formatMessage(messages.DashboardTotalCostTooltip, { infrastructureCost, supplementaryCost })}
             enableFlip
           >
             <div className={`value${altHeroFont}`}>{value}</div>
@@ -143,9 +141,8 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     if (!usageLabel) {
       return null;
     }
-    const usageUnits: string = hasRequest ? report.meta.total.request.units : '';
-    const _units = unitLookupKey(usageUnits);
-    const unitsLabel = t(`units.${_units}`);
+    const usageUnits: string = hasRequest ? report.meta.total.request.units : undefined;
+    const unitsLabel = intl.formatMessage(messages.Units, { units: unitsLookupKey(usageUnits) });
 
     return (
       <div className="valueContainer">
@@ -164,10 +161,10 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     if (!usageLabel) {
       return null;
     }
-    const usageUnits: string = hasUsage ? report.meta.total.usage.units : '';
+    const usageUnits: string = hasUsage ? report.meta.total.usage.units : undefined;
     // added as a work-around for azure #1079
-    const _units = unitLookupKey(units ? units : usageUnits);
-    const unitsLabel = t(`units.${_units}`);
+    const _units = unitsLookupKey(units ? units : usageUnits);
+    const unitsLabel = intl.formatMessage(messages.Units, { units: _units });
 
     return (
       <div className="valueContainer">
@@ -223,6 +220,6 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   }
 };
 
-const ReportSummaryDetails = withTranslation()(ReportSummaryDetailsBase);
+const ReportSummaryDetails = injectIntl(ReportSummaryDetailsBase);
 
 export { ReportSummaryDetails, ReportSummaryDetailsProps };

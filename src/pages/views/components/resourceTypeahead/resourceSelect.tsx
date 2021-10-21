@@ -1,8 +1,9 @@
 import { Select, SelectOption, SelectVariant, ToolbarChipGroup } from '@patternfly/react-core';
 import { getQuery, Query } from 'api/queries/query';
 import { Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { resourceActions, resourceSelectors } from 'store/resources';
@@ -33,7 +34,7 @@ interface ResourceSelectDispatchProps {
 type ResourceSelectProps = ResourceSelectOwnProps &
   ResourceSelectStateProps &
   ResourceSelectDispatchProps &
-  WithTranslation;
+  WrappedComponentProps;
 
 class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   protected defaultState: ResourceSelectState = {
@@ -101,6 +102,9 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   private handleOnCreateOption = value => {
     const { createdOptions } = this.state;
 
+    if (value.trim() === '') {
+      return;
+    }
     let options = [...createdOptions];
     if (options.length > 4) {
       options = options.slice(1, options.length);
@@ -133,6 +137,9 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   private handleOnSelect = (event, value) => {
     const { onSelect } = this.props;
 
+    if (value.trim() === '') {
+      return;
+    }
     if (onSelect) {
       onSelect(value);
     }
@@ -153,7 +160,7 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   };
 
   public render() {
-    const { isDisabled, t, resourceType } = this.props;
+    const { intl, isDisabled, resourceType } = this.props;
     const { isSelectExpanded } = this.state;
 
     const selectOptions = this.getSelectOptions();
@@ -170,8 +177,8 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
         onSelect={this.handleOnSelect}
         onToggle={this.handleOnToggle}
         onTypeaheadInputChanged={this.handleOnTypeaheadInputChanged}
-        placeholderText={t(`filter_by.${resourceType}.placeholder`)}
-        typeAheadAriaLabel={t(`filter_by.${resourceType}.aria_label`)}
+        placeholderText={intl.formatMessage(messages.FilterByPlaceholder, { value: resourceType })}
+        typeAheadAriaLabel={intl.formatMessage(messages.FilterByInputAriaLabel, { value: resourceType })}
         variant={SelectVariant.typeahead}
       >
         {selectOptions}
@@ -206,6 +213,6 @@ const mapDispatchToProps: ResourceSelectDispatchProps = {
   fetchResource: resourceActions.fetchResource,
 };
 
-const ResourceSelect = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ResourceSelectBase));
+const ResourceSelect = injectIntl(connect(mapStateToProps, mapDispatchToProps)(ResourceSelectBase));
 
 export { ResourceSelect };

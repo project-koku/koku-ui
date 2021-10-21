@@ -1,10 +1,11 @@
-import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
+import { Select, SelectOption, SelectOptionObject, SelectVariant, Title } from '@patternfly/react-core';
 import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey, tagPrefix } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import messages from 'locales/messages';
 import { PerspectiveType } from 'pages/views/explorer/explorerUtils';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
@@ -14,12 +15,12 @@ import { styles } from './groupBy.styles';
 import { GroupByOrg } from './groupByOrg';
 import { GroupByTag } from './groupByTag';
 
-interface GroupByOwnProps extends WithTranslation {
+interface GroupByOwnProps extends WrappedComponentProps {
   endDate?: string;
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
   isDisabled?: boolean;
-  onItemClicked(value: string);
+  onSelected(value: string);
   options: {
     label: string;
     value: string;
@@ -54,6 +55,11 @@ interface GroupByState {
   isGroupByTagVisible: boolean;
 }
 
+interface GroupByOption extends SelectOptionObject {
+  toString(): string; // label
+  value?: string;
+}
+
 type GroupByProps = GroupByOwnProps & GroupByStateProps & GroupByDispatchProps;
 
 const groupByOrgOptions: {
@@ -80,8 +86,7 @@ class GroupByBase extends React.Component<GroupByProps> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleGroupByClick = this.handleGroupByClick.bind(this);
-    this.handleGroupBySelect = this.handleGroupBySelect.bind(this);
+    this.handleGroupBySelected = this.handleGroupBySelected.bind(this);
     this.handleGroupByToggle = this.handleGroupByToggle.bind(this);
   }
 
@@ -139,44 +144,6 @@ class GroupByBase extends React.Component<GroupByProps> {
     }
   }
 
-  public handleGroupByClick = value => {
-    const { onItemClicked } = this.props;
-
-    if (value === orgUnitIdKey || value === tagKey) {
-      this.setState({
-        currentItem: value,
-        isGroupByOrgVisible: value === orgUnitIdKey,
-        isGroupByTagVisible: value === tagKey,
-      });
-    } else {
-      this.setState({
-        currentItem: value,
-        isGroupByOrgVisible: false,
-        isGroupByTagVisible: false,
-      });
-      if (onItemClicked) {
-        onItemClicked(value);
-      }
-    }
-  };
-
-  private getGroupByItems = () => {
-    const { options, orgReport, tagReport, t } = this.props;
-
-    const allOptions = [...options];
-    if (orgReport && orgReport.data && orgReport.data.length > 0) {
-      allOptions.push(...groupByOrgOptions);
-    }
-    if (tagReport && tagReport.data && tagReport.data.length > 0) {
-      allOptions.push(...groupByTagOptions);
-    }
-    return allOptions.map(option => (
-      <DropdownItem component="button" key={option.value} onClick={() => this.handleGroupByClick(option.value)}>
-        {t(`group_by.values.${option.label}`)}
-      </DropdownItem>
-    ));
-  };
-
   private getCurrentGroupBy = () => {
     const { getIdKeyForGroupBy } = this.props;
     const { defaultItem } = this.state;
@@ -210,10 +177,66 @@ class GroupByBase extends React.Component<GroupByProps> {
     return groupBy !== 'date' ? groupBy : defaultItem;
   };
 
-  private handleGroupBySelect = () => {
-    this.setState({
-      isGroupByOpen: !this.state.isGroupByOpen,
-    });
+  private getGroupBy = () => {
+    const { isDisabled } = this.props;
+    const { currentItem, isGroupByOpen } = this.state;
+
+    const selectOptions = this.getGroupByOptions();
+    const selection = selectOptions.find((option: GroupByOption) => option.value === currentItem);
+
+    return (
+      <Select
+        id="groupBySelect"
+        isDisabled={isDisabled}
+        isOpen={isGroupByOpen}
+        onSelect={this.handleGroupBySelected}
+        onToggle={this.handleGroupByToggle}
+        selections={selection}
+        variant={SelectVariant.single}
+      >
+        {selectOptions.map(option => (
+          <SelectOption key={option.value} value={option} />
+        ))}
+      </Select>
+    );
+  };
+
+  private getGroupByOptions = (): GroupByOption[] => {
+    const { options, orgReport, tagReport, intl } = this.props;
+
+    const allOptions = [...options];
+    if (orgReport && orgReport.data && orgReport.data.length > 0) {
+      allOptions.push(...groupByOrgOptions);
+    }
+    if (tagReport && tagReport.data && tagReport.data.length > 0) {
+      allOptions.push(...groupByTagOptions);
+    }
+    return allOptions.map(option => ({
+      toString: () => intl.formatMessage(messages.GroupByValuesTitleCase, { value: option.label, count: 1 }),
+      value: option.value,
+    }));
+  };
+
+  private handleGroupBySelected = (event, selection: GroupByOption) => {
+    const { onSelected } = this.props;
+
+    if (selection.value === orgUnitIdKey || selection.value === tagKey) {
+      this.setState({
+        currentItem: selection.value,
+        isGroupByOrgVisible: selection.value === orgUnitIdKey,
+        isGroupByTagVisible: selection.value === tagKey,
+      });
+    } else {
+      this.setState({
+        currentItem: selection.value,
+        isGroupByOpen: false,
+        isGroupByOrgVisible: false,
+        isGroupByTagVisible: false,
+      });
+      if (onSelected) {
+        onSelected(selection.value);
+      }
+    }
   };
 
   private handleGroupByToggle = isGroupByOpen => {
@@ -223,28 +246,21 @@ class GroupByBase extends React.Component<GroupByProps> {
   };
 
   public render() {
-    const { getIdKeyForGroupBy, groupBy, isDisabled = false, onItemClicked, orgReport, t, tagReport } = this.props;
-    const { currentItem, isGroupByOpen, isGroupByOrgVisible, isGroupByTagVisible } = this.state;
+    const { getIdKeyForGroupBy, groupBy, isDisabled = false, onSelected, orgReport, intl, tagReport } = this.props;
+    const { isGroupByOrgVisible, isGroupByTagVisible } = this.state;
 
     return (
       <div style={styles.groupBySelector}>
-        <label style={styles.groupBySelectorLabel}>{t('group_by.label')}</label>
-        <Dropdown
-          onSelect={this.handleGroupBySelect}
-          toggle={
-            <DropdownToggle isDisabled={isDisabled} onToggle={this.handleGroupByToggle}>
-              {t(`group_by.values.${currentItem}`)}
-            </DropdownToggle>
-          }
-          isOpen={isGroupByOpen}
-          dropdownItems={[this.getGroupByItems()]}
-        />
+        <Title headingLevel="h3" size="md" style={styles.groupBySelectorLabel}>
+          {intl.formatMessage(messages.GroupByLabel)}
+        </Title>
+        {this.getGroupBy()}
         {Boolean(isGroupByOrgVisible) && (
           <GroupByOrg
             getIdKeyForGroupBy={getIdKeyForGroupBy}
             groupBy={groupBy}
             isDisabled={isDisabled}
-            onItemClicked={onItemClicked}
+            onSelected={onSelected}
             options={groupByOrgOptions}
             orgReport={orgReport}
           />
@@ -253,7 +269,7 @@ class GroupByBase extends React.Component<GroupByProps> {
           <GroupByTag
             groupBy={groupBy}
             isDisabled={isDisabled}
-            onItemClicked={onItemClicked}
+            onSelected={onSelected}
             options={groupByTagOptions}
             tagReport={tagReport}
           />
@@ -320,6 +336,6 @@ const mapDispatchToProps: GroupByDispatchProps = {
 };
 
 const GroupByConnect = connect(mapStateToProps, mapDispatchToProps)(GroupByBase);
-const GroupBy = withTranslation()(GroupByConnect);
+const GroupBy = injectIntl(GroupByConnect);
 
 export { GroupBy, GroupByProps };

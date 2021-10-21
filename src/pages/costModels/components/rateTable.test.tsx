@@ -62,7 +62,7 @@ describe('rate-table', () => {
         },
       },
     ];
-    const { getByText } = render(<RateTable t={txt => txt} tiers={tiers} />);
+    const { getByText } = render(<RateTable tiers={tiers} />);
     expect(getByText('rate 1')).toBeTruthy();
     expect(getByText('rate 2')).toBeTruthy();
     expect(getByText('grafana')).toBeTruthy();
@@ -160,7 +160,7 @@ describe('rate-table', () => {
         ],
       },
     ];
-    const { queryAllByRole, getByRole } = render(<RateTable t={txt => txt} tiers={tiers} />);
+    const { queryAllByRole, getByRole } = render(<RateTable tiers={tiers} />);
     const metrics = queryAllByRole('cell', { name: /^(CPU|Node)$/ });
     expect(metrics).toMatchSnapshot();
     fireEvent.click(getByRole('button', { name: /metric/i }));

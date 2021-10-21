@@ -1,21 +1,7 @@
-jest.mock('react-i18next', () => ({
-  withTranslation: () => Component => {
-    Component.defaultProps = { ...Component.defaultProps, t: (v: string) => v };
-    return Component;
-  },
-  useTranslation: () => {
-    return {
-      t: (v: string) => v,
-      i18n: {
-        changeLanguage: () => new Promise(() => {}),
-      },
-    };
-  },
-}));
-
 import { render } from '@testing-library/react';
 import { emptyPage, noMatchPageName, page1 } from 'api/costModels.data';
 import { createMemoryHistory } from 'history';
+import messages from 'locales/messages';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
@@ -38,11 +24,16 @@ const renderUI = (state: Partial<RootState>) => {
   );
 };
 
+function regExp(msg) {
+  return new RegExp(msg.defaultMessage);
+}
+
 test('loading table', () => {
   const { queryAllByText } = renderUI({});
-  expect(queryAllByText(/loading_state/i)).toHaveLength(2);
+  expect(queryAllByText(/Looking for sources/i)).toHaveLength(1);
 });
 
+// Todo: Replace no_cost_models_title with default message string
 test('empty table', () => {
   const state = {
     costModels: {
@@ -53,7 +44,7 @@ test('empty table', () => {
     },
   };
   const { queryAllByText } = renderUI(state);
-  expect(queryAllByText(/no_cost_models_title/i)).toHaveLength(1);
+  expect(queryAllByText(regExp(messages.CostModelsEmptyState))).toHaveLength(1);
 });
 
 test('first page table', () => {
@@ -81,5 +72,5 @@ test('no match table', () => {
     },
   };
   const { queryAllByText } = renderUI(state);
-  expect(queryAllByText(/empty_filter_state./i)).toHaveLength(2);
+  expect(queryAllByText(/No match found/i)).toHaveLength(1);
 });

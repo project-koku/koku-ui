@@ -10,8 +10,9 @@ import {
   ToolbarItem,
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Omit } from 'react-redux';
 
 interface FilterInputProps {
@@ -44,7 +45,7 @@ const FilterInput: React.SFC<FilterInputProps> = ({ id, placeholder = '', value,
   );
 };
 
-interface AssignSourcesToolbarBaseProps extends WithTranslation {
+interface AssignSourcesToolbarBaseProps extends WrappedComponentProps {
   paginationProps: PaginationProps;
   filterInputProps: Omit<FilterInputProps, 'placeholder'>;
   filter: {
@@ -55,7 +56,7 @@ interface AssignSourcesToolbarBaseProps extends WithTranslation {
 }
 
 export const AssignSourcesToolbarBase: React.SFC<AssignSourcesToolbarBaseProps> = ({
-  t,
+  intl,
   filterInputProps,
   paginationProps,
   filter,
@@ -65,7 +66,7 @@ export const AssignSourcesToolbarBase: React.SFC<AssignSourcesToolbarBaseProps> 
       <ToolbarContent>
         <ToolbarItem variant="search-filter">
           <ToolbarFilter deleteChip={filter.onRemove} chips={filter.query.name} categoryName="name">
-            <FilterInput placeholder={t('cost_models_wizard.source_table.filter_placeholder')} {...filterInputProps} />
+            <FilterInput placeholder={intl.formatMessage(messages.CostModelsFilterPlaceholder)} {...filterInputProps} />
           </ToolbarFilter>
         </ToolbarItem>
         <ToolbarItem variant="pagination">
@@ -83,4 +84,4 @@ export const AssignSourcesToolbarBase: React.SFC<AssignSourcesToolbarBaseProps> 
   );
 };
 
-export const AssignSourcesToolbar = withTranslation()(AssignSourcesToolbarBase);
+export const AssignSourcesToolbar = injectIntl(AssignSourcesToolbarBase);

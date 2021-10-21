@@ -1,55 +1,109 @@
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
-import {
-  ICell,
-  IRowData,
-  sortable,
-  Table,
-  TableBody,
-  TableGridBreakpoint,
-  TableHeader,
-  TableProps,
-} from '@patternfly/react-table';
+import { ICell, IRowData, sortable, Table, TableBody, TableGridBreakpoint, TableHeader } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
+import { intl as defaultIntl } from 'components/i18n';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Dispatch } from 'redux';
-import { RootState } from 'store';
+import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 
 import { CostModelsQuery, parseOrdering } from './utils/query';
 import { createActions, createOnSort, getRowsByStateName } from './utils/table';
 
-function CostModelsTableBase(props: TableProps): JSX.Element {
-  return (
-    <PageSection variant={PageSectionVariants.light}>
-      <Table
-        gridBreakPoint={TableGridBreakpoint.grid2xl}
-        actions={props.actions}
-        actionResolver={props.actionResolver}
-        rows={props.rows}
-        cells={props.cells}
-        onSort={props.onSort}
-        sortBy={props.sortBy}
-        aria-label={props['aria-label']}
-      >
-        <TableHeader />
-        <TableBody />
-      </Table>
-    </PageSection>
-  );
+interface CostModelsTableOwnProps {
+  actionResolver?: any;
+  history: any;
+  openDeleteDialog?: any;
 }
 
-const mapStateToProps = (state: RootState) => {
+interface CostModelsTableStateProps {
+  canWrite: boolean;
+  costData: any;
+  query: any;
+  stateName: string;
+}
+
+type CostModelsTableProps = CostModelsTableOwnProps &
+  CostModelsTableStateProps &
+  RouteComponentProps<void> &
+  WrappedComponentProps;
+
+class CostModelsTableBase extends React.Component<CostModelsTableProps> {
+  public state = { dialogSource: null };
+  public render() {
+    const {
+      actionResolver,
+      intl = defaultIntl, // Default required for testing
+      canWrite,
+      costData,
+      history: { push },
+      openDeleteDialog,
+      query,
+      stateName,
+    } = this.props;
+
+    const cells = [
+      { title: intl.formatMessage(messages.Names, { count: 1 }), transforms: [sortable], data: { orderName: 'name' } },
+      { title: intl.formatMessage(messages.Description) },
+      {
+        title: intl.formatMessage(messages.CostModelsSourceType),
+        transforms: [sortable],
+        data: { orderName: 'source_type' },
+      },
+      { title: intl.formatMessage(messages.CostModelsAssignedSources) },
+      {
+        title: intl.formatMessage(messages.CostModelsLastChange),
+        transforms: [sortable],
+        data: { orderName: 'updated_timestamp' },
+      },
+    ] as ICell[];
+
+    const sortBy = parseOrdering(query, cells);
+    const onSort = createOnSort(cells, query, push);
+    const rows = getRowsByStateName(stateName, costData);
+    const actions = createActions(stateName, canWrite, [
+      {
+        title: intl.formatMessage(messages.Delete),
+        tooltip: intl.formatMessage(messages.CostModelsReadOnly),
+        onClick: (_evt: React.MouseEvent, _rowIx: number, rowData: IRowData) => {
+          openDeleteDialog(rowData.data);
+        },
+      },
+    ]);
+
+    return (
+      <PageSection variant={PageSectionVariants.light}>
+        <Table
+          gridBreakPoint={TableGridBreakpoint.grid2xl}
+          actions={actions}
+          actionResolver={actionResolver}
+          rows={rows}
+          cells={cells}
+          onSort={onSort}
+          sortBy={sortBy}
+          aria-label={intl.formatMessage(messages.CostModelsTableAriaLabel)}
+        >
+          <TableHeader />
+          <TableBody />
+        </Table>
+      </PageSection>
+    );
+  }
+}
+
+const mapStateToProps = createMapStateToProps<CostModelsTableOwnProps, CostModelsTableStateProps>(state => {
   return {
     canWrite: rbacSelectors.isCostModelWritePermission(state),
     query: costModelsSelectors.query(state) as CostModelsQuery,
     costData: costModelsSelectors.costModels(state),
     stateName: costModelsSelectors.stateName(state),
   };
-};
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   const setDialogActionCreator = costModelsActions.setCostModelDialog;
@@ -59,48 +113,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   };
 };
 
-const mergeProps = (
-  stateProps: ReturnType<typeof mapStateToProps>,
-  dispatchProps: ReturnType<typeof mapDispatchToProps>,
-  ownProps: WithTranslation & RouteComponentProps
-) => {
-  const {
-    t,
-    history: { push },
-  } = ownProps;
-  const cells = [
-    { title: t('name'), transforms: [sortable], data: { orderName: 'name' } },
-    { title: t('description') },
-    { title: t('page_cost_models.source_type'), transforms: [sortable], data: { orderName: 'source_type' } },
-    { title: t('page_cost_models.assigned_sources') },
-    { title: t('page_cost_models.last_change'), transforms: [sortable], data: { orderName: 'updated_timestamp' } },
-  ] as ICell[];
-
-  const sortBy = parseOrdering(stateProps.query, cells);
-  const onSort = createOnSort(cells, stateProps.query, push);
-  const rows = getRowsByStateName(stateProps.stateName, stateProps.costData);
-  const actions = createActions(stateProps.stateName, stateProps.canWrite, [
-    {
-      title: t('page_cost_models.delete'),
-      tooltip: t('cost_models.read_only_tooltip'),
-      onClick: (_evt: React.MouseEvent, _rowIx: number, rowData: IRowData) => {
-        dispatchProps.openDeleteDialog(rowData.data);
-      },
-    },
-  ]);
-
-  return {
-    'aria-label': 'cost-models',
-    cells,
-    rows,
-    sortBy,
-    onSort,
-    actions,
-  };
-};
-
-const CostModelsTable = withRouter(
-  withTranslation()(connect(mapStateToProps, mapDispatchToProps, mergeProps)(CostModelsTableBase))
-);
+const CostModelsTableConnect = connect(mapStateToProps, mapDispatchToProps)(CostModelsTableBase);
+const CostModelsTable = injectIntl(withRouter(CostModelsTableConnect));
 
 export default CostModelsTable;

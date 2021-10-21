@@ -1,14 +1,17 @@
 import { EmptyState, EmptyStateBody, EmptyStateVariant, Spinner, Title } from '@patternfly/react-core';
+import { intl as defaultIntl } from 'components/i18n';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
-interface LoadingStateProps extends WithTranslation {
+interface LoadingStateProps extends WrappedComponentProps {
   icon?: string;
 }
 
-const LoadingStateBase: React.SFC<LoadingStateProps> = ({ t }) => {
-  const title = t('loading_state.sources_title');
-  const subTitle = t('loading_state.sources_desc');
+// defaultIntl required for testing
+const LoadingStateBase: React.SFC<LoadingStateProps> = ({ intl = defaultIntl }) => {
+  const title = intl.formatMessage(messages.LoadingStateTitle);
+  const subTitle = intl.formatMessage(messages.LoadingStateDesc);
 
   return (
     <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
@@ -21,6 +24,6 @@ const LoadingStateBase: React.SFC<LoadingStateProps> = ({ t }) => {
   );
 };
 
-const LoadingState = withTranslation()(LoadingStateBase);
+const LoadingState = injectIntl(LoadingStateBase);
 
 export { LoadingState };

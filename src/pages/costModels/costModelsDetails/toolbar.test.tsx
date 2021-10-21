@@ -1,10 +1,3 @@
-jest.mock('react-i18next', () => ({
-  withTranslation: () => Component => {
-    Component.defaultProps = { ...Component.defaultProps, t: (v: string) => v };
-    return Component;
-  },
-}));
-
 import { fireEvent, render } from '@testing-library/react';
 import { filterByAll } from 'api/costModels.data';
 import { createMemoryHistory } from 'history';

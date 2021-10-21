@@ -1,86 +1,96 @@
-import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
+import { Select, SelectOption, SelectOptionObject, SelectVariant } from '@patternfly/react-core';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
 
 interface ChartComparisonOwnProps {
   currentItem?: string;
+  isDisabled?: boolean;
   onItemClicked(value: string);
   options?: {
+    default?: boolean;
     label: string;
     value: string;
   }[];
 }
 
 interface ChartComparisonState {
-  isChartComparisonOpen: boolean;
+  currentItem?: string;
+  isSelectOpen: boolean;
 }
 
-type ChartComparisonProps = ChartComparisonOwnProps & WithTranslation;
+interface ComparisonOption extends SelectOptionObject {
+  toString(): string; // label
+  value?: string;
+}
+
+type ChartComparisonProps = ChartComparisonOwnProps;
 
 class ChartComparisonBase extends React.Component<ChartComparisonProps> {
   protected defaultState: ChartComparisonState = {
-    isChartComparisonOpen: false,
+    currentItem: this.props.options ? this.props.options.find(option => option.default).value : undefined,
+    isSelectOpen: false,
   };
   public state: ChartComparisonState = { ...this.defaultState };
 
-  private getDropDownItems = () => {
-    const { options, t } = this.props;
+  private getSelect = () => {
+    const { isDisabled } = this.props;
+    const { currentItem, isSelectOpen } = this.state;
 
-    return options.map(option => (
-      <DropdownItem component="button" key={option.value} onClick={() => this.handleClick(option.value)}>
-        {t(option.label)}
-      </DropdownItem>
-    ));
+    const selectOptions = this.getSelectOptions();
+    const selection = selectOptions.find((option: ComparisonOption) => option.value === currentItem);
+
+    return (
+      <Select
+        id="comparisonSelect"
+        isDisabled={isDisabled}
+        isOpen={isSelectOpen}
+        onSelect={this.handleSelect}
+        onToggle={this.handleToggle}
+        selections={selection}
+        variant={SelectVariant.single}
+      >
+        {selectOptions.map(option => (
+          <SelectOption key={option.value} value={option} />
+        ))}
+      </Select>
+    );
   };
 
-  private getCurrentLabel = () => {
-    const { currentItem, options, t } = this.props;
+  private getSelectOptions = (): ComparisonOption[] => {
+    const { options } = this.props;
 
-    let label = '';
-    for (const option of options) {
-      if (currentItem === option.value) {
-        label = t(option.label);
-        break;
-      }
-    }
-    return label;
+    const selectOptions: ComparisonOption[] = [];
+
+    options.map(option => {
+      selectOptions.push({
+        toString: () => option.label,
+        value: option.value,
+      });
+    });
+
+    return selectOptions;
   };
 
-  public handleClick = value => {
+  private handleSelect = (event, selection: ComparisonOption) => {
     const { onItemClicked } = this.props;
+
     if (onItemClicked) {
-      onItemClicked(value);
+      onItemClicked(selection.value);
     }
-  };
-
-  private handleSelect = () => {
     this.setState({
-      isChartComparisonOpen: !this.state.isChartComparisonOpen,
+      currentItem: selection.value,
+      isSelectOpen: false,
     });
   };
 
-  private handleToggle = isChartComparisonOpen => {
-    this.setState({
-      isChartComparisonOpen,
-    });
+  private handleToggle = isSelectOpen => {
+    this.setState({ isSelectOpen });
   };
 
   public render() {
-    // const { t } = this.props;
-    const { isChartComparisonOpen } = this.state;
-    const dropdownItems = this.getDropDownItems();
-
-    return (
-      <Dropdown
-        onSelect={this.handleSelect}
-        toggle={<DropdownToggle onToggle={this.handleToggle}>{this.getCurrentLabel()}</DropdownToggle>}
-        isOpen={isChartComparisonOpen}
-        dropdownItems={dropdownItems}
-      />
-    );
+    return this.getSelect();
   }
 }
 
-const ChartComparison = withTranslation()(ChartComparisonBase);
+const ChartComparison = ChartComparisonBase;
 
 export { ChartComparison };

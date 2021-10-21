@@ -1,42 +1,41 @@
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { FormGroup, FormGroupProps, TextInput, TextInputProps } from '@patternfly/react-core';
-import { TFunction } from 'i18next';
+import { intl as defaultIntl } from 'components/i18n';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
-type SimpleInputFormGroupProps = Pick<
-  FormGroupProps,
-  'label' | 'style' | 'helperTextInvalid' | 'validated' | 'onBlur' | 'isRequired' | 'placeholder'
->;
-type SimpleInputTextInputProps = Pick<TextInputProps, 'value' | 'onChange' | 'id'>;
-type SimpleInputProps = SimpleInputTextInputProps & SimpleInputFormGroupProps;
+interface SimpleInputOwnProps {
+  helperTextInvalid?: MessageDescriptor | string;
+  label?: MessageDescriptor | string;
+}
 
-const translateSimpleInputProps = (t: TFunction, props: SimpleInputProps) => {
-  let label = props.label;
-  if (typeof props.label === 'string') {
-    label = t(props.label);
-  }
-  let helperTextInvalid = props.helperTextInvalid;
-  if (typeof props.helperTextInvalid === 'string') {
-    helperTextInvalid = t(props.helperTextInvalid);
-  }
-  return {
-    ...props,
-    label,
-    helperTextInvalid,
-  };
-};
+type SimpleInputFormGroupProps = Pick<FormGroupProps, 'onBlur' | 'isRequired' | 'placeholder' | 'style' | 'validated'>;
+type SimpleInputTextInputProps = Pick<TextInputProps, 'id' | 'onChange' | 'value'>;
+type SimpleInputProps = SimpleInputOwnProps &
+  SimpleInputTextInputProps &
+  SimpleInputFormGroupProps &
+  WrappedComponentProps;
 
-export const SimpleInput: React.FunctionComponent<SimpleInputProps> = props => {
-  const { t } = useTranslation();
-  const { onChange, value, id, label, style, helperTextInvalid, validated, onBlur, isRequired, placeholder } =
-    translateSimpleInputProps(t, props);
+const SimpleInputBase: React.FunctionComponent<SimpleInputProps> = ({
+  id,
+  intl = defaultIntl, // Default required for testing
+  label,
+  isRequired,
+  helperTextInvalid: helpText,
+  onChange,
+  onBlur,
+  placeholder,
+  style,
+  validated,
+  value,
+}) => {
   return (
     <FormGroup
       isRequired={isRequired}
       style={style}
       fieldId={id}
-      label={label}
-      helperTextInvalid={helperTextInvalid}
+      label={label !== null && typeof label === 'object' ? intl.formatMessage(label) : label}
+      helperTextInvalid={helpText !== null && typeof helpText === 'object' ? intl.formatMessage(helpText) : helpText}
       validated={validated}
     >
       <TextInput
@@ -51,3 +50,6 @@ export const SimpleInput: React.FunctionComponent<SimpleInputProps> = props => {
     </FormGroup>
   );
 };
+
+const SimpleInput = injectIntl(SimpleInputBase);
+export { SimpleInput };

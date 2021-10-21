@@ -7,7 +7,7 @@ import React from 'react';
 
 export const styles = {
   costValue: {
-    marginTop: 0,
+    marginTop: global_spacer_lg.var,
     marginBottom: 0,
   },
   costLabelUnit: {
@@ -18,10 +18,16 @@ export const styles = {
     textAlign: 'end',
   },
   header: {
+    backgroundColor: global_BackgroundColor_light_100.var,
+    padding: global_spacer_lg.var,
+  },
+  headerContent: {
     display: 'flex',
     justifyContent: 'space-between',
-    padding: global_spacer_lg.var,
-    backgroundColor: global_BackgroundColor_light_100.var,
+  },
+  headerContentLeft: {
+    display: 'flex',
+    minHeight: '90px',
   },
   title: {
     paddingBottom: global_spacer_sm.var,

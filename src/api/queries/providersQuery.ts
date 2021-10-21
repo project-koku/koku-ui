@@ -2,7 +2,7 @@ import { parse, stringify } from 'qs';
 
 export interface ProvidersQuery {
   page_size?: number;
-  type?: 'AWS' | 'AZURE' | 'GCP' | 'IBM' | 'OCP';
+  type?: 'AWS' | 'Azure' | 'GCP' | 'IBM' | 'OCP';
 }
 
 export function getProvidersQuery(query: ProvidersQuery) {

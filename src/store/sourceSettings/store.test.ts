@@ -1,9 +1,9 @@
 jest.mock('api/providers');
 
+import { waitFor } from '@testing-library/react';
 import { fetchProviders } from 'api/providers';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
-import { wait } from 'testUtils';
 
 import * as actions from './actions';
 import { reducer, stateKey } from './reducer';
@@ -28,6 +28,9 @@ const createStore = createMockStoreCreator({
   [stateKey]: reducer,
 });
 
+jest.spyOn(actions, 'fetchSources');
+jest.spyOn(selectors, 'status');
+
 test('default state', async () => {
   const store = createStore();
   expect(store.getState()).toMatchSnapshot();
@@ -40,7 +43,7 @@ test('fetching succeeded', async () => {
   expect(selectors.error(store.getState())).toEqual(null);
   store.dispatch(actions.fetchSources());
   expect(selectors.status(store.getState())).toBe(FetchStatus.inProgress);
-  await wait();
+  await waitFor(() => expect(selectors.status).toHaveBeenCalled());
   expect(selectors.sources(store.getState())).toEqual(providers);
   expect(selectors.error(store.getState())).toEqual(null);
   expect(selectors.status(store.getState())).toBe(FetchStatus.complete);
@@ -58,7 +61,7 @@ test('fetching failed', async () => {
   expect(selectors.error(store.getState())).toEqual(null);
   store.dispatch(actions.fetchSources());
   expect(selectors.status(store.getState())).toBe(FetchStatus.inProgress);
-  await wait();
+  await waitFor(() => expect(selectors.status).toHaveBeenCalled());
   expect(selectors.sources(store.getState())).toEqual([]);
   expect(selectors.error(store.getState())).toEqual(error);
   expect(selectors.status(store.getState())).toBe(FetchStatus.complete);
@@ -96,7 +99,7 @@ test('pagination - first page', async () => {
   mockfetcher.mockReturnValueOnce(Promise.resolve(response));
   const store = createStore();
   store.dispatch(actions.fetchSources());
-  await wait();
+  await waitFor(() => expect(actions.fetchSources).toHaveBeenCalled());
   expect(selectors.pagination(store.getState())).toEqual({
     count: 20,
     page: 1,
@@ -122,7 +125,7 @@ test('pagination - last page', async () => {
   mockfetcher.mockReturnValueOnce(Promise.resolve(response));
   const store = createStore();
   store.dispatch(actions.fetchSources());
-  await wait();
+  await waitFor(() => expect(actions.fetchSources).toHaveBeenCalled());
   expect(selectors.pagination(store.getState())).toEqual({
     count: 20,
     page: 2,
@@ -148,7 +151,7 @@ test('pagination - no response', async () => {
   mockfetcher.mockReturnValueOnce(Promise.resolve(response));
   const store = createStore();
   store.dispatch(actions.fetchSources());
-  await wait();
+  await waitFor(() => expect(actions.fetchSources).toHaveBeenCalled());
   expect(selectors.query(store.getState())).toEqual({
     name: 'my-provider',
     type: 'OCP',
@@ -164,7 +167,7 @@ test('query', async () => {
   mockfetcher.mockReturnValueOnce(Promise.resolve(response));
   const store = createStore();
   store.dispatch(actions.fetchSources());
-  await wait();
+  await waitFor(() => expect(actions.fetchSources).toHaveBeenCalled());
   expect(selectors.pagination(store.getState())).toEqual({
     count: 0,
     page: 1,

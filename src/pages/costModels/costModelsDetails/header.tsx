@@ -1,7 +1,8 @@
 import { Button, ButtonVariant, Popover, TextContent, Title, TitleSizes } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
+import messages from 'locales/messages';
 import React from 'react';
-import { Trans, WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RootState } from 'store';
 
@@ -19,19 +20,21 @@ function HeaderBase({ children }: HeaderProps): JSX.Element {
   );
 }
 
-const mapStateToProps = (state: RootState, ownProps: WithTranslation) => {
-  const { t } = ownProps;
+const mapStateToProps = (state: RootState, ownProps: WrappedComponentProps) => {
+  const { intl } = ownProps;
 
   const children = (
     <>
-      {t('page_cost_models.header_title')}
+      {intl.formatMessage(messages.CostModels)}
       <Popover
-        aria-label="page header popver"
-        bodyContent={
-          <Trans i18nKey="page_cost_models.header_popover">
-            <a href={t('docs.using_cost_models')} rel="noreferrer" target="_blank" />
-          </Trans>
-        }
+        aria-label={intl.formatMessage(messages.CostModelsPopoverAriaLabel)}
+        bodyContent={intl.formatMessage(messages.CostModelsPopover, {
+          learnMore: (
+            <a href={intl.formatMessage(messages.DocsUsingCostModels)} rel="noreferrer" target="_blank">
+              {intl.formatMessage(messages.LearnMore)}
+            </a>
+          ),
+        })}
         enableFlip
       >
         <Button variant={ButtonVariant.plain}>
@@ -43,6 +46,6 @@ const mapStateToProps = (state: RootState, ownProps: WithTranslation) => {
   return { children };
 };
 
-const Header = withTranslation()(connect(mapStateToProps)(HeaderBase));
+const Header = injectIntl(connect(mapStateToProps)(HeaderBase));
 
 export default Header;

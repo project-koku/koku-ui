@@ -1,33 +1,20 @@
+import { MessageDescriptor } from '@formatjs/intl/src/types';
+import { intl } from 'components/i18n';
 import { endOfMonth, format, getDate, getMonth, startOfMonth } from 'date-fns';
-import i18next from 'i18next';
+import messages from 'locales/messages';
 
-export function getNoDataForDateRangeString(key: string = 'no_data_for_date', offset: number = 1) {
+function getToday(hrs: number = 0, min: number = 0, sec: number = 0) {
   const today = new Date();
-  today.setHours(0);
-  today.setMinutes(0);
-  today.setSeconds(0);
 
-  if (offset) {
-    today.setMonth(today.getMonth() - offset);
-  }
+  today.setHours(hrs);
+  today.setMinutes(min);
+  today.setSeconds(sec);
 
-  const month = getMonth(today);
-  const endDate = format(today, 'd');
-  const startDate = format(startOfMonth(today), 'd');
-
-  return i18next.t(key, {
-    count: getDate(today),
-    endDate,
-    month,
-    startDate,
-  });
+  return today;
 }
 
-export function getForDateRangeString(value: string | number, key: string = 'for_date', offset: number = 1) {
-  const today = new Date();
-  today.setHours(0);
-  today.setMinutes(0);
-  today.setSeconds(0);
+export function getNoDataForDateRangeString(message: MessageDescriptor = messages.NoDataForDate, offset: number = 1) {
+  const today = getToday();
 
   if (offset) {
     today.setMonth(today.getMonth() - offset);
@@ -37,39 +24,44 @@ export function getForDateRangeString(value: string | number, key: string = 'for
   const endDate = format(today, 'd');
   const startDate = format(startOfMonth(today), 'd');
 
-  return i18next.t(key, {
-    count: getDate(today),
-    endDate,
-    month,
-    startDate,
+  return intl.formatMessage(message, { count: getDate(today), startDate, endDate, month });
+}
+
+export function getForDateRangeString(
+  value: string | number,
+  message: MessageDescriptor = messages.ForDate,
+  offset: number = 1
+) {
+  const today = getToday();
+
+  if (offset) {
+    today.setMonth(today.getMonth() - offset);
+  }
+
+  const month = getMonth(today);
+  const endDate = format(today, 'd');
+  const startDate = format(startOfMonth(today), 'd');
+
+  return intl.formatMessage(message, {
     value,
+    count: getDate(today),
+    startDate,
+    endDate,
+    month,
   });
 }
 
-export function getSinceDateRangeString(key: string = 'since_date') {
-  const today = new Date();
-  today.setHours(0);
-  today.setMinutes(0);
-  today.setSeconds(0);
-
+export function getSinceDateRangeString(message: MessageDescriptor = messages.SinceDate) {
+  const today = getToday();
   const month = getMonth(today);
   const endDate = format(today, 'd');
   const startDate = format(startOfMonth(today), 'd');
 
-  return i18next.t(key, {
-    count: getDate(today),
-    endDate,
-    month,
-    startDate,
-  });
+  return intl.formatMessage(message, { count: getDate(today), startDate, endDate, month });
 }
 
 export function getMonthDate(offset: number) {
-  const today = new Date();
-  today.setHours(0);
-  today.setMinutes(0);
-  today.setSeconds(0);
-
+  const today = getToday();
   if (offset) {
     today.setDate(1); // Required to obtain correct month
     today.setMonth(today.getMonth() - offset);
@@ -109,4 +101,9 @@ export function getLast30DaysDate() {
 // Returns 61 days, including today's date
 export function getLast60DaysDate() {
   return getLastDaysDate(60);
+}
+
+// Returns 91 days, including today's date
+export function getLast90DaysDate() {
+  return getLastDaysDate(90);
 }

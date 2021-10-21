@@ -1,37 +1,38 @@
 import { Checkbox, Stack, StackItem, Text, TextContent, TextVariants, Title, TitleSizes } from '@patternfly/react-core';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { LoadingState } from 'components/state/loadingState/loadingState';
+import messages from 'locales/messages';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
 import { PaginationToolbarTemplate } from 'pages/costModels/components/paginationToolbarTemplate';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import { AssignSourcesToolbar } from './assignSourcesToolbar';
 import { CostModelContext } from './context';
 
-const SourcesTable: React.SFC<WithTranslation> = ({ t }) => {
+const SourcesTable: React.SFC<WrappedComponentProps> = ({ intl }) => {
   return (
     <CostModelContext.Consumer>
       {({ loading, onSourceSelect, sources, perPage, page, type, query, fetchSources, filterName, onFilterChange }) => {
-        const sourceType = type === 'AZURE' ? 'Azure' : type;
+        const sourceType = type === 'Azure' ? 'Azure' : type;
         return (
           <Stack hasGutter>
             <StackItem>
               <Title headingLevel="h2" size={TitleSizes.xl}>
-                {t(`cost_models_wizard.source.title`)}
+                {intl.formatMessage(messages.CostModelsWizardSourceTitle)}
               </Title>
             </StackItem>
             <StackItem>
               <TextContent>
-                <Text component={TextVariants.h6}>{t('cost_models_wizard.source.sub_title')}</Text>
+                <Text component={TextVariants.h6}>{intl.formatMessage(messages.CostModelsWizardSourceSubtitle)}</Text>
               </TextContent>
             </StackItem>
             <StackItem>
               <TextContent>
                 <Text component={TextVariants.h3}>
-                  {t('cost_models_wizard.source.caption', {
-                    type: t(`source_details.type.${type}`),
+                  {intl.formatMessage(messages.CostModelsWizardSourceCaption, {
+                    value: type.toLowerCase(),
                   })}
                 </Text>
               </TextContent>
@@ -67,8 +68,12 @@ const SourcesTable: React.SFC<WithTranslation> = ({ t }) => {
                 <LoadingState />
               ) : (
                 <Table
-                  aria-label={t('cost_models_wizard.source_table.table_aria_label')}
-                  cells={['', t('name'), t('cost_models_wizard.source_table.column_cost_model')]}
+                  aria-label={intl.formatMessage(messages.CostModelsWizardSourceTableAriaLabel)}
+                  cells={[
+                    '',
+                    intl.formatMessage(messages.Names, { count: 1 }),
+                    intl.formatMessage(messages.CostModelsWizardSourceTableCostModel),
+                  ]}
                   rows={sources.map((r, ix) => {
                     return {
                       cells: [
@@ -88,8 +93,8 @@ const SourcesTable: React.SFC<WithTranslation> = ({ t }) => {
                           {Boolean(r.costmodel) && (
                             <WarningIcon
                               key={`wrng-${r.name}`}
-                              text={t('cost_models_wizard.warning_source', {
-                                cost_model: r.costmodel,
+                              text={intl.formatMessage(messages.CostModelsWizardSourceWarning, {
+                                costModel: r.costmodel,
                               })}
                             />
                           )}
@@ -105,7 +110,6 @@ const SourcesTable: React.SFC<WithTranslation> = ({ t }) => {
                 </Table>
               )}
               <PaginationToolbarTemplate
-                aria-label="cost_models_wizard.source_table.pagination_section_aria_label"
                 itemCount={sources.length}
                 perPage={perPage}
                 page={page}
@@ -122,4 +126,4 @@ const SourcesTable: React.SFC<WithTranslation> = ({ t }) => {
   );
 };
 
-export default withTranslation()(SourcesTable);
+export default injectIntl(SourcesTable);

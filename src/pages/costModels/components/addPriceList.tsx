@@ -12,6 +12,8 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import { MetricHash } from 'api/metrics';
+import { intl as defaultIntl } from 'components/i18n';
+import messages from 'locales/messages';
 import {
   canSubmit as isReadyForSubmit,
   RateForm,
@@ -20,43 +22,51 @@ import {
 } from 'pages/costModels/components/rateForm';
 import { CostModelContext } from 'pages/costModels/createCostModelWizard/context';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
-interface AddPriceListProps {
+interface AddPriceListOwnProps {
+  cancel: () => void;
+  currencyUnits?: string;
   metricsHash: MetricHash;
   submitRate: (data: RateFormData) => void;
-  cancel: () => void;
 }
 
-const AddPriceList: React.FunctionComponent<AddPriceListProps> = ({ submitRate, cancel, metricsHash }) => {
+type AddPriceListProps = AddPriceListOwnProps & WrappedComponentProps;
+
+const AddPriceList: React.FunctionComponent<AddPriceListProps> = ({
+  cancel,
+  currencyUnits,
+  intl = defaultIntl, // Default required for testing
+  metricsHash,
+  submitRate,
+}) => {
   const { tiers } = React.useContext(CostModelContext);
-  const { t } = useTranslation();
   const rateFormData = useRateData(metricsHash, undefined, tiers);
   const canSubmit = React.useMemo(() => isReadyForSubmit(rateFormData), [rateFormData.errors, rateFormData.rateKind]);
   return (
     <Stack hasGutter>
       <StackItem>
         <Title headingLevel="h2" size={TitleSizes.xl}>
-          {t('cost_models_wizard.price_list.title')}
+          {intl.formatMessage(messages.CostModelsWizardCreatePriceList)}
         </Title>
       </StackItem>
       <StackItem>
         <TextContent>
-          <Text component={TextVariants.h6}>{t('cost_models_wizard.price_list.sub_title_add')}</Text>
+          <Text component={TextVariants.h6}>{intl.formatMessage(messages.CostModelsWizardPriceListMetric)}</Text>
         </TextContent>
       </StackItem>
       <StackItem>
         <Form>
-          <RateForm metricsHash={metricsHash} rateFormData={rateFormData} />
+          <RateForm currencyUnits={currencyUnits} metricsHash={metricsHash} rateFormData={rateFormData} />
         </Form>
       </StackItem>
       <StackItem>
         <ActionGroup>
           <Button variant={ButtonVariant.primary} isDisabled={!canSubmit} onClick={() => submitRate(rateFormData)}>
-            {t('cost_models_wizard.price_list.create_rate')}
+            {intl.formatMessage(messages.CreateRate)}
           </Button>
           <Button variant={ButtonVariant.link} onClick={cancel}>
-            {t('cost_models_wizard.price_list.cancel')}
+            {intl.formatMessage(messages.Cancel)}
           </Button>
         </ActionGroup>
       </StackItem>
@@ -64,4 +74,4 @@ const AddPriceList: React.FunctionComponent<AddPriceListProps> = ({ submitRate, 
   );
 };
 
-export default AddPriceList;
+export default injectIntl(AddPriceList);

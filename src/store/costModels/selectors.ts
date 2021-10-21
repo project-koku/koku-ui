@@ -67,6 +67,7 @@ export const stateName = (state: RootState) => {
   }
   const hasNoFilters = Object.keys(costQuery).every(key => {
     switch (key) {
+      case 'currency':
       case 'description':
       case 'name':
       case 'source_type':
@@ -87,7 +88,7 @@ export const currentFilterType = (state: RootState) => costModelsState(state).cu
 
 export const query = selectQuery(
   (state: RootState) => costModelsState(state).costModels,
-  ['ordering', 'name', 'source_type', 'description', 'offset', 'limit']
+  ['ordering', 'name', 'source_type', 'currency', 'description', 'offset', 'limit']
 );
 
 export const pagination = selectPagination((state: RootState) => costModelsState(state).costModels);

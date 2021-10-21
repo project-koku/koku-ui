@@ -75,9 +75,9 @@ test('getQueryForWidget', () => {
     details: { formatOptions: {} },
     trend: {
       computedReportItem: ComputedReportItemType.cost,
+      formatOptions: {},
       titleKey: '',
       type: ChartType.daily,
-      formatOptions: {},
     },
     topItems: {
       formatOptions: {},

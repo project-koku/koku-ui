@@ -17,10 +17,10 @@ const previousData = utils.transformReport(previousMonthReport, utils.ChartType.
 const props: HistoricalTrendChartProps = {
   title: 'Trend Title',
   height: 100,
-  formatDatumValue: jest.fn(),
   currentData,
   previousData,
-  formatDatumOptions: {},
+  formatter: jest.fn(),
+  formatOptions: {},
 };
 
 test('reports are formatted to datums', () => {
@@ -52,11 +52,11 @@ test('labels formats with datum and value formatted from props', () => {
     x: 1,
     y: 1,
     key: '1-1-1',
-    units: 'units',
+    units: 'hrs',
   };
   const group = view.find(Chart);
   group.props().containerComponent.props.labels({ datum });
-  expect(formatLabel).toBeCalledWith(datum.y, datum.units, props.formatDatumOptions);
+  expect(formatLabel).toBeCalledWith(datum.y, datum.units, props.formatOptions);
   expect(view.find(Chart).prop('height')).toBe(props.height);
 });
 

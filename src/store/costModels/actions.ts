@@ -8,8 +8,9 @@ import {
   updateCostModel as apiUpdateCostModel,
 } from 'api/costModels';
 import { AxiosError, AxiosResponse } from 'axios';
+import { intl } from 'components/i18n';
 import * as H from 'history';
-import i18next from 'i18next';
+import messages from 'locales/messages';
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'store/common';
 import { createAction, createAsyncAction } from 'typesafe-actions';
@@ -72,7 +73,7 @@ export const updateCostModel = (uuid: string, request: CostModelRequest, dialog:
     dispatch(updateCostModelsRequest());
 
     return apiUpdateCostModel(uuid, request)
-      .then(res => {
+      .then((res: any) => {
         dispatch(updateCostModelsSuccess(res));
         if (dialog !== null) {
           fetchCostModels(`uuid=${uuid}`)(dispatch);
@@ -127,8 +128,8 @@ export const redirectToCostModelFromSourceUuid = (source_uuid: string, history: 
       .catch(() => {
         dispatch(
           addNotification({
-            title: i18next.t('cost_models_router.error_title'),
-            description: i18next.t('cost_models_router.server_error'),
+            title: intl.formatMessage(messages.CostModelsRouterErrorTitle),
+            description: intl.formatMessage(messages.CostModelsRouterServerError),
             variant: 'danger',
             dismissable: true,
           })

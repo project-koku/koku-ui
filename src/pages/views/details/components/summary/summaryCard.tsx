@@ -14,16 +14,16 @@ import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
+import messages from 'locales/messages';
 import { SummaryModal } from 'pages/views/details/components/summary/summaryModal';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { formatValue } from 'utils/formatValue';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { styles } from './summaryCard.styles';
@@ -51,7 +51,7 @@ interface SummaryDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type SummaryProps = SummaryOwnProps & SummaryStateProps & SummaryDispatchProps & WithTranslation;
+type SummaryProps = SummaryOwnProps & SummaryStateProps & SummaryDispatchProps & WrappedComponentProps;
 
 class SummaryBase extends React.Component<SummaryProps> {
   public state: SummaryState = {
@@ -87,9 +87,8 @@ class SummaryBase extends React.Component<SummaryProps> {
         {({ items }) =>
           items.map(reportItem => (
             <ReportSummaryItem
-              key={`${reportItem.id}-item`}
               formatOptions={{}}
-              formatValue={formatValue}
+              key={`${reportItem.id}-item`}
               label={reportItem.label ? reportItem.label.toString() : undefined}
               totalValue={report.meta.total.cost.total.value}
               units={report.meta.total.cost.total.units}
@@ -102,7 +101,7 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   private getViewAll = () => {
-    const { groupBy, query, reportGroupBy, reportPathsType, t } = this.props;
+    const { groupBy, query, reportGroupBy, reportPathsType, intl } = this.props;
     const { isBulletChartModalOpen } = this.state;
 
     const computedItems = this.getItems();
@@ -125,7 +124,7 @@ class SummaryBase extends React.Component<SummaryProps> {
             type={ButtonType.button}
             variant={ButtonVariant.link}
           >
-            {t('details.view_all', { groupBy: reportGroupBy })}
+            {intl.formatMessage(messages.DetailsViewAll, { value: reportGroupBy })}
           </Button>
           <SummaryModal
             groupBy={groupBy}
@@ -153,13 +152,13 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   public render() {
-    const { reportGroupBy, reportFetchStatus, t } = this.props;
+    const { reportGroupBy, reportFetchStatus, intl } = this.props;
 
     return (
       <Card style={styles.card}>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {t('breakdown.summary_title', { groupBy: reportGroupBy })}
+            {intl.formatMessage(messages.BreakdownSummaryTitle, { value: reportGroupBy })}
           </Title>
         </CardTitle>
         <CardBody>
@@ -226,6 +225,6 @@ const mapDispatchToProps: SummaryDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryCard = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(SummaryBase));
+const SummaryCard = injectIntl(connect(mapStateToProps, mapDispatchToProps)(SummaryBase));
 
 export { SummaryCard, SummaryProps };

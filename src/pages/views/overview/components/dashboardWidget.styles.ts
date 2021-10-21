@@ -15,6 +15,9 @@ export const styles = {
   comparison: {
     marginBottom: global_spacer_md.value,
   },
+  comparisonContainer: {
+    display: 'flex',
+  },
   tabs: {
     marginTop: global_spacer_2xl.value,
   },
