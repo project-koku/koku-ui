@@ -33,7 +33,7 @@ yarn update:manifest
 ```
 
 ## Running Koku-UI against a hosted Koku-API, using webpack proxy
-Note that this currently supports Insights stage-beta, stage-stable, prod-beta, and prod-stable environments.
+Note that this approach currently supports the Insights stage-beta, stage-stable, prod-beta, and prod-stable environments.
 
 1. Start development server
 ```
