@@ -16,23 +16,23 @@ To submit an issue please visit https://issues.redhat.com/projects/COST/
 2. Clone the repository, and open a terminal in the base of this project.
 3. Run the command `yarn install` to install all the dependencies.
 
-### Building
+## Building
 ```
 yarn build
 ```
 
-### Testing
+## Testing
 ```
 yarn test
 ```
 
-### Manifest
+## Manifest
 Produces a file used by product security for vulnerability and compliance tracking.
 ```
 yarn update:manifest
 ```
 
-### Running Koku-UI against a hosted Koku-API instance, using webpack proxy
+## Running Koku-UI against a hosted Koku-API instance, using webpack proxy
 Note that this currently supports Insights stage-beta, stage-stable, prod-beta, and prod-stable environments.
 
 1. Start development server
@@ -52,9 +52,9 @@ https://stage.foo.redhat.com:1337/beta/openshift/cost-management
 ```
 
 ## Running local instances of Koku-UI & Koku-API
-### Koku-UI
+#### Koku-UI
 
-1. Start development server (Answer **"yes"** to run against local APIs)
+1. Start development server (Answer `yes` to run against local APIs)
 ```
 yarn start
 ```
@@ -70,7 +70,7 @@ Follow the prompts that follow.
  http://localhost:8002/beta/openshift/cost-management
 ```
 
-### Koku-API
+#### Koku-API
 Requirements:
 
 Refer to the Koku project [README](https://github.com/project-koku/koku#readme)
@@ -124,7 +124,7 @@ Follow the [steps](#koku-api) to run a local instance of Koku-API
 http://localhost:1337/beta/settings/applications/cost-management
 ```
 
-### Useful Links
+## Useful Links
 
 #### Libs
 
