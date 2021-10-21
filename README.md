@@ -32,7 +32,7 @@ Produces a file used by product security for vulnerability and compliance tracki
 yarn update:manifest
 ```
 
-## Running Koku-UI against a hosted Koku-API instance, using webpack proxy
+## Running Koku-UI against a hosted Koku-API, using webpack proxy
 Note that this currently supports Insights stage-beta, stage-stable, prod-beta, and prod-stable environments.
 
 1. Start development server
@@ -73,9 +73,9 @@ Follow the prompts that follow.
 #### Koku-API
 Requirements:
 
-Refer to the project repo [README](https://github.com/project-koku/koku#readme)
+Refer to the project [README][koku-readme]
 
-1. Setup & run Koku-API (see the project repo for more details)
+1. Setup & run Koku-API (see the project [README][koku-readme] for more details)
 ```
 > git clone git@github.com:project-koku/koku.git
 > cd [KOKU_GIT_REPO]
@@ -177,12 +177,12 @@ http://localhost:1337/beta/settings/applications/cost-management
     }
   * [Docker](https://marketplace.visualstudio.com/items?itemName=PeterJausovec.vscode-docker) - Manage Docker images from VSCode
 
-
-[pf-logo]: https://www.patternfly.org/assets/img/logo.svg
+[build]: https://travis-ci.com/project-koku/UI'
+[build-badge]: https://img.shields.io/travis/project-koku/koku-ui.svg?style=for-the-badge
+[koku-readme]: https://github.com/project-koku/koku#readme
+[license-badge]: https://img.shields.io/github/license/project-koku/koku-ui.svg?longCache=true&style=for-the-badge
+[license]: https://github.com/project-koku/koku-ui/blob/master/LICENSE
+[nodejs]: https://nodejs.org/en/
+[pf-logo]: https://www.patternfly.org/v4/images/logo.4189e7eb1a0741ea2b3b51b80d33c4cb.svg
 [patternfly]: https://www.patternfly.org/
 [yarn]: https://yarnpkg.com/en/
-[nodejs]: https://nodejs.org/en/
-[license-badge]: 	https://img.shields.io/github/license/project-koku/koku-ui.svg?longCache=true&style=for-the-badge
-[license]: https://github.com/project-koku/koku-ui/blob/master/LICENSE
-[build-badge]: https://img.shields.io/travis/project-koku/koku-ui.svg?style=for-the-badge
-[build]: https://travis-ci.com/project-koku/UI
