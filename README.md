@@ -1,4 +1,4 @@
-# Koku UI
+# Koku-UI
 
 [![AGPLv3][license-badge]][license]
 [![Build Status][build-badge]][build]
@@ -14,50 +14,7 @@ To submit an issue please visit https://issues.redhat.com/projects/COST/
 ## Getting Started
 1. Install requirements listed above.
 2. Clone the repository, and open a terminal in the base of this project.
-3. Run the command `yarn` to install all the dependencies.
-
-### Running Development Server against a hosted Koku instance with webpack proxy
-Note that this works with the stage, prod, and CI environments.
-
-#### Start Development Server
-
-```
-yarn start
-```
-
-Follow the prompts that follow.
-
-* Which platform environment you want to use; `stage`
-* Which the UI environment you want to use; `beta`
-* Do you want to use the Insights proxy; `no`
-
-Point your browser to the [Overview page](https://stage.foo.redhat.com:1337/beta/openshift/cost-management)
-
-### Running Development Server against a hosted Koku instance behind Insights Proxy
-Note that this only works with the prod and CI environments. *This does not work with stage.*
-
-1. Clone the [insights-proxy](https://github.com/RedHatInsights/insights-proxy) repository.
-2. Run *insights-proxy* setup steps.
-
-#### Start Insights Proxy
-
-From the `insights-proxy` project directory run the following command to interact with the deployed environment:
-
-```
-SPANDX_CONFIG=/path/to/koku-ui/config/spandx.config.js bash /path/to/insights-proxy/scripts/run.sh
-```
-
-#### Start Development Server
-
-```
-yarn start
-```
-
-* Which platform environment you want to use; `ci`
-* Which the UI environment you want to use; `beta`
-* Do you want to use the Insights proxy; `yes`
-
-Point your browser to the [Overview page](https://ci.foo.redhat.com:1337/beta/cost-management)
+3. Run the command `yarn install` to install all the dependencies.
 
 ### Building
 ```
@@ -70,14 +27,50 @@ yarn test
 ```
 
 ### Manifest
-
 Produces a file used by product security for vulnerability and compliance tracking.
 ```
 yarn update:manifest
 ```
 
-## Running Koku-UI & Koku-API locally 
-### koku
+### Running Koku-UI against a hosted Koku-API instance, using webpack proxy
+Note that this currently supports Insights stage-beta, stage-stable, prod-beta, and prod-stable environments.
+
+1. Start development server
+```
+yarn start
+```
+
+Follow the prompts that follow.
+
+* Do you want to use local api? `no`
+* Which platform environment you want to use `stage`
+* Which Chrome environment you want to use? `beta`
+
+2. Open the following URL
+```
+https://stage.foo.redhat.com:1337/beta/openshift/cost-management
+```
+
+## Running local instances of Koku-UI & Koku-API
+### Koku-UI
+
+1. Start development server (Answer **"yes"** to run against local APIs)
+```
+yarn start
+```
+
+Follow the prompts that follow.
+
+* Do you want to use local api? `yes`
+* Which platform environment you want to use `stage`
+* Which Chrome environment you want to use? `beta`
+
+2. Open the following URL
+```
+ http://localhost:8002/beta/openshift/cost-management
+```
+
+### Koku-API
 Requirements:
 
 Refer to the Koku project [README](https://github.com/project-koku/koku#readme)
@@ -88,7 +81,7 @@ Refer to the Koku project [README](https://github.com/project-koku/koku#readme)
 > cd [KOKU_GIT_REPO]
 > pipenv install --dev
 > pipenv shell "pre-commit install"
-> make docker-up-min or make make docker-up-min-presto (do not rebuild docker images)
+> make docker-up-min or make make docker-up-min-presto
 > make create-test-customer
 > make load-test-customer-data
 ```
@@ -103,51 +96,25 @@ Refer to the Koku project [README](https://github.com/project-koku/koku#readme)
 > docker-compose logs -f koku-server koku-worker
 ```
 
-### koku-ui
-Requirements:
+## Running local instance of the frontend-settings UI (i.e., the Cost Management settings page)
 
-[Reference here](#requirements)
-
-1. Setup koku-ui
-```
-> yarn install
-```
-
-2. Start koku-ui dev server (Answer **"yes"** to the first question to run against local APIs)
-
-```
-> yarn start
-yarn run v1.22.10
-$ node scripts/start-dev-server.js
-? Do you want to use local api? Yes
-? Which platform environment you want to use stage
-? Which Chrome environment you want to use? beta
-```
-
-4. Open the following URL 
-```
- http://localhost:8002/beta/openshift/cost-management
-```
-
-## Running Frontend-settings & Koku-API locally
-
-Follow [setting up koku](#koku) to config the koku backend
+Follow the [steps](#koku-api) to run a local instance of Koku-API
 
 1. Clone settings-frontend
 ```
 > git clone https://github.com/RedHatInsights/settings-frontend.git
-> cd settings-frontend <— where ever it has been cloned to
+> cd cd [SETTINGS_FRONTEND_GIT_REPO]
 > npm install
 ```
 
-2. Set the following in your environment
+2. Set the following variables in your environment
 ```
 > export API_PORT=8000
 > export LOCAL_API="/api/cost-management/v1/"
 > export KEYCLOAK_PORT=4020
 ```
 
-3. Start the dev server
+3. Start development server
 ```
 > npm run start:standalone:beta
 ```
