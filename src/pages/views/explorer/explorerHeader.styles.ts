@@ -26,17 +26,23 @@ export const styles = {
     fontSize: global_FontSize_sm.value,
     color: global_Color_200.var,
   },
+  costType: {
+    display: 'flex',
+    marginLeft: global_spacer_md.var,
+  },
   groupBy: {
     paddingLeft: global_spacer_lg.var,
   },
   header: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    backgroundColor: global_BackgroundColor_light_100.var,
     paddingBottom: global_spacer_sm.var,
     paddingLeft: global_spacer_lg.var,
     paddingRight: global_spacer_lg.var,
     paddingTop: global_spacer_lg.var,
-    backgroundColor: global_BackgroundColor_light_100.var,
+  },
+  headerContent: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   perspectiveContainer: {
     display: 'flex',

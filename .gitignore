@@ -51,4 +51,6 @@ public/
 dist/
 .DS_Store
 .idea
-/report.*.json
+/build/
+report.*.json
+locales/*[en|de|fr].json

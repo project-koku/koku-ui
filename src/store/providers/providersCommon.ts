@@ -9,7 +9,7 @@ export const awsProvidersQuery: ProvidersQuery = {
 };
 
 export const azureProvidersQuery: ProvidersQuery = {
-  type: 'AZURE',
+  type: 'Azure',
 };
 
 export const gcpProvidersQuery: ProvidersQuery = {

@@ -1,6 +1,7 @@
 import { getInteractiveLegendItemStyles } from '@patternfly/react-charts';
-import i18next from 'i18next';
-import { FormatOptions, ValueFormatter } from 'utils/formatValue';
+import { intl } from 'components/i18n';
+import messages from 'locales/messages';
+import { FormatOptions, Formatter } from 'utils/format';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
 
 import { getMaxMinValues, getTooltipContent } from './chartDatumUtils';
@@ -88,17 +89,17 @@ export const getLegendData = (series: ChartSeries[], hiddenSeries: Set<number>, 
 };
 
 // Note: Forecast is expected to use both datum.y and datum.y0
-export const getTooltipLabel = (datum: any, formatDatumValue: ValueFormatter, formatDatumOptions: FormatOptions) => {
-  const formatter = getTooltipContent(formatDatumValue);
+export const getTooltipLabel = (datum: any, formatter: Formatter, formatOptions: FormatOptions) => {
+  const tooltipFormatter = getTooltipContent(formatter);
   const dy =
-    datum.y !== undefined && datum.y !== null ? formatter(datum.y, datum.units, formatDatumOptions) : undefined;
+    datum.y !== undefined && datum.y !== null ? tooltipFormatter(datum.y, datum.units, formatOptions) : undefined;
   const dy0 =
-    datum.y0 !== undefined && datum.y0 !== null ? formatter(datum.y0, datum.units, formatDatumOptions) : undefined;
+    datum.y0 !== undefined && datum.y0 !== null ? tooltipFormatter(datum.y0, datum.units, formatOptions) : undefined;
 
   if (dy !== undefined && dy0 !== undefined) {
-    return i18next.t('chart.cost_forecast_cone_tooltip', { value0: dy0, value1: dy });
+    return intl.formatMessage(messages.ChartCostForecastConeTooltip, { value0: dy0, value1: dy });
   }
-  return dy !== undefined ? dy : i18next.t('chart.no_data');
+  return dy !== undefined ? dy : intl.formatMessage(messages.ChartNoData);
 };
 
 export const getResizeObserver = (containerRef: HTMLDivElement, handleResize: () => void) => {

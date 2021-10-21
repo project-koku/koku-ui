@@ -13,6 +13,7 @@ export type SourcesState = Readonly<{
   status: FetchStatus;
   currentFilterType: string;
   currentFilterValue: string;
+  filter: string;
 }>;
 
 export const defaultState: SourcesState = {
@@ -21,6 +22,7 @@ export const defaultState: SourcesState = {
   status: FetchStatus.none,
   currentFilterType: 'name',
   currentFilterValue: '',
+  filter: '',
 };
 
 export type SourcesAction = ActionType<
@@ -38,6 +40,7 @@ export const reducer = (state: SourcesState = defaultState, action: SourcesActio
       return {
         ...state,
         currentFilterValue: '',
+        filter: state.currentFilterValue,
         status: FetchStatus.complete,
         error: null,
         sources: action.payload.data,

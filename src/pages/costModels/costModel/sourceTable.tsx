@@ -1,6 +1,7 @@
 import { CostModel, CostModelProvider, CostModelRequest } from 'api/costModels';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -9,7 +10,7 @@ import AddSourceWizard from './addSourceWizard';
 import Dialog from './dialog';
 import Table from './table';
 
-interface Props extends WithTranslation {
+interface Props extends WrappedComponentProps {
   updateCostModel: typeof costModelsActions.updateCostModel;
   costModel: CostModel;
   sources: CostModelProvider[];
@@ -25,7 +26,8 @@ interface State {
 class SourceTableBase extends React.Component<Props, State> {
   public state = { dialogSource: null };
   public render() {
-    const { setDialogOpen, isLoading, sources, costModel, t, isDialogOpen } = this.props;
+    const { intl, isDialogOpen, isLoading, setDialogOpen, sources, costModel } = this.props;
+
     return (
       <>
         {isDialogOpen.addSource && (
@@ -49,10 +51,7 @@ class SourceTableBase extends React.Component<Props, State> {
         <Dialog
           isSmall
           isOpen={isDialogOpen.deleteSource}
-          title={t('dialog.delete_source_from_cost_model_title', {
-            source: this.state.dialogSource,
-            cost_model: costModel.name,
-          })}
+          title={intl.formatMessage(messages.CostModelsSourceDeleteSource)}
           onClose={() => {
             setDialogOpen({ name: 'deleteSource', isOpen: false });
             this.setState({ dialogSource: null });
@@ -68,14 +67,18 @@ class SourceTableBase extends React.Component<Props, State> {
             };
             this.props.updateCostModel(costModel.uuid, newState, 'deleteSource');
           }}
-          body={t('dialog.delete_source_from_cost_model_body', {
-            source: this.state.dialogSource,
-            cost_model: costModel.name,
-          })}
-          actionText={t('dialog.deleteSource')}
+          body={
+            <>
+              {intl.formatMessage(messages.CostModelsSourceDeleteSourceDesc, {
+                source: this.state.dialogSource,
+                costModel: costModel.name,
+              })}
+            </>
+          }
+          actionText={intl.formatMessage(messages.CostModelsSourceDeleteSource)}
         />
         <Table
-          onDeleteText={t('cost_models_details.action_unassign')}
+          onDeleteText={intl.formatMessage(messages.CostModelsSourceDelete)}
           onDelete={item => {
             this.setState({ dialogSource: item[0] });
             setDialogOpen({ name: 'deleteSource', isOpen: true });
@@ -89,13 +92,15 @@ class SourceTableBase extends React.Component<Props, State> {
   }
 }
 
-export default connect(
-  createMapStateToProps(state => ({
-    isLoading: costModelsSelectors.updateProcessing(state),
-    isDialogOpen: costModelsSelectors.isDialogOpen(state)('sources'),
-  })),
-  {
-    setDialogOpen: costModelsActions.setCostModelDialog,
-    updateCostModel: costModelsActions.updateCostModel,
-  }
-)(withTranslation()(SourceTableBase));
+export default injectIntl(
+  connect(
+    createMapStateToProps(state => ({
+      isLoading: costModelsSelectors.updateProcessing(state),
+      isDialogOpen: costModelsSelectors.isDialogOpen(state)('sources'),
+    })),
+    {
+      setDialogOpen: costModelsActions.setCostModelDialog,
+      updateCostModel: costModelsActions.updateCostModel,
+    }
+  )(SourceTableBase)
+);

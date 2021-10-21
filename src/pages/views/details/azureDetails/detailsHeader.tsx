@@ -5,21 +5,23 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AzureReport } from 'api/reports/azureReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
+import { Currency } from 'components/currency/currency';
+import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { azureProvidersQuery, providersSelectors } from 'store/providers';
 import { ComputedAzureReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
-import { formatCurrency } from 'utils/formatValue';
+import { formatCurrency } from 'utils/format';
 
 import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
   groupBy?: string;
-  onGroupByClicked(value: string);
+  onGroupBySelected(value: string);
   report: AzureReport;
 }
 
@@ -30,7 +32,7 @@ interface DetailsHeaderStateProps {
   providersFetchStatus: FetchStatus;
 }
 
-type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & WithTranslation;
+type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & WrappedComponentProps;
 
 const baseQuery: AzureQuery = {
   delta: 'cost',
@@ -54,7 +56,7 @@ const tagReportPathsType = TagPathsType.azure;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   public render() {
-    const { groupBy, onGroupByClicked, providers, providersError, report, t } = this.props;
+    const { groupBy, onGroupBySelected, providers, providersError, report, intl } = this.props;
     const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
 
     const hasCost =
@@ -62,28 +64,36 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
 
     return (
       <header style={styles.header}>
-        <div>
+        <div style={styles.headerContent}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {t('navigation.azure_details')}
+            {intl.formatMessage(messages.AzureDetailsTitle)}
           </Title>
-          <GroupBy
-            getIdKeyForGroupBy={getIdKeyForGroupBy}
-            groupBy={groupBy}
-            isDisabled={!showContent}
-            onItemClicked={onGroupByClicked}
-            options={groupByOptions}
-            showTags
-            tagReportPathsType={tagReportPathsType}
-          />
+          <Currency />
         </div>
-        {Boolean(showContent) && (
-          <div>
-            <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
-              {formatCurrency(hasCost ? report.meta.total.cost.total.value : 0)}
-            </Title>
-            <div style={styles.dateTitle}>{getSinceDateRangeString()}</div>
+        <div style={styles.headerContent}>
+          <div style={styles.headerContentLeft}>
+            <GroupBy
+              getIdKeyForGroupBy={getIdKeyForGroupBy}
+              groupBy={groupBy}
+              isDisabled={!showContent}
+              onSelected={onGroupBySelected}
+              options={groupByOptions}
+              showTags
+              tagReportPathsType={tagReportPathsType}
+            />
           </div>
-        )}
+          {Boolean(showContent) && (
+            <div>
+              <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
+                {formatCurrency(
+                  hasCost ? report.meta.total.cost.total.value : 0,
+                  hasCost ? report.meta.total.cost.total.units : 'USD'
+                )}
+              </Title>
+              <div style={styles.dateTitle}>{getSinceDateRangeString()}</div>
+            </div>
+          )}
+        </div>
       </header>
     );
   }
@@ -109,6 +119,6 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   };
 });
 
-const DetailsHeader = withTranslation()(connect(mapStateToProps, {})(DetailsHeaderBase));
+const DetailsHeader = injectIntl(connect(mapStateToProps, {})(DetailsHeaderBase));
 
 export { DetailsHeader, DetailsHeaderProps };

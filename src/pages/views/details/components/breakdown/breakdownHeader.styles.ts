@@ -22,13 +22,18 @@ export const styles = {
   costLabelDate: {
     textAlign: 'right',
   },
+  costType: {
+    marginTop: global_spacer_md.var,
+  },
   header: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    backgroundColor: global_BackgroundColor_100.var,
     paddingLeft: global_spacer_lg.var,
     paddingRight: global_spacer_lg.var,
     paddingTop: global_spacer_lg.var,
-    backgroundColor: global_BackgroundColor_100.var,
+  },
+  headerContent: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   infoDescription: {
     color: global_disabled_color_100.value,

@@ -12,7 +12,9 @@
       &.increase {
         color: var(--pf-global--danger-color--100);
       }
-      .fa-sort-up {}
+      .fa-sort-up {
+        margin-left: 10px;
+      }
       .fa-sort-down {
         margin-left: 10px;
       }
@@ -32,7 +34,7 @@
 .explorerTableOverride {
   &.pf-c-table {
     thead th + th + th {
-      min-width: 100px;
+      min-width: 125px;
     }
     thead th:first-child, tbody td:first-child {
       background-clip: padding-box;

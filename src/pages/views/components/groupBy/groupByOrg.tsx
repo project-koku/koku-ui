@@ -1,8 +1,9 @@
 import { Select, SelectOption, SelectOptionObject, SelectVariant } from '@patternfly/react-core';
 import { Org } from 'api/orgs/org';
 import { orgUnitIdKey, orgUnitNameKey, parseQuery, Query } from 'api/queries/query';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import { styles } from './groupBy.styles';
 
@@ -10,7 +11,7 @@ interface GroupByOrgOwnProps {
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
   isDisabled?: boolean;
-  onItemClicked(value: string);
+  onSelected(value: string);
   options: {
     label: string;
     value: string;
@@ -28,7 +29,7 @@ interface GroupByOrgOption extends SelectOptionObject {
   id?: string;
 }
 
-type GroupByOrgProps = GroupByOrgOwnProps & WithTranslation;
+type GroupByOrgProps = GroupByOrgOwnProps & WrappedComponentProps;
 
 class GroupByOrgBase extends React.Component<GroupByOrgProps> {
   protected defaultState: GroupByOrgState = {
@@ -40,7 +41,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
   constructor(props: GroupByOrgProps) {
     super(props);
     this.handleGroupByClear = this.handleGroupByClear.bind(this);
-    this.handleGroupBySelect = this.handleGroupBySelect.bind(this);
+    this.handleGroupBySelected = this.handleGroupBySelected.bind(this);
     this.handleGroupByToggle = this.handleGroupByToggle.bind(this);
   }
 
@@ -113,15 +114,15 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
     });
   };
 
-  private handleGroupBySelect = (event, selection: GroupByOrgOption) => {
-    const { onItemClicked } = this.props;
+  private handleGroupBySelected = (event, selection: GroupByOrgOption) => {
+    const { onSelected } = this.props;
 
     this.setState({
       currentItem: selection.id,
       isGroupByOpen: false,
     });
-    if (onItemClicked) {
-      onItemClicked(`${orgUnitIdKey}${selection.id}`);
+    if (onSelected) {
+      onSelected(`${orgUnitIdKey}${selection.id}`);
     }
   };
 
@@ -130,7 +131,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
   };
 
   public render() {
-    const { isDisabled = false, t } = this.props;
+    const { isDisabled = false, intl } = this.props;
     const { currentItem, isGroupByOpen } = this.state;
 
     const groupByItems = this.getGroupByItems();
@@ -139,13 +140,13 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
     return (
       <div style={styles.groupBySelector}>
         <Select
-          aria-label={t('group_by.org_unit_aria_label')}
+          aria-label={intl.formatMessage(messages.FilterByOrgUnitAriaLabel)}
           isDisabled={isDisabled}
           onClear={this.handleGroupByClear}
           onToggle={this.handleGroupByToggle}
-          onSelect={this.handleGroupBySelect}
+          onSelect={this.handleGroupBySelected}
           isOpen={isGroupByOpen}
-          placeholderText={t('group_by.org_unit_placeholder')}
+          placeholderText={intl.formatMessage(messages.FilterByOrgUnitPlaceholder)}
           selections={selection}
           variant={SelectVariant.typeahead}
         >
@@ -158,6 +159,6 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
   }
 }
 
-const GroupByOrg = withTranslation()(GroupByOrgBase);
+const GroupByOrg = injectIntl(GroupByOrgBase);
 
 export { GroupByOrg, GroupByOrgProps };

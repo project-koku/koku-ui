@@ -1,17 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders login if isLoggedIn is false 1`] = `
-<I18nProvider
-  locale="en"
->
+<withRouter(PageTitleBase)>
   <Routes />
-</I18nProvider>
+</withRouter(PageTitleBase)>
 `;
 
 exports[`renders page layout 1`] = `
-<I18nProvider
-  locale="en"
->
+<withRouter(PageTitleBase)>
   <Routes />
-</I18nProvider>
+</withRouter(PageTitleBase)>
 `;

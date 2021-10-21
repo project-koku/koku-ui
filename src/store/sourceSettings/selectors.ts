@@ -22,6 +22,8 @@ export const currentFilterValue = (state: RootState) => sourcesState(state).curr
 
 export const currentFilterType = (state: RootState) => sourcesState(state).currentFilterType;
 
+export const filter = (state: RootState) => sourcesState(state).filter;
+
 export const query = selectQuery(
   (state: RootState) => sourcesState(state).sources,
   ['name', 'type', 'offset', 'limit']

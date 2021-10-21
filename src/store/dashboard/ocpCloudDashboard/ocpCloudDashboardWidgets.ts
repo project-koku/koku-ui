@@ -6,6 +6,7 @@ import {
   ComputedReportItemType,
   ComputedReportItemValueType,
 } from 'components/charts/common/chartDatumUtils';
+import messages from 'locales/messages';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
 import { OcpCloudDashboardTab, OcpCloudDashboardWidget } from './ocpCloudDashboardCommon';
@@ -15,16 +16,13 @@ const getId = () => currrentId++;
 
 export const costSummaryWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_cloud_dashboard.cost_title',
+  titleKey: messages.OCPCloudDashboardCostTitle,
   forecastPathsType: ForecastPathsType.ocpCloud,
   forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.cost,
   details: {
-    costKey: 'cost',
-    formatOptions: {
-      fractionDigits: 2,
-    },
+    costKey: messages.Cost,
     showHorizontal: true,
   },
   tabsFilter: {
@@ -34,13 +32,9 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    formatOptions: {},
-    dailyTitleKey: 'ocp_cloud_dashboard.daily_cost_trend_title',
-    titleKey: 'ocp_cloud_dashboard.cost_trend_title',
+    dailyTitleKey: messages.OCPCloudDashboardDailyCostTrendTitle,
+    titleKey: messages.OCPCloudDashboardCostTrendTitle,
     type: ChartType.rolling,
-  },
-  topItems: {
-    formatOptions: {},
   },
   availableTabs: [OcpCloudDashboardTab.services, OcpCloudDashboardTab.accounts, OcpCloudDashboardTab.regions],
   chartType: DashboardChartType.dailyTrend,
@@ -51,21 +45,15 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
 
 export const computeWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_cloud_dashboard.compute_title',
+  titleKey: messages.OCPCloudDashboardComputeTitle,
   reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.instanceType,
   details: {
-    costKey: 'cost',
-    formatOptions: {
-      fractionDigits: 2,
-    },
+    costKey: messages.Cost,
     showUnits: true,
     showUsageFirst: true,
     showUsageLegendLabel: true,
-    usageFormatOptions: {
-      fractionDigits: 0,
-    },
-    usageKey: 'dashboard.usage',
+    usageKey: messages.Usage,
   },
   filter: {
     service: 'AmazonEC2',
@@ -73,10 +61,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    formatOptions: {
-      fractionDigits: 2,
-    },
-    titleKey: 'dashboard.daily_usage_comparison',
+    titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
   chartType: DashboardChartType.trend,
@@ -84,14 +69,11 @@ export const computeWidget: OcpCloudDashboardWidget = {
 
 export const databaseWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'dashboard.database_title',
+  titleKey: messages.DashboardDatabaseTitle,
   reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.database,
   details: {
-    costKey: 'cost',
-    formatOptions: {
-      fractionDigits: 2,
-    },
+    costKey: messages.Cost,
     showUnits: true,
   },
   filter: {
@@ -102,8 +84,7 @@ export const databaseWidget: OcpCloudDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    formatOptions: {},
-    titleKey: 'dashboard.cumulative_cost_comparison',
+    titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
   chartType: DashboardChartType.trend,
@@ -111,14 +92,11 @@ export const databaseWidget: OcpCloudDashboardWidget = {
 
 export const networkWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'dashboard.network_title',
+  titleKey: messages.DashboardNetworkTitle,
   reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.network,
   details: {
-    costKey: 'cost',
-    formatOptions: {
-      fractionDigits: 2,
-    },
+    costKey: messages.Cost,
     showUnits: true,
   },
   filter: {
@@ -129,8 +107,7 @@ export const networkWidget: OcpCloudDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    formatOptions: {},
-    titleKey: 'dashboard.cumulative_cost_comparison',
+    titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
   chartType: DashboardChartType.trend,
@@ -138,29 +115,20 @@ export const networkWidget: OcpCloudDashboardWidget = {
 
 export const storageWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'dashboard.storage_title',
+  titleKey: messages.DashboardStorageTitle,
   reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.storage,
   details: {
-    costKey: 'cost',
-    formatOptions: {
-      fractionDigits: 2,
-    },
+    costKey: messages.Cost,
     showUnits: true,
     showUsageFirst: true,
     showUsageLegendLabel: true,
-    usageFormatOptions: {
-      fractionDigits: 0,
-    },
-    usageKey: 'dashboard.usage',
+    usageKey: messages.Usage,
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    formatOptions: {
-      fractionDigits: 2,
-    },
-    titleKey: 'dashboard.daily_usage_comparison',
+    titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
   chartType: DashboardChartType.trend,

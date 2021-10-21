@@ -57,8 +57,19 @@ class PermissionsBase extends React.Component<PermissionsProps> {
     fetchUserAccess(UserAccessType.ibm, ibmUserAccessQueryString);
   }
 
+  private getPath() {
+    const { location }: any = this.props;
+
+    // cost models may include :uuid
+    const _pathname =
+      location.pathname && location.pathname.startsWith(paths.costModels) ? paths.costModels : location.pathname;
+    const currRoute = routes.find(({ path }) => path === _pathname);
+
+    return currRoute ? currRoute.path : undefined;
+  }
+
   private hasPermissions() {
-    const { location, ibmUserAccess, userAccess }: any = this.props;
+    const { ibmUserAccess, userAccess } = this.props;
 
     if (!userAccess) {
       return false;
@@ -70,12 +81,9 @@ class PermissionsBase extends React.Component<PermissionsProps> {
     const gcp = hasGcpAccess(userAccess);
     const ibm = hasIbmAccess(ibmUserAccess);
     const ocp = hasOcpAccess(userAccess);
+    const path = this.getPath();
 
-    // cost models may include :uuid
-    const _pathname = location.pathname.startsWith(paths.costModels) ? paths.costModels : location.pathname;
-    const currRoute = routes.find(({ path }) => path === _pathname);
-
-    switch (currRoute && currRoute.path) {
+    switch (path) {
       case paths.explorer:
       case paths.overview:
         return aws || azure || costModel || gcp || ibm || ocp;

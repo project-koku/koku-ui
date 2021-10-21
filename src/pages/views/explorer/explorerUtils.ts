@@ -1,3 +1,4 @@
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { OrgPathsType } from 'api/orgs/org';
 import { Providers } from 'api/providers';
 import { getQueryRoute, Query } from 'api/queries/query';
@@ -7,13 +8,14 @@ import { TagPathsType } from 'api/tags/tag';
 import { UserAccess } from 'api/userAccess';
 import { ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartDatumUtils';
 import { format } from 'date-fns';
+import messages from 'locales/messages';
 import { FetchStatus } from 'store/common';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
 import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
-import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate } from 'utils/dateRange';
+import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate, getLast90DaysDate } from 'utils/dateRange';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 // The date range drop down has the options below (if today is Jan 18th…)
@@ -21,8 +23,9 @@ import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcp
 export const enum DateRangeType {
   currentMonthToDate = 'current_month_to_date', // Current month (Jan 1 - Jan 18)
   previousMonthToDate = 'previous_month_to_date', // Previous and current month (Dec 1 - Jan 18)
-  lastThirtyDays = 'last_thirty_days', // Last 30 days (Dec 18 - Jan 17)
+  lastNinetyDays = 'last_ninety_days', // Last 90 days
   lastSixtyDays = 'last_sixty_days', // Last 60 days (Nov 18 - Jan 17)
+  lastThirtyDays = 'last_thirty_days', // Last 30 days (Dec 18 - Jan 17)
 }
 
 // eslint-disable-next-line no-shadow
@@ -50,14 +53,19 @@ export const baseQuery: Query = {
 };
 
 export const dateRangeOptions: {
-  label: string;
+  label: MessageDescriptor;
   value: string;
 }[] = [
-  { label: 'explorer.date_range.current_month_to_date', value: 'current_month_to_date' },
-  { label: 'explorer.date_range.previous_month_to_date', value: 'previous_month_to_date' },
-  { label: 'explorer.date_range.last_thirty_days', value: 'last_thirty_days' },
-  { label: 'explorer.date_range.last_sixty_days', value: 'last_sixty_days' },
+  { label: messages.ExplorerDateRange, value: 'current_month_to_date' },
+  { label: messages.ExplorerDateRange, value: 'previous_month_to_date' },
+  { label: messages.ExplorerDateRange, value: 'last_thirty_days' },
+  { label: messages.ExplorerDateRange, value: 'last_sixty_days' },
 ];
+
+// Todo: Show new features in beta environment only
+if (insights.chrome.isBeta()) {
+  dateRangeOptions.push({ label: messages.ExplorerDateRange, value: 'last_ninety_days' });
+}
 
 export const groupByAwsOptions: {
   label: string;
@@ -107,31 +115,31 @@ export const groupByOcpOptions: {
 ];
 
 // Infrastructure AWS options
-export const infrastructureAwsOptions = [{ label: 'explorer.perspective.aws', value: 'aws' }];
+export const infrastructureAwsOptions = [{ label: messages.PerspectiveValues, value: 'aws' }];
 
 // Infrastructure AWS filtered by OpenShift options
-export const infrastructureAwsOcpOptions = [{ label: 'explorer.perspective.aws_ocp', value: 'aws_ocp' }];
+export const infrastructureAwsOcpOptions = [{ label: messages.PerspectiveValues, value: 'aws_ocp' }];
 
 // Infrastructure Azure options
-export const infrastructureAzureOptions = [{ label: 'explorer.perspective.azure', value: 'azure' }];
+export const infrastructureAzureOptions = [{ label: messages.PerspectiveValues, value: 'azure' }];
 
 // Infrastructure Azure filtered by OpenShift options
-export const infrastructureAzureOcpOptions = [{ label: 'explorer.perspective.azure_ocp', value: 'azure_ocp' }];
+export const infrastructureAzureOcpOptions = [{ label: messages.PerspectiveValues, value: 'azure_ocp' }];
 
 // Infrastructure GCP options
-export const infrastructureGcpOptions = [{ label: 'explorer.perspective.gcp', value: 'gcp' }];
+export const infrastructureGcpOptions = [{ label: messages.PerspectiveValues, value: 'gcp' }];
 
 // Infrastructure GCP filtered by OpenShift options
-export const infrastructureGcpOcpOptions = [{ label: 'explorer.perspective.gcp_ocp', value: 'gcp_ocp' }];
+export const infrastructureGcpOcpOptions = [{ label: messages.PerspectiveValues, value: 'gcp_ocp' }];
 
 // Infrastructure IBM options
-export const infrastructureIbmOptions = [{ label: 'explorer.perspective.ibm', value: 'ibm' }];
+export const infrastructureIbmOptions = [{ label: messages.PerspectiveValues, value: 'ibm' }];
 
 // Infrastructure Ocp cloud options
-export const infrastructureOcpCloudOptions = [{ label: 'explorer.perspective.ocp_cloud', value: 'ocp_cloud' }];
+export const infrastructureOcpCloudOptions = [{ label: messages.PerspectiveValues, value: 'ocp_cloud' }];
 
 // Ocp options
-export const ocpOptions = [{ label: 'explorer.perspective.ocp', value: 'ocp' }];
+export const ocpOptions = [{ label: messages.PerspectiveValues, value: 'ocp' }];
 
 export const getComputedReportItemType = (perspective: string) => {
   let result;
@@ -169,6 +177,9 @@ export const getDateRange = (dateRangeType: DateRangeType) => {
         end_date: format(endDate, 'yyyy-MM-dd'),
         start_date: format(startDate, 'yyyy-MM-dd'),
       };
+      break;
+    case DateRangeType.lastNinetyDays:
+      dateRange = getLast90DaysDate();
       break;
     case DateRangeType.lastSixtyDays:
       dateRange = getLast60DaysDate();
@@ -216,8 +227,18 @@ export const getPerspectiveDefault = ({
   userAccess: UserAccess;
 }) => {
   let result = queryFromRoute.perspective;
+  if (result) {
+    return result;
+  }
 
-  if (!result) {
+  const isLoading =
+    awsProvidersFetchStatus === FetchStatus.inProgress ||
+    azureProvidersFetchStatus === FetchStatus.inProgress ||
+    gcpProvidersFetchStatus === FetchStatus.inProgress ||
+    ibmProvidersFetchStatus === FetchStatus.inProgress ||
+    ocpProvidersFetchStatus === FetchStatus.inProgress;
+
+  if (!isLoading) {
     if (isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)) {
       result = PerspectiveType.ocp;
     } else if (isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus)) {

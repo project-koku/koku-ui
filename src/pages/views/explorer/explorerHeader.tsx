@@ -5,10 +5,14 @@ import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
+import { CostType } from 'components/costType/costType';
+import { Currency } from 'components/currency/currency';
+import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import { Perspective } from 'pages/views/components/perspective/perspective';
+import { hasCloudProvider } from 'pages/views/utils/providers';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -39,10 +43,9 @@ import {
   infrastructureAwsOptions,
   infrastructureAzureOcpOptions,
   infrastructureAzureOptions,
-  // infrastructureGcpOcpOptions, // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
   infrastructureGcpOptions,
   infrastructureIbmOptions,
-  // infrastructureOcpCloudOptions, // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1483
+  infrastructureOcpCloudOptions,
   ocpOptions,
   PerspectiveType,
 } from './explorerUtils';
@@ -51,7 +54,7 @@ interface ExplorerHeaderOwnProps {
   groupBy?: string;
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
-  onGroupByClicked(value: string);
+  onGroupBySelected(value: string);
   onPerspectiveClicked(value: string);
   perspective: PerspectiveType;
 }
@@ -91,7 +94,7 @@ interface ExplorerHeaderState {
 type ExplorerHeaderProps = ExplorerHeaderOwnProps &
   ExplorerHeaderStateProps &
   RouteComponentProps<void> &
-  WithTranslation;
+  WrappedComponentProps;
 
 class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   protected defaultState: ExplorerHeaderState = {
@@ -116,6 +119,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   }
 
   private getPerspective = (isDisabled: boolean) => {
+    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders } = this.props;
     const { currentPerspective } = this.state;
 
     const aws = this.isAwsAvailable();
@@ -128,18 +132,23 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       return null;
     }
 
+    const hasAwsProvider = hasCloudProvider(awsProviders, ocpProviders);
+    const hasAzureProvider = hasCloudProvider(azureProviders, ocpProviders);
+    const hasGcpProvider = hasCloudProvider(gcpProviders, ocpProviders);
+    const hasIbmProvider = hasCloudProvider(ibmProviders, ocpProviders);
+
     // Dynamically show options if providers are available
     const options = [];
     if (ocp) {
       options.push(...ocpOptions);
-      // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1483
-      //
-      // options.push(...infrastructureOcpCloudOptions);
+    }
+    if (hasAwsProvider || hasAzureProvider || hasGcpProvider || hasIbmProvider) {
+      options.push(...infrastructureOcpCloudOptions);
     }
     if (aws) {
       options.push(...infrastructureAwsOptions);
     }
-    if (aws && ocp) {
+    if (hasAwsProvider) {
       options.push(...infrastructureAwsOcpOptions);
     }
     if (gcp) {
@@ -147,7 +156,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     }
     // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
     //
-    // if (gcp && ocp) {
+    // if (hasGcpProvider) {
     //   options.push(...infrastructureGcpOcpOptions);
     // }
     if (ibm) {
@@ -156,7 +165,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     if (azure) {
       options.push(...infrastructureAzureOptions);
     }
-    if (azure && ocp) {
+    if (hasAzureProvider) {
       options.push(...infrastructureAzureOcpOptions);
     }
 
@@ -164,13 +173,13 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       <Perspective
         currentItem={currentPerspective || options[0].value}
         isDisabled={isDisabled}
-        onItemClicked={this.handlePerspectiveClick}
+        onSelected={this.handlePerspectiveSelected}
         options={options}
       />
     );
   };
 
-  private handlePerspectiveClick = (value: string) => {
+  private handlePerspectiveSelected = (value: string) => {
     const { history, onPerspectiveClicked, query } = this.props;
 
     const newQuery = {
@@ -229,10 +238,10 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       ocpProvidersFetchStatus,
       onFilterAdded,
       onFilterRemoved,
-      onGroupByClicked,
+      onGroupBySelected,
       perspective,
       query,
-      t,
+      intl,
       userAccess,
     } = this.props;
 
@@ -255,39 +264,45 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
     return (
       <header style={styles.header}>
-        <div>
+        <div style={styles.headerContent}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {t('navigation.explorer')}
+            {intl.formatMessage(messages.ExplorerTitle)}
           </Title>
-          <div style={styles.perspectiveContainer}>
-            {this.getPerspective(noProviders)}
-            <div style={styles.groupBy}>
-              <GroupBy
-                endDate={end_date}
-                getIdKeyForGroupBy={getIdKeyForGroupBy}
-                groupBy={groupBy}
-                isDisabled={noProviders}
-                onItemClicked={onGroupByClicked}
-                options={groupByOptions}
-                orgReportPathsType={orgReportPathsType}
-                perspective={perspective}
-                showOrgs={orgReportPathsType}
-                showTags={tagReportPathsType}
-                startDate={start_date}
-                tagReportPathsType={tagReportPathsType}
-              />
-            </div>
-          </div>
-          <ExplorerFilter
-            groupBy={groupBy}
-            isDisabled={noProviders}
-            onFilterAdded={onFilterAdded}
-            onFilterRemoved={onFilterRemoved}
-            perspective={perspective}
-            query={query}
-            resourcePathsType={resourcePathsType}
-          />
+          <Currency />
         </div>
+        <div style={styles.perspectiveContainer}>
+          {this.getPerspective(noProviders)}
+          <div style={styles.groupBy}>
+            <GroupBy
+              endDate={end_date}
+              getIdKeyForGroupBy={getIdKeyForGroupBy}
+              groupBy={groupBy}
+              isDisabled={noProviders}
+              onSelected={onGroupBySelected}
+              options={groupByOptions}
+              orgReportPathsType={orgReportPathsType}
+              perspective={perspective}
+              showOrgs={orgReportPathsType}
+              showTags={tagReportPathsType}
+              startDate={start_date}
+              tagReportPathsType={tagReportPathsType}
+            />
+          </div>
+          {perspective === PerspectiveType.aws && (
+            <div style={styles.costType}>
+              <CostType />
+            </div>
+          )}
+        </div>
+        <ExplorerFilter
+          groupBy={groupBy}
+          isDisabled={noProviders}
+          onFilterAdded={onFilterAdded}
+          onFilterRemoved={onFilterRemoved}
+          perspective={perspective}
+          query={query}
+          resourcePathsType={resourcePathsType}
+        />
       </header>
     );
   }
@@ -413,6 +428,6 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
   }
 );
 
-const ExplorerHeader = withRouter(withTranslation()(connect(mapStateToProps, {})(ExplorerHeaderBase)));
+const ExplorerHeader = injectIntl(withRouter(connect(mapStateToProps, {})(ExplorerHeaderBase)));
 
 export { ExplorerHeader, ExplorerHeaderProps };

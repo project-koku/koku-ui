@@ -1,7 +1,7 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
@@ -33,7 +33,7 @@ interface ExplorerToolbarState {
 type ExplorerToolbarProps = ExplorerToolbarOwnProps &
   ExplorerToolbarStateProps &
   ExplorerToolbarDispatchProps &
-  WithTranslation;
+  WrappedComponentProps;
 
 export class ExplorerToolbarBase extends React.Component<ExplorerToolbarProps> {
   protected defaultState: ExplorerToolbarState = {};
@@ -80,6 +80,6 @@ const mapDispatchToProps: ExplorerToolbarDispatchProps = {
 };
 
 const ExplorerToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerToolbarBase);
-const ExplorerToolbar = withTranslation()(ExplorerToolbarConnect);
+const ExplorerToolbar = injectIntl(ExplorerToolbarConnect);
 
 export { ExplorerToolbar, ExplorerToolbarProps };

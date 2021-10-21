@@ -11,9 +11,11 @@ import {
   ToolbarProps,
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
+import { intl as defaultIntl } from 'components/i18n';
 import HookIntoProps from 'hook-into-props';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { RootState } from 'store';
@@ -93,10 +95,10 @@ const descriptionMapStateToProps = (state: RootState) => {
 const descriptionMergeProps = (
   stateProps: ReturnType<typeof descriptionMapStateToProps>,
   dispatchProps,
-  ownProps: WithTranslation & RouteComponentProps & Inputer
+  ownProps: WrappedComponentProps & RouteComponentProps & Inputer
 ) => {
   const {
-    t,
+    intl = defaultIntl, // Default required for testing
     value,
     setValue,
     history: { push },
@@ -105,7 +107,7 @@ const descriptionMergeProps = (
   const children =
     filterType === 'description' ? (
       <FilterInput
-        placeholder={t('page_cost_models.filter_by_description')}
+        placeholder={intl.formatMessage(messages.FilterByPlaceholder, { value: filterType })}
         value={value}
         onChange={(text: string) => setValue(text)}
         onKeyPress={onKeyPress(push, 'description', { ...initialCostModelsQuery, ...query }, { value, setValue })}
@@ -116,7 +118,7 @@ const descriptionMergeProps = (
     deleteChip: onDeleteChip(push, 'description', { ...initialCostModelsQuery, ...query }),
     deleteChipGroup: onDeleteChipGroup(push, { ...initialCostModelsQuery, ...query }, 'description'),
     chips,
-    categoryName: t('description'),
+    categoryName: intl.formatMessage(messages.Description),
     children,
   } as ToolbarFilterProps;
 };
@@ -125,7 +127,7 @@ const DescriptionFilterConnect = connect(descriptionMapStateToProps, undefined, 
 export const DescriptionFilter = HookIntoProps(() => {
   const [value, setValue] = React.useState('');
   return { value, setValue };
-})(withRouter(withTranslation()(DescriptionFilterConnect)));
+})(injectIntl(withRouter(DescriptionFilterConnect)));
 
 const nameFilterMapStateToProps = (state: RootState) => {
   const filterType = costModelsSelectors.currentFilterType(state);
@@ -136,10 +138,10 @@ const nameFilterMapStateToProps = (state: RootState) => {
 const nameFilterMergeProps = (
   stateProps: ReturnType<typeof nameFilterMapStateToProps>,
   dispatchProps,
-  ownProps: Inputer & WithTranslation & RouteComponentProps
+  ownProps: Inputer & WrappedComponentProps & RouteComponentProps
 ) => {
   const {
-    t,
+    intl = defaultIntl, // Default required for testing
     setValue,
     value,
     history: { push },
@@ -148,7 +150,7 @@ const nameFilterMergeProps = (
   const children =
     filterType === 'name' ? (
       <FilterInput
-        placeholder={t('page_cost_models.filter_by_name')}
+        placeholder={intl.formatMessage(messages.FilterByPlaceholder, { value: filterType })}
         value={value}
         onChange={(text: string) => setValue(text)}
         onKeyPress={onKeyPress(push, 'name', { ...initialCostModelsQuery, ...query }, { value, setValue })}
@@ -159,7 +161,7 @@ const nameFilterMergeProps = (
     deleteChip: onDeleteChip(push, 'name', { ...initialCostModelsQuery, ...query }),
     deleteChipGroup: onDeleteChipGroup(push, { ...initialCostModelsQuery, ...query }, 'name'),
     chips,
-    categoryName: t('name'),
+    categoryName: intl.formatMessage(messages.Names, { count: 1 }),
     children,
   } as ToolbarFilterProps;
 };
@@ -168,7 +170,7 @@ const NameFilterConnect = connect(nameFilterMapStateToProps, undefined, nameFilt
 export const NameFilter = HookIntoProps(() => {
   const [value, setValue] = React.useState('');
   return { value, setValue };
-})(withRouter(withTranslation()(NameFilterConnect)));
+})(injectIntl(withRouter(NameFilterConnect)));
 
 export const onSelect = (id: string, setToggle: Opener['setIsOpen']) => {
   return () => {
@@ -187,11 +189,11 @@ const sourceTypeFilterMapStateToProps = (state: RootState) => {
 const sourceTypeFilterMergeProps = (
   stateProps: ReturnType<typeof sourceTypeFilterMapStateToProps>,
   _dispatchProps,
-  ownProps: Opener & WithTranslation & RouteComponentProps
+  ownProps: Opener & WrappedComponentProps & RouteComponentProps
 ) => {
   const id = 'source-type-filter';
   const {
-    t,
+    intl = defaultIntl, // Default required for testing
     isOpen,
     setIsOpen,
     history: { push },
@@ -211,18 +213,18 @@ const sourceTypeFilterMergeProps = (
             }}
             id={id}
           >
-            {t('page_cost_models.filter_by_source_type')}
+            {intl.formatMessage(messages.FilterByPlaceholder, { value: 'source_type' })}
           </DropdownToggle>
         }
         dropdownItems={[
           <DropdownItem key="aws" component="button" onClick={() => onFilter('aws')}>
-            {t('page_cost_models.aws')}
+            {intl.formatMessage(messages.AWS)}
           </DropdownItem>,
           <DropdownItem key="azure" component="button" onClick={() => onFilter('azure')}>
-            {t('page_cost_models.azure')}
+            {intl.formatMessage(messages.Azure)}
           </DropdownItem>,
           <DropdownItem key="ocp" component="button" onClick={() => onFilter('ocp')}>
-            {t('page_cost_models.ocp')}
+            {intl.formatMessage(messages.OpenShift)}
           </DropdownItem>,
         ]}
       />
@@ -231,7 +233,7 @@ const sourceTypeFilterMergeProps = (
   return {
     deleteChip: onDeleteChipGroup(push, { ...initialCostModelsQuery, ...query }, 'source_type'),
     chips,
-    categoryName: t('page_cost_models.source_type'),
+    categoryName: intl.formatMessage(messages.CostModelsSourceType),
     children,
   } as ToolbarFilterProps;
 };
@@ -244,7 +246,7 @@ const SourceFilterConnect = connect(
 export const SourceTypeFilter = HookIntoProps(() => {
   const [isOpen, setIsOpen] = React.useState(false);
   return { isOpen, setIsOpen };
-})(withRouter(withTranslation()(SourceFilterConnect)));
+})(injectIntl(withRouter(SourceFilterConnect)));
 
 const toolbarMapStateToProps = (state: RootState) => {
   const query: Partial<CostModelsQuery> = costModelsSelectors.query(state);

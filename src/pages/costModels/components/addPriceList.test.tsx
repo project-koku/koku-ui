@@ -1,5 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 import { Rate } from 'api/rates';
+import messages from 'locales/messages';
 import { CostModelContext, defaultCostModelContext } from 'pages/costModels/createCostModelWizard/context';
 import React from 'react';
 
@@ -62,8 +63,6 @@ const qr = {
   supplradio: /supplementary/i,
   regular: '#regular-rate',
   regularError: '#regular-rate-helper',
-  submit: 'cost_models_wizard.price_list.create_rate',
-  cancel: 'cost_models_wizard.price_list.cancel',
   switch: 'Enter rate by tag',
   tagKey: '#tag-key',
   descriptionNth: (id: number) => `#desc_${id}`,
@@ -109,6 +108,10 @@ function RenderFormDataUI({ cancel, submit }) {
   );
 }
 
+function regExp(msg) {
+  return new RegExp(msg.defaultMessage);
+}
+
 describe('add-a-new-rate', () => {
   test('regular rate', () => {
     const submit = jest.fn();
@@ -129,28 +132,29 @@ describe('add-a-new-rate', () => {
     // selecting metric will reset both measurement and cost type
     fireEvent.click(getByLabelText(qr.infraradio));
     fireEvent.change(container.querySelector(qr.metric), { target: { value: 'Memory' } });
-    expect(getByText('cost_models.required_field')).toBeTruthy();
+    expect(getByText(regExp(messages.CostModelsRequiredField))).toBeTruthy();
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
     expect(getByLabelText(qr.supplradio).checked).toBeTruthy();
     fireEvent.click(getByLabelText(qr.infraradio));
 
     // setting rate to anything but a number
     fireEvent.change(container.querySelector(qr.regular), { target: { value: 'A' } });
-    expect(getByText('cost_models.add_rate_form.not_number')).toBeTruthy();
+    expect(getByText(regExp(messages.PriceListNumberRate))).toBeTruthy();
 
     // setting rate to a negative number - validation is done on blur
     fireEvent.change(container.querySelector(qr.regular), { target: { value: '-12' } });
     fireEvent.blur(container.querySelector(qr.regular));
-    expect(getByText('cost_models.add_rate_form.not_positive')).toBeTruthy();
+    expect(getByText(regExp(messages.PriceListPosNumberRate))).toBeTruthy();
 
     // setting rate to a valid number
     fireEvent.change(container.querySelector(qr.regular), { target: { value: '0.2' } });
 
     // making sure button is enabled
-    expect(getByText(/cost_models_wizard.price_list.create_rate/i).closest('button').disabled).toBeFalsy();
-    fireEvent.click(getByText(qr.submit));
+    expect(getByText(regExp(messages.CreateRate)).closest('button').disabled).toBeFalsy();
+    fireEvent.click(getByText(regExp(messages.CreateRate)).closest('button'));
     expect(submit).toHaveBeenCalled();
   });
+
   test('tag rates', () => {
     const submit = jest.fn();
     const cancel = jest.fn();
@@ -161,82 +165,84 @@ describe('add-a-new-rate', () => {
     fireEvent.change(container.querySelector(qr.metric), { target: { value: 'CPU' } });
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
-    fireEvent.click(getByLabelText(qr.switch));
+    fireEvent.click(getByLabelText(regExp(messages.CostModelsEnterTagRate)));
 
     // tag key is required validation
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'test' } });
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: '' } });
-    expect(getByText('cost_models.required_field')).toBeTruthy();
+    expect(getByText(regExp(messages.CostModelsRequiredField))).toBeTruthy();
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'openshift' } });
-    expect(queryByText('cost_models.required_field')).toBeFalsy();
+    expect(queryByText(regExp(messages.CostModelsRequiredField))).toBeFalsy();
 
     // tag value is required validation
     fireEvent.change(container.querySelector(qr.tagValueNth(0)), { target: { value: 'test' } });
     fireEvent.change(container.querySelector(qr.tagValueNth(0)), { target: { value: '' } });
-    expect(getByText('cost_models.required_field')).toBeTruthy();
+    expect(getByText(regExp(messages.CostModelsRequiredField))).toBeTruthy();
     fireEvent.change(container.querySelector(qr.tagValueNth(0)), { target: { value: 'worker' } });
-    expect(queryByText('cost_models.required_field')).toBeFalsy();
+    expect(queryByText(regExp(messages.CostModelsRequiredField))).toBeFalsy();
 
     // rate must be a number
     fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: 'test' } });
-    expect(getByText('cost_models.add_rate_form.not_number')).toBeTruthy();
+    expect(getByText(regExp(messages.PriceListNumberRate))).toBeTruthy();
 
     // rate is required
     fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '' } });
-    expect(getByText('cost_models.required_field')).toBeTruthy();
+    expect(getByText(regExp(messages.CostModelsRequiredField))).toBeTruthy();
 
     // rate must be positive
     fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '-0.23' } });
     fireEvent.blur(container.querySelector(qr.rateNth(0)));
-    expect(getByText('cost_models.add_rate_form.not_positive')).toBeTruthy();
+    expect(getByText(regExp(messages.PriceListPosNumberRate))).toBeTruthy();
 
     // setting a valid rate - now form is valid and can be submitted
-    expect(getByText(/create_rate/i).closest('button').disabled).toBeTruthy();
+    expect(getByText(regExp(messages.CreateRate)).closest('button').disabled).toBeTruthy();
     fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '0.23' } });
     fireEvent.change(container.querySelector(qr.descriptionNth(0)), { target: { value: 'default worker' } });
-    expect(getByText(/create_rate/i).closest('button').disabled).toBeFalsy();
+    expect(getByText(regExp(messages.CreateRate)).closest('button').disabled).toBeFalsy();
 
     // set tag to default
     fireEvent.click(container.querySelector(qr.defaultNth(0)));
 
     // add a new rate disables the submit button
     fireEvent.click(getByTestId('add_more'));
-    expect(getByText(/create_rate/i).closest('button').disabled).toBeTruthy();
+    expect(getByText(regExp(messages.CreateRate)).closest('button').disabled).toBeTruthy();
     fireEvent.click(getByTestId('remove_tag_1'));
-    expect(getByText(/create_rate/i).closest('button').disabled).toBeFalsy();
-    fireEvent.click(getByText(qr.submit));
+    expect(getByText(regExp(messages.CreateRate)).closest('button').disabled).toBeFalsy();
+    fireEvent.click(getByText(regExp(messages.CreateRate)).closest('button'));
     expect(submit).toHaveBeenCalled();
   });
+
   test('tag rates duplicate tag key', () => {
     const submit = jest.fn();
     const cancel = jest.fn();
     const { container, queryByText, getByLabelText } = render(<RenderFormDataUI submit={submit} cancel={cancel} />);
     fireEvent.change(container.querySelector(qr.metric), { target: { value: 'Memory' } });
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
-    fireEvent.click(getByLabelText(qr.switch));
+    fireEvent.click(getByLabelText(regExp(messages.CostModelsEnterTagRate)));
 
     // tag key is duplicated
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'app' } });
-    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeTruthy();
+    expect(queryByText(regExp(messages.PriceListDuplicate))).toBeTruthy();
 
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'app1' } });
-    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeFalsy();
+    expect(queryByText(regExp(messages.PriceListDuplicate))).toBeFalsy();
 
     // change measurement will set tag key as not duplicate
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'app' } });
-    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeTruthy();
+    expect(queryByText(regExp(messages.PriceListDuplicate))).toBeTruthy();
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Usage' } });
-    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeFalsy();
+    expect(queryByText(regExp(messages.PriceListDuplicate))).toBeFalsy();
 
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
-    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeTruthy();
+    expect(queryByText(regExp(messages.PriceListDuplicate))).toBeTruthy();
   });
+
   test('hide "enter tag rates" switch on Cluster metric', () => {
     const submit = jest.fn();
     const cancel = jest.fn();
     const { container, queryAllByLabelText } = render(<RenderFormDataUI submit={submit} cancel={cancel} />);
     fireEvent.change(container.querySelector(qr.metric), { target: { value: 'Cluster' } });
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Currency' } });
-    expect(queryAllByLabelText(qr.switch)).toHaveLength(0);
+    expect(queryAllByLabelText(regExp(messages.CostModelsEnterTagRate))).toHaveLength(0);
   });
 });

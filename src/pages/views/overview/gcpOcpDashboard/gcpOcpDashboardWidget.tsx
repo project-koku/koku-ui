@@ -3,7 +3,7 @@ import {
   DashboardWidgetOwnProps,
   DashboardWidgetStateProps,
 } from 'pages/views/overview/components/dashboardWidgetBase';
-import { withTranslation } from 'react-i18next';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { gcpOcpDashboardActions, gcpOcpDashboardSelectors, GcpOcpDashboardTab } from 'store/dashboard/gcpOcpDashboard';
@@ -71,6 +71,6 @@ const mapDispatchToProps: GcpOcpDashboardWidgetDispatchProps = {
   updateTab: gcpOcpDashboardActions.changeWidgetTab,
 };
 
-const GcpOcpDashboardWidget = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase));
+const GcpOcpDashboardWidget = injectIntl(connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase));
 
 export { GcpOcpDashboardWidget };

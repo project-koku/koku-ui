@@ -24,21 +24,22 @@ import {
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
 import { getDate } from 'date-fns';
-import i18next from 'i18next';
+import messages from 'locales/messages';
 import React from 'react';
-import { FormatOptions, ValueFormatter } from 'utils/formatValue';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { FormatOptions, Formatter } from 'utils/format';
 import { noop } from 'utils/noop';
 
 import { chartStyles, styles } from './historicalTrendChart.styles';
 
-interface HistoricalTrendChartProps {
+interface HistoricalTrendChartOwnProps {
   containerHeight?: number;
   currentData: any;
+  formatOptions?: FormatOptions;
+  formatter: Formatter;
   height: number;
   padding?: any;
   previousData?: any;
-  formatDatumValue: ValueFormatter;
-  formatDatumOptions?: FormatOptions;
   legendItemsPerRow?: number;
   title?: string;
   showUsageLegendLabel?: boolean;
@@ -54,7 +55,9 @@ interface State {
   width: number;
 }
 
-class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, State> {
+type HistoricalTrendChartProps = HistoricalTrendChartOwnProps & WrappedComponentProps;
+
+class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   private observer: any = noop;
 
@@ -83,8 +86,8 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
   private initDatum = () => {
     const { currentData, previousData, showUsageLegendLabel = false } = this.props;
 
-    const key = showUsageLegendLabel ? 'chart.usage_legend_label' : 'chart.cost_legend_label';
-    const toolTipKey = showUsageLegendLabel ? 'chart.usage_legend_tooltip' : 'chart.cost_legend_tooltip';
+    const key = showUsageLegendLabel ? messages.ChartUsageLegendLabel : messages.ChartCostLegendLabel;
+    const toolTipKey = showUsageLegendLabel ? messages.ChartUsageLegendTooltip : messages.ChartCostLegendTooltip;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -93,7 +96,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
         childName: 'previousCost',
         data: previousData,
         legendItem: {
-          name: getCostRangeString(previousData, key, true, true, 1),
+          name: getCostRangeString(previousData, key, true, true, 1, messages.ChartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -111,7 +114,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
         childName: 'currentCost',
         data: currentData,
         legendItem: {
-          name: getCostRangeString(currentData, key, true, false),
+          name: getCostRangeString(currentData, key, true, false, 0, messages.ChartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.currentColorScale[1],
             type: 'minus',
@@ -145,7 +148,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
 
   // Returns CursorVoronoiContainer component
   private getCursorVoronoiContainer = () => {
-    const { formatDatumValue, formatDatumOptions } = this.props;
+    const { formatter, formatOptions } = this.props;
 
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
@@ -153,7 +156,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={({ datum }) => getTooltipLabel(datum, formatDatumValue, formatDatumOptions)}
+        labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -220,6 +223,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
   public render() {
     const {
       height,
+      intl,
       containerHeight = height,
       padding = {
         bottom: 120,
@@ -232,7 +236,6 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
       yAxisLabel,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
-
     const domain = getDomain(series, hiddenSeries);
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
@@ -244,7 +247,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
           labelComponent: (
             <ChartLegendTooltip
               legendData={getLegendData(series, hiddenSeries, true)}
-              title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+              title={datum => intl.formatMessage(messages.ChartDayOfTheMonth, { day: datum.x })}
             />
           ),
         })
@@ -282,5 +285,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
     );
   }
 }
+
+const HistoricalTrendChart = injectIntl(HistoricalTrendChartBase);
 
 export { HistoricalTrendChart, HistoricalTrendChartProps };

@@ -6,6 +6,7 @@ Object {
     "currentFilterType": "name",
     "currentFilterValue": "",
     "error": null,
+    "filter": "",
     "sources": null,
     "status": 0,
   },

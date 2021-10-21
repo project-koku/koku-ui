@@ -1,5 +1,7 @@
 import { Modal, ModalProps, ModalVariant } from '@patternfly/react-core';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { intl as defaultIntl } from 'components/i18n';
+import messages from 'locales/messages';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RootState } from 'store';
@@ -26,9 +28,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const mergeProps = (
   stateProps: ReturnType<typeof mapStateToProps>,
   dispatchProps: ReturnType<typeof mapDispatchToProps>,
-  ownProps: WithTranslation
+  ownProps: WrappedComponentProps
 ) => {
-  const { t } = ownProps;
+  const { intl = defaultIntl } = ownProps; // Default required for testing
   const stateName = getDialogStateName(stateProps.isLoading, stateProps.isOpen, stateProps.deleteError);
   const data = stateProps.dialogData && stateProps.dialogData.costModel ? stateProps.dialogData.costModel : null;
   const name = data ? data.name : '';
@@ -37,9 +39,9 @@ const mergeProps = (
 
   const actions = DeleteDialogActions({
     status: stateName,
-    deleteText: t('page_cost_models.delete_cost_model'),
+    deleteText: intl.formatMessage(messages.CostModelsDelete),
     deleteAction: () => dispatchProps.deleteCostModel(uuid),
-    cancelText: t('page_cost_models.cancel'),
+    cancelText: intl.formatMessage(messages.Cancel),
     cancelAction: dispatchProps.closeDialog,
     sourcesNo: sources.length,
   });
@@ -48,23 +50,23 @@ const mergeProps = (
     status: stateName,
     sources,
     error: stateProps.deleteError,
-    cannotDeleteTitle: t('page_cost_models.cannot_delete_description_head'),
-    cannotDeleteBody: t('page_cost_models.cannot_delete_description_body', { name }),
-    canDeleteBody: t('page_cost_models.can_delete_description', { name }),
+    cannotDeleteTitle: intl.formatMessage(messages.CostModelsDeleteSource),
+    cannotDeleteBody: intl.formatMessage(messages.CostModelsCanNotDelete, { name }),
+    canDeleteBody: intl.formatMessage(messages.CostModelsCanDelete, { name }),
   });
 
   return {
     actions,
     isOpen: stateName !== 'close',
     variant: ModalVariant.small,
-    'aria-label': 'delete-cost-model',
-    title: t('page_cost_models.delete_title'),
+    'aria-label': intl.formatMessage(messages.CostModelsDelete),
+    title: intl.formatMessage(messages.CostModelsDelete),
     titleIconVariant: 'warning',
     onClose: dispatchProps.closeDialog,
     children,
   } as ModalProps;
 };
 
-const DeleteDialog = withTranslation()(connect(mapStateToProps, mapDispatchToProps, mergeProps)(Modal));
+const DeleteDialog = injectIntl(connect(mapStateToProps, mapDispatchToProps, mergeProps)(Modal));
 
 export default DeleteDialog;

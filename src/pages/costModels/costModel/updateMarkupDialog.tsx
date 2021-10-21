@@ -3,6 +3,8 @@ import {
   Button,
   Flex,
   FlexItem,
+  Form,
+  FormGroup,
   InputGroup,
   InputGroupText,
   List,
@@ -18,16 +20,17 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
+import messages from 'locales/messages';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
-import { formatValue } from 'utils/formatValue';
+import { countDecimals, formatPercentageMarkup, isPercentageFormatValid, unFormat } from 'utils/format';
 
 import { styles } from './costCalc.styles';
 
-interface Props extends WithTranslation {
+interface Props extends WrappedComponentProps {
   isLoading: boolean;
   onClose: typeof costModelsActions.setCostModelDialog;
   updateCostModel: typeof costModelsActions.updateCostModel;
@@ -37,24 +40,19 @@ interface Props extends WithTranslation {
 
 interface State {
   markup: string;
-  origIsDiscount: boolean;
   isDiscount: boolean;
 }
 
 class UpdateMarkupModelBase extends React.Component<Props, State> {
   constructor(props) {
     super(props);
-    const initialMarkup = this.props.current.markup.value;
-    const isNegative = Number(initialMarkup) < 0;
-    const noSignValue = isNegative ? initialMarkup.substring(1) : initialMarkup;
+    const initialMarkup = Number(this.props.current.markup.value || 0); // Drop trailing zeros from API value
+    const isNegative = initialMarkup < 0;
+    const markupValue = isNegative ? initialMarkup.toString().substring(1) : initialMarkup.toString();
 
     this.state = {
-      markup:
-        (formatValue(Number(noSignValue), 'markup', {
-          fractionDigits: 2,
-        }) as string) || '0.00',
-      origIsDiscount: isNegative,
       isDiscount: isNegative,
+      markup: formatPercentageMarkup(Number(markupValue)),
     };
   }
 
@@ -65,14 +63,8 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
 
   private handleMarkupDiscountChange = (_, event) => {
     const { value } = event.currentTarget;
-    const regex = /^[0-9.]*$/;
-    if (regex.test(value)) {
-      this.setState({ markup: value });
-    }
-  };
 
-  private markupValidator = () => {
-    return /^\d*(\.?\d{1,2})?$/.test(this.state.markup) ? 'default' : 'error';
+    this.setState({ markup: value });
   };
 
   private handleOnKeyDown = event => {
@@ -82,12 +74,31 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
     }
   };
 
+  private markupValidator = () => {
+    const { markup } = this.state;
+
+    if (!isPercentageFormatValid(markup)) {
+      return messages.MarkupOrDiscountNumber;
+    }
+    // Test number of decimals
+    const decimals = countDecimals(markup);
+    if (decimals > 10) {
+      return messages.MarkupOrDiscountTooLong;
+    }
+    return undefined;
+  };
+
   public render() {
-    const { error, current, onClose, updateCostModel, isLoading, t } = this.props;
+    const { error, current, intl, isLoading, onClose, updateCostModel } = this.props;
     const { isDiscount } = this.state;
+
+    const helpText = this.markupValidator();
+    const validated = helpText ? 'error' : 'default';
+    const markup = `${isDiscount ? '-' : ''}${unFormat(this.state.markup)}`;
+
     return (
       <Modal
-        title={t('cost_models_details.edit_markup_or_discount')}
+        title={intl.formatMessage(messages.EditMarkupOrDiscount)}
         isOpen
         onClose={() => onClose({ name: 'updateMarkup', isOpen: false })}
         variant={ModalVariant.medium}
@@ -101,21 +112,20 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                 source_uuids: current.sources.map(provider => provider.uuid),
                 source_type: current.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
                 markup: {
-                  value: this.state.isDiscount ? '-' + this.state.markup : this.state.markup,
+                  value: markup,
                   unit: 'percent',
                 },
               };
               updateCostModel(current.uuid, newState, 'updateMarkup');
             }}
             isDisabled={
-              isNaN(Number(this.state.markup)) ||
-              (Number(this.state.markup) ===
-                Number(this.state.origIsDiscount ? current.markup.value.substring(1) : current.markup.value || 0) &&
-                this.state.isDiscount === this.state.origIsDiscount) ||
-              isLoading
+              isLoading ||
+              validated === 'error' ||
+              markup.trim().length === 0 ||
+              Number(markup) === Number(current.markup.value)
             }
           >
-            {t('save')}
+            {intl.formatMessage(messages.Save)}
           </Button>,
           <Button
             key="cancel"
@@ -123,7 +133,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
             onClick={() => onClose({ name: 'updateMarkup', isOpen: false })}
             isDisabled={isLoading}
           >
-            {t('cancel')}
+            {intl.formatMessage(messages.Cancel)}
           </Button>,
         ]}
       >
@@ -131,15 +141,13 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
           <StackItem>{error && <Alert variant="danger" title={`${error}`} />}</StackItem>
           <StackItem>
             <TextContent>
-              <Text style={styles.cardDescription}>
-                {t('cost_models_details.description_markup_or_discount_model')}
-              </Text>
+              <Text style={styles.cardDescription}>{intl.formatMessage(messages.MarkupOrDiscountModalDesc)}</Text>
             </TextContent>
           </StackItem>
           <StackItem>
             <TextContent>
               <Title headingLevel="h2" size="md">
-                {t('cost_models_details.markup_or_discount')}
+                {intl.formatMessage(messages.MarkupOrDiscount)}
               </Title>
             </TextContent>
             <Flex style={styles.markupRadioContainer}>
@@ -148,8 +156,8 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                   <Radio
                     isChecked={!isDiscount}
                     name="discount"
-                    label={t('cost_models_details.markup_plus')}
-                    aria-label={t('cost_models_details.markup_plus')}
+                    label={intl.formatMessage(messages.MarkupPlus)}
+                    aria-label={intl.formatMessage(messages.MarkupPlus)}
                     id="markup"
                     value="false" // "+"
                     onChange={this.handleSignChange}
@@ -158,8 +166,8 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                   <Radio
                     isChecked={isDiscount}
                     name="discount"
-                    label={t('cost_models_details.discount_minus')}
-                    aria-label={t('cost_models_details.discount_minus')}
+                    label={intl.formatMessage(messages.DiscountMinus)}
+                    aria-label={intl.formatMessage(messages.DiscountMinus)}
                     id="discount"
                     value="true" // '-'
                     onChange={this.handleSignChange}
@@ -168,20 +176,37 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
               </Flex>
               <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfCenter' }}>
                 <FlexItem>
-                  <InputGroup style={styles.rateContainer}>
-                    <InputGroupText style={styles.sign}>{isDiscount ? '-' : '+'}</InputGroupText>
-                    <TextInput
-                      style={styles.inputField}
-                      type="text"
-                      aria-label={t('rate')}
-                      id="markup-input-box"
-                      value={this.state.markup}
-                      onKeyDown={this.handleOnKeyDown}
-                      onChange={this.handleMarkupDiscountChange}
-                      validated={this.markupValidator()}
-                    />
-                    <InputGroupText style={styles.percent}>%</InputGroupText>
-                  </InputGroup>
+                  <Form>
+                    <FormGroup
+                      fieldId="markup-input-box"
+                      helperTextInvalid={helpText ? intl.formatMessage(helpText) : undefined}
+                      style={styles.rateContainer}
+                      validated={validated}
+                    >
+                      <InputGroup>
+                        <InputGroupText style={styles.sign}>
+                          {isDiscount
+                            ? intl.formatMessage(messages.DiscountMinus)
+                            : intl.formatMessage(messages.MarkupPlus)}
+                        </InputGroupText>
+                        <TextInput
+                          aria-label={intl.formatMessage(messages.Rate)}
+                          id="markup-input-box"
+                          isRequired
+                          onKeyDown={this.handleOnKeyDown}
+                          onChange={this.handleMarkupDiscountChange}
+                          placeholder={'0'}
+                          style={styles.inputField}
+                          type="text"
+                          validated={validated}
+                          value={this.state.markup}
+                        />
+                        <InputGroupText style={styles.percent}>
+                          {intl.formatMessage(messages.PercentSymbol)}
+                        </InputGroupText>
+                      </InputGroup>
+                    </FormGroup>
+                  </Form>
                 </FlexItem>
               </Flex>
             </Flex>
@@ -190,14 +215,14 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
           <StackItem>
             <TextContent>
               <Title headingLevel="h3" size="md">
-                {t('cost_models_details.examples.title')}
+                {intl.formatMessage(messages.ExamplesTitle)}
               </Title>
             </TextContent>
             <List>
-              <ListItem>{t('cost_models_details.examples.noAdjustment')}</ListItem>
-              <ListItem>{t('cost_models_details.examples.doubleMarkup')}</ListItem>
-              <ListItem>{t('cost_models_details.examples.reduceBaseToZero')}</ListItem>
-              <ListItem>{t('cost_models_details.examples.reduceBaseToSeventyFive')}</ListItem>
+              <ListItem>{intl.formatMessage(messages.CostModelsExamplesNoAdjust)}</ListItem>
+              <ListItem>{intl.formatMessage(messages.CostModelsExamplesDoubleMarkup)}</ListItem>
+              <ListItem>{intl.formatMessage(messages.CostModelsExamplesReduceZero)}</ListItem>
+              <ListItem>{intl.formatMessage(messages.CostModelsExamplesReduceSeventyfive)}</ListItem>
             </List>
           </StackItem>
         </Stack>
@@ -216,16 +241,18 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   };
 };
 
-export default connect(
-  createMapStateToProps(state => {
-    return {
-      isLoading: costModelsSelectors.updateProcessing(state),
-      error: costModelsSelectors.updateError(state),
-    };
-  }),
-  {
-    onClose: costModelsActions.setCostModelDialog,
-    updateCostModel: costModelsActions.updateCostModel,
-  },
-  mergeProps
-)(withTranslation()(UpdateMarkupModelBase));
+export default injectIntl(
+  connect(
+    createMapStateToProps(state => {
+      return {
+        isLoading: costModelsSelectors.updateProcessing(state),
+        error: costModelsSelectors.updateError(state),
+      };
+    }),
+    {
+      onClose: costModelsActions.setCostModelDialog,
+      updateCostModel: costModelsActions.updateCostModel,
+    },
+    mergeProps
+  )(UpdateMarkupModelBase)
+);

@@ -1,31 +1,37 @@
 import { Button, ButtonVariant, Checkbox, FormGroup, Split, SplitItem } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
-import { RateInputBase } from 'pages/costModels/components/inputs/rateInput';
+import { intl as defaultIntl } from 'components/i18n';
+import messages from 'locales/messages';
+import { RateInput } from 'pages/costModels/components/inputs/rateInput';
 import { SimpleInput } from 'pages/costModels/components/inputs/simpleInput';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import { UseRateData } from './useRateForm';
 import { RateFormErrors, RateFormTagValue } from './utils';
 
-interface TaggingRatesFormProps {
+interface TaggingRatesFormOwnProps {
+  currencyUnits?: string;
+  defaultTag: UseRateData['taggingRates']['defaultTag'];
+  errors: Pick<RateFormErrors, 'tagValueValues' | 'tagValues' | 'tagDescription'>;
+  removeTag: UseRateData['removeTag'];
   tagValues: RateFormTagValue[];
   updateDefaultTag: UseRateData['updateDefaultTag'];
-  defaultTag: UseRateData['taggingRates']['defaultTag'];
   updateTag: UseRateData['updateTag'];
-  removeTag: UseRateData['removeTag'];
-  errors: Pick<RateFormErrors, 'tagValueValues' | 'tagValues' | 'tagDescription'>;
 }
 
-export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = ({
+type TaggingRatesFormProps = TaggingRatesFormOwnProps & WrappedComponentProps;
+
+const TaggingRatesFormBase: React.FunctionComponent<TaggingRatesFormProps> = ({
+  currencyUnits,
+  defaultTag,
+  errors,
+  intl = defaultIntl, // Default required for testing
   tagValues,
   updateDefaultTag,
-  defaultTag,
-  updateTag,
   removeTag,
-  errors,
+  updateTag,
 }) => {
-  const { t } = useTranslation();
   const style = { width: '200px' };
   const elementStyle = {
     height: '100%',
@@ -37,14 +43,14 @@ export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = 
       {tagValues.map((tag, ix: number) => {
         return (
           <Split hasGutter key={ix}>
-            <SplitItem style={elementStyle}>=</SplitItem>
+            <SplitItem style={elementStyle}>{intl.formatMessage(messages.EqualsSymbol)}</SplitItem>
             <SplitItem>
               <SimpleInput
                 isRequired
                 style={style}
                 id={`tagValue_${ix}`}
-                label="cost_models.tag_value"
-                placeholder={t('cost_models.add_rate_form.enter_a_tag_value')}
+                label={messages.CostModelsTagRateTableValue}
+                placeholder={intl.formatMessage(messages.CostModelsEnterTagValue)}
                 value={tag.tagValue}
                 onChange={value => updateTag({ tagValue: value }, ix)}
                 validated={tagValues[ix].isTagValueDirty && errors.tagValueValues[ix] ? 'error' : 'default'}
@@ -52,20 +58,21 @@ export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = 
               />
             </SplitItem>
             <SplitItem>
-              <RateInputBase
-                style={style}
+              <RateInput
+                currencyUnits={currencyUnits}
                 fieldId={`rate_${ix}`}
+                helperTextInvalid={errors.tagValues[ix]}
+                onChange={value => updateTag({ value }, ix)}
+                style={style}
                 validated={tagValues[ix].isDirty && errors.tagValues[ix] ? 'error' : 'default'}
                 value={tag.value}
-                onChange={value => updateTag({ value }, ix)}
-                helperTextInvalid={errors.tagValues[ix]}
               />
             </SplitItem>
             <SplitItem>
               <SimpleInput
                 style={style}
                 id={`desc_${ix}`}
-                label="description"
+                label={messages.Description}
                 validated={errors.tagDescription[ix] ? 'error' : 'default'}
                 value={tag.description}
                 onChange={value => updateTag({ description: value }, ix)}
@@ -73,7 +80,7 @@ export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = 
               />
             </SplitItem>
             <SplitItem>
-              <FormGroup fieldId={`isDefault_${ix}`} label={t('cost_models.default')}>
+              <FormGroup fieldId={`isDefault_${ix}`} label={intl.formatMessage(messages.CostModelsTagRateTableDefault)}>
                 <Checkbox id={`isDefault_${ix}`} isChecked={defaultTag === ix} onChange={() => updateDefaultTag(ix)} />
               </FormGroup>
             </SplitItem>
@@ -95,3 +102,6 @@ export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = 
     </>
   );
 };
+
+const TaggingRatesForm = injectIntl(TaggingRatesFormBase);
+export { TaggingRatesForm };

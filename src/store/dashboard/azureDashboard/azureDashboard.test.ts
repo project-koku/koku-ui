@@ -90,9 +90,9 @@ test('getQueryForWidget', () => {
     currentTab: AzureDashboardTab.subscription_guids,
     details: { formatOptions: {} },
     trend: {
+      formatOptions: {},
       titleKey: '',
       type: ChartType.daily,
-      formatOptions: {},
     },
     topItems: {
       formatOptions: {},

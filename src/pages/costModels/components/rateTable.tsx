@@ -10,28 +10,38 @@ import {
   TableVariant,
 } from '@patternfly/react-table';
 import { Rate } from 'api/rates';
-import { WithT } from 'i18next';
+import { intl as defaultIntl } from 'components/i18n';
+import messages from 'locales/messages';
 import React from 'react';
-import { formatCurrency } from 'utils/formatValue';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { formatCurrencyRate, unFormat } from 'utils/format';
 
 import { compareBy } from './rateForm/utils';
 import TagRateTable from './tagRateTable';
 
-interface RateTableProps extends WithT {
-  tiers: Rate[];
+interface RateTableProps extends WrappedComponentProps {
   actions?: IActions;
   isCompact?: boolean;
+  isNormalized?: boolean; // Normalize rates to format currency in current locale
+  tiers: Rate[];
 }
 
-export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isCompact }) => {
+// defaultIntl required for testing
+const RateTableBase: React.SFC<RateTableProps> = ({
+  actions,
+  intl = defaultIntl,
+  isCompact,
+  isNormalized = false,
+  tiers,
+}) => {
   const [expanded, setExpanded] = React.useState({});
   const [sortBy, setSortBy] = React.useState<ISortBy>({});
   const cells = [
-    { title: t('description') },
-    { title: t('cost_models.table.metric'), transforms: [sortable] },
-    { title: t('cost_models.table.measurement'), transforms: [sortable] },
-    { title: t('cost_models.calculation_type') },
-    { title: t('cost_models.rate'), cellTransforms: [compoundExpand] },
+    { title: intl.formatMessage(messages.Description) },
+    { title: intl.formatMessage(messages.Metric), transforms: [sortable] },
+    { title: intl.formatMessage(messages.Measurement), transforms: [sortable] },
+    { title: intl.formatMessage(messages.CalculationType) },
+    { title: intl.formatMessage(messages.Rate), cellTransforms: [compoundExpand] },
   ];
   const onSort = (_event, index: number, direction: SortByDirection) => {
     setSortBy({ index, direction });
@@ -57,7 +67,7 @@ export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isComp
             parent: ix + counter,
             cells: [
               {
-                title: <TagRateTable tagRates={tier.tag_rates} />,
+                title: <TagRateTable isNormalized={isNormalized} tagRates={tier.tag_rates} />,
                 props: { colSpan: 6, className: 'pf-m-no-padding' },
               },
             ],
@@ -66,6 +76,9 @@ export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isComp
         counter += 1;
       }
       const isOpen = rateKind === 'tagging' ? expanded[ix + counter - 1] || false : undefined;
+      const tierRate = tier.tiered_rates ? tier.tiered_rates[0].value : 0;
+      const tierRateValue = Number(isNormalized ? unFormat(tierRate.toString()) : tierRate);
+
       return [
         ...acc,
         {
@@ -78,8 +91,8 @@ export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isComp
             {
               title:
                 rateKind === 'regular'
-                  ? `${formatCurrency(Number(tier.tiered_rates[0].value), 'USD')}`
-                  : t('cost_models.table.tagged_rates'),
+                  ? formatCurrencyRate(tierRateValue, tier.tiered_rates[0].unit)
+                  : intl.formatMessage(messages.Various),
               props: { isOpen, style: { padding: rateKind === 'tagging' ? '' : '1.5rem 1rem' } },
             },
           ],
@@ -100,7 +113,7 @@ export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isComp
     <Table
       onSort={onSort}
       sortBy={sortBy}
-      aria-label="price list"
+      aria-label={intl.formatMessage(messages.CostModelsWizardCreatePriceList)}
       variant={isCompact ? TableVariant.compact : undefined}
       rows={rows}
       cells={cells}
@@ -112,3 +125,6 @@ export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isComp
     </Table>
   );
 };
+
+const RateTable = injectIntl(RateTableBase);
+export { RateTable };

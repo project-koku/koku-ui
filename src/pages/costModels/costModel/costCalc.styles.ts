@@ -18,7 +18,7 @@ export const styles = {
   },
   inputField: {
     borderLeft: 0,
-    width: 150,
+    width: 175,
   },
   markupRadio: {
     marginBottom: 6,

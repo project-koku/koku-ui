@@ -9,14 +9,15 @@ import { AwsReport } from 'api/reports/awsReports';
 import { ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartDatumUtils';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { format, getDate, getMonth } from 'date-fns';
+import messages from 'locales/messages';
 import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { formatCurrency } from 'utils/formatValue';
+import { formatCurrency } from 'utils/format';
 
 import { styles } from './explorerTable.styles';
 import { DateRangeType, getDateRange, getDateRangeDefault, PerspectiveType } from './explorerUtils';
@@ -28,7 +29,7 @@ interface ExplorerTableOwnProps {
   isAllSelected?: boolean;
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
-  onSort(value: string, isSortAscending: boolean);
+  onSort(value: string, date: string, isSortAscending: boolean);
   perspective: PerspectiveType;
   query: AwsQuery;
   report: AwsReport;
@@ -51,7 +52,7 @@ interface ExplorerTableState {
   rows?: any[];
 }
 
-type ExplorerTableProps = ExplorerTableOwnProps & ExplorerTableStateProps & WithTranslation;
+type ExplorerTableProps = ExplorerTableOwnProps & ExplorerTableStateProps & WrappedComponentProps;
 
 class ExplorerTableBase extends React.Component<ExplorerTableProps> {
   public state: ExplorerTableState = {
@@ -94,7 +95,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       report,
       selectedItems,
       start_date,
-      t,
+      intl,
     } = this.props;
     if (!query || !report) {
       return;
@@ -111,14 +112,17 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
         ? [
             {
               cellTransforms: [nowrap],
-              title: groupByOrg ? t('explorer.org_unit_column_title') : t('details.tag_names'),
+              title: groupByOrg
+                ? intl.formatMessage(messages.Names, { count: 2 })
+                : intl.formatMessage(messages.TagNames),
             },
           ]
         : [
             {
               cellTransforms: [nowrap],
+              date: undefined,
               orderBy: groupById === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupById,
-              title: t('details.resource_names', { groupBy: groupById }),
+              title: intl.formatMessage(messages.GroupByValueNames, { groupBy: groupById }),
               transforms: [sortable],
             },
           ];
@@ -137,24 +141,29 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     ) {
       const mapId = format(currentDate, 'yyyy-MM-dd');
 
+      let isSortable = true;
+      computedItems.map(rowItem => {
+        const item = rowItem.get(mapId);
+        if (!item) {
+          isSortable = false;
+          rowItem.set(mapId, {
+            date: mapId,
+          });
+        }
+      });
+
       // Add column headings
       const mapIdDate = new Date(mapId + 'T00:00:00');
       const date = getDate(mapIdDate);
       const month = getMonth(mapIdDate);
       columns.push({
         cellTransforms: [nowrap],
-        orderBy: undefined, // TBD...
-        title: t('explorer.daily_column_title', { date, month }),
-        transforms: undefined,
-      });
-
-      computedItems.map(rowItem => {
-        const item = rowItem.get(mapId);
-        if (!item) {
-          rowItem.set(mapId, {
-            date: mapId,
-          });
-        }
+        title: intl.formatMessage(messages.ExplorerChartDate, { date, month }),
+        ...(isSortable && {
+          date: mapId,
+          orderBy: 'cost',
+          transforms: [sortable],
+        }),
       });
     }
 
@@ -193,8 +202,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
         cells.push({
           title:
             item[reportItem] && item[reportItem][reportItemValue]
-              ? formatCurrency(item[reportItem][reportItemValue].value)
-              : t('explorer.no_data'),
+              ? formatCurrency(item[reportItem][reportItemValue].value, item[reportItem][reportItemValue].units)
+              : intl.formatMessage(messages.ChartNoData),
         });
       });
 
@@ -243,7 +252,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
   };
 
   private getEmptyState = () => {
-    const { query, t } = this.props;
+    const { query, intl } = this.props;
 
     for (const val of Object.values(query.filter_by)) {
       if (val !== '*') {
@@ -253,7 +262,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('details.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>{intl.formatMessage(messages.DetailsEmptyState)}</EmptyStateBody>
       </EmptyState>
     );
   };
@@ -269,8 +278,12 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       for (const key of Object.keys(query.order_by)) {
         let c = 0;
         for (const column of columns) {
-          if (column.orderBy === key) {
+          if (column.orderBy === key && !column.date) {
             direction = query.order_by[key] === 'asc' ? SortByDirection.asc : SortByDirection.desc;
+            index = c + 1;
+            break;
+          } else if (column.date === query.order_by[key]) {
+            direction = query.order_by.cost === 'asc' ? SortByDirection.asc : SortByDirection.desc;
             index = c + 1;
             break;
           }
@@ -308,20 +321,20 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     const { columns } = this.state;
 
     if (onSort) {
-      const orderBy = columns[index - 1].orderBy;
+      const column = columns[index - 1];
       const isSortAscending = direction === SortByDirection.asc;
-      onSort(orderBy, isSortAscending);
+      onSort(column.orderBy, column.date, isSortAscending);
     }
   };
 
   public render() {
-    const { isLoading } = this.props;
+    const { intl, isLoading } = this.props;
     const { columns, loadingRows, rows } = this.state;
 
     return (
       <div style={styles.tableContainer}>
         <Table
-          aria-label="explorer-table"
+          aria-label={intl.formatMessage(messages.ExplorerTableAriaLabel)}
           canSelectAll={false}
           cells={columns}
           className="explorerTableOverride"
@@ -358,6 +371,6 @@ const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTab
 const mapDispatchToProps: ExplorerTableDispatchProps = {};
 
 const ExplorerTableConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerTableBase);
-const ExplorerTable = withTranslation()(ExplorerTableConnect);
+const ExplorerTable = injectIntl(ExplorerTableConnect);
 
 export { ExplorerTable, ExplorerTableProps };

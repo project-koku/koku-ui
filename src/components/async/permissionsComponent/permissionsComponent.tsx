@@ -1,9 +1,7 @@
 import asyncComponent from 'components/async/asyncComponent';
 import React from 'react';
 
-const InactiveSources = asyncComponent(
-  () => import(/* webpackChunkName: "notFound" */ 'components/sources/inactiveSources')
-);
+const InactiveSources = asyncComponent(() => import(/* webpackChunkName: "notFound" */ 'components/inactiveSources'));
 const Permissions = asyncComponent(
   () => import(/* webpackChunkName: "notFound" */ 'components/async/permissionsComponent')
 );

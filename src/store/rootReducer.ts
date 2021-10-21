@@ -23,15 +23,6 @@ import { gcpOcpDashboardReducer, gcpOcpDashboardStateKey } from 'store/dashboard
 import { ibmDashboardReducer, ibmDashboardStateKey } from 'store/dashboard/ibmDashboard';
 import { ocpCloudDashboardReducer, ocpCloudDashboardStateKey } from 'store/dashboard/ocpCloudDashboard';
 import { ocpDashboardReducer, ocpDashboardStateKey } from 'store/dashboard/ocpDashboard';
-import {
-  ocpInfrastructureDashboardReducer,
-  ocpInfrastructureDashboardStateKey,
-} from 'store/dashboard/ocpInfrastructureDashboard';
-import {
-  ocpSupplementaryDashboardReducer,
-  ocpSupplementaryDashboardStateKey,
-} from 'store/dashboard/ocpSupplementaryDashboard';
-import { ocpUsageDashboardReducer, ocpUsageDashboardStateKey } from 'store/dashboard/ocpUsageDashboard';
 import { exportReducer, exportStateKey } from 'store/exports';
 import { forecastReducer, forecastStateKey } from 'store/forecasts';
 import { orgReducer, orgStateKey } from 'store/orgs';
@@ -42,12 +33,13 @@ import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { tagReducer, tagStateKey } from 'store/tags';
 import { StateType } from 'typesafe-actions';
 
+import { costTypeReducer, costTypeStateKey } from './costType';
+import { currencyReducer, currencyStateKey } from './currency';
 import { metricsReducer, metricsStateKey } from './metrics';
 import { providersReducer, providersStateKey } from './providers';
 import { rbacReducer, rbacStateKey } from './rbac';
 import { uiReducer, uiStateKey } from './ui';
 import { userAccessReducer, userAccessStateKey } from './userAccess';
-
 export type RootState = StateType<typeof rootReducer>;
 
 export const rootReducer = combineReducers({
@@ -60,6 +52,8 @@ export const rootReducer = combineReducers({
   [azureDashboardStateKey]: azureDashboardReducer,
   [azureHistoricalDataStateKey]: azureHistoricalDataReducer,
   [costModelsStateKey]: costModelsReducer,
+  [costTypeStateKey]: costTypeReducer,
+  [currencyStateKey]: currencyReducer,
   [exportStateKey]: exportReducer,
   [gcpCostOverviewStateKey]: gcpCostOverviewReducer,
   [gcpDashboardStateKey]: gcpDashboardReducer,
@@ -73,9 +67,6 @@ export const rootReducer = combineReducers({
   [ocpDashboardStateKey]: ocpDashboardReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
   [ocpHistoricalDataStateKey]: ocpHistoricalDataReducer,
-  [ocpInfrastructureDashboardStateKey]: ocpInfrastructureDashboardReducer,
-  [ocpSupplementaryDashboardStateKey]: ocpSupplementaryDashboardReducer,
-  [ocpUsageDashboardStateKey]: ocpUsageDashboardReducer,
   [orgStateKey]: orgReducer,
   [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,
