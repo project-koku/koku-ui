@@ -3,7 +3,7 @@
 [![AGPLv3][license-badge]][license]
 [![Build Status][build-badge]][build]
 
-User interface for Koku based on Patternfly [![Patternfly][pf-logo]][patternfly]
+User interface is based on [![Patternfly][pf-logo]][patternfly]
 
 To submit an issue please visit https://issues.redhat.com/projects/COST/
 
@@ -73,9 +73,9 @@ Follow the prompts that follow.
 #### Koku-API
 Requirements:
 
-Refer to the Koku project [README](https://github.com/project-koku/koku#readme)
+Refer to the project repo [README](https://github.com/project-koku/koku#readme)
 
-1. setup & run koku (Refer to Koku repository for more details)
+1. Setup & run Koku-API (see the project repo for more details)
 ```
 > git clone git@github.com:project-koku/koku.git
 > cd [KOKU_GIT_REPO]
@@ -91,7 +91,7 @@ Refer to the Koku project [README](https://github.com/project-koku/koku#readme)
 > docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"
 ```
 
-3. Watch Koku logs in another terminal (optional)
+3. Watch the Koku-API logs in another terminal (optional)
 ```
 > docker-compose logs -f koku-server koku-worker
 ```
