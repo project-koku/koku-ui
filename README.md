@@ -71,7 +71,7 @@ Follow the prompts that follow.
 ```
 
 #### Koku API
-Refer to the project [README][koku-readme] for requirements
+Refer to the project [README][koku-readme] for prerequisites
 
 1. Setup & run Koku API (see the project [README][koku-readme] for more details)
 ```
