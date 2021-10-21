@@ -5,7 +5,7 @@
 
 User interface is based on Patternfly [![Patternfly][pf-logo]][patternfly]
 
-To submit an issue please visit https://issues.redhat.com/projects/COST/
+To submit an issue, please visit https://issues.redhat.com/projects/COST/
 
 ## Requirements
 * [NodeJS v14+][nodejs]
