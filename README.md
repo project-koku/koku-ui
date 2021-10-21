@@ -71,9 +71,7 @@ Follow the prompts that follow.
 ```
 
 #### Koku-API
-Requirements:
-
-Refer to the project [README][koku-readme]
+Refer to the project [README][koku-readme] for requirements
 
 1. Setup & run Koku-API (see the project [README][koku-readme] for more details)
 ```
@@ -96,14 +94,14 @@ Refer to the project [README][koku-readme]
 > docker-compose logs -f koku-server koku-worker
 ```
 
-## Running local instance of the frontend-settings UI (i.e., the Cost Management settings page)
+## Running local instances of Settings-Frontend & Koku-API
 
-Follow the [steps](#koku-api) to run a local instance of Koku-API
+Follow the [steps](#koku-api) to run a local Koku-API instance
 
-1. Clone settings-frontend
+1. Clone and install the Settings-Frontend repo
 ```
 > git clone https://github.com/RedHatInsights/settings-frontend.git
-> cd cd [SETTINGS_FRONTEND_GIT_REPO]
+> cd [SETTINGS_FRONTEND_GIT_REPO]
 > npm install
 ```
 
