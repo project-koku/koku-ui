@@ -96,7 +96,7 @@ Refer to the project [README][koku-readme] for requirements
 
 ## Running local instances of Settings-Frontend & Koku API
 
-Follow the [steps](#koku) to run a local Koku API instance
+Follow the [steps](#koku-api) to run a local Koku API instance
 
 1. Clone and install the Settings-Frontend repo
 ```
