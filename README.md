@@ -3,7 +3,7 @@
 [![AGPLv3][license-badge]][license]
 [![Build Status][build-badge]][build]
 
-User interface is based on [![Patternfly][pf-logo]][patternfly]
+User interface is based on Patternfly [![Patternfly][pf-logo]][patternfly]
 
 To submit an issue please visit https://issues.redhat.com/projects/COST/
 
