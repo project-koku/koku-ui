@@ -19,7 +19,8 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
     resourcePathsType === ResourcePathsType.azureOcp ||
     resourcePathsType === ResourcePathsType.gcp ||
     resourcePathsType === ResourcePathsType.ibm ||
-    resourcePathsType === ResourcePathsType.ocp
+    resourcePathsType === ResourcePathsType.ocp ||
+    resourcePathsType === ResourcePathsType.ocpCloud
   ) {
     switch (resourceType) {
       case ResourceType.account:
@@ -63,6 +64,7 @@ export function runResource(resourcePathsType: ResourcePathsType, resourceType: 
       forecast = runIbmResource(resourceType, query);
       break;
     case ResourcePathsType.ocp:
+    case ResourcePathsType.ocpCloud:
       forecast = runOcpResource(resourceType, query);
       break;
   }
