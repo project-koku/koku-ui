@@ -9,7 +9,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { costTypeActions, costTypeSelectors } from 'store/costType';
-import { getCostType, invalidateCostType, setCostType } from 'utils/localStorage';
+import { CostTypes, getCostType, invalidateCostType, setCostType } from 'utils/localStorage';
 
 import { styles } from './costType.styles';
 
@@ -39,13 +39,6 @@ interface CostTypeOption extends SelectOptionObject {
 }
 
 type CostTypeProps = CostTypeOwnProps & CostTypeDispatchProps & CostTypeStateProps & WrappedComponentProps;
-
-// eslint-disable-next-line no-shadow
-const enum CostTypes {
-  amortized = 'savingsplan_effective_cost',
-  blended = 'blended_cost',
-  unblended = 'unblended_cost',
-}
 
 class CostTypeBase extends React.Component<CostTypeProps> {
   protected defaultState: CostTypeState = {

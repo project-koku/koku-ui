@@ -39,6 +39,13 @@ export const saveSessionToken = () => {
  * Cost type
  */
 
+// eslint-disable-next-line no-shadow
+export const enum CostTypes {
+  amortized = 'savingsplan_effective_cost',
+  blended = 'blended_cost',
+  unblended = 'unblended_cost',
+}
+
 // Delete cost type
 export const deleteCostType = () => {
   localStorage.removeItem(costTypeID);
@@ -46,7 +53,8 @@ export const deleteCostType = () => {
 
 // Returns cost type
 export const getCostType = () => {
-  return localStorage.getItem(costTypeID);
+  const costType = localStorage.getItem(costTypeID);
+  return costType ? costType : CostTypes.unblended;
 };
 
 // Invalidates cost type if current session is not valid
