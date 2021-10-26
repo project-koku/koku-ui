@@ -79,9 +79,9 @@ Refer to the project [README][koku-readme] for prerequisites
 > cd [KOKU_GIT_REPO]
 > pipenv install --dev
 > pipenv shell "pre-commit install"
-> make docker-up-min or make make docker-up-min-presto
+> make docker-up-min or make docker-up-min-trino
 > make create-test-customer
-> make load-test-customer-data
+> make load-test-customer-data (use with docker-up-min-trino)
 ```
 
 2. Check to see if containers are running (optional)
