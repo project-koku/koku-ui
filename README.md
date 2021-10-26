@@ -94,6 +94,15 @@ Refer to the project [README][koku-readme] for prerequisites
 > docker-compose logs -f koku-server koku-worker
 ```
 
+4. Clean up (optional)
+```
+pipenv shell
+make docker-down
+make remove-db
+docker system prune --all
+exit
+```
+
 ## Running local instances of Settings Frontend & Koku API
 
 Follow the [steps](#koku-api) to run a local Koku API instance

@@ -71,7 +71,7 @@ module.exports = (_env, argv) => {
   log.info(`Beta branches: ${betaBranches}`);
   log.info(`Using deployments: ${appDeployment}`);
   log.info(`Using proxy: ${useProxy}`);
-  log.info(`Using local routes: ${useLocalRoutes}`);
+  log.info(`Using local API: ${useLocalRoutes}`);
   log.info(`Public path: ${publicPath}`);
   log.info('~~~~~~~~~~~~~~~~~~~~~');
 
