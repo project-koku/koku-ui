@@ -393,6 +393,9 @@ export const getResourcePathsType = (perspective: string) => {
     case PerspectiveType.ocp:
       return ResourcePathsType.ocp;
       break;
+    case PerspectiveType.ocpCloud:
+      return ResourcePathsType.ocpCloud;
+      break;
     default:
       result = undefined;
       break;
