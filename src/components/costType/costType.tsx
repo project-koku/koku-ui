@@ -15,6 +15,7 @@ import { styles } from './costType.styles';
 
 interface CostTypeOwnProps {
   isDisabled?: boolean;
+  onSelect?: (value: string) => void;
 }
 
 interface CostTypeDispatchProps {
@@ -128,11 +129,22 @@ class CostTypeBase extends React.Component<CostTypeProps> {
   };
 
   private handleSelect = (event, selection: CostTypeOption) => {
-    this.setState({
-      currentItem: selection.value,
-      isSelectOpen: false,
-    });
-    setCostType(selection.value); // Set currency units via local storage
+    const { onSelect } = this.props;
+
+    // Set currency units via local storage
+    setCostType(selection.value);
+
+    this.setState(
+      {
+        currentItem: selection.value,
+        isSelectOpen: false,
+      },
+      () => {
+        if (onSelect) {
+          onSelect(selection.value);
+        }
+      }
+    );
   };
 
   private handleToggle = isSelectOpen => {
