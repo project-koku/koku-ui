@@ -1,3 +1,4 @@
+import { parseQuery, Query } from 'api/queries/query';
 import { getTokenCookie } from 'utils/cookie';
 
 const costTypeID = 'cost_type';
@@ -62,6 +63,17 @@ export const invalidateCostType = () => {
   if (!isSessionValid()) {
     deleteSessionToken();
     deleteCostType();
+    restoreCostType(); // Restore from query param
+  }
+};
+
+// Restore cost type upon page refresh if query param is available
+export const restoreCostType = () => {
+  const costType = localStorage.getItem(costTypeID);
+  const queryFromRoute = parseQuery<Query>(location.search);
+
+  if (queryFromRoute.cost_type && costType === null) {
+    setCostType(queryFromRoute.cost_type);
   }
 };
 

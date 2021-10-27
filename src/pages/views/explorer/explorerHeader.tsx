@@ -197,10 +197,15 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     });
   };
 
-  private handleCostTypeSelected = () => {
+  private handleCostTypeSelected = (value: string) => {
     const { history, query } = this.props;
 
-    history.replace(getRouteForQuery(history, query, false)); // Don't reset pagination
+    // Need param to restore cost type upon page refresh
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      cost_type: value,
+    };
+    history.replace(getRouteForQuery(history, newQuery, false)); // Don't reset pagination
   };
 
   private isAwsAvailable = () => {

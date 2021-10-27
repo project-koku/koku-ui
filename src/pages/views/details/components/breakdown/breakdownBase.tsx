@@ -180,10 +180,15 @@ class BreakdownBase extends React.Component<BreakdownProps> {
     }
   };
 
-  private handleCostTypeSelected = () => {
+  private handleCostTypeSelected = (value: string) => {
     const { history, query } = this.props;
 
-    history.replace(this.getRouteForQuery(query));
+    // Need param to restore cost type upon page refresh
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      cost_type: value,
+    };
+    history.replace(this.getRouteForQuery(newQuery));
   };
 
   private handleTabClick = (event, tabIndex) => {
