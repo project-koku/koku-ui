@@ -1,6 +1,6 @@
 import { Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
-import { Query } from 'api/queries/query';
+import { getQueryRoute,Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
@@ -109,6 +109,12 @@ class BreakdownBase extends React.Component<BreakdownProps> {
     return availableTabs;
   };
 
+  private getRouteForQuery = (query: Query) => {
+    const { history } = this.props;
+
+    return `${history.location.pathname}?${getQueryRoute(query)}`;
+  };
+
   private getTab = (tab: BreakdownTab, contentRef, index: number) => {
     return (
       <Tab
@@ -174,6 +180,12 @@ class BreakdownBase extends React.Component<BreakdownProps> {
     }
   };
 
+  private handleCostTypeSelected = (value: string) => {
+    const { history, query } = this.props;
+
+    history.replace(this.getRouteForQuery(query));
+  };
+
   private handleTabClick = (event, tabIndex) => {
     const { activeTabKey } = this.state;
     if (activeTabKey !== tabIndex) {
@@ -232,6 +244,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
           description={description}
           detailsURL={detailsURL}
           groupBy={groupBy}
+          onCostTypeSelected={this.handleCostTypeSelected}
           query={query}
           report={report}
           showCostType={showCostType}

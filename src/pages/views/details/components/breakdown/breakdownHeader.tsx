@@ -22,6 +22,7 @@ interface BreakdownHeaderOwnProps {
   detailsURL?: string;
   description?: string;
   groupBy?: string;
+  onCostTypeSelected(value: string);
   query: Query;
   report: Report;
   showCostType?: boolean;
@@ -74,6 +75,14 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
     return cost;
   };
 
+  private handleCostTypeSelected = (value: string) => {
+    const { onCostTypeSelected } = this.props;
+
+    if (onCostTypeSelected) {
+      onCostTypeSelected(value);
+    }
+  };
+
   public render() {
     const { description, groupBy, query, intl, showCostType = false, tabs, tagReportPathsType, title } = this.props;
 
@@ -111,7 +120,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
             {description && <div style={styles.infoDescription}>{description}</div>}
             {showCostType && (
               <div style={styles.costType}>
-                <CostType />
+                <CostType onSelect={this.handleCostTypeSelected} />
               </div>
             )}
           </Title>
