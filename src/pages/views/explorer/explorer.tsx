@@ -610,7 +610,8 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   }
 
   const query = {
-    ...(perspective === PerspectiveType.aws && { cost_type: getCostType() }),
+    // Todo: Show new features in beta environment only
+    ...(insights.chrome.isBeta() && perspective === PerspectiveType.aws && { cost_type: getCostType() }),
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
