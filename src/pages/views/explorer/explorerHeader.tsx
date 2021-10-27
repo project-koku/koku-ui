@@ -197,7 +197,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     });
   };
 
-  private handleCostTypeSelected = (value: string) => {
+  private handleCostTypeSelected = () => {
     const { history, query } = this.props;
 
     history.replace(getRouteForQuery(history, query, false)); // Don't reset pagination

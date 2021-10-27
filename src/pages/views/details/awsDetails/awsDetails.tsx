@@ -254,7 +254,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     );
   };
 
-  private handleCostTypeSelected = (value: string) => {
+  private handleCostTypeSelected = () => {
     const { history, query } = this.props;
 
     history.replace(this.getRouteForQuery(query, false)); // Don't reset pagination

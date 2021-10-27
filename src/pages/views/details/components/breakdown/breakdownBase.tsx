@@ -1,6 +1,6 @@
 import { Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
-import { getQueryRoute,Query } from 'api/queries/query';
+import { getQueryRoute, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
@@ -180,7 +180,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
     }
   };
 
-  private handleCostTypeSelected = (value: string) => {
+  private handleCostTypeSelected = () => {
     const { history, query } = this.props;
 
     history.replace(this.getRouteForQuery(query));
