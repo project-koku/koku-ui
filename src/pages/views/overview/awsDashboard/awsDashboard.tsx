@@ -8,6 +8,7 @@ import { AwsDashboardWidget } from './awsDashboardWidget';
 type AwsDashboardOwnProps = any;
 
 interface AwsDashboardStateProps {
+  costType?: string;
   DashboardWidget: typeof AwsDashboardWidget;
   widgets: number[];
 }

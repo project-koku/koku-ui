@@ -13,6 +13,7 @@ import {
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
+import { getQuery, getQueryRoute, OverviewQuery, parseQuery } from 'api/queries/overviewQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
@@ -116,9 +117,14 @@ interface OverviewStateProps {
   ibmUserAccessError: AxiosError;
   ibmUserAccessFetchStatus: FetchStatus;
   ibmUserAccessQueryString: string;
+  infrastructurePerspective?: string;
+  ocpPerspective?: string;
   ocpProviders: Providers;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
+  query: OverviewQuery;
+  queryString: string;
+  tabKey?: number;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -132,6 +138,7 @@ interface AvailableTab {
 
 interface OverviewState {
   activeTabKey: number;
+  costType?: string;
   currentInfrastructurePerspective?: string;
   currentOcpPerspective?: string;
 }
@@ -175,18 +182,19 @@ class OverviewBase extends React.Component<OverviewProps> {
   public state: OverviewState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { resetState } = this.props;
+    const { resetState, tabKey } = this.props;
 
     resetState(); // Clear cached API responses
 
     this.setState({
+      activeTabKey: tabKey,
       currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
       currentOcpPerspective: this.getDefaultOcpPerspective(),
     });
   }
 
   public componentDidUpdate(prevProps: OverviewProps) {
-    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders, userAccess } = this.props;
+    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders, tabKey, userAccess } = this.props;
 
     // Note: User access and providers are fetched via the Permissions and InactiveSources components used by all routes
     if (
@@ -198,6 +206,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       prevProps.ocpProviders !== ocpProviders
     ) {
       this.setState({
+        activeTabKey: tabKey,
         currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
         currentOcpPerspective: this.getDefaultOcpPerspective(),
       });
@@ -237,7 +246,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     if (currentItem === InfrastructurePerspective.aws) {
       return (
         <div style={styles.costType}>
-          <CostType />
+          <CostType onSelect={this.handleCostTypeSelected} />
         </div>
       );
     }
@@ -267,6 +276,11 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getDefaultInfrastructurePerspective = () => {
+    const { infrastructurePerspective } = this.props;
+
+    if (infrastructurePerspective) {
+      return infrastructurePerspective;
+    }
     if (this.isOcpAvailable()) {
       return InfrastructurePerspective.ocpCloud;
     }
@@ -286,8 +300,11 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getDefaultOcpPerspective = () => {
-    const { ocpProviders, ocpProvidersFetchStatus, userAccess } = this.props;
+    const { ocpPerspective, ocpProviders, ocpProvidersFetchStatus, userAccess } = this.props;
 
+    if (ocpPerspective) {
+      return ocpPerspective;
+    }
     if (isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)) {
       return OcpPerspective.ocp;
     }
@@ -358,6 +375,12 @@ class OverviewBase extends React.Component<OverviewProps> {
     );
   };
 
+  private getRouteForQuery = (query: OverviewQuery) => {
+    const { history } = this.props;
+
+    return `${history.location.pathname}?${getQueryRoute(query)}`;
+  };
+
   private getTab = (tab: OverviewTab, contentRef, index: number) => {
     return (
       <Tab
@@ -387,7 +410,7 @@ class OverviewBase extends React.Component<OverviewProps> {
 
   private getTabItem = (tab: OverviewTab, index: number) => {
     const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders } = this.props;
-    const { activeTabKey, currentInfrastructurePerspective, currentOcpPerspective } = this.state;
+    const { activeTabKey, costType, currentInfrastructurePerspective, currentOcpPerspective } = this.state;
     const emptyTab = <></>; // Lazily load tabs
     const noData = <NoData showReload={false} />;
 
@@ -405,7 +428,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         return hasData ? <OcpCloudDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.aws) {
         const hasData = hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders);
-        return hasData ? <AwsDashboard /> : noData;
+        return hasData ? <AwsDashboard costType={costType} /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.awsOcp) {
         const hasData =
           hasCloudCurrentMonthData(awsProviders, ocpProviders) || hasCloudPreviousMonthData(awsProviders, ocpProviders);
@@ -463,8 +486,23 @@ class OverviewBase extends React.Component<OverviewProps> {
     }
   };
 
+  private handleCostTypeSelected = (value: string) => {
+    this.setState({ costType: value });
+  };
+
   private handlePerspectiveSelected = (value: string) => {
+    const { history, query } = this.props;
     const currentTab = this.getCurrentTab();
+
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      ...(currentTab === OverviewTab.infrastructure && {
+        infrastructurePerspective: value,
+      }),
+      ...(currentTab === OverviewTab.ocp && { ocpPerspective: value }),
+    };
+    history.replace(this.getRouteForQuery(newQuery));
+
     this.setState({
       ...(currentTab === OverviewTab.infrastructure && {
         currentInfrastructurePerspective: value,
@@ -474,8 +512,16 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private handleTabClick = (event, tabIndex) => {
+    const { history, query } = this.props;
     const { activeTabKey } = this.state;
+
     if (activeTabKey !== tabIndex) {
+      const newQuery = {
+        ...JSON.parse(JSON.stringify(query)),
+        tabKey: tabIndex,
+      };
+      history.replace(this.getRouteForQuery(newQuery));
+
       this.setState({
         activeTabKey: tabIndex,
       });
@@ -607,6 +653,19 @@ class OverviewBase extends React.Component<OverviewProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStateProps>((state, props) => {
+  const queryFromRoute = parseQuery<OverviewQuery>(location.search);
+
+  const infrastructurePerspective = queryFromRoute.infrastructurePerspective;
+  const ocpPerspective = queryFromRoute.ocpPerspective;
+  const tabKey = queryFromRoute.tabKey && !Number.isNaN(queryFromRoute.tabKey) ? Number(queryFromRoute.tabKey) : 0;
+
+  const query = {
+    ...(infrastructurePerspective && { infrastructurePerspective }),
+    ...(ocpPerspective && { ocpPerspective }),
+    tabKey,
+  };
+  const queryString = getQuery(query);
+
   const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
   const awsProviders = providersSelectors.selectProviders(state, ProviderType.aws, awsProvidersQueryString);
   const awsProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
@@ -687,9 +746,14 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     ibmUserAccessError,
     ibmUserAccessFetchStatus,
     ibmUserAccessQueryString,
+    infrastructurePerspective,
+    ocpPerspective,
     ocpProviders,
     ocpProvidersFetchStatus,
     ocpProvidersQueryString,
+    query,
+    queryString,
+    tabKey,
     userAccess,
     userAccessError,
     userAccessFetchStatus,

@@ -42,6 +42,7 @@ const enum Comparison {
 interface DashboardWidgetOwnProps {
   chartAltHeight?: number;
   containerAltHeight?: number;
+  costType?: string;
   getIdKeyForTab: <T extends DashboardWidget<any>>(tab: T) => string;
   widgetId: number;
 }
@@ -86,6 +87,14 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     }
     if (trend.computedForecastItem !== undefined) {
       fetchForecasts(widgetId);
+    }
+  }
+
+  public componentDidUpdate(prevProps: DashboardWidgetProps) {
+    const { costType, fetchReports, widgetId } = this.props;
+
+    if (prevProps.costType !== costType) {
+      fetchReports(widgetId);
     }
   }
 
