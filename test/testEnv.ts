@@ -13,8 +13,9 @@ declare var global: Global;
 
 global.insights = {
   chrome: {
-    init: jest.fn(),
     identifyApp: jest.fn(),
+    init: jest.fn(),
+    isBeta: jest.fn(),
     navigation: jest.fn(),
     on: jest.fn(),
   },
