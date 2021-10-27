@@ -117,7 +117,7 @@ interface OverviewStateProps {
   ibmUserAccessError: AxiosError;
   ibmUserAccessFetchStatus: FetchStatus;
   ibmUserAccessQueryString: string;
-  infrastructurePerspective?: string;
+  infraPerspective?: string;
   ocpPerspective?: string;
   ocpProviders: Providers;
   ocpProvidersFetchStatus: FetchStatus;
@@ -276,10 +276,10 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getDefaultInfrastructurePerspective = () => {
-    const { infrastructurePerspective } = this.props;
+    const { infraPerspective } = this.props;
 
-    if (infrastructurePerspective) {
-      return infrastructurePerspective;
+    if (infraPerspective) {
+      return infraPerspective;
     }
     if (this.isOcpAvailable()) {
       return InfrastructurePerspective.ocpCloud;
@@ -507,7 +507,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
       ...(currentTab === OverviewTab.infrastructure && {
-        infrastructurePerspective: value,
+        infraPerspective: value,
       }),
       ...(currentTab === OverviewTab.ocp && { ocpPerspective: value }),
     };
@@ -665,12 +665,12 @@ class OverviewBase extends React.Component<OverviewProps> {
 const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStateProps>((state, props) => {
   const queryFromRoute = parseQuery<OverviewQuery>(location.search);
 
-  const infrastructurePerspective = queryFromRoute.infrastructurePerspective;
+  const infraPerspective = queryFromRoute.infraPerspective;
   const ocpPerspective = queryFromRoute.ocpPerspective;
   const tabKey = queryFromRoute.tabKey && !Number.isNaN(queryFromRoute.tabKey) ? Number(queryFromRoute.tabKey) : 0;
 
   const query = {
-    ...(infrastructurePerspective && { infrastructurePerspective }),
+    ...(infraPerspective && { infraPerspective }),
     ...(ocpPerspective && { ocpPerspective }),
     tabKey,
   };
@@ -756,7 +756,7 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     ibmUserAccessError,
     ibmUserAccessFetchStatus,
     ibmUserAccessQueryString,
-    infrastructurePerspective,
+    infraPerspective,
     ocpPerspective,
     ocpProviders,
     ocpProvidersFetchStatus,

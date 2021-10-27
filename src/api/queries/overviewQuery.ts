@@ -1,7 +1,7 @@
 import * as utils from './query';
 
 export interface OverviewQuery extends utils.Query {
-  infrastructurePerspective?: string;
+  infraPerspective?: string;
   ocpPerspective?: string;
   tabKey?: number;
 }
