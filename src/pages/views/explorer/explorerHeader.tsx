@@ -197,6 +197,17 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     });
   };
 
+  private handleCostTypeSelected = (value: string) => {
+    const { history, query } = this.props;
+
+    // Need param to restore cost type upon page refresh
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      cost_type: value,
+    };
+    history.replace(getRouteForQuery(history, newQuery, false)); // Don't reset pagination
+  };
+
   private isAwsAvailable = () => {
     const { awsProviders, awsProvidersFetchStatus, userAccess } = this.props;
     return isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus);
@@ -290,7 +301,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
           </div>
           {perspective === PerspectiveType.aws && (
             <div style={styles.costType}>
-              <CostType />
+              <CostType onSelect={this.handleCostTypeSelected} />
             </div>
           )}
         </div>

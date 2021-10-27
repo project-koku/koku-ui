@@ -23,6 +23,7 @@ import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
   groupBy?: string;
+  onCostTypeSelected(value: string);
   onGroupBySelected(value: string);
   report: AwsReport;
 }
@@ -58,6 +59,14 @@ const orgReportPathsType = OrgPathsType.aws;
 const tagReportPathsType = TagPathsType.aws;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
+  private handleCostTypeSelected = (value: string) => {
+    const { onCostTypeSelected } = this.props;
+
+    if (onCostTypeSelected) {
+      onCostTypeSelected(value);
+    }
+  };
+
   public render() {
     const { groupBy, onGroupBySelected, providers, providersError, report, intl } = this.props;
     const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
@@ -87,7 +96,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
               tagReportPathsType={tagReportPathsType}
             />
             <div style={styles.costType}>
-              <CostType />
+              <CostType onSelect={this.handleCostTypeSelected} />
             </div>
           </div>
           {Boolean(showContent) && (

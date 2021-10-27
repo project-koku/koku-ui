@@ -15,6 +15,7 @@ import { paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { getCostType } from 'utils/localStorage';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
@@ -49,7 +50,10 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
   const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
 
+  const cost_type = getCostType();
   const newQuery: Query = {
+    // Todo: Show new features in beta environment only
+    ...(insights.chrome.isBeta() && { cost_type }),
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -80,13 +84,13 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
   );
 
   return {
-    costOverviewComponent: <CostOverview groupBy={groupBy} query={query} report={report} />,
+    costOverviewComponent: <CostOverview costType={cost_type} groupBy={groupBy} query={query} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
     emptyStateTitle: props.intl.formatMessage(messages.AWSDetailsTitle),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData />,
+    historicalDataComponent: <HistoricalData costType={cost_type} />,
     providers,
     providersFetchStatus,
     providerType: ProviderType.aws,

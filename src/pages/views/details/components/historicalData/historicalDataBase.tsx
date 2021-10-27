@@ -12,7 +12,7 @@ import { HistoricalDataTrendChart } from './historicalDataTrendChart';
 import { HistoricalDataUsageChart } from './historicalDataUsageChart';
 
 interface HistoricalDataOwnProps {
-  // TBD...
+  costType?: string;
 }
 
 interface HistoricalDataStateProps {
@@ -25,7 +25,7 @@ type HistoricalDataProps = HistoricalDataOwnProps & HistoricalDataStateProps & W
 class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
   // Returns cost chart
   private getCostChart = (widget: HistoricalDataWidget) => {
-    const { intl } = this.props;
+    const { costType, intl } = this.props;
 
     return (
       <Card>
@@ -35,7 +35,11 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
           </Title>
         </CardTitle>
         <CardBody>
-          <HistoricalDataCostChart reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
+          <HistoricalDataCostChart
+            costType={costType}
+            reportPathsType={widget.reportPathsType}
+            reportType={widget.reportType}
+          />
         </CardBody>
       </Card>
     );
@@ -43,7 +47,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
 
   // Returns trend chart
   private getTrendChart = (widget: HistoricalDataWidget) => {
-    const { intl } = this.props;
+    const { costType, intl } = this.props;
 
     return (
       <Card>
@@ -53,7 +57,11 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
           </Title>
         </CardTitle>
         <CardBody>
-          <HistoricalDataTrendChart reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
+          <HistoricalDataTrendChart
+            costType={costType}
+            reportPathsType={widget.reportPathsType}
+            reportType={widget.reportType}
+          />
         </CardBody>
       </Card>
     );

@@ -25,6 +25,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { uiActions } from 'store/ui';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getCostType } from 'utils/localStorage';
 
 import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';
@@ -253,6 +254,17 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     );
   };
 
+  private handleCostTypeSelected = (value: string) => {
+    const { history, query } = this.props;
+
+    // Need param to restore cost type upon page refresh
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      cost_type: value,
+    };
+    history.replace(this.getRouteForQuery(newQuery, false)); // Don't reset pagination
+  };
+
   private handleBulkSelected = (action: string) => {
     const { isAllSelected } = this.state;
 
@@ -410,7 +422,12 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     }
     return (
       <div style={styles.awsDetails}>
-        <DetailsHeader groupBy={groupById} onGroupBySelected={this.handleGroupBySelected} report={report} />
+        <DetailsHeader
+          groupBy={groupById}
+          onCostTypeSelected={this.handleCostTypeSelected}
+          onGroupBySelected={this.handleGroupBySelected}
+          report={report}
+        />
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}
@@ -434,6 +451,8 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStateProps>((state, props) => {
   const queryFromRoute = parseQuery<AwsQuery>(location.search);
   const query = {
+    // Todo: Show new features in beta environment only
+    ...(insights.chrome.isBeta() && { cost_type: getCostType() }),
     delta: 'cost',
     filter: {
       ...baseQuery.filter,
