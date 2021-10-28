@@ -501,15 +501,15 @@ class OverviewBase extends React.Component<OverviewProps> {
   private handleCostTypeSelected = (value: string) => {
     const { history, query } = this.props;
 
-    // Need param to restore cost type upon page refresh
-    const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      cost_type: value,
-    };
-    history.replace(this.getRouteForQuery(newQuery));
-
     // Needed to force tab items to update
-    this.setState({ costType: value });
+    this.setState({ costType: value }, () => {
+      // Need param to restore cost type upon page refresh
+      const newQuery = {
+        ...JSON.parse(JSON.stringify(query)),
+        cost_type: value,
+      };
+      history.replace(this.getRouteForQuery(newQuery));
+    });
   };
 
   private handlePerspectiveSelected = (value: string) => {
