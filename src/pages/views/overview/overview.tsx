@@ -117,11 +117,10 @@ interface OverviewStateProps {
   ibmUserAccessError: AxiosError;
   ibmUserAccessFetchStatus: FetchStatus;
   ibmUserAccessQueryString: string;
-  infraPerspective?: string;
-  ocpPerspective?: string;
   ocpProviders: Providers;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
+  perspective?: string;
   query: OverviewQuery;
   queryString: string;
   tabKey?: number;
@@ -276,11 +275,21 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getDefaultInfrastructurePerspective = () => {
-    const { infraPerspective } = this.props;
+    const { perspective } = this.props;
 
-    if (infraPerspective) {
-      return infraPerspective;
+    // Upon page refresh, perspective param takes precedence
+    switch (perspective) {
+      case InfrastructurePerspective.aws:
+      case InfrastructurePerspective.awsOcp:
+      case InfrastructurePerspective.azure:
+      case InfrastructurePerspective.azureOcp:
+      case InfrastructurePerspective.gcp:
+      case InfrastructurePerspective.gcpOcp:
+      case InfrastructurePerspective.ibm:
+      case InfrastructurePerspective.ocpCloud:
+        return perspective;
     }
+
     if (this.isOcpAvailable()) {
       return InfrastructurePerspective.ocpCloud;
     }
@@ -300,11 +309,14 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getDefaultOcpPerspective = () => {
-    const { ocpPerspective, ocpProviders, ocpProvidersFetchStatus, userAccess } = this.props;
+    const { ocpProviders, ocpProvidersFetchStatus, perspective, userAccess } = this.props;
 
-    if (ocpPerspective) {
-      return ocpPerspective;
+    // Upon page refresh, perspective param takes precedence
+    switch (perspective) {
+      case OcpPerspective.ocp:
+        return perspective;
     }
+
     if (isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)) {
       return OcpPerspective.ocp;
     }
@@ -489,36 +501,36 @@ class OverviewBase extends React.Component<OverviewProps> {
   private handleCostTypeSelected = (value: string) => {
     const { history, query } = this.props;
 
-    // Need param to restore cost type upon page refresh
-    const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      cost_type: value,
-    };
-    history.replace(this.getRouteForQuery(newQuery));
-
     // Needed to force tab items to update
-    this.setState({ costType: value });
+    this.setState({ costType: value }, () => {
+      // Need param to restore cost type upon page refresh
+      const newQuery = {
+        ...JSON.parse(JSON.stringify(query)),
+        cost_type: value,
+      };
+      history.replace(this.getRouteForQuery(newQuery));
+    });
   };
 
   private handlePerspectiveSelected = (value: string) => {
     const { history, query } = this.props;
     const currentTab = this.getCurrentTab();
 
-    const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      ...(currentTab === OverviewTab.infrastructure && {
-        infraPerspective: value,
-      }),
-      ...(currentTab === OverviewTab.ocp && { ocpPerspective: value }),
-    };
-    history.replace(this.getRouteForQuery(newQuery));
-
-    this.setState({
-      ...(currentTab === OverviewTab.infrastructure && {
-        currentInfrastructurePerspective: value,
-      }),
-      ...(currentTab === OverviewTab.ocp && { currentOcpPerspective: value }),
-    });
+    this.setState(
+      {
+        ...(currentTab === OverviewTab.infrastructure && {
+          currentInfrastructurePerspective: value,
+        }),
+        ...(currentTab === OverviewTab.ocp && { currentOcpPerspective: value }),
+      },
+      () => {
+        const newQuery = {
+          ...JSON.parse(JSON.stringify(query)),
+          perspective: value,
+        };
+        history.replace(this.getRouteForQuery(newQuery));
+      }
+    );
   };
 
   private handleTabClick = (event, tabIndex) => {
@@ -526,15 +538,18 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { activeTabKey } = this.state;
 
     if (activeTabKey !== tabIndex) {
-      const newQuery = {
-        ...JSON.parse(JSON.stringify(query)),
-        tabKey: tabIndex,
-      };
-      history.replace(this.getRouteForQuery(newQuery));
-
-      this.setState({
-        activeTabKey: tabIndex,
-      });
+      this.setState(
+        {
+          activeTabKey: tabIndex,
+        },
+        () => {
+          const newQuery = {
+            ...JSON.parse(JSON.stringify(query)),
+            tabKey: tabIndex,
+          };
+          history.replace(this.getRouteForQuery(newQuery));
+        }
+      );
     }
   };
 
@@ -665,13 +680,11 @@ class OverviewBase extends React.Component<OverviewProps> {
 const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStateProps>((state, props) => {
   const queryFromRoute = parseQuery<OverviewQuery>(location.search);
 
-  const infraPerspective = queryFromRoute.infraPerspective;
-  const ocpPerspective = queryFromRoute.ocpPerspective;
+  const perspective = queryFromRoute.perspective;
   const tabKey = queryFromRoute.tabKey && !Number.isNaN(queryFromRoute.tabKey) ? Number(queryFromRoute.tabKey) : 0;
 
   const query = {
-    ...(infraPerspective && { infraPerspective }),
-    ...(ocpPerspective && { ocpPerspective }),
+    ...(perspective && { perspective }),
     tabKey,
   };
   const queryString = getQuery(query);
@@ -756,11 +769,10 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     ibmUserAccessError,
     ibmUserAccessFetchStatus,
     ibmUserAccessQueryString,
-    infraPerspective,
-    ocpPerspective,
     ocpProviders,
     ocpProvidersFetchStatus,
     ocpProvidersQueryString,
+    perspective,
     query,
     queryString,
     tabKey,
