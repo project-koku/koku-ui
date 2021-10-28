@@ -279,11 +279,14 @@ class OverviewBase extends React.Component<OverviewProps> {
 
     // Upon page refresh, perspective param takes precedence
     switch (perspective) {
-      case InfrastructurePerspective.ocpCloud:
       case InfrastructurePerspective.aws:
+      case InfrastructurePerspective.awsOcp:
       case InfrastructurePerspective.azure:
+      case InfrastructurePerspective.azureOcp:
       case InfrastructurePerspective.gcp:
+      case InfrastructurePerspective.gcpOcp:
       case InfrastructurePerspective.ibm:
+      case InfrastructurePerspective.ocpCloud:
         return perspective;
     }
 
