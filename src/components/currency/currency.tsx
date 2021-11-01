@@ -49,7 +49,10 @@ class CurrencyBase extends React.Component<CurrencyProps> {
   public componentDidMount() {
     const { fetchCurrency } = this.props;
 
-    fetchCurrency();
+    // Todo: Show new features in beta environment only
+    if (!insights.chrome.isBeta()) {
+      fetchCurrency();
+    }
   }
 
   private getCurrentItem = () => {
