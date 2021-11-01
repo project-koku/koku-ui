@@ -80,7 +80,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.AWSDetailsTitle)}
           </Title>
-          <Currency />
+          {/* Todo: Show new features in beta environment only */}
+          {insights.chrome.isBeta() && <Currency />}
         </div>
         <div style={styles.headerContent}>
           <div style={styles.headerContentLeft}>
@@ -95,9 +96,12 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
               showTags
               tagReportPathsType={tagReportPathsType}
             />
-            <div style={styles.costType}>
-              <CostType onSelect={this.handleCostTypeSelected} />
-            </div>
+            {/* Todo: Show new features in beta environment only */}
+            {insights.chrome.isBeta() && (
+              <div style={styles.costType}>
+                <CostType onSelect={this.handleCostTypeSelected} />
+              </div>
+            )}
           </div>
           {Boolean(showContent) && (
             <div>
