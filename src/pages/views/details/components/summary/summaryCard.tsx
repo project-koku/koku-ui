@@ -24,7 +24,6 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { getCostType } from 'utils/localStorage';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { styles } from './summaryCard.styles';
@@ -189,8 +188,6 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
 
     const newQuery: Query = {
-      // Todo: Show new features in beta environment only
-      ...(insights.chrome.isBeta() && reportPathsType === ReportPathsType.aws && { cost_type: getCostType() }),
       filter: {
         limit: 3,
         resolution: 'monthly',
