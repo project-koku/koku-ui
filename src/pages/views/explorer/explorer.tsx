@@ -34,7 +34,6 @@ import { uiActions } from 'store/ui';
 import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { getCostType } from 'utils/localStorage';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 import { styles } from './explorer.styles';
@@ -610,8 +609,6 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   }
 
   const query = {
-    // Todo: Show new features in beta environment only
-    ...(insights.chrome.isBeta() && perspective === PerspectiveType.aws && { cost_type: getCostType() }),
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,

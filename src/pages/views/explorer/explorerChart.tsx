@@ -22,7 +22,6 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatUnits } from 'utils/format';
-import { getCostType } from 'utils/localStorage';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './explorerChart.styles';
@@ -264,8 +263,6 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
     }
 
     const query = {
-      // Todo: Show new features in beta environment only
-      ...(insights.chrome.isBeta() && perspective === PerspectiveType.aws && { cost_type: getCostType() }),
       filter: {
         ...baseQuery.filter,
         ...queryFromRoute.filter,

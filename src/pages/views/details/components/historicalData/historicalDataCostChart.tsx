@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUnits } from 'utils/format';
-import { getCostType } from 'utils/localStorage';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './historicalChart.styles';
@@ -124,8 +123,6 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
     const groupByValue = getGroupByValue(query);
 
     const baseQuery: Query = {
-      // Todo: Show new features in beta environment only
-      ...(insights.chrome.isBeta() && reportPathsType === ReportPathsType.aws && { cost_type: getCostType() }),
       filter_by: {
         // Add filters here to apply logical OR/AND
         ...(query && query.filter_by && query.filter_by),
