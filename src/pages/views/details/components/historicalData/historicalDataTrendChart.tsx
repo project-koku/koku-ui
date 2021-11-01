@@ -16,6 +16,7 @@ import { skeletonWidth } from 'utils/skeleton';
 import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalDataTrendChartOwnProps {
+  costType?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -49,12 +50,12 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
   }
 
   public componentDidUpdate(prevProps: HistoricalDataTrendChartProps) {
-    const { fetchReport, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
+    const { fetchReport, costType, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
 
-    if (prevProps.currentQueryString !== currentQueryString) {
+    if (prevProps.currentQueryString !== currentQueryString || prevProps.costType !== costType) {
       fetchReport(reportPathsType, reportType, currentQueryString);
     }
-    if (prevProps.previousQueryString !== previousQueryString) {
+    if (prevProps.previousQueryString !== previousQueryString || prevProps.costType !== costType) {
       fetchReport(reportPathsType, reportType, previousQueryString);
     }
   }

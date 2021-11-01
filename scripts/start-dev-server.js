@@ -8,7 +8,7 @@ async function setEnv() {
     .prompt([
       {
         name: 'localApi',
-        message: 'Do you want to use local api?',
+        message: 'Do you want to use local API?',
         type: 'confirm',
         default: false,
       },

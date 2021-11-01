@@ -1,4 +1,4 @@
-# Koku-UI
+# Koku UI
 
 [![AGPLv3][license-badge]][license]
 [![Build Status][build-badge]][build]
@@ -32,7 +32,7 @@ Produces a file used by product security for vulnerability and compliance tracki
 yarn update:manifest
 ```
 
-## Running Koku-UI against a hosted Koku API, using webpack proxy
+## Running Koku UI against a hosted Koku API, using webpack proxy
 Note that this approach currently supports the Insights stage-beta, stage-stable, prod-beta, and prod-stable environments.
 
 1. Start development server
@@ -51,8 +51,8 @@ Follow the prompts that follow.
 https://stage.foo.redhat.com:1337/beta/openshift/cost-management
 ```
 
-## Running local instances of Koku-UI & Koku API
-#### Koku-UI
+## Running local instances of Koku UI & Koku API
+#### Koku UI
 
 1. Start development server (Answer `yes` to run against local APIs)
 ```
@@ -79,9 +79,9 @@ Refer to the project [README][koku-readme] for prerequisites
 > cd [KOKU_GIT_REPO]
 > pipenv install --dev
 > pipenv shell "pre-commit install"
-> make docker-up-min or make make docker-up-min-presto
+> make docker-up-min or make docker-up-min-trino
 > make create-test-customer
-> make load-test-customer-data
+> make load-test-customer-data (use with docker-up-min-trino)
 ```
 
 2. Check to see if containers are running (optional)
@@ -94,11 +94,20 @@ Refer to the project [README][koku-readme] for prerequisites
 > docker-compose logs -f koku-server koku-worker
 ```
 
-## Running local instances of Settings-Frontend & Koku API
+4. Clean up (optional)
+```
+pipenv shell
+make docker-down
+make remove-db
+docker system prune --all
+exit
+```
+
+## Running local instances of Settings Frontend & Koku API
 
 Follow the [steps](#koku-api) to run a local Koku API instance
 
-1. Clone the Settings-Frontend repository and install dependencies
+1. Clone the Settings Frontend repository and install dependencies
 ```
 > git clone https://github.com/RedHatInsights/settings-frontend.git
 > cd [SETTINGS_FRONTEND_GIT_REPO]
