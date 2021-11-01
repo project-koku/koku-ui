@@ -659,13 +659,15 @@ class OverviewBase extends React.Component<OverviewProps> {
                 </Popover>
               </span>
             </Title>
-            <Currency />
+            {/* Todo: Show new features in beta environment only */}
+            {insights.chrome.isBeta() && <Currency />}
           </div>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
           <div style={styles.headerContent}>
             <div style={styles.headerContentLeft}>
               {this.getPerspective()}
-              {this.getCostType()}
+              {/* Todo: Show new features in beta environment only */}
+              {insights.chrome.isBeta() && this.getCostType()}
             </div>
             <div style={styles.date}>{getSinceDateRangeString()}</div>
           </div>

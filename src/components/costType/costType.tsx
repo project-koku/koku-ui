@@ -51,10 +51,7 @@ class CostTypeBase extends React.Component<CostTypeProps> {
   public componentDidMount() {
     const { fetchCostType } = this.props;
 
-    // Todo: Show new features in beta environment only
-    if (!insights.chrome.isBeta()) {
-      fetchCostType();
-    }
+    fetchCostType();
   }
 
   private getCurrentItem = () => {
@@ -156,11 +153,6 @@ class CostTypeBase extends React.Component<CostTypeProps> {
 
   public render() {
     const { intl } = this.props;
-
-    // Todo: Show new features in beta environment only
-    if (!insights.chrome.isBeta()) {
-      return null;
-    }
 
     // Clear local storage value if current session is not valid
     invalidateCostType();
