@@ -51,7 +51,10 @@ class CostTypeBase extends React.Component<CostTypeProps> {
   public componentDidMount() {
     const { fetchCostType } = this.props;
 
-    fetchCostType();
+    // Todo: Show new features in beta environment only
+    if (!insights.chrome.isBeta()) {
+      fetchCostType();
+    }
   }
 
   private getCurrentItem = () => {
