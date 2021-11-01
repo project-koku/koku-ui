@@ -24,6 +24,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { CostOverviewWidget, CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 
 interface CostOverviewOwnProps {
+  costType?: string;
   groupBy: string;
   query?: Query;
   report: Report;
@@ -147,7 +148,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
 
   // Returns summary card widget
   private getSummaryCard = (widget: CostOverviewWidget) => {
-    const { groupBy, query } = this.props;
+    const { costType, groupBy, query } = this.props;
 
     let showWidget = false;
     for (const groupById of widget.reportSummary.showWidgetOnGroupBy) {
@@ -163,6 +164,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
     if (showWidget) {
       return (
         <SummaryCard
+          costType={costType}
           reportGroupBy={widget.reportSummary.reportGroupBy}
           reportPathsType={widget.reportPathsType}
           reportType={widget.reportType}

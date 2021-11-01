@@ -23,6 +23,7 @@ import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
   groupBy?: string;
+  onCostTypeSelected(value: string);
   onGroupBySelected(value: string);
   report: AwsReport;
 }
@@ -58,6 +59,14 @@ const orgReportPathsType = OrgPathsType.aws;
 const tagReportPathsType = TagPathsType.aws;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
+  private handleCostTypeSelected = (value: string) => {
+    const { onCostTypeSelected } = this.props;
+
+    if (onCostTypeSelected) {
+      onCostTypeSelected(value);
+    }
+  };
+
   public render() {
     const { groupBy, onGroupBySelected, providers, providersError, report, intl } = this.props;
     const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
@@ -71,7 +80,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.AWSDetailsTitle)}
           </Title>
-          <Currency />
+          {/* Todo: Show new features in beta environment only */}
+          {insights.chrome.isBeta() && <Currency />}
         </div>
         <div style={styles.headerContent}>
           <div style={styles.headerContentLeft}>
@@ -86,9 +96,12 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
               showTags
               tagReportPathsType={tagReportPathsType}
             />
-            <div style={styles.costType}>
-              <CostType />
-            </div>
+            {/* Todo: Show new features in beta environment only */}
+            {insights.chrome.isBeta() && (
+              <div style={styles.costType}>
+                <CostType onSelect={this.handleCostTypeSelected} />
+              </div>
+            )}
           </div>
           {Boolean(showContent) && (
             <div>

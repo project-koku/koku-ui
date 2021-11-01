@@ -121,11 +121,6 @@ class CurrencyBase extends React.Component<CurrencyProps> {
   public render() {
     const { intl } = this.props;
 
-    // Todo: Show new features in beta environment only
-    if (!insights.chrome.isBeta()) {
-      return null;
-    }
-
     // Clear local storage value if current session is not valid
     invalidateCurrency();
 

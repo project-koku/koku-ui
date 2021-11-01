@@ -48,7 +48,11 @@ export function getQueryForWidget(filter: AwsFilters = awsDashboardDefaultFilter
   return getQuery(query);
 }
 
-export function getQueryForWidgetTabs(widget: AwsDashboardWidget, filter: AwsFilters = awsDashboardDefaultFilters) {
+export function getQueryForWidgetTabs(
+  widget: AwsDashboardWidget,
+  filter: AwsFilters = awsDashboardDefaultFilters,
+  props?
+) {
   const group_by = getGroupByForTab(widget);
   const newFilter = {
     ...JSON.parse(JSON.stringify(filter)),
@@ -61,6 +65,7 @@ export function getQueryForWidgetTabs(widget: AwsDashboardWidget, filter: AwsFil
   const query: AwsQuery = {
     filter: newFilter,
     group_by,
+    ...(props ? props : {}),
   };
   return getQuery(query);
 }

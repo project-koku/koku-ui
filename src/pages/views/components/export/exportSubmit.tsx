@@ -150,13 +150,14 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
         limit: undefined,
         offset: undefined,
         resolution: resolution ? resolution : undefined,
-        time_scope_value: timeScope === 'previous' ? -2 : -1,
+        ...(!query.dateRange && { time_scope_value: timeScope === 'previous' ? -2 : -1 }),
       },
       filter_by: {},
       limit: 0,
       order_by: undefined,
       perspective: undefined,
       dateRange: undefined,
+      delta: undefined,
     };
 
     // Store filter_by as an array so we can add to it below

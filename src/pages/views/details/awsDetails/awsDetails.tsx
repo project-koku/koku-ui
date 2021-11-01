@@ -253,6 +253,17 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     );
   };
 
+  private handleCostTypeSelected = (value: string) => {
+    const { history, query } = this.props;
+
+    // Need param to restore cost type upon page refresh
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      cost_type: value,
+    };
+    history.replace(this.getRouteForQuery(newQuery, false)); // Don't reset pagination
+  };
+
   private handleBulkSelected = (action: string) => {
     const { isAllSelected } = this.state;
 
@@ -410,7 +421,12 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     }
     return (
       <div style={styles.awsDetails}>
-        <DetailsHeader groupBy={groupById} onGroupBySelected={this.handleGroupBySelected} report={report} />
+        <DetailsHeader
+          groupBy={groupById}
+          onCostTypeSelected={this.handleCostTypeSelected}
+          onGroupBySelected={this.handleGroupBySelected}
+          report={report}
+        />
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}

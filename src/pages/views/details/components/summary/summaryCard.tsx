@@ -29,6 +29,7 @@ import { skeletonWidth } from 'utils/skeleton';
 import { styles } from './summaryCard.styles';
 
 interface SummaryOwnProps {
+  costType?: string;
   reportGroupBy?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
@@ -64,8 +65,8 @@ class SummaryBase extends React.Component<SummaryProps> {
   }
 
   public componentDidUpdate(prevProps: SummaryProps) {
-    const { fetchReport, queryString, reportPathsType, reportType } = this.props;
-    if (prevProps.queryString !== queryString) {
+    const { costType, fetchReport, queryString, reportPathsType, reportType } = this.props;
+    if (prevProps.queryString !== queryString || prevProps.costType !== costType) {
       fetchReport(reportPathsType, reportType, queryString);
     }
   }
