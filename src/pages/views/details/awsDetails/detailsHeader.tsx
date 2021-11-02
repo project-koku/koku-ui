@@ -17,6 +17,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
 import { ComputedAwsReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
+import { isBetaFeature } from 'utils/feature';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './detailsHeader.styles';
@@ -80,8 +81,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.AWSDetailsTitle)}
           </Title>
-          {/* Todo: Show new features in beta environment only */}
-          {insights.chrome.isBeta() && <Currency />}
+          {/* Todo: Show in-progress features in beta environment only */}
+          {isBetaFeature() && <Currency />}
         </div>
         <div style={styles.headerContent}>
           <div style={styles.headerContentLeft}>
@@ -96,8 +97,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
               showTags
               tagReportPathsType={tagReportPathsType}
             />
-            {/* Todo: Show new features in beta environment only */}
-            {insights.chrome.isBeta() && (
+            {/* Todo: Show in-progress features in beta environment only */}
+            {isBetaFeature() && (
               <div style={styles.costType}>
                 <CostType onSelect={this.handleCostTypeSelected} />
               </div>

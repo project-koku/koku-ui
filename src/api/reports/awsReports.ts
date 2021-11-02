@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
+import { isBetaFeature } from 'utils/feature';
 import { getCostType } from 'utils/localStorage';
 
 import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType, ReportValue } from './report';
@@ -61,8 +62,8 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
 export function runReport(reportType: ReportType, query: string) {
   const path = ReportTypePaths[reportType];
 
-  // Todo: Show new features in beta environment only
-  if (insights.chrome.isBeta()) {
+  // Todo: Show in-progress features in beta environment only
+  if (isBetaFeature()) {
     switch (reportType) {
       case ReportType.cost:
       case ReportType.database:

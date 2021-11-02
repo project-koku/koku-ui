@@ -58,6 +58,7 @@ import {
 import { uiActions } from 'store/ui';
 import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getSinceDateRangeString } from 'utils/dateRange';
+import { isBetaFeature } from 'utils/feature';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 import { styles } from './overview.styles';
@@ -636,8 +637,8 @@ class OverviewBase extends React.Component<OverviewProps> {
                       <br />
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.GCP)}</p>
                       <p>{intl.formatMessage(messages.GCPDesc)}</p>
-                      {/* Todo: Show new features in beta environment only */}
-                      {insights.chrome.isBeta() && (
+                      {/* Todo: Show in-progress features in beta environment only */}
+                      {isBetaFeature() && (
                         <>
                           <br />
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.IBM)}</p>
@@ -659,15 +660,15 @@ class OverviewBase extends React.Component<OverviewProps> {
                 </Popover>
               </span>
             </Title>
-            {/* Todo: Show new features in beta environment only */}
-            {insights.chrome.isBeta() && <Currency />}
+            {/* Todo: Show in-progress features in beta environment only */}
+            {isBetaFeature() && <Currency />}
           </div>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
           <div style={styles.headerContent}>
             <div style={styles.headerContentLeft}>
               {this.getPerspective()}
-              {/* Todo: Show new features in beta environment only */}
-              {insights.chrome.isBeta() && this.getCostType()}
+              {/* Todo: Show in-progress features in beta environment only */}
+              {isBetaFeature() && this.getCostType()}
             </div>
             <div style={styles.date}>{getSinceDateRangeString()}</div>
           </div>

@@ -14,6 +14,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
+import { isBetaFeature } from 'utils/feature';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './breakdownHeader.styles';
@@ -112,15 +113,15 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
               </li>
             </ol>
           </nav>
-          {/* Todo: Show new features in beta environment only */}
-          {insights.chrome.isBeta() && <Currency />}
+          {/* Todo: Show in-progress features in beta environment only */}
+          {isBetaFeature() && <Currency />}
         </div>
         <div style={styles.headerContent}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.BreakdownTitle, { value: title })}
             {description && <div style={styles.infoDescription}>{description}</div>}
-            {/* Todo: Show new features in beta environment only */}
-            {insights.chrome.isBeta() && showCostType && (
+            {/* Todo: Show in-progress features in beta environment only */}
+            {isBetaFeature() && showCostType && (
               <div style={styles.costType}>
                 <CostType onSelect={this.handleCostTypeSelected} />
               </div>
