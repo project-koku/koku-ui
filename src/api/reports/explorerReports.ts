@@ -4,6 +4,7 @@ export interface ExplorerReportItem extends ReportItem {
   account?: string;
   account_alias?: string;
   cluster?: string;
+  gcp_project?: string;
   instance_type?: string;
   node?: string;
   org_unit_id?: string;

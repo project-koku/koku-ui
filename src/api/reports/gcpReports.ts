@@ -5,8 +5,8 @@ import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType
 
 export interface GcpReportItem extends ReportItem {
   account?: string;
-  instance_type?: string;
   gcp_project?: string;
+  instance_type?: string;
   project?: string;
   region?: string;
   service?: string;
@@ -24,12 +24,12 @@ export interface GroupByServiceData extends Omit<GcpReportData, 'services'> {
   service: string;
 }
 
-export interface GroupByInstanceTypeData extends Omit<GcpReportData, 'instance_types'> {
-  instance_type: string;
-}
-
 export interface GroupByGcpProjectData extends Omit<GcpReportData, 'projects'> {
   gcp_project: string;
+}
+
+export interface GroupByInstanceTypeData extends Omit<GcpReportData, 'instance_types'> {
+  instance_type: string;
 }
 
 export interface GroupByProjectData extends Omit<GcpReportData, 'projects'> {
@@ -38,8 +38,8 @@ export interface GroupByProjectData extends Omit<GcpReportData, 'projects'> {
 
 export interface GcpReportData extends ReportData {
   accounts?: GroupByAccountData[];
-  instance_types?: GroupByInstanceTypeData[];
   gcp_projects?: GroupByGcpProjectData[];
+  instance_types?: GroupByInstanceTypeData[];
   projects?: GroupByProjectData[];
   regions?: GroupByRegionData[];
   services?: GroupByServiceData[];

@@ -14648,6 +14648,14 @@
               }
             ]
           },
+          "gcp_project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GCP project names"
+              }
+            ]
+          },
           "instance_type": {
             "value": [
               {

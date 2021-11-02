@@ -9,8 +9,8 @@ type GcpGroupByValue = string | string[];
 interface GcpGroupBys {
   service?: GcpGroupByValue;
   account?: GcpGroupByValue;
-  instance_type?: GcpGroupByValue;
   gcp_project?: GcpGroupByValue;
+  instance_type?: GcpGroupByValue;
   project?: GcpGroupByValue;
   region?: GcpGroupByValue;
 }
