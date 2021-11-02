@@ -36,13 +36,6 @@ const RateTableBase: React.SFC<RateTableProps> = ({
 }) => {
   const [expanded, setExpanded] = React.useState({});
   const [sortBy, setSortBy] = React.useState<ISortBy>({});
-  const cells = [
-    { title: intl.formatMessage(messages.Description) },
-    { title: intl.formatMessage(messages.Metric), transforms: [sortable] },
-    { title: intl.formatMessage(messages.Measurement), transforms: [sortable] },
-    { title: intl.formatMessage(messages.CalculationType) },
-    { title: intl.formatMessage(messages.Rate), cellTransforms: [compoundExpand] },
-  ];
   const onSort = (_event, index: number, direction: SortByDirection) => {
     setSortBy({ index, direction });
   };
@@ -100,6 +93,13 @@ const RateTableBase: React.SFC<RateTableProps> = ({
         ...compoundRows,
       ];
     }, []);
+  const cells = [
+    { title: intl.formatMessage(messages.Description) },
+    { title: intl.formatMessage(messages.Metric), ...(rows.length && { transforms: [sortable] }) },
+    { title: intl.formatMessage(messages.Measurement), ...(rows.length && { transforms: [sortable] }) },
+    { title: intl.formatMessage(messages.CalculationType) },
+    { title: intl.formatMessage(messages.Rate), cellTransforms: [compoundExpand] },
+  ];
   const onExpand = (_event: any, rowIndex: number, _colIndex: number, isOpen: boolean) => {
     setExpanded({ ...expanded, [rowIndex]: !isOpen });
   };
