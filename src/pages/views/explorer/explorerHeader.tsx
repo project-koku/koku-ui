@@ -27,6 +27,7 @@ import {
 import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { getLast60DaysDate } from 'utils/dateRange';
+import { isBetaFeature } from 'utils/feature';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 import { ExplorerFilter } from './explorerFilter';
@@ -279,8 +280,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.ExplorerTitle)}
           </Title>
-          {/* Todo: Show new features in beta environment only */}
-          {insights.chrome.isBeta() && <Currency />}
+          {/* Todo: Show in-progress features in beta environment only */}
+          {isBetaFeature() && <Currency />}
         </div>
         <div style={styles.perspectiveContainer}>
           {this.getPerspective(noProviders)}
@@ -300,8 +301,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
               tagReportPathsType={tagReportPathsType}
             />
           </div>
-          {/* Todo: Show new features in beta environment only */}
-          {insights.chrome.isBeta() && perspective === PerspectiveType.aws && (
+          {/* Todo: Show in-progress features in beta environment only */}
+          {isBetaFeature() && perspective === PerspectiveType.aws && (
             <div style={styles.costType}>
               <CostType onSelect={this.handleCostTypeSelected} />
             </div>

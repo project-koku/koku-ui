@@ -1,11 +1,11 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import { isBetaFeature } from 'utils/feature';
 import { getCostType } from 'utils/localStorage';
-
 export const reportStateKey = 'report';
 
 export function getReportId(reportPathsType: ReportPathsType, reportType: ReportType, query: string) {
-  // Todo: Show new features in beta environment only
-  if (insights.chrome.isBeta()) {
+  // Todo: Show in-progress features in beta environment only
+  if (isBetaFeature()) {
     switch (reportType) {
       case ReportType.cost:
       case ReportType.database:
