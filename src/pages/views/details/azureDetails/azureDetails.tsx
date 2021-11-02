@@ -299,8 +299,9 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
       },
       order_by: { cost: 'desc' },
     };
-    history.replace(this.getRouteForQuery(newQuery, true));
-    this.setState({ isAllSelected: false, selectedItems: [] });
+    this.setState({ isAllSelected: false, selectedItems: [] }, () => {
+      history.replace(this.getRouteForQuery(newQuery, true));
+    });
   };
 
   private handlePerPageSelect = (_event, perPage) => {
