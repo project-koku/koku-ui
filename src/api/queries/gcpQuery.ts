@@ -10,6 +10,7 @@ interface GcpGroupBys {
   service?: GcpGroupByValue;
   account?: GcpGroupByValue;
   instance_type?: GcpGroupByValue;
+  gcp_project?: GcpGroupByValue;
   project?: GcpGroupByValue;
   region?: GcpGroupByValue;
 }
@@ -17,6 +18,7 @@ interface GcpGroupBys {
 interface GcpOrderBys {
   account?: string;
   cost?: string;
+  gcp_project?: string;
   project?: string;
   region?: string;
   service?: string;
