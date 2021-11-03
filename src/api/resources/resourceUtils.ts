@@ -25,6 +25,7 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
     switch (resourceType) {
       case ResourceType.account:
       case ResourceType.cluster:
+      case ResourceType.gcpProject:
       case ResourceType.node:
       case ResourceType.project:
       case ResourceType.region:
