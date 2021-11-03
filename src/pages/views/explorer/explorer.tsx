@@ -328,8 +328,9 @@ class Explorer extends React.Component<ExplorerProps> {
       },
       order_by: undefined, // Clear sort
     };
-    history.replace(getRouteForQuery(history, newQuery, true));
-    this.setState({ isAllSelected: false, selectedItems: [] });
+    this.setState({ isAllSelected: false, selectedItems: [] }, () => {
+      history.replace(getRouteForQuery(history, newQuery, true));
+    });
   };
 
   private handlePerPageSelect = (_event, perPage) => {
