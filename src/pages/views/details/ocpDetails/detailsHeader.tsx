@@ -16,6 +16,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
 import { ComputedOcpReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
+import { isBetaFeature } from 'utils/feature';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './detailsHeader.styles';
@@ -93,8 +94,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.OCPDetailsTitle)}
           </Title>
-          {/* Todo: Show new features in beta environment only */}
-          {insights.chrome.isBeta() && <Currency />}
+          {/* Todo: Show in-progress features in beta environment only */}
+          {isBetaFeature() && <Currency />}
         </div>
         <div style={styles.headerContent}>
           <div style={styles.headerContentLeft}>

@@ -172,8 +172,9 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
       ...JSON.parse(JSON.stringify(query)),
       dateRange: value,
     };
-    history.replace(getRouteForQuery(history, newQuery, true));
-    this.setState({ currentDateRange: value });
+    this.setState({ currentDateRange: value }, () => {
+      history.replace(getRouteForQuery(history, newQuery, true));
+    });
   };
 
   public render() {

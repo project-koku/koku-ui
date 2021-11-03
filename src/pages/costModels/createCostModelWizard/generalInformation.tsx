@@ -18,6 +18,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { currencyActions, currencySelectors } from 'store/currency';
+import { isBetaFeature } from 'utils/feature';
 
 import { CostModelContext } from './context';
 import { descriptionErrors, nameErrors } from './steps';
@@ -126,8 +127,8 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                   </FormSelect>
                 </FormGroup>
                 {
-                  /* Todo: Show new features in beta environment only */
-                  insights.chrome.isBeta() && (
+                  /* Todo: Show in-progress features in beta environment only */
+                  isBetaFeature() && (
                     <FormGroup label={intl.formatMessage(messages.Currency)} fieldId="currency-units">
                       <FormSelect id="currency-units" value={currencyUnits} onChange={onCurrencyChange}>
                         {currency &&
