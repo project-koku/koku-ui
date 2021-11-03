@@ -12,6 +12,7 @@ export interface Resource extends PagedResponse<ResourceData, PagedMetaData> {}
 export const enum ResourceType {
   account = 'account',
   cluster = 'cluster',
+  gcpProject = 'gcp_project',
   node = 'node',
   project = 'project',
   region = 'region',
