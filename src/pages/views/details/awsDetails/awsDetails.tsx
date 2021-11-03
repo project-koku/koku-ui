@@ -322,7 +322,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       },
       order_by: { cost: 'desc' },
     };
-    this.setState({ isAllSelected: false, selectedItems: [] }, ()=> {
+    this.setState({ isAllSelected: false, selectedItems: [] }, () => {
       history.replace(this.getRouteForQuery(newQuery, true));
     });
   };

@@ -33,7 +33,9 @@ import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcp
 import { ExplorerFilter } from './explorerFilter';
 import { styles } from './explorerHeader.styles';
 import {
-  baseQuery, getDateRange, getDateRangeDefault,
+  baseQuery,
+  getDateRange,
+  getDateRangeDefault,
   getGroupByDefault,
   getGroupByOptions,
   getOrgReportPathsType,
