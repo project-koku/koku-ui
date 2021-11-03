@@ -81,7 +81,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 
     const options = [
       { name: intl.formatMessage(messages.FilterByValues, { value: 'account' }), key: 'account' },
-      { name: intl.formatMessage(messages.FilterByValues, { value: 'project' }), key: 'project' },
+      { name: intl.formatMessage(messages.FilterByValues, { value: 'gcp_project' }), key: 'gcp_project' },
       { name: intl.formatMessage(messages.FilterByValues, { value: 'service' }), key: 'service' },
       { name: intl.formatMessage(messages.FilterByValues, { value: 'region' }), key: 'region' },
     ];

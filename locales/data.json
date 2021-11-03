@@ -13134,6 +13134,14 @@
               }
             ]
           },
+          "gcp_project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GCP project"
+              }
+            ]
+          },
           "name": {
             "value": [
               {
@@ -14640,6 +14648,14 @@
               }
             ]
           },
+          "gcp_project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GCP project names"
+              }
+            ]
+          },
           "instance_type": {
             "value": [
               {
@@ -15124,6 +15140,34 @@
                       {
                         "type": 0,
                         "value": "Clusters"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "gcp_project": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "GCP project"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "GCP projects"
                       }
                     ]
                   }

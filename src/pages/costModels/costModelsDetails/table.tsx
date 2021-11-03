@@ -47,25 +47,29 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
       stateName,
     } = this.props;
 
+    const rows = getRowsByStateName(stateName, costData);
     const cells = [
-      { title: intl.formatMessage(messages.Names, { count: 1 }), transforms: [sortable], data: { orderName: 'name' } },
+      {
+        title: intl.formatMessage(messages.Names, { count: 1 }),
+        data: { orderName: 'name' },
+        ...(rows.length && { transforms: [sortable] }),
+      },
       { title: intl.formatMessage(messages.Description) },
       {
         title: intl.formatMessage(messages.CostModelsSourceType),
-        transforms: [sortable],
         data: { orderName: 'source_type' },
+        ...(rows.length && { transforms: [sortable] }),
       },
       { title: intl.formatMessage(messages.CostModelsAssignedSources) },
       {
         title: intl.formatMessage(messages.CostModelsLastChange),
-        transforms: [sortable],
         data: { orderName: 'updated_timestamp' },
+        ...(rows.length && { transforms: [sortable] }),
       },
     ] as ICell[];
 
     const sortBy = parseOrdering(query, cells);
     const onSort = createOnSort(cells, query, push);
-    const rows = getRowsByStateName(stateName, costData);
     const actions = createActions(stateName, canWrite, [
       {
         title: intl.formatMessage(messages.Delete),

@@ -106,6 +106,12 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     const groupByTagKey = getGroupByTagKey(query);
     const rows = [];
 
+    const computedItems = getUnsortedComputedReportItems({
+      report,
+      idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
+      daily: true,
+    });
+
     // Add first column heading (i.e., name)
     const columns =
       groupByTagKey || groupByOrg
@@ -123,15 +129,9 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
               date: undefined,
               orderBy: groupById === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupById,
               title: intl.formatMessage(messages.GroupByValueNames, { groupBy: groupById }),
-              transforms: [sortable],
+              ...(computedItems.length && { transforms: [sortable] }),
             },
           ];
-
-    const computedItems = getUnsortedComputedReportItems({
-      report,
-      idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
-      daily: true,
-    });
 
     // Fill in missing columns
     for (
@@ -141,7 +141,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     ) {
       const mapId = format(currentDate, 'yyyy-MM-dd');
 
-      let isSortable = true;
+      let isSortable = computedItems.length > 0;
       computedItems.map(rowItem => {
         const item = rowItem.get(mapId);
         if (!item) {

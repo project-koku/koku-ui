@@ -1859,6 +1859,7 @@ export default defineMessages({
       '{value, select, ' +
       'account {Account} ' +
       'cluster {Cluster} ' +
+      'gcp_project {GCP project} ' +
       'name {Name} ' +
       'node {Node} ' +
       'org_unit_id {Organizational unit} ' +
@@ -1980,6 +1981,7 @@ export default defineMessages({
       '{groupBy, select, ' +
       'account {Account names} ' +
       'cluster {Cluster names} ' +
+      'gcp_project {GCP project names} ' +
       'instance_type {Instance type names} ' +
       'node {Node names} ' +
       'org_unit_id {Organizational unit names} ' +
@@ -2018,6 +2020,7 @@ export default defineMessages({
       '{value, select, ' +
       'account {{count, plural, one {Account} other {Accounts}}} ' +
       'cluster {{count, plural, one {Cluster} other {Clusters}}} ' +
+      'gcp_project {{count, plural, one {GCP project} other {GCP projects}}} ' +
       'instance_type {{count, plural, one {Instance type} other {Instance types}}} ' +
       'node {{count, plural, one {Node} other {Node}}} ' +
       'org_unit_id {{count, plural, one {Organizational unit} other {Organizational units}}} ' +
