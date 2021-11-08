@@ -29,7 +29,6 @@ export const getIdKeyForTab = (tab: GcpOcpDashboardTab): ComputedGcpReportItemsP
       return 'region';
     case GcpOcpDashboardTab.services:
       return 'service';
-
   }
 };
 
