@@ -232,7 +232,7 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
     const tagQueryString = getQuery({
       start_date,
       end_date,
-      // key_only: true
+      key_only: true,
     });
     let tagReport;
     let tagReportFetchStatus;

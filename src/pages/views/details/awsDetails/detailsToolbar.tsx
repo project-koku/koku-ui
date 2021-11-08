@@ -161,7 +161,7 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
       time_scope_units: 'month',
       time_scope_value: -1,
     },
-    // key_only: true
+    key_only: true,
   });
   const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, queryString);
   const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgReportPathsType, orgReportType, queryString);

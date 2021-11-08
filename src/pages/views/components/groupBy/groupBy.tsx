@@ -298,7 +298,7 @@ const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps
     // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
     const tagQueryString = getQuery({
       ...tagQuery,
-      // key_only: true
+      key_only: true,
     });
     const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
     const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
