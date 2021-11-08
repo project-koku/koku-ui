@@ -19,14 +19,16 @@ interface GcpOcpDashboardWidgetDispatchProps {
 
 export const getIdKeyForTab = (tab: GcpOcpDashboardTab): ComputedGcpReportItemsParams['idKey'] => {
   switch (tab) {
-    case GcpOcpDashboardTab.services:
-      return 'service';
+    case GcpOcpDashboardTab.gcpProjects:
+      return 'gcp_project';
+    case GcpOcpDashboardTab.instanceType:
+      return 'instance_type';
     case GcpOcpDashboardTab.projects:
       return 'project';
     case GcpOcpDashboardTab.regions:
       return 'region';
-    case GcpOcpDashboardTab.instanceType:
-      return 'instance_type';
+    case GcpOcpDashboardTab.services:
+      return 'service';
   }
 };
 
