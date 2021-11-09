@@ -223,19 +223,24 @@ class GroupByBase extends React.Component<GroupByProps> {
     if (selection.value === orgUnitIdKey || selection.value === tagKey) {
       this.setState({
         currentItem: selection.value,
+        isGroupByOpen: false,
         isGroupByOrgVisible: selection.value === orgUnitIdKey,
         isGroupByTagVisible: selection.value === tagKey,
       });
     } else {
-      this.setState({
-        currentItem: selection.value,
-        isGroupByOpen: false,
-        isGroupByOrgVisible: false,
-        isGroupByTagVisible: false,
-      });
-      if (onSelected) {
-        onSelected(selection.value);
-      }
+      this.setState(
+        {
+          currentItem: selection.value,
+          isGroupByOpen: false,
+          isGroupByOrgVisible: false,
+          isGroupByTagVisible: false,
+        },
+        () => {
+          if (onSelected) {
+            onSelected(selection.value);
+          }
+        }
+      );
     }
   };
 
