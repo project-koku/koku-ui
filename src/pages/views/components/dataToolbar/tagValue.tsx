@@ -65,15 +65,20 @@ class TagValueBase extends React.Component<TagValueProps> {
   public state: TagValueState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { fetchTag, tagQueryString, tagReportPathsType } = this.props;
+    const { fetchTag, tagQueryString, tagReportFetchStatus, tagReportPathsType } = this.props;
 
-    fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+    if (tagReportFetchStatus !== FetchStatus.inProgress) {
+      fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+    }
   }
 
   public componentDidUpdate(prevProps: TagValueProps) {
-    const { fetchTag, tagQueryString, tagReportPathsType } = this.props;
+    const { fetchTag, tagQueryString, tagReportFetchStatus, tagReportPathsType } = this.props;
 
-    if (prevProps.tagQueryString !== tagQueryString || prevProps.tagReportPathsType !== tagReportPathsType) {
+    if (
+      (prevProps.tagQueryString !== tagQueryString || prevProps.tagReportPathsType !== tagReportPathsType) &&
+      tagReportFetchStatus !== FetchStatus.inProgress
+    ) {
       fetchTag(tagReportPathsType, tagReportType, tagQueryString);
     }
   }

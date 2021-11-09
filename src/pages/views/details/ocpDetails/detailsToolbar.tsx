@@ -57,22 +57,37 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public state: DetailsToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { fetchTag, queryString } = this.props;
-    fetchTag(tagReportPathsType, tagReportType, queryString);
-    this.setState({
-      categoryOptions: this.getCategoryOptions(),
-    });
+    const { fetchTag, queryString, tagReportFetchStatus } = this.props;
+
+    this.setState(
+      {
+        categoryOptions: this.getCategoryOptions(),
+      },
+      () => {
+        if (tagReportFetchStatus !== FetchStatus.inProgress) {
+          fetchTag(tagReportPathsType, tagReportType, queryString);
+        }
+      }
+    );
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const { fetchTag, query, queryString, tagReport } = this.props;
-    if (query && !isEqual(query, prevProps.query)) {
-      fetchTag(tagReportPathsType, tagReportType, queryString);
-    }
+    const { fetchTag, query, queryString, tagReport, tagReportFetchStatus } = this.props;
     if (!isEqual(tagReport, prevProps.tagReport)) {
-      this.setState({
-        categoryOptions: this.getCategoryOptions(),
-      });
+      this.setState(
+        {
+          categoryOptions: this.getCategoryOptions(),
+        },
+        () => {
+          if (tagReportFetchStatus !== FetchStatus.inProgress) {
+            fetchTag(tagReportPathsType, tagReportType, queryString);
+          }
+        }
+      );
+    } else {
+      if (query && !isEqual(query, prevProps.query) && tagReportFetchStatus !== FetchStatus.inProgress) {
+        fetchTag(tagReportPathsType, tagReportType, queryString);
+      }
     }
   }
 
