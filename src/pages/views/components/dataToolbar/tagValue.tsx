@@ -1,7 +1,19 @@
-import { SelectOption, ToolbarChipGroup } from '@patternfly/react-core';
-import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
+import {
+  Button,
+  ButtonVariant,
+  InputGroup,
+  Select,
+  SelectOption,
+  SelectOptionObject,
+  SelectVariant,
+  TextInput,
+  ToolbarChipGroup,
+} from '@patternfly/react-core';
+import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query, tagPrefix } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
-import { PerspectiveType } from 'pages/views/explorer/explorerUtils';
+import { intl } from 'components/i18n';
+import messages from 'locales/messages';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -10,19 +22,22 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
 
 interface TagValueOwnProps extends WrappedComponentProps {
-  endDate?: string;
   isDisabled?: boolean;
-  onSelected(value: string);
-  perspective?: PerspectiveType;
-  startDate?: string;
+  onTagValueSelect(event, selection);
+  onTagValueInput(event);
+  onTagValueInputChange(value: string);
+  selections?: SelectOptionObject[];
   tagKey: string;
+  tagKeyValue: string;
   tagQueryString?: string;
   tagReportPathsType: TagPathsType;
 }
 
 interface TagValueStateProps {
+  endDate?: string;
   groupBy: string;
   groupByValue: string | number;
+  startDate?: string;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
 }
@@ -32,16 +47,20 @@ interface TagValueDispatchProps {
 }
 
 interface TagValueState {
-  // TBD...
+  isTagValueExpanded: boolean;
 }
 
 type TagValueProps = TagValueOwnProps & TagValueStateProps & TagValueDispatchProps;
 
 const tagReportType = TagType.tag;
 
+// If the number of tag keys are greater or equal, then show text input Vs select
+// See https://github.com/project-koku/koku/pull/2069
+const tagKeyValueLimit = 50;
+
 class TagValueBase extends React.Component<TagValueProps> {
   protected defaultState: TagValueState = {
-    // TBD...
+    isTagValueExpanded: false,
   };
   public state: TagValueState = { ...this.defaultState };
 
@@ -52,9 +71,9 @@ class TagValueBase extends React.Component<TagValueProps> {
   }
 
   public componentDidUpdate(prevProps: TagValueProps) {
-    const { fetchTag, groupBy, perspective, tagQueryString, tagReportPathsType } = this.props;
+    const { fetchTag, tagQueryString, tagReportPathsType } = this.props;
 
-    if (prevProps.groupBy !== groupBy || prevProps.perspective !== perspective) {
+    if (prevProps.tagQueryString !== tagQueryString || prevProps.tagReportPathsType !== tagReportPathsType) {
       fetchTag(tagReportPathsType, tagReportType, tagQueryString);
     }
   }
@@ -84,24 +103,83 @@ class TagValueBase extends React.Component<TagValueProps> {
     return options;
   }
 
+  private onTagValueChange = value => {
+    this.setState({ tagKeyValueInput: value });
+  };
+
+  private onTagValueToggle = isOpen => {
+    this.setState({
+      isTagValueExpanded: isOpen,
+    });
+  };
+
   public render() {
+    const { isDisabled, onTagValueInput, onTagValueSelect, selections, tagKeyValue } = this.props;
+    const { isTagValueExpanded } = this.state;
+
     const selectOptions = this.getTagValueOptions().map(selectOption => {
       return <SelectOption key={selectOption.key} value={selectOption.key} />;
     });
 
-    if (selectOptions) {
-      return null;
+    if (selectOptions.length > tagKeyValueLimit) {
+      return (
+        <InputGroup>
+          <TextInput
+            isDisabled={isDisabled}
+            name="tagkeyvalue-input"
+            id="tagkeyvalue-input"
+            type="search"
+            aria-label={intl.formatMessage(messages.FilterByTagValueAriaLabel)}
+            onChange={this.onTagValueChange}
+            value={tagKeyValue}
+            placeholder={intl.formatMessage(messages.FilterByTagValueInputPlaceholder)}
+            onKeyDown={evt => onTagValueInput(evt)}
+          />
+          <Button
+            isDisabled={isDisabled}
+            variant={ButtonVariant.control}
+            aria-label={intl.formatMessage(messages.FilterByTagValueButtonAriaLabel)}
+            onClick={evt => onTagValueInput(evt)}
+          >
+            <SearchIcon />
+          </Button>
+        </InputGroup>
+      );
     }
-    return null;
+    return (
+      <Select
+        isDisabled={isDisabled}
+        variant={SelectVariant.checkbox}
+        aria-label={intl.formatMessage(messages.FilterByTagValueAriaLabel)}
+        onToggle={this.onTagValueToggle}
+        onSelect={onTagValueSelect}
+        selections={selections}
+        isOpen={isTagValueExpanded}
+        placeholderText={intl.formatMessage(messages.FilterByTagValuePlaceholder)}
+      >
+        {selectOptions}
+      </Select>
+    );
   }
 }
 
 const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStateProps>(
-  (state, { endDate, startDate, tagKey, tagReportPathsType }) => {
+  (state, { tagKey, tagReportPathsType }) => {
     const query = parseQuery<Query>(location.search);
+
+    const endDate = query.end_date;
+    const startDate = query.start_date;
     const groupByOrgValue = getGroupByOrgValue(query);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
+
+    // Prune unsupported tag params from filter_by
+    const filterByParams = query && query.filter_by ? query.filter_by : {};
+    for (const key of Object.keys(filterByParams)) {
+      if (key.indexOf(tagPrefix) !== -1) {
+        filterByParams[key] = undefined;
+      }
+    }
 
     const tagKeyFilter = tagKey
       ? {
@@ -114,7 +192,9 @@ const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStatePro
         ? {
             start_date: startDate,
             end_date: endDate,
-            ...tagKeyFilter,
+            filter: {
+              ...tagKeyFilter,
+            },
           }
         : {
             filter: {
@@ -129,9 +209,9 @@ const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStatePro
       ...tagQueryParams,
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(query && query.filter_by && query.filter_by),
+        ...filterByParams,
         ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
-        ...(groupBy && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
+        ...(groupBy && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
       },
     };
 
@@ -148,8 +228,10 @@ const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStatePro
     );
 
     return {
+      endDate,
       groupBy,
       groupByValue,
+      startDate,
       tagQueryString,
       tagReport,
       tagReportFetchStatus,
@@ -165,3 +247,6 @@ const TagValueConnect = connect(mapStateToProps, mapDispatchToProps)(TagValueBas
 const TagValue = injectIntl(TagValueConnect);
 
 export { TagValue, TagValueProps };
+
+// https://stage.foo.redhat.com:1337/api/cost-management/v1/tags/openshift/?start_date=2021-11-01&end_date=2021-11-08&key=environment&filter[tag:environment]=Development&filter[project]=*
+// https://stage.foo.redhat.com:1337/api/cost-management/v1/reports/openshift/costs/?filter[limit]=10&filter[offset]=0&filter[tag:environment]=Development&group_by[project]=*&end_date=2021-11-08&start_date=2021-11-01
