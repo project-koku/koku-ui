@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
+import { getTagReportPathsType, PerspectiveType } from './explorerUtils';
+
 interface ExplorerToolbarOwnProps {
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
@@ -15,6 +17,7 @@ interface ExplorerToolbarOwnProps {
   onBulkSelected(action: string);
   onExportClicked();
   pagination?: React.ReactNode;
+  perspective: PerspectiveType;
   selectedItems?: ComputedReportItem[];
 }
 
@@ -49,8 +52,11 @@ export class ExplorerToolbarBase extends React.Component<ExplorerToolbarProps> {
       onBulkSelected,
       onExportClicked,
       pagination,
+      perspective,
       selectedItems,
     } = this.props;
+
+    const tagReportPathsType = getTagReportPathsType(perspective);
 
     return (
       <DataToolbar
@@ -65,6 +71,7 @@ export class ExplorerToolbarBase extends React.Component<ExplorerToolbarProps> {
         selectedItems={selectedItems}
         showBulkSelect
         showExport
+        tagReportPathsType={tagReportPathsType}
       />
     );
   }

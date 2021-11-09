@@ -112,7 +112,7 @@ export default defineMessages({
       'service {Back to {value} service details} ' +
       'service_name {Back to {value} service details} ' +
       'subscription_guid {Back to {value} account details} ' +
-      'tag {Cost by tags} ' +
+      'tag {Back to {value} tag details} ' +
       'other {}}',
     description: 'Back to {value} {groupBy} details',
     id: 'BreakdownBackToDetails',
@@ -121,6 +121,18 @@ export default defineMessages({
     defaultMessage: 'Back to details',
     description: 'Back to details',
     id: 'BreakdownBackToDetailsAriaLabel',
+  },
+  BreakdownBackToTitles: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {Amazon Web Services} ' +
+      'azure {Microsoft Azure} ' +
+      'gcp {Google Cloud Platform} ' +
+      'ibm {IBM Cloud - Top 5 Costliest} ' +
+      'ocp {OpenShift} ' +
+      'other {}}',
+    description: 'Breakdown back to page titles',
+    id: 'BreakdownBackToTitles',
   },
   BreakdownCostBreakdownAriaLabel: {
     defaultMessage: 'A description of markup, raw cost and usage cost',

@@ -9,7 +9,7 @@ import { CostType } from 'components/costType/costType';
 import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
 import { TagLink } from 'pages/views/details/components/tag/tagLink';
-import { getGroupByOrgValue } from 'pages/views/utils/groupBy';
+import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
@@ -89,11 +89,16 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
 
     const filterByAccount = query && query.filter ? query.filter.account : undefined;
     const groupByOrg = getGroupByOrgValue(query);
+    const groupByTag = getGroupByTagKey(query);
     const showTags =
-      filterByAccount || groupBy === 'account' || groupBy === 'project' || groupBy === 'subscription_guid';
+      filterByAccount ||
+      groupBy === 'account' ||
+      groupBy === 'project' ||
+      groupBy === 'gcp_project' ||
+      groupBy === 'subscription_guid';
 
     // i18n groupBy key
-    const groupByKey = groupBy ? groupBy : filterByAccount ? 'account' : groupByOrg ? orgUnitIdKey : undefined;
+    const groupByKey = filterByAccount ? 'account' : groupByTag ? 'tag' : groupByOrg ? orgUnitIdKey : groupBy;
 
     return (
       <header style={styles.header}>
@@ -106,7 +111,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
                 </span>
                 <Link to={this.buildDetailsLink()}>
                   {intl.formatMessage(messages.BreakdownBackToDetails, {
-                    value: tagReportPathsType,
+                    value: intl.formatMessage(messages.BreakdownBackToTitles, { value: tagReportPathsType }),
                     groupBy: groupByKey,
                   })}
                 </Link>
