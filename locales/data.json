@@ -348,7 +348,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by tags"
+                "value": "Back to "
+              },
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " tag details"
               }
             ]
           }
