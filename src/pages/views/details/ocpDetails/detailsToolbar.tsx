@@ -132,6 +132,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         showExport
         showFilter
         tagReport={tagReport}
+        tagReportPathsType={tagReportPathsType}
       />
     );
   }

@@ -251,7 +251,7 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private getToolbar = (computedItems: ComputedReportItem[]) => {
-    const { report } = this.props;
+    const { perspective, report } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const itemsTotal = report && report.meta ? report.meta.count : 0;
@@ -265,6 +265,7 @@ class Explorer extends React.Component<ExplorerProps> {
         onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}
         pagination={this.getPagination()}
+        perspective={perspective}
         selectedItems={selectedItems}
       />
     );

@@ -178,8 +178,17 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
   };
 
   public render() {
-    const { groupBy, isDisabled, onFilterAdded, onFilterRemoved, orgReport, query, resourcePathsType, tagReport } =
-      this.props;
+    const {
+      groupBy,
+      isDisabled,
+      onFilterAdded,
+      onFilterRemoved,
+      orgReport,
+      query,
+      resourcePathsType,
+      tagReport,
+      tagReportPathsType,
+    } = this.props;
     const { categoryOptions } = this.state;
 
     return (
@@ -196,6 +205,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
         style={styles.toolbarContainer}
         showFilter
         tagReport={tagReport}
+        tagReportPathsType={tagReportPathsType}
       />
     );
   }
