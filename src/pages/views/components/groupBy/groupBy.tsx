@@ -101,15 +101,19 @@ class GroupByBase extends React.Component<GroupByProps> {
       tagQueryString,
       tagReportPathsType,
     } = this.props;
-    if (showOrgs) {
-      fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
-    }
-    if (showTags) {
-      fetchTag(tagReportPathsType, tagReportType, tagQueryString);
-    }
-    this.setState({
-      currentItem: this.getCurrentGroupBy(),
-    });
+    this.setState(
+      {
+        currentItem: this.getCurrentGroupBy(),
+      },
+      () => {
+        if (showOrgs) {
+          fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
+        }
+        if (showTags) {
+          fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+        }
+      }
+    );
   }
 
   public componentDidUpdate(prevProps: GroupByProps) {
@@ -126,13 +130,6 @@ class GroupByBase extends React.Component<GroupByProps> {
       tagReportPathsType,
     } = this.props;
     if (prevProps.groupBy !== groupBy || prevProps.perspective !== perspective) {
-      if (showOrgs) {
-        fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
-      }
-      if (showTags) {
-        fetchTag(tagReportPathsType, tagReportType, tagQueryString);
-      }
-
       let options;
       if (prevProps.perspective !== perspective) {
         options = {
@@ -140,7 +137,14 @@ class GroupByBase extends React.Component<GroupByProps> {
           isGroupByTagVisible: false,
         };
       }
-      this.setState({ currentItem: this.getCurrentGroupBy(), ...(options ? options : {}) });
+      this.setState({ currentItem: this.getCurrentGroupBy(), ...(options ? options : {}) }, () => {
+        if (showOrgs) {
+          fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
+        }
+        if (showTags) {
+          fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+        }
+      });
     }
   }
 
