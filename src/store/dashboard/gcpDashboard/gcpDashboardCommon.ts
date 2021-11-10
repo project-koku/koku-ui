@@ -34,7 +34,7 @@ export function getGroupByForTab(widget: GcpDashboardWidget): GcpQuery['group_by
     case GcpDashboardTab.accounts:
       return { account: '*' };
     case GcpDashboardTab.gcpProjects:
-      return { project: '*' };
+      return { gcp_project: '*' };
     case GcpDashboardTab.projects:
       return { project: '*' };
     case GcpDashboardTab.regions:
