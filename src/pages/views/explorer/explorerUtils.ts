@@ -16,8 +16,8 @@ import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGc
 import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate, getLast90DaysDate } from 'utils/dateRange';
+import { isBetaFeature } from 'utils/feature';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
-
 // The date range drop down has the options below (if today is Jan 18th…)
 // eslint-disable-next-line no-shadow
 export const enum DateRangeType {
@@ -62,8 +62,8 @@ export const dateRangeOptions: {
   { label: messages.ExplorerDateRange, value: 'last_sixty_days' },
 ];
 
-// Todo: Show new features in beta environment only
-if (insights.chrome.isBeta()) {
+// Todo: Show in-progress features in beta environment only
+if (isBetaFeature()) {
   dateRangeOptions.push({ label: messages.ExplorerDateRange, value: 'last_ninety_days' });
 }
 
@@ -90,7 +90,7 @@ export const groupByGcpOptions: {
   value: ComputedGcpReportItemsParams['idKey'];
 }[] = [
   { label: 'account', value: 'account' },
-  { label: 'project', value: 'project' },
+  { label: 'gcp_project', value: 'gcp_project' },
   { label: 'service', value: 'service' },
   { label: 'region', value: 'region' },
 ];

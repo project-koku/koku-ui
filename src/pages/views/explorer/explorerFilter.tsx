@@ -172,13 +172,23 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
       ...JSON.parse(JSON.stringify(query)),
       dateRange: value,
     };
-    history.replace(getRouteForQuery(history, newQuery, true));
-    this.setState({ currentDateRange: value });
+    this.setState({ currentDateRange: value }, () => {
+      history.replace(getRouteForQuery(history, newQuery, true));
+    });
   };
 
   public render() {
-    const { groupBy, isDisabled, onFilterAdded, onFilterRemoved, orgReport, query, resourcePathsType, tagReport } =
-      this.props;
+    const {
+      groupBy,
+      isDisabled,
+      onFilterAdded,
+      onFilterRemoved,
+      orgReport,
+      query,
+      resourcePathsType,
+      tagReport,
+      tagReportPathsType,
+    } = this.props;
     const { categoryOptions } = this.state;
 
     return (
@@ -195,6 +205,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
         style={styles.toolbarContainer}
         showFilter
         tagReport={tagReport}
+        tagReportPathsType={tagReportPathsType}
       />
     );
   }
@@ -231,7 +242,7 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
     const tagQueryString = getQuery({
       start_date,
       end_date,
-      // key_only: true
+      key_only: true,
     });
     let tagReport;
     let tagReportFetchStatus;

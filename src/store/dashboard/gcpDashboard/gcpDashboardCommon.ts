@@ -14,11 +14,12 @@ export const gcpDashboardTabFilters: GcpFilters = {
 
 // eslint-disable-next-line no-shadow
 export const enum GcpDashboardTab {
-  services = 'services',
   accounts = 'accounts',
+  gcpProjects = 'gcp_projects',
+  instanceType = 'instance_type',
   projects = 'projects',
   regions = 'regions',
-  instanceType = 'instance_type',
+  services = 'services',
 }
 
 export interface GcpDashboardWidget extends DashboardWidget<GcpDashboardTab> {}
@@ -32,6 +33,8 @@ export function getGroupByForTab(widget: GcpDashboardWidget): GcpQuery['group_by
       };
     case GcpDashboardTab.accounts:
       return { account: '*' };
+    case GcpDashboardTab.gcpProjects:
+      return { gcp_project: '*' };
     case GcpDashboardTab.projects:
       return { project: '*' };
     case GcpDashboardTab.regions:

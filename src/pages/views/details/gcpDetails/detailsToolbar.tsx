@@ -81,7 +81,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 
     const options = [
       { name: intl.formatMessage(messages.FilterByValues, { value: 'account' }), key: 'account' },
-      { name: intl.formatMessage(messages.FilterByValues, { value: 'project' }), key: 'project' },
+      { name: intl.formatMessage(messages.FilterByValues, { value: 'gcp_project' }), key: 'gcp_project' },
       { name: intl.formatMessage(messages.FilterByValues, { value: 'service' }), key: 'service' },
       { name: intl.formatMessage(messages.FilterByValues, { value: 'region' }), key: 'region' },
     ];
@@ -132,6 +132,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         showExport
         showFilter
         tagReport={tagReport}
+        tagReportPathsType={tagReportPathsType}
       />
     );
   }
@@ -146,7 +147,7 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
       time_scope_units: 'month',
       time_scope_value: -1,
     },
-    // key_only: true
+    key_only: true,
   });
 
   const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);

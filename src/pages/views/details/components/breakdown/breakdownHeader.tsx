@@ -9,11 +9,12 @@ import { CostType } from 'components/costType/costType';
 import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
 import { TagLink } from 'pages/views/details/components/tag/tagLink';
-import { getGroupByOrgValue } from 'pages/views/utils/groupBy';
+import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
+import { isBetaFeature } from 'utils/feature';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './breakdownHeader.styles';
@@ -88,11 +89,16 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
 
     const filterByAccount = query && query.filter ? query.filter.account : undefined;
     const groupByOrg = getGroupByOrgValue(query);
+    const groupByTag = getGroupByTagKey(query);
     const showTags =
-      filterByAccount || groupBy === 'account' || groupBy === 'project' || groupBy === 'subscription_guid';
+      filterByAccount ||
+      groupBy === 'account' ||
+      groupBy === 'project' ||
+      groupBy === 'gcp_project' ||
+      groupBy === 'subscription_guid';
 
     // i18n groupBy key
-    const groupByKey = groupBy ? groupBy : filterByAccount ? 'account' : groupByOrg ? orgUnitIdKey : undefined;
+    const groupByKey = filterByAccount ? 'account' : groupByTag ? 'tag' : groupByOrg ? orgUnitIdKey : groupBy;
 
     return (
       <header style={styles.header}>
@@ -105,22 +111,22 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
                 </span>
                 <Link to={this.buildDetailsLink()}>
                   {intl.formatMessage(messages.BreakdownBackToDetails, {
-                    value: tagReportPathsType,
+                    value: intl.formatMessage(messages.BreakdownBackToTitles, { value: tagReportPathsType }),
                     groupBy: groupByKey,
                   })}
                 </Link>
               </li>
             </ol>
           </nav>
-          {/* Todo: Show new features in beta environment only */}
-          {insights.chrome.isBeta() && <Currency />}
+          {/* Todo: Show in-progress features in beta environment only */}
+          {isBetaFeature() && <Currency />}
         </div>
         <div style={styles.headerContent}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.BreakdownTitle, { value: title })}
             {description && <div style={styles.infoDescription}>{description}</div>}
-            {/* Todo: Show new features in beta environment only */}
-            {insights.chrome.isBeta() && showCostType && (
+            {/* Todo: Show in-progress features in beta environment only */}
+            {isBetaFeature() && showCostType && (
               <div style={styles.costType}>
                 <CostType onSelect={this.handleCostTypeSelected} />
               </div>

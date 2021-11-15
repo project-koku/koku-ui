@@ -29,7 +29,7 @@ import { Org } from 'api/orgs/org';
 import { orgUnitIdKey, orgUnitNameKey, Query, tagKey, tagPrefix } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
 import { isResourceTypeValid } from 'api/resources/resourceUtils';
-import { Tag } from 'api/tags/tag';
+import { Tag, TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
@@ -40,6 +40,7 @@ import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems'
 import { isEqual } from 'utils/equal';
 
 import { styles } from './dataToolbar.styles';
+import { TagValue } from './tagValue';
 
 interface Filters {
   [key: string]: string[] | { [key: string]: string[] };
@@ -63,7 +64,6 @@ interface DataToolbarOwnProps {
   orgReport?: Org; // Report containing AWS organizational unit data
   pagination?: React.ReactNode; // Optional pagination controls to display in toolbar
   query?: Query; // Query containing filter_by params used to restore state upon page refresh
-  tagReport?: Tag; // Data containing tag key and value data
   resourcePathsType?: ResourcePathsType;
   selectedItems?: ComputedReportItem[];
   showBulkSelect?: boolean; // Show bulk select
@@ -71,6 +71,8 @@ interface DataToolbarOwnProps {
   showExport?: boolean; // Show export icon
   showFilter?: boolean; // Show export icon
   style?: React.CSSProperties;
+  tagReport?: Tag; // Data containing tag key and value data
+  tagReportPathsType: TagPathsType;
 }
 
 interface DataToolbarState {
@@ -102,10 +104,6 @@ type DataToolbarProps = DataToolbarOwnProps & WrappedComponentProps;
 const defaultFilters = {
   tag: {},
 };
-
-// If the number of tag keys are greater or equal, then show text input Vs select
-// See https://github.com/project-koku/koku/pull/2069
-const tagKeyValueLimit = 50;
 
 export class DataToolbarBase extends React.Component<DataToolbarProps> {
   protected defaultState: DataToolbarState = {
@@ -710,12 +708,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Tag value select
 
   public getTagValueSelect = tagKeyOption => {
-    const { intl, isDisabled } = this.props;
-    const { currentCategory, currentTagKey, filters, isTagValueSelectExpanded, tagKeyValueInput } = this.state;
-
-    const selectOptions = this.getTagValueOptions().map(selectOption => {
-      return <SelectOption key={selectOption.key} value={selectOption.key} />;
-    });
+    const { tagReportPathsType } = this.props;
+    const { currentCategory, currentTagKey, filters, tagKeyValueInput } = this.state;
 
     return (
       <ToolbarFilter
@@ -725,71 +719,18 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         key={tagKeyOption.key}
         showToolbarItem={currentCategory === tagKey && currentTagKey === tagKeyOption.key}
       >
-        {selectOptions.length < tagKeyValueLimit ? (
-          <Select
-            isDisabled={isDisabled}
-            variant={SelectVariant.checkbox}
-            aria-label={intl.formatMessage(messages.FilterByTagValueAriaLabel)}
-            onToggle={this.onTagValueToggle}
-            onSelect={this.onTagValueSelect}
-            selections={filters.tag[tagKeyOption.key] ? filters.tag[tagKeyOption.key] : []}
-            isOpen={isTagValueSelectExpanded}
-            placeholderText={intl.formatMessage(messages.FilterByTagValuePlaceholder)}
-          >
-            {selectOptions}
-          </Select>
-        ) : (
-          <InputGroup>
-            <TextInput
-              isDisabled={isDisabled}
-              name="tagkeyvalue-input"
-              id="tagkeyvalue-input"
-              type="search"
-              aria-label={intl.formatMessage(messages.FilterByTagValueAriaLabel)}
-              onChange={this.onTagValueInputChange}
-              value={tagKeyValueInput}
-              placeholder={intl.formatMessage(messages.FilterByTagValueInputPlaceholder)}
-              onKeyDown={evt => this.onTagValueInput(evt)}
-            />
-            <Button
-              isDisabled={isDisabled}
-              variant={ButtonVariant.control}
-              aria-label={intl.formatMessage(messages.FilterByTagValueButtonAriaLabel)}
-              onClick={evt => this.onTagValueInput(evt)}
-            >
-              <SearchIcon />
-            </Button>
-          </InputGroup>
-        )}
+        <TagValue
+          onTagValueSelect={this.onTagValueSelect}
+          onTagValueInput={this.onTagValueInput}
+          onTagValueInputChange={this.onTagValueInputChange}
+          selections={filters.tag[tagKeyOption.key] ? filters.tag[tagKeyOption.key] : []}
+          tagKey={currentTagKey}
+          tagKeyValue={tagKeyValueInput}
+          tagReportPathsType={tagReportPathsType}
+        />
       </ToolbarFilter>
     );
   };
-
-  private getTagValueOptions(): ToolbarChipGroup[] {
-    const { tagReport } = this.props;
-    const { currentTagKey } = this.state;
-
-    let data = [];
-    if (tagReport && tagReport.data) {
-      data = [...new Set([...tagReport.data])]; // prune duplicates
-    }
-
-    let options = [];
-    if (data.length > 0) {
-      for (const tag of data) {
-        if (currentTagKey === tag.key && tag.values) {
-          options = tag.values.map(val => {
-            return {
-              key: val,
-              name: val, // tag key values not localized
-            };
-          });
-          break;
-        }
-      }
-    }
-    return options;
-  }
 
   private onTagValueInputChange = value => {
     this.setState({ tagKeyValueInput: value });
@@ -848,12 +789,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         }
       }
     );
-  };
-
-  private onTagValueToggle = isOpen => {
-    this.setState({
-      isTagValueSelectExpanded: isOpen,
-    });
   };
 
   // Column management

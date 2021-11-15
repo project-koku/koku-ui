@@ -27,12 +27,15 @@ import {
 import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { getLast60DaysDate } from 'utils/dateRange';
+import { isBetaFeature } from 'utils/feature';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 import { ExplorerFilter } from './explorerFilter';
 import { styles } from './explorerHeader.styles';
 import {
   baseQuery,
+  getDateRange,
+  getDateRangeDefault,
   getGroupByDefault,
   getGroupByOptions,
   getOrgReportPathsType,
@@ -189,11 +192,11 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       order_by: undefined, // Clear sort
       perspective: value,
     };
-    history.replace(getRouteForQuery(history, newQuery, true));
     this.setState({ currentPerspective: value }, () => {
       if (onPerspectiveClicked) {
         onPerspectiveClicked(value);
       }
+      history.replace(getRouteForQuery(history, newQuery, true));
     });
   };
 
@@ -279,8 +282,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.ExplorerTitle)}
           </Title>
-          {/* Todo: Show new features in beta environment only */}
-          {insights.chrome.isBeta() && <Currency />}
+          {/* Todo: Show in-progress features in beta environment only */}
+          {isBetaFeature() && <Currency />}
         </div>
         <div style={styles.perspectiveContainer}>
           {this.getPerspective(noProviders)}
@@ -300,8 +303,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
               tagReportPathsType={tagReportPathsType}
             />
           </div>
-          {/* Todo: Show new features in beta environment only */}
-          {insights.chrome.isBeta() && perspective === PerspectiveType.aws && (
+          {/* Todo: Show in-progress features in beta environment only */}
+          {isBetaFeature() && perspective === PerspectiveType.aws && (
             <div style={styles.costType}>
               <CostType onSelect={this.handleCostTypeSelected} />
             </div>
@@ -324,6 +327,10 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHeaderStateProps>(
   (state, { perspective }) => {
+    const queryFromRoute = parseQuery<Query>(location.search);
+    const dateRange = getDateRangeDefault(queryFromRoute);
+    const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
+
     const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
     const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
     const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
@@ -332,8 +339,6 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       UserAccessType.all,
       userAccessQueryString
     );
-
-    const queryFromRoute = parseQuery<Query>(location.search);
 
     // Ensure group_by key is not undefined
     let groupBy = queryFromRoute.group_by;
@@ -350,10 +355,14 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       group_by: groupBy,
       order_by: queryFromRoute.order_by,
       perspective,
+      dateRange,
+      end_date,
+      start_date,
     };
     const queryString = getQuery({
       ...query,
       perspective: undefined,
+      dateRange: undefined,
     });
 
     const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);

@@ -14,11 +14,12 @@ export const gcpOcpDashboardTabFilters: GcpFilters = {
 
 // eslint-disable-next-line no-shadow
 export const enum GcpOcpDashboardTab {
-  services = 'services',
   accounts = 'accounts',
+  gcpProjects = 'gcp_projects',
+  instanceType = 'instance_type',
   projects = 'projects',
   regions = 'regions',
-  instanceType = 'instance_type',
+  services = 'services',
 }
 
 export interface GcpOcpDashboardWidget extends DashboardWidget<GcpOcpDashboardTab> {}
@@ -32,12 +33,14 @@ export function getGroupByForTab(widget: GcpOcpDashboardWidget): GcpQuery['group
       };
     case GcpOcpDashboardTab.accounts:
       return { account: '*' };
+    case GcpOcpDashboardTab.gcpProjects:
+      return { gcp_project: '*' };
+    case GcpOcpDashboardTab.instanceType:
+      return { instance_type: '*' };
     case GcpOcpDashboardTab.projects:
       return { project: '*' };
     case GcpOcpDashboardTab.regions:
       return { region: '*' };
-    case GcpOcpDashboardTab.instanceType:
-      return { instance_type: '*' };
     default:
       return {};
   }

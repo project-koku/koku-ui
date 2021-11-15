@@ -83,6 +83,12 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
 
+    const rows = [];
+    const computedItems = getUnsortedComputedReportItems({
+      report,
+      idKey: (groupByTagKey as any) || groupById,
+    });
+
     const columns = groupByTagKey
       ? [
           {
@@ -94,7 +100,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           {
             orderBy: 'cost',
             title: intl.formatMessage(messages.Cost),
-            transforms: [sortable],
+            ...(computedItems.length && { transforms: [sortable] }),
           },
           {
             title: '',
@@ -104,7 +110,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           {
             orderBy: groupById,
             title: intl.formatMessage(messages.DetailsResourceNames, { value: groupById }),
-            transforms: [sortable],
+            ...(computedItems.length && { transforms: [sortable] }),
           },
           {
             title: intl.formatMessage(messages.MonthOverMonthChange),
@@ -112,18 +118,12 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           {
             orderBy: 'cost',
             title: intl.formatMessage(messages.Cost),
-            transforms: [sortable],
+            ...(computedItems.length && { transforms: [sortable] }),
           },
           {
             title: '',
           },
         ];
-
-    const rows = [];
-    const computedItems = getUnsortedComputedReportItems({
-      report,
-      idKey: (groupByTagKey as any) || groupById,
-    });
 
     computedItems.map((item, index) => {
       const label = item && item.label !== null ? item.label : '';
