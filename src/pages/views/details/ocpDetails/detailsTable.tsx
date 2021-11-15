@@ -92,6 +92,12 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
 
+    const rows = [];
+    const computedItems = getUnsortedComputedReportItems({
+      report,
+      idKey: (groupByTagKey as any) || groupById,
+    });
+
     const columns = groupByTagKey
       ? [
           // Sorting with tag keys is not supported
@@ -112,7 +118,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           {
             orderBy: 'cost',
             title: intl.formatMessage(messages.Cost),
-            transforms: [sortable],
+            ...(computedItems.length && { transforms: [sortable] }),
           },
           {
             title: '',
@@ -122,7 +128,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           {
             orderBy: groupById,
             title: intl.formatMessage(messages.DetailsResourceNames, { value: groupById }),
-            transforms: [sortable],
+            ...(computedItems.length && { transforms: [sortable] }),
           },
           {
             id: DetailsTableColumnIds.monthOverMonth,
@@ -134,7 +140,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             title: intl.formatMessage(messages.OCPDetailsInfrastructureCost),
 
             // Sort by infrastructure_cost is not supported -- https://github.com/project-koku/koku/issues/796
-            // transforms: [sortable],
+            // ...(computedItems.length && { transforms: [sortable] }),
           },
           {
             id: DetailsTableColumnIds.supplementary,
@@ -142,23 +148,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             title: intl.formatMessage(messages.OCPDetailsSupplementaryCost),
 
             // Sort by supplementary_cost is not supported -- https://github.com/project-koku/koku/issues/796
-            // transforms: [sortable],
+            // ...(computedItems.length && { transforms: [sortable] }),
           },
           {
             orderBy: 'cost',
             title: intl.formatMessage(messages.Cost),
-            transforms: [sortable],
+            ...(computedItems.length && { transforms: [sortable] }),
           },
           {
             title: '',
           },
         ];
-
-    const rows = [];
-    const computedItems = getUnsortedComputedReportItems({
-      report,
-      idKey: (groupByTagKey as any) || groupById,
-    });
 
     computedItems.map((item, index) => {
       const label = item && item.label !== null ? item.label : '';

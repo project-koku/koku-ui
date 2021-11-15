@@ -1,5 +1,5 @@
 import { Modal } from '@patternfly/react-core';
-import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query, tagPrefix } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
@@ -100,6 +100,14 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
   const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
 
+  // Prune unsupported tag params from filter_by
+  const filterByParams = query && query.filter_by ? query.filter_by : {};
+  for (const key of Object.keys(filterByParams)) {
+    if (key.indexOf(tagPrefix) !== -1) {
+      filterByParams[key] = undefined;
+    }
+  }
+
   const newQuery: Query = {
     filter: {
       resolution: 'monthly',
@@ -108,11 +116,10 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(query && query.filter_by && query.filter_by),
+      ...filterByParams,
       ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
-      ...(groupBy && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
+      ...(groupBy && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
     },
-    // key_only: true
   };
   const queryString = getQuery(newQuery);
 
