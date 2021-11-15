@@ -852,9 +852,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       <div style={style ? style : styles.toolbarContainer}>
         <Toolbar id="details-toolbar" clearAllFilters={this.onDelete as any} collapseListedFiltersBreakpoint="xl">
           <ToolbarContent>
-            <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
-              {showBulkSelect && <ToolbarItem variant="bulk-select">{this.getBulkSelect()}</ToolbarItem>}
-              {showFilter && (
+            {showBulkSelect && <ToolbarItem variant="bulk-select">{this.getBulkSelect()}</ToolbarItem>}
+            {showFilter && (
+              <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
                 <ToolbarGroup variant="filter-group">
                   {this.getCategorySelect()}
                   {this.getTagKeySelect()}
@@ -865,15 +865,16 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                       .filter(option => option.key !== tagKey && option.key !== orgUnitIdKey)
                       .map(option => this.getCategoryInput(option))}
                 </ToolbarGroup>
-              )}
-              {(Boolean(showExport) || Boolean(showColumnManagement)) && (
-                <ToolbarGroup>
-                  {Boolean(showExport) && this.getExportButton()}
-                  {Boolean(showColumnManagement) && this.getColumnManagement()}
-                </ToolbarGroup>
-              )}
-              {dateRange && <ToolbarGroup>{dateRange}</ToolbarGroup>}
-            </ToolbarToggleGroup>
+              </ToolbarToggleGroup>
+            )}
+            {(Boolean(showExport) || Boolean(showColumnManagement)) && (
+              <ToolbarGroup>
+                {Boolean(showExport) && this.getExportButton()}
+                {Boolean(showColumnManagement) && this.getColumnManagement()}
+              </ToolbarGroup>
+            )}
+            {dateRange && <ToolbarGroup>{dateRange}</ToolbarGroup>}
+
             <ToolbarItem alignment={{ default: 'alignRight' }} variant="pagination">
               {pagination}
             </ToolbarItem>

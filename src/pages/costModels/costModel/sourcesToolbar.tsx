@@ -10,7 +10,9 @@ import {
   ToolbarContent,
   ToolbarFilter,
   ToolbarItem,
+  ToolbarToggleGroup,
 } from '@patternfly/react-core';
+import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
 import React from 'react';
@@ -66,15 +68,17 @@ export const SourcesToolbar: React.SFC<SourcesToolbarProps> = ({
   return (
     <Toolbar id="assign-sources-toolbar" clearAllFilters={filter.onClearAll}>
       <ToolbarContent>
-        <ToolbarItem variant="search-filter">
-          <ToolbarFilter
-            deleteChip={filter.onRemove}
-            chips={filter.query.name}
-            categoryName={filter.categoryNames.name}
-          >
-            <FilterInput {...filterInputProps} />
-          </ToolbarFilter>
-        </ToolbarItem>
+        <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
+          <ToolbarItem variant="search-filter">
+            <ToolbarFilter
+              deleteChip={filter.onRemove}
+              chips={filter.query.name}
+              categoryName={filter.categoryNames.name}
+            >
+              <FilterInput {...filterInputProps} />
+            </ToolbarFilter>
+          </ToolbarItem>
+        </ToolbarToggleGroup>
         <ToolbarItem>
           <ReadOnlyTooltip isDisabled={actionButtonProps.isDisabled}>
             <Button {...actionButtonProps} />
