@@ -5,7 +5,9 @@ import {
   ToolbarGroup,
   ToolbarItem,
   ToolbarItemVariant,
+  ToolbarToggleGroup,
 } from '@patternfly/react-core';
+import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import React from 'react';
 
 import { styles } from './priceListToolbar.styles';
@@ -35,18 +37,24 @@ export const PriceListToolbar: React.SFC<PriceListToolbarProps> = ({
   return (
     <Toolbar style={styles.toolbar} clearAllFilters={onClear} id="price-list-toolbar">
       <ToolbarContent>
-        <ToolbarGroup variant="filter-group">
-          <ToolbarItem>{primary}</ToolbarItem>
-          {secondaries.map(secondary => {
-            return (
-              <ToolbarItem key={secondary.name}>
-                <ToolbarFilter deleteChip={secondary.onRemove} chips={secondary.filters} categoryName={secondary.name}>
-                  {selected === secondary.name ? secondary.component : ''}
-                </ToolbarFilter>
-              </ToolbarItem>
-            );
-          })}
-        </ToolbarGroup>
+        <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
+          <ToolbarGroup variant="filter-group">
+            <ToolbarItem>{primary}</ToolbarItem>
+            {secondaries.map(secondary => {
+              return (
+                <ToolbarItem key={secondary.name}>
+                  <ToolbarFilter
+                    deleteChip={secondary.onRemove}
+                    chips={secondary.filters}
+                    categoryName={secondary.name}
+                  >
+                    {selected === secondary.name ? secondary.component : ''}
+                  </ToolbarFilter>
+                </ToolbarItem>
+              );
+            })}
+          </ToolbarGroup>
+        </ToolbarToggleGroup>
         <ToolbarItem>{button}</ToolbarItem>
         <ToolbarItem variant={ToolbarItemVariant.pagination}>{pagination}</ToolbarItem>
       </ToolbarContent>
