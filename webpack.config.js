@@ -198,6 +198,7 @@ module.exports = (_env, argv) => {
          * Package can be re-enabled for sharing once chrome starts providing global routing pakcage to all applications
          */
         exclude: ['react-router-dom'],
+        shared: [{ 'react-redux': { requiredVersion: dependencies['react-redux'] } }],
         exposes: {
           './RootApp': path.resolve(__dirname, './src/federatedEntry.tsx'),
           // Shared component module path. Must include default export!

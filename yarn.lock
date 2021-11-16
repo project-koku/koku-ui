@@ -808,10 +808,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.10.2.tgz#0798c03351f0dea1a5a4cabddf26a55a7cbee590"
   integrity sha512-IXf3XA7+XyN7CP9gGh/XB0UxVMlvARGEgGXLubFICsUMGz6Q+DU+i4gGlpOxTjKvXjkJDJC8YdqdKkDj9qZHEQ==
 
-"@redhat-cloud-services/frontend-components-config-utilities@^1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config-utilities/-/frontend-components-config-utilities-1.5.1.tgz#415aa787c6d924124f5f4b22df8ecbdadb045242"
-  integrity sha512-e0dxHZZRW4QSEP7aNSmgb5T+/hQanSOnqj/gkz4/pTpAspkelpyStK4DtXxP2eZCQ4Ozme/jxo4J+EiRDEbBNg==
+"@redhat-cloud-services/frontend-components-config-utilities@^1.5.6":
+  version "1.5.6"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config-utilities/-/frontend-components-config-utilities-1.5.6.tgz#5e1ee2d78c8ce451cf5da543024ccfa594d96e54"
+  integrity sha512-8EoRKJAmAKYTkmTF0LflKDfN1synRNFs5EH5HMqxVfOODM07Y5NcJ/mSGZrwSvx1xkVaUgGpF8JfC6UIbwSnag==
 
 "@redhat-cloud-services/frontend-components-notifications@^3.2.4":
   version "3.2.4"
