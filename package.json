@@ -79,7 +79,7 @@
   },
   "devDependencies": {
     "@formatjs/cli": "4.2.12",
-    "@redhat-cloud-services/frontend-components-config-utilities": "^1.5.1",
+    "@redhat-cloud-services/frontend-components-config-utilities": "^1.5.6",
     "@testing-library/react": "11.2.5",
     "@types/enzyme": "3.10.8",
     "@types/jest": "26.0.20",
