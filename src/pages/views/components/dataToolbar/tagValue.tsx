@@ -10,7 +10,7 @@ import {
   ToolbarChipGroup,
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
-import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query, tagPrefix } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
@@ -178,21 +178,13 @@ const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStatePro
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
 
-    // Prune unsupported tag params from filter_by
-    const filterByParams = query && query.filter_by ? query.filter_by : {};
-    for (const key of Object.keys(filterByParams)) {
-      if (key.indexOf(tagPrefix) !== -1) {
-        filterByParams[key] = undefined;
-      }
-    }
-
     const tagKeyFilter = tagKey
       ? {
           key: tagKey,
         }
       : {};
 
-    const tagQueryParams =
+    const tagQuery =
       endDate && startDate
         ? {
             start_date: startDate,
@@ -209,16 +201,6 @@ const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStatePro
               ...tagKeyFilter,
             },
           };
-
-    const tagQuery = {
-      ...tagQueryParams,
-      filter_by: {
-        // Add filters here to apply logical OR/AND
-        ...filterByParams,
-        ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
-        ...(groupBy && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
-      },
-    };
 
     // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
     const tagQueryString = getQuery({
