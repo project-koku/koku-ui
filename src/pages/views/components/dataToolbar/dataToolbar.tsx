@@ -27,7 +27,7 @@ import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import { Org } from 'api/orgs/org';
 import { orgUnitIdKey, orgUnitNameKey, Query, tagKey, tagPrefix } from 'api/queries/query';
-import { ResourcePathsType } from 'api/resources/resource';
+import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import { isResourceTypeValid } from 'api/resources/resourceUtils';
 import { Tag, TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -367,25 +367,25 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   // Category input
-  public getCategoryInput = categoryOption => {
+  public getCategoryInput = (categoryOption: ToolbarChipGroup) => {
     const { intl, isDisabled, resourcePathsType } = this.props;
     const { currentCategory, filters, categoryInput } = this.state;
 
     return (
       <ToolbarFilter
-        categoryName={categoryOption}
-        chips={filters[categoryOption.key] as any}
+        categoryName={categoryOption.name}
+        chips={filters[categoryOption.key] as string[]}
         deleteChip={this.onDelete}
         key={categoryOption.key}
         showToolbarItem={currentCategory === categoryOption.key}
       >
         <InputGroup>
-          {isResourceTypeValid(resourcePathsType, categoryOption.key) ? (
+          {isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
             <ResourceTypeahead
               isDisabled={isDisabled}
               onSelect={value => this.onCategoryInputSelect(value, categoryOption.key)}
               resourcePathsType={resourcePathsType}
-              resourceType={categoryOption.key}
+              resourceType={categoryOption.key as ResourceType}
             />
           ) : (
             <>
@@ -707,13 +707,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
   // Tag value select
 
-  public getTagValueSelect = tagKeyOption => {
+  public getTagValueSelect = (tagKeyOption: ToolbarChipGroup) => {
     const { tagReportPathsType } = this.props;
     const { currentCategory, currentTagKey, filters, tagKeyValueInput } = this.state;
 
     return (
       <ToolbarFilter
-        categoryName={tagKeyOption}
+        categoryName={tagKeyOption.name}
         chips={filters.tag[tagKeyOption.key]}
         deleteChip={this.onDelete}
         key={tagKeyOption.key}
@@ -862,8 +862,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                   {this.getOrgUnitSelect()}
                   {options &&
                     options
-                      .filter(option => option.key !== tagKey && option.key !== orgUnitIdKey)
-                      .map(option => this.getCategoryInput(option))}
+                      .filter(val => val.key !== tagKey && val.key !== orgUnitIdKey)
+                      .map(val => this.getCategoryInput(val))}
                 </ToolbarGroup>
               </ToolbarToggleGroup>
             )}

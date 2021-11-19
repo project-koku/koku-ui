@@ -93,13 +93,13 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       { name: intl.formatMessage(messages.FilterByValues, { value: 'service' }), key: 'service' },
       { name: intl.formatMessage(messages.FilterByValues, { value: 'region' }), key: 'region' },
     ];
-    if (orgReport && orgReport.data && orgReport.data.length > 0) {
+    if (orgReport && orgReport.data && orgReport.data.length) {
       options.push({
         name: intl.formatMessage(messages.FilterByValues, { value: 'org_unit_id' }),
         key: orgUnitIdKey,
       });
     }
-    if (tagReport && tagReport.data && tagReport.data.length > 0) {
+    if (tagReport && tagReport.data && tagReport.data.length) {
       options.push({ name: intl.formatMessage(messages.FilterByValues, { value: 'tag' }), key: tagKey });
     }
     return options;
