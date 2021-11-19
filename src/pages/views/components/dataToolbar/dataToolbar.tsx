@@ -371,6 +371,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     const { intl, isDisabled, resourcePathsType } = this.props;
     const { currentCategory, filters, categoryInput } = this.state;
 
+    // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
     return (
       <ToolbarFilter
         categoryName={categoryOption.name}
