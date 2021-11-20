@@ -8,7 +8,9 @@ import {
   ToolbarContent,
   ToolbarFilter,
   ToolbarItem,
+  ToolbarToggleGroup,
 } from '@patternfly/react-core';
+import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import messages from 'locales/messages';
 import React from 'react';
@@ -64,11 +66,16 @@ export const AssignSourcesToolbarBase: React.SFC<AssignSourcesToolbarBaseProps> 
   return (
     <Toolbar id="assign-sources-toolbar" clearAllFilters={filter.onClearAll}>
       <ToolbarContent>
-        <ToolbarItem variant="search-filter">
-          <ToolbarFilter deleteChip={filter.onRemove} chips={filter.query.name} categoryName="name">
-            <FilterInput placeholder={intl.formatMessage(messages.CostModelsFilterPlaceholder)} {...filterInputProps} />
-          </ToolbarFilter>
-        </ToolbarItem>
+        <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
+          <ToolbarItem variant="search-filter">
+            <ToolbarFilter deleteChip={filter.onRemove} chips={filter.query.name} categoryName="name">
+              <FilterInput
+                placeholder={intl.formatMessage(messages.CostModelsFilterPlaceholder)}
+                {...filterInputProps}
+              />
+            </ToolbarFilter>
+          </ToolbarItem>
+        </ToolbarToggleGroup>
         <ToolbarItem variant="pagination">
           <Pagination
             isCompact={paginationProps.isCompact}

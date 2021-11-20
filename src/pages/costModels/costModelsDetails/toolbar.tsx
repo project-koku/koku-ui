@@ -1,4 +1,11 @@
-import { ToolbarContent, ToolbarGroup, ToolbarItem, ToolbarItemVariant } from '@patternfly/react-core';
+import {
+  ToolbarContent,
+  ToolbarGroup,
+  ToolbarItem,
+  ToolbarItemVariant,
+  ToolbarToggleGroup,
+} from '@patternfly/react-core';
+import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import React from 'react';
 
 import { CreateCostModelButton } from './createCostModelButton';
@@ -10,14 +17,16 @@ const CostModelsToolbar = () => {
     <ClearableToolbar>
       <ToolbarContent>
         <ToolbarGroup variant="filter-group">
-          <ToolbarItem>
-            <CostModelsFilterSelector />
-          </ToolbarItem>
-          <ToolbarItem>
-            <NameFilter />
-            <DescriptionFilter />
-            <SourceTypeFilter />
-          </ToolbarItem>
+          <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
+            <ToolbarItem>
+              <CostModelsFilterSelector />
+            </ToolbarItem>
+            <ToolbarItem>
+              <NameFilter />
+              <DescriptionFilter />
+              <SourceTypeFilter />
+            </ToolbarItem>
+          </ToolbarToggleGroup>
           <ToolbarItem>
             <CreateCostModelButton />
           </ToolbarItem>
