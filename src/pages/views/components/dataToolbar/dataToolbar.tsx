@@ -105,6 +105,9 @@ const defaultFilters = {
   tag: {},
 };
 
+// Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
+export const categoryPrefix = '_';
+
 export class DataToolbarBase extends React.Component<DataToolbarProps> {
   protected defaultState: DataToolbarState = {
     categoryInput: '',
@@ -192,8 +195,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   private onDelete = (type: any, chip: any) => {
     // Todo: workaround for https://github.com/patternfly/patternfly-react/issues/3552
     // This prevents us from using a localized string, if necessary
-    const filterType = type && type.key ? type.key : type;
+    const _type = type && type.key ? type.key : type;
     const id = chip && chip.key ? chip.key : chip;
+
+    // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
+    const filterType = _type && _type.indexOf(categoryPrefix) === 0 ? _type.substring(categoryPrefix.length) : _type;
 
     if (filterType) {
       this.setState(
@@ -320,7 +326,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return (
       <ToolbarItem>
         <Select
-          id="categorySelect"
+          id="category-select"
           isDisabled={isDisabled}
           isOpen={isCategorySelectOpen}
           onSelect={this.handleOnCategorySelect}
@@ -352,9 +358,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   private handleOnCategorySelect = (event, selection: CategoryOption) => {
+    // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
+    const currentCategory =
+      selection.value.indexOf(categoryPrefix) === 0
+        ? selection.value.substring(categoryPrefix.length)
+        : selection.value;
+
     this.setState({
       categoryInput: '',
-      currentCategory: selection.value,
+      currentCategory,
       currentTagKey: undefined,
       isCategorySelectOpen: !this.state.isCategorySelectOpen,
     });
@@ -372,9 +384,14 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     const { currentCategory, filters, categoryInput } = this.state;
 
     // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
+    const categoryName = {
+      name: categoryOption.name,
+      key: `${categoryPrefix}${categoryOption.key}`,
+    };
+
     return (
       <ToolbarFilter
-        categoryName={categoryOption.name}
+        categoryName={categoryName}
         chips={filters[categoryOption.key] as string[]}
         deleteChip={this.onDelete}
         key={categoryOption.key}
@@ -392,8 +409,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
             <>
               <TextInput
                 isDisabled={isDisabled}
-                name={`${categoryOption.key}-input`}
-                id={`${categoryOption.key}-input`}
+                name={`category-input-${categoryOption.key}`}
+                id={`category-input-${categoryOption.key}`}
                 type="search"
                 aria-label={intl.formatMessage(messages.FilterByInputAriaLabel, { value: categoryOption.key })}
                 onChange={this.handleOnCategoryInputChange}
@@ -432,6 +449,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     if ((event && event.key && event.key !== 'Enter') || categoryInput.trim() === '') {
       return;
     }
+
     this.setState(
       (prevState: any) => {
         const prevFilters = prevState.filters[key];
@@ -714,7 +732,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
     return (
       <ToolbarFilter
-        categoryName={tagKeyOption.name}
+        categoryName={tagKeyOption}
         chips={filters.tag[tagKeyOption.key]}
         deleteChip={this.onDelete}
         key={tagKeyOption.key}
@@ -863,8 +881,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                   {this.getOrgUnitSelect()}
                   {options &&
                     options
-                      .filter(val => val.key !== tagKey && val.key !== orgUnitIdKey)
-                      .map(val => this.getCategoryInput(val))}
+                      .filter(option => option.key !== tagKey && option.key !== orgUnitIdKey)
+                      .map(option => this.getCategoryInput(option))}
                 </ToolbarGroup>
               </ToolbarToggleGroup>
             )}

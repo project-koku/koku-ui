@@ -101,7 +101,10 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     ];
 
     if (tagReport && tagReport.data && tagReport.data.length) {
-      options.push({ name: intl.formatMessage(messages.FilterByValues, { value: tagKey }), key: tagKey });
+      options.push({
+        name: intl.formatMessage(messages.FilterByValues, { value: tagKey }),
+        key: tagKey,
+      });
     }
     return options;
   };
