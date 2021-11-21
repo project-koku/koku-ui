@@ -27,7 +27,7 @@ import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import { Org } from 'api/orgs/org';
 import { orgUnitIdKey, orgUnitNameKey, Query, tagKey, tagPrefix } from 'api/queries/query';
-import { ResourcePathsType } from 'api/resources/resource';
+import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import { isResourceTypeValid } from 'api/resources/resourceUtils';
 import { Tag, TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -104,6 +104,9 @@ type DataToolbarProps = DataToolbarOwnProps & WrappedComponentProps;
 const defaultFilters = {
   tag: {},
 };
+
+// Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
+export const categoryPrefix = '_';
 
 export class DataToolbarBase extends React.Component<DataToolbarProps> {
   protected defaultState: DataToolbarState = {
@@ -192,8 +195,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   private onDelete = (type: any, chip: any) => {
     // Todo: workaround for https://github.com/patternfly/patternfly-react/issues/3552
     // This prevents us from using a localized string, if necessary
-    const filterType = type && type.key ? type.key : type;
+    const _type = type && type.key ? type.key : type;
     const id = chip && chip.key ? chip.key : chip;
+
+    // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
+    const filterType = _type && _type.indexOf(categoryPrefix) === 0 ? _type.substring(categoryPrefix.length) : _type;
 
     if (filterType) {
       this.setState(
@@ -320,7 +326,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return (
       <ToolbarItem>
         <Select
-          id="categorySelect"
+          id="category-select"
           isDisabled={isDisabled}
           isOpen={isCategorySelectOpen}
           onSelect={this.handleOnCategorySelect}
@@ -352,9 +358,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   private handleOnCategorySelect = (event, selection: CategoryOption) => {
+    // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
+    const currentCategory =
+      selection.value.indexOf(categoryPrefix) === 0
+        ? selection.value.substring(categoryPrefix.length)
+        : selection.value;
+
     this.setState({
       categoryInput: '',
-      currentCategory: selection.value,
+      currentCategory,
       currentTagKey: undefined,
       isCategorySelectOpen: !this.state.isCategorySelectOpen,
     });
@@ -367,32 +379,38 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   // Category input
-  public getCategoryInput = categoryOption => {
+  public getCategoryInput = (categoryOption: ToolbarChipGroup) => {
     const { intl, isDisabled, resourcePathsType } = this.props;
     const { currentCategory, filters, categoryInput } = this.state;
 
+    // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
+    const categoryName = {
+      name: categoryOption.name,
+      key: `${categoryPrefix}${categoryOption.key}`,
+    };
+
     return (
       <ToolbarFilter
-        categoryName={categoryOption}
-        chips={filters[categoryOption.key] as any}
+        categoryName={categoryName}
+        chips={filters[categoryOption.key] as string[]}
         deleteChip={this.onDelete}
         key={categoryOption.key}
         showToolbarItem={currentCategory === categoryOption.key}
       >
         <InputGroup>
-          {isResourceTypeValid(resourcePathsType, categoryOption.key) ? (
+          {isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
             <ResourceTypeahead
               isDisabled={isDisabled}
               onSelect={value => this.onCategoryInputSelect(value, categoryOption.key)}
               resourcePathsType={resourcePathsType}
-              resourceType={categoryOption.key}
+              resourceType={categoryOption.key as ResourceType}
             />
           ) : (
             <>
               <TextInput
                 isDisabled={isDisabled}
-                name={`${categoryOption.key}-input`}
-                id={`${categoryOption.key}-input`}
+                name={`category-input-${categoryOption.key}`}
+                id={`category-input-${categoryOption.key}`}
                 type="search"
                 aria-label={intl.formatMessage(messages.FilterByInputAriaLabel, { value: categoryOption.key })}
                 onChange={this.handleOnCategoryInputChange}
@@ -431,6 +449,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     if ((event && event.key && event.key !== 'Enter') || categoryInput.trim() === '') {
       return;
     }
+
     this.setState(
       (prevState: any) => {
         const prevFilters = prevState.filters[key];
@@ -707,7 +726,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
   // Tag value select
 
-  public getTagValueSelect = tagKeyOption => {
+  public getTagValueSelect = (tagKeyOption: ToolbarChipGroup) => {
     const { tagReportPathsType } = this.props;
     const { currentCategory, currentTagKey, filters, tagKeyValueInput } = this.state;
 
@@ -852,9 +871,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       <div style={style ? style : styles.toolbarContainer}>
         <Toolbar id="details-toolbar" clearAllFilters={this.onDelete as any} collapseListedFiltersBreakpoint="xl">
           <ToolbarContent>
-            <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
-              {showBulkSelect && <ToolbarItem variant="bulk-select">{this.getBulkSelect()}</ToolbarItem>}
-              {showFilter && (
+            {showBulkSelect && <ToolbarItem variant="bulk-select">{this.getBulkSelect()}</ToolbarItem>}
+            {showFilter && (
+              <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
                 <ToolbarGroup variant="filter-group">
                   {this.getCategorySelect()}
                   {this.getTagKeySelect()}
@@ -865,15 +884,16 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                       .filter(option => option.key !== tagKey && option.key !== orgUnitIdKey)
                       .map(option => this.getCategoryInput(option))}
                 </ToolbarGroup>
-              )}
-              {(Boolean(showExport) || Boolean(showColumnManagement)) && (
-                <ToolbarGroup>
-                  {Boolean(showExport) && this.getExportButton()}
-                  {Boolean(showColumnManagement) && this.getColumnManagement()}
-                </ToolbarGroup>
-              )}
-              {dateRange && <ToolbarGroup>{dateRange}</ToolbarGroup>}
-            </ToolbarToggleGroup>
+              </ToolbarToggleGroup>
+            )}
+            {(Boolean(showExport) || Boolean(showColumnManagement)) && (
+              <ToolbarGroup>
+                {Boolean(showExport) && this.getExportButton()}
+                {Boolean(showColumnManagement) && this.getColumnManagement()}
+              </ToolbarGroup>
+            )}
+            {dateRange && <ToolbarGroup>{dateRange}</ToolbarGroup>}
+
             <ToolbarItem alignment={{ default: 'alignRight' }} variant="pagination">
               {pagination}
             </ToolbarItem>
