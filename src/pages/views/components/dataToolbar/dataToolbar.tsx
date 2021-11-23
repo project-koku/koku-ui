@@ -106,7 +106,7 @@ const defaultFilters = {
 };
 
 // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
-export const categoryPrefix = '_';
+export const categoryPrefix = 'category:';
 
 export class DataToolbarBase extends React.Component<DataToolbarProps> {
   protected defaultState: DataToolbarState = {
