@@ -192,7 +192,6 @@ class Explorer extends React.Component<ExplorerProps> {
         query={query}
         reportPathsType={getReportPathsType(perspective)}
         resolution="daily"
-        showAggregateType={false}
         showTimeScope={false}
       />
     );
