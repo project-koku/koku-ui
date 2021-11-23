@@ -105,9 +105,6 @@ const defaultFilters = {
   tag: {},
 };
 
-// Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
-export const categoryPrefix = 'category:';
-
 export class DataToolbarBase extends React.Component<DataToolbarProps> {
   protected defaultState: DataToolbarState = {
     categoryInput: '',
@@ -195,11 +192,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   private onDelete = (type: any, chip: any) => {
     // Todo: workaround for https://github.com/patternfly/patternfly-react/issues/3552
     // This prevents us from using a localized string, if necessary
-    const _type = type && type.key ? type.key : type;
+    const filterType = type && type.key ? type.key : type;
     const id = chip && chip.key ? chip.key : chip;
-
-    // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
-    const filterType = _type && _type.indexOf(categoryPrefix) === 0 ? _type.substring(categoryPrefix.length) : _type;
 
     if (filterType) {
       this.setState(
@@ -358,15 +352,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   private handleOnCategorySelect = (event, selection: CategoryOption) => {
-    // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
-    const currentCategory =
-      selection.value.indexOf(categoryPrefix) === 0
-        ? selection.value.substring(categoryPrefix.length)
-        : selection.value;
-
     this.setState({
       categoryInput: '',
-      currentCategory,
+      currentCategory: selection.value,
       currentTagKey: undefined,
       isCategorySelectOpen: !this.state.isCategorySelectOpen,
     });
@@ -383,15 +371,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     const { intl, isDisabled, resourcePathsType } = this.props;
     const { currentCategory, filters, categoryInput } = this.state;
 
-    // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
-    const categoryName = {
-      name: categoryOption.name,
-      key: `${categoryPrefix}${categoryOption.key}`,
-    };
-
     return (
       <ToolbarFilter
-        categoryName={categoryName}
+        categoryName={categoryOption}
         chips={filters[categoryOption.key] as string[]}
         deleteChip={this.onDelete}
         key={categoryOption.key}
@@ -730,9 +712,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     const { tagReportPathsType } = this.props;
     const { currentCategory, currentTagKey, filters, tagKeyValueInput } = this.state;
 
+    // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
+    const categoryName = {
+      name: tagKeyOption.name,
+      key: `${tagPrefix}${tagKeyOption.key}`,
+    };
+
     return (
       <ToolbarFilter
-        categoryName={tagKeyOption}
+        categoryName={categoryName}
         chips={filters.tag[tagKeyOption.key]}
         deleteChip={this.onDelete}
         key={tagKeyOption.key}
@@ -764,6 +752,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     this.setState(
       (prevState: any) => {
         const prevSelections = prevState.filters.tag[currentTagKey] ? prevState.filters.tag[currentTagKey] : [];
+
+        for (const val of prevSelections) {
+          if (val === tagKeyValueInput) {
+            return {
+              ...prevState.filters,
+              tagKeyValueInput: '',
+            };
+          }
+        }
         return {
           filters: {
             ...prevState.filters,
