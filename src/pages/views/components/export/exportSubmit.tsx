@@ -1,9 +1,9 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import { Export } from 'api/exports/export';
-import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, Query, tagPrefix } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import { format } from 'date-fns';
+import { endOfMonth, format, startOfMonth } from 'date-fns';
 import fileDownload from 'js-file-download';
 import messages from 'locales/messages';
 import React from 'react';
@@ -13,6 +13,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/exports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { getToday } from 'utils/dateRange';
 
 export interface ExportSubmitOwnProps {
   groupBy?: string;
@@ -31,10 +32,12 @@ interface ExportSubmitDispatchProps {
 }
 
 interface ExportSubmitStateProps {
+  endDate: string;
   queryString: string;
   report: Export;
   reportError: AxiosError;
   reportFetchStatus?: FetchStatus;
+  startDate: string;
 }
 
 interface ExportSubmitState {
@@ -80,19 +83,15 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   };
 
   private getFileName = () => {
-    const { groupBy, intl, reportPathsType, resolution, timeScope } = this.props;
+    const { endDate, groupBy, intl, reportPathsType, resolution, startDate } = this.props;
 
-    const thisMonth = new Date();
-    const lastMonth = new Date().setMonth(thisMonth.getMonth() - 1);
-    const currentMonth = format(thisMonth, 'MMMM_yyyy');
-    const previousMonth = format(lastMonth - 1, 'MMMM_yyyy');
-
-    // defaultMessage: '{provider}-{groupBy}-{resolution}-{date}',
+    // defaultMessage: '{provider}-{groupBy}-{resolution}-{start-date}-{end-date}',
     const fileName = intl.formatMessage(messages.ExportFileName, {
+      endDate,
       provider: reportPathsType,
-      groupBy,
+      groupBy: groupBy.indexOf(tagPrefix) !== -1 ? 'tag' : groupBy,
       resolution,
-      date: timeScope && timeScope === 'previous' ? previousMonth : currentMonth,
+      startDate,
     });
 
     return `${fileName}.csv`;
@@ -143,6 +142,9 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
 const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
   const { groupBy, isAllItems, items, query, reportPathsType, resolution, timeScope } = props;
 
+  let endDate = query.end_date;
+  let startDate = query.start_date;
+
   const getQueryString = () => {
     const newQuery: Query = {
       ...JSON.parse(JSON.stringify(query)),
@@ -150,7 +152,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
         limit: undefined,
         offset: undefined,
         resolution: resolution ? resolution : undefined,
-        ...(!query.dateRange && { time_scope_value: timeScope === 'previous' ? -2 : -1 }),
+        ...(!(startDate && endDate) && { time_scope_value: timeScope === 'previous' ? -2 : -1 }),
       },
       filter_by: {},
       limit: 0,
@@ -205,11 +207,24 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   const reportError = exportSelectors.selectExportError(state, reportPathsType, reportType, queryString);
   const reportFetchStatus = exportSelectors.selectExportFetchStatus(state, reportPathsType, reportType, queryString);
 
+  if (!(startDate && endDate)) {
+    const isPrevious = timeScope === 'previous';
+    const today = getToday();
+
+    if (isPrevious) {
+      today.setMonth(today.getMonth() - 1);
+    }
+    endDate = format(isPrevious ? endOfMonth(today) : today, 'yyyy-MM-dd');
+    startDate = format(startOfMonth(today), 'yyyy-MM-dd');
+  }
+
   return {
+    endDate,
     queryString,
     report,
     reportError,
     reportFetchStatus,
+    startDate,
   };
 });
 
