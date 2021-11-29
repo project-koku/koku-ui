@@ -3,7 +3,7 @@ import { intl } from 'components/i18n';
 import { endOfMonth, format, getDate, getMonth, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 
-function getToday(hrs: number = 0, min: number = 0, sec: number = 0) {
+export function getToday(hrs: number = 0, min: number = 0, sec: number = 0) {
   const today = new Date();
 
   today.setHours(hrs);

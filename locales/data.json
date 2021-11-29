@@ -371,6 +371,57 @@
         "value": "Back to details"
       }
     ],
+    "BreakdownBackToTitles": [
+      {
+        "options": {
+          "aws": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Amazon Web Services"
+              }
+            ]
+          },
+          "azure": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Microsoft Azure"
+              }
+            ]
+          },
+          "gcp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Google Cloud Platform"
+              }
+            ]
+          },
+          "ibm": {
+            "value": [
+              {
+                "type": 0,
+                "value": "IBM Cloud - Top 5 Costliest"
+              }
+            ]
+          },
+          "ocp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "OpenShift"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
     "BreakdownCostBreakdownAriaLabel": [
       {
         "type": 0,
@@ -11986,7 +12037,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12002,7 +12061,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12031,7 +12098,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12047,7 +12122,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12076,7 +12159,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12092,7 +12183,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12121,7 +12220,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12137,7 +12244,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12166,7 +12281,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12182,7 +12305,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12211,7 +12342,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12227,7 +12366,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12259,7 +12406,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12275,7 +12430,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12304,7 +12467,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12320,7 +12491,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12349,7 +12528,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12365,7 +12552,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12394,7 +12589,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12410,7 +12613,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12439,7 +12650,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12455,7 +12674,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12484,7 +12711,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12500,7 +12735,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12529,7 +12772,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12545,7 +12796,15 @@
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "-"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
