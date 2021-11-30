@@ -1699,19 +1699,19 @@ export default defineMessages({
   ExportFileName: {
     defaultMessage:
       '{groupBy, select, ' +
-      'account {{resolution, select, daily {{provider}-accounts-daily-{startDate}-{endDate}} monthly {{provider}-accounts-monthly-{startDate}-{endDate}} other {}}} ' +
-      'cluster {{resolution, select, daily {{provider}-clusters-daily-{startDate}-{endDate}} monthly {{provider}-clusters-monthly-{startDate}-{endDate}} other {}}} ' +
-      'gcp_project {{resolution, select, daily {{provider}-gcp-projects-daily-{startDate}-{endDate}} monthly {{provider}-gcp-projects-monthly-{startDate}-{endDate}} other {}}} ' +
-      'instance_type {{resolution, select, daily {{provider}-instances-daily-{startDate}-{endDate}} monthly {{provider}-instances-monthly-{startDate}-{endDate}} other {}}} ' +
-      'node {{resolution, select, daily {{provider}-node-daily-{startDate}-{endDate}} monthly {{provider}-node-monthly-{startDate}-{endDate}} other {}}} ' +
-      'org_unit_id {{resolution, select, daily {{provider}-org_units-daily-{startDate}-{endDate}} monthly {{provider}-org_units-monthly-{startDate}-{endDate}} other {}}} ' +
-      'project {{resolution, select, daily {{provider}-projects-daily-{startDate}-{endDate}} monthly {{provider}-projects-monthly-{startDate}-{endDate}} other {}}} ' +
-      'region {{resolution, select, daily {{provider}-regions-daily-{startDate}-{endDate}} monthly {{provider}-regions-monthly-{startDate}-{endDate}} other {}}} ' +
-      'resource_location {{resolution, select, daily {{provider}-regions-daily-{startDate}-{endDate}} monthly {{provider}-regions-monthly-{startDate}-{endDate}} other {}}} ' +
-      'service {{resolution, select, daily {{provider}-services-daily-{startDate}-{endDate}} monthly {{provider}-services-monthly-{startDate}-{endDate}} other {}}} ' +
-      'service_name {{resolution, select, daily {{provider}-services-daily-{startDate}-{endDate}} monthly {{provider}-services-monthly-{startDate}-{endDate}} other {}}} ' +
-      'subscription_guid {{resolution, select, daily {{provider}-accounts-daily-{startDate}-{endDate}} monthly {{provider}-accounts-monthly-{startDate}-{endDate}} other {}}} ' +
-      'tag {{resolution, select, daily {{provider}-tags-daily-{startDate}-{endDate}} monthly {{provider}-tags-monthly-{startDate}-{endDate}} other {}}} ' +
+      'account {{resolution, select, daily {{provider}_accounts_daily_{startDate}_{endDate}} monthly {{provider}_accounts_monthly_{startDate}_{endDate}} other {}}} ' +
+      'cluster {{resolution, select, daily {{provider}_clusters_daily_{startDate}_{endDate}} monthly {{provider}_clusters_monthly_{startDate}_{endDate}} other {}}} ' +
+      'gcp_project {{resolution, select, daily {{provider}_gcp-projects_daily_{startDate}_{endDate}} monthly {{provider}_gcp-projects_monthly_{startDate}_{endDate}} other {}}} ' +
+      'instance_type {{resolution, select, daily {{provider}_instances_daily_{startDate}_{endDate}} monthly {{provider}_instances_monthly_{startDate}_{endDate}} other {}}} ' +
+      'node {{resolution, select, daily {{provider}_node_daily_{startDate}_{endDate}} monthly {{provider}_node_monthly_{startDate}_{endDate}} other {}}} ' +
+      'org_unit_id {{resolution, select, daily {{provider}_orgs_daily_{startDate}_{endDate}} monthly {{provider}_orgs_monthly_{startDate}_{endDate}} other {}}} ' +
+      'project {{resolution, select, daily {{provider}_projects_daily_{startDate}_{endDate}} monthly {{provider}_projects_monthly_{startDate}_{endDate}} other {}}} ' +
+      'region {{resolution, select, daily {{provider}_regions_daily_{startDate}_{endDate}} monthly {{provider}_regions_monthly_{startDate}_{endDate}} other {}}} ' +
+      'resource_location {{resolution, select, daily {{provider}_regions_daily_{startDate}_{endDate}} monthly {{provider}_regions_monthly_{startDate}_{endDate}} other {}}} ' +
+      'service {{resolution, select, daily {{provider}_services_daily_{startDate}_{endDate}} monthly {{provider}_services_monthly_{startDate}_{endDate}} other {}}} ' +
+      'service_name {{resolution, select, daily {{provider}_services_daily_{startDate}_{endDate}} monthly {{provider}_services_monthly_{startDate}_{endDate}} other {}}} ' +
+      'subscription_guid {{resolution, select, daily {{provider}_accounts_daily_{startDate}_{endDate}} monthly {{provider}_accounts_monthly_{startDate}_{endDate}} other {}}} ' +
+      'tag {{resolution, select, daily {{provider}_tags_daily_{startDate}_{endDate}} monthly {{provider}_tags_monthly_{startDate}_{endDate}} other {}}} ' +
       'other {}}',
     description: 'Export file name',
     id: 'ExportFileName',
