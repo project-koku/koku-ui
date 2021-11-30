@@ -85,7 +85,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   private getFileName = () => {
     const { endDate, groupBy, intl, reportPathsType, resolution, startDate } = this.props;
 
-    // defaultMessage: '{provider}-{groupBy}-{resolution}-{start-date}-{end-date}',
+    // defaultMessage: '<provider>_<groupBy>_<resolution>_<start-date>_<end-date>',
     const fileName = intl.formatMessage(messages.ExportFileName, {
       endDate,
       provider: reportPathsType,
