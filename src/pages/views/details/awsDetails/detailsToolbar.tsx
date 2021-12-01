@@ -82,7 +82,8 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const { fetchOrg, fetchTag, orgReport, orgReportFetchStatus, query, queryString, tagReport, tagReportFetchStatus } = this.props;
+    const { fetchOrg, fetchTag, orgReport, orgReportFetchStatus, query, queryString, tagReport, tagReportFetchStatus } =
+      this.props;
 
     if (!isEqual(orgReport, prevProps.orgReport) || !isEqual(tagReport, prevProps.tagReport)) {
       this.setState(
