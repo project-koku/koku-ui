@@ -8,7 +8,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { costTypeActions, costTypeSelectors } from 'store/costType';
+import { costTypeSelectors } from 'store/costType';
 import { CostTypes, getCostType, setCostType } from 'utils/localStorage';
 
 import { styles } from './costType.styles';
@@ -19,7 +19,7 @@ interface CostTypeOwnProps {
 }
 
 interface CostTypeDispatchProps {
-  fetchCostType?: typeof costTypeActions.fetchCostType;
+  // TBD...
 }
 
 interface CostTypeStateProps {
@@ -161,7 +161,7 @@ const mapStateToProps = createMapStateToProps<CostTypeOwnProps, CostTypeStatePro
 });
 
 const mapDispatchToProps: CostTypeDispatchProps = {
-  fetchCostType: costTypeActions.fetchCostType,
+  // TBD...
 };
 
 const CostTypeConnect = connect(mapStateToProps, mapDispatchToProps)(CostTypeBase);
