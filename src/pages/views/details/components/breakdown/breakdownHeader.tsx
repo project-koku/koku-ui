@@ -125,8 +125,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.BreakdownTitle, { value: title })}
             {description && <div style={styles.infoDescription}>{description}</div>}
-            {/* Todo: Show in-progress features in beta environment only */}
-            {isBetaFeature() && showCostType && (
+            {showCostType && (
               <div style={styles.costType}>
                 <CostType onSelect={this.handleCostTypeSelected} />
               </div>

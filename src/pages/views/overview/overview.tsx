@@ -667,8 +667,7 @@ class OverviewBase extends React.Component<OverviewProps> {
           <div style={styles.headerContent}>
             <div style={styles.headerContentLeft}>
               {this.getPerspective()}
-              {/* Todo: Show in-progress features in beta environment only */}
-              {isBetaFeature() && this.getCostType()}
+              {this.getCostType()}
             </div>
             <div style={styles.date}>{getSinceDateRangeString()}</div>
           </div>
