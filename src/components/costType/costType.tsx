@@ -9,7 +9,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { costTypeActions, costTypeSelectors } from 'store/costType';
-import { CostTypes, getCostType, invalidateCostType, isCostTypeAvailable, setCostType } from 'utils/localStorage';
+import { CostTypes, getCostType, setCostType } from 'utils/localStorage';
 
 import { styles } from './costType.styles';
 
@@ -45,28 +45,6 @@ class CostTypeBase extends React.Component<CostTypeProps> {
     isSelectOpen: false,
   };
   public state: CostTypeState = { ...this.defaultState };
-
-  public componentDidMount() {
-    const { costTypeFetchStatus, fetchCostType } = this.props;
-
-    if (costTypeFetchStatus !== FetchStatus.inProgress) {
-      fetchCostType();
-    }
-  }
-
-  public componentDidUpdate(prevProps: CostTypeProps) {
-    const { costType } = this.props;
-
-    if (prevProps.costType !== costType) {
-      const currentCostType = costType ? costType.meta['cost-type'] : CostTypes.unblended;
-
-      // Store cost type in local storage, but don't override user's preference
-      if (!isCostTypeAvailable()) {
-        setCostType(currentCostType);
-      }
-      this.setState({ isSelectOpen: false });
-    }
-  }
 
   private getSelect = () => {
     const { isDisabled } = this.props;
@@ -158,9 +136,6 @@ class CostTypeBase extends React.Component<CostTypeProps> {
 
   public render() {
     const { intl } = this.props;
-
-    // Clear local storage value if current session is not valid
-    invalidateCostType();
 
     return (
       <div style={styles.costSelector}>

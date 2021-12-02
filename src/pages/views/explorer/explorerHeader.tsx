@@ -5,7 +5,7 @@ import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
-import { CostType } from 'components/costType/costType';
+import { CostType } from 'components/costType';
 import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
@@ -303,9 +303,11 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
               tagReportPathsType={tagReportPathsType}
             />
           </div>
-          <div style={styles.costType}>
-            <CostType onSelect={this.handleCostTypeSelected} />
-          </div>
+          {perspective === PerspectiveType.aws && (
+            <div style={styles.costType}>
+              <CostType onSelect={this.handleCostTypeSelected} />
+            </div>
+          )}
         </div>
         <ExplorerFilter
           groupBy={groupBy}
