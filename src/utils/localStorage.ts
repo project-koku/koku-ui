@@ -55,7 +55,7 @@ export const deleteCostType = () => {
 // Returns cost type
 export const getCostType = () => {
   const costType = localStorage.getItem(costTypeID);
-  return costType ? costType : CostTypes.unblended;
+  return costType && costType !== null ? costType : CostTypes.unblended;
 };
 
 // Invalidates cost type if current session is not valid
@@ -65,6 +65,12 @@ export const invalidateCostType = () => {
     deleteCostType();
     restoreCostType(); // Restore from query param
   }
+};
+
+// Returns true if cost type is available
+export const isCostTypeAvailable = () => {
+  const costType = localStorage.getItem(costTypeID);
+  return costType && costType !== null;
 };
 
 // Restore cost type upon page refresh if query param is available

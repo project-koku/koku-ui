@@ -97,12 +97,9 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
               showTags
               tagReportPathsType={tagReportPathsType}
             />
-            {/* Todo: Show in-progress features in beta environment only */}
-            {isBetaFeature() && (
-              <div style={styles.costType}>
-                <CostType onSelect={this.handleCostTypeSelected} />
-              </div>
-            )}
+            <div style={styles.costType}>
+              <CostType onSelect={this.handleCostTypeSelected} />
+            </div>
           </div>
           {Boolean(showContent) && (
             <div>

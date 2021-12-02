@@ -303,12 +303,9 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
               tagReportPathsType={tagReportPathsType}
             />
           </div>
-          {/* Todo: Show in-progress features in beta environment only */}
-          {isBetaFeature() && perspective === PerspectiveType.aws && (
-            <div style={styles.costType}>
-              <CostType onSelect={this.handleCostTypeSelected} />
-            </div>
-          )}
+          <div style={styles.costType}>
+            <CostType onSelect={this.handleCostTypeSelected} />
+          </div>
         </div>
         <ExplorerFilter
           groupBy={groupBy}

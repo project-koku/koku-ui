@@ -8,7 +8,12 @@ export interface CostTypeData {
   name?: string;
 }
 
-export interface CostType extends PagedResponse<CostTypeData, CostTypeData> {}
+export interface CostTypeMeta {
+  count?: string;
+  ['cost-type']?: string;
+}
+
+export interface CostType extends PagedResponse<CostTypeData, CostTypeMeta> {}
 
 export function fetchCostType() {
   const insights = (window as any).insights;
