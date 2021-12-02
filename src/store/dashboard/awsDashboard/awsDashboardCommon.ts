@@ -1,7 +1,6 @@
 import { AwsFilters, AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
-
-import { getCostType } from '../../../utils/localStorage';
+import { getCostType } from 'utils/localStorage';
 
 export const awsDashboardStateKey = 'awsDashboard';
 export const awsDashboardDefaultFilters: AwsFilters = {
