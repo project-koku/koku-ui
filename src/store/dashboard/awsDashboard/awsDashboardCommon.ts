@@ -1,6 +1,8 @@
 import { AwsFilters, AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
+import { getCostType } from '../../../utils/localStorage';
+
 export const awsDashboardStateKey = 'awsDashboard';
 export const awsDashboardDefaultFilters: AwsFilters = {
   time_scope_units: 'month',
@@ -20,7 +22,9 @@ export const enum AwsDashboardTab {
   instanceType = 'instance_type',
 }
 
-export interface AwsDashboardWidget extends DashboardWidget<AwsDashboardTab> {}
+export interface AwsDashboardWidget extends DashboardWidget<AwsDashboardTab> {
+  savingsPlan?: boolean;
+}
 
 export function getGroupByForTab(widget: AwsDashboardWidget): AwsQuery['group_by'] {
   switch (widget.currentTab) {
@@ -40,9 +44,10 @@ export function getGroupByForTab(widget: AwsDashboardWidget): AwsQuery['group_by
   }
 }
 
-export function getQueryForWidget(filter: AwsFilters = awsDashboardDefaultFilters, props?) {
+export function getQueryForWidget(widget: AwsDashboardWidget, filter: AwsFilters = awsDashboardDefaultFilters, props?) {
   const query: AwsQuery = {
     filter,
+    ...(widget.savingsPlan && { cost_type: getCostType() }),
     ...(props ? props : {}),
   };
   return getQuery(query);
@@ -63,6 +68,7 @@ export function getQueryForWidgetTabs(
     newFilter.service = undefined;
   }
   const query: AwsQuery = {
+    ...(widget.savingsPlan && { cost_type: getCostType() }),
     filter: newFilter,
     group_by,
     ...(props ? props : {}),

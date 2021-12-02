@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
-import { getCostType } from 'utils/localStorage';
 
 import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType, ReportValue } from './report';
 
@@ -60,12 +59,5 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
 
 export function runReport(reportType: ReportType, query: string) {
   const path = ReportTypePaths[reportType];
-
-  switch (reportType) {
-    case ReportType.cost:
-    case ReportType.database:
-    case ReportType.network:
-      return axios.get<AwsReport>(`${path}?cost_type=${getCostType()}&${query}`);
-  }
   return axios.get<AwsReport>(`${path}?${query}`);
 }

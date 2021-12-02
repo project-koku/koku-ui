@@ -627,7 +627,6 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     ...query,
     perspective: undefined,
     dateRange: undefined,
-    cost_type: undefined, // Added via API request
   });
 
   const reportPathsType = getReportPathsType(perspective);

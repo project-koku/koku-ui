@@ -365,7 +365,6 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       ...query,
       perspective: undefined,
       dateRange: undefined,
-      cost_type: undefined, // Added via API request
     });
 
     const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
