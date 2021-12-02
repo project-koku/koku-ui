@@ -619,13 +619,15 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     order_by: queryFromRoute.order_by,
     perspective,
     dateRange,
-    end_date,
     start_date,
+    end_date,
+    ...(perspective === PerspectiveType.aws && { cost_type: queryFromRoute.cost_type }),
   };
   const queryString = getQuery({
     ...query,
     perspective: undefined,
     dateRange: undefined,
+    cost_type: undefined, // Added via API request
   });
 
   const reportPathsType = getReportPathsType(perspective);

@@ -28,6 +28,7 @@ import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'sto
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { getLast60DaysDate } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
+import { getCostType } from 'utils/localStorage';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 import { ExplorerFilter } from './explorerFilter';
@@ -191,6 +192,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       group_by: { [getGroupByDefault(value)]: '*' },
       order_by: undefined, // Clear sort
       perspective: value,
+      ...(value === PerspectiveType.aws && { cost_type: getCostType() }),
     };
     this.setState({ currentPerspective: value }, () => {
       if (onPerspectiveClicked) {
@@ -355,13 +357,15 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       order_by: queryFromRoute.order_by,
       perspective,
       dateRange,
-      end_date,
       start_date,
+      end_date,
+      ...(perspective === PerspectiveType.aws && { cost_type: queryFromRoute.cost_type }),
     };
     const queryString = getQuery({
       ...query,
       perspective: undefined,
       dateRange: undefined,
+      cost_type: undefined, // Added via API request
     });
 
     const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
