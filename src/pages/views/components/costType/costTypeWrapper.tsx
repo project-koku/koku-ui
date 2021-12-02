@@ -54,7 +54,7 @@ class CostTypeWrapperBase extends React.Component<CostTypeWrapperProps> {
     this.updateCostType();
   }
 
-  public componentDidUpdate(prevProps: CostTypeWrapperProps, prevState: CostTypeWrapperState) {
+  public componentDidUpdate(prevProps: CostTypeWrapperProps) {
     const { awsProviders, costType } = this.props;
 
     if (prevProps.awsProviders !== awsProviders) {

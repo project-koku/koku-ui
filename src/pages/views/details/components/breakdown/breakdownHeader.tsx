@@ -5,9 +5,9 @@ import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
-import { CostType } from 'components/costType/costType';
 import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
+import { CostType } from 'pages/views/components/costType';
 import { TagLink } from 'pages/views/details/components/tag/tagLink';
 import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
 import React from 'react';
