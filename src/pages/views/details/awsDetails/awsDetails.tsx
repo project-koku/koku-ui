@@ -390,6 +390,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
           order_by: { cost: 'desc' },
+          cost_type: query ? query.cost_type : getCostType(),
         })
       );
     } else {
