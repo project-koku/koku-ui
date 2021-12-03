@@ -47,6 +47,6 @@ export const styles = {
   },
   title: {
     paddingBottom: global_spacer_lg.var,
-    paddingTop: global_spacer_md.var,
+    paddingTop: global_spacer_xs.var,
   },
 } as { [className: string]: React.CSSProperties };
