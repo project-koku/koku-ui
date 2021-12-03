@@ -136,13 +136,14 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, HistoricalDataTrendChartStateProps>(
-  (state, { reportPathsType, reportType }) => {
+  (state, { costType, reportPathsType, reportType }) => {
     const query = parseQuery<Query>(location.search);
     const groupByOrgValue = getGroupByOrgValue(query);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
 
     const baseQuery: Query = {
+      cost_type: costType,
       filter_by: {
         // Add filters here to apply logical OR/AND
         ...(query && query.filter_by && query.filter_by),

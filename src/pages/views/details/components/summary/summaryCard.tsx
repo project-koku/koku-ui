@@ -181,13 +181,14 @@ class SummaryBase extends React.Component<SummaryProps> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps>(
-  (state, { reportGroupBy, reportPathsType, reportType }) => {
+  (state, { costType, reportGroupBy, reportPathsType, reportType }) => {
     const query = parseQuery<Query>(location.search);
     const groupByOrgValue = getGroupByOrgValue(query);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
 
     const newQuery: Query = {
+      cost_type: costType,
       filter: {
         limit: 3,
         resolution: 'monthly',

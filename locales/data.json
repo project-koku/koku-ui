@@ -371,6 +371,57 @@
         "value": "Back to details"
       }
     ],
+    "BreakdownBackToTitles": [
+      {
+        "options": {
+          "aws": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Amazon Web Services"
+              }
+            ]
+          },
+          "azure": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Microsoft Azure"
+              }
+            ]
+          },
+          "gcp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Google Cloud Platform"
+              }
+            ]
+          },
+          "ibm": {
+            "value": [
+              {
+                "type": 0,
+                "value": "IBM Cloud - Top 5 Costliest"
+              }
+            ]
+          },
+          "ocp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "OpenShift"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
     "BreakdownCostBreakdownAriaLabel": [
       {
         "type": 0,
@@ -11982,11 +12033,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-accounts-daily-"
+                        "value": "_accounts_daily_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -11998,11 +12057,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-accounts-monthly-"
+                        "value": "_accounts_monthly_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12027,11 +12094,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-clusters-daily-"
+                        "value": "_clusters_daily_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12043,11 +12118,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-clusters-monthly-"
+                        "value": "_clusters_monthly_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12072,11 +12155,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-gcp-projects-daily-"
+                        "value": "_gcp-projects_daily_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12088,11 +12179,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-gcp-projects-monthly-"
+                        "value": "_gcp-projects_monthly_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12117,11 +12216,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-instances-daily-"
+                        "value": "_instances_daily_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12133,11 +12240,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-instances-monthly-"
+                        "value": "_instances_monthly_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12162,11 +12277,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-node-daily-"
+                        "value": "_node_daily_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12178,11 +12301,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-node-monthly-"
+                        "value": "_node_monthly_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12207,11 +12338,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-org_units-daily-"
+                        "value": "_orgs_daily_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12223,11 +12362,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-org_units-monthly-"
+                        "value": "_orgs_monthly_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12255,11 +12402,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-projects-daily-"
+                        "value": "_projects_daily_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12271,11 +12426,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-projects-monthly-"
+                        "value": "_projects_monthly_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12300,11 +12463,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-regions-daily-"
+                        "value": "_regions_daily_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12316,11 +12487,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-regions-monthly-"
+                        "value": "_regions_monthly_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12345,11 +12524,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-regions-daily-"
+                        "value": "_regions_daily_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12361,11 +12548,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-regions-monthly-"
+                        "value": "_regions_monthly_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12390,11 +12585,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-services-daily-"
+                        "value": "_services_daily_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12406,11 +12609,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-services-monthly-"
+                        "value": "_services_monthly_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12435,11 +12646,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-services-daily-"
+                        "value": "_services_daily_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12451,11 +12670,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-services-monthly-"
+                        "value": "_services_monthly_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12480,11 +12707,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-accounts-daily-"
+                        "value": "_accounts_daily_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12496,11 +12731,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-accounts-monthly-"
+                        "value": "_accounts_monthly_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12525,11 +12768,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-tags-daily-"
+                        "value": "_tags_daily_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },
@@ -12541,11 +12792,19 @@
                       },
                       {
                         "type": 0,
-                        "value": "-tags-monthly-"
+                        "value": "_tags_monthly_"
                       },
                       {
                         "type": 1,
-                        "value": "date"
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
                       }
                     ]
                   },

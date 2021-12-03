@@ -65,6 +65,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
     },
+    cost_type: query.cost_type || getCostType(),
   };
   const queryString = getQuery(newQuery);
 

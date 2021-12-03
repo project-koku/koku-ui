@@ -192,7 +192,6 @@ class Explorer extends React.Component<ExplorerProps> {
         query={query}
         reportPathsType={getReportPathsType(perspective)}
         resolution="daily"
-        showAggregateType={false}
         showTimeScope={false}
       />
     );
@@ -620,8 +619,9 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     order_by: queryFromRoute.order_by,
     perspective,
     dateRange,
-    end_date,
     start_date,
+    end_date,
+    ...(perspective === PerspectiveType.aws && { cost_type: queryFromRoute.cost_type }),
   };
   const queryString = getQuery({
     ...query,

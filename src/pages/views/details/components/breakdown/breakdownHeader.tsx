@@ -5,9 +5,9 @@ import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
-import { CostType } from 'components/costType/costType';
 import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
+import { CostType } from 'pages/views/components/costType';
 import { TagLink } from 'pages/views/details/components/tag/tagLink';
 import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
 import React from 'react';
@@ -122,16 +122,17 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
           {isBetaFeature() && <Currency />}
         </div>
         <div style={styles.headerContent}>
-          <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {intl.formatMessage(messages.BreakdownTitle, { value: title })}
-            {description && <div style={styles.infoDescription}>{description}</div>}
-            {/* Todo: Show in-progress features in beta environment only */}
-            {isBetaFeature() && showCostType && (
+          <div style={styles.title}>
+            <Title headingLevel="h1" size={TitleSizes['2xl']}>
+              {intl.formatMessage(messages.BreakdownTitle, { value: title })}
+              {description && <div style={styles.infoDescription}>{description}</div>}
+            </Title>
+            {showCostType && (
               <div style={styles.costType}>
                 <CostType onSelect={this.handleCostTypeSelected} />
               </div>
             )}
-          </Title>
+          </div>
           <div style={styles.cost}>
             <div style={styles.costLabel}>
               <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>

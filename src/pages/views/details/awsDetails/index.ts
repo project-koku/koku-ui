@@ -1,3 +1,3 @@
-import AwsDetails from './awsDetails';
+import AwsDetailsWrapper from './awsDetailsWrapper';
 
-export default AwsDetails;
+export default AwsDetailsWrapper;

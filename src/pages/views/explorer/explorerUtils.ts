@@ -18,6 +18,7 @@ import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOc
 import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate, getLast90DaysDate } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
+
 // The date range drop down has the options below (if today is Jan 18th…)
 // eslint-disable-next-line no-shadow
 export const enum DateRangeType {

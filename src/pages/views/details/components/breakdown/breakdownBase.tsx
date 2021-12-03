@@ -38,12 +38,12 @@ interface BreakdownStateProps {
   costOverviewComponent?: React.ReactNode;
   description?: string;
   detailsURL: string;
-  emptyStateTitle: string;
-  groupBy: string;
+  emptyStateTitle?: string;
+  groupBy?: string;
   historicalDataComponent?: React.ReactNode;
-  providers: Providers;
-  providersFetchStatus: FetchStatus;
-  providerType: ProviderType;
+  providers?: Providers;
+  providersFetchStatus?: FetchStatus;
+  providerType?: ProviderType;
   query: Query;
   queryString: string;
   report: Report;
@@ -52,8 +52,8 @@ interface BreakdownStateProps {
   reportPathsType: ReportPathsType;
   reportType: ReportType;
   showCostType?: boolean;
-  tagReportPathsType: TagPathsType;
-  title: string;
+  tagReportPathsType?: TagPathsType;
+  title?: string;
 }
 
 interface BreakdownDispatchProps {
