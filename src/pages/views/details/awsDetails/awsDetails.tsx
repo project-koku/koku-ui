@@ -25,6 +25,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { uiActions } from 'store/ui';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getCostType } from 'utils/localStorage';
 
 import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';
@@ -389,6 +390,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
           order_by: { cost: 'desc' },
+          cost_type: query ? query.cost_type : getCostType(),
         })
       );
     } else {
@@ -459,6 +461,7 @@ const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStat
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
+    cost_type: queryFromRoute.cost_type || getCostType(),
   };
   const queryString = getQuery(query);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);

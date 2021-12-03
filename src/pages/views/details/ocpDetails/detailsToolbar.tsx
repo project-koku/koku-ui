@@ -84,10 +84,8 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
           }
         }
       );
-    } else {
-      if (query && !isEqual(query, prevProps.query) && tagReportFetchStatus !== FetchStatus.inProgress) {
-        fetchTag(tagReportPathsType, tagReportType, queryString);
-      }
+    } else if (query && !isEqual(query, prevProps.query) && tagReportFetchStatus !== FetchStatus.inProgress) {
+      fetchTag(tagReportPathsType, tagReportType, queryString);
     }
   }
 

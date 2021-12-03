@@ -18,12 +18,12 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
-import { CostType } from 'components/costType/costType';
 import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData/noData';
 import NoProviders from 'pages/state/noProviders';
+import { CostType } from 'pages/views/components/costType';
 import { Perspective } from 'pages/views/components/perspective/perspective';
 import AwsDashboard from 'pages/views/overview/awsDashboard';
 import AwsOcpDashboard from 'pages/views/overview/awsOcpDashboard';
@@ -59,6 +59,7 @@ import { uiActions } from 'store/ui';
 import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
+import { getCostType } from 'utils/localStorage';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 import { styles } from './overview.styles';
@@ -528,6 +529,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         const newQuery = {
           ...JSON.parse(JSON.stringify(query)),
           perspective: value,
+          ...(value === InfrastructurePerspective.aws && { cost_type: getCostType() }),
         };
         history.replace(this.getRouteForQuery(newQuery));
       }
@@ -667,8 +669,7 @@ class OverviewBase extends React.Component<OverviewProps> {
           <div style={styles.headerContent}>
             <div style={styles.headerContentLeft}>
               {this.getPerspective()}
-              {/* Todo: Show in-progress features in beta environment only */}
-              {isBetaFeature() && this.getCostType()}
+              {this.getCostType()}
             </div>
             <div style={styles.date}>{getSinceDateRangeString()}</div>
           </div>
@@ -689,6 +690,7 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
   const query = {
     ...(perspective && { perspective }),
     tabKey,
+    ...(perspective === InfrastructurePerspective.aws && { cost_type: queryFromRoute.cost_type }),
   };
   const queryString = getQuery(query);
 

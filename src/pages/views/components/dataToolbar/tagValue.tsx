@@ -109,7 +109,13 @@ class TagValueBase extends React.Component<TagValueProps> {
   }
 
   private onTagValueChange = value => {
-    this.setState({ tagKeyValueInput: value });
+    const { onTagValueInputChange } = this.props;
+
+    this.setState({ tagKeyValueInput: value }, () => {
+      if (onTagValueInputChange) {
+        onTagValueInputChange(value);
+      }
+    });
   };
 
   private onTagValueToggle = isOpen => {

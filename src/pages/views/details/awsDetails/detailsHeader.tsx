@@ -6,9 +6,9 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AwsReport } from 'api/reports/awsReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
-import { CostType } from 'components/costType/costType';
 import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
+import { CostType } from 'pages/views/components/costType';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -97,12 +97,9 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
               showTags
               tagReportPathsType={tagReportPathsType}
             />
-            {/* Todo: Show in-progress features in beta environment only */}
-            {isBetaFeature() && (
-              <div style={styles.costType}>
-                <CostType onSelect={this.handleCostTypeSelected} />
-              </div>
-            )}
+            <div style={styles.costType}>
+              <CostType onSelect={this.handleCostTypeSelected} />
+            </div>
           </div>
           {Boolean(showContent) && (
             <div>

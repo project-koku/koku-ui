@@ -8,8 +8,8 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { costTypeActions, costTypeSelectors } from 'store/costType';
-import { CostTypes, getCostType, invalidateCostType, setCostType } from 'utils/localStorage';
+import { costTypeSelectors } from 'store/costType';
+import { CostTypes, getCostType, setCostType } from 'utils/localStorage';
 
 import { styles } from './costType.styles';
 
@@ -19,7 +19,7 @@ interface CostTypeOwnProps {
 }
 
 interface CostTypeDispatchProps {
-  fetchCostType?: typeof costTypeActions.fetchCostType;
+  // TBD...
 }
 
 interface CostTypeStateProps {
@@ -29,7 +29,6 @@ interface CostTypeStateProps {
 }
 
 interface CostTypeState {
-  currentItem: string;
   isSelectOpen: boolean;
 }
 
@@ -43,31 +42,17 @@ type CostTypeProps = CostTypeOwnProps & CostTypeDispatchProps & CostTypeStatePro
 
 class CostTypeBase extends React.Component<CostTypeProps> {
   protected defaultState: CostTypeState = {
-    currentItem: CostTypes.unblended,
     isSelectOpen: false,
   };
   public state: CostTypeState = { ...this.defaultState };
-
-  public componentDidMount() {
-    const { fetchCostType } = this.props;
-
-    fetchCostType();
-  }
-
-  private getCurrentItem = () => {
-    const { currentItem } = this.state;
-
-    const costType = getCostType(); // Get currency units from local storage
-    return costType ? costType : currentItem;
-  };
 
   private getSelect = () => {
     const { isDisabled } = this.props;
     const { isSelectOpen } = this.state;
 
-    const currentItem = this.getCurrentItem();
+    const currentCostType = getCostType(); // Get cost type from local storage
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: CostTypeOption) => option.value === currentItem);
+    const selection = selectOptions.find((option: CostTypeOption) => option.value === currentCostType);
 
     return (
       <Select
@@ -131,12 +116,10 @@ class CostTypeBase extends React.Component<CostTypeProps> {
   private handleSelect = (event, selection: CostTypeOption) => {
     const { onSelect } = this.props;
 
-    // Set currency units via local storage
-    setCostType(selection.value);
+    setCostType(selection.value); // Set cost type in local storage
 
     this.setState(
       {
-        currentItem: selection.value,
         isSelectOpen: false,
       },
       () => {
@@ -153,9 +136,6 @@ class CostTypeBase extends React.Component<CostTypeProps> {
 
   public render() {
     const { intl } = this.props;
-
-    // Clear local storage value if current session is not valid
-    invalidateCostType();
 
     return (
       <div style={styles.costSelector}>
@@ -181,7 +161,7 @@ const mapStateToProps = createMapStateToProps<CostTypeOwnProps, CostTypeStatePro
 });
 
 const mapDispatchToProps: CostTypeDispatchProps = {
-  fetchCostType: costTypeActions.fetchCostType,
+  // TBD...
 };
 
 const CostTypeConnect = connect(mapStateToProps, mapDispatchToProps)(CostTypeBase);
