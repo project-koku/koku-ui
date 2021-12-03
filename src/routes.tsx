@@ -10,7 +10,7 @@ const AzureBreakdown = asyncComponent(
   () => import(/* webpackChunkName: "azure" */ 'pages/views/details/azureBreakdown')
 );
 const AzureDetails = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/views/details/azureDetails'));
-const Explorer = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/views/explorer/explorer'));
+const Explorer = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/views/explorer'));
 const GcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/views/details/gcpBreakdown'));
 const GcpDetails = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/views/details/gcpDetails'));
 const IbmBreakdown = asyncComponent(() => import(/* webpackChunkName: "ibm" */ 'pages/views/details/ibmBreakdown'));

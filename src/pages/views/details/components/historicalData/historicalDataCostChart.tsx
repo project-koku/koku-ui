@@ -117,12 +117,13 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, HistoricalDataCostChartStateProps>(
-  (state, { reportPathsType, reportType }) => {
+  (state, { costType, reportPathsType, reportType }) => {
     const query = parseQuery<Query>(location.search);
     const groupBy = getGroupById(query);
     const groupByValue = getGroupByValue(query);
 
     const baseQuery: Query = {
+      cost_type: costType,
       filter_by: {
         // Add filters here to apply logical OR/AND
         ...(query && query.filter_by && query.filter_by),

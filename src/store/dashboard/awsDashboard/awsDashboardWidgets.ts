@@ -75,6 +75,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
   availableTabs: [AwsDashboardTab.services, AwsDashboardTab.accounts, AwsDashboardTab.regions],
   chartType: DashboardChartType.dailyTrend,
   currentTab: AwsDashboardTab.services,
+  savingsPlan: true,
 };
 
 export const databaseWidget: AwsDashboardWidget = {
@@ -105,6 +106,7 @@ export const databaseWidget: AwsDashboardWidget = {
   // ],
   chartType: DashboardChartType.trend,
   currentTab: AwsDashboardTab.services,
+  savingsPlan: true,
 };
 
 export const networkWidget: AwsDashboardWidget = {
@@ -135,6 +137,7 @@ export const networkWidget: AwsDashboardWidget = {
   // ],
   chartType: DashboardChartType.trend,
   currentTab: AwsDashboardTab.services,
+  savingsPlan: true,
 };
 
 export const storageWidget: AwsDashboardWidget = {

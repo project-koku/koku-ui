@@ -5,9 +5,9 @@ import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
-import { CostType } from 'components/costType/costType';
 import { Currency } from 'components/currency/currency';
 import messages from 'locales/messages';
+import { CostType } from 'pages/views/components/costType';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import { Perspective } from 'pages/views/components/perspective/perspective';
 import { hasCloudProvider } from 'pages/views/utils/providers';
@@ -28,6 +28,7 @@ import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'sto
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { getLast60DaysDate } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
+import { getCostType } from 'utils/localStorage';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 import { ExplorerFilter } from './explorerFilter';
@@ -191,6 +192,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       group_by: { [getGroupByDefault(value)]: '*' },
       order_by: undefined, // Clear sort
       perspective: value,
+      ...(value === PerspectiveType.aws && { cost_type: getCostType() }),
     };
     this.setState({ currentPerspective: value }, () => {
       if (onPerspectiveClicked) {
@@ -303,9 +305,11 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
               tagReportPathsType={tagReportPathsType}
             />
           </div>
-          <div style={styles.costType}>
-            <CostType onSelect={this.handleCostTypeSelected} />
-          </div>
+          {perspective === PerspectiveType.aws && (
+            <div style={styles.costType}>
+              <CostType onSelect={this.handleCostTypeSelected} />
+            </div>
+          )}
         </div>
         <ExplorerFilter
           groupBy={groupBy}
@@ -353,8 +357,9 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       order_by: queryFromRoute.order_by,
       perspective,
       dateRange,
-      end_date,
       start_date,
+      end_date,
+      ...(perspective === PerspectiveType.aws && { cost_type: queryFromRoute.cost_type }),
     };
     const queryString = getQuery({
       ...query,
