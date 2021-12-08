@@ -47,7 +47,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
 
     const onSelect = (_evt, isSelected, rowId) => {
       if (rowId === -1) {
-        const newState = this.props.providers.reduce((acc, cur) => {
+        const pageSelections = this.props.providers.reduce((acc, cur) => {
           const selected = this.props.checked[cur.uuid] ? this.props.checked[cur.uuid].selected : false;
           const disabled = cur.cost_models.length > 0;
           return {
@@ -55,6 +55,10 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
             [cur.uuid]: { selected: disabled ? selected : isSelected, meta: cur, disabled },
           };
         }, {});
+        const newState = {
+          ...this.props.checked,
+          ...pageSelections,
+        };
         this.props.setState(
           newState as {
             [uuid: string]: { selected: boolean; meta: Provider };
