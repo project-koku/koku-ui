@@ -61,23 +61,6 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
     fetch(`type=${sourceType}&limit=10&offset=0`);
   }
 
-  public componentDidUpdate(prevProps: Props) {
-    if (prevProps.isLoadingSources === true && this.props.isLoadingSources === false) {
-      const initChecked = this.props.providers.reduce((acc, curr) => {
-        const selected = this.props.costModel.sources.some(p => p.uuid === curr.uuid);
-        return {
-          ...acc,
-          [curr.uuid]: {
-            disabled: selected,
-            selected,
-            meta: curr,
-          },
-        };
-      }, {}) as { [uuid: string]: { selected: boolean; meta: Provider } };
-      this.setState({ checked: initChecked });
-    }
-  }
-
   private hasSelections = () => {
     const { checked } = this.state;
     let result = false;
