@@ -10,5 +10,5 @@ import { fetchProviders } from './providers';
 test('api get provider calls axios.get', () => {
   const query = getProvidersQuery(awsProvidersQuery);
   fetchProviders(query);
-  expect(axios.get).toBeCalledWith('sources/?type=AWS');
+  expect(axios.get).toBeCalledWith('sources/?limit=100&type=AWS');
 });
