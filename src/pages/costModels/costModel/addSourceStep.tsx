@@ -49,7 +49,8 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
       if (rowId === -1) {
         const pageSelections = this.props.providers.reduce((acc, cur) => {
           const selected = this.props.checked[cur.uuid] ? this.props.checked[cur.uuid].selected : false;
-          const disabled = cur.cost_models.length > 0;
+          const disabled =
+            cur.cost_models.length && cur.cost_models.find(cm => cm.name === costModel.name) === undefined;
           return {
             ...acc,
             [cur.uuid]: { selected: disabled ? selected : isSelected, meta: cur, disabled },
@@ -97,7 +98,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
       return {
         cells: [cellName, provCostModels || ''],
         selected: isSelected,
-        disableSelection: providerData.cost_models.length > 0,
+        disableSelection: providerData.cost_models.length > 0 && warningIcon !== null,
       };
     });
 
