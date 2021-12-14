@@ -17177,6 +17177,12 @@
         "value": "Track your spending!"
       }
     ],
+    "NoResultsFound": [
+      {
+        "type": 0,
+        "value": "No results found"
+      }
+    ],
     "NotAuthorizedStateAzure": [
       {
         "type": 0,
@@ -18413,6 +18419,12 @@
       {
         "type": 0,
         "value": "Sources"
+      }
+    ],
+    "Suggestions": [
+      {
+        "type": 0,
+        "value": "Suggestions"
       }
     ],
     "Supplementary": [

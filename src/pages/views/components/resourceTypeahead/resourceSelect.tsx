@@ -140,6 +140,8 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   };
 
   private getMenuItems = () => {
+    const { intl } = this.props;
+
     const menuItems = this.getOptions().map(option => (
       <MenuItem key={option.key} itemId={option.key}>
         {option.key}
@@ -149,7 +151,7 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
     // add a heading to the menu
     const headingItem = (
       <MenuItem isDisabled key="heading">
-        {menuItems.length ? 'Suggestions' : 'No results found'}
+        {menuItems.length ? intl.formatMessage(messages.Suggestions) : intl.formatMessage(messages.NoResultsFound)}
       </MenuItem>
     );
 
