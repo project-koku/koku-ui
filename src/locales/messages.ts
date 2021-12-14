@@ -2427,6 +2427,11 @@ export default defineMessages({
     description: 'Track your spending!',
     id: 'NoProvidersStateOverviewTitle',
   },
+  NoResultsFound: {
+    defaultMessage: 'No results found',
+    description: 'No results found',
+    id: 'NoResultsFound',
+  },
   NotAuthorizedStateAws: {
     defaultMessage: 'Amazon Web Services in Cost Management',
     description: 'Amazon Web Services in Cost Management',
@@ -2854,6 +2859,11 @@ export default defineMessages({
     defaultMessage: 'Sources',
     description: 'Sources',
     id: 'Sources',
+  },
+  Suggestions: {
+    defaultMessage: 'Suggestions',
+    description: 'Suggestions',
+    id: 'Suggestions',
   },
   Supplementary: {
     defaultMessage: 'Supplementary',
