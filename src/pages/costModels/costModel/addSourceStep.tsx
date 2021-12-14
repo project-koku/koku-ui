@@ -48,7 +48,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
     const onSelect = (_evt, isSelected, rowId) => {
       if (rowId === -1) {
         const pageSelections = this.props.providers.reduce((acc, cur) => {
-          // If assigned, maintain original selection
+          // If assigned to another cost model, maintain original selection
           const isAssigned =
             cur.cost_models.length && cur.cost_models.find(cm => cm.name === costModel.name) === undefined;
           const selected = this.props.checked[cur.uuid] ? this.props.checked[cur.uuid].selected : false;
@@ -86,6 +86,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
       const isAssigned =
         providerData.cost_models.length &&
         providerData.cost_models.find(cm => cm.name === costModel.name) === undefined;
+      // If assigned to another cost model, show warning
       const warningIcon = isAssigned ? (
         <WarningIcon
           key={providerData.uuid}
