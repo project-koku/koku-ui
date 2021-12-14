@@ -129,6 +129,7 @@ const InternalWizard = injectIntl(InternalWizardBase);
 
 const defaultState = {
   apiError: null,
+  checked: {},
   createError: null,
   createProcess: false,
   createSuccess: false,
@@ -166,6 +167,7 @@ const defaultState = {
 
 interface State {
   apiError: any;
+  checked: any;
   createError: any;
   createProcess: boolean;
   createSuccess: boolean;
@@ -337,6 +339,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
       <CostModelContext.Provider
         value={{
           apiError: this.state.apiError,
+          checked: this.state.checked,
           clearQuery: () => this.setState({ query: {} }),
           createError: this.state.createError,
           createProcess: this.state.createProcess,
@@ -404,16 +407,25 @@ class CostModelWizardBase extends React.Component<Props, State> {
           onPerPageChange: (_evt, perPage) => this.setState({ page: 1, perPage }),
           onSourceSelect: (rowId, isSelected) => {
             if (rowId === -1) {
-              return this.setState({
-                sources: this.state.sources.map(s => ({
-                  ...s,
-                  selected: isSelected,
-                })),
+              const pageSelections = this.state.sources.map(s => {
+                return {
+                  [s.uuid]: { selected: isSelected, meta: s },
+                };
               });
+              const newState = {
+                ...this.state.checked,
+                ...pageSelections,
+              };
+              return this.setState({ checked: newState });
             }
-            const newSources = [...this.state.sources];
-            newSources[rowId].selected = isSelected;
-            return this.setState({ sources: newSources });
+            const newState = {
+              ...this.state.checked,
+              [this.state.sources[rowId].uuid]: {
+                selected: isSelected,
+                meta: this.state.sources[rowId],
+              },
+            };
+            return this.setState({ checked: newState });
           },
           onTypeChange: value => this.setState({ type: value, dataFetched: false, loading: false }),
           page: this.state.page,
@@ -482,7 +494,9 @@ class CostModelWizardBase extends React.Component<Props, State> {
             markup: `${this.state.isDiscount ? '-' : ''}${this.state.markup}`,
             tiers: this.state.tiers,
             priceListCurrent: this.state.priceListCurrent,
-            sources: this.state.sources.filter(src => src.selected),
+            sources: Object.keys(this.state.checked).map(key => {
+              return this.state.checked[key].meta;
+            }),
           }}
         />
         <Modal
