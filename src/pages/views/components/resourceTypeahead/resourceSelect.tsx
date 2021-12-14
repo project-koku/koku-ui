@@ -15,7 +15,7 @@ import SearchIcon from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import TimesIcon from '@patternfly/react-icons/dist/esm/icons/times-icon';
 import { getQuery, Query } from 'api/queries/query';
 import { Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
-// import messages from 'locales/messages';
+import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
@@ -124,21 +124,23 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   };
 
   private getMenu = () => {
+    const { search } = this.props;
+
     return (
       <div ref={this.menuRef}>
-        <Menu onSelect={this.handleMenuSelect} onKeyDown={this.handleMenuKeyDown}>
-          <MenuContent>
-            <MenuList>{this.getMenuItems()}</MenuList>
-          </MenuContent>
-        </Menu>
+        {search && search.length && (
+          <Menu onSelect={this.handleMenuSelect} onKeyDown={this.handleMenuKeyDown}>
+            <MenuContent>
+              <MenuList>{this.getMenuItems()}</MenuList>
+            </MenuContent>
+          </Menu>
+        )}
       </div>
     );
   };
 
   private getMenuItems = () => {
-    const options = this.getOptions();
-
-    const menuItems = options.map(option => (
+    const menuItems = this.getOptions().map(option => (
       <MenuItem key={option.key} itemId={option.key}>
         {option.key}
       </MenuItem>
@@ -280,26 +282,6 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
         onDocumentClick={this.handleMenuClick}
       />
     );
-
-    // return (
-    //   <Select
-    //     isCreatable
-    //     isDisabled={isDisabled}
-    //     isInputValuePersisted={false}
-    //     isOpen={isSelectExpanded}
-    //     onCreateOption={this.handleOnCreateOption}
-    //     onClear={this.handleOnClear}
-    //     onFilter={this.handleOnFilter}
-    //     onSelect={this.handleOnSelect}
-    //     onToggle={this.handleOnToggle}
-    //     onTypeaheadInputChanged={this.handleOnTypeaheadInputChanged}
-    //     placeholderText={intl.formatMessage(messages.FilterByPlaceholder, { value: resourceType })}
-    //     typeAheadAriaLabel={intl.formatMessage(messages.FilterByInputAriaLabel, { value: resourceType })}
-    //     variant={SelectVariant.typeahead}
-    //   >
-    //     {selectOptions}
-    //   </Select>
-    // );
   }
 }
 
