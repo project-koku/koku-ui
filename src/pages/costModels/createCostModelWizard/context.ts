@@ -4,6 +4,7 @@ import React from 'react';
 
 export const defaultCostModelContext = {
   apiError: null,
+  checked: {},
   clearQuery: () => null,
   createError: null,
   createProcess: false,
