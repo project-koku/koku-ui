@@ -5,22 +5,27 @@ export const stateKey = 'providers';
 export const addProviderKey = 'add-provider';
 
 export const awsProvidersQuery: ProvidersQuery = {
+  limit: 100,
   type: 'AWS',
 };
 
 export const azureProvidersQuery: ProvidersQuery = {
+  limit: 100,
   type: 'Azure',
 };
 
 export const gcpProvidersQuery: ProvidersQuery = {
+  limit: 100,
   type: 'GCP',
 };
 
 export const ibmProvidersQuery: ProvidersQuery = {
+  limit: 100,
   type: 'IBM',
 };
 
 export const ocpProvidersQuery: ProvidersQuery = {
+  limit: 100,
   type: 'OCP',
 };
 
