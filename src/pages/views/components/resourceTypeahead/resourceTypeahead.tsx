@@ -1,7 +1,7 @@
 import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import React from 'react';
 
-import { ResourceSelect } from './resourceSelect';
+import { ResourceInput } from './resourceInput';
 
 interface ResourceTypeaheadOwnProps {
   isDisabled?: boolean;
@@ -16,8 +16,8 @@ interface ResourceTypeaheadState {
 
 type ResourceTypeaheadProps = ResourceTypeaheadOwnProps;
 
-// Wrapper to provide search input value as prop to ResourceSelect.
-// This will be used to create a query param to retrieve cached API requests
+// This wrapper provides text input value as the search prop for ResourceInput.
+// This is used to create a query param to retrieve cached API requests.
 export class ResourceTypeahead extends React.Component<ResourceTypeaheadProps> {
   protected defaultState: ResourceTypeaheadState = {
     search: undefined,
@@ -64,7 +64,7 @@ export class ResourceTypeahead extends React.Component<ResourceTypeaheadProps> {
     const { search } = this.state;
 
     return (
-      <ResourceSelect
+      <ResourceInput
         isDisabled={isDisabled}
         onClear={this.handleOnClear}
         onSearchChanged={this.handleOnSearch}

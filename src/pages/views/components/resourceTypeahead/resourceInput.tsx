@@ -23,7 +23,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { resourceActions, resourceSelectors } from 'store/resources';
 import { noop } from 'utils/noop';
 
-interface ResourceSelectOwnProps {
+interface ResourceInputOwnProps {
   isDisabled?: boolean;
   onClear?: () => void;
   onSearchChanged?: (value: string) => void;
@@ -34,38 +34,38 @@ interface ResourceSelectOwnProps {
   search?: string;
 }
 
-interface ResourceSelectStateProps {
+interface ResourceInputStateProps {
   resourceFetchStatus?: FetchStatus;
 }
 
-interface ResourceSelectState {
+interface ResourceInputState {
   createdOptions: any[];
   isSelectExpanded?: boolean;
   menuIsOpen?: boolean;
 }
 
-interface ResourceSelectDispatchProps {
+interface ResourceInputDispatchProps {
   fetchResource?: typeof resourceActions.fetchResource;
 }
 
-type ResourceSelectProps = ResourceSelectOwnProps &
-  ResourceSelectStateProps &
-  ResourceSelectDispatchProps &
+type ResourceInputProps = ResourceInputOwnProps &
+  ResourceInputStateProps &
+  ResourceInputDispatchProps &
   WrappedComponentProps;
 
-class ResourceSelectBase extends React.Component<ResourceSelectProps> {
+class ResourceInputBase extends React.Component<ResourceInputProps> {
   private menuRef = React.createRef<HTMLDivElement>();
   private textInputGroupRef = React.createRef<HTMLDivElement>();
   private searchTimeout: any = noop;
 
-  protected defaultState: ResourceSelectState = {
+  protected defaultState: ResourceInputState = {
     createdOptions: [],
     isSelectExpanded: false,
     menuIsOpen: false,
   };
-  public state: ResourceSelectState = { ...this.defaultState };
+  public state: ResourceInputState = { ...this.defaultState };
 
-  constructor(props: ResourceSelectProps) {
+  constructor(props: ResourceInputProps) {
     super(props);
 
     this.handleClearSearch = this.handleClearSearch.bind(this);
@@ -75,7 +75,7 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
     this.handleTextInputKeyDown = this.handleTextInputKeyDown.bind(this);
   }
 
-  public componentDidUpdate(prevProps: ResourceSelectProps) {
+  public componentDidUpdate(prevProps: ResourceInputProps) {
     const { fetchResource, resourceFetchStatus, resourcePathsType, resourceType, search } = this.props;
 
     if (search && prevProps.search !== search && resourceFetchStatus !== FetchStatus.inProgress) {
@@ -287,7 +287,7 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<ResourceSelectOwnProps, ResourceSelectStateProps>(
+const mapStateToProps = createMapStateToProps<ResourceInputOwnProps, ResourceInputStateProps>(
   (state, { resourcePathsType, resourceType, search }) => {
     const query: Query = {
       search,
@@ -309,10 +309,10 @@ const mapStateToProps = createMapStateToProps<ResourceSelectOwnProps, ResourceSe
   }
 );
 
-const mapDispatchToProps: ResourceSelectDispatchProps = {
+const mapDispatchToProps: ResourceInputDispatchProps = {
   fetchResource: resourceActions.fetchResource,
 };
 
-const ResourceSelect = injectIntl(connect(mapStateToProps, mapDispatchToProps)(ResourceSelectBase));
+const ResourceInput = injectIntl(connect(mapStateToProps, mapDispatchToProps)(ResourceInputBase));
 
-export { ResourceSelect };
+export { ResourceInput };
