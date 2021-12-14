@@ -4,7 +4,6 @@ import { CostModel } from 'api/costModels';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import messages from 'locales/messages';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
-import { PaginationToolbarTemplate } from 'pages/costModels/components/paginationToolbarTemplate';
 import SourcesTable from 'pages/costModels/costModel/sourcesTable';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -60,6 +59,8 @@ class TableBase extends React.Component<Props, State> {
       .map(uuid => [uuid]);
     const res = filteredRows.slice((page - 1) * perPage, page * perPage);
 
+    // Note: Removed pagination props because the /cost-models/{cost_model_uuid}/ API does not support pagination
+    // See https://issues.redhat.com/browse/COST-2097
     return (
       <>
         <Title headingLevel="h2" size={TitleSizes.md} style={styles.sourceTypeTitle}>
@@ -85,23 +86,6 @@ class TableBase extends React.Component<Props, State> {
             },
             query: this.state.query,
             categoryNames: { name: intl.formatMessage(messages.Names, { count: 1 }) },
-          }}
-          paginationProps={{
-            isCompact: true,
-            itemCount: filteredRows.length,
-            perPage,
-            page,
-            onSetPage: (_evt, newPage) =>
-              this.setState({
-                pagination: {
-                  ...this.state.pagination,
-                  page: newPage,
-                },
-              }),
-            onPerPageSelect: (_evt, newPerPage) =>
-              this.setState({
-                pagination: { page: 1, perPage: newPerPage },
-              }),
           }}
           filterInputProps={{
             id: 'sources-tab-toolbar',
@@ -142,27 +126,6 @@ class TableBase extends React.Component<Props, State> {
         {filteredRows.length === 0 && rows.length > 0 && (
           <EmptyFilterState filter={this.state.filter} subTitle={messages.EmptyFilterSourceStateSubtitle} />
         )}
-        <PaginationToolbarTemplate
-          id="costmodels_details_filter_datatoolbar"
-          aria-label={intl.formatMessage(messages.CostModelsSourceTablePaginationAriaLabel)}
-          variant="bottom"
-          itemCount={filteredRows.length}
-          perPage={perPage}
-          page={page}
-          onSetPage={(_evt, newPage) =>
-            this.setState({
-              pagination: {
-                ...this.state.pagination,
-                page: newPage,
-              },
-            })
-          }
-          onPerPageSelect={(_evt, newPerPage) =>
-            this.setState({
-              pagination: { page: 1, perPage: newPerPage },
-            })
-          }
-        />
       </>
     );
   }

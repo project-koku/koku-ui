@@ -49,7 +49,7 @@ const FilterInput: React.SFC<FilterInputProps> = ({ id, placeholder = '', value,
 
 interface SourcesToolbarProps {
   actionButtonProps: ButtonProps;
-  paginationProps: PaginationProps;
+  paginationProps?: PaginationProps;
   filterInputProps: FilterInputProps;
   filter: {
     onRemove: (category: string, chip: string) => void;
@@ -84,16 +84,18 @@ export const SourcesToolbar: React.SFC<SourcesToolbarProps> = ({
             <Button {...actionButtonProps} />
           </ReadOnlyTooltip>
         </ToolbarItem>
-        <ToolbarItem variant="pagination">
-          <Pagination
-            isCompact={paginationProps.isCompact}
-            itemCount={paginationProps.itemCount}
-            page={paginationProps.page}
-            perPage={paginationProps.perPage}
-            onSetPage={paginationProps.onSetPage}
-            onPerPageSelect={paginationProps.onPerPageSelect}
-          />
-        </ToolbarItem>
+        {paginationProps && (
+          <ToolbarItem variant="pagination">
+            <Pagination
+              isCompact={paginationProps.isCompact}
+              itemCount={paginationProps.itemCount}
+              page={paginationProps.page}
+              perPage={paginationProps.perPage}
+              onSetPage={paginationProps.onSetPage}
+              onPerPageSelect={paginationProps.onPerPageSelect}
+            />
+          </ToolbarItem>
+        )}
       </ToolbarContent>
     </Toolbar>
   );
