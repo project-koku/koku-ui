@@ -51,18 +51,7 @@ const ReviewSuccess = injectIntl(ReviewSuccessBase);
 
 const ReviewDetailsBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
   <CostModelContext.Consumer>
-    {({
-      checked,
-      createError,
-      currencyUnits,
-      description,
-      distribution,
-      isDiscount,
-      markup,
-      name,
-      tiers,
-      type,
-    }) => {
+    {({ checked, createError, currencyUnits, description, distribution, isDiscount, markup, name, tiers, type }) => {
       const selectedSources = Object.keys(checked)
         .filter(key => checked[key].selected)
         .map(key => checked[key].meta);
