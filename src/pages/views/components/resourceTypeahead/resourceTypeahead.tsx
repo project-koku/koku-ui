@@ -1,6 +1,5 @@
 import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import React from 'react';
-import { noop } from 'utils/noop';
 
 import { ResourceSelect } from './resourceSelect';
 
@@ -12,60 +11,67 @@ interface ResourceTypeaheadOwnProps {
 }
 
 interface ResourceTypeaheadState {
-  currentSearch?: string;
+  search?: string;
 }
 
 type ResourceTypeaheadProps = ResourceTypeaheadOwnProps;
 
+// Wrapper to provide search input value as prop to ResourceSelect.
+// This will be used to create a query param to retrieve cached API requests
 export class ResourceTypeahead extends React.Component<ResourceTypeaheadProps> {
-  private searchTimeout: any = noop;
-
   protected defaultState: ResourceTypeaheadState = {
-    // TBD ...
+    search: undefined,
   };
   public state: ResourceTypeaheadState = { ...this.defaultState };
 
   constructor(props: ResourceTypeaheadProps) {
     super(props);
 
+    this.handleOnClear = this.handleOnClear.bind(this);
     this.handleOnSearch = this.handleOnSearch.bind(this);
     this.handleOnSelect = this.handleOnSelect.bind(this);
   }
 
-  private handleOnSearch = (value: string) => {
-    clearTimeout(this.searchTimeout);
+  private handleOnClear = () => {
+    this.setState({
+      search: undefined,
+    });
+  };
 
-    // Delay was 750ms, but reduced -- https://issues.redhat.com/browse/COST-1742
-    this.searchTimeout = setTimeout(() => {
-      this.setState({
-        currentSearch: value,
-      });
-    }, 625);
+  private handleOnSearch = (value: string) => {
+    this.setState({
+      search: value,
+    });
   };
 
   private handleOnSelect = (value: string) => {
     const { onSelect } = this.props;
 
-    if (onSelect) {
-      onSelect(value);
-    }
-    this.setState({
-      currentSearch: undefined,
-    });
+    this.setState(
+      {
+        search: undefined,
+      },
+      () => {
+        if (onSelect) {
+          onSelect(value);
+        }
+      }
+    );
   };
 
   public render() {
     const { isDisabled, resourcePathsType, resourceType } = this.props;
-    const { currentSearch } = this.state;
+    const { search } = this.state;
 
     return (
       <ResourceSelect
         isDisabled={isDisabled}
+        onClear={this.handleOnClear}
         onSearchChanged={this.handleOnSearch}
         onSelect={this.handleOnSelect}
         resourcePathsType={resourcePathsType}
         resourceType={resourceType}
-        search={currentSearch}
+        search={search}
       />
     );
   }
