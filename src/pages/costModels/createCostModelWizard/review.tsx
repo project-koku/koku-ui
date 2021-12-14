@@ -60,7 +60,6 @@ const ReviewDetailsBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
       isDiscount,
       markup,
       name,
-      sources,
       tiers,
       type,
     }) => {
