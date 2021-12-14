@@ -407,11 +407,9 @@ class CostModelWizardBase extends React.Component<Props, State> {
           onPerPageChange: (_evt, perPage) => this.setState({ page: 1, perPage }),
           onSourceSelect: (rowId, isSelected) => {
             if (rowId === -1) {
-              const pageSelections = this.state.sources.map(s => {
-                return {
-                  [s.uuid]: { selected: isSelected, meta: s },
-                };
-              });
+              const pageSelections = this.state.sources.map(s => ({
+                [s.uuid]: { selected: isSelected, meta: s },
+              }));
               const newState = {
                 ...this.state.checked,
                 ...pageSelections,
@@ -494,9 +492,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
             markup: `${this.state.isDiscount ? '-' : ''}${this.state.markup}`,
             tiers: this.state.tiers,
             priceListCurrent: this.state.priceListCurrent,
-            sources: Object.keys(this.state.checked).map(key => {
-              return this.state.checked[key].meta;
-            }),
+            sources: Object.keys(this.state.checked).map(key => this.state.checked[key].meta),
           }}
         />
         <Modal
