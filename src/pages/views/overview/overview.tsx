@@ -293,25 +293,25 @@ class OverviewBase extends React.Component<OverviewProps> {
     }
 
     if (this.isOcpAvailable()) {
-      const hasData =
-        hasCloudData(awsProviders, ocpProviders) ||
-        hasCloudData(azureProviders, ocpProviders) ||
-        hasCloudData(gcpProviders, ocpProviders) ||
-        hasCloudData(ibmProviders, ocpProviders);
-      if (hasData) {
+      const hasAwsProvider = hasCloudProvider(awsProviders, ocpProviders);
+      const hasAzureProvider = hasCloudProvider(azureProviders, ocpProviders);
+      const hasGcpProvider = hasCloudProvider(gcpProviders, ocpProviders);
+      const hasIbmProvider = hasCloudProvider(ibmProviders, ocpProviders);
+
+      if (hasAwsProvider || hasAzureProvider || hasGcpProvider || hasIbmProvider) {
         return InfrastructurePerspective.ocpCloud;
       }
     }
-    if (this.isAwsAvailable() && (hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders))) {
+    if (this.isAwsAvailable()) {
       return InfrastructurePerspective.aws;
     }
-    if (this.isAzureAvailable() && (hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders))) {
+    if (this.isAzureAvailable()) {
       return InfrastructurePerspective.azure;
     }
-    if (this.isGcpAvailable() && (hasCurrentMonthData(gcpProviders) || hasPreviousMonthData(gcpProviders))) {
+    if (this.isGcpAvailable()) {
       return InfrastructurePerspective.gcp;
     }
-    if (this.isIbmAvailable() && (hasCurrentMonthData(ibmProviders) || hasPreviousMonthData(ibmProviders))) {
+    if (this.isIbmAvailable()) {
       return InfrastructurePerspective.ibm;
     }
     return undefined;
