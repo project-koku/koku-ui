@@ -277,7 +277,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getDefaultInfrastructurePerspective = () => {
-    const { perspective } = this.props;
+    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders, perspective } = this.props;
 
     // Upon page refresh, perspective param takes precedence
     switch (perspective) {
@@ -293,18 +293,25 @@ class OverviewBase extends React.Component<OverviewProps> {
     }
 
     if (this.isOcpAvailable()) {
-      return InfrastructurePerspective.ocpCloud;
+      const hasData =
+        hasCloudData(awsProviders, ocpProviders) ||
+        hasCloudData(azureProviders, ocpProviders) ||
+        hasCloudData(gcpProviders, ocpProviders) ||
+        hasCloudData(ibmProviders, ocpProviders);
+      if (hasData) {
+        return InfrastructurePerspective.ocpCloud;
+      }
     }
-    if (this.isAwsAvailable()) {
+    if (this.isAwsAvailable() && (hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders))) {
       return InfrastructurePerspective.aws;
     }
-    if (this.isAzureAvailable()) {
+    if (this.isAzureAvailable() && (hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders))) {
       return InfrastructurePerspective.azure;
     }
-    if (this.isGcpAvailable()) {
+    if (this.isGcpAvailable() && (hasCurrentMonthData(gcpProviders) || hasPreviousMonthData(gcpProviders))) {
       return InfrastructurePerspective.gcp;
     }
-    if (this.isIbmAvailable()) {
+    if (this.isIbmAvailable() && (hasCurrentMonthData(ibmProviders) || hasPreviousMonthData(ibmProviders))) {
       return InfrastructurePerspective.ibm;
     }
     return undefined;
