@@ -290,7 +290,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       query,
     } = this.props;
 
-    // Test for no providers
+    // Note: No need to test OCP on cloud here, since that requires at least one provider
     const noAwsProviders = !this.isAwsAvailable() && awsProvidersFetchStatus === FetchStatus.complete;
     const noAzureProviders = !this.isAzureAvailable() && azureProvidersFetchStatus === FetchStatus.complete;
     const noGcpProviders = !this.isGcpAvailable() && gcpProvidersFetchStatus === FetchStatus.complete;
