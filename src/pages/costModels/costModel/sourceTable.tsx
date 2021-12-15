@@ -32,6 +32,7 @@ class SourceTableBase extends React.Component<Props, State> {
       <>
         {isDialogOpen.addSource && (
           <AddSourceWizard
+            assigned={sources}
             costModel={costModel}
             isOpen
             onClose={() => setDialogOpen({ name: 'addSource', isOpen: false })}

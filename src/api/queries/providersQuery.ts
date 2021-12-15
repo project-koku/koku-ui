@@ -1,6 +1,7 @@
 import { parse, stringify } from 'qs';
 
 export interface ProvidersQuery {
+  limit?: number;
   page_size?: number;
   type?: 'AWS' | 'Azure' | 'GCP' | 'IBM' | 'OCP';
 }

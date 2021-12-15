@@ -51,7 +51,10 @@ const ReviewSuccess = injectIntl(ReviewSuccessBase);
 
 const ReviewDetailsBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
   <CostModelContext.Consumer>
-    {({ createError, currencyUnits, description, distribution, isDiscount, markup, name, sources, tiers, type }) => {
+    {({ checked, createError, currencyUnits, description, distribution, isDiscount, markup, name, tiers, type }) => {
+      const selectedSources = Object.keys(checked)
+        .filter(key => checked[key].selected)
+        .map(key => checked[key].meta);
       return (
         <>
           {createError && <Alert variant="danger" title={`${createError}`} />}
@@ -118,15 +121,12 @@ const ReviewDetailsBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
                   )}
                   <TextListItem component={TextListItemVariants.dt}>
                     {intl.formatMessage(messages.CostModelsAssignSources, { count: 2 })}{' '}
-                    {sources.find(src => src.selected && Boolean(src.costmodel)) && (
+                    {selectedSources.find(src => Boolean(src.costmodel)) && (
                       <WarningIcon text={intl.formatMessage(messages.CostModelsWizardWarningSources)} />
                     )}
                   </TextListItem>
                   <TextListItem component={TextListItemVariants.dd}>
-                    {sources
-                      .filter(r => r.selected)
-                      .map(r => r.name)
-                      .join(', ')}
+                    {selectedSources.map(r => r.name).join(', ')}
                   </TextListItem>
                 </TextList>
               </TextContent>

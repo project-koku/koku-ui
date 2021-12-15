@@ -34,7 +34,7 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
       time_scope_value: -2,
     }),
     current: getQueryForWidget(widget, filter),
-    forecast: getQueryForWidget(widget, {}, { limit: 31, cost_type: undefined }), // Todo: forecast should support cost_type
+    forecast: getQueryForWidget(widget, {}),
     tabs: getQueryForWidgetTabs(widget, {
       ...tabsFilter,
       resolution: 'monthly',

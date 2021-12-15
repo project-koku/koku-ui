@@ -29,6 +29,7 @@ interface AddSourcesStepState {
 }
 
 interface Props extends WrappedComponentProps {
+  assigned?: Provider[];
   onClose: () => void;
   onSave: (sources_uuid: string[]) => void;
   isOpen: boolean;
@@ -53,29 +54,20 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
   public state = { checked: {} };
 
   public componentDidMount() {
+    const { assigned } = this.props;
+
     const {
       costModel: { source_type },
       fetch,
     } = this.props;
     const sourceType = sourceTypeMap[source_type];
     fetch(`type=${sourceType}&limit=10&offset=0`);
-  }
 
-  public componentDidUpdate(prevProps: Props) {
-    if (prevProps.isLoadingSources === true && this.props.isLoadingSources === false) {
-      const initChecked = this.props.providers.reduce((acc, curr) => {
-        const selected = this.props.costModel.sources.some(p => p.uuid === curr.uuid);
-        return {
-          ...acc,
-          [curr.uuid]: {
-            disabled: selected,
-            selected,
-            meta: curr,
-          },
-        };
-      }, {}) as { [uuid: string]: { selected: boolean; meta: Provider } };
-      this.setState({ checked: initChecked });
+    const checked = {};
+    for (const cur of assigned) {
+      checked[cur.uuid] = { selected: true, meta: cur, disabled: false };
     }
+    this.setState({ checked });
   }
 
   private hasSelections = () => {

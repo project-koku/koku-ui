@@ -14,8 +14,21 @@ import { CostModelContext } from './context';
 const SourcesTable: React.SFC<WrappedComponentProps> = ({ intl }) => {
   return (
     <CostModelContext.Consumer>
-      {({ loading, onSourceSelect, sources, perPage, page, type, query, fetchSources, filterName, onFilterChange }) => {
+      {({
+        checked,
+        loading,
+        onSourceSelect,
+        sources,
+        perPage,
+        page,
+        type,
+        query,
+        fetchSources,
+        filterName,
+        onFilterChange,
+      }) => {
         const sourceType = type === 'Azure' ? 'Azure' : type;
+        const itemCount = sources.length > 0 ? sources[0].meta.count : 0;
         return (
           <Stack hasGutter>
             <StackItem>
@@ -55,7 +68,7 @@ const SourcesTable: React.SFC<WrappedComponentProps> = ({ intl }) => {
                 }}
                 paginationProps={{
                   isCompact: true,
-                  itemCount: sources.length,
+                  itemCount,
                   perPage,
                   page,
                   onSetPage: (_evt, newPage) => {
@@ -84,7 +97,7 @@ const SourcesTable: React.SFC<WrappedComponentProps> = ({ intl }) => {
                             }}
                             id={r.name}
                             key={r.name}
-                            isChecked={r.selected}
+                            isChecked={checked[r.uuid] && checked[r.uuid].selected}
                             isDisabled={Boolean(r.costmodel)}
                           />
                         </>,
@@ -101,7 +114,7 @@ const SourcesTable: React.SFC<WrappedComponentProps> = ({ intl }) => {
                         </>,
                         r.costmodel ? r.costmodel : '',
                       ],
-                      selected: r.selected,
+                      selected: checked[r.uuid] && checked[r.uuid].selected,
                     };
                   })}
                 >
@@ -110,7 +123,7 @@ const SourcesTable: React.SFC<WrappedComponentProps> = ({ intl }) => {
                 </Table>
               )}
               <PaginationToolbarTemplate
-                itemCount={sources.length}
+                itemCount={itemCount}
                 perPage={perPage}
                 page={page}
                 onSetPage={(_evt, newPage) => {

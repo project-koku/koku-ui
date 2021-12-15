@@ -69,8 +69,8 @@ class CostTypeWrapperBase extends React.Component<CostTypeWrapperProps> {
   }
 
   private isAwsAvailable = () => {
-    const { awsProviders, awsProvidersFetchStatus, userAccess } = this.props;
-    return isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus);
+    const { awsProviders, userAccess } = this.props;
+    return isAwsAvailable(userAccess, awsProviders);
   };
 
   private updateCostType = () => {
