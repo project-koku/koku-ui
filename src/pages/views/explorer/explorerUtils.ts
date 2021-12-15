@@ -9,7 +9,7 @@ import { UserAccess } from 'api/userAccess';
 import { ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartDatumUtils';
 import { format } from 'date-fns';
 import messages from 'locales/messages';
-import { FetchStatus } from 'store/common';
+import { hasCloudProvider } from 'pages/views/utils/providers';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
@@ -17,7 +17,17 @@ import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIb
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate, getLast90DaysDate } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
-import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
+import {
+  hasAwsAccess,
+  hasAzureAccess,
+  hasGcpAccess,
+  hasIbmAccess,
+  isAwsAvailable,
+  isAzureAvailable,
+  isGcpAvailable,
+  isIbmAvailable,
+  isOcpAvailable,
+} from 'utils/userAccess';
 
 // The date range drop down has the options below (if today is Jan 18th…)
 // eslint-disable-next-line no-shadow
@@ -37,8 +47,8 @@ export const enum PerspectiveType {
   azureOcp = 'azure_ocp', // Azure filtered by Ocp
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp', // Gcp filtered by Ocp
-  ocp = 'ocp',
   ibm = 'ibm',
+  ocp = 'ocp',
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
 }
 
@@ -202,57 +212,61 @@ export const getDateRangeDefault = (queryFromRoute: Query) => {
 
 export const getPerspectiveDefault = ({
   awsProviders,
-  awsProvidersFetchStatus,
   azureProviders,
-  azureProvidersFetchStatus,
   gcpProviders,
-  gcpProvidersFetchStatus,
   ibmProviders,
-  ibmProvidersFetchStatus,
   ocpProviders,
-  ocpProvidersFetchStatus,
   queryFromRoute,
   userAccess,
 }: {
   awsProviders: Providers;
-  awsProvidersFetchStatus: FetchStatus;
   azureProviders: Providers;
-  azureProvidersFetchStatus: FetchStatus;
   gcpProviders: Providers;
-  gcpProvidersFetchStatus: FetchStatus;
   ibmProviders: Providers;
-  ibmProvidersFetchStatus: FetchStatus;
   ocpProviders: Providers;
-  ocpProvidersFetchStatus: FetchStatus;
   queryFromRoute: Query;
   userAccess: UserAccess;
 }) => {
-  let result = queryFromRoute.perspective;
-  if (result) {
-    return result;
+  const perspective = queryFromRoute.perspective;
+
+  // Upon page refresh, perspective param takes precedence
+  switch (perspective) {
+    case PerspectiveType.aws:
+    case PerspectiveType.awsOcp:
+    case PerspectiveType.azure:
+    case PerspectiveType.azureOcp:
+    case PerspectiveType.gcp:
+    case PerspectiveType.gcpOcp:
+    case PerspectiveType.ibm:
+    case PerspectiveType.ocpCloud:
+      return perspective;
   }
 
-  const isLoading =
-    awsProvidersFetchStatus === FetchStatus.inProgress ||
-    azureProvidersFetchStatus === FetchStatus.inProgress ||
-    gcpProvidersFetchStatus === FetchStatus.inProgress ||
-    ibmProvidersFetchStatus === FetchStatus.inProgress ||
-    ocpProvidersFetchStatus === FetchStatus.inProgress;
-
-  if (!isLoading) {
-    if (isOcpAvailable(userAccess, ocpProviders)) {
-      result = PerspectiveType.ocp;
-    } else if (isAwsAvailable(userAccess, awsProviders)) {
-      result = PerspectiveType.aws;
-    } else if (isAzureAvailable(userAccess, azureProviders)) {
-      result = PerspectiveType.azure;
-    } else if (isGcpAvailable(userAccess, gcpProviders)) {
-      result = PerspectiveType.gcp;
-    } else if (isIbmAvailable(userAccess, ibmProviders)) {
-      result = PerspectiveType.ibm;
-    }
+  if (isOcpAvailable(userAccess, ocpProviders)) {
+    return PerspectiveType.ocp;
   }
-  return result;
+
+  const hasAwsCloud = hasAwsAccess(userAccess) && hasCloudProvider(awsProviders, ocpProviders);
+  const hasAzureCloud = hasAzureAccess(userAccess) && hasCloudProvider(azureProviders, ocpProviders);
+  const hasGcpCloud = hasGcpAccess(userAccess) && hasCloudProvider(gcpProviders, ocpProviders);
+  const hasIbmCloud = hasIbmAccess(userAccess) && hasCloudProvider(ibmProviders, ocpProviders);
+
+  if (hasAwsCloud || hasAzureCloud || hasGcpCloud || hasIbmCloud) {
+    return PerspectiveType.ocpCloud;
+  }
+  if (isAwsAvailable(userAccess, awsProviders)) {
+    return PerspectiveType.aws;
+  }
+  if (isAzureAvailable(userAccess, azureProviders)) {
+    return PerspectiveType.azure;
+  }
+  if (isGcpAvailable(userAccess, gcpProviders)) {
+    return PerspectiveType.gcp;
+  }
+  if (isIbmAvailable(userAccess, ibmProviders)) {
+    return PerspectiveType.ibm;
+  }
+  return undefined;
 };
 
 export const getGroupByDefault = (perspective: string) => {
