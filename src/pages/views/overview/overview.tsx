@@ -60,7 +60,17 @@ import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'sto
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
 import { getCostType } from 'utils/localStorage';
-import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
+import {
+  hasAwsAccess,
+  hasAzureAccess,
+  hasGcpAccess,
+  hasIbmAccess,
+  isAwsAvailable,
+  isAzureAvailable,
+  isGcpAvailable,
+  isIbmAvailable,
+  isOcpAvailable,
+} from 'utils/userAccess';
 
 import { styles } from './overview.styles';
 
@@ -333,7 +343,6 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getPerspective = () => {
-    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders } = this.props;
     const { currentInfrastructurePerspective, currentOcpPerspective } = this.state;
 
     const aws = this.isAwsAvailable();
@@ -342,6 +351,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const ibm = this.isIbmAvailable();
     const ocp = this.isOcpAvailable();
 
+    // Note: No need to test OCP on cloud here, since at least one provider is required
     if (!(aws || azure || gcp || ibm || ocp)) {
       return null;
     }
@@ -349,35 +359,36 @@ class OverviewBase extends React.Component<OverviewProps> {
     // Dynamically show options if providers are available
     const options = [];
     if (this.getCurrentTab() === OverviewTab.infrastructure) {
-      const hasAwsProvider = hasCloudProvider(awsProviders, ocpProviders);
-      const hasAzureProvider = hasCloudProvider(azureProviders, ocpProviders);
-      const hasGcpProvider = hasCloudProvider(gcpProviders, ocpProviders);
-      const hasIbmProvider = hasCloudProvider(ibmProviders, ocpProviders);
+      const awsCloud = this.isAwsCloudAvailable();
+      const azureCloud = this.isAzureCloudAvailable();
+      const ocpCloud = this.isOcpCloudAvailable();
 
-      if (hasAwsProvider || hasAzureProvider || hasGcpProvider || hasIbmProvider) {
+      if (ocpCloud) {
         options.push(...infrastructureOcpCloudOptions);
       }
       if (aws) {
         options.push(...infrastructureAwsOptions);
       }
-      if (hasAwsProvider) {
+      if (awsCloud) {
         options.push(...infrastructureAwsOcpOptions);
       }
       if (gcp) {
         options.push(...infrastructureGcpOptions);
       }
+
       // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
       //
-      // if (hasGcpProvider) {
+      // if (gcpCloud) {
       //   options.push(...infrastructureGcpOcpOptions);
       // }
+
       if (ibm) {
         options.push(...infrastructureIbmOptions);
       }
       if (azure) {
         options.push(...infrastructureAzureOptions);
       }
-      if (hasAzureProvider) {
+      if (azureCloud) {
         options.push(...infrastructureAzureOcpOptions);
       }
     } else {
@@ -568,9 +579,19 @@ class OverviewBase extends React.Component<OverviewProps> {
     return isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus);
   };
 
+  private isAwsCloudAvailable = () => {
+    const { awsProviders, ocpProviders, userAccess } = this.props;
+    return hasAwsAccess(userAccess) && hasCloudProvider(awsProviders, ocpProviders);
+  };
+
   private isAzureAvailable = () => {
     const { azureProviders, azureProvidersFetchStatus, userAccess } = this.props;
     return isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus);
+  };
+
+  private isAzureCloudAvailable = () => {
+    const { azureProviders, ocpProviders, userAccess } = this.props;
+    return hasAzureAccess(userAccess) && hasCloudProvider(azureProviders, ocpProviders);
   };
 
   private isGcpAvailable = () => {
@@ -578,9 +599,19 @@ class OverviewBase extends React.Component<OverviewProps> {
     return isGcpAvailable(userAccess, gcpProviders, gcpProvidersFetchStatus);
   };
 
+  private isGcpCloudAvailable = () => {
+    const { gcpProviders, ocpProviders, userAccess } = this.props;
+    return hasGcpAccess(userAccess) && hasCloudProvider(gcpProviders, ocpProviders);
+  };
+
   private isIbmAvailable = () => {
     const { ibmProviders, ibmProvidersFetchStatus, ibmUserAccess } = this.props;
     return isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus);
+  };
+
+  private isIbmCloudAvailable = () => {
+    const { ibmProviders, ocpProviders, userAccess } = this.props;
+    return hasIbmAccess(userAccess) && hasCloudProvider(ibmProviders, ocpProviders);
   };
 
   private isOcpAvailable = () => {
@@ -589,7 +620,12 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isOcpCloudAvailable = () => {
-    return this.isAwsAvailable() && this.isOcpAvailable();
+    const awsCloud = this.isAwsCloudAvailable();
+    const azureCloud = this.isAzureCloudAvailable();
+    const gcpCloud = this.isGcpCloudAvailable();
+    const ibmCloud = this.isIbmCloudAvailable();
+
+    return awsCloud || azureCloud || gcpCloud || ibmCloud;
   };
 
   public render() {
