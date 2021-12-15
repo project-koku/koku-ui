@@ -30,7 +30,10 @@ import { getLast60DaysDate } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
 import { getCostType } from 'utils/localStorage';
 import {
-  hasAwsAccess, hasAzureAccess, hasGcpAccess, hasIbmAccess,
+  hasAwsAccess,
+  hasAzureAccess,
+  hasGcpAccess,
+  hasIbmAccess,
   isAwsAvailable,
   isAzureAvailable,
   isGcpAvailable,
