@@ -60,7 +60,17 @@ import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'sto
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
 import { getCostType } from 'utils/localStorage';
-import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
+import {
+  hasAwsAccess,
+  hasAzureAccess,
+  hasGcpAccess,
+  hasIbmAccess,
+  isAwsAvailable,
+  isAzureAvailable,
+  isGcpAvailable,
+  isIbmAvailable,
+  isOcpAvailable,
+} from 'utils/userAccess';
 
 import { styles } from './overview.styles';
 
@@ -257,15 +267,15 @@ class OverviewBase extends React.Component<OverviewProps> {
   private getCurrentTab = () => {
     const { activeTabKey } = this.state;
 
-    const aws = this.isAwsAvailable();
-    const azure = this.isAzureAvailable();
-    const gcp = this.isGcpAvailable();
-    const ibm = this.isIbmAvailable();
-    const ocp = this.isOcpAvailable();
-    const ocpCloud = this.isOcpCloudAvailable();
+    const hasAws = this.isAwsAvailable();
+    const hasAzure = this.isAzureAvailable();
+    const hasGcp = this.isGcpAvailable();
+    const hasIbm = this.isIbmAvailable();
+    const hasOcp = this.isOcpAvailable();
+    const hasOcpCloud = this.isOcpCloudAvailable();
 
-    const showOcpOnly = ocp && !(aws || azure || gcp || ibm || ocpCloud);
-    const showInfrastructureOnly = !ocp && (aws || azure || gcp || ibm || ocpCloud);
+    const showOcpOnly = hasOcp && !(hasAws || hasAzure || hasGcp || hasIbm || hasOcpCloud);
+    const showInfrastructureOnly = !hasOcp && (hasAws || hasAzure || hasGcp || hasIbm || hasOcpCloud);
 
     if (showOcpOnly) {
       return OverviewTab.ocp;
@@ -277,7 +287,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getDefaultInfrastructurePerspective = () => {
-    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders, perspective } = this.props;
+    const { perspective } = this.props;
 
     // Upon page refresh, perspective param takes precedence
     switch (perspective) {
@@ -292,26 +302,19 @@ class OverviewBase extends React.Component<OverviewProps> {
         return perspective;
     }
 
-    if (this.isOcpAvailable()) {
-      const hasData =
-        hasCloudData(awsProviders, ocpProviders) ||
-        hasCloudData(azureProviders, ocpProviders) ||
-        hasCloudData(gcpProviders, ocpProviders) ||
-        hasCloudData(ibmProviders, ocpProviders);
-      if (hasData) {
-        return InfrastructurePerspective.ocpCloud;
-      }
+    if (this.isOcpCloudAvailable()) {
+      return InfrastructurePerspective.ocpCloud;
     }
-    if (this.isAwsAvailable() && (hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders))) {
+    if (this.isAwsAvailable()) {
       return InfrastructurePerspective.aws;
     }
-    if (this.isAzureAvailable() && (hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders))) {
+    if (this.isAzureAvailable()) {
       return InfrastructurePerspective.azure;
     }
-    if (this.isGcpAvailable() && (hasCurrentMonthData(gcpProviders) || hasPreviousMonthData(gcpProviders))) {
+    if (this.isGcpAvailable()) {
       return InfrastructurePerspective.gcp;
     }
-    if (this.isIbmAvailable() && (hasCurrentMonthData(ibmProviders) || hasPreviousMonthData(ibmProviders))) {
+    if (this.isIbmAvailable()) {
       return InfrastructurePerspective.ibm;
     }
     return undefined;
@@ -333,51 +336,48 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getPerspective = () => {
-    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders } = this.props;
     const { currentInfrastructurePerspective, currentOcpPerspective } = this.state;
 
-    const aws = this.isAwsAvailable();
-    const azure = this.isAzureAvailable();
-    const gcp = this.isGcpAvailable();
-    const ibm = this.isIbmAvailable();
-    const ocp = this.isOcpAvailable();
+    const hasAws = this.isAwsAvailable();
+    const hasAzure = this.isAzureAvailable();
+    const hasGcp = this.isGcpAvailable();
+    const hasIbm = this.isIbmAvailable();
+    const hasOcp = this.isOcpAvailable();
 
-    if (!(aws || azure || gcp || ibm || ocp)) {
+    // Note: No need to test OCP on cloud here, since at least one provider is required
+    if (!(hasAws || hasAzure || hasGcp || hasIbm || hasOcp)) {
       return null;
     }
 
     // Dynamically show options if providers are available
     const options = [];
     if (this.getCurrentTab() === OverviewTab.infrastructure) {
-      const hasAwsProvider = hasCloudProvider(awsProviders, ocpProviders);
-      const hasAzureProvider = hasCloudProvider(azureProviders, ocpProviders);
-      const hasGcpProvider = hasCloudProvider(gcpProviders, ocpProviders);
-      const hasIbmProvider = hasCloudProvider(ibmProviders, ocpProviders);
-
-      if (hasAwsProvider || hasAzureProvider || hasGcpProvider || hasIbmProvider) {
+      if (this.isOcpCloudAvailable()) {
         options.push(...infrastructureOcpCloudOptions);
       }
-      if (aws) {
+      if (hasAws) {
         options.push(...infrastructureAwsOptions);
       }
-      if (hasAwsProvider) {
+      if (this.isAwsCloudAvailable()) {
         options.push(...infrastructureAwsOcpOptions);
       }
-      if (gcp) {
+      if (hasGcp) {
         options.push(...infrastructureGcpOptions);
       }
+
       // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
       //
-      // if (hasGcpProvider) {
+      // if (this.isGcpCloudAvailable()) {
       //   options.push(...infrastructureGcpOcpOptions);
       // }
-      if (ibm) {
+
+      if (hasIbm) {
         options.push(...infrastructureIbmOptions);
       }
-      if (azure) {
+      if (hasAzure) {
         options.push(...infrastructureAzureOptions);
       }
-      if (hasAzureProvider) {
+      if (this.isAzureCloudAvailable()) {
         options.push(...infrastructureAzureOcpOptions);
       }
     } else {
@@ -568,9 +568,19 @@ class OverviewBase extends React.Component<OverviewProps> {
     return isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus);
   };
 
+  private isAwsCloudAvailable = () => {
+    const { awsProviders, ocpProviders, userAccess } = this.props;
+    return hasAwsAccess(userAccess) && hasCloudProvider(awsProviders, ocpProviders);
+  };
+
   private isAzureAvailable = () => {
     const { azureProviders, azureProvidersFetchStatus, userAccess } = this.props;
     return isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus);
+  };
+
+  private isAzureCloudAvailable = () => {
+    const { azureProviders, ocpProviders, userAccess } = this.props;
+    return hasAzureAccess(userAccess) && hasCloudProvider(azureProviders, ocpProviders);
   };
 
   private isGcpAvailable = () => {
@@ -578,9 +588,19 @@ class OverviewBase extends React.Component<OverviewProps> {
     return isGcpAvailable(userAccess, gcpProviders, gcpProvidersFetchStatus);
   };
 
+  private isGcpCloudAvailable = () => {
+    const { gcpProviders, ocpProviders, userAccess } = this.props;
+    return hasGcpAccess(userAccess) && hasCloudProvider(gcpProviders, ocpProviders);
+  };
+
   private isIbmAvailable = () => {
     const { ibmProviders, ibmProvidersFetchStatus, ibmUserAccess } = this.props;
     return isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus);
+  };
+
+  private isIbmCloudAvailable = () => {
+    const { ibmProviders, ocpProviders, userAccess } = this.props;
+    return hasIbmAccess(userAccess) && hasCloudProvider(ibmProviders, ocpProviders);
   };
 
   private isOcpAvailable = () => {
@@ -589,7 +609,12 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isOcpCloudAvailable = () => {
-    return this.isAwsAvailable() && this.isOcpAvailable();
+    const hasAwsCloud = this.isAwsCloudAvailable();
+    const hasAzureCloud = this.isAzureCloudAvailable();
+    const hasGcpCloud = this.isGcpCloudAvailable();
+    const hasIbmCloud = this.isIbmCloudAvailable();
+
+    return hasAwsCloud || hasAzureCloud || hasGcpCloud || hasIbmCloud;
   };
 
   public render() {
