@@ -9,6 +9,7 @@ import { UserAccess } from 'api/userAccess';
 import { ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartDatumUtils';
 import { format } from 'date-fns';
 import messages from 'locales/messages';
+import { hasCloudProvider } from 'pages/views/utils/providers';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
@@ -16,7 +17,6 @@ import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIb
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate, getLast90DaysDate } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
-import { hasCloudProvider } from 'pages/views/utils/providers';
 import {
   hasAwsAccess,
   hasAzureAccess,
