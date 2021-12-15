@@ -91,10 +91,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   }
 
   public componentDidUpdate(prevProps: DashboardWidgetProps) {
-    const { costType, fetchReports, widgetId } = this.props;
+    const { costType, fetchReports, fetchForecasts, trend, widgetId } = this.props;
 
     if (prevProps.costType !== costType) {
       fetchReports(widgetId);
+      if (trend.computedForecastItem !== undefined) {
+        fetchForecasts(widgetId);
+      }
     }
   }
 

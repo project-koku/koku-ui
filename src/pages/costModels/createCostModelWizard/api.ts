@@ -7,14 +7,15 @@ export const fetchSources = ({ type, page, perPage, query }) => {
     (acc, cur) => (acc ? `${acc}&${cur}=${query[cur]}` : `${cur}=${query[cur]}`),
     ''
   );
-  return fetchProviders(`type=${type}&limit=${limit}&offset=${offset}&${queryParam}`)
-    .then(sources => sources.data.data)
-    .then(sources => {
-      return sources.map(src => ({
-        name: src.name,
-        uuid: src.uuid,
-        costmodel: src.cost_models.map(cm => cm.name).join(','),
-        selected: false,
-      }));
-    });
+  return fetchProviders(`type=${type}&limit=${limit}&offset=${offset}&${queryParam}`).then(sources => {
+    const payload = sources.data;
+    return payload.data.map(src => ({
+      name: src.name,
+      uuid: src.uuid,
+      costmodel: src.cost_models.map(cm => cm.name).join(','),
+      meta: payload.meta,
+    }));
+  });
 };
+
+// .then(sources => sources.data.data)

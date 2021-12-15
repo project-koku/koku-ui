@@ -47,14 +47,20 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
 
     const onSelect = (_evt, isSelected, rowId) => {
       if (rowId === -1) {
-        const newState = this.props.providers.reduce((acc, cur) => {
+        const pageSelections = this.props.providers.reduce((acc, cur) => {
+          // If assigned to another cost model, maintain original selection
+          const isAssigned =
+            cur.cost_models.length && cur.cost_models.find(cm => cm.name === costModel.name) === undefined;
           const selected = this.props.checked[cur.uuid] ? this.props.checked[cur.uuid].selected : false;
-          const disabled = cur.cost_models.length > 0;
           return {
             ...acc,
-            [cur.uuid]: { selected: disabled ? selected : isSelected, meta: cur, disabled },
+            [cur.uuid]: { selected: isAssigned ? selected : isSelected, meta: cur, isAssigned },
           };
         }, {});
+        const newState = {
+          ...this.props.checked,
+          ...pageSelections,
+        };
         this.props.setState(
           newState as {
             [uuid: string]: { selected: boolean; meta: Provider };
@@ -77,14 +83,16 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         providerData.cost_models === undefined
           ? intl.formatMessage(messages.CostModelsWizardSourceTableDefaultCostModel)
           : providerData.cost_models.map(cm => cm.name).join(',');
-      const warningIcon =
+      const isAssigned =
         providerData.cost_models.length &&
-        providerData.cost_models.find(cm => cm.name === costModel.name) === undefined ? (
-          <WarningIcon
-            key={providerData.uuid}
-            text={intl.formatMessage(messages.CostModelsWizardSourceWarning, { costModel: provCostModels })}
-          />
-        ) : null;
+        providerData.cost_models.find(cm => cm.name === costModel.name) === undefined;
+      // If assigned to another cost model, show warning
+      const warningIcon = isAssigned ? (
+        <WarningIcon
+          key={providerData.uuid}
+          text={intl.formatMessage(messages.CostModelsWizardSourceWarning, { costModel: provCostModels })}
+        />
+      ) : null;
       const cellName = (
         <div key={providerData.uuid}>
           {providerData.name} {warningIcon}
@@ -93,7 +101,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
       return {
         cells: [cellName, provCostModels || ''],
         selected: isSelected,
-        disableSelection: providerData.cost_models.length > 0,
+        disableSelection: isAssigned,
       };
     });
 
