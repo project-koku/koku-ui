@@ -267,15 +267,15 @@ class OverviewBase extends React.Component<OverviewProps> {
   private getCurrentTab = () => {
     const { activeTabKey } = this.state;
 
-    const aws = this.isAwsAvailable();
-    const azure = this.isAzureAvailable();
-    const gcp = this.isGcpAvailable();
-    const ibm = this.isIbmAvailable();
-    const ocp = this.isOcpAvailable();
-    const ocpCloud = this.isOcpCloudAvailable();
+    const hasAws = this.isAwsAvailable();
+    const hasAzure = this.isAzureAvailable();
+    const hasGcp = this.isGcpAvailable();
+    const hasIbm = this.isIbmAvailable();
+    const hasOcp = this.isOcpAvailable();
+    const hasOcpCloud = this.isOcpCloudAvailable();
 
-    const showOcpOnly = ocp && !(aws || azure || gcp || ibm || ocpCloud);
-    const showInfrastructureOnly = !ocp && (aws || azure || gcp || ibm || ocpCloud);
+    const showOcpOnly = hasOcp && !(hasAws || hasAzure || hasGcp || hasIbm || hasOcpCloud);
+    const showInfrastructureOnly = !hasOcp && (hasAws || hasAzure || hasGcp || hasIbm || hasOcpCloud);
 
     if (showOcpOnly) {
       return OverviewTab.ocp;
@@ -287,7 +287,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getDefaultInfrastructurePerspective = () => {
-    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders, perspective } = this.props;
+    const { perspective } = this.props;
 
     // Upon page refresh, perspective param takes precedence
     switch (perspective) {
@@ -302,15 +302,8 @@ class OverviewBase extends React.Component<OverviewProps> {
         return perspective;
     }
 
-    if (this.isOcpAvailable()) {
-      const hasAwsProvider = hasCloudProvider(awsProviders, ocpProviders);
-      const hasAzureProvider = hasCloudProvider(azureProviders, ocpProviders);
-      const hasGcpProvider = hasCloudProvider(gcpProviders, ocpProviders);
-      const hasIbmProvider = hasCloudProvider(ibmProviders, ocpProviders);
-
-      if (hasAwsProvider || hasAzureProvider || hasGcpProvider || hasIbmProvider) {
-        return InfrastructurePerspective.ocpCloud;
-      }
+    if (this.isOcpCloudAvailable()) {
+      return InfrastructurePerspective.ocpCloud;
     }
     if (this.isAwsAvailable()) {
       return InfrastructurePerspective.aws;
@@ -345,50 +338,46 @@ class OverviewBase extends React.Component<OverviewProps> {
   private getPerspective = () => {
     const { currentInfrastructurePerspective, currentOcpPerspective } = this.state;
 
-    const aws = this.isAwsAvailable();
-    const azure = this.isAzureAvailable();
-    const gcp = this.isGcpAvailable();
-    const ibm = this.isIbmAvailable();
-    const ocp = this.isOcpAvailable();
+    const hasAws = this.isAwsAvailable();
+    const hasAzure = this.isAzureAvailable();
+    const hasGcp = this.isGcpAvailable();
+    const hasIbm = this.isIbmAvailable();
+    const hasOcp = this.isOcpAvailable();
 
     // Note: No need to test OCP on cloud here, since at least one provider is required
-    if (!(aws || azure || gcp || ibm || ocp)) {
+    if (!(hasAws || hasAzure || hasGcp || hasIbm || hasOcp)) {
       return null;
     }
 
     // Dynamically show options if providers are available
     const options = [];
     if (this.getCurrentTab() === OverviewTab.infrastructure) {
-      const awsCloud = this.isAwsCloudAvailable();
-      const azureCloud = this.isAzureCloudAvailable();
-      const ocpCloud = this.isOcpCloudAvailable();
-
-      if (ocpCloud) {
+      if (this.isOcpCloudAvailable()) {
         options.push(...infrastructureOcpCloudOptions);
       }
-      if (aws) {
+      if (hasAws) {
         options.push(...infrastructureAwsOptions);
       }
-      if (awsCloud) {
+      if (this.isAwsCloudAvailable()) {
         options.push(...infrastructureAwsOcpOptions);
       }
-      if (gcp) {
+      if (hasGcp) {
         options.push(...infrastructureGcpOptions);
       }
 
       // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
       //
-      // if (gcpCloud) {
+      // if (this.isGcpCloudAvailable()) {
       //   options.push(...infrastructureGcpOcpOptions);
       // }
 
-      if (ibm) {
+      if (hasIbm) {
         options.push(...infrastructureIbmOptions);
       }
-      if (azure) {
+      if (hasAzure) {
         options.push(...infrastructureAzureOptions);
       }
-      if (azureCloud) {
+      if (this.isAzureCloudAvailable()) {
         options.push(...infrastructureAzureOcpOptions);
       }
     } else {
@@ -620,12 +609,12 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isOcpCloudAvailable = () => {
-    const awsCloud = this.isAwsCloudAvailable();
-    const azureCloud = this.isAzureCloudAvailable();
-    const gcpCloud = this.isGcpCloudAvailable();
-    const ibmCloud = this.isIbmCloudAvailable();
+    const hasAwsCloud = this.isAwsCloudAvailable();
+    const hasAzureCloud = this.isAzureCloudAvailable();
+    const hasGcpCloud = this.isGcpCloudAvailable();
+    const hasIbmCloud = this.isIbmCloudAvailable();
 
-    return awsCloud || azureCloud || gcpCloud || ibmCloud;
+    return hasAwsCloud || hasAzureCloud || hasGcpCloud || hasIbmCloud;
   };
 
   public render() {
