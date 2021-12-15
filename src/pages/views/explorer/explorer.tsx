@@ -612,15 +612,10 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
 
   const perspective = getPerspectiveDefault({
     awsProviders,
-    awsProvidersFetchStatus,
     azureProviders,
-    azureProvidersFetchStatus,
     gcpProviders,
-    gcpProvidersFetchStatus,
     ibmProviders,
-    ibmProvidersFetchStatus,
     ocpProviders,
-    ocpProvidersFetchStatus,
     queryFromRoute,
     userAccess,
   });
