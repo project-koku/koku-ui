@@ -321,7 +321,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getDefaultOcpPerspective = () => {
-    const { ocpProviders, ocpProvidersFetchStatus, perspective, userAccess } = this.props;
+    const { ocpProviders, perspective, userAccess } = this.props;
 
     // Upon page refresh, perspective param takes precedence
     switch (perspective) {
@@ -329,7 +329,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         return perspective;
     }
 
-    if (isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)) {
+    if (isOcpAvailable(userAccess, ocpProviders)) {
       return OcpPerspective.ocp;
     }
     return undefined;
@@ -344,7 +344,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const hasIbm = this.isIbmAvailable();
     const hasOcp = this.isOcpAvailable();
 
-    // Note: No need to test OCP on cloud here, since at least one provider is required
+    // Note: No need to test OCP on cloud here, since that requires at least one provider
     if (!(hasAws || hasAzure || hasGcp || hasIbm || hasOcp)) {
       return null;
     }
@@ -564,8 +564,8 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isAwsAvailable = () => {
-    const { awsProviders, awsProvidersFetchStatus, userAccess } = this.props;
-    return isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus);
+    const { awsProviders, userAccess } = this.props;
+    return isAwsAvailable(userAccess, awsProviders);
   };
 
   private isAwsCloudAvailable = () => {
@@ -574,8 +574,8 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isAzureAvailable = () => {
-    const { azureProviders, azureProvidersFetchStatus, userAccess } = this.props;
-    return isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus);
+    const { azureProviders, userAccess } = this.props;
+    return isAzureAvailable(userAccess, azureProviders);
   };
 
   private isAzureCloudAvailable = () => {
@@ -584,8 +584,8 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isGcpAvailable = () => {
-    const { gcpProviders, gcpProvidersFetchStatus, userAccess } = this.props;
-    return isGcpAvailable(userAccess, gcpProviders, gcpProvidersFetchStatus);
+    const { gcpProviders, userAccess } = this.props;
+    return isGcpAvailable(userAccess, gcpProviders);
   };
 
   private isGcpCloudAvailable = () => {
@@ -594,8 +594,8 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isIbmAvailable = () => {
-    const { ibmProviders, ibmProvidersFetchStatus, ibmUserAccess } = this.props;
-    return isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus);
+    const { ibmProviders, ibmUserAccess } = this.props;
+    return isIbmAvailable(ibmUserAccess, ibmProviders);
   };
 
   private isIbmCloudAvailable = () => {
@@ -604,8 +604,8 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isOcpAvailable = () => {
-    const { ocpProviders, ocpProvidersFetchStatus, userAccess } = this.props;
-    return isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus);
+    const { ocpProviders, userAccess } = this.props;
+    return isOcpAvailable(userAccess, ocpProviders);
   };
 
   private isOcpCloudAvailable = () => {
@@ -627,7 +627,15 @@ class OverviewBase extends React.Component<OverviewProps> {
       ocpProvidersFetchStatus,
       userAccessFetchStatus,
     } = this.props;
-    const availableTabs = this.getAvailableTabs();
+
+    // Note: No need to test OCP on cloud here, since that requires at least one provider
+    const noAwsProviders = !this.isAwsAvailable() && awsProvidersFetchStatus === FetchStatus.complete;
+    const noAzureProviders = !this.isAzureAvailable() && azureProvidersFetchStatus === FetchStatus.complete;
+    const noGcpProviders = !this.isGcpAvailable() && gcpProvidersFetchStatus === FetchStatus.complete;
+    const noIbmProviders = !this.isIbmAvailable() && ibmProvidersFetchStatus === FetchStatus.complete;
+    const noOcpProviders = !this.isOcpAvailable() && ocpProvidersFetchStatus === FetchStatus.complete;
+    const noProviders = noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders;
+
     const isLoading =
       awsProvidersFetchStatus === FetchStatus.inProgress ||
       azureProvidersFetchStatus === FetchStatus.inProgress ||
@@ -636,20 +644,13 @@ class OverviewBase extends React.Component<OverviewProps> {
       ocpProvidersFetchStatus === FetchStatus.inProgress ||
       userAccessFetchStatus === FetchStatus.inProgress;
 
-    // Test for no providers
-    const noAwsProviders = !this.isAwsAvailable() && awsProvidersFetchStatus === FetchStatus.complete;
-    const noAzureProviders = !this.isAzureAvailable() && azureProvidersFetchStatus === FetchStatus.complete;
-    const noGcpProviders = !this.isGcpAvailable() && gcpProvidersFetchStatus === FetchStatus.complete;
-    const noIbmProviders = !this.isIbmAvailable() && ibmProvidersFetchStatus === FetchStatus.complete;
-    const noOcpProviders = !this.isOcpAvailable() && ocpProvidersFetchStatus === FetchStatus.complete;
-    const noProviders = noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders;
-
+    const availableTabs = this.getAvailableTabs();
     const title = intl.formatMessage(messages.OverviewTitle);
 
-    if (noProviders) {
-      return <NoProviders title={title} />;
-    } else if (isLoading) {
+    if (isLoading) {
       return <Loading title={title} />;
+    } else if (noProviders) {
+      return <NoProviders title={title} />;
     }
     return (
       <>

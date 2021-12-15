@@ -29,7 +29,17 @@ import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerRepo
 import { getLast60DaysDate } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
 import { getCostType } from 'utils/localStorage';
-import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
+import {
+  hasAwsAccess,
+  hasAzureAccess,
+  hasGcpAccess,
+  hasIbmAccess,
+  isAwsAvailable,
+  isAzureAvailable,
+  isGcpAvailable,
+  isIbmAvailable,
+  isOcpAvailable,
+} from 'utils/userAccess';
 
 import { ExplorerFilter } from './explorerFilter';
 import { styles } from './explorerHeader.styles';
@@ -123,53 +133,50 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   }
 
   private getPerspective = (isDisabled: boolean) => {
-    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders } = this.props;
     const { currentPerspective } = this.state;
 
-    const aws = this.isAwsAvailable();
-    const azure = this.isAzureAvailable();
-    const gcp = this.isGcpAvailable();
-    const ibm = this.isIbmAvailable();
-    const ocp = this.isOcpAvailable();
+    const hasAws = this.isAwsAvailable();
+    const hasAzure = this.isAzureAvailable();
+    const hasGcp = this.isGcpAvailable();
+    const hasIbm = this.isIbmAvailable();
+    const hasOcp = this.isOcpAvailable();
 
-    if (!(aws || azure || gcp || ibm || ocp)) {
+    // Note: No need to test OCP on cloud here, since that requires at least one provider
+    if (!(hasAws || hasAzure || hasGcp || hasIbm || hasOcp)) {
       return null;
     }
 
-    const hasAwsProvider = hasCloudProvider(awsProviders, ocpProviders);
-    const hasAzureProvider = hasCloudProvider(azureProviders, ocpProviders);
-    const hasGcpProvider = hasCloudProvider(gcpProviders, ocpProviders);
-    const hasIbmProvider = hasCloudProvider(ibmProviders, ocpProviders);
-
     // Dynamically show options if providers are available
     const options = [];
-    if (ocp) {
+    if (hasOcp) {
       options.push(...ocpOptions);
     }
-    if (hasAwsProvider || hasAzureProvider || hasGcpProvider || hasIbmProvider) {
+    if (this.isOcpCloudAvailable()) {
       options.push(...infrastructureOcpCloudOptions);
     }
-    if (aws) {
+    if (hasAws) {
       options.push(...infrastructureAwsOptions);
     }
-    if (hasAwsProvider) {
+    if (this.isAwsCloudAvailable()) {
       options.push(...infrastructureAwsOcpOptions);
     }
-    if (gcp) {
+    if (hasGcp) {
       options.push(...infrastructureGcpOptions);
     }
+
     // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
     //
-    // if (hasGcpProvider) {
+    // if (this.isGcpCloudAvailable()) {
     //   options.push(...infrastructureGcpOcpOptions);
     // }
-    if (ibm) {
+
+    if (hasIbm) {
       options.push(...infrastructureIbmOptions);
     }
-    if (azure) {
+    if (hasAzure) {
       options.push(...infrastructureAzureOptions);
     }
-    if (hasAzureProvider) {
+    if (this.isAzureCloudAvailable()) {
       options.push(...infrastructureAzureOcpOptions);
     }
 
@@ -214,61 +221,82 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   };
 
   private isAwsAvailable = () => {
-    const { awsProviders, awsProvidersFetchStatus, userAccess } = this.props;
-    return isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus);
+    const { awsProviders, userAccess } = this.props;
+    return isAwsAvailable(userAccess, awsProviders);
+  };
+
+  private isAwsCloudAvailable = () => {
+    const { awsProviders, ocpProviders, userAccess } = this.props;
+    return hasAwsAccess(userAccess) && hasCloudProvider(awsProviders, ocpProviders);
   };
 
   private isAzureAvailable = () => {
-    const { azureProviders, azureProvidersFetchStatus, userAccess } = this.props;
-    return isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus);
+    const { azureProviders, userAccess } = this.props;
+    return isAzureAvailable(userAccess, azureProviders);
+  };
+
+  private isAzureCloudAvailable = () => {
+    const { azureProviders, ocpProviders, userAccess } = this.props;
+    return hasAzureAccess(userAccess) && hasCloudProvider(azureProviders, ocpProviders);
   };
 
   private isGcpAvailable = () => {
-    const { gcpProviders, gcpProvidersFetchStatus, userAccess } = this.props;
-    return isGcpAvailable(userAccess, gcpProviders, gcpProvidersFetchStatus);
+    const { gcpProviders, userAccess } = this.props;
+    return isGcpAvailable(userAccess, gcpProviders);
+  };
+
+  private isGcpCloudAvailable = () => {
+    const { gcpProviders, ocpProviders, userAccess } = this.props;
+    return hasGcpAccess(userAccess) && hasCloudProvider(gcpProviders, ocpProviders);
   };
 
   private isIbmAvailable = () => {
-    const { ibmProviders, ibmProvidersFetchStatus, ibmUserAccess } = this.props;
-    return isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus);
+    const { ibmProviders, ibmUserAccess } = this.props;
+    return isIbmAvailable(ibmUserAccess, ibmProviders);
+  };
+
+  private isIbmCloudAvailable = () => {
+    const { ibmProviders, ocpProviders, userAccess } = this.props;
+    return hasIbmAccess(userAccess) && hasCloudProvider(ibmProviders, ocpProviders);
   };
 
   private isOcpAvailable = () => {
-    const { ocpProviders, ocpProvidersFetchStatus, userAccess } = this.props;
-    return isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus);
+    const { ocpProviders, userAccess } = this.props;
+    return isOcpAvailable(userAccess, ocpProviders);
+  };
+
+  private isOcpCloudAvailable = () => {
+    const hasAwsCloud = this.isAwsCloudAvailable();
+    const hasAzureCloud = this.isAzureCloudAvailable();
+    const hasGcpCloud = this.isGcpCloudAvailable();
+    const hasIbmCloud = this.isIbmCloudAvailable();
+
+    return hasAwsCloud || hasAzureCloud || hasGcpCloud || hasIbmCloud;
   };
 
   public render() {
     const {
-      awsProviders,
-      azureProviders,
-      gcpProviders,
-      ibmProviders,
-      ocpProviders,
       awsProvidersFetchStatus,
       azureProvidersFetchStatus,
-      ibmProvidersFetchStatus,
-      ibmUserAccess,
-      groupBy,
       gcpProvidersFetchStatus,
+      ibmProvidersFetchStatus,
       ocpProvidersFetchStatus,
+      groupBy,
+      intl,
       onFilterAdded,
       onFilterRemoved,
       onGroupBySelected,
       perspective,
       query,
-      intl,
-      userAccess,
     } = this.props;
 
-    // Test for no providers
-    const noProviders = !(
-      isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus) ||
-      isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus) ||
-      isGcpAvailable(userAccess, gcpProviders, gcpProvidersFetchStatus) ||
-      isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus) ||
-      isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)
-    );
+    // Note: No need to test OCP on cloud here, since that requires at least one provider
+    const noAwsProviders = !this.isAwsAvailable() && awsProvidersFetchStatus === FetchStatus.complete;
+    const noAzureProviders = !this.isAzureAvailable() && azureProvidersFetchStatus === FetchStatus.complete;
+    const noGcpProviders = !this.isGcpAvailable() && gcpProvidersFetchStatus === FetchStatus.complete;
+    const noIbmProviders = !this.isIbmAvailable() && ibmProvidersFetchStatus === FetchStatus.complete;
+    const noOcpProviders = !this.isOcpAvailable() && ocpProvidersFetchStatus === FetchStatus.complete;
+    const noProviders = noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders;
 
     const groupByOptions = getGroupByOptions(perspective);
     const orgReportPathsType = getOrgReportPathsType(perspective);

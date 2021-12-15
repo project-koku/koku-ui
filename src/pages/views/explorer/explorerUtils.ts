@@ -240,15 +240,15 @@ export const getPerspectiveDefault = ({
     ocpProvidersFetchStatus === FetchStatus.inProgress;
 
   if (!isLoading) {
-    if (isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)) {
+    if (isOcpAvailable(userAccess, ocpProviders)) {
       result = PerspectiveType.ocp;
-    } else if (isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus)) {
+    } else if (isAwsAvailable(userAccess, awsProviders)) {
       result = PerspectiveType.aws;
-    } else if (isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus)) {
+    } else if (isAzureAvailable(userAccess, azureProviders)) {
       result = PerspectiveType.azure;
-    } else if (isGcpAvailable(userAccess, gcpProviders, gcpProvidersFetchStatus)) {
+    } else if (isGcpAvailable(userAccess, gcpProviders)) {
       result = PerspectiveType.gcp;
-    } else if (isIbmAvailable(userAccess, ibmProviders, ibmProvidersFetchStatus)) {
+    } else if (isIbmAvailable(userAccess, ibmProviders)) {
       result = PerspectiveType.ibm;
     }
   }

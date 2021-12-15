@@ -395,6 +395,31 @@ class Explorer extends React.Component<ExplorerProps> {
     history.replace(filteredQuery);
   };
 
+  private isAwsAvailable = () => {
+    const { awsProviders, userAccess } = this.props;
+    return isAwsAvailable(userAccess, awsProviders);
+  };
+
+  private isAzureAvailable = () => {
+    const { azureProviders, userAccess } = this.props;
+    return isAzureAvailable(userAccess, azureProviders);
+  };
+
+  private isGcpAvailable = () => {
+    const { gcpProviders, userAccess } = this.props;
+    return isGcpAvailable(userAccess, gcpProviders);
+  };
+
+  private isIbmAvailable = () => {
+    const { ibmProviders, ibmUserAccess } = this.props;
+    return isIbmAvailable(ibmUserAccess, ibmProviders);
+  };
+
+  private isOcpAvailable = () => {
+    const { ocpProviders, userAccess } = this.props;
+    return isOcpAvailable(userAccess, ocpProviders);
+  };
+
   private updateReport = () => {
     const { dateRange, fetchReport, history, location, perspective, query, queryString } = this.props;
     if (!location.search) {
@@ -421,8 +446,8 @@ class Explorer extends React.Component<ExplorerProps> {
       gcpProvidersFetchStatus,
       ibmProviders,
       ibmProvidersFetchStatus,
-      ibmUserAccess,
       ibmUserAccessFetchStatus,
+      intl,
       ocpProviders,
       ocpProvidersFetchStatus,
       perspective,
@@ -431,9 +456,15 @@ class Explorer extends React.Component<ExplorerProps> {
       report,
       reportError,
       reportFetchStatus,
-      intl,
-      userAccess,
     } = this.props;
+
+    // Note: No need to test OCP on cloud here, since that requires at least one provider
+    const noAwsProviders = !this.isAwsAvailable() && awsProvidersFetchStatus === FetchStatus.complete;
+    const noAzureProviders = !this.isAzureAvailable() && azureProvidersFetchStatus === FetchStatus.complete;
+    const noGcpProviders = !this.isGcpAvailable() && gcpProvidersFetchStatus === FetchStatus.complete;
+    const noIbmProviders = !this.isIbmAvailable() && ibmProvidersFetchStatus === FetchStatus.complete;
+    const noOcpProviders = !this.isOcpAvailable() && ocpProvidersFetchStatus === FetchStatus.complete;
+    const noProviders = noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders;
 
     const isLoading =
       awsProvidersFetchStatus === FetchStatus.inProgress ||
@@ -449,15 +480,6 @@ class Explorer extends React.Component<ExplorerProps> {
     const computedItems = this.getComputedItems();
     const itemsTotal = report && report.meta ? report.meta.count : 0;
     const title = intl.formatMessage(messages.ExplorerTitle);
-
-    // Test for no providers
-    const noProviders = !(
-      isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus) ||
-      isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus) ||
-      isGcpAvailable(userAccess, gcpProviders, gcpProvidersFetchStatus) ||
-      isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus) ||
-      isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)
-    );
 
     // Note: Providers are fetched via the InactiveSources component used by all routes
     if (reportError) {
