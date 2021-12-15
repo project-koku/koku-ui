@@ -214,28 +214,28 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   };
 
   private isAwsAvailable = () => {
-    const { awsProviders, awsProvidersFetchStatus, userAccess } = this.props;
-    return isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus);
+    const { awsProviders, userAccess } = this.props;
+    return isAwsAvailable(userAccess, awsProviders);
   };
 
   private isAzureAvailable = () => {
-    const { azureProviders, azureProvidersFetchStatus, userAccess } = this.props;
-    return isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus);
+    const { azureProviders, userAccess } = this.props;
+    return isAzureAvailable(userAccess, azureProviders);
   };
 
   private isGcpAvailable = () => {
-    const { gcpProviders, gcpProvidersFetchStatus, userAccess } = this.props;
-    return isGcpAvailable(userAccess, gcpProviders, gcpProvidersFetchStatus);
+    const { gcpProviders, userAccess } = this.props;
+    return isGcpAvailable(userAccess, gcpProviders);
   };
 
   private isIbmAvailable = () => {
-    const { ibmProviders, ibmProvidersFetchStatus, ibmUserAccess } = this.props;
-    return isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus);
+    const { ibmProviders, ibmUserAccess } = this.props;
+    return isIbmAvailable(ibmUserAccess, ibmProviders);
   };
 
   private isOcpAvailable = () => {
-    const { ocpProviders, ocpProvidersFetchStatus, userAccess } = this.props;
-    return isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus);
+    const { ocpProviders, userAccess } = this.props;
+    return isOcpAvailable(userAccess, ocpProviders);
   };
 
   public render() {
@@ -245,13 +245,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       gcpProviders,
       ibmProviders,
       ocpProviders,
-      awsProvidersFetchStatus,
-      azureProvidersFetchStatus,
-      ibmProvidersFetchStatus,
       ibmUserAccess,
       groupBy,
-      gcpProvidersFetchStatus,
-      ocpProvidersFetchStatus,
       onFilterAdded,
       onFilterRemoved,
       onGroupBySelected,
@@ -263,11 +258,11 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
     // Test for no providers
     const noProviders = !(
-      isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus) ||
-      isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus) ||
-      isGcpAvailable(userAccess, gcpProviders, gcpProvidersFetchStatus) ||
-      isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus) ||
-      isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)
+      isAwsAvailable(userAccess, awsProviders) ||
+      isAzureAvailable(userAccess, azureProviders) ||
+      isGcpAvailable(userAccess, gcpProviders) ||
+      isIbmAvailable(ibmUserAccess, ibmProviders) ||
+      isOcpAvailable(userAccess, ocpProviders)
     );
 
     const groupByOptions = getGroupByOptions(perspective);

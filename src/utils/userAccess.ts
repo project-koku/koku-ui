@@ -1,9 +1,9 @@
 import { Providers } from 'api/providers';
 import { UserAccess, UserAccessType } from 'api/userAccess';
-import { FetchStatus } from 'store/common';
 
 const hasAccess = (userAccess: UserAccess, userAccessType: UserAccessType) => {
   let result = false;
+
   if (userAccess && Array.isArray(userAccess.data)) {
     // Used with multiple types (e.g., type=)
     const data = (userAccess.data as any).find(d => d.type === userAccessType);
@@ -15,11 +15,12 @@ const hasAccess = (userAccess: UserAccess, userAccessType: UserAccessType) => {
   return result;
 };
 
-const hasProviders = (providers: Providers, providersFetchStatus: FetchStatus) => {
+const hasProviders = (providers: Providers) => {
   let result = false;
-  if (providersFetchStatus === FetchStatus.complete) {
+
+  if (providers && providers.meta) {
     // providers API returns empty data array for no sources
-    result = providers !== undefined && providers.meta !== undefined && providers.meta.count > 0;
+    result = providers.meta.count > 0;
   }
   return result;
 };
@@ -30,12 +31,8 @@ export const hasAwsAccess = (userAccess: UserAccess) => {
 };
 
 // Returns true if user has access to AWS and at least one source provider
-export const isAwsAvailable = (
-  userAccess: UserAccess,
-  awsProviders: Providers,
-  awsProvidersFetchStatus: FetchStatus
-) => {
-  return hasAwsAccess(userAccess) && hasProviders(awsProviders, awsProvidersFetchStatus);
+export const isAwsAvailable = (userAccess: UserAccess, awsProviders: Providers) => {
+  return hasAwsAccess(userAccess) && hasProviders(awsProviders);
 };
 
 // Returns true if user has access to Azure
@@ -44,12 +41,8 @@ export const hasAzureAccess = (userAccess: UserAccess) => {
 };
 
 // Returns true if user has access to Azure and at least one source provider
-export const isAzureAvailable = (
-  userAccess: UserAccess,
-  azureProviders: Providers,
-  azureProvidersFetchStatus: FetchStatus
-) => {
-  return hasAzureAccess(userAccess) && hasProviders(azureProviders, azureProvidersFetchStatus);
+export const isAzureAvailable = (userAccess: UserAccess, azureProviders: Providers) => {
+  return hasAzureAccess(userAccess) && hasProviders(azureProviders);
 };
 
 // Returns true if user has access to cost models
@@ -63,12 +56,8 @@ export const hasGcpAccess = (userAccess: UserAccess) => {
 };
 
 // Returns true if user has access to GCP and at least one source provider
-export const isGcpAvailable = (
-  userAccess: UserAccess,
-  gcpProviders: Providers,
-  gcpsProvidersFetchStatus: FetchStatus
-) => {
-  return hasAccess(userAccess, UserAccessType.gcp) && hasProviders(gcpProviders, gcpsProvidersFetchStatus);
+export const isGcpAvailable = (userAccess: UserAccess, gcpProviders: Providers) => {
+  return hasAccess(userAccess, UserAccessType.gcp) && hasProviders(gcpProviders);
 };
 
 // Returns true if user has access to IBM
@@ -77,12 +66,8 @@ export const hasIbmAccess = (userAccess: UserAccess) => {
 };
 
 // Returns true if user has access to IBM and at least one source provider
-export const isIbmAvailable = (
-  userAccess: UserAccess,
-  ibmProviders: Providers,
-  ibmProvidersFetchStatus: FetchStatus
-) => {
-  return hasIbmAccess(userAccess) && hasProviders(ibmProviders, ibmProvidersFetchStatus);
+export const isIbmAvailable = (userAccess: UserAccess, ibmProviders: Providers) => {
+  return hasIbmAccess(userAccess) && hasProviders(ibmProviders);
 };
 
 // Returns true if user has access to OCP
@@ -91,10 +76,6 @@ export const hasOcpAccess = (userAccess: UserAccess) => {
 };
 
 // Returns true if user has access to OCP and at least one source provider
-export const isOcpAvailable = (
-  userAccess: UserAccess,
-  ocpProviders: Providers,
-  ocpProvidersFetchStatus: FetchStatus
-) => {
-  return hasOcpAccess(userAccess) && hasProviders(ocpProviders, ocpProvidersFetchStatus);
+export const isOcpAvailable = (userAccess: UserAccess, ocpProviders: Providers) => {
+  return hasOcpAccess(userAccess) && hasProviders(ocpProviders);
 };

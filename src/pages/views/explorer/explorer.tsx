@@ -450,13 +450,13 @@ class Explorer extends React.Component<ExplorerProps> {
     const itemsTotal = report && report.meta ? report.meta.count : 0;
     const title = intl.formatMessage(messages.ExplorerTitle);
 
-    // Test for no providers
+    // Note: No need to test OCP on cloud here, since that requires at least one provider
     const noProviders = !(
-      isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus) ||
-      isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus) ||
-      isGcpAvailable(userAccess, gcpProviders, gcpProvidersFetchStatus) ||
-      isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus) ||
-      isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)
+      isAwsAvailable(userAccess, awsProviders) ||
+      isAzureAvailable(userAccess, azureProviders) ||
+      isGcpAvailable(userAccess, gcpProviders) ||
+      isIbmAvailable(ibmUserAccess, ibmProviders) ||
+      isOcpAvailable(userAccess, ocpProviders)
     );
 
     // Note: Providers are fetched via the InactiveSources component used by all routes
