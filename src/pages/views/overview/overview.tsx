@@ -647,10 +647,10 @@ class OverviewBase extends React.Component<OverviewProps> {
     const availableTabs = this.getAvailableTabs();
     const title = intl.formatMessage(messages.OverviewTitle);
 
-    if (noProviders) {
-      return <NoProviders title={title} />;
-    } else if (isLoading) {
+    if (isLoading) {
       return <Loading title={title} />;
+    } else if (noProviders) {
+      return <NoProviders title={title}/>;
     }
     return (
       <>

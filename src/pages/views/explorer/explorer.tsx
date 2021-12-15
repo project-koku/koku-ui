@@ -484,10 +484,10 @@ class Explorer extends React.Component<ExplorerProps> {
     // Note: Providers are fetched via the InactiveSources component used by all routes
     if (reportError) {
       return <NotAvailable title={title} />;
-    } else if (noProviders) {
-      return <NoProviders title={title} />;
     } else if (isLoading) {
       return <Loading title={title} />;
+    } else if (noProviders) {
+      return <NoProviders title={title} />;
     } else if (
       !(
         hasData(awsProviders) ||
