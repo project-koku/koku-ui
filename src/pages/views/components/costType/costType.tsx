@@ -1,14 +1,13 @@
 import './costType.scss';
 
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Select, SelectOption, SelectOptionObject, SelectVariant, Title } from '@patternfly/react-core';
 import { CostType } from 'api/costType';
-import { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
-import { createMapStateToProps, FetchStatus } from 'store/common';
-import { costTypeSelectors } from 'store/costType';
+import { createMapStateToProps } from 'store/common';
 import { CostTypes, getCostType, setCostType } from 'utils/localStorage';
 
 import { styles } from './costType.styles';
@@ -23,9 +22,7 @@ interface CostTypeDispatchProps {
 }
 
 interface CostTypeStateProps {
-  costType: CostType;
-  costTypeError: AxiosError;
-  costTypeFetchStatus?: FetchStatus;
+  // TBD...
 }
 
 interface CostTypeState {
@@ -39,6 +36,16 @@ interface CostTypeOption extends SelectOptionObject {
 }
 
 type CostTypeProps = CostTypeOwnProps & CostTypeDispatchProps & CostTypeStateProps & WrappedComponentProps;
+
+const costTypeOptions: {
+  desc: MessageDescriptor;
+  label: MessageDescriptor;
+  value: string;
+}[] = [
+  { desc: messages.CostTypeAmortizedDesc, label: messages.CostTypeAmortized, value: CostTypes.amortized },
+  { desc: messages.CostTypeBlendedDesc, label: messages.CostTypeBlended, value: CostTypes.blended },
+  { desc: messages.CostTypeUnblendedDesc, label: messages.CostTypeUnblended, value: CostTypes.unblended },
+];
 
 class CostTypeBase extends React.Component<CostTypeProps> {
   protected defaultState: CostTypeState = {
@@ -73,43 +80,17 @@ class CostTypeBase extends React.Component<CostTypeProps> {
   };
 
   private getSelectOptions = (): CostTypeOption[] => {
-    const { costType, intl } = this.props;
+    const { intl } = this.props;
 
     const options: CostTypeOption[] = [];
 
-    if (costType) {
-      costType.data.map(val => {
-        switch (val.code) {
-          case CostTypes.amortized:
-            options.push({
-              desc: intl.formatMessage(messages.CostTypeAmortizedDesc),
-              toString: () => intl.formatMessage(messages.CostTypeAmortized),
-              value: CostTypes.amortized,
-            });
-            break;
-          case CostTypes.blended:
-            options.push({
-              desc: intl.formatMessage(messages.CostTypeBlendedDesc),
-              toString: () => intl.formatMessage(messages.CostTypeBlended),
-              value: CostTypes.blended,
-            });
-            break;
-          case CostTypes.unblended:
-            options.push({
-              desc: intl.formatMessage(messages.CostTypeUnblendedDesc),
-              toString: () => intl.formatMessage(messages.CostTypeUnblended),
-              value: CostTypes.unblended,
-            });
-            break;
-        }
-      });
-    } else {
+    costTypeOptions.map(option => {
       options.push({
-        desc: intl.formatMessage(messages.CostTypeUnblendedDesc),
-        toString: () => intl.formatMessage(messages.CostTypeUnblended),
-        value: CostTypes.unblended,
+        desc: intl.formatMessage(option.desc),
+        toString: () => intl.formatMessage(option.label),
+        value: option.value,
       });
-    }
+    });
     return options;
   };
 
@@ -148,15 +129,9 @@ class CostTypeBase extends React.Component<CostTypeProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<CostTypeOwnProps, CostTypeStateProps>(state => {
-  const costType = costTypeSelectors.selectCostType(state);
-  const costTypeError = costTypeSelectors.selectCostTypeError(state);
-  const costTypeFetchStatus = costTypeSelectors.selectCostTypeFetchStatus(state);
-
+const mapStateToProps = createMapStateToProps<CostTypeOwnProps, CostTypeStateProps>(() => {
   return {
-    costType,
-    costTypeError,
-    costTypeFetchStatus,
+    // TBD...
   };
 });
 

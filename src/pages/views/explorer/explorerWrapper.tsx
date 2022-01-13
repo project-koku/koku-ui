@@ -1,4 +1,4 @@
-import { CostTypeWrapper } from 'pages/views/components/costType';
+import { AccountSettings } from 'pages/views/components/accountSettings';
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
@@ -8,9 +8,9 @@ type ExplorerWrapperProps = RouteComponentProps<void>;
 
 const ExplorerWrapper: React.FunctionComponent<ExplorerWrapperProps> = props => {
   return (
-    <CostTypeWrapper>
+    <AccountSettings>
       <Explorer {...props} />
-    </CostTypeWrapper>
+    </AccountSettings>
   );
 };
 

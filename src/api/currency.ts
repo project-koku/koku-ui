@@ -15,9 +15,9 @@ export function fetchCurrency() {
   const insights = (window as any).insights;
   if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
     return insights.chrome.auth.getUser().then(() => {
-      return axios.get<Currency>(`currency/?limit=20`);
+      return axios.get<Currency>(`currency/?limit=100`);
     });
   } else {
-    return axios.get<Currency>(`currency/?limit=20`);
+    return axios.get<Currency>(`currency/?limit=100`);
   }
 }

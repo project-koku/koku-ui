@@ -1,4 +1,4 @@
-import { CostTypeWrapper } from 'pages/views/components/costType';
+import { AccountSettings } from 'pages/views/components/accountSettings';
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
@@ -8,9 +8,9 @@ type AwsBreakdownWrapperProps = RouteComponentProps<void>;
 
 const AwsBreakdownWrapper: React.FunctionComponent<AwsBreakdownWrapperProps> = props => {
   return (
-    <CostTypeWrapper>
+    <AccountSettings>
       <AwsBreakdown {...props} />
-    </CostTypeWrapper>
+    </AccountSettings>
   );
 };
 

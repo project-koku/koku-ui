@@ -1,5 +1,6 @@
 import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 import { combineReducers } from 'redux';
+import { accountSettingsReducer, accountSettingsStateKey } from 'store/accountSettings';
 import { awsCostOverviewReducer, awsCostOverviewStateKey } from 'store/breakdown/costOverview/awsCostOverview';
 import { azureCostOverviewReducer, azureCostOverviewStateKey } from 'store/breakdown/costOverview/azureCostOverview';
 import { gcpCostOverviewReducer, gcpCostOverviewStateKey } from 'store/breakdown/costOverview/gcpCostOverview';
@@ -43,6 +44,7 @@ import { userAccessReducer, userAccessStateKey } from './userAccess';
 export type RootState = StateType<typeof rootReducer>;
 
 export const rootReducer = combineReducers({
+  [accountSettingsStateKey]: accountSettingsReducer,
   [awsOcpDashboardStateKey]: awsOcpDashboardReducer,
   [awsCostOverviewStateKey]: awsCostOverviewReducer,
   [awsDashboardStateKey]: awsDashboardReducer,
