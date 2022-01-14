@@ -2,7 +2,6 @@ import './costType.scss';
 
 import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Select, SelectOption, SelectOptionObject, SelectVariant, Title } from '@patternfly/react-core';
-import { CostType } from 'api/costType';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
