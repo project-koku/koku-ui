@@ -48,6 +48,7 @@ export interface Provider {
   infrastructure?: ProviderInfrastructure;
   name?: string;
   previous_month_data?: boolean;
+  source_type?: string;
   type?: string;
   uuid?: string;
 }

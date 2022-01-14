@@ -1,4 +1,4 @@
-import { Providers } from 'api/providers';
+import { Providers, ProviderType } from 'api/providers';
 
 // eslint-disable-next-line no-shadow
 const enum DataType {
@@ -20,6 +20,19 @@ const _getOcpProvider = (ocpProviders: Providers, uuid?: string) => {
     }
   }
   return result;
+};
+
+// Returns new Provider matching the given provider type
+export const filterProviders = (providers: Providers, sourceType: ProviderType) => {
+  if (!providers) {
+    return providers;
+  }
+
+  const data = providers.data.filter(provider => provider.source_type.toLowerCase() === sourceType);
+  return {
+    ...providers,
+    data,
+  } as Providers;
 };
 
 // Ensure at least one source provider has data available
