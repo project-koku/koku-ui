@@ -34,7 +34,6 @@ import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { tagReducer, tagStateKey } from 'store/tags';
 import { StateType } from 'typesafe-actions';
 
-import { costTypeReducer, costTypeStateKey } from './costType';
 import { currencyReducer, currencyStateKey } from './currency';
 import { metricsReducer, metricsStateKey } from './metrics';
 import { providersReducer, providersStateKey } from './providers';
@@ -54,7 +53,6 @@ export const rootReducer = combineReducers({
   [azureDashboardStateKey]: azureDashboardReducer,
   [azureHistoricalDataStateKey]: azureHistoricalDataReducer,
   [costModelsStateKey]: costModelsReducer,
-  [costTypeStateKey]: costTypeReducer,
   [currencyStateKey]: currencyReducer,
   [exportStateKey]: exportReducer,
   [gcpCostOverviewStateKey]: gcpCostOverviewReducer,
