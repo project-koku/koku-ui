@@ -2,14 +2,11 @@ import './currency.scss';
 
 import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Select, SelectOption, SelectOptionObject, SelectVariant, Title } from '@patternfly/react-core';
-import { Currency } from 'api/currency';
-import { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
-import { createMapStateToProps, FetchStatus } from 'store/common';
-import { currencyActions, currencySelectors } from 'store/currency';
+import { createMapStateToProps } from 'store/common';
 import { getCurrency, invalidateCurrency, setCurrency } from 'utils/localStorage';
 
 import { styles } from './currency.styles';
@@ -20,13 +17,11 @@ interface CurrencyOwnProps {
 }
 
 interface CurrencyDispatchProps {
-  fetchCurrency?: typeof currencyActions.fetchCurrency;
+  // TBD
 }
 
 interface CurrencyStateProps {
-  currency: Currency;
-  currencyError: AxiosError;
-  currencyFetchStatus?: FetchStatus;
+  // TBD
 }
 
 interface CurrencyState {
@@ -40,7 +35,7 @@ interface CurrencyOption extends SelectOptionObject {
 
 type CurrencyProps = CurrencyOwnProps & CurrencyDispatchProps & CurrencyStateProps & WrappedComponentProps;
 
-const currencyOptions: {
+export const currencyOptions: {
   label: MessageDescriptor;
   value: string;
 }[] = [
@@ -66,12 +61,6 @@ class CurrencyBase extends React.Component<CurrencyProps> {
     isSelectOpen: false,
   };
   public state: CurrencyState = { ...this.defaultState };
-
-  public componentDidMount() {
-    const { fetchCurrency } = this.props;
-
-    fetchCurrency();
-  }
 
   private getSelect = () => {
     const { isDisabled } = this.props;
@@ -151,20 +140,14 @@ class CurrencyBase extends React.Component<CurrencyProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<CurrencyOwnProps, CurrencyStateProps>(state => {
-  const currency = currencySelectors.selectCurrency(state);
-  const currencyError = currencySelectors.selectCurrencyError(state);
-  const currencyFetchStatus = currencySelectors.selectCurrencyFetchStatus(state);
-
+const mapStateToProps = createMapStateToProps<CurrencyOwnProps, CurrencyStateProps>(() => {
   return {
-    currency,
-    currencyError,
-    currencyFetchStatus,
+    // TBD
   };
 });
 
 const mapDispatchToProps: CurrencyDispatchProps = {
-  fetchCurrency: currencyActions.fetchCurrency,
+  // TBD
 };
 
 const CurrencyConnect = connect(mapStateToProps, mapDispatchToProps)(CurrencyBase);
