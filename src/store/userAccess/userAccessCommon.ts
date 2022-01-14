@@ -4,10 +4,6 @@ import { UserAccessType } from 'api/userAccess';
 export const stateKey = 'userAccess';
 export const userAccessKey = 'user-access';
 
-export const allUserAccessQuery: UserAccessQuery = {
-  type: '',
-};
-
 export const awsUserAccessQuery: UserAccessQuery = {
   type: 'AWS',
 };
@@ -32,6 +28,9 @@ export const ibmUserAccessQuery: UserAccessQuery = {
   type: 'IBM',
   beta: true,
 };
+
+// Omitting the type param returns all user access
+export const userAccessQuery: UserAccessQuery = {};
 
 export function getReportId(type: UserAccessType, query: string) {
   return `${type}--${query}`;
