@@ -2,7 +2,15 @@ import { AccountSettings } from 'api/accountSettings';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';
-import { invalidateCostType, isCostTypeAvailable, setCostType } from 'utils/localStorage';
+import {
+  invalidateCostType,
+  invalidateCurrency,
+  isCostTypeAvailable,
+  isCurrencyAvailable,
+  setAccountCurrency,
+  setCostType,
+  setCurrency,
+} from 'utils/localStorage';
 
 import {
   fetchAccountSettingsFailure,
@@ -34,7 +42,8 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
         fetchStatus: new Map(state.fetchStatus).set(action.payload.reportId, FetchStatus.inProgress),
       };
     case getType(fetchAccountSettingsSuccess):
-      initCostType(action.payload.meta['cost-type']);
+      initCostType(action.payload.data.cost_type);
+      initCurrency(action.payload.data.currency);
 
       return {
         ...state,
@@ -55,12 +64,23 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
   }
 }
 
-// Initialize default cost type in local storage
-function initCostType(accountSettings) {
+// Initialize cost type in local storage
+function initCostType(value: string) {
   // Clear local storage value if current session is not valid
   invalidateCostType();
 
   if (!isCostTypeAvailable()) {
-    setCostType(accountSettings);
+    setCostType(value);
   }
+}
+
+// Initialize currency in local storage
+function initCurrency(value: string) {
+  // Clear local storage value if current session is not valid
+  invalidateCurrency();
+
+  if (!isCurrencyAvailable()) {
+    setCurrency(value);
+  }
+  setAccountCurrency(value);
 }
