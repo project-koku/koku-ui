@@ -5,7 +5,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { IbmReport } from 'api/reports/ibmReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
-import { Currency } from 'components/currency/currency';
+import { Currency } from 'components/currency';
 import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import React from 'react';

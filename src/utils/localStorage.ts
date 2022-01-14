@@ -1,7 +1,8 @@
 import { parseQuery, Query } from 'api/queries/query';
 import { getTokenCookie } from 'utils/cookie';
 
-const costTypeID = 'cost_type';
+const accountCurrencyID = 'cost_management_account_currency';
+const costTypeID = 'cost_management_cost_type';
 const currencyID = 'cost_management_currency';
 const inactiveSourcesID = 'cost_management_inactive_sources';
 const sessionTokenID = 'cost_management_session';
@@ -31,7 +32,7 @@ export const isSessionValid = () => {
   return getSessionToken() === getPartialTokenCookie();
 };
 
-// Save inactive sources token
+// Save partial session token
 export const saveSessionToken = () => {
   localStorage.setItem(sessionTokenID, getPartialTokenCookie());
 };
@@ -93,9 +94,20 @@ export const setCostType = (value: string) => {
  * Currency
  */
 
+// Deletes account currency
+export const deleteAccountCurrency = () => {
+  localStorage.removeItem(accountCurrencyID);
+};
+
 // Deletes currency
 export const deleteCurrency = () => {
   localStorage.removeItem(currencyID);
+};
+
+// Returns account currency
+export const getAccountCurrency = () => {
+  const units = localStorage.getItem(accountCurrencyID);
+  return units ? units : 'USD';
 };
 
 // Returns currency
@@ -107,9 +119,22 @@ export const getCurrency = () => {
 // Invalidates currency if current session is not valid
 export const invalidateCurrency = () => {
   if (!isSessionValid()) {
+    deleteAccountCurrency();
     deleteSessionToken();
     deleteCurrency();
   }
+};
+
+// Returns true if currency is available
+export const isCurrencyAvailable = () => {
+  const currency = localStorage.getItem(currencyID);
+  return currency && currency !== null;
+};
+
+// Set account currency
+export const setAccountCurrency = (value: string) => {
+  localStorage.setItem(accountCurrencyID, value);
+  saveSessionToken();
 };
 
 // Set currency
