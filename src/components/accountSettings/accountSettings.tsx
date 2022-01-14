@@ -53,8 +53,8 @@ class AccountSettingsBase extends React.Component<AccountSettingsProps> {
 
     if (prevProps.accountSettings !== accountSettings) {
       // To do: Adjust meta properties when account-settings API is available
-      const costType = accountSettings ? accountSettings.meta['cost-type'] : CostTypes.unblended;
-      const currency = accountSettings ? accountSettings.meta.currency : 'USD';
+      const costType = accountSettings ? accountSettings.data.cost_type : CostTypes.unblended;
+      const currency = accountSettings ? accountSettings.data.currency : 'USD';
 
       // Force update to render children
       this.setState({
