@@ -24,7 +24,7 @@ import {
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
-import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { ibmUserAccessQuery, userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { getLast60DaysDate } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
@@ -360,7 +360,7 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
     const dateRange = getDateRangeDefault(queryFromRoute);
     const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
 
-    const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+    const userAccessQueryString = getUserAccessQuery(userAccessQuery);
     const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
     const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
     const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(

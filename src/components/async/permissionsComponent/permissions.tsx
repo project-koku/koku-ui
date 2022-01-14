@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { paths, routes } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { allUserAccessQuery, ibmUserAccessQuery, userAccessActions, userAccessSelectors } from 'store/userAccess';
+import { ibmUserAccessQuery, userAccessActions, userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -127,7 +127,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsStateProps>((state, props) => {
-  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+  const userAccessQueryString = getUserAccessQuery(userAccessQuery);
   const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
   const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
   const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(

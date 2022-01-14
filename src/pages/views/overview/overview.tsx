@@ -56,7 +56,7 @@ import {
   providersSelectors,
 } from 'store/providers';
 import { uiActions } from 'store/ui';
-import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { ibmUserAccessQuery, userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
 import { getCostType } from 'utils/localStorage';
@@ -767,7 +767,7 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     ocpProvidersQueryString
   );
 
-  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+  const userAccessQueryString = getUserAccessQuery(userAccessQuery);
   const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
   const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
   const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
