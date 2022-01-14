@@ -56,6 +56,7 @@ export interface Providers extends PagedResponse<Provider, PagedMetaData> {}
 
 // eslint-disable-next-line no-shadow
 export const enum ProviderType {
+  all = 'all',
   aws = 'aws',
   azure = 'azure',
   gcp = 'gcp',
