@@ -10,15 +10,15 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { CostTypes } from 'utils/localStorage';
 
-interface AccountSettingsWrapperOwnProps {
+interface AccountSettingsOwnProps {
   children?: React.ReactNode;
 }
 
-interface AccountSettingsWrapperDispatchProps {
+interface AccountSettingsDispatchProps {
   fetchAccountSettings?: typeof accountSettingsActions.fetchAccountSettings;
 }
 
-interface AccountSettingsWrapperStateProps {
+interface AccountSettingsStateProps {
   accountSettings: AccountSettings;
   accountSettingsError: AxiosError;
   accountSettingsFetchStatus?: FetchStatus;
@@ -28,27 +28,27 @@ interface AccountSettingsWrapperStateProps {
   userAccessQueryString: string;
 }
 
-interface AccountSettingsWrapperState {
+interface AccountSettingsState {
   costType?: CostTypes;
   currency?: string;
 }
 
-type AccountSettingsWrapperProps = AccountSettingsWrapperOwnProps &
-  AccountSettingsWrapperDispatchProps &
-  AccountSettingsWrapperStateProps &
+type AccountSettingsProps = AccountSettingsOwnProps &
+  AccountSettingsDispatchProps &
+  AccountSettingsStateProps &
   WrappedComponentProps;
 
-class AccountSettingsWrapperBase extends React.Component<AccountSettingsWrapperProps> {
-  protected defaultState: AccountSettingsWrapperState = {
+class AccountSettingsBase extends React.Component<AccountSettingsProps> {
+  protected defaultState: AccountSettingsState = {
     // TBD...
   };
-  public state: AccountSettingsWrapperState = { ...this.defaultState };
+  public state: AccountSettingsState = { ...this.defaultState };
 
   public componentDidMount() {
     this.updateAccountSettings();
   }
 
-  public componentDidUpdate(prevProps: AccountSettingsWrapperProps) {
+  public componentDidUpdate(prevProps: AccountSettingsProps) {
     const { accountSettings } = this.props;
 
     if (prevProps.accountSettings !== accountSettings) {
@@ -82,38 +82,36 @@ class AccountSettingsWrapperBase extends React.Component<AccountSettingsWrapperP
   }
 }
 
-const mapStateToProps = createMapStateToProps<AccountSettingsWrapperOwnProps, AccountSettingsWrapperStateProps>(
-  state => {
-    const accountSettings = accountSettingsSelectors.selectAccountSettings(state);
-    const accountSettingsError = accountSettingsSelectors.selectAccountSettingsError(state);
-    const accountSettingsFetchStatus = accountSettingsSelectors.selectAccountSettingsFetchStatus(state);
+const mapStateToProps = createMapStateToProps<AccountSettingsOwnProps, AccountSettingsStateProps>(state => {
+  const accountSettings = accountSettingsSelectors.selectAccountSettings(state);
+  const accountSettingsError = accountSettingsSelectors.selectAccountSettingsError(state);
+  const accountSettingsFetchStatus = accountSettingsSelectors.selectAccountSettingsFetchStatus(state);
 
-    const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
-    const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
-    const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
-    const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
-      state,
-      UserAccessType.all,
-      userAccessQueryString
-    );
+  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+  const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
+  const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
+  const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
+    state,
+    UserAccessType.all,
+    userAccessQueryString
+  );
 
-    return {
-      accountSettings,
-      accountSettingsError,
-      accountSettingsFetchStatus,
-      userAccess,
-      userAccessError,
-      userAccessFetchStatus,
-      userAccessQueryString,
-    };
-  }
-);
+  return {
+    accountSettings,
+    accountSettingsError,
+    accountSettingsFetchStatus,
+    userAccess,
+    userAccessError,
+    userAccessFetchStatus,
+    userAccessQueryString,
+  };
+});
 
-const mapDispatchToProps: AccountSettingsWrapperDispatchProps = {
+const mapDispatchToProps: AccountSettingsDispatchProps = {
   fetchAccountSettings: accountSettingsActions.fetchAccountSettings,
 };
 
-const CostTypeConnect = connect(mapStateToProps, mapDispatchToProps)(AccountSettingsWrapperBase);
+const CostTypeConnect = connect(mapStateToProps, mapDispatchToProps)(AccountSettingsBase);
 const AccountSettings = injectIntl(CostTypeConnect);
 
 export { AccountSettings };
