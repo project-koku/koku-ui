@@ -1,5 +1,6 @@
 import './currency.scss';
 
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Select, SelectOption, SelectOptionObject, SelectVariant, Title } from '@patternfly/react-core';
 import { Currency } from 'api/currency';
 import { AxiosError } from 'axios';
@@ -15,6 +16,7 @@ import { styles } from './currency.styles';
 
 interface CurrencyOwnProps {
   isDisabled?: boolean;
+  onSelect?: (value: string) => void;
 }
 
 interface CurrencyDispatchProps {
@@ -28,7 +30,6 @@ interface CurrencyStateProps {
 }
 
 interface CurrencyState {
-  currentItem: string;
   isSelectOpen: boolean;
 }
 
@@ -39,9 +40,29 @@ interface CurrencyOption extends SelectOptionObject {
 
 type CurrencyProps = CurrencyOwnProps & CurrencyDispatchProps & CurrencyStateProps & WrappedComponentProps;
 
+const currencyOptions: {
+  label: MessageDescriptor;
+  value: string;
+}[] = [
+  { label: messages.CurrencyOptions, value: 'AUD' },
+  { label: messages.CurrencyOptions, value: 'CAD' },
+  { label: messages.CurrencyOptions, value: 'CHF' },
+  { label: messages.CurrencyOptions, value: 'CNY' },
+  { label: messages.CurrencyOptions, value: 'DKK' },
+  { label: messages.CurrencyOptions, value: 'EUR' },
+  { label: messages.CurrencyOptions, value: 'GBP' },
+  { label: messages.CurrencyOptions, value: 'HKD' },
+  { label: messages.CurrencyOptions, value: 'JPY' },
+  { label: messages.CurrencyOptions, value: 'NOK' },
+  { label: messages.CurrencyOptions, value: 'NZD' },
+  { label: messages.CurrencyOptions, value: 'SEK' },
+  { label: messages.CurrencyOptions, value: 'SGD' },
+  { label: messages.CurrencyOptions, value: 'USD' },
+  { label: messages.CurrencyOptions, value: 'ZAR' },
+];
+
 class CurrencyBase extends React.Component<CurrencyProps> {
   protected defaultState: CurrencyState = {
-    currentItem: 'USD',
     isSelectOpen: false,
   };
   public state: CurrencyState = { ...this.defaultState };
@@ -52,20 +73,13 @@ class CurrencyBase extends React.Component<CurrencyProps> {
     fetchCurrency();
   }
 
-  private getCurrentItem = () => {
-    const { currentItem } = this.state;
-
-    const currencyUnits = getCurrency(); // Get currency units from local storage
-    return currencyUnits ? currencyUnits : currentItem;
-  };
-
   private getSelect = () => {
     const { isDisabled } = this.props;
     const { isSelectOpen } = this.state;
 
-    const currentItem = this.getCurrentItem();
+    const currency = getCurrency(); // Get currency from local storage
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: CurrencyOption) => option.value === currentItem);
+    const selection = selectOptions.find((option: CurrencyOption) => option.value === currency);
 
     return (
       <Select
@@ -86,32 +100,34 @@ class CurrencyBase extends React.Component<CurrencyProps> {
   };
 
   private getSelectOptions = (): CurrencyOption[] => {
-    const { currency, intl } = this.props;
+    const { intl } = this.props;
 
     const options: CurrencyOption[] = [];
 
-    if (currency) {
-      currency.data.map(val => {
-        options.push({
-          toString: () => intl.formatMessage(messages.CurrencyOptions, { units: val.code }),
-          value: val.code,
-        });
-      });
-    } else {
+    currencyOptions.map(option => {
       options.push({
-        toString: () => intl.formatMessage(messages.CurrencyOptions, { units: 'USD' }),
-        value: 'USD',
+        toString: () => intl.formatMessage(option.label, { units: option.value }),
+        value: option.value,
       });
-    }
+    });
     return options;
   };
 
   private handleSelect = (event, selection: CurrencyOption) => {
-    this.setState({
-      currentItem: selection.value,
-      isSelectOpen: false,
-    });
+    const { onSelect } = this.props;
+
     setCurrency(selection.value); // Set currency units via local storage
+
+    this.setState(
+      {
+        isSelectOpen: false,
+      },
+      () => {
+        if (onSelect) {
+          onSelect(selection.value);
+        }
+      }
+    );
   };
 
   private handleToggle = isSelectOpen => {

@@ -8,7 +8,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { CostTypes, getCostType, setCostType } from 'utils/localStorage';
+import { CostTypes, getCostType, invalidateCostType, setCostType } from 'utils/localStorage';
 
 import { styles } from './costType.styles';
 
@@ -57,9 +57,9 @@ class CostTypeBase extends React.Component<CostTypeProps> {
     const { isDisabled } = this.props;
     const { isSelectOpen } = this.state;
 
-    const currentCostType = getCostType(); // Get cost type from local storage
+    const costType = getCostType(); // Get cost type from local storage
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: CostTypeOption) => option.value === currentCostType);
+    const selection = selectOptions.find((option: CostTypeOption) => option.value === costType);
 
     return (
       <Select
@@ -117,6 +117,9 @@ class CostTypeBase extends React.Component<CostTypeProps> {
 
   public render() {
     const { intl } = this.props;
+
+    // Clear local storage value if current session is not valid
+    invalidateCostType();
 
     return (
       <div style={styles.costSelector}>

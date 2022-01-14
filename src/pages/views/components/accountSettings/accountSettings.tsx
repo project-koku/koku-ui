@@ -75,10 +75,7 @@ class AccountSettingsBase extends React.Component<AccountSettingsProps> {
   public render() {
     const { accountSettingsFetchStatus, children } = this.props;
 
-    if (accountSettingsFetchStatus === FetchStatus.complete) {
-      return children;
-    }
-    return null;
+    return accountSettingsFetchStatus === FetchStatus.complete ? children : null;
   }
 }
 
