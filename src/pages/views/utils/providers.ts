@@ -29,8 +29,14 @@ export const filterProviders = (providers: Providers, sourceType: ProviderType) 
   }
 
   const data = providers.data.filter(provider => provider.source_type.toLowerCase() === sourceType);
+  const meta = {
+    ...providers.meta,
+    count: data.length,
+  };
+
   return {
     ...providers,
+    meta,
     data,
   } as Providers;
 };

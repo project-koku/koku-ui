@@ -42,6 +42,7 @@ interface BreakdownStateProps {
   groupBy?: string;
   historicalDataComponent?: React.ReactNode;
   providers?: Providers;
+  providersError?: AxiosError;
   providersFetchStatus?: FetchStatus;
   providerType?: ProviderType;
   query: Query;
