@@ -113,8 +113,8 @@ interface OverviewStateProps {
   ibmProviders?: Providers;
   ocpProviders?: Providers;
   providers: Providers;
+  providersError: AxiosError;
   providersFetchStatus: FetchStatus;
-  providersQueryString: string;
   perspective?: string;
   query: OverviewQuery;
   queryString: string;
@@ -703,6 +703,7 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
 
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.all,
@@ -725,8 +726,8 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     ibmProviders: filterProviders(providers, ProviderType.ibm),
     ocpProviders: filterProviders(providers, ProviderType.ocp),
     providers,
+    providersError,
     providersFetchStatus,
-    providersQueryString,
     perspective,
     query,
     queryString,
