@@ -1,4 +1,4 @@
-import { ProviderType } from 'api/providers';
+import { Providers, ProviderType } from 'api/providers';
 import { getQuery, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { breakdownDescKey, Query } from 'api/queries/query';
@@ -8,12 +8,13 @@ import { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import BreakdownBase from 'pages/views/details/components/breakdown/breakdownBase';
 import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
+import { filterProviders } from 'pages/views/utils/providers';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { azureProvidersQuery, providersSelectors } from 'store/providers';
+import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 
 import { CostOverview } from './costOverview';
@@ -25,6 +26,9 @@ interface AzureCostStateProps {
   CostOverview?: React.ReactNode;
   detailsURL: string;
   HistoricalData?: React.ReactNode;
+  providers: Providers;
+  providersError: AxiosError;
+  providersFetchStatus: FetchStatus;
   query: Query;
   queryString: string;
   report: Report;
@@ -69,11 +73,12 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
-  const providersQueryString = getProvidersQuery(azureProvidersQuery);
-  const providers = providersSelectors.selectProviders(state, ProviderType.azure, providersQueryString);
+  const providersQueryString = getProvidersQuery(providersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
-    ProviderType.azure,
+    ProviderType.all,
     providersQueryString
   );
 
@@ -85,7 +90,8 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData />,
-    providers,
+    providers: filterProviders(providers, ProviderType.azure),
+    providersError,
     providersFetchStatus,
     providerType: ProviderType.azure,
     query,
