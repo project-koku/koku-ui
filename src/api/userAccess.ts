@@ -15,7 +15,7 @@ export interface UserAccess {
 
 // eslint-disable-next-line no-shadow
 export const enum UserAccessType {
-  all = '',
+  all = 'all',
   aws = 'aws',
   azure = 'azure',
   cost_model = 'cost_model',

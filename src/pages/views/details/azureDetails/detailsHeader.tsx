@@ -8,11 +8,12 @@ import { AxiosError } from 'axios';
 import { Currency } from 'components/currency';
 import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
+import { filterProviders } from 'pages/views/utils/providers';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { azureProvidersQuery, providersSelectors } from 'store/providers';
+import { providersQuery, providersSelectors } from 'store/providers';
 import { ComputedAzureReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
@@ -104,17 +105,18 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHeaderStateProps>((state, props) => {
   const queryString = getQuery(baseQuery);
-  const providersQueryString = getProvidersQuery(azureProvidersQuery);
-  const providers = providersSelectors.selectProviders(state, ProviderType.azure, providersQueryString);
-  const providersError = providersSelectors.selectProvidersError(state, ProviderType.azure, providersQueryString);
+
+  const providersQueryString = getProvidersQuery(providersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
-    ProviderType.azure,
+    ProviderType.all,
     providersQueryString
   );
 
   return {
-    providers,
+    providers: filterProviders(providers, ProviderType.azure),
     providersError,
     providersFetchStatus,
     queryString,

@@ -14,13 +14,14 @@ import NotAvailable from 'pages/state/notAvailable';
 import { ExportModal } from 'pages/views/components/export/exportModal';
 import { getGroupByTagKey } from 'pages/views/utils/groupBy';
 import { hasCurrentMonthData } from 'pages/views/utils/providers';
+import { filterProviders } from 'pages/views/utils/providers';
 import { addQueryFilter, removeQueryFilter } from 'pages/views/utils/query';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { ibmProvidersQuery, providersSelectors } from 'store/providers';
+import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { uiActions } from 'store/ui';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedIbmReportItems';
@@ -33,6 +34,7 @@ import { styles } from './ibmDetails.styles';
 
 interface IbmDetailsStateProps {
   providers: Providers;
+  providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   query: IbmQuery;
   queryString: string;
@@ -436,16 +438,18 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
-  const providersQueryString = getProvidersQuery(ibmProvidersQuery);
-  const providers = providersSelectors.selectProviders(state, ProviderType.ibm, providersQueryString);
+  const providersQueryString = getProvidersQuery(providersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
-    ProviderType.ibm,
+    ProviderType.all,
     providersQueryString
   );
 
   return {
-    providers,
+    providers: filterProviders(providers, ProviderType.ibm),
+    providersError,
     providersFetchStatus,
     query,
     queryString,

@@ -7,7 +7,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { CostTypes } from 'utils/localStorage';
 
 interface AccountSettingsOwnProps {
@@ -83,7 +83,7 @@ const mapStateToProps = createMapStateToProps<AccountSettingsOwnProps, AccountSe
   const accountSettingsError = accountSettingsSelectors.selectAccountSettingsError(state);
   const accountSettingsFetchStatus = accountSettingsSelectors.selectAccountSettingsFetchStatus(state);
 
-  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+  const userAccessQueryString = getUserAccessQuery(userAccessQuery);
   const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
   const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
   const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(

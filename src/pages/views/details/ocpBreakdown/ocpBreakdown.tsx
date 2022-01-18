@@ -8,12 +8,13 @@ import { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import BreakdownBase from 'pages/views/details/components/breakdown/breakdownBase';
 import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
+import { filterProviders } from 'pages/views/utils/providers';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { ocpProvidersQuery, providersSelectors } from 'store/providers';
+import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 
 import { CostOverview } from './costOverview';
@@ -69,11 +70,11 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
-  const providersQueryString = getProvidersQuery(ocpProvidersQuery);
-  const providers = providersSelectors.selectProviders(state, ProviderType.ocp, providersQueryString);
+  const providersQueryString = getProvidersQuery(providersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
-    ProviderType.ocp,
+    ProviderType.all,
     providersQueryString
   );
 
@@ -85,7 +86,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData />,
-    providers,
+    providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     providerType: ProviderType.ocp,
     query,
