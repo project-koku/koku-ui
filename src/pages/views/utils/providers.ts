@@ -1,4 +1,4 @@
-import { Providers } from 'api/providers';
+import { Providers, ProviderType } from 'api/providers';
 
 // eslint-disable-next-line no-shadow
 const enum DataType {
@@ -20,6 +20,27 @@ const _getOcpProvider = (ocpProviders: Providers, uuid?: string) => {
     }
   }
   return result;
+};
+
+// Returns new Provider matching the given provider type
+//
+// See https://issues.redhat.com/browse/COST-2202
+export const filterProviders = (providers: Providers, sourceType: ProviderType) => {
+  if (!providers) {
+    return providers;
+  }
+
+  const data = providers.data.filter(provider => provider.source_type.toLowerCase() === sourceType);
+  const meta = {
+    ...providers.meta,
+    count: data.length,
+  };
+
+  return {
+    ...providers,
+    meta,
+    data,
+  } as Providers;
 };
 
 // Ensure at least one source provider has data available

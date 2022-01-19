@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { paths, routes } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { allUserAccessQuery, ibmUserAccessQuery, userAccessActions, userAccessSelectors } from 'store/userAccess';
+import { userAccessActions, userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -24,10 +24,6 @@ interface PermissionsOwnProps extends RouteComponentProps<void> {
 }
 
 interface PermissionsStateProps {
-  ibmUserAccess: UserAccess;
-  ibmUserAccessError: AxiosError;
-  ibmUserAccessFetchStatus: FetchStatus;
-  ibmUserAccessQueryString: string;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -51,10 +47,9 @@ class PermissionsBase extends React.Component<PermissionsProps> {
   public state: PermissionsState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { ibmUserAccessQueryString, userAccessQueryString, fetchUserAccess } = this.props;
+    const { userAccessQueryString, fetchUserAccess } = this.props;
 
     fetchUserAccess(UserAccessType.all, userAccessQueryString);
-    fetchUserAccess(UserAccessType.ibm, ibmUserAccessQueryString);
   }
 
   private getPath() {
@@ -69,7 +64,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
   }
 
   private hasPermissions() {
-    const { ibmUserAccess, userAccess } = this.props;
+    const { userAccess } = this.props;
 
     if (!userAccess) {
       return false;
@@ -79,7 +74,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
     const azure = hasAzureAccess(userAccess);
     const costModel = hasCostModelAccess(userAccess);
     const gcp = hasGcpAccess(userAccess);
-    const ibm = hasIbmAccess(ibmUserAccess);
+    const ibm = hasIbmAccess(userAccess);
     const ocp = hasOcpAccess(userAccess);
     const path = this.getPath();
 
@@ -127,7 +122,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsStateProps>((state, props) => {
-  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+  const userAccessQueryString = getUserAccessQuery(userAccessQuery);
   const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
   const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
   const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
@@ -136,25 +131,7 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
     userAccessQueryString
   );
 
-  // Todo: temporarily request IBM separately with beta flag.
-  const ibmUserAccessQueryString = getUserAccessQuery(ibmUserAccessQuery);
-  const ibmUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.ibm, ibmUserAccessQueryString);
-  const ibmUserAccessError = userAccessSelectors.selectUserAccessError(
-    state,
-    UserAccessType.ibm,
-    ibmUserAccessQueryString
-  );
-  const ibmUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
-    state,
-    UserAccessType.ibm,
-    ibmUserAccessQueryString
-  );
-
   return {
-    ibmUserAccess,
-    ibmUserAccessError,
-    ibmUserAccessFetchStatus,
-    ibmUserAccessQueryString,
     userAccess,
     userAccessError,
     userAccessFetchStatus,

@@ -5,14 +5,15 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { GcpReport } from 'api/reports/gcpReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
-import { Currency } from 'components/currency/currency';
+import { Currency } from 'components/currency';
 import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
+import { filterProviders } from 'pages/views/utils/providers';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { gcpProvidersQuery, providersSelectors } from 'store/providers';
+import { providersQuery, providersSelectors } from 'store/providers';
 import { ComputedGcpReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedGcpReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
@@ -105,17 +106,18 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHeaderStateProps>((state, props) => {
   const queryString = getQuery(baseQuery);
-  const providersQueryString = getProvidersQuery(gcpProvidersQuery);
-  const providers = providersSelectors.selectProviders(state, ProviderType.gcp, providersQueryString);
-  const providersError = providersSelectors.selectProvidersError(state, ProviderType.gcp, providersQueryString);
+
+  const providersQueryString = getProvidersQuery(providersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
-    ProviderType.gcp,
+    ProviderType.all,
     providersQueryString
   );
 
   return {
-    providers,
+    providers: filterProviders(providers, ProviderType.gcp),
     providersError,
     providersFetchStatus,
     queryString,
