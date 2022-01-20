@@ -48,6 +48,7 @@ export interface Provider {
   infrastructure?: ProviderInfrastructure;
   name?: string;
   previous_month_data?: boolean;
+  source_type?: string;
   type?: string;
   uuid?: string;
 }
@@ -56,6 +57,7 @@ export interface Providers extends PagedResponse<Provider, PagedMetaData> {}
 
 // eslint-disable-next-line no-shadow
 export const enum ProviderType {
+  all = 'all',
   aws = 'aws',
   azure = 'azure',
   gcp = 'gcp',

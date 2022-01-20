@@ -16,7 +16,7 @@ async function setEnv() {
         type: 'list',
         name: 'clouddotEnv',
         message: 'Which platform environment you want to use?',
-        choices: ['stage', 'prod', 'ci'],
+        choices: ['stage', 'prod'],
       },
       {
         type: 'list',

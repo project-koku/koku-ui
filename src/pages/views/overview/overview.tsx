@@ -18,7 +18,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
-import { Currency } from 'components/currency/currency';
+import { Currency } from 'components/currency';
 import messages from 'locales/messages';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData/noData';
@@ -35,6 +35,7 @@ import IbmDashboard from 'pages/views/overview/ibmDashboard';
 import OcpCloudDashboard from 'pages/views/overview/ocpCloudDashboard';
 import OcpDashboard from 'pages/views/overview/ocpDashboard';
 import {
+  filterProviders,
   hasCloudCurrentMonthData,
   hasCloudData,
   hasCloudPreviousMonthData,
@@ -47,16 +48,9 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import {
-  awsProvidersQuery,
-  azureProvidersQuery,
-  gcpProvidersQuery,
-  ibmProvidersQuery,
-  ocpProvidersQuery,
-  providersSelectors,
-} from 'store/providers';
+import { providersQuery, providersSelectors } from 'store/providers';
 import { uiActions } from 'store/ui';
-import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
 import { getCostType } from 'utils/localStorage';
@@ -113,25 +107,14 @@ interface OverviewDispatchProps {
 }
 
 interface OverviewStateProps {
-  awsProviders: Providers;
-  awsProvidersFetchStatus: FetchStatus;
-  awsProvidersQueryString: string;
-  azureProviders: Providers;
-  azureProvidersFetchStatus: FetchStatus;
-  azureProvidersQueryString: string;
-  gcpProviders: Providers;
-  gcpProvidersFetchStatus: FetchStatus;
-  gcpProvidersQueryString: string;
-  ibmProviders: Providers;
-  ibmProvidersFetchStatus: FetchStatus;
-  ibmProvidersQueryString: string;
-  ibmUserAccess: UserAccess;
-  ibmUserAccessError: AxiosError;
-  ibmUserAccessFetchStatus: FetchStatus;
-  ibmUserAccessQueryString: string;
-  ocpProviders: Providers;
-  ocpProvidersFetchStatus: FetchStatus;
-  ocpProvidersQueryString: string;
+  awsProviders?: Providers;
+  azureProviders?: Providers;
+  gcpProviders?: Providers;
+  ibmProviders?: Providers;
+  ocpProviders?: Providers;
+  providers: Providers;
+  providersError: AxiosError;
+  providersFetchStatus: FetchStatus;
   perspective?: string;
   query: OverviewQuery;
   queryString: string;
@@ -205,17 +188,10 @@ class OverviewBase extends React.Component<OverviewProps> {
   }
 
   public componentDidUpdate(prevProps: OverviewProps) {
-    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders, tabKey, userAccess } = this.props;
+    const { providers, tabKey, userAccess } = this.props;
 
     // Note: User access and providers are fetched via the Permissions and InactiveSources components used by all routes
-    if (
-      prevProps.userAccess !== userAccess ||
-      prevProps.awsProviders !== awsProviders ||
-      prevProps.azureProviders !== azureProviders ||
-      prevProps.gcpProviders !== gcpProviders ||
-      prevProps.ibmProviders !== ibmProviders ||
-      prevProps.ocpProviders !== ocpProviders
-    ) {
+    if (prevProps.userAccess !== userAccess || prevProps.providers !== providers) {
       this.setState({
         activeTabKey: tabKey,
         currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
@@ -432,12 +408,14 @@ class OverviewBase extends React.Component<OverviewProps> {
   private getTabItem = (tab: OverviewTab, index: number) => {
     const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders } = this.props;
     const { activeTabKey, costType, currentInfrastructurePerspective, currentOcpPerspective } = this.state;
+
     const emptyTab = <></>; // Lazily load tabs
     const noData = <NoData showReload={false} />;
 
     if (activeTabKey !== index) {
       return emptyTab;
     }
+
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === OverviewTab.infrastructure) {
       if (currentInfrastructurePerspective === InfrastructurePerspective.ocpCloud) {
@@ -565,46 +543,55 @@ class OverviewBase extends React.Component<OverviewProps> {
 
   private isAwsAvailable = () => {
     const { awsProviders, userAccess } = this.props;
+
     return isAwsAvailable(userAccess, awsProviders);
   };
 
   private isAwsCloudAvailable = () => {
     const { awsProviders, ocpProviders, userAccess } = this.props;
+
     return hasAwsAccess(userAccess) && hasCloudProvider(awsProviders, ocpProviders);
   };
 
   private isAzureAvailable = () => {
     const { azureProviders, userAccess } = this.props;
+
     return isAzureAvailable(userAccess, azureProviders);
   };
 
   private isAzureCloudAvailable = () => {
     const { azureProviders, ocpProviders, userAccess } = this.props;
+
     return hasAzureAccess(userAccess) && hasCloudProvider(azureProviders, ocpProviders);
   };
 
   private isGcpAvailable = () => {
     const { gcpProviders, userAccess } = this.props;
+
     return isGcpAvailable(userAccess, gcpProviders);
   };
 
   private isGcpCloudAvailable = () => {
     const { gcpProviders, ocpProviders, userAccess } = this.props;
+
     return hasGcpAccess(userAccess) && hasCloudProvider(gcpProviders, ocpProviders);
   };
 
   private isIbmAvailable = () => {
-    const { ibmProviders, ibmUserAccess } = this.props;
-    return isIbmAvailable(ibmUserAccess, ibmProviders);
+    const { ibmProviders, userAccess } = this.props;
+
+    return isIbmAvailable(userAccess, ibmProviders);
   };
 
   private isIbmCloudAvailable = () => {
     const { ibmProviders, ocpProviders, userAccess } = this.props;
+
     return hasIbmAccess(userAccess) && hasCloudProvider(ibmProviders, ocpProviders);
   };
 
   private isOcpAvailable = () => {
     const { ocpProviders, userAccess } = this.props;
+
     return isOcpAvailable(userAccess, ocpProviders);
   };
 
@@ -618,31 +605,18 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   public render() {
-    const {
-      awsProvidersFetchStatus,
-      azureProvidersFetchStatus,
-      gcpProvidersFetchStatus,
-      ibmProvidersFetchStatus,
-      intl,
-      ocpProvidersFetchStatus,
-      userAccessFetchStatus,
-    } = this.props;
+    const { providersFetchStatus, intl, userAccessFetchStatus } = this.props;
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
-    const noAwsProviders = !this.isAwsAvailable() && awsProvidersFetchStatus === FetchStatus.complete;
-    const noAzureProviders = !this.isAzureAvailable() && azureProvidersFetchStatus === FetchStatus.complete;
-    const noGcpProviders = !this.isGcpAvailable() && gcpProvidersFetchStatus === FetchStatus.complete;
-    const noIbmProviders = !this.isIbmAvailable() && ibmProvidersFetchStatus === FetchStatus.complete;
-    const noOcpProviders = !this.isOcpAvailable() && ocpProvidersFetchStatus === FetchStatus.complete;
+    const noAwsProviders = !this.isAwsAvailable() && providersFetchStatus === FetchStatus.complete;
+    const noAzureProviders = !this.isAzureAvailable() && providersFetchStatus === FetchStatus.complete;
+    const noGcpProviders = !this.isGcpAvailable() && providersFetchStatus === FetchStatus.complete;
+    const noIbmProviders = !this.isIbmAvailable() && providersFetchStatus === FetchStatus.complete;
+    const noOcpProviders = !this.isOcpAvailable() && providersFetchStatus === FetchStatus.complete;
     const noProviders = noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders;
 
     const isLoading =
-      awsProvidersFetchStatus === FetchStatus.inProgress ||
-      azureProvidersFetchStatus === FetchStatus.inProgress ||
-      gcpProvidersFetchStatus === FetchStatus.inProgress ||
-      ibmProvidersFetchStatus === FetchStatus.inProgress ||
-      ocpProvidersFetchStatus === FetchStatus.inProgress ||
-      userAccessFetchStatus === FetchStatus.inProgress;
+      providersFetchStatus === FetchStatus.inProgress || userAccessFetchStatus === FetchStatus.inProgress;
 
     const availableTabs = this.getAvailableTabs();
     const title = intl.formatMessage(messages.OverviewTitle);
@@ -727,47 +701,16 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
   };
   const queryString = getQuery(query);
 
-  const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
-  const awsProviders = providersSelectors.selectProviders(state, ProviderType.aws, awsProvidersQueryString);
-  const awsProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+  const providersQueryString = getProvidersQuery(providersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
+  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
-    ProviderType.aws,
-    awsProvidersQueryString
+    ProviderType.all,
+    providersQueryString
   );
 
-  const azureProvidersQueryString = getProvidersQuery(azureProvidersQuery);
-  const azureProviders = providersSelectors.selectProviders(state, ProviderType.azure, azureProvidersQueryString);
-  const azureProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.azure,
-    azureProvidersQueryString
-  );
-
-  const gcpProvidersQueryString = getProvidersQuery(gcpProvidersQuery);
-  const gcpProviders = providersSelectors.selectProviders(state, ProviderType.gcp, gcpProvidersQueryString);
-  const gcpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.gcp,
-    gcpProvidersQueryString
-  );
-
-  const ibmProvidersQueryString = getProvidersQuery(ibmProvidersQuery);
-  const ibmProviders = providersSelectors.selectProviders(state, ProviderType.ibm, ibmProvidersQueryString);
-  const ibmProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.ibm,
-    ibmProvidersQueryString
-  );
-
-  const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
-  const ocpProviders = providersSelectors.selectProviders(state, ProviderType.ocp, ocpProvidersQueryString);
-  const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.ocp,
-    ocpProvidersQueryString
-  );
-
-  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+  const userAccessQueryString = getUserAccessQuery(userAccessQuery);
   const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
   const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
   const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
@@ -776,40 +719,15 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     userAccessQueryString
   );
 
-  // Todo: temporarily request IBM separately with beta flag.
-  const ibmUserAccessQueryString = getUserAccessQuery(ibmUserAccessQuery);
-  const ibmUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.ibm, ibmUserAccessQueryString);
-  const ibmUserAccessError = userAccessSelectors.selectUserAccessError(
-    state,
-    UserAccessType.ibm,
-    ibmUserAccessQueryString
-  );
-  const ibmUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
-    state,
-    UserAccessType.ibm,
-    ibmUserAccessQueryString
-  );
-
   return {
-    awsProviders,
-    awsProvidersFetchStatus,
-    awsProvidersQueryString,
-    azureProviders,
-    azureProvidersFetchStatus,
-    azureProvidersQueryString,
-    gcpProviders,
-    gcpProvidersFetchStatus,
-    gcpProvidersQueryString,
-    ibmProviders,
-    ibmProvidersFetchStatus,
-    ibmProvidersQueryString,
-    ibmUserAccess,
-    ibmUserAccessError,
-    ibmUserAccessFetchStatus,
-    ibmUserAccessQueryString,
-    ocpProviders,
-    ocpProvidersFetchStatus,
-    ocpProvidersQueryString,
+    awsProviders: filterProviders(providers, ProviderType.aws),
+    azureProviders: filterProviders(providers, ProviderType.azure),
+    gcpProviders: filterProviders(providers, ProviderType.gcp),
+    ibmProviders: filterProviders(providers, ProviderType.ibm),
+    ocpProviders: filterProviders(providers, ProviderType.ocp),
+    providers,
+    providersError,
+    providersFetchStatus,
     perspective,
     query,
     queryString,

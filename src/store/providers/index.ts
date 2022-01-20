@@ -4,6 +4,7 @@ import {
   gcpProvidersQuery,
   ibmProvidersQuery,
   ocpProvidersQuery,
+  providersQuery,
 } from 'store/providers/providersCommon';
 
 import * as providersActions from './providersActions';
@@ -19,6 +20,7 @@ export {
   ocpProvidersQuery,
   ProvidersAction,
   providersActions,
+  providersQuery,
   providersReducer,
   providersSelectors,
   ProvidersState,

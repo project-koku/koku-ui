@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { MetricHash } from 'api/metrics';
 import React from 'react';
+import { getAccountCurrency } from 'utils/localStorage';
 
 export const defaultCostModelContext = {
   apiError: null,
@@ -9,7 +10,7 @@ export const defaultCostModelContext = {
   createError: null,
   createProcess: false,
   createSuccess: false,
-  currencyUnits: 'USD',
+  currencyUnits: getAccountCurrency(),
   dataFetched: false,
   description: '',
   dirtyName: false,

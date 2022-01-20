@@ -13,7 +13,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpProvidersQuery, providersActions, providersSelectors } from 'store/providers';
-import { allUserAccessQuery, userAccessActions, userAccessSelectors } from 'store/userAccess';
+import { userAccessActions, userAccessQuery, userAccessSelectors } from 'store/userAccess';
 
 import OcpOverviewChart from './ocpOverviewChart';
 import { baseQuery, isOcpAvailable } from './ocpOverviewUtils';
@@ -132,7 +132,7 @@ const mapStateToProps = createMapStateToProps<OcpOverviewWidgetOwnProps, OcpOver
     providersQueryString
   );
 
-  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+  const userAccessQueryString = getUserAccessQuery(userAccessQuery);
   const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
   const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
   const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(

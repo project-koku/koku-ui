@@ -13,14 +13,14 @@ import NoProviders from 'pages/state/noProviders';
 import NotAvailable from 'pages/state/notAvailable';
 import { ExportModal } from 'pages/views/components/export/exportModal';
 import { getGroupByTagKey } from 'pages/views/utils/groupBy';
-import { hasCurrentMonthData } from 'pages/views/utils/providers';
+import { filterProviders, hasCurrentMonthData } from 'pages/views/utils/providers';
 import { addQueryFilter, removeQueryFilter } from 'pages/views/utils/query';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { gcpProvidersQuery, providersSelectors } from 'store/providers';
+import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { uiActions } from 'store/ui';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedGcpReportItems';
@@ -33,6 +33,7 @@ import { styles } from './gcpDetails.styles';
 
 interface GcpDetailsStateProps {
   providers: Providers;
+  providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   query: GcpQuery;
   queryString: string;
@@ -436,16 +437,18 @@ const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStat
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
-  const providersQueryString = getProvidersQuery(gcpProvidersQuery);
-  const providers = providersSelectors.selectProviders(state, ProviderType.gcp, providersQueryString);
+  const providersQueryString = getProvidersQuery(providersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
-    ProviderType.gcp,
+    ProviderType.all,
     providersQueryString
   );
 
   return {
-    providers,
+    providers: filterProviders(providers, ProviderType.gcp),
+    providersError,
     providersFetchStatus,
     query,
     queryString,

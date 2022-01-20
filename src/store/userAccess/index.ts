@@ -1,11 +1,11 @@
 import {
-  allUserAccessQuery,
   awsUserAccessQuery,
   azureUserAccessQuery,
   costModelUserAccessQuery,
   gcpUserAccessQuery,
   ibmUserAccessQuery,
   ocpUserAccessQuery,
+  userAccessQuery,
 } from 'store/userAccess/userAccessCommon';
 
 import * as userAccessActions from './userAccessActions';
@@ -14,7 +14,7 @@ import { UserAccessAction, userAccessReducer, UserAccessState } from './userAcce
 import * as userAccessSelectors from './userAccessSelectors';
 
 export {
-  allUserAccessQuery,
+  userAccessQuery,
   awsUserAccessQuery,
   azureUserAccessQuery,
   costModelUserAccessQuery,

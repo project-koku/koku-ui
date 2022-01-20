@@ -6,15 +6,16 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AwsReport } from 'api/reports/awsReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
-import { Currency } from 'components/currency/currency';
+import { Currency } from 'components/currency';
 import messages from 'locales/messages';
 import { CostType } from 'pages/views/components/costType';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
+import { filterProviders } from 'pages/views/utils/providers';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { awsProvidersQuery, providersSelectors } from 'store/providers';
+import { providersQuery, providersSelectors } from 'store/providers';
 import { ComputedAwsReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
@@ -121,17 +122,18 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHeaderStateProps>((state, props) => {
   const queryString = getQuery(baseQuery);
-  const providersQueryString = getProvidersQuery(awsProvidersQuery);
-  const providers = providersSelectors.selectProviders(state, ProviderType.aws, providersQueryString);
-  const providersError = providersSelectors.selectProvidersError(state, ProviderType.aws, providersQueryString);
+
+  const providersQueryString = getProvidersQuery(providersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
-    ProviderType.aws,
+    ProviderType.all,
     providersQueryString
   );
 
   return {
-    providers,
+    providers: filterProviders(providers, ProviderType.aws),
     providersError,
     providersFetchStatus,
     queryString,

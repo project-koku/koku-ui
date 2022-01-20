@@ -9,15 +9,13 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
-import { Currency } from 'api/currency';
-import { AxiosError } from 'axios';
+import { currencyOptions } from 'components/currency';
 import { Form } from 'components/forms/form';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
-import { createMapStateToProps, FetchStatus } from 'store/common';
-import { currencyActions, currencySelectors } from 'store/currency';
+import { createMapStateToProps } from 'store/common';
 import { isBetaFeature } from 'utils/feature';
 
 import { CostModelContext } from './context';
@@ -25,19 +23,15 @@ import { descriptionErrors, nameErrors } from './steps';
 import { styles } from './wizard.styles';
 
 interface GeneralInformationOwnProps {
-  currency?: Currency;
-  currencyError?: AxiosError;
-  currencyFetchStatus?: FetchStatus;
+  // TBD
 }
 
 interface GeneralInformationStateProps {
-  currency: Currency;
-  currencyError: AxiosError;
-  currencyFetchStatus?: FetchStatus;
+  // TBD
 }
 
 interface GeneralInformationDispatchProps {
-  fetchCurrency?: typeof currencyActions.fetchCurrency;
+  // TBD
 }
 
 type GeneralInformationProps = GeneralInformationOwnProps &
@@ -46,14 +40,8 @@ type GeneralInformationProps = GeneralInformationOwnProps &
   WrappedComponentProps;
 
 class GeneralInformation extends React.Component<GeneralInformationProps> {
-  public componentDidMount() {
-    const { fetchCurrency } = this.props;
-
-    fetchCurrency();
-  }
-
   public render() {
-    const { currency, intl } = this.props;
+    const { intl } = this.props;
 
     return (
       <CostModelContext.Consumer>
@@ -131,14 +119,13 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                   isBetaFeature() && (
                     <FormGroup label={intl.formatMessage(messages.Currency)} fieldId="currency-units">
                       <FormSelect id="currency-units" value={currencyUnits} onChange={onCurrencyChange}>
-                        {currency &&
-                          currency.data.map(val => (
-                            <FormSelectOption
-                              key={val.code}
-                              label={intl.formatMessage(messages.CurrencyOptions, { units: val.code })}
-                              value={val.code}
-                            />
-                          ))}
+                        {currencyOptions.map(option => (
+                          <FormSelectOption
+                            key={option.value}
+                            label={intl.formatMessage(option.label, { units: option.value })}
+                            value={option.value}
+                          />
+                        ))}
                       </FormSelect>
                     </FormGroup>
                   )
@@ -152,20 +139,14 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<GeneralInformationOwnProps, GeneralInformationStateProps>(state => {
-  const currency = currencySelectors.selectCurrency(state);
-  const currencyError = currencySelectors.selectCurrencyError(state);
-  const currencyFetchStatus = currencySelectors.selectCurrencyFetchStatus(state);
-
+const mapStateToProps = createMapStateToProps<GeneralInformationOwnProps, GeneralInformationStateProps>(() => {
   return {
-    currency,
-    currencyError,
-    currencyFetchStatus,
+    // TBD
   };
 });
 
 const mapDispatchToProps: GeneralInformationDispatchProps = {
-  fetchCurrency: currencyActions.fetchCurrency,
+  // TDB
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(GeneralInformation));

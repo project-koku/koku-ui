@@ -29,6 +29,11 @@ export const ocpProvidersQuery: ProvidersQuery = {
   type: 'OCP',
 };
 
+// Omitting the type param, returns all providers
+export const providersQuery: ProvidersQuery = {
+  limit: 1000,
+};
+
 export function getReportId(type: ProviderType, query: string) {
   return `${type}--${query}`;
 }

@@ -1,4 +1,4 @@
-import { ProviderType } from 'api/providers';
+import { Providers, ProviderType } from 'api/providers';
 import { AwsQuery, getQuery, parseQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { breakdownDescKey, breakdownTitleKey, logicalAndPrefix, orgUnitIdKey, Query } from 'api/queries/query';
@@ -8,12 +8,13 @@ import { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import BreakdownBase from 'pages/views/details/components/breakdown/breakdownBase';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
+import { filterProviders } from 'pages/views/utils/providers';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { awsProvidersQuery, providersSelectors } from 'store/providers';
+import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCostType } from 'utils/localStorage';
 
@@ -26,6 +27,9 @@ interface AwsBreakdownStateProps {
   CostOverview?: React.ReactNode;
   detailsURL: string;
   HistoricalData?: React.ReactNode;
+  providers: Providers;
+  providersError: AxiosError;
+  providersFetchStatus: FetchStatus;
   query: Query;
   queryString: string;
   report: Report;
@@ -73,11 +77,12 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
-  const providersQueryString = getProvidersQuery(awsProvidersQuery);
-  const providers = providersSelectors.selectProviders(state, ProviderType.aws, providersQueryString);
+  const providersQueryString = getProvidersQuery(providersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
-    ProviderType.aws,
+    ProviderType.all,
     providersQueryString
   );
 
@@ -90,7 +95,8 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData costType={cost_type} />,
-    providers,
+    providers: filterProviders(providers, ProviderType.aws),
+    providersError,
     providersFetchStatus,
     providerType: ProviderType.aws,
     query,
