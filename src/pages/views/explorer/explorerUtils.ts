@@ -48,6 +48,7 @@ export const enum PerspectiveType {
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp', // Gcp filtered by Ocp
   ibm = 'ibm',
+  ibmOcp = 'ibm_ocp', // IBM filtered by Ocp
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
 }
@@ -106,6 +107,16 @@ export const groupByGcpOptions: {
   { label: 'region', value: 'region' },
 ];
 
+export const groupByGcpOcpOptions: {
+  label: string;
+  value: ComputedGcpReportItemsParams['idKey'];
+}[] = [
+  { label: 'account', value: 'account' },
+  { label: 'project', value: 'project' },
+  { label: 'service', value: 'service' },
+  { label: 'region', value: 'region' },
+];
+
 export const groupByIbmOptions: {
   label: string;
   value: ComputedIbmReportItemsParams['idKey'];
@@ -145,6 +156,9 @@ export const infrastructureGcpOcpOptions = [{ label: messages.PerspectiveValues,
 
 // Infrastructure IBM options
 export const infrastructureIbmOptions = [{ label: messages.PerspectiveValues, value: 'ibm' }];
+
+// Infrastructure IBM filtered by OpenShift options
+export const infrastructureIbmOcpOptions = [{ label: messages.PerspectiveValues, value: 'ibm_ocp' }];
 
 // Infrastructure Ocp cloud options
 export const infrastructureOcpCloudOptions = [{ label: messages.PerspectiveValues, value: 'ocp_cloud' }];
@@ -238,6 +252,7 @@ export const getPerspectiveDefault = ({
     case PerspectiveType.gcp:
     case PerspectiveType.gcpOcp:
     case PerspectiveType.ibm:
+    case PerspectiveType.ibmOcp:
     case PerspectiveType.ocpCloud:
       return perspective;
   }
@@ -306,8 +321,10 @@ export const getGroupByOptions = (perspective: string) => {
       result = groupByAzureOptions;
       break;
     case PerspectiveType.gcp:
-    case PerspectiveType.gcpOcp:
       result = groupByGcpOptions;
+      break;
+    case PerspectiveType.gcpOcp:
+      result = groupByGcpOcpOptions;
       break;
     case PerspectiveType.ibm:
       result = groupByIbmOptions;
