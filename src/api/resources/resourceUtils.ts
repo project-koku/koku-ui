@@ -18,7 +18,9 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
     resourcePathsType === ResourcePathsType.azure ||
     resourcePathsType === ResourcePathsType.azureOcp ||
     resourcePathsType === ResourcePathsType.gcp ||
+    resourcePathsType === ResourcePathsType.gcpOcp ||
     resourcePathsType === ResourcePathsType.ibm ||
+    resourcePathsType === ResourcePathsType.ibmOcp ||
     resourcePathsType === ResourcePathsType.ocp ||
     resourcePathsType === ResourcePathsType.ocpCloud
   ) {
