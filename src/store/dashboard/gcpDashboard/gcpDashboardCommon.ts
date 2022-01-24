@@ -17,7 +17,6 @@ export const enum GcpDashboardTab {
   accounts = 'accounts',
   gcpProjects = 'gcp_projects',
   instanceType = 'instance_type',
-  projects = 'projects',
   regions = 'regions',
   services = 'services',
 }
@@ -35,8 +34,6 @@ export function getGroupByForTab(widget: GcpDashboardWidget): GcpQuery['group_by
       return { account: '*' };
     case GcpDashboardTab.gcpProjects:
       return { gcp_project: '*' };
-    case GcpDashboardTab.projects:
-      return { project: '*' };
     case GcpDashboardTab.regions:
       return { region: '*' };
     case GcpDashboardTab.instanceType:
