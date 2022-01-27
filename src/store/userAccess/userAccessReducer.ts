@@ -1,6 +1,7 @@
 import { UserAccess } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
+import { resetState } from 'store/ui/uiActions';
 import { ActionType, getType } from 'typesafe-actions';
 
 import { fetchUserAccessFailure, fetchUserAccessRequest, fetchUserAccessSuccess } from './userAccessActions';
@@ -18,11 +19,15 @@ export const defaultState: UserAccessState = {
 };
 
 export type UserAccessAction = ActionType<
-  typeof fetchUserAccessFailure | typeof fetchUserAccessRequest | typeof fetchUserAccessSuccess
+  typeof fetchUserAccessFailure | typeof fetchUserAccessRequest | typeof fetchUserAccessSuccess | typeof resetState
 >;
 
 export function userAccessReducer(state = defaultState, action: UserAccessAction): UserAccessState {
   switch (action.type) {
+    case getType(resetState):
+      state = defaultState;
+      return state;
+
     case getType(fetchUserAccessRequest):
       return {
         ...state,

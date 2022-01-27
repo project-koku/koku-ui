@@ -1,6 +1,7 @@
 import { Metrics } from 'api/metrics';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
+import { resetState } from 'store/ui/uiActions';
 import { ActionType, getType } from 'typesafe-actions';
 
 import { fetchMetricsFailure, fetchMetricsRequest, fetchMetricsSuccess } from './actions';
@@ -20,11 +21,15 @@ export const defaultState: MetricsState = {
 };
 
 export type MetricsAction = ActionType<
-  typeof fetchMetricsRequest | typeof fetchMetricsSuccess | typeof fetchMetricsFailure
+  typeof fetchMetricsRequest | typeof fetchMetricsSuccess | typeof fetchMetricsFailure | typeof resetState
 >;
 
 export const reducer = (state: MetricsState = defaultState, action: MetricsAction): MetricsState => {
   switch (action.type) {
+    case getType(resetState):
+      state = defaultState;
+      return state;
+
     case getType(fetchMetricsSuccess):
       return {
         error: null,
