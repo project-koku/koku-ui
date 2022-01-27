@@ -1,1 +1,1 @@
-export * from './accountSettings';
+export * from './appSettings';

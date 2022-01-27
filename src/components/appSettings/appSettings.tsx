@@ -8,19 +8,22 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersActions, providersQuery, providersSelectors } from 'store/providers';
+import { uiActions } from 'store/ui';
 import { userAccessActions, userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { CostTypes } from 'utils/localStorage';
 
-interface PermissionsWrapperOwnProps {
+interface AppSettingsOwnProps {
   children?: React.ReactNode;
+  isResetState?: boolean;
 }
 
-interface PermissionsWrapperDispatchProps {
+interface AppSettingsDispatchProps {
   fetchProviders?: typeof providersActions.fetchProviders;
   fetchUserAccess: typeof userAccessActions.fetchUserAccess;
+  resetState: typeof uiActions.resetState;
 }
 
-interface PermissionsWrapperStateProps {
+interface AppSettingsStateProps {
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -31,31 +34,35 @@ interface PermissionsWrapperStateProps {
   userAccessQueryString: string;
 }
 
-interface PermissionsWrapperState {
+interface AppSettingsState {
   costType?: CostTypes;
   currency?: string;
 }
 
-type PermissionsWrapperProps = PermissionsWrapperOwnProps &
-  PermissionsWrapperDispatchProps &
-  PermissionsWrapperStateProps &
-  WrappedComponentProps;
+type AppSettingsProps = AppSettingsOwnProps & AppSettingsDispatchProps & AppSettingsStateProps & WrappedComponentProps;
 
-class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps> {
-  protected defaultState: PermissionsWrapperState = {
+class AppSettingsBase extends React.Component<AppSettingsProps> {
+  protected defaultState: AppSettingsState = {
     // TBD...
   };
-  public state: PermissionsWrapperState = { ...this.defaultState };
+  public state: AppSettingsState = { ...this.defaultState };
 
   public componentDidMount() {
     const {
       fetchProviders,
       fetchUserAccess,
+      isResetState,
       providersFetchStatus,
       providersQueryString,
+      resetState,
       userAccessFetchStatus,
       userAccessQueryString,
     } = this.props;
+
+    // Clear cached API responses
+    if (isResetState) {
+      resetState();
+    }
 
     if (providersFetchStatus !== FetchStatus.inProgress) {
       fetchProviders(ProviderType.all, providersQueryString);
@@ -65,13 +72,14 @@ class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps> {
     }
   }
 
-  public componentDidUpdate(prevProps: PermissionsWrapperProps) {
-    const { providers } = this.props;
+  public componentDidUpdate(prevProps: AppSettingsProps) {
+    const { providers, userAccess } = this.props;
 
-    if (prevProps.providers !== providers) {
+    if (prevProps.providers !== providers || prevProps.userAccess !== userAccess) {
       // Force update to render children
       this.setState({
         providers,
+        userAccess,
       });
     }
   }
@@ -85,7 +93,7 @@ class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<PermissionsWrapperOwnProps, PermissionsWrapperStateProps>(state => {
+const mapStateToProps = createMapStateToProps<AppSettingsOwnProps, AppSettingsStateProps>(state => {
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
   const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
@@ -116,12 +124,13 @@ const mapStateToProps = createMapStateToProps<PermissionsWrapperOwnProps, Permis
   };
 });
 
-const mapDispatchToProps: PermissionsWrapperDispatchProps = {
+const mapDispatchToProps: AppSettingsDispatchProps = {
   fetchProviders: providersActions.fetchProviders,
   fetchUserAccess: userAccessActions.fetchUserAccess,
+  resetState: uiActions.resetState,
 };
 
-const CostTypeConnect = connect(mapStateToProps, mapDispatchToProps)(PermissionsWrapperBase);
-const Access = injectIntl(CostTypeConnect);
+const CostTypeConnect = connect(mapStateToProps, mapDispatchToProps)(AppSettingsBase);
+const AppSettings = injectIntl(CostTypeConnect);
 
-export { Access };
+export { AppSettings };
