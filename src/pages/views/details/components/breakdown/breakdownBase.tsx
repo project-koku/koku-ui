@@ -227,7 +227,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
     } = this.props;
     const availableTabs = this.getAvailableTabs();
 
-    // Note: Providers are fetched via the InactiveSources component used by all routes
+    // Note: Providers are fetched via the AccountSettings component used by all routes
     if (reportError) {
       return <NotAvailable title={emptyStateTitle} />;
     } else if (providersFetchStatus === FetchStatus.inProgress && reportFetchStatus === FetchStatus.inProgress) {
