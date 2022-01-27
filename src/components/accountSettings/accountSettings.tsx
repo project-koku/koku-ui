@@ -1,13 +1,10 @@
 import { AccountSettings } from 'api/accountSettings';
-import { getUserAccessQuery } from 'api/queries/userAccessQuery';
-import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { CostTypes } from 'utils/localStorage';
 
 interface AccountSettingsOwnProps {
@@ -22,10 +19,6 @@ interface AccountSettingsStateProps {
   accountSettings: AccountSettings;
   accountSettingsError: AxiosError;
   accountSettingsFetchStatus?: FetchStatus;
-  userAccess: UserAccess;
-  userAccessError: AxiosError;
-  userAccessFetchStatus: FetchStatus;
-  userAccessQueryString: string;
 }
 
 interface AccountSettingsState {
@@ -39,13 +32,16 @@ type AccountSettingsProps = AccountSettingsOwnProps &
   WrappedComponentProps;
 
 class AccountSettingsBase extends React.Component<AccountSettingsProps> {
-  protected defaultState: AccountSettingsState = {
-    // TBD...
-  };
+  protected defaultState: AccountSettingsState = {};
   public state: AccountSettingsState = { ...this.defaultState };
 
   public componentDidMount() {
-    this.updateAccountSettings();
+    const { accountSettingsFetchStatus, fetchAccountSettings } = this.props;
+
+    // Note: API cache is reset via the AppSettings component, so this is not called twice
+    if (accountSettingsFetchStatus !== FetchStatus.inProgress && accountSettingsFetchStatus !== FetchStatus.complete) {
+      fetchAccountSettings();
+    }
   }
 
   public componentDidUpdate(prevProps: AccountSettingsProps) {
@@ -63,14 +59,6 @@ class AccountSettingsBase extends React.Component<AccountSettingsProps> {
     }
   }
 
-  private updateAccountSettings = () => {
-    const { accountSettingsFetchStatus, fetchAccountSettings } = this.props;
-
-    if (accountSettingsFetchStatus !== FetchStatus.inProgress) {
-      fetchAccountSettings();
-    }
-  };
-
   public render() {
     const { accountSettingsFetchStatus, children } = this.props;
 
@@ -83,23 +71,10 @@ const mapStateToProps = createMapStateToProps<AccountSettingsOwnProps, AccountSe
   const accountSettingsError = accountSettingsSelectors.selectAccountSettingsError(state);
   const accountSettingsFetchStatus = accountSettingsSelectors.selectAccountSettingsFetchStatus(state);
 
-  const userAccessQueryString = getUserAccessQuery(userAccessQuery);
-  const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
-  const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
-  const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
-    state,
-    UserAccessType.all,
-    userAccessQueryString
-  );
-
   return {
     accountSettings,
     accountSettingsError,
     accountSettingsFetchStatus,
-    userAccess,
-    userAccessError,
-    userAccessFetchStatus,
-    userAccessQueryString,
   };
 });
 
