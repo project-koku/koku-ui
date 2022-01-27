@@ -1,5 +1,5 @@
-import { asyncComponent } from 'components/async/asyncComponent/asyncComponent';
-import { permissionsComponent } from 'components/async/permissionsComponent/permissionsComponent';
+import { asyncComponent } from 'components/async/asyncComponent';
+import { permissionsComponent } from 'components/permissions/permissionsComponent';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
@@ -128,6 +128,15 @@ const routes = [
   },
 ];
 
+const getRoutePath = location => {
+  // Note: Cost models may include UUID in path
+  const pathName =
+    location.pathname && location.pathname.startsWith(paths.costModels) ? paths.costModels : location.pathname;
+  const currRoute = routes.find(({ path }) => path === pathName);
+
+  return currRoute ? currRoute.path : undefined;
+};
+
 const Routes = () => (
   <Switch>
     {routes.map(route => (
@@ -137,4 +146,4 @@ const Routes = () => (
   </Switch>
 );
 
-export { paths, Routes, routes };
+export { getRoutePath, paths, Routes, routes };
