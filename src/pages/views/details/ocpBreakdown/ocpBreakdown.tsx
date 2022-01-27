@@ -6,7 +6,7 @@ import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import BreakdownBase from 'pages/views/details/components/breakdown/breakdownBase';
+import BreakdownBase from 'pages/views/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
 import { filterProviders } from 'pages/views/utils/providers';
 import React from 'react';
