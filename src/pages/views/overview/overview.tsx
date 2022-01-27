@@ -49,7 +49,6 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
-import { uiActions } from 'store/ui';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { isBetaFeature } from 'utils/feature';
@@ -103,7 +102,7 @@ export const getIdKeyForTab = (tab: OverviewTab) => {
 type OverviewOwnProps = RouteComponentProps<void> & WrappedComponentProps;
 
 interface OverviewDispatchProps {
-  resetState: typeof uiActions.resetState;
+  // TBD...
 }
 
 interface OverviewStateProps {
@@ -176,9 +175,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   public state: OverviewState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { resetState, tabKey } = this.props;
-
-    resetState(); // Clear cached API responses
+    const { tabKey } = this.props;
 
     this.setState({
       activeTabKey: tabKey,
@@ -190,7 +187,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   public componentDidUpdate(prevProps: OverviewProps) {
     const { providers, tabKey, userAccess } = this.props;
 
-    // Note: User access and providers are fetched via the Permissions and InactiveSources components used by all routes
+    // Note: User access and providers are fetched via the AccountSettings component used by all routes
     if (prevProps.userAccess !== userAccess || prevProps.providers !== providers) {
       this.setState({
         activeTabKey: tabKey,
@@ -740,7 +737,7 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
 });
 
 const mapDispatchToProps: OverviewDispatchProps = {
-  resetState: uiActions.resetState,
+  // TBD...
 };
 
 const Overview = injectIntl(connect(mapStateToProps, mapDispatchToProps)(OverviewBase));
