@@ -1,6 +1,7 @@
 import { Providers } from 'api/providers';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
+import { resetState } from 'store/ui/uiActions';
 import { ActionType, getType } from 'typesafe-actions';
 
 import { fetchSourcesFailure, fetchSourcesRequest, fetchSourcesSuccess, updateFilterToolbar } from './actions';
@@ -26,11 +27,19 @@ export const defaultState: SourcesState = {
 };
 
 export type SourcesAction = ActionType<
-  typeof fetchSourcesFailure | typeof fetchSourcesRequest | typeof fetchSourcesSuccess | typeof updateFilterToolbar
+  | typeof fetchSourcesFailure
+  | typeof fetchSourcesRequest
+  | typeof fetchSourcesSuccess
+  | typeof updateFilterToolbar
+  | typeof resetState
 >;
 
 export const reducer = (state: SourcesState = defaultState, action: SourcesAction): SourcesState => {
   switch (action.type) {
+    case getType(resetState):
+      state = defaultState;
+      return state;
+
     case getType(fetchSourcesRequest):
       return {
         ...state,

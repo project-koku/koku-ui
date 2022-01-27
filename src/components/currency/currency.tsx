@@ -17,11 +17,11 @@ interface CurrencyOwnProps {
 }
 
 interface CurrencyDispatchProps {
-  // TBD
+  // TBD...
 }
 
 interface CurrencyStateProps {
-  // TBD
+  // TBD...
 }
 
 interface CurrencyState {
@@ -142,12 +142,12 @@ class CurrencyBase extends React.Component<CurrencyProps> {
 
 const mapStateToProps = createMapStateToProps<CurrencyOwnProps, CurrencyStateProps>(() => {
   return {
-    // TBD
+    // TBD...
   };
 });
 
 const mapDispatchToProps: CurrencyDispatchProps = {
-  // TBD
+  // TBD...
 };
 
 const CurrencyConnect = connect(mapStateToProps, mapDispatchToProps)(CurrencyBase);

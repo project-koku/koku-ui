@@ -1,6 +1,7 @@
 import { AccountSettings } from 'api/accountSettings';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
+import { resetState } from 'store/ui/uiActions';
 import { ActionType, getType } from 'typesafe-actions';
 import {
   invalidateCostType,
@@ -31,11 +32,18 @@ export const defaultState: AccountSettingsState = {
 };
 
 export type AccountSettingsAction = ActionType<
-  typeof fetchAccountSettingsFailure | typeof fetchAccountSettingsRequest | typeof fetchAccountSettingsSuccess
+  | typeof fetchAccountSettingsFailure
+  | typeof fetchAccountSettingsRequest
+  | typeof fetchAccountSettingsSuccess
+  | typeof resetState
 >;
 
 export function accountSettingsReducer(state = defaultState, action: AccountSettingsAction): AccountSettingsState {
   switch (action.type) {
+    case getType(resetState):
+      state = defaultState;
+      return state;
+
     case getType(fetchAccountSettingsRequest):
       return {
         ...state,

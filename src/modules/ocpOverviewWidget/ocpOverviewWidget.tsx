@@ -87,7 +87,7 @@ class OcpOverviewWidgetBase extends React.Component<OcpOverviewWidgetProps> {
     // Test for no providers
     const noProviders = !isOcpAvailable(providers, providersFetchStatus, userAccess);
 
-    // Note: Providers are fetched via the InactiveSources component used by all routes
+    // Note: Providers are fetched via the AccountSettings component used by all routes
     if (providersError || userAccessError) {
       return <NotAvailable title={title} />;
     } else if (isLoading) {

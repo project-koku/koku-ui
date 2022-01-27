@@ -33,7 +33,7 @@ import { paths } from 'routes';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
-import { getBaseName } from 'utils/getBaseName';
+import { getBaseName } from 'utils/paths';
 
 interface Props extends WrappedComponentProps {
   historyObject: H.History;

@@ -1,3 +1,3 @@
-import OverviewWrapper from './overviewWrapper';
+import Overview from './overview';
 
-export default OverviewWrapper;
+export default Overview;

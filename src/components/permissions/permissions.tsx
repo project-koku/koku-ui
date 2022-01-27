@@ -7,9 +7,9 @@ import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { paths, routes } from 'routes';
+import { getRoutePath, paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { userAccessActions, userAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -31,7 +31,7 @@ interface PermissionsStateProps {
 }
 
 interface PermissionsDispatchProps {
-  fetchUserAccess: typeof userAccessActions.fetchUserAccess;
+  // TBD...
 }
 
 interface PermissionsState {
@@ -41,32 +41,13 @@ interface PermissionsState {
 type PermissionsProps = PermissionsOwnProps & PermissionsDispatchProps & PermissionsStateProps;
 
 class PermissionsBase extends React.Component<PermissionsProps> {
-  protected defaultState: PermissionsState = {
-    // TBD...
-  };
+  protected defaultState: PermissionsState = {};
   public state: PermissionsState = { ...this.defaultState };
 
-  public componentDidMount() {
-    const { userAccessQueryString, fetchUserAccess } = this.props;
-
-    fetchUserAccess(UserAccessType.all, userAccessQueryString);
-  }
-
-  private getPath() {
-    const { location }: any = this.props;
-
-    // cost models may include :uuid
-    const _pathname =
-      location.pathname && location.pathname.startsWith(paths.costModels) ? paths.costModels : location.pathname;
-    const currRoute = routes.find(({ path }) => path === _pathname);
-
-    return currRoute ? currRoute.path : undefined;
-  }
-
   private hasPermissions() {
-    const { userAccess } = this.props;
+    const { location, userAccess, userAccessFetchStatus } = this.props;
 
-    if (!userAccess) {
+    if (!(userAccess && userAccessFetchStatus === FetchStatus.complete)) {
       return false;
     }
 
@@ -76,7 +57,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
     const gcp = hasGcpAccess(userAccess);
     const ibm = hasIbmAccess(userAccess);
     const ocp = hasOcpAccess(userAccess);
-    const path = this.getPath();
+    const path = getRoutePath(location);
 
     switch (path) {
       case paths.explorer:
@@ -105,13 +86,13 @@ class PermissionsBase extends React.Component<PermissionsProps> {
   }
 
   public render() {
-    const { children = null, location, userAccess, userAccessFetchStatus, userAccessError } = this.props;
+    const { children = null, location, userAccessFetchStatus, userAccessError } = this.props;
 
     if (userAccessFetchStatus === FetchStatus.inProgress) {
       return <Loading />;
     } else if (userAccessError) {
       return <NotAvailable />;
-    } else if (userAccess && userAccessFetchStatus === FetchStatus.complete && this.hasPermissions()) {
+    } else if (this.hasPermissions()) {
       return children;
     }
 
@@ -140,7 +121,7 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
 });
 
 const mapDispatchToProps: PermissionsDispatchProps = {
-  fetchUserAccess: userAccessActions.fetchUserAccess,
+  // TBD...
 };
 
 const Permissions = withRouter(connect(mapStateToProps, mapDispatchToProps)(PermissionsBase));

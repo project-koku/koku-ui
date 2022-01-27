@@ -28,7 +28,6 @@ import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { uiActions } from 'store/ui';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
@@ -49,7 +48,6 @@ interface OcpDetailsStateProps {
 
 interface OcpDetailsDispatchProps {
   fetchReport: typeof reportActions.fetchReport;
-  resetState: typeof uiActions.resetState;
 }
 
 interface OcpDetailsState {
@@ -132,9 +130,6 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   }
 
   public componentDidMount() {
-    const { resetState } = this.props;
-
-    resetState(); // Clear cached API responses
     this.updateReport();
   }
 
@@ -441,15 +436,14 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     const computedItems = this.getComputedItems();
     const title = intl.formatMessage(messages.OCPDetailsTitle);
 
-    // Note: Providers are fetched via the InactiveSources component used by all routes
+    // Note: Providers are fetched via the AccountSettings component used by all routes
     if (reportError) {
       return <NotAvailable title={title} />;
-    } else if (providersFetchStatus === FetchStatus.inProgress && reportFetchStatus === FetchStatus.inProgress) {
+    } else if (providersFetchStatus === FetchStatus.inProgress) {
       return <Loading title={title} />;
-    } else if (providersFetchStatus === FetchStatus.complete && reportFetchStatus === FetchStatus.complete) {
+    } else if (providersFetchStatus === FetchStatus.complete) {
       // API returns empy data array for no sources
-      const noProviders =
-        providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
+      const noProviders = providers && providers.meta && providers.meta.count === 0;
 
       if (noProviders) {
         return <NoProviders providerType={ProviderType.ocp} title={title} />;
@@ -520,7 +514,6 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
 
 const mapDispatchToProps: OcpDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
-  resetState: uiActions.resetState,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(OcpDetails));
