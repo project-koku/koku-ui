@@ -303,7 +303,7 @@
   "MarkupTitle": "Markup",
   "Measurement": "Measurement",
   "MeasurementPlaceholder": "Filter by measurements",
-  "MeasurementValues": "{value, select, count {{count, plural, one {Count} other {Count ({units})}}} request {{count, plural, one {Request} other {Request ({units})}}} usage {{count, plural, one {Usage} other {Usage ({units})}}} other {}}",
+  "MeasurementValues": "{value, select, count {{count, plural, one {Count} other {Count ({units})}}} effective_usage {{count, plural, one {Request} other {Effective-usage ({units})}}} request {{count, plural, one {Request} other {Request ({units})}}} usage {{count, plural, one {Usage} other {Usage ({units})}}} other {}}",
   "MemoryTitle": "Memory",
   "Metric": "Metric",
   "MetricPlaceholder": "Filter by metrics",
