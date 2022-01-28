@@ -61,6 +61,7 @@ class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps> {
     // Clear cached API responses
     resetState();
 
+    // Fetched in order of component usage via render()
     fetchUserAccess(UserAccessType.all, userAccessQueryString);
     fetchProviders(ProviderType.all, providersQueryString);
     fetchAccountSettings();
