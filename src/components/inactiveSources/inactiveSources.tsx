@@ -139,7 +139,6 @@ const mapStateToProps = createMapStateToProps<InactiveSourcesOwnProps, InactiveS
   //     };
   //   }
   // }
-  // }
 
   return {
     providers,
