@@ -2256,6 +2256,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'count {{count, plural, one {Count} other {Count ({units})}}} ' +
+      'effective_usage {{count, plural, one {Request} other {Effective-usage ({units})}}} ' +
       'request {{count, plural, one {Request} other {Request ({units})}}} ' +
       'usage {{count, plural, one {Usage} other {Usage ({units})}}} ' +
       'other {}}',
