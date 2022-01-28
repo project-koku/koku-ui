@@ -28,23 +28,9 @@ interface InactiveSourcesStateProps {
   providersFetchStatus: FetchStatus;
 }
 
-interface InactiveSourcesDispatchProps {
-  // TDB...
-}
-
-interface InactiveSourcesState {
-  // TBD...
-}
-
-type InactiveSourcesProps = InactiveSourcesOwnProps &
-  InactiveSourcesDispatchProps &
-  InactiveSourcesStateProps &
-  WrappedComponentProps;
+type InactiveSourcesProps = InactiveSourcesOwnProps & InactiveSourcesStateProps & WrappedComponentProps;
 
 class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
-  protected defaultState: InactiveSourcesState = {};
-  public state: InactiveSourcesState = { ...this.defaultState };
-
   private getInactiveSourceNames = () => {
     const { providers } = this.props;
 
@@ -162,10 +148,6 @@ const mapStateToProps = createMapStateToProps<InactiveSourcesOwnProps, InactiveS
   };
 });
 
-const mapDispatchToProps: InactiveSourcesDispatchProps = {
-  // TBD...
-};
-
-const InactiveSources = injectIntl(connect(mapStateToProps, mapDispatchToProps)(InactiveSourcesBase));
+const InactiveSources = injectIntl(connect(mapStateToProps, undefined)(InactiveSourcesBase));
 
 export { InactiveSources, InactiveSourcesProps };

@@ -7,7 +7,7 @@ import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { getRoutePath, paths } from 'routes';
+import { paths, routes } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import {
@@ -30,22 +30,22 @@ interface PermissionsStateProps {
   userAccessQueryString: string;
 }
 
-interface PermissionsDispatchProps {
-  // TBD...
-}
-
-interface PermissionsState {
-  // TBD...
-}
-
-type PermissionsProps = PermissionsOwnProps & PermissionsDispatchProps & PermissionsStateProps;
+type PermissionsProps = PermissionsOwnProps & PermissionsStateProps;
 
 class PermissionsBase extends React.Component<PermissionsProps> {
-  protected defaultState: PermissionsState = {};
-  public state: PermissionsState = { ...this.defaultState };
+  private getRoutePath() {
+    const { location } = this.props;
+
+    // cost models may include UUID in path
+    const _pathname =
+      location.pathname && location.pathname.startsWith(paths.costModels) ? paths.costModels : location.pathname;
+    const currRoute = routes.find(({ path }) => path === _pathname);
+
+    return currRoute ? currRoute.path : undefined;
+  }
 
   private hasPermissions() {
-    const { location, userAccess, userAccessFetchStatus } = this.props;
+    const { userAccess, userAccessFetchStatus } = this.props;
 
     if (!(userAccess && userAccessFetchStatus === FetchStatus.complete)) {
       return false;
@@ -57,7 +57,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
     const gcp = hasGcpAccess(userAccess);
     const ibm = hasIbmAccess(userAccess);
     const ocp = hasOcpAccess(userAccess);
-    const path = getRoutePath(location);
+    const path = this.getRoutePath();
 
     switch (path) {
       case paths.explorer:
@@ -120,10 +120,6 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
   };
 });
 
-const mapDispatchToProps: PermissionsDispatchProps = {
-  // TBD...
-};
-
-const Permissions = withRouter(connect(mapStateToProps, mapDispatchToProps)(PermissionsBase));
+const Permissions = withRouter(connect(mapStateToProps, undefined)(PermissionsBase));
 
 export { Permissions, PermissionsProps };
