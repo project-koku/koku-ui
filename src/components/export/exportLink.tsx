@@ -54,7 +54,7 @@ class ExportLinkBase extends React.Component<ExportLinkProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<ExportLinkOwnProps, ExportLinkStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<ExportLinkOwnProps, ExportLinkStateProps>(state => {
   const isOpen = uiSelectors.selectIsExportDrawerOpen(state);
 
   return {

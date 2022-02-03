@@ -101,7 +101,7 @@ class ExportDrawerBase extends React.Component<ExportDrawerProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<ExportDrawerOwnProps, ExportDrawerStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<ExportDrawerOwnProps, ExportDrawerStateProps>(state => {
   const isOpen = uiSelectors.selectIsExportDrawerOpen(state);
 
   return {
