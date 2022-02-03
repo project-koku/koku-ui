@@ -19,6 +19,7 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import { Currency } from 'components/currency';
+import { ExportLink } from 'components/export';
 import messages from 'locales/messages';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData/noData';
@@ -666,8 +667,11 @@ class OverviewBase extends React.Component<OverviewProps> {
                 </Popover>
               </span>
             </Title>
-            {/* Todo: Show in-progress features in beta environment only */}
-            {isBetaFeature() && <Currency />}
+            <div style={styles.headerContentRight}>
+              {/* Todo: Show in-progress features in beta environment only */}
+              {isBetaFeature() && <Currency />}
+              {isBetaFeature() && <ExportLink />}
+            </div>
           </div>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
           <div style={styles.headerContent}>
