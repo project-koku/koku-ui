@@ -6,6 +6,7 @@ import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query
 import { Report } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { Currency } from 'components/currency';
+import { ExportLink } from 'components/export';
 import messages from 'locales/messages';
 import { CostType } from 'pages/views/components/costType';
 import { TagLink } from 'pages/views/details/components/tag/tagLink';
@@ -118,8 +119,11 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
               </li>
             </ol>
           </nav>
-          {/* Todo: Show in-progress features in beta environment only */}
-          {isBetaFeature() && <Currency />}
+          <div style={styles.headerContentRight}>
+            {/* Todo: Show in-progress features in beta environment only */}
+            {isBetaFeature() && <Currency />}
+            {isBetaFeature() && <ExportLink />}
+          </div>
         </div>
         <div style={styles.headerContent}>
           <div style={styles.title}>

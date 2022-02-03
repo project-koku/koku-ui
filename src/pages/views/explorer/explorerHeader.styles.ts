@@ -44,6 +44,9 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
   },
+  headerContentRight: {
+    display: 'flex',
+  },
   perspectiveContainer: {
     display: 'flex',
     marginTop: global_spacer_md.var,
