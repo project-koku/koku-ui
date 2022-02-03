@@ -6,6 +6,7 @@ import { IbmReport } from 'api/reports/ibmReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { Currency } from 'components/currency';
+import { ExportLink } from 'components/export';
 import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import { filterProviders } from 'pages/views/utils/providers';
@@ -71,8 +72,11 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.IBMDetailsTitle)}
           </Title>
-          {/* Todo: Show in-progress features in beta environment only */}
-          {isBetaFeature() && <Currency />}
+          <div style={styles.headerContentRight}>
+            {/* Todo: Show in-progress features in beta environment only */}
+            {isBetaFeature() && <Currency />}
+            {isBetaFeature() && <ExportLink />}
+          </div>
         </div>
         <div style={styles.headerContent}>
           <div style={styles.headerContentLeft}>
