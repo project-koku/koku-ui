@@ -14,10 +14,22 @@ test('default state', async () => {
   expect(selectors.selectUIState(store.getState())).toMatchSnapshot();
 });
 
+test('close export drawer', async () => {
+  const store = createUIStore();
+  store.dispatch(actions.closeExportDrawer());
+  expect(uiSelectors.selectIsExportDrawerOpen(store.getState())).toBe(false);
+});
+
 test('close providers modal', async () => {
   const store = createUIStore();
   store.dispatch(actions.closeProvidersModal());
   expect(uiSelectors.selectIsProvidersModalOpen(store.getState())).toBe(false);
+});
+
+test('open export drawer', async () => {
+  const store = createUIStore();
+  store.dispatch(actions.openExportDrawer());
+  expect(uiSelectors.selectIsExportDrawerOpen(store.getState())).toBe(true);
 });
 
 test('open providers modal', async () => {
