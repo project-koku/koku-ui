@@ -7,7 +7,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 
-import { SummaryModalView } from './summaryModalView';
+import { SummaryModalContent } from './summaryModalContent';
 
 interface SummaryModalOwnProps {
   groupBy: string;
@@ -50,7 +50,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
         })}
         variant="large"
       >
-        <SummaryModalView reportGroupBy={reportGroupBy} reportPathsType={reportPathsType} />
+        <SummaryModalContent reportGroupBy={reportGroupBy} reportPathsType={reportPathsType} />
       </Modal>
     );
   }
