@@ -29,6 +29,9 @@ export const styles = {
     display: 'flex',
     minHeight: '90px',
   },
+  headerContentRight: {
+    display: 'flex',
+  },
   title: {
     paddingBottom: global_spacer_sm.var,
   },
