@@ -2,11 +2,7 @@ import { ActionType, getType } from 'typesafe-actions';
 
 import { closeExportDrawer, openExportDrawer, resetState } from './uiActions';
 
-export type UIAction = ActionType<
-  | typeof closeExportDrawer
-  | typeof openExportDrawer
-  | typeof resetState
->;
+export type UIAction = ActionType<typeof closeExportDrawer | typeof openExportDrawer | typeof resetState>;
 
 export type UIState = Readonly<{
   isExportDrawerOpen: boolean;
