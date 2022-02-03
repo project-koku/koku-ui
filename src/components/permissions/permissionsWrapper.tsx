@@ -5,6 +5,7 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import { asyncComponent } from 'components/async';
+import { ExportDrawer } from 'components/export';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
@@ -75,10 +76,10 @@ class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps> {
         {userAccessFetchStatus === FetchStatus.complete && (
           <Permissions>
             {providersFetchStatus === FetchStatus.complete && (
-              <>
+              <ExportDrawer>
                 <InactiveSources />
                 {accountSettingsFetchStatus === FetchStatus.complete && children}
-              </>
+              </ExportDrawer>
             )}
           </Permissions>
         )}
