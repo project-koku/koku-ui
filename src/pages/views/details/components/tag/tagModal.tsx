@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
 
-import { TagView } from './tagView';
+import { TagContent } from './tagContent';
 
 interface TagModalOwnProps {
   isOpen: boolean;
@@ -88,7 +88,7 @@ class TagModalBase extends React.Component<TagModalProps> {
         title={intl.formatMessage(messages.TagHeadingTitle, { value: this.getTagValueCount() })}
         width={'50%'}
       >
-        <TagView groupBy={groupBy} groupByValue={groupByValue} tagReport={tagReport} />
+        <TagContent groupBy={groupBy} groupByValue={groupByValue} tagReport={tagReport} />
       </Modal>
     );
   }
