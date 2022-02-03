@@ -12003,7 +12003,13 @@
     "ExportAll": [
       {
         "type": 0,
-        "value": "All"
+        "value": "Export all"
+      }
+    ],
+    "ExportAllExports": [
+      {
+        "type": 0,
+        "value": "All exports"
       }
     ],
     "ExportDownload": [
