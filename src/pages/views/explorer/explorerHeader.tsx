@@ -6,6 +6,7 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import { Currency } from 'components/currency';
+import { ExportLink } from 'components/export';
 import messages from 'locales/messages';
 import { CostType } from 'pages/views/components/costType';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
@@ -291,8 +292,11 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
             {intl.formatMessage(messages.ExplorerTitle)}
           </Title>
-          {/* Todo: Show in-progress features in beta environment only */}
-          {isBetaFeature() && <Currency />}
+          <div style={styles.headerContentRight}>
+            {/* Todo: Show in-progress features in beta environment only */}
+            {isBetaFeature() && <Currency />}
+            {isBetaFeature() && <ExportLink />}
+          </div>
         </div>
         <div style={styles.perspectiveContainer}>
           {this.getPerspective(noProviders)}

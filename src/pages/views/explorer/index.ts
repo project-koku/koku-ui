@@ -1,3 +1,3 @@
-import ExplorerWrapper from './explorerWrapper';
+import Explorer from './explorer';
 
-export default ExplorerWrapper;
+export default Explorer;

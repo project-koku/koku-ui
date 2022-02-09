@@ -20,6 +20,7 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
+import { ExportLink } from 'components/export';
 import * as H from 'history';
 import messages from 'locales/messages';
 import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
@@ -33,7 +34,8 @@ import { paths } from 'routes';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
-import { getBaseName } from 'utils/getBaseName';
+import { isBetaFeature } from 'utils/feature';
+import { getBaseName } from 'utils/paths';
 
 interface Props extends WrappedComponentProps {
   historyObject: H.History;
@@ -104,12 +106,18 @@ const Header: React.FunctionComponent<Props> = ({
         actionText={current.sources.length === 0 ? intl.formatMessage(messages.CostModelsDelete) : ''}
       />
       <header style={styles.headerCostModel}>
-        <Breadcrumb style={styles.breadcrumb}>
-          <BreadcrumbItem to={`${baseName}${paths.costModels}`}>
-            {intl.formatMessage(messages.CostModels)}
-          </BreadcrumbItem>
-          <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>
-        </Breadcrumb>
+        <div style={styles.headerContent}>
+          <Breadcrumb style={styles.breadcrumb}>
+            <BreadcrumbItem to={`${baseName}${paths.costModels}`}>
+              {intl.formatMessage(messages.CostModels)}
+            </BreadcrumbItem>
+            <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>
+          </Breadcrumb>
+          <div style={styles.headerContentRight}>
+            {/* Todo: Show in-progress features in beta environment only */}
+            {isBetaFeature() && <ExportLink />}
+          </div>
+        </div>
         <Split>
           <SplitItem style={styles.headerDescription}>
             <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>

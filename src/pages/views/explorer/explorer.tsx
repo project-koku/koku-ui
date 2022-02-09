@@ -23,7 +23,6 @@ import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { uiActions } from 'store/ui';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
@@ -74,7 +73,6 @@ interface ExplorerStateProps {
 
 interface ExplorerDispatchProps {
   fetchReport: typeof reportActions.fetchReport;
-  resetState: typeof uiActions.resetState;
 }
 
 interface ExplorerState {
@@ -114,9 +112,6 @@ class Explorer extends React.Component<ExplorerProps> {
   }
 
   public componentDidMount() {
-    const { resetState } = this.props;
-
-    resetState(); // Clear cached API responses
     this.updateReport();
   }
 
@@ -453,7 +448,7 @@ class Explorer extends React.Component<ExplorerProps> {
     const itemsTotal = report && report.meta ? report.meta.count : 0;
     const title = intl.formatMessage(messages.ExplorerTitle);
 
-    // Note: Providers are fetched via the InactiveSources component used by all routes
+    // Note: Providers are fetched via the AccountSettings component used by all routes
     if (reportError) {
       return <NotAvailable title={title} />;
     } else if (isLoading) {
@@ -612,7 +607,6 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
 
 const mapDispatchToProps: ExplorerDispatchProps = {
   fetchReport: reportActions.fetchReport,
-  resetState: uiActions.resetState,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Explorer));

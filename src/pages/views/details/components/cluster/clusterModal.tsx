@@ -6,8 +6,8 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
+import { ClusterContent } from './clusterContent';
 import { styles } from './clusterModal.styles';
-import { ClusterView } from './clusterView';
 
 interface ClusterModalOwnProps {
   groupBy: string;
@@ -45,7 +45,7 @@ class ClusterModalBase extends React.Component<ClusterModalProps> {
         title={intl.formatMessage(messages.DetailsClustersModalTitle, { groupBy, name: item.label })}
         width={'50%'}
       >
-        <ClusterView item={item} />
+        <ClusterContent item={item} />
       </Modal>
     );
   }

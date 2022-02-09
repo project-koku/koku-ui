@@ -1,5 +1,6 @@
 import { RBAC } from 'api/rbac';
 import { FetchStatus } from 'store/common';
+import { resetState } from 'store/ui/uiActions';
 import { ActionType, getType } from 'typesafe-actions';
 
 import { fetchRbacFailure, fetchRbacRequest, fetchRbacSuccess } from './actions';
@@ -20,10 +21,15 @@ export const defaultState: RbacState = {
   error: null,
 };
 
-export type RbacAction = ActionType<typeof fetchRbacFailure | typeof fetchRbacSuccess | typeof fetchRbacRequest>;
+export type RbacAction = ActionType<
+  typeof fetchRbacFailure | typeof fetchRbacSuccess | typeof fetchRbacRequest | typeof resetState
+>;
 
 export const reducer = (state: RbacState = defaultState, action: RbacAction): RbacState => {
   switch (action.type) {
+    case getType(resetState):
+      state = defaultState;
+      return state;
     case getType(fetchRbacRequest):
       return {
         ...state,

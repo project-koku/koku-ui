@@ -4,7 +4,6 @@ import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/
 import { addCostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Rate } from 'api/rates';
-import { AccountSettings } from 'components/accountSettings';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
@@ -91,40 +90,38 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
   }
 
   return isOpen ? (
-    <AccountSettings>
-      <Wizard
-        isOpen
-        title={intl.formatMessage(messages.CreateCostModelTitle)}
-        description={intl.formatMessage(messages.CreateCostModelDesc)}
-        steps={newSteps}
-        startAtStep={current}
-        onNext={onMove}
-        onBack={onMove}
-        onGoToStep={onMove}
-        onClose={closeFnc}
-        footer={isSuccess || isProcess || isAddingRate ? <div /> : null}
-        onSave={() => {
-          const { name, type, tiers, markup, description, distribution, isDiscount, sources } = context;
-          addCostModel({
-            name,
-            source_type: type,
-            description,
-            distribution,
-            rates: transformTiers(tiers, 'USD', true), // Todo: Temporarily transform to USD for APIs,
-            markup: {
-              value: `${isDiscount ? '-' : ''}${unFormat(markup)}`,
-              unit: 'percent',
-            },
-            source_uuids: sources.map(src => src.uuid),
+    <Wizard
+      isOpen
+      title={intl.formatMessage(messages.CreateCostModelTitle)}
+      description={intl.formatMessage(messages.CreateCostModelDesc)}
+      steps={newSteps}
+      startAtStep={current}
+      onNext={onMove}
+      onBack={onMove}
+      onGoToStep={onMove}
+      onClose={closeFnc}
+      footer={isSuccess || isProcess || isAddingRate ? <div /> : null}
+      onSave={() => {
+        const { name, type, tiers, markup, description, distribution, isDiscount, sources } = context;
+        addCostModel({
+          name,
+          source_type: type,
+          description,
+          distribution,
+          rates: transformTiers(tiers, 'USD', true), // Todo: Temporarily transform to USD for APIs,
+          markup: {
+            value: `${isDiscount ? '-' : ''}${unFormat(markup)}`,
+            unit: 'percent',
+          },
+          source_uuids: sources.map(src => src.uuid),
+        })
+          .then(() => {
+            setSuccess();
+            updateCostModel();
           })
-            .then(() => {
-              setSuccess();
-              updateCostModel();
-            })
-            .catch(err => setError(parseApiError(err)));
-        }}
-      />
-    </AccountSettings>
+          .catch(err => setError(parseApiError(err)));
+      }}
+    />
   ) : null;
 };
 

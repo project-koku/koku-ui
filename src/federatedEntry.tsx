@@ -6,7 +6,7 @@ import { getLocale } from 'components/i18n';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { getBaseName } from 'utils/getBaseName';
+import { getBaseName } from 'utils/paths';
 
 // eslint-disable-next-line no-restricted-imports
 import messages from '../locales/data.json';

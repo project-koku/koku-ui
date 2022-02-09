@@ -1,5 +1,5 @@
-import { asyncComponent } from 'components/async/asyncComponent/asyncComponent';
-import { permissionsComponent } from 'components/async/permissionsComponent/permissionsComponent';
+import { asyncComponent } from 'components/async';
+import { permissionsComponent } from 'components/permissions';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 

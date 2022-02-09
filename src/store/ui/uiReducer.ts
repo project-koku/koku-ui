@@ -1,17 +1,17 @@
 import { ActionType, getType } from 'typesafe-actions';
 
-import { closeProvidersModal, openProvidersModal, toggleSidebar } from './uiActions';
+import { closeExportDrawer, openExportDrawer, resetState } from './uiActions';
 
-export type UIAction = ActionType<typeof closeProvidersModal | typeof openProvidersModal | typeof toggleSidebar>;
+export type UIAction = ActionType<typeof closeExportDrawer | typeof openExportDrawer | typeof resetState>;
 
 export type UIState = Readonly<{
-  isExportModalOpen: boolean;
+  isExportDrawerOpen: boolean;
   isProvidersModalOpen: boolean;
   isSidebarOpen: boolean;
 }>;
 
 export const defaultState: UIState = {
-  isExportModalOpen: false,
+  isExportDrawerOpen: false,
   isProvidersModalOpen: false,
   isSidebarOpen: false,
 };
@@ -20,21 +20,22 @@ export const stateKey = 'ui';
 
 export function uiReducer(state = defaultState, action: UIAction): UIState {
   switch (action.type) {
-    case getType(closeProvidersModal):
+    case getType(resetState):
+      state = defaultState;
+      return state;
+
+    case getType(closeExportDrawer):
       return {
         ...state,
-        isProvidersModalOpen: false,
+        isExportDrawerOpen: false,
       };
-    case getType(openProvidersModal):
+
+    case getType(openExportDrawer):
       return {
         ...state,
-        isProvidersModalOpen: true,
+        isExportDrawerOpen: true,
       };
-    case getType(toggleSidebar):
-      return {
-        ...state,
-        isSidebarOpen: !state.isSidebarOpen,
-      };
+
     default:
       return state;
   }

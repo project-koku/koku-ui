@@ -1682,9 +1682,14 @@ export default defineMessages({
     id: 'ExportAggregateType',
   },
   ExportAll: {
-    defaultMessage: 'All',
+    defaultMessage: 'Export all',
     description: 'Export all',
     id: 'ExportAll',
+  },
+  ExportAllExports: {
+    defaultMessage: 'All exports',
+    description: 'All exports',
+    id: 'ExportAllExports',
   },
   ExportDownload: {
     defaultMessage: 'Generate and download',
@@ -2256,6 +2261,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'count {{count, plural, one {Count} other {Count ({units})}}} ' +
+      'effective_usage {{count, plural, one {Request} other {Effective-usage ({units})}}} ' +
       'request {{count, plural, one {Request} other {Request ({units})}}} ' +
       'usage {{count, plural, one {Usage} other {Usage ({units})}}} ' +
       'other {}}',

@@ -12003,7 +12003,13 @@
     "ExportAll": [
       {
         "type": 0,
-        "value": "All"
+        "value": "Export all"
+      }
+    ],
+    "ExportAllExports": [
+      {
+        "type": 0,
+        "value": "All exports"
       }
     ],
     "ExportDownload": [
@@ -16311,6 +16317,42 @@
                       {
                         "type": 0,
                         "value": "Count ("
+                      },
+                      {
+                        "type": 1,
+                        "value": "units"
+                      },
+                      {
+                        "type": 0,
+                        "value": ")"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "effective_usage": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Request"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Effective-usage ("
                       },
                       {
                         "type": 1,

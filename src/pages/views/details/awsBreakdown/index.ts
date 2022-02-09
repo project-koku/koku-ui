@@ -1,3 +1,3 @@
-import AwsBreakdownWrapper from './awsBreakdownWrapper';
+import AwsBreakdown from './awsBreakdown';
 
-export default AwsBreakdownWrapper;
+export default AwsBreakdown;
