@@ -1,6 +1,7 @@
 import { Rates } from 'api/rates';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
+import { resetState } from 'store/ui/uiActions';
 import { ActionType, getType } from 'typesafe-actions';
 
 import { fetchPriceListFailure, fetchPriceListRequest, fetchPriceListSuccess } from './actions';
@@ -24,11 +25,15 @@ export const defaultState: State = {
 };
 
 export type Action = ActionType<
-  typeof fetchPriceListRequest | typeof fetchPriceListSuccess | typeof fetchPriceListFailure
+  typeof fetchPriceListRequest | typeof fetchPriceListSuccess | typeof fetchPriceListFailure | typeof resetState
 >;
 
 export function reducer(state = defaultState, action: Action): State {
   switch (action.type) {
+    case getType(resetState):
+      state = defaultState;
+      return state;
+
     case getType(fetchPriceListRequest):
       return {
         ...state,

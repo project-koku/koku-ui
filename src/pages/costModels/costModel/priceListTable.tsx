@@ -85,7 +85,10 @@ class PriceListTable extends React.Component<Props, State> {
     };
     const getMeasurementLabel = m => {
       // Match message descriptor or default to API string
-      const label = intl.formatMessage(messages.MeasurementValues, { value: m.toLowerCase(), count: 1 });
+      const label = intl.formatMessage(messages.MeasurementValues, {
+        value: m.toLowerCase().replace('-', '_'),
+        count: 1,
+      });
       return label ? label : m;
     };
     const metricOpts = Object.keys(metricsHash).map(m => ({

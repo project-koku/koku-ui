@@ -9,14 +9,14 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { providersActions, providersQuery, providersSelectors } from 'store/providers';
+import { providersQuery, providersSelectors } from 'store/providers';
 import {
   deleteInactiveSources,
   invalidateInactiveSources,
   isInactiveSourcesValid,
   setInactiveSources,
 } from 'utils/localStorage';
-import { getReleasePath } from 'utils/pathname';
+import { getReleasePath } from 'utils/paths';
 
 interface InactiveSourcesOwnProps {
   // TBD...
@@ -26,49 +26,11 @@ interface InactiveSourcesStateProps {
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
-  providersQueryString: string;
 }
 
-interface InactiveSourcesDispatchProps {
-  fetchProviders: typeof providersActions.fetchProviders;
-}
-
-interface InactiveSourcesState {
-  // TBD...
-}
-
-type InactiveSourcesProps = InactiveSourcesOwnProps &
-  InactiveSourcesDispatchProps &
-  InactiveSourcesStateProps &
-  WrappedComponentProps;
+type InactiveSourcesProps = InactiveSourcesOwnProps & InactiveSourcesStateProps & WrappedComponentProps;
 
 class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
-  protected defaultState: InactiveSourcesState = {
-    // TBD...
-  };
-  public state: InactiveSourcesState = { ...this.defaultState };
-
-  public componentDidMount() {
-    const { providers, providersFetchStatus } = this.props;
-
-    if (!providers && providersFetchStatus !== FetchStatus.inProgress) {
-      this.fetchProviders();
-    }
-  }
-
-  public componentDidUpdate() {
-    const { providers, providersError, providersFetchStatus } = this.props;
-
-    if (!providers && providersFetchStatus !== FetchStatus.inProgress && !providersError) {
-      this.fetchProviders();
-    }
-  }
-
-  private fetchProviders = () => {
-    const { fetchProviders, providersQueryString } = this.props;
-    fetchProviders(ProviderType.all, providersQueryString);
-  };
-
   private getInactiveSourceNames = () => {
     const { providers } = this.props;
 
@@ -177,20 +139,14 @@ const mapStateToProps = createMapStateToProps<InactiveSourcesOwnProps, InactiveS
   //     };
   //   }
   // }
-  // }
 
   return {
     providers,
     providersError,
     providersFetchStatus,
-    providersQueryString,
   };
 });
 
-const mapDispatchToProps: InactiveSourcesDispatchProps = {
-  fetchProviders: providersActions.fetchProviders,
-};
-
-const InactiveSources = injectIntl(connect(mapStateToProps, mapDispatchToProps)(InactiveSourcesBase));
+const InactiveSources = injectIntl(connect(mapStateToProps, undefined)(InactiveSourcesBase));
 
 export { InactiveSources, InactiveSourcesProps };

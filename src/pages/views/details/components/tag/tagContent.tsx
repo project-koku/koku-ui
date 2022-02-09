@@ -7,15 +7,15 @@ import { connect } from 'react-redux';
 
 import { styles } from './tag.styles';
 
-interface TagViewOwnProps {
+interface TagContentOwnProps {
   groupBy: string;
   groupByValue: string | number;
   tagReport?: Tag;
 }
 
-type TagViewProps = TagViewOwnProps & WrappedComponentProps;
+type TagContentProps = TagContentOwnProps & WrappedComponentProps;
 
-class TagViewBase extends React.Component<TagViewProps> {
+class TagContentBase extends React.Component<TagContentProps> {
   private getDataListItems = () => {
     const { tagReport } = this.props;
     const result = [];
@@ -84,6 +84,6 @@ class TagViewBase extends React.Component<TagViewProps> {
   }
 }
 
-const TagView = injectIntl(connect()(TagViewBase));
+const TagContent = injectIntl(connect()(TagContentBase));
 
-export { TagView, TagViewProps };
+export { TagContent, TagContentProps };

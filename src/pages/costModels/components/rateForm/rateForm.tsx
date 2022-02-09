@@ -67,7 +67,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
     const _units = u.replace(/-/g, '_').toLowerCase();
     const units = intl.formatMessage(messages.Units, { units: unitsLookupKey(_units) });
     const label = intl.formatMessage(messages.MeasurementValues, {
-      value: m.toLowerCase(),
+      value: m.toLowerCase().replace('-', '_'),
       units: units ? units : u,
       count: 2,
     });

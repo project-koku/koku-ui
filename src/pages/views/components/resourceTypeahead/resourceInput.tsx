@@ -201,12 +201,10 @@ class ResourceInputBase extends React.Component<ResourceInputProps> {
 
   // Enable keyboard only usage while focused on the menu
   private handleMenuKeyDown = event => {
-    if (event.key === 'Escape') {
+    if (event.key === 'Escape' || event.key === 'Tab') {
+      event.preventDefault();
       this.focusTextInput();
       this.setState({ menuIsOpen: false });
-    }
-    if (event.key === 'Tab') {
-      this.handleClearSearch();
     }
   };
 
@@ -234,6 +232,7 @@ class ResourceInputBase extends React.Component<ResourceInputProps> {
         this.handleMenuSelect(event);
         break;
       case 'Escape':
+      case 'Tab':
         this.focusTextInput();
         this.setState({ menuIsOpen: false });
         break;
@@ -244,9 +243,6 @@ class ResourceInputBase extends React.Component<ResourceInputProps> {
           const firstElement = this.menuRef.current.querySelector('li > button:not(:disabled)');
           firstElement && (firstElement as any).focus();
         }
-        break;
-      case 'Tab':
-        this.handleClearSearch();
         break;
       default:
         // Open menu upon any un-designated keys

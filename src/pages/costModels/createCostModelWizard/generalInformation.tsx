@@ -23,15 +23,15 @@ import { descriptionErrors, nameErrors } from './steps';
 import { styles } from './wizard.styles';
 
 interface GeneralInformationOwnProps {
-  // TBD
+  // TBD...
 }
 
 interface GeneralInformationStateProps {
-  // TBD
+  // TBD...
 }
 
 interface GeneralInformationDispatchProps {
-  // TBD
+  // TBD...
 }
 
 type GeneralInformationProps = GeneralInformationOwnProps &
@@ -141,7 +141,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
 
 const mapStateToProps = createMapStateToProps<GeneralInformationOwnProps, GeneralInformationStateProps>(() => {
   return {
-    // TBD
+    // TBD...
   };
 });
 

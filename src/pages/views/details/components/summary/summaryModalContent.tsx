@@ -13,30 +13,30 @@ import { formatCurrency } from 'utils/format';
 
 import { styles } from './summaryModal.styles';
 
-interface SummaryModalViewOwnProps {
+interface SummaryModalContentOwnProps {
   reportGroupBy?: string;
   reportPathsType: ReportPathsType;
 }
 
-interface SummaryModalViewStateProps {
+interface SummaryModalContentStateProps {
   queryString?: string;
   report?: Report;
   reportFetchStatus?: FetchStatus;
 }
 
-interface SummaryModalViewDispatchProps {
+interface SummaryModalContentDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type SummaryModalViewProps = SummaryModalViewOwnProps &
-  SummaryModalViewStateProps &
-  SummaryModalViewDispatchProps &
+type SummaryModalContentProps = SummaryModalContentOwnProps &
+  SummaryModalContentStateProps &
+  SummaryModalContentDispatchProps &
   WrappedComponentProps;
 
 const reportType = ReportType.cost;
 
-class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
-  constructor(props: SummaryModalViewProps) {
+class SummaryModalContentBase extends React.Component<SummaryModalContentProps> {
+  constructor(props: SummaryModalContentProps) {
     super(props);
   }
 
@@ -45,7 +45,7 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
     fetchReport(reportPathsType, reportType, queryString);
   }
 
-  public componentDidUpdate(prevProps: SummaryModalViewProps) {
+  public componentDidUpdate(prevProps: SummaryModalContentProps) {
     const { fetchReport, queryString, reportPathsType } = this.props;
     if (prevProps.queryString !== queryString) {
       fetchReport(reportPathsType, reportType, queryString);
@@ -89,7 +89,7 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<SummaryModalViewOwnProps, SummaryModalViewStateProps>(
+const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, SummaryModalContentStateProps>(
   (state, { reportGroupBy, reportPathsType }) => {
     const query = parseQuery<Query>(location.search);
     const groupByOrgValue = getGroupByOrgValue(query);
@@ -125,10 +125,10 @@ const mapStateToProps = createMapStateToProps<SummaryModalViewOwnProps, SummaryM
   }
 );
 
-const mapDispatchToProps: SummaryModalViewDispatchProps = {
+const mapDispatchToProps: SummaryModalContentDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryModalView = injectIntl(connect(mapStateToProps, mapDispatchToProps)(SummaryModalViewBase));
+const SummaryModalContent = injectIntl(connect(mapStateToProps, mapDispatchToProps)(SummaryModalContentBase));
 
-export { SummaryModalView, SummaryModalViewProps };
+export { SummaryModalContent, SummaryModalContentProps };

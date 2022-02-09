@@ -23,7 +23,6 @@ import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { uiActions } from 'store/ui';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedIbmReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
@@ -45,7 +44,6 @@ interface IbmDetailsStateProps {
 
 interface IbmDetailsDispatchProps {
   fetchReport: typeof reportActions.fetchReport;
-  resetState: typeof uiActions.resetState;
 }
 
 interface IbmDetailsState {
@@ -105,9 +103,6 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
   }
 
   public componentDidMount() {
-    const { resetState } = this.props;
-
-    resetState(); // Clear cached API responses
     this.updateReport();
   }
 
@@ -381,15 +376,14 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
     const computedItems = this.getComputedItems();
     const title = intl.formatMessage(messages.IBMDetailsTitle);
 
-    // Note: Providers are fetched via the InactiveSources component used by all routes
+    // Note: Providers are fetched via the AccountSettings component used by all routes
     if (reportError) {
       return <NotAvailable title={title} />;
-    } else if (providersFetchStatus === FetchStatus.inProgress && reportFetchStatus === FetchStatus.inProgress) {
+    } else if (providersFetchStatus === FetchStatus.inProgress) {
       return <Loading title={title} />;
-    } else if (providersFetchStatus === FetchStatus.complete && reportFetchStatus === FetchStatus.complete) {
+    } else if (providersFetchStatus === FetchStatus.complete) {
       // API returns empty data array for no sources
-      const noProviders =
-        providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
+      const noProviders = providers && providers.meta && providers.meta.count === 0;
 
       if (noProviders) {
         return <NoProviders providerType={ProviderType.ibm} title={title} />;
@@ -476,7 +470,6 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
 
 const mapDispatchToProps: IbmDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
-  resetState: uiActions.resetState,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(IbmDetails));

@@ -30,6 +30,9 @@ export const styles = {
     display: 'flex',
     minHeight: '90px',
   },
+  headerContentRight: {
+    display: 'flex',
+  },
   info: {
     verticalAlign: 'middle',
   },

@@ -35,6 +35,9 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
   },
+  headerContentRight: {
+    display: 'flex',
+  },
   infoDescription: {
     color: global_disabled_color_100.value,
     fontSize: global_FontSize_xs.value,

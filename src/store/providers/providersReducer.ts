@@ -1,6 +1,7 @@
 import { Providers } from 'api/providers';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
+import { resetState } from 'store/ui/uiActions';
 import { ActionType, getType } from 'typesafe-actions';
 
 import { fetchProvidersFailure, fetchProvidersRequest, fetchProvidersSuccess } from './providersActions';
@@ -18,11 +19,15 @@ export const defaultState: ProvidersState = {
 };
 
 export type ProvidersAction = ActionType<
-  typeof fetchProvidersFailure | typeof fetchProvidersRequest | typeof fetchProvidersSuccess
+  typeof fetchProvidersFailure | typeof fetchProvidersRequest | typeof fetchProvidersSuccess | typeof resetState
 >;
 
 export function providersReducer(state = defaultState, action: ProvidersAction): ProvidersState {
   switch (action.type) {
+    case getType(resetState):
+      state = defaultState;
+      return state;
+
     case getType(fetchProvidersRequest):
       return {
         ...state,

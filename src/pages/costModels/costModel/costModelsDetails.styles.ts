@@ -50,6 +50,13 @@ export const styles = {
     padding: global_spacer_lg.var,
     backgroundColor: global_BackgroundColor_light_100.var,
   },
+  headerContent: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  headerContentRight: {
+    display: 'flex',
+  },
   headerCostModel: {
     padding: global_spacer_lg.value,
     paddingBottom: 0,

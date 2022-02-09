@@ -24,6 +24,9 @@ export const styles = {
   headerContentLeft: {
     display: 'flex',
   },
+  headerContentRight: {
+    display: 'flex',
+  },
   infoIcon: {
     fontSize: global_FontSize_md.value,
   },
