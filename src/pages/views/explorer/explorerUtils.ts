@@ -16,7 +16,6 @@ import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGc
 import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate, getLast90DaysDate } from 'utils/dateRange';
-import { isBetaFeature } from 'utils/feature';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -71,12 +70,8 @@ export const dateRangeOptions: {
   { label: messages.ExplorerDateRange, value: 'previous_month_to_date' },
   { label: messages.ExplorerDateRange, value: 'last_thirty_days' },
   { label: messages.ExplorerDateRange, value: 'last_sixty_days' },
+  { label: messages.ExplorerDateRange, value: 'last_ninety_days' },
 ];
-
-// Todo: Show in-progress features in beta environment only
-if (isBetaFeature()) {
-  dateRangeOptions.push({ label: messages.ExplorerDateRange, value: 'last_ninety_days' });
-}
 
 export const groupByAwsOptions: {
   label: string;
