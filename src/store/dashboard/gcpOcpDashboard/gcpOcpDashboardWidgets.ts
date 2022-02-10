@@ -116,12 +116,10 @@ export const networkWidget: GcpOcpDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service:
-      'VPC network,Network services,Hybrid Connectivity,Network Service Tiers,Network Security,Network Intelligence',
+    service: 'Cloud DNS',
   },
   tabsFilter: {
-    service:
-      'VPC network,Network services,Hybrid Connectivity,Network Service Tiers,Network Security,Network Intelligence',
+    service: 'Cloud DNS',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,

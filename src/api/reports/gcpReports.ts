@@ -24,7 +24,7 @@ export interface GroupByServiceData extends Omit<GcpReportData, 'services'> {
   service: string;
 }
 
-export interface GroupByGcpProjectData extends Omit<GcpReportData, 'projects'> {
+export interface GroupByGcpProjectData extends Omit<GcpReportData, 'gcp_projects'> {
   gcp_project: string;
 }
 
@@ -32,15 +32,10 @@ export interface GroupByInstanceTypeData extends Omit<GcpReportData, 'instance_t
   instance_type: string;
 }
 
-export interface GroupByProjectData extends Omit<GcpReportData, 'projects'> {
-  project: string;
-}
-
 export interface GcpReportData extends ReportData {
   accounts?: GroupByAccountData[];
   gcp_projects?: GroupByGcpProjectData[];
   instance_types?: GroupByInstanceTypeData[];
-  projects?: GroupByProjectData[];
   regions?: GroupByRegionData[];
   services?: GroupByServiceData[];
 }
