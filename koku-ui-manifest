@@ -124,13 +124,13 @@ mgmt_services/cost-mgmt:koku-ui/@patternfly/react-styles:4.42.14.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@patternfly/react-table:4.61.14.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@patternfly/react-tokens:4.44.14.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@popperjs/core:2.10.2.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-config-utilities:1.5.9.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-config-utilities:1.5.10.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-notifications:3.2.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-translations:3.2.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.8.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components:3.6.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components:3.7.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/rbac-client:1.0.104.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@restart/context:2.1.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@restart/hooks:0.3.27.yarnlock
@@ -337,7 +337,7 @@ mgmt_services/cost-mgmt:koku-ui/awesome-debounce-promise:2.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/awesome-imperative-promise:1.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/awesome-only-resolves-last-promise:1.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/axe-core:4.3.3.yarnlock
-mgmt_services/cost-mgmt:koku-ui/axios:0.25.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/axios:0.26.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/axios:0.21.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/axios:0.21.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/axobject-query:2.2.0.yarnlock
@@ -650,7 +650,7 @@ mgmt_services/cost-mgmt:koku-ui/flatted:3.2.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/focus-trap:6.2.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.14.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.14.4.yarnlock
-mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.14.7.yarnlock
+mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.14.8.yarnlock
 mgmt_services/cost-mgmt:koku-ui/form-data:3.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/forwarded:0.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/fresh:0.5.2.yarnlock
