@@ -1,9 +1,6 @@
+/* eslint-disable no-console */
 const path = require('path');
 const webpack = require('webpack');
-const weblog = require('webpack-log');
-const log = weblog({
-  name: 'wds',
-});
 const fs = require('fs');
 const proxy = require('@redhat-cloud-services/frontend-components-config-utilities/proxy');
 const federatedPlugin = require('@redhat-cloud-services/frontend-components-config-utilities/federated-modules');
@@ -43,10 +40,11 @@ class WatchRunPlugin {
     compiler.hooks.watchRun.tap('WatchRun', comp => {
       if (comp.modifiedFiles) {
         const changedFiles = Array.from(comp.modifiedFiles, file => `\n  ${file}`).join('');
-        log.info(' ');
-        log.info('===============================');
-        log.info('FILES CHANGED:', changedFiles);
-        log.info('===============================');
+        const logger = compiler.getInfrastructureLogger('cost-management');
+        logger.info(' ');
+        logger.info('===============================');
+        logger.info('FILES CHANGED:', changedFiles);
+        logger.info('===============================');
       }
     });
   }
@@ -65,16 +63,16 @@ module.exports = (_env, argv) => {
   const port = useProxy ? 1337 : 8002;
   const standalone = { rbac, backofficeProxy, ...defaultServices };
 
-  log.info('~~~Using variables~~~');
-  log.info(`isProduction: ${isProduction}`);
-  log.info(`isBeta: ${isBeta}`);
-  log.info(`Current branch: ${gitBranch}`);
-  log.info(`Beta branches: ${betaBranches}`);
-  log.info(`Using deployments: ${appDeployment}`);
-  log.info(`Using proxy: ${useProxy}`);
-  log.info(`Using local API: ${useLocalRoutes}`);
-  log.info(`Public path: ${publicPath}`);
-  log.info('~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~Using variables~~~');
+  console.log(`isProduction: ${isProduction}`);
+  console.log(`isBeta: ${isBeta}`);
+  console.log(`Current branch: ${gitBranch}`);
+  console.log(`Beta branches: ${betaBranches}`);
+  console.log(`Using deployments: ${appDeployment}`);
+  console.log(`Using proxy: ${useProxy}`);
+  console.log(`Using local API: ${useLocalRoutes}`);
+  console.log(`Public path: ${publicPath}`);
+  console.log('~~~~~~~~~~~~~~~~~~~~~');
 
   const stats = {
     excludeAssets: fileRegEx,
