@@ -4,6 +4,7 @@ const weblog = require('webpack-log');
 const log = weblog({
   name: 'wds',
 });
+const fs = require('fs');
 const proxy = require('@redhat-cloud-services/frontend-components-config-utilities/proxy');
 const federatedPlugin = require('@redhat-cloud-services/frontend-components-config-utilities/federated-modules');
 const ChunkMapperPlugin = require('@redhat-cloud-services/frontend-components-config-utilities/chunk-mapper');
@@ -174,16 +175,19 @@ module.exports = (_env, argv) => {
           },
         ],
       }),
-
-      new HtmlWebpackPlugin({
-        template: path.join(srcDir, 'index.html'),
-      }),
-      new HtmlReplaceWebpackPlugin([
-        {
-          pattern: '@@env',
-          replacement: appDeployment,
-        },
-      ]),
+      ...(isProduction
+        ? [
+            new HtmlWebpackPlugin({
+              template: path.join(srcDir, 'index.html'),
+            }),
+            new HtmlReplaceWebpackPlugin([
+              {
+                pattern: '@@env',
+                replacement: appDeployment,
+              },
+            ]),
+          ]
+        : []),
       new MiniCssExtractPlugin({
         filename: isProduction ? '[id].[contenthash].css' : '[name].css',
         chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
@@ -238,8 +242,8 @@ module.exports = (_env, argv) => {
     },
     devServer: {
       allowedHosts: 'all',
-      historyApiFallback: {
-        index: `${publicPath}index.html`,
+      static: {
+        directory: distDir,
       },
       host: '0.0.0.0',
       hot: false, // default is true, which currently does not work with Insights and federated modules?
@@ -248,17 +252,27 @@ module.exports = (_env, argv) => {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
       },
+      devMiddleware: {
+        writeToDisk: true,
+      },
       https: useProxy,
       ...proxy({
         port,
         env: `${process.env.CLOUDOT_ENV}-${isBeta ? 'beta' : 'stable'}`,
         useProxy,
-        appUrl: [`/${isBeta ? 'beta/' : ''}openshift/cost-management`],
         proxyVerbose: true,
         publicPath,
+        /** Change after FEC proxy moves to "setupMiddlewares" */
+        onBeforeSetupMiddleware: ({ chromePath }) => {
+          const template = fs.readFileSync(`${chromePath}/index.html`, { encoding: 'utf-8' });
+          if (!fs.existsSync(distDir)) {
+            fs.mkdirSync(distDir);
+          }
+
+          fs.writeFileSync(`${distDir}/index.html`, template);
+        },
         routes,
         ...(useLocalRoutes && { standalone }),
-        useCloud: process.env.CLOUDOT_ENV === 'ci',
       }),
     },
   };
