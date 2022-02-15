@@ -11,7 +11,7 @@ const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const GitRevisionPlugin = require('git-revision-webpack-plugin');
+const { GitRevisionPlugin } = require('git-revision-webpack-plugin');
 const { dependencies, insights } = require('./package.json');
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
