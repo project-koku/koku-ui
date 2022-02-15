@@ -23,8 +23,6 @@ export const getIdKeyForTab = (tab: GcpDashboardTab): ComputedGcpReportItemsPara
       return 'gcp_project';
     case GcpDashboardTab.instanceType:
       return 'instance_type';
-    case GcpDashboardTab.projects:
-      return 'project';
     case GcpDashboardTab.regions:
       return 'region';
     case GcpDashboardTab.services:

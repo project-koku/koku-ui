@@ -77,6 +77,7 @@ const enum InfrastructurePerspective {
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp', // GCP filtered by Ocp
   ibm = 'ibm',
+  ibmOcp = 'ibm_ocp', // IBM filtered by Ocp
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
 }
 
@@ -158,13 +159,13 @@ const infrastructureAzureOcpOptions = [{ label: messages.PerspectiveValues, valu
 const infrastructureGcpOptions = [{ label: messages.PerspectiveValues, value: 'gcp' }];
 
 // Infrastructure GCP filtered by OCP options
-//
-// Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
-//
-// const infrastructureGcpOcpOptions = [{ label: messages.PerspectiveValues, value: 'gcp_ocp' }];
+const infrastructureGcpOcpOptions = [{ label: messages.PerspectiveValues, value: 'gcp_ocp' }];
 
 // Infrastructure IBM options
 const infrastructureIbmOptions = [{ label: messages.PerspectiveValues, value: 'ibm' }];
+
+// Infrastructure IBM filtered by OCP options
+const infrastructureIbmOcpOptions = [{ label: messages.PerspectiveValues, value: 'ibm_ocp' }];
 
 // Infrastructure Ocp cloud options
 const infrastructureOcpCloudOptions = [{ label: messages.PerspectiveValues, value: 'ocp_cloud' }];
@@ -272,6 +273,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       case InfrastructurePerspective.gcp:
       case InfrastructurePerspective.gcpOcp:
       case InfrastructurePerspective.ibm:
+      case InfrastructurePerspective.ibmOcp:
       case InfrastructurePerspective.ocpCloud:
         return perspective;
     }
@@ -332,26 +334,25 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (hasAws) {
         options.push(...infrastructureAwsOptions);
       }
-      if (this.isAwsCloudAvailable()) {
+      if (this.isAwsOcpAvailable()) {
         options.push(...infrastructureAwsOcpOptions);
       }
       if (hasGcp) {
         options.push(...infrastructureGcpOptions);
       }
-
-      // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1705
-      //
-      // if (this.isGcpCloudAvailable()) {
-      //   options.push(...infrastructureGcpOcpOptions);
-      // }
-
+      if (isBetaFeature() && this.isGcpOcpAvailable()) {
+        options.push(...infrastructureGcpOcpOptions);
+      }
       if (hasIbm) {
         options.push(...infrastructureIbmOptions);
+      }
+      if (isBetaFeature() && this.isIbmOcpAvailable()) {
+        options.push(...infrastructureIbmOcpOptions);
       }
       if (hasAzure) {
         options.push(...infrastructureAzureOptions);
       }
-      if (this.isAzureCloudAvailable()) {
+      if (this.isAzureOcpAvailable()) {
         options.push(...infrastructureAzureOcpOptions);
       }
     } else {
@@ -541,65 +542,56 @@ class OverviewBase extends React.Component<OverviewProps> {
 
   private isAwsAvailable = () => {
     const { awsProviders, userAccess } = this.props;
-
     return isAwsAvailable(userAccess, awsProviders);
   };
 
-  private isAwsCloudAvailable = () => {
+  private isAwsOcpAvailable = () => {
     const { awsProviders, ocpProviders, userAccess } = this.props;
-
     return hasAwsAccess(userAccess) && hasCloudProvider(awsProviders, ocpProviders);
   };
 
   private isAzureAvailable = () => {
     const { azureProviders, userAccess } = this.props;
-
     return isAzureAvailable(userAccess, azureProviders);
   };
 
-  private isAzureCloudAvailable = () => {
+  private isAzureOcpAvailable = () => {
     const { azureProviders, ocpProviders, userAccess } = this.props;
-
     return hasAzureAccess(userAccess) && hasCloudProvider(azureProviders, ocpProviders);
   };
 
   private isGcpAvailable = () => {
     const { gcpProviders, userAccess } = this.props;
-
     return isGcpAvailable(userAccess, gcpProviders);
   };
 
-  private isGcpCloudAvailable = () => {
+  private isGcpOcpAvailable = () => {
     const { gcpProviders, ocpProviders, userAccess } = this.props;
-
     return hasGcpAccess(userAccess) && hasCloudProvider(gcpProviders, ocpProviders);
   };
 
   private isIbmAvailable = () => {
     const { ibmProviders, userAccess } = this.props;
-
     return isIbmAvailable(userAccess, ibmProviders);
   };
 
-  private isIbmCloudAvailable = () => {
+  private isIbmOcpAvailable = () => {
     const { ibmProviders, ocpProviders, userAccess } = this.props;
-
     return hasIbmAccess(userAccess) && hasCloudProvider(ibmProviders, ocpProviders);
   };
 
   private isOcpAvailable = () => {
     const { ocpProviders, userAccess } = this.props;
-
     return isOcpAvailable(userAccess, ocpProviders);
   };
 
   private isOcpCloudAvailable = () => {
-    const hasAwsCloud = this.isAwsCloudAvailable();
-    const hasAzureCloud = this.isAzureCloudAvailable();
-    const hasGcpCloud = this.isGcpCloudAvailable();
-    const hasIbmCloud = this.isIbmCloudAvailable();
+    const hasAwsOcp = this.isAwsOcpAvailable();
+    const hasAzureOcp = this.isAzureOcpAvailable();
+    const hasGcpOcp = this.isGcpOcpAvailable();
+    const hasIbmOcp = this.isIbmOcpAvailable();
 
-    return hasAwsCloud || hasAzureCloud || hasGcpCloud || hasIbmCloud;
+    return hasAwsOcp || hasAzureOcp || hasGcpOcp || hasIbmOcp;
   };
 
   public render() {

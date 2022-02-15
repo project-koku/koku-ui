@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Forecast, ForecastType } from './forecast';
 
 export const ForecastTypePaths: Partial<Record<ForecastType, string>> = {
-  [ForecastType.cost]: 'forecasts/gcp/costs/',
+  [ForecastType.cost]: 'forecasts/openshift/infrastructures/gcp/costs/',
 };
 
 export function runForecast(forecastType: ForecastType, query: string) {

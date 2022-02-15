@@ -1643,6 +1643,7 @@ export default defineMessages({
       'gcp {Google Cloud Platform - Top 5 Costliest} ' +
       'gcp_ocp {Google Cloud Platform filtered by OpenShift - Top 5 Costliest} ' +
       'ibm {IBM Cloud - Top 5 Costliest} ' +
+      'ibm_ocp {IBM Cloud filtered by OpenShift - Top 5 Costliest} ' +
       'ocp {All OpenShift - Top 5 Costliest} ' +
       'ocp_cloud {All cloud filtered by OpenShift - Top 5 Costliest} ' +
       'other {}}',
@@ -2729,6 +2730,7 @@ export default defineMessages({
       'gcp {Google Cloud Platform} ' +
       'gcp_ocp {Google Cloud Platform filtered by OpenShift} ' +
       'ibm {IBM Cloud} ' +
+      'ibm_ocp {IBM filtered by OpenShift} ' +
       'ocp {All OpenShift} ' +
       'ocp_cloud {All cloud filtered by OpenShift} ' +
       'other {}}',

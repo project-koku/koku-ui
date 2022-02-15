@@ -1,9 +1,7 @@
+/* eslint-disable no-console */
 const path = require('path');
 const webpack = require('webpack');
-const weblog = require('webpack-log');
-const log = weblog({
-  name: 'wds',
-});
+const fs = require('fs');
 const proxy = require('@redhat-cloud-services/frontend-components-config-utilities/proxy');
 const federatedPlugin = require('@redhat-cloud-services/frontend-components-config-utilities/federated-modules');
 const ChunkMapperPlugin = require('@redhat-cloud-services/frontend-components-config-utilities/chunk-mapper');
@@ -13,7 +11,7 @@ const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const GitRevisionPlugin = require('git-revision-webpack-plugin');
+const { GitRevisionPlugin } = require('git-revision-webpack-plugin');
 const { dependencies, insights } = require('./package.json');
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
@@ -42,10 +40,11 @@ class WatchRunPlugin {
     compiler.hooks.watchRun.tap('WatchRun', comp => {
       if (comp.modifiedFiles) {
         const changedFiles = Array.from(comp.modifiedFiles, file => `\n  ${file}`).join('');
-        log.info(' ');
-        log.info('===============================');
-        log.info('FILES CHANGED:', changedFiles);
-        log.info('===============================');
+        const logger = compiler.getInfrastructureLogger('cost-management');
+        logger.info(' ');
+        logger.info('===============================');
+        logger.info('FILES CHANGED:', changedFiles);
+        logger.info('===============================');
       }
     });
   }
@@ -64,16 +63,16 @@ module.exports = (_env, argv) => {
   const port = useProxy ? 1337 : 8002;
   const standalone = { rbac, backofficeProxy, ...defaultServices };
 
-  log.info('~~~Using variables~~~');
-  log.info(`isProduction: ${isProduction}`);
-  log.info(`isBeta: ${isBeta}`);
-  log.info(`Current branch: ${gitBranch}`);
-  log.info(`Beta branches: ${betaBranches}`);
-  log.info(`Using deployments: ${appDeployment}`);
-  log.info(`Using proxy: ${useProxy}`);
-  log.info(`Using local API: ${useLocalRoutes}`);
-  log.info(`Public path: ${publicPath}`);
-  log.info('~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~Using variables~~~');
+  console.log(`isProduction: ${isProduction}`);
+  console.log(`isBeta: ${isBeta}`);
+  console.log(`Current branch: ${gitBranch}`);
+  console.log(`Beta branches: ${betaBranches}`);
+  console.log(`Using deployments: ${appDeployment}`);
+  console.log(`Using proxy: ${useProxy}`);
+  console.log(`Using local API: ${useLocalRoutes}`);
+  console.log(`Public path: ${publicPath}`);
+  console.log('~~~~~~~~~~~~~~~~~~~~~');
 
   const stats = {
     excludeAssets: fileRegEx,
@@ -174,16 +173,19 @@ module.exports = (_env, argv) => {
           },
         ],
       }),
-
-      new HtmlWebpackPlugin({
-        template: path.join(srcDir, 'index.html'),
-      }),
-      new HtmlReplaceWebpackPlugin([
-        {
-          pattern: '@@env',
-          replacement: appDeployment,
-        },
-      ]),
+      ...(isProduction
+        ? [
+            new HtmlWebpackPlugin({
+              template: path.join(srcDir, 'index.html'),
+            }),
+            new HtmlReplaceWebpackPlugin([
+              {
+                pattern: '@@env',
+                replacement: appDeployment,
+              },
+            ]),
+          ]
+        : []),
       new MiniCssExtractPlugin({
         filename: isProduction ? '[id].[contenthash].css' : '[name].css',
         chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
@@ -238,8 +240,8 @@ module.exports = (_env, argv) => {
     },
     devServer: {
       allowedHosts: 'all',
-      historyApiFallback: {
-        index: `${publicPath}index.html`,
+      static: {
+        directory: distDir,
       },
       host: '0.0.0.0',
       hot: false, // default is true, which currently does not work with Insights and federated modules?
@@ -248,17 +250,27 @@ module.exports = (_env, argv) => {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
       },
+      devMiddleware: {
+        writeToDisk: true,
+      },
       https: useProxy,
       ...proxy({
         port,
         env: `${process.env.CLOUDOT_ENV}-${isBeta ? 'beta' : 'stable'}`,
         useProxy,
-        appUrl: [`/${isBeta ? 'beta/' : ''}openshift/cost-management`],
         proxyVerbose: true,
         publicPath,
+        /** Change after FEC proxy moves to "setupMiddlewares" */
+        onBeforeSetupMiddleware: ({ chromePath }) => {
+          const template = fs.readFileSync(`${chromePath}/index.html`, { encoding: 'utf-8' });
+          if (!fs.existsSync(distDir)) {
+            fs.mkdirSync(distDir);
+          }
+
+          fs.writeFileSync(`${distDir}/index.html`, template);
+        },
         routes,
         ...(useLocalRoutes && { standalone }),
-        useCloud: process.env.CLOUDOT_ENV === 'ci',
       }),
     },
   };

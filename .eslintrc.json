@@ -125,7 +125,7 @@
         "react/no-unescaped-entities": ["error", {"forbid": [">", "}"]}],
         "spaced-comment": "error",
         "use-isnan": "error",
-        "simple-import-sort/sort": "error"
+        "simple-import-sort/imports": "error"
     },
     "overrides": [{
         "files": [ "src/locales/messages.ts" ],
