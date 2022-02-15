@@ -119,11 +119,11 @@ export const networkWidget: GcpDashboardWidget = {
   },
   filter: {
     service:
-      'VPC network,Network services,Hybrid Connectivity,Network Service Tiers,Network Security,Network Intelligence',
+      'Network, VPC, Firewall, Route, IP, DNS, CDN, NAT, Traffic Director, Service Discovery, Cloud Domains, Private Service Connect, Cloud Armor',
   },
   tabsFilter: {
     service:
-      'VPC network,Network services,Hybrid Connectivity,Network Service Tiers,Network Security,Network Intelligence',
+      'Network, VPC, Firewall, Route, IP, DNS, CDN, NAT, Traffic Director, Service Discovery, Cloud Domains, Private Service Connect, Cloud Armor',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,

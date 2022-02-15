@@ -5,7 +5,7 @@ import { Tag, TagType } from './tag';
 export interface GcpOcpTag extends Tag {}
 
 export const TagTypePaths: Partial<Record<TagType, string>> = {
-  [TagType.tag]: 'tags/gcp/',
+  [TagType.tag]: 'tags/openshift/infrastructures/gcp/',
 };
 
 export function runTag(tagType: TagType, query: string) {

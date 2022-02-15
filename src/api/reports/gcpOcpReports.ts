@@ -54,11 +54,11 @@ export interface GcpOcpReport extends Report {
 }
 
 export const ReportTypePaths: Partial<Record<ReportType, string>> = {
-  [ReportType.cost]: 'reports/gcp/costs/',
-  [ReportType.database]: 'reports/gcp/costs/',
-  [ReportType.network]: 'reports/gcp/costs/',
-  [ReportType.storage]: 'reports/gcp/storage/',
-  [ReportType.instanceType]: 'reports/gcp/instance-types/',
+  [ReportType.cost]: 'reports/openshift/infrastructures/gcp/costs/',
+  [ReportType.database]: 'reports/openshift/infrastructures/gcp/costs/',
+  [ReportType.network]: 'reports/openshift/infrastructures/gcp/costs/',
+  [ReportType.storage]: 'reports/openshift/infrastructures/gcp/storage/',
+  [ReportType.instanceType]: 'reports/openshift/infrastructures/gcp/instance-types/',
 };
 
 export function runReport(reportType: ReportType, query: string) {

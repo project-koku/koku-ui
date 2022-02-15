@@ -20,7 +20,7 @@ beforeEach(() => {
 });
 
 test('id key for dashboard tab is the tab name in singular form', () => {
-  [GcpDashboardTab.services, GcpDashboardTab.projects, GcpDashboardTab.regions].forEach(value => {
+  [GcpDashboardTab.services, GcpDashboardTab.gcpProjects, GcpDashboardTab.regions].forEach(value => {
     expect(getIdKeyForTab(value)).toEqual(value.slice(0, -1));
   });
 

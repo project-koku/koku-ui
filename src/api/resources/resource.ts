@@ -31,6 +31,7 @@ export const enum ResourcePathsType {
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp',
   ibm = 'ibm',
+  ibmOcp = 'ibm_ocp',
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud',
 }
