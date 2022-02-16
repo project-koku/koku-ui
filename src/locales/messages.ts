@@ -1692,6 +1692,13 @@ export default defineMessages({
     description: 'All exports',
     id: 'ExportAllExports',
   },
+  ExportAllExportsDesc: {
+    defaultMessage:
+      'Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed.',
+    description:
+      'Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed.',
+    id: 'ExportAllExportsDesc',
+  },
   ExportDownload: {
     defaultMessage: 'Generate and download',
     description: 'Export download',

@@ -12020,6 +12020,12 @@
         "value": "All exports"
       }
     ],
+    "ExportAllExportsDesc": [
+      {
+        "type": 0,
+        "value": "Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed."
+      }
+    ],
     "ExportDownload": [
       {
         "type": 0,

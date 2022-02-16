@@ -72,7 +72,7 @@ interface DataToolbarOwnProps {
   showFilter?: boolean; // Show export icon
   style?: React.CSSProperties;
   tagReport?: Tag; // Data containing tag key and value data
-  tagReportPathsType: TagPathsType;
+  tagReportPathsType?: TagPathsType;
 }
 
 interface DataToolbarState {
