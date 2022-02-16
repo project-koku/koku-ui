@@ -188,7 +188,7 @@ class ExportContentBase extends React.Component<ExportContentProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<ExportContentOwnProps, ExportContentStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<ExportContentOwnProps, ExportContentStateProps>(state => {
   const query = {
     filter: {
       ...baseQuery.filter,
