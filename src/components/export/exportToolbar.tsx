@@ -6,6 +6,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
+import { styles } from './export.styles';
 
 interface ExportToolbarOwnProps {
   onFilterAdded(filterType: string, filterValue: string);
@@ -45,6 +46,7 @@ export class ExportToolbarBase extends React.Component<ExportToolbarProps> {
         pagination={pagination}
         query={query}
         showFilter
+        style={styles.toolbarContainer}
       />
     );
   }

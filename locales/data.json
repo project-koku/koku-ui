@@ -11679,6 +11679,12 @@
         "value": "Examples"
       }
     ],
+    "ExpiresOn": [
+      {
+        "type": 0,
+        "value": "Expires on"
+      }
+    ],
     "ExplorerChartTitle": [
       {
         "options": {
@@ -12024,6 +12030,12 @@
       {
         "type": 0,
         "value": "Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed."
+      }
+    ],
+    "ExportAllExportsTableAriaLabel": [
+      {
+        "type": 0,
+        "value": "Available exports table"
       }
     ],
     "ExportDownload": [
@@ -18485,6 +18497,12 @@
         "value": "Sources"
       }
     ],
+    "Status": [
+      {
+        "type": 0,
+        "value": "Status/Actions"
+      }
+    ],
     "Suggestions": [
       {
         "type": 0,
@@ -18527,6 +18545,12 @@
       {
         "type": 0,
         "value": "Tag names"
+      }
+    ],
+    "TimeOfExport": [
+      {
+        "type": 0,
+        "value": "Time of export"
       }
     ],
     "ToolBarBulkSelectAll": [

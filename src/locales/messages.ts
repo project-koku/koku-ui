@@ -1614,6 +1614,11 @@ export default defineMessages({
     description: 'Examples',
     id: 'ExamplesTitle',
   },
+  ExpiresOn: {
+    defaultMessage: 'Expires on',
+    description: 'Expires on',
+    id: 'ExpiresOn',
+  },
   ExplorerChartDate: {
     defaultMessage:
       '{month, select, ' +
@@ -1698,6 +1703,11 @@ export default defineMessages({
     description:
       'Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed.',
     id: 'ExportAllExportsDesc',
+  },
+  ExportAllExportsTableAriaLabel: {
+    defaultMessage: 'Available exports table',
+    description: 'Available exports table',
+    id: 'ExportAllExportsTableAriaLabel',
   },
   ExportDownload: {
     defaultMessage: 'Generate and download',
@@ -2875,6 +2885,16 @@ export default defineMessages({
     description: 'Sources',
     id: 'Sources',
   },
+  Status: {
+    defaultMessage: '{value, select, ' + 'pending {Pending} ' + 'running {Running} ' + 'failed {Failed} ' + 'other {}}',
+    description: 'Status',
+    id: 'Status',
+  },
+  StatusActions: {
+    defaultMessage: 'Status/Actions',
+    description: 'Status/Actions',
+    id: 'Status',
+  },
   Suggestions: {
     defaultMessage: 'Suggestions',
     description: 'Suggestions',
@@ -2904,6 +2924,11 @@ export default defineMessages({
     defaultMessage: 'Tag names',
     description: 'Tag Names',
     id: 'TagNames',
+  },
+  TimeOfExport: {
+    defaultMessage: 'Time of export',
+    description: 'Time of export',
+    id: 'TimeOfExport',
   },
   ToolBarBulkSelectAll: {
     defaultMessage: 'Select all ({value} items)',

@@ -3,6 +3,7 @@ import { getQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import messages from 'locales/messages';
+import Loading from 'pages/state/loading';
 import { addQueryFilter, removeQueryFilter } from 'pages/views/utils/query';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -10,9 +11,9 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 
+import { styles } from './export.styles';
+import { ExportTable } from './exportTable';
 import { ExportToolbar } from './exportToolbar';
-
-// import { styles } from './export.styles';
 
 interface ExportContentOwnProps {
   // TBD...
@@ -81,6 +82,20 @@ class ExportContentBase extends React.Component<ExportContentProps> {
     );
   };
 
+  private getTable = () => {
+    const { report, reportFetchStatus } = this.props;
+    const { query } = this.state;
+
+    return (
+      <ExportTable
+        isLoading={reportFetchStatus === FetchStatus.inProgress}
+        onSort={this.handleSort}
+        query={query}
+        report={report}
+      />
+    );
+  };
+
   private handleFilterAdded = (filterType: string, filterValue: string) => {
     const { query } = this.state;
 
@@ -94,6 +109,7 @@ class ExportContentBase extends React.Component<ExportContentProps> {
     const { query } = this.state;
 
     const filteredQuery = removeQueryFilter(query, filterType, filterValue);
+
     this.setState({ query: filteredQuery }, () => {
       // Fetch
     });
@@ -103,11 +119,11 @@ class ExportContentBase extends React.Component<ExportContentProps> {
     const { query } = this.state;
 
     const newQuery = { ...JSON.parse(JSON.stringify(query)) };
-
     newQuery.filter = {
       ...query.filter,
       limit: perPage,
     };
+
     this.setState({ query: newQuery }, () => {
       // Fetch
     });
@@ -128,23 +144,46 @@ class ExportContentBase extends React.Component<ExportContentProps> {
       ...query.filter,
       offset,
     };
+
+    this.setState({ query: newQuery }, () => {
+      // Fetch
+    });
+  };
+
+  private handleSort = (sortType: string, isSortAscending: boolean) => {
+    const { query } = this.state;
+
+    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
+    newQuery.order_by = {};
+    newQuery.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
+
     this.setState({ query: newQuery }, () => {
       // Fetch
     });
   };
 
   public render() {
-    const { intl } = this.props;
+    const { intl, reportFetchStatus } = this.props;
 
     return (
-      <div>
+      <>
         {intl.formatMessage(messages.ExportAllExportsDesc)}
-        <ExportToolbar
-          onFilterAdded={this.handleFilterAdded}
-          onFilterRemoved={this.handleFilterRemoved}
-          pagination={this.getPagination()}
-        />
-      </div>
+        <div style={styles.content}>
+          <ExportToolbar
+            onFilterAdded={this.handleFilterAdded}
+            onFilterRemoved={this.handleFilterRemoved}
+            pagination={this.getPagination()}
+          />
+          {reportFetchStatus === FetchStatus.inProgress ? (
+            <Loading />
+          ) : (
+            <>
+              <div>{this.getTable()}</div>
+              <div style={styles.pagination}>{this.getPagination(true)}</div>
+            </>
+          )}
+        </div>
+      </>
     );
   }
 }
@@ -182,37 +221,37 @@ const mapStateToProps = createMapStateToProps<ExportContentOwnProps, ExportConte
     data: [
       {
         name: 'OpenShift grouped by Project',
-        created: '2022-01-17',
+        created: '2022-01-17 13:25:07',
         expires: '2022-01-24',
         status: 'running',
       },
       {
         name: 'Amazon Web Services grouped by Account',
-        created: '2022-01-17',
+        created: '2022-01-17 13:24:23',
         expires: '2022-01-24',
         status: 'running',
       },
       {
         name: 'OpenShift grouped by Cluster',
-        created: '2022-01-16',
+        created: '2022-01-16 13:23:08',
         expires: '2022-01-23',
         status: 'completed',
       },
       {
         name: 'Microsoft Azure grouped by Account',
-        created: '2022-01-16',
+        created: '2022-01-16 13:18:22',
         expires: '2022-01-23',
         status: 'failed',
       },
       {
         name: 'Google Cloud Platform grouped by Service',
-        created: '2022-01-14',
+        created: '2022-01-14 09:05:23',
         expires: '2022-01-23',
         status: 'completed',
       },
       {
         name: 'Explorer - OpenShift grouped by Cluster',
-        created: '2022-01-14',
+        created: '2022-01-14 08:38:42',
         expires: '2022-01-23',
         status: 'completed',
       },

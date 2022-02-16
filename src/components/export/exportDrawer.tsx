@@ -58,7 +58,7 @@ class ExportDrawerBase extends React.Component<ExportDrawerProps> {
     const { intl, isOpen } = this.props;
 
     return (
-      <DrawerPanelContent minSize="800px">
+      <DrawerPanelContent minSize="1100px">
         <DrawerHead>
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
           /* @ts-ignore */}

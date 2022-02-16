@@ -380,7 +380,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       for (const column of columns) {
         if (column.orderBy === key) {
           direction = query.order_by[key] === 'asc' ? SortByDirection.asc : SortByDirection.desc;
-          index = c + 1;
+          index = c + 1; // Bump for selection column
           break;
         }
         c++;
