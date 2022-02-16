@@ -1,8 +1,8 @@
 import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
-import global_disabled_color_100 from '@patternfly/react-tokens/dist/js/global_disabled_color_100';
-import global_FontSize_xs from '@patternfly/react-tokens/dist/js/global_FontSize_xs';
+import global_danger_color_200 from '@patternfly/react-tokens/dist/js/global_danger_color_200';
+import global_FontSize_sm from '@patternfly/react-tokens/dist/js/global_FontSize_sm';
 import global_spacer_3xl from '@patternfly/react-tokens/dist/js/global_spacer_3xl';
-import global_spacer_xs from '@patternfly/react-tokens/dist/js/global_spacer_xs';
+import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
 import React from 'react';
 
 export const styles = {
@@ -14,14 +14,14 @@ export const styles = {
     height: '35vh',
     width: '100%',
   },
-  infoArrow: {
-    position: 'relative',
+  failed: {
+    color: global_danger_color_200.value,
   },
-  infoArrowDesc: {
-    bottom: global_spacer_xs.value,
+  failedButton: {
+    fontSize: global_FontSize_sm.value,
+    marginLeft: '-10px',
   },
-  infoDescription: {
-    color: global_disabled_color_100.value,
-    fontSize: global_FontSize_xs.value,
+  failedHeader: {
+    marginLeft: global_spacer_md.value,
   },
 } as { [className: string]: React.CSSProperties };

@@ -223,7 +223,7 @@ const mapStateToProps = createMapStateToProps<ExportContentOwnProps, ExportConte
         name: 'OpenShift grouped by Project',
         created: '2022-01-17 13:25:07',
         expires: '2022-01-24',
-        status: 'running',
+        status: 'pending',
       },
       {
         name: 'Amazon Web Services grouped by Account',

@@ -1,5 +1,20 @@
-import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
+import {
+  Bullseye,
+  Button,
+  EmptyState,
+  EmptyStateBody,
+  EmptyStateIcon,
+  Label,
+  Popover,
+  Spinner,
+  Tooltip,
+} from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
+import { DownloadIcon } from '@patternfly/react-icons/dist/esm/icons/download-icon';
+import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
+import { OutlinedClockIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-clock-icon';
+import { SyncIcon } from '@patternfly/react-icons/dist/esm/icons/sync-icon';
+import { TrashIcon } from '@patternfly/react-icons/dist/esm/icons/trash-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
@@ -98,7 +113,7 @@ class ExportTableBase extends React.Component<ExportTableProps> {
             { title: <div>{item.name}</div>, id: ExportTableColumnIds.names },
             { title: <div>{item.created}</div>, id: ExportTableColumnIds.created },
             { title: <div>{item.expires}</div>, id: ExportTableColumnIds.expires },
-            { title: <div>{item.status}</div>, id: ExportTableColumnIds.status },
+            { title: <div>{this.getStatus(item.status)}</div>, id: ExportTableColumnIds.status },
           ],
           item,
         });
@@ -169,6 +184,75 @@ class ExportTableBase extends React.Component<ExportTableProps> {
       }
     }
     return index > -1 ? { index, direction } : {};
+  };
+
+  private getStatus = (status: string) => {
+    const { intl } = this.props;
+
+    switch (status) {
+      case 'completed':
+        return (
+          <>
+            <Tooltip content={intl.formatMessage(messages.Download)}>
+              <Button icon={<DownloadIcon />} onClick={this.handleDownload} variant="link" />
+            </Tooltip>
+            <Tooltip content={intl.formatMessage(messages.Delete)}>
+              <Button icon={<TrashIcon />} onClick={this.handleDelete} variant="link" />
+            </Tooltip>
+          </>
+        );
+      case 'failed':
+        return (
+          <Label
+            color="red"
+            icon={<ExclamationCircleIcon />}
+            variant="outline"
+            render={({ className, content, componentRef }) => (
+              <Popover
+                aria-label={intl.formatMessage(messages.ExportAllExportsFailed)}
+                className={className}
+                headerContent={
+                  <div style={styles.failed}>
+                    <ExclamationCircleIcon />
+                    <span style={styles.failedHeader}>{intl.formatMessage(messages.ExportAllExportsFailed)}</span>
+                  </div>
+                }
+                bodyContent={<div>{intl.formatMessage(messages.ExportAllExportsFailedDesc)}</div>}
+              >
+                <Button variant="link" className={className} innerRef={componentRef} style={styles.failedButton}>
+                  {content}
+                </Button>
+              </Popover>
+            )}
+          >
+            {intl.formatMessage(messages.Status, { value: status })}
+          </Label>
+        );
+        break;
+      case 'running':
+        return (
+          <Label color={'blue'} icon={<SyncIcon />} variant="outline">
+            {intl.formatMessage(messages.Status, { value: status })}
+          </Label>
+        );
+      case 'pending':
+      default:
+        return (
+          <Label color={'blue'} icon={<OutlinedClockIcon />} variant="outline">
+            {intl.formatMessage(messages.Status, { value: status })}
+          </Label>
+        );
+    }
+  };
+
+  private handleDelete = () => {
+    // eslint-disable-next-line no-console
+    console.log('handleDelete clicked');
+  };
+
+  private handleDownload = () => {
+    // eslint-disable-next-line no-console
+    console.log('handleOnDownload clicked');
   };
 
   private handleOnSort = (event, index, direction) => {

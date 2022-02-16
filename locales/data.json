@@ -11601,6 +11601,12 @@
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models"
       }
     ],
+    "Download": [
+      {
+        "type": 0,
+        "value": "Download"
+      }
+    ],
     "Edit": [
       {
         "type": 0,
@@ -12030,6 +12036,18 @@
       {
         "type": 0,
         "value": "Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed."
+      }
+    ],
+    "ExportAllExportsFailed": [
+      {
+        "type": 0,
+        "value": "Could not create export file"
+      }
+    ],
+    "ExportAllExportsFailedDesc": [
+      {
+        "type": 0,
+        "value": "Something went wrong with the generation of this export file. Try exporting again."
       }
     ],
     "ExportAllExportsTableAriaLabel": [
@@ -18498,6 +18516,41 @@
       }
     ],
     "Status": [
+      {
+        "options": {
+          "failed": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "pending": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Pending"
+              }
+            ]
+          },
+          "running": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Running"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "StatusActions": [
       {
         "type": 0,
         "value": "Status/Actions"

@@ -1549,6 +1549,11 @@ export default defineMessages({
       'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models',
     id: 'DocsUsingCostModels',
   },
+  Download: {
+    defaultMessage: 'Download',
+    description: 'download',
+    id: 'Download',
+  },
   Edit: {
     defaultMessage: 'Edit',
     description: 'Edit',
@@ -1703,6 +1708,16 @@ export default defineMessages({
     description:
       'Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed.',
     id: 'ExportAllExportsDesc',
+  },
+  ExportAllExportsFailed: {
+    defaultMessage: 'Could not create export file',
+    description: 'Could not create export file',
+    id: 'ExportAllExportsFailed',
+  },
+  ExportAllExportsFailedDesc: {
+    defaultMessage: 'Something went wrong with the generation of this export file. Try exporting again.',
+    description: 'Something went wrong with the generation of this export file. Try exporting again.',
+    id: 'ExportAllExportsFailedDesc',
   },
   ExportAllExportsTableAriaLabel: {
     defaultMessage: 'Available exports table',
@@ -2893,7 +2908,7 @@ export default defineMessages({
   StatusActions: {
     defaultMessage: 'Status/Actions',
     description: 'Status/Actions',
-    id: 'Status',
+    id: 'StatusActions',
   },
   Suggestions: {
     defaultMessage: 'Suggestions',
