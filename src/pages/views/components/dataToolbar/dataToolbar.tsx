@@ -129,8 +129,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     const { categoryOptions, groupBy, orgReport, query, tagReport } = this.props;
 
     if (
-      categoryOptions !== prevProps.categoryOptions ||
       groupBy !== prevProps.groupBy ||
+      (categoryOptions && !isEqual(categoryOptions, prevProps.categoryOptions)) ||
       (query && !isEqual(query, prevProps.query)) ||
       (orgReport && !isEqual(orgReport, prevProps.orgReport)) ||
       (tagReport && !isEqual(tagReport, prevProps.tagReport))
