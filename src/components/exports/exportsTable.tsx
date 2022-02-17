@@ -1,6 +1,7 @@
 import {
   Bullseye,
   Button,
+  ButtonVariant,
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
@@ -194,10 +195,14 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
         return (
           <>
             <Tooltip content={intl.formatMessage(messages.Download)}>
-              <Button icon={<DownloadIcon />} onClick={this.handleDownload} variant="link" />
+              <Button onClick={this.handleDownload} variant={ButtonVariant.plain}>
+                <DownloadIcon />
+              </Button>
             </Tooltip>
             <Tooltip content={intl.formatMessage(messages.Delete)}>
-              <Button icon={<TrashIcon />} onClick={this.handleDelete} variant="link" />
+              <Button onClick={this.handleDelete} variant={ButtonVariant.plain}>
+                <TrashIcon />
+              </Button>
             </Tooltip>
           </>
         );
@@ -219,7 +224,12 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
                 }
                 bodyContent={<div>{intl.formatMessage(messages.ExportsFailedDesc)}</div>}
               >
-                <Button variant="link" className={className} innerRef={componentRef} style={styles.failedButton}>
+                <Button
+                  variant={ButtonVariant.plain}
+                  className={className}
+                  innerRef={componentRef}
+                  style={styles.failedButton}
+                >
                   {content}
                 </Button>
               </Popover>
