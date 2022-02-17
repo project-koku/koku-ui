@@ -18,9 +18,9 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
-import { Currency } from 'components/currency';
-import { ExportLink } from 'components/export';
+import { ExportsLink } from 'components/exports';
 import messages from 'locales/messages';
+import { Currency } from 'pages/components/currency';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData/noData';
 import NoProviders from 'pages/state/noProviders';
@@ -662,7 +662,7 @@ class OverviewBase extends React.Component<OverviewProps> {
             <div style={styles.headerContentRight}>
               {/* Todo: Show in-progress features in beta environment only */}
               {isBetaFeature() && <Currency />}
-              {isBetaFeature() && <ExportLink />}
+              {isBetaFeature() && <ExportsLink />}
             </div>
           </div>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>

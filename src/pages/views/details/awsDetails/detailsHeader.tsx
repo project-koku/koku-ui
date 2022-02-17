@@ -6,9 +6,9 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AwsReport } from 'api/reports/awsReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
-import { Currency } from 'components/currency';
-import { ExportLink } from 'components/export';
+import { ExportsLink } from 'components/exports';
 import messages from 'locales/messages';
+import { Currency } from 'pages/components/currency';
 import { CostType } from 'pages/views/components/costType';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import { filterProviders } from 'pages/views/utils/providers';
@@ -86,7 +86,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <div style={styles.headerContentRight}>
             {/* Todo: Show in-progress features in beta environment only */}
             {isBetaFeature() && <Currency />}
-            {isBetaFeature() && <ExportLink />}
+            {isBetaFeature() && <ExportsLink />}
           </div>
         </div>
         <div style={styles.headerContent}>

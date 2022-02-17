@@ -3,8 +3,8 @@ import { Button, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, 
 import { ExternalLinkAltIcon } from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { ProviderType } from 'api/providers';
-import CostIcon from 'components/icons/costIcon';
 import messages from 'locales/messages';
+import CostIcon from 'pages/components/icons/costIcon';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router-dom';

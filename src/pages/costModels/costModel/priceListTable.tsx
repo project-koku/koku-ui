@@ -19,9 +19,9 @@ import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavaila
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { AxiosError } from 'axios';
-import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
-import { LoadingState } from 'components/state/loadingState/loadingState';
 import messages from 'locales/messages';
+import { EmptyFilterState } from 'pages/components/state/emptyFilterState/emptyFilterState';
+import { LoadingState } from 'pages/components/state/loadingState/loadingState';
 import { WithPriceListSearch } from 'pages/costModels/components/hoc/withPriceListSearch';
 import { PriceListToolbar } from 'pages/costModels/components/priceListToolbar';
 import { RateTable } from 'pages/costModels/components/rateTable';

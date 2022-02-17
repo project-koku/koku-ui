@@ -1,4 +1,4 @@
-import { LoadingState } from 'components/state/loadingState/loadingState';
+import { LoadingState } from 'pages/components/state/loadingState/loadingState';
 import { SourceStepErrorState } from 'pages/costModels/components/errorState';
 import React from 'react';
 

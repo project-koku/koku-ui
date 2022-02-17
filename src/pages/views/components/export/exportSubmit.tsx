@@ -1,5 +1,5 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
-import { Export } from 'api/exports/export';
+import { Export } from 'api/export/export';
 import { getQuery, orgUnitIdKey, Query, tagPrefix } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
@@ -10,7 +10,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { exportActions, exportSelectors } from 'store/exports';
+import { exportActions, exportSelectors } from 'store/export';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getToday } from 'utils/dateRange';
@@ -133,7 +133,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
         onClick={this.handleFetchReport}
         variant={ButtonVariant.primary}
       >
-        {intl.formatMessage(messages.ExportDownload)}
+        {intl.formatMessage(messages.ExportsDownload)}
       </Button>
     );
   }

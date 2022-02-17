@@ -16,12 +16,12 @@ test('default state', async () => {
 
 test('close export drawer', async () => {
   const store = createUIStore();
-  store.dispatch(actions.closeExportDrawer());
-  expect(uiSelectors.selectIsExportDrawerOpen(store.getState())).toBe(false);
+  store.dispatch(actions.closeExportsDrawer());
+  expect(uiSelectors.selectIsExportsDrawerOpen(store.getState())).toBe(false);
 });
 
 test('open export drawer', async () => {
   const store = createUIStore();
-  store.dispatch(actions.openExportDrawer());
-  expect(uiSelectors.selectIsExportDrawerOpen(store.getState())).toBe(true);
+  store.dispatch(actions.openExportsDrawer());
+  expect(uiSelectors.selectIsExportsDrawerOpen(store.getState())).toBe(true);
 });

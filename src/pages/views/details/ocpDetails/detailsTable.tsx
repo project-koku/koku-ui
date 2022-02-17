@@ -8,9 +8,9 @@ import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { tagPrefix } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType } from 'api/reports/report';
-import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
-import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import messages from 'locales/messages';
+import { EmptyFilterState } from 'pages/components/state/emptyFilterState/emptyFilterState';
+import { EmptyValueState } from 'pages/components/state/emptyValueState/emptyValueState';
 import { Actions } from 'pages/views/details/components/actions/actions';
 import { getBreakdownPath } from 'pages/views/utils/paths';
 import React from 'react';
@@ -380,7 +380,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       for (const column of columns) {
         if (column.orderBy === key) {
           direction = query.order_by[key] === 'asc' ? SortByDirection.asc : SortByDirection.desc;
-          index = c + 1;
+          index = c + 1; // Bump for selection column
           break;
         }
         c++;

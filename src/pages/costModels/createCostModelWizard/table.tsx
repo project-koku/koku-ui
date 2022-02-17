@@ -1,7 +1,7 @@
 import { Checkbox, Stack, StackItem, Text, TextContent, TextVariants, Title, TitleSizes } from '@patternfly/react-core';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
-import { LoadingState } from 'components/state/loadingState/loadingState';
 import messages from 'locales/messages';
+import { LoadingState } from 'pages/components/state/loadingState/loadingState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
 import { PaginationToolbarTemplate } from 'pages/costModels/components/paginationToolbarTemplate';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';

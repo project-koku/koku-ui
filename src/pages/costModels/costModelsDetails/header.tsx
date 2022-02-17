@@ -1,6 +1,6 @@
 import { Button, ButtonVariant, Popover, TextContent, Title, TitleSizes } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
-import { ExportLink } from 'components/export';
+import { ExportsLink } from 'components/exports';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -24,7 +24,7 @@ function HeaderBase({ children }: HeaderProps): JSX.Element {
       </TextContent>
       <div style={styles.headerContentRight}>
         {/* Todo: Show in-progress features in beta environment only */}
-        {isBetaFeature() && <ExportLink />}
+        {isBetaFeature() && <ExportsLink />}
       </div>
     </div>
   );

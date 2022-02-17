@@ -16,8 +16,8 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
-import { Form } from 'components/forms/form';
 import messages from 'locales/messages';
+import { Form } from 'pages/costModels/components/forms/form';
 import { styles } from 'pages/costModels/costModel/costCalc.styles';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';

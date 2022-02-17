@@ -2,9 +2,9 @@ import { Pagination, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/re
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
-import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
-import { LoadingState } from 'components/state/loadingState/loadingState';
 import messages from 'locales/messages';
+import { EmptyFilterState } from 'pages/components/state/emptyFilterState/emptyFilterState';
+import { LoadingState } from 'pages/components/state/loadingState/loadingState';
 import { SourcesModalErrorState } from 'pages/costModels/components/errorState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';

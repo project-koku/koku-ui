@@ -24,7 +24,7 @@ import { gcpOcpDashboardReducer, gcpOcpDashboardStateKey } from 'store/dashboard
 import { ibmDashboardReducer, ibmDashboardStateKey } from 'store/dashboard/ibmDashboard';
 import { ocpCloudDashboardReducer, ocpCloudDashboardStateKey } from 'store/dashboard/ocpCloudDashboard';
 import { ocpDashboardReducer, ocpDashboardStateKey } from 'store/dashboard/ocpDashboard';
-import { exportReducer, exportStateKey } from 'store/exports';
+import { exportReducer, exportStateKey } from 'store/export';
 import { forecastReducer, forecastStateKey } from 'store/forecasts';
 import { orgReducer, orgStateKey } from 'store/orgs';
 import { priceListReducer, priceListStateKey } from 'store/priceList';

@@ -20,7 +20,7 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
-import { ExportLink } from 'components/export';
+import { ExportsLink } from 'components/exports';
 import * as H from 'history';
 import messages from 'locales/messages';
 import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
@@ -115,7 +115,7 @@ const Header: React.FunctionComponent<Props> = ({
           </Breadcrumb>
           <div style={styles.headerContentRight}>
             {/* Todo: Show in-progress features in beta environment only */}
-            {isBetaFeature() && <ExportLink />}
+            {isBetaFeature() && <ExportsLink />}
           </div>
         </div>
         <Split>
