@@ -1697,38 +1697,6 @@ export default defineMessages({
     description: 'Export all',
     id: 'ExportAll',
   },
-  ExportAllExports: {
-    defaultMessage: 'All exports',
-    description: 'All exports',
-    id: 'ExportAllExports',
-  },
-  ExportAllExportsDesc: {
-    defaultMessage:
-      'Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed.',
-    description:
-      'Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed.',
-    id: 'ExportAllExportsDesc',
-  },
-  ExportAllExportsFailed: {
-    defaultMessage: 'Could not create export file',
-    description: 'Could not create export file',
-    id: 'ExportAllExportsFailed',
-  },
-  ExportAllExportsFailedDesc: {
-    defaultMessage: 'Something went wrong with the generation of this export file. Try exporting again.',
-    description: 'Something went wrong with the generation of this export file. Try exporting again.',
-    id: 'ExportAllExportsFailedDesc',
-  },
-  ExportAllExportsTableAriaLabel: {
-    defaultMessage: 'Available exports table',
-    description: 'Available exports table',
-    id: 'ExportAllExportsTableAriaLabel',
-  },
-  ExportDownload: {
-    defaultMessage: 'Generate and download',
-    description: 'Export download',
-    id: 'ExportDownload',
-  },
   ExportError: {
     defaultMessage: 'Something went wrong, please try fewer selections',
     description: 'Export error',
@@ -1813,6 +1781,38 @@ export default defineMessages({
     defaultMessage: 'Export',
     description: 'Export title',
     id: 'ExportTitle',
+  },
+  ExportsDesc: {
+    defaultMessage:
+      'Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed.',
+    description:
+      'Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed.',
+    id: 'ExportsDesc',
+  },
+  ExportsDownload: {
+    defaultMessage: 'Generate and download',
+    description: 'Export download',
+    id: 'ExportsDownload',
+  },
+  ExportsFailed: {
+    defaultMessage: 'Could not create export file',
+    description: 'Could not create export file',
+    id: 'ExportsFailed',
+  },
+  ExportsFailedDesc: {
+    defaultMessage: 'Something went wrong with the generation of this export file. Try exporting again.',
+    description: 'Something went wrong with the generation of this export file. Try exporting again.',
+    id: 'ExportsFailedDesc',
+  },
+  ExportsTableAriaLabel: {
+    defaultMessage: 'Available exports table',
+    description: 'Available exports table',
+    id: 'ExportsTableAriaLabel',
+  },
+  ExportsTitle: {
+    defaultMessage: 'All exports',
+    description: 'All exports',
+    id: 'ExportsTitle',
   },
   FilterByButtonAriaLabel: {
     defaultMessage:

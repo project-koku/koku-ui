@@ -11,31 +11,31 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 
-import { styles } from './export.styles';
-import { ExportTable } from './exportTable';
-import { ExportToolbar } from './exportToolbar';
+import { styles } from './exports.styles';
+import { ExportsTable } from './exportsTable';
+import { ExportsToolbar } from './exportsToolbar';
 
-interface ExportContentOwnProps {
+interface ExportsContentOwnProps {
   // TBD...
 }
 
-interface ExportContentStateProps {
+interface ExportsContentStateProps {
   report: Report;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
 }
 
-interface ExportContentDispatchProps {
+interface ExportsContentDispatchProps {
   // TBD...
 }
 
-interface ExportContentState {
+interface ExportsContentState {
   query?: Query;
 }
 
-type ExportContentProps = ExportContentOwnProps &
-  ExportContentStateProps &
-  ExportContentDispatchProps &
+type ExportsContentProps = ExportsContentOwnProps &
+  ExportsContentStateProps &
+  ExportsContentDispatchProps &
   WrappedComponentProps;
 
 const baseQuery: Query = {
@@ -48,11 +48,11 @@ const baseQuery: Query = {
   },
 };
 
-class ExportContentBase extends React.Component<ExportContentProps> {
-  protected defaultState: ExportContentState = {
+class ExportsContentBase extends React.Component<ExportsContentProps> {
+  protected defaultState: ExportsContentState = {
     query: baseQuery,
   };
-  public state: ExportContentState = { ...this.defaultState };
+  public state: ExportsContentState = { ...this.defaultState };
 
   private getPagination = (isBottom: boolean = false) => {
     const { report } = this.props;
@@ -87,7 +87,7 @@ class ExportContentBase extends React.Component<ExportContentProps> {
     const { query } = this.state;
 
     return (
-      <ExportTable
+      <ExportsTable
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSort={this.handleSort}
         query={query}
@@ -167,9 +167,9 @@ class ExportContentBase extends React.Component<ExportContentProps> {
 
     return (
       <>
-        {intl.formatMessage(messages.ExportAllExportsDesc)}
+        {intl.formatMessage(messages.ExportsDesc)}
         <div style={styles.content}>
-          <ExportToolbar
+          <ExportsToolbar
             onFilterAdded={this.handleFilterAdded}
             onFilterRemoved={this.handleFilterRemoved}
             pagination={this.getPagination()}
@@ -188,7 +188,7 @@ class ExportContentBase extends React.Component<ExportContentProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<ExportContentOwnProps, ExportContentStateProps>(state => {
+const mapStateToProps = createMapStateToProps<ExportsContentOwnProps, ExportsContentStateProps>(state => {
   const query = {
     filter: {
       ...baseQuery.filter,
@@ -265,10 +265,10 @@ const mapStateToProps = createMapStateToProps<ExportContentOwnProps, ExportConte
   };
 });
 
-const mapDispatchToProps: ExportContentDispatchProps = {
+const mapDispatchToProps: ExportsContentDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const ExportContent = injectIntl(connect(mapStateToProps, mapDispatchToProps)(ExportContentBase));
+const ExportsContent = injectIntl(connect(mapStateToProps, mapDispatchToProps)(ExportsContentBase));
 
-export { ExportContent };
+export { ExportsContent };

@@ -1,11 +1,11 @@
-import { Export } from 'api/exports/export';
-import { runExport } from 'api/exports/exportUtils';
+import { Export } from 'api/export/export';
+import { runExport } from 'api/export/exportUtils';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
-import { getExportId } from 'store/exports/exportCommon';
-import { selectExport, selectExportFetchStatus } from 'store/exports/exportSelectors';
+import { getExportId } from 'store/export/exportCommon';
+import { selectExport, selectExportFetchStatus } from 'store/export/exportSelectors';
 import { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 

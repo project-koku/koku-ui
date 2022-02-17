@@ -7,29 +7,29 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 
-import { styles } from './export.styles';
+import { styles } from './exports.styles';
 
-interface ExportToolbarOwnProps {
+interface ExportsToolbarOwnProps {
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
   pagination?: React.ReactNode;
   query?: Query;
 }
 
-interface ExportToolbarStateProps {
+interface ExportsToolbarStateProps {
   // TDB...
 }
 
-interface ExportToolbarDispatchProps {
+interface ExportsToolbarDispatchProps {
   // TDB...
 }
 
-type ExportToolbarProps = ExportToolbarOwnProps &
-  ExportToolbarStateProps &
-  ExportToolbarDispatchProps &
+type ExportsToolbarProps = ExportsToolbarOwnProps &
+  ExportsToolbarStateProps &
+  ExportsToolbarDispatchProps &
   WrappedComponentProps;
 
-export class ExportToolbarBase extends React.Component<ExportToolbarProps> {
+export class ExportsToolbarBase extends React.Component<ExportsToolbarProps> {
   private getCategoryOptions = (): ToolbarChipGroup[] => {
     const { intl } = this.props;
 
@@ -54,13 +54,13 @@ export class ExportToolbarBase extends React.Component<ExportToolbarProps> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<ExportToolbarOwnProps, ExportToolbarStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<ExportsToolbarOwnProps, ExportsToolbarStateProps>((state, props) => {
   return {};
 });
 
-const mapDispatchToProps: ExportToolbarDispatchProps = {};
+const mapDispatchToProps: ExportsToolbarDispatchProps = {};
 
-const ExportToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(ExportToolbarBase);
-const ExportToolbar = injectIntl(ExportToolbarConnect);
+const ExportsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(ExportsToolbarBase);
+const ExportsToolbar = injectIntl(ExportsToolbarConnect);
 
-export { ExportToolbar, ExportToolbarProps };
+export { ExportsToolbar, ExportsToolbarProps };

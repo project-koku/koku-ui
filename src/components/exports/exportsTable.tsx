@@ -23,37 +23,37 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 
-import { styles } from './exportTable.styles';
+import { styles } from './exportsTable.styles';
 
-interface ExportTableOwnProps {
+interface ExportsTableOwnProps {
   isLoading?: boolean;
   onSort(value: string, isSortAscending: boolean);
   query: Query;
   report: Report;
 }
 
-interface ExportTableState {
+interface ExportsTableState {
   columns?: any[];
   loadingRows?: any[];
   rows?: any[];
 }
 
-type ExportTableProps = ExportTableOwnProps & WrappedComponentProps;
+type ExportsTableProps = ExportsTableOwnProps & WrappedComponentProps;
 
-export const ExportTableColumnIds = {
+export const ExportsTableColumnIds = {
   created: 'created',
   expires: 'expires',
   names: 'names',
   status: 'status',
 };
 
-class ExportTableBase extends React.Component<ExportTableProps> {
-  public state: ExportTableState = {
+class ExportsTableBase extends React.Component<ExportsTableProps> {
+  public state: ExportsTableState = {
     columns: [],
     rows: [],
   };
 
-  constructor(props: ExportTableProps) {
+  constructor(props: ExportsTableProps) {
     super(props);
     this.handleOnSort = this.handleOnSort.bind(this);
   }
@@ -62,7 +62,7 @@ class ExportTableBase extends React.Component<ExportTableProps> {
     this.initDatum();
   }
 
-  public componentDidUpdate(prevProps: ExportTableProps) {
+  public componentDidUpdate(prevProps: ExportsTableProps) {
     const { query, report } = this.props;
     const currentReport = report && report.data ? JSON.stringify(report.data) : '';
     const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
@@ -83,25 +83,25 @@ class ExportTableBase extends React.Component<ExportTableProps> {
 
     const columns = [
       {
-        id: ExportTableColumnIds.names,
+        id: ExportsTableColumnIds.names,
         orderBy: 'name',
         title: intl.formatMessage(messages.Names, { count: 1 }),
         ...(isSortable && { transforms: [sortable] }),
       },
       {
-        id: ExportTableColumnIds.created,
+        id: ExportsTableColumnIds.created,
         orderBy: 'created',
         title: intl.formatMessage(messages.TimeOfExport),
         ...(isSortable && { transforms: [sortable] }),
       },
       {
-        id: ExportTableColumnIds.expires,
+        id: ExportsTableColumnIds.expires,
         orderBy: 'expires',
         title: intl.formatMessage(messages.ExpiresOn),
         ...(isSortable && { transforms: [sortable] }),
       },
       {
-        id: ExportTableColumnIds.status,
+        id: ExportsTableColumnIds.status,
         title: intl.formatMessage(messages.StatusActions),
       },
     ];
@@ -110,10 +110,10 @@ class ExportTableBase extends React.Component<ExportTableProps> {
       report.data.map((item: any) => {
         rows.push({
           cells: [
-            { title: <div>{item.name}</div>, id: ExportTableColumnIds.names },
-            { title: <div>{item.created}</div>, id: ExportTableColumnIds.created },
-            { title: <div>{item.expires}</div>, id: ExportTableColumnIds.expires },
-            { title: <div>{this.getStatus(item.status)}</div>, id: ExportTableColumnIds.status },
+            { title: <div>{item.name}</div>, id: ExportsTableColumnIds.names },
+            { title: <div>{item.created}</div>, id: ExportsTableColumnIds.created },
+            { title: <div>{item.expires}</div>, id: ExportsTableColumnIds.expires },
+            { title: <div>{this.getStatus(item.status)}</div>, id: ExportsTableColumnIds.status },
           ],
           item,
         });
@@ -209,15 +209,15 @@ class ExportTableBase extends React.Component<ExportTableProps> {
             variant="outline"
             render={({ className, content, componentRef }) => (
               <Popover
-                aria-label={intl.formatMessage(messages.ExportAllExportsFailed)}
+                aria-label={intl.formatMessage(messages.ExportsFailed)}
                 className={className}
                 headerContent={
                   <div style={styles.failed}>
                     <ExclamationCircleIcon />
-                    <span style={styles.failedHeader}>{intl.formatMessage(messages.ExportAllExportsFailed)}</span>
+                    <span style={styles.failedHeader}>{intl.formatMessage(messages.ExportsFailed)}</span>
                   </div>
                 }
-                bodyContent={<div>{intl.formatMessage(messages.ExportAllExportsFailedDesc)}</div>}
+                bodyContent={<div>{intl.formatMessage(messages.ExportsFailedDesc)}</div>}
               >
                 <Button variant="link" className={className} innerRef={componentRef} style={styles.failedButton}>
                   {content}
@@ -273,7 +273,7 @@ class ExportTableBase extends React.Component<ExportTableProps> {
     return (
       <>
         <Table
-          aria-label={intl.formatMessage(messages.ExportAllExportsTableAriaLabel)}
+          aria-label={intl.formatMessage(messages.ExportsTableAriaLabel)}
           cells={columns}
           rows={isLoading ? loadingRows : rows}
           sortBy={this.getSortBy()}
@@ -288,6 +288,6 @@ class ExportTableBase extends React.Component<ExportTableProps> {
   }
 }
 
-const ExportTable = injectIntl(ExportTableBase);
+const ExportsTable = injectIntl(ExportsTableBase);
 
-export { ExportTable, ExportTableProps };
+export { ExportsTable, ExportsTableProps };

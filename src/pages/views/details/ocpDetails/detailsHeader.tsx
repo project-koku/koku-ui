@@ -6,7 +6,7 @@ import { OcpReport } from 'api/reports/ocpReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { Currency } from 'components/currency';
-import { ExportLink } from 'components/export';
+import { ExportsLink } from 'components/exports';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import messages from 'locales/messages';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
@@ -99,7 +99,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <div style={styles.headerContentRight}>
             {/* Todo: Show in-progress features in beta environment only */}
             {isBetaFeature() && <Currency />}
-            {isBetaFeature() && <ExportLink />}
+            {isBetaFeature() && <ExportsLink />}
           </div>
         </div>
         <div style={styles.headerContent}>

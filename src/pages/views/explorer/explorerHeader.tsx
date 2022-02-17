@@ -6,7 +6,7 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import { Currency } from 'components/currency';
-import { ExportLink } from 'components/export';
+import { ExportsLink } from 'components/exports';
 import messages from 'locales/messages';
 import { CostType } from 'pages/views/components/costType';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
@@ -296,7 +296,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
           <div style={styles.headerContentRight}>
             {/* Todo: Show in-progress features in beta environment only */}
             {isBetaFeature() && <Currency />}
-            {isBetaFeature() && <ExportLink />}
+            {isBetaFeature() && <ExportsLink />}
           </div>
         </div>
         <div style={styles.perspectiveContainer}>

@@ -9,11 +9,11 @@ export const styles = {
     paddingBottom: global_spacer_lg.value,
     paddingTop: global_spacer_lg.value,
   },
-  exportIcon: {
+  exportsIcon: {
     marginLeft: global_spacer_md.value,
     marginRight: global_spacer_sm.value,
   },
-  exportLink: {
+  exportsLink: {
     display: 'flex',
     alignItems: 'center',
   },

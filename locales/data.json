@@ -12026,42 +12026,6 @@
         "value": "Export all"
       }
     ],
-    "ExportAllExports": [
-      {
-        "type": 0,
-        "value": "All exports"
-      }
-    ],
-    "ExportAllExportsDesc": [
-      {
-        "type": 0,
-        "value": "Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed."
-      }
-    ],
-    "ExportAllExportsFailed": [
-      {
-        "type": 0,
-        "value": "Could not create export file"
-      }
-    ],
-    "ExportAllExportsFailedDesc": [
-      {
-        "type": 0,
-        "value": "Something went wrong with the generation of this export file. Try exporting again."
-      }
-    ],
-    "ExportAllExportsTableAriaLabel": [
-      {
-        "type": 0,
-        "value": "Available exports table"
-      }
-    ],
-    "ExportDownload": [
-      {
-        "type": 0,
-        "value": "Generate and download"
-      }
-    ],
     "ExportError": [
       {
         "type": 0,
@@ -13174,6 +13138,42 @@
       {
         "type": 0,
         "value": "Export"
+      }
+    ],
+    "ExportsDesc": [
+      {
+        "type": 0,
+        "value": "Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed."
+      }
+    ],
+    "ExportsDownload": [
+      {
+        "type": 0,
+        "value": "Generate and download"
+      }
+    ],
+    "ExportsFailed": [
+      {
+        "type": 0,
+        "value": "Could not create export file"
+      }
+    ],
+    "ExportsFailedDesc": [
+      {
+        "type": 0,
+        "value": "Something went wrong with the generation of this export file. Try exporting again."
+      }
+    ],
+    "ExportsTableAriaLabel": [
+      {
+        "type": 0,
+        "value": "Available exports table"
+      }
+    ],
+    "ExportsTitle": [
+      {
+        "type": 0,
+        "value": "All exports"
       }
     ],
     "FilterByButtonAriaLabel": [

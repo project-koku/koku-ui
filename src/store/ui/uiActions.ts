@@ -1,8 +1,8 @@
 import { ThunkAction } from 'store/common';
 import { createAction } from 'typesafe-actions';
 
-export const closeExportDrawer = createAction('ui/close_export_drawer')();
-export const openExportDrawer = createAction('ui/open_export_drawer')();
+export const closeExportsDrawer = createAction('ui/close_exports_drawer')();
+export const openExportsDrawer = createAction('ui/open_exports_drawer')();
 export const resetState = createAction('ui/reset_state')();
 
 export function resetReportState(): ThunkAction {

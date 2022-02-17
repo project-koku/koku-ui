@@ -1,4 +1,4 @@
-import './export.scss';
+import './exports.scss';
 
 import {
   Drawer,
@@ -18,29 +18,29 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { uiActions, uiSelectors } from 'store/ui';
 
-import { ExportContent } from './exportContent';
+import { ExportsContent } from './exportsContent';
 
-interface ExportDrawerOwnProps {
+interface ExportsDrawerOwnProps {
   children?: React.ReactNode;
 }
 
-interface ExportDrawerStateProps {
+interface ExportsDrawerStateProps {
   isOpen: boolean;
 }
 
-interface ExportDrawerDispatchProps {
-  closeExportDrawer: typeof uiActions.closeExportDrawer;
+interface ExportsDrawerDispatchProps {
+  closeExportsDrawer: typeof uiActions.closeExportsDrawer;
 }
 
-type ExportDrawerProps = ExportDrawerOwnProps &
-  ExportDrawerStateProps &
-  ExportDrawerDispatchProps &
+type ExportsDrawerProps = ExportsDrawerOwnProps &
+  ExportsDrawerStateProps &
+  ExportsDrawerDispatchProps &
   WrappedComponentProps;
 
-class ExportDrawerBase extends React.Component<ExportDrawerProps> {
+class ExportsDrawerBase extends React.Component<ExportsDrawerProps> {
   private drawerRef = React.createRef();
 
-  constructor(props: ExportDrawerProps) {
+  constructor(props: ExportsDrawerProps) {
     super(props);
     this.handleClose = this.handleClose.bind(this);
   }
@@ -50,7 +50,7 @@ class ExportDrawerBase extends React.Component<ExportDrawerProps> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public componentDidUpdate(prevProps: ExportDrawerProps) {
+  public componentDidUpdate(prevProps: ExportsDrawerProps) {
     // TBD...
   }
 
@@ -64,7 +64,7 @@ class ExportDrawerBase extends React.Component<ExportDrawerProps> {
           /* @ts-ignore */}
           <span tabIndex={isOpen ? 0 : -1} ref={this.drawerRef}>
             <Title headingLevel="h1" size={TitleSizes.xl}>
-              {intl.formatMessage(messages.ExportAllExports)}
+              {intl.formatMessage(messages.ExportsTitle)}
             </Title>
           </span>
           <DrawerActions>
@@ -72,16 +72,16 @@ class ExportDrawerBase extends React.Component<ExportDrawerProps> {
           </DrawerActions>
         </DrawerHead>
         <DrawerContentBody>
-          <ExportContent />
+          <ExportsContent />
         </DrawerContentBody>
       </DrawerPanelContent>
     );
   };
 
   private handleClose = () => {
-    const { closeExportDrawer } = this.props;
+    const { closeExportsDrawer } = this.props;
 
-    closeExportDrawer();
+    closeExportsDrawer();
   };
 
   private handleExpand = () => {
@@ -101,18 +101,18 @@ class ExportDrawerBase extends React.Component<ExportDrawerProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<ExportDrawerOwnProps, ExportDrawerStateProps>(state => {
-  const isOpen = uiSelectors.selectIsExportDrawerOpen(state);
+const mapStateToProps = createMapStateToProps<ExportsDrawerOwnProps, ExportsDrawerStateProps>(state => {
+  const isOpen = uiSelectors.selectIsExportsDrawerOpen(state);
 
   return {
     isOpen,
   };
 });
 
-const mapDispatchToProps: ExportDrawerDispatchProps = {
-  closeExportDrawer: uiActions.closeExportDrawer,
+const mapDispatchToProps: ExportsDrawerDispatchProps = {
+  closeExportsDrawer: uiActions.closeExportsDrawer,
 };
 
-const ExportDrawer = injectIntl(connect(mapStateToProps, mapDispatchToProps)(ExportDrawerBase));
+const ExportsDrawer = injectIntl(connect(mapStateToProps, mapDispatchToProps)(ExportsDrawerBase));
 
-export { ExportDrawer };
+export { ExportsDrawer };

@@ -1,4 +1,4 @@
-import { Export } from 'api/exports/export';
+import { Export } from 'api/export/export';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';

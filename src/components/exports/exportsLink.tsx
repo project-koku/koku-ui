@@ -8,24 +8,24 @@ import { createMapStateToProps } from 'store/common';
 import { uiSelectors } from 'store/ui';
 import { uiActions } from 'store/ui';
 
-import { styles } from './export.styles';
+import { styles } from './exports.styles';
 
-interface ExportLinkOwnProps {
+interface ExportsLinkOwnProps {
   // TBD...
 }
 
-interface ExportLinkStateProps {
+interface ExportsLinkStateProps {
   isOpen?: boolean;
 }
 
-interface ExportLinkDispatchProps {
-  closeExportDrawer: typeof uiActions.closeExportDrawer;
-  openExportDrawer: typeof uiActions.openExportDrawer;
+interface ExportsLinkDispatchProps {
+  closeExportDrawer: typeof uiActions.closeExportsDrawer;
+  openExportDrawer: typeof uiActions.openExportsDrawer;
 }
 
-type ExportLinkProps = ExportLinkOwnProps & ExportLinkStateProps & ExportLinkDispatchProps & WrappedComponentProps;
+type ExportsLinkProps = ExportsLinkOwnProps & ExportsLinkStateProps & ExportsLinkDispatchProps & WrappedComponentProps;
 
-class ExportLinkBase extends React.Component<ExportLinkProps> {
+class ExportsLinkBase extends React.Component<ExportsLinkProps> {
   private handleToggle = event => {
     const { closeExportDrawer, isOpen, openExportDrawer } = this.props;
 
@@ -42,31 +42,31 @@ class ExportLinkBase extends React.Component<ExportLinkProps> {
     const { intl } = this.props;
 
     return (
-      <div style={styles.exportLink}>
+      <div style={styles.exportsLink}>
         <Button component="a" href="#/" variant="link" onClick={this.handleToggle}>
-          <span style={styles.exportIcon}>
+          <span style={styles.exportsIcon}>
             <AngleDoubleLeftIcon />
           </span>
-          {intl.formatMessage(messages.ExportAllExports)}
+          {intl.formatMessage(messages.ExportsTitle)}
         </Button>
       </div>
     );
   }
 }
 
-const mapStateToProps = createMapStateToProps<ExportLinkOwnProps, ExportLinkStateProps>(state => {
-  const isOpen = uiSelectors.selectIsExportDrawerOpen(state);
+const mapStateToProps = createMapStateToProps<ExportsLinkOwnProps, ExportsLinkStateProps>(state => {
+  const isOpen = uiSelectors.selectIsExportsDrawerOpen(state);
 
   return {
     isOpen,
   };
 });
 
-const mapDispatchToProps: ExportLinkDispatchProps = {
-  closeExportDrawer: uiActions.closeExportDrawer,
-  openExportDrawer: uiActions.openExportDrawer,
+const mapDispatchToProps: ExportsLinkDispatchProps = {
+  closeExportDrawer: uiActions.closeExportsDrawer,
+  openExportDrawer: uiActions.openExportsDrawer,
 };
 
-const ExportLink = injectIntl(connect(mapStateToProps, mapDispatchToProps)(ExportLinkBase));
+const ExportsLink = injectIntl(connect(mapStateToProps, mapDispatchToProps)(ExportsLinkBase));
 
-export { ExportLink };
+export { ExportsLink };
