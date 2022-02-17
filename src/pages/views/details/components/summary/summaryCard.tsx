@@ -13,8 +13,8 @@ import {
 import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
 import messages from 'locales/messages';
+import { ReportSummaryItem, ReportSummaryItems } from 'pages/views/components/reports/reportSummary';
 import { SummaryModal } from 'pages/views/details/components/summary/summaryModal';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';

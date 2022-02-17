@@ -9,8 +9,8 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
-import { currencyOptions } from 'components/currency';
 import messages from 'locales/messages';
+import { currencyOptions } from 'pages/components/currency';
 import { Form } from 'pages/costModels/components/forms/form';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';

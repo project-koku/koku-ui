@@ -18,8 +18,8 @@ import { TrashIcon } from '@patternfly/react-icons/dist/esm/icons/trash-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
-import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import messages from 'locales/messages';
+import { EmptyFilterState } from 'pages/components/state/emptyFilterState/emptyFilterState';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 

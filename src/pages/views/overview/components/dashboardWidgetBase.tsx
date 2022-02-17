@@ -3,13 +3,15 @@ import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import { Forecast } from 'api/forecasts/forecast';
 import { getQuery } from 'api/queries/awsQuery';
 import { Report } from 'api/reports/report';
+import messages from 'locales/messages';
+import { cloneDeep } from 'lodash';
 import {
   ChartType,
   ComputedReportItemType,
   transformForecast,
   transformForecastCone,
   transformReport,
-} from 'components/charts/common/chartDatumUtils';
+} from 'pages/views/components/charts/common/chartDatumUtils';
 import {
   ReportSummary,
   ReportSummaryAlt,
@@ -21,9 +23,7 @@ import {
   ReportSummaryItems,
   ReportSummaryTrend,
   ReportSummaryUsage,
-} from 'components/reports/reportSummary';
-import messages from 'locales/messages';
-import { cloneDeep } from 'lodash';
+} from 'pages/views/components/reports/reportSummary';
 import React from 'react';
 import { WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';

@@ -6,10 +6,13 @@ import { nowrap, sortable, SortByDirection, Table, TableBody, TableHeader } from
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { parseQuery, Query } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
-import { ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartDatumUtils';
-import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { format, getDate, getMonth } from 'date-fns';
 import messages from 'locales/messages';
+import { EmptyFilterState } from 'pages/components/state/emptyFilterState/emptyFilterState';
+import {
+  ComputedReportItemType,
+  ComputedReportItemValueType,
+} from 'pages/views/components/charts/common/chartDatumUtils';
 import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';

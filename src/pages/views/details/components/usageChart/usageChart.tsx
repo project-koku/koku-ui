@@ -1,4 +1,4 @@
-import 'components/charts/common/charts-common.scss';
+import 'pages/views/components/charts/common/charts-common.scss';
 
 import { ChartBullet } from '@patternfly/react-charts';
 import { Grid, GridItem, Skeleton } from '@patternfly/react-core';
@@ -6,8 +6,8 @@ import { OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { getResizeObserver } from 'components/charts/common/chartUtils';
 import messages from 'locales/messages';
+import { getResizeObserver } from 'pages/views/components/charts/common/chartUtils';
 import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
