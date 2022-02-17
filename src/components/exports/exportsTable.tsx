@@ -8,15 +8,13 @@ import {
   Label,
   Popover,
   Spinner,
-  Tooltip,
 } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import { DownloadIcon } from '@patternfly/react-icons/dist/esm/icons/download-icon';
 import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
 import { OutlinedClockIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-clock-icon';
 import { SyncIcon } from '@patternfly/react-icons/dist/esm/icons/sync-icon';
-import { TrashIcon } from '@patternfly/react-icons/dist/esm/icons/trash-icon';
-import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
+import { sortable, SortByDirection, Table, TableBody, TableHeader, TableVariant } from '@patternfly/react-table';
 import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -24,6 +22,7 @@ import { EmptyFilterState } from 'pages/components/state/emptyFilterState/emptyF
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 
+import { ExportsActions } from './exportActions';
 import { styles } from './exportsTable.styles';
 
 interface ExportsTableOwnProps {
@@ -42,6 +41,7 @@ interface ExportsTableState {
 type ExportsTableProps = ExportsTableOwnProps & WrappedComponentProps;
 
 export const ExportsTableColumnIds = {
+  actions: 'actions',
   created: 'created',
   expires: 'expires',
   names: 'names',
@@ -105,6 +105,10 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
         id: ExportsTableColumnIds.status,
         title: intl.formatMessage(messages.StatusActions),
       },
+      {
+        id: ExportsTableColumnIds.actions,
+        title: '',
+      },
     ];
 
     if (report.data.length) {
@@ -114,7 +118,8 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
             { title: <div>{item.name}</div>, id: ExportsTableColumnIds.names },
             { title: <div>{item.created}</div>, id: ExportsTableColumnIds.created },
             { title: <div>{item.expires}</div>, id: ExportsTableColumnIds.expires },
-            { title: <div>{this.getStatus(item.status)}</div>, id: ExportsTableColumnIds.status },
+            { title: this.getStatus(item.status), id: ExportsTableColumnIds.status },
+            { title: this.getActions(item.status), id: ExportsTableColumnIds.actions },
           ],
           item,
         });
@@ -145,6 +150,15 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
       rows,
       sortBy: {},
     });
+  };
+
+  private getActions = (status: string) => {
+    switch (status) {
+      case 'failed':
+        return null;
+      default:
+        return <ExportsActions onDelete={this.handleOnDelete} />;
+    }
   };
 
   private getEmptyState = () => {
@@ -193,18 +207,11 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
     switch (status) {
       case 'completed':
         return (
-          <>
-            <Tooltip content={intl.formatMessage(messages.Download)}>
-              <Button onClick={this.handleDownload} variant={ButtonVariant.plain}>
-                <DownloadIcon />
-              </Button>
-            </Tooltip>
-            <Tooltip content={intl.formatMessage(messages.Delete)}>
-              <Button onClick={this.handleDelete} variant={ButtonVariant.plain}>
-                <TrashIcon />
-              </Button>
-            </Tooltip>
-          </>
+          <div style={styles.download}>
+            <Button icon={<DownloadIcon />} onClick={this.handleOnDownload} variant={ButtonVariant.link}>
+              {intl.formatMessage(messages.Download)}
+            </Button>
+          </div>
         );
       case 'failed':
         return (
@@ -255,12 +262,12 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
     }
   };
 
-  private handleDelete = () => {
+  private handleOnDelete = () => {
     // eslint-disable-next-line no-console
     console.log('handleDelete clicked');
   };
 
-  private handleDownload = () => {
+  private handleOnDownload = () => {
     // eslint-disable-next-line no-console
     console.log('handleOnDownload clicked');
   };
@@ -288,6 +295,7 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
           rows={isLoading ? loadingRows : rows}
           sortBy={this.getSortBy()}
           onSort={this.handleOnSort}
+          variant={TableVariant.compact}
         >
           <TableHeader />
           <TableBody />

@@ -6,6 +6,9 @@ import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md'
 import React from 'react';
 
 export const styles = {
+  download: {
+    marginLeft: '-15px',
+  },
   emptyState: {
     backgroundColor: global_BackgroundColor_light_100.value,
     display: 'flex',
