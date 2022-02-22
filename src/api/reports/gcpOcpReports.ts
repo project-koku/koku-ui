@@ -27,14 +27,14 @@ export interface GroupByInstanceTypeData extends Omit<GcpOcpReportData, 'instanc
   instance_type: string;
 }
 
-export interface GroupByProjectData extends Omit<GcpOcpReportData, 'projects'> {
+export interface GroupByProjectData extends Omit<GcpOcpReportData, 'gcp_projects'> {
   project: string;
 }
 
 export interface GcpOcpReportData extends ReportData {
   accounts?: GroupByAccountData[];
   instance_types?: GroupByInstanceTypeData[];
-  projects?: GroupByProjectData[];
+  gcp_projects?: GroupByProjectData[];
   regions?: GroupByRegionData[];
   services?: GroupByServiceData[];
 }

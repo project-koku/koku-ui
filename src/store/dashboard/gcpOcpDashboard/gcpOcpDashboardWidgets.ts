@@ -71,7 +71,7 @@ export const costSummaryWidget: GcpOcpDashboardWidget = {
     titleKey: messages.GCPCostTrendTitle,
     type: ChartType.rolling,
   },
-  availableTabs: [GcpOcpDashboardTab.services, GcpOcpDashboardTab.projects, GcpOcpDashboardTab.regions],
+  availableTabs: [GcpOcpDashboardTab.services, GcpOcpDashboardTab.gcpProjects, GcpOcpDashboardTab.regions],
   chartType: DashboardChartType.dailyTrend,
   currentTab: GcpOcpDashboardTab.services,
 };
@@ -160,5 +160,5 @@ export const storageWidget: GcpOcpDashboardWidget = {
   //   GcpOcpDashboardTab.regions,
   // ],
   chartType: DashboardChartType.trend,
-  currentTab: GcpOcpDashboardTab.projects,
+  currentTab: GcpOcpDashboardTab.gcpProjects,
 };

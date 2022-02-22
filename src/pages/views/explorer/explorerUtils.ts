@@ -110,7 +110,7 @@ export const groupByGcpOcpOptions: {
   value: ComputedGcpReportItemsParams['idKey'];
 }[] = [
   { label: 'account', value: 'account' },
-  { label: 'project', value: 'project' },
+  { label: 'gcp_project', value: 'gcp_project' },
   { label: 'service', value: 'service' },
   { label: 'region', value: 'region' },
 ];

@@ -340,7 +340,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (hasGcp) {
         options.push(...infrastructureGcpOptions);
       }
-      if (isBetaFeature() && this.isGcpOcpAvailable()) {
+      if (this.isGcpOcpAvailable()) {
         options.push(...infrastructureGcpOcpOptions);
       }
       if (hasIbm) {
