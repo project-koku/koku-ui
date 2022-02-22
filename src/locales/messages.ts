@@ -1688,13 +1688,19 @@ export default defineMessages({
     id: 'ExplorerTitle',
   },
   ExportAggregateType: {
-    defaultMessage: 'Select aggregate type',
-    description: 'Export aggregate type',
+    defaultMessage: 'Aggregate type',
+    description: 'Aggregate type',
     id: 'ExportAggregateType',
   },
   ExportAll: {
     defaultMessage: 'Export all',
     description: 'Export all',
+    id: 'ExportAll',
+  },
+  ExportDesc: {
+    defaultMessage:
+      'The active selections from the table plus the values here will be used to generate an export file. When the file is available, download it from the {value} view.',
+    description: 'Export description',
     id: 'ExportAll',
   },
   ExportError: {
@@ -1722,6 +1728,16 @@ export default defineMessages({
     description: 'Export file name',
     id: 'ExportFileName',
   },
+  ExportFormatType: {
+    defaultMessage: '{value, select, csv {CSV} json {JSON} other {}}',
+    description: 'Export format type',
+    id: 'ExportFormatType',
+  },
+  ExportFormatTypeTitle: {
+    defaultMessage: 'Format type',
+    description: 'Format type',
+    id: 'ExportFormatTypeTitle',
+  },
   ExportHeading: {
     defaultMessage:
       '{groupBy, select, ' +
@@ -1742,6 +1758,25 @@ export default defineMessages({
     description: 'Export heading',
     id: 'ExportHeading',
   },
+  ExportName: {
+    defaultMessage:
+      '{groupBy, select, ' +
+      'account {{provider, select, aws {Amazon Web Services grouped by Account} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Account} azure {Microsoft Azure grouped by Account} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Account} gcp {Google Cloud Platform grouped by Account} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Account} ibm {IBM Cloud grouped by Account} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Account} ocp {OpenShift grouped by Account} ocp_cloud {All cloud filtered by OpenShift grouped by Account} other {}}} ' +
+      'cluster {{provider, select, aws {Amazon Web Services grouped by Cluster} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Cluster} azure {Microsoft Azure grouped by Cluster} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Cluster} gcp {Google Cloud Platform grouped by Cluster} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Cluster} ibm {IBM Cloud grouped by Cluster} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Cluster} ocp {OpenShift grouped by Cluster} ocp_cloud {All cloud filtered by OpenShift grouped by Cluster} other {}}} ' +
+      'gcp_project {{provider, select, aws {Amazon Web Services grouped by GCP Project} aws_ocp {Amazon Web Services filtered by OpenShift grouped by GCP Project} azure {Microsoft Azure grouped by GCP Project} azure_ocp {Microsoft Azure filtered by OpenShift grouped by GCP Project} gcp {Google Cloud Platform grouped by GCP Project} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by GCP Project} ibm {IBM Cloud grouped by GCP Project} ibm_ocp {IBM Cloud filtered by OpenShift grouped by GCP Project} ocp {OpenShift grouped by GCP Project} ocp_cloud {All cloud filtered by OpenShift grouped by GCP Project} other {}}} ' +
+      'node {{provider, select, aws {Amazon Web Services grouped by Node} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Node} azure {Microsoft Azure grouped by Node} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Node} gcp {Google Cloud Platform grouped by Node} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Node} ibm {IBM Cloud grouped by Node} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Node} ocp {OpenShift grouped by Node} ocp_cloud {All cloud filtered by OpenShift grouped by Node} other {}}} ' +
+      'org_unit_id {{provider, select, aws {Amazon Web Services grouped by Organizational unit} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Organizational unit} azure {Microsoft Azure grouped by Organizational unit} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Organizational unit} gcp {Google Cloud Platform grouped by Organizational unit} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Organizational unit} ibm {IBM Cloud grouped by Organizational unit} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Organizational unit} ocp {OpenShift grouped by Organizational unit} ocp_cloud {All cloud filtered by OpenShift grouped by Organizational unit} other {}}} ' +
+      'project {{provider, select, aws {Amazon Web Services grouped by Project} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Project} azure {Microsoft Azure grouped by Project} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Project} gcp {Google Cloud Platform grouped by Project} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Project} ibm {IBM Cloud grouped by Project} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Project} ocp {OpenShift grouped by Project} ocp_cloud {All cloud filtered by OpenShift grouped by Project} other {}}} ' +
+      'region {{provider, select, aws {Amazon Web Services grouped by Region} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Region} azure {Microsoft Azure grouped by Region} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Region} gcp {Google Cloud Platform grouped by Region} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Region} ibm {IBM Cloud grouped by Region} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Region} ocp {OpenShift grouped by Region} ocp_cloud {All cloud filtered by OpenShift grouped by Region} other {}}} ' +
+      'resource_location {{provider, select, aws {Amazon Web Services grouped by Region} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Region} azure {Microsoft Azure grouped by Region} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Region} gcp {Google Cloud Platform grouped by Region} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Region} ibm {IBM Cloud grouped by Region} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Region} ocp {OpenShift grouped by Region} ocp_cloud {All cloud filtered by OpenShift grouped by Region} other {}}} ' +
+      'service {{provider, select, aws {Amazon Web Services grouped by Service} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Service} azure {Microsoft Azure grouped by Service} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Service} gcp {Google Cloud Platform grouped by Service} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Service} ibm {IBM Cloud grouped by Service} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Service} ocp {OpenShift grouped by Service} ocp_cloud {All cloud filtered by OpenShift grouped by Service} other {}}} ' +
+      'service_name {{provider, select, aws {Amazon Web Services grouped by Service} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Service} azure {Microsoft Azure grouped by Service} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Service} gcp {Google Cloud Platform grouped by Service} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Service} ibm {IBM Cloud grouped by Service} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Service} ocp {OpenShift grouped by Service} ocp_cloud {All cloud filtered by OpenShift grouped by Service} other {}}} ' +
+      'subscription_guid {{provider, select, aws {Amazon Web Services grouped by Account} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Account} azure {Microsoft Azure grouped by Account} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Account} gcp {Google Cloud Platform grouped by Account} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Account} ibm {IBM Cloud grouped by Account} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Account} ocp {OpenShift grouped by Account} ocp_cloud {All cloud filtered by OpenShift grouped by Account} other {}}} ' +
+      'tag {{provider, select, aws {Amazon Web Services grouped by Tag} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Tag} azure {Microsoft Azure grouped by Tag} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Tag} gcp {Google Cloud Platform grouped by Tag} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Tag} ibm {IBM Cloud grouped by Tag} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Tag} ocp {OpenShift grouped by Tag} ocp_cloud {All cloud filtered by OpenShift grouped by Tag} other {}}} ' +
+      'other {}}',
+    description: 'Export name',
+    id: 'ExportName',
+  },
   ExportResolution: {
     defaultMessage: '{value, select, daily {Daily} monthly {Monthly} other {}}',
     description: 'Export file name',
@@ -1750,31 +1785,31 @@ export default defineMessages({
   ExportSelected: {
     defaultMessage:
       '{groupBy, select, ' +
-      'account {Selected accounts} ' +
-      'cluster {Selected clusters} ' +
-      'gcp_project {Selected GCP projects} ' +
-      'instance_type {Selected instance types} ' +
-      'node {Selected nodes} ' +
-      'org_unit_id {Selected organizational units} ' +
-      'project {Selected projects} ' +
-      'region {Selected regions} ' +
-      'resource_location {Selected regions} ' +
-      'service {Selected services} ' +
-      'service_name {Selected services} ' +
-      'subscription_guid {Selected accounts} ' +
-      'tag {Selected tags} ' +
+      'account {Selected accounts ({count})} ' +
+      'cluster {Selected clusters ({count})} ' +
+      'gcp_project {Selected GCP projects ({count})} ' +
+      'instance_type {Selected instance types ({count})} ' +
+      'node {Selected nodes ({count})} ' +
+      'org_unit_id {Selected organizational units ({count})} ' +
+      'project {Selected projects ({count})} ' +
+      'region {Selected regions ({count})} ' +
+      'resource_location {Selected regions ({count})} ' +
+      'service {Selected services ({count})} ' +
+      'service_name {Selected services ({count})} ' +
+      'subscription_guid {Selected accounts ({count})} ' +
+      'tag {Selected tags ({count})} ' +
       'other {}}',
     description: 'Selected items for export',
     id: 'ExportSelected',
   },
   ExportTimeScope: {
-    defaultMessage: '{value, select, current {Current {date}} previous {Previous {date}} other {}}',
+    defaultMessage: '{value, select, current {Current ({date})} previous {Previous ({date})} other {}}',
     description: 'Export time scope',
     id: 'ExportTimeScope',
   },
   ExportTimeScopeTitle: {
-    defaultMessage: 'Select month',
-    description: 'Export time scope title',
+    defaultMessage: 'Month',
+    description: 'Month',
     id: 'ExportTimeScopeTitle',
   },
   ExportTitle: {

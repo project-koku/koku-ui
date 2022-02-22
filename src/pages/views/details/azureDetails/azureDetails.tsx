@@ -148,6 +148,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     });
     return (
       <ExportModal
+        count={isAllSelected ? itemsTotal : items.length}
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}

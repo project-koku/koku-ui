@@ -346,6 +346,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (hasIbm) {
         options.push(...infrastructureIbmOptions);
       }
+      // Todo: Show in-progress features in beta environment only
       if (isBetaFeature() && this.isIbmOcpAvailable()) {
         options.push(...infrastructureIbmOcpOptions);
       }

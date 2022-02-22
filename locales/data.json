@@ -12017,13 +12017,21 @@
     "ExportAggregateType": [
       {
         "type": 0,
-        "value": "Select aggregate type"
+        "value": "Aggregate type"
       }
     ],
     "ExportAll": [
       {
         "type": 0,
-        "value": "Export all"
+        "value": "The active selections from the table plus the values here will be used to generate an export file. When the file is available, download it from the "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " view."
       }
     ],
     "ExportError": [
@@ -12836,6 +12844,39 @@
         "value": "groupBy"
       }
     ],
+    "ExportFormatType": [
+      {
+        "options": {
+          "csv": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CSV"
+              }
+            ]
+          },
+          "json": {
+            "value": [
+              {
+                "type": 0,
+                "value": "JSON"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "ExportFormatTypeTitle": [
+      {
+        "type": 0,
+        "value": "Format type"
+      }
+    ],
     "ExportHeading": [
       {
         "options": {
@@ -12951,6 +12992,1133 @@
         "value": "groupBy"
       }
     ],
+    "ExportName": [
+      {
+        "options": {
+          "account": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Account"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Account"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Account"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Account"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "cluster": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "gcp_project": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "node": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Node"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Node"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Node"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Node"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Node"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Node"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Node"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Node"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Node"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Node"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "org_unit_id": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "project": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Project"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Project"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Project"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Project"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Project"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Project"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Project"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Project"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Project"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Project"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "region": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Region"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Region"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Region"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Region"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "resource_location": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Region"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Region"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Region"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Region"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "service": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Service"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Service"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Service"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Service"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "service_name": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Service"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Service"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Service"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Service"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "subscription_guid": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Account"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Account"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Account"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Account"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "tag": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Tag"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Tag"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Tag"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Tag"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Tag"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Tag"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Tag"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Tag"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Tag"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Tag"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "groupBy"
+      }
+    ],
     "ExportResolution": [
       {
         "options": {
@@ -12985,7 +14153,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected accounts"
+                "value": "Selected accounts ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -12993,7 +14169,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected clusters"
+                "value": "Selected clusters ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13001,7 +14185,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected GCP projects"
+                "value": "Selected GCP projects ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13009,7 +14201,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected instance types"
+                "value": "Selected instance types ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13017,7 +14217,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected nodes"
+                "value": "Selected nodes ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13025,7 +14233,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected organizational units"
+                "value": "Selected organizational units ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13036,7 +14252,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected projects"
+                "value": "Selected projects ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13044,7 +14268,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected regions"
+                "value": "Selected regions ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13052,7 +14284,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected regions"
+                "value": "Selected regions ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13060,7 +14300,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected services"
+                "value": "Selected services ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13068,7 +14316,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected services"
+                "value": "Selected services ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13076,7 +14332,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected accounts"
+                "value": "Selected accounts ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13084,7 +14348,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected tags"
+                "value": "Selected tags ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           }
@@ -13100,11 +14372,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Current "
+                "value": "Current ("
               },
               {
                 "type": 1,
                 "value": "date"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13115,11 +14391,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Previous "
+                "value": "Previous ("
               },
               {
                 "type": 1,
                 "value": "date"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           }
@@ -13131,7 +14411,7 @@
     "ExportTimeScopeTitle": [
       {
         "type": 0,
-        "value": "Select month"
+        "value": "Month"
       }
     ],
     "ExportTitle": [

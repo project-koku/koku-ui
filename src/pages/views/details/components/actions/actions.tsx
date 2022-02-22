@@ -59,6 +59,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
 
     return (
       <ExportModal
+        count={1}
         groupBy={groupBy}
         isOpen={isExportModalOpen}
         items={[item]}

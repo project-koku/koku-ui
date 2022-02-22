@@ -155,6 +155,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     if (hasIbm) {
       options.push(...infrastructureIbmOptions);
     }
+    // Todo: Show in-progress features in beta environment only
     if (isBetaFeature() && this.isIbmOcpAvailable()) {
       options.push(...infrastructureIbmOcpOptions);
     }
