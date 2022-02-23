@@ -16,11 +16,13 @@ import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems'
 import { getToday } from 'utils/dateRange';
 
 export interface ExportSubmitOwnProps {
+  formatType: 'csv' | 'json';
   groupBy?: string;
   isAllItems?: boolean;
   items?: ComputedReportItem[];
   onClose(isOpen: boolean);
   onError(error: AxiosError);
+  name?: string;
   query?: Query;
   reportPathsType: ReportPathsType;
   resolution: string;
@@ -145,6 +147,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   let endDate = query.end_date;
   let startDate = query.start_date;
 
+  // Todo: Add name and format type for "all exports" feature
   const getQueryString = () => {
     const newQuery: Query = {
       ...JSON.parse(JSON.stringify(query)),
