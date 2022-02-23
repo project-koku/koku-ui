@@ -1,4 +1,4 @@
-import { Button } from '@patternfly/react-core';
+import { AlertActionLink, Button } from '@patternfly/react-core';
 import { AngleDoubleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-double-left-icon';
 import messages from 'locales/messages';
 import React from 'react';
@@ -11,7 +11,8 @@ import { uiActions } from 'store/ui';
 import { styles } from './exports.styles';
 
 interface ExportsLinkOwnProps {
-  // TBD...
+  isActionLink?: boolean;
+  onClick?: (isOpen: boolean) => void;
 }
 
 interface ExportsLinkStateProps {
@@ -27,7 +28,7 @@ type ExportsLinkProps = ExportsLinkOwnProps & ExportsLinkStateProps & ExportsLin
 
 class ExportsLinkBase extends React.Component<ExportsLinkProps> {
   private handleToggle = event => {
-    const { closeExportDrawer, isOpen, openExportDrawer } = this.props;
+    const { closeExportDrawer, isOpen, onClick, openExportDrawer } = this.props;
 
     if (isOpen) {
       closeExportDrawer();
@@ -35,15 +36,27 @@ class ExportsLinkBase extends React.Component<ExportsLinkProps> {
       openExportDrawer();
     }
     event.preventDefault();
+
+    if (onClick) {
+      onClick(isOpen);
+    }
     return false;
   };
 
   public render() {
-    const { intl } = this.props;
+    const { intl, isActionLink } = this.props;
 
+    // @redhat-cloud-services/frontend-components-notifications does not expose PatternFly's actionLinks prop
+    if (isActionLink) {
+      return (
+        <div className="pf-c-alert__action-group">
+          <AlertActionLink onClick={this.handleToggle}>{intl.formatMessage(messages.ExportsTitle)}</AlertActionLink>
+        </div>
+      );
+    }
     return (
       <div style={styles.exportsLink}>
-        <Button component="a" href="#/" variant="link" onClick={this.handleToggle}>
+        <Button variant="link" onClick={this.handleToggle}>
           <span style={styles.exportsIcon}>
             <AngleDoubleLeftIcon />
           </span>

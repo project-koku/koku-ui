@@ -207,11 +207,9 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
     switch (status) {
       case 'completed':
         return (
-          <div style={styles.download}>
-            <Button icon={<DownloadIcon />} onClick={this.handleOnDownload} variant={ButtonVariant.link}>
-              {intl.formatMessage(messages.Download)}
-            </Button>
-          </div>
+          <Button icon={<DownloadIcon />} isInline onClick={this.handleOnDownload} variant={ButtonVariant.link}>
+            {intl.formatMessage(messages.Download)}
+          </Button>
         );
       case 'failed':
         return (
@@ -232,10 +230,10 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
                 bodyContent={<div>{intl.formatMessage(messages.ExportsFailedDesc)}</div>}
               >
                 <Button
-                  variant={ButtonVariant.plain}
                   className={className}
                   innerRef={componentRef}
                   style={styles.failedButton}
+                  variant={ButtonVariant.plain}
                 >
                   {content}
                 </Button>

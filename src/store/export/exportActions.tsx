@@ -1,13 +1,19 @@
+import { addNotification, clearNotifications } from '@redhat-cloud-services/frontend-components-notifications';
 import { Export } from 'api/export/export';
 import { runExport } from 'api/export/exportUtils';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import { ExportsLink } from 'components/exports/exportsLink';
+import { intl } from 'components/i18n';
+import messages from 'locales/messages';
+import React from 'react';
 import { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
 import { getExportId } from 'store/export/exportCommon';
 import { selectExport, selectExportFetchStatus } from 'store/export/exportSelectors';
 import { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
+import { isBetaFeature } from 'utils/feature';
 
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
@@ -37,6 +43,23 @@ export function exportReport(
     runExport(reportPathsType, reportType, query)
       .then(res => {
         dispatch(fetchExportSuccess(res.data, meta));
+
+        /* Todo: Show in-progress features in beta environment only */
+        if (isBetaFeature()) {
+          const description = intl.formatMessage(messages.ExportNotificationDesc, {
+            link: <ExportsLink isActionLink onClick={() => dispatch(clearNotifications())} />,
+            value: <b>{intl.formatMessage(messages.ExportsTitle)}</b>,
+          });
+
+          dispatch(
+            addNotification({
+              description,
+              dismissable: true,
+              title: intl.formatMessage(messages.ExportNotificationTitle),
+              variant: 'success',
+            })
+          );
+        }
       })
       .catch(err => {
         dispatch(fetchExportFailure(err, meta));

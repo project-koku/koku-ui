@@ -1777,6 +1777,16 @@ export default defineMessages({
     description: 'Export name',
     id: 'ExportName',
   },
+  ExportNotificationDesc: {
+    defaultMessage: 'The export is preparing for download. It will be accessible from {value} view. {link}',
+    description: 'Export notification description',
+    id: 'ExportNotificationDesc',
+  },
+  ExportNotificationTitle: {
+    defaultMessage: 'Export preparing for download',
+    description: 'Export notification title',
+    id: 'ExportNotificationTitle',
+  },
   ExportResolution: {
     defaultMessage: '{value, select, daily {Daily} monthly {Monthly} other {}}',
     description: 'Export file name',
