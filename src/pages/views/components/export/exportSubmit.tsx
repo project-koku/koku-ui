@@ -135,7 +135,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
         onClick={this.handleFetchReport}
         variant={ButtonVariant.primary}
       >
-        {intl.formatMessage(messages.ExportsDownload)}
+        {intl.formatMessage(messages.ExportGenerate)}
       </Button>
     );
   }

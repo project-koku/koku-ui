@@ -46,7 +46,7 @@ export function exportReport(
 
         /* Todo: Show in-progress features in beta environment only */
         if (isBetaFeature()) {
-          const description = intl.formatMessage(messages.ExportNotificationSuccessDesc, {
+          const description = intl.formatMessage(messages.ExportsSuccessDesc, {
             link: <ExportsLink isActionLink onClick={() => dispatch(clearNotifications())} />,
             value: <b>{intl.formatMessage(messages.ExportsTitle)}</b>,
           });
@@ -55,7 +55,7 @@ export function exportReport(
             addNotification({
               description,
               dismissable: true,
-              title: intl.formatMessage(messages.ExportNotificationSuccessTitle),
+              title: intl.formatMessage(messages.ExportsSuccess),
               variant: 'success',
             })
           );
@@ -68,9 +68,9 @@ export function exportReport(
         if (isBetaFeature()) {
           dispatch(
             addNotification({
-              description: intl.formatMessage(messages.ExportNotificationErrorDesc),
+              description: intl.formatMessage(messages.ExportsFailedDesc),
               dismissable: true,
-              title: intl.formatMessage(messages.ExportNotificationErrorTitle),
+              title: intl.formatMessage(messages.ExportsFailed),
               variant: 'danger',
             })
           );

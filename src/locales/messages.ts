@@ -1738,6 +1738,11 @@ export default defineMessages({
     description: 'Format type',
     id: 'ExportFormatTypeTitle',
   },
+  ExportGenerate: {
+    defaultMessage: 'Generate export',
+    description: 'Export export',
+    id: 'ExportGenerate',
+  },
   ExportHeading: {
     defaultMessage:
       '{groupBy, select, ' +
@@ -1776,26 +1781,6 @@ export default defineMessages({
       'other {}}',
     description: 'Export name',
     id: 'ExportName',
-  },
-  ExportNotificationErrorDesc: {
-    defaultMessage: 'Something went wrong with the generation of this export file. Try exporting again.',
-    description: 'Export error notification description',
-    id: 'ExportNotificationErrorDesc',
-  },
-  ExportNotificationErrorTitle: {
-    defaultMessage: 'Export cannot be generated',
-    description: 'Export error notification title',
-    id: 'ExportNotificationErrorTitle',
-  },
-  ExportNotificationSuccessDesc: {
-    defaultMessage: 'The export is preparing for download. It will be accessible from {value} view. {link}',
-    description: 'Export success notification description',
-    id: 'ExportNotificationSuccessDesc',
-  },
-  ExportNotificationSuccessTitle: {
-    defaultMessage: 'Export preparing for download',
-    description: 'Export success notification title',
-    id: 'ExportNotificationSuccessTitle',
   },
   ExportResolution: {
     defaultMessage: '{value, select, daily {Daily} monthly {Monthly} other {}}',
@@ -1844,20 +1829,25 @@ export default defineMessages({
       'Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed.',
     id: 'ExportsDesc',
   },
-  ExportsDownload: {
-    defaultMessage: 'Generate and download',
-    description: 'Export download',
-    id: 'ExportsDownload',
-  },
   ExportsFailed: {
     defaultMessage: 'Could not create export file',
-    description: 'Could not create export file',
+    description: 'Export failed',
     id: 'ExportsFailed',
   },
   ExportsFailedDesc: {
     defaultMessage: 'Something went wrong with the generation of this export file. Try exporting again.',
-    description: 'Something went wrong with the generation of this export file. Try exporting again.',
+    description: 'Export failed description',
     id: 'ExportsFailedDesc',
+  },
+  ExportsSuccess: {
+    defaultMessage: 'Export preparing for download',
+    description: 'Export success',
+    id: 'ExportsSuccess',
+  },
+  ExportsSuccessDesc: {
+    defaultMessage: 'The export is preparing for download. It will be accessible from {value} view. {link}',
+    description: 'Export success description',
+    id: 'ExportsSuccessDesc',
   },
   ExportsTableAriaLabel: {
     defaultMessage: 'Available exports table',
