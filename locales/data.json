@@ -14119,6 +14119,30 @@
         "value": "groupBy"
       }
     ],
+    "ExportNotificationDesc": [
+      {
+        "type": 0,
+        "value": "The export is preparing for download. It will be accessible from "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " view. "
+      },
+      {
+        "type": 1,
+        "value": "link"
+      }
+    ],
+    "ExportNotificationTitle": [
+      {
+        "type": 0,
+        "value": "Export preparing for download"
+      }
+    ],
     "ExportResolution": [
       {
         "options": {
