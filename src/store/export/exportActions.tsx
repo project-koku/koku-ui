@@ -46,7 +46,7 @@ export function exportReport(
 
         /* Todo: Show in-progress features in beta environment only */
         if (isBetaFeature()) {
-          const description = intl.formatMessage(messages.ExportNotificationDesc, {
+          const description = intl.formatMessage(messages.ExportNotificationSuccessDesc, {
             link: <ExportsLink isActionLink onClick={() => dispatch(clearNotifications())} />,
             value: <b>{intl.formatMessage(messages.ExportsTitle)}</b>,
           });
@@ -55,7 +55,7 @@ export function exportReport(
             addNotification({
               description,
               dismissable: true,
-              title: intl.formatMessage(messages.ExportNotificationTitle),
+              title: intl.formatMessage(messages.ExportNotificationSuccessTitle),
               variant: 'success',
             })
           );
@@ -63,6 +63,18 @@ export function exportReport(
       })
       .catch(err => {
         dispatch(fetchExportFailure(err, meta));
+
+        /* Todo: Show in-progress features in beta environment only */
+        if (isBetaFeature()) {
+          dispatch(
+            addNotification({
+              description: intl.formatMessage(messages.ExportNotificationErrorDesc),
+              dismissable: true,
+              title: intl.formatMessage(messages.ExportNotificationErrorTitle),
+              variant: 'danger',
+            })
+          );
+        }
       });
   };
 }

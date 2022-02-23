@@ -1777,15 +1777,25 @@ export default defineMessages({
     description: 'Export name',
     id: 'ExportName',
   },
-  ExportNotificationDesc: {
-    defaultMessage: 'The export is preparing for download. It will be accessible from {value} view. {link}',
-    description: 'Export notification description',
-    id: 'ExportNotificationDesc',
+  ExportNotificationErrorDesc: {
+    defaultMessage: 'Something went wrong with the generation of this export file. Try exporting again.',
+    description: 'Export error notification description',
+    id: 'ExportNotificationErrorDesc',
   },
-  ExportNotificationTitle: {
+  ExportNotificationErrorTitle: {
+    defaultMessage: 'Export cannot be generated',
+    description: 'Export error notification title',
+    id: 'ExportNotificationErrorTitle',
+  },
+  ExportNotificationSuccessDesc: {
+    defaultMessage: 'The export is preparing for download. It will be accessible from {value} view. {link}',
+    description: 'Export success notification description',
+    id: 'ExportNotificationSuccessDesc',
+  },
+  ExportNotificationSuccessTitle: {
     defaultMessage: 'Export preparing for download',
-    description: 'Export notification title',
-    id: 'ExportNotificationTitle',
+    description: 'Export success notification title',
+    id: 'ExportNotificationSuccessTitle',
   },
   ExportResolution: {
     defaultMessage: '{value, select, daily {Daily} monthly {Monthly} other {}}',
