@@ -14119,7 +14119,19 @@
         "value": "groupBy"
       }
     ],
-    "ExportNotificationDesc": [
+    "ExportNotificationErrorDesc": [
+      {
+        "type": 0,
+        "value": "Something went wrong with the generation of this export file. Try exporting again."
+      }
+    ],
+    "ExportNotificationErrorTitle": [
+      {
+        "type": 0,
+        "value": "Export cannot be generated"
+      }
+    ],
+    "ExportNotificationSuccessDesc": [
       {
         "type": 0,
         "value": "The export is preparing for download. It will be accessible from "
@@ -14137,7 +14149,7 @@
         "value": "link"
       }
     ],
-    "ExportNotificationTitle": [
+    "ExportNotificationSuccessTitle": [
       {
         "type": 0,
         "value": "Export preparing for download"
