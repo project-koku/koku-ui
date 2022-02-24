@@ -24,7 +24,7 @@ import { createMapStateToProps } from 'store/common';
 import { exportActions } from 'store/export';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { isBetaFeature } from 'utils/feature';
+import { FeatureType, isFeatureVisible } from 'utils/feature';
 
 import { styles } from './exportModal.styles';
 import { ExportSubmit } from './exportSubmit';
@@ -210,7 +210,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
         {error && <Alert variant="danger" style={styles.alert} title={intl.formatMessage(messages.ExportError)} />}
         <div style={styles.title}>
           {/* Todo: Show in-progress features in beta environment only */}
-          {isBetaFeature() ? (
+          {isFeatureVisible(FeatureType.exports) ? (
             <span>
               {intl.formatMessage(messages.ExportDesc, { value: <b>{intl.formatMessage(messages.ExportsTitle)}</b> })}
             </span>
@@ -221,7 +221,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
         <Form style={styles.form}>
           <Grid hasGutter md={6}>
             {/* Todo: Show in-progress features in beta environment only */}
-            {isBetaFeature() && (
+            {isFeatureVisible(FeatureType.exports) && (
               <GridItem span={12}>
                 <FormGroup label={intl.formatMessage(messages.Names, { count: 1 })} fieldId="exportName" isRequired>
                   <TextInput
@@ -280,7 +280,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
               </FormGroup>
             )}
             {/* Todo: Show in-progress features in beta environment only */}
-            {showFormatType && isBetaFeature() && (
+            {showFormatType && isFeatureVisible(FeatureType.exports) && (
               <GridItem span={12}>
                 <FormGroup label={intl.formatMessage(messages.ExportFormatTypeTitle)} fieldId="formatType">
                   {formatTypeOptions.map((option, index) => (

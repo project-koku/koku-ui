@@ -6,7 +6,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RootState } from 'store';
-import { isBetaFeature } from 'utils/feature';
+import { FeatureType, isFeatureVisible } from 'utils/feature';
 
 import { styles } from './header.styles';
 
@@ -24,7 +24,7 @@ function HeaderBase({ children }: HeaderProps): JSX.Element {
       </TextContent>
       <div style={styles.headerContentRight}>
         {/* Todo: Show in-progress features in beta environment only */}
-        {isBetaFeature() && <ExportsLink />}
+        {isFeatureVisible(FeatureType.exports) && <ExportsLink />}
       </div>
     </div>
   );

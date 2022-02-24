@@ -15,7 +15,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
-import { isBetaFeature } from 'utils/feature';
+import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './breakdownHeader.styles';
@@ -121,8 +121,8 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
           </nav>
           <div style={styles.headerContentRight}>
             {/* Todo: Show in-progress features in beta environment only */}
-            {isBetaFeature() && <Currency />}
-            {isBetaFeature() && <ExportsLink />}
+            {isFeatureVisible(FeatureType.currency) && <Currency />}
+            {isFeatureVisible(FeatureType.exports) && <ExportsLink />}
           </div>
         </div>
         <div style={styles.headerContent}>
