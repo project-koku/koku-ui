@@ -113,25 +113,11 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     };
 
     const hasRequest = hasTotal && report.meta.total.request && report.meta.total.request !== null;
+    const hasUsage = hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
     const request = Math.trunc(hasRequest ? report.meta.total.request.value : 0);
     const requestUnits = intl.formatMessage(messages.Units, {
       units: unitsLookupKey(hasRequest ? report.meta.total.request.units : undefined),
     });
-    datum.ranges = [
-      {
-        legend: intl.formatMessage(messages.DetailsUsageRequests, {
-          value: request,
-          units: requestUnits,
-        }),
-        tooltip: intl.formatMessage(messages.DetailsUsageRequests, {
-          value: request,
-          units: requestUnits,
-        }),
-        value: Math.trunc(request),
-      },
-    ];
-
-    const hasUsage = hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
     const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
     const usageUnits = intl.formatMessage(messages.Units, {
       units: unitsLookupKey(hasUsage ? report.meta.total.usage.units : undefined),
@@ -147,6 +133,17 @@ class UsageChartBase extends React.Component<UsageChartProps> {
           units: usageUnits,
         }),
         value: Math.trunc(usage),
+      },
+      {
+        legend: intl.formatMessage(messages.DetailsUsageRequests, {
+          value: request,
+          units: requestUnits,
+        }),
+        tooltip: intl.formatMessage(messages.DetailsUsageRequests, {
+          value: request,
+          units: requestUnits,
+        }),
+        value: Math.trunc(request),
       },
     ];
     return datum;
