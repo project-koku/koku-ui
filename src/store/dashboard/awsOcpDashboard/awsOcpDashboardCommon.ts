@@ -17,7 +17,6 @@ export const enum AwsOcpDashboardTab {
   services = 'services',
   accounts = 'accounts',
   regions = 'regions',
-  instanceType = 'instance_type',
 }
 
 export interface AwsOcpDashboardWidget extends DashboardWidget<AwsOcpDashboardTab> {}
@@ -33,8 +32,6 @@ export function getGroupByForTab(widget: AwsOcpDashboardWidget): AwsQuery['group
       return { account: '*' };
     case AwsOcpDashboardTab.regions:
       return { region: '*' };
-    case AwsOcpDashboardTab.instanceType:
-      return { instance_type: '*' };
     default:
       return {};
   }

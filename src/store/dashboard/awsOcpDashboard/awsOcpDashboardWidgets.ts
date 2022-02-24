@@ -38,13 +38,7 @@ export const computeWidget: AwsOcpDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   AwsOcpDashboardTab.instanceType,
-  //   AwsOcpDashboardTab.accounts,
-  //   AwsOcpDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AwsOcpDashboardTab.instanceType,
 };
 
 export const costSummaryWidget: AwsOcpDashboardWidget = {
@@ -95,13 +89,7 @@ export const databaseWidget: AwsOcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   AwsOcpDashboardTab.services,
-  //   AwsOcpDashboardTab.accounts,
-  //   AwsOcpDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AwsOcpDashboardTab.services,
 };
 
 export const networkWidget: AwsOcpDashboardWidget = {
@@ -125,13 +113,7 @@ export const networkWidget: AwsOcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   AwsOcpDashboardTab.services,
-  //   AwsOcpDashboardTab.accounts,
-  //   AwsOcpDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AwsOcpDashboardTab.services,
 };
 
 export const storageWidget: AwsOcpDashboardWidget = {
@@ -152,11 +134,5 @@ export const storageWidget: AwsOcpDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   AwsOcpDashboardTab.services,
-  //   AwsOcpDashboardTab.accounts,
-  //   AwsOcpDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AwsOcpDashboardTab.accounts,
 };

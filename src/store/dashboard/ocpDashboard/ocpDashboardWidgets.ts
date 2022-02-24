@@ -63,9 +63,7 @@ export const cpuWidget: OcpDashboardWidget = {
     titleKey: messages.OCPDailyUsageAndRequestComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   chartType: DashboardChartType.usage,
-  currentTab: OcpDashboardTab.projects,
 };
 
 export const memoryWidget: OcpDashboardWidget = {
@@ -85,9 +83,7 @@ export const memoryWidget: OcpDashboardWidget = {
     titleKey: messages.OCPDailyUsageAndRequestComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   chartType: DashboardChartType.usage,
-  currentTab: OcpDashboardTab.projects,
 };
 
 export const volumeWidget: OcpDashboardWidget = {
@@ -107,7 +103,5 @@ export const volumeWidget: OcpDashboardWidget = {
     titleKey: messages.OCPDailyUsageAndRequestComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   chartType: DashboardChartType.usage,
-  currentTab: OcpDashboardTab.projects,
 };

@@ -10,7 +10,6 @@ interface GcpGroupBys {
   service?: GcpGroupByValue;
   account?: GcpGroupByValue;
   gcp_project?: GcpGroupByValue;
-  instance_type?: GcpGroupByValue;
   project?: GcpGroupByValue;
   region?: GcpGroupByValue;
 }

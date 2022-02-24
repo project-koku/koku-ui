@@ -197,22 +197,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Back to "
-              },
-              {
-                "type": 1,
-                "value": "value"
-              },
-              {
-                "type": 0,
-                "value": " instance type details"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -490,14 +474,6 @@
               {
                 "type": 0,
                 "value": "Cost by GCP projects"
-              }
-            ]
-          },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cost by instance types"
               }
             ]
           },
@@ -10856,22 +10832,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "instance type "
-              },
-              {
-                "type": 1,
-                "value": "name"
-              },
-              {
-                "type": 0,
-                "value": " clusters"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -11087,14 +11047,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Instance type names"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -11211,18 +11163,6 @@
               {
                 "type": 0,
                 "value": " GCP projects"
-              }
-            ]
-          },
-          "instance_type": {
-            "value": [
-              {
-                "type": 1,
-                "value": "name"
-              },
-              {
-                "type": 0,
-                "value": " instance types"
               }
             ]
           },
@@ -11468,14 +11408,6 @@
               {
                 "type": 0,
                 "value": "View all GCP projects"
-              }
-            ]
-          },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "View all instance types"
               }
             ]
           },
@@ -12226,67 +12158,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "options": {
-                  "daily": {
-                    "value": [
-                      {
-                        "type": 1,
-                        "value": "provider"
-                      },
-                      {
-                        "type": 0,
-                        "value": "_instances_daily_"
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "_"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  },
-                  "monthly": {
-                    "value": [
-                      {
-                        "type": 1,
-                        "value": "provider"
-                      },
-                      {
-                        "type": 0,
-                        "value": "_instances_monthly_"
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "_"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": []
-                  }
-                },
-                "type": 5,
-                "value": "resolution"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -12907,14 +12778,6 @@
               {
                 "type": 0,
                 "value": "Aggregates of the following GCP projects will be exported to a .csv file."
-              }
-            ]
-          },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Aggregates of the following instance types will be exported to a .csv file."
               }
             ]
           },
@@ -14192,22 +14055,6 @@
               {
                 "type": 0,
                 "value": "Selected GCP projects ("
-              },
-              {
-                "type": 1,
-                "value": "count"
-              },
-              {
-                "type": 0,
-                "value": ")"
-              }
-            ]
-          },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Selected instance types ("
               },
               {
                 "type": 1,
@@ -15790,34 +15637,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "All instance type"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "All instance types"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -16171,34 +15990,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "Top instance type"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "Top instance types"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -16486,14 +16277,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Instance type names"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -16651,34 +16434,6 @@
                       {
                         "type": 0,
                         "value": "GCP projects"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "instance_type": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "instance type"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "instance types"
                       }
                     ]
                   }
@@ -17036,34 +16791,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "Instance type"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "Instance types"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -17360,14 +17087,6 @@
               {
                 "type": 0,
                 "value": "CPU usage, request, and limit comparison"
-              }
-            ]
-          },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Compute usage comparison"
               }
             ]
           },

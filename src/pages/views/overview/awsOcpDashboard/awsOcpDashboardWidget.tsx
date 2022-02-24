@@ -25,8 +25,6 @@ export const getIdKeyForTab = (tab: AwsOcpDashboardTab): ComputedAwsReportItemsP
       return 'account';
     case AwsOcpDashboardTab.regions:
       return 'region';
-    case AwsOcpDashboardTab.instanceType:
-      return 'instance_type';
   }
 };
 

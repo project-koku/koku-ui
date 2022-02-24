@@ -39,13 +39,7 @@ export const computeWidget: GcpOcpDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   GcpOcpDashboardTab.instanceType,
-  //   GcpOcpDashboardTab.accounts,
-  //   GcpOcpDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: GcpOcpDashboardTab.instanceType,
 };
 
 export const costSummaryWidget: GcpOcpDashboardWidget = {
@@ -97,13 +91,7 @@ export const databaseWidget: GcpOcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   GcpOcpDashboardTab.services,
-  //   GcpOcpDashboardTab.accounts,
-  //   GcpOcpDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: GcpOcpDashboardTab.services,
 };
 
 export const networkWidget: GcpOcpDashboardWidget = {
@@ -127,13 +115,7 @@ export const networkWidget: GcpOcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   GcpOcpDashboardTab.services,
-  //   GcpOcpDashboardTab.accounts,
-  //   GcpOcpDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: GcpOcpDashboardTab.services,
 };
 
 export const storageWidget: GcpOcpDashboardWidget = {
@@ -154,11 +136,5 @@ export const storageWidget: GcpOcpDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   GcpOcpDashboardTab.services,
-  //   GcpOcpDashboardTab.accounts,
-  //   GcpOcpDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: GcpOcpDashboardTab.gcpProjects,
 };

@@ -64,10 +64,6 @@ describe('getGroupByForTab', () => {
     expect(getGroupByForTab(AzureDashboardTab.service_names)).toMatchSnapshot();
   });
 
-  test('instance types tab', () => {
-    expect(getGroupByForTab(AzureDashboardTab.instanceType)).toMatchSnapshot();
-  });
-
   test('accounts tab', () => {
     expect(getGroupByForTab(AzureDashboardTab.subscription_guids)).toMatchSnapshot();
   });

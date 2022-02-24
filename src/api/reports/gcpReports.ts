@@ -6,7 +6,6 @@ import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType
 export interface GcpReportItem extends ReportItem {
   account?: string;
   gcp_project?: string;
-  instance_type?: string;
   project?: string;
   region?: string;
   service?: string;
@@ -28,14 +27,9 @@ export interface GroupByGcpProjectData extends Omit<GcpReportData, 'gcp_projects
   gcp_project: string;
 }
 
-export interface GroupByInstanceTypeData extends Omit<GcpReportData, 'instance_types'> {
-  instance_type: string;
-}
-
 export interface GcpReportData extends ReportData {
   accounts?: GroupByAccountData[];
   gcp_projects?: GroupByGcpProjectData[];
-  instance_types?: GroupByInstanceTypeData[];
   regions?: GroupByRegionData[];
   services?: GroupByServiceData[];
 }

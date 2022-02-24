@@ -25,8 +25,6 @@ export const getIdKeyForTab = (tab: IbmDashboardTab): ComputedIbmReportItemsPara
       return 'project';
     case IbmDashboardTab.regions:
       return 'region';
-    case IbmDashboardTab.instanceType:
-      return 'instance_type';
   }
 };
 

@@ -53,10 +53,6 @@ describe('getGroupByForTab', () => {
     expect(getGroupByForTab(IbmDashboardTab.services)).toMatchSnapshot();
   });
 
-  test('instance types tab', () => {
-    expect(getGroupByForTab(IbmDashboardTab.instanceType)).toMatchSnapshot();
-  });
-
   test('accounts tab', () => {
     expect(getGroupByForTab(IbmDashboardTab.accounts)).toMatchSnapshot();
   });

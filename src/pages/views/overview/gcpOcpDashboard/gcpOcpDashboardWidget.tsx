@@ -19,8 +19,6 @@ interface GcpOcpDashboardWidgetDispatchProps {
 
 export const getIdKeyForTab = (tab: GcpOcpDashboardTab): ComputedGcpReportItemsParams['idKey'] => {
   switch (tab) {
-    case GcpOcpDashboardTab.instanceType:
-      return 'instance_type';
     case GcpOcpDashboardTab.gcpProjects:
       return 'gcp_project';
     case GcpOcpDashboardTab.regions:
