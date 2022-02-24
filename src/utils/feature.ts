@@ -18,6 +18,8 @@ export const isStageBeta = () => {
 export const isFeatureVisible = (feature: FeatureType) => {
   // Show in-progress features for stage-beta only
   switch (feature) {
+    case FeatureType.ninetyDays:
+      return true; // Todo: Example of how to enable a feature for all envs
     case FeatureType.currency:
     case FeatureType.exports:
     case FeatureType.ibm:
