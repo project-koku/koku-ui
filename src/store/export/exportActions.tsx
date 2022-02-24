@@ -73,7 +73,7 @@ export function exportReport(
             addNotification({
               description: intl.formatMessage(messages.ExportsFailedDesc),
               dismissable: true,
-              title: intl.formatMessage(messages.ExportsFailed),
+              title: intl.formatMessage(messages.ExportsUnavailable),
               variant: 'danger',
             })
           );

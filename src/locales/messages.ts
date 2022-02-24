@@ -1850,6 +1850,11 @@ export default defineMessages({
     description: 'All exports',
     id: 'ExportsTitle',
   },
+  ExportsUnavailable: {
+    defaultMessage: 'Export cannot be generated',
+    description: 'Export cannot be generated',
+    id: 'ExportsUnavailable',
+  },
   FilterByButtonAriaLabel: {
     defaultMessage:
       '{value, select, ' +

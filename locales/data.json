@@ -14327,6 +14327,12 @@
         "value": "All exports"
       }
     ],
+    "ExportsUnavailable": [
+      {
+        "type": 0,
+        "value": "Export cannot be generated"
+      }
+    ],
     "FilterByButtonAriaLabel": [
       {
         "options": {

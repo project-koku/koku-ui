@@ -22,6 +22,7 @@ export const isFeatureVisible = (feature: FeatureType) => {
       return true; // Todo: Example of how to enable a feature for all envs
     case FeatureType.currency:
     case FeatureType.exports:
+    case FeatureType.gcpOcp:
     case FeatureType.ibm:
     case FeatureType.oci:
       return isStageBeta();
