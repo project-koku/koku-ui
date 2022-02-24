@@ -164,7 +164,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   // This chart displays cumulative and daily cost compared to infrastructure cost
   private getDailyCostChart = (containerHeight: number, height: number, adjustContainerHeight: boolean = false) => {
-    const { currentReport, previousReport, trend } = this.props;
+    const { chartFormatter, currentReport, previousReport, trend } = this.props;
     const { currentComparison } = this.state;
 
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
@@ -213,7 +213,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           forecastInfrastructureConeData={forecastInfrastructureData.forecastConeData}
           forecastInfrastructureData={forecastInfrastructureData.forecastData}
           formatOptions={trend.formatOptions}
-          formatter={formatCurrency}
+          formatter={chartFormatter || formatCurrency}
           height={height}
           previousCostData={previousCostData}
           previousInfrastructureCostData={previousInfrastructureData}
@@ -231,7 +231,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     showInfrastructureLabel: boolean = false,
     showSupplementaryLabel: boolean = false
   ) => {
-    const { currentReport, details, previousReport, trend } = this.props;
+    const { chartFormatter, currentReport, details, previousReport, trend } = this.props;
     const { currentComparison } = this.state;
 
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
@@ -260,7 +260,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           forecastData={forecastData}
           forecastConeData={forecastConeData}
           formatOptions={trend.formatOptions}
-          formatter={formatCurrency}
+          formatter={chartFormatter || formatCurrency}
           height={height}
           previousData={previousData}
           showForecast={trend.computedForecastItem !== undefined}
@@ -405,7 +405,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     showInfrastructureLabel: boolean = false,
     showSupplementaryLabel: boolean = false
   ) => {
-    const { currentReport, details, intl, previousReport, trend } = this.props;
+    const { chartFormatter, currentReport, details, intl, previousReport, trend } = this.props;
 
     const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementary cost, etc.
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
@@ -432,7 +432,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         forecastData={forecastData}
         forecastConeData={forecastConeData}
         formatOptions={trend.formatOptions}
-        formatter={formatCurrency}
+        formatter={chartFormatter || formatCurrency}
         height={height}
         previousData={previousData}
         showForecast={trend.computedForecastItem !== undefined}
@@ -447,7 +447,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   // This chart displays usage and requests
   private getUsageChart = (height: number, adjustContainerHeight: boolean = false) => {
-    const { currentReport, intl, previousReport, trend } = this.props;
+    const { chartFormatter, currentReport, intl, previousReport, trend } = this.props;
 
     const title = intl.formatMessage(trend.titleKey, {
       units: this.getFormattedUnits(),
@@ -468,7 +468,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         currentRequestData={currentRequestData}
         currentUsageData={currentUsageData}
         formatOptions={trend.formatOptions}
-        formatter={formatUnits}
+        formatter={chartFormatter || formatUnits}
         height={height}
         previousRequestData={previousRequestData}
         previousUsageData={previousUsageData}
