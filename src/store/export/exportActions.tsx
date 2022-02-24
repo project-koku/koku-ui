@@ -13,7 +13,7 @@ import { getExportId } from 'store/export/exportCommon';
 import { selectExport, selectExportFetchStatus } from 'store/export/exportSelectors';
 import { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
-import { isBetaFeature } from 'utils/feature';
+import { FeatureType, isFeatureVisible } from 'utils/feature';
 
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
@@ -45,7 +45,7 @@ export function exportReport(
         dispatch(fetchExportSuccess(res.data, meta));
 
         /* Todo: Show in-progress features in beta environment only */
-        if (isBetaFeature()) {
+        if (isFeatureVisible(FeatureType.exports)) {
           const description = intl.formatMessage(messages.ExportsSuccessDesc, {
             link: <ExportsLink isActionLink onClick={() => dispatch(clearNotifications())} />,
             value: <b>{intl.formatMessage(messages.ExportsTitle)}</b>,
@@ -65,7 +65,7 @@ export function exportReport(
         dispatch(fetchExportFailure(err, meta));
 
         /* Todo: Show in-progress features in beta environment only */
-        if (isBetaFeature()) {
+        if (isFeatureVisible(FeatureType.exports)) {
           dispatch(
             addNotification({
               description: intl.formatMessage(messages.ExportsFailedDesc),

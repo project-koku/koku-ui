@@ -21,7 +21,7 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { getLast60DaysDate } from 'utils/dateRange';
-import { isBetaFeature } from 'utils/feature';
+import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { getCostType } from 'utils/localStorage';
 import {
   hasAwsAccess,
@@ -149,14 +149,14 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     if (hasGcp) {
       options.push(...infrastructureGcpOptions);
     }
-    if (this.isGcpOcpAvailable()) {
+    if (isFeatureVisible(FeatureType.gcpOcp) && this.isGcpOcpAvailable()) {
       options.push(...infrastructureGcpOcpOptions);
     }
     if (hasIbm) {
       options.push(...infrastructureIbmOptions);
     }
     // Todo: Show in-progress features in beta environment only
-    if (isBetaFeature() && this.isIbmOcpAvailable()) {
+    if (isFeatureVisible(FeatureType.ibm) && this.isIbmOcpAvailable()) {
       options.push(...infrastructureIbmOcpOptions);
     }
     if (hasAzure) {
@@ -296,8 +296,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
           </Title>
           <div style={styles.headerContentRight}>
             {/* Todo: Show in-progress features in beta environment only */}
-            {isBetaFeature() && <Currency />}
-            {isBetaFeature() && <ExportsLink />}
+            {isFeatureVisible(FeatureType.currency) && <Currency />}
+            {isFeatureVisible(FeatureType.exports) && <ExportsLink />}
           </div>
         </div>
         <div style={styles.perspectiveContainer}>

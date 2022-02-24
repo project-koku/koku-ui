@@ -52,7 +52,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getSinceDateRangeString } from 'utils/dateRange';
-import { isBetaFeature } from 'utils/feature';
+import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { getCostType } from 'utils/localStorage';
 import {
   hasAwsAccess,
@@ -340,14 +340,14 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (hasGcp) {
         options.push(...infrastructureGcpOptions);
       }
-      if (this.isGcpOcpAvailable()) {
+      if (isFeatureVisible(FeatureType.gcpOcp) && this.isGcpOcpAvailable()) {
         options.push(...infrastructureGcpOcpOptions);
       }
       if (hasIbm) {
         options.push(...infrastructureIbmOptions);
       }
       // Todo: Show in-progress features in beta environment only
-      if (isBetaFeature() && this.isIbmOcpAvailable()) {
+      if (isFeatureVisible(FeatureType.ibm) && this.isIbmOcpAvailable()) {
         options.push(...infrastructureIbmOcpOptions);
       }
       if (hasAzure) {
@@ -638,7 +638,7 @@ class OverviewBase extends React.Component<OverviewProps> {
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.GCP)}</p>
                       <p>{intl.formatMessage(messages.GCPDesc)}</p>
                       {/* Todo: Show in-progress features in beta environment only */}
-                      {isBetaFeature() && (
+                      {isFeatureVisible(FeatureType.ibm) && (
                         <>
                           <br />
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.IBM)}</p>
@@ -662,8 +662,8 @@ class OverviewBase extends React.Component<OverviewProps> {
             </Title>
             <div style={styles.headerContentRight}>
               {/* Todo: Show in-progress features in beta environment only */}
-              {isBetaFeature() && <Currency />}
-              {isBetaFeature() && <ExportsLink />}
+              {isFeatureVisible(FeatureType.currency) && <Currency />}
+              {isFeatureVisible(FeatureType.exports) && <ExportsLink />}
             </div>
           </div>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
