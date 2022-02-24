@@ -9,9 +9,9 @@ import {
 } from 'pages/views/components/charts/common/chartDatumUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { formatUnits } from 'utils/format';
 
 import { GcpDashboardTab, GcpDashboardWidget } from './gcpDashboardCommon';
-import { formatUnits } from 'utils/format';
 
 let currrentId = 0;
 const getId = () => currrentId++;
