@@ -1,9 +1,10 @@
 // eslint-disable-next-line no-shadow
 export const enum FeatureType {
-  currency = 'currency', // Currency support
-  exports = 'exports', // Async exports
-  gcpOcp = 'gcp_ocp', // GCP filtered by OpenShift
-  ibm = 'ibm', // IBM
+  currency = 'currency', // Currency support https://issues.redhat.com/browse/COST-1277
+  ninetyDays = 'ninetyDays', // Cost Explorer 90 days feature https://issues.redhat.com/browse/COST-1670
+  exports = 'exports', // Async exports https://issues.redhat.com/browse/COST-2223
+  gcpOcp = 'gcp_ocp', // GCP filtered by OpenShift https://issues.redhat.com/browse/COST-682
+  ibm = 'ibm', // IBM https://issues.redhat.com/browse/COST-935
   oci = 'oci', // Open Container Initiative
 }
 
@@ -19,6 +20,7 @@ export const isFeatureVisible = (feature: FeatureType) => {
     case FeatureType.currency:
     case FeatureType.exports:
     case FeatureType.ibm:
+    case FeatureType.ninetyDays:
     case FeatureType.oci:
       return isStageBeta();
     default:
