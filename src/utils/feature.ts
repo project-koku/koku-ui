@@ -16,11 +16,11 @@ export const isStageBeta = () => {
 
 // Helper function to track multiple code segments belonging to a specific feature
 export const isFeatureVisible = (feature: FeatureType) => {
+  // Show in-progress features for stage-beta only
   switch (feature) {
     case FeatureType.currency:
     case FeatureType.exports:
     case FeatureType.ibm:
-    case FeatureType.ninetyDays:
     case FeatureType.oci:
       return isStageBeta();
     default:
