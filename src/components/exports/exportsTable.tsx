@@ -119,7 +119,7 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
             { title: <div>{item.created}</div>, id: ExportsTableColumnIds.created },
             { title: <div>{item.expires}</div>, id: ExportsTableColumnIds.expires },
             { title: this.getStatus(item.status), id: ExportsTableColumnIds.status },
-            { title: this.getActions(item.status), id: ExportsTableColumnIds.actions },
+            { title: <ExportsActions onDelete={this.handleOnDelete} />, id: ExportsTableColumnIds.actions },
           ],
           item,
         });
@@ -150,15 +150,6 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
       rows,
       sortBy: {},
     });
-  };
-
-  private getActions = (status: string) => {
-    switch (status) {
-      case 'failed':
-        return null;
-      default:
-        return <ExportsActions onDelete={this.handleOnDelete} />;
-    }
   };
 
   private getEmptyState = () => {
