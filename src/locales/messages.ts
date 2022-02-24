@@ -103,7 +103,6 @@ export default defineMessages({
       'account {Back to {value} account details} ' +
       'cluster {Back to {value} cluster details} ' +
       'gcp_project {Back to {value} GCP project details} ' +
-      'instance_type {Back to {value} instance type details} ' +
       'node {Back to {value} node details} ' +
       'org_unit_id {Back to {value} organizational unit details} ' +
       'project {Back to {value} project details} ' +
@@ -170,7 +169,6 @@ export default defineMessages({
       'account {Cost by accounts} ' +
       'cluster {Cost by clusters} ' +
       'gcp_project {Cost by GCP projects} ' +
-      'instance_type {Cost by instance types} ' +
       'node {Cost by Node} ' +
       'org_unit_id {Cost by organizational units} ' +
       'project {Cost by projects} ' +
@@ -1375,7 +1373,6 @@ export default defineMessages({
       'account {account {name} clusters} ' +
       'cluster {cluster {name} clusters} ' +
       'gcp_project {GCP project {name} clusters} ' +
-      'instance_type {instance type {name} clusters} ' +
       'node {node {name} clusters} ' +
       'org_unit_id {organizational unit {name} clusters} ' +
       'project {project {name} clusters} ' +
@@ -1415,7 +1412,6 @@ export default defineMessages({
       'account {Account names} ' +
       'cluster {Cluster names} ' +
       'gcp_project {GCP project names} ' +
-      'instance_type {Instance type names} ' +
       'node {Node names} ' +
       'org_unit_id {Organizational unit names} ' +
       'project {Project names} ' +
@@ -1435,7 +1431,6 @@ export default defineMessages({
       'account {{name} accounts} ' +
       'cluster {{name} clusters} ' +
       'gcp_project {{name} GCP projects} ' +
-      'instance_type {{name} instance types} ' +
       'node {{name} nodes} ' +
       'org_unit_id {{name} organizational units} ' +
       'project {{name} projects} ' +
@@ -1490,7 +1485,6 @@ export default defineMessages({
       'account {View all accounts} ' +
       'cluster {View all clusters} ' +
       'gcp_project {View all GCP projects} ' +
-      'instance_type {View all instance types} ' +
       'node {View all nodes} ' +
       'org_unit_id {View all organizational units} ' +
       'project {View all projects} ' +
@@ -1714,7 +1708,6 @@ export default defineMessages({
       'account {{resolution, select, daily {{provider}_accounts_daily_{startDate}_{endDate}} monthly {{provider}_accounts_monthly_{startDate}_{endDate}} other {}}} ' +
       'cluster {{resolution, select, daily {{provider}_clusters_daily_{startDate}_{endDate}} monthly {{provider}_clusters_monthly_{startDate}_{endDate}} other {}}} ' +
       'gcp_project {{resolution, select, daily {{provider}_gcp-projects_daily_{startDate}_{endDate}} monthly {{provider}_gcp-projects_monthly_{startDate}_{endDate}} other {}}} ' +
-      'instance_type {{resolution, select, daily {{provider}_instances_daily_{startDate}_{endDate}} monthly {{provider}_instances_monthly_{startDate}_{endDate}} other {}}} ' +
       'node {{resolution, select, daily {{provider}_node_daily_{startDate}_{endDate}} monthly {{provider}_node_monthly_{startDate}_{endDate}} other {}}} ' +
       'org_unit_id {{resolution, select, daily {{provider}_orgs_daily_{startDate}_{endDate}} monthly {{provider}_orgs_monthly_{startDate}_{endDate}} other {}}} ' +
       'project {{resolution, select, daily {{provider}_projects_daily_{startDate}_{endDate}} monthly {{provider}_projects_monthly_{startDate}_{endDate}} other {}}} ' +
@@ -1749,7 +1742,6 @@ export default defineMessages({
       'account {Aggregates of the following accounts will be exported to a .csv file.} ' +
       'cluster {Aggregates of the following clusters will be exported to a .csv file.} ' +
       'gcp_project {Aggregates of the following GCP projects will be exported to a .csv file.} ' +
-      'instance_type {Aggregates of the following instance types will be exported to a .csv file.} ' +
       'node {Aggregates of the following nodes will be exported to a .csv file.} ' +
       'org_unit_id {Aggregates of the following organizational units will be exported to a .csv file.} ' +
       'project {Aggregates of the following projects will be exported to a .csv file.} ' +
@@ -1793,7 +1785,6 @@ export default defineMessages({
       'account {Selected accounts ({count})} ' +
       'cluster {Selected clusters ({count})} ' +
       'gcp_project {Selected GCP projects ({count})} ' +
-      'instance_type {Selected instance types ({count})} ' +
       'node {Selected nodes ({count})} ' +
       'org_unit_id {Selected organizational units ({count})} ' +
       'project {Selected projects ({count})} ' +
@@ -2046,7 +2037,6 @@ export default defineMessages({
       'account {{count, plural, one {All account} other {All accounts}}} ' +
       'cluster {{count, plural, one {All cluster} other {All clusters}}} ' +
       'gcp_project {{count, plural, one {All GCP project} other {All GCP projects}}} ' +
-      'instance_type {{count, plural, one {All instance type} other {All instance types}}} ' +
       'node {{count, plural, one {All node} other {All nodes}}} ' +
       'org_unit_id {{count, plural, one {All organizational unit} other {All organizational units}}} ' +
       'project {{count, plural, one {All project} other {All projects}}} ' +
@@ -2071,7 +2061,6 @@ export default defineMessages({
       'account {{count, plural, one {Top account} other {Top accounts}}} ' +
       'cluster {{count, plural, one {Top cluster} other {Top clusters}}} ' +
       'gcp_project {{count, plural, one {Top GCP project} other {Top GCP projects}}} ' +
-      'instance_type {{count, plural, one {Top instance type} other {Top instance types}}} ' +
       'node {{count, plural, one {Top node} other {Top node}}} ' +
       'org_unit_id {{count, plural, one {Top organizational unit} other {Top organizational units}}} ' +
       'project {{count, plural, one {Top project} other {Top projects}}} ' +
@@ -2091,7 +2080,6 @@ export default defineMessages({
       'account {Account names} ' +
       'cluster {Cluster names} ' +
       'gcp_project {GCP project names} ' +
-      'instance_type {Instance type names} ' +
       'node {Node names} ' +
       'org_unit_id {Organizational unit names} ' +
       'project {Project names} ' +
@@ -2111,7 +2099,6 @@ export default defineMessages({
       'account {{count, plural, one {account} other {accounts}}} ' +
       'cluster {{count, plural, one {cluster} other {clusters}}} ' +
       'gcp_project {{count, plural, one {GCP project} other {GCP projects}}} ' +
-      'instance_type {{count, plural, one {instance type} other {instance types}}} ' +
       'node {{count, plural, one {node} other {node}}} ' +
       'org_unit_id {{count, plural, one {organizational unit} other {organizational units}}} ' +
       'project {{count, plural, one {project} other {projects}}} ' +
@@ -2131,7 +2118,6 @@ export default defineMessages({
       'account {{count, plural, one {Account} other {Accounts}}} ' +
       'cluster {{count, plural, one {Cluster} other {Clusters}}} ' +
       'gcp_project {{count, plural, one {GCP project} other {GCP projects}}} ' +
-      'instance_type {{count, plural, one {Instance type} other {Instance types}}} ' +
       'node {{count, plural, one {Node} other {Node}}} ' +
       'org_unit_id {{count, plural, one {Organizational unit} other {Organizational units}}} ' +
       'project {{count, plural, one {Project} other {Projects}}} ' +
@@ -2160,7 +2146,6 @@ export default defineMessages({
       '{value, select, ' +
       'cost {Cost comparison} ' +
       'cpu {CPU usage, request, and limit comparison} ' +
-      'instance_type {Compute usage comparison} ' +
       'memory {Memory usage, request, and limit comparison} ' +
       'modal {{name} daily usage comparison} ' +
       'storage {Storage usage comparison} ' +
