@@ -20,7 +20,6 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
-import { ExportsLink } from 'components/exports';
 import * as H from 'history';
 import messages from 'locales/messages';
 import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
@@ -34,7 +33,6 @@ import { paths } from 'routes';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
-import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { getBaseName } from 'utils/paths';
 
 interface Props extends WrappedComponentProps {
@@ -113,10 +111,6 @@ const Header: React.FunctionComponent<Props> = ({
             </BreadcrumbItem>
             <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>
           </Breadcrumb>
-          <div style={styles.headerContentRight}>
-            {/* Todo: Show in-progress features in beta environment only */}
-            {isFeatureVisible(FeatureType.exports) && <ExportsLink />}
-          </div>
         </div>
         <Split>
           <SplitItem style={styles.headerDescription}>

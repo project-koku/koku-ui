@@ -253,6 +253,7 @@
   "ExportsSuccessDesc": "The export is preparing for download. It will be accessible from {value} view. {link}",
   "ExportsTableAriaLabel": "Available exports table",
   "ExportsTitle": "All exports",
+  "ExportsUnavailable": "Export cannot be generated",
   "FilterByButtonAriaLabel": "{value, select, account {Filter button for account name} cluster {Filter button for cluster name} gcp_project {Filter button for GCP project name} name {Filter button for name name} node {Filter button for node name} org_unit_id {Filter button for organizational unit name} project {Filter button for project name} region {Filter button for region name} resource_location {Filter button for region name} service {Filter button for service name} service_name {Filter button for service_name name} subscription_guid {Filter button for account name} tag {Filter button for tag name} other {}}",
   "FilterByInputAriaLabel": "{value, select, account {Input for account name} cluster {Input for cluster name} gcp_project {Input for GCP project name} name {Input for name name} node {Input for node name} org_unit_id {Input for organizational unit name} project {Input for project name} region {Input for region name} resource_location {Input for region name} service {Input for service name} service_name {Input for service_name name} subscription_guid {Input for account name} tag {Input for tag name} other {}}",
   "FilterByOrgUnitAriaLabel": "Organizational units",

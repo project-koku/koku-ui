@@ -5,7 +5,6 @@ import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
-import { ExportsLink } from 'components/exports';
 import messages from 'locales/messages';
 import { Currency } from 'pages/components/currency';
 import { CostType } from 'pages/views/components/costType';
@@ -122,7 +121,6 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
           <div style={styles.headerContentRight}>
             {/* Todo: Show in-progress features in beta environment only */}
             {isFeatureVisible(FeatureType.currency) && <Currency />}
-            {isFeatureVisible(FeatureType.exports) && <ExportsLink />}
           </div>
         </div>
         <div style={styles.headerContent}>

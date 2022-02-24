@@ -1,4 +1,4 @@
-import { addNotification, clearNotifications } from '@redhat-cloud-services/frontend-components-notifications';
+import { addNotification, removeNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import { Export } from 'api/export/export';
 import { runExport } from 'api/export/exportUtils';
 import { ReportPathsType, ReportType } from 'api/reports/report';
@@ -25,6 +25,8 @@ export const fetchExportRequest = createAction('report/request')<ExportActionMet
 export const fetchExportSuccess = createAction('report/success')<Export, ExportActionMeta>();
 export const fetchExportFailure = createAction('report/failure')<AxiosError, ExportActionMeta>();
 
+const exportSuccessID = 'cost_management_export_success';
+
 export function exportReport(
   reportPathsType: ReportPathsType,
   reportType: ReportType,
@@ -47,7 +49,7 @@ export function exportReport(
         /* Todo: Show in-progress features in beta environment only */
         if (isFeatureVisible(FeatureType.exports)) {
           const description = intl.formatMessage(messages.ExportsSuccessDesc, {
-            link: <ExportsLink isActionLink onClick={() => dispatch(clearNotifications())} />,
+            link: <ExportsLink isActionLink onClick={() => dispatch(removeNotification(exportSuccessID))} />,
             value: <b>{intl.formatMessage(messages.ExportsTitle)}</b>,
           });
 
@@ -55,6 +57,7 @@ export function exportReport(
             addNotification({
               description,
               dismissable: true,
+              id: exportSuccessID,
               title: intl.formatMessage(messages.ExportsSuccess),
               variant: 'success',
             })
@@ -70,7 +73,7 @@ export function exportReport(
             addNotification({
               description: intl.formatMessage(messages.ExportsFailedDesc),
               dismissable: true,
-              title: intl.formatMessage(messages.ExportsFailed),
+              title: intl.formatMessage(messages.ExportsUnavailable),
               variant: 'danger',
             })
           );
