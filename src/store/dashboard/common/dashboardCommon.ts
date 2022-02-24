@@ -1,7 +1,7 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { FormatOptions } from 'utils/format';
+import { FormatOptions, Formatter } from 'utils/format';
 
 // eslint-disable-next-line no-shadow
 export const enum DashboardChartType {
@@ -14,6 +14,7 @@ export const enum DashboardChartType {
 
 export interface DashboardWidget<T> {
   availableTabs?: T[];
+  chartFormatter?: Formatter;
   chartType?: DashboardChartType;
   currentTab?: T;
   details: {

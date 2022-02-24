@@ -11,6 +11,7 @@ import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
 import { GcpDashboardTab, GcpDashboardWidget } from './gcpDashboardCommon';
+import { formatUnits } from 'utils/format';
 
 let currrentId = 0;
 const getId = () => currrentId++;
@@ -40,6 +41,7 @@ export const computeWidget: GcpDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.trend,
 };
 

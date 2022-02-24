@@ -9,6 +9,7 @@ import {
 } from 'pages/views/components/charts/common/chartDatumUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { formatUnits } from 'utils/format';
 
 import { IbmDashboardTab, IbmDashboardWidget } from './ibmDashboardCommon';
 
@@ -40,6 +41,7 @@ export const computeWidget: IbmDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.trend,
 };
 
