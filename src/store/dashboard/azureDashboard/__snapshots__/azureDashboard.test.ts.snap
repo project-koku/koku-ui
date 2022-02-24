@@ -22,8 +22,6 @@ Array [
 
 exports[`getGroupByForTab accounts tab 1`] = `Object {}`;
 
-exports[`getGroupByForTab instance types tab 1`] = `Object {}`;
-
 exports[`getGroupByForTab regions tab 1`] = `Object {}`;
 
 exports[`getGroupByForTab services tab 1`] = `Object {}`;
