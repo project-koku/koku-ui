@@ -40,13 +40,7 @@ export const computeWidget: IbmDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   IbmDashboardTab.instanceType,
-  //   IbmDashboardTab.accounts,
-  //   IbmDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: IbmDashboardTab.instanceType,
 };
 
 export const costSummaryWidget: IbmDashboardWidget = {
@@ -99,13 +93,7 @@ export const databaseWidget: IbmDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   IbmDashboardTab.services,
-  //   IbmDashboardTab.accounts,
-  //   IbmDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: IbmDashboardTab.services,
 };
 
 export const networkWidget: IbmDashboardWidget = {
@@ -131,13 +119,7 @@ export const networkWidget: IbmDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   IbmDashboardTab.services,
-  //   IbmDashboardTab.accounts,
-  //   IbmDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: IbmDashboardTab.services,
 };
 
 export const storageWidget: IbmDashboardWidget = {
@@ -158,11 +140,5 @@ export const storageWidget: IbmDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   IbmDashboardTab.services,
-  //   IbmDashboardTab.accounts,
-  //   IbmDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: IbmDashboardTab.projects,
 };

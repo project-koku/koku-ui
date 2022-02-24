@@ -4,7 +4,6 @@ import { Omit } from 'react-redux';
 import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType, ReportValue } from './report';
 
 export interface AzureOcpReportItem extends ReportItem {
-  instance_type?: string;
   resource_location?: string;
   service_name?: string;
   subscription_guid?: string;
@@ -22,12 +21,7 @@ export interface GroupByRegionData extends Omit<AzureOcpReportData, 'resource_lo
   region: string;
 }
 
-export interface GroupByInstanceTypeData extends Omit<AzureOcpReportData, 'instance_types'> {
-  instance_type: string;
-}
-
 export interface AzureOcpReportData extends ReportData {
-  instance_types?: GroupByInstanceTypeData[];
   resource_locations?: GroupByRegionData[];
   service_names?: GroupByServiceData[];
   subscription_guids?: GroupByAccountData[];

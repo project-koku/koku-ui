@@ -66,13 +66,7 @@ export const databaseWidget: AzureOcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   AzureOcpDashboardTab.service_names,
-  //   AzureOcpDashboardTab.subscription_guids,
-  //   AzureOcpDashboardTab.resource_locations,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureOcpDashboardTab.service_names,
 };
 
 export const networkWidget: AzureOcpDashboardWidget = {
@@ -96,13 +90,7 @@ export const networkWidget: AzureOcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   AzureOcpDashboardTab.service_names,
-  //   AzureOcpDashboardTab.subscription_guids,
-  //   AzureOcpDashboardTab.resource_locations,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureOcpDashboardTab.service_names,
 };
 
 export const storageWidget: AzureOcpDashboardWidget = {
@@ -129,13 +117,7 @@ export const storageWidget: AzureOcpDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   AzureOcpDashboardTab.service_names,
-  //   AzureOcpDashboardTab.subscription_guids,
-  //   AzureOcpDashboardTab.resource_locations,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureOcpDashboardTab.subscription_guids,
 };
 
 export const virtualMachineWidget: AzureOcpDashboardWidget = {
@@ -162,11 +144,5 @@ export const virtualMachineWidget: AzureOcpDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   AzureOcpDashboardTab.instanceType,
-  //   AzureOcpDashboardTab.subscription_guids,
-  //   AzureOcpDashboardTab.resource_locations,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureOcpDashboardTab.instanceType,
 };

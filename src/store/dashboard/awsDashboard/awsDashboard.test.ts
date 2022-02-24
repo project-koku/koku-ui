@@ -53,10 +53,6 @@ describe('getGroupByForTab', () => {
     expect(getGroupByForTab(AwsDashboardTab.services)).toMatchSnapshot();
   });
 
-  test('instance types tab', () => {
-    expect(getGroupByForTab(AwsDashboardTab.instanceType)).toMatchSnapshot();
-  });
-
   test('accounts tab', () => {
     expect(getGroupByForTab(AwsDashboardTab.accounts)).toMatchSnapshot();
   });

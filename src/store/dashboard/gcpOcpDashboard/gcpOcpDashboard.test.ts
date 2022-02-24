@@ -64,10 +64,6 @@ describe('getGroupByForTab', () => {
     expect(getGroupByForTab(GcpOcpDashboardTab.services)).toMatchSnapshot();
   });
 
-  test('instance types tab', () => {
-    expect(getGroupByForTab(GcpOcpDashboardTab.instanceType)).toMatchSnapshot();
-  });
-
   test('accounts tab', () => {
     expect(getGroupByForTab(GcpOcpDashboardTab.accounts)).toMatchSnapshot();
   });

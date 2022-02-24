@@ -18,7 +18,6 @@ export const enum IbmDashboardTab {
   accounts = 'accounts',
   projects = 'projects',
   regions = 'regions',
-  instanceType = 'instance_type',
 }
 
 export interface IbmDashboardWidget extends DashboardWidget<IbmDashboardTab> {}
@@ -36,8 +35,6 @@ export function getGroupByForTab(widget: IbmDashboardWidget): IbmQuery['group_by
       return { project: '*' };
     case IbmDashboardTab.regions:
       return { region: '*' };
-    case IbmDashboardTab.instanceType:
-      return { instance_type: '*' };
     default:
       return {};
   }

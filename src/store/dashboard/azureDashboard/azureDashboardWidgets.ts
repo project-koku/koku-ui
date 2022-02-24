@@ -69,13 +69,7 @@ export const databaseWidget: AzureDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   AzureDashboardTab.service_names,
-  //   AzureDashboardTab.subscription_guids,
-  //   AzureDashboardTab.resource_locations,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureDashboardTab.service_names,
 };
 
 export const networkWidget: AzureDashboardWidget = {
@@ -99,13 +93,7 @@ export const networkWidget: AzureDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   AzureDashboardTab.service_names,
-  //   AzureDashboardTab.subscription_guids,
-  //   AzureDashboardTab.resource_locations,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureDashboardTab.service_names,
 };
 
 export const storageWidget: AzureDashboardWidget = {
@@ -132,13 +120,7 @@ export const storageWidget: AzureDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   AzureDashboardTab.service_names,
-  //   AzureDashboardTab.subscription_guids,
-  //   AzureDashboardTab.resource_locations,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureDashboardTab.subscription_guids,
 };
 
 export const virtualMachineWidget: AzureDashboardWidget = {
@@ -165,11 +147,5 @@ export const virtualMachineWidget: AzureDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   AzureDashboardTab.instanceType,
-  //   AzureDashboardTab.subscription_guids,
-  //   AzureDashboardTab.resource_locations,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureDashboardTab.instanceType,
 };

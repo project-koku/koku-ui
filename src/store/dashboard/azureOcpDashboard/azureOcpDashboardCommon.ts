@@ -17,7 +17,6 @@ export const enum AzureOcpDashboardTab {
   service_names = 'service_names',
   subscription_guids = 'subscription_guids',
   resource_locations = 'resource_locations',
-  instanceType = 'instance_type',
 }
 
 export interface AzureOcpDashboardWidget extends DashboardWidget<AzureOcpDashboardTab> {}
@@ -33,8 +32,6 @@ export function getGroupByForTab(widget: AzureOcpDashboardWidget): AzureQuery['g
       return { subscription_guid: '*' };
     case AzureOcpDashboardTab.resource_locations:
       return { resource_location: '*' };
-    case AzureOcpDashboardTab.instanceType:
-      return { instance_type: '*' };
     default:
       return {};
   }

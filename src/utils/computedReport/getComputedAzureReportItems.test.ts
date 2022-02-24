@@ -2,8 +2,7 @@ import { getIdKeyForGroupBy } from './getComputedAzureReportItems';
 
 test('get id key for groupBy', () => {
   [
-    [{ subscription_guid: 's', instance_type: 's' }, 'subscription_guid'],
-    [{ instance_type: 's', resource_location: 's' }, 'instance_type'],
+    [{ subscription_guid: 's', service_name: 's' }, 'subscription_guid'],
     [{ resource_location: 's', service_name: 's' }, 'resource_location'],
     [{ service_name: 's' }, 'service_name'],
     [{}, 'date'],

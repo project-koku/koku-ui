@@ -25,8 +25,6 @@ export const getIdKeyForTab = (tab: AzureDashboardTab): ComputedAzureReportItems
       return 'subscription_guid';
     case AzureDashboardTab.resource_locations:
       return 'resource_location';
-    case AzureDashboardTab.instanceType:
-      return 'instance_type';
   }
 };
 
