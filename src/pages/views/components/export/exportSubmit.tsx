@@ -16,6 +16,7 @@ import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems'
 import { getToday } from 'utils/dateRange';
 
 export interface ExportSubmitOwnProps {
+  disabled?: boolean;
   formatType: 'csv' | 'json';
   groupBy?: string;
   isAllItems?: boolean;
@@ -125,12 +126,12 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   };
 
   public render() {
-    const { intl, reportFetchStatus } = this.props;
+    const { disabled, intl, reportFetchStatus } = this.props;
 
     return (
       <Button
         {...getTestProps(testIds.export.submit_btn)}
-        isDisabled={reportFetchStatus === FetchStatus.inProgress}
+        isDisabled={disabled || reportFetchStatus === FetchStatus.inProgress}
         key="confirm"
         onClick={this.handleFetchReport}
         variant={ButtonVariant.primary}
