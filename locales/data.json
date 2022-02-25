@@ -13988,6 +13988,18 @@
         "value": "groupBy"
       }
     ],
+    "ExportNameRequired": [
+      {
+        "type": 0,
+        "value": "Please enter a name for the export"
+      }
+    ],
+    "ExportNameTooLong": [
+      {
+        "type": 0,
+        "value": "Should not exceed 50 characters"
+      }
+    ],
     "ExportResolution": [
       {
         "options": {

@@ -1774,6 +1774,16 @@ export default defineMessages({
     description: 'Export name',
     id: 'ExportName',
   },
+  ExportNameRequired: {
+    defaultMessage: 'Please enter a name for the export',
+    description: 'Please enter a name for the export',
+    id: 'ExportNameRequired',
+  },
+  ExportNameTooLong: {
+    defaultMessage: 'Should not exceed 50 characters',
+    description: 'Should not exceed 50 characters',
+    id: 'ExportNameTooLong',
+  },
   ExportResolution: {
     defaultMessage: '{value, select, daily {Daily} monthly {Monthly} other {}}',
     description: 'Export file name',

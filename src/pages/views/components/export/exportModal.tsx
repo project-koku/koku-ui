@@ -114,20 +114,31 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
     this.setState({ error });
   };
 
-  public handleMonthChange = (_, event) => {
+  private handleMonthChange = (_, event) => {
     this.setState({ timeScope: event.currentTarget.value });
   };
 
-  public handleNameChange = (_, event) => {
+  private handleNameChange = (_, event) => {
     this.setState({ name: event.currentTarget.value });
   };
 
-  public handleResolutionChange = (_, event) => {
+  private handleResolutionChange = (_, event) => {
     this.setState({ resolution: event.currentTarget.value });
   };
 
-  public handleTypeChange = (_, event) => {
+  private handleTypeChange = (_, event) => {
     this.setState({ formatType: event.currentTarget.value });
+  };
+
+  private nameValidator = value => {
+    if (value.trim().length === 0) {
+      return messages.ExportNameRequired;
+    }
+    // Todo: what is the max length allowed?
+    if (value.length > 50) {
+      return messages.ExportNameTooLong;
+    }
+    return undefined;
   };
 
   public render() {
@@ -168,12 +179,16 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
     const currentMonth = format(thisMonth, 'MMMM yyyy');
     const previousMonth = format(lastMonth - 1, 'MMMM yyyy');
 
-    const defaultName = name
-      ? name
-      : intl.formatMessage(messages.ExportName, {
-          provider: reportPathsType,
-          groupBy: groupBy.indexOf(tagPrefix) !== -1 ? 'tag' : groupBy,
-        });
+    const defaultName =
+      name !== undefined
+        ? name
+        : intl.formatMessage(messages.ExportName, {
+            provider: reportPathsType,
+            groupBy: groupBy.indexOf(tagPrefix) !== -1 ? 'tag' : groupBy,
+          });
+
+    const helpText = this.nameValidator(defaultName);
+    const validated = helpText ? 'error' : 'default';
 
     return (
       <Modal
@@ -184,6 +199,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
         variant="small"
         actions={[
           <ExportSubmit
+            disabled={validated === 'error'}
             formatType={formatType}
             groupBy={groupBy}
             isAllItems={isAllItems}
@@ -223,7 +239,13 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             {/* Todo: Show in-progress features in beta environment only */}
             {isFeatureVisible(FeatureType.exports) && (
               <GridItem span={12}>
-                <FormGroup label={intl.formatMessage(messages.Names, { count: 1 })} fieldId="exportName" isRequired>
+                <FormGroup
+                  fieldId="exportName"
+                  helperTextInvalid={helpText ? intl.formatMessage(helpText) : undefined}
+                  label={intl.formatMessage(messages.Names, { count: 1 })}
+                  isRequired
+                  validated={validated}
+                >
                   <TextInput
                     isRequired
                     type="text"
@@ -236,7 +258,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
               </GridItem>
             )}
             {showAggregateType && (
-              <FormGroup label={intl.formatMessage(messages.ExportAggregateType)} fieldId="aggregate-type" isRequired>
+              <FormGroup fieldId="aggregate-type" label={intl.formatMessage(messages.ExportAggregateType)} isRequired>
                 <React.Fragment>
                   {resolutionOptions.map((option, index) => (
                     <Radio
@@ -255,7 +277,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
               </FormGroup>
             )}
             {showTimeScope && (
-              <FormGroup label={intl.formatMessage(messages.ExportTimeScopeTitle)} fieldId="timeScope" isRequired>
+              <FormGroup fieldId="timeScope" label={intl.formatMessage(messages.ExportTimeScopeTitle)} isRequired>
                 <React.Fragment>
                   {timeScopeOptions.map((option, index) => (
                     <Radio
@@ -282,7 +304,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             {/* Todo: Show in-progress features in beta environment only */}
             {showFormatType && isFeatureVisible(FeatureType.exports) && (
               <GridItem span={12}>
-                <FormGroup label={intl.formatMessage(messages.ExportFormatTypeTitle)} fieldId="formatType" isRequired>
+                <FormGroup fieldId="formatType" label={intl.formatMessage(messages.ExportFormatTypeTitle)} isRequired>
                   {formatTypeOptions.map((option, index) => (
                     <Radio
                       key={index}
