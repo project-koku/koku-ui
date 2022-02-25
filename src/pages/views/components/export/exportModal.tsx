@@ -236,7 +236,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
               </GridItem>
             )}
             {showAggregateType && (
-              <FormGroup label={intl.formatMessage(messages.ExportAggregateType)} fieldId="aggregate-type">
+              <FormGroup label={intl.formatMessage(messages.ExportAggregateType)} fieldId="aggregate-type" isRequired>
                 <React.Fragment>
                   {resolutionOptions.map((option, index) => (
                     <Radio
@@ -255,7 +255,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
               </FormGroup>
             )}
             {showTimeScope && (
-              <FormGroup label={intl.formatMessage(messages.ExportTimeScopeTitle)} fieldId="timeScope">
+              <FormGroup label={intl.formatMessage(messages.ExportTimeScopeTitle)} fieldId="timeScope" isRequired>
                 <React.Fragment>
                   {timeScopeOptions.map((option, index) => (
                     <Radio
@@ -282,7 +282,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             {/* Todo: Show in-progress features in beta environment only */}
             {showFormatType && isFeatureVisible(FeatureType.exports) && (
               <GridItem span={12}>
-                <FormGroup label={intl.formatMessage(messages.ExportFormatTypeTitle)} fieldId="formatType">
+                <FormGroup label={intl.formatMessage(messages.ExportFormatTypeTitle)} fieldId="formatType" isRequired>
                   {formatTypeOptions.map((option, index) => (
                     <Radio
                       key={index}
