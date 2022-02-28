@@ -5,9 +5,8 @@ import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
-import { Currency } from 'components/currency';
-import { ExportLink } from 'components/export';
 import messages from 'locales/messages';
+import { Currency } from 'pages/components/currency';
 import { CostType } from 'pages/views/components/costType';
 import { TagLink } from 'pages/views/details/components/tag/tagLink';
 import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
@@ -15,7 +14,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
-import { isBetaFeature } from 'utils/feature';
+import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './breakdownHeader.styles';
@@ -121,8 +120,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
           </nav>
           <div style={styles.headerContentRight}>
             {/* Todo: Show in-progress features in beta environment only */}
-            {isBetaFeature() && <Currency />}
-            {isBetaFeature() && <ExportLink />}
+            {isFeatureVisible(FeatureType.currency) && <Currency />}
           </div>
         </div>
         <div style={styles.headerContent}>

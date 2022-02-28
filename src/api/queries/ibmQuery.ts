@@ -9,7 +9,6 @@ type IbmGroupByValue = string | string[];
 interface IbmGroupBys {
   service?: IbmGroupByValue;
   account?: IbmGroupByValue;
-  instance_type?: IbmGroupByValue;
   project?: IbmGroupByValue;
   region?: IbmGroupByValue;
 }

@@ -6,9 +6,12 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ResourcePathsType } from 'api/resources/resource';
 import { TagPathsType } from 'api/tags/tag';
 import { UserAccess } from 'api/userAccess';
-import { ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartDatumUtils';
 import { format } from 'date-fns';
 import messages from 'locales/messages';
+import {
+  ComputedReportItemType,
+  ComputedReportItemValueType,
+} from 'pages/views/components/charts/common/chartDatumUtils';
 import { hasCloudProvider } from 'pages/views/utils/providers';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
@@ -107,7 +110,7 @@ export const groupByGcpOcpOptions: {
   value: ComputedGcpReportItemsParams['idKey'];
 }[] = [
   { label: 'account', value: 'account' },
-  { label: 'project', value: 'project' },
+  { label: 'gcp_project', value: 'gcp_project' },
   { label: 'service', value: 'service' },
   { label: 'region', value: 'region' },
 ];

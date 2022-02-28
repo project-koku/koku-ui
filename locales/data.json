@@ -197,22 +197,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Back to "
-              },
-              {
-                "type": 1,
-                "value": "value"
-              },
-              {
-                "type": 0,
-                "value": " instance type details"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -490,14 +474,6 @@
               {
                 "type": 0,
                 "value": "Cost by GCP projects"
-              }
-            ]
-          },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cost by instance types"
               }
             ]
           },
@@ -10856,22 +10832,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "instance type "
-              },
-              {
-                "type": 1,
-                "value": "name"
-              },
-              {
-                "type": 0,
-                "value": " clusters"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -11087,14 +11047,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Instance type names"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -11211,18 +11163,6 @@
               {
                 "type": 0,
                 "value": " GCP projects"
-              }
-            ]
-          },
-          "instance_type": {
-            "value": [
-              {
-                "type": 1,
-                "value": "name"
-              },
-              {
-                "type": 0,
-                "value": " instance types"
               }
             ]
           },
@@ -11471,14 +11411,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "View all instance types"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -11601,6 +11533,12 @@
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models"
       }
     ],
+    "Download": [
+      {
+        "type": 0,
+        "value": "Download"
+      }
+    ],
     "Edit": [
       {
         "type": 0,
@@ -11677,6 +11615,12 @@
       {
         "type": 0,
         "value": "Examples"
+      }
+    ],
+    "ExpiresOn": [
+      {
+        "type": 0,
+        "value": "Expires on"
       }
     ],
     "ExplorerChartTitle": [
@@ -12005,25 +11949,21 @@
     "ExportAggregateType": [
       {
         "type": 0,
-        "value": "Select aggregate type"
+        "value": "Aggregate type"
       }
     ],
     "ExportAll": [
       {
         "type": 0,
-        "value": "Export all"
-      }
-    ],
-    "ExportAllExports": [
+        "value": "The active selections from the table plus the values here will be used to generate an export file. When the file is available, download it from the "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
       {
         "type": 0,
-        "value": "All exports"
-      }
-    ],
-    "ExportDownload": [
-      {
-        "type": 0,
-        "value": "Generate and download"
+        "value": " view."
       }
     ],
     "ExportError": [
@@ -12194,67 +12134,6 @@
                       {
                         "type": 0,
                         "value": "_gcp-projects_monthly_"
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "_"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": []
-                  }
-                },
-                "type": 5,
-                "value": "resolution"
-              }
-            ]
-          },
-          "instance_type": {
-            "value": [
-              {
-                "options": {
-                  "daily": {
-                    "value": [
-                      {
-                        "type": 1,
-                        "value": "provider"
-                      },
-                      {
-                        "type": 0,
-                        "value": "_instances_daily_"
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "_"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  },
-                  "monthly": {
-                    "value": [
-                      {
-                        "type": 1,
-                        "value": "provider"
-                      },
-                      {
-                        "type": 0,
-                        "value": "_instances_monthly_"
                       },
                       {
                         "type": 1,
@@ -12836,6 +12715,45 @@
         "value": "groupBy"
       }
     ],
+    "ExportFormatType": [
+      {
+        "options": {
+          "csv": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CSV"
+              }
+            ]
+          },
+          "json": {
+            "value": [
+              {
+                "type": 0,
+                "value": "JSON"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "ExportFormatTypeTitle": [
+      {
+        "type": 0,
+        "value": "Format type"
+      }
+    ],
+    "ExportGenerate": [
+      {
+        "type": 0,
+        "value": "Generate export"
+      }
+    ],
     "ExportHeading": [
       {
         "options": {
@@ -12860,14 +12778,6 @@
               {
                 "type": 0,
                 "value": "Aggregates of the following GCP projects will be exported to a .csv file."
-              }
-            ]
-          },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Aggregates of the following instance types will be exported to a .csv file."
               }
             ]
           },
@@ -12951,6 +12861,1145 @@
         "value": "groupBy"
       }
     ],
+    "ExportName": [
+      {
+        "options": {
+          "account": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Account"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Account"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Account"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Account"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "cluster": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "gcp_project": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "node": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Node"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Node"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Node"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Node"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Node"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Node"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Node"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Node"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Node"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Node"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "org_unit_id": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Organizational unit"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "project": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Project"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Project"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Project"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Project"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Project"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Project"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Project"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Project"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Project"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Project"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "region": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Region"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Region"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Region"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Region"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "resource_location": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Region"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Region"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Region"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Region"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "service": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Service"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Service"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Service"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Service"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "service_name": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Service"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Service"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Service"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Service"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "subscription_guid": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Account"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Account"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Account"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Account"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "tag": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Tag"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Tag"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Tag"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Tag"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Tag"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Tag"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Tag"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Tag"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Tag"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Tag"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "groupBy"
+      }
+    ],
+    "ExportNameRequired": [
+      {
+        "type": 0,
+        "value": "Please enter a name for the export"
+      }
+    ],
+    "ExportNameTooLong": [
+      {
+        "type": 0,
+        "value": "Should not exceed 50 characters"
+      }
+    ],
     "ExportResolution": [
       {
         "options": {
@@ -12985,7 +14034,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected accounts"
+                "value": "Selected accounts ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -12993,7 +14050,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected clusters"
+                "value": "Selected clusters ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13001,15 +14066,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected GCP projects"
-              }
-            ]
-          },
-          "instance_type": {
-            "value": [
+                "value": "Selected GCP projects ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
               {
                 "type": 0,
-                "value": "Selected instance types"
+                "value": ")"
               }
             ]
           },
@@ -13017,7 +14082,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected nodes"
+                "value": "Selected nodes ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13025,7 +14098,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected organizational units"
+                "value": "Selected organizational units ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13036,7 +14117,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected projects"
+                "value": "Selected projects ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13044,7 +14133,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected regions"
+                "value": "Selected regions ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13052,7 +14149,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected regions"
+                "value": "Selected regions ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13060,7 +14165,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected services"
+                "value": "Selected services ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13068,7 +14181,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected services"
+                "value": "Selected services ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13076,7 +14197,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected accounts"
+                "value": "Selected accounts ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13084,7 +14213,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected tags"
+                "value": "Selected tags ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           }
@@ -13100,11 +14237,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Current "
+                "value": "Current ("
               },
               {
                 "type": 1,
                 "value": "date"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           },
@@ -13115,11 +14256,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Previous "
+                "value": "Previous ("
               },
               {
                 "type": 1,
                 "value": "date"
+              },
+              {
+                "type": 0,
+                "value": ")"
               }
             ]
           }
@@ -13131,13 +14276,73 @@
     "ExportTimeScopeTitle": [
       {
         "type": 0,
-        "value": "Select month"
+        "value": "Month"
       }
     ],
     "ExportTitle": [
       {
         "type": 0,
         "value": "Export"
+      }
+    ],
+    "ExportsDesc": [
+      {
+        "type": 0,
+        "value": "Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed."
+      }
+    ],
+    "ExportsFailed": [
+      {
+        "type": 0,
+        "value": "Could not create export file"
+      }
+    ],
+    "ExportsFailedDesc": [
+      {
+        "type": 0,
+        "value": "Something went wrong with the generation of this export file. Try exporting again."
+      }
+    ],
+    "ExportsSuccess": [
+      {
+        "type": 0,
+        "value": "Export preparing for download"
+      }
+    ],
+    "ExportsSuccessDesc": [
+      {
+        "type": 0,
+        "value": "The export is preparing for download. It will be accessible from "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " view. "
+      },
+      {
+        "type": 1,
+        "value": "link"
+      }
+    ],
+    "ExportsTableAriaLabel": [
+      {
+        "type": 0,
+        "value": "Available exports table"
+      }
+    ],
+    "ExportsTitle": [
+      {
+        "type": 0,
+        "value": "All exports"
+      }
+    ],
+    "ExportsUnavailable": [
+      {
+        "type": 0,
+        "value": "Export cannot be generated"
       }
     ],
     "FilterByButtonAriaLabel": [
@@ -14450,34 +15655,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "All instance type"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "All instance types"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -14831,34 +16008,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "Top instance type"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "Top instance types"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -15146,14 +16295,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Instance type names"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -15311,34 +16452,6 @@
                       {
                         "type": 0,
                         "value": "GCP projects"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "instance_type": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "instance type"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "instance types"
                       }
                     ]
                   }
@@ -15696,34 +16809,6 @@
               }
             ]
           },
-          "instance_type": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "Instance type"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "Instance types"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -16020,14 +17105,6 @@
               {
                 "type": 0,
                 "value": "CPU usage, request, and limit comparison"
-              }
-            ]
-          },
-          "instance_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Compute usage comparison"
               }
             ]
           },
@@ -18479,6 +19556,47 @@
         "value": "Sources"
       }
     ],
+    "Status": [
+      {
+        "options": {
+          "failed": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "pending": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Pending"
+              }
+            ]
+          },
+          "running": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Running"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "StatusActions": [
+      {
+        "type": 0,
+        "value": "Status/Actions"
+      }
+    ],
     "Suggestions": [
       {
         "type": 0,
@@ -18521,6 +19639,12 @@
       {
         "type": 0,
         "value": "Tag names"
+      }
+    ],
+    "TimeOfExport": [
+      {
+        "type": 0,
+        "value": "Time of export"
       }
     ],
     "ToolBarBulkSelectAll": [

@@ -18,7 +18,6 @@ export const enum AwsDashboardTab {
   services = 'services',
   accounts = 'accounts',
   regions = 'regions',
-  instanceType = 'instance_type',
 }
 
 export interface AwsDashboardWidget extends DashboardWidget<AwsDashboardTab> {
@@ -36,8 +35,6 @@ export function getGroupByForTab(widget: AwsDashboardWidget): AwsQuery['group_by
       return { account: '*' };
     case AwsDashboardTab.regions:
       return { region: '*' };
-    case AwsDashboardTab.instanceType:
-      return { instance_type: '*' };
     default:
       return {};
   }

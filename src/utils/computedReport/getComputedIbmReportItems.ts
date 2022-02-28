@@ -9,9 +9,6 @@ export function getIdKeyForGroupBy(groupBy: GcpQuery['group_by'] = {}): Computed
   if (groupBy.account) {
     return 'account';
   }
-  if (groupBy.instance_type) {
-    return 'instance_type';
-  }
   if (groupBy.project) {
     return 'project';
   }

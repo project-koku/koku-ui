@@ -6,7 +6,6 @@ import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType
 export interface AwsReportItem extends ReportItem {
   account?: string;
   account_alias?: string;
-  instance_type?: string;
   org_unit_id?: string;
   region?: string;
   service?: string;
@@ -24,13 +23,8 @@ export interface GroupByServiceData extends Omit<AwsReportData, 'services'> {
   service: string;
 }
 
-export interface GroupByInstanceTypeData extends Omit<AwsReportData, 'instance_types'> {
-  instance_type: string;
-}
-
 export interface AwsReportData extends ReportData {
   accounts?: GroupByAccountData[];
-  instance_types?: GroupByInstanceTypeData[];
   regions?: GroupByRegionData[];
   services?: GroupByServiceData[];
 }

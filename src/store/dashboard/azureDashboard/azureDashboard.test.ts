@@ -1,7 +1,7 @@
 jest.mock('store/reports/reportActions');
 
 import { ReportType } from 'api/reports/report';
-import { ChartType } from 'components/charts/common/chartDatumUtils';
+import { ChartType } from 'pages/views/components/charts/common/chartDatumUtils';
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
 
@@ -62,10 +62,6 @@ test('changeWidgetTab', () => {
 describe('getGroupByForTab', () => {
   test('services tab', () => {
     expect(getGroupByForTab(AzureDashboardTab.service_names)).toMatchSnapshot();
-  });
-
-  test('instance types tab', () => {
-    expect(getGroupByForTab(AzureDashboardTab.instanceType)).toMatchSnapshot();
   });
 
   test('accounts tab', () => {

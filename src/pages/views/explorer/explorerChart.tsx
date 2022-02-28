@@ -2,16 +2,16 @@ import { Skeleton, Title } from '@patternfly/react-core';
 import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import { format, getDate, getMonth } from 'date-fns';
+import messages from 'locales/messages';
 import {
   ChartDatum,
   ComputedReportItemType,
   ComputedReportItemValueType,
   isFloat,
   isInt,
-} from 'components/charts/common/chartDatumUtils';
-import { CostExplorerChart } from 'components/charts/costExplorerChart';
-import { format, getDate, getMonth } from 'date-fns';
-import messages from 'locales/messages';
+} from 'pages/views/components/charts/common/chartDatumUtils';
+import { CostExplorerChart } from 'pages/views/components/charts/costExplorerChart';
 import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';

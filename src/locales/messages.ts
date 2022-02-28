@@ -103,7 +103,6 @@ export default defineMessages({
       'account {Back to {value} account details} ' +
       'cluster {Back to {value} cluster details} ' +
       'gcp_project {Back to {value} GCP project details} ' +
-      'instance_type {Back to {value} instance type details} ' +
       'node {Back to {value} node details} ' +
       'org_unit_id {Back to {value} organizational unit details} ' +
       'project {Back to {value} project details} ' +
@@ -170,7 +169,6 @@ export default defineMessages({
       'account {Cost by accounts} ' +
       'cluster {Cost by clusters} ' +
       'gcp_project {Cost by GCP projects} ' +
-      'instance_type {Cost by instance types} ' +
       'node {Cost by Node} ' +
       'org_unit_id {Cost by organizational units} ' +
       'project {Cost by projects} ' +
@@ -1375,7 +1373,6 @@ export default defineMessages({
       'account {account {name} clusters} ' +
       'cluster {cluster {name} clusters} ' +
       'gcp_project {GCP project {name} clusters} ' +
-      'instance_type {instance type {name} clusters} ' +
       'node {node {name} clusters} ' +
       'org_unit_id {organizational unit {name} clusters} ' +
       'project {project {name} clusters} ' +
@@ -1415,7 +1412,6 @@ export default defineMessages({
       'account {Account names} ' +
       'cluster {Cluster names} ' +
       'gcp_project {GCP project names} ' +
-      'instance_type {Instance type names} ' +
       'node {Node names} ' +
       'org_unit_id {Organizational unit names} ' +
       'project {Project names} ' +
@@ -1435,7 +1431,6 @@ export default defineMessages({
       'account {{name} accounts} ' +
       'cluster {{name} clusters} ' +
       'gcp_project {{name} GCP projects} ' +
-      'instance_type {{name} instance types} ' +
       'node {{name} nodes} ' +
       'org_unit_id {{name} organizational units} ' +
       'project {{name} projects} ' +
@@ -1490,7 +1485,6 @@ export default defineMessages({
       'account {View all accounts} ' +
       'cluster {View all clusters} ' +
       'gcp_project {View all GCP projects} ' +
-      'instance_type {View all instance types} ' +
       'node {View all nodes} ' +
       'org_unit_id {View all organizational units} ' +
       'project {View all projects} ' +
@@ -1548,6 +1542,11 @@ export default defineMessages({
     description:
       'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models',
     id: 'DocsUsingCostModels',
+  },
+  Download: {
+    defaultMessage: 'Download',
+    description: 'download',
+    id: 'Download',
   },
   Edit: {
     defaultMessage: 'Edit',
@@ -1614,6 +1613,11 @@ export default defineMessages({
     description: 'Examples',
     id: 'ExamplesTitle',
   },
+  ExpiresOn: {
+    defaultMessage: 'Expires on',
+    description: 'Expires on',
+    id: 'ExpiresOn',
+  },
   ExplorerChartDate: {
     defaultMessage:
       '{month, select, ' +
@@ -1678,8 +1682,8 @@ export default defineMessages({
     id: 'ExplorerTitle',
   },
   ExportAggregateType: {
-    defaultMessage: 'Select aggregate type',
-    description: 'Export aggregate type',
+    defaultMessage: 'Aggregate type',
+    description: 'Aggregate type',
     id: 'ExportAggregateType',
   },
   ExportAll: {
@@ -1687,15 +1691,11 @@ export default defineMessages({
     description: 'Export all',
     id: 'ExportAll',
   },
-  ExportAllExports: {
-    defaultMessage: 'All exports',
-    description: 'All exports',
-    id: 'ExportAllExports',
-  },
-  ExportDownload: {
-    defaultMessage: 'Generate and download',
-    description: 'Export download',
-    id: 'ExportDownload',
+  ExportDesc: {
+    defaultMessage:
+      'The active selections from the table plus the values here will be used to generate an export file. When the file is available, download it from the {value} view.',
+    description: 'Export description',
+    id: 'ExportAll',
   },
   ExportError: {
     defaultMessage: 'Something went wrong, please try fewer selections',
@@ -1708,7 +1708,6 @@ export default defineMessages({
       'account {{resolution, select, daily {{provider}_accounts_daily_{startDate}_{endDate}} monthly {{provider}_accounts_monthly_{startDate}_{endDate}} other {}}} ' +
       'cluster {{resolution, select, daily {{provider}_clusters_daily_{startDate}_{endDate}} monthly {{provider}_clusters_monthly_{startDate}_{endDate}} other {}}} ' +
       'gcp_project {{resolution, select, daily {{provider}_gcp-projects_daily_{startDate}_{endDate}} monthly {{provider}_gcp-projects_monthly_{startDate}_{endDate}} other {}}} ' +
-      'instance_type {{resolution, select, daily {{provider}_instances_daily_{startDate}_{endDate}} monthly {{provider}_instances_monthly_{startDate}_{endDate}} other {}}} ' +
       'node {{resolution, select, daily {{provider}_node_daily_{startDate}_{endDate}} monthly {{provider}_node_monthly_{startDate}_{endDate}} other {}}} ' +
       'org_unit_id {{resolution, select, daily {{provider}_orgs_daily_{startDate}_{endDate}} monthly {{provider}_orgs_monthly_{startDate}_{endDate}} other {}}} ' +
       'project {{resolution, select, daily {{provider}_projects_daily_{startDate}_{endDate}} monthly {{provider}_projects_monthly_{startDate}_{endDate}} other {}}} ' +
@@ -1722,13 +1721,27 @@ export default defineMessages({
     description: 'Export file name',
     id: 'ExportFileName',
   },
+  ExportFormatType: {
+    defaultMessage: '{value, select, csv {CSV} json {JSON} other {}}',
+    description: 'Export format type',
+    id: 'ExportFormatType',
+  },
+  ExportFormatTypeTitle: {
+    defaultMessage: 'Format type',
+    description: 'Format type',
+    id: 'ExportFormatTypeTitle',
+  },
+  ExportGenerate: {
+    defaultMessage: 'Generate export',
+    description: 'Export export',
+    id: 'ExportGenerate',
+  },
   ExportHeading: {
     defaultMessage:
       '{groupBy, select, ' +
       'account {Aggregates of the following accounts will be exported to a .csv file.} ' +
       'cluster {Aggregates of the following clusters will be exported to a .csv file.} ' +
       'gcp_project {Aggregates of the following GCP projects will be exported to a .csv file.} ' +
-      'instance_type {Aggregates of the following instance types will be exported to a .csv file.} ' +
       'node {Aggregates of the following nodes will be exported to a .csv file.} ' +
       'org_unit_id {Aggregates of the following organizational units will be exported to a .csv file.} ' +
       'project {Aggregates of the following projects will be exported to a .csv file.} ' +
@@ -1742,6 +1755,35 @@ export default defineMessages({
     description: 'Export heading',
     id: 'ExportHeading',
   },
+  ExportName: {
+    defaultMessage:
+      '{groupBy, select, ' +
+      'account {{provider, select, aws {Amazon Web Services grouped by Account} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Account} azure {Microsoft Azure grouped by Account} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Account} gcp {Google Cloud Platform grouped by Account} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Account} ibm {IBM Cloud grouped by Account} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Account} ocp {OpenShift grouped by Account} ocp_cloud {All cloud filtered by OpenShift grouped by Account} other {}}} ' +
+      'cluster {{provider, select, aws {Amazon Web Services grouped by Cluster} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Cluster} azure {Microsoft Azure grouped by Cluster} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Cluster} gcp {Google Cloud Platform grouped by Cluster} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Cluster} ibm {IBM Cloud grouped by Cluster} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Cluster} ocp {OpenShift grouped by Cluster} ocp_cloud {All cloud filtered by OpenShift grouped by Cluster} other {}}} ' +
+      'gcp_project {{provider, select, aws {Amazon Web Services grouped by GCP Project} aws_ocp {Amazon Web Services filtered by OpenShift grouped by GCP Project} azure {Microsoft Azure grouped by GCP Project} azure_ocp {Microsoft Azure filtered by OpenShift grouped by GCP Project} gcp {Google Cloud Platform grouped by GCP Project} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by GCP Project} ibm {IBM Cloud grouped by GCP Project} ibm_ocp {IBM Cloud filtered by OpenShift grouped by GCP Project} ocp {OpenShift grouped by GCP Project} ocp_cloud {All cloud filtered by OpenShift grouped by GCP Project} other {}}} ' +
+      'node {{provider, select, aws {Amazon Web Services grouped by Node} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Node} azure {Microsoft Azure grouped by Node} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Node} gcp {Google Cloud Platform grouped by Node} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Node} ibm {IBM Cloud grouped by Node} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Node} ocp {OpenShift grouped by Node} ocp_cloud {All cloud filtered by OpenShift grouped by Node} other {}}} ' +
+      'org_unit_id {{provider, select, aws {Amazon Web Services grouped by Organizational unit} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Organizational unit} azure {Microsoft Azure grouped by Organizational unit} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Organizational unit} gcp {Google Cloud Platform grouped by Organizational unit} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Organizational unit} ibm {IBM Cloud grouped by Organizational unit} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Organizational unit} ocp {OpenShift grouped by Organizational unit} ocp_cloud {All cloud filtered by OpenShift grouped by Organizational unit} other {}}} ' +
+      'project {{provider, select, aws {Amazon Web Services grouped by Project} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Project} azure {Microsoft Azure grouped by Project} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Project} gcp {Google Cloud Platform grouped by Project} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Project} ibm {IBM Cloud grouped by Project} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Project} ocp {OpenShift grouped by Project} ocp_cloud {All cloud filtered by OpenShift grouped by Project} other {}}} ' +
+      'region {{provider, select, aws {Amazon Web Services grouped by Region} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Region} azure {Microsoft Azure grouped by Region} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Region} gcp {Google Cloud Platform grouped by Region} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Region} ibm {IBM Cloud grouped by Region} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Region} ocp {OpenShift grouped by Region} ocp_cloud {All cloud filtered by OpenShift grouped by Region} other {}}} ' +
+      'resource_location {{provider, select, aws {Amazon Web Services grouped by Region} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Region} azure {Microsoft Azure grouped by Region} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Region} gcp {Google Cloud Platform grouped by Region} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Region} ibm {IBM Cloud grouped by Region} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Region} ocp {OpenShift grouped by Region} ocp_cloud {All cloud filtered by OpenShift grouped by Region} other {}}} ' +
+      'service {{provider, select, aws {Amazon Web Services grouped by Service} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Service} azure {Microsoft Azure grouped by Service} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Service} gcp {Google Cloud Platform grouped by Service} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Service} ibm {IBM Cloud grouped by Service} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Service} ocp {OpenShift grouped by Service} ocp_cloud {All cloud filtered by OpenShift grouped by Service} other {}}} ' +
+      'service_name {{provider, select, aws {Amazon Web Services grouped by Service} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Service} azure {Microsoft Azure grouped by Service} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Service} gcp {Google Cloud Platform grouped by Service} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Service} ibm {IBM Cloud grouped by Service} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Service} ocp {OpenShift grouped by Service} ocp_cloud {All cloud filtered by OpenShift grouped by Service} other {}}} ' +
+      'subscription_guid {{provider, select, aws {Amazon Web Services grouped by Account} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Account} azure {Microsoft Azure grouped by Account} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Account} gcp {Google Cloud Platform grouped by Account} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Account} ibm {IBM Cloud grouped by Account} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Account} ocp {OpenShift grouped by Account} ocp_cloud {All cloud filtered by OpenShift grouped by Account} other {}}} ' +
+      'tag {{provider, select, aws {Amazon Web Services grouped by Tag} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Tag} azure {Microsoft Azure grouped by Tag} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Tag} gcp {Google Cloud Platform grouped by Tag} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Tag} ibm {IBM Cloud grouped by Tag} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Tag} ocp {OpenShift grouped by Tag} ocp_cloud {All cloud filtered by OpenShift grouped by Tag} other {}}} ' +
+      'other {}}',
+    description: 'Export name',
+    id: 'ExportName',
+  },
+  ExportNameRequired: {
+    defaultMessage: 'Please enter a name for the export',
+    description: 'Please enter a name for the export',
+    id: 'ExportNameRequired',
+  },
+  ExportNameTooLong: {
+    defaultMessage: 'Should not exceed 50 characters',
+    description: 'Should not exceed 50 characters',
+    id: 'ExportNameTooLong',
+  },
   ExportResolution: {
     defaultMessage: '{value, select, daily {Daily} monthly {Monthly} other {}}',
     description: 'Export file name',
@@ -1750,37 +1792,78 @@ export default defineMessages({
   ExportSelected: {
     defaultMessage:
       '{groupBy, select, ' +
-      'account {Selected accounts} ' +
-      'cluster {Selected clusters} ' +
-      'gcp_project {Selected GCP projects} ' +
-      'instance_type {Selected instance types} ' +
-      'node {Selected nodes} ' +
-      'org_unit_id {Selected organizational units} ' +
-      'project {Selected projects} ' +
-      'region {Selected regions} ' +
-      'resource_location {Selected regions} ' +
-      'service {Selected services} ' +
-      'service_name {Selected services} ' +
-      'subscription_guid {Selected accounts} ' +
-      'tag {Selected tags} ' +
+      'account {Selected accounts ({count})} ' +
+      'cluster {Selected clusters ({count})} ' +
+      'gcp_project {Selected GCP projects ({count})} ' +
+      'node {Selected nodes ({count})} ' +
+      'org_unit_id {Selected organizational units ({count})} ' +
+      'project {Selected projects ({count})} ' +
+      'region {Selected regions ({count})} ' +
+      'resource_location {Selected regions ({count})} ' +
+      'service {Selected services ({count})} ' +
+      'service_name {Selected services ({count})} ' +
+      'subscription_guid {Selected accounts ({count})} ' +
+      'tag {Selected tags ({count})} ' +
       'other {}}',
     description: 'Selected items for export',
     id: 'ExportSelected',
   },
   ExportTimeScope: {
-    defaultMessage: '{value, select, current {Current {date}} previous {Previous {date}} other {}}',
+    defaultMessage: '{value, select, current {Current ({date})} previous {Previous ({date})} other {}}',
     description: 'Export time scope',
     id: 'ExportTimeScope',
   },
   ExportTimeScopeTitle: {
-    defaultMessage: 'Select month',
-    description: 'Export time scope title',
+    defaultMessage: 'Month',
+    description: 'Month',
     id: 'ExportTimeScopeTitle',
   },
   ExportTitle: {
     defaultMessage: 'Export',
     description: 'Export title',
     id: 'ExportTitle',
+  },
+  ExportsDesc: {
+    defaultMessage:
+      'Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed.',
+    description:
+      'Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed.',
+    id: 'ExportsDesc',
+  },
+  ExportsFailed: {
+    defaultMessage: 'Could not create export file',
+    description: 'Export failed',
+    id: 'ExportsFailed',
+  },
+  ExportsFailedDesc: {
+    defaultMessage: 'Something went wrong with the generation of this export file. Try exporting again.',
+    description: 'Export failed description',
+    id: 'ExportsFailedDesc',
+  },
+  ExportsSuccess: {
+    defaultMessage: 'Export preparing for download',
+    description: 'Export success',
+    id: 'ExportsSuccess',
+  },
+  ExportsSuccessDesc: {
+    defaultMessage: 'The export is preparing for download. It will be accessible from {value} view. {link}',
+    description: 'Export success description',
+    id: 'ExportsSuccessDesc',
+  },
+  ExportsTableAriaLabel: {
+    defaultMessage: 'Available exports table',
+    description: 'Available exports table',
+    id: 'ExportsTableAriaLabel',
+  },
+  ExportsTitle: {
+    defaultMessage: 'All exports',
+    description: 'All exports',
+    id: 'ExportsTitle',
+  },
+  ExportsUnavailable: {
+    defaultMessage: 'Export cannot be generated',
+    description: 'Export cannot be generated',
+    id: 'ExportsUnavailable',
   },
   FilterByButtonAriaLabel: {
     defaultMessage:
@@ -1969,7 +2052,6 @@ export default defineMessages({
       'account {{count, plural, one {All account} other {All accounts}}} ' +
       'cluster {{count, plural, one {All cluster} other {All clusters}}} ' +
       'gcp_project {{count, plural, one {All GCP project} other {All GCP projects}}} ' +
-      'instance_type {{count, plural, one {All instance type} other {All instance types}}} ' +
       'node {{count, plural, one {All node} other {All nodes}}} ' +
       'org_unit_id {{count, plural, one {All organizational unit} other {All organizational units}}} ' +
       'project {{count, plural, one {All project} other {All projects}}} ' +
@@ -1994,7 +2076,6 @@ export default defineMessages({
       'account {{count, plural, one {Top account} other {Top accounts}}} ' +
       'cluster {{count, plural, one {Top cluster} other {Top clusters}}} ' +
       'gcp_project {{count, plural, one {Top GCP project} other {Top GCP projects}}} ' +
-      'instance_type {{count, plural, one {Top instance type} other {Top instance types}}} ' +
       'node {{count, plural, one {Top node} other {Top node}}} ' +
       'org_unit_id {{count, plural, one {Top organizational unit} other {Top organizational units}}} ' +
       'project {{count, plural, one {Top project} other {Top projects}}} ' +
@@ -2014,7 +2095,6 @@ export default defineMessages({
       'account {Account names} ' +
       'cluster {Cluster names} ' +
       'gcp_project {GCP project names} ' +
-      'instance_type {Instance type names} ' +
       'node {Node names} ' +
       'org_unit_id {Organizational unit names} ' +
       'project {Project names} ' +
@@ -2034,7 +2114,6 @@ export default defineMessages({
       'account {{count, plural, one {account} other {accounts}}} ' +
       'cluster {{count, plural, one {cluster} other {clusters}}} ' +
       'gcp_project {{count, plural, one {GCP project} other {GCP projects}}} ' +
-      'instance_type {{count, plural, one {instance type} other {instance types}}} ' +
       'node {{count, plural, one {node} other {node}}} ' +
       'org_unit_id {{count, plural, one {organizational unit} other {organizational units}}} ' +
       'project {{count, plural, one {project} other {projects}}} ' +
@@ -2054,7 +2133,6 @@ export default defineMessages({
       'account {{count, plural, one {Account} other {Accounts}}} ' +
       'cluster {{count, plural, one {Cluster} other {Clusters}}} ' +
       'gcp_project {{count, plural, one {GCP project} other {GCP projects}}} ' +
-      'instance_type {{count, plural, one {Instance type} other {Instance types}}} ' +
       'node {{count, plural, one {Node} other {Node}}} ' +
       'org_unit_id {{count, plural, one {Organizational unit} other {Organizational units}}} ' +
       'project {{count, plural, one {Project} other {Projects}}} ' +
@@ -2083,7 +2161,6 @@ export default defineMessages({
       '{value, select, ' +
       'cost {Cost comparison} ' +
       'cpu {CPU usage, request, and limit comparison} ' +
-      'instance_type {Compute usage comparison} ' +
       'memory {Memory usage, request, and limit comparison} ' +
       'modal {{name} daily usage comparison} ' +
       'storage {Storage usage comparison} ' +
@@ -2868,6 +2945,16 @@ export default defineMessages({
     description: 'Sources',
     id: 'Sources',
   },
+  Status: {
+    defaultMessage: '{value, select, ' + 'pending {Pending} ' + 'running {Running} ' + 'failed {Failed} ' + 'other {}}',
+    description: 'Status',
+    id: 'Status',
+  },
+  StatusActions: {
+    defaultMessage: 'Status/Actions',
+    description: 'Status/Actions',
+    id: 'StatusActions',
+  },
   Suggestions: {
     defaultMessage: 'Suggestions',
     description: 'Suggestions',
@@ -2897,6 +2984,11 @@ export default defineMessages({
     defaultMessage: 'Tag names',
     description: 'Tag Names',
     id: 'TagNames',
+  },
+  TimeOfExport: {
+    defaultMessage: 'Time of export',
+    description: 'Time of export',
+    id: 'TimeOfExport',
   },
   ToolBarBulkSelectAll: {
     defaultMessage: 'Select all ({value} items)',

@@ -1,14 +1,15 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import messages from 'locales/messages';
 import {
   ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'components/charts/common/chartDatumUtils';
-import messages from 'locales/messages';
+} from 'pages/views/components/charts/common/chartDatumUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { formatUnits } from 'utils/format';
 
 import { GcpDashboardTab, GcpDashboardWidget } from './gcpDashboardCommon';
 
@@ -40,13 +41,8 @@ export const computeWidget: GcpDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   GcpDashboardTab.instanceType,
-  //   GcpDashboardTab.accounts,
-  //   GcpDashboardTab.regions,
-  // ],
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.trend,
-  currentTab: GcpDashboardTab.instanceType,
 };
 
 export const costSummaryWidget: GcpDashboardWidget = {
@@ -99,13 +95,7 @@ export const databaseWidget: GcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   GcpDashboardTab.services,
-  //   GcpDashboardTab.accounts,
-  //   GcpDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: GcpDashboardTab.services,
 };
 
 export const networkWidget: GcpDashboardWidget = {
@@ -131,13 +121,7 @@ export const networkWidget: GcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   GcpDashboardTab.services,
-  //   GcpDashboardTab.accounts,
-  //   GcpDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: GcpDashboardTab.services,
 };
 
 export const storageWidget: GcpDashboardWidget = {
@@ -158,11 +142,5 @@ export const storageWidget: GcpDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   GcpDashboardTab.services,
-  //   GcpDashboardTab.accounts,
-  //   GcpDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: GcpDashboardTab.gcpProjects,
 };

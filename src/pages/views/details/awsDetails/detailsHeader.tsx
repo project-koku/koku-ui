@@ -6,9 +6,9 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AwsReport } from 'api/reports/awsReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
-import { Currency } from 'components/currency';
-import { ExportLink } from 'components/export';
+import { ExportsLink } from 'components/exports';
 import messages from 'locales/messages';
+import { Currency } from 'pages/components/currency';
 import { CostType } from 'pages/views/components/costType';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import { filterProviders } from 'pages/views/utils/providers';
@@ -19,7 +19,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { ComputedAwsReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
-import { isBetaFeature } from 'utils/feature';
+import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './detailsHeader.styles';
@@ -85,8 +85,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           </Title>
           <div style={styles.headerContentRight}>
             {/* Todo: Show in-progress features in beta environment only */}
-            {isBetaFeature() && <Currency />}
-            {isBetaFeature() && <ExportLink />}
+            {isFeatureVisible(FeatureType.currency) && <Currency />}
+            {isFeatureVisible(FeatureType.exports) && <ExportsLink />}
           </div>
         </div>
         <div style={styles.headerContent}>

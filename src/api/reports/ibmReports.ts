@@ -6,7 +6,6 @@ import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType
 export interface IbmReportItem extends ReportItem {
   account?: string;
   project?: string;
-  instance_type?: string;
   region?: string;
   service?: string;
 }
@@ -23,17 +22,12 @@ export interface GroupByServiceData extends Omit<IbmReportData, 'services'> {
   service: string;
 }
 
-export interface GroupByInstanceTypeData extends Omit<IbmReportData, 'instance_types'> {
-  instance_type: string;
-}
-
 export interface GroupByProjectData extends Omit<IbmReportData, 'projects'> {
   project: string;
 }
 
 export interface IbmReportData extends ReportData {
   accounts?: GroupByAccountData[];
-  instance_types?: GroupByInstanceTypeData[];
   projects?: GroupByProjectData[];
   regions?: GroupByRegionData[];
   services?: GroupByServiceData[];

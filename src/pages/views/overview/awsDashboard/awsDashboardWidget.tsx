@@ -25,8 +25,6 @@ export const getIdKeyForTab = (tab: AwsDashboardTab): ComputedAwsReportItemsPara
       return 'account';
     case AwsDashboardTab.regions:
       return 'region';
-    case AwsDashboardTab.instanceType:
-      return 'instance_type';
   }
 };
 

@@ -16,9 +16,6 @@ export function getIdKeyForGroupBy(groupBy: Query['group_by'] = {}): ComputedExp
   if (groupBy.gcp_project) {
     return 'gcp_project';
   }
-  if (groupBy.instance_type) {
-    return 'instance_type';
-  }
   if (groupBy.node) {
     return 'node';
   }

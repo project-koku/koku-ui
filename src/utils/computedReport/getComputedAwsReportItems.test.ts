@@ -2,8 +2,7 @@ import { getIdKeyForGroupBy } from './getComputedAwsReportItems';
 
 test('get id key for groupBy', () => {
   [
-    [{ account: 's', instance_type: 's' }, 'account'],
-    [{ instance_type: 's', region: 's' }, 'instance_type'],
+    [{ account: 's', service: 's' }, 'account'],
     [{ region: 's', service: 's' }, 'region'],
     [{ service: 's' }, 'service'],
     [{}, 'date'],

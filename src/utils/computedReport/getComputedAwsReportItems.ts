@@ -9,9 +9,6 @@ export function getIdKeyForGroupBy(groupBy: AwsQuery['group_by'] = {}): Computed
   if (groupBy.account) {
     return 'account';
   }
-  if (groupBy.instance_type) {
-    return 'instance_type';
-  }
   if (groupBy.org_unit_id) {
     return 'org_unit_id';
   }

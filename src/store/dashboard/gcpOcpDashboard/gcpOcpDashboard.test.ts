@@ -1,7 +1,7 @@
 jest.mock('store/reports/reportActions');
 
 import { ReportType } from 'api/reports/report';
-import { ChartType } from 'components/charts/common/chartDatumUtils';
+import { ChartType } from 'pages/views/components/charts/common/chartDatumUtils';
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
 
@@ -62,10 +62,6 @@ test('changeWidgetTab', () => {
 describe('getGroupByForTab', () => {
   test('services tab', () => {
     expect(getGroupByForTab(GcpOcpDashboardTab.services)).toMatchSnapshot();
-  });
-
-  test('instance types tab', () => {
-    expect(getGroupByForTab(GcpOcpDashboardTab.instanceType)).toMatchSnapshot();
   });
 
   test('accounts tab', () => {

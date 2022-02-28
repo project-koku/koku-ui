@@ -1,9 +1,9 @@
 import { Skeleton } from '@patternfly/react-core';
 import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
-import { ChartType, transformReport } from 'components/charts/common/chartDatumUtils';
-import { HistoricalCostChart } from 'components/charts/historicalCostChart';
 import messages from 'locales/messages';
+import { ChartType, transformReport } from 'pages/views/components/charts/common/chartDatumUtils';
+import { HistoricalCostChart } from 'pages/views/components/charts/historicalCostChart';
 import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';

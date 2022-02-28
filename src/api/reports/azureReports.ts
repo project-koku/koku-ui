@@ -5,7 +5,6 @@ import { ReportType } from './report';
 import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportValue } from './report';
 
 export interface AzureReportItem extends ReportItem {
-  instance_type?: string;
   resource_location?: string;
   service_name?: string;
   subscription_guid?: string;
@@ -23,12 +22,7 @@ export interface GroupByRegionData extends Omit<AzureReportData, 'resource_locat
   region: string;
 }
 
-export interface GroupByInstanceTypeData extends Omit<AzureReportData, 'instance_types'> {
-  instance_type: string;
-}
-
 export interface AzureReportData extends ReportData {
-  instance_types?: GroupByInstanceTypeData[];
   resource_locations?: GroupByRegionData[];
   service_names?: GroupByServiceData[];
   subscription_guids?: GroupByAccountData[];

@@ -23,7 +23,8 @@ export const styles = {
   },
   pagination: {
     backgroundColor: global_BackgroundColor_light_100.value,
-    padding: global_spacer_md.value,
+    paddingBottom: global_spacer_md.value,
+    paddingTop: global_spacer_md.value,
   },
   tableContainer: {
     marginLeft: global_spacer_lg.value,

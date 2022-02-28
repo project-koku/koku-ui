@@ -9,7 +9,6 @@ type AzureGroupByValue = string | string[];
 interface AzureGroupBys {
   service_name?: AzureGroupByValue;
   subscription_guid?: AzureGroupByValue;
-  instance_type?: AzureGroupByValue;
   resource_location?: AzureGroupByValue;
 }
 

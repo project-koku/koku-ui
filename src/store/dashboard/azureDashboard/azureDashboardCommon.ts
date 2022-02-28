@@ -17,7 +17,6 @@ export const enum AzureDashboardTab {
   service_names = 'service_names',
   subscription_guids = 'subscription_guids',
   resource_locations = 'resource_locations',
-  instanceType = 'instance_type',
 }
 
 export interface AzureDashboardWidget extends DashboardWidget<AzureDashboardTab> {}
@@ -33,8 +32,6 @@ export function getGroupByForTab(widget: AzureDashboardWidget): AzureQuery['grou
       return { subscription_guid: '*' };
     case AzureDashboardTab.resource_locations:
       return { resource_location: '*' };
-    case AzureDashboardTab.instanceType:
-      return { instance_type: '*' };
     default:
       return {};
   }

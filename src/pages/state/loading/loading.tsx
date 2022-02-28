@@ -1,6 +1,6 @@
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import PageHeader, { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
-import { LoadingState } from 'components/state/loadingState/loadingState';
+import { LoadingState } from 'pages/components/state/loadingState/loadingState';
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 

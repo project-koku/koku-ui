@@ -54,9 +54,6 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
   },
-  headerContentRight: {
-    display: 'flex',
-  },
   headerCostModel: {
     padding: global_spacer_lg.value,
     paddingBottom: 0,

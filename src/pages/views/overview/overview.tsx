@@ -18,9 +18,8 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
-import { Currency } from 'components/currency';
-import { ExportLink } from 'components/export';
 import messages from 'locales/messages';
+import { Currency } from 'pages/components/currency';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData/noData';
 import NoProviders from 'pages/state/noProviders';
@@ -52,7 +51,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getSinceDateRangeString } from 'utils/dateRange';
-import { isBetaFeature } from 'utils/feature';
+import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { getCostType } from 'utils/localStorage';
 import {
   hasAwsAccess,
@@ -340,13 +339,14 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (hasGcp) {
         options.push(...infrastructureGcpOptions);
       }
-      if (isBetaFeature() && this.isGcpOcpAvailable()) {
+      if (isFeatureVisible(FeatureType.gcpOcp) && this.isGcpOcpAvailable()) {
         options.push(...infrastructureGcpOcpOptions);
       }
       if (hasIbm) {
         options.push(...infrastructureIbmOptions);
       }
-      if (isBetaFeature() && this.isIbmOcpAvailable()) {
+      // Todo: Show in-progress features in beta environment only
+      if (isFeatureVisible(FeatureType.ibm) && this.isIbmOcpAvailable()) {
         options.push(...infrastructureIbmOcpOptions);
       }
       if (hasAzure) {
@@ -637,7 +637,7 @@ class OverviewBase extends React.Component<OverviewProps> {
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.GCP)}</p>
                       <p>{intl.formatMessage(messages.GCPDesc)}</p>
                       {/* Todo: Show in-progress features in beta environment only */}
-                      {isBetaFeature() && (
+                      {isFeatureVisible(FeatureType.ibm) && (
                         <>
                           <br />
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.IBM)}</p>
@@ -661,8 +661,7 @@ class OverviewBase extends React.Component<OverviewProps> {
             </Title>
             <div style={styles.headerContentRight}>
               {/* Todo: Show in-progress features in beta environment only */}
-              {isBetaFeature() && <Currency />}
-              {isBetaFeature() && <ExportLink />}
+              {isFeatureVisible(FeatureType.currency) && <Currency />}
             </div>
           </div>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>

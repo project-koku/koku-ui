@@ -2,13 +2,16 @@ import { Query } from 'api/queries/query';
 
 export const addQueryFilter = (query: Query, filterType: string, filterValue: string) => {
   const newQuery = { ...JSON.parse(JSON.stringify(query)) };
+  if (!newQuery.filter_by) {
+    newQuery.filter_by = {};
+  }
 
   // Filter by * won't generate a new request if group_by * already exists
   if (filterValue === '*' && newQuery.group_by[filterType] === '*') {
     return;
   }
 
-  if (newQuery.filter_by[filterType]) {
+  if (newQuery.filter_by && newQuery.filter_by[filterType]) {
     let found = false;
     const filters = newQuery.filter_by[filterType];
     if (!Array.isArray(filters)) {
@@ -32,6 +35,9 @@ export const addQueryFilter = (query: Query, filterType: string, filterValue: st
 
 export const removeQueryFilter = (query: Query, filterType: string, filterValue: string) => {
   const newQuery = { ...JSON.parse(JSON.stringify(query)) };
+  if (!newQuery.filter_by) {
+    newQuery.filter_by = {};
+  }
 
   if (filterType === null) {
     newQuery.filter_by = undefined; // Clear all

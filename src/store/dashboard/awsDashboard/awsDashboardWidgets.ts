@@ -1,14 +1,15 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import messages from 'locales/messages';
 import {
   ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'components/charts/common/chartDatumUtils';
-import messages from 'locales/messages';
+} from 'pages/views/components/charts/common/chartDatumUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { formatUnits } from 'utils/format';
 
 import { AwsDashboardTab, AwsDashboardWidget } from './awsDashboardCommon';
 
@@ -39,13 +40,8 @@ export const computeWidget: AwsDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   AwsDashboardTab.instanceType,
-  //   AwsDashboardTab.accounts,
-  //   AwsDashboardTab.regions,
-  // ],
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.trend,
-  currentTab: AwsDashboardTab.instanceType,
 };
 
 export const costSummaryWidget: AwsDashboardWidget = {
@@ -99,13 +95,7 @@ export const databaseWidget: AwsDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   AwsDashboardTab.services,
-  //   AwsDashboardTab.accounts,
-  //   AwsDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AwsDashboardTab.services,
   savingsPlan: true,
 };
 
@@ -130,13 +120,7 @@ export const networkWidget: AwsDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   AwsDashboardTab.services,
-  //   AwsDashboardTab.accounts,
-  //   AwsDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AwsDashboardTab.services,
   savingsPlan: true,
 };
 
@@ -158,11 +142,5 @@ export const storageWidget: AwsDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   AwsDashboardTab.services,
-  //   AwsDashboardTab.accounts,
-  //   AwsDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AwsDashboardTab.accounts,
 };

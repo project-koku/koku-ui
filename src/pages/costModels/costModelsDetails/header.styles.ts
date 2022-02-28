@@ -5,7 +5,4 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
   },
-  headerContentRight: {
-    display: 'flex',
-  },
 } as { [className: string]: React.CSSProperties };
