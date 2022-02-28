@@ -1,13 +1,14 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import messages from 'locales/messages';
 import {
   ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'components/charts/common/chartDatumUtils';
-import messages from 'locales/messages';
+} from 'pages/views/components/charts/common/chartDatumUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { formatUnits } from 'utils/format';
 
 import { AwsOcpDashboardTab, AwsOcpDashboardWidget } from './awsOcpDashboardCommon';
 
@@ -38,13 +39,8 @@ export const computeWidget: AwsOcpDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   AwsOcpDashboardTab.instanceType,
-  //   AwsOcpDashboardTab.accounts,
-  //   AwsOcpDashboardTab.regions,
-  // ],
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.trend,
-  currentTab: AwsOcpDashboardTab.instanceType,
 };
 
 export const costSummaryWidget: AwsOcpDashboardWidget = {
@@ -95,13 +91,7 @@ export const databaseWidget: AwsOcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   AwsOcpDashboardTab.services,
-  //   AwsOcpDashboardTab.accounts,
-  //   AwsOcpDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AwsOcpDashboardTab.services,
 };
 
 export const networkWidget: AwsOcpDashboardWidget = {
@@ -125,13 +115,7 @@ export const networkWidget: AwsOcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   AwsOcpDashboardTab.services,
-  //   AwsOcpDashboardTab.accounts,
-  //   AwsOcpDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AwsOcpDashboardTab.services,
 };
 
 export const storageWidget: AwsOcpDashboardWidget = {
@@ -152,11 +136,5 @@ export const storageWidget: AwsOcpDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   AwsOcpDashboardTab.services,
-  //   AwsOcpDashboardTab.accounts,
-  //   AwsOcpDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AwsOcpDashboardTab.accounts,
 };

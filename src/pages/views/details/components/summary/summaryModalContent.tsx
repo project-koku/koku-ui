@@ -1,8 +1,8 @@
 import { Title, TitleSizes } from '@patternfly/react-core';
 import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
-import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
 import messages from 'locales/messages';
+import { ReportSummaryItem, ReportSummaryItems } from 'pages/views/components/reports/reportSummary';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';

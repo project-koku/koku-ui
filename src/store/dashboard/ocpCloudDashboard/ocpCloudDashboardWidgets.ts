@@ -1,13 +1,14 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import messages from 'locales/messages';
 import {
   ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'components/charts/common/chartDatumUtils';
-import messages from 'locales/messages';
+} from 'pages/views/components/charts/common/chartDatumUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { formatUnits } from 'utils/format';
 
 import { OcpCloudDashboardTab, OcpCloudDashboardWidget } from './ocpCloudDashboardCommon';
 
@@ -64,6 +65,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.trend,
 };
 

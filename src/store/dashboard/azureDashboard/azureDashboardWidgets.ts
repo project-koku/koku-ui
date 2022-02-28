@@ -1,14 +1,15 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import messages from 'locales/messages';
 import {
   ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'components/charts/common/chartDatumUtils';
-import messages from 'locales/messages';
+} from 'pages/views/components/charts/common/chartDatumUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { formatUnits } from 'utils/format';
 
 import { AzureDashboardTab, AzureDashboardWidget } from './azureDashboardCommon';
 
@@ -69,13 +70,7 @@ export const databaseWidget: AzureDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   AzureDashboardTab.service_names,
-  //   AzureDashboardTab.subscription_guids,
-  //   AzureDashboardTab.resource_locations,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureDashboardTab.service_names,
 };
 
 export const networkWidget: AzureDashboardWidget = {
@@ -99,13 +94,7 @@ export const networkWidget: AzureDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   AzureDashboardTab.service_names,
-  //   AzureDashboardTab.subscription_guids,
-  //   AzureDashboardTab.resource_locations,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureDashboardTab.service_names,
 };
 
 export const storageWidget: AzureDashboardWidget = {
@@ -132,13 +121,7 @@ export const storageWidget: AzureDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   AzureDashboardTab.service_names,
-  //   AzureDashboardTab.subscription_guids,
-  //   AzureDashboardTab.resource_locations,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureDashboardTab.subscription_guids,
 };
 
 export const virtualMachineWidget: AzureDashboardWidget = {
@@ -165,11 +148,6 @@ export const virtualMachineWidget: AzureDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   AzureDashboardTab.instanceType,
-  //   AzureDashboardTab.subscription_guids,
-  //   AzureDashboardTab.resource_locations,
-  // ],
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.trend,
-  currentTab: AzureDashboardTab.instanceType,
 };

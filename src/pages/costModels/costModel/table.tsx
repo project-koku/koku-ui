@@ -1,8 +1,8 @@
 import { EmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/esm/icons/dollar-sign-icon';
 import { CostModel } from 'api/costModels';
-import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import messages from 'locales/messages';
+import { EmptyFilterState } from 'pages/components/state/emptyFilterState/emptyFilterState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
 import SourcesTable from 'pages/costModels/costModel/sourcesTable';
 import React from 'react';

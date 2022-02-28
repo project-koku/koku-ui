@@ -29,8 +29,6 @@ export const getIdKeyForTab = (tab: AzureOcpDashboardTab): ComputedAzureReportIt
       return 'subscription_guid';
     case AzureOcpDashboardTab.resource_locations:
       return 'resource_location';
-    case AzureOcpDashboardTab.instanceType:
-      return 'instance_type';
   }
 };
 

@@ -1,14 +1,15 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import messages from 'locales/messages';
 import {
   ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'components/charts/common/chartDatumUtils';
-import messages from 'locales/messages';
+} from 'pages/views/components/charts/common/chartDatumUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { formatUnits } from 'utils/format';
 
 import { IbmDashboardTab, IbmDashboardWidget } from './ibmDashboardCommon';
 
@@ -40,13 +41,8 @@ export const computeWidget: IbmDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   IbmDashboardTab.instanceType,
-  //   IbmDashboardTab.accounts,
-  //   IbmDashboardTab.regions,
-  // ],
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.trend,
-  currentTab: IbmDashboardTab.instanceType,
 };
 
 export const costSummaryWidget: IbmDashboardWidget = {
@@ -99,13 +95,7 @@ export const databaseWidget: IbmDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   IbmDashboardTab.services,
-  //   IbmDashboardTab.accounts,
-  //   IbmDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: IbmDashboardTab.services,
 };
 
 export const networkWidget: IbmDashboardWidget = {
@@ -131,13 +121,7 @@ export const networkWidget: IbmDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   IbmDashboardTab.services,
-  //   IbmDashboardTab.accounts,
-  //   IbmDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: IbmDashboardTab.services,
 };
 
 export const storageWidget: IbmDashboardWidget = {
@@ -158,11 +142,5 @@ export const storageWidget: IbmDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   IbmDashboardTab.services,
-  //   IbmDashboardTab.accounts,
-  //   IbmDashboardTab.regions,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: IbmDashboardTab.projects,
 };

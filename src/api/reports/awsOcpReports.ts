@@ -6,7 +6,6 @@ import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType
 export interface AwsOcpReportItem extends ReportItem {
   account?: string;
   account_alias?: string;
-  instance_type?: string;
   region?: string;
   service?: string;
 }
@@ -23,14 +22,9 @@ export interface GroupByRegionData extends Omit<AwsOcpReportData, 'regions'> {
   region: string;
 }
 
-export interface GroupByInstanceTypeData extends Omit<AwsOcpReportData, 'instance_types'> {
-  instance_type: string;
-}
-
 export interface AwsOcpReportData extends ReportData {
   accounts?: GroupByAccountData[];
   services?: GroupByServiceData[];
-  instance_types?: GroupByInstanceTypeData[];
   regions?: GroupByRegionData[];
 }
 

@@ -1,5 +1,5 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
-import { Export } from 'api/exports/export';
+import { Export } from 'api/export/export';
 import { getQuery, orgUnitIdKey, Query, tagPrefix } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
@@ -10,17 +10,20 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { exportActions, exportSelectors } from 'store/exports';
+import { exportActions, exportSelectors } from 'store/export';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getToday } from 'utils/dateRange';
 
 export interface ExportSubmitOwnProps {
+  disabled?: boolean;
+  formatType: 'csv' | 'json';
   groupBy?: string;
   isAllItems?: boolean;
   items?: ComputedReportItem[];
   onClose(isOpen: boolean);
   onError(error: AxiosError);
+  name?: string;
   query?: Query;
   reportPathsType: ReportPathsType;
   resolution: string;
@@ -123,17 +126,17 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   };
 
   public render() {
-    const { intl, reportFetchStatus } = this.props;
+    const { disabled, intl, reportFetchStatus } = this.props;
 
     return (
       <Button
         {...getTestProps(testIds.export.submit_btn)}
-        isDisabled={reportFetchStatus === FetchStatus.inProgress}
+        isDisabled={disabled || reportFetchStatus === FetchStatus.inProgress}
         key="confirm"
         onClick={this.handleFetchReport}
         variant={ButtonVariant.primary}
       >
-        {intl.formatMessage(messages.ExportDownload)}
+        {intl.formatMessage(messages.ExportGenerate)}
       </Button>
     );
   }
@@ -145,6 +148,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   let endDate = query.end_date;
   let startDate = query.start_date;
 
+  // Todo: Add name and format type for "all exports" feature
   const getQueryString = () => {
     const newQuery: Query = {
       ...JSON.parse(JSON.stringify(query)),

@@ -15,8 +15,8 @@ import {
 } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { MetricHash } from 'api/metrics';
-import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import messages from 'locales/messages';
+import { EmptyFilterState } from 'pages/components/state/emptyFilterState/emptyFilterState';
 import { WithPriceListSearch } from 'pages/costModels/components/hoc/withPriceListSearch';
 import PaginationToolbarTemplate from 'pages/costModels/components/paginationToolbarTemplate';
 import { PriceListToolbar } from 'pages/costModels/components/priceListToolbar';

@@ -9,14 +9,14 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
-import { currencyOptions } from 'components/currency';
-import { Form } from 'components/forms/form';
 import messages from 'locales/messages';
+import { currencyOptions } from 'pages/components/currency';
+import { Form } from 'pages/costModels/components/forms/form';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { isBetaFeature } from 'utils/feature';
+import { FeatureType, isFeatureVisible } from 'utils/feature';
 
 import { CostModelContext } from './context';
 import { descriptionErrors, nameErrors } from './steps';
@@ -116,7 +116,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                 </FormGroup>
                 {
                   /* Todo: Show in-progress features in beta environment only */
-                  isBetaFeature() && (
+                  isFeatureVisible(FeatureType.currency) && (
                     <FormGroup label={intl.formatMessage(messages.Currency)} fieldId="currency-units">
                       <FormSelect id="currency-units" value={currencyUnits} onChange={onCurrencyChange}>
                         {currencyOptions.map(option => (

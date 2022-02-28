@@ -1,13 +1,14 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import messages from 'locales/messages';
 import {
   ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'components/charts/common/chartDatumUtils';
-import messages from 'locales/messages';
+} from 'pages/views/components/charts/common/chartDatumUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { formatUnits } from 'utils/format';
 
 import { AzureOcpDashboardTab, AzureOcpDashboardWidget } from './azureOcpDashboardCommon';
 
@@ -66,13 +67,7 @@ export const databaseWidget: AzureOcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   AzureOcpDashboardTab.service_names,
-  //   AzureOcpDashboardTab.subscription_guids,
-  //   AzureOcpDashboardTab.resource_locations,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureOcpDashboardTab.service_names,
 };
 
 export const networkWidget: AzureOcpDashboardWidget = {
@@ -96,13 +91,7 @@ export const networkWidget: AzureOcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  // availableTabs: [
-  //   AzureOcpDashboardTab.service_names,
-  //   AzureOcpDashboardTab.subscription_guids,
-  //   AzureOcpDashboardTab.resource_locations,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureOcpDashboardTab.service_names,
 };
 
 export const storageWidget: AzureOcpDashboardWidget = {
@@ -129,13 +118,7 @@ export const storageWidget: AzureOcpDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   AzureOcpDashboardTab.service_names,
-  //   AzureOcpDashboardTab.subscription_guids,
-  //   AzureOcpDashboardTab.resource_locations,
-  // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureOcpDashboardTab.subscription_guids,
 };
 
 export const virtualMachineWidget: AzureOcpDashboardWidget = {
@@ -162,11 +145,6 @@ export const virtualMachineWidget: AzureOcpDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [
-  //   AzureOcpDashboardTab.instanceType,
-  //   AzureOcpDashboardTab.subscription_guids,
-  //   AzureOcpDashboardTab.resource_locations,
-  // ],
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.trend,
-  currentTab: AzureOcpDashboardTab.instanceType,
 };

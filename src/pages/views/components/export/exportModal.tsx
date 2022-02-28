@@ -1,5 +1,16 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Alert, Button, ButtonVariant, Form, FormGroup, Modal, Radio } from '@patternfly/react-core';
+import {
+  Alert,
+  Button,
+  ButtonVariant,
+  Form,
+  FormGroup,
+  Grid,
+  GridItem,
+  Modal,
+  Radio,
+  TextInput,
+} from '@patternfly/react-core';
 import { Query, tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
@@ -10,14 +21,16 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { exportActions } from 'store/exports';
+import { exportActions } from 'store/export';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { FeatureType, isFeatureVisible } from 'utils/feature';
 
 import { styles } from './exportModal.styles';
 import { ExportSubmit } from './exportSubmit';
 
 export interface ExportModalOwnProps {
+  count?: number;
   groupBy?: string;
   isAllItems?: boolean;
   isOpen: boolean;
@@ -27,7 +40,8 @@ export interface ExportModalOwnProps {
   queryString?: string;
   reportPathsType: ReportPathsType;
   resolution?: 'daily' | 'monthly'; // Default resolution
-  showAggregateType?: boolean; // monthly resolution filters are not valid with date range
+  showAggregateType?: boolean; // Monthly resolution filters are not valid with date range
+  showFormatType?: boolean; // Format type; CVS / JSON
   showTimeScope?: boolean; // timeScope filters are not valid with date range
 }
 
@@ -41,11 +55,21 @@ interface ExportModalDispatchProps {
 
 interface ExportModalState {
   error?: AxiosError;
+  formatType: 'csv' | 'json';
+  name?: string;
   timeScope: 'current' | 'previous';
   resolution: string;
 }
 
 type ExportModalProps = ExportModalOwnProps & ExportModalDispatchProps & ExportModalStateProps & WrappedComponentProps;
+
+const formatTypeOptions: {
+  label: MessageDescriptor;
+  value: string;
+}[] = [
+  { label: messages.ExportFormatType, value: 'csv' },
+  { label: messages.ExportFormatType, value: 'json' },
+];
 
 const resolutionOptions: {
   label: MessageDescriptor;
@@ -66,6 +90,7 @@ const timeScopeOptions: {
 export class ExportModalBase extends React.Component<ExportModalProps, ExportModalState> {
   protected defaultState: ExportModalState = {
     error: undefined,
+    formatType: 'csv',
     timeScope: 'current',
     resolution: this.props.resolution || 'monthly',
   };
@@ -75,9 +100,10 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
     super(stateProps, dispatchProps);
     this.handleMonthChange = this.handleMonthChange.bind(this);
     this.handleResolutionChange = this.handleResolutionChange.bind(this);
+    this.handleTypeChange = this.handleTypeChange.bind(this);
   }
 
-  // Reset defult state upon close -- see https://issues.redhat.com/browse/COST-1134
+  // Reset default state upon close -- see https://issues.redhat.com/browse/COST-1134
   private handleClose = () => {
     this.setState({ ...this.defaultState }, () => {
       this.props.onClose(false);
@@ -88,16 +114,36 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
     this.setState({ error });
   };
 
-  public handleMonthChange = (_, event) => {
+  private handleMonthChange = (_, event) => {
     this.setState({ timeScope: event.currentTarget.value });
   };
 
-  public handleResolutionChange = (_, event) => {
+  private handleNameChange = (_, event) => {
+    this.setState({ name: event.currentTarget.value });
+  };
+
+  private handleResolutionChange = (_, event) => {
     this.setState({ resolution: event.currentTarget.value });
+  };
+
+  private handleTypeChange = (_, event) => {
+    this.setState({ formatType: event.currentTarget.value });
+  };
+
+  private nameValidator = value => {
+    if (value.trim().length === 0) {
+      return messages.ExportNameRequired;
+    }
+    // Todo: what is the max length allowed?
+    if (value.length > 50) {
+      return messages.ExportNameTooLong;
+    }
+    return undefined;
   };
 
   public render() {
     const {
+      count = 0,
       groupBy,
       intl,
       isAllItems,
@@ -105,9 +151,10 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       query,
       reportPathsType,
       showAggregateType = true,
+      showFormatType = true,
       showTimeScope = true,
     } = this.props;
-    const { error, resolution, timeScope } = this.state;
+    const { error, formatType, name, resolution, timeScope } = this.state;
 
     let sortedItems = [...items];
     if (this.props.isOpen) {
@@ -122,15 +169,26 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       }
     }
 
-    let selectedLabel = intl.formatMessage(messages.ExportSelected, { groupBy });
+    let selectedLabel = intl.formatMessage(messages.ExportSelected, { groupBy, count });
     if (groupBy.indexOf(tagPrefix) !== -1) {
-      selectedLabel = intl.formatMessage(messages.ExportSelected, { groupBy: 'tag' });
+      selectedLabel = intl.formatMessage(messages.ExportSelected, { groupBy: 'tag', count });
     }
 
     const thisMonth = new Date();
     const lastMonth = new Date().setMonth(thisMonth.getMonth() - 1);
     const currentMonth = format(thisMonth, 'MMMM yyyy');
     const previousMonth = format(lastMonth - 1, 'MMMM yyyy');
+
+    const defaultName =
+      name !== undefined
+        ? name
+        : intl.formatMessage(messages.ExportName, {
+            provider: reportPathsType,
+            groupBy: groupBy.indexOf(tagPrefix) !== -1 ? 'tag' : groupBy,
+          });
+
+    const helpText = this.nameValidator(defaultName);
+    const validated = helpText ? 'error' : 'default';
 
     return (
       <Modal
@@ -141,6 +199,8 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
         variant="small"
         actions={[
           <ExportSubmit
+            disabled={validated === 'error'}
+            formatType={formatType}
             groupBy={groupBy}
             isAllItems={isAllItems}
             items={items}
@@ -148,6 +208,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             timeScope={showTimeScope ? timeScope : undefined}
             onClose={this.handleClose}
             onError={this.handleError}
+            name={defaultName}
             query={query}
             reportPathsType={reportPathsType}
             resolution={resolution}
@@ -164,60 +225,112 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       >
         {error && <Alert variant="danger" style={styles.alert} title={intl.formatMessage(messages.ExportError)} />}
         <div style={styles.title}>
-          <span>{intl.formatMessage(messages.ExportHeading, { groupBy })}</span>
+          {/* Todo: Show in-progress features in beta environment only */}
+          {isFeatureVisible(FeatureType.exports) ? (
+            <span>
+              {intl.formatMessage(messages.ExportDesc, { value: <b>{intl.formatMessage(messages.ExportsTitle)}</b> })}
+            </span>
+          ) : (
+            <span>{intl.formatMessage(messages.ExportHeading, { groupBy })}</span>
+          )}
         </div>
         <Form style={styles.form}>
-          {showAggregateType && (
-            <FormGroup label={intl.formatMessage(messages.ExportAggregateType)} fieldId="aggregate-type">
-              <React.Fragment>
-                {resolutionOptions.map((option, index) => (
-                  <Radio
-                    key={index}
-                    id={`resolution-${index}`}
-                    isValid={option.value !== undefined}
-                    label={intl.formatMessage(option.label, { value: option.value })}
-                    value={option.value}
-                    checked={resolution === option.value}
-                    name="resolution"
-                    onChange={this.handleResolutionChange}
-                    aria-label={intl.formatMessage(option.label, { value: option.value })}
+          <Grid hasGutter md={6}>
+            {/* Todo: Show in-progress features in beta environment only */}
+            {isFeatureVisible(FeatureType.exports) && (
+              <GridItem span={12}>
+                <FormGroup
+                  fieldId="exportName"
+                  helperTextInvalid={helpText ? intl.formatMessage(helpText) : undefined}
+                  label={intl.formatMessage(messages.Names, { count: 1 })}
+                  isRequired
+                  validated={validated}
+                >
+                  <TextInput
+                    isRequired
+                    type="text"
+                    id="exportName"
+                    name="exportName"
+                    value={defaultName}
+                    onChange={this.handleNameChange}
                   />
-                ))}
-              </React.Fragment>
-            </FormGroup>
-          )}
-          {showTimeScope && (
-            <FormGroup label={intl.formatMessage(messages.ExportTimeScopeTitle)} fieldId="timeScope">
-              <React.Fragment>
-                {timeScopeOptions.map((option, index) => (
-                  <Radio
-                    key={index}
-                    id={`timeScope-${index}`}
-                    isValid={option.value !== undefined}
-                    label={intl.formatMessage(option.label, {
-                      date: option.value === 'previous' ? previousMonth : currentMonth,
-                      value: option.value,
-                    })}
-                    value={option.value}
-                    checked={timeScope === option.value}
-                    name="timeScope"
-                    onChange={this.handleMonthChange}
-                    aria-label={intl.formatMessage(option.label, {
-                      date: option.value === 'previous' ? previousMonth : currentMonth,
-                      value: option.value,
-                    })}
-                  />
-                ))}
-              </React.Fragment>
-            </FormGroup>
-          )}
-          <FormGroup label={selectedLabel} fieldId="selected-labels">
-            <ul>
-              {sortedItems.map((groupItem, index) => {
-                return <li key={index}>{groupItem.label}</li>;
-              })}
-            </ul>
-          </FormGroup>
+                </FormGroup>
+              </GridItem>
+            )}
+            {showAggregateType && (
+              <FormGroup fieldId="aggregate-type" label={intl.formatMessage(messages.ExportAggregateType)} isRequired>
+                <React.Fragment>
+                  {resolutionOptions.map((option, index) => (
+                    <Radio
+                      key={index}
+                      id={`resolution-${index}`}
+                      isValid={option.value !== undefined}
+                      label={intl.formatMessage(option.label, { value: option.value })}
+                      value={option.value}
+                      checked={resolution === option.value}
+                      name="resolution"
+                      onChange={this.handleResolutionChange}
+                      aria-label={intl.formatMessage(option.label, { value: option.value })}
+                    />
+                  ))}
+                </React.Fragment>
+              </FormGroup>
+            )}
+            {showTimeScope && (
+              <FormGroup fieldId="timeScope" label={intl.formatMessage(messages.ExportTimeScopeTitle)} isRequired>
+                <React.Fragment>
+                  {timeScopeOptions.map((option, index) => (
+                    <Radio
+                      key={index}
+                      id={`timeScope-${index}`}
+                      isValid={option.value !== undefined}
+                      label={intl.formatMessage(option.label, {
+                        date: option.value === 'previous' ? previousMonth : currentMonth,
+                        value: option.value,
+                      })}
+                      value={option.value}
+                      checked={timeScope === option.value}
+                      name="timeScope"
+                      onChange={this.handleMonthChange}
+                      aria-label={intl.formatMessage(option.label, {
+                        date: option.value === 'previous' ? previousMonth : currentMonth,
+                        value: option.value,
+                      })}
+                    />
+                  ))}
+                </React.Fragment>
+              </FormGroup>
+            )}
+            {/* Todo: Show in-progress features in beta environment only */}
+            {showFormatType && isFeatureVisible(FeatureType.exports) && (
+              <GridItem span={12}>
+                <FormGroup fieldId="formatType" label={intl.formatMessage(messages.ExportFormatTypeTitle)} isRequired>
+                  {formatTypeOptions.map((option, index) => (
+                    <Radio
+                      key={index}
+                      id={`formatType-${index}`}
+                      isValid={option.value !== undefined}
+                      label={intl.formatMessage(option.label, { value: option.value })}
+                      value={option.value}
+                      checked={formatType === option.value}
+                      name="formatType"
+                      onChange={this.handleTypeChange}
+                      aria-label={intl.formatMessage(option.label, { value: option.value })}
+                    />
+                  ))}
+                </FormGroup>
+              </GridItem>
+            )}
+            <GridItem span={12}>
+              <FormGroup label={selectedLabel} fieldId="selectedLabels">
+                <ul>
+                  {sortedItems.map((groupItem, index) => {
+                    return <li key={index}>{groupItem.label}</li>;
+                  })}
+                </ul>
+              </FormGroup>
+            </GridItem>
+          </Grid>
         </Form>
       </Modal>
     );

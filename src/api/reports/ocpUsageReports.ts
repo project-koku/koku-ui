@@ -10,7 +10,6 @@ export interface OcpUsageReportItem extends ReportItem {
   capacity?: ReportValue;
   cluster?: string;
   clusters?: string[];
-  instance_type?: string;
   limit?: ReportValue;
   node?: string;
   project?: string;
@@ -25,10 +24,6 @@ export interface GroupByAccountData extends Omit<OcpUsageReportData, 'accounts'>
 
 export interface GroupByClusterData extends Omit<OcpUsageReportData, 'clusters'> {
   service: string;
-}
-
-export interface GroupByInstanceTypeData extends Omit<OcpUsageReportData, 'instance_types'> {
-  instance_type: string;
 }
 
 export interface GroupByNodeData extends Omit<OcpUsageReportData, 'nodes'> {
@@ -50,7 +45,6 @@ export interface GroupByServiceData extends Omit<OcpUsageReportData, 'services'>
 export interface OcpUsageReportData extends ReportData {
   accounts?: GroupByAccountData[];
   clusters?: GroupByClusterData[];
-  instance_types?: GroupByInstanceTypeData[];
   nodes?: GroupByNodeData[];
   projects?: GroupByProjectData[];
   regions?: GroupByRegionData[];

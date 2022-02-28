@@ -1,4 +1,4 @@
-import 'components/charts/common/charts-common.scss';
+import 'pages/views/components/charts/common/charts-common.scss';
 
 import { ChartBullet } from '@patternfly/react-charts';
 import { Grid, GridItem, Skeleton } from '@patternfly/react-core';
@@ -6,8 +6,8 @@ import { OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { getResizeObserver } from 'components/charts/common/chartUtils';
 import messages from 'locales/messages';
+import { getResizeObserver } from 'pages/views/components/charts/common/chartUtils';
 import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -85,7 +85,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   };
 
   private getChartDatum(): ChartDatum {
-    const { report, intl } = this.props;
+    const { groupBy, report, intl } = this.props;
     const datum: ChartDatum = {
       limit: {},
       ranges: [],
@@ -112,92 +112,27 @@ class UsageChartBase extends React.Component<UsageChartProps> {
       value: Math.trunc(limit),
     };
 
-    const hasRequest = hasTotal && report.meta.total.request && report.meta.total.request !== null;
-    const request = Math.trunc(hasRequest ? report.meta.total.request.value : 0);
-    const requestUnits = intl.formatMessage(messages.Units, {
-      units: unitsLookupKey(hasRequest ? report.meta.total.request.units : undefined),
-    });
-    datum.ranges = [
-      {
-        legend: intl.formatMessage(messages.DetailsUsageRequests, {
-          value: request,
-          units: requestUnits,
-        }),
-        tooltip: intl.formatMessage(messages.DetailsUsageRequests, {
-          value: request,
-          units: requestUnits,
-        }),
-        value: Math.trunc(request),
-      },
-    ];
-
-    const hasUsage = hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
-    const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
-    const usageUnits = intl.formatMessage(messages.Units, {
-      units: unitsLookupKey(hasUsage ? report.meta.total.usage.units : undefined),
-    });
-    datum.usage = [
-      {
-        legend: intl.formatMessage(messages.DetailsUsageUsage, {
-          value: usage,
-          units: usageUnits,
-        }),
-        tooltip: intl.formatMessage(messages.DetailsUsageUsage, {
-          value: usage,
-          units: usageUnits,
-        }),
-        value: Math.trunc(usage),
-      },
-    ];
-    return datum;
-  }
-
-  private getChartDatumWithCapacity(): ChartDatum {
-    const { report, intl } = this.props;
-    const datum: ChartDatum = {
-      limit: {},
-      ranges: [],
-      usage: [],
-    };
-
-    // Always show bullet chart legends https://github.com/project-koku/koku-ui/issues/963
-    const hasTotal = report && report.meta && report.meta.total;
-
-    const hasLimit = hasTotal && report.meta.total.limit && report.meta.total.limit !== null;
-    const limit = Math.trunc(hasLimit ? report.meta.total.limit.value : 0);
-    const limitUnits = intl.formatMessage(messages.Units, {
-      units: unitsLookupKey(hasLimit ? report.meta.total.limit.units : undefined),
-    });
-    datum.limit = {
-      legend: intl.formatMessage(messages.DetailsUsageLimit, {
-        value: limit,
-        units: limitUnits,
-      }),
-      tooltip: intl.formatMessage(messages.DetailsUsageLimit, {
-        value: limit,
-        units: limitUnits,
-      }),
-      value: Math.trunc(limit),
-    };
-
-    const hasCapacity = hasTotal && report.meta.total.request && report.meta.total.request !== null;
-    const capacity = Math.trunc(hasCapacity ? report.meta.total.capacity.value : 0);
-    const capacityUnits = intl.formatMessage(messages.Units, {
-      units: unitsLookupKey(hasCapacity ? report.meta.total.capacity.units : undefined),
-    });
-    datum.ranges = [
-      {
-        legend: intl.formatMessage(messages.DetailsUsageCapacity, {
-          value: capacity,
-          units: capacityUnits,
-        }),
-        tooltip: intl.formatMessage(messages.DetailsUsageCapacity, {
-          value: capacity,
-          units: capacityUnits,
-        }),
-        value: Math.trunc(capacity),
-      },
-    ];
+    // Qualitative range included only when grouped by cluster
+    if (groupBy === 'cluster') {
+      const hasCapacity = hasTotal && report.meta.total.request && report.meta.total.request !== null;
+      const capacity = Math.trunc(hasCapacity ? report.meta.total.capacity.value : 0);
+      const capacityUnits = intl.formatMessage(messages.Units, {
+        units: unitsLookupKey(hasCapacity ? report.meta.total.capacity.units : undefined),
+      });
+      datum.ranges = [
+        {
+          legend: intl.formatMessage(messages.DetailsUsageCapacity, {
+            value: capacity,
+            units: capacityUnits,
+          }),
+          tooltip: intl.formatMessage(messages.DetailsUsageCapacity, {
+            value: capacity,
+            units: capacityUnits,
+          }),
+          value: Math.trunc(capacity),
+        },
+      ];
+    }
 
     const hasRequest = hasTotal && report.meta.total.request && report.meta.total.request !== null;
     const hasUsage = hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
@@ -240,7 +175,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     const { groupBy, reportFetchStatus, report } = this.props;
     const { width } = this.state;
 
-    const chartDatum = groupBy === 'cluster' ? this.getChartDatumWithCapacity() : this.getChartDatum();
+    const chartDatum = this.getChartDatum();
 
     if (!report || chartDatum.usage.length === 0) {
       return null;

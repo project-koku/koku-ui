@@ -9,9 +9,6 @@ export function getIdKeyForGroupBy(groupBy: AzureQuery['group_by'] = {}): Comput
   if (groupBy.subscription_guid) {
     return 'subscription_guid';
   }
-  if (groupBy.instance_type) {
-    return 'instance_type';
-  }
   if (groupBy.resource_location) {
     return 'resource_location';
   }

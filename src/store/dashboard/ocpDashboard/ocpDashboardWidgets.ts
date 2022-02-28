@@ -1,12 +1,12 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import messages from 'locales/messages';
 import {
   ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'components/charts/common/chartDatumUtils';
-import messages from 'locales/messages';
+} from 'pages/views/components/charts/common/chartDatumUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
@@ -63,9 +63,7 @@ export const cpuWidget: OcpDashboardWidget = {
     titleKey: messages.OCPDailyUsageAndRequestComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   chartType: DashboardChartType.usage,
-  currentTab: OcpDashboardTab.projects,
 };
 
 export const memoryWidget: OcpDashboardWidget = {
@@ -85,9 +83,7 @@ export const memoryWidget: OcpDashboardWidget = {
     titleKey: messages.OCPDailyUsageAndRequestComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   chartType: DashboardChartType.usage,
-  currentTab: OcpDashboardTab.projects,
 };
 
 export const volumeWidget: OcpDashboardWidget = {
@@ -107,7 +103,5 @@ export const volumeWidget: OcpDashboardWidget = {
     titleKey: messages.OCPDailyUsageAndRequestComparison,
     type: ChartType.daily,
   },
-  // availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   chartType: DashboardChartType.usage,
-  currentTab: OcpDashboardTab.projects,
 };

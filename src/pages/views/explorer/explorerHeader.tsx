@@ -5,9 +5,9 @@ import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
-import { Currency } from 'components/currency';
-import { ExportLink } from 'components/export';
+import { ExportsLink } from 'components/exports';
 import messages from 'locales/messages';
+import { Currency } from 'pages/components/currency';
 import { CostType } from 'pages/views/components/costType';
 import { GroupBy } from 'pages/views/components/groupBy/groupBy';
 import { Perspective } from 'pages/views/components/perspective/perspective';
@@ -21,7 +21,7 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { getLast60DaysDate } from 'utils/dateRange';
-import { isBetaFeature } from 'utils/feature';
+import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { getCostType } from 'utils/localStorage';
 import {
   hasAwsAccess,
@@ -149,13 +149,14 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     if (hasGcp) {
       options.push(...infrastructureGcpOptions);
     }
-    if (isBetaFeature() && this.isGcpOcpAvailable()) {
+    if (isFeatureVisible(FeatureType.gcpOcp) && this.isGcpOcpAvailable()) {
       options.push(...infrastructureGcpOcpOptions);
     }
     if (hasIbm) {
       options.push(...infrastructureIbmOptions);
     }
-    if (isBetaFeature() && this.isIbmOcpAvailable()) {
+    // Todo: Show in-progress features in beta environment only
+    if (isFeatureVisible(FeatureType.ibm) && this.isIbmOcpAvailable()) {
       options.push(...infrastructureIbmOcpOptions);
     }
     if (hasAzure) {
@@ -295,8 +296,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
           </Title>
           <div style={styles.headerContentRight}>
             {/* Todo: Show in-progress features in beta environment only */}
-            {isBetaFeature() && <Currency />}
-            {isBetaFeature() && <ExportLink />}
+            {isFeatureVisible(FeatureType.currency) && <Currency />}
+            {isFeatureVisible(FeatureType.exports) && <ExportsLink />}
           </div>
         </div>
         <div style={styles.perspectiveContainer}>

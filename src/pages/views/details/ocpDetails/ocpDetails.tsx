@@ -194,6 +194,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     });
     return (
       <ExportModal
+        count={isAllSelected ? itemsTotal : items.length}
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
