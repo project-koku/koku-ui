@@ -16,7 +16,7 @@ import { ExportsTable } from './exportsTable';
 import { ExportsToolbar } from './exportsToolbar';
 
 interface ExportsContentOwnProps {
-  // TBD...
+  onClose();
 }
 
 interface ExportsContentStateProps {
@@ -83,13 +83,14 @@ class ExportsContentBase extends React.Component<ExportsContentProps> {
   };
 
   private getTable = () => {
-    const { report, reportFetchStatus } = this.props;
+    const { onClose, report, reportFetchStatus } = this.props;
     const { query } = this.state;
 
     return (
       <ExportsTable
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        onSort={this.handleSort}
+        onClose={onClose}
+        onSort={this.handleOnSort}
         query={query}
         report={report}
       />
@@ -111,6 +112,18 @@ class ExportsContentBase extends React.Component<ExportsContentProps> {
     const filteredQuery = removeQueryFilter(query, filterType, filterValue);
 
     this.setState({ query: filteredQuery }, () => {
+      // Fetch
+    });
+  };
+
+  private handleOnSort = (sortType: string, isSortAscending: boolean) => {
+    const { query } = this.state;
+
+    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
+    newQuery.order_by = {};
+    newQuery.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
+
+    this.setState({ query: newQuery }, () => {
       // Fetch
     });
   };
@@ -144,18 +157,6 @@ class ExportsContentBase extends React.Component<ExportsContentProps> {
       ...query.filter,
       offset,
     };
-
-    this.setState({ query: newQuery }, () => {
-      // Fetch
-    });
-  };
-
-  private handleSort = (sortType: string, isSortAscending: boolean) => {
-    const { query } = this.state;
-
-    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
-    newQuery.order_by = {};
-    newQuery.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
 
     this.setState({ query: newQuery }, () => {
       // Fetch

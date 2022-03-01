@@ -14291,6 +14291,12 @@
         "value": "Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed."
       }
     ],
+    "ExportsEmptyState": [
+      {
+        "type": 0,
+        "value": "To get started, close this view and select rows in the table you want to export and click the export button to start the journey."
+      }
+    ],
     "ExportsFailed": [
       {
         "type": 0,
@@ -18218,6 +18224,12 @@
       {
         "type": 0,
         "value": "Still processing the data"
+      }
+    ],
+    "NoExportsStateTitle": [
+      {
+        "type": 0,
+        "value": "There are no export files available"
       }
     ],
     "NoProvidersStateAwsDesc": [
