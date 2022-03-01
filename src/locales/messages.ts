@@ -1830,6 +1830,13 @@ export default defineMessages({
       'Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed.',
     id: 'ExportsDesc',
   },
+  ExportsEmptyState: {
+    defaultMessage:
+      'To get started, close this view and select rows in the table you want to export and click the export button to start the journey.',
+    description:
+      'To get started, close this view and select rows in the table you want to export and click the export button to start the journey.',
+    id: 'ExportsEmptyState',
+  },
   ExportsFailed: {
     defaultMessage: 'Could not create export file',
     description: 'Export failed',
@@ -2428,6 +2435,11 @@ export default defineMessages({
     defaultMessage: 'Still processing the data',
     description: 'Still processing the data',
     id: 'NoDataStateTitle',
+  },
+  NoExportsStateTitle: {
+    defaultMessage: 'There are no export files available',
+    description: 'There are no export files available',
+    id: 'NoExportsStateTitle',
   },
   NoProvidersStateAwsDesc: {
     defaultMessage:
