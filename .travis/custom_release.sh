@@ -2,7 +2,7 @@
 set -e
 set -x
 
-# If current dev branch is master, push to build repo stage-beta
+# If current dev branch is main, push to build repo stage-beta
 if [[ "${TRAVIS_BRANCH}" = "master" || "${TRAVIS_BRANCH}" = "main" ]]; then
   .travis/release.sh "stage-beta"
 fi
