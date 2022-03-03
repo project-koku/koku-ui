@@ -29,7 +29,7 @@ const {
 const gitRevisionPlugin = new GitRevisionPlugin({
   branch: true,
 });
-const betaBranches = ['main', 'stage-beta', 'prod-beta'];
+const betaBranches = ['master', 'main', 'stage-beta', 'prod-beta'];
 const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
 
 const localhost = process.env.PLATFORM === 'linux' ? 'localhost' : 'host.docker.internal';
