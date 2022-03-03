@@ -9,7 +9,7 @@ default()
   SCRIPT_DIR=`dirname $0`
   SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
 
-  MAIN_BRANCH="master"
+  MAIN_BRANCH="main"
   PROD_BETA_BRANCH="prod-beta"
   PROD_STABLE_BRANCH="prod-stable"
   STAGE_STABLE_BRANCH="stage-stable"

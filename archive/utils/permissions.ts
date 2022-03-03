@@ -1,4 +1,4 @@
-// For resource types, see https://github.com/project-koku/koku/blob/master/koku/koku/rbac.py#L37-L43
+// For resource types, see https://github.com/project-koku/koku/blob/main/koku/koku/rbac.py#L37-L43
 
 import { paths, routes } from 'routes';
 

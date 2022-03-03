@@ -148,7 +148,7 @@ http://localhost:1337/beta/settings/applications/cost-management
   * [Route](https://reacttraining.com/react-router/web/api/Route)
 * [React I18Next](https://react.i18next.com/) - React Wrapper for i18next
 * [PatternFly React 4](https://patternfly-react.netlify.com/)
-  * [Source](https://github.com/patternfly/patternfly-react/tree/master/packages) - `react-*/**`
+  * [Source](https://github.com/patternfly/patternfly-react/tree/main/packages) - `react-*/**`
   * [PRS](https://github.com/patternfly/patternfly-react/pulls?q=is%3Aopen+is%3Apr+label%3APF4)
   * [Issues](https://github.com/patternfly/patternfly-react/issues?q=is%3Aopen+is%3Aissue+label%3APF4)
 
@@ -188,7 +188,7 @@ http://localhost:1337/beta/settings/applications/cost-management
 [build-badge]: https://img.shields.io/travis/project-koku/koku-ui.svg?style=for-the-badge
 [koku-readme]: https://github.com/project-koku/koku#readme
 [license-badge]: https://img.shields.io/github/license/project-koku/koku-ui.svg?longCache=true&style=for-the-badge
-[license]: https://github.com/project-koku/koku-ui/blob/master/LICENSE
+[license]: https://github.com/project-koku/koku-ui/blob/main/LICENSE
 [nodejs]: https://nodejs.org/en/
 [pf-logo]: https://www.patternfly.org/v4/images/logo.4189e7eb1a0741ea2b3b51b80d33c4cb.svg
 [patternfly]: https://www.patternfly.org/
