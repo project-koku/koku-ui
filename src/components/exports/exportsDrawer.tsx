@@ -72,7 +72,7 @@ class ExportsDrawerBase extends React.Component<ExportsDrawerProps> {
           </DrawerActions>
         </DrawerHead>
         <DrawerContentBody>
-          <ExportsContent />
+          <ExportsContent onClose={this.handleClose} />
         </DrawerContentBody>
       </DrawerPanelContent>
     );

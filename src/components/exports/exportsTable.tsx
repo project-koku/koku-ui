@@ -8,11 +8,12 @@ import {
   Label,
   Popover,
   Spinner,
+  Title,
 } from '@patternfly/react-core';
-import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import { DownloadIcon } from '@patternfly/react-icons/dist/esm/icons/download-icon';
 import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
 import { OutlinedClockIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-clock-icon';
+import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { SyncIcon } from '@patternfly/react-icons/dist/esm/icons/sync-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader, TableVariant } from '@patternfly/react-table';
 import { getQuery, Query } from 'api/queries/query';
@@ -27,6 +28,7 @@ import { styles } from './exportsTable.styles';
 
 interface ExportsTableOwnProps {
   isLoading?: boolean;
+  onClose();
   onSort(value: string, isSortAscending: boolean);
   query: Query;
   report: Report;
@@ -153,7 +155,7 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
   };
 
   private getEmptyState = () => {
-    const { query, intl } = this.props;
+    const { onClose, query, intl } = this.props;
 
     if (query.filter_by) {
       for (const val of Object.values(query.filter_by)) {
@@ -165,8 +167,14 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
 
     return (
       <EmptyState>
-        <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{intl.formatMessage(messages.DetailsEmptyState)}</EmptyStateBody>
+        <EmptyStateIcon icon={PlusCircleIcon} />
+        <Title headingLevel="h5" size="lg">
+          {intl.formatMessage(messages.NoExportsStateTitle)}
+        </Title>
+        <EmptyStateBody>{intl.formatMessage(messages.ExportsEmptyState)}</EmptyStateBody>
+        <Button variant="primary" onClick={onClose}>
+          {intl.formatMessage(messages.Close)}
+        </Button>
       </EmptyState>
     );
   };
