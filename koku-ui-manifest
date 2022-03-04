@@ -126,8 +126,8 @@ mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-notif
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-translations:3.2.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.8.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.8.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.8.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components:3.7.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.10.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components:3.7.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/rbac-client:1.0.104.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@restart/hooks:0.4.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@restart/hooks:0.4.5.yarnlock
