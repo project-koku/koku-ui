@@ -773,10 +773,10 @@
   dependencies:
     "@babel/runtime" "^7.6.2"
 
-"@redhat-cloud-services/frontend-components-config-utilities@^1.5.11":
-  version "1.5.11"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config-utilities/-/frontend-components-config-utilities-1.5.11.tgz#342b17e8a8fd0b3bd49087053e7f747c1eef6383"
-  integrity sha512-8fjp5l0/RiPWwHLldZnHM8ARrVYP/iYk8XscmE6YhNgDFG9C+Up0pJWXGsV3YeWwppwqR/NtGvdMufoEhy7e7Q==
+"@redhat-cloud-services/frontend-components-config-utilities@^1.5.15":
+  version "1.5.15"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config-utilities/-/frontend-components-config-utilities-1.5.15.tgz#6d8d6cc903f65fed38a114d477cdac54c3902345"
+  integrity sha512-Sbfn2eIK51BdMef+2njasQRvvMZIZLbiiSgUnlEF0asuc3zh1DRHL6tRDKF5b0MqnlBA1Egc4RF+WRalDCkR0Q==
 
 "@redhat-cloud-services/frontend-components-notifications@^3.2.5":
   version "3.2.5"
