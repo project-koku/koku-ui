@@ -121,7 +121,7 @@ mgmt_services/cost-mgmt:koku-ui/@patternfly/react-table:4.67.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@patternfly/react-tokens:4.50.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@popperjs/core:2.11.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@react-aria/ssr:3.1.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-config-utilities:1.5.11.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-config-utilities:1.5.15.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-notifications:3.2.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-translations:3.2.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.8.yarnlock

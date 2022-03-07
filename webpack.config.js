@@ -216,17 +216,6 @@ module.exports = (_env, argv) => {
       // !isProduction && new webpack.HotModuleReplacementPlugin(),
       // production plugins
     ].filter(Boolean),
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          commons: {
-            test: /[\\/]node_modules[\\/](react|react-dom|redux|@patternfly*)[\\/]/,
-            name: 'vendor',
-            chunks: 'all',
-          },
-        },
-      },
-    },
     performance: {
       assetFilter: assetFilename => !(fileRegEx.test(assetFilename) || /\.map$/.test(assetFilename)),
     },
