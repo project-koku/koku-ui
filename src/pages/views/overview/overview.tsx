@@ -52,7 +52,6 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { FeatureType, isFeatureVisible } from 'utils/feature';
-import { getCostType } from 'utils/localStorage';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -513,7 +512,6 @@ class OverviewBase extends React.Component<OverviewProps> {
         const newQuery = {
           ...JSON.parse(JSON.stringify(query)),
           perspective: value,
-          ...(value === InfrastructurePerspective.aws && { cost_type: getCostType() }),
         };
         history.replace(this.getRouteForQuery(newQuery));
       }

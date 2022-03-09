@@ -22,7 +22,6 @@ import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { getLast60DaysDate } from 'utils/dateRange';
 import { FeatureType, isFeatureVisible } from 'utils/feature';
-import { getCostType } from 'utils/localStorage';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -185,7 +184,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       group_by: { [getGroupByDefault(value)]: '*' },
       order_by: undefined, // Clear sort
       perspective: value,
-      ...(value === PerspectiveType.aws && { cost_type: getCostType() }),
     };
     this.setState({ currentPerspective: value }, () => {
       if (onPerspectiveClicked) {

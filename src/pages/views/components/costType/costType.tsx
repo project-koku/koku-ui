@@ -7,7 +7,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { CostTypes, getCostType, invalidateCostType, setCostType } from 'utils/localStorage';
+import { CostTypes, getCostType, invalidateSession, restoreCostType, setCostType } from 'utils/localStorage';
 
 import { styles } from './costType.styles';
 
@@ -55,6 +55,9 @@ class CostTypeBase extends React.Component<CostTypeProps> {
   private getSelect = () => {
     const { isDisabled } = this.props;
     const { isSelectOpen } = this.state;
+
+    // Restore from query param if available
+    restoreCostType();
 
     const costType = getCostType(); // Get cost type from local storage
     const selectOptions = this.getSelectOptions();
@@ -118,7 +121,7 @@ class CostTypeBase extends React.Component<CostTypeProps> {
     const { intl } = this.props;
 
     // Clear local storage value if current session is not valid
-    invalidateCostType();
+    invalidateSession();
 
     return (
       <div style={styles.costSelector}>

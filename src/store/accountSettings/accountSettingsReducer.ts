@@ -4,8 +4,7 @@ import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
 import { ActionType, getType } from 'typesafe-actions';
 import {
-  invalidateCostType,
-  invalidateCurrency,
+  invalidateSession,
   isCostTypeAvailable,
   isCurrencyAvailable,
   setAccountCurrency,
@@ -75,7 +74,7 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
 // Initialize cost type in local storage
 function initCostType(value: string) {
   // Clear local storage value if current session is not valid
-  invalidateCostType();
+  invalidateSession();
 
   if (!isCostTypeAvailable()) {
     setCostType(value);
@@ -85,7 +84,7 @@ function initCostType(value: string) {
 // Initialize currency in local storage
 function initCurrency(value: string) {
   // Clear local storage value if current session is not valid
-  invalidateCurrency();
+  invalidateSession();
 
   if (!isCurrencyAvailable()) {
     setCurrency(value);
