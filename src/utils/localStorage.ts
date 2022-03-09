@@ -27,6 +27,20 @@ export const getSessionToken = () => {
   return localStorage.getItem(sessionTokenID);
 };
 
+// Invalidates session if not valid and restores query param values
+export const invalidateSession = () => {
+  if (!isSessionValid()) {
+    deleteSessionToken();
+
+    // Delete cost type
+    deleteCostType();
+
+    // Delete currency
+    deleteAccountCurrency();
+    deleteCurrency();
+  }
+};
+
 // Returns true if session is valid
 export const isSessionValid = () => {
   return getSessionToken() === getPartialTokenCookie();
@@ -59,27 +73,17 @@ export const getCostType = () => {
   return costType && costType !== null ? costType : CostTypes.unblended;
 };
 
-// Invalidates cost type if current session is not valid
-export const invalidateCostType = () => {
-  if (!isSessionValid()) {
-    deleteSessionToken();
-    deleteCostType();
-    restoreCostType(); // Restore from query param
-  }
-};
-
 // Returns true if cost type is available
 export const isCostTypeAvailable = () => {
   const costType = localStorage.getItem(costTypeID);
   return costType && costType !== null;
 };
 
-// Restore cost type upon page refresh if query param is available
+// Restore cost type from query param if available
 export const restoreCostType = () => {
-  const costType = localStorage.getItem(costTypeID);
   const queryFromRoute = parseQuery<Query>(location.search);
 
-  if (queryFromRoute.cost_type && costType === null) {
+  if (queryFromRoute.cost_type) {
     setCostType(queryFromRoute.cost_type);
   }
 };
@@ -116,19 +120,19 @@ export const getCurrency = () => {
   return units ? units : 'USD';
 };
 
-// Invalidates currency if current session is not valid
-export const invalidateCurrency = () => {
-  if (!isSessionValid()) {
-    deleteAccountCurrency();
-    deleteSessionToken();
-    deleteCurrency();
-  }
-};
-
 // Returns true if currency is available
 export const isCurrencyAvailable = () => {
   const currency = localStorage.getItem(currencyID);
   return currency && currency !== null;
+};
+
+// Restore currency from query param if available
+export const restoreCurrency = () => {
+  const queryFromRoute = parseQuery<Query>(location.search);
+
+  if (queryFromRoute.currency) {
+    setCurrency(queryFromRoute.currency);
+  }
 };
 
 // Set account currency

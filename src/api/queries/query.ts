@@ -23,6 +23,7 @@ export interface Filters {
 
 export interface Query {
   cost_type?: any;
+  currency?: any;
   dateRange?: any;
   end_date?: any;
   filter?: any;
