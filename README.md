@@ -26,8 +26,9 @@ sudo bash scripts/patch-etc-hosts.sh
 
 ## Getting Started
 1. Install requirements listed above.
-2. Clone the repository, and open a terminal in the base of this project.
-3. Run the command `yarn install` to install all the dependencies.
+2. Setup /etc/hosts entries listed above. 
+3. Clone the repository, and open a terminal in the base of this project.
+4. Run the command `yarn install` to install all the dependencies.
 
 ## Building
 ```
