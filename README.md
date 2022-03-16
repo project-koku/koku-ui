@@ -11,6 +11,19 @@ To submit an issue, please visit https://issues.redhat.com/projects/COST/
 * [NodeJS v14+][nodejs]
 * [yarn 1.22+][yarn]
 
+## Setup /etc/hosts entries (do this once)
+
+Edit the /etc/hosts file and add the following entries
+```
+127.0.0.1 prod.foo.redhat.com
+127.0.0.1 stage.foo.redhat.com
+```
+
+Alternatively, run the [patch-etc-hosts.sh][patch-etc-hosts] script from the insights-proxy repo
+```
+sudo bash scripts/patch-etc-hosts.sh
+```
+
 ## Getting Started
 1. Install requirements listed above.
 2. Clone the repository, and open a terminal in the base of this project.
@@ -190,6 +203,7 @@ http://localhost:1337/beta/settings/applications/cost-management
 [license-badge]: https://img.shields.io/github/license/project-koku/koku-ui.svg?longCache=true&style=for-the-badge
 [license]: https://github.com/project-koku/koku-ui/blob/main/LICENSE
 [nodejs]: https://nodejs.org/en/
+[patch-etc-hosts]: https://github.com/RedHatInsights/insights-proxy/blob/master/scripts/patch-etc-hosts.sh
 [pf-logo]: https://www.patternfly.org/v4/images/logo.4189e7eb1a0741ea2b3b51b80d33c4cb.svg
 [patternfly]: https://www.patternfly.org/
 [yarn]: https://yarnpkg.com/en/
