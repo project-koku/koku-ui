@@ -1,17 +1,20 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { FormGroup, FormGroupProps, FormSelect, FormSelectOption, FormSelectProps } from '@patternfly/react-core';
+import { FormGroup, FormGroupProps, FormSelect, FormSelectOption, FormSelectProps, Select, SelectVariant, SelectOption } from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
-import React from 'react';
+import React, { useState } from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 interface SelectorFormGroupOwnProps {
   helperTextInvalid?: MessageDescriptor | string;
   isInvalid?: boolean;
   label?: MessageDescriptor | string;
+  usesSelectComponent?: boolean;
+  placeholder?: string;
   options: {
     isDisabled?: boolean;
     label: MessageDescriptor | string;
     value: any;
+    description?: string;
   }[];
 }
 
@@ -35,11 +38,15 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
   isInvalid = false,
   isRequired = false,
   label,
+  usesSelectComponent = false,
   onChange,
   options,
   style,
   value,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selection, setSelection] = useState(null);
+  console.log("options", options);
   return (
     <FormGroup
       isRequired={isRequired}
@@ -49,7 +56,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
       helperTextInvalid={helpText !== null && typeof helpText === 'object' ? intl.formatMessage(helpText) : helpText}
       validated={isInvalid ? 'error' : 'default'}
     >
-      <FormSelect
+      {!usesSelectComponent && <FormSelect
         isRequired={isRequired}
         isDisabled={isDisabled}
         value={value}
@@ -66,7 +73,29 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
             isDisabled={opt.isDisabled}
           />
         ))}
-      </FormSelect>
+      </FormSelect>}
+      {usesSelectComponent && <Select
+        variant={SelectVariant.single}
+        aria-label={ariaLabel}
+        isOpen={isOpen}
+        onToggle={() => setIsOpen(!isOpen)}
+        onSelect={(e, sel) => {
+          setSelection(sel);
+          onChange(sel.toString(), null);
+          setIsOpen(false);
+        }}
+        selections={selection}
+      >
+        {options.map(opt => (
+          <SelectOption
+            key={`${opt.value}`}
+            value={typeof opt.label === 'object' ? intl.formatMessage(opt.label) : opt.label}
+            description={opt.description}
+            isDisabled={opt.isDisabled}
+            isPlaceholder={false}
+          />
+        ))}    
+      </Select>}
     </FormGroup>
   );
 };

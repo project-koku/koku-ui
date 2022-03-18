@@ -63,6 +63,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
     return label ? label : m;
   };
   const getMeasurementLabel = (m, u) => {
+    console.log("get label", {m, u})
     // Match message descriptor or default to API string
     const _units = u.replace(/-/g, '_').toLowerCase();
     const units = intl.formatMessage(messages.Units, { units: unitsLookupKey(_units) });
@@ -73,6 +74,19 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
     });
     return label ? label : m;
   };
+  const getMeasurementDescription = (o, u) => {
+    console.log("get desc", o, u);
+    const key = (o === "Count" ? o + u : o).toLowerCase();
+    return {
+      usage: "The pod resources used, as reported by OpenShift",
+      request: "The pod resources requested, as reported by OpenShift",
+      'effective-usage': "The greater of usage and request each hour",
+      'countnode-month': "The distinct number of nodes identified during the month",
+      'countcluster-month': "The distinct number of clusters identified during the month",
+      'countpvc-month': "The distinct number of volume claims identified during the month",
+    } [key] || "";
+
+  }
   const metricOptions = React.useMemo(() => {
     return Object.keys(metricsHash);
   }, [metricsHash]);
@@ -133,6 +147,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
               style={style}
               id="measurement"
               label={messages.Measurement}
+              usesSelectComponent
               value={measurement}
               onChange={setMeasurement}
               options={[
@@ -142,10 +157,12 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
                   isDisabled: true,
                 },
                 ...measurementOptions.map(opt => {
+                  const unit =  metricsHash[metric][opt].label_measurement_unit;
                   return {
-                    label: getMeasurementLabel(opt, metricsHash[metric][opt].label_measurement_unit),
+                    label: getMeasurementLabel(opt, unit),
                     value: opt,
                     isDisabled: false,
+                    description: getMeasurementDescription(opt, unit)
                   };
                 }),
               ]}
