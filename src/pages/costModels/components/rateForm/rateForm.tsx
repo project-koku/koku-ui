@@ -63,7 +63,6 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
     return label ? label : m;
   };
   const getMeasurementLabel = (m, u) => {
-    console.log("get label", {m, u})
     // Match message descriptor or default to API string
     const _units = u.replace(/-/g, '_').toLowerCase();
     const units = intl.formatMessage(messages.Units, { units: unitsLookupKey(_units) });
@@ -75,7 +74,6 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
     return label ? label : m;
   };
   const getMeasurementDescription = (o, u) => {
-    console.log("get desc", o, u);
     const key = (o === "Count" ? o + u : o).toLowerCase();
     return {
       usage: "The pod resources used, as reported by OpenShift",

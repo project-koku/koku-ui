@@ -1,7 +1,7 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { FormGroup, FormGroupProps, FormSelect, FormSelectOption, FormSelectProps, Select, SelectVariant, SelectOption } from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 interface SelectorFormGroupOwnProps {
@@ -46,7 +46,20 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selection, setSelection] = useState(null);
-  console.log("options", options);
+  useEffect(() => {
+    if(!usesSelectComponent || selection === null || options.some(o => formatLabel(o) === selection)) {
+      return;
+    }
+    setSelection(null);
+    onChange(null, null);
+  }, [options]);
+
+  const formatLabel = (opt: any) => 
+    typeof opt.label === 'object' ? intl.formatMessage(opt.label) : opt.label;
+
+  const getOptionValueFromLabel = (label: string) => 
+    options.find(o => label === formatLabel(o))?.value;
+
   return (
     <FormGroup
       isRequired={isRequired}
@@ -69,7 +82,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
           <FormSelectOption
             key={`${opt.value}`}
             value={opt.value}
-            label={typeof opt.label === 'object' ? intl.formatMessage(opt.label) : opt.label}
+            label={formatLabel(opt)}
             isDisabled={opt.isDisabled}
           />
         ))}
@@ -81,7 +94,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
         onToggle={() => setIsOpen(!isOpen)}
         onSelect={(e, sel) => {
           setSelection(sel);
-          onChange(sel.toString(), null);
+          onChange(getOptionValueFromLabel(sel.toString()), null);
           setIsOpen(false);
         }}
         selections={selection}
@@ -89,7 +102,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
         {options.map(opt => (
           <SelectOption
             key={`${opt.value}`}
-            value={typeof opt.label === 'object' ? intl.formatMessage(opt.label) : opt.label}
+            value={formatLabel(opt)}
             description={opt.description}
             isDisabled={opt.isDisabled}
             isPlaceholder={false}
