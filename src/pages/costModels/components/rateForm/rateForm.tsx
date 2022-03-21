@@ -119,6 +119,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
             id="metric"
             label={messages.Metric}
             value={metric}
+            usesSelectComponent
             onChange={setMetric}
             options={[
               {
