@@ -74,16 +74,13 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
     return label ? label : m;
   };
   const getMeasurementDescription = (o, u) => {
-    const key = (o === "Count" ? o + u : o).toLowerCase();
-    return {
-      usage: "The pod resources used, as reported by OpenShift",
-      request: "The pod resources requested, as reported by OpenShift",
-      'effective-usage': "The greater of usage and request each hour",
-      'countnode-month': "The distinct number of nodes identified during the month",
-      'countcluster-month': "The distinct number of clusters identified during the month",
-      'countpvc-month': "The distinct number of volume claims identified during the month",
-    } [key] || "";
-
+    // Match message descriptor or default to API string
+    const units = u.toLowerCase().replace('-', '_');
+    const desc = intl.formatMessage(messages.MeasurementValuesDesc, {
+      value: o.toLowerCase().replace('-', '_'),
+      units: units ? units : u,
+    });
+    return desc ? desc: o;
   }
   const metricOptions = React.useMemo(() => {
     return Object.keys(metricsHash);

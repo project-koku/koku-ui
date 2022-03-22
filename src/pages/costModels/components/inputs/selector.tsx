@@ -1,5 +1,5 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { FormGroup, FormGroupProps, FormSelect, FormSelectOption, FormSelectProps, Select, SelectVariant, SelectOption } from '@patternfly/react-core';
+import { FormGroup, FormGroupProps, FormSelectProps, Select, SelectVariant, SelectOption } from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
 import React, { useEffect, useState } from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -38,7 +38,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
   isInvalid = false,
   isRequired = false,
   label,
-  usesSelectComponent = false,
+  usesSelectComponent = false, //TODO: only use this
   onChange,
   options,
   style,
@@ -47,7 +47,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [selection, setSelection] = useState(null);
   useEffect(() => {
-    if(!usesSelectComponent || selection === null || options.some(o => formatLabel(o) === selection)) {
+    if(!usesSelectComponent || selection === null || options.some(o => formatLabel(o) === selection)) { //TODO: move to rateForm
       return;
     }
     setSelection(null);
@@ -69,7 +69,8 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
       helperTextInvalid={helpText !== null && typeof helpText === 'object' ? intl.formatMessage(helpText) : helpText}
       validated={isInvalid ? 'error' : 'default'}
     >
-      {!usesSelectComponent && <FormSelect
+      {/*  TODO: remove all uses */}
+      {/* {!usesSelectComponent && <FormSelect
         isRequired={isRequired}
         isDisabled={isDisabled}
         value={value}
@@ -86,15 +87,15 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
             isDisabled={opt.isDisabled}
           />
         ))}
-      </FormSelect>}
-      {usesSelectComponent && <Select
+      </FormSelect>} */}
+      {<Select
         variant={SelectVariant.single}
         aria-label={ariaLabel}
         isOpen={isOpen}
         onToggle={() => setIsOpen(!isOpen)}
         onSelect={(e, sel) => {
           setSelection(sel);
-          onChange(getOptionValueFromLabel(sel.toString()), null);
+          onChange(getOptionValueFromLabel(sel.toString()), null); // TODO: selectOptionObject
           setIsOpen(false);
         }}
         selections={selection}
