@@ -1,5 +1,13 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { FormGroup, FormGroupProps, FormSelectProps, Select, SelectVariant, SelectOption } from '@patternfly/react-core';
+import {
+  FormGroup,
+  FormGroupProps,
+  FormSelectProps,
+  Select,
+  SelectOption,
+  SelectOptionObject,
+  SelectVariant,
+} from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
 import React, { useEffect, useState } from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -8,13 +16,18 @@ interface SelectorFormGroupOwnProps {
   helperTextInvalid?: MessageDescriptor | string;
   isInvalid?: boolean;
   label?: MessageDescriptor | string;
-  placeholder?: string;
+  placeholderText?: string;
   options: {
-    isDisabled?: boolean;
     label: MessageDescriptor | string;
     value: any;
     description?: string;
   }[];
+}
+
+interface SelectorOption extends SelectOptionObject {
+  toString(): string; // label
+  value?: string;
+  description?: string;
 }
 
 type SelectorFormGroupProps = Pick<FormGroupProps, 'style'>;
@@ -33,30 +46,33 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
   helperTextInvalid: helpText,
   id,
   intl = defaultIntl, // Default required for testing
-  isDisabled = false,
+  placeholderText,
   isInvalid = false,
   isRequired = false,
   label,
+  value,
   onChange,
   options,
   style,
-  value,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selection, setSelection] = useState(null);
+
   useEffect(() => {
-    if(selection === null || options.some(o => formatLabel(o) === selection)) { //TODO: move to rateForm
-      return;
+    if (!value) {
+      setSelection(null);
     }
-    setSelection(null);
-    onChange(null, null);
-  }, [options]);
+  }, [value]);
 
-  const formatLabel = (opt: any) => 
-    typeof opt.label === 'object' ? intl.formatMessage(opt.label) : opt.label;
-
-  const getOptionValueFromLabel = (label: string) => 
-    options.find(o => label === formatLabel(o))?.value;
+  const getSelectorOptions = (): SelectorOption[] => {
+    return options.map(option => {
+      return {
+        toString: () => (typeof option.label === 'object' ? intl.formatMessage(option.label) : option.label),
+        value: option.value,
+        description: option.description,
+      } as SelectorOption;
+    });
+  };
 
   return (
     <FormGroup
@@ -69,25 +85,21 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
     >
       <Select
         variant={SelectVariant.single}
+        placeholderText={placeholderText}
         aria-label={ariaLabel}
+        menuAppendTo={() => document.body}
         isOpen={isOpen}
         onToggle={() => setIsOpen(!isOpen)}
-        onSelect={(e, sel) => {
+        onSelect={(e, sel: SelectorOption) => {
           setSelection(sel);
-          onChange(getOptionValueFromLabel(sel.toString()), null); // TODO: selectOptionObject
+          onChange(sel.value, null);
           setIsOpen(false);
         }}
         selections={selection}
       >
-        {options.map(opt => (
-          <SelectOption
-            key={`${opt.value}`}
-            value={formatLabel(opt)}
-            description={opt.description}
-            isDisabled={opt.isDisabled}
-            isPlaceholder={false}
-          />
-        ))}    
+        {getSelectorOptions().map(opt => (
+          <SelectOption key={`${opt.value}`} value={opt} description={opt.description} />
+        ))}
       </Select>
     </FormGroup>
   );

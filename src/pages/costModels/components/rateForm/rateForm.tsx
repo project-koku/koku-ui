@@ -80,8 +80,8 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
       value: o.toLowerCase().replace('-', '_'),
       units: units ? units : u,
     });
-    return desc ? desc: o;
-  }
+    return desc ? desc : o;
+  };
   const metricOptions = React.useMemo(() => {
     return Object.keys(metricsHash);
   }, [metricsHash]);
@@ -96,6 +96,10 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
     paddingLeft: '0',
     textAlign: 'left',
   } as React.CSSProperties;
+
+  const resetMeasurement = () => {
+    setMeasurement(null);
+  };
 
   return (
     <>
@@ -116,7 +120,10 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
             id="metric"
             label={messages.Metric}
             value={metric}
-            onChange={setMetric}
+            onChange={val => {
+              resetMeasurement();
+              setMetric(val);
+            }}
             options={[
               {
                 label: messages.Select,
@@ -144,19 +151,15 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
               label={messages.Measurement}
               value={measurement}
               onChange={setMeasurement}
+              placeholderText="Select..."
               options={[
-                {
-                  label: messages.Select,
-                  value: '',
-                  isDisabled: true,
-                },
                 ...measurementOptions.map(opt => {
-                  const unit =  metricsHash[metric][opt].label_measurement_unit;
+                  const unit = metricsHash[metric][opt].label_measurement_unit;
                   return {
                     label: getMeasurementLabel(opt, unit),
                     value: opt,
                     isDisabled: false,
-                    description: getMeasurementDescription(opt, unit)
+                    description: getMeasurementDescription(opt, unit),
                   };
                 }),
               ]}

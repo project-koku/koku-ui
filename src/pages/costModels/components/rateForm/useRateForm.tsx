@@ -294,11 +294,11 @@ export function useRateData(metricsHash: MetricHash, rate: Rate = undefined, tie
         value,
         defaultCalculation: getDefaultCalculation(metricsHash, value),
       }),
-    setMeasurement: (value: string) => { console.log("setMeasurement", value);
+    setMeasurement: (value: string) =>
       dispatch({
         type: 'UPDATE_MEASUREMENT',
         value,
-      })},
+      }),
     setCalculation: (value: string) => dispatch({ type: 'UPDATE_CALCULATION', value }),
     setRegular: (value: string) => dispatch({ type: 'UPDATE_REGULAR', value }),
     toggleTaggingRate: () => dispatch({ type: 'TOGGLE_RATE_KIND' }),
