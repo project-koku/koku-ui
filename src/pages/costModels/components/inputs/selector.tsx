@@ -8,7 +8,6 @@ interface SelectorFormGroupOwnProps {
   helperTextInvalid?: MessageDescriptor | string;
   isInvalid?: boolean;
   label?: MessageDescriptor | string;
-  usesSelectComponent?: boolean;
   placeholder?: string;
   options: {
     isDisabled?: boolean;
@@ -38,7 +37,6 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
   isInvalid = false,
   isRequired = false,
   label,
-  usesSelectComponent = false, //TODO: only use this
   onChange,
   options,
   style,
@@ -47,7 +45,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [selection, setSelection] = useState(null);
   useEffect(() => {
-    if(!usesSelectComponent || selection === null || options.some(o => formatLabel(o) === selection)) { //TODO: move to rateForm
+    if(selection === null || options.some(o => formatLabel(o) === selection)) { //TODO: move to rateForm
       return;
     }
     setSelection(null);
@@ -69,26 +67,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
       helperTextInvalid={helpText !== null && typeof helpText === 'object' ? intl.formatMessage(helpText) : helpText}
       validated={isInvalid ? 'error' : 'default'}
     >
-      {/*  TODO: remove all uses */}
-      {/* {!usesSelectComponent && <FormSelect
-        isRequired={isRequired}
-        isDisabled={isDisabled}
-        value={value}
-        onChange={onChange}
-        aria-label={ariaLabel}
-        id={id}
-        validated={isInvalid ? 'error' : 'default'}
-      >
-        {options.map(opt => (
-          <FormSelectOption
-            key={`${opt.value}`}
-            value={opt.value}
-            label={formatLabel(opt)}
-            isDisabled={opt.isDisabled}
-          />
-        ))}
-      </FormSelect>} */}
-      {<Select
+      <Select
         variant={SelectVariant.single}
         aria-label={ariaLabel}
         isOpen={isOpen}
@@ -109,7 +88,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
             isPlaceholder={false}
           />
         ))}    
-      </Select>}
+      </Select>
     </FormGroup>
   );
 };
