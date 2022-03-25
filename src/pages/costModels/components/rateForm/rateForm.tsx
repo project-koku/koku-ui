@@ -75,6 +75,8 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
   };
   const getMeasurementDescription = (o, u) => {
     // Match message descriptor or default to API string
+    // units only works with Node, Cluster, and PVC. it does not need to be translated
+    // if the metric is CPU, Memory, or Storage, units will be like `core_hours` or `gb_hours` and must be translated
     const units = u.toLowerCase().replace('-', '_');
     const desc = intl.formatMessage(messages.MeasurementValuesDesc, {
       value: o.toLowerCase().replace('-', '_'),
@@ -97,10 +99,6 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
     textAlign: 'left',
   } as React.CSSProperties;
 
-  const resetMeasurement = () => {
-    setMeasurement(null);
-  };
-
   return (
     <>
       <SimpleInput
@@ -121,7 +119,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
             label={messages.Metric}
             value={metric}
             onChange={val => {
-              resetMeasurement();
+              setMeasurement(undefined);
               setMetric(val);
             }}
             options={[

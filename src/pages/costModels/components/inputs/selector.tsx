@@ -87,6 +87,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
         variant={SelectVariant.single}
         placeholderText={placeholderText}
         aria-label={ariaLabel}
+        id="xxx"
         menuAppendTo={() => document.body}
         isOpen={isOpen}
         onToggle={() => setIsOpen(!isOpen)}
