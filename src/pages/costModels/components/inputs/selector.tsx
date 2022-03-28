@@ -61,17 +61,22 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
   useEffect(() => {
     if (!value) {
       setSelection(null);
+    } else {
+      setSelection(value);
     }
   }, [value]);
 
   const getSelectorOptions = (): SelectorOption[] => {
-    return options.map(option => {
+    // console.log("getSelectorOptions", {options})
+    const ret = options.map(option => {
       return {
         toString: () => (typeof option.label === 'object' ? intl.formatMessage(option.label) : option.label),
         value: option.value,
         description: option.description,
       } as SelectorOption;
     });
+    // console.log("options", ret);
+    return ret;
   };
 
   return (
@@ -84,10 +89,10 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
       validated={isInvalid ? 'error' : 'default'}
     >
       <Select
+        id={id}
         variant={SelectVariant.single}
         placeholderText={placeholderText}
         aria-label={ariaLabel}
-        id="xxx"
         menuAppendTo={() => document.body}
         isOpen={isOpen}
         onToggle={() => setIsOpen(!isOpen)}

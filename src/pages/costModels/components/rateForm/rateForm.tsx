@@ -100,7 +100,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
   } as React.CSSProperties;
 
   return (
-    <>
+    <> <h1 id="rateFormInfo">rateform measurement=({measurement}), metric=({metric})</h1>
       <SimpleInput
         style={style}
         id="description"
@@ -117,17 +117,13 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
             style={style}
             id="metric"
             label={messages.Metric}
+            placeholderText="Select..."
             value={metric}
             onChange={val => {
               setMeasurement(undefined);
               setMetric(val);
             }}
             options={[
-              {
-                label: messages.Select,
-                value: '',
-                isDisabled: true,
-              },
               ...metricOptions.map(opt => {
                 return {
                   label: getMetricLabel(opt),

@@ -1,8 +1,10 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Rate } from 'api/rates';
 import messages from 'locales/messages';
 import { CostModelContext, defaultCostModelContext } from 'pages/costModels/createCostModelWizard/context';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
+
 
 import AddPriceList from './addPriceList';
 
@@ -56,8 +58,8 @@ const metricsHash = {
 };
 
 const qr = {
-  metric: '#metric',
-  measurement: '#measurement',
+  metric: '.pf-l-grid .pf-l-grid__item:first-child .pf-c-select__toggle',
+  measurement: '.pf-l-grid .pf-l-grid__item:last-child .pf-c-select__toggle',
   description: '#description',
   infraradio: /infrastructure/i,
   supplradio: /supplementary/i,
@@ -113,27 +115,49 @@ function regExp(msg) {
 }
 
 describe('add-a-new-rate', () => {
-  test('regular rate', () => {
+  test('regular rate', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
-    const { container, getByLabelText, getByText } = render(<RenderFormDataUI submit={submit} cancel={cancel} />);
+    const { container, getByLabelText, getByText, getByRole, getAllByRole } = render(<RenderFormDataUI submit={submit} cancel={cancel} />);
+
     fireEvent.change(container.querySelector(qr.description), { target: { value: 'regular rate test' } });
-    fireEvent.change(container.querySelector(qr.metric), { target: { value: 'CPU' } });
-    fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Usage' } });
+
+    //select first option for metric
+    await waitFor(() => {
+      userEvent.click(getAllByRole('button')[0]);
+    });
+    expect(getAllByRole('option').length).toBe(3);
+    userEvent.click(getAllByRole('option')[0]);
+
+    //select first option for measurement
+    await waitFor(() => {
+      userEvent.click(getAllByRole('button')[1]);
+    });
+    expect(getAllByRole('option').length).toBe(2);
+    userEvent.click(getAllByRole('option')[0]);
 
     // make sure the default cost type is selected
     expect(getByLabelText(qr.infraradio).checked).toBeTruthy();
 
     // selecting a different measurement does not reset cost type to default
     fireEvent.click(getByLabelText(qr.supplradio));
-    fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
+    await waitFor(() => {
+      userEvent.click(getAllByRole('button')[1]);
+    });
+    userEvent.click(getAllByRole('option')[1]);
     expect(getByLabelText(qr.supplradio).checked).toBeTruthy();
 
     // selecting metric will reset both measurement and cost type
     fireEvent.click(getByLabelText(qr.infraradio));
-    fireEvent.change(container.querySelector(qr.metric), { target: { value: 'Memory' } });
+    await waitFor(() => {
+      userEvent.click(getAllByRole('button')[0]);
+    });
+    userEvent.click(getAllByRole('option')[1]);
     expect(getByText(regExp(messages.CostModelsRequiredField))).toBeTruthy();
-    fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
+    await waitFor(() => {
+      userEvent.click(getAllByRole('button')[1]);
+    });
+    userEvent.click(getAllByRole('option')[0]);
     expect(getByLabelText(qr.supplradio).checked).toBeTruthy();
     fireEvent.click(getByLabelText(qr.infraradio));
 
@@ -155,16 +179,23 @@ describe('add-a-new-rate', () => {
     expect(submit).toHaveBeenCalled();
   });
 
-  test('tag rates', () => {
+  test('tag rates', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
-    const { container, queryByText, getByLabelText, getByText, getByTestId } = render(
+    const { container, queryByText, getByLabelText, getByText, getByTestId, getAllByRole } = render(
       <RenderFormDataUI submit={submit} cancel={cancel} />
     );
     fireEvent.change(container.querySelector(qr.description), { target: { value: 'tag rate test' } });
-    fireEvent.change(container.querySelector(qr.metric), { target: { value: 'CPU' } });
-    fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
-    fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
+
+    await waitFor(() => {
+      userEvent.click(getAllByRole('button')[0]);
+    });
+    userEvent.click(getAllByRole('option')[0]);
+
+    await waitFor(() => {
+      userEvent.click(getAllByRole('button')[1]);
+    });
+    userEvent.click(getAllByRole('option')[0]);
     fireEvent.click(getByLabelText(regExp(messages.CostModelsEnterTagRate)));
 
     // tag key is required validation
@@ -212,12 +243,20 @@ describe('add-a-new-rate', () => {
     expect(submit).toHaveBeenCalled();
   });
 
-  test('tag rates duplicate tag key', () => {
+  test('tag rates duplicate tag key', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
-    const { container, queryByText, getByLabelText } = render(<RenderFormDataUI submit={submit} cancel={cancel} />);
-    fireEvent.change(container.querySelector(qr.metric), { target: { value: 'Memory' } });
-    fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
+    const { container, queryByText, getByLabelText, getAllByRole } = render(<RenderFormDataUI submit={submit} cancel={cancel} />);
+
+    await waitFor(() => {
+      userEvent.click(getAllByRole('button')[0]);
+    });
+    userEvent.click(getAllByRole('option')[1]);
+
+    await waitFor(() => {
+      userEvent.click(getAllByRole('button')[1]);
+    });
+    userEvent.click(getAllByRole('option')[0]);
     fireEvent.click(getByLabelText(regExp(messages.CostModelsEnterTagRate)));
 
     // tag key is duplicated
@@ -230,10 +269,17 @@ describe('add-a-new-rate', () => {
     // change measurement will set tag key as not duplicate
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'app' } });
     expect(queryByText(regExp(messages.PriceListDuplicate))).toBeTruthy();
-    fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Usage' } });
+
+    await waitFor(() => {
+      userEvent.click(getAllByRole('button')[1]);
+    });
+    userEvent.click(getAllByRole('option')[1]);
     expect(queryByText(regExp(messages.PriceListDuplicate))).toBeFalsy();
 
-    fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
+    await waitFor(() => {
+      userEvent.click(getAllByRole('button')[1]);
+    });
+    userEvent.click(getAllByRole('option')[0]);
     expect(queryByText(regExp(messages.PriceListDuplicate))).toBeTruthy();
   });
 
