@@ -1,12 +1,12 @@
 jest.mock('api/costModels');
 import { fireEvent, render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { updateCostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { rootReducer } from 'store/rootReducer';
-import userEvent from '@testing-library/user-event';
 
 const mockupdater = updateCostModel as jest.Mock;
 mockupdater.mockReturnValue(Promise.resolve({ data: [] }));
@@ -261,7 +261,7 @@ describe('update-rate', () => {
   });
 
   test('regular', async () => {
-    const { container, getByLabelText, getByDisplayValue, getByText, getAllByRole } = render(<RenderFormDataUI index={0} />);
+    const { getByLabelText, getByDisplayValue, getByText, getAllByRole } = render(<RenderFormDataUI index={0} />);
     fireEvent.change(getByDisplayValue(/openshift-aws-node/i), { target: { value: 'a new description' } });
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeFalsy();
     fireEvent.change(getByDisplayValue(/a new description/i), { target: { value: 'openshift-aws-node' } });
@@ -357,7 +357,7 @@ describe('update-rate', () => {
   });
 
   test('duplicate tag key from regular rate', async () => {
-    const { queryByText, getByLabelText, getByDisplayValue, getByText, getAllByRole } = render(<RenderFormDataUI index={0} />);
+    const { queryByText, getByLabelText, getAllByRole } = render(<RenderFormDataUI index={0} />);
     await waitFor(() => {
       userEvent.click(getAllByRole('button')[2]);
     });

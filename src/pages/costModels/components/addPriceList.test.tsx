@@ -1,10 +1,9 @@
 import { fireEvent, render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Rate } from 'api/rates';
 import messages from 'locales/messages';
 import { CostModelContext, defaultCostModelContext } from 'pages/costModels/createCostModelWizard/context';
-import userEvent from '@testing-library/user-event';
 import React from 'react';
-
 
 import AddPriceList from './addPriceList';
 
@@ -118,18 +117,20 @@ describe('add-a-new-rate', () => {
   test('regular rate', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
-    const { container, getByLabelText, getByText, getByRole, getAllByRole } = render(<RenderFormDataUI submit={submit} cancel={cancel} />);
+    const { container, getByLabelText, getByText, getAllByRole } = render(
+      <RenderFormDataUI submit={submit} cancel={cancel} />
+    );
 
     fireEvent.change(container.querySelector(qr.description), { target: { value: 'regular rate test' } });
 
-    //select first option for metric
+    // select first option for metric
     await waitFor(() => {
       userEvent.click(getAllByRole('button')[0]);
     });
     expect(getAllByRole('option').length).toBe(3);
     userEvent.click(getAllByRole('option')[0]);
 
-    //select first option for measurement
+    // select first option for measurement
     await waitFor(() => {
       userEvent.click(getAllByRole('button')[1]);
     });
@@ -246,7 +247,9 @@ describe('add-a-new-rate', () => {
   test('tag rates duplicate tag key', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
-    const { container, queryByText, getByLabelText, getAllByRole } = render(<RenderFormDataUI submit={submit} cancel={cancel} />);
+    const { container, queryByText, getByLabelText, getAllByRole } = render(
+      <RenderFormDataUI submit={submit} cancel={cancel} />
+    );
 
     await waitFor(() => {
       userEvent.click(getAllByRole('button')[0]);
