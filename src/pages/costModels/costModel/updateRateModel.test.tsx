@@ -236,6 +236,11 @@ const initial = {
   },
 };
 
+const qr = {
+  metric: '[data-ouia-component-id="metric"] button',
+  measurement: '[data-ouia-component-id="measurement"] button',
+};
+
 function RenderFormDataUI({ index }) {
   return (
     <Provider store={createStore(rootReducer, initial)}>
@@ -261,42 +266,44 @@ describe('update-rate', () => {
   });
 
   test('regular', async () => {
-    const { getByLabelText, getByDisplayValue, getByText, getAllByRole } = render(<RenderFormDataUI index={0} />);
+    const { getByLabelText, getByDisplayValue, getByText, getAllByRole } = render(
+      <RenderFormDataUI index={0} />
+    );
     fireEvent.change(getByDisplayValue(/openshift-aws-node/i), { target: { value: 'a new description' } });
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeFalsy();
     fireEvent.change(getByDisplayValue(/a new description/i), { target: { value: 'openshift-aws-node' } });
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeTruthy();
 
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[2]);
+      userEvent.click(document.querySelector(qr.measurement));
     });
     userEvent.click(getAllByRole('option')[1]);
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeFalsy();
 
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[2]);
+      userEvent.click(document.querySelector(qr.measurement));
     });
     userEvent.click(getAllByRole('option')[0]);
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeTruthy();
 
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[1]);
+      userEvent.click(document.querySelector(qr.metric));
     });
     userEvent.click(getAllByRole('option')[1]);
 
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[2]);
+      userEvent.click(document.querySelector(qr.measurement));
     });
     userEvent.click(getAllByRole('option')[0]);
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeFalsy();
 
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[1]);
+      userEvent.click(document.querySelector(qr.metric));
     });
     userEvent.click(getAllByRole('option')[0]);
 
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[2]);
+      userEvent.click(document.querySelector(qr.measurement));
     });
     userEvent.click(getAllByRole('option')[0]);
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeTruthy();
@@ -359,7 +366,7 @@ describe('update-rate', () => {
   test('duplicate tag key from regular rate', async () => {
     const { queryByText, getByLabelText, getAllByRole } = render(<RenderFormDataUI index={0} />);
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[2]);
+      userEvent.click(document.querySelector(qr.measurement));
     });
     userEvent.click(getAllByRole('option')[1]);
     fireEvent.click(getByLabelText(regExp(messages.CostModelsEnterTagRate)));

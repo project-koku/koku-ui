@@ -90,6 +90,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
     >
       <Select
         id={id}
+        ouiaId={id}
         variant={SelectVariant.single}
         placeholderText={placeholderText}
         aria-label={ariaLabel}

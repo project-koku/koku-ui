@@ -102,9 +102,6 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
   return (
     <>
       {' '}
-      <h1 id="rateFormInfo">
-        rateform measurement=({measurement}), metric=({metric})
-      </h1>
       <SimpleInput
         style={style}
         id="description"

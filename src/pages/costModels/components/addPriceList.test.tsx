@@ -57,8 +57,8 @@ const metricsHash = {
 };
 
 const qr = {
-  metric: '.pf-l-grid .pf-l-grid__item:first-child .pf-c-select__toggle',
-  measurement: '.pf-l-grid .pf-l-grid__item:last-child .pf-c-select__toggle',
+  metric: '[data-ouia-component-id="metric"] button',
+  measurement: '[data-ouia-component-id="measurement"] button',
   description: '#description',
   infraradio: /infrastructure/i,
   supplradio: /supplementary/i,
@@ -125,14 +125,14 @@ describe('add-a-new-rate', () => {
 
     // select first option for metric
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[0]);
+      userEvent.click(container.querySelector(qr.metric));
     });
     expect(getAllByRole('option').length).toBe(3);
     userEvent.click(getAllByRole('option')[0]);
 
     // select first option for measurement
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[1]);
+      userEvent.click(container.querySelector(qr.measurement));
     });
     expect(getAllByRole('option').length).toBe(2);
     userEvent.click(getAllByRole('option')[0]);
@@ -143,7 +143,7 @@ describe('add-a-new-rate', () => {
     // selecting a different measurement does not reset cost type to default
     fireEvent.click(getByLabelText(qr.supplradio));
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[1]);
+      userEvent.click(container.querySelector(qr.measurement));
     });
     userEvent.click(getAllByRole('option')[1]);
     expect(getByLabelText(qr.supplradio).checked).toBeTruthy();
@@ -151,12 +151,12 @@ describe('add-a-new-rate', () => {
     // selecting metric will reset both measurement and cost type
     fireEvent.click(getByLabelText(qr.infraradio));
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[0]);
+      userEvent.click(container.querySelector(qr.metric));
     });
     userEvent.click(getAllByRole('option')[1]);
     expect(getByText(regExp(messages.CostModelsRequiredField))).toBeTruthy();
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[1]);
+      userEvent.click(container.querySelector(qr.measurement));
     });
     userEvent.click(getAllByRole('option')[0]);
     expect(getByLabelText(qr.supplradio).checked).toBeTruthy();
@@ -189,12 +189,12 @@ describe('add-a-new-rate', () => {
     fireEvent.change(container.querySelector(qr.description), { target: { value: 'tag rate test' } });
 
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[0]);
+      userEvent.click(container.querySelector(qr.metric));
     });
     userEvent.click(getAllByRole('option')[0]);
 
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[1]);
+      userEvent.click(container.querySelector(qr.measurement));
     });
     userEvent.click(getAllByRole('option')[0]);
     fireEvent.click(getByLabelText(regExp(messages.CostModelsEnterTagRate)));
@@ -252,12 +252,12 @@ describe('add-a-new-rate', () => {
     );
 
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[0]);
+      userEvent.click(container.querySelector(qr.metric));
     });
     userEvent.click(getAllByRole('option')[1]);
 
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[1]);
+      userEvent.click(container.querySelector(qr.measurement));
     });
     userEvent.click(getAllByRole('option')[0]);
     fireEvent.click(getByLabelText(regExp(messages.CostModelsEnterTagRate)));
@@ -274,24 +274,34 @@ describe('add-a-new-rate', () => {
     expect(queryByText(regExp(messages.PriceListDuplicate))).toBeTruthy();
 
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[1]);
+      userEvent.click(container.querySelector(qr.measurement));
     });
     userEvent.click(getAllByRole('option')[1]);
     expect(queryByText(regExp(messages.PriceListDuplicate))).toBeFalsy();
 
     await waitFor(() => {
-      userEvent.click(getAllByRole('button')[1]);
+      userEvent.click(container.querySelector(qr.measurement));
     });
     userEvent.click(getAllByRole('option')[0]);
     expect(queryByText(regExp(messages.PriceListDuplicate))).toBeTruthy();
   });
 
-  test('hide "enter tag rates" switch on Cluster metric', () => {
+  test('hide "enter tag rates" switch on Cluster metric', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
-    const { container, queryAllByLabelText } = render(<RenderFormDataUI submit={submit} cancel={cancel} />);
-    fireEvent.change(container.querySelector(qr.metric), { target: { value: 'Cluster' } });
-    fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Currency' } });
+    const { container, queryAllByLabelText, getAllByRole } = render(
+      <RenderFormDataUI submit={submit} cancel={cancel} />
+    );
+
+    await waitFor(() => {
+      userEvent.click(container.querySelector(qr.metric));
+    });
+    userEvent.click(getAllByRole('option')[2]);
+
+    await waitFor(() => {
+      userEvent.click(container.querySelector(qr.measurement));
+    });
+    userEvent.click(getAllByRole('option')[0]);
     expect(queryAllByLabelText(regExp(messages.CostModelsEnterTagRate))).toHaveLength(0);
   });
 });
