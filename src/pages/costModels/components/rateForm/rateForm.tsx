@@ -120,10 +120,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
             label={messages.Metric}
             placeholderText="Select..."
             value={metric}
-            onChange={val => {
-              setMeasurement(undefined);
-              setMetric(val);
-            }}
+            onChange={setMetric}
             options={[
               ...metricOptions.map(opt => {
                 return {

@@ -266,9 +266,7 @@ describe('update-rate', () => {
   });
 
   test('regular', async () => {
-    const { getByLabelText, getByDisplayValue, getByText, getAllByRole } = render(
-      <RenderFormDataUI index={0} />
-    );
+    const { getByLabelText, getByDisplayValue, getByText, getAllByRole } = render(<RenderFormDataUI index={0} />);
     fireEvent.change(getByDisplayValue(/openshift-aws-node/i), { target: { value: 'a new description' } });
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeFalsy();
     fireEvent.change(getByDisplayValue(/a new description/i), { target: { value: 'openshift-aws-node' } });

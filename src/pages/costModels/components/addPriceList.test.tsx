@@ -297,11 +297,6 @@ describe('add-a-new-rate', () => {
       userEvent.click(container.querySelector(qr.metric));
     });
     userEvent.click(getAllByRole('option')[2]);
-
-    await waitFor(() => {
-      userEvent.click(container.querySelector(qr.measurement));
-    });
-    userEvent.click(getAllByRole('option')[0]);
     expect(queryAllByLabelText(regExp(messages.CostModelsEnterTagRate))).toHaveLength(0);
   });
 });
