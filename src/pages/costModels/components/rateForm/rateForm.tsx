@@ -101,7 +101,6 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
 
   return (
     <>
-      {' '}
       <SimpleInput
         style={style}
         id="description"
