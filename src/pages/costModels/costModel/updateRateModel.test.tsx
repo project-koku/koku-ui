@@ -1,5 +1,6 @@
 jest.mock('api/costModels');
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { updateCostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React from 'react';
@@ -235,6 +236,11 @@ const initial = {
   },
 };
 
+const qr = {
+  metric: '[data-ouia-component-id="metric"] button',
+  measurement: '[data-ouia-component-id="measurement"] button',
+};
+
 function RenderFormDataUI({ index }) {
   return (
     <Provider store={createStore(rootReducer, initial)}>
@@ -259,23 +265,45 @@ describe('update-rate', () => {
     fireEvent.click(getByText(regExp(messages.Save)));
   });
 
-  test('regular', () => {
-    const { getByLabelText, getByDisplayValue, getByText } = render(<RenderFormDataUI index={0} />);
+  test('regular', async () => {
+    const { getByLabelText, getByDisplayValue, getByText, getAllByRole } = render(<RenderFormDataUI index={0} />);
     fireEvent.change(getByDisplayValue(/openshift-aws-node/i), { target: { value: 'a new description' } });
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeFalsy();
     fireEvent.change(getByDisplayValue(/a new description/i), { target: { value: 'openshift-aws-node' } });
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeTruthy();
 
-    fireEvent.change(getByDisplayValue(/usage/i), { target: { value: 'Request' } });
+    await waitFor(() => {
+      userEvent.click(document.querySelector(qr.measurement));
+    });
+    userEvent.click(getAllByRole('option')[1]);
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeFalsy();
-    fireEvent.change(getByDisplayValue(/request/i), { target: { value: 'Usage' } });
+
+    await waitFor(() => {
+      userEvent.click(document.querySelector(qr.measurement));
+    });
+    userEvent.click(getAllByRole('option')[0]);
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeTruthy();
 
-    fireEvent.change(getByDisplayValue(/cpu/i), { target: { value: 'Memory' } });
-    fireEvent.change(getByDisplayValue(regExp(messages.Select)), { target: { value: 'Usage' } });
+    await waitFor(() => {
+      userEvent.click(document.querySelector(qr.metric));
+    });
+    userEvent.click(getAllByRole('option')[1]);
+
+    await waitFor(() => {
+      userEvent.click(document.querySelector(qr.measurement));
+    });
+    userEvent.click(getAllByRole('option')[0]);
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeFalsy();
-    fireEvent.change(getByDisplayValue(/memory/i), { target: { value: 'CPU' } });
-    fireEvent.change(getByDisplayValue(regExp(messages.Select)), { target: { value: 'Usage' } });
+
+    await waitFor(() => {
+      userEvent.click(document.querySelector(qr.metric));
+    });
+    userEvent.click(getAllByRole('option')[0]);
+
+    await waitFor(() => {
+      userEvent.click(document.querySelector(qr.measurement));
+    });
+    userEvent.click(getAllByRole('option')[0]);
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeTruthy();
 
     fireEvent.click(getByLabelText(/infrastructure/i));
@@ -333,10 +361,12 @@ describe('update-rate', () => {
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeTruthy();
   });
 
-  test('duplicate tag key from regular rate', () => {
-    const { queryByText, getByLabelText, getByDisplayValue } = render(<RenderFormDataUI index={0} />);
-    fireEvent.change(getByDisplayValue(/usage/i), { target: { value: 'Request' } });
-
+  test('duplicate tag key from regular rate', async () => {
+    const { queryByText, getByLabelText, getAllByRole } = render(<RenderFormDataUI index={0} />);
+    await waitFor(() => {
+      userEvent.click(document.querySelector(qr.measurement));
+    });
+    userEvent.click(getAllByRole('option')[1]);
     fireEvent.click(getByLabelText(regExp(messages.CostModelsEnterTagRate)));
     fireEvent.change(getByLabelText(regExp(messages.CostModelsFilterTagKey)), {
       target: { value: 'openshift-region-1' },

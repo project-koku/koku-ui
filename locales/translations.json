@@ -320,6 +320,7 @@
   "Measurement": "Measurement",
   "MeasurementPlaceholder": "Filter by measurements",
   "MeasurementValues": "{value, select, count {{count, plural, one {Count} other {Count ({units})}}} effective_usage {{count, plural, one {Request} other {Effective-usage ({units})}}} request {{count, plural, one {Request} other {Request ({units})}}} usage {{count, plural, one {Usage} other {Usage ({units})}}} other {}}",
+  "MeasurementValuesDesc": "{value, select, count {{units, select, node_month {The distinct number of nodes identified during the month} pvc_month {The distinct number of volume claims identified during the month} cluster_month {The distinct number of clusters identified during the month} other {}}} effective_usage {The greater of usage and request each hour} request {The pod resources requested, as reported by OpenShift} usage {The pod resources used, as reported by OpenShift} other {}}",
   "MemoryTitle": "Memory",
   "Metric": "Metric",
   "MetricPlaceholder": "Filter by metrics",

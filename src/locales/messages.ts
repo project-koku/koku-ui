@@ -2353,6 +2353,21 @@ export default defineMessages({
     description: 'Measurement values',
     id: 'MeasurementValues',
   },
+  MeasurementValuesDesc: {
+    defaultMessage:
+      '{value, select, ' +
+      'count {{units, select, ' +
+      'node_month {The distinct number of nodes identified during the month} ' +
+      'pvc_month {The distinct number of volume claims identified during the month} ' +
+      'cluster_month {The distinct number of clusters identified during the month} ' +
+      'other {}}} ' +
+      'effective_usage {The greater of usage and request each hour} ' +
+      'request {The pod resources requested, as reported by OpenShift} ' +
+      'usage {The pod resources used, as reported by OpenShift} ' +
+      'other {}}',
+    description: 'Measurement descriptions',
+    id: 'MeasurementValuesDesc',
+  },
   MemoryTitle: {
     defaultMessage: 'Memory',
     description: 'Memory',
