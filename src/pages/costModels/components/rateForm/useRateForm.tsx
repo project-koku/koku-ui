@@ -1,6 +1,7 @@
 import { MetricHash } from 'api/metrics';
 import { Rate } from 'api/rates';
 import React from 'react';
+import { unFormat } from 'utils/format';
 
 import { textHelpers } from './constants';
 import {
@@ -122,9 +123,12 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
       };
     }
     case 'UPDATE_REGULAR': {
+      // Normalize for API requests where USD decimal formatting is expected
+      const value = unFormat(action.value);
+
       return {
         ...state,
-        tieredRates: [{ value: action.value, isDirty: true }],
+        tieredRates: [{ inputValue: action.value, value, isDirty: true }],
         errors: {
           ...state.errors,
           tieredRates: checkRateOnChange(action.value),
@@ -174,6 +178,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
       let descriptionError = state.errors.tagDescription[action.index];
       let isDirty = state.taggingRates.tagValues[action.index].isDirty;
       let isTagValueDirty = state.taggingRates.tagValues[action.index].isTagValueDirty;
+
       if (action.payload.value !== undefined) {
         const { value: rate } = action.payload;
         error = checkRateOnChange(rate);
@@ -197,6 +202,12 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
               ...action.payload,
               isDirty,
               isTagValueDirty,
+
+              // Original user input
+              inputValue: action.payload.value,
+
+              // Normalize for API requests where USD decimal formatting is expected
+              value: unFormat(action.payload.value),
             },
             ...state.taggingRates.tagValues.slice(action.index + 1),
           ],

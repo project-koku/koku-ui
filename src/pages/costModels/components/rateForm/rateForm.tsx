@@ -50,7 +50,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
       tagValues,
     },
     tieredRates: {
-      0: { value: regular, isDirty: regularDirty },
+      0: { inputValue, isDirty: regularDirty },
     },
     toggleTaggingRate,
     updateDefaultTag,
@@ -199,7 +199,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
               onChange={setRegular}
               style={style}
               validated={errors.tieredRates && regularDirty ? 'error' : 'default'}
-              value={regular}
+              value={inputValue}
             />
           ) : (
             <>

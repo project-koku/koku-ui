@@ -15,10 +15,11 @@ export const initialtaggingRates = {
   tagValues: [
     {
       tagValue: '',
-      value: '',
       description: '',
       isDirty: false,
       isTagValueDirty: false,
+      inputValue: '',
+      value: '',
     },
   ],
 };
@@ -34,7 +35,13 @@ export const initialRateFormData = {
   },
   calculation: '',
   rateKind: 'regular',
-  tieredRates: [{ value: '', isDirty: false }],
+  tieredRates: [
+    {
+      isDirty: false,
+      inputValue: '',
+      value: '',
+    },
+  ],
   taggingRates: { ...initialtaggingRates },
   errors: {
     description: null,
@@ -52,18 +59,18 @@ export type RateFormTagValue = typeof initialRateFormData['taggingRates']['tagVa
 export type taggingRates = typeof initialRateFormData['taggingRates'];
 export type RateFormErrors = typeof initialRateFormData['errors'];
 
-export const checkRateOnChange = (regular: string) => {
-  if (regular.length === 0) {
+export const checkRateOnChange = (inputValue: string) => {
+  if (inputValue.length === 0) {
     return textHelpers.required;
   }
-  if (!isCurrencyFormatValid(regular)) {
+  if (!isCurrencyFormatValid(inputValue)) {
     return textHelpers.not_number;
   }
-  if (Number(unFormat(regular)) < 0) {
+  if (Number(unFormat(inputValue)) < 0) {
     return textHelpers.not_positive;
   }
   // Test number of decimals
-  const decimals = countDecimals(regular);
+  const decimals = countDecimals(inputValue);
   if (decimals > 10) {
     return textHelpers.rate_too_long;
   }
@@ -88,7 +95,7 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
     return { ...defaultValue, otherTiers };
   }
   const rateKind = rate.tiered_rates ? 'regular' : 'tagging';
-  let tieredRates = [{ value: '', isDirty: true }];
+  let tieredRates = [{ value: '', isDirty: true }] as any;
   const tagRates = { ...initialtaggingRates };
   const errors = {
     description: null,
@@ -105,14 +112,16 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
     const defaultIndex = item.tag_values.findIndex(tvalue => tvalue.default);
     tagRates.defaultTag = defaultIndex === -1 ? null : defaultIndex;
     tagRates.tagValues = item.tag_values.map(tvalue => {
+      const value = formatCurrencyRateRaw(tvalue.value, tvalue.unit);
       return {
-        tagValue: tvalue.tag_value,
-        value: formatCurrencyRateRaw(tvalue.value, tvalue.unit),
         description: tvalue.description,
+        inputValue: value,
         isDirty: false,
         isTagValueDirty: false,
+        tagValue: tvalue.tag_value,
+        value,
       };
-    });
+    }) as any;
     errors.tieredRates = textHelpers.required;
     errors.tagValueValues = new Array(item.tag_values.length).fill(null);
     errors.tagValues = new Array(item.tag_values.length).fill(null);
@@ -120,9 +129,11 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
   }
   if (rateKind === 'regular') {
     tieredRates = rate.tiered_rates.map(tieredRate => {
+      const value = formatCurrencyRateRaw(tieredRate.value, tieredRate.unit);
       return {
-        value: formatCurrencyRateRaw(tieredRate.value, tieredRate.unit),
+        inputValue: value,
         isDirty: true,
+        value,
       };
     });
     errors.tagValues = [textHelpers.required];
@@ -154,8 +165,9 @@ export const mergeToRequest = (
   if (index < 0) {
     index = costModel.rates.length;
   }
-  const rate = transformFormDataToRequest(rateFormData, metricsHash, costModel.currency, true) as RateRequest;
+  const rate = transformFormDataToRequest(rateFormData, metricsHash, costModel.currency) as RateRequest;
   return {
+    currency: costModel.currency,
     name: costModel.name,
     source_type: 'OCP',
     description: costModel.description,
@@ -169,8 +181,7 @@ export const mergeToRequest = (
 export const transformFormDataToRequest = (
   rateFormData: RateFormData,
   metricsHash: MetricHash,
-  currencyUnits: string = 'USD',
-  isNormalized: boolean = false // Normalize rates for API requests
+  currencyUnits: string = 'USD'
 ): Rate => {
   const ratesKey = rateFormData.rateKind === 'tagging' ? 'tag_rates' : 'tiered_rates';
   const ratesBody =
@@ -181,7 +192,7 @@ export const transformFormDataToRequest = (
             return {
               tag_value: tvalue.tagValue,
               unit: currencyUnits,
-              value: isNormalized ? unFormat(tvalue.value) : tvalue.value,
+              value: tvalue.value,
               description: tvalue.description,
               default: ix === rateFormData.taggingRates.defaultTag,
             };
@@ -189,7 +200,7 @@ export const transformFormDataToRequest = (
         }
       : rateFormData.tieredRates.map(tiered => {
           return {
-            value: isNormalized ? unFormat(tiered.value) : tiered.value,
+            value: tiered.value,
             unit: currencyUnits,
             usage: { unit: currencyUnits },
           };

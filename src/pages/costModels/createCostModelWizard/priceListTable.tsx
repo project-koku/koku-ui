@@ -212,7 +212,6 @@ class PriceListTable extends React.Component<Props, State> {
                               },
                             ]}
                             isCompact
-                            isNormalized
                             tiers={res}
                           />
                         )}
