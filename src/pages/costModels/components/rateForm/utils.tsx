@@ -95,7 +95,7 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
     return { ...defaultValue, otherTiers };
   }
   const rateKind = rate.tiered_rates ? 'regular' : 'tagging';
-  let tieredRates = [{ value: '', isDirty: true }] as any;
+  let tieredRates = [{ inputValue: '', value: '', isDirty: true }];
   const tagRates = { ...initialtaggingRates };
   const errors = {
     description: null,
@@ -121,7 +121,7 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
         tagValue: tvalue.tag_value,
         value,
       };
-    }) as any;
+    });
     errors.tieredRates = textHelpers.required;
     errors.tagValueValues = new Array(item.tag_values.length).fill(null);
     errors.tagValues = new Array(item.tag_values.length).fill(null);
