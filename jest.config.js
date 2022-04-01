@@ -17,4 +17,5 @@ module.exports = {
   roots: ['<rootDir>/src'],
   snapshotSerializers: ['enzyme-to-json/serializer'],
   testURL: 'http://localhost/',
+  testTimeout: 30000,
 };
