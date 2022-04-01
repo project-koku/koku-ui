@@ -123,12 +123,15 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
       };
     }
     case 'UPDATE_REGULAR': {
-      // Normalize for API requests where USD decimal formatting is expected
-      const value = unFormat(action.value);
-
       return {
         ...state,
-        tieredRates: [{ inputValue: action.value, value, isDirty: true }],
+        tieredRates: [
+          {
+            isDirty: true,
+            inputValue: action.value,
+            value: unFormat(action.value), // Normalize for API requests where USD decimal format is expected
+          },
+        ],
         errors: {
           ...state.errors,
           tieredRates: checkRateOnChange(action.value),
@@ -203,10 +206,8 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
               isDirty,
               isTagValueDirty,
               ...(action.payload.value && {
-                // Original user input
-                inputValue: action.payload.value,
-                // Normalize for API requests where USD decimal formatting is expected
-                value: unFormat(action.payload.value),
+                inputValue: action.payload.value, // Original user input
+                value: unFormat(action.payload.value), // Normalize for API requests where USD decimal format is expected
               }),
             },
             ...state.taggingRates.tagValues.slice(action.index + 1),
