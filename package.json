@@ -35,7 +35,6 @@
     "verify": "tsc --noEmit"
   },
   "dependencies": {
-    "@formatjs/cli": "^4.8.2",
     "@fortawesome/free-solid-svg-icons": "^6.0.0",
     "@patternfly/patternfly": "^4.183.1",
     "@patternfly/react-charts": "^6.51.19",
@@ -77,7 +76,7 @@
     "xstate": "^4.30.0"
   },
   "devDependencies": {
-    "@formatjs/cli": "4.2.12",
+    "@formatjs/cli": "^4.8.3",
     "@redhat-cloud-services/frontend-components-config-utilities": "^1.5.15",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
