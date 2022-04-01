@@ -202,12 +202,12 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
               ...action.payload,
               isDirty,
               isTagValueDirty,
-
-              // Original user input
-              inputValue: action.payload.value,
-
-              // Normalize for API requests where USD decimal formatting is expected
-              value: unFormat(action.payload.value),
+              ...(action.payload.value && {
+                // Original user input
+                inputValue: action.payload.value,
+                // Normalize for API requests where USD decimal formatting is expected
+                value: unFormat(action.payload.value),
+              }),
             },
             ...state.taggingRates.tagValues.slice(action.index + 1),
           ],
