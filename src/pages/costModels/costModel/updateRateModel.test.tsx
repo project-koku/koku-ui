@@ -335,6 +335,7 @@ describe('update-rate', () => {
     fireEvent.change(getByDisplayValue(/any container/i), { target: { value: 'any container1' } });
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeFalsy();
     fireEvent.change(getByDisplayValue(/any container1/i), { target: { value: 'any container' } });
+    expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeTruthy();
 
     fireEvent.change(getByDisplayValue(/0.4/i), { target: { value: '1.23' } });
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeFalsy();

@@ -40,7 +40,7 @@ export function hasDiff(rate: Rate, rateFormData: RateFormData): boolean {
       const isCurDefault = rateFormData.taggingRates.defaultTag === ix;
       return (
         tvalue.tag_value !== cur.tagValue ||
-        Number(tvalue.value) !== Number(cur.value) ||
+        Number(tvalue.value) !== Number(cur.inputValue) ||
         tvalue.description !== cur.description ||
         tvalue.default !== isCurDefault
       );
