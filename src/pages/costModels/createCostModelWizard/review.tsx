@@ -98,7 +98,7 @@ const ReviewDetailsBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
                       </TextListItem>
                       <TextListItem component={TextListItemVariants.dd}>
                         {tiers.length > 0 ? (
-                          <RateTable isNormalized tiers={tiers} />
+                          <RateTable tiers={tiers} />
                         ) : (
                           intl.formatMessage(messages.CostModelsWizardNoRatesAdded)
                         )}

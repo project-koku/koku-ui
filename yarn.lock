@@ -337,7 +337,7 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@formatjs/cli@^4.8.2":
+"@formatjs/cli@^4.8.3":
   version "4.8.3"
   resolved "https://registry.yarnpkg.com/@formatjs/cli/-/cli-4.8.3.tgz#8984be6f1d333857d692f747cb8b16c663c1b354"
   integrity sha512-YmOTqKjmB4M/KJsE+e2k8IyViWwSrZwoW/lv2gLNGwucr+hc0+dWpP4oZzl07WSoVWW7NrbdvF8CEBopbfnmLQ==

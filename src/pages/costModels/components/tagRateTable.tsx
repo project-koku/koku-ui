@@ -4,19 +4,14 @@ import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { formatCurrencyRate, unFormat } from 'utils/format';
+import { formatCurrencyRate } from 'utils/format';
 
 interface TagRateTableProps extends WrappedComponentProps {
   tagRates: TagRates;
-  isNormalized?: boolean; // Normalize rates to format currency in current locale
 }
 
 // defaultIntl required for testing
-const TagRateTable: React.FunctionComponent<TagRateTableProps> = ({
-  isNormalized = false,
-  intl = defaultIntl,
-  tagRates,
-}) => {
+const TagRateTable: React.FunctionComponent<TagRateTableProps> = ({ intl = defaultIntl, tagRates }) => {
   const cells = [
     intl.formatMessage(messages.CostModelsTagRateTableKey),
     intl.formatMessage(messages.CostModelsTagRateTableValue),
@@ -28,13 +23,11 @@ const TagRateTable: React.FunctionComponent<TagRateTableProps> = ({
   const rows =
     tagRates &&
     tagRates.tag_values.map((tagValue, ix) => {
-      const _tagValue = Number(isNormalized ? unFormat(tagValue.value.toString()) : tagValue.value);
-
       return {
         cells: [
           ix === 0 ? tagRates.tag_key : '',
           tagValue.tag_value,
-          formatCurrencyRate(_tagValue, tagValue.unit),
+          formatCurrencyRate(tagValue.value, tagValue.unit),
           tagValue.description,
           tagValue.default ? intl.formatMessage(messages.Yes) : intl.formatMessage(messages.No),
         ],

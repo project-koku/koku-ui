@@ -65,7 +65,7 @@ const TaggingRatesFormBase: React.FunctionComponent<TaggingRatesFormProps> = ({
                 onChange={value => updateTag({ value }, ix)}
                 style={style}
                 validated={tagValues[ix].isDirty && errors.tagValues[ix] ? 'error' : 'default'}
-                value={tag.value}
+                value={tag.inputValue}
               />
             </SplitItem>
             <SplitItem>

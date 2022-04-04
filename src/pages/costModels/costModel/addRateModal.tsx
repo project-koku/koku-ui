@@ -74,7 +74,7 @@ export const AddRateModalBase: React.FunctionComponent<AddRateModalBaseProps> = 
     >
       <Form>
         {updateError && <Alert variant="danger" title={`${updateError}`} />}
-        <RateForm metricsHash={metricsHash} rateFormData={rateFormData} />
+        <RateForm currencyUnits={costModel.currency} metricsHash={metricsHash} rateFormData={rateFormData} />
       </Form>
     </Modal>
   );
