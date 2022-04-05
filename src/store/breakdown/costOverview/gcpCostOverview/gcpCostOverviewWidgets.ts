@@ -18,7 +18,7 @@ export const accountSummaryWidget: GcpCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'account',
-    showWidgetOnGroupBy: ['project', 'region', 'service', tagPrefix],
+    showWidgetOnGroupBy: ['gcp_project', 'region', 'service', tagPrefix],
   },
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.cost,
@@ -28,7 +28,7 @@ export const accountSummaryWidget: GcpCostOverviewWidget = {
 export const projectSummaryWidget: GcpCostOverviewWidget = {
   id: getId(),
   reportSummary: {
-    reportGroupBy: 'project',
+    reportGroupBy: 'gcp_project',
     showWidgetOnGroupBy: ['account', 'region', 'service', tagPrefix],
   },
   reportPathsType: ReportPathsType.gcp,
@@ -40,7 +40,7 @@ export const regionSummaryWidget: GcpCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'region',
-    showWidgetOnGroupBy: ['account', 'project', 'service', tagPrefix],
+    showWidgetOnGroupBy: ['account', 'gcp_project', 'service', tagPrefix],
   },
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.cost,
@@ -51,7 +51,7 @@ export const serviceSummaryWidget: GcpCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'service',
-    showWidgetOnGroupBy: ['project', 'region', 'account', tagPrefix],
+    showWidgetOnGroupBy: ['gcp_project', 'region', 'account', tagPrefix],
   },
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.cost,
