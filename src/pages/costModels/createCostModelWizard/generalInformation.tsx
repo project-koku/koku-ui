@@ -1,4 +1,13 @@
-import { FormGroup, Stack, StackItem, TextArea, TextInput, Title, TitleSizes } from '@patternfly/react-core';
+import {
+  FormGroup,
+  SelectDirection,
+  Stack,
+  StackItem,
+  TextArea,
+  TextInput,
+  Title,
+  TitleSizes,
+} from '@patternfly/react-core';
 import messages from 'locales/messages';
 import { currencyOptions } from 'pages/components/currency';
 import { Form } from 'pages/costModels/components/forms/form';
@@ -32,7 +41,29 @@ type GeneralInformationProps = GeneralInformationOwnProps &
 
 class GeneralInformation extends React.Component<GeneralInformationProps> {
   public render() {
+    const getValueLabel = (valStr: string, options) => {
+      const val = options.find(o => o.value === valStr);
+      return !val ? valStr : intl.formatMessage(val.label, { units: val.value });
+    };
     const { intl } = this.props;
+    const sourceTypeOptions = [
+      {
+        label: messages.CostModelsWizardOnboardAWS,
+        value: 'AWS',
+      },
+      {
+        label: messages.Azure,
+        value: 'Azure',
+      },
+      {
+        label: messages.GCP,
+        value: 'GCP',
+      },
+      {
+        label: messages.CostModelsWizardOnboardOCP,
+        value: 'OCP',
+      },
+    ];
 
     return (
       <CostModelContext.Consumer>
@@ -98,34 +129,17 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                   id="source-type"
                   label={messages.CostModelsSourceType}
                   placeholderText={intl.formatMessage(messages.CostModelsWizardEmptySourceTypeLabel)}
-                  value={type}
+                  value={getValueLabel(type, sourceTypeOptions)}
                   onChange={onTypeChange}
-                  options={[
-                    {
-                      label: messages.CostModelsWizardOnboardAWS,
-                      value: 'AWS',
-                    },
-                    {
-                      label: messages.Azure,
-                      value: 'Azure',
-                    },
-                    {
-                      label: messages.GCP,
-                      value: 'GCP',
-                    },
-                    {
-                      label: messages.CostModelsWizardOnboardOCP,
-                      value: 'OCP',
-                    },
-                  ]}
+                  options={sourceTypeOptions}
                 />
                 {
                   /* Todo: Show in-progress features in beta environment only */
                   isFeatureVisible(FeatureType.currency) && (
                     <Selector
                       label={messages.Currency}
-                      direction="up"
-                      value={currencyUnits}
+                      direction={SelectDirection.up}
+                      value={getValueLabel(currencyUnits, currencyOptions)}
                       onChange={onCurrencyChange}
                       id="currency-units"
                       options={currencyOptions.map(o => {

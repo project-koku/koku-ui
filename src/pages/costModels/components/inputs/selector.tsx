@@ -4,6 +4,7 @@ import {
   FormGroupProps,
   FormSelectProps,
   Select,
+  SelectDirection,
   SelectOption,
   SelectOptionObject,
   SelectVariant,
@@ -17,7 +18,7 @@ interface SelectorFormGroupOwnProps {
   isInvalid?: boolean;
   label?: MessageDescriptor | string;
   placeholderText?: string;
-  direction?: 'up' | 'down';
+  direction?: SelectDirection.up | SelectDirection.down;
   options: {
     label: MessageDescriptor | string;
     value: any;
@@ -48,7 +49,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
   id,
   intl = defaultIntl, // Default required for testing
   placeholderText,
-  direction = 'down',
+  direction = SelectDirection.down,
   isInvalid = false,
   isRequired = false,
   label,
