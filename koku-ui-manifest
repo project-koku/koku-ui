@@ -122,14 +122,13 @@ mgmt_services/cost-mgmt:koku-ui/@nodelib/fs.scandir:2.1.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@nodelib/fs.stat:2.0.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@nodelib/fs.stat:2.0.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@nodelib/fs.walk:1.2.8.yarnlock
-<<<<<<< HEAD
-mgmt_services/cost-mgmt:koku-ui/@patternfly/patternfly:4.183.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-charts:6.51.19.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-core:4.198.19.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-icons:4.49.19.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-styles:4.48.19.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-table:4.67.19.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-tokens:4.50.19.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/patternfly:4.185.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-charts:6.55.15.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-core:4.202.15.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-icons:4.53.15.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-styles:4.52.15.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-table:4.71.15.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-tokens:4.54.15.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@popperjs/core:2.11.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@react-aria/ssr:3.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-config-utilities:1.5.17.yarnlock
@@ -137,35 +136,13 @@ mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-notif
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-translations:3.2.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.12.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.12.yarnlock
-=======
-mgmt_services/cost-mgmt:koku-ui/@patternfly/patternfly:4.185.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-charts:6.55.14.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-core:4.202.14.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-icons:4.53.14.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-styles:4.52.14.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-table:4.71.14.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-tokens:4.54.14.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@popperjs/core:2.11.2.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@react-aria/ssr:3.1.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-config-utilities:1.5.17.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-notifications:3.2.5.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-translations:3.2.4.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.8.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.8.yarnlock
->>>>>>> adce068c64322ebe18cb95302814187140ed3442
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.12.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components:3.8.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/rbac-client:1.0.106.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/types:0.0.1.yarnlock
-<<<<<<< HEAD
 mgmt_services/cost-mgmt:koku-ui/@restart/hooks:0.4.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@restart/hooks:0.4.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@restart/ui:1.2.0.yarnlock
-=======
-mgmt_services/cost-mgmt:koku-ui/@restart/hooks:0.4.5.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@restart/hooks:0.4.5.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@restart/ui:1.0.1.yarnlock
->>>>>>> adce068c64322ebe18cb95302814187140ed3442
 mgmt_services/cost-mgmt:koku-ui/@scalprum/core:0.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@scalprum/core:0.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@scalprum/react-core:0.1.9.yarnlock
@@ -368,14 +345,8 @@ mgmt_services/cost-mgmt:koku-ui/awesome-imperative-promise:1.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/awesome-only-resolves-last-promise:1.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/axe-core:4.4.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/axios:0.21.4.yarnlock
-<<<<<<< HEAD
 mgmt_services/cost-mgmt:koku-ui/axios:0.25.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/axios:0.26.1.yarnlock
-=======
-mgmt_services/cost-mgmt:koku-ui/axios:0.21.4.yarnlock
-mgmt_services/cost-mgmt:koku-ui/axios:0.25.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/axios:0.26.0.yarnlock
->>>>>>> adce068c64322ebe18cb95302814187140ed3442
 mgmt_services/cost-mgmt:koku-ui/axobject-query:2.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/babel-eslint:9.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/babel-jest:27.5.1.yarnlock
@@ -675,15 +646,9 @@ mgmt_services/cost-mgmt:koku-ui/find-up:4.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/flat-cache:3.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/flatted:3.2.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/focus-trap:6.2.2.yarnlock
-<<<<<<< HEAD
 mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.14.9.yarnlock
 mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.14.9.yarnlock
 mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.14.9.yarnlock
-=======
-mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.14.8.yarnlock
-mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.14.8.yarnlock
-mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.14.8.yarnlock
->>>>>>> adce068c64322ebe18cb95302814187140ed3442
 mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.14.9.yarnlock
 mgmt_services/cost-mgmt:koku-ui/form-data:3.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/forwarded:0.2.0.yarnlock

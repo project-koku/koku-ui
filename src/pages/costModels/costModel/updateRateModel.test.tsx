@@ -265,7 +265,7 @@ describe('update-rate', () => {
     fireEvent.click(getByText(regExp(messages.Save)));
   });
 
-  xtest('regular', async () => {
+  test('regular', async () => {
     const { getByLabelText, getByDisplayValue, getByText, getAllByRole } = render(<RenderFormDataUI index={0} />);
     fireEvent.change(getByDisplayValue(/openshift-aws-node/i), { target: { value: 'a new description' } });
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeFalsy();
@@ -362,7 +362,7 @@ describe('update-rate', () => {
     expect(getByText(regExp(messages.Save)).closest('button').disabled).toBeTruthy();
   });
 
-  xtest('duplicate tag key from regular rate', async () => {
+  test('duplicate tag key from regular rate', async () => {
     const { queryByText, getByLabelText, getAllByRole } = render(<RenderFormDataUI index={0} />);
     await waitFor(() => {
       userEvent.click(document.querySelector(qr.measurement));
