@@ -1,7 +1,6 @@
 import {
   FormGroup,
-  FormSelect,
-  FormSelectOption,
+  SelectDirection,
   Stack,
   StackItem,
   TextArea,
@@ -12,6 +11,7 @@ import {
 import messages from 'locales/messages';
 import { currencyOptions } from 'pages/components/currency';
 import { Form } from 'pages/costModels/components/forms/form';
+import { Selector } from 'pages/costModels/components/inputs/selector';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
@@ -41,7 +41,29 @@ type GeneralInformationProps = GeneralInformationOwnProps &
 
 class GeneralInformation extends React.Component<GeneralInformationProps> {
   public render() {
+    const getValueLabel = (valStr: string, options) => {
+      const val = options.find(o => o.value === valStr);
+      return !val ? valStr : intl.formatMessage(val.label, { units: val.value });
+    };
     const { intl } = this.props;
+    const sourceTypeOptions = [
+      {
+        label: messages.CostModelsWizardOnboardAWS,
+        value: 'AWS',
+      },
+      {
+        label: messages.Azure,
+        value: 'Azure',
+      },
+      {
+        label: messages.GCP,
+        value: 'GCP',
+      },
+      {
+        label: messages.CostModelsWizardOnboardOCP,
+        value: 'OCP',
+      },
+    ];
 
     return (
       <CostModelContext.Consumer>
@@ -102,32 +124,31 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                     onChange={onDescChange}
                   />
                 </FormGroup>
-                <FormGroup label={intl.formatMessage(messages.CostModelsSourceType)} isRequired fieldId="source-type">
-                  <FormSelect id="source-type" value={type} onChange={onTypeChange}>
-                    <FormSelectOption
-                      value=""
-                      label={intl.formatMessage(messages.CostModelsWizardEmptySourceTypeLabel)}
-                    />
-                    <FormSelectOption value="AWS" label={intl.formatMessage(messages.CostModelsWizardOnboardAWS)} />
-                    <FormSelectOption value="Azure" label={intl.formatMessage(messages.Azure)} />
-                    <FormSelectOption value="GCP" label={intl.formatMessage(messages.GCP)} />
-                    <FormSelectOption value="OCP" label={intl.formatMessage(messages.CostModelsWizardOnboardOCP)} />
-                  </FormSelect>
-                </FormGroup>
+                <Selector
+                  isRequired
+                  id="source-type"
+                  label={messages.CostModelsSourceType}
+                  placeholderText={intl.formatMessage(messages.CostModelsWizardEmptySourceTypeLabel)}
+                  value={getValueLabel(type, sourceTypeOptions)}
+                  onChange={onTypeChange}
+                  options={sourceTypeOptions}
+                />
                 {
                   /* Todo: Show in-progress features in beta environment only */
                   isFeatureVisible(FeatureType.currency) && (
-                    <FormGroup label={intl.formatMessage(messages.Currency)} fieldId="currency-units">
-                      <FormSelect id="currency-units" value={currencyUnits} onChange={onCurrencyChange}>
-                        {currencyOptions.map(option => (
-                          <FormSelectOption
-                            key={option.value}
-                            label={intl.formatMessage(option.label, { units: option.value })}
-                            value={option.value}
-                          />
-                        ))}
-                      </FormSelect>
-                    </FormGroup>
+                    <Selector
+                      label={messages.Currency}
+                      direction={SelectDirection.up}
+                      value={getValueLabel(currencyUnits, currencyOptions)}
+                      onChange={onCurrencyChange}
+                      id="currency-units"
+                      options={currencyOptions.map(o => {
+                        return {
+                          label: intl.formatMessage(o.label, { units: o.value }),
+                          value: o.value,
+                        };
+                      })}
+                    />
                   )
                 }
               </Form>

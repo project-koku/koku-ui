@@ -4,6 +4,7 @@ import {
   FormGroupProps,
   FormSelectProps,
   Select,
+  SelectDirection,
   SelectOption,
   SelectOptionObject,
   SelectVariant,
@@ -17,6 +18,7 @@ interface SelectorFormGroupOwnProps {
   isInvalid?: boolean;
   label?: MessageDescriptor | string;
   placeholderText?: string;
+  direction?: SelectDirection.up | SelectDirection.down;
   options: {
     label: MessageDescriptor | string;
     value: any;
@@ -47,6 +49,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
   id,
   intl = defaultIntl, // Default required for testing
   placeholderText,
+  direction = SelectDirection.down,
   isInvalid = false,
   isRequired = false,
   label,
@@ -67,7 +70,6 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
   }, [value]);
 
   const getSelectorOptions = (): SelectorOption[] => {
-    // console.log("getSelectorOptions", {options})
     const ret = options.map(option => {
       return {
         toString: () => (typeof option.label === 'object' ? intl.formatMessage(option.label) : option.label),
@@ -75,7 +77,6 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
         description: option.description,
       } as SelectorOption;
     });
-    // console.log("options", ret);
     return ret;
   };
 
@@ -94,6 +95,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
         variant={SelectVariant.single}
         placeholderText={placeholderText}
         aria-label={ariaLabel}
+        direction={direction}
         menuAppendTo={() => document.body}
         isOpen={isOpen}
         onToggle={() => setIsOpen(!isOpen)}
