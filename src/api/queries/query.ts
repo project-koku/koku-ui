@@ -30,6 +30,7 @@ export interface Query {
   filter_by?: any;
   group_by?: any;
   key_only?: boolean;
+  limit?: number;
   order_by?: any;
   perspective?: any;
   search?: any;
