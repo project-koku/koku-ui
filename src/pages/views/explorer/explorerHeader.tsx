@@ -20,7 +20,6 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
-import { getLast60DaysDate } from 'utils/dateRange';
 import { FeatureType, isFeatureVisible } from 'utils/feature';
 import {
   hasAwsAccess,
@@ -283,9 +282,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     const resourcePathsType = getResourcePathsType(perspective);
     const tagReportPathsType = getTagReportPathsType(perspective);
 
-    // Fetch tags with largest date range available
-    const { start_date, end_date } = getLast60DaysDate();
-
     return (
       <header style={styles.header}>
         <div style={styles.headerContent}>
@@ -302,7 +298,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
           {this.getPerspective(noProviders)}
           <div style={styles.groupBy}>
             <GroupBy
-              endDate={end_date}
               getIdKeyForGroupBy={getIdKeyForGroupBy}
               groupBy={groupBy}
               isDisabled={noProviders}
@@ -312,7 +307,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
               perspective={perspective}
               showOrgs={orgReportPathsType}
               showTags={tagReportPathsType}
-              startDate={start_date}
               tagReportPathsType={tagReportPathsType}
             />
           </div>
