@@ -114,7 +114,7 @@ function regExp(msg) {
 }
 
 describe('add-a-new-rate', () => {
-  xtest('regular rate', async () => {
+  test('regular rate', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
     const { container, getByLabelText, getByText, getAllByRole } = render(
@@ -180,7 +180,7 @@ describe('add-a-new-rate', () => {
     expect(submit).toHaveBeenCalled();
   });
 
-  xtest('tag rates', async () => {
+  test('tag rates', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
     const { container, queryByText, getByLabelText, getByText, getByTestId, getAllByRole } = render(
@@ -244,7 +244,7 @@ describe('add-a-new-rate', () => {
     expect(submit).toHaveBeenCalled();
   });
 
-  xtest('tag rates duplicate tag key', async () => {
+  test('tag rates duplicate tag key', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
     const { container, queryByText, getByLabelText, getAllByRole } = render(
@@ -286,7 +286,7 @@ describe('add-a-new-rate', () => {
     expect(queryByText(regExp(messages.PriceListDuplicate))).toBeTruthy();
   });
 
-  xtest('hide "enter tag rates" switch on Cluster metric', async () => {
+  test('hide "enter tag rates" switch on Cluster metric', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
     const { container, queryAllByLabelText, getAllByRole } = render(
