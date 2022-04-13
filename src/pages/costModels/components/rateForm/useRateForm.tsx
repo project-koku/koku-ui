@@ -204,7 +204,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
             {
               ...state.taggingRates.tagValues[action.index],
               ...action.payload,
-              ...(action.payload.value && {
+              ...(action.payload.value !== undefined && {
                 inputValue: action.payload.value, // Original user input
                 value: unFormat(action.payload.value), // Normalize for API requests where USD decimal format is expected
               }),
