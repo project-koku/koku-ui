@@ -205,8 +205,13 @@ export const isPercentageFormatValid = (value: string) => {
   return isCurrencyFormatValid(value);
 };
 
-// Some locales have a comma decimal separator (e.g., "1.234,56" in German is "1,234.56" in USD).
-// This function normalizes a given currency or percentage for APIs where USD decimal format is expected.
+// This function normalizes a given currency or percentage.
+//
+// Some locales us a comma as the decimal separator (e.g., "1.234,56" in German), which must be
+// replaced for APIs where USD decimal format is expected.
+//
+// Note that the group separator (e.g., "1,234.56" in USD) must also be removed when formatting
+// currencies and percentages to display in the browser's locale.
 export const unFormat = (value: string) => {
   if (!value) {
     return value;
