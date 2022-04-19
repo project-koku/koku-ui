@@ -56,7 +56,7 @@ Please ensure expected changes have been updated before releasing to the next st
 
 After releasing to prod-stable, a new tag will be created here https://github.com/project-koku/koku-ui/tags. Create a new GitHub release based on this tag -- use the tag label as the "release title".
 
-Note that you may  "Draft a new release", before the latest tag is available, and mark it as a "pre-release".
+Note that you may  "Draft a new release", before the latest tag is available, and mark it as a "pre-release" -- don't click "publish release" yet, use "save draft".
 
 Please document any new features and bug fixes available in production and other staging environments. For example, note any features that are only available in stage-beta.
 
