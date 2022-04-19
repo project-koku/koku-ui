@@ -58,12 +58,12 @@ After releasing to prod-stable, a new tag will be created here https://github.co
 
 Note that you may  "Draft a new release", before the latest tag is available and mark it as a "pre-release".
 
-Please document any new features and bug fixes found now available in production and other staging environments. For example, note any features that are only available in stage-beta.
+Please document any new features and bug fixes available in production and other staging environments. For example, note any features that are only available in stage-beta.
 
-For release examples, please see the current releases here https://github.com/project-koku/koku-ui/releases
+For release examples, please see existing releases here https://github.com/project-koku/koku-ui/releases
 
 ## Troubleshooting
 
-If a staging environment has not updated as expected, please ask questions in the forum-consoledot-ui channel at http://coreos.slack.com.
+If a staging environment has not updated as expected, it's best to ask questions in the forum-consoledot-ui channel of http://coreos.slack.com.
 
 Alternatively, open a Jira issue under the "ConsoleDot Platform (console.redhat.com) (RHCLOUD)" project category. For an example, see https://issues.redhat.com/browse/RHCLOUD-18259
