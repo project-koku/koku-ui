@@ -145,6 +145,10 @@ Follow the [steps](#koku-api) to run a local Koku API instance
 http://localhost:1337/beta/settings/applications/cost-management
 ```
 
+## Releasing Koku UI
+
+This [release][release-doc] doc describes how to release the UI to each staging environment.
+
 ## Useful Links
 
 #### Libs
@@ -207,4 +211,5 @@ http://localhost:1337/beta/settings/applications/cost-management
 [patch-etc-hosts]: https://github.com/RedHatInsights/insights-proxy/blob/master/scripts/patch-etc-hosts.sh
 [pf-logo]: https://www.patternfly.org/v4/images/logo.4189e7eb1a0741ea2b3b51b80d33c4cb.svg
 [patternfly]: https://www.patternfly.org/
+[release-doc]: https://github.com/project-koku/koku-ui/blob/main/release.md
 [yarn]: https://yarnpkg.com/en/
