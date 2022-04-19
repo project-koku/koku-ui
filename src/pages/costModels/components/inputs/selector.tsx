@@ -108,7 +108,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
           setIsOpen(false);
         }}
         selections={selection}
-      > 
+      >
         {getSelectorOptions().map(opt => (
           <SelectOption key={`${opt.value}`} value={opt} description={opt.description} />
         ))}
