@@ -815,6 +815,11 @@ export default defineMessages({
     description: 'Read about setting up a cost model',
     id: 'CostModelsEmptyStateLearnMore',
   },
+  CostModelsEnterTagDescription: {
+    defaultMessage: 'Enter a tag description',
+    description: 'Enter a tag description',
+    id: 'CostModelsEnterTagDescription',
+  },
   CostModelsEnterTagKey: {
     defaultMessage: 'Enter a tag key',
     description: 'Enter a tag key',
@@ -829,11 +834,6 @@ export default defineMessages({
     defaultMessage: 'Enter a tag value',
     description: 'Enter a tag value',
     id: 'CostModelsEnterTagValue',
-  },
-  CostModelsEnterTagDescription: {
-    defaultMessage: 'Enter a tag description',
-    description: 'Enter a tag description',
-    id: 'CostModelsEnterTagDescription',
   },
   CostModelsExamplesDoubleMarkup: {
     defaultMessage: 'A markup rate of (+) 100% doubles the base costs of your source(s).',

@@ -1,6 +1,5 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { clear } from '@testing-library/user-event/dist/clear';
 import { Rate } from 'api/rates';
 import messages from 'locales/messages';
 import { CostModelContext, defaultCostModelContext } from 'pages/costModels/createCostModelWizard/context';
@@ -116,19 +115,18 @@ function regExp(msg) {
 
 const selectOption = async (labelText: string, optionNumber: number) => {
   await waitFor(() => {
+    // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
     // eslint-disable-next-line testing-library/no-wait-for-side-effects
     userEvent.click(screen.getByLabelText(labelText));
   });
   userEvent.click(screen.getAllByRole('option')[optionNumber]);
 };
 
-fdescribe('add-a-new-rate', () => {
+describe('add-a-new-rate', () => {
   test('regular rate', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
-    const { container, getByLabelText, getByText, getAllByRole } = render(
-      <RenderFormDataUI submit={submit} cancel={cancel} />
-    );
+    render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
     userEvent.type(screen.getByLabelText('Description'), 'regular rate test');
 
@@ -181,37 +179,35 @@ fdescribe('add-a-new-rate', () => {
   test('tag rates', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
-    const { container, queryByText, getByLabelText, getByText, getByTestId, getAllByRole } = render(
-      <RenderFormDataUI submit={submit} cancel={cancel} />
-    );
+    render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
     userEvent.type(screen.getByLabelText('Description'), 'tag rate test');
 
     await selectOption('metric label', 0);
     await selectOption('measurement label', 0);
-    userEvent.click(getByLabelText(regExp(messages.CostModelsEnterTagRate)));
+    userEvent.click(screen.getByLabelText(regExp(messages.CostModelsEnterTagRate)));
 
     // tag key is required validation
     const tagKeyInput = screen.getByPlaceholderText(qr.tagKeyPlaceHolder);
-    userEvent.type(tagKeyInput, "test")
+    userEvent.type(tagKeyInput, 'test');
     expect(screen.queryByText(regExp(messages.CostModelsRequiredField))).toBeNull();
     userEvent.clear(tagKeyInput);
-    expect(screen.queryByText(regExp(messages.CostModelsRequiredField))).not.toBeNull();
-    userEvent.type(tagKeyInput, "openshift");
+    expect(screen.getByText(regExp(messages.CostModelsRequiredField))).not.toBeNull();
+    userEvent.type(tagKeyInput, 'openshift');
     expect(screen.queryByText(regExp(messages.CostModelsRequiredField))).toBeNull();
 
     // tag value is required validation
-    const tagValueInput = screen.getByPlaceholderText("Enter a tag value");
-    userEvent.type(tagKeyInput, "test")
+    const tagValueInput = screen.getByPlaceholderText('Enter a tag value');
+    userEvent.type(tagValueInput, 'test');
     expect(screen.queryByText(regExp(messages.CostModelsRequiredField))).toBeNull();
-    userEvent.clear(tagKeyInput);
-    expect(screen.queryByText(regExp(messages.CostModelsRequiredField))).not.toBeNull();
-    userEvent.type(tagKeyInput, "openshift");
+    userEvent.clear(tagValueInput);
+    expect(screen.getByText(regExp(messages.CostModelsRequiredField))).not.toBeNull();
+    userEvent.type(tagValueInput, 'openshift');
     expect(screen.queryByText(regExp(messages.CostModelsRequiredField))).toBeNull();
 
     // rate must be a number
-    const tagRateInput = screen.getByLabelText("Assign rate");
-    userEvent.type(tagRateInput, "test");
+    const tagRateInput = screen.getByLabelText('Assign rate');
+    userEvent.type(tagRateInput, 'test');
     expect(screen.getByText(regExp(messages.PriceListNumberRate))).not.toBeNull();
 
     // rate is required
@@ -219,75 +215,102 @@ fdescribe('add-a-new-rate', () => {
     expect(screen.getByText(regExp(messages.CostModelsRequiredField))).not.toBeNull();
 
     // rate must be positive
-    userEvent.type(tagRateInput, "-0.23");
-    expect(screen.queryByText(regExp(messages.PriceListPosNumberRate))).not.toBeNull();
+    userEvent.type(tagRateInput, '-0.23');
+    expect(screen.getByText(regExp(messages.PriceListPosNumberRate))).not.toBeNull();
 
     // setting a valid rate - now form is valid and can be submitted
     const createButton = screen.getByText(regExp(messages.CreateRate));
     expect(createButton.getAttribute('aria-disabled')).toBe('true');
     userEvent.clear(tagRateInput);
-    console.log([...document.querySelectorAll("pf-m-error")].map( n => n.id));
 
-    userEvent.type(tagRateInput, "0.23");
-    userEvent.type(screen.getByPlaceholderText("Enter a tag description"), "default worker");
-    console.log([...document.querySelectorAll("pf-m-error")].map( n => n.id));
+    userEvent.type(tagRateInput, '0.23');
+    userEvent.type(screen.getByPlaceholderText('Enter a tag description'), 'default worker');
     expect(createButton.getAttribute('aria-disabled')).toBe('false');
 
-  //   // set tag to default
-  //   fireEvent.click(container.querySelector(qr.defaultNth(0)));
+    // set tag to default
+    userEvent.click(screen.getByLabelText('Default'));
 
-  //   // add a new rate disables the submit button
-  //   fireEvent.click(getByTestId('add_more'));
-  //   expect(getByText(regExp(messages.CreateRate)).closest('button').disabled).toBeTruthy();
-  //   fireEvent.click(getByTestId('remove_tag_1'));
-  //   expect(getByText(regExp(messages.CreateRate)).closest('button').disabled).toBeFalsy();
-  //   fireEvent.click(getByText(regExp(messages.CreateRate)).closest('button'));
-  //   expect(submit).toHaveBeenCalled();
-  // });
+    // add a new rate disables the submit button
+    userEvent.click(screen.getByText(/add more tag values/i));
+    expect(createButton.getAttribute('aria-disabled')).toBe('true');
+    // remove buttons have empty label
+    userEvent.click(screen.getAllByRole('button', { name: '' })[1]);
+    expect(createButton.getAttribute('aria-disabled')).toBe('false');
+    userEvent.click(createButton);
+    expect(submit).toHaveBeenCalled();
+  });
 
-  // test('tag rates duplicate tag key', async () => {
-  //   const submit = jest.fn();
-  //   const cancel = jest.fn();
-  //   const { container, queryByText, getByLabelText, getAllByRole } = render(
-  //     <RenderFormDataUI submit={submit} cancel={cancel} />
-  //   );
+  test('tag rates duplicate tag key', async () => {
+    const submit = jest.fn();
+    const cancel = jest.fn();
+    render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
-  //   userEvent.click(screen.getByLabelText('metric label'));
-  //   userEvent.click(getAllByRole('option')[1]);
+    await waitFor(() => {
+      // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
+      // eslint-disable-next-line testing-library/no-wait-for-side-effects
+      userEvent.click(screen.getByLabelText('metric label'));
+    });
+    userEvent.click(screen.getAllByRole('option')[1]);
+    // selectOption('metric label', 1);
 
-  //   userEvent.click(screen.getByLabelText('measurement label'));
-  //   userEvent.click(getAllByRole('option')[0]);
-  //   fireEvent.click(getByLabelText(regExp(messages.CostModelsEnterTagRate)));
+    await waitFor(() => {
+      // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
+      // eslint-disable-next-line testing-library/no-wait-for-side-effects
+      userEvent.click(screen.getByLabelText('measurement label'));
+    });
+    userEvent.click(screen.getAllByRole('option')[0]);
+    // selectOption('measurement label', 0);
 
-  //   // tag key is duplicated
-  //   fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'app' } });
-  //   expect(queryByText(regExp(messages.PriceListDuplicate))).toBeTruthy();
+    userEvent.click(screen.getByLabelText(regExp(messages.CostModelsEnterTagRate)));
 
-  //   fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'app1' } });
-  //   expect(queryByText(regExp(messages.PriceListDuplicate))).toBeFalsy();
+    // tag key is duplicated
+    const tagKeyInput = screen.getByPlaceholderText(qr.tagKeyPlaceHolder);
+    userEvent.type(tagKeyInput, 'app');
+    expect(screen.getByText(regExp(messages.PriceListDuplicate))).not.toBeNull();
 
-  //   // change measurement will set tag key as not duplicate
-  //   fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'app' } });
-  //   expect(queryByText(regExp(messages.PriceListDuplicate))).toBeTruthy();
+    userEvent.type(tagKeyInput, '1');
+    expect(screen.queryByText(regExp(messages.PriceListDuplicate))).toBeNull();
 
-  //   userEvent.click(screen.getByLabelText('measurement label'));
-  //   userEvent.click(getAllByRole('option')[1]);
-  //   expect(queryByText(regExp(messages.PriceListDuplicate))).toBeFalsy();
+    // change measurement will set tag key as not duplicate
+    userEvent.type(tagKeyInput, '{backspace}');
+    expect(screen.getByText(regExp(messages.PriceListDuplicate))).not.toBeNull();
 
-  //   userEvent.click(screen.getByLabelText('measurement label'));
-  //   userEvent.click(getAllByRole('option')[0]);
-  //   expect(queryByText(regExp(messages.PriceListDuplicate))).toBeTruthy();
-  // });
+    await waitFor(() => {
+      // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
+      // eslint-disable-next-line testing-library/no-wait-for-side-effects
+      userEvent.click(screen.getByLabelText('measurement label'));
+    });
+    userEvent.click(screen.getAllByRole('option')[1]);
 
-  // test('hide "enter tag rates" switch on Cluster metric', async () => {
-  //   const submit = jest.fn();
-  //   const cancel = jest.fn();
-  //   const { container, queryAllByLabelText, getAllByRole } = render(
-  //     <RenderFormDataUI submit={submit} cancel={cancel} />
-  //   );
+    expect(screen.queryByText(regExp(messages.PriceListDuplicate))).toBeNull();
 
-  //   userEvent.click(screen.getByLabelText('metric label'));
-  //   userEvent.click(getAllByRole('option')[2]);
-  //   expect(queryAllByLabelText(regExp(messages.CostModelsEnterTagRate))).toHaveLength(0);
+    await waitFor(() => {
+      // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
+      // eslint-disable-next-line testing-library/no-wait-for-side-effects
+      userEvent.click(screen.getByLabelText('measurement label'));
+    });
+    userEvent.click(screen.getAllByRole('option')[0]);
+    expect(screen.getByText(regExp(messages.PriceListDuplicate))).not.toBeNull();
+  });
+
+  test('hide "enter tag rates" switch on Cluster metric', async () => {
+    const submit = jest.fn();
+    const cancel = jest.fn();
+    render(<RenderFormDataUI submit={submit} cancel={cancel} />);
+
+    await waitFor(() => {
+      // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
+      // eslint-disable-next-line testing-library/no-wait-for-side-effects
+      userEvent.click(screen.getByLabelText('metric label'));
+    });
+    userEvent.click(screen.getAllByRole('option')[2]);
+
+    await waitFor(() => {
+      // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
+      // eslint-disable-next-line testing-library/no-wait-for-side-effects
+      userEvent.click(screen.getByLabelText('measurement label'));
+    });
+    userEvent.click(screen.getAllByRole('option')[0]);
+    expect(screen.queryAllByLabelText(regExp(messages.CostModelsEnterTagRate))).toHaveLength(0);
   });
 });

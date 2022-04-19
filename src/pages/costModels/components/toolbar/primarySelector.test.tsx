@@ -1,11 +1,12 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import { PrimarySelector } from './primarySelector';
 
 test('primary selector', () => {
   const setPrimary = jest.fn();
-  const { queryAllByText, getByRole, getAllByRole } = render(
+  render(
     <PrimarySelector
       primary={'metrics'}
       setPrimary={setPrimary}
@@ -15,10 +16,10 @@ test('primary selector', () => {
       ]}
     />
   );
-  expect(queryAllByText('Metrics').length).toBe(1);
-  expect(queryAllByText('Measurements').length).toBe(0);
-  fireEvent.click(getByRole('button'));
-  expect(getAllByRole('option').length).toBe(2);
-  fireEvent.click(getAllByRole('option')[1]);
+  expect(screen.queryAllByText('Metrics').length).toBe(1);
+  expect(screen.queryAllByText('Measurements').length).toBe(0);
+  userEvent.click(screen.getByRole('button'));
+  expect(screen.getAllByRole('option').length).toBe(2);
+  userEvent.click(screen.getAllByRole('option')[1]);
   expect(setPrimary.mock.calls).toEqual([['measurements']]);
 });

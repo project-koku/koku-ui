@@ -127,6 +127,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                 <Selector
                   isRequired
                   id="source-type"
+                  appendMenuTo={() => document.body}
                   label={messages.CostModelsSourceType}
                   placeholderText={intl.formatMessage(messages.CostModelsWizardEmptySourceTypeLabel)}
                   value={getValueLabel(type, sourceTypeOptions)}
@@ -139,6 +140,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                     <Selector
                       label={messages.Currency}
                       direction={SelectDirection.up}
+                      appendMenuTo={() => document.body}
                       value={getValueLabel(currencyUnits, currencyOptions)}
                       onChange={onCurrencyChange}
                       id="currency-units"

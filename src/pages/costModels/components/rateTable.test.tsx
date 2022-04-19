@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Rate } from 'api/rates';
 import React from 'react';
 
@@ -62,10 +63,10 @@ describe('rate-table', () => {
         },
       },
     ];
-    const { getByText } = render(<RateTable tiers={tiers} />);
-    expect(getByText('rate 1')).toBeTruthy();
-    expect(getByText('rate 2')).toBeTruthy();
-    expect(getByText('grafana')).toBeTruthy();
+    render(<RateTable tiers={tiers} />);
+    expect(screen.getByText('rate 1')).toBeTruthy();
+    expect(screen.getByText('rate 2')).toBeTruthy();
+    expect(screen.getByText('grafana')).toBeTruthy();
   });
   test('sort by metric & measurement', () => {
     // eslint-disable-next-line no-console
@@ -160,16 +161,16 @@ describe('rate-table', () => {
         ],
       },
     ];
-    const { queryAllByRole, getByRole } = render(<RateTable tiers={tiers} />);
-    const metrics = queryAllByRole('cell', { name: /^(CPU|Node)$/ });
+    render(<RateTable tiers={tiers} />);
+    const metrics = screen.queryAllByRole('cell', { name: /^(CPU|Node)$/ });
     expect(metrics).toMatchSnapshot();
-    fireEvent.click(getByRole('button', { name: /metric/i }));
+    userEvent.click(screen.getByRole('button', { name: /metric/i }));
     expect(metrics).toMatchSnapshot();
-    fireEvent.click(getByRole('button', { name: /metric/i }));
+    userEvent.click(screen.getByRole('button', { name: /metric/i }));
     expect(metrics).toMatchSnapshot();
-    fireEvent.click(getByRole('button', { name: /measurement/i }));
+    userEvent.click(screen.getByRole('button', { name: /measurement/i }));
     expect(metrics).toMatchSnapshot();
-    fireEvent.click(getByRole('button', { name: /measurement/i }));
+    userEvent.click(screen.getByRole('button', { name: /measurement/i }));
     expect(metrics).toMatchSnapshot();
   });
 });
