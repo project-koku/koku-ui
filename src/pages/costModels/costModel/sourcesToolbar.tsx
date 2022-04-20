@@ -80,7 +80,7 @@ export const SourcesToolbar: React.SFC<SourcesToolbarProps> = ({
           </ToolbarItem>
         </ToolbarToggleGroup>
         <ToolbarItem>
-          <ReadOnlyTooltip isDisabled={true}>
+          <ReadOnlyTooltip isDisabled={actionButtonProps.isDisabled}>
             <Button {...actionButtonProps} />
           </ReadOnlyTooltip>
         </ToolbarItem>
