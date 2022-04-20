@@ -7,6 +7,9 @@ import React from 'react';
 
 import AddPriceList from './addPriceList';
 
+// waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
+/* eslint-disable testing-library/no-wait-for-side-effects */
+
 const metricsHash = {
   CPU: {
     Request: {
@@ -116,7 +119,6 @@ function regExp(msg) {
 const selectOption = async (labelText: string, optionNumber: number) => {
   await waitFor(() => {
     // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
-    // eslint-disable-next-line testing-library/no-wait-for-side-effects
     userEvent.click(screen.getByLabelText(labelText));
   });
   userEvent.click(screen.getAllByRole('option')[optionNumber]);
@@ -246,20 +248,14 @@ describe('add-a-new-rate', () => {
     render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
     await waitFor(() => {
-      // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
-      // eslint-disable-next-line testing-library/no-wait-for-side-effects
       userEvent.click(screen.getByLabelText('metric label'));
     });
     userEvent.click(screen.getAllByRole('option')[1]);
-    // selectOption('metric label', 1);
 
     await waitFor(() => {
-      // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
-      // eslint-disable-next-line testing-library/no-wait-for-side-effects
       userEvent.click(screen.getByLabelText('measurement label'));
     });
     userEvent.click(screen.getAllByRole('option')[0]);
-    // selectOption('measurement label', 0);
 
     userEvent.click(screen.getByLabelText(regExp(messages.CostModelsEnterTagRate)));
 
@@ -276,8 +272,6 @@ describe('add-a-new-rate', () => {
     expect(screen.getByText(regExp(messages.PriceListDuplicate))).not.toBeNull();
 
     await waitFor(() => {
-      // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
-      // eslint-disable-next-line testing-library/no-wait-for-side-effects
       userEvent.click(screen.getByLabelText('measurement label'));
     });
     userEvent.click(screen.getAllByRole('option')[1]);
@@ -285,8 +279,6 @@ describe('add-a-new-rate', () => {
     expect(screen.queryByText(regExp(messages.PriceListDuplicate))).toBeNull();
 
     await waitFor(() => {
-      // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
-      // eslint-disable-next-line testing-library/no-wait-for-side-effects
       userEvent.click(screen.getByLabelText('measurement label'));
     });
     userEvent.click(screen.getAllByRole('option')[0]);
@@ -299,15 +291,11 @@ describe('add-a-new-rate', () => {
     render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
     await waitFor(() => {
-      // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
-      // eslint-disable-next-line testing-library/no-wait-for-side-effects
       userEvent.click(screen.getByLabelText('metric label'));
     });
     userEvent.click(screen.getAllByRole('option')[2]);
 
     await waitFor(() => {
-      // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
-      // eslint-disable-next-line testing-library/no-wait-for-side-effects
       userEvent.click(screen.getByLabelText('measurement label'));
     });
     userEvent.click(screen.getAllByRole('option')[0]);
