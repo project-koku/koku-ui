@@ -7,6 +7,9 @@ import React from 'react';
 
 import AddPriceList from './addPriceList';
 
+// waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
+/* eslint-disable testing-library/no-wait-for-side-effects */
+
 const metricsHash = {
   CPU: {
     Request: {

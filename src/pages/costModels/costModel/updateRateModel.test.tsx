@@ -8,6 +8,9 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { rootReducer } from 'store/rootReducer';
 
+// waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
+/* eslint-disable testing-library/no-wait-for-side-effects */
+
 const mockupdater = updateCostModel as jest.Mock;
 mockupdater.mockReturnValue(Promise.resolve({ data: [] }));
 
