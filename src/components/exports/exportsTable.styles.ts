@@ -18,7 +18,6 @@ export const styles = {
   },
   failedButton: {
     fontSize: global_FontSize_sm.value,
-    marginLeft: '-10px',
   },
   failedHeader: {
     marginLeft: global_spacer_md.value,
