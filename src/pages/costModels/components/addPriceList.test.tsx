@@ -117,11 +117,13 @@ function regExp(msg) {
 }
 
 const selectOption = async (labelText: string, optionNumber: number) => {
-  await waitFor(() => {
+  // await waitFor(() => {
     // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
     userEvent.click(screen.getByLabelText(labelText));
-  });
-  userEvent.click(screen.getAllByRole('option')[optionNumber]);
+    const options = await screen.findAllByRole('option');
+
+  // });
+  userEvent.click(options[optionNumber]);
 };
 
 describe('add-a-new-rate', () => {
