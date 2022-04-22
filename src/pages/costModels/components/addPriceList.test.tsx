@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Rate } from 'api/rates';
 import messages from 'locales/messages';
@@ -6,9 +6,6 @@ import { CostModelContext, defaultCostModelContext } from 'pages/costModels/crea
 import React from 'react';
 
 import AddPriceList from './addPriceList';
-
-// waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
-/* eslint-disable testing-library/no-wait-for-side-effects */
 
 const metricsHash = {
   CPU: {
@@ -116,43 +113,50 @@ function regExp(msg) {
   return new RegExp(msg.defaultMessage);
 }
 
-const selectOption = async (labelText: string, optionNumber: number) => {
-  // await waitFor(() => {
-    // waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
-    userEvent.click(screen.getByLabelText(labelText));
-    const options = await screen.findAllByRole('option');
-
-  // });
-  userEvent.click(options[optionNumber]);
-};
-
 describe('add-a-new-rate', () => {
   test('regular rate', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
+    let options = null;
     render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
     userEvent.type(screen.getByLabelText('Description'), 'regular rate test');
 
     // select first option for metric
-    await selectOption('metric label', 0);
+    userEvent.click(screen.getByLabelText('metric label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[0]);
 
     // select first option for measurement
-    await selectOption('measurement label', 0);
+    userEvent.click(screen.getByLabelText('measurement label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[0]);
 
     // make sure the default cost type is selected
     expect(screen.getByLabelText(qr.infraradio)).toHaveProperty('checked', true);
 
     // selecting a different measurement does not reset cost type to default
     userEvent.click(screen.getByLabelText(qr.supplradio));
-    await selectOption('measurement label', 1);
+
+    userEvent.click(screen.getByLabelText('measurement label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[1]);
+
     expect(screen.getByLabelText(qr.supplradio)).toHaveProperty('checked', true);
 
     // selecting metric will reset both measurement and cost type
     userEvent.click(screen.getByLabelText(qr.infraradio));
-    await selectOption('metric label', 1);
+
+    userEvent.click(screen.getByLabelText('metric label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[1]);
+
     expect(screen.getByText(regExp(messages.CostModelsRequiredField))).not.toBeNull();
-    await selectOption('measurement label', 0);
+
+    userEvent.click(screen.getByLabelText('measurement label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[0]);
+
     expect(screen.getByLabelText(qr.supplradio)).toHaveProperty('checked', true);
     userEvent.click(screen.getByLabelText(qr.infraradio));
 
@@ -183,12 +187,19 @@ describe('add-a-new-rate', () => {
   test('tag rates', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
+    let options = null;
     render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
     userEvent.type(screen.getByLabelText('Description'), 'tag rate test');
 
-    await selectOption('metric label', 0);
-    await selectOption('measurement label', 0);
+    userEvent.click(screen.getByLabelText('metric label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[0]);
+
+    userEvent.click(screen.getByLabelText('measurement label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[0]);
+
     userEvent.click(screen.getByLabelText(regExp(messages.CostModelsEnterTagRate)));
 
     // tag key is required validation
@@ -247,17 +258,17 @@ describe('add-a-new-rate', () => {
   test('tag rates duplicate tag key', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
+    let options = null;
     render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
-    await waitFor(() => {
-      userEvent.click(screen.getByLabelText('metric label'));
-    });
-    userEvent.click(screen.getAllByRole('option')[1]);
+    userEvent.click(screen.getByLabelText('metric label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[1]);
 
-    await waitFor(() => {
-      userEvent.click(screen.getByLabelText('measurement label'));
-    });
-    userEvent.click(screen.getAllByRole('option')[0]);
+    const measurementSelect = await screen.findByLabelText('measurement label');
+    userEvent.click(measurementSelect);
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[0]);
 
     userEvent.click(screen.getByLabelText(regExp(messages.CostModelsEnterTagRate)));
 
@@ -273,34 +284,32 @@ describe('add-a-new-rate', () => {
     userEvent.type(tagKeyInput, '{backspace}');
     expect(screen.getByText(regExp(messages.PriceListDuplicate))).not.toBeNull();
 
-    await waitFor(() => {
-      userEvent.click(screen.getByLabelText('measurement label'));
-    });
-    userEvent.click(screen.getAllByRole('option')[1]);
+    userEvent.click(measurementSelect);
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[1]);
 
     expect(screen.queryByText(regExp(messages.PriceListDuplicate))).toBeNull();
 
-    await waitFor(() => {
-      userEvent.click(screen.getByLabelText('measurement label'));
-    });
-    userEvent.click(screen.getAllByRole('option')[0]);
+    userEvent.click(screen.getByLabelText('measurement label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[0]);
+
     expect(screen.getByText(regExp(messages.PriceListDuplicate))).not.toBeNull();
   });
 
   test('hide "enter tag rates" switch on Cluster metric', async () => {
     const submit = jest.fn();
     const cancel = jest.fn();
+    let options = null;
     render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
-    await waitFor(() => {
-      userEvent.click(screen.getByLabelText('metric label'));
-    });
-    userEvent.click(screen.getAllByRole('option')[2]);
+    userEvent.click(screen.getByLabelText('metric label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[2]);
 
-    await waitFor(() => {
-      userEvent.click(screen.getByLabelText('measurement label'));
-    });
-    userEvent.click(screen.getAllByRole('option')[0]);
+    userEvent.click(screen.getByLabelText('measurement label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[0]);
     expect(screen.queryAllByLabelText(regExp(messages.CostModelsEnterTagRate))).toHaveLength(0);
   });
 });

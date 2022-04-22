@@ -1,5 +1,5 @@
 jest.mock('api/costModels');
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { updateCostModel } from 'api/costModels';
 import messages from 'locales/messages';
@@ -7,9 +7,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { rootReducer } from 'store/rootReducer';
-
-// waitfor needed for act() warning with appending select to body, lint disable needed for waitifor
-/* eslint-disable testing-library/no-wait-for-side-effects */
 
 const mockupdater = updateCostModel as jest.Mock;
 mockupdater.mockReturnValue(Promise.resolve({ data: [] }));
@@ -265,6 +262,7 @@ describe('update-rate', () => {
   });
 
   test('regular', async () => {
+    let options = null;
     render(<RenderFormDataUI index={0} />);
     const descInput = screen.getByDisplayValue('openshift-aws-node');
     const saveButton = screen.getByText(regExp(messages.Save));
@@ -276,38 +274,36 @@ describe('update-rate', () => {
     userEvent.type(descInput, 'openshift-aws-node');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await waitFor(() => {
-      userEvent.click(screen.getByLabelText('measurement label'));
-    });
-    userEvent.click(screen.getAllByRole('option')[1]);
+    userEvent.click(screen.getByLabelText('measurement label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[1]);
+
     expect(saveButton.getAttribute('disabled')).toBeNull();
 
-    await waitFor(() => {
-      userEvent.click(screen.getByLabelText('measurement label'));
-    });
-    userEvent.click(screen.getAllByRole('option')[0]);
+    userEvent.click(screen.getByLabelText('measurement label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[0]);
+
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await waitFor(() => {
-      userEvent.click(screen.getByLabelText('metric label'));
-    });
-    userEvent.click(screen.getAllByRole('option')[1]);
+    userEvent.click(screen.getByLabelText('metric label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[1]);
 
-    await waitFor(() => {
-      userEvent.click(screen.getByLabelText('measurement label'));
-    });
-    userEvent.click(screen.getAllByRole('option')[0]);
+    userEvent.click(screen.getByLabelText('measurement label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[0]);
+
     expect(saveButton.getAttribute('disabled')).toBeNull();
 
-    await waitFor(() => {
-      userEvent.click(screen.getByLabelText('metric label'));
-    });
-    userEvent.click(screen.getAllByRole('option')[0]);
+    userEvent.click(screen.getByLabelText('metric label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[0]);
 
-    await waitFor(() => {
-      userEvent.click(screen.getByLabelText('measurement label'));
-    });
-    userEvent.click(screen.getAllByRole('option')[0]);
+    userEvent.click(screen.getByLabelText('measurement label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[0]);
+
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
     userEvent.click(screen.getByLabelText(/infrastructure/i));
@@ -367,11 +363,13 @@ describe('update-rate', () => {
   });
 
   test('duplicate tag key from regular rate', async () => {
+    let options = null;
     render(<RenderFormDataUI index={0} />);
-    await waitFor(() => {
-      userEvent.click(screen.getByLabelText('measurement label'));
-    });
-    userEvent.click(screen.getAllByRole('option')[1]);
+
+    userEvent.click(screen.getByLabelText('measurement label'));
+    options = await screen.findAllByRole('option');
+    userEvent.click(options[1]);
+
     userEvent.click(screen.getByLabelText(regExp(messages.CostModelsEnterTagRate)));
     userEvent.type(screen.getByLabelText(regExp(messages.CostModelsFilterTagKey)), 'openshift-region-1');
     expect(screen.getByText(regExp(messages.PriceListDuplicate))).not.toBeNull();
