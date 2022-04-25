@@ -1,9 +1,5 @@
 jest.mock('api/costModels');
-<<<<<<< HEAD
 import { configure, render, screen } from '@testing-library/react';
-=======
-import { render, screen } from '@testing-library/react';
->>>>>>> d9186340 (remove waitFors from select tests, use findAllBy to get options instead)
 import userEvent from '@testing-library/user-event';
 import { updateCostModel } from 'api/costModels';
 import messages from 'locales/messages';
@@ -281,57 +277,33 @@ describe('update-rate', () => {
     userEvent.type(descInput, 'openshift-aws-node');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-<<<<<<< HEAD
     userEvent.click(screen.getByLabelText('Select Measurement'));
-=======
-    userEvent.click(screen.getByLabelText('measurement label'));
->>>>>>> d9186340 (remove waitFors from select tests, use findAllBy to get options instead)
     options = await screen.findAllByRole('option');
     userEvent.click(options[1]);
 
     expect(saveButton.getAttribute('disabled')).toBeNull();
 
-<<<<<<< HEAD
     userEvent.click(screen.getByLabelText('Select Measurement'));
-=======
-    userEvent.click(screen.getByLabelText('measurement label'));
->>>>>>> d9186340 (remove waitFors from select tests, use findAllBy to get options instead)
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-<<<<<<< HEAD
     userEvent.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[1]);
 
     userEvent.click(screen.getByLabelText('Select Measurement'));
-=======
-    userEvent.click(screen.getByLabelText('metric label'));
-    options = await screen.findAllByRole('option');
-    userEvent.click(options[1]);
-
-    userEvent.click(screen.getByLabelText('measurement label'));
->>>>>>> d9186340 (remove waitFors from select tests, use findAllBy to get options instead)
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
     expect(saveButton.getAttribute('disabled')).toBeNull();
 
-<<<<<<< HEAD
     userEvent.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
     userEvent.click(screen.getByLabelText('Select Measurement'));
-=======
-    userEvent.click(screen.getByLabelText('metric label'));
-    options = await screen.findAllByRole('option');
-    userEvent.click(options[0]);
-
-    userEvent.click(screen.getByLabelText('measurement label'));
->>>>>>> d9186340 (remove waitFors from select tests, use findAllBy to get options instead)
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
@@ -397,11 +369,7 @@ describe('update-rate', () => {
     let options = null;
     render(<RenderFormDataUI index={0} />);
 
-<<<<<<< HEAD
     userEvent.click(screen.getByLabelText('Select Measurement'));
-=======
-    userEvent.click(screen.getByLabelText('measurement label'));
->>>>>>> d9186340 (remove waitFors from select tests, use findAllBy to get options instead)
     options = await screen.findAllByRole('option');
     userEvent.click(options[1]);
 
