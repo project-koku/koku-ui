@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { configure, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Rate } from 'api/rates';
 import messages from 'locales/messages';
@@ -113,6 +113,9 @@ function regExp(msg) {
   return new RegExp(msg.defaultMessage);
 }
 
+// Update testId accessor since data-testid is not passed to the parent component of Select
+configure({ testIdAttribute: 'data-ouia-component-id' });
+
 describe('add-a-new-rate', () => {
   test('regular rate', async () => {
     const submit = jest.fn();
@@ -123,12 +126,12 @@ describe('add-a-new-rate', () => {
     userEvent.type(screen.getByLabelText('Description'), 'regular rate test');
 
     // select first option for metric
-    userEvent.click(screen.getByLabelText('metric label'));
+    userEvent.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
     // select first option for measurement
-    userEvent.click(screen.getByLabelText('measurement label'));
+    userEvent.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
@@ -138,7 +141,7 @@ describe('add-a-new-rate', () => {
     // selecting a different measurement does not reset cost type to default
     userEvent.click(screen.getByLabelText(qr.supplradio));
 
-    userEvent.click(screen.getByLabelText('measurement label'));
+    userEvent.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[1]);
 
@@ -147,13 +150,13 @@ describe('add-a-new-rate', () => {
     // selecting metric will reset both measurement and cost type
     userEvent.click(screen.getByLabelText(qr.infraradio));
 
-    userEvent.click(screen.getByLabelText('metric label'));
+    userEvent.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[1]);
 
     expect(screen.getByText(regExp(messages.CostModelsRequiredField))).not.toBeNull();
 
-    userEvent.click(screen.getByLabelText('measurement label'));
+    userEvent.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
@@ -192,11 +195,11 @@ describe('add-a-new-rate', () => {
 
     userEvent.type(screen.getByLabelText('Description'), 'tag rate test');
 
-    userEvent.click(screen.getByLabelText('metric label'));
+    userEvent.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
-    userEvent.click(screen.getByLabelText('measurement label'));
+    userEvent.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
@@ -248,8 +251,8 @@ describe('add-a-new-rate', () => {
     // add a new rate disables the submit button
     userEvent.click(screen.getByText(/add more tag values/i));
     expect(createButton.getAttribute('aria-disabled')).toBe('true');
-    // remove buttons have empty label
-    userEvent.click(screen.getAllByRole('button', { name: '' })[1]);
+
+    userEvent.click(screen.getAllByRole('button', { name: /remove tag value/i })[1]);
     expect(createButton.getAttribute('aria-disabled')).toBe('false');
     userEvent.click(createButton);
     expect(submit).toHaveBeenCalled();
@@ -261,11 +264,11 @@ describe('add-a-new-rate', () => {
     let options = null;
     render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
-    userEvent.click(screen.getByLabelText('metric label'));
+    userEvent.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[1]);
 
-    const measurementSelect = await screen.findByLabelText('measurement label');
+    const measurementSelect = await screen.findByLabelText('Select Measurement');
     userEvent.click(measurementSelect);
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
@@ -290,7 +293,7 @@ describe('add-a-new-rate', () => {
 
     expect(screen.queryByText(regExp(messages.PriceListDuplicate))).toBeNull();
 
-    userEvent.click(screen.getByLabelText('measurement label'));
+    userEvent.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
@@ -303,11 +306,11 @@ describe('add-a-new-rate', () => {
     let options = null;
     render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
-    userEvent.click(screen.getByLabelText('metric label'));
+    userEvent.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[2]);
 
-    userEvent.click(screen.getByLabelText('measurement label'));
+    userEvent.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
     expect(screen.queryAllByLabelText(regExp(messages.CostModelsEnterTagRate))).toHaveLength(0);

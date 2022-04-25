@@ -1,5 +1,5 @@
 jest.mock('api/costModels');
-import { render, screen } from '@testing-library/react';
+import { configure, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { updateCostModel } from 'api/costModels';
 import messages from 'locales/messages';
@@ -248,6 +248,9 @@ function regExp(msg) {
   return new RegExp(msg.defaultMessage);
 }
 
+// Update testId accessor since data-testid is not passed to the parent component of Select
+configure({ testIdAttribute: 'data-ouia-component-id' });
+
 describe('update-rate', () => {
   test('index is -1', () => {
     render(<RenderFormDataUI index={-1} />);
@@ -274,33 +277,33 @@ describe('update-rate', () => {
     userEvent.type(descInput, 'openshift-aws-node');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    userEvent.click(screen.getByLabelText('measurement label'));
+    userEvent.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[1]);
 
     expect(saveButton.getAttribute('disabled')).toBeNull();
 
-    userEvent.click(screen.getByLabelText('measurement label'));
+    userEvent.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    userEvent.click(screen.getByLabelText('metric label'));
+    userEvent.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[1]);
 
-    userEvent.click(screen.getByLabelText('measurement label'));
+    userEvent.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
     expect(saveButton.getAttribute('disabled')).toBeNull();
 
-    userEvent.click(screen.getByLabelText('metric label'));
+    userEvent.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
-    userEvent.click(screen.getByLabelText('measurement label'));
+    userEvent.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
@@ -349,11 +352,11 @@ describe('update-rate', () => {
     userEvent.click(screen.getAllByLabelText(regExp(messages.CostModelsTagRateTableDefault))[0]);
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    userEvent.click(screen.getByTestId(/add_more/i));
+    userEvent.click(screen.getByText(/Add more tag values/i));
     userEvent.type(screen.getAllByLabelText(regExp(messages.CostModelsTagRateTableValue))[4], 'something random');
     userEvent.type(screen.getAllByLabelText(regExp(messages.Rate))[4], '1.01');
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    userEvent.click(screen.getByTestId('remove_tag_4'));
+    userEvent.click(screen.getAllByLabelText(regExp(messages.CostModelsRemoveTagLabel))[4]);
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
     userEvent.type(screen.getByDisplayValue(/openshift-region-1/i), '2');
@@ -366,7 +369,7 @@ describe('update-rate', () => {
     let options = null;
     render(<RenderFormDataUI index={0} />);
 
-    userEvent.click(screen.getByLabelText('measurement label'));
+    userEvent.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[1]);
 

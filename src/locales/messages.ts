@@ -904,6 +904,11 @@ export default defineMessages({
     description: 'Refresh this dialog',
     id: 'CostModelsRefreshDialog',
   },
+  CostModelsRemoveTagLabel: {
+    defaultMessage: 'Remove tag value',
+    description: 'Remove tag value',
+    id: 'CostModelsRemoveTagLabel',
+  },
   CostModelsRequiredField: {
     defaultMessage: 'This field is required',
     description: 'This field is required',
@@ -918,6 +923,16 @@ export default defineMessages({
     defaultMessage: 'Server error: could not get the cost model.',
     description: 'Server error: could not get the cost model.',
     id: 'CostModelsRouterServerError',
+  },
+  CostModelsSelectMeasurement: {
+    defaultMessage: 'Select Measurement',
+    description: 'Select Measurement',
+    id: 'CostModelsSelectMeasurement',
+  },
+  CostModelsSelectMetric: {
+    defaultMessage: 'Select Metric',
+    description: 'Select Metric',
+    id: 'CostModelsSelectMetric',
   },
   CostModelsSourceDelete: {
     defaultMessage: 'Unassign',

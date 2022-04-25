@@ -126,7 +126,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                 </FormGroup>
                 <Selector
                   isRequired
-                  id="source-type"
+                  id="source-type-selector"
                   appendMenuTo={() => document.body}
                   label={messages.CostModelsSourceType}
                   placeholderText={intl.formatMessage(messages.CostModelsWizardEmptySourceTypeLabel)}
@@ -143,7 +143,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                       appendMenuTo={() => document.body}
                       value={getValueLabel(currencyUnits, currencyOptions)}
                       onChange={onCurrencyChange}
-                      id="currency-units"
+                      id="currency-units-selector"
                       options={currencyOptions.map(o => {
                         return {
                           label: intl.formatMessage(o.label, { units: o.value }),

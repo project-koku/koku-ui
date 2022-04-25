@@ -18,6 +18,7 @@ interface SelectorFormGroupOwnProps {
   isInvalid?: boolean;
   label?: MessageDescriptor | string;
   appendMenuTo?: HTMLElement | 'parent' | 'inline' | (() => HTMLElement);
+  toggleAriaLabel?: string;
   placeholderText?: string;
   direction?: SelectDirection.up | SelectDirection.down;
   options: {
@@ -49,6 +50,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
   helperTextInvalid: helpText,
   id,
   intl = defaultIntl, // Default required for testing
+  toggleAriaLabel,
   placeholderText,
   direction = SelectDirection.down,
   isInvalid = false,
@@ -90,13 +92,9 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
       helperTextInvalid={helpText !== null && typeof helpText === 'object' ? intl.formatMessage(helpText) : helpText}
       validated={isInvalid ? 'error' : 'default'}
     >
-      <span id={id + '-aria-label'} hidden>
-        {id} label
-      </span>
       <Select
         id={id}
-        ouiaId={id}
-        aria-labelledby={id + '-aria-label'}
+        toggleAriaLabel={toggleAriaLabel}
         variant={SelectVariant.single}
         placeholderText={placeholderText}
         aria-label={ariaLabel}
