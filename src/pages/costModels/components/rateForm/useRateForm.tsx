@@ -318,7 +318,7 @@ export function useRateData(metricsHash: MetricHash, rate: Rate = undefined, tie
     setTagKey: (value: string) => dispatch({ type: 'UPDATE_TAG_KEY', value }),
     removeTag: (index: number) => dispatch({ type: 'REMOVE_TAG', index }),
     addTag: () => dispatch({ type: 'ADD_TAG' }),
-    updateTag: (payload: Partial<typeof initialRateFormData['taggingRates']['tagValues'][0]>, index: number) =>
+    updateTag: (payload: Partial<typeof initialRateFormData['taggingRates']['tagValues'][0]>, index: number) => 
       dispatch({ type: 'UPDATE_TAG', index, payload }),
     updateDefaultTag: (index: number) => dispatch({ type: 'UPDATE_TAG_DEFAULT', index }),
   };

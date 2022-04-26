@@ -11,7 +11,8 @@
         "prettier",
         "patternfly-react",
         "simple-import-sort",
-        "sort-keys-fix"
+        "sort-keys-fix",
+        "testing-library"
     ],
     "extends": [
         "eslint:recommended",
@@ -42,6 +43,10 @@
         "beforeEach": "readonly"
     },
     "rules": {
+        "testing-library/await-async-query": "error",
+        "testing-library/no-await-sync-query": "error",
+        "testing-library/no-debugging-utils": "warn",
+        "testing-library/no-dom-import": "off",
         "formatjs/enforce-default-message": "error",
         "formatjs/enforce-description": "error",
         "formatjs/enforce-id": "error",
@@ -132,5 +137,9 @@
         "rules": {
             "sort-keys-fix/sort-keys-fix": "error"
         }
+    }, {
+        // 3) Now we enable eslint-plugin-testing-library rules or preset only for matching files!
+        "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+        "extends": ["plugin:testing-library/react"]
     }]
 }

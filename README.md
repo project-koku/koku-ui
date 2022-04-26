@@ -43,7 +43,7 @@ yarn test
 ## Manifest
 Produces a file used by product security for vulnerability and compliance tracking.
 ```
-yarn update:manifest
+yarn manifest:update
 ```
 
 ## Running Koku UI against a hosted Koku API, using webpack proxy

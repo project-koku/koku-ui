@@ -79,7 +79,6 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
     });
     return ret;
   };
-
   return (
     <FormGroup
       isRequired={isRequired}
@@ -89,9 +88,13 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
       helperTextInvalid={helpText !== null && typeof helpText === 'object' ? intl.formatMessage(helpText) : helpText}
       validated={isInvalid ? 'error' : 'default'}
     >
+      <span id={id + '-aria-label'} hidden>
+        {id} label
+      </span>
       <Select
         id={id}
         ouiaId={id}
+        aria-labelledby={id + '-aria-label'}
         variant={SelectVariant.single}
         placeholderText={placeholderText}
         aria-label={ariaLabel}
@@ -105,7 +108,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
           setIsOpen(false);
         }}
         selections={selection}
-      >
+      > 
         {getSelectorOptions().map(opt => (
           <SelectOption key={`${opt.value}`} value={opt} description={opt.description} />
         ))}

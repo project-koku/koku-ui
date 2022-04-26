@@ -830,6 +830,11 @@ export default defineMessages({
     description: 'Enter a tag value',
     id: 'CostModelsEnterTagValue',
   },
+  CostModelsEnterTagDescription: {
+    defaultMessage: 'Enter a tag description',
+    description: 'Enter a tag description',
+    id: 'CostModelsEnterTagDescription',
+  },
   CostModelsExamplesDoubleMarkup: {
     defaultMessage: 'A markup rate of (+) 100% doubles the base costs of your source(s).',
     description: 'A markup rate of (+) 100% doubles the base costs of your source(s).',
