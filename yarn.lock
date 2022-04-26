@@ -752,6 +752,7 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+<<<<<<< HEAD
 "@patternfly/patternfly@^4.192.1":
   version "4.192.1"
   resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-4.192.1.tgz#7bc466327a358891a915f0ccf3870bf60d775310"
@@ -764,6 +765,20 @@
   dependencies:
     "@patternfly/react-styles" "^4.56.2"
     "@patternfly/react-tokens" "^4.58.2"
+=======
+"@patternfly/patternfly@^4.185.1":
+  version "4.185.1"
+  resolved "https://registry.npmjs.org/@patternfly/patternfly/-/patternfly-4.185.1.tgz"
+  integrity sha512-FhiuxdEGequKFQgev4uSiLZrX6o7yfKKFiNVDjpuqmGlme3iIGSwvVy+95hUCa6rwfJ3Vy8e4dpYBWq2gXQXYw==
+
+"@patternfly/react-charts@^6.55.16":
+  version "6.55.16"
+  resolved "https://registry.npmjs.org/@patternfly/react-charts/-/react-charts-6.55.16.tgz"
+  integrity sha512-j3U5Y3U1cTOVTaKmZYNBMYBRGD7YuSADpVC7E00wr2STMDOy1lrzMyfB8RYb+9bTuCBZP10Uw1M5rbk/OpkfIg==
+  dependencies:
+    "@patternfly/react-styles" "^4.52.16"
+    "@patternfly/react-tokens" "^4.54.16"
+>>>>>>> 0fe5313c (testing progress)
     hoist-non-react-statics "^3.3.0"
     lodash "^4.17.19"
     tslib "^2.0.0"
@@ -783,10 +798,17 @@
     victory-voronoi-container "^36.2.1"
     victory-zoom-container "^36.2.1"
 
+<<<<<<< HEAD
 "@patternfly/react-core@^4.206.2":
   version "4.206.2"
   resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-4.206.2.tgz#b56c3dfdd661c913bec38c3a9755d44cdf3a1a93"
   integrity sha512-jzxhc/lb3iSfytPYIyyiHVT00Xm9VrvNr6mIpIaV2XA6ShZ6KIrio/EEWsduhrU8+KEzhAIkE6cDlABxzOB6yg==
+=======
+"@patternfly/react-core@^4.202.16":
+  version "4.202.16"
+  resolved "https://registry.npmjs.org/@patternfly/react-core/-/react-core-4.202.16.tgz"
+  integrity sha512-yWDf0x+YFFVxm72RC/BUaSOn2UsIirT77qif6DfAWdSODhdxTfaLCeBZ08uWgxJ1YZNCrankj60va+G5L+LVrg==
+>>>>>>> 0fe5313c (testing progress)
   dependencies:
     "@patternfly/react-icons" "^4.57.2"
     "@patternfly/react-styles" "^4.56.2"
