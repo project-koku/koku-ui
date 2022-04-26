@@ -1381,6 +1381,3 @@ mgmt_services/cost-mgmt:koku-ui/yallist:4.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/yargs-parser:20.2.9.yarnlock
 mgmt_services/cost-mgmt:koku-ui/yargs-parser:20.2.9.yarnlock
 mgmt_services/cost-mgmt:koku-ui/yargs:16.2.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/patternfly:4.185.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-charts:6.55.16.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-core:4.202.16.yarnlock
