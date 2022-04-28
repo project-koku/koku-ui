@@ -65,6 +65,7 @@ class PageTitleBase extends React.Component<PageTitleProps> {
     const { children = null, intl } = this.props;
 
     // Set page title
+    console.log("props", this.props);
     document.title = intl.formatMessage(this.getPageTitle());
 
     return children;

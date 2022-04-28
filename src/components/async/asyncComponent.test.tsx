@@ -1,51 +1,48 @@
-import { waitFor } from '@testing-library/react';
-import { shallow } from 'enzyme';
+import { waitFor, render, screen } from '@testing-library/react';
 import React from 'react';
 
 import { asyncComponent } from './asyncComponent';
 
-const UnwrappedComponent = () => <div />;
+const UnwrappedComponent = (props) => <div>{props.quote || "Unwrapped"}</div>;
 
 test('renders empty while loading', async () => {
   const loader = jest.fn(() => Promise.resolve(UnwrappedComponent));
   const Wrapped = asyncComponent(loader);
-  const view = shallow(<Wrapped />);
+  const view = render(<Wrapped />);
   expect(loader).toBeCalled();
-  expect(view.isEmptyRender()).toBe(true);
+  expect(view.container.children.length).toBe(0);
 });
 
 test('component is loaded on mount', async () => {
   const loader = jest.fn(() => Promise.resolve(UnwrappedComponent));
   const Wrapped = asyncComponent(loader);
-  const view = shallow(<Wrapped />);
+  render(<Wrapped />);
   await waitFor(() => expect(loader).toHaveBeenCalled);
-  view.update();
-  expect(view.find(UnwrappedComponent).exists()).toBe(true);
+  expect(screen.getByText("Unwrapped")).not.toBeNull();
 });
 
 test('component with default export is used', async () => {
   const loader = jest.fn(() => Promise.resolve({ default: UnwrappedComponent }));
   const Wrapped = asyncComponent(loader);
-  const view = shallow(<Wrapped />);
+  const view = render(<Wrapped />);
   await waitFor(() => expect(loader).toHaveBeenCalled);
-  view.update();
-  expect(view.find(UnwrappedComponent).exists()).toBe(true);
+  expect(screen.getByText("Unwrapped")).not.toBeNull();
 });
 
 test('only loades the component once', async () => {
   const loader = jest.fn(() => Promise.resolve(UnwrappedComponent));
   const Wrapped = asyncComponent(loader);
-  shallow(<Wrapped />);
+  const view = render(<Wrapped />);
+  view.rerender(<Wrapped />);
   await waitFor(() => expect(loader).toHaveBeenCalled);
-  shallow(<Wrapped />);
   expect(loader).toHaveBeenCalledTimes(1);
 });
 
 test('spreads props to wrapped component', async () => {
   const loader = jest.fn(() => Promise.resolve(UnwrappedComponent));
   const Wrapped = asyncComponent<any>(loader);
-  const view = shallow(<Wrapped quote="The only winning move is not to play." />);
+  const quote = "The only winning move is not to play.";
+  render(<Wrapped quote={quote} />);
   await waitFor(() => expect(loader).toHaveBeenCalled);
-  view.update();
-  expect(view.find(UnwrappedComponent).props()).toMatchSnapshot();
+  expect(screen.getByText(quote)).not.toBeNull();
 });
