@@ -1,67 +1,144 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reports are formatted to datums: current month cost data 1`] = `Array []`;
-
-exports[`reports are formatted to datums: current month infrastructure cost data 1`] = `Array []`;
-
-exports[`reports are formatted to datums: previous month cost data 1`] = `Array []`;
-
-exports[`reports are formatted to datums: previous month infrastructure cost data 1`] = `Array []`;
-
-exports[`trend is a daily value: current month data 1`] = `
-Array [
-  Object {
-    "date": "1-15-18",
-    "values": Array [
-      Object {
-        "date": "1-15-18",
-        "usage": Object {
-          "units": "unit",
-          "value": 1,
-        },
-      },
-    ],
-  },
-  Object {
-    "date": "1-16-18",
-    "values": Array [
-      Object {
-        "date": "1-16-18",
-        "usage": Object {
-          "units": "unit",
-          "value": 2,
-        },
-      },
-    ],
-  },
-]
-`;
-
-exports[`trend is a running total: current month data 1`] = `
-Array [
-  Object {
-    "date": "1-15-18",
-    "values": Array [
-      Object {
-        "date": "1-15-18",
-        "usage": Object {
-          "units": "unit",
-          "value": 1,
-        },
-      },
-    ],
-  },
-  Object {
-    "date": "1-16-18",
-    "values": Array [
-      Object {
-        "date": "1-16-18",
-        "usage": Object {
-          "units": "unit",
-          "value": 2,
-        },
-      },
-    ],
-  },
-]
+exports[`reports are formatted to datums 1`] = `
+<g>
+  <rect
+    height="61.809999999999995"
+    role="presentation"
+    shape-rendering="auto"
+    style="fill: none;"
+    vector-effect="non-scaling-stroke"
+    width="435.28125000000006"
+    x="0"
+    y="68"
+  />
+  <path
+    d="M 7.84, 84.156
+      h12.32
+      v-4.312
+      h-12.32
+      z"
+    role="presentation"
+    shape-rendering="auto"
+    style="fill: #8bc1f7;"
+  />
+  <path
+    d="M 225.48062500000003, 84.156
+      h12.319999999999993
+      v-4.312
+      h-12.319999999999993
+      z"
+    role="presentation"
+    shape-rendering="auto"
+    style="fill: #38812f;"
+  />
+  <path
+    d="M 7.84, 115.061
+      h3.6959999999999997
+      v-4.312
+      h-3.6959999999999997
+      z
+      M 12.767999999999999, 115.061
+      h3.6959999999999997
+      v-4.312
+      h-3.6959999999999997
+      z
+      M 17.695999999999998, 115.061
+      h3.6959999999999997
+      v-4.312
+      h-3.6959999999999997
+      z"
+    role="presentation"
+    shape-rendering="auto"
+    style="fill: #519de9;"
+  />
+  <path
+    d="M 225.48062500000003, 115.061
+      h3.695999999999998
+      v-4.312
+      h-3.695999999999998
+      z
+      M 230.40862500000003, 115.061
+      h3.695999999999998
+      v-4.312
+      h-3.695999999999998
+      z
+      M 235.33662500000003, 115.061
+      h3.695999999999998
+      v-4.312
+      h-3.695999999999998
+      z"
+    role="presentation"
+    shape-rendering="auto"
+    style="fill: #4cb140;"
+  />
+  <text
+    direction="inherit"
+    dx="0"
+    id="legend-labels-0"
+    x="30.8"
+    y="86.97"
+  >
+    <tspan
+      dx="0"
+      dy="0"
+      style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #252525;"
+      text-anchor="start"
+      x="30.8"
+    >
+      Cost (no data)
+    </tspan>
+  </text>
+  <text
+    direction="inherit"
+    dx="0"
+    id="legend-labels-1"
+    x="248.44062500000004"
+    y="86.97"
+  >
+    <tspan
+      dx="0"
+      dy="0"
+      style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #252525;"
+      text-anchor="start"
+      x="248.44062500000004"
+    >
+      Cost (no data)
+    </tspan>
+  </text>
+  <text
+    direction="inherit"
+    dx="0"
+    id="legend-labels-2"
+    x="30.8"
+    y="117.875"
+  >
+    <tspan
+      dx="0"
+      dy="0"
+      style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #252525;"
+      text-anchor="start"
+      x="30.8"
+    >
+      Infrastructure cost (no data)
+    </tspan>
+  </text>
+  <text
+    direction="inherit"
+    dx="0"
+    id="legend-labels-3"
+    x="248.44062500000004"
+    y="117.875"
+  >
+    <tspan
+      dx="0"
+      dy="0"
+      style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #252525;"
+      text-anchor="start"
+      x="248.44062500000004"
+    >
+      Infrastructure cost (no data)
+    </tspan>
+  </text>
+</g>
 `;
