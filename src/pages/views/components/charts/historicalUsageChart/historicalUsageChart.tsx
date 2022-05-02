@@ -379,7 +379,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
           {title}
         </Title>
         <div style={{ ...styles.chart, height: adjustedContainerHeight }}>
-          <div style={{ height, width }}>
+          <div style={{ height, width }} data-testid="historical-chart-wrapper">
             <Chart
               containerComponent={container}
               domain={domain}
