@@ -1,5 +1,3 @@
-jest.mock('date-fns/format');
-
 import { render, screen } from "@testing-library/react";
 import { OcpReport, OcpReportData } from 'api/reports/ocpReports';
 import * as utils from 'pages/views/components/charts/common/chartDatumUtils';
@@ -7,8 +5,8 @@ import React from 'react';
 
 import { HistoricalCostChart, HistoricalCostChartProps } from './historicalCostChart';
 
-const currentMonthReport: OcpReport = createReport('1-15-18');
-const previousMonthReport: OcpReport = createReport('12-15-17');
+const currentMonthReport: OcpReport = createReport('2018-01-15');
+const previousMonthReport: OcpReport = createReport('2017-12-15');
 
 const currentCostData = utils.transformReport(currentMonthReport, utils.ChartType.daily, 'date', 'cost');
 const currentInfrastructureCostData = utils.transformReport(
@@ -62,25 +60,6 @@ test('height from props is used', () => {
   render(<HistoricalCostChart {...props} />);
   expect(screen.getByTestId('historical-chart-wrapper').getAttribute('style')).toContain("height: 100px");
 });
-
-//TODO: enzyme - the following two tests are giving me a "Nan for 'y' attribute" warning that i can't track down.
-// test('trend is a running total', () => {
-//   const multiDayReport: OcpReport = {
-//     data: [createReportDataPoint('1-15-18', 1), createReportDataPoint('1-16-18', 2)],
-//   };
-//   render(<HistoricalCostChart {...props} currentCostData={multiDayReport.data} />);
-//   const charts = screen.getAllByText(/cost/i);
-//   expect(charts.at(1)).toMatchSnapshot();
-// });
-
-// test('trend is a daily value', () => {
-//   const multiDayReport: OcpReport = {
-//     data: [createReportDataPoint('1-15-18', 1), createReportDataPoint('1-16-18', 2)],
-//   };
-//   render(<HistoricalCostChart {...props} currentCostData={multiDayReport.data} />);
-//   const charts = screen.getAllByText(/cost/i);
-//   expect(charts.at(1)).toMatchSnapshot();
-// });
 
 function createReport(date: string): OcpReport {
   return {

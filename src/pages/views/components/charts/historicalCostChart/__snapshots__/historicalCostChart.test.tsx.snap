@@ -8,7 +8,7 @@ exports[`reports are formatted to datums 1`] = `
     shape-rendering="auto"
     style="fill: none;"
     vector-effect="non-scaling-stroke"
-    width="435.28125000000006"
+    width="18134.518750000003"
     x="0"
     y="68"
   />
@@ -23,10 +23,10 @@ exports[`reports are formatted to datums 1`] = `
     style="fill: #8bc1f7;"
   />
   <path
-    d="M 225.48062500000003, 84.156
-      h12.319999999999993
+    d="M 9075.099375000002, 84.156
+      h12.319999999999709
       v-4.312
-      h-12.319999999999993
+      h-12.319999999999709
       z"
     role="presentation"
     shape-rendering="auto"
@@ -53,20 +53,20 @@ exports[`reports are formatted to datums 1`] = `
     style="fill: #519de9;"
   />
   <path
-    d="M 225.48062500000003, 115.061
-      h3.695999999999998
+    d="M 9075.099375000002, 115.061
+      h3.6959999999999127
       v-4.312
-      h-3.695999999999998
+      h-3.6959999999999127
       z
-      M 230.40862500000003, 115.061
-      h3.695999999999998
+      M 9080.027375000001, 115.061
+      h3.6959999999999127
       v-4.312
-      h-3.695999999999998
+      h-3.6959999999999127
       z
-      M 235.33662500000003, 115.061
-      h3.695999999999998
+      M 9084.955375000001, 115.061
+      h3.6959999999999127
       v-4.312
-      h-3.695999999999998
+      h-3.6959999999999127
       z"
     role="presentation"
     shape-rendering="auto"
@@ -86,14 +86,14 @@ exports[`reports are formatted to datums 1`] = `
       text-anchor="start"
       x="30.8"
     >
-      Cost (no data)
+      {month, select, 0 {{count, plural, one {Cost (Jan {startDate})} other {Cost (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Cost (Feb {startDate})} other {Cost (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Cost (Mar {startDate})} other {Cost (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Cost (Apr {startDate})} other {Cost (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Cost (May {startDate})} other {Cost (May {startDate}-{endDate})}}} 5 {{count, plural, one {Cost (Jun {startDate})} other {Cost (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Cost (Jul {startDate})} other {Cost (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Cost (Aug {startDate})} other {Cost (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Cost (Sep {startDate})} other {Cost (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Cost (Oct {startDate})} other {Cost (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Cost (Nov {startDate})} other {Cost (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Cost (Dec {startDate})} other {Cost (Dec {startDate}-{endDate})}}} other {}}
     </tspan>
   </text>
   <text
     direction="inherit"
     dx="0"
     id="legend-labels-1"
-    x="248.44062500000004"
+    x="9098.059375"
     y="86.97"
   >
     <tspan
@@ -101,9 +101,9 @@ exports[`reports are formatted to datums 1`] = `
       dy="0"
       style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #252525;"
       text-anchor="start"
-      x="248.44062500000004"
+      x="9098.059375"
     >
-      Cost (no data)
+      {month, select, 0 {{count, plural, one {Cost (Jan {startDate})} other {Cost (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Cost (Feb {startDate})} other {Cost (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Cost (Mar {startDate})} other {Cost (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Cost (Apr {startDate})} other {Cost (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Cost (May {startDate})} other {Cost (May {startDate}-{endDate})}}} 5 {{count, plural, one {Cost (Jun {startDate})} other {Cost (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Cost (Jul {startDate})} other {Cost (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Cost (Aug {startDate})} other {Cost (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Cost (Sep {startDate})} other {Cost (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Cost (Oct {startDate})} other {Cost (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Cost (Nov {startDate})} other {Cost (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Cost (Dec {startDate})} other {Cost (Dec {startDate}-{endDate})}}} other {}}
     </tspan>
   </text>
   <text
@@ -120,14 +120,14 @@ exports[`reports are formatted to datums 1`] = `
       text-anchor="start"
       x="30.8"
     >
-      Infrastructure cost (no data)
+      {month, select, 0 {{count, plural, one {Infrastructure cost (Jan {startDate})} other {Infrastructure cost (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Infrastructure cost (Feb {startDate})} other {Infrastructure cost (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Infrastructure cost (Mar {startDate})} other {Infrastructure cost (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Infrastructure cost (Apr {startDate})} other {Infrastructure cost (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Infrastructure cost (May {startDate})} other {Infrastructure cost (May {startDate}-{endDate})}}} 5 {{count, plural, one {Infrastructure cost (Jun {startDate})} other {Infrastructure cost (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Infrastructure cost (Jul {startDate})} other {Infrastructure cost (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Infrastructure cost (Aug {startDate})} other {Infrastructure cost (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Infrastructure cost (Sep {startDate})} other {Infrastructure cost (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Infrastructure cost (Oct {startDate})} other {Infrastructure cost (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Infrastructure cost (Nov {startDate})} other {Infrastructure cost (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Infrastructure cost (Dec {startDate})} other {Infrastructure cost (Dec {startDate}-{endDate})}}} other {}}
     </tspan>
   </text>
   <text
     direction="inherit"
     dx="0"
     id="legend-labels-3"
-    x="248.44062500000004"
+    x="9098.059375"
     y="117.875"
   >
     <tspan
@@ -135,9 +135,9 @@ exports[`reports are formatted to datums 1`] = `
       dy="0"
       style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #252525;"
       text-anchor="start"
-      x="248.44062500000004"
+      x="9098.059375"
     >
-      Infrastructure cost (no data)
+      {month, select, 0 {{count, plural, one {Infrastructure cost (Jan {startDate})} other {Infrastructure cost (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Infrastructure cost (Feb {startDate})} other {Infrastructure cost (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Infrastructure cost (Mar {startDate})} other {Infrastructure cost (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Infrastructure cost (Apr {startDate})} other {Infrastructure cost (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Infrastructure cost (May {startDate})} other {Infrastructure cost (May {startDate}-{endDate})}}} 5 {{count, plural, one {Infrastructure cost (Jun {startDate})} other {Infrastructure cost (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Infrastructure cost (Jul {startDate})} other {Infrastructure cost (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Infrastructure cost (Aug {startDate})} other {Infrastructure cost (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Infrastructure cost (Sep {startDate})} other {Infrastructure cost (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Infrastructure cost (Oct {startDate})} other {Infrastructure cost (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Infrastructure cost (Nov {startDate})} other {Infrastructure cost (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Infrastructure cost (Dec {startDate})} other {Infrastructure cost (Dec {startDate}-{endDate})}}} other {}}
     </tspan>
   </text>
 </g>
