@@ -1,30 +1,26 @@
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 import * as utils from 'utils/computedReport/getComputedReportItems';
+import { FetchStatus } from '../../../../../store/common';
 
 import { ReportSummaryItems, ReportSummaryItemsProps } from './reportSummaryItems';
 
 jest.spyOn(utils, 'getComputedReportItems');
 
 const props: ReportSummaryItemsProps = {
-  report: { data: [] },
-  idKey: 'date',
-  children: jest.fn(() => null),
-  t: jest.fn(v => `t(${v})`),
+  intl: {
+    formatMessage: jest.fn((m, v) => JSON.stringify(v)),
+  } as any,
+  children: jest.fn(() => "children"),
+  status: FetchStatus.inProgress,
 };
 
-test('computes report items', () => {
-  shallow(<ReportSummaryItems {...props} />);
-  expect(utils.getComputedReportItems).toBeCalledWith({
-    report: props.report,
-    idKey: props.idKey,
-  });
-  expect(props.children).toBeCalledWith({ items: [] });
+test('contains skeleton readers if in progress', () => {
+  render(<ReportSummaryItems {...props} />);
+  expect(screen).toMatchSnapshot();
 });
 
 test('does not update if the report is unchanged', () => {
-  const view = shallow(<ReportSummaryItems {...props} />);
-  view.setProps(props as any);
-  expect(utils.getComputedReportItems).toHaveBeenCalledTimes(1);
-  expect(props.children).toHaveBeenCalledTimes(1);
+  render(<ReportSummaryItems {...props} status={FetchStatus.complete} />);
+  expect(screen.getByText(/children/i)).not.toBeNull();
 });
