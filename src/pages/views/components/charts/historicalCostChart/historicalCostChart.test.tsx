@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from '@testing-library/react';
 import { OcpReport, OcpReportData } from 'api/reports/ocpReports';
 import * as utils from 'pages/views/components/charts/common/chartDatumUtils';
 import React from 'react';
@@ -35,11 +35,10 @@ const props: HistoricalCostChartProps = {
 };
 
 test('reports are formatted to datums', () => {
-  render(<HistoricalCostChart {...props} />);
+  const view = render(<HistoricalCostChart {...props} />);
   const charts = screen.getAllByText(/cost/i);
   expect(charts.length).toBe(4);
-  //check parent container of all charts
-  expect(charts[0].closest('g')).toMatchSnapshot();
+  expect(view.container).toMatchSnapshot();
 });
 
 test('null previous and current reports are handled', () => {
@@ -58,7 +57,7 @@ test('null previous and current reports are handled', () => {
 
 test('height from props is used', () => {
   render(<HistoricalCostChart {...props} />);
-  expect(screen.getByTestId('historical-chart-wrapper').getAttribute('style')).toContain("height: 100px");
+  expect(screen.getByTestId('historical-chart-wrapper').getAttribute('style')).toContain('height: 100px');
 });
 
 function createReport(date: string): OcpReport {

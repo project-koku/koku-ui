@@ -1,39 +1,373 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`reports are formatted to datums 1`] = `
-<g>
-  <rect
-    height="61.809999999999995"
-    role="presentation"
-    shape-rendering="auto"
-    style="fill: none;"
-    vector-effect="non-scaling-stroke"
-    width="18134.518750000003"
-    x="0"
-    y="68"
-  />
-  <path
-    d="M 7.84, 84.156
+<div>
+  <div
+    class="chartOverride"
+  >
+    <h2
+      class="pf-c-title pf-m-xl"
+      data-ouia-component-id="OUIA-Generated-Title-1"
+      data-ouia-component-type="PF4/Title"
+      data-ouia-safe="true"
+      style="margin-left: -1.5rem;"
+    >
+      Usage Title
+    </h2>
+    <div
+      style="margin-top: 0.5rem; height: 100px;"
+    >
+      <div
+        data-testid="historical-chart-wrapper"
+        style="height: 100px; width: 0px;"
+      >
+        <div
+          class="pf-c-chart"
+          style="height: 100%; width: 100%; user-select: none; pointer-events: none; position: relative;"
+        >
+          <svg
+            height="100"
+            role="img"
+            style="pointer-events: all; width: 100%; height: 100%;"
+            viewBox="0 0 0 100"
+            width="0"
+          >
+            <g
+              clip-path="url(#victory-clip-5)"
+              style="height: 100%; width: 100%; user-select: none;"
+            >
+              <defs>
+                <clippath
+                  id="victory-clip-5"
+                >
+                  <rect
+                    height="28"
+                    vector-effect="non-scaling-stroke"
+                    width="16"
+                    x="-8"
+                    y="-20"
+                  />
+                </clippath>
+              </defs>
+              <g>
+                <path
+                  d="M0.5333333333333332,-20L0.5333333333333332,-20Z"
+                  role="presentation"
+                  shape-rendering="auto"
+                  style="fill: none; stroke: none; fill-opacity: 0.3; stroke-width: 2;"
+                />
+                <path
+                  d="M0.5333333333333332,-20Z"
+                  role="presentation"
+                  shape-rendering="auto"
+                  style="fill: none; stroke: #8bc1f7; fill-opacity: 0.3; stroke-width: 2;"
+                />
+              </g>
+            </g>
+            <g
+              clip-path="url(#victory-clip-6)"
+              style="height: 100%; width: 100%; user-select: none;"
+            >
+              <defs>
+                <clippath
+                  id="victory-clip-6"
+                >
+                  <rect
+                    height="28"
+                    vector-effect="non-scaling-stroke"
+                    width="16"
+                    x="-8"
+                    y="-20"
+                  />
+                </clippath>
+              </defs>
+              <g>
+                <path
+                  d="M0.5333333333333332,-20L0.5333333333333332,-20Z"
+                  role="presentation"
+                  shape-rendering="auto"
+                  style="fill: none; stroke: none; fill-opacity: 0.3; stroke-width: 2;"
+                />
+                <path
+                  d="M0.5333333333333332,-20Z"
+                  role="presentation"
+                  shape-rendering="auto"
+                  style="fill: none; stroke: #38812f; fill-opacity: 0.3; stroke-width: 2;"
+                />
+              </g>
+            </g>
+            <g
+              clip-path="url(#victory-clip-7)"
+              style="height: 100%; width: 100%; user-select: none;"
+            >
+              <defs>
+                <clippath
+                  id="victory-clip-7"
+                >
+                  <rect
+                    height="28"
+                    vector-effect="non-scaling-stroke"
+                    width="16"
+                    x="-8"
+                    y="-20"
+                  />
+                </clippath>
+              </defs>
+              <g>
+                <path
+                  d="M0.5333333333333332,-20L0.5333333333333332,-20Z"
+                  role="presentation"
+                  shape-rendering="auto"
+                  style="fill: none; stroke-dasharray: 3,3; stroke: none; fill-opacity: 0.3; stroke-width: 2;"
+                />
+                <path
+                  d="M0.5333333333333332,-20Z"
+                  role="presentation"
+                  shape-rendering="auto"
+                  style="fill: none; stroke-dasharray: 3,3; stroke: #519de9; fill-opacity: 0.3; stroke-width: 2;"
+                />
+              </g>
+            </g>
+            <g
+              clip-path="url(#victory-clip-8)"
+              style="height: 100%; width: 100%; user-select: none;"
+            >
+              <defs>
+                <clippath
+                  id="victory-clip-8"
+                >
+                  <rect
+                    height="28"
+                    vector-effect="non-scaling-stroke"
+                    width="16"
+                    x="-8"
+                    y="-20"
+                  />
+                </clippath>
+              </defs>
+              <g>
+                <path
+                  d="M0.5333333333333332,-20L0.5333333333333332,-20Z"
+                  role="presentation"
+                  shape-rendering="auto"
+                  style="fill: none; stroke-dasharray: 3,3; stroke: none; fill-opacity: 0.3; stroke-width: 2;"
+                />
+                <path
+                  d="M0.5333333333333332,-20Z"
+                  role="presentation"
+                  shape-rendering="auto"
+                  style="fill: none; stroke-dasharray: 3,3; stroke: #4cb140; fill-opacity: 0.3; stroke-width: 2;"
+                />
+              </g>
+            </g>
+            <g
+              role="presentation"
+            >
+              <line
+                role="presentation"
+                shape-rendering="auto"
+                style="stroke: #d2d2d2; fill: transparent; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
+                vector-effect="non-scaling-stroke"
+                x1="8"
+                x2="-8"
+                y1="-20"
+                y2="-20"
+              />
+              <g
+                role="presentation"
+              >
+                <text
+                  direction="inherit"
+                  dx="0"
+                  id="chart-axis-4-tickLabels-0"
+                  x="8"
+                  y="6.969999999999999"
+                >
+                  <tspan
+                    dx="0"
+                    dy="0"
+                    style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #4f5255;"
+                    text-anchor="middle"
+                    x="8"
+                  >
+                    1
+                  </tspan>
+                </text>
+              </g>
+              <g
+                role="presentation"
+              >
+                <text
+                  direction="inherit"
+                  dx="0"
+                  id="chart-axis-4-tickLabels-1"
+                  x="0.5333333333333332"
+                  y="6.969999999999999"
+                >
+                  <tspan
+                    dx="0"
+                    dy="0"
+                    style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #4f5255;"
+                    text-anchor="middle"
+                    x="0.5333333333333332"
+                  >
+                    15
+                  </tspan>
+                </text>
+              </g>
+              <g
+                role="presentation"
+              >
+                <text
+                  direction="inherit"
+                  dx="0"
+                  id="chart-axis-4-tickLabels-2"
+                  x="-8"
+                  y="6.969999999999999"
+                >
+                  <tspan
+                    dx="0"
+                    dy="0"
+                    style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #4f5255;"
+                    text-anchor="middle"
+                    x="-8"
+                  >
+                    31
+                  </tspan>
+                </text>
+              </g>
+            </g>
+            <g
+              role="presentation"
+            >
+              <line
+                role="presentation"
+                shape-rendering="auto"
+                style="stroke: #d2d2d2; fill: transparent; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
+                vector-effect="non-scaling-stroke"
+                x1="8"
+                x2="8"
+                y1="8"
+                y2="-20"
+              />
+              <g
+                role="presentation"
+              >
+                <text
+                  direction="inherit"
+                  dx="0"
+                  id="chart-axis-5-tickLabels-0"
+                  x="-7"
+                  y="-13"
+                >
+                  <tspan
+                    dx="0"
+                    dy="0"
+                    style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #4f5255;"
+                    text-anchor="end"
+                    x="-7"
+                  >
+                    0.00000000005
+                  </tspan>
+                </text>
+              </g>
+              <g
+                role="presentation"
+              >
+                <text
+                  direction="inherit"
+                  dx="0"
+                  id="chart-axis-5-tickLabels-1"
+                  x="-7"
+                  y="-6"
+                >
+                  <tspan
+                    dx="0"
+                    dy="0"
+                    style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #4f5255;"
+                    text-anchor="end"
+                    x="-7"
+                  >
+                    0.00000000010
+                  </tspan>
+                </text>
+              </g>
+              <g
+                role="presentation"
+              >
+                <text
+                  direction="inherit"
+                  dx="0"
+                  id="chart-axis-5-tickLabels-2"
+                  x="-7"
+                  y="1"
+                >
+                  <tspan
+                    dx="0"
+                    dy="0"
+                    style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #4f5255;"
+                    text-anchor="end"
+                    x="-7"
+                  >
+                    0.00000000015
+                  </tspan>
+                </text>
+              </g>
+              <g
+                role="presentation"
+              >
+                <text
+                  direction="inherit"
+                  dx="0"
+                  id="chart-axis-5-tickLabels-3"
+                  x="-7"
+                  y="8"
+                >
+                  <tspan
+                    dx="0"
+                    dy="0"
+                    style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #4f5255;"
+                    text-anchor="end"
+                    x="-7"
+                  >
+                    0.00000000020
+                  </tspan>
+                </text>
+              </g>
+            </g>
+            <g>
+              <rect
+                height="61.809999999999995"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill: none;"
+                vector-effect="non-scaling-stroke"
+                width="18134.518750000003"
+                x="0"
+                y="68"
+              />
+              <path
+                d="M 7.84, 84.156
       h12.32
       v-4.312
       h-12.32
       z"
-    role="presentation"
-    shape-rendering="auto"
-    style="fill: #8bc1f7;"
-  />
-  <path
-    d="M 9075.099375000002, 84.156
+                role="presentation"
+                shape-rendering="auto"
+                style="fill: #8bc1f7;"
+              />
+              <path
+                d="M 9075.099375000002, 84.156
       h12.319999999999709
       v-4.312
       h-12.319999999999709
       z"
-    role="presentation"
-    shape-rendering="auto"
-    style="fill: #38812f;"
-  />
-  <path
-    d="M 7.84, 115.061
+                role="presentation"
+                shape-rendering="auto"
+                style="fill: #38812f;"
+              />
+              <path
+                d="M 7.84, 115.061
       h3.6959999999999997
       v-4.312
       h-3.6959999999999997
@@ -48,12 +382,12 @@ exports[`reports are formatted to datums 1`] = `
       v-4.312
       h-3.6959999999999997
       z"
-    role="presentation"
-    shape-rendering="auto"
-    style="fill: #519de9;"
-  />
-  <path
-    d="M 9075.099375000002, 115.061
+                role="presentation"
+                shape-rendering="auto"
+                style="fill: #519de9;"
+              />
+              <path
+                d="M 9075.099375000002, 115.061
       h3.6959999999999127
       v-4.312
       h-3.6959999999999127
@@ -68,77 +402,93 @@ exports[`reports are formatted to datums 1`] = `
       v-4.312
       h-3.6959999999999127
       z"
-    role="presentation"
-    shape-rendering="auto"
-    style="fill: #4cb140;"
-  />
-  <text
-    direction="inherit"
-    dx="0"
-    id="legend-labels-0"
-    x="30.8"
-    y="86.97"
-  >
-    <tspan
-      dx="0"
-      dy="0"
-      style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #252525;"
-      text-anchor="start"
-      x="30.8"
-    >
-      {month, select, 0 {{count, plural, one {Cost (Jan {startDate})} other {Cost (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Cost (Feb {startDate})} other {Cost (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Cost (Mar {startDate})} other {Cost (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Cost (Apr {startDate})} other {Cost (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Cost (May {startDate})} other {Cost (May {startDate}-{endDate})}}} 5 {{count, plural, one {Cost (Jun {startDate})} other {Cost (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Cost (Jul {startDate})} other {Cost (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Cost (Aug {startDate})} other {Cost (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Cost (Sep {startDate})} other {Cost (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Cost (Oct {startDate})} other {Cost (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Cost (Nov {startDate})} other {Cost (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Cost (Dec {startDate})} other {Cost (Dec {startDate}-{endDate})}}} other {}}
-    </tspan>
-  </text>
-  <text
-    direction="inherit"
-    dx="0"
-    id="legend-labels-1"
-    x="9098.059375"
-    y="86.97"
-  >
-    <tspan
-      dx="0"
-      dy="0"
-      style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #252525;"
-      text-anchor="start"
-      x="9098.059375"
-    >
-      {month, select, 0 {{count, plural, one {Cost (Jan {startDate})} other {Cost (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Cost (Feb {startDate})} other {Cost (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Cost (Mar {startDate})} other {Cost (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Cost (Apr {startDate})} other {Cost (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Cost (May {startDate})} other {Cost (May {startDate}-{endDate})}}} 5 {{count, plural, one {Cost (Jun {startDate})} other {Cost (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Cost (Jul {startDate})} other {Cost (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Cost (Aug {startDate})} other {Cost (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Cost (Sep {startDate})} other {Cost (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Cost (Oct {startDate})} other {Cost (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Cost (Nov {startDate})} other {Cost (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Cost (Dec {startDate})} other {Cost (Dec {startDate}-{endDate})}}} other {}}
-    </tspan>
-  </text>
-  <text
-    direction="inherit"
-    dx="0"
-    id="legend-labels-2"
-    x="30.8"
-    y="117.875"
-  >
-    <tspan
-      dx="0"
-      dy="0"
-      style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #252525;"
-      text-anchor="start"
-      x="30.8"
-    >
-      {month, select, 0 {{count, plural, one {Infrastructure cost (Jan {startDate})} other {Infrastructure cost (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Infrastructure cost (Feb {startDate})} other {Infrastructure cost (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Infrastructure cost (Mar {startDate})} other {Infrastructure cost (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Infrastructure cost (Apr {startDate})} other {Infrastructure cost (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Infrastructure cost (May {startDate})} other {Infrastructure cost (May {startDate}-{endDate})}}} 5 {{count, plural, one {Infrastructure cost (Jun {startDate})} other {Infrastructure cost (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Infrastructure cost (Jul {startDate})} other {Infrastructure cost (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Infrastructure cost (Aug {startDate})} other {Infrastructure cost (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Infrastructure cost (Sep {startDate})} other {Infrastructure cost (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Infrastructure cost (Oct {startDate})} other {Infrastructure cost (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Infrastructure cost (Nov {startDate})} other {Infrastructure cost (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Infrastructure cost (Dec {startDate})} other {Infrastructure cost (Dec {startDate}-{endDate})}}} other {}}
-    </tspan>
-  </text>
-  <text
-    direction="inherit"
-    dx="0"
-    id="legend-labels-3"
-    x="9098.059375"
-    y="117.875"
-  >
-    <tspan
-      dx="0"
-      dy="0"
-      style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #252525;"
-      text-anchor="start"
-      x="9098.059375"
-    >
-      {month, select, 0 {{count, plural, one {Infrastructure cost (Jan {startDate})} other {Infrastructure cost (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Infrastructure cost (Feb {startDate})} other {Infrastructure cost (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Infrastructure cost (Mar {startDate})} other {Infrastructure cost (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Infrastructure cost (Apr {startDate})} other {Infrastructure cost (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Infrastructure cost (May {startDate})} other {Infrastructure cost (May {startDate}-{endDate})}}} 5 {{count, plural, one {Infrastructure cost (Jun {startDate})} other {Infrastructure cost (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Infrastructure cost (Jul {startDate})} other {Infrastructure cost (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Infrastructure cost (Aug {startDate})} other {Infrastructure cost (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Infrastructure cost (Sep {startDate})} other {Infrastructure cost (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Infrastructure cost (Oct {startDate})} other {Infrastructure cost (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Infrastructure cost (Nov {startDate})} other {Infrastructure cost (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Infrastructure cost (Dec {startDate})} other {Infrastructure cost (Dec {startDate}-{endDate})}}} other {}}
-    </tspan>
-  </text>
-</g>
+                role="presentation"
+                shape-rendering="auto"
+                style="fill: #4cb140;"
+              />
+              <text
+                direction="inherit"
+                dx="0"
+                id="legend-labels-0"
+                x="30.8"
+                y="86.97"
+              >
+                <tspan
+                  dx="0"
+                  dy="0"
+                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #252525;"
+                  text-anchor="start"
+                  x="30.8"
+                >
+                  {month, select, 0 {{count, plural, one {Cost (Jan {startDate})} other {Cost (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Cost (Feb {startDate})} other {Cost (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Cost (Mar {startDate})} other {Cost (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Cost (Apr {startDate})} other {Cost (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Cost (May {startDate})} other {Cost (May {startDate}-{endDate})}}} 5 {{count, plural, one {Cost (Jun {startDate})} other {Cost (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Cost (Jul {startDate})} other {Cost (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Cost (Aug {startDate})} other {Cost (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Cost (Sep {startDate})} other {Cost (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Cost (Oct {startDate})} other {Cost (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Cost (Nov {startDate})} other {Cost (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Cost (Dec {startDate})} other {Cost (Dec {startDate}-{endDate})}}} other {}}
+                </tspan>
+              </text>
+              <text
+                direction="inherit"
+                dx="0"
+                id="legend-labels-1"
+                x="9098.059375"
+                y="86.97"
+              >
+                <tspan
+                  dx="0"
+                  dy="0"
+                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #252525;"
+                  text-anchor="start"
+                  x="9098.059375"
+                >
+                  {month, select, 0 {{count, plural, one {Cost (Jan {startDate})} other {Cost (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Cost (Feb {startDate})} other {Cost (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Cost (Mar {startDate})} other {Cost (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Cost (Apr {startDate})} other {Cost (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Cost (May {startDate})} other {Cost (May {startDate}-{endDate})}}} 5 {{count, plural, one {Cost (Jun {startDate})} other {Cost (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Cost (Jul {startDate})} other {Cost (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Cost (Aug {startDate})} other {Cost (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Cost (Sep {startDate})} other {Cost (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Cost (Oct {startDate})} other {Cost (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Cost (Nov {startDate})} other {Cost (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Cost (Dec {startDate})} other {Cost (Dec {startDate}-{endDate})}}} other {}}
+                </tspan>
+              </text>
+              <text
+                direction="inherit"
+                dx="0"
+                id="legend-labels-2"
+                x="30.8"
+                y="117.875"
+              >
+                <tspan
+                  dx="0"
+                  dy="0"
+                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #252525;"
+                  text-anchor="start"
+                  x="30.8"
+                >
+                  {month, select, 0 {{count, plural, one {Infrastructure cost (Jan {startDate})} other {Infrastructure cost (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Infrastructure cost (Feb {startDate})} other {Infrastructure cost (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Infrastructure cost (Mar {startDate})} other {Infrastructure cost (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Infrastructure cost (Apr {startDate})} other {Infrastructure cost (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Infrastructure cost (May {startDate})} other {Infrastructure cost (May {startDate}-{endDate})}}} 5 {{count, plural, one {Infrastructure cost (Jun {startDate})} other {Infrastructure cost (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Infrastructure cost (Jul {startDate})} other {Infrastructure cost (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Infrastructure cost (Aug {startDate})} other {Infrastructure cost (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Infrastructure cost (Sep {startDate})} other {Infrastructure cost (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Infrastructure cost (Oct {startDate})} other {Infrastructure cost (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Infrastructure cost (Nov {startDate})} other {Infrastructure cost (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Infrastructure cost (Dec {startDate})} other {Infrastructure cost (Dec {startDate}-{endDate})}}} other {}}
+                </tspan>
+              </text>
+              <text
+                direction="inherit"
+                dx="0"
+                id="legend-labels-3"
+                x="9098.059375"
+                y="117.875"
+              >
+                <tspan
+                  dx="0"
+                  dy="0"
+                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: transparent; fill: #252525;"
+                  text-anchor="start"
+                  x="9098.059375"
+                >
+                  {month, select, 0 {{count, plural, one {Infrastructure cost (Jan {startDate})} other {Infrastructure cost (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Infrastructure cost (Feb {startDate})} other {Infrastructure cost (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Infrastructure cost (Mar {startDate})} other {Infrastructure cost (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Infrastructure cost (Apr {startDate})} other {Infrastructure cost (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Infrastructure cost (May {startDate})} other {Infrastructure cost (May {startDate}-{endDate})}}} 5 {{count, plural, one {Infrastructure cost (Jun {startDate})} other {Infrastructure cost (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Infrastructure cost (Jul {startDate})} other {Infrastructure cost (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Infrastructure cost (Aug {startDate})} other {Infrastructure cost (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Infrastructure cost (Sep {startDate})} other {Infrastructure cost (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Infrastructure cost (Oct {startDate})} other {Infrastructure cost (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Infrastructure cost (Nov {startDate})} other {Infrastructure cost (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Infrastructure cost (Dec {startDate})} other {Infrastructure cost (Dec {startDate}-{endDate})}}} other {}}
+                </tspan>
+              </text>
+            </g>
+          </svg>
+          <div
+            style="z-index: 99; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"
+          >
+            <svg
+              height="100"
+              style="overflow: visible; width: 100%; height: 100%;"
+              viewBox="0 0 0 100"
+              width="0"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;

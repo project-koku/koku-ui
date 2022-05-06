@@ -1,5 +1,5 @@
-import { AwsReport, AwsReportData } from 'api/reports/awsReports';
 import { render, screen } from '@testing-library/react';
+import { AwsReport, AwsReportData } from 'api/reports/awsReports';
 import * as utils from 'pages/views/components/charts/common/chartDatumUtils';
 import React from 'react';
 
@@ -23,6 +23,7 @@ const props: TrendChartProps = {
 
 test('reports are formatted to datums', () => {
   render(<TrendChart {...props} />);
+  /* eslint-disable-next-line testing-library/no-node-access */
   expect(screen.getByText(props.title).parentElement).toMatchSnapshot();
   expect(screen.queryByText(/no data/i)).toBeNull();
 });
@@ -34,7 +35,7 @@ test('null previous and current reports are handled', () => {
 
 test('height from props is used', () => {
   render(<TrendChart {...props} />);
-  expect(screen.getByTestId('trend-chart-wrapper').getAttribute('style')).toContain("height: 100px");
+  expect(screen.getByTestId('trend-chart-wrapper').getAttribute('style')).toContain('height: 100px');
 });
 
 function createReport(date: string): AwsReport {

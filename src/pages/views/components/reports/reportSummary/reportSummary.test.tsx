@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { FetchStatus } from 'store/common';
 
@@ -23,5 +23,5 @@ test('show subtitle if given', () => {
 
 test('show details link in card footer if given', () => {
   render(<ReportSummary {...props} detailsLink={<a href="#/">a link</a>} />);
-  expect(screen.getByRole('link', {name: 'a link'}).getAttribute("href")).toBe("#/")
+  expect(screen.getByRole('link', { name: 'a link' }).getAttribute('href')).toBe('#/');
 });

@@ -21,6 +21,8 @@ const props: HistoricalTrendChartProps = {
   formatOptions: {},
 };
 
+/* eslint-disable testing-library/no-node-access */
+
 test('reports are formatted to datums', () => {
   render(<HistoricalTrendChart {...props} />);
   const chart = screen.getByText(props.title).parentElement;
@@ -35,7 +37,7 @@ test('null previous and current reports are handled', () => {
 
 test('height from props is used', () => {
   render(<HistoricalTrendChart {...props} />);
-  expect(screen.getByTestId('historical-chart-wrapper').getAttribute('style')).toContain("height: 100px");
+  expect(screen.getByTestId('historical-chart-wrapper').getAttribute('style')).toContain('height: 100px');
 });
 
 function createReport(date: string): AwsReport {
@@ -47,6 +49,9 @@ function createReport(date: string): AwsReport {
 function createReportDataPoint(date: string, total = 1): AwsReportData {
   return {
     date,
-    values: [{ date, cost: { value: total, units: 'unit' } }, { date, cost: { value: total, units: 'unit' } }],
+    values: [
+      { date, cost: { value: total, units: 'unit' } },
+      { date, cost: { value: total, units: 'unit' } },
+    ],
   };
 }

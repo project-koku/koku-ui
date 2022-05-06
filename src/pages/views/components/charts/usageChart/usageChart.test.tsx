@@ -1,5 +1,5 @@
+import { render, screen } from '@testing-library/react';
 import { OcpReport, OcpReportData } from 'api/reports/ocpReports';
-import { render, screen } from '@testing-library/react'
 import * as utils from 'pages/views/components/charts/common/chartDatumUtils';
 import React from 'react';
 
@@ -26,7 +26,7 @@ const props: UsageChartProps = {
 
 test('reports are formatted to datums', () => {
   render(<UsageChart {...props} />);
-  expect(screen.getByTestId("usage-chart-wrapper")).toMatchSnapshot();
+  expect(screen.getByTestId('usage-chart-wrapper')).toMatchSnapshot();
 });
 
 test('null previous and current reports are handled', () => {
@@ -44,7 +44,7 @@ test('null previous and current reports are handled', () => {
 
 test('height from props is used', () => {
   render(<UsageChart {...props} />);
-  expect(screen.getByTestId('usage-chart-wrapper').getAttribute('style')).toContain("height: 100px");
+  expect(screen.getByTestId('usage-chart-wrapper').getAttribute('style')).toContain('height: 100px');
 });
 
 function createReport(date: string): OcpReport {
