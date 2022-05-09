@@ -17,6 +17,8 @@ interface SelectorFormGroupOwnProps {
   helperTextInvalid?: MessageDescriptor | string;
   isInvalid?: boolean;
   label?: MessageDescriptor | string;
+  appendMenuTo?: HTMLElement | 'parent' | 'inline' | (() => HTMLElement);
+  toggleAriaLabel?: string;
   placeholderText?: string;
   direction?: SelectDirection.up | SelectDirection.down;
   options: {
@@ -48,10 +50,12 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
   helperTextInvalid: helpText,
   id,
   intl = defaultIntl, // Default required for testing
+  toggleAriaLabel,
   placeholderText,
   direction = SelectDirection.down,
   isInvalid = false,
   isRequired = false,
+  appendMenuTo = 'parent',
   label,
   value,
   onChange,
@@ -79,7 +83,6 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
     });
     return ret;
   };
-
   return (
     <FormGroup
       isRequired={isRequired}
@@ -91,12 +94,12 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
     >
       <Select
         id={id}
-        ouiaId={id}
+        toggleAriaLabel={toggleAriaLabel}
         variant={SelectVariant.single}
         placeholderText={placeholderText}
         aria-label={ariaLabel}
         direction={direction}
-        menuAppendTo={() => document.body}
+        menuAppendTo={appendMenuTo}
         isOpen={isOpen}
         onToggle={() => setIsOpen(!isOpen)}
         onSelect={(e, sel: SelectorOption) => {

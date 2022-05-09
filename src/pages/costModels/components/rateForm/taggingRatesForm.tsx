@@ -74,6 +74,7 @@ const TaggingRatesFormBase: React.FunctionComponent<TaggingRatesFormProps> = ({
                 id={`desc_${ix}`}
                 label={messages.Description}
                 validated={errors.tagDescription[ix] ? 'error' : 'default'}
+                placeholder={intl.formatMessage(messages.CostModelsEnterTagDescription)}
                 value={tag.description}
                 onChange={value => updateTag({ description: value }, ix)}
                 helperTextInvalid={errors.tagDescription[ix]}
@@ -87,7 +88,7 @@ const TaggingRatesFormBase: React.FunctionComponent<TaggingRatesFormProps> = ({
             <SplitItem>
               <FormGroup fieldId="__irrelevant" label={<div>&nbsp;</div>}>
                 <Button
-                  data-testid={`remove_tag_${ix}`}
+                  aria-label={intl.formatMessage(messages.CostModelsRemoveTagLabel)}
                   variant={ButtonVariant.plain}
                   isDisabled={tagValues.length === 1}
                   onClick={() => removeTag(ix)}

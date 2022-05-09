@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { Machine } from 'xstate';
 
@@ -21,15 +22,15 @@ test('with state machine', () => {
     },
   });
 
-  const { getByRole } = render(
+  render(
     <WithStateMachine machine={toggleMachine}>
       {({ current, send }) => {
         return <button onClick={() => send({ type: 'TOGGLE' })}>{current.matches('on') ? 'ON' : 'OFF'}</button>;
       }}
     </WithStateMachine>
   );
-  const buttonNode = getByRole('button');
+  const buttonNode = screen.getByRole('button');
   expect(buttonNode.outerHTML).toBe('<button>OFF</button>');
-  fireEvent.click(buttonNode);
+  userEvent.click(buttonNode);
   expect(buttonNode.outerHTML).toBe('<button>ON</button>');
 });

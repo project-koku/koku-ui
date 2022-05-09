@@ -1,11 +1,12 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import { CheckboxSelector } from './checkboxSelector';
 
 test('checkbox selector', () => {
   const setSelections = jest.fn();
-  const { queryAllByText, getByRole, getAllByRole } = render(
+  render(
     <CheckboxSelector
       options={[
         { label: 'CPU', value: 'cpu' },
@@ -17,15 +18,15 @@ test('checkbox selector', () => {
       selections={[]}
     />
   );
-  expect(queryAllByText('Resources').length).toBe(1);
-  expect(queryAllByText('CPU').length).toBe(0);
-  expect(queryAllByText('Memory').length).toBe(0);
-  expect(queryAllByText('Storage').length).toBe(0);
-  fireEvent.click(getByRole('button'));
-  expect(queryAllByText('CPU').length).toBe(1);
-  expect(queryAllByText('Memory').length).toBe(1);
-  expect(queryAllByText('Storage').length).toBe(1);
+  expect(screen.queryAllByText('Resources').length).toBe(1);
+  expect(screen.queryAllByText('CPU').length).toBe(0);
+  expect(screen.queryAllByText('Memory').length).toBe(0);
+  expect(screen.queryAllByText('Storage').length).toBe(0);
+  userEvent.click(screen.getByRole('button'));
+  expect(screen.queryAllByText('CPU').length).toBe(1);
+  expect(screen.queryAllByText('Memory').length).toBe(1);
+  expect(screen.queryAllByText('Storage').length).toBe(1);
   expect(setSelections.mock.calls.length).toBe(0);
-  fireEvent.click(getAllByRole('checkbox')[0]);
+  userEvent.click(screen.getAllByRole('checkbox')[0]);
   expect(setSelections.mock.calls).toEqual([['cpu']]);
 });

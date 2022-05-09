@@ -115,9 +115,10 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
           <Selector
             isRequired
             style={style}
-            id="metric"
-            label={messages.Metric}
-            placeholderText="Select..."
+            id="metric-selector"
+            toggleAriaLabel={intl.formatMessage(messages.CostModelsSelectMetric)}
+            label={intl.formatMessage(messages.Metric)}
+            placeholderText={intl.formatMessage(messages.Select)}
             value={metric}
             onChange={setMetric}
             options={[
@@ -138,8 +139,9 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
               helperTextInvalid={errors.measurement}
               isInvalid={errors.measurement && measurementDirty}
               style={style}
-              id="measurement"
-              label={messages.Measurement}
+              id="measurement-selector"
+              label={intl.formatMessage(messages.Measurement)}
+              toggleAriaLabel={intl.formatMessage(messages.CostModelsSelectMeasurement)}
               value={
                 !metricsHash[metric][measurement]
                   ? measurement
@@ -231,7 +233,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
                 updateDefaultTag={updateDefaultTag}
                 updateTag={updateTag}
               />
-              <Button data-testid="add_more" style={addStyle} variant={ButtonVariant.link} onClick={addTag}>
+              <Button style={addStyle} variant={ButtonVariant.link} onClick={addTag}>
                 <PlusCircleIcon /> {intl.formatMessage(messages.CostModelsAddTagValues)}
               </Button>
             </>

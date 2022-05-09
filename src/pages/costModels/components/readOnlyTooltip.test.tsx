@@ -1,22 +1,24 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import { ReadOnlyTooltip } from './readOnlyTooltip';
 
 test('read only tooltip is disabled', () => {
-  const { container } = render(
+  render(
     <ReadOnlyTooltip isDisabled>
       <button>Hello world</button>
     </ReadOnlyTooltip>
   );
-  expect(container.querySelectorAll('div')).toHaveLength(1);
+  // eslint-disable-next-line testing-library/no-node-access
+  expect(screen.getByRole('button').closest('div').getAttribute('aria-label')).toBe('Read only');
 });
 
 test('read only tooltip is enabled', () => {
-  const { container } = render(
+  render(
     <ReadOnlyTooltip isDisabled={false}>
       <button>Hello world</button>
     </ReadOnlyTooltip>
   );
-  expect(container.querySelectorAll('div')).toHaveLength(0);
+  // eslint-disable-next-line testing-library/prefer-presence-queries, testing-library/no-node-access
+  expect(screen.getByRole('button').closest('div').getAttribute('aria-label')).toBeNull();
 });
