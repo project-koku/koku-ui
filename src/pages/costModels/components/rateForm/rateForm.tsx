@@ -148,7 +148,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
                   : getMeasurementLabel(measurement, metricsHash[metric][measurement].label_measurement_unit)
               }
               onChange={setMeasurement}
-              placeholderText="Select..."
+              placeholderText="Select......"
               options={[
                 ...measurementOptions.map(opt => {
                   const unit = metricsHash[metric][opt].label_measurement_unit;

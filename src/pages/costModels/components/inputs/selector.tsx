@@ -94,6 +94,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
     >
       <Select
         id={id}
+        maxHeight={350}
         toggleAriaLabel={toggleAriaLabel}
         variant={SelectVariant.single}
         placeholderText={placeholderText}
