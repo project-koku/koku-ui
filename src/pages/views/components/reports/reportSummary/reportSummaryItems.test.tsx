@@ -26,8 +26,9 @@ test('renders the children if complete', () => {
 });
 
 test('does not update if the report is unchanged', () => {
-  const {rerender} = render(<ReportSummaryItems {...props} status={FetchStatus.complete} />);
+  const { rerender } = render(<ReportSummaryItems {...props} status={FetchStatus.complete} />);
   rerender(<ReportSummaryItems {...props} status={FetchStatus.complete} />);
   expect(utils.getComputedReportItems).toHaveBeenCalledTimes(1);
+  /* eslint-disable-next-line testing-library/no-node-access */
   expect(props.children).toHaveBeenCalledTimes(1);
 });
