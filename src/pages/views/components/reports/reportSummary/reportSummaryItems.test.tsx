@@ -20,7 +20,14 @@ test('contains skeleton readers if in progress', () => {
   expect(view.container).toMatchSnapshot();
 });
 
-test('does not update if the report is unchanged', () => {
+test('renders the children if complete', () => {
   render(<ReportSummaryItems {...props} status={FetchStatus.complete} />);
   expect(screen.getByText(/children/i)).not.toBeNull();
+});
+
+test('does not update if the report is unchanged', () => {
+  const {rerender} = render(<ReportSummaryItems {...props} status={FetchStatus.complete} />);
+  rerender(<ReportSummaryItems {...props} status={FetchStatus.complete} />);
+  expect(utils.getComputedReportItems).toHaveBeenCalledTimes(1);
+  expect(props.children).toHaveBeenCalledTimes(1);
 });
