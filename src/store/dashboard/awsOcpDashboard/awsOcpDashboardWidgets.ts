@@ -8,7 +8,7 @@ import {
   ComputedReportItemValueType,
 } from 'pages/views/components/charts/common/chartDatumUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
-import { formatUnits } from 'utils/format';
+import { formatCurrency, formatUnits } from 'utils/format';
 
 import { AwsOcpDashboardTab, AwsOcpDashboardWidget } from './awsOcpDashboardCommon';
 
@@ -66,6 +66,7 @@ export const costSummaryWidget: AwsOcpDashboardWidget = {
     type: ChartType.rolling,
   },
   availableTabs: [AwsOcpDashboardTab.services, AwsOcpDashboardTab.accounts, AwsOcpDashboardTab.regions],
+  chartFormatter: formatCurrency,
   chartType: DashboardChartType.dailyTrend,
   currentTab: AwsOcpDashboardTab.services,
 };
@@ -91,6 +92,7 @@ export const databaseWidget: AwsOcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
+  chartFormatter: formatCurrency,
   chartType: DashboardChartType.trend,
 };
 
@@ -115,6 +117,7 @@ export const networkWidget: AwsOcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
+  chartFormatter: formatCurrency,
   chartType: DashboardChartType.trend,
 };
 
@@ -136,5 +139,6 @@ export const storageWidget: AwsOcpDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.trend,
 };

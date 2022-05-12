@@ -260,7 +260,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           forecastData={forecastData}
           forecastConeData={forecastConeData}
           formatOptions={trend.formatOptions}
-          formatter={chartFormatter || formatCurrency}
+          formatter={chartFormatter || formatUnits}
           height={height}
           previousData={previousData}
           showForecast={trend.computedForecastItem !== undefined}
@@ -432,7 +432,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         forecastData={forecastData}
         forecastConeData={forecastConeData}
         formatOptions={trend.formatOptions}
-        formatter={chartFormatter || formatCurrency}
+        formatter={chartFormatter || formatUnits}
         height={height}
         previousData={previousData}
         showForecast={trend.computedForecastItem !== undefined}
