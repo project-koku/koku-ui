@@ -19,6 +19,7 @@ interface SelectorFormGroupOwnProps {
   label?: MessageDescriptor | string;
   appendMenuTo?: HTMLElement | 'parent' | 'inline' | (() => HTMLElement);
   toggleAriaLabel?: string;
+  maxHeight?: string | number;
   placeholderText?: string;
   direction?: SelectDirection.up | SelectDirection.down;
   options: {
@@ -51,6 +52,7 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
   id,
   intl = defaultIntl, // Default required for testing
   toggleAriaLabel,
+  maxHeight,
   placeholderText,
   direction = SelectDirection.down,
   isInvalid = false,
@@ -94,7 +96,8 @@ const SelectorBase: React.FunctionComponent<SelectorProps> = ({
     >
       <Select
         id={id}
-        maxHeight={350}
+        ouiaId={id}
+        maxHeight={maxHeight}
         toggleAriaLabel={toggleAriaLabel}
         variant={SelectVariant.single}
         placeholderText={placeholderText}
