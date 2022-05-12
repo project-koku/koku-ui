@@ -13,6 +13,8 @@ const props: ReportSummaryItemsProps = {
   } as any,
   children: jest.fn(() => 'children'),
   status: FetchStatus.inProgress,
+  idKey: 'date',
+  report: { data: [] },
 };
 
 test('contains skeleton readers if in progress', () => {
@@ -23,6 +25,14 @@ test('contains skeleton readers if in progress', () => {
 test('renders the children if complete', () => {
   render(<ReportSummaryItems {...props} status={FetchStatus.complete} />);
   expect(screen.getByText(/children/i)).not.toBeNull();
+});
+
+test('renders the children if complete', () => {
+  render(<ReportSummaryItems {...props} status={FetchStatus.complete} />);
+  expect(utils.getComputedReportItems).toBeCalledWith({
+    report: props.report,
+    idKey: props.idKey,
+  });
 });
 
 test('does not update if the report is unchanged', () => {
