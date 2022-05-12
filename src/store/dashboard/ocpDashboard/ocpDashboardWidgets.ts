@@ -9,7 +9,6 @@ import {
 } from 'pages/views/components/charts/common/chartDatumUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
-
 import { formatCurrency, formatUnits } from 'utils/format';
 
 import { OcpDashboardTab, OcpDashboardWidget } from './ocpDashboardCommon';
