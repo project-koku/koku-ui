@@ -24,6 +24,9 @@ const previousInfrastructureCostData = utils.transformReport(
 );
 
 const props: HistoricalCostChartProps = {
+  intl: {
+    formatMessage: jest.fn((m, v) => JSON.stringify(v)),
+  } as any,
   currentCostData,
   currentInfrastructureCostData,
   height: 100,
@@ -34,7 +37,7 @@ const props: HistoricalCostChartProps = {
   formatOptions: {},
 };
 
-test('reports are formatted to datums', () => {
+test('reports are propertly generated', () => {
   const view = render(<HistoricalCostChart {...props} />);
   const charts = screen.getAllByText(/cost/i);
   expect(charts.length).toBe(4);
@@ -42,7 +45,7 @@ test('reports are formatted to datums', () => {
 });
 
 test('null previous and current reports are handled', () => {
-  render(
+  const view = render(
     <HistoricalCostChart
       {...props}
       currentCostData={null}
@@ -53,6 +56,7 @@ test('null previous and current reports are handled', () => {
   );
   const charts = screen.getAllByText(/cost/i);
   expect(charts.length).toBe(4);
+  expect(view.container).toMatchSnapshot();
 });
 
 test('height from props is used', () => {
