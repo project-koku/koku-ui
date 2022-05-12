@@ -11,7 +11,7 @@ export const enum FeatureType {
 // Show in-progress features for stage-beta environment only
 export const isStageBeta = () => {
   const insights = (window as any).insights;
-  return insights && insights.chrome.isBeta() && !insights.chrome.isProd;
+  return insights && insights.chrome.isBeta() && !insights.chrome.isProd();
 };
 
 // Helper function to track multiple code segments belonging to a specific feature
