@@ -9,7 +9,7 @@ import {
 } from 'pages/views/components/charts/common/chartDatumUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
-import { formatUnits } from 'utils/format';
+import { formatCurrency, formatUnits } from 'utils/format';
 
 import { IbmDashboardTab, IbmDashboardWidget } from './ibmDashboardCommon';
 
@@ -70,6 +70,7 @@ export const costSummaryWidget: IbmDashboardWidget = {
     type: ChartType.rolling,
   },
   availableTabs: [IbmDashboardTab.services, IbmDashboardTab.projects, IbmDashboardTab.regions],
+  chartFormatter: formatCurrency,
   chartType: DashboardChartType.dailyTrend,
   currentTab: IbmDashboardTab.services,
 };
@@ -95,6 +96,7 @@ export const databaseWidget: IbmDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
+  chartFormatter: formatCurrency,
   chartType: DashboardChartType.trend,
 };
 
@@ -121,6 +123,7 @@ export const networkWidget: IbmDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
+  chartFormatter: formatCurrency,
   chartType: DashboardChartType.trend,
 };
 
@@ -142,5 +145,6 @@ export const storageWidget: IbmDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.trend,
 };

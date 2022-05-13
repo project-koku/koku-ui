@@ -9,6 +9,7 @@ import {
 } from 'pages/views/components/charts/common/chartDatumUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { formatCurrency, formatUnits } from 'utils/format';
 
 import { OcpDashboardTab, OcpDashboardWidget } from './ocpDashboardCommon';
 
@@ -42,6 +43,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
     limit: 3,
   },
   availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
+  chartFormatter: formatCurrency,
   chartType: DashboardChartType.dailyTrend, // No longer showing infrastructure via DashboardChartType.dailyCost
   currentTab: OcpDashboardTab.projects,
 };
@@ -63,6 +65,7 @@ export const cpuWidget: OcpDashboardWidget = {
     titleKey: messages.OCPDailyUsageAndRequestComparison,
     type: ChartType.daily,
   },
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.usage,
 };
 
@@ -83,6 +86,7 @@ export const memoryWidget: OcpDashboardWidget = {
     titleKey: messages.OCPDailyUsageAndRequestComparison,
     type: ChartType.daily,
   },
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.usage,
 };
 
@@ -103,5 +107,6 @@ export const volumeWidget: OcpDashboardWidget = {
     titleKey: messages.OCPDailyUsageAndRequestComparison,
     type: ChartType.daily,
   },
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.usage,
 };

@@ -8,7 +8,7 @@ import {
   ComputedReportItemValueType,
 } from 'pages/views/components/charts/common/chartDatumUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
-import { formatUnits } from 'utils/format';
+import { formatCurrency, formatUnits } from 'utils/format';
 
 import { GcpOcpDashboardTab, GcpOcpDashboardWidget } from './gcpOcpDashboardCommon';
 
@@ -68,6 +68,7 @@ export const costSummaryWidget: GcpOcpDashboardWidget = {
     type: ChartType.rolling,
   },
   availableTabs: [GcpOcpDashboardTab.services, GcpOcpDashboardTab.gcpProjects, GcpOcpDashboardTab.regions],
+  chartFormatter: formatCurrency,
   chartType: DashboardChartType.dailyTrend,
   currentTab: GcpOcpDashboardTab.services,
 };
@@ -93,6 +94,7 @@ export const databaseWidget: GcpOcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
+  chartFormatter: formatCurrency,
   chartType: DashboardChartType.trend,
 };
 
@@ -117,6 +119,7 @@ export const networkWidget: GcpOcpDashboardWidget = {
     titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
+  chartFormatter: formatCurrency,
   chartType: DashboardChartType.trend,
 };
 
@@ -138,5 +141,6 @@ export const storageWidget: GcpOcpDashboardWidget = {
     titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.trend,
 };
