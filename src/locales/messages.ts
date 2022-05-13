@@ -1026,6 +1026,11 @@ export default defineMessages({
     description: 'Create a price list',
     id: 'CostModelsWizardCreatePriceList',
   },
+  CostModelsWizardCurrencyToggleLabel: {
+    defaultMessage: 'Select currency',
+    description: 'Select currency',
+    id: 'CostModelsWizardCurrencyToggleLabel',
+  },
   CostModelsWizardEmptySourceTypeLabel: {
     defaultMessage: 'Select source type',
     description: 'Select source type',

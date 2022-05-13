@@ -127,8 +127,11 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                 <Selector
                   isRequired
                   id="source-type-selector"
-                  appendMenuTo={() => document.body}
+                  direction={SelectDirection.up}
+                  appendMenuTo="inline"
+                  maxHeight={styles.selector.maxHeight}
                   label={messages.CostModelsSourceType}
+                  toggleAriaLabel={intl.formatMessage(messages.CostModelsWizardEmptySourceTypeLabel)}
                   placeholderText={intl.formatMessage(messages.CostModelsWizardEmptySourceTypeLabel)}
                   value={getValueLabel(type, sourceTypeOptions)}
                   onChange={onTypeChange}
@@ -140,7 +143,9 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                     <Selector
                       label={messages.Currency}
                       direction={SelectDirection.up}
-                      appendMenuTo={() => document.body}
+                      appendMenuTo="inline"
+                      maxHeight={styles.selector.maxHeight}
+                      toggleAriaLabel={intl.formatMessage(messages.CostModelsWizardCurrencyToggleLabel)}
                       value={getValueLabel(currencyUnits, currencyOptions)}
                       onChange={onCurrencyChange}
                       id="currency-units-selector"

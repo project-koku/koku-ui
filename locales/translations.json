@@ -134,6 +134,7 @@
   "CostModelsUUIDEmptyStateDesc": "Cost model with uuid: {uuid} does not exist.",
   "CostModelsWizardCreateCostModel": "Create cost model",
   "CostModelsWizardCreatePriceList": "Create a price list",
+  "CostModelsWizardCurrencyToggleLabel": "Select currency",
   "CostModelsWizardEmptySourceTypeLabel": "Select source type",
   "CostModelsWizardEmptyStateCreate": "To create a price list, begin by clicking the {value} button.",
   "CostModelsWizardEmptyStateOtherTime": "You can create a price list or modify one at a later time.",
