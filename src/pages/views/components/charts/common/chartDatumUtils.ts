@@ -345,6 +345,7 @@ export function getDateRange(
   return [start, end];
 }
 
+// TODO: remove? this doesn't appear to be used anywhere
 export function getDateRangeString(
   datums: ChartDatum[],
   firstOfMonth: boolean = false,

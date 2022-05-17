@@ -1,37 +1,15 @@
 import { render, screen } from '@testing-library/react';
-import { OcpReport, OcpReportData } from 'api/reports/ocpReports';
-import * as utils from 'pages/views/components/charts/common/chartDatumUtils';
 import React from 'react';
 
 import { HistoricalCostChart, HistoricalCostChartProps } from './historicalCostChart';
-
-const currentMonthReport: OcpReport = createReport('2018-01-15');
-const previousMonthReport: OcpReport = createReport('2017-12-15');
-
-const currentCostData = utils.transformReport(currentMonthReport, utils.ChartType.daily, 'date', 'cost');
-const currentInfrastructureCostData = utils.transformReport(
-  currentMonthReport,
-  utils.ChartType.daily,
-  'date',
-  'infrastructure'
-);
-const previousCostData = utils.transformReport(previousMonthReport, utils.ChartType.daily, 'date', 'cost');
-const previousInfrastructureCostData = utils.transformReport(
-  previousMonthReport,
-  utils.ChartType.daily,
-  'date',
-  'infrastructure'
-);
+import { HistoricalCostChartTestProps } from './testProps/historicalCostChartProps';
 
 const props: HistoricalCostChartProps = {
+  ...HistoricalCostChartTestProps,
   intl: {
     formatMessage: jest.fn((m, v) => JSON.stringify(v)),
   } as any,
-  currentCostData,
-  currentInfrastructureCostData,
   height: 100,
-  previousCostData,
-  previousInfrastructureCostData,
   title: 'Usage Title',
   formatter: jest.fn(),
   formatOptions: {},
@@ -39,8 +17,14 @@ const props: HistoricalCostChartProps = {
 
 test('reports are propertly generated', () => {
   const view = render(<HistoricalCostChart {...props} />);
-  const charts = screen.getAllByText(/cost/i);
-  expect(charts.length).toBe(4);
+
+  // i'd like to do this (test legend), but i'm having trouble mocking intl unless it's a direct property
+  // expect(screen.getByText(/Cost \(Apr 1-30\)/i)).not.toBeNull();
+  // expect(screen.getByText(/Cost \(May 1-17\)/i)).not.toBeNull();
+  // expect(screen.getByText(/Infrastructure cost \(Apr 1-30\)/i)).not.toBeNull();
+  // expect(screen.getByText(/Infrastructure cost \(May 1-17\)/i)).not.toBeNull();
+
+  // below is to capture all the graph points which are contained within an svg
   expect(view.container).toMatchSnapshot();
 });
 
@@ -54,8 +38,9 @@ test('null previous and current reports are handled', () => {
       previousInfrastructureCostData={null}
     />
   );
-  const charts = screen.getAllByText(/cost/i);
-  expect(charts.length).toBe(4);
+  const linesWithNoData = screen.getAllByText(/no data/i);
+  expect(linesWithNoData.length).toBe(4);
+  // below is to capture all the graph points which are contained within an svg
   expect(view.container).toMatchSnapshot();
 });
 
@@ -63,16 +48,3 @@ test('height from props is used', () => {
   render(<HistoricalCostChart {...props} />);
   expect(screen.getByTestId('historical-chart-wrapper').getAttribute('style')).toContain('height: 100px');
 });
-
-function createReport(date: string): OcpReport {
-  return {
-    data: [createReportDataPoint(date)],
-  };
-}
-
-function createReportDataPoint(date: string, usage = 1): OcpReportData {
-  return {
-    date,
-    values: [{ date, usage: { value: usage, units: 'unit' } }],
-  };
-}

@@ -106,12 +106,20 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
         childName: 'previousCost',
         data: previousCostData,
         legendItem: {
-          name: getCostRangeString(previousCostData, costKey, true, true, 1, messages.ChartCostLegendNoDataLabel),
+          name: getCostRangeString(
+            previousCostData,
+            costKey,
+            true,
+            true,
+            1,
+            messages.ChartCostLegendNoDataLabel,
+            this.props.intl
+          ),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(previousCostData, costTooltipKey, false, false, 1),
+          tooltip: getCostRangeString(previousCostData, costTooltipKey, false, false, 1, this.props.intl),
         },
         style: {
           data: {
@@ -208,7 +216,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
 
   // Returns CursorVoronoiContainer component
   private getCursorVoronoiContainer = () => {
-    const { formatter, formatOptions } = this.props;
+    const { formatter, formatOptions, intl } = this.props;
 
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
@@ -216,7 +224,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions)}
+        labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions, intl)}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -325,7 +333,6 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
           ),
         })
       : undefined;
-
     return (
       <div className="chartOverride" ref={this.containerRef}>
         <Title headingLevel="h2" style={styles.title} size={TitleSizes.xl}>
