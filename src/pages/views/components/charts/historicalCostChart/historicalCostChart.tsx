@@ -112,14 +112,13 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
             true,
             true,
             1,
-            messages.ChartCostLegendNoDataLabel,
-            this.props.intl
+            messages.ChartCostLegendNoDataLabel
           ),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(previousCostData, costTooltipKey, false, false, 1, this.props.intl),
+          tooltip: getCostRangeString(previousCostData, costTooltipKey, false, false, 1),
         },
         style: {
           data: {
