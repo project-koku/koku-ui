@@ -106,14 +106,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
         childName: 'previousCost',
         data: previousCostData,
         legendItem: {
-          name: getCostRangeString(
-            previousCostData,
-            costKey,
-            true,
-            true,
-            1,
-            messages.ChartCostLegendNoDataLabel
-          ),
+          name: getCostRangeString(previousCostData, costKey, true, true, 1, messages.ChartCostLegendNoDataLabel),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
