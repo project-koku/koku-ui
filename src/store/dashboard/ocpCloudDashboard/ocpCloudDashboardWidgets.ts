@@ -105,8 +105,7 @@ export const networkWidget: OcpCloudDashboardWidget = {
   },
   filter: {
     service:
-      'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway' +
-      'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
+      'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway,Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
