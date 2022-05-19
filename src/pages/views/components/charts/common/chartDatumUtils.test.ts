@@ -11,13 +11,16 @@ const labelFormatFunc = getTooltipContent(jest.fn(v => v));
 
 describe('transformReport', () => {
   test('should return transformed report', () => {
-    expect(transformReport(
-      transformReportProps.report,
-      transformReportProps.type,
-      transformReportProps.idKey,
-      transformReportProps.reportItem,
-      transformReportProps.reportItemValue)).toStrictEqual(transformReportReturns);
-  })
+    expect(
+      transformReport(
+        transformReportProps.report,
+        transformReportProps.type,
+        transformReportProps.idKey,
+        transformReportProps.reportItem,
+        transformReportProps.reportItemValue
+      )
+    ).toStrictEqual(transformReportReturns);
+  });
 });
 describe('getTooltipContent', () => {
   test('format hrs and gb', () => {

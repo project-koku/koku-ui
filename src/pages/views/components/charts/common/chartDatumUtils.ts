@@ -127,9 +127,6 @@ export function transformReport(
   reportItem: string = 'cost',
   reportItemValue: string = 'total' // useful for infrastructure.usage values
 ): ChartDatum[] {
-  const params = {
-    report, type, idKey, reportItem, reportItemValue
-  };
   if (!report) {
     return [];
   }
@@ -153,8 +150,6 @@ export function transformReport(
       return [...acc, createReportDatum(prevValue + val, d, idKey, reportItem, reportItemValue)];
     }, []);
   }
-  console.log(params);
-  // console.log("reportLength:"+params.report ? params.report.data.length : 0,{params, 'ret': idKey === 'date' ? padChartDatums(chartDatums, type) : chartDatums});
   return idKey === 'date' ? padChartDatums(chartDatums, type) : chartDatums;
 }
 
