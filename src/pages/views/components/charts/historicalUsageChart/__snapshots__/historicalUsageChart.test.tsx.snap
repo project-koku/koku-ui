@@ -405,7 +405,7 @@ exports[`reports are formatted to datums 1`] = `
               shape-rendering="auto"
               style="fill: none;"
               vector-effect="non-scaling-stroke"
-              width="15368.81875000006"
+              width="16158.06875000005"
               x="0"
               y="78"
             />
@@ -420,7 +420,7 @@ exports[`reports are formatted to datums 1`] = `
               style="fill: #8bc1f7;"
             />
             <path
-              d="M 7692.24937500003, 94.156
+              d="M 8086.174375000024, 94.156
       h12.319999999999709
       v-4.312
       h-12.319999999999709
@@ -450,17 +450,17 @@ exports[`reports are formatted to datums 1`] = `
               style="fill: #519de9;"
             />
             <path
-              d="M 7692.24937500003, 125.061
+              d="M 8086.174375000024, 125.061
       h3.6959999999999127
       v-4.312
       h-3.6959999999999127
       z
-      M 7697.17737500003, 125.061
+      M 8091.102375000024, 125.061
       h3.6959999999999127
       v-4.312
       h-3.6959999999999127
       z
-      M 7702.10537500003, 125.061
+      M 8096.030375000024, 125.061
       h3.6959999999999127
       v-4.312
       h-3.6959999999999127
@@ -480,7 +480,7 @@ exports[`reports are formatted to datums 1`] = `
               style="fill: #06c;"
             />
             <path
-              d="M 7692.24937500003, 155.966
+              d="M 8086.174375000024, 155.966
       h12.319999999999709
       v-4.312
       h-12.319999999999709
@@ -503,14 +503,14 @@ exports[`reports are formatted to datums 1`] = `
                 text-anchor="start"
                 x="30.8"
               >
-                {month, select, 0 {{count, plural, one {Usage (Jan {startDate})} other {Usage (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Usage (Feb {startDate})} other {Usage (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Usage (Mar {startDate})} other {Usage (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Usage (Apr {startDate})} other {Usage (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Usage (May {startDate})} other {Usage (May {startDate}-{endDate})}}} 5 {{count, plural, one {Usage (Jun {startDate})} other {Usage (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Usage (Jul {startDate})} other {Usage (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Usage (Aug {startDate})} other {Usage (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Usage (Sep {startDate})} other {Usage (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Usage (Oct {startDate})} other {Usage (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Usage (Nov {startDate})} other {Usage (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Usage (Dec {startDate})} other {Usage (Dec {startDate}-{endDate})}}} other {}}
+                {month, select, 0 {{count, plural, one {Usage (Jan {startDate})} other {Usage (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Usage (Feb {startDate})} other {Usage (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Usage (Mar {startDate})} other {Usage (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Usage (Apr {startDate})} other {Usage (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Usage (May {startDate})} other {Usage (May {startDate}-{endDate})}}} 5 {{count, plural, one {Usage (Jun {startDate})} other {Usage (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Usage (Jul {startDate})} other {Usage (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Usage (Aug {startDate})} other {Usage (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Usage (Sep {startDate})} other {Usage (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Usage (Oct {startDate})} other {Usage (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Usage (Nov {startDate})} other {Usage (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Usage (Dec {startDate})} other {Usage (Dec {startDate}-{endDate})}}} other {}}{"count":31,"startDate":"1","endDate":"31","month":11,"year":2017}
               </tspan>
             </text>
             <text
               direction="inherit"
               dx="0"
               id="legend-labels-1"
-              x="7715.20937500003"
+              x="8109.134375000024"
               y="96.97"
             >
               <tspan
@@ -518,9 +518,9 @@ exports[`reports are formatted to datums 1`] = `
                 dy="0"
                 style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
                 text-anchor="start"
-                x="7715.20937500003"
+                x="8109.134375000024"
               >
-                {month, select, 0 {{count, plural, one {Usage (Jan {startDate})} other {Usage (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Usage (Feb {startDate})} other {Usage (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Usage (Mar {startDate})} other {Usage (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Usage (Apr {startDate})} other {Usage (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Usage (May {startDate})} other {Usage (May {startDate}-{endDate})}}} 5 {{count, plural, one {Usage (Jun {startDate})} other {Usage (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Usage (Jul {startDate})} other {Usage (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Usage (Aug {startDate})} other {Usage (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Usage (Sep {startDate})} other {Usage (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Usage (Oct {startDate})} other {Usage (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Usage (Nov {startDate})} other {Usage (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Usage (Dec {startDate})} other {Usage (Dec {startDate}-{endDate})}}} other {}}
+                {month, select, 0 {{count, plural, one {Usage (Jan {startDate})} other {Usage (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Usage (Feb {startDate})} other {Usage (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Usage (Mar {startDate})} other {Usage (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Usage (Apr {startDate})} other {Usage (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Usage (May {startDate})} other {Usage (May {startDate}-{endDate})}}} 5 {{count, plural, one {Usage (Jun {startDate})} other {Usage (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Usage (Jul {startDate})} other {Usage (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Usage (Aug {startDate})} other {Usage (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Usage (Sep {startDate})} other {Usage (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Usage (Oct {startDate})} other {Usage (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Usage (Nov {startDate})} other {Usage (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Usage (Dec {startDate})} other {Usage (Dec {startDate}-{endDate})}}} other {}}{"count":15,"startDate":"1","endDate":"15","month":0,"year":2018}
               </tspan>
             </text>
             <text
@@ -537,14 +537,14 @@ exports[`reports are formatted to datums 1`] = `
                 text-anchor="start"
                 x="30.8"
               >
-                {month, select, 0 {{count, plural, one {Requests (Jan {startDate})} other {Requests (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Requests (Feb {startDate})} other {Requests (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Requests (Mar {startDate})} other {Requests (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Requests (Apr {startDate})} other {Requests (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Requests (May {startDate})} other {Requests (May {startDate}-{endDate})}}} 5 {{count, plural, one {Requests (Jun {startDate})} other {Requests (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Requests (Jul {startDate})} other {Requests (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Requests (Aug {startDate})} other {Requests (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Requests (Sep {startDate})} other {Requests (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Requests (Oct {startDate})} other {Requests (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Requests (Nov {startDate})} other {Requests (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Requests (Dec {startDate})} other {Requests (Dec {startDate}-{endDate})}}} other {}}
+                {month, select, 0 {{count, plural, one {Requests (Jan {startDate})} other {Requests (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Requests (Feb {startDate})} other {Requests (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Requests (Mar {startDate})} other {Requests (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Requests (Apr {startDate})} other {Requests (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Requests (May {startDate})} other {Requests (May {startDate}-{endDate})}}} 5 {{count, plural, one {Requests (Jun {startDate})} other {Requests (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Requests (Jul {startDate})} other {Requests (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Requests (Aug {startDate})} other {Requests (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Requests (Sep {startDate})} other {Requests (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Requests (Oct {startDate})} other {Requests (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Requests (Nov {startDate})} other {Requests (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Requests (Dec {startDate})} other {Requests (Dec {startDate}-{endDate})}}} other {}}{"count":31,"startDate":"1","endDate":"31","month":11,"year":2017}
               </tspan>
             </text>
             <text
               direction="inherit"
               dx="0"
               id="legend-labels-3"
-              x="7715.20937500003"
+              x="8109.134375000024"
               y="127.875"
             >
               <tspan
@@ -552,9 +552,9 @@ exports[`reports are formatted to datums 1`] = `
                 dy="0"
                 style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
                 text-anchor="start"
-                x="7715.20937500003"
+                x="8109.134375000024"
               >
-                {month, select, 0 {{count, plural, one {Requests (Jan {startDate})} other {Requests (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Requests (Feb {startDate})} other {Requests (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Requests (Mar {startDate})} other {Requests (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Requests (Apr {startDate})} other {Requests (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Requests (May {startDate})} other {Requests (May {startDate}-{endDate})}}} 5 {{count, plural, one {Requests (Jun {startDate})} other {Requests (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Requests (Jul {startDate})} other {Requests (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Requests (Aug {startDate})} other {Requests (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Requests (Sep {startDate})} other {Requests (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Requests (Oct {startDate})} other {Requests (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Requests (Nov {startDate})} other {Requests (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Requests (Dec {startDate})} other {Requests (Dec {startDate}-{endDate})}}} other {}}
+                {month, select, 0 {{count, plural, one {Requests (Jan {startDate})} other {Requests (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Requests (Feb {startDate})} other {Requests (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Requests (Mar {startDate})} other {Requests (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Requests (Apr {startDate})} other {Requests (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Requests (May {startDate})} other {Requests (May {startDate}-{endDate})}}} 5 {{count, plural, one {Requests (Jun {startDate})} other {Requests (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Requests (Jul {startDate})} other {Requests (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Requests (Aug {startDate})} other {Requests (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Requests (Sep {startDate})} other {Requests (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Requests (Oct {startDate})} other {Requests (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Requests (Nov {startDate})} other {Requests (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Requests (Dec {startDate})} other {Requests (Dec {startDate}-{endDate})}}} other {}}{"count":31,"startDate":"1","endDate":"31","month":0,"year":2018}
               </tspan>
             </text>
             <text
@@ -578,7 +578,7 @@ exports[`reports are formatted to datums 1`] = `
               direction="inherit"
               dx="0"
               id="legend-labels-5"
-              x="7715.20937500003"
+              x="8109.134375000024"
               y="158.78"
             >
               <tspan
@@ -586,7 +586,7 @@ exports[`reports are formatted to datums 1`] = `
                 dy="0"
                 style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
                 text-anchor="start"
-                x="7715.20937500003"
+                x="8109.134375000024"
               >
                 Limit (no data)
               </tspan>

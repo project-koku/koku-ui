@@ -208,7 +208,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
 
   // Returns CursorVoronoiContainer component
   private getCursorVoronoiContainer = () => {
-    const { formatter, formatOptions, intl } = this.props;
+    const { formatter, formatOptions } = this.props;
 
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
@@ -216,7 +216,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions, intl)}
+        labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{

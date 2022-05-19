@@ -89,7 +89,7 @@ export const getLegendData = (series: ChartSeries[], hiddenSeries: Set<number>, 
 };
 
 // Note: Forecast is expected to use both datum.y and datum.y0
-export const getTooltipLabel = (datum: any, formatter: Formatter, formatOptions: FormatOptions, i18l = intl) => {
+export const getTooltipLabel = (datum: any, formatter: Formatter, formatOptions: FormatOptions) => {
   const tooltipFormatter = getTooltipContent(formatter);
   const dy =
     datum.y !== undefined && datum.y !== null ? tooltipFormatter(datum.y, datum.units, formatOptions) : undefined;
@@ -97,9 +97,9 @@ export const getTooltipLabel = (datum: any, formatter: Formatter, formatOptions:
     datum.y0 !== undefined && datum.y0 !== null ? tooltipFormatter(datum.y0, datum.units, formatOptions) : undefined;
 
   if (dy !== undefined && dy0 !== undefined) {
-    return i18l.formatMessage(messages.ChartCostForecastConeTooltip, { value0: dy0, value1: dy });
+    return intl.formatMessage(messages.ChartCostForecastConeTooltip, { value0: dy0, value1: dy });
   }
-  return dy !== undefined ? dy : i18l.formatMessage(messages.ChartNoData);
+  return dy !== undefined ? dy : intl.formatMessage(messages.ChartNoData);
 };
 
 export const getResizeObserver = (containerRef: HTMLDivElement, handleResize: () => void) => {

@@ -8,9 +8,6 @@ import { ReportSummaryItems, ReportSummaryItemsProps } from './reportSummaryItem
 jest.spyOn(utils, 'getComputedReportItems');
 
 const props: ReportSummaryItemsProps = {
-  intl: {
-    formatMessage: jest.fn((m, v) => JSON.stringify(v)),
-  } as any,
   children: jest.fn(() => 'children'),
   status: FetchStatus.inProgress,
   idKey: 'date',
