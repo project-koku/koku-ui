@@ -27,9 +27,7 @@ const tmessages = defineMessages({
 const props: DashboardWidgetProps = {
   widgetId: 1,
   id: 1,
-  intl: {
-    formatMessage: jest.fn((m, v) => JSON.stringify(v)),
-  } as any,
+  intl,
   current: { data: [] },
   previous: { data: [] },
   tabs: { data: [] },

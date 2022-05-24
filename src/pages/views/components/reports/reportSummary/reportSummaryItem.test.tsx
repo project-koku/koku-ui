@@ -1,13 +1,12 @@
 import { render, screen } from '@testing-library/react';
+import { intl as defaultIntl } from 'components/i18n';
 import React from 'react';
 
 import { ReportSummaryItem, ReportSummaryItemProps } from './reportSummaryItem';
 
 const props: ReportSummaryItemProps = {
   label: 'Label',
-  intl: {
-    formatMessage: jest.fn((m, v) => JSON.stringify(v)),
-  } as any,
+  intl: defaultIntl,
   totalValue: 1000,
   units: 'units',
   value: 100,
@@ -17,7 +16,11 @@ const props: ReportSummaryItemProps = {
 test('formats value', () => {
   render(<ReportSummaryItem {...props} />);
   expect(screen.getByText(/label/i)).not.toBeNull();
-  expect(screen.getByText(/{"percent":"10","units":"{}","value":100}/i)).not.toBeNull();
+  expect(
+    screen.getByText(
+      '{value} {units} ({percent} %){"percent":"10","units":"{units, select, core_hours {core-hours} gb {GB} gb_hours {GB-hours} gb_mo {GB-month} gibibyte_month {GiB-month} hour {hours} hrs {hours} vm_hours {VM-hours} other {}}{}","value":100}'
+    )
+  ).not.toBeNull();
   expect(screen.getByRole('progressbar').getAttribute('aria-valuenow')).toBe('10');
 });
 

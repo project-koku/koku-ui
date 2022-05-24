@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { intl as defaultIntl } from 'components/i18n';
 import React from 'react';
 
 import { HistoricalCostChart, HistoricalCostChartProps } from './historicalCostChart';
@@ -6,9 +7,7 @@ import { HistoricalCostChartTestProps } from './testProps/historicalCostChartPro
 
 const props: HistoricalCostChartProps = {
   ...HistoricalCostChartTestProps,
-  intl: {
-    formatMessage: jest.fn((m, v) => JSON.stringify(v)),
-  } as any,
+  intl: defaultIntl,
   height: 100,
   title: 'Usage Title',
   formatter: jest.fn(),
@@ -18,7 +17,6 @@ const props: HistoricalCostChartProps = {
 test('reports are propertly generated', () => {
   const view = render(<HistoricalCostChart {...props} />);
 
-  // i'd like to do this (test legend), but i'm having trouble mocking intl unless it's a direct property
   expect(screen.getByText(/Cost.*"count":30,"startDate":"1","endDate":"30","month":3,"year":2022/)).not.toBeNull();
   expect(screen.getByText(/Cost.*"count":17,"startDate":"1","endDate":"17","month":4,"year":2022/)).not.toBeNull();
   expect(
