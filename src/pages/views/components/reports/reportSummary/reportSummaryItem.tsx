@@ -1,6 +1,7 @@
 import './reportSummaryItem.scss';
 
 import { Progress, ProgressSize } from '@patternfly/react-core';
+import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -18,7 +19,7 @@ interface ReportSummaryItemOwnProps {
 type ReportSummaryItemProps = ReportSummaryItemOwnProps & WrappedComponentProps;
 
 const ReportSummaryItemBase: React.SFC<ReportSummaryItemProps> = ({
-  intl,
+  intl = defaultIntl, // Default required for testing
   label,
   totalValue,
   units,

@@ -312,7 +312,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
           {title}
         </Title>
         <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
-          <div style={{ height, width }}>
+          <div style={{ height, width }} data-testid="usage-chart-wrapper">
             <Chart
               containerComponent={container}
               domain={domain}

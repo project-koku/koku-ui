@@ -259,7 +259,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
           {title}
         </Title>
         <div style={{ ...styles.chart, height: containerHeight }}>
-          <div style={{ height, width }}>
+          <div style={{ height, width }} data-testid="historical-chart-wrapper">
             <Chart
               containerComponent={container}
               domain={domain}

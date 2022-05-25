@@ -1,7 +1,12 @@
 const mockedReactIntl = jest.genMockFromModule('react-intl') as any;
 
 const intl = {
-  formatMessage: ({ defaultMessage }) => defaultMessage,
+  formatMessage: ({ defaultMessage }, params?) => {
+    if (!params) {
+      return defaultMessage;
+    }
+    return defaultMessage + JSON.stringify(params);
+  },
   formatNumber: jest.fn(v => v),
 };
 

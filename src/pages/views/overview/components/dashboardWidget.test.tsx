@@ -1,9 +1,9 @@
 jest.mock('date-fns').mock('date-fns/format');
 
 import { MessageDescriptor } from '@formatjs/intl/src/types';
+import { render } from '@testing-library/react';
 import { intl } from 'components/i18n';
 import { format, getDate, getMonth, startOfMonth } from 'date-fns';
-import { shallow } from 'enzyme';
 import { ChartType } from 'pages/views/components/charts/common/chartDatumUtils';
 import { DashboardWidgetBase, DashboardWidgetProps } from 'pages/views/overview/components/dashboardWidgetBase';
 import React from 'react';
@@ -27,9 +27,7 @@ const tmessages = defineMessages({
 const props: DashboardWidgetProps = {
   widgetId: 1,
   id: 1,
-  intl: {
-    formatMessage: jest.fn(v => v),
-  } as any,
+  intl,
   current: { data: [] },
   previous: { data: [] },
   tabs: { data: [] },
@@ -67,17 +65,17 @@ beforeEach(() => {
 });
 
 test('reports are fetched on mount', () => {
-  shallow(<DashboardWidgetBase {...props} />);
+  render(<DashboardWidgetBase {...props} />);
   expect(props.fetchReports).toBeCalledWith(props.widgetId);
 });
 
 test('title is translated', () => {
-  shallow(<DashboardWidgetBase {...props} />);
+  render(<DashboardWidgetBase {...props} />);
   expect(getTranslateCallForKey(props.titleKey)).toMatchSnapshot();
 });
 
 test('trend title is translated', () => {
-  shallow(<DashboardWidgetBase {...props} />);
+  render(<DashboardWidgetBase {...props} />);
   expect(getTranslateCallForKey(props.trend.titleKey)).toMatchSnapshot();
 });
 

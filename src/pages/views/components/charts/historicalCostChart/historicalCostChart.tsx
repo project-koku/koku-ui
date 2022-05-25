@@ -325,14 +325,13 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
           ),
         })
       : undefined;
-
     return (
       <div className="chartOverride" ref={this.containerRef}>
         <Title headingLevel="h2" style={styles.title} size={TitleSizes.xl}>
           {title}
         </Title>
         <div style={{ ...styles.chart, height: adjustedContainerHeight }}>
-          <div style={{ height, width }}>
+          <div style={{ height, width }} data-testid="historical-chart-wrapper">
             <Chart
               containerComponent={container}
               domain={domain}
