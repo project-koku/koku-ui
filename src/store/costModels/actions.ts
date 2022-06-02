@@ -1,3 +1,4 @@
+import { AlertVariant } from '@patternfly/react-core';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import {
   CostModel,
@@ -130,7 +131,7 @@ export const redirectToCostModelFromSourceUuid = (source_uuid: string, history: 
           addNotification({
             title: intl.formatMessage(messages.CostModelsRouterErrorTitle),
             description: intl.formatMessage(messages.CostModelsRouterServerError),
-            variant: 'danger',
+            variant: AlertVariant.danger,
             dismissable: true,
           })
         );

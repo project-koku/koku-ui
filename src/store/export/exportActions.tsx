@@ -1,3 +1,4 @@
+import { AlertVariant } from '@patternfly/react-core';
 import { addNotification, removeNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import { Export } from 'api/export/export';
 import { runExport } from 'api/export/exportUtils';
@@ -59,7 +60,7 @@ export function exportReport(
               dismissable: true,
               id: exportSuccessID,
               title: intl.formatMessage(messages.ExportsSuccess),
-              variant: 'success',
+              variant: AlertVariant.success,
             })
           );
         }
@@ -74,7 +75,7 @@ export function exportReport(
               description: intl.formatMessage(messages.ExportsFailedDesc),
               dismissable: true,
               title: intl.formatMessage(messages.ExportsUnavailable),
-              variant: 'danger',
+              variant: AlertVariant.danger,
             })
           );
         }
