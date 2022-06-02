@@ -32,11 +32,12 @@ const store = configureStore({
 export default () => {
   const basename = getBaseName(window.location.pathname);
   const locale = getLocale();
+  const notificationProps = {} as any;
 
   return (
     <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale]} onError={console.log}>
       <Provider store={store as any}>
-        <NotificationsPortal />
+        <NotificationsPortal {...notificationProps} />
         <Router basename={basename}>
           <App basename={basename} />
         </Router>
