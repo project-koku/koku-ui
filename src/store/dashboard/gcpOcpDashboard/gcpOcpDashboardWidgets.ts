@@ -8,6 +8,7 @@ import {
   ComputedReportItemValueType,
 } from 'pages/views/components/charts/common/chartDatumUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { gcpDashboardWidgets } from 'store/dashboard/gcpDashboard';
 import { formatCurrency, formatUnits } from 'utils/format';
 
 import { GcpOcpDashboardTab, GcpOcpDashboardWidget } from './gcpOcpDashboardCommon';
@@ -83,10 +84,10 @@ export const databaseWidget: GcpOcpDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service: 'Bigtable,Datastore,Database Migrations,Firestore,MemoryStore,Spanner,SQL',
+    service: gcpDashboardWidgets.databaseWidget.filter.service,
   },
   tabsFilter: {
-    service: 'Bigtable,Datastore,Database Migrations,Firestore,MemoryStore,Spanner,SQL',
+    service: gcpDashboardWidgets.databaseWidget.tabsFilter.service,
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
@@ -108,10 +109,10 @@ export const networkWidget: GcpOcpDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service: 'Cloud DNS',
+    service: gcpDashboardWidgets.networkWidget.filter.service,
   },
   tabsFilter: {
-    service: 'Cloud DNS',
+    service: gcpDashboardWidgets.networkWidget.tabsFilter.service,
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,

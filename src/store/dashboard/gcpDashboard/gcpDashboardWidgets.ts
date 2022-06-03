@@ -111,11 +111,11 @@ export const networkWidget: GcpDashboardWidget = {
   },
   filter: {
     service:
-      'Network, VPC, Firewall, Route, IP, DNS, CDN, NAT, Traffic Director, Service Discovery, Cloud Domains, Private Service Connect, Cloud Armor',
+      'Network,VPC,Firewall,Route,IP,DNS,CDN,NAT,Traffic Director,Service Discovery,Cloud Domains,Private Service Connect,Cloud Armor',
   },
   tabsFilter: {
     service:
-      'Network, VPC, Firewall, Route, IP, DNS, CDN, NAT, Traffic Director, Service Discovery, Cloud Domains, Private Service Connect, Cloud Armor',
+      'Network,VPC,Firewall,Route,IP,DNS,CDN,NAT,Traffic Director,Service Discovery,Cloud Domains,Private Service Connect,Cloud Armor',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
