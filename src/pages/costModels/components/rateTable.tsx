@@ -39,7 +39,7 @@ const RateTableBase: React.SFC<RateTableProps> = ({ actions, intl = defaultIntl,
         sortBy.index === 1
           ? (r: Rate) => r.metric.label_metric
           : sortBy.index === 2
-          ? (r: Rate) => r.metric.label_measurement
+          ? (r: Rate) => r.metric.label_measurement + r.metric.label_measurement_unit
           : () => '';
       return compareBy(r1, r2, sortBy.direction, projection);
     })
