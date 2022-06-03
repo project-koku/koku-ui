@@ -96,8 +96,6 @@ mgmt_services/cost-mgmt:koku-ui/@formatjs/intl-localematcher:0.2.25.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@formatjs/intl:2.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@formatjs/ts-transformer:3.3.12.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@formatjs/ts-transformer:3.9.2.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@fortawesome/fontawesome-common-types:6.1.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@fortawesome/free-solid-svg-icons:6.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@humanwhocodes/config-array:0.9.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@humanwhocodes/object-schema:1.2.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@istanbuljs/load-nyc-config:1.1.0.yarnlock

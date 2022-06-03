@@ -35,7 +35,6 @@
     "verify": "tsc --noEmit"
   },
   "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "^6.0.0",
     "@patternfly/patternfly": "^4.194.4",
     "@patternfly/react-charts": "^6.67.1",
     "@patternfly/react-core": "^4.214.1",
