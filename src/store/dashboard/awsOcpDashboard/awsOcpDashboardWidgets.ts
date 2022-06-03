@@ -7,6 +7,7 @@ import {
   ComputedReportItemType,
   ComputedReportItemValueType,
 } from 'pages/views/components/charts/common/chartDatumUtils';
+import { awsDashboardWidgets } from 'store/dashboard/awsDashboard';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
 
@@ -81,10 +82,10 @@ export const databaseWidget: AwsOcpDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service: 'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
+    service: awsDashboardWidgets.databaseWidget.filter.service,
   },
   tabsFilter: {
-    service: 'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
+    service: awsDashboardWidgets.databaseWidget.tabsFilter.service,
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
@@ -106,10 +107,10 @@ export const networkWidget: AwsOcpDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service: 'AmazonVPC,AmazonOcpFront,AmazonRoute53,AmazonAPIGateway',
+    service: awsDashboardWidgets.networkWidget.filter.service,
   },
   tabsFilter: {
-    service: 'AmazonVPC,AmazonOcpFront,AmazonRoute53,AmazonAPIGateway',
+    service: awsDashboardWidgets.networkWidget.tabsFilter.service,
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,

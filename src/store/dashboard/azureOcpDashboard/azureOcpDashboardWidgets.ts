@@ -7,6 +7,7 @@ import {
   ComputedReportItemType,
   ComputedReportItemValueType,
 } from 'pages/views/components/charts/common/chartDatumUtils';
+import { azureDashboardWidgets } from 'store/dashboard/azureDashboard';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatUnits } from 'utils/format';
 
@@ -56,10 +57,10 @@ export const databaseWidget: AzureOcpDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service_name: 'Database,Cosmos DB,Cache for Redis',
+    service_name: azureDashboardWidgets.databaseWidget.filter.service_name,
   },
   tabsFilter: {
-    service_name: 'Database,Cosmos DB,Cache for Redis',
+    service_name: azureDashboardWidgets.databaseWidget.tabsFilter.service_name,
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
@@ -80,10 +81,10 @@ export const networkWidget: AzureOcpDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service_name: 'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
+    service_name: azureDashboardWidgets.networkWidget.filter.service_name,
   },
   tabsFilter: {
-    service_name: 'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
+    service_name: azureDashboardWidgets.networkWidget.tabsFilter.service_name,
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
