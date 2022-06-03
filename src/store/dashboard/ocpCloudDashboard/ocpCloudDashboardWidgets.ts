@@ -7,7 +7,10 @@ import {
   ComputedReportItemType,
   ComputedReportItemValueType,
 } from 'pages/views/components/charts/common/chartDatumUtils';
+import { awsDashboardWidgets } from 'store/dashboard/awsDashboard';
+import { azureDashboardWidgets } from 'store/dashboard/azureDashboard';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { gcpDashboardWidgets } from 'store/dashboard/gcpDashboard';
 import { formatCurrency, formatUnits } from 'utils/format';
 
 import { OcpCloudDashboardTab, OcpCloudDashboardWidget } from './ocpCloudDashboardCommon';
@@ -81,8 +84,11 @@ export const databaseWidget: OcpCloudDashboardWidget = {
   },
   filter: {
     service:
-      'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB' +
-      'Database,Cosmos DB,Cache for Redis',
+      awsDashboardWidgets.databaseWidget.filter.service +
+      ',' +
+      azureDashboardWidgets.databaseWidget.filter.service_name +
+      ',' +
+      gcpDashboardWidgets.databaseWidget.filter.service,
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
@@ -105,7 +111,11 @@ export const networkWidget: OcpCloudDashboardWidget = {
   },
   filter: {
     service:
-      'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway,Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
+      awsDashboardWidgets.networkWidget.filter.service +
+      ',' +
+      azureDashboardWidgets.networkWidget.filter.service_name +
+      ',' +
+      gcpDashboardWidgets.networkWidget.filter.service,
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
