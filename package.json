@@ -43,7 +43,7 @@
     "@patternfly/react-table": "^4.90.3",
     "@patternfly/react-tokens": "^4.73.3",
     "@redhat-cloud-services/frontend-components": "^3.9.2",
-    "@redhat-cloud-services/frontend-components-notifications": "^3.2.6",
+    "@redhat-cloud-services/frontend-components-notifications": "^3.2.7",
     "@redhat-cloud-services/frontend-components-translations": "^3.2.4",
     "@redhat-cloud-services/frontend-components-utilities": "^3.2.16",
     "@redhat-cloud-services/rbac-client": "^1.0.108",
