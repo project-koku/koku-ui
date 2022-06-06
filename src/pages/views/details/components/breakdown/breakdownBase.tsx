@@ -15,6 +15,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { RouteComponentProps } from 'react-router-dom';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
+import { CostTypes } from 'utils/costType';
 
 import { styles } from './breakdown.styles';
 import { BreakdownHeader } from './breakdownHeader';
@@ -36,6 +37,7 @@ export const getIdKeyForTab = (tab: BreakdownTab) => {
 
 interface BreakdownStateProps {
   costOverviewComponent?: React.ReactNode;
+  costType?: CostTypes;
   description?: string;
   detailsURL: string;
   emptyStateTitle?: string;
@@ -210,6 +212,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
 
   public render() {
     const {
+      costType,
       description,
       detailsURL,
       emptyStateTitle,
@@ -247,6 +250,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
     return (
       <>
         <BreakdownHeader
+          costType={costType}
           description={description}
           detailsURL={detailsURL}
           groupBy={groupBy}

@@ -10,6 +10,7 @@ import { awsDashboardActions, awsDashboardSelectors, AwsDashboardTab } from 'sto
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
+import { getCostType } from 'utils/costType';
 
 interface AwsDashboardWidgetDispatchProps {
   fetchForecasts: typeof awsDashboardActions.fetchWidgetForecasts;
@@ -34,6 +35,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
     const queries = awsDashboardSelectors.selectWidgetQueries(state, widgetId);
     return {
       ...widget,
+      costType: getCostType(),
       getIdKeyForTab,
       currentQuery: queries.current,
       forecastQuery: queries.forecast,
