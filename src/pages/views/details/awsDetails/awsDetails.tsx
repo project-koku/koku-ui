@@ -381,14 +381,14 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   private updateReport = () => {
-    const { query, location, fetchReport, history, queryString } = this.props;
+    const { costType, query, location, fetchReport, history, queryString } = this.props;
     if (!location.search) {
       history.replace(
         this.getRouteForQuery({
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
           order_by: { cost: 'desc' },
-          cost_type: getCostType(),
+          cost_type: costType,
         })
       );
     } else {
