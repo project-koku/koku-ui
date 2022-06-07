@@ -14,7 +14,7 @@ import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { formatCurrencyRate } from 'utils/format';
+import { formatCurrencyRate, unitsLookupKey } from 'utils/format';
 
 import { compareBy } from './rateForm/utils';
 import TagRateTable from './tagRateTable';
@@ -29,6 +29,16 @@ interface RateTableProps extends WrappedComponentProps {
 const RateTableBase: React.SFC<RateTableProps> = ({ actions, intl = defaultIntl, isCompact, tiers }) => {
   const [expanded, setExpanded] = React.useState({});
   const [sortBy, setSortBy] = React.useState<ISortBy>({});
+  const getMetric = value => intl.formatMessage(messages.MetricValues, { value }) || value;
+  const getMeasurement = (measurement, unit) => {
+    const _units = unit.replace(/-/g, '_').toLowerCase();
+    const units = intl.formatMessage(messages.Units, { units: unitsLookupKey(_units) }) || unit;
+    return intl.formatMessage(messages.MeasurementValues, {
+      value: measurement.toLowerCase().replace('-', '_'),
+      units,
+      count: 2,
+    });
+  };
   const onSort = (_event, index: number, direction: SortByDirection) => {
     setSortBy({ index, direction });
   };
@@ -37,9 +47,9 @@ const RateTableBase: React.SFC<RateTableProps> = ({ actions, intl = defaultIntl,
     .sort((r1, r2) => {
       const projection =
         sortBy.index === 1
-          ? (r: Rate) => r.metric.label_metric
+          ? (r: Rate) => getMetric(r.metric.label_metric)
           : sortBy.index === 2
-          ? (r: Rate) => r.metric.label_measurement
+          ? (r: Rate) => getMeasurement(r.metric.label_measurement, r.metric.label_measurement_unit)
           : () => '';
       return compareBy(r1, r2, sortBy.direction, projection);
     })
@@ -63,15 +73,14 @@ const RateTableBase: React.SFC<RateTableProps> = ({ actions, intl = defaultIntl,
       }
       const isOpen = rateKind === 'tagging' ? expanded[ix + counter - 1] || false : undefined;
       const tierRate = tier.tiered_rates ? tier.tiered_rates[0].value : 0;
-
       return [
         ...acc,
         {
           data: { index: ix, hasChildren: rateKind === 'tagging' },
           cells: [
             tier.description || '',
-            tier.metric.label_metric,
-            `${tier.metric.label_measurement} (${tier.metric.label_measurement_unit})`,
+            getMetric(tier.metric.label_metric),
+            getMeasurement(tier.metric.label_measurement, tier.metric.label_measurement_unit),
             tier.cost_type,
             {
               title:

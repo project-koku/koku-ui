@@ -238,12 +238,16 @@ export const unitsLookupKey = (units): string => {
     case 'gb':
     case 'gb_hours':
     case 'gb_mo':
+    case 'cluser_month':
+    case 'pvc_month':
     case 'gibibyte_month':
     case 'hour':
     case 'hrs':
     case 'tag_mo':
     case 'vm_hours':
       return lookup;
+    case 'gb_month':
+      return 'gb_mo';
     default:
       return undefined;
   }

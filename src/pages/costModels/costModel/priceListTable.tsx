@@ -6,13 +6,8 @@ import {
   EmptyStateIcon,
   List,
   ListItem,
-  Pagination,
   Title,
   TitleSizes,
-  Toolbar,
-  ToolbarContent,
-  ToolbarItem,
-  ToolbarItemVariant,
 } from '@patternfly/react-core';
 import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/esm/icons/file-invoice-dollar-icon';
 import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
@@ -43,10 +38,6 @@ import UpdateRateModal from './updateRateModel';
 interface State {
   deleteRate: any;
   index: number;
-  pagination: {
-    perPage: number;
-    page: number;
-  };
 }
 
 interface Props extends WrappedComponentProps {
@@ -69,10 +60,6 @@ class PriceListTable extends React.Component<Props, State> {
   public state = {
     deleteRate: null,
     index: -1,
-    pagination: {
-      perPage: 10,
-      page: 1,
-    },
   };
   public render() {
     const { fetchStatus, fetchError, intl, isDialogOpen, isWritePermission, metricsHash } = this.props;
@@ -152,15 +139,11 @@ class PriceListTable extends React.Component<Props, State> {
         />
         <WithPriceListSearch initialFilters={{ primary: 'metrics', metrics: [], measurements: [] }}>
           {({ search, setSearch, onRemove, onSelect, onClearAll }) => {
-            const from = (this.state.pagination.page - 1) * this.state.pagination.perPage;
-            const to = this.state.pagination.page * this.state.pagination.perPage;
-
-            const res = this.props.current.rates
+            const filtered = this.props.current.rates
               .filter(rate => search.metrics.length === 0 || search.metrics.includes(rate.metric.label_metric))
               .filter(
                 rate => search.measurements.length === 0 || search.measurements.includes(rate.metric.label_measurement)
               );
-            const filtered = res.slice(from, to);
             return (
               <>
                 <PriceListToolbar
@@ -226,20 +209,7 @@ class PriceListTable extends React.Component<Props, State> {
                     </Button>
                   }
                   onClear={onClearAll}
-                  pagination={
-                    <Pagination
-                      isCompact
-                      itemCount={res.length}
-                      perPage={this.state.pagination.perPage}
-                      page={this.state.pagination.page}
-                      onSetPage={(_evt, page) =>
-                        this.setState({
-                          pagination: { ...this.state.pagination, page },
-                        })
-                      }
-                      onPerPageSelect={(_evt, perPage) => this.setState({ pagination: { page: 1, perPage } })}
-                    />
-                  }
+                  pagination
                 />
                 {fetchStatus !== FetchStatus.complete && <LoadingState />}
                 {fetchStatus === FetchStatus.complete && Boolean(fetchError) && <Unavailable />}
@@ -275,7 +245,7 @@ class PriceListTable extends React.Component<Props, State> {
                           onClick: (_evt, _rowIndex, rowData) => {
                             this.setState({
                               deleteRate: null,
-                              index: rowData.data.index + from,
+                              index: rowData.data.index,
                             });
                             this.props.setDialogOpen({
                               name: 'updateRate',
@@ -295,7 +265,7 @@ class PriceListTable extends React.Component<Props, State> {
                             const rowIndex = rowData.data.index;
                             this.setState({
                               deleteRate: filtered[rowIndex],
-                              index: rowIndex + from,
+                              index: rowIndex,
                             });
                             this.props.setDialogOpen({
                               name: 'deleteRate',
@@ -306,29 +276,6 @@ class PriceListTable extends React.Component<Props, State> {
                       ]}
                       tiers={filtered}
                     />
-
-                    <Toolbar id="price-list-toolbar-bottom">
-                      <ToolbarContent>
-                        <ToolbarItem variant={ToolbarItemVariant.pagination}>
-                          <Pagination
-                            itemCount={res.length}
-                            perPage={this.state.pagination.perPage}
-                            page={this.state.pagination.page}
-                            onSetPage={(_evt, page) =>
-                              this.setState({
-                                pagination: { ...this.state.pagination, page },
-                              })
-                            }
-                            onPerPageSelect={(_evt, perPage) =>
-                              this.setState({
-                                pagination: { page: 1, perPage },
-                              })
-                            }
-                            variant="bottom"
-                          />
-                        </ToolbarItem>
-                      </ToolbarContent>
-                    </Toolbar>
                   </>
                 )}
               </>
