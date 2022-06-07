@@ -59,19 +59,18 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
   const getMetricLabel = m => {
     // Match message descriptor or default to API string
     const value = m.replace(/ /g, '_').toLowerCase();
-    const label = intl.formatMessage(messages.MetricValues, { value });
-    return label ? label : m;
+    return intl.formatMessage(messages.MetricValues, { value }) || m;
   };
   const getMeasurementLabel = (m, u) => {
     // Match message descriptor or default to API string
-    const _units = u.replace(/-/g, '_').toLowerCase();
-    const units = intl.formatMessage(messages.Units, { units: unitsLookupKey(_units) });
-    const label = intl.formatMessage(messages.MeasurementValues, {
-      value: m.toLowerCase().replace('-', '_'),
-      units: units ? units : u,
-      count: 2,
-    });
-    return label ? label : m;
+    const units = intl.formatMessage(messages.Units, { units: unitsLookupKey(u) }) || u;
+    return (
+      intl.formatMessage(messages.MeasurementValues, {
+        value: m.toLowerCase().replace('-', '_'),
+        units,
+        count: 2,
+      }) || m
+    );
   };
   const getMeasurementDescription = (o, u) => {
     // Match message descriptor or default to API string

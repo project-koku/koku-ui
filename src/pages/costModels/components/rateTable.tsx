@@ -30,9 +30,8 @@ const RateTableBase: React.SFC<RateTableProps> = ({ actions, intl = defaultIntl,
   const [expanded, setExpanded] = React.useState({});
   const [sortBy, setSortBy] = React.useState<ISortBy>({});
   const getMetric = value => intl.formatMessage(messages.MetricValues, { value }) || value;
-  const getMeasurement = (measurement, unit) => {
-    const _units = unit.replace(/-/g, '_').toLowerCase();
-    const units = intl.formatMessage(messages.Units, { units: unitsLookupKey(_units) }) || unit;
+  const getMeasurement = (measurement, units) => {
+    units = intl.formatMessage(messages.Units, { units: unitsLookupKey(units) }) || units;
     return intl.formatMessage(messages.MeasurementValues, {
       value: measurement.toLowerCase().replace('-', '_'),
       units,
