@@ -13,6 +13,7 @@ import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy'
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { CostTypes } from 'utils/costType';
 import { getForDateRangeString } from 'utils/dateRange';
 import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { formatCurrency } from 'utils/format';
@@ -20,6 +21,7 @@ import { formatCurrency } from 'utils/format';
 import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps {
+  costType?: CostTypes;
   detailsURL?: string;
   description?: string;
   groupBy?: string;
@@ -85,7 +87,17 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   };
 
   public render() {
-    const { description, groupBy, query, intl, showCostType = false, tabs, tagReportPathsType, title } = this.props;
+    const {
+      costType,
+      description,
+      groupBy,
+      query,
+      intl,
+      showCostType = false,
+      tabs,
+      tagReportPathsType,
+      title,
+    } = this.props;
 
     const filterByAccount = query && query.filter ? query.filter.account : undefined;
     const groupByOrg = getGroupByOrgValue(query);
@@ -131,7 +143,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
             </Title>
             {showCostType && (
               <div style={styles.costType}>
-                <CostType onSelect={this.handleCostTypeSelected} />
+                <CostType onSelect={this.handleCostTypeSelected} costType={costType} />
               </div>
             )}
           </div>

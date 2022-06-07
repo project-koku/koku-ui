@@ -20,6 +20,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
+import { CostTypes } from 'utils/costType';
 import { FeatureType, isFeatureVisible } from 'utils/feature';
 import {
   hasAwsAccess,
@@ -59,6 +60,7 @@ import {
 } from './explorerUtils';
 
 interface ExplorerHeaderOwnProps {
+  costType?: CostTypes;
   groupBy?: string;
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
@@ -259,6 +261,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
   public render() {
     const {
+      costType,
       groupBy,
       intl,
       onFilterAdded,
@@ -312,7 +315,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
           </div>
           {perspective === PerspectiveType.aws && (
             <div style={styles.costType}>
-              <CostType onSelect={this.handleCostTypeSelected} />
+              <CostType onSelect={this.handleCostTypeSelected} costType={costType} />
             </div>
           )}
         </div>
@@ -332,7 +335,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHeaderStateProps>(
-  (state, { perspective }) => {
+  (state, { costType, perspective }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
     const dateRange = getDateRangeDefault(queryFromRoute);
     const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
@@ -373,7 +376,7 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       dateRange,
       start_date,
       end_date,
-      ...(perspective === PerspectiveType.aws && { cost_type: queryFromRoute.cost_type }),
+      ...(perspective === PerspectiveType.aws && { cost_type: costType }),
     };
     const queryString = getQuery({
       ...query,

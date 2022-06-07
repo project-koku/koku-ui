@@ -21,6 +21,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getCostType } from 'utils/costType';
 import { formatUnits } from 'utils/format';
 import { skeletonWidth } from 'utils/skeleton';
 
@@ -275,7 +276,7 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
       dateRange,
       start_date,
       end_date,
-      ...(perspective === PerspectiveType.aws && { cost_type: queryFromRoute.cost_type }),
+      ...(perspective === PerspectiveType.aws && { cost_type: getCostType() }),
     };
     const queryString = getQuery({
       ...query,

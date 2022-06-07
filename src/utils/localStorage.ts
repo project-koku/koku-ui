@@ -55,13 +55,6 @@ export const saveSessionToken = () => {
  * Cost type
  */
 
-// eslint-disable-next-line no-shadow
-export const enum CostTypes {
-  amortized = 'savingsplan_effective_cost',
-  blended = 'blended_cost',
-  unblended = 'unblended_cost',
-}
-
 // Delete cost type
 export const deleteCostType = () => {
   localStorage.removeItem(costTypeID);
@@ -70,7 +63,7 @@ export const deleteCostType = () => {
 // Returns cost type
 export const getCostType = () => {
   const costType = localStorage.getItem(costTypeID);
-  return costType && costType !== null ? costType : CostTypes.unblended;
+  return costType && costType !== null ? costType : undefined;
 };
 
 // Returns true if cost type is available

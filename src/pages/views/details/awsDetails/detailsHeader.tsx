@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { ComputedAwsReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
+import { CostTypes } from 'utils/costType';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { formatCurrency } from 'utils/format';
@@ -25,6 +26,7 @@ import { formatCurrency } from 'utils/format';
 import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
+  costType?: CostTypes;
   groupBy?: string;
   onCostTypeSelected(value: string);
   onGroupBySelected(value: string);
@@ -71,7 +73,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   };
 
   public render() {
-    const { groupBy, onGroupBySelected, providers, providersError, report, intl } = this.props;
+    const { costType, groupBy, onGroupBySelected, providers, providersError, report, intl } = this.props;
     const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
 
     const hasCost =
@@ -103,7 +105,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
               tagReportPathsType={tagReportPathsType}
             />
             <div style={styles.costType}>
-              <CostType onSelect={this.handleCostTypeSelected} />
+              <CostType onSelect={this.handleCostTypeSelected} costType={costType} />
             </div>
           </div>
           {Boolean(showContent) && (

@@ -16,7 +16,7 @@ import { paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getCostType } from 'utils/localStorage';
+import { getCostType } from 'utils/costType';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
@@ -53,6 +53,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
   const groupByOrgValue = getGroupByOrgValue(query);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
   const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
+  const costType = getCostType();
 
   const newQuery: Query = {
     filter: {
@@ -69,7 +70,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
     },
-    cost_type: query.cost_type || getCostType(),
+    cost_type: costType,
   };
   const queryString = getQuery(newQuery);
 
@@ -86,15 +87,15 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     providersQueryString
   );
 
-  const cost_type = getCostType();
   return {
-    costOverviewComponent: <CostOverview costType={cost_type} groupBy={groupBy} query={query} report={report} />,
+    costOverviewComponent: <CostOverview costType={costType} groupBy={groupBy} query={query} report={report} />,
+    costType,
     description: query[breakdownDescKey],
     detailsURL,
     emptyStateTitle: props.intl.formatMessage(messages.AWSDetailsTitle),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData costType={cost_type} />,
+    historicalDataComponent: <HistoricalData costType={costType} />,
     providers: filterProviders(providers, ProviderType.aws),
     providersError,
     providersFetchStatus,

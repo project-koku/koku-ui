@@ -50,6 +50,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { CostTypes, getCostType } from 'utils/costType';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { FeatureType, isFeatureVisible } from 'utils/feature';
 import {
@@ -108,6 +109,7 @@ interface OverviewDispatchProps {
 interface OverviewStateProps {
   awsProviders?: Providers;
   azureProviders?: Providers;
+  costType?: CostTypes;
   gcpProviders?: Providers;
   ibmProviders?: Providers;
   ocpProviders?: Providers;
@@ -131,7 +133,6 @@ interface AvailableTab {
 
 interface OverviewState {
   activeTabKey: number;
-  costType?: string;
   currentInfrastructurePerspective?: string;
   currentOcpPerspective?: string;
 }
@@ -222,6 +223,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getCostType = () => {
+    const { costType } = this.props;
     const { currentInfrastructurePerspective, currentOcpPerspective } = this.state;
 
     const currentItem =
@@ -230,7 +232,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     if (currentItem === InfrastructurePerspective.aws) {
       return (
         <div style={styles.costType}>
-          <CostType onSelect={this.handleCostTypeSelected} />
+          <CostType onSelect={this.handleCostTypeSelected} costType={costType} />
         </div>
       );
     }
@@ -404,8 +406,8 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getTabItem = (tab: OverviewTab, index: number) => {
-    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders } = this.props;
-    const { activeTabKey, costType, currentInfrastructurePerspective, currentOcpPerspective } = this.state;
+    const { awsProviders, azureProviders, costType, gcpProviders, ibmProviders, ocpProviders } = this.props;
+    const { activeTabKey, currentInfrastructurePerspective, currentOcpPerspective } = this.state;
 
     const emptyTab = <></>; // Lazily load tabs
     const noData = <NoData showReload={false} />;
@@ -486,15 +488,11 @@ class OverviewBase extends React.Component<OverviewProps> {
   private handleCostTypeSelected = (value: string) => {
     const { history, query } = this.props;
 
-    // Needed to force tab items to update
-    this.setState({ costType: value }, () => {
-      // Need param to restore cost type upon page refresh
-      const newQuery = {
-        ...JSON.parse(JSON.stringify(query)),
-        cost_type: value,
-      };
-      history.replace(this.getRouteForQuery(newQuery));
-    });
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      cost_type: value,
+    };
+    history.replace(this.getRouteForQuery(newQuery));
   };
 
   private handlePerspectiveSelected = (value: string) => {
@@ -680,14 +678,14 @@ class OverviewBase extends React.Component<OverviewProps> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStateProps>((state, props) => {
   const queryFromRoute = parseQuery<OverviewQuery>(location.search);
-
+  const costType = getCostType();
   const perspective = queryFromRoute.perspective;
   const tabKey = queryFromRoute.tabKey && !Number.isNaN(queryFromRoute.tabKey) ? Number(queryFromRoute.tabKey) : 0;
 
   const query = {
     ...(perspective && { perspective }),
     tabKey,
-    ...(perspective === InfrastructurePerspective.aws && { cost_type: queryFromRoute.cost_type }),
+    ...(perspective === InfrastructurePerspective.aws && { cost_type: costType }),
   };
   const queryString = getQuery(query);
 
@@ -715,6 +713,7 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     gcpProviders: filterProviders(providers, ProviderType.gcp),
     ibmProviders: filterProviders(providers, ProviderType.ibm),
     ocpProviders: filterProviders(providers, ProviderType.ocp),
+    costType,
     providers,
     providersError,
     providersFetchStatus,
