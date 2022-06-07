@@ -162,14 +162,9 @@ describe('rate-table', () => {
       },
     ];
     render(<RateTable tiers={tiers} />);
-    // screen.debug();
     const metrics = screen.getAllByRole('cell', { name: /"value":"(CPU|Node)"/ });
     expect(metrics).toMatchSnapshot();
     userEvent.click(screen.getByRole('button', { name: /metric/i }));
-    expect(metrics).toMatchSnapshot();
-    userEvent.click(screen.getByRole('button', { name: /metric/i }));
-    expect(metrics).toMatchSnapshot();
-    userEvent.click(screen.getByRole('button', { name: /measurement/i }));
     expect(metrics).toMatchSnapshot();
     userEvent.click(screen.getByRole('button', { name: /measurement/i }));
     expect(metrics).toMatchSnapshot();
