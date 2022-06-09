@@ -6,19 +6,27 @@ import {
   EmptyStateIcon,
   List,
   ListItem,
+  Pagination,
   Title,
   TitleSizes,
+  Toolbar,
+  ToolbarContent,
+  ToolbarItem,
+  ToolbarItemVariant,
 } from '@patternfly/react-core';
 import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/esm/icons/file-invoice-dollar-icon';
+import { SortByDirection } from '@patternfly/react-table';
 import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
+import { Rate } from 'api/rates';
 import { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import { EmptyFilterState } from 'pages/components/state/emptyFilterState/emptyFilterState';
 import { LoadingState } from 'pages/components/state/loadingState/loadingState';
 import { WithPriceListSearch } from 'pages/costModels/components/hoc/withPriceListSearch';
 import { PriceListToolbar } from 'pages/costModels/components/priceListToolbar';
+import { compareBy } from 'pages/costModels/components/rateForm/utils';
 import { RateTable } from 'pages/costModels/components/rateTable';
 import { CheckboxSelector } from 'pages/costModels/components/toolbar/checkboxSelector';
 import { PrimarySelector } from 'pages/costModels/components/toolbar/primarySelector';
@@ -30,6 +38,7 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
 import { rbacSelectors } from 'store/rbac';
+import { unitsLookupKey } from 'utils/format';
 
 import AddRateModal from './addRateModal';
 import Dialog from './dialog';
@@ -38,6 +47,14 @@ import UpdateRateModal from './updateRateModel';
 interface State {
   deleteRate: any;
   index: number;
+  sortBy: {
+    index: number;
+    direction: SortByDirection;
+  };
+  pagination: {
+    perPage: number;
+    page: number;
+  };
 }
 
 interface Props extends WrappedComponentProps {
@@ -60,6 +77,14 @@ class PriceListTable extends React.Component<Props, State> {
   public state = {
     deleteRate: null,
     index: -1,
+    sortBy: {
+      index: 0,
+      direction: SortByDirection.asc,
+    },
+    pagination: {
+      perPage: 10,
+      page: 1,
+    },
   };
   public render() {
     const { fetchStatus, fetchError, intl, isDialogOpen, isWritePermission, metricsHash } = this.props;
@@ -139,11 +164,33 @@ class PriceListTable extends React.Component<Props, State> {
         />
         <WithPriceListSearch initialFilters={{ primary: 'metrics', metrics: [], measurements: [] }}>
           {({ search, setSearch, onRemove, onSelect, onClearAll }) => {
-            const filtered = this.props.current.rates
+            const getMetric = value => intl.formatMessage(messages.MetricValues, { value }) || value;
+            const getMeasurement = (measurement, units) => {
+              units = intl.formatMessage(messages.Units, { units: unitsLookupKey(units) }) || units;
+              return intl.formatMessage(messages.MeasurementValues, {
+                value: measurement.toLowerCase().replace('-', '_'),
+                units,
+                count: 2,
+              });
+            };
+            const from = (this.state.pagination.page - 1) * this.state.pagination.perPage;
+            const to = this.state.pagination.page * this.state.pagination.perPage;
+
+            const res = this.props.current.rates
               .filter(rate => search.metrics.length === 0 || search.metrics.includes(rate.metric.label_metric))
               .filter(
                 rate => search.measurements.length === 0 || search.measurements.includes(rate.metric.label_measurement)
-              );
+              )
+              .sort((r1, r2) => {
+                const projection =
+                  this.state.sortBy.index === 1
+                    ? (r: Rate) => getMetric(r.metric.label_metric)
+                    : this.state.sortBy.index === 2
+                    ? (r: Rate) => getMeasurement(r.metric.label_measurement, r.metric.label_measurement_unit)
+                    : () => '';
+                return compareBy(r1, r2, this.state.sortBy.direction, projection);
+              });
+            const filtered = res.slice(from, to);
             return (
               <>
                 <PriceListToolbar
@@ -209,7 +256,20 @@ class PriceListTable extends React.Component<Props, State> {
                     </Button>
                   }
                   onClear={onClearAll}
-                  pagination
+                  pagination={
+                    <Pagination
+                      isCompact
+                      itemCount={res.length}
+                      perPage={this.state.pagination.perPage}
+                      page={this.state.pagination.page}
+                      onSetPage={(_evt, page) =>
+                        this.setState({
+                          pagination: { ...this.state.pagination, page },
+                        })
+                      }
+                      onPerPageSelect={(_evt, perPage) => this.setState({ pagination: { page: 1, perPage } })}
+                    />
+                  }
                 />
                 {fetchStatus !== FetchStatus.complete && <LoadingState />}
                 {fetchStatus === FetchStatus.complete && Boolean(fetchError) && <Unavailable />}
@@ -245,7 +305,7 @@ class PriceListTable extends React.Component<Props, State> {
                           onClick: (_evt, _rowIndex, rowData) => {
                             this.setState({
                               deleteRate: null,
-                              index: rowData.data.index,
+                              index: rowData.data.index + from,
                             });
                             this.props.setDialogOpen({
                               name: 'updateRate',
@@ -265,7 +325,7 @@ class PriceListTable extends React.Component<Props, State> {
                             const rowIndex = rowData.data.index;
                             this.setState({
                               deleteRate: filtered[rowIndex],
-                              index: rowIndex,
+                              index: rowIndex + from,
                             });
                             this.props.setDialogOpen({
                               name: 'deleteRate',
@@ -275,7 +335,36 @@ class PriceListTable extends React.Component<Props, State> {
                         },
                       ]}
                       tiers={filtered}
+                      sortCallback={e => {
+                        this.setState({
+                          ...this.state,
+                          sortBy: { ...e },
+                        });
+                      }}
                     />
+
+                    <Toolbar id="price-list-toolbar-bottom">
+                      <ToolbarContent>
+                        <ToolbarItem variant={ToolbarItemVariant.pagination}>
+                          <Pagination
+                            itemCount={res.length}
+                            perPage={this.state.pagination.perPage}
+                            page={this.state.pagination.page}
+                            onSetPage={(_evt, page) =>
+                              this.setState({
+                                pagination: { ...this.state.pagination, page },
+                              })
+                            }
+                            onPerPageSelect={(_evt, perPage) =>
+                              this.setState({
+                                pagination: { page: 1, perPage },
+                              })
+                            }
+                            variant="bottom"
+                          />
+                        </ToolbarItem>
+                      </ToolbarContent>
+                    </Toolbar>
                   </>
                 )}
               </>

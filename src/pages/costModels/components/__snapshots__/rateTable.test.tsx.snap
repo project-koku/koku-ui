@@ -40,28 +40,28 @@ Array [
     data-key="1"
     data-label="Metric"
   >
-    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
-  </td>,
-  <td
-    class=""
-    data-key="1"
-    data-label="Metric"
-  >
-    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
-  </td>,
-  <td
-    class=""
-    data-key="1"
-    data-label="Metric"
-  >
-    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
-  </td>,
-  <td
-    class=""
-    data-key="1"
-    data-label="Metric"
-  >
     {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"Node"}
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="Metric"
+  >
+    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="Metric"
+  >
+    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="Metric"
+  >
+    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
   </td>,
 ]
 `;
