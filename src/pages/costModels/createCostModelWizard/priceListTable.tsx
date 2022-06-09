@@ -14,12 +14,15 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
+import { SortByDirection } from '@patternfly/react-table';
 import { MetricHash } from 'api/metrics';
+import { Rate } from 'api/rates';
 import messages from 'locales/messages';
 import { EmptyFilterState } from 'pages/components/state/emptyFilterState/emptyFilterState';
 import { WithPriceListSearch } from 'pages/costModels/components/hoc/withPriceListSearch';
 import PaginationToolbarTemplate from 'pages/costModels/components/paginationToolbarTemplate';
 import { PriceListToolbar } from 'pages/costModels/components/priceListToolbar';
+import { compareBy } from 'pages/costModels/components/rateForm/utils';
 import { RateTable } from 'pages/costModels/components/rateTable';
 import { CheckboxSelector } from 'pages/costModels/components/toolbar/checkboxSelector';
 import { PrimarySelector } from 'pages/costModels/components/toolbar/primarySelector';
@@ -28,6 +31,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
+import { unitsLookupKey } from 'utils/format';
 
 import { CostModelContext } from './context';
 
@@ -41,10 +45,21 @@ interface Props extends WrappedComponentProps {
 interface State {
   metrics: string[];
   measurements: string[];
+  sortBy: {
+    index: number;
+    direction: SortByDirection;
+  };
 }
 
 class PriceListTable extends React.Component<Props, State> {
-  public state = { metrics: [], measurements: [] };
+  public state = {
+    metrics: [],
+    measurements: [],
+    sortBy: {
+      index: 0,
+      direction: SortByDirection.asc,
+    },
+  };
   public render() {
     const { addRateAction, deleteRateAction, intl, items, metricsHash } = this.props;
 
@@ -119,6 +134,15 @@ class PriceListTable extends React.Component<Props, State> {
                   }}
                 >
                   {({ search, setSearch, onRemove, onSelect, onClearAll }) => {
+                    const getMetric = value => intl.formatMessage(messages.MetricValues, { value }) || value;
+                    const getMeasurement = (measurement, units) => {
+                      units = intl.formatMessage(messages.Units, { units: unitsLookupKey(units) }) || units;
+                      return intl.formatMessage(messages.MeasurementValues, {
+                        value: measurement.toLowerCase().replace('-', '_'),
+                        units,
+                        count: 2,
+                      });
+                    };
                     const from = (priceListPagination.page - 1) * priceListPagination.perPage;
                     const to = priceListPagination.page * priceListPagination.perPage;
                     const filtered = items
@@ -127,7 +151,16 @@ class PriceListTable extends React.Component<Props, State> {
                         rate =>
                           search.measurements.length === 0 ||
                           search.measurements.includes(rate.metric.label_measurement)
-                      );
+                      )
+                      .sort((r1, r2) => {
+                        const projection =
+                          this.state.sortBy.index === 1
+                            ? (r: Rate) => getMetric(r.metric.label_metric)
+                            : this.state.sortBy.index === 2
+                            ? (r: Rate) => getMeasurement(r.metric.label_measurement, r.metric.label_measurement_unit)
+                            : () => '';
+                        return compareBy(r1, r2, this.state.sortBy.direction, projection);
+                      });
                     const res = filtered.slice(from, to);
                     return (
                       <>
@@ -213,6 +246,12 @@ class PriceListTable extends React.Component<Props, State> {
                             ]}
                             isCompact
                             tiers={res}
+                            sortCallback={e => {
+                              this.setState({
+                                ...this.state,
+                                sortBy: { ...e },
+                              });
+                            }}
                           />
                         )}
                         <PaginationToolbarTemplate
