@@ -85,10 +85,10 @@ export const databaseWidget: GcpDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service: 'Bigtable,Datastore,Database Migrations,Firestore,MemoryStore,Spanner,SQL',
+    service: 'Bigtable,Datastore,Database Migrations,Firebase,Firestore,MemoryStore,Spanner,SQL',
   },
   tabsFilter: {
-    service: 'Bigtable,Datastore,Database Migrations,Firestore,MemoryStore,Spanner,SQL',
+    service: 'Bigtable,Datastore,Database Migrations,Firebase,Firestore,MemoryStore,Spanner,SQL',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
