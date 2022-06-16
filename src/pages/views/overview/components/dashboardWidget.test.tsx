@@ -12,12 +12,12 @@ import { FetchStatus } from 'store/common';
 import { mockDate } from 'testUtils';
 
 const tmessages = defineMessages({
-  TestTitle: {
+  testTitle: {
     id: 'TestTitle',
     description: 'test title',
     defaultMessage: 'test title',
   },
-  TestTrendTitle: {
+  testTrendTitle: {
     id: 'TestTrendTitle',
     description: 'test trend title',
     defaultMessage: 'test trend title',
@@ -33,10 +33,10 @@ const props: DashboardWidgetProps = {
   tabs: { data: [] },
   fetchReports: jest.fn(),
   updateTab: jest.fn(),
-  titleKey: tmessages.TestTitle,
+  titleKey: tmessages.testTitle,
   trend: {
     type: ChartType.rolling,
-    titleKey: tmessages.TestTrendTitle,
+    titleKey: tmessages.testTrendTitle,
     formatOptions: {},
   },
   status: FetchStatus.none,

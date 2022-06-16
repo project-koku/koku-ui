@@ -22,8 +22,8 @@ export const fetchRbac = (): any => {
       .catch(err => {
         dispatch(
           addNotification({
-            title: intl.formatMessage(messages.RbacErrorTitle),
-            description: intl.formatMessage(messages.RbacErrorDescription),
+            title: intl.formatMessage(messages.rbacErrorTitle),
+            description: intl.formatMessage(messages.rbacErrorDescription),
             variant: AlertVariant.danger,
             dismissable: true,
           })

@@ -50,19 +50,19 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
     const rows = getRowsByStateName(stateName, costData);
     const cells = [
       {
-        title: intl.formatMessage(messages.Names, { count: 1 }),
+        title: intl.formatMessage(messages.names, { count: 1 }),
         data: { orderName: 'name' },
         ...(rows.length && { transforms: [sortable] }),
       },
-      { title: intl.formatMessage(messages.Description) },
+      { title: intl.formatMessage(messages.description) },
       {
-        title: intl.formatMessage(messages.CostModelsSourceType),
+        title: intl.formatMessage(messages.costModelsSourceType),
         data: { orderName: 'source_type' },
         ...(rows.length && { transforms: [sortable] }),
       },
-      { title: intl.formatMessage(messages.CostModelsAssignedSources) },
+      { title: intl.formatMessage(messages.costModelsAssignedSources) },
       {
-        title: intl.formatMessage(messages.CostModelsLastChange),
+        title: intl.formatMessage(messages.costModelsLastChange),
         data: { orderName: 'updated_timestamp' },
         ...(rows.length && { transforms: [sortable] }),
       },
@@ -72,8 +72,8 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
     const onSort = createOnSort(cells, query, push);
     const actions = createActions(stateName, canWrite, [
       {
-        title: intl.formatMessage(messages.Delete),
-        tooltip: intl.formatMessage(messages.CostModelsReadOnly),
+        title: intl.formatMessage(messages.delete),
+        tooltip: intl.formatMessage(messages.costModelsReadOnly),
         onClick: (_evt: React.MouseEvent, _rowIx: number, rowData: IRowData) => {
           openDeleteDialog(rowData.data);
         },
@@ -90,7 +90,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
           cells={cells}
           onSort={onSort}
           sortBy={sortBy}
-          aria-label={intl.formatMessage(messages.CostModelsTableAriaLabel)}
+          aria-label={intl.formatMessage(messages.costModelsTableAriaLabel)}
         >
           <TableHeader />
           <TableBody />

@@ -450,7 +450,7 @@ class Explorer extends React.Component<ExplorerProps> {
     const groupByTagKey = getGroupByTagKey(query);
     const computedItems = this.getComputedItems();
     const itemsTotal = report && report.meta ? report.meta.count : 0;
-    const title = intl.formatMessage(messages.ExplorerTitle);
+    const title = intl.formatMessage(messages.explorerTitle);
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
     if (reportError) {

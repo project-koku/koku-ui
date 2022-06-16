@@ -90,10 +90,10 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
   private initDatum = () => {
     const { currentRequestData, currentUsageData, previousRequestData, previousUsageData } = this.props;
 
-    const usageKey = messages.ChartUsageLegendLabel;
-    const usageTooltipKey = messages.ChartUsageLegendTooltip;
-    const requestKey = messages.ChartRequestsLegendLabel;
-    const requestTooltipKey = messages.ChartRequestsLegendTooltip;
+    const usageKey = messages.chartUsageLegendLabel;
+    const usageTooltipKey = messages.chartUsageLegendTooltip;
+    const requestKey = messages.chartRequestsLegendLabel;
+    const requestTooltipKey = messages.chartRequestsLegendTooltip;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -102,7 +102,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         childName: 'previousUsage',
         data: previousUsageData,
         legendItem: {
-          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1, messages.ChartUsageLegendNoDataLabel),
+          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1, messages.chartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.legendColorScale[0],
             type: 'minus',
@@ -115,7 +115,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         childName: 'currentUsage',
         data: currentUsageData,
         legendItem: {
-          name: getUsageRangeString(currentUsageData, usageKey, true, false, 0, messages.ChartUsageLegendNoDataLabel),
+          name: getUsageRangeString(currentUsageData, usageKey, true, false, 0, messages.chartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.legendColorScale[1],
             type: 'minus',
@@ -134,7 +134,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
             true,
             true,
             1,
-            messages.ChartRequestsLegendNoDataLabel
+            messages.chartRequestsLegendNoDataLabel
           ),
           symbol: {
             fill: chartStyles.legendColorScale[2],
@@ -154,7 +154,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
             true,
             false,
             0,
-            messages.ChartRequestsLegendNoDataLabel
+            messages.chartRequestsLegendNoDataLabel
           ),
           symbol: {
             fill: chartStyles.legendColorScale[3],
@@ -300,7 +300,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
           labelComponent: (
             <ChartLegendTooltip
               legendData={getLegendData(series, hiddenSeries, true)}
-              title={datum => intl.formatMessage(messages.ChartDayOfTheMonth, { day: datum.x })}
+              title={datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })}
             />
           ),
         })

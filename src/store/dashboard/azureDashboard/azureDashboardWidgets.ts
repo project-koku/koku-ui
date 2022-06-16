@@ -18,14 +18,14 @@ const getId = () => currrentId++;
 
 export const costSummaryWidget: AzureDashboardWidget = {
   id: getId(),
-  titleKey: messages.AzureDashboardCostTitle,
+  titleKey: messages.azureDashboardCostTitle,
   forecastPathsType: ForecastPathsType.azure,
   forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.cost,
   details: {
     adjustContainerHeight: true,
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showHorizontal: true,
     viewAllPath: paths.azureDetails,
   },
@@ -36,8 +36,8 @@ export const costSummaryWidget: AzureDashboardWidget = {
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    dailyTitleKey: messages.AzureDailyCostTrendTitle,
-    titleKey: messages.AzureCostTrendTitle,
+    dailyTitleKey: messages.azureDailyCostTrendTitle,
+    titleKey: messages.azureCostTrendTitle,
     type: ChartType.rolling,
   },
   availableTabs: [
@@ -51,11 +51,11 @@ export const costSummaryWidget: AzureDashboardWidget = {
 
 export const databaseWidget: AzureDashboardWidget = {
   id: getId(),
-  titleKey: messages.DashboardDatabaseTitle,
+  titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.database,
   details: {
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showUnits: true,
   },
   filter: {
@@ -67,7 +67,7 @@ export const databaseWidget: AzureDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.DashboardCumulativeCostComparison,
+    titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
   chartType: DashboardChartType.trend,
@@ -75,11 +75,11 @@ export const databaseWidget: AzureDashboardWidget = {
 
 export const networkWidget: AzureDashboardWidget = {
   id: getId(),
-  titleKey: messages.DashboardNetworkTitle,
+  titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.network,
   details: {
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showUnits: true,
   },
   filter: {
@@ -91,7 +91,7 @@ export const networkWidget: AzureDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.DashboardCumulativeCostComparison,
+    titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
   chartType: DashboardChartType.trend,
@@ -99,20 +99,20 @@ export const networkWidget: AzureDashboardWidget = {
 
 export const storageWidget: AzureDashboardWidget = {
   id: getId(),
-  titleKey: messages.DashboardStorageTitle,
+  titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.storage,
   details: {
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showUnits: true,
     showUsageFirst: true,
     showUsageLegendLabel: true,
-    usageKey: messages.Usage,
+    usageKey: messages.usage,
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.DashboardDailyUsageComparison,
+    titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
   chartType: DashboardChartType.trend,
@@ -120,15 +120,15 @@ export const storageWidget: AzureDashboardWidget = {
 
 export const virtualMachineWidget: AzureDashboardWidget = {
   id: getId(),
-  titleKey: messages.AzureComputeTitle,
+  titleKey: messages.azureComputeTitle,
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.instanceType,
   details: {
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showUnits: true,
     showUsageFirst: true,
     showUsageLegendLabel: true,
-    usageKey: messages.Usage,
+    usageKey: messages.usage,
   },
   filter: {
     service_name: 'Virtual Machines',
@@ -139,7 +139,7 @@ export const virtualMachineWidget: AzureDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.DashboardDailyUsageComparison,
+    titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
   chartFormatter: formatUnits,

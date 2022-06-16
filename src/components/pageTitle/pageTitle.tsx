@@ -36,28 +36,28 @@ class PageTitleBase extends React.Component<PageTitleProps> {
 
     switch (path) {
       case paths.explorer:
-        return messages.PageTitleExplorer;
+        return messages.pageTitleExplorer;
       case paths.overview:
-        return messages.PageTitleOverview;
+        return messages.pageTitleOverview;
       case paths.awsDetails:
       case paths.awsDetailsBreakdown:
-        return messages.PageTitleAWS;
+        return messages.pageTitleAws;
       case paths.azureDetails:
       case paths.azureDetailsBreakdown:
-        return messages.PageTitleAzure;
+        return messages.pageTitleAzure;
       case paths.costModels:
-        return messages.PageTitleCostModels;
+        return messages.pageTitleCostModels;
       case paths.gcpDetails:
       case paths.gcpDetailsBreakdown:
-        return messages.PageTitleGCP;
+        return messages.pageTitleGcp;
       case paths.ibmDetails:
       case paths.ibmDetailsBreakdown:
-        return messages.PageTitleIBM;
+        return messages.pageTitleIbm;
       case paths.ocpDetails:
       case paths.ocpDetailsBreakdown:
-        return messages.PageTitleOCP;
+        return messages.pageTitleOcp;
       default:
-        return messages.PageTitleDefault;
+        return messages.pageTitleDefault;
     }
   }
 

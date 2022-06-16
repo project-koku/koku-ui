@@ -66,12 +66,12 @@ class PriceListTable extends React.Component<Props, State> {
     const getMetricLabel = m => {
       // Match message descriptor or default to API string
       const value = m.replace(/ /g, '_').toLowerCase();
-      const label = intl.formatMessage(messages.MetricValues, { value });
+      const label = intl.formatMessage(messages.metricValues, { value });
       return label ? label : m;
     };
     const getMeasurementLabel = m => {
       // Match message descriptor or default to API string
-      const label = intl.formatMessage(messages.MeasurementValues, {
+      const label = intl.formatMessage(messages.measurementValues, {
         value: m.toLowerCase().replace('-', '_'),
         count: 1,
       });
@@ -93,18 +93,18 @@ class PriceListTable extends React.Component<Props, State> {
         <EmptyState>
           <EmptyStateIcon icon={PlusCircleIcon} />
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.CostModelsWizardEmptyStateTitle)}
+            {intl.formatMessage(messages.costModelsWizardEmptyStateTitle)}
           </Title>
           <EmptyStateBody>
-            {intl.formatMessage(messages.CostModelsWizardEmptyStateSkipStep, {
-              value: <strong>{intl.formatMessage(messages.CreateRate)}</strong>,
+            {intl.formatMessage(messages.costModelsWizardEmptyStateSkipStep, {
+              value: <strong>{intl.formatMessage(messages.createRate)}</strong>,
             })}
             <br />
-            {intl.formatMessage(messages.CostModelsWizardEmptyStateSkipStep, {
-              value: <strong>{intl.formatMessage(messages.Next)}</strong>,
+            {intl.formatMessage(messages.costModelsWizardEmptyStateSkipStep, {
+              value: <strong>{intl.formatMessage(messages.next)}</strong>,
             })}
             <br />
-            {intl.formatMessage(messages.CostModelsWizardEmptyStateOtherTime)}
+            {intl.formatMessage(messages.costModelsWizardEmptyStateOtherTime)}
           </EmptyStateBody>
         </EmptyState>
       </Bullseye>
@@ -117,12 +117,12 @@ class PriceListTable extends React.Component<Props, State> {
             <Stack hasGutter>
               <StackItem>
                 <Title headingLevel="h2" size={TitleSizes.xl}>
-                  {intl.formatMessage(messages.CostModelsWizardCreatePriceList)}
+                  {intl.formatMessage(messages.costModelsWizardCreatePriceList)}
                 </Title>
               </StackItem>
               <StackItem>
                 <TextContent>
-                  <Text component={TextVariants.h6}>{intl.formatMessage(messages.CostModelsWizardSubTitleTable)}</Text>
+                  <Text component={TextVariants.h6}>{intl.formatMessage(messages.costModelsWizardSubTitleTable)}</Text>
                 </TextContent>
               </StackItem>
               <StackItem>
@@ -134,10 +134,10 @@ class PriceListTable extends React.Component<Props, State> {
                   }}
                 >
                   {({ search, setSearch, onRemove, onSelect, onClearAll }) => {
-                    const getMetric = value => intl.formatMessage(messages.MetricValues, { value }) || value;
+                    const getMetric = value => intl.formatMessage(messages.metricValues, { value }) || value;
                     const getMeasurement = (measurement, units) => {
-                      units = intl.formatMessage(messages.Units, { units: unitsLookupKey(units) }) || units;
-                      return intl.formatMessage(messages.MeasurementValues, {
+                      units = intl.formatMessage(messages.units, { units: unitsLookupKey(units) }) || units;
+                      return intl.formatMessage(messages.measurementValues, {
                         value: measurement.toLowerCase().replace('-', '_'),
                         units,
                         count: 2,
@@ -172,11 +172,11 @@ class PriceListTable extends React.Component<Props, State> {
                               setPrimary={(primary: string) => setSearch({ primary })}
                               options={[
                                 {
-                                  label: intl.formatMessage(messages.Metric),
+                                  label: intl.formatMessage(messages.metric),
                                   value: 'metrics',
                                 },
                                 {
-                                  label: intl.formatMessage(messages.Measurement),
+                                  label: intl.formatMessage(messages.measurement),
                                   value: 'measurements',
                                 },
                               ]}
@@ -188,7 +188,7 @@ class PriceListTable extends React.Component<Props, State> {
                               component: (
                                 <CheckboxSelector
                                   isDisabled={items.length === 0}
-                                  placeholderText={intl.formatMessage(messages.ToolBarPriceListMeasurementPlaceHolder)}
+                                  placeholderText={intl.formatMessage(messages.toolBarPriceListMeasurementPlaceHolder)}
                                   selections={search.measurements}
                                   setSelections={(selection: string) => onSelect('measurements', selection)}
                                   options={measurementOpts}
@@ -202,7 +202,7 @@ class PriceListTable extends React.Component<Props, State> {
                               component: (
                                 <CheckboxSelector
                                   isDisabled={items.length === 0}
-                                  placeholderText={intl.formatMessage(messages.ToolBarPriceListMetricPlaceHolder)}
+                                  placeholderText={intl.formatMessage(messages.toolBarPriceListMetricPlaceHolder)}
                                   selections={search.metrics}
                                   setSelections={(selection: string) => onSelect('metrics', selection)}
                                   options={metricOpts}
@@ -213,7 +213,7 @@ class PriceListTable extends React.Component<Props, State> {
                               filters: search.metrics,
                             },
                           ]}
-                          button={<Button onClick={addRateAction}>{intl.formatMessage(messages.CreateRate)}</Button>}
+                          button={<Button onClick={addRateAction}>{intl.formatMessage(messages.createRate)}</Button>}
                           onClear={onClearAll}
                           pagination={
                             <Pagination

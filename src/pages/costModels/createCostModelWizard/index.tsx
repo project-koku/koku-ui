@@ -84,14 +84,14 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
   newSteps[current - 1].enableNext = validators[current - 1](context);
   const isAddingRate = context.type === 'OCP' && current === 2 && !validators[current - 1](context);
   if (current === steps.length && context.type !== '') {
-    newSteps[current - 1].nextButtonText = intl.formatMessage(messages.Create);
+    newSteps[current - 1].nextButtonText = intl.formatMessage(messages.create);
   }
 
   return isOpen ? (
     <Wizard
       isOpen
-      title={intl.formatMessage(messages.CreateCostModelTitle)}
-      description={intl.formatMessage(messages.CreateCostModelDesc)}
+      title={intl.formatMessage(messages.createCostModelTitle)}
+      description={intl.formatMessage(messages.createCostModelDesc)}
       steps={newSteps}
       startAtStep={current}
       onNext={onMove}
@@ -224,100 +224,100 @@ class CostModelWizardBase extends React.Component<Props, State> {
       '': [
         {
           id: 1,
-          name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),
+          name: intl.formatMessage(messages.costModelsWizardStepsGenInfo),
           component: <GeneralInformation />,
         },
       ],
       Azure: [
         {
           id: 1,
-          name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),
+          name: intl.formatMessage(messages.costModelsWizardStepsGenInfo),
           component: <GeneralInformation />,
         },
         {
           id: 2,
-          name: intl.formatMessage(messages.CostCalculations),
+          name: intl.formatMessage(messages.costCalculations),
           component: <Markup />,
         },
         {
           id: 3,
-          name: intl.formatMessage(messages.CostModelsWizardStepsSources),
+          name: intl.formatMessage(messages.costModelsWizardStepsSources),
           component: <Sources />,
         },
         {
           id: 4,
-          name: intl.formatMessage(messages.CostModelsWizardStepsReview),
+          name: intl.formatMessage(messages.costModelsWizardStepsReview),
           component: <Review />,
         },
       ],
       AWS: [
         {
           id: 1,
-          name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),
+          name: intl.formatMessage(messages.costModelsWizardStepsGenInfo),
           component: <GeneralInformation />,
         },
         {
           id: 2,
-          name: intl.formatMessage(messages.CostCalculations),
+          name: intl.formatMessage(messages.costCalculations),
           component: <Markup />,
         },
         {
           id: 3,
-          name: intl.formatMessage(messages.CostModelsWizardStepsSources),
+          name: intl.formatMessage(messages.costModelsWizardStepsSources),
           component: <Sources />,
         },
         {
           id: 4,
-          name: intl.formatMessage(messages.CostModelsWizardStepsReview),
+          name: intl.formatMessage(messages.costModelsWizardStepsReview),
           component: <Review />,
         },
       ],
       GCP: [
         {
           id: 1,
-          name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),
+          name: intl.formatMessage(messages.costModelsWizardStepsGenInfo),
           component: <GeneralInformation />,
         },
         {
           id: 2,
-          name: intl.formatMessage(messages.CostCalculations),
+          name: intl.formatMessage(messages.costCalculations),
           component: <Markup />,
         },
         {
           id: 3,
-          name: intl.formatMessage(messages.CostModelsWizardStepsSources),
+          name: intl.formatMessage(messages.costModelsWizardStepsSources),
           component: <Sources />,
         },
         {
           id: 4,
-          name: intl.formatMessage(messages.CostModelsWizardStepsReview),
+          name: intl.formatMessage(messages.costModelsWizardStepsReview),
           component: <Review />,
         },
       ],
       OCP: [
         {
           id: 1,
-          name: intl.formatMessage(messages.CostModelsWizardStepsGenInfo),
+          name: intl.formatMessage(messages.costModelsWizardStepsGenInfo),
           component: <GeneralInformation />,
         },
         {
           id: 2,
-          name: intl.formatMessage(messages.PriceList),
+          name: intl.formatMessage(messages.priceList),
           component: <PriceList />,
         },
         {
           id: 3,
-          name: intl.formatMessage(messages.CostCalculations),
+          name: intl.formatMessage(messages.costCalculations),
           component: <Markup />,
         },
         {
           id: 4,
-          name: intl.formatMessage(messages.CostModelsWizardStepsSources),
+          name: intl.formatMessage(messages.costModelsWizardStepsSources),
           component: <Sources />,
         },
         {
           id: 5,
-          name: intl.formatMessage(messages.CostModelsWizardStepsReview),
+          name: intl.formatMessage(messages.costModelsWizardStepsReview),
           component: <Review />,
         },
       ],
@@ -325,12 +325,12 @@ class CostModelWizardBase extends React.Component<Props, State> {
 
     const CancelButton = (
       <Button key="cancel" variant="link" onClick={closeConfirmDialog}>
-        {intl.formatMessage(messages.CreateCostModelNoContinue)}
+        {intl.formatMessage(messages.createCostModelNoContinue)}
       </Button>
     );
     const OkButton = (
       <Button key="ok" variant="primary" onClick={() => this.setState({ ...defaultState })}>
-        {intl.formatMessage(messages.CreateCostModelExitYes)}
+        {intl.formatMessage(messages.createCostModelExitYes)}
       </Button>
     );
 
@@ -496,18 +496,18 @@ class CostModelWizardBase extends React.Component<Props, State> {
           }}
         />
         <Modal
-          aria-label={intl.formatMessage(messages.CreateCostModelExit)}
+          aria-label={intl.formatMessage(messages.createCostModelExit)}
           isOpen={this.state.isDialogOpen}
           header={
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
-              <ExclamationTriangleIcon color="orange" /> {intl.formatMessage(messages.CreateCostModelExit)}
+              <ExclamationTriangleIcon color="orange" /> {intl.formatMessage(messages.createCostModelExit)}
             </Title>
           }
           onClose={closeConfirmDialog}
           actions={[OkButton, CancelButton]}
           variant="small"
         >
-          {intl.formatMessage(messages.CreateCostModelConfirmMsg)}
+          {intl.formatMessage(messages.createCostModelConfirmMsg)}
         </Modal>
       </CostModelContext.Provider>
     );

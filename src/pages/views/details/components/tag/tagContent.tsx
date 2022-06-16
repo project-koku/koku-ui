@@ -52,25 +52,25 @@ class TagContentBase extends React.Component<TagContentProps> {
       <>
         <div>
           <span style={styles.dataListHeading}>
-            {intl.formatMessage(messages.GroupByValues, { value: groupBy, count: 1 })}
+            {intl.formatMessage(messages.groupByValues, { value: groupBy, count: 1 })}
           </span>
         </div>
         <div style={styles.groupByHeading}>
           <span>{groupByValue}</span>
         </div>
-        <DataList aria-label={intl.formatMessage(messages.TagNames)} isCompact>
+        <DataList aria-label={intl.formatMessage(messages.tagNames)} isCompact>
           <DataListItem aria-labelledby="heading1">
             <DataListItemRow>
               <DataListItemCells
                 dataListCells={[
                   <DataListCell key="primary content">
                     <span id="heading1" style={styles.dataListHeading}>
-                      {intl.formatMessage(messages.TagHeadingKey)}
+                      {intl.formatMessage(messages.tagHeadingKey)}
                     </span>
                   </DataListCell>,
                   <DataListCell key="secondary content">
                     <span id="heading2" style={styles.dataListHeading}>
-                      {intl.formatMessage(messages.TagHeadingValue)}
+                      {intl.formatMessage(messages.tagHeadingValue)}
                     </span>
                   </DataListCell>,
                 ]}

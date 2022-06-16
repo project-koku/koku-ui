@@ -40,7 +40,7 @@ const DistributionCardBase: React.FunctionComponent<Props> = ({
 }) => {
   const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
   const distributionLabel =
-    current.distribution === 'cpu' ? intl.formatMessage(messages.CpuTitle) : intl.formatMessage(messages.MemoryTitle);
+    current.distribution === 'cpu' ? intl.formatMessage(messages.cpuTitle) : intl.formatMessage(messages.memoryTitle);
 
   return (
     <>
@@ -49,7 +49,7 @@ const DistributionCardBase: React.FunctionComponent<Props> = ({
         <CardHeader>
           <CardHeaderMain>
             <Title headingLevel="h2" size={TitleSizes.md}>
-              {intl.formatMessage(messages.DistributionType)}
+              {intl.formatMessage(messages.distributionType)}
             </Title>
           </CardHeaderMain>
           <CardActions>
@@ -66,14 +66,14 @@ const DistributionCardBase: React.FunctionComponent<Props> = ({
                     onClick={() => setCostModelDialog({ isOpen: true, name: 'updateDistribution' })}
                     component="button"
                   >
-                    {intl.formatMessage(messages.CostModelsDistributionEdit)}
+                    {intl.formatMessage(messages.costModelsDistributionEdit)}
                   </DropdownItem>
                 </ReadOnlyTooltip>,
               ]}
             />
           </CardActions>
         </CardHeader>
-        <CardBody style={styles.cardDescription}>{intl.formatMessage(messages.CostModelsDistributionDesc)}</CardBody>
+        <CardBody style={styles.cardDescription}>{intl.formatMessage(messages.costModelsDistributionDesc)}</CardBody>
         <CardBody isFilled />
         <CardBody style={styles.cardBody}>{distributionLabel}</CardBody>
         <CardBody isFilled />

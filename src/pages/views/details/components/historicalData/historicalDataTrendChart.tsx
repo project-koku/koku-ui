@@ -101,13 +101,13 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 
     let yAxisLabel;
     if (isCostChart) {
-      const units = intl.formatMessage(messages.CurrencyUnits, { units: costUnits });
-      yAxisLabel = intl.formatMessage(messages.HistoricalChartCostLabel, { units });
+      const units = intl.formatMessage(messages.currencyUnits, { units: costUnits });
+      yAxisLabel = intl.formatMessage(messages.historicalChartCostLabel, { units });
     } else if (usageUnits && Number.isNaN(Number(currentReport.meta.total.usage.units))) {
-      yAxisLabel = intl.formatMessage(messages.Units, { units: unitsLookupKey(usageUnits) });
+      yAxisLabel = intl.formatMessage(messages.units, { units: unitsLookupKey(usageUnits) });
     } else {
-      const units = intl.formatMessage(messages.HistoricalChartUsageLabel, { value: reportType });
-      yAxisLabel = intl.formatMessage(messages.Units, { units: unitsLookupKey(units) });
+      const units = intl.formatMessage(messages.historicalChartUsageLabel, { value: reportType });
+      yAxisLabel = intl.formatMessage(messages.units, { units: unitsLookupKey(units) });
     }
 
     return (
@@ -125,7 +125,7 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
               height={chartStyles.chartHeight}
               previousData={previousData}
               units={isCostChart ? costUnits : usageUnits}
-              xAxisLabel={intl.formatMessage(messages.HistoricalChartDayOfMonthLabel)}
+              xAxisLabel={intl.formatMessage(messages.historicalChartDayOfMonthLabel)}
               yAxisLabel={yAxisLabel}
             />
           )}

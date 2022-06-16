@@ -402,7 +402,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
-    const title = intl.formatMessage(messages.AWSDetailsTitle);
+    const title = intl.formatMessage(messages.awsDetailsTitle);
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
     if (reportError) {

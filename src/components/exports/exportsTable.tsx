@@ -88,24 +88,24 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
       {
         id: ExportsTableColumnIds.names,
         orderBy: 'name',
-        title: intl.formatMessage(messages.Names, { count: 1 }),
+        title: intl.formatMessage(messages.names, { count: 1 }),
         ...(isSortable && { transforms: [sortable] }),
       },
       {
         id: ExportsTableColumnIds.created,
         orderBy: 'created',
-        title: intl.formatMessage(messages.TimeOfExport),
+        title: intl.formatMessage(messages.timeOfExport),
         ...(isSortable && { transforms: [sortable] }),
       },
       {
         id: ExportsTableColumnIds.expires,
         orderBy: 'expires',
-        title: intl.formatMessage(messages.ExpiresOn),
+        title: intl.formatMessage(messages.expiresOn),
         ...(isSortable && { transforms: [sortable] }),
       },
       {
         id: ExportsTableColumnIds.status,
-        title: intl.formatMessage(messages.StatusActions),
+        title: intl.formatMessage(messages.statusActions),
       },
       {
         id: ExportsTableColumnIds.actions,
@@ -169,11 +169,11 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
       <EmptyState>
         <EmptyStateIcon icon={PlusCircleIcon} />
         <Title headingLevel="h5" size="lg">
-          {intl.formatMessage(messages.NoExportsStateTitle)}
+          {intl.formatMessage(messages.noExportsStateTitle)}
         </Title>
-        <EmptyStateBody>{intl.formatMessage(messages.ExportsEmptyState)}</EmptyStateBody>
+        <EmptyStateBody>{intl.formatMessage(messages.exportsEmptyState)}</EmptyStateBody>
         <Button variant="primary" onClick={onClose}>
-          {intl.formatMessage(messages.Close)}
+          {intl.formatMessage(messages.close)}
         </Button>
       </EmptyState>
     );
@@ -207,7 +207,7 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
       case 'completed':
         return (
           <Button icon={<DownloadIcon />} isInline onClick={this.handleOnDownload} variant={ButtonVariant.link}>
-            {intl.formatMessage(messages.Download)}
+            {intl.formatMessage(messages.download)}
           </Button>
         );
       case 'failed':
@@ -218,15 +218,15 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
             variant="outline"
             render={({ className, content, componentRef }) => (
               <Popover
-                aria-label={intl.formatMessage(messages.ExportsFailed)}
+                aria-label={intl.formatMessage(messages.exportsFailed)}
                 className={className}
                 headerContent={
                   <div style={styles.failed}>
                     <ExclamationCircleIcon />
-                    <span style={styles.failedHeader}>{intl.formatMessage(messages.ExportsFailed)}</span>
+                    <span style={styles.failedHeader}>{intl.formatMessage(messages.exportsFailed)}</span>
                   </div>
                 }
-                bodyContent={<div>{intl.formatMessage(messages.ExportsFailedDesc)}</div>}
+                bodyContent={<div>{intl.formatMessage(messages.exportsFailedDesc)}</div>}
               >
                 <Button
                   className={className}
@@ -239,21 +239,21 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
               </Popover>
             )}
           >
-            {intl.formatMessage(messages.Status, { value: status })}
+            {intl.formatMessage(messages.status, { value: status })}
           </Label>
         );
         break;
       case 'running':
         return (
           <Label color={'blue'} icon={<SyncIcon />} variant="outline">
-            {intl.formatMessage(messages.Status, { value: status })}
+            {intl.formatMessage(messages.status, { value: status })}
           </Label>
         );
       case 'pending':
       default:
         return (
           <Label color={'blue'} icon={<OutlinedClockIcon />} variant="outline">
-            {intl.formatMessage(messages.Status, { value: status })}
+            {intl.formatMessage(messages.status, { value: status })}
           </Label>
         );
     }
@@ -287,7 +287,7 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
     return (
       <>
         <Table
-          aria-label={intl.formatMessage(messages.ExportsTableAriaLabel)}
+          aria-label={intl.formatMessage(messages.exportsTableAriaLabel)}
           cells={columns}
           rows={isLoading ? loadingRows : rows}
           sortBy={this.getSortBy()}

@@ -70,11 +70,11 @@ export const dateRangeOptions: {
   label: MessageDescriptor;
   value: string;
 }[] = [
-  { label: messages.ExplorerDateRange, value: 'current_month_to_date' },
-  { label: messages.ExplorerDateRange, value: 'previous_month_to_date' },
-  { label: messages.ExplorerDateRange, value: 'last_thirty_days' },
-  { label: messages.ExplorerDateRange, value: 'last_sixty_days' },
-  { label: messages.ExplorerDateRange, value: 'last_ninety_days' },
+  { label: messages.explorerDateRange, value: 'current_month_to_date' },
+  { label: messages.explorerDateRange, value: 'previous_month_to_date' },
+  { label: messages.explorerDateRange, value: 'last_thirty_days' },
+  { label: messages.explorerDateRange, value: 'last_sixty_days' },
+  { label: messages.explorerDateRange, value: 'last_ninety_days' },
 ];
 
 export const groupByAwsOptions: {
@@ -135,34 +135,34 @@ export const groupByOcpOptions: {
 ];
 
 // Infrastructure AWS options
-export const infrastructureAwsOptions = [{ label: messages.PerspectiveValues, value: 'aws' }];
+export const infrastructureAwsOptions = [{ label: messages.perspectiveValues, value: 'aws' }];
 
 // Infrastructure AWS filtered by OpenShift options
-export const infrastructureAwsOcpOptions = [{ label: messages.PerspectiveValues, value: 'aws_ocp' }];
+export const infrastructureAwsOcpOptions = [{ label: messages.perspectiveValues, value: 'aws_ocp' }];
 
 // Infrastructure Azure options
-export const infrastructureAzureOptions = [{ label: messages.PerspectiveValues, value: 'azure' }];
+export const infrastructureAzureOptions = [{ label: messages.perspectiveValues, value: 'azure' }];
 
 // Infrastructure Azure filtered by OpenShift options
-export const infrastructureAzureOcpOptions = [{ label: messages.PerspectiveValues, value: 'azure_ocp' }];
+export const infrastructureAzureOcpOptions = [{ label: messages.perspectiveValues, value: 'azure_ocp' }];
 
 // Infrastructure GCP options
-export const infrastructureGcpOptions = [{ label: messages.PerspectiveValues, value: 'gcp' }];
+export const infrastructureGcpOptions = [{ label: messages.perspectiveValues, value: 'gcp' }];
 
 // Infrastructure GCP filtered by OpenShift options
-export const infrastructureGcpOcpOptions = [{ label: messages.PerspectiveValues, value: 'gcp_ocp' }];
+export const infrastructureGcpOcpOptions = [{ label: messages.perspectiveValues, value: 'gcp_ocp' }];
 
 // Infrastructure IBM options
-export const infrastructureIbmOptions = [{ label: messages.PerspectiveValues, value: 'ibm' }];
+export const infrastructureIbmOptions = [{ label: messages.perspectiveValues, value: 'ibm' }];
 
 // Infrastructure IBM filtered by OpenShift options
-export const infrastructureIbmOcpOptions = [{ label: messages.PerspectiveValues, value: 'ibm_ocp' }];
+export const infrastructureIbmOcpOptions = [{ label: messages.perspectiveValues, value: 'ibm_ocp' }];
 
 // Infrastructure Ocp cloud options
-export const infrastructureOcpCloudOptions = [{ label: messages.PerspectiveValues, value: 'ocp_cloud' }];
+export const infrastructureOcpCloudOptions = [{ label: messages.perspectiveValues, value: 'ocp_cloud' }];
 
 // Ocp options
-export const ocpOptions = [{ label: messages.PerspectiveValues, value: 'ocp' }];
+export const ocpOptions = [{ label: messages.perspectiveValues, value: 'ocp' }];
 
 export const getComputedReportItemType = (perspective: string) => {
   let result;

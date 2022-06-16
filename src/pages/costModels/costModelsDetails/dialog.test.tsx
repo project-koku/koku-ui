@@ -62,11 +62,11 @@ test('delete dialog open', () => {
     },
   };
   renderUI(state);
-  expect(screen.queryAllByText(regExp(messages.CostModelsDelete))).toHaveLength(2);
+  expect(screen.queryAllByText(regExp(messages.costModelsDelete))).toHaveLength(2);
   expect(screen.queryAllByText(/This action will delete/i)).toHaveLength(1);
   expect(screen.queryAllByText(/The following sources are assigned to/i)).toHaveLength(0);
-  userEvent.click(screen.getAllByText(regExp(messages.CostModelsDelete))[1]);
-  expect(screen.getAllByText(regExp(messages.CostModelsDelete))[1].getAttribute('disabled')).not.toBeNull();
+  userEvent.click(screen.getAllByText(regExp(messages.costModelsDelete))[1]);
+  expect(screen.getAllByText(regExp(messages.costModelsDelete))[1].getAttribute('disabled')).not.toBeNull();
 });
 
 test('delete dialog error', () => {
@@ -98,9 +98,9 @@ test('delete dialog error', () => {
     },
   };
   renderUI(state);
-  expect(screen.queryAllByText(regExp(messages.CostModelsDelete))).toHaveLength(1);
+  expect(screen.queryAllByText(regExp(messages.costModelsDelete))).toHaveLength(1);
   expect(screen.queryAllByText(/This action will delete/i)).toHaveLength(0);
   expect(screen.queryAllByText(/The following sources are assigned to/i)).toHaveLength(1);
-  userEvent.click(screen.getByText(regExp(messages.Cancel)));
-  expect(screen.queryAllByText(regExp(messages.CostModelsDelete))).toHaveLength(0);
+  userEvent.click(screen.getByText(regExp(messages.cancel)));
+  expect(screen.queryAllByText(regExp(messages.costModelsDelete))).toHaveLength(0);
 });

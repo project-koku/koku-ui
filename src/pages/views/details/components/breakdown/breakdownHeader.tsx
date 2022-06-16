@@ -115,15 +115,15 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
     return (
       <header style={styles.header}>
         <div style={styles.headerContent}>
-          <nav aria-label={intl.formatMessage(messages.BreakdownBackToDetailsAriaLabel)} className="breadcrumbOverride">
+          <nav aria-label={intl.formatMessage(messages.breakdownBackToDetailsAriaLabel)} className="breadcrumbOverride">
             <ol className="pf-c-breadcrumb__list">
               <li className="pf-c-breadcrumb__item">
                 <span className="pf-c-breadcrumb__item-divider">
                   <AngleLeftIcon />
                 </span>
                 <Link to={this.buildDetailsLink()}>
-                  {intl.formatMessage(messages.BreakdownBackToDetails, {
-                    value: intl.formatMessage(messages.BreakdownBackToTitles, { value: tagReportPathsType }),
+                  {intl.formatMessage(messages.breakdownBackToDetails, {
+                    value: intl.formatMessage(messages.breakdownBackToTitles, { value: tagReportPathsType }),
                     groupBy: groupByKey,
                   })}
                 </Link>
@@ -138,7 +138,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
         <div style={styles.headerContent}>
           <div style={styles.title}>
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
-              {intl.formatMessage(messages.BreakdownTitle, { value: title })}
+              {intl.formatMessage(messages.breakdownTitle, { value: title })}
               {description && <div style={styles.infoDescription}>{description}</div>}
             </Title>
             {showCostType && (
@@ -155,8 +155,8 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
             </div>
             <div style={styles.costLabelDate}>
               {getForDateRangeString(
-                intl.formatMessage(messages.GroupByValuesTitleCase, { value: groupByKey, count: 2 }),
-                messages.BreakdownTotalCostDate,
+                intl.formatMessage(messages.groupByValuesTitleCase, { value: groupByKey, count: 2 }),
+                messages.breakdownTotalCostDate,
                 0
               )}
             </div>

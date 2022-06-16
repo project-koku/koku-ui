@@ -49,9 +49,9 @@ export function exportReport(
 
         /* Todo: Show in-progress features in beta environment only */
         if (isFeatureVisible(FeatureType.exports)) {
-          const description = intl.formatMessage(messages.ExportsSuccessDesc, {
+          const description = intl.formatMessage(messages.exportsSuccessDesc, {
             link: <ExportsLink isActionLink onClick={() => dispatch(removeNotification(exportSuccessID))} />,
-            value: <b>{intl.formatMessage(messages.ExportsTitle)}</b>,
+            value: <b>{intl.formatMessage(messages.exportsTitle)}</b>,
           });
 
           dispatch(
@@ -59,7 +59,7 @@ export function exportReport(
               description,
               dismissable: true,
               id: exportSuccessID,
-              title: intl.formatMessage(messages.ExportsSuccess),
+              title: intl.formatMessage(messages.exportsSuccess),
               variant: AlertVariant.success,
             })
           );
@@ -72,9 +72,9 @@ export function exportReport(
         if (isFeatureVisible(FeatureType.exports)) {
           dispatch(
             addNotification({
-              description: intl.formatMessage(messages.ExportsFailedDesc),
+              description: intl.formatMessage(messages.exportsFailedDesc),
               dismissable: true,
-              title: intl.formatMessage(messages.ExportsUnavailable),
+              title: intl.formatMessage(messages.exportsUnavailable),
               variant: AlertVariant.danger,
             })
           );

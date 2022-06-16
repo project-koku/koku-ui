@@ -94,10 +94,10 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
     const { currentCostData, currentInfrastructureCostData, previousCostData, previousInfrastructureCostData } =
       this.props;
 
-    const costKey = messages.ChartCostLegendLabel;
-    const costInfrastructureKey = messages.ChartCostInfrastructureLegendLabel;
-    const costInfrastructureTooltipKey = messages.ChartCostInfrastructureLegendTooltip;
-    const costTooltipKey = messages.ChartCostLegendTooltip;
+    const costKey = messages.chartCostLegendLabel;
+    const costInfrastructureKey = messages.chartCostInfrastructureLegendLabel;
+    const costInfrastructureTooltipKey = messages.chartCostInfrastructureLegendTooltip;
+    const costTooltipKey = messages.chartCostLegendTooltip;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -106,7 +106,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
         childName: 'previousCost',
         data: previousCostData,
         legendItem: {
-          name: getCostRangeString(previousCostData, costKey, true, true, 1, messages.ChartCostLegendNoDataLabel),
+          name: getCostRangeString(previousCostData, costKey, true, true, 1, messages.chartCostLegendNoDataLabel),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -124,7 +124,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
         childName: 'currentCost',
         data: currentCostData,
         legendItem: {
-          name: getCostRangeString(currentCostData, costKey, true, false, 0, messages.ChartCostLegendNoDataLabel),
+          name: getCostRangeString(currentCostData, costKey, true, false, 0, messages.chartCostLegendNoDataLabel),
           symbol: {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
@@ -148,7 +148,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
             true,
             true,
             1,
-            messages.ChartCostInfrastructureLegendNoDataLabel
+            messages.chartCostInfrastructureLegendNoDataLabel
           ),
           symbol: {
             fill: chartStyles.previousColorScale[1],
@@ -173,7 +173,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
             true,
             false,
             0,
-            messages.ChartCostInfrastructureLegendNoDataLabel
+            messages.chartCostInfrastructureLegendNoDataLabel
           ),
           symbol: {
             fill: chartStyles.currentColorScale[1],
@@ -320,7 +320,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
           labelComponent: (
             <ChartLegendTooltip
               legendData={getLegendData(series, hiddenSeries, true)}
-              title={datum => intl.formatMessage(messages.ChartDayOfTheMonth, { day: datum.x })}
+              title={datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })}
             />
           ),
         })

@@ -260,15 +260,15 @@ describe('update-rate', () => {
     render(<RenderFormDataUI index={0} />);
     userEvent.type(screen.getByDisplayValue(/openshift-aws-node/i), 'a new description');
     // eslint-disable-next-line testing-library/prefer-presence-queries
-    expect(screen.getByText(regExp(messages.Save)).getAttribute('disabled')).toBeNull();
-    userEvent.click(screen.getByText(regExp(messages.Save)));
+    expect(screen.getByText(regExp(messages.save)).getAttribute('disabled')).toBeNull();
+    userEvent.click(screen.getByText(regExp(messages.save)));
   });
 
   test('regular', async () => {
     let options = null;
     render(<RenderFormDataUI index={0} />);
     const descInput = screen.getByDisplayValue('openshift-aws-node');
-    const saveButton = screen.getByText(regExp(messages.Save));
+    const saveButton = screen.getByText(regExp(messages.save));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
     userEvent.clear(descInput);
     userEvent.type(descInput, 'a new description');
@@ -319,18 +319,18 @@ describe('update-rate', () => {
     userEvent.type(screen.getByDisplayValue(/55.3/i), '{backspace}{backspace}');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    userEvent.click(screen.getByLabelText(regExp(messages.CostModelsEnterTagRate)));
+    userEvent.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate)));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
-    userEvent.type(screen.getByLabelText(regExp(messages.CostModelsFilterTagKey)), 'openshift');
-    userEvent.type(screen.getByLabelText(regExp(messages.CostModelsTagRateTableValue)), 'worker');
-    userEvent.type(screen.getByLabelText(regExp(messages.Rate)), '0.321');
+    userEvent.type(screen.getByLabelText(regExp(messages.costModelsFilterTagKey)), 'openshift');
+    userEvent.type(screen.getByLabelText(regExp(messages.costModelsTagRateTableValue)), 'worker');
+    userEvent.type(screen.getByLabelText(regExp(messages.rate)), '0.321');
     expect(saveButton.getAttribute('disabled')).toBeNull();
     userEvent.click(saveButton);
   });
 
   test('tag', () => {
     render(<RenderFormDataUI index={1} />);
-    const saveButton = screen.getByText(regExp(messages.Save));
+    const saveButton = screen.getByText(regExp(messages.save));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
     userEvent.type(screen.getByDisplayValue(/^container$/i), '1');
     expect(saveButton.getAttribute('disabled')).toBeNull();
@@ -347,16 +347,16 @@ describe('update-rate', () => {
     userEvent.type(screen.getByDisplayValue(/^0.43$/i), '{backspace}');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    userEvent.click(screen.getAllByLabelText(regExp(messages.CostModelsTagRateTableDefault))[1]);
+    userEvent.click(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableDefault))[1]);
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    userEvent.click(screen.getAllByLabelText(regExp(messages.CostModelsTagRateTableDefault))[0]);
+    userEvent.click(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableDefault))[0]);
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
     userEvent.click(screen.getByText(/Add more tag values/i));
-    userEvent.type(screen.getAllByLabelText(regExp(messages.CostModelsTagRateTableValue))[4], 'something random');
-    userEvent.type(screen.getAllByLabelText(regExp(messages.Rate))[4], '1.01');
+    userEvent.type(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableValue))[4], 'something random');
+    userEvent.type(screen.getAllByLabelText(regExp(messages.rate))[4], '1.01');
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    userEvent.click(screen.getAllByLabelText(regExp(messages.CostModelsRemoveTagLabel))[4]);
+    userEvent.click(screen.getAllByLabelText(regExp(messages.costModelsRemoveTagLabel))[4]);
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
     userEvent.type(screen.getByDisplayValue(/openshift-region-1/i), '2');
@@ -373,16 +373,16 @@ describe('update-rate', () => {
     options = await screen.findAllByRole('option');
     userEvent.click(options[1]);
 
-    userEvent.click(screen.getByLabelText(regExp(messages.CostModelsEnterTagRate)));
-    userEvent.type(screen.getByLabelText(regExp(messages.CostModelsFilterTagKey)), 'openshift-region-1');
-    expect(screen.getByText(regExp(messages.PriceListDuplicate))).not.toBeNull();
+    userEvent.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate)));
+    userEvent.type(screen.getByLabelText(regExp(messages.costModelsFilterTagKey)), 'openshift-region-1');
+    expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
   });
 
   test('duplicate tag key from tag rate', () => {
     render(<RenderFormDataUI index={2} />);
-    const filterTagInput = screen.getByLabelText(regExp(messages.CostModelsFilterTagKey));
+    const filterTagInput = screen.getByLabelText(regExp(messages.costModelsFilterTagKey));
     userEvent.clear(filterTagInput);
     userEvent.type(filterTagInput, 'openshift-region-1');
-    expect(screen.getByText(regExp(messages.PriceListDuplicate))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
   });
 });

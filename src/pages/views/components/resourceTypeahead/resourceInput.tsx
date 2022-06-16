@@ -151,7 +151,7 @@ class ResourceInputBase extends React.Component<ResourceInputProps> {
     // add a heading to the menu
     const headingItem = (
       <MenuItem isDisabled key="heading">
-        {menuItems.length ? intl.formatMessage(messages.Suggestions) : intl.formatMessage(messages.NoResultsFound)}
+        {menuItems.length ? intl.formatMessage(messages.suggestions) : intl.formatMessage(messages.noResultsFound)}
       </MenuItem>
     );
 

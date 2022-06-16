@@ -49,20 +49,20 @@ interface SourcesErrorStateProps extends WrappedComponentProps {
 }
 
 export const SourceStepErrorStateBase: React.FunctionComponent<SourcesErrorStateProps> = ({ intl, onRefresh }) => {
-  const title = intl.formatMessage(messages.CostModelsWizardSourceErrorTitle);
-  const description = intl.formatMessage(messages.CostModelsWizardSourceErrorDescription, {
+  const title = intl.formatMessage(messages.costModelsWizardSourceErrorTitle);
+  const description = intl.formatMessage(messages.costModelsWizardSourceErrorDescription, {
     url: (
-      <a href={intl.formatMessage(messages.RedHatStatusUrl)} rel="noreferrer" target="_blank">
+      <a href={intl.formatMessage(messages.redHatStatusUrl)} rel="noreferrer" target="_blank">
         "Status Page"
       </a>
     ),
   });
-  const actionButton = <Button onClick={onRefresh}>{intl.formatMessage(messages.CostModelsRefreshDialog)}</Button>;
+  const actionButton = <Button onClick={onRefresh}>{intl.formatMessage(messages.costModelsRefreshDialog)}</Button>;
   return (
     <Stack hasGutter>
       <StackItem>
         <Title headingLevel="h2" size={TitleSizes.xl}>
-          {intl.formatMessage(messages.CostModelsWizardSourceTitle)}
+          {intl.formatMessage(messages.costModelsWizardSourceTitle)}
         </Title>
       </StackItem>
       <StackItem>
@@ -80,15 +80,15 @@ const SourceStepErrorState = injectIntl(SourceStepErrorStateBase);
 export { SourceStepErrorState };
 
 export const SourcesModalErrorStateBase: React.FunctionComponent<SourcesErrorStateProps> = ({ intl, onRefresh }) => {
-  const title = intl.formatMessage(messages.CostModelsAssignSourcesErrorTitle);
-  const description = intl.formatMessage(messages.CostModelsAssignSourcesErrorDescription, {
+  const title = intl.formatMessage(messages.costModelsAssignSourcesErrorTitle);
+  const description = intl.formatMessage(messages.costModelsAssignSourcesErrorDescription, {
     url: (
-      <a href={intl.formatMessage(messages.RedHatStatusUrl)} rel="noreferrer" target="_blank">
+      <a href={intl.formatMessage(messages.redHatStatusUrl)} rel="noreferrer" target="_blank">
         "Status Page"
       </a>
     ),
   });
-  const actionButton = <Button onClick={onRefresh}>{intl.formatMessage(messages.CostModelsRefreshDialog)}</Button>;
+  const actionButton = <Button onClick={onRefresh}>{intl.formatMessage(messages.costModelsRefreshDialog)}</Button>;
   return (
     <ErrorState variant={EmptyStateVariant.large} actionButton={actionButton} description={description} title={title} />
   );

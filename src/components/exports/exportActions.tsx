@@ -52,7 +52,7 @@ class ExportsActionsBase extends React.Component<ExportsActionsProps> {
 
     const items = [
       <DropdownItem component="button" isDisabled={isDisabled} key="export-action" onClick={this.handleOnDelete}>
-        {intl.formatMessage(messages.Delete)}
+        {intl.formatMessage(messages.delete)}
       </DropdownItem>,
     ];
 

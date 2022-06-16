@@ -44,7 +44,7 @@ test('empty table', () => {
     },
   };
   renderUI(state);
-  expect(screen.queryAllByText(regExp(messages.CostModelsEmptyState))).toHaveLength(1);
+  expect(screen.queryAllByText(regExp(messages.costModelsEmptyState))).toHaveLength(1);
 });
 
 test('first page table', () => {

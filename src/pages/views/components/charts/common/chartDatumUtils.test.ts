@@ -25,9 +25,9 @@ describe('transformReport', () => {
 describe('getTooltipContent', () => {
   test('format hrs and gb', () => {
     [
-      { unit: 'hrs', withTranslation: messages.UnitTooltips },
-      { unit: 'gb', withTranslation: messages.UnitTooltips },
-      { unit: 'gb-mo', withTranslation: messages.UnitTooltips },
+      { unit: 'hrs', withTranslation: messages.unitTooltips },
+      { unit: 'gb', withTranslation: messages.unitTooltips },
+      { unit: 'gb-mo', withTranslation: messages.unitTooltips },
     ].forEach(tc => {
       labelFormatFunc(10, tc.unit);
       expect(intl.formatMessage).toBeCalledWith(tc.withTranslation, { units: 'hrs', value: 10 });

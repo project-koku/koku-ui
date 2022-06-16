@@ -86,8 +86,8 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
   private initDatum = () => {
     const { currentData, previousData, showUsageLegendLabel = false } = this.props;
 
-    const key = showUsageLegendLabel ? messages.ChartUsageLegendLabel : messages.ChartCostLegendLabel;
-    const toolTipKey = showUsageLegendLabel ? messages.ChartUsageLegendTooltip : messages.ChartCostLegendTooltip;
+    const key = showUsageLegendLabel ? messages.chartUsageLegendLabel : messages.chartCostLegendLabel;
+    const toolTipKey = showUsageLegendLabel ? messages.chartUsageLegendTooltip : messages.chartCostLegendTooltip;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -96,7 +96,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
         childName: 'previousCost',
         data: previousData,
         legendItem: {
-          name: getCostRangeString(previousData, key, true, true, 1, messages.ChartUsageLegendNoDataLabel),
+          name: getCostRangeString(previousData, key, true, true, 1, messages.chartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -114,7 +114,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
         childName: 'currentCost',
         data: currentData,
         legendItem: {
-          name: getCostRangeString(currentData, key, true, false, 0, messages.ChartUsageLegendNoDataLabel),
+          name: getCostRangeString(currentData, key, true, false, 0, messages.chartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.currentColorScale[1],
             type: 'minus',
@@ -247,7 +247,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
           labelComponent: (
             <ChartLegendTooltip
               legendData={getLegendData(series, hiddenSeries, true)}
-              title={datum => intl.formatMessage(messages.ChartDayOfTheMonth, { day: datum.x })}
+              title={datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })}
             />
           ),
         })

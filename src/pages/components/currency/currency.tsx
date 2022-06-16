@@ -39,21 +39,21 @@ export const currencyOptions: {
   label: MessageDescriptor;
   value: string;
 }[] = [
-  { label: messages.CurrencyOptions, value: 'AUD' },
-  { label: messages.CurrencyOptions, value: 'CAD' },
-  { label: messages.CurrencyOptions, value: 'CHF' },
-  { label: messages.CurrencyOptions, value: 'CNY' },
-  { label: messages.CurrencyOptions, value: 'DKK' },
-  { label: messages.CurrencyOptions, value: 'EUR' },
-  { label: messages.CurrencyOptions, value: 'GBP' },
-  { label: messages.CurrencyOptions, value: 'HKD' },
-  { label: messages.CurrencyOptions, value: 'JPY' },
-  { label: messages.CurrencyOptions, value: 'NOK' },
-  { label: messages.CurrencyOptions, value: 'NZD' },
-  { label: messages.CurrencyOptions, value: 'SEK' },
-  { label: messages.CurrencyOptions, value: 'SGD' },
-  { label: messages.CurrencyOptions, value: 'USD' },
-  { label: messages.CurrencyOptions, value: 'ZAR' },
+  { label: messages.currencyOptions, value: 'AUD' },
+  { label: messages.currencyOptions, value: 'CAD' },
+  { label: messages.currencyOptions, value: 'CHF' },
+  { label: messages.currencyOptions, value: 'CNY' },
+  { label: messages.currencyOptions, value: 'DKK' },
+  { label: messages.currencyOptions, value: 'EUR' },
+  { label: messages.currencyOptions, value: 'GBP' },
+  { label: messages.currencyOptions, value: 'HKD' },
+  { label: messages.currencyOptions, value: 'JPY' },
+  { label: messages.currencyOptions, value: 'NOK' },
+  { label: messages.currencyOptions, value: 'NZD' },
+  { label: messages.currencyOptions, value: 'SEK' },
+  { label: messages.currencyOptions, value: 'SGD' },
+  { label: messages.currencyOptions, value: 'USD' },
+  { label: messages.currencyOptions, value: 'ZAR' },
 ];
 
 class CurrencyBase extends React.Component<CurrencyProps> {
@@ -135,7 +135,7 @@ class CurrencyBase extends React.Component<CurrencyProps> {
     return (
       <div style={styles.currencySelector}>
         <Title headingLevel="h2" size="md" style={styles.currencyLabel}>
-          {intl.formatMessage(messages.Currency)}
+          {intl.formatMessage(messages.currency)}
         </Title>
         {this.getSelect()}
       </div>

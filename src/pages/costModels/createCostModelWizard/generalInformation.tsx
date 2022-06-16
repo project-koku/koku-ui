@@ -48,19 +48,19 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
     const { intl } = this.props;
     const sourceTypeOptions = [
       {
-        label: messages.CostModelsWizardOnboardAWS,
+        label: messages.costModelsWizardOnboardAws,
         value: 'AWS',
       },
       {
-        label: messages.Azure,
+        label: messages.azure,
         value: 'Azure',
       },
       {
-        label: messages.GCP,
+        label: messages.gcp,
         value: 'GCP',
       },
       {
-        label: messages.CostModelsWizardOnboardOCP,
+        label: messages.costModelsWizardOnboardOcp,
         value: 'OCP',
       },
     ];
@@ -81,12 +81,12 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
           <Stack hasGutter>
             <StackItem>
               <Title headingLevel="h2" size={TitleSizes.xl}>
-                {intl.formatMessage(messages.CostModelsWizardGeneralInfoTitle)}
+                {intl.formatMessage(messages.costModelsWizardGeneralInfoTitle)}
               </Title>
             </StackItem>
             <StackItem>
-              <a href={intl.formatMessage(messages.DocsConfigCostModels)} rel="noreferrer" target="_blank">
-                {intl.formatMessage(messages.LearnMore)}
+              <a href={intl.formatMessage(messages.docsConfigCostModels)} rel="noreferrer" target="_blank">
+                {intl.formatMessage(messages.learnMore)}
               </a>
             </StackItem>
             <StackItem>
@@ -94,7 +94,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                 <FormGroup
                   helperTextInvalid={nameErrors(name)}
                   validated={nameErrors(name) === null || !dirtyName ? 'default' : 'error'}
-                  label={intl.formatMessage(messages.Names, { count: 1 })}
+                  label={intl.formatMessage(messages.names, { count: 1 })}
                   isRequired
                   fieldId="name"
                 >
@@ -111,7 +111,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                 <FormGroup
                   helperTextInvalid={descriptionErrors(description)}
                   validated={descriptionErrors(description) === null ? 'default' : 'error'}
-                  label={intl.formatMessage(messages.Description)}
+                  label={intl.formatMessage(messages.description)}
                   fieldId="description"
                 >
                   <TextArea
@@ -130,9 +130,9 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                   direction={SelectDirection.up}
                   appendMenuTo="inline"
                   maxHeight={styles.selector.maxHeight}
-                  label={messages.CostModelsSourceType}
-                  toggleAriaLabel={intl.formatMessage(messages.CostModelsWizardEmptySourceTypeLabel)}
-                  placeholderText={intl.formatMessage(messages.CostModelsWizardEmptySourceTypeLabel)}
+                  label={messages.costModelsSourceType}
+                  toggleAriaLabel={intl.formatMessage(messages.costModelsWizardEmptySourceTypeLabel)}
+                  placeholderText={intl.formatMessage(messages.costModelsWizardEmptySourceTypeLabel)}
                   value={getValueLabel(type, sourceTypeOptions)}
                   onChange={onTypeChange}
                   options={sourceTypeOptions}
@@ -141,11 +141,11 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                   /* Todo: Show in-progress features in beta environment only */
                   isFeatureVisible(FeatureType.currency) && (
                     <Selector
-                      label={messages.Currency}
+                      label={messages.currency}
                       direction={SelectDirection.up}
                       appendMenuTo="inline"
                       maxHeight={styles.selector.maxHeight}
-                      toggleAriaLabel={intl.formatMessage(messages.CostModelsWizardCurrencyToggleLabel)}
+                      toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
                       value={getValueLabel(currencyUnits, currencyOptions)}
                       onChange={onCurrencyChange}
                       id="currency-units-selector"

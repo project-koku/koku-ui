@@ -161,7 +161,7 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
         let label;
         if (report.meta && report.meta.others && (id === 'Other' || id === 'Others')) {
           // Add count to "Others" label
-          label = intl.formatMessage(messages.ChartOthers, { count: report.meta.others });
+          label = intl.formatMessage(messages.chartOthers, { count: report.meta.others });
         } else {
           const itemLabelKey = getItemLabel({ report, idKey, value: val });
           if (itemLabelKey === 'org_entities' && val.alias) {

@@ -125,7 +125,7 @@ class SummaryBase extends React.Component<SummaryProps> {
             type={ButtonType.button}
             variant={ButtonVariant.link}
           >
-            {intl.formatMessage(messages.DetailsViewAll, { value: reportGroupBy })}
+            {intl.formatMessage(messages.detailsViewAll, { value: reportGroupBy })}
           </Button>
           <SummaryModal
             groupBy={groupBy}
@@ -159,7 +159,7 @@ class SummaryBase extends React.Component<SummaryProps> {
       <Card style={styles.card}>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.BreakdownSummaryTitle, { value: reportGroupBy })}
+            {intl.formatMessage(messages.breakdownSummaryTitle, { value: reportGroupBy })}
           </Title>
         </CardTitle>
         <CardBody>

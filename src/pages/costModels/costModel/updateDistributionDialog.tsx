@@ -50,7 +50,7 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
     const { error, current, intl, isLoading, onClose, updateCostModel } = this.props;
     return (
       <Modal
-        title={intl.formatMessage(messages.DistributionType)}
+        title={intl.formatMessage(messages.distributionType)}
         isOpen
         onClose={() => onClose({ name: 'updateDistribution', isOpen: false })}
         variant={ModalVariant.small}
@@ -69,7 +69,7 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
               updateCostModel(current.uuid, newState, 'updateDistribution');
             }}
           >
-            {intl.formatMessage(messages.Save)}
+            {intl.formatMessage(messages.save)}
           </Button>,
           <Button
             key="cancel"
@@ -77,7 +77,7 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
             onClick={() => onClose({ name: 'updateDistribution', isOpen: false })}
             isDisabled={isLoading}
           >
-            {intl.formatMessage(messages.Cancel)}
+            {intl.formatMessage(messages.cancel)}
           </Button>,
         ]}
       >
@@ -85,7 +85,7 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
           <StackItem>{error && <Alert variant="danger" title={`${error}`} />}</StackItem>
           <StackItem>
             <TextContent>
-              <Text style={styles.cardDescription}>{intl.formatMessage(messages.DistributionModelDesc)}</Text>
+              <Text style={styles.cardDescription}>{intl.formatMessage(messages.distributionModelDesc)}</Text>
             </TextContent>
           </StackItem>
           <StackItem>
@@ -94,8 +94,8 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
                 <Radio
                   isChecked={this.state.distribution === 'cpu'}
                   name="distribution"
-                  label={intl.formatMessage(messages.CpuTitle)}
-                  aria-label={intl.formatMessage(messages.CpuTitle)}
+                  label={intl.formatMessage(messages.cpuTitle)}
+                  aria-label={intl.formatMessage(messages.cpuTitle)}
                   id="cpuDistribution"
                   value="cpu"
                   onChange={this.handleDistributionChange}
@@ -103,8 +103,8 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
                 <Radio
                   isChecked={this.state.distribution === 'memory'}
                   name="distribution"
-                  label={intl.formatMessage(messages.MemoryTitle)}
-                  aria-label={intl.formatMessage(messages.MemoryTitle)}
+                  label={intl.formatMessage(messages.memoryTitle)}
+                  aria-label={intl.formatMessage(messages.memoryTitle)}
                   id="memoryDistribution"
                   value="memory"
                   onChange={this.handleDistributionChange}

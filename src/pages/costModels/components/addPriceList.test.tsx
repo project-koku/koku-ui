@@ -154,7 +154,7 @@ describe('add-a-new-rate', () => {
     options = await screen.findAllByRole('option');
     userEvent.click(options[1]);
 
-    expect(screen.getByText(regExp(messages.CostModelsRequiredField))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.costModelsRequiredField))).not.toBeNull();
 
     userEvent.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
@@ -166,22 +166,22 @@ describe('add-a-new-rate', () => {
     const rateInput = screen.getByLabelText('Assign rate');
 
     // setting rate to anything but a number
-    expect(screen.queryByText(regExp(messages.PriceListNumberRate))).toBeNull();
+    expect(screen.queryByText(regExp(messages.priceListNumberRate))).toBeNull();
     userEvent.type(rateInput, 'A');
-    expect(screen.getByText(regExp(messages.PriceListNumberRate))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.priceListNumberRate))).not.toBeNull();
 
     // setting rate to a negative number - validation is done on blur
     userEvent.clear(rateInput);
     userEvent.type(rateInput, '-12');
-    expect(screen.getByText(regExp(messages.PriceListPosNumberRate))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.priceListPosNumberRate))).not.toBeNull();
 
     // setting rate to a valid number
     userEvent.clear(rateInput);
     userEvent.type(rateInput, '0.2');
-    expect(screen.queryByText(regExp(messages.PriceListNumberRate))).toBeNull();
+    expect(screen.queryByText(regExp(messages.priceListNumberRate))).toBeNull();
 
     // making sure button is enabled
-    const createButton = screen.getByText(regExp(messages.CreateRate));
+    const createButton = screen.getByText(regExp(messages.createRate));
     expect(createButton.getAttribute('aria-disabled')).toBe('false');
     userEvent.click(createButton);
     expect(submit).toHaveBeenCalled();
@@ -203,41 +203,41 @@ describe('add-a-new-rate', () => {
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
-    userEvent.click(screen.getByLabelText(regExp(messages.CostModelsEnterTagRate)));
+    userEvent.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate)));
 
     // tag key is required validation
     const tagKeyInput = screen.getByPlaceholderText(qr.tagKeyPlaceHolder);
     userEvent.type(tagKeyInput, 'test');
-    expect(screen.queryByText(regExp(messages.CostModelsRequiredField))).toBeNull();
+    expect(screen.queryByText(regExp(messages.costModelsRequiredField))).toBeNull();
     userEvent.clear(tagKeyInput);
-    expect(screen.getByText(regExp(messages.CostModelsRequiredField))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.costModelsRequiredField))).not.toBeNull();
     userEvent.type(tagKeyInput, 'openshift');
-    expect(screen.queryByText(regExp(messages.CostModelsRequiredField))).toBeNull();
+    expect(screen.queryByText(regExp(messages.costModelsRequiredField))).toBeNull();
 
     // tag value is required validation
     const tagValueInput = screen.getByPlaceholderText('Enter a tag value');
     userEvent.type(tagValueInput, 'test');
-    expect(screen.queryByText(regExp(messages.CostModelsRequiredField))).toBeNull();
+    expect(screen.queryByText(regExp(messages.costModelsRequiredField))).toBeNull();
     userEvent.clear(tagValueInput);
-    expect(screen.getByText(regExp(messages.CostModelsRequiredField))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.costModelsRequiredField))).not.toBeNull();
     userEvent.type(tagValueInput, 'openshift');
-    expect(screen.queryByText(regExp(messages.CostModelsRequiredField))).toBeNull();
+    expect(screen.queryByText(regExp(messages.costModelsRequiredField))).toBeNull();
 
     // rate must be a number
     const tagRateInput = screen.getByLabelText('Assign rate');
     userEvent.type(tagRateInput, 'test');
-    expect(screen.getByText(regExp(messages.PriceListNumberRate))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.priceListNumberRate))).not.toBeNull();
 
     // rate is required
     userEvent.clear(tagRateInput);
-    expect(screen.getByText(regExp(messages.CostModelsRequiredField))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.costModelsRequiredField))).not.toBeNull();
 
     // rate must be positive
     userEvent.type(tagRateInput, '-0.23');
-    expect(screen.getByText(regExp(messages.PriceListPosNumberRate))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.priceListPosNumberRate))).not.toBeNull();
 
     // setting a valid rate - now form is valid and can be submitted
-    const createButton = screen.getByText(regExp(messages.CreateRate));
+    const createButton = screen.getByText(regExp(messages.createRate));
     expect(createButton.getAttribute('aria-disabled')).toBe('true');
     userEvent.clear(tagRateInput);
 
@@ -273,31 +273,31 @@ describe('add-a-new-rate', () => {
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
-    userEvent.click(screen.getByLabelText(regExp(messages.CostModelsEnterTagRate)));
+    userEvent.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate)));
 
     // tag key is duplicated
     const tagKeyInput = screen.getByPlaceholderText(qr.tagKeyPlaceHolder);
     userEvent.type(tagKeyInput, 'app');
-    expect(screen.getByText(regExp(messages.PriceListDuplicate))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
 
     userEvent.type(tagKeyInput, '1');
-    expect(screen.queryByText(regExp(messages.PriceListDuplicate))).toBeNull();
+    expect(screen.queryByText(regExp(messages.priceListDuplicate))).toBeNull();
 
     // change measurement will set tag key as not duplicate
     userEvent.type(tagKeyInput, '{backspace}');
-    expect(screen.getByText(regExp(messages.PriceListDuplicate))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
 
     userEvent.click(measurementSelect);
     options = await screen.findAllByRole('option');
     userEvent.click(options[1]);
 
-    expect(screen.queryByText(regExp(messages.PriceListDuplicate))).toBeNull();
+    expect(screen.queryByText(regExp(messages.priceListDuplicate))).toBeNull();
 
     userEvent.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
 
-    expect(screen.getByText(regExp(messages.PriceListDuplicate))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
   });
 
   test('hide "enter tag rates" switch on Cluster metric', async () => {
@@ -313,6 +313,6 @@ describe('add-a-new-rate', () => {
     userEvent.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     userEvent.click(options[0]);
-    expect(screen.queryAllByLabelText(regExp(messages.CostModelsEnterTagRate))).toHaveLength(0);
+    expect(screen.queryAllByLabelText(regExp(messages.costModelsEnterTagRate))).toHaveLength(0);
   });
 });

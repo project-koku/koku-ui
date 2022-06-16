@@ -129,8 +129,8 @@ export const redirectToCostModelFromSourceUuid = (source_uuid: string, history: 
       .catch(() => {
         dispatch(
           addNotification({
-            title: intl.formatMessage(messages.CostModelsRouterErrorTitle),
-            description: intl.formatMessage(messages.CostModelsRouterServerError),
+            title: intl.formatMessage(messages.costModelsRouterErrorTitle),
+            description: intl.formatMessage(messages.costModelsRouterServerError),
             variant: AlertVariant.danger,
             dismissable: true,
           })

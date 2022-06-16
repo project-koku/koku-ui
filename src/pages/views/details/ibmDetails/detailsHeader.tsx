@@ -70,7 +70,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       <header style={styles.header}>
         <div style={styles.headerContent}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {intl.formatMessage(messages.IBMDetailsTitle)}
+            {intl.formatMessage(messages.ibmDetailsTitle)}
           </Title>
           <div style={styles.headerContentRight}>
             {/* Todo: Show in-progress features in beta environment only */}

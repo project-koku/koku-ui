@@ -15,7 +15,7 @@ const CostIcon: React.SFC<CostIconProps> = ({ className, intl }) => {
     <img
       className={`cost-icon ${className}`}
       src={icon}
-      alt={intl.formatMessage(messages.CostManagement)}
+      alt={intl.formatMessage(messages.costManagement)}
       aria-hidden="true"
     />
   );
