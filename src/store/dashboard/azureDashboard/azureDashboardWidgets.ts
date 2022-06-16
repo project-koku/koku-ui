@@ -109,12 +109,6 @@ export const storageWidget: AzureDashboardWidget = {
     showUsageLegendLabel: true,
     usageKey: messages.Usage,
   },
-  filter: {
-    service_name: 'Storage',
-  },
-  tabsFilter: {
-    service_name: 'Storage',
-  },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
