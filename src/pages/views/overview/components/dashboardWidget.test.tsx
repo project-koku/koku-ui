@@ -33,10 +33,10 @@ const props: DashboardWidgetProps = {
   tabs: { data: [] },
   fetchReports: jest.fn(),
   updateTab: jest.fn(),
-  titleKey: tmessages.TestTitle,
+  titleKey: tmessages.testTitle,
   trend: {
     type: ChartType.rolling,
-    titleKey: tmessages.TestTrendTitle,
+    titleKey: tmessages.testTrendTitle,
     formatOptions: {},
   },
   status: FetchStatus.none,

@@ -70,7 +70,7 @@ export const AssignSourcesToolbarBase: React.SFC<AssignSourcesToolbarBaseProps> 
           <ToolbarItem variant="search-filter">
             <ToolbarFilter deleteChip={filter.onRemove} chips={filter.query.name} categoryName="name">
               <FilterInput
-                placeholder={intl.formatMessage(messages.CostModelsFilterPlaceholder)}
+                placeholder={intl.formatMessage(messages.costModelsFilterPlaceholder)}
                 {...filterInputProps}
               />
             </ToolbarFilter>

@@ -12,13 +12,13 @@ interface ErrorStateProps extends WrappedComponentProps {
 }
 
 const ErrorStateBase: React.SFC<ErrorStateProps> = ({ error, icon = ErrorCircleOIcon, intl }) => {
-  let title = intl.formatMessage(messages.ErrorStateUnexpectedTitle);
-  let subTitle = intl.formatMessage(messages.ErrorStateUnexpectedDesc);
+  let title = intl.formatMessage(messages.errorStateUnexpectedTitle);
+  let subTitle = intl.formatMessage(messages.errorStateUnexpectedDesc);
 
   if (error && error.response && (error.response.status === 401 || error.response.status === 403)) {
     icon = LockIcon;
-    title = intl.formatMessage(messages.ErrorStateNotAuthorizedTitle);
-    subTitle = intl.formatMessage(messages.ErrorStateNotAuthorizedDesc);
+    title = intl.formatMessage(messages.errorStateNotAuthorizedTitle);
+    subTitle = intl.formatMessage(messages.errorStateNotAuthorizedDesc);
   }
 
   return (

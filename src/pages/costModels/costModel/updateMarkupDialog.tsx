@@ -78,12 +78,12 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
     const { markup } = this.state;
 
     if (!isPercentageFormatValid(markup)) {
-      return messages.MarkupOrDiscountNumber;
+      return messages.markupOrDiscountNumber;
     }
     // Test number of decimals
     const decimals = countDecimals(markup);
     if (decimals > 10) {
-      return messages.MarkupOrDiscountTooLong;
+      return messages.markupOrDiscountTooLong;
     }
     return undefined;
   };
@@ -98,7 +98,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
 
     return (
       <Modal
-        title={intl.formatMessage(messages.EditMarkupOrDiscount)}
+        title={intl.formatMessage(messages.editMarkupOrDiscount)}
         isOpen
         onClose={() => onClose({ name: 'updateMarkup', isOpen: false })}
         variant={ModalVariant.medium}
@@ -125,7 +125,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
               Number(markup) === Number(current.markup.value)
             }
           >
-            {intl.formatMessage(messages.Save)}
+            {intl.formatMessage(messages.save)}
           </Button>,
           <Button
             key="cancel"
@@ -133,7 +133,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
             onClick={() => onClose({ name: 'updateMarkup', isOpen: false })}
             isDisabled={isLoading}
           >
-            {intl.formatMessage(messages.Cancel)}
+            {intl.formatMessage(messages.cancel)}
           </Button>,
         ]}
       >
@@ -141,13 +141,13 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
           <StackItem>{error && <Alert variant="danger" title={`${error}`} />}</StackItem>
           <StackItem>
             <TextContent>
-              <Text style={styles.cardDescription}>{intl.formatMessage(messages.MarkupOrDiscountModalDesc)}</Text>
+              <Text style={styles.cardDescription}>{intl.formatMessage(messages.markupOrDiscountModalDesc)}</Text>
             </TextContent>
           </StackItem>
           <StackItem>
             <TextContent>
               <Title headingLevel="h2" size="md">
-                {intl.formatMessage(messages.MarkupOrDiscount)}
+                {intl.formatMessage(messages.markupOrDiscount)}
               </Title>
             </TextContent>
             <Flex style={styles.markupRadioContainer}>
@@ -156,8 +156,8 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                   <Radio
                     isChecked={!isDiscount}
                     name="discount"
-                    label={intl.formatMessage(messages.MarkupPlus)}
-                    aria-label={intl.formatMessage(messages.MarkupPlus)}
+                    label={intl.formatMessage(messages.markupPlus)}
+                    aria-label={intl.formatMessage(messages.markupPlus)}
                     id="markup"
                     value="false" // "+"
                     onChange={this.handleSignChange}
@@ -166,8 +166,8 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                   <Radio
                     isChecked={isDiscount}
                     name="discount"
-                    label={intl.formatMessage(messages.DiscountMinus)}
-                    aria-label={intl.formatMessage(messages.DiscountMinus)}
+                    label={intl.formatMessage(messages.discountMinus)}
+                    aria-label={intl.formatMessage(messages.discountMinus)}
                     id="discount"
                     value="true" // '-'
                     onChange={this.handleSignChange}
@@ -186,11 +186,11 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                       <InputGroup>
                         <InputGroupText style={styles.sign}>
                           {isDiscount
-                            ? intl.formatMessage(messages.DiscountMinus)
-                            : intl.formatMessage(messages.MarkupPlus)}
+                            ? intl.formatMessage(messages.discountMinus)
+                            : intl.formatMessage(messages.markupPlus)}
                         </InputGroupText>
                         <TextInput
-                          aria-label={intl.formatMessage(messages.Rate)}
+                          aria-label={intl.formatMessage(messages.rate)}
                           id="markup-input-box"
                           isRequired
                           onKeyDown={this.handleOnKeyDown}
@@ -202,7 +202,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                           value={this.state.markup}
                         />
                         <InputGroupText style={styles.percent}>
-                          {intl.formatMessage(messages.PercentSymbol)}
+                          {intl.formatMessage(messages.percentSymbol)}
                         </InputGroupText>
                       </InputGroup>
                     </FormGroup>
@@ -215,14 +215,14 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
           <StackItem>
             <TextContent>
               <Title headingLevel="h3" size="md">
-                {intl.formatMessage(messages.ExamplesTitle)}
+                {intl.formatMessage(messages.examplesTitle)}
               </Title>
             </TextContent>
             <List>
-              <ListItem>{intl.formatMessage(messages.CostModelsExamplesNoAdjust)}</ListItem>
-              <ListItem>{intl.formatMessage(messages.CostModelsExamplesDoubleMarkup)}</ListItem>
-              <ListItem>{intl.formatMessage(messages.CostModelsExamplesReduceZero)}</ListItem>
-              <ListItem>{intl.formatMessage(messages.CostModelsExamplesReduceSeventyfive)}</ListItem>
+              <ListItem>{intl.formatMessage(messages.costModelsExamplesNoAdjust)}</ListItem>
+              <ListItem>{intl.formatMessage(messages.costModelsExamplesDoubleMarkup)}</ListItem>
+              <ListItem>{intl.formatMessage(messages.costModelsExamplesReduceZero)}</ListItem>
+              <ListItem>{intl.formatMessage(messages.costModelsExamplesReduceSeventyfive)}</ListItem>
             </List>
           </StackItem>
         </Stack>

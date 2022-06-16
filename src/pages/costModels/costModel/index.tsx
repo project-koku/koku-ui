@@ -76,7 +76,7 @@ class CostModelInformation extends React.Component<Props, State> {
       rbacStatus !== FetchStatus.complete ||
       costModelStatus !== FetchStatus.complete
     ) {
-      return <Loading title={intl.formatMessage(messages.CostModels)} />;
+      return <Loading title={intl.formatMessage(messages.costModels)} />;
     }
 
     const fetchError = metricsError || rbacError || costModelError;
@@ -87,16 +87,16 @@ class CostModelInformation extends React.Component<Props, State> {
           return (
             <>
               <PageHeader>
-                <PageHeaderTitle title={intl.formatMessage(messages.CostModels)} />
+                <PageHeaderTitle title={intl.formatMessage(messages.costModels)} />
               </PageHeader>
               <Main>
                 <EmptyState>
                   <EmptyStateIcon icon={ErrorCircleOIcon} />
                   <Title headingLevel="h2" size={TitleSizes.lg}>
-                    {intl.formatMessage(messages.CostModelsUUIDEmptyState)}
+                    {intl.formatMessage(messages.costModelsUUIDEmptyState)}
                   </Title>
                   <EmptyStateBody>
-                    {intl.formatMessage(messages.CostModelsUUIDEmptyStateDesc, {
+                    {intl.formatMessage(messages.costModelsUUIDEmptyStateDesc, {
                       uuid: this.props.match.params.uuid,
                     })}
                   </EmptyStateBody>
@@ -106,7 +106,7 @@ class CostModelInformation extends React.Component<Props, State> {
           );
         }
       }
-      return <NotAvailable title={intl.formatMessage(messages.CostModels)} />;
+      return <NotAvailable title={intl.formatMessage(messages.costModels)} />;
     }
 
     const current = costModels[0];

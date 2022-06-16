@@ -51,7 +51,7 @@ const MarkupCardBase: React.FunctionComponent<Props> = ({
         <CardHeader>
           <CardHeaderMain>
             <Title headingLevel="h2" size={TitleSizes.md}>
-              {intl.formatMessage(messages.MarkupOrDiscount)}
+              {intl.formatMessage(messages.markupOrDiscount)}
             </Title>
           </CardHeaderMain>
           <CardActions>
@@ -68,16 +68,16 @@ const MarkupCardBase: React.FunctionComponent<Props> = ({
                     onClick={() => setCostModelDialog({ isOpen: true, name: 'updateMarkup' })}
                     component="button"
                   >
-                    {intl.formatMessage(messages.EditMarkup)}
+                    {intl.formatMessage(messages.editMarkup)}
                   </DropdownItem>
                 </ReadOnlyTooltip>,
               ]}
             />
           </CardActions>
         </CardHeader>
-        <CardBody style={styles.cardDescription}>{intl.formatMessage(messages.MarkupOrDiscountDesc)}</CardBody>
+        <CardBody style={styles.cardDescription}>{intl.formatMessage(messages.markupOrDiscountDesc)}</CardBody>
         <CardBody isFilled />
-        <CardBody style={styles.cardBody}>{intl.formatMessage(messages.Percent, { value: markupValue })}</CardBody>
+        <CardBody style={styles.cardBody}>{intl.formatMessage(messages.percent, { value: markupValue })}</CardBody>
         <CardBody isFilled />
       </Card>
     </>

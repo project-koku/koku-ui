@@ -18,14 +18,14 @@ const getId = () => currrentId++;
 
 export const costSummaryWidget: OcpDashboardWidget = {
   id: getId(),
-  titleKey: messages.OCPDashboardCostTitle,
+  titleKey: messages.ocpDashboardCostTitle,
   forecastPathsType: ForecastPathsType.ocp,
   forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
   details: {
     adjustContainerHeight: true,
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showHorizontal: true,
     showTooltip: true,
     viewAllPath: paths.ocpDetails,
@@ -35,8 +35,8 @@ export const costSummaryWidget: OcpDashboardWidget = {
     computedForecastInfrastructureItem: ComputedForecastItemType.infrastructure,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    dailyTitleKey: messages.OCPDashboardDailyCostTitle,
-    titleKey: messages.OCPDashboardCostTrendTitle,
+    dailyTitleKey: messages.ocpDashboardDailyCostTitle,
+    titleKey: messages.ocpDashboardCostTrendTitle,
     type: ChartType.rolling,
   },
   tabsFilter: {
@@ -50,19 +50,19 @@ export const costSummaryWidget: OcpDashboardWidget = {
 
 export const cpuWidget: OcpDashboardWidget = {
   id: getId(),
-  titleKey: messages.OCPCPUUsageAndRequests,
+  titleKey: messages.ocpCpuUsageAndRequests,
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cpu,
   details: {
-    requestKey: messages.Requests,
+    requestKey: messages.requests,
     showUnits: true,
     showUsageFirst: true,
-    usageKey: messages.Usage,
+    usageKey: messages.usage,
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.OCPDailyUsageAndRequestComparison,
+    titleKey: messages.ocpDailyUsageAndRequestComparison,
     type: ChartType.daily,
   },
   chartFormatter: formatUnits,
@@ -71,19 +71,19 @@ export const cpuWidget: OcpDashboardWidget = {
 
 export const memoryWidget: OcpDashboardWidget = {
   id: getId(),
-  titleKey: messages.OCPMemoryUsageAndRequests,
+  titleKey: messages.ocpMemoryUsageAndRequests,
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.memory,
   details: {
-    requestKey: messages.Requests,
+    requestKey: messages.requests,
     showUnits: true,
     showUsageFirst: true,
-    usageKey: messages.Usage,
+    usageKey: messages.usage,
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.OCPDailyUsageAndRequestComparison,
+    titleKey: messages.ocpDailyUsageAndRequestComparison,
     type: ChartType.daily,
   },
   chartFormatter: formatUnits,
@@ -92,19 +92,19 @@ export const memoryWidget: OcpDashboardWidget = {
 
 export const volumeWidget: OcpDashboardWidget = {
   id: getId(),
-  titleKey: messages.OCPVolumeUsageAndRequests,
+  titleKey: messages.ocpVolumeUsageAndRequests,
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.volume,
   details: {
-    requestKey: messages.Requests,
+    requestKey: messages.requests,
     showUnits: true,
     showUsageFirst: true,
-    usageKey: messages.Usage,
+    usageKey: messages.usage,
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.OCPDailyUsageAndRequestComparison,
+    titleKey: messages.ocpDailyUsageAndRequestComparison,
     type: ChartType.daily,
   },
   chartFormatter: formatUnits,

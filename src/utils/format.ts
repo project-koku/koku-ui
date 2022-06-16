@@ -66,7 +66,7 @@ export const formatCurrencyAbbreviation: Formatter = (value, units = 'USD') => {
   // Apply format and insert symbol next to the numeric portion of the formatted string
   if (format != null) {
     const { val, symbol } = format;
-    return intl.formatMessage(messages.CurrencyAbbreviations, {
+    return intl.formatMessage(messages.currencyAbbreviations, {
       symbol,
       value: formatCurrency(fValue / val, units, {
         minimumFractionDigits: 0,

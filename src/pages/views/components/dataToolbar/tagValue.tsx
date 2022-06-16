@@ -138,16 +138,16 @@ class TagValueBase extends React.Component<TagValueProps> {
             name="tagkeyvalue-input"
             id="tagkeyvalue-input"
             type="search"
-            aria-label={intl.formatMessage(messages.FilterByTagValueAriaLabel)}
+            aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
             onChange={this.onTagValueChange}
             value={tagKeyValue}
-            placeholder={intl.formatMessage(messages.FilterByTagValueInputPlaceholder)}
+            placeholder={intl.formatMessage(messages.filterByTagValueInputPlaceholder)}
             onKeyDown={evt => onTagValueInput(evt)}
           />
           <Button
             isDisabled={isDisabled}
             variant={ButtonVariant.control}
-            aria-label={intl.formatMessage(messages.FilterByTagValueButtonAriaLabel)}
+            aria-label={intl.formatMessage(messages.filterByTagValueButtonAriaLabel)}
             onClick={evt => onTagValueInput(evt)}
           >
             <SearchIcon />
@@ -159,12 +159,12 @@ class TagValueBase extends React.Component<TagValueProps> {
       <Select
         isDisabled={isDisabled}
         variant={SelectVariant.checkbox}
-        aria-label={intl.formatMessage(messages.FilterByTagValueAriaLabel)}
+        aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
         onToggle={this.onTagValueToggle}
         onSelect={onTagValueSelect}
         selections={selections}
         isOpen={isTagValueExpanded}
-        placeholderText={intl.formatMessage(messages.FilterByTagValuePlaceholder)}
+        placeholderText={intl.formatMessage(messages.filterByTagValuePlaceholder)}
       >
         {selectOptions}
       </Select>

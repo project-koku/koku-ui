@@ -104,12 +104,12 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
       previousUsageData,
     } = this.props;
 
-    const limitKey = messages.ChartLimitLegendLabel;
-    const limitTooltipKey = messages.ChartLimitLegendTooltip;
-    const requestKey = messages.ChartRequestsLegendLabel;
-    const requestTooltipKey = messages.ChartRequestsLegendTooltip;
-    const usageKey = messages.ChartUsageLegendLabel;
-    const usageTooltipKey = messages.ChartUsageLegendTooltip;
+    const limitKey = messages.chartLimitLegendLabel;
+    const limitTooltipKey = messages.chartLimitLegendTooltip;
+    const requestKey = messages.chartRequestsLegendLabel;
+    const requestTooltipKey = messages.chartRequestsLegendTooltip;
+    const usageKey = messages.chartUsageLegendLabel;
+    const usageTooltipKey = messages.chartUsageLegendTooltip;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -118,7 +118,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         childName: 'previousUsage',
         data: previousUsageData,
         legendItem: {
-          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1, messages.ChartUsageLegendNoDataLabel),
+          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1, messages.chartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -136,7 +136,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         childName: 'currentUsage',
         data: currentUsageData,
         legendItem: {
-          name: getUsageRangeString(currentUsageData, usageKey, true, false, 0, messages.ChartUsageLegendNoDataLabel),
+          name: getUsageRangeString(currentUsageData, usageKey, true, false, 0, messages.chartUsageLegendNoDataLabel),
           symbol: {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
@@ -160,7 +160,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
             true,
             true,
             1,
-            messages.ChartRequestsLegendNoDataLabel
+            messages.chartRequestsLegendNoDataLabel
           ),
           symbol: {
             fill: chartStyles.previousColorScale[1],
@@ -185,7 +185,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
             true,
             false,
             0,
-            messages.ChartRequestsLegendNoDataLabel
+            messages.chartRequestsLegendNoDataLabel
           ),
           symbol: {
             fill: chartStyles.currentColorScale[1],
@@ -204,7 +204,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         childName: 'previousLimit',
         data: previousLimitData,
         legendItem: {
-          name: getUsageRangeString(previousLimitData, limitKey, true, true, 1, messages.ChartLimitLegendNoDataLabel),
+          name: getUsageRangeString(previousLimitData, limitKey, true, true, 1, messages.chartLimitLegendNoDataLabel),
           symbol: {
             fill: chartStyles.previousColorScale[2],
             type: 'minus',
@@ -222,7 +222,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         childName: 'currentLimit',
         data: currentLimitData,
         legendItem: {
-          name: getUsageRangeString(currentLimitData, limitKey, true, false, 0, messages.ChartLimitLegendNoDataLabel),
+          name: getUsageRangeString(currentLimitData, limitKey, true, false, 0, messages.chartLimitLegendNoDataLabel),
           symbol: {
             fill: chartStyles.currentColorScale[2],
             type: 'minus',
@@ -367,7 +367,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
           labelComponent: (
             <ChartLegendTooltip
               legendData={getLegendData(series, hiddenSeries, true)}
-              title={datum => intl.formatMessage(messages.ChartDayOfTheMonth, { day: datum.x })}
+              title={datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })}
             />
           ),
         })

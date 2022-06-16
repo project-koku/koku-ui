@@ -88,7 +88,7 @@ class ClusterBase extends React.Component<ClusterProps> {
         {Boolean(someClusters) && someClusters.map((cluster, index) => <span key={index}>{cluster}</span>)}
         {Boolean(someClusters.length < allClusters.length) && (
           <a {...getTestProps(testIds.details.cluster_lnk)} href="#/" onClick={this.handleOpen}>
-            {intl.formatMessage(messages.DetailsMoreClusters, { value: allClusters.length - someClusters.length })}
+            {intl.formatMessage(messages.detailsMoreClusters, { value: allClusters.length - someClusters.length })}
           </a>
         )}
         <ClusterModal groupBy={groupBy} isOpen={isOpen} item={item} onClose={this.handleClose} />

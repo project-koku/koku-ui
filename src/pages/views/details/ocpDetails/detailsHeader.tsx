@@ -94,7 +94,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       <header style={styles.header}>
         <div style={styles.headerContent}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {intl.formatMessage(messages.OCPDetailsTitle)}
+            {intl.formatMessage(messages.ocpDetailsTitle)}
           </Title>
           <div style={styles.headerContentRight}>
             {/* Todo: Show in-progress features in beta environment only */}
@@ -117,7 +117,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           {Boolean(showContent) && (
             <div>
               <Tooltip
-                content={intl.formatMessage(messages.DashboardTotalCostTooltip, {
+                content={intl.formatMessage(messages.dashboardTotalCostTooltip, {
                   infrastructureCost,
                   supplementaryCost,
                 })}

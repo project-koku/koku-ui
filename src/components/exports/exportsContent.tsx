@@ -168,7 +168,7 @@ class ExportsContentBase extends React.Component<ExportsContentProps> {
 
     return (
       <>
-        {intl.formatMessage(messages.ExportsDesc)}
+        {intl.formatMessage(messages.exportsDesc)}
         <div style={styles.content}>
           <ExportsToolbar
             onFilterAdded={this.handleFilterAdded}

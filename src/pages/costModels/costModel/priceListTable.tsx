@@ -92,12 +92,12 @@ class PriceListTable extends React.Component<Props, State> {
     const getMetricLabel = m => {
       // Match message descriptor or default to API string
       const value = m.replace(/ /g, '_').toLowerCase();
-      const label = intl.formatMessage(messages.MetricValues, { value });
+      const label = intl.formatMessage(messages.metricValues, { value });
       return label ? label : m;
     };
     const getMeasurementLabel = m => {
       // Match message descriptor or default to API string
-      const label = intl.formatMessage(messages.MeasurementValues, {
+      const label = intl.formatMessage(messages.measurementValues, {
         value: m.toLowerCase().replace('-', '_'),
         count: 1,
       });
@@ -127,7 +127,7 @@ class PriceListTable extends React.Component<Props, State> {
         <Dialog
           isSmall
           isOpen={isDialogOpen.deleteRate}
-          title={intl.formatMessage(messages.PriceListDeleteRate)}
+          title={intl.formatMessage(messages.priceListDeleteRate)}
           onClose={() => {
             this.props.setDialogOpen({ name: 'deleteRate', isOpen: false });
             this.setState({ deleteRate: null });
@@ -146,7 +146,7 @@ class PriceListTable extends React.Component<Props, State> {
           }}
           body={
             <>
-              {intl.formatMessage(messages.PriceListDeleteRateDesc, {
+              {intl.formatMessage(messages.priceListDeleteRateDesc, {
                 metric: <b>{metric}</b>,
                 costModel: <b>{cm}</b>,
                 count: showAssignees ? 2 : 1,
@@ -160,14 +160,14 @@ class PriceListTable extends React.Component<Props, State> {
               )}
             </>
           }
-          actionText={intl.formatMessage(messages.PriceListDeleteRate)}
+          actionText={intl.formatMessage(messages.priceListDeleteRate)}
         />
         <WithPriceListSearch initialFilters={{ primary: 'metrics', metrics: [], measurements: [] }}>
           {({ search, setSearch, onRemove, onSelect, onClearAll }) => {
-            const getMetric = value => intl.formatMessage(messages.MetricValues, { value }) || value;
+            const getMetric = value => intl.formatMessage(messages.metricValues, { value }) || value;
             const getMeasurement = (measurement, units) => {
-              units = intl.formatMessage(messages.Units, { units: unitsLookupKey(units) }) || units;
-              return intl.formatMessage(messages.MeasurementValues, {
+              units = intl.formatMessage(messages.units, { units: unitsLookupKey(units) }) || units;
+              return intl.formatMessage(messages.measurementValues, {
                 value: measurement.toLowerCase().replace('-', '_'),
                 units,
                 count: 2,
@@ -201,11 +201,11 @@ class PriceListTable extends React.Component<Props, State> {
                       setPrimary={(primary: string) => setSearch({ primary })}
                       options={[
                         {
-                          label: intl.formatMessage(messages.Metric),
+                          label: intl.formatMessage(messages.metric),
                           value: 'metrics',
                         },
                         {
-                          label: intl.formatMessage(messages.Measurement),
+                          label: intl.formatMessage(messages.measurement),
                           value: 'measurements',
                         },
                       ]}
@@ -217,7 +217,7 @@ class PriceListTable extends React.Component<Props, State> {
                       component: (
                         <CheckboxSelector
                           isDisabled={this.props.current.rates.length === 0}
-                          placeholderText={intl.formatMessage(messages.MeasurementPlaceholder)}
+                          placeholderText={intl.formatMessage(messages.measurementPlaceholder)}
                           selections={search.measurements}
                           setSelections={(selection: string) => onSelect('measurements', selection)}
                           options={measurementOpts}
@@ -231,7 +231,7 @@ class PriceListTable extends React.Component<Props, State> {
                       component: (
                         <CheckboxSelector
                           isDisabled={this.props.current.rates.length === 0}
-                          placeholderText={intl.formatMessage(messages.MetricPlaceholder)}
+                          placeholderText={intl.formatMessage(messages.metricPlaceholder)}
                           selections={search.metrics}
                           setSelections={(selection: string) => onSelect('metrics', selection)}
                           options={metricOpts}
@@ -252,7 +252,7 @@ class PriceListTable extends React.Component<Props, State> {
                         })
                       }
                     >
-                      {intl.formatMessage(messages.PriceListAddRate)}
+                      {intl.formatMessage(messages.priceListAddRate)}
                     </Button>
                   }
                   onClear={onClearAll}
@@ -284,9 +284,9 @@ class PriceListTable extends React.Component<Props, State> {
                       <EmptyState>
                         <EmptyStateIcon icon={FileInvoiceDollarIcon} />
                         <Title headingLevel="h2" size={TitleSizes.lg}>
-                          {intl.formatMessage(messages.PriceListEmptyRate)}
+                          {intl.formatMessage(messages.priceListEmptyRate)}
                         </Title>
-                        <EmptyStateBody>{intl.formatMessage(messages.PriceListEmptyRateDesc)}</EmptyStateBody>
+                        <EmptyStateBody>{intl.formatMessage(messages.priceListEmptyRateDesc)}</EmptyStateBody>
                       </EmptyState>
                     </Bullseye>
                   )}
@@ -295,12 +295,12 @@ class PriceListTable extends React.Component<Props, State> {
                     <RateTable
                       actions={[
                         {
-                          title: intl.formatMessage(messages.PriceListEditRate),
+                          title: intl.formatMessage(messages.priceListEditRate),
                           isDisabled: !isWritePermission,
                           // HACK: to display tooltip on disable
                           style: !isWritePermission ? { pointerEvents: 'auto' } : undefined,
                           tooltip: !isWritePermission ? (
-                            <div>{intl.formatMessage(messages.CostModelsReadOnly)}</div>
+                            <div>{intl.formatMessage(messages.costModelsReadOnly)}</div>
                           ) : undefined,
                           onClick: (_evt, _rowIndex, rowData) => {
                             this.setState({
@@ -314,12 +314,12 @@ class PriceListTable extends React.Component<Props, State> {
                           },
                         },
                         {
-                          title: intl.formatMessage(messages.Delete),
+                          title: intl.formatMessage(messages.delete),
                           isDisabled: !isWritePermission,
                           // HACK: to display tooltip on disable
                           style: !isWritePermission ? { pointerEvents: 'auto' } : {},
                           tooltip: !isWritePermission ? (
-                            <div>{intl.formatMessage(messages.CostModelsReadOnly)}</div>
+                            <div>{intl.formatMessage(messages.costModelsReadOnly)}</div>
                           ) : undefined,
                           onClick: (_evt, _rowIndex, rowData) => {
                             const rowIndex = rowData.data.index;

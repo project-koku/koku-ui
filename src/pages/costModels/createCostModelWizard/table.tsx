@@ -33,18 +33,18 @@ const SourcesTable: React.SFC<WrappedComponentProps> = ({ intl }) => {
           <Stack hasGutter>
             <StackItem>
               <Title headingLevel="h2" size={TitleSizes.xl}>
-                {intl.formatMessage(messages.CostModelsWizardSourceTitle)}
+                {intl.formatMessage(messages.costModelsWizardSourceTitle)}
               </Title>
             </StackItem>
             <StackItem>
               <TextContent>
-                <Text component={TextVariants.h6}>{intl.formatMessage(messages.CostModelsWizardSourceSubtitle)}</Text>
+                <Text component={TextVariants.h6}>{intl.formatMessage(messages.costModelsWizardSourceSubtitle)}</Text>
               </TextContent>
             </StackItem>
             <StackItem>
               <TextContent>
                 <Text component={TextVariants.h3}>
-                  {intl.formatMessage(messages.CostModelsWizardSourceCaption, {
+                  {intl.formatMessage(messages.costModelsWizardSourceCaption, {
                     value: type.toLowerCase(),
                   })}
                 </Text>
@@ -81,11 +81,11 @@ const SourcesTable: React.SFC<WrappedComponentProps> = ({ intl }) => {
                 <LoadingState />
               ) : (
                 <Table
-                  aria-label={intl.formatMessage(messages.CostModelsWizardSourceTableAriaLabel)}
+                  aria-label={intl.formatMessage(messages.costModelsWizardSourceTableAriaLabel)}
                   cells={[
                     '',
-                    intl.formatMessage(messages.Names, { count: 1 }),
-                    intl.formatMessage(messages.CostModelsWizardSourceTableCostModel),
+                    intl.formatMessage(messages.names, { count: 1 }),
+                    intl.formatMessage(messages.costModelsWizardSourceTableCostModel),
                   ]}
                   rows={sources.map((r, ix) => {
                     return {
@@ -106,7 +106,7 @@ const SourcesTable: React.SFC<WrappedComponentProps> = ({ intl }) => {
                           {Boolean(r.costmodel) && (
                             <WarningIcon
                               key={`wrng-${r.name}`}
-                              text={intl.formatMessage(messages.CostModelsWizardSourceWarning, {
+                              text={intl.formatMessage(messages.costModelsWizardSourceWarning, {
                                 costModel: r.costmodel,
                               })}
                             />

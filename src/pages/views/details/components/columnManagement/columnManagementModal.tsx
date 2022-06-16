@@ -126,28 +126,28 @@ export class ColumnManagementModalBase extends React.Component<ColumnManagementM
       <Modal
         description={
           <TextContent>
-            <Text component={TextVariants.p}>{intl.formatMessage(messages.ManageColumnsDesc)}</Text>
+            <Text component={TextVariants.p}>{intl.formatMessage(messages.manageColumnsDesc)}</Text>
             <Button isInline onClick={this.selectAll} variant="link">
-              {intl.formatMessage(messages.SelectAll)}
+              {intl.formatMessage(messages.selectAll)}
             </Button>
           </TextContent>
         }
         // style={styles.modal}
         isOpen={this.props.isOpen}
         onClose={this.handleClose}
-        title={intl.formatMessage(messages.ManageColumnsTitle)}
+        title={intl.formatMessage(messages.manageColumnsTitle)}
         variant={ModalVariant.medium}
         actions={[
           <Button key="save" onClick={this.handleSave} variant={ButtonVariant.link}>
-            {intl.formatMessage(messages.Save)}
+            {intl.formatMessage(messages.save)}
           </Button>,
           <Button key="cancel" onClick={this.handleClose} variant={ButtonVariant.link}>
-            {intl.formatMessage(messages.Cancel)}
+            {intl.formatMessage(messages.cancel)}
           </Button>,
         ]}
       >
         <DataList
-          aria-label={intl.formatMessage(messages.ManageColumnsAriaLabel)}
+          aria-label={intl.formatMessage(messages.manageColumnsAriaLabel)}
           id="table-column-management"
           isCompact
         >

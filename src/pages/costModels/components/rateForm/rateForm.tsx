@@ -59,13 +59,13 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
   const getMetricLabel = m => {
     // Match message descriptor or default to API string
     const value = m.replace(/ /g, '_').toLowerCase();
-    return intl.formatMessage(messages.MetricValues, { value }) || m;
+    return intl.formatMessage(messages.metricValues, { value }) || m;
   };
   const getMeasurementLabel = (m, u) => {
     // Match message descriptor or default to API string
-    const units = intl.formatMessage(messages.Units, { units: unitsLookupKey(u) }) || u;
+    const units = intl.formatMessage(messages.units, { units: unitsLookupKey(u) }) || u;
     return (
-      intl.formatMessage(messages.MeasurementValues, {
+      intl.formatMessage(messages.measurementValues, {
         value: m.toLowerCase().replace('-', '_'),
         units,
         count: 2,
@@ -77,7 +77,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
     // units only works with Node, Cluster, and PVC. it does not need to be translated
     // if the metric is CPU, Memory, or Storage, units will be like `core_hours` or `gb_hours` and must be translated
     const units = u.toLowerCase().replace('-', '_');
-    const desc = intl.formatMessage(messages.MeasurementValuesDesc, {
+    const desc = intl.formatMessage(messages.measurementValuesDesc, {
       value: o.toLowerCase().replace('-', '_'),
       units: units ? units : u,
     });
@@ -103,7 +103,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
       <SimpleInput
         style={style}
         id="description"
-        label={messages.Description}
+        label={messages.description}
         value={description}
         validated={errors.description ? 'error' : 'default'}
         helperTextInvalid={errors.description}
@@ -115,9 +115,9 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
             isRequired
             style={style}
             id="metric-selector"
-            toggleAriaLabel={intl.formatMessage(messages.CostModelsSelectMetric)}
-            label={intl.formatMessage(messages.Metric)}
-            placeholderText={intl.formatMessage(messages.Select)}
+            toggleAriaLabel={intl.formatMessage(messages.costModelsSelectMetric)}
+            label={intl.formatMessage(messages.metric)}
+            placeholderText={intl.formatMessage(messages.select)}
             value={metric}
             onChange={setMetric}
             options={[
@@ -139,8 +139,8 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
               isInvalid={errors.measurement && measurementDirty}
               style={style}
               id="measurement-selector"
-              label={intl.formatMessage(messages.Measurement)}
-              toggleAriaLabel={intl.formatMessage(messages.CostModelsSelectMeasurement)}
+              label={intl.formatMessage(messages.measurement)}
+              toggleAriaLabel={intl.formatMessage(messages.costModelsSelectMeasurement)}
               value={
                 !metricsHash[metric][measurement]
                   ? measurement
@@ -170,27 +170,27 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
               isInline
               style={style}
               fieldId="calculation"
-              label={intl.formatMessage(messages.CalculationType)}
+              label={intl.formatMessage(messages.calculationType)}
             >
               <Radio
                 name="calculation"
                 id="calculation_infra"
-                label={intl.formatMessage(messages.Infrastructure)}
+                label={intl.formatMessage(messages.infrastructure)}
                 isChecked={calculation === 'Infrastructure'}
                 onChange={() => setCalculation('Infrastructure')}
               />
               <Radio
                 name="calculation"
                 id="calculation_suppl"
-                label={intl.formatMessage(messages.Supplementary)}
+                label={intl.formatMessage(messages.supplementary)}
                 isChecked={calculation === 'Supplementary'}
                 onChange={() => setCalculation('Supplementary')}
               />
             </FormGroup>
             {metric !== 'Cluster' ? (
               <Switch
-                aria-label={intl.formatMessage(messages.CostModelsEnterTagRate)}
-                label={intl.formatMessage(messages.CostModelsEnterTagRate)}
+                aria-label={intl.formatMessage(messages.costModelsEnterTagRate)}
+                label={intl.formatMessage(messages.costModelsEnterTagRate)}
                 isChecked={rateKind === 'tagging'}
                 onChange={toggleTaggingRate}
               />
@@ -214,8 +214,8 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
                 value={tagKey}
                 onChange={setTagKey}
                 id="tag-key"
-                label={messages.CostModelsFilterTagKey}
-                placeholder={intl.formatMessage(messages.CostModelsEnterTagKey)}
+                label={messages.costModelsFilterTagKey}
+                placeholder={intl.formatMessage(messages.costModelsEnterTagKey)}
                 validated={errors.tagKey && isTagKeyDirty ? 'error' : 'default'}
                 helperTextInvalid={errors.tagKey}
               />
@@ -233,7 +233,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
                 updateTag={updateTag}
               />
               <Button style={addStyle} variant={ButtonVariant.link} onClick={addTag}>
-                <PlusCircleIcon /> {intl.formatMessage(messages.CostModelsAddTagValues)}
+                <PlusCircleIcon /> {intl.formatMessage(messages.costModelsAddTagValues)}
               </Button>
             </>
           )}

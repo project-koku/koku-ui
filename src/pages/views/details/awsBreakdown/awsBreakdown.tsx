@@ -92,7 +92,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     costType,
     description: query[breakdownDescKey],
     detailsURL,
-    emptyStateTitle: props.intl.formatMessage(messages.AWSDetailsTitle),
+    emptyStateTitle: props.intl.formatMessage(messages.awsDetailsTitle),
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData costType={costType} />,

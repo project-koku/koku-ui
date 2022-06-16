@@ -40,8 +40,8 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
   public render() {
     const { intl, providerType } = this.props;
 
-    let descKey = messages.NoProvidersStateOverviewDesc;
-    let titleKey = messages.NoProvidersStateOverviewTitle;
+    let descKey = messages.noProvidersStateOverviewDesc;
+    let titleKey = messages.noProvidersStateOverviewTitle;
 
     let docUrlKey;
     let icon;
@@ -49,26 +49,26 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
 
     switch (providerType) {
       case ProviderType.aws:
-        descKey = messages.NoProvidersStateAwsDesc;
-        titleKey = messages.NoProvidersStateAwsTitle;
+        descKey = messages.noProvidersStateAwsDesc;
+        titleKey = messages.noProvidersStateAwsTitle;
         break;
       case ProviderType.azure:
-        descKey = messages.NoProvidersStateAzureDesc;
-        titleKey = messages.NoProvidersStateAzureTitle;
+        descKey = messages.noProvidersStateAzureDesc;
+        titleKey = messages.noProvidersStateAzureTitle;
         break;
       case ProviderType.gcp:
-        descKey = messages.NoProvidersStateGcpDesc;
-        titleKey = messages.NoProvidersStateGcpTitle;
+        descKey = messages.noProvidersStateGcpDesc;
+        titleKey = messages.noProvidersStateGcpTitle;
         break;
       case ProviderType.ibm:
-        descKey = messages.NoProvidersStateIbmDesc;
-        titleKey = messages.NoProvidersStateIbmTitle;
+        descKey = messages.noProvidersStateIbmDesc;
+        titleKey = messages.noProvidersStateIbmTitle;
         break;
       case ProviderType.ocp:
-        descKey = messages.NoProvidersStateOcpDesc;
-        docUrlKey = messages.DocsAddOcpSources;
-        textKey = messages.NoProvidersStateOcpAddSources;
-        titleKey = messages.NoProvidersStateOcpTitle;
+        descKey = messages.noProvidersStateOcpDesc;
+        docUrlKey = messages.docsAddOcpSources;
+        textKey = messages.noProvidersStateOcpAddSources;
+        titleKey = messages.noProvidersStateOcpTitle;
         break;
       default:
         icon = CostIcon;
@@ -84,7 +84,7 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
           <div style={styles.viewSources}>{this.getDocLink(textKey, docUrlKey)}</div>
         ) : (
           <Button variant="primary" component="a" href={this.getRouteToSources()}>
-            {intl.formatMessage(messages.NoProvidersStateGetStarted)}
+            {intl.formatMessage(messages.noProvidersStateGetStarted)}
           </Button>
         )}
       </EmptyState>

@@ -44,7 +44,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
         className="modalOverride"
         isOpen={isOpen}
         onClose={this.handleClose}
-        title={intl.formatMessage(messages.DetailsSummaryModalTitle, {
+        title={intl.formatMessage(messages.detailsSummaryModalTitle, {
           groupBy: reportGroupBy,
           name: groupByValue,
         })}

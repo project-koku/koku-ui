@@ -24,8 +24,8 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
   showMargin = true,
 
   // destructure last
-  subTitle = messages.EmptyFilterStateSubtitle,
-  title = messages.EmptyFilterStateTitle,
+  subTitle = messages.emptyFilterStateSubtitle,
+  title = messages.emptyFilterStateTitle,
 }) => {
   const getIcon = () => {
     const trim = (val: string) => val.replace(/\s+/g, '').toLowerCase();

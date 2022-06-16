@@ -128,18 +128,18 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
     const groupByOptions = getGroupByOptions(perspective);
     groupByOptions.map(option => {
       options.push({
-        name: intl.formatMessage(messages.FilterByValues, { value: option.label }),
+        name: intl.formatMessage(messages.filterByValues, { value: option.label }),
         key: option.value,
       });
     });
     if (orgReport && orgReport.data && orgReport.data.length > 0) {
       options.push({
-        name: intl.formatMessage(messages.FilterByValues, { value: 'org_unit_id' }),
+        name: intl.formatMessage(messages.filterByValues, { value: 'org_unit_id' }),
         key: orgUnitIdKey,
       });
     }
     if (tagReport && tagReport.data && tagReport.data.length > 0) {
-      options.push({ name: intl.formatMessage(messages.FilterByValues, { value: 'tag' }), key: tagKey });
+      options.push({ name: intl.formatMessage(messages.filterByValues, { value: 'tag' }), key: tagKey });
     }
     return options;
   };

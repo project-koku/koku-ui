@@ -177,9 +177,9 @@ class BreakdownBase extends React.Component<BreakdownProps> {
     const { intl } = this.props;
 
     if (tab === BreakdownTab.costOverview) {
-      return intl.formatMessage(messages.BreakdownCostOverviewTitle);
+      return intl.formatMessage(messages.breakdownCostOverviewTitle);
     } else if (tab === BreakdownTab.historicalData) {
-      return intl.formatMessage(messages.BreakdownHistoricalDataTitle);
+      return intl.formatMessage(messages.breakdownHistoricalDataTitle);
     }
   };
 

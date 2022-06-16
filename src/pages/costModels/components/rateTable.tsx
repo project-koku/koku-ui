@@ -35,10 +35,10 @@ const RateTableBase: React.SFC<RateTableProps> = ({
 }) => {
   const [expanded, setExpanded] = React.useState({});
   const [sortBy, setSortBy] = React.useState<ISortBy>({});
-  const getMetric = value => intl.formatMessage(messages.MetricValues, { value }) || value;
+  const getMetric = value => intl.formatMessage(messages.metricValues, { value }) || value;
   const getMeasurement = (measurement, units) => {
-    units = intl.formatMessage(messages.Units, { units: unitsLookupKey(units) }) || units;
-    return intl.formatMessage(messages.MeasurementValues, {
+    units = intl.formatMessage(messages.units, { units: unitsLookupKey(units) }) || units;
+    return intl.formatMessage(messages.measurementValues, {
       value: measurement.toLowerCase().replace('-', '_'),
       units,
       count: 2,
@@ -82,7 +82,7 @@ const RateTableBase: React.SFC<RateTableProps> = ({
             title:
               rateKind === 'regular'
                 ? formatCurrencyRate(tierRate, tier.tiered_rates[0].unit)
-                : intl.formatMessage(messages.Various),
+                : intl.formatMessage(messages.various),
             props: { isOpen, style: { padding: rateKind === 'tagging' ? '' : '1.5rem 1rem' } },
           },
         ],
@@ -91,11 +91,11 @@ const RateTableBase: React.SFC<RateTableProps> = ({
     ];
   }, []);
   const cells = [
-    { title: intl.formatMessage(messages.Description) },
-    { title: intl.formatMessage(messages.Metric), ...(rows.length && { transforms: [sortable] }) },
-    { title: intl.formatMessage(messages.Measurement), ...(rows.length && { transforms: [sortable] }) },
-    { title: intl.formatMessage(messages.CalculationType) },
-    { title: intl.formatMessage(messages.Rate), cellTransforms: [compoundExpand] },
+    { title: intl.formatMessage(messages.description) },
+    { title: intl.formatMessage(messages.metric), ...(rows.length && { transforms: [sortable] }) },
+    { title: intl.formatMessage(messages.measurement), ...(rows.length && { transforms: [sortable] }) },
+    { title: intl.formatMessage(messages.calculationType) },
+    { title: intl.formatMessage(messages.rate), cellTransforms: [compoundExpand] },
   ];
   const onExpand = (_event: any, rowIndex: number, _colIndex: number, isOpen: boolean) => {
     setExpanded({ ...expanded, [rowIndex]: !isOpen });
@@ -110,7 +110,7 @@ const RateTableBase: React.SFC<RateTableProps> = ({
     <Table
       onSort={onSort}
       sortBy={sortBy}
-      aria-label={intl.formatMessage(messages.CostModelsWizardCreatePriceList)}
+      aria-label={intl.formatMessage(messages.costModelsWizardCreatePriceList)}
       variant={isCompact ? TableVariant.compact : undefined}
       rows={rows}
       cells={cells}

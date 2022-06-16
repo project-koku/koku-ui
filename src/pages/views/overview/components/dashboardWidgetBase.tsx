@@ -520,7 +520,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const { getIdKeyForTab, intl } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
-    return intl.formatMessage(messages.GroupByAll, { value: key, count: 2 });
+    return intl.formatMessage(messages.groupByAll, { value: key, count: 2 });
   };
 
   private getFormattedUnits = () => {
@@ -530,9 +530,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const units = this.getUnits();
 
     if (computedReportItem === ComputedReportItemType.usage) {
-      return intl.formatMessage(messages.Units, { units: unitsLookupKey(units) });
+      return intl.formatMessage(messages.units, { units: unitsLookupKey(units) });
     }
-    return intl.formatMessage(messages.CurrencyUnits, { units });
+    return intl.formatMessage(messages.currencyUnits, { units });
   };
 
   private getHorizontalLayout = () => {
@@ -634,7 +634,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const { getIdKeyForTab, intl } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
-    return intl.formatMessage(messages.GroupByTop, { value: key, count: 2 });
+    return intl.formatMessage(messages.groupByTop, { value: key, count: 2 });
   };
 
   private getTitle = () => {

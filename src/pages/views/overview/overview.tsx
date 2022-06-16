@@ -140,34 +140,34 @@ interface OverviewState {
 type OverviewProps = OverviewOwnProps & OverviewStateProps & OverviewDispatchProps;
 
 // Ocp options
-const ocpOptions = [{ label: messages.PerspectiveValues, value: 'ocp' }];
+const ocpOptions = [{ label: messages.perspectiveValues, value: 'ocp' }];
 
 // Infrastructure AWS options
-const infrastructureAwsOptions = [{ label: messages.PerspectiveValues, value: 'aws' }];
+const infrastructureAwsOptions = [{ label: messages.perspectiveValues, value: 'aws' }];
 
 // Infrastructure AWS filtered by OpenShift options
-const infrastructureAwsOcpOptions = [{ label: messages.PerspectiveValues, value: 'aws_ocp' }];
+const infrastructureAwsOcpOptions = [{ label: messages.perspectiveValues, value: 'aws_ocp' }];
 
 // Infrastructure Azure options
-const infrastructureAzureOptions = [{ label: messages.PerspectiveValues, value: 'azure' }];
+const infrastructureAzureOptions = [{ label: messages.perspectiveValues, value: 'azure' }];
 
 // Infrastructure Azure filtered by OpenShift options
-const infrastructureAzureOcpOptions = [{ label: messages.PerspectiveValues, value: 'azure_ocp' }];
+const infrastructureAzureOcpOptions = [{ label: messages.perspectiveValues, value: 'azure_ocp' }];
 
 // Infrastructure GCP options
-const infrastructureGcpOptions = [{ label: messages.PerspectiveValues, value: 'gcp' }];
+const infrastructureGcpOptions = [{ label: messages.perspectiveValues, value: 'gcp' }];
 
 // Infrastructure GCP filtered by OCP options
-const infrastructureGcpOcpOptions = [{ label: messages.PerspectiveValues, value: 'gcp_ocp' }];
+const infrastructureGcpOcpOptions = [{ label: messages.perspectiveValues, value: 'gcp_ocp' }];
 
 // Infrastructure IBM options
-const infrastructureIbmOptions = [{ label: messages.PerspectiveValues, value: 'ibm' }];
+const infrastructureIbmOptions = [{ label: messages.perspectiveValues, value: 'ibm' }];
 
 // Infrastructure IBM filtered by OCP options
-const infrastructureIbmOcpOptions = [{ label: messages.PerspectiveValues, value: 'ibm_ocp' }];
+const infrastructureIbmOcpOptions = [{ label: messages.perspectiveValues, value: 'ibm_ocp' }];
 
 // Infrastructure Ocp cloud options
-const infrastructureOcpCloudOptions = [{ label: messages.PerspectiveValues, value: 'ocp_cloud' }];
+const infrastructureOcpCloudOptions = [{ label: messages.perspectiveValues, value: 'ocp_cloud' }];
 
 class OverviewBase extends React.Component<OverviewProps> {
   protected defaultState: OverviewState = {
@@ -479,9 +479,9 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { intl } = this.props;
 
     if (tab === OverviewTab.infrastructure) {
-      return intl.formatMessage(messages.Infrastructure);
+      return intl.formatMessage(messages.infrastructure);
     } else if (tab === OverviewTab.ocp) {
-      return intl.formatMessage(messages.OpenShift);
+      return intl.formatMessage(messages.openShift);
     }
   };
 
@@ -605,7 +605,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       providersFetchStatus === FetchStatus.inProgress || userAccessFetchStatus === FetchStatus.inProgress;
 
     const availableTabs = this.getAvailableTabs();
-    const title = intl.formatMessage(messages.OverviewTitle);
+    const title = intl.formatMessage(messages.overviewTitle);
 
     if (isLoading) {
       return <Loading title={title} />;
@@ -620,32 +620,32 @@ class OverviewBase extends React.Component<OverviewProps> {
               {title}
               <span style={styles.infoIcon}>
                 <Popover
-                  aria-label={intl.formatMessage(messages.OverviewInfoArialLabel)}
+                  aria-label={intl.formatMessage(messages.overviewInfoArialLabel)}
                   enableFlip
                   bodyContent={
                     <>
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.OpenShiftCloudInfrastructure)}</p>
-                      <p>{intl.formatMessage(messages.OpenShiftCloudInfrastructureDesc)}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.openShiftCloudInfrastructure)}</p>
+                      <p>{intl.formatMessage(messages.openShiftCloudInfrastructureDesc)}</p>
                       <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.OpenShift)}</p>
-                      <p>{intl.formatMessage(messages.OpenShiftDesc)}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.openShift)}</p>
+                      <p>{intl.formatMessage(messages.openShiftDesc)}</p>
                       <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.GCP)}</p>
-                      <p>{intl.formatMessage(messages.GCPDesc)}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.gcp)}</p>
+                      <p>{intl.formatMessage(messages.gcpDesc)}</p>
                       {/* Todo: Show in-progress features in beta environment only */}
                       {isFeatureVisible(FeatureType.ibm) && (
                         <>
                           <br />
-                          <p style={styles.infoTitle}>{intl.formatMessage(messages.IBM)}</p>
-                          <p>{intl.formatMessage(messages.IBMDesc)}</p>
+                          <p style={styles.infoTitle}>{intl.formatMessage(messages.ibm)}</p>
+                          <p>{intl.formatMessage(messages.ibmDesc)}</p>
                         </>
                       )}
                       <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.AWS)}</p>
-                      <p>{intl.formatMessage(messages.AWSDesc)}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.aws)}</p>
+                      <p>{intl.formatMessage(messages.awsDesc)}</p>
                       <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.Azure)}</p>
-                      <p>{intl.formatMessage(messages.AzureDesc)}</p>
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.azure)}</p>
+                      <p>{intl.formatMessage(messages.azureDesc)}</p>
                     </>
                   }
                 >

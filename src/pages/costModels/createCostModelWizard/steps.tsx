@@ -4,17 +4,17 @@ import { countDecimals, isPercentageFormatValid } from 'utils/format';
 
 export const nameErrors = (name: string): MessageDescriptor | null => {
   if (name.length === 0) {
-    return messages.CostModelsRequiredField;
+    return messages.costModelsRequiredField;
   }
   if (name.length > 100) {
-    return messages.CostModelsInfoTooLong;
+    return messages.costModelsInfoTooLong;
   }
   return null;
 };
 
 export const descriptionErrors = (description: string): MessageDescriptor | null => {
   if (description.length > 500) {
-    return messages.CostModelsDescTooLong;
+    return messages.costModelsDescTooLong;
   }
   return null;
 };

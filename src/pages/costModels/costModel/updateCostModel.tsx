@@ -35,7 +35,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
     const current = costModel[0];
     return (
       <Modal
-        title={intl.formatMessage(messages.EditCostModel)}
+        title={intl.formatMessage(messages.editCostModel)}
         isOpen
         onClose={() => setDialogOpen({ name: 'updateCostModel', isOpen: false })}
         variant="small"
@@ -61,7 +61,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
               isProcessing || (this.state.name === current.name && this.state.description === current.description)
             }
           >
-            {intl.formatMessage(messages.Save)}
+            {intl.formatMessage(messages.save)}
           </Button>,
           <Button
             key="cancel"
@@ -69,14 +69,14 @@ class UpdateCostModelBase extends React.Component<Props, State> {
             onClick={() => setDialogOpen({ name: 'updateCostModel', isOpen: false })}
             isDisabled={isProcessing}
           >
-            {intl.formatMessage(messages.Cancel)}
+            {intl.formatMessage(messages.cancel)}
           </Button>,
         ]}
       >
         <>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
           <Form>
-            <FormGroup label={intl.formatMessage(messages.Names, { count: 1 })} isRequired fieldId="name">
+            <FormGroup label={intl.formatMessage(messages.names, { count: 1 })} isRequired fieldId="name">
               <TextInput
                 isRequired
                 type="text"
@@ -86,7 +86,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
                 onChange={value => this.setState({ name: value })}
               />
             </FormGroup>
-            <FormGroup label={intl.formatMessage(messages.Description)} fieldId="description">
+            <FormGroup label={intl.formatMessage(messages.description)} fieldId="description">
               <TextArea
                 type="text"
                 id="description"

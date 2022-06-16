@@ -31,7 +31,7 @@ const DialogBase: React.SFC<Props> = ({
 }) => {
   const CancelButtonSecondary = (
     <Button key="cancel" variant="link" onClick={onClose} isDisabled={isProcessing}>
-      {intl.formatMessage(messages.Cancel)}
+      {intl.formatMessage(messages.cancel)}
     </Button>
   );
   const ProceedButton = (
@@ -41,7 +41,7 @@ const DialogBase: React.SFC<Props> = ({
   );
   const CloseButtonPrimary = (
     <Button key="close" variant="primary" onClick={onClose} isDisabled={isProcessing}>
-      {intl.formatMessage(messages.Close)}
+      {intl.formatMessage(messages.close)}
     </Button>
   );
   const actions = actionText !== '' ? [ProceedButton, CancelButtonSecondary] : [CloseButtonPrimary];

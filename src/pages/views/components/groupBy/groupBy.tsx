@@ -218,7 +218,7 @@ class GroupByBase extends React.Component<GroupByProps> {
       allOptions.push(...groupByTagOptions);
     }
     return allOptions.map(option => ({
-      toString: () => intl.formatMessage(messages.GroupByValuesTitleCase, { value: option.label, count: 1 }),
+      toString: () => intl.formatMessage(messages.groupByValuesTitleCase, { value: option.label, count: 1 }),
       value: option.value,
     }));
   };
@@ -263,7 +263,7 @@ class GroupByBase extends React.Component<GroupByProps> {
     return (
       <div style={styles.groupBySelector}>
         <Title headingLevel="h3" size="md" style={styles.groupBySelectorLabel}>
-          {intl.formatMessage(messages.GroupByLabel)}
+          {intl.formatMessage(messages.groupByLabel)}
         </Title>
         {this.getGroupBy()}
         {Boolean(isGroupByOrgVisible) && (

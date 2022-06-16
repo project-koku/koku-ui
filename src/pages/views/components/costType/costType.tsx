@@ -43,9 +43,9 @@ const costTypeOptions: {
   label: MessageDescriptor;
   value: string;
 }[] = [
-  { desc: messages.CostTypeAmortizedDesc, label: messages.CostTypeAmortized, value: CostTypes.amortized },
-  { desc: messages.CostTypeBlendedDesc, label: messages.CostTypeBlended, value: CostTypes.blended },
-  { desc: messages.CostTypeUnblendedDesc, label: messages.CostTypeUnblended, value: CostTypes.unblended },
+  { desc: messages.costTypeAmortizedDesc, label: messages.costTypeAmortized, value: CostTypes.amortized },
+  { desc: messages.costTypeBlendedDesc, label: messages.costTypeBlended, value: CostTypes.blended },
+  { desc: messages.costTypeUnblendedDesc, label: messages.costTypeUnblended, value: CostTypes.unblended },
 ];
 
 class CostTypeBase extends React.Component<CostTypeProps> {
@@ -127,7 +127,7 @@ class CostTypeBase extends React.Component<CostTypeProps> {
     return (
       <div style={styles.costSelector}>
         <Title headingLevel="h3" size="md" style={styles.costLabel}>
-          {intl.formatMessage(messages.CostTypeLabel)}
+          {intl.formatMessage(messages.costTypeLabel)}
         </Title>
         {this.getSelect()}
       </div>

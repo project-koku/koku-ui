@@ -95,7 +95,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
     const { intl } = this.props;
 
     const computedItemDate = new Date(computedItem.date + 'T00:00:00');
-    const xVal = intl.formatMessage(messages.ExplorerChartDate, {
+    const xVal = intl.formatMessage(messages.explorerChartDate, {
       date: getDate(computedItemDate),
       month: getMonth(computedItemDate),
     });
@@ -221,7 +221,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
       <>
         <div style={styles.titleContainer}>
           <Title headingLevel="h3" size="md">
-            {intl.formatMessage(messages.ExplorerChartTitle, { value: perspective })}
+            {intl.formatMessage(messages.explorerChartTitle, { value: perspective })}
           </Title>
         </div>
         <div style={styles.chartContainer}>

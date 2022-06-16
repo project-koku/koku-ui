@@ -23,7 +23,7 @@ const SourcesTable: React.FunctionComponent<SourcesTableProps> = ({ canWrite, co
     if (canWrite) {
       return [
         {
-          title: intl.formatMessage(messages.CostModelsSourceDelete),
+          title: intl.formatMessage(messages.costModelsSourceDelete),
           onClick: (_evt, rowIndex: number) => showDeleteDialog(rowIndex),
         },
       ];
@@ -31,21 +31,21 @@ const SourcesTable: React.FunctionComponent<SourcesTableProps> = ({ canWrite, co
     return [
       {
         style: { pointerEvents: 'auto' },
-        tooltip: intl.formatMessage(messages.CostModelsReadOnly),
+        tooltip: intl.formatMessage(messages.costModelsReadOnly),
         isDisabled: true,
-        title: intl.formatMessage(messages.CostModelsSourceDelete),
+        title: intl.formatMessage(messages.costModelsSourceDelete),
       },
     ];
   };
 
   const actions = getActions();
-  const cells = [intl.formatMessage(messages.Names, { count: 1 })] as (string | ICell)[];
+  const cells = [intl.formatMessage(messages.names, { count: 1 })] as (string | ICell)[];
   const rows: (IRow | string[])[] = costModels.length > 0 ? costModels[0].sources.map(source => [source.name]) : [];
 
   return (
     <Table
       actions={actions}
-      aria-label={intl.formatMessage(messages.CostModelsSourceTableAriaLabel)}
+      aria-label={intl.formatMessage(messages.costModelsSourceTableAriaLabel)}
       cells={cells}
       gridBreakPoint={TableGridBreakpoint.grid2xl}
       rows={rows}

@@ -289,7 +289,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       <header style={styles.header}>
         <div style={styles.headerContent}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {intl.formatMessage(messages.ExplorerTitle)}
+            {intl.formatMessage(messages.explorerTitle)}
           </Title>
           <div style={styles.headerContentRight}>
             {/* Todo: Show in-progress features in beta environment only */}

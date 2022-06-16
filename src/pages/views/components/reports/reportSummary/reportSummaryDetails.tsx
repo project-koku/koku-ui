@@ -122,7 +122,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
       <div className="valueContainer">
         {showTooltip ? (
           <Tooltip
-            content={intl.formatMessage(messages.DashboardTotalCostTooltip, { infrastructureCost, supplementaryCost })}
+            content={intl.formatMessage(messages.dashboardTotalCostTooltip, { infrastructureCost, supplementaryCost })}
             enableFlip
           >
             <div className={`value${altHeroFont}`}>{value}</div>
@@ -142,7 +142,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
       return null;
     }
     const usageUnits: string = hasRequest ? report.meta.total.request.units : undefined;
-    const unitsLabel = intl.formatMessage(messages.Units, { units: unitsLookupKey(usageUnits) });
+    const unitsLabel = intl.formatMessage(messages.units, { units: unitsLookupKey(usageUnits) });
 
     return (
       <div className="valueContainer">
@@ -164,7 +164,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     const usageUnits: string = hasUsage ? report.meta.total.usage.units : undefined;
     // added as a work-around for azure #1079
     const _units = unitsLookupKey(units ? units : usageUnits);
-    const unitsLabel = intl.formatMessage(messages.Units, { units: _units });
+    const unitsLabel = intl.formatMessage(messages.units, { units: _units });
 
     return (
       <div className="valueContainer">

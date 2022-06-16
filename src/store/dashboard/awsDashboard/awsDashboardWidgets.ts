@@ -18,15 +18,15 @@ const getId = () => currrentId++;
 
 export const computeWidget: AwsDashboardWidget = {
   id: getId(),
-  titleKey: messages.AWSComputeTitle,
+  titleKey: messages.awsComputeTitle,
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.instanceType,
   details: {
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showUnits: true,
     showUsageFirst: true,
     showUsageLegendLabel: true,
-    usageKey: messages.Usage,
+    usageKey: messages.usage,
   },
   filter: {
     service: 'AmazonEC2',
@@ -37,7 +37,7 @@ export const computeWidget: AwsDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.DashboardDailyUsageComparison,
+    titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
   chartFormatter: formatUnits,
@@ -46,14 +46,14 @@ export const computeWidget: AwsDashboardWidget = {
 
 export const costSummaryWidget: AwsDashboardWidget = {
   id: getId(),
-  titleKey: messages.AWSDashboardCostTitle,
+  titleKey: messages.awsDashboardCostTitle,
   forecastPathsType: ForecastPathsType.aws,
   forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.cost,
   details: {
     adjustContainerHeight: true,
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showHorizontal: true,
     viewAllPath: paths.awsDetails,
   },
@@ -64,8 +64,8 @@ export const costSummaryWidget: AwsDashboardWidget = {
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    dailyTitleKey: messages.AWSDailyCostTrendTitle,
-    titleKey: messages.AWSCostTrendTitle,
+    dailyTitleKey: messages.awsDailyCostTrendTitle,
+    titleKey: messages.awsCostTrendTitle,
     type: ChartType.rolling,
   },
   availableTabs: [AwsDashboardTab.services, AwsDashboardTab.accounts, AwsDashboardTab.regions],
@@ -77,11 +77,11 @@ export const costSummaryWidget: AwsDashboardWidget = {
 
 export const databaseWidget: AwsDashboardWidget = {
   id: getId(),
-  titleKey: messages.DashboardDatabaseTitle,
+  titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.database,
   details: {
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showUnits: true,
   },
   filter: {
@@ -93,7 +93,7 @@ export const databaseWidget: AwsDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.DashboardCumulativeCostComparison,
+    titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
   chartFormatter: formatCurrency,
@@ -103,11 +103,11 @@ export const databaseWidget: AwsDashboardWidget = {
 
 export const networkWidget: AwsDashboardWidget = {
   id: getId(),
-  titleKey: messages.DashboardNetworkTitle,
+  titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.network,
   details: {
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showUnits: true,
   },
   filter: {
@@ -119,7 +119,7 @@ export const networkWidget: AwsDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.DashboardCumulativeCostComparison,
+    titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
   chartFormatter: formatCurrency,
@@ -129,20 +129,20 @@ export const networkWidget: AwsDashboardWidget = {
 
 export const storageWidget: AwsDashboardWidget = {
   id: getId(),
-  titleKey: messages.DashboardStorageTitle,
+  titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.storage,
   details: {
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showUnits: true,
     showUsageFirst: true,
     showUsageLegendLabel: true,
-    usageKey: messages.Usage,
+    usageKey: messages.usage,
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.DashboardDailyUsageComparison,
+    titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
   chartFormatter: formatUnits,

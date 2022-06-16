@@ -28,9 +28,9 @@ type RateInputBaseProps = RateFormGroup & RateTextInput & UniqueProps & WrappedC
 const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
   currencyUnits = 'USD',
   fieldId,
-  helperTextInvalid: helpText = messages.PriceListPosNumberRate,
+  helperTextInvalid: helpText = messages.priceListPosNumberRate,
   intl = defaultIntl, // Default required for testing
-  label = messages.Rate,
+  label = messages.rate,
   onBlur,
   onChange,
   style,
@@ -54,13 +54,13 @@ const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
     >
       <InputGroup>
         <InputGroupText style={styles.currency}>
-          {intl.formatMessage(messages.CurrencyUnits, { units: currencyUnits })}
+          {intl.formatMessage(messages.currencyUnits, { units: currencyUnits })}
         </InputGroupText>
         <TextInput
           onBlur={onBlur}
           isRequired
           type="text"
-          aria-label={intl.formatMessage(messages.CostModelsWizardRateAriaLabel)}
+          aria-label={intl.formatMessage(messages.costModelsWizardRateAriaLabel)}
           id={fieldId}
           placeholder={formatCurrencyRaw(0, currencyUnits, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           value={value}

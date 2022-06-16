@@ -360,7 +360,7 @@ export function getDateRangeString(
   const startDate = format(start, 'dd');
   const year = getYear(end);
 
-  return intl.formatMessage(messages.ChartDateRange, { count, startDate, endDate, month, year });
+  return intl.formatMessage(messages.chartDateRange, { count, startDate, endDate, month, year });
 }
 
 export function getMaxValue(datums: ChartDatum[]) {
@@ -397,7 +397,7 @@ export function getTooltipContent(formatter) {
   return function labelFormatter(value: number, unit: string = null, options: FormatOptions = {}) {
     const lookup = unitsLookupKey(unit);
     if (lookup) {
-      return intl.formatMessage(messages.UnitTooltips, {
+      return intl.formatMessage(messages.unitTooltips, {
         units: lookup,
         value: formatter(value, unit, options),
       });
@@ -408,11 +408,11 @@ export function getTooltipContent(formatter) {
 
 export function getCostRangeString(
   datums: ChartDatum[],
-  key: MessageDescriptor = messages.ChartCostLegendLabel,
+  key: MessageDescriptor = messages.chartCostLegendLabel,
   firstOfMonth: boolean = false,
   lastOfMonth: boolean = false,
   offset: number = 0,
-  noDataKey: MessageDescriptor = messages.ChartNoData
+  noDataKey: MessageDescriptor = messages.chartNoData
 ) {
   if (!(datums && datums.length)) {
     return intl.formatMessage(noDataKey);
@@ -434,11 +434,11 @@ export function getCostRangeString(
 
 export function getUsageRangeString(
   datums: ChartDatum[],
-  key: MessageDescriptor = messages.ChartUsageLegendLabel,
+  key: MessageDescriptor = messages.chartUsageLegendLabel,
   firstOfMonth: boolean = false,
   lastOfMonth: boolean = false,
   offset: number = 0,
-  noDataKey: MessageDescriptor = messages.ChartNoData
+  noDataKey: MessageDescriptor = messages.chartNoData
 ) {
   return getCostRangeString(datums, key, firstOfMonth, lastOfMonth, offset, noDataKey);
 }
