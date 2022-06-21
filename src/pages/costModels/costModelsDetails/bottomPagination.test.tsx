@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { emptyPage, page1 } from 'api/costModels.data';
 import { createMemoryHistory } from 'history';
 import React from 'react';
@@ -32,9 +32,9 @@ test('first page pagination', () => {
       query: initialCostModelsQuery,
     },
   };
-  const { queryAllByText } = renderUI(state);
-  expect(queryAllByText(/1 - 10/i)).toHaveLength(1);
-  expect(queryAllByText(/20/i)).toHaveLength(1);
+  renderUI(state);
+  expect(screen.queryAllByText(/1 - 10/i)).toHaveLength(1);
+  expect(screen.queryAllByText(/20/i)).toHaveLength(1);
 });
 
 test('empty page pagination', () => {
@@ -46,7 +46,7 @@ test('empty page pagination', () => {
       query: initialCostModelsQuery,
     },
   };
-  const { queryAllByText } = renderUI(state);
-  expect(queryAllByText(/1 - 10/i)).toHaveLength(0);
-  expect(queryAllByText(/0/i)).toMatchSnapshot();
+  renderUI(state);
+  expect(screen.queryAllByText(/1 - 10/i)).toHaveLength(0);
+  expect(screen.queryAllByText(/0/i)).toMatchSnapshot();
 });

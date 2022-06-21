@@ -12,7 +12,6 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
-import { getLast60DaysDate } from 'utils/dateRange';
 import { isEqual } from 'utils/equal';
 
 import { DateRange } from './dateRange';
@@ -129,18 +128,18 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
     const groupByOptions = getGroupByOptions(perspective);
     groupByOptions.map(option => {
       options.push({
-        name: intl.formatMessage(messages.FilterByValues, { value: option.label }),
+        name: intl.formatMessage(messages.filterByValues, { value: option.label }),
         key: option.value,
       });
     });
     if (orgReport && orgReport.data && orgReport.data.length > 0) {
       options.push({
-        name: intl.formatMessage(messages.FilterByValues, { value: 'org_unit_id' }),
+        name: intl.formatMessage(messages.filterByValues, { value: 'org_unit_id' }),
         key: orgUnitIdKey,
       });
     }
     if (tagReport && tagReport.data && tagReport.data.length > 0) {
-      options.push({ name: intl.formatMessage(messages.FilterByValues, { value: 'tag' }), key: tagKey });
+      options.push({ name: intl.formatMessage(messages.filterByValues, { value: 'tag' }), key: tagKey });
     }
     return options;
   };
@@ -219,7 +218,7 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
 
     // Omitting key_only to share a single request -- the toolbar needs key values
     const orgQueryString = getQuery({
-      // TBD...
+      limit: 1000,
     });
 
     let orgReport;
@@ -235,14 +234,10 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
       );
     }
 
-    // Fetch tags with largest date range available
-    const { start_date, end_date } = getLast60DaysDate();
-
     // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
     const tagQueryString = getQuery({
-      start_date,
-      end_date,
       key_only: true,
+      limit: 1000,
     });
     let tagReport;
     let tagReportFetchStatus;

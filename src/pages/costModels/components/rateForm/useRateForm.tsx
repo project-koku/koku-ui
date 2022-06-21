@@ -1,6 +1,7 @@
 import { MetricHash } from 'api/metrics';
 import { Rate } from 'api/rates';
 import React from 'react';
+import { unFormat } from 'utils/format';
 
 import { textHelpers } from './constants';
 import {
@@ -54,6 +55,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
       const newMeasurement = state.measurement;
       if (newMeasurement.isDirty) {
         newMeasurement.value = '';
+        // Past discussions we've agreed this required error should show on measurement when metric updates
         errors.measurement = textHelpers.required;
       }
       let step = state.step;
@@ -124,7 +126,13 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
     case 'UPDATE_REGULAR': {
       return {
         ...state,
-        tieredRates: [{ value: action.value, isDirty: true }],
+        tieredRates: [
+          {
+            isDirty: true,
+            inputValue: action.value,
+            value: unFormat(action.value), // Normalize for API requests where USD decimal format is expected
+          },
+        ],
         errors: {
           ...state.errors,
           tieredRates: checkRateOnChange(action.value),
@@ -174,6 +182,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
       let descriptionError = state.errors.tagDescription[action.index];
       let isDirty = state.taggingRates.tagValues[action.index].isDirty;
       let isTagValueDirty = state.taggingRates.tagValues[action.index].isTagValueDirty;
+
       if (action.payload.value !== undefined) {
         const { value: rate } = action.payload;
         error = checkRateOnChange(rate);
@@ -195,6 +204,10 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
             {
               ...state.taggingRates.tagValues[action.index],
               ...action.payload,
+              ...(action.payload.value !== undefined && {
+                inputValue: action.payload.value, // Original user input
+                value: unFormat(action.payload.value), // Normalize for API requests where USD decimal format is expected
+              }),
               isDirty,
               isTagValueDirty,
             },

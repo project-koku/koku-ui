@@ -72,7 +72,7 @@ const Header: React.FunctionComponent<Props> = ({
       <Dialog
         isSmall
         isOpen={isDialogOpen.deleteCostModel}
-        title={intl.formatMessage(messages.CostModelsDelete)}
+        title={intl.formatMessage(messages.costModelsDelete)}
         onClose={() => setDialogOpen({ name: 'deleteCostModel', isOpen: false })}
         error={deleteError}
         isProcessing={isDeleteProcessing}
@@ -82,15 +82,15 @@ const Header: React.FunctionComponent<Props> = ({
         body={
           <>
             {current.sources.length === 0 &&
-              intl.formatMessage(messages.CostModelsDeleteDesc, {
+              intl.formatMessage(messages.costModelsDeleteDesc, {
                 costModel: current.name,
               })}
             {current.sources.length > 0 && (
               <>
-                {intl.formatMessage(messages.CostModelsDeleteSource)}
+                {intl.formatMessage(messages.costModelsDeleteSource)}
                 <br />
                 <br />
-                {intl.formatMessage(messages.CostModelsAvailableSources)}
+                {intl.formatMessage(messages.costModelsAvailableSources)}
                 <br />
                 <List>
                   {current.sources.map(provider => (
@@ -101,13 +101,13 @@ const Header: React.FunctionComponent<Props> = ({
             )}
           </>
         }
-        actionText={current.sources.length === 0 ? intl.formatMessage(messages.CostModelsDelete) : ''}
+        actionText={current.sources.length === 0 ? intl.formatMessage(messages.costModelsDelete) : ''}
       />
       <header style={styles.headerCostModel}>
         <div style={styles.headerContent}>
           <Breadcrumb style={styles.breadcrumb}>
             <BreadcrumbItem to={`${baseName}${paths.costModels}`}>
-              {intl.formatMessage(messages.CostModels)}
+              {intl.formatMessage(messages.costModels)}
             </BreadcrumbItem>
             <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>
           </Breadcrumb>
@@ -137,7 +137,7 @@ const Header: React.FunctionComponent<Props> = ({
                       })
                     }
                   >
-                    {intl.formatMessage(messages.Edit)}
+                    {intl.formatMessage(messages.edit)}
                   </DropdownItem>
                 </ReadOnlyTooltip>,
                 <ReadOnlyTooltip key="delete" isDisabled={!isWritePermission}>
@@ -150,7 +150,7 @@ const Header: React.FunctionComponent<Props> = ({
                       })
                     }
                   >
-                    {intl.formatMessage(messages.Delete)}
+                    {intl.formatMessage(messages.delete)}
                   </DropdownItem>
                 </ReadOnlyTooltip>,
               ]}
@@ -159,9 +159,9 @@ const Header: React.FunctionComponent<Props> = ({
         </Split>
         <TextContent style={styles.currency}>
           <TextList component={TextListVariants.dl}>
-            <TextListItem component={TextListItemVariants.dt}>{intl.formatMessage(messages.Currency)}</TextListItem>
+            <TextListItem component={TextListItemVariants.dt}>{intl.formatMessage(messages.currency)}</TextListItem>
             <TextListItem component={TextListItemVariants.dd}>
-              {intl.formatMessage(messages.CurrencyOptions, { units: current.currency || 'USD' })}
+              {intl.formatMessage(messages.currencyOptions, { units: current.currency || 'USD' })}
             </TextListItem>
           </TextList>
         </TextContent>
@@ -169,19 +169,19 @@ const Header: React.FunctionComponent<Props> = ({
           <Tabs activeKey={tabIndex} onSelect={(_evt, index: number) => onSelectTab(index)}>
             <Tab
               eventKey={0}
-              title={<TabTitleText>{intl.formatMessage(messages.PriceList)}</TabTitleText>}
+              title={<TabTitleText>{intl.formatMessage(messages.priceList)}</TabTitleText>}
               tabContentId="refPriceList"
               tabContentRef={tabRefs[0]}
             />
             <Tab
               eventKey={1}
-              title={<TabTitleText>{intl.formatMessage(messages.CostCalculations)}</TabTitleText>}
+              title={<TabTitleText>{intl.formatMessage(messages.costCalculations)}</TabTitleText>}
               tabContentId="refMarkup"
               tabContentRef={tabRefs[1]}
             />
             <Tab
               eventKey={2}
-              title={<TabTitleText>{intl.formatMessage(messages.Sources)}</TabTitleText>}
+              title={<TabTitleText>{intl.formatMessage(messages.sources)}</TabTitleText>}
               tabContentId="refSources"
               tabContentRef={tabRefs[2]}
             />
@@ -190,13 +190,13 @@ const Header: React.FunctionComponent<Props> = ({
           <Tabs activeKey={tabIndex} onSelect={(_evt, index: number) => onSelectTab(index)}>
             <Tab
               eventKey={0}
-              title={<TabTitleText>{intl.formatMessage(messages.CostCalculations)}</TabTitleText>}
+              title={<TabTitleText>{intl.formatMessage(messages.costCalculations)}</TabTitleText>}
               tabContentId="refMarkup"
               tabContentRef={tabRefs[0]}
             />
             <Tab
               eventKey={1}
-              title={<TabTitleText>{intl.formatMessage(messages.Sources)}</TabTitleText>}
+              title={<TabTitleText>{intl.formatMessage(messages.sources)}</TabTitleText>}
               tabContentId="refSources"
               tabContentRef={tabRefs[1]}
             />

@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import messages from 'locales/messages';
 import React from 'react';
@@ -27,9 +28,9 @@ function regExp(msg) {
 }
 
 test('delete dialog closed', () => {
-  const { queryAllByText } = renderUI({});
-  expect(queryAllByText(/The following sources are assigned to/i)).toHaveLength(0);
-  expect(queryAllByText(/This action will delete/i)).toHaveLength(0);
+  renderUI({});
+  expect(screen.queryAllByText(/The following sources are assigned to/i)).toHaveLength(0);
+  expect(screen.queryAllByText(/This action will delete/i)).toHaveLength(0);
 });
 
 test('delete dialog open', () => {
@@ -60,12 +61,12 @@ test('delete dialog open', () => {
       },
     },
   };
-  const { getAllByText, queryAllByText } = renderUI(state);
-  expect(queryAllByText(regExp(messages.CostModelsDelete))).toHaveLength(2);
-  expect(queryAllByText(/This action will delete/i)).toHaveLength(1);
-  expect(queryAllByText(/The following sources are assigned to/i)).toHaveLength(0);
-  fireEvent.click(getAllByText(regExp(messages.CostModelsDelete))[1]);
-  expect(getAllByText(regExp(messages.CostModelsDelete))[1].disabled).toBeTruthy();
+  renderUI(state);
+  expect(screen.queryAllByText(regExp(messages.costModelsDelete))).toHaveLength(2);
+  expect(screen.queryAllByText(/This action will delete/i)).toHaveLength(1);
+  expect(screen.queryAllByText(/The following sources are assigned to/i)).toHaveLength(0);
+  userEvent.click(screen.getAllByText(regExp(messages.costModelsDelete))[1]);
+  expect(screen.getAllByText(regExp(messages.costModelsDelete))[1].getAttribute('disabled')).not.toBeNull();
 });
 
 test('delete dialog error', () => {
@@ -96,10 +97,10 @@ test('delete dialog error', () => {
       },
     },
   };
-  const { getByText, queryAllByText } = renderUI(state);
-  expect(queryAllByText(regExp(messages.CostModelsDelete))).toHaveLength(1);
-  expect(queryAllByText(/This action will delete/i)).toHaveLength(0);
-  expect(queryAllByText(/The following sources are assigned to/i)).toHaveLength(1);
-  fireEvent.click(getByText(regExp(messages.Cancel)));
-  expect(queryAllByText(regExp(messages.CostModelsDelete))).toHaveLength(0);
+  renderUI(state);
+  expect(screen.queryAllByText(regExp(messages.costModelsDelete))).toHaveLength(1);
+  expect(screen.queryAllByText(/This action will delete/i)).toHaveLength(0);
+  expect(screen.queryAllByText(/The following sources are assigned to/i)).toHaveLength(1);
+  userEvent.click(screen.getByText(regExp(messages.cancel)));
+  expect(screen.queryAllByText(regExp(messages.costModelsDelete))).toHaveLength(0);
 });

@@ -140,13 +140,13 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
     return (
       <div style={styles.groupBySelector}>
         <Select
-          aria-label={intl.formatMessage(messages.FilterByOrgUnitAriaLabel)}
+          aria-label={intl.formatMessage(messages.filterByOrgUnitAriaLabel)}
           isDisabled={isDisabled}
           onClear={this.handleGroupByClear}
           onToggle={this.handleGroupByToggle}
           onSelect={this.handleGroupBySelected}
           isOpen={isGroupByOpen}
-          placeholderText={intl.formatMessage(messages.FilterByOrgUnitPlaceholder)}
+          placeholderText={intl.formatMessage(messages.filterByOrgUnitPlaceholder)}
           selections={selection}
           variant={SelectVariant.typeahead}
         >

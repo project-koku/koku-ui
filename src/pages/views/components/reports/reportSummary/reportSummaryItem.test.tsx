@@ -1,35 +1,30 @@
-import { Progress } from '@patternfly/react-core';
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+import { intl as defaultIntl } from 'components/i18n';
 import React from 'react';
 
 import { ReportSummaryItem, ReportSummaryItemProps } from './reportSummaryItem';
 
 const props: ReportSummaryItemProps = {
   label: 'Label',
-  intl: {
-    formatMessage: jest.fn(v => v),
-  } as any,
+  intl: defaultIntl,
   totalValue: 1000,
   units: 'units',
   value: 100,
   formatOptions: {},
-  formatter: jest.fn(v => `formatted ${v}`),
 };
 
-// Temporarily disabled formatUnits test until PF4 progress bar supports custom labels
-xtest('formats value', () => {
-  shallow(<ReportSummaryItem {...props} />);
-  expect(props.formatter).toBeCalledWith(props.value, props.units, props.formatOptions);
-});
-
-test('gets percentage from value and total value', () => {
-  const view = shallow(<ReportSummaryItem {...props} />);
-  expect(view.find(Progress).props().value).toMatchSnapshot('Progress Bar Value');
-  expect(view.find('.pf-c-progress__measure')).toMatchSnapshot('Rendered Label');
+test('formats value', () => {
+  render(<ReportSummaryItem {...props} />);
+  expect(screen.getByText(/label/i)).not.toBeNull();
+  expect(
+    screen.getByText(
+      '{value} {units} ({percent} %){"percent":"10","units":"{units, select, core_hours {core-hours} gb {GB} gb_hours {GB-hours} gb_mo {GB-month} gibibyte_month {GiB-month} hour {hours} hrs {hours} vm_hours {VM-hours} other {}}{}","value":100}'
+    )
+  ).not.toBeNull();
+  expect(screen.getByRole('progressbar').getAttribute('aria-valuenow')).toBe('10');
 });
 
 test('sets percent to 0 if totalValue is 0', () => {
-  const view = shallow(<ReportSummaryItem {...props} totalValue={0} />);
-  expect(view.find(Progress).props().value).toMatchSnapshot('Progress Bar Value');
-  expect(view.find('.pf-c-progress__measure')).toMatchSnapshot('Rendered label');
+  render(<ReportSummaryItem {...props} totalValue={0} />);
+  expect(screen.getByRole('progressbar').getAttribute('aria-valuenow')).toBe('0');
 });

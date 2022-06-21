@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { filterByAll } from 'api/costModels.data';
 import { createMemoryHistory } from 'history';
 import React from 'react';
@@ -32,10 +33,10 @@ test('see filter chips in toolbar', () => {
       query: initialCostModelsQuery,
     },
   };
-  const { queryAllByText } = renderUI(state);
-  expect(queryAllByText(/randomName/)).toHaveLength(1);
-  expect(queryAllByText(/OCP/)).toHaveLength(1);
-  expect(queryAllByText(/randomDesc/)).toHaveLength(1);
+  renderUI(state);
+  expect(screen.queryAllByText(/randomName/)).toHaveLength(1);
+  expect(screen.queryAllByText(/OCP/)).toHaveLength(1);
+  expect(screen.queryAllByText(/randomDesc/)).toHaveLength(1);
 });
 
 test('click clear all filters', () => {
@@ -47,7 +48,7 @@ test('click clear all filters', () => {
       query: initialCostModelsQuery,
     },
   };
-  const { queryAllByText } = renderUI(state);
-  fireEvent.click(queryAllByText(/Clear all filters/)[0]);
+  renderUI(state);
+  userEvent.click(screen.queryAllByText(/Clear all filters/)[0]);
   expect(history.location.search).toBe('?limit=10&offset=0');
 });

@@ -89,7 +89,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
     return (
       <Modal
         isOpen={isOpen}
-        title={intl.formatMessage(messages.CostModelsAssignSources, { count: 2 })}
+        title={intl.formatMessage(messages.costModelsAssignSources, { count: 2 })}
         onClose={onClose}
         variant="large"
         actions={[
@@ -105,10 +105,10 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
               onSave(Object.keys(this.state.checked).filter(uuid => this.state.checked[uuid].selected));
             }}
           >
-            {intl.formatMessage(messages.CostModelsAssignSourcesParen)}
+            {intl.formatMessage(messages.costModelsAssignSourcesParen)}
           </Button>,
           <Button key="cancel" variant="link" isDisabled={isUpdateInProgress} onClick={onClose}>
-            {intl.formatMessage(messages.Cancel)}
+            {intl.formatMessage(messages.cancel)}
           </Button>,
         ]}
       >
@@ -118,7 +118,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
             <Grid>
               <GridItem span={2}>
                 <TextContent>
-                  <Text component={TextVariants.h6}>{intl.formatMessage(messages.Names, { count: 1 })}</Text>
+                  <Text component={TextVariants.h6}>{intl.formatMessage(messages.names, { count: 1 })}</Text>
                 </TextContent>
               </GridItem>
               <GridItem span={10}>
@@ -128,7 +128,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
               </GridItem>
               <GridItem span={2}>
                 <TextContent>
-                  <Text component={TextVariants.h6}>{intl.formatMessage(messages.CostModelsSourceType)}</Text>
+                  <Text component={TextVariants.h6}>{intl.formatMessage(messages.costModelsSourceType)}</Text>
                 </TextContent>
               </GridItem>
               <GridItem span={10}>

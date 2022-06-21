@@ -43,14 +43,14 @@ const TaggingRatesFormBase: React.FunctionComponent<TaggingRatesFormProps> = ({
       {tagValues.map((tag, ix: number) => {
         return (
           <Split hasGutter key={ix}>
-            <SplitItem style={elementStyle}>{intl.formatMessage(messages.EqualsSymbol)}</SplitItem>
+            <SplitItem style={elementStyle}>{intl.formatMessage(messages.equalsSymbol)}</SplitItem>
             <SplitItem>
               <SimpleInput
                 isRequired
                 style={style}
                 id={`tagValue_${ix}`}
-                label={messages.CostModelsTagRateTableValue}
-                placeholder={intl.formatMessage(messages.CostModelsEnterTagValue)}
+                label={messages.costModelsTagRateTableValue}
+                placeholder={intl.formatMessage(messages.costModelsEnterTagValue)}
                 value={tag.tagValue}
                 onChange={value => updateTag({ tagValue: value }, ix)}
                 validated={tagValues[ix].isTagValueDirty && errors.tagValueValues[ix] ? 'error' : 'default'}
@@ -65,29 +65,30 @@ const TaggingRatesFormBase: React.FunctionComponent<TaggingRatesFormProps> = ({
                 onChange={value => updateTag({ value }, ix)}
                 style={style}
                 validated={tagValues[ix].isDirty && errors.tagValues[ix] ? 'error' : 'default'}
-                value={tag.value}
+                value={tag.inputValue}
               />
             </SplitItem>
             <SplitItem>
               <SimpleInput
                 style={style}
                 id={`desc_${ix}`}
-                label={messages.Description}
+                label={messages.description}
                 validated={errors.tagDescription[ix] ? 'error' : 'default'}
+                placeholder={intl.formatMessage(messages.costModelsEnterTagDescription)}
                 value={tag.description}
                 onChange={value => updateTag({ description: value }, ix)}
                 helperTextInvalid={errors.tagDescription[ix]}
               />
             </SplitItem>
             <SplitItem>
-              <FormGroup fieldId={`isDefault_${ix}`} label={intl.formatMessage(messages.CostModelsTagRateTableDefault)}>
+              <FormGroup fieldId={`isDefault_${ix}`} label={intl.formatMessage(messages.costModelsTagRateTableDefault)}>
                 <Checkbox id={`isDefault_${ix}`} isChecked={defaultTag === ix} onChange={() => updateDefaultTag(ix)} />
               </FormGroup>
             </SplitItem>
             <SplitItem>
               <FormGroup fieldId="__irrelevant" label={<div>&nbsp;</div>}>
                 <Button
-                  data-testid={`remove_tag_${ix}`}
+                  aria-label={intl.formatMessage(messages.costModelsRemoveTagLabel)}
                   variant={ButtonVariant.plain}
                   isDisabled={tagValues.length === 1}
                   onClick={() => removeTag(ix)}

@@ -15,15 +15,18 @@ import {
   ToolbarItemVariant,
 } from '@patternfly/react-core';
 import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/esm/icons/file-invoice-dollar-icon';
+import { SortByDirection } from '@patternfly/react-table';
 import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
+import { Rate } from 'api/rates';
 import { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import { EmptyFilterState } from 'pages/components/state/emptyFilterState/emptyFilterState';
 import { LoadingState } from 'pages/components/state/loadingState/loadingState';
 import { WithPriceListSearch } from 'pages/costModels/components/hoc/withPriceListSearch';
 import { PriceListToolbar } from 'pages/costModels/components/priceListToolbar';
+import { compareBy } from 'pages/costModels/components/rateForm/utils';
 import { RateTable } from 'pages/costModels/components/rateTable';
 import { CheckboxSelector } from 'pages/costModels/components/toolbar/checkboxSelector';
 import { PrimarySelector } from 'pages/costModels/components/toolbar/primarySelector';
@@ -35,6 +38,7 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
 import { rbacSelectors } from 'store/rbac';
+import { unitsLookupKey } from 'utils/format';
 
 import AddRateModal from './addRateModal';
 import Dialog from './dialog';
@@ -43,6 +47,10 @@ import UpdateRateModal from './updateRateModel';
 interface State {
   deleteRate: any;
   index: number;
+  sortBy: {
+    index: number;
+    direction: SortByDirection;
+  };
   pagination: {
     perPage: number;
     page: number;
@@ -69,6 +77,10 @@ class PriceListTable extends React.Component<Props, State> {
   public state = {
     deleteRate: null,
     index: -1,
+    sortBy: {
+      index: 0,
+      direction: SortByDirection.asc,
+    },
     pagination: {
       perPage: 10,
       page: 1,
@@ -80,12 +92,12 @@ class PriceListTable extends React.Component<Props, State> {
     const getMetricLabel = m => {
       // Match message descriptor or default to API string
       const value = m.replace(/ /g, '_').toLowerCase();
-      const label = intl.formatMessage(messages.MetricValues, { value });
+      const label = intl.formatMessage(messages.metricValues, { value });
       return label ? label : m;
     };
     const getMeasurementLabel = m => {
       // Match message descriptor or default to API string
-      const label = intl.formatMessage(messages.MeasurementValues, {
+      const label = intl.formatMessage(messages.measurementValues, {
         value: m.toLowerCase().replace('-', '_'),
         count: 1,
       });
@@ -115,7 +127,7 @@ class PriceListTable extends React.Component<Props, State> {
         <Dialog
           isSmall
           isOpen={isDialogOpen.deleteRate}
-          title={intl.formatMessage(messages.PriceListDeleteRate)}
+          title={intl.formatMessage(messages.priceListDeleteRate)}
           onClose={() => {
             this.props.setDialogOpen({ name: 'deleteRate', isOpen: false });
             this.setState({ deleteRate: null });
@@ -134,7 +146,7 @@ class PriceListTable extends React.Component<Props, State> {
           }}
           body={
             <>
-              {intl.formatMessage(messages.PriceListDeleteRateDesc, {
+              {intl.formatMessage(messages.priceListDeleteRateDesc, {
                 metric: <b>{metric}</b>,
                 costModel: <b>{cm}</b>,
                 count: showAssignees ? 2 : 1,
@@ -148,10 +160,19 @@ class PriceListTable extends React.Component<Props, State> {
               )}
             </>
           }
-          actionText={intl.formatMessage(messages.PriceListDeleteRate)}
+          actionText={intl.formatMessage(messages.priceListDeleteRate)}
         />
         <WithPriceListSearch initialFilters={{ primary: 'metrics', metrics: [], measurements: [] }}>
           {({ search, setSearch, onRemove, onSelect, onClearAll }) => {
+            const getMetric = value => intl.formatMessage(messages.metricValues, { value }) || value;
+            const getMeasurement = (measurement, units) => {
+              units = intl.formatMessage(messages.units, { units: unitsLookupKey(units) }) || units;
+              return intl.formatMessage(messages.measurementValues, {
+                value: measurement.toLowerCase().replace('-', '_'),
+                units,
+                count: 2,
+              });
+            };
             const from = (this.state.pagination.page - 1) * this.state.pagination.perPage;
             const to = this.state.pagination.page * this.state.pagination.perPage;
 
@@ -159,7 +180,16 @@ class PriceListTable extends React.Component<Props, State> {
               .filter(rate => search.metrics.length === 0 || search.metrics.includes(rate.metric.label_metric))
               .filter(
                 rate => search.measurements.length === 0 || search.measurements.includes(rate.metric.label_measurement)
-              );
+              )
+              .sort((r1, r2) => {
+                const projection =
+                  this.state.sortBy.index === 1
+                    ? (r: Rate) => getMetric(r.metric.label_metric)
+                    : this.state.sortBy.index === 2
+                    ? (r: Rate) => getMeasurement(r.metric.label_measurement, r.metric.label_measurement_unit)
+                    : () => '';
+                return compareBy(r1, r2, this.state.sortBy.direction, projection);
+              });
             const filtered = res.slice(from, to);
             return (
               <>
@@ -171,11 +201,11 @@ class PriceListTable extends React.Component<Props, State> {
                       setPrimary={(primary: string) => setSearch({ primary })}
                       options={[
                         {
-                          label: intl.formatMessage(messages.Metric),
+                          label: intl.formatMessage(messages.metric),
                           value: 'metrics',
                         },
                         {
-                          label: intl.formatMessage(messages.Measurement),
+                          label: intl.formatMessage(messages.measurement),
                           value: 'measurements',
                         },
                       ]}
@@ -187,7 +217,7 @@ class PriceListTable extends React.Component<Props, State> {
                       component: (
                         <CheckboxSelector
                           isDisabled={this.props.current.rates.length === 0}
-                          placeholderText={intl.formatMessage(messages.MeasurementPlaceholder)}
+                          placeholderText={intl.formatMessage(messages.measurementPlaceholder)}
                           selections={search.measurements}
                           setSelections={(selection: string) => onSelect('measurements', selection)}
                           options={measurementOpts}
@@ -201,7 +231,7 @@ class PriceListTable extends React.Component<Props, State> {
                       component: (
                         <CheckboxSelector
                           isDisabled={this.props.current.rates.length === 0}
-                          placeholderText={intl.formatMessage(messages.MetricPlaceholder)}
+                          placeholderText={intl.formatMessage(messages.metricPlaceholder)}
                           selections={search.metrics}
                           setSelections={(selection: string) => onSelect('metrics', selection)}
                           options={metricOpts}
@@ -222,7 +252,7 @@ class PriceListTable extends React.Component<Props, State> {
                         })
                       }
                     >
-                      {intl.formatMessage(messages.PriceListAddRate)}
+                      {intl.formatMessage(messages.priceListAddRate)}
                     </Button>
                   }
                   onClear={onClearAll}
@@ -254,9 +284,9 @@ class PriceListTable extends React.Component<Props, State> {
                       <EmptyState>
                         <EmptyStateIcon icon={FileInvoiceDollarIcon} />
                         <Title headingLevel="h2" size={TitleSizes.lg}>
-                          {intl.formatMessage(messages.PriceListEmptyRate)}
+                          {intl.formatMessage(messages.priceListEmptyRate)}
                         </Title>
-                        <EmptyStateBody>{intl.formatMessage(messages.PriceListEmptyRateDesc)}</EmptyStateBody>
+                        <EmptyStateBody>{intl.formatMessage(messages.priceListEmptyRateDesc)}</EmptyStateBody>
                       </EmptyState>
                     </Bullseye>
                   )}
@@ -265,12 +295,12 @@ class PriceListTable extends React.Component<Props, State> {
                     <RateTable
                       actions={[
                         {
-                          title: intl.formatMessage(messages.PriceListEditRate),
+                          title: intl.formatMessage(messages.priceListEditRate),
                           isDisabled: !isWritePermission,
                           // HACK: to display tooltip on disable
                           style: !isWritePermission ? { pointerEvents: 'auto' } : undefined,
                           tooltip: !isWritePermission ? (
-                            <div>{intl.formatMessage(messages.CostModelsReadOnly)}</div>
+                            <div>{intl.formatMessage(messages.costModelsReadOnly)}</div>
                           ) : undefined,
                           onClick: (_evt, _rowIndex, rowData) => {
                             this.setState({
@@ -284,12 +314,12 @@ class PriceListTable extends React.Component<Props, State> {
                           },
                         },
                         {
-                          title: intl.formatMessage(messages.Delete),
+                          title: intl.formatMessage(messages.delete),
                           isDisabled: !isWritePermission,
                           // HACK: to display tooltip on disable
                           style: !isWritePermission ? { pointerEvents: 'auto' } : {},
                           tooltip: !isWritePermission ? (
-                            <div>{intl.formatMessage(messages.CostModelsReadOnly)}</div>
+                            <div>{intl.formatMessage(messages.costModelsReadOnly)}</div>
                           ) : undefined,
                           onClick: (_evt, _rowIndex, rowData) => {
                             const rowIndex = rowData.data.index;
@@ -305,6 +335,12 @@ class PriceListTable extends React.Component<Props, State> {
                         },
                       ]}
                       tiers={filtered}
+                      sortCallback={e => {
+                        this.setState({
+                          ...this.state,
+                          sortBy: { ...e },
+                        });
+                      }}
                     />
 
                     <Toolbar id="price-list-toolbar-bottom">

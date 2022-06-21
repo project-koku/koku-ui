@@ -47,12 +47,12 @@ const AddPriceList: React.FunctionComponent<AddPriceListProps> = ({
     <Stack hasGutter>
       <StackItem>
         <Title headingLevel="h2" size={TitleSizes.xl}>
-          {intl.formatMessage(messages.CostModelsWizardCreatePriceList)}
+          {intl.formatMessage(messages.costModelsWizardCreatePriceList)}
         </Title>
       </StackItem>
       <StackItem>
         <TextContent>
-          <Text component={TextVariants.h6}>{intl.formatMessage(messages.CostModelsWizardPriceListMetric)}</Text>
+          <Text component={TextVariants.h6}>{intl.formatMessage(messages.costModelsWizardPriceListMetric)}</Text>
         </TextContent>
       </StackItem>
       <StackItem>
@@ -63,10 +63,10 @@ const AddPriceList: React.FunctionComponent<AddPriceListProps> = ({
       <StackItem>
         <ActionGroup>
           <Button variant={ButtonVariant.primary} isDisabled={!canSubmit} onClick={() => submitRate(rateFormData)}>
-            {intl.formatMessage(messages.CreateRate)}
+            {intl.formatMessage(messages.createRate)}
           </Button>
           <Button variant={ButtonVariant.link} onClick={cancel}>
-            {intl.formatMessage(messages.Cancel)}
+            {intl.formatMessage(messages.cancel)}
           </Button>
         </ActionGroup>
       </StackItem>

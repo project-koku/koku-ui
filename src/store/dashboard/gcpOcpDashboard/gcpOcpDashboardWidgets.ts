@@ -8,7 +8,8 @@ import {
   ComputedReportItemValueType,
 } from 'pages/views/components/charts/common/chartDatumUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
-import { formatUnits } from 'utils/format';
+import { gcpDashboardWidgets } from 'store/dashboard/gcpDashboard';
+import { formatCurrency, formatUnits } from 'utils/format';
 
 import { GcpOcpDashboardTab, GcpOcpDashboardWidget } from './gcpOcpDashboardCommon';
 
@@ -17,16 +18,16 @@ const getId = () => currrentId++;
 
 export const computeWidget: GcpOcpDashboardWidget = {
   id: getId(),
-  titleKey: messages.GCPComputeTitle,
+  titleKey: messages.gcpComputeTitle,
   forecastPathsType: ForecastPathsType.gcpOcp,
   reportPathsType: ReportPathsType.gcpOcp,
   reportType: ReportType.instanceType,
   details: {
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showUnits: true,
     showUsageFirst: true,
     showUsageLegendLabel: true,
-    usageKey: messages.Usage,
+    usageKey: messages.usage,
   },
   filter: {
     service: 'Compute Engine',
@@ -37,7 +38,7 @@ export const computeWidget: GcpOcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.DashboardDailyUsageComparison,
+    titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
   chartFormatter: formatUnits,
@@ -46,14 +47,14 @@ export const computeWidget: GcpOcpDashboardWidget = {
 
 export const costSummaryWidget: GcpOcpDashboardWidget = {
   id: getId(),
-  titleKey: messages.GCPCostTitle,
+  titleKey: messages.gcpCostTitle,
   forecastPathsType: ForecastPathsType.gcpOcp,
   forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.gcpOcp,
   reportType: ReportType.cost,
   details: {
     adjustContainerHeight: true,
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showHorizontal: true,
   },
   tabsFilter: {
@@ -63,80 +64,84 @@ export const costSummaryWidget: GcpOcpDashboardWidget = {
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    dailyTitleKey: messages.GCPDailyCostTrendTitle,
-    titleKey: messages.GCPCostTrendTitle,
+    dailyTitleKey: messages.gcpDailyCostTrendTitle,
+    titleKey: messages.gcpCostTrendTitle,
     type: ChartType.rolling,
   },
   availableTabs: [GcpOcpDashboardTab.services, GcpOcpDashboardTab.gcpProjects, GcpOcpDashboardTab.regions],
+  chartFormatter: formatCurrency,
   chartType: DashboardChartType.dailyTrend,
   currentTab: GcpOcpDashboardTab.services,
 };
 
 export const databaseWidget: GcpOcpDashboardWidget = {
   id: getId(),
-  titleKey: messages.DashboardDatabaseTitle,
+  titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.gcpOcp,
   reportType: ReportType.database,
   details: {
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showUnits: true,
   },
   filter: {
-    service: 'Bigtable,Datastore,Database Migrations,Firestore,MemoryStore,Spanner,SQL',
+    service: gcpDashboardWidgets.databaseWidget.filter.service,
   },
   tabsFilter: {
-    service: 'Bigtable,Datastore,Database Migrations,Firestore,MemoryStore,Spanner,SQL',
+    service: gcpDashboardWidgets.databaseWidget.tabsFilter.service,
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.DashboardCumulativeCostComparison,
+    titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
+  chartFormatter: formatCurrency,
   chartType: DashboardChartType.trend,
 };
 
 export const networkWidget: GcpOcpDashboardWidget = {
   id: getId(),
-  titleKey: messages.DashboardNetworkTitle,
+  titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.gcpOcp,
   reportType: ReportType.network,
   details: {
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showUnits: true,
   },
   filter: {
-    service: 'Cloud DNS',
+    service: gcpDashboardWidgets.networkWidget.filter.service,
   },
   tabsFilter: {
-    service: 'Cloud DNS',
+    service: gcpDashboardWidgets.networkWidget.tabsFilter.service,
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.DashboardCumulativeCostComparison,
+    titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
+  chartFormatter: formatCurrency,
   chartType: DashboardChartType.trend,
 };
 
 export const storageWidget: GcpOcpDashboardWidget = {
   id: getId(),
-  titleKey: messages.DashboardStorageTitle,
+  titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.gcpOcp,
   reportType: ReportType.storage,
   details: {
-    costKey: messages.Cost,
+    costKey: messages.cost,
     showUnits: true,
     showUsageFirst: true,
     showUsageLegendLabel: true,
-    usageKey: messages.Usage,
+    usageKey: messages.usage,
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
-    titleKey: messages.DashboardDailyUsageComparison,
+    titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
+  chartFormatter: formatUnits,
   chartType: DashboardChartType.trend,
 };

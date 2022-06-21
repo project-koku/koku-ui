@@ -16,7 +16,6 @@ import { GroupByOrg } from './groupByOrg';
 import { GroupByTag } from './groupByTag';
 
 interface GroupByOwnProps extends WrappedComponentProps {
-  endDate?: string;
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
   isDisabled?: boolean;
@@ -30,7 +29,6 @@ interface GroupByOwnProps extends WrappedComponentProps {
   perspective?: PerspectiveType;
   showOrgs?: boolean;
   showTags?: boolean;
-  startDate?: string;
   tagQueryString?: string;
   tagReportPathsType: TagPathsType;
 }
@@ -220,7 +218,7 @@ class GroupByBase extends React.Component<GroupByProps> {
       allOptions.push(...groupByTagOptions);
     }
     return allOptions.map(option => ({
-      toString: () => intl.formatMessage(messages.GroupByValuesTitleCase, { value: option.label, count: 1 }),
+      toString: () => intl.formatMessage(messages.groupByValuesTitleCase, { value: option.label, count: 1 }),
       value: option.value,
     }));
   };
@@ -265,7 +263,7 @@ class GroupByBase extends React.Component<GroupByProps> {
     return (
       <div style={styles.groupBySelector}>
         <Title headingLevel="h3" size="md" style={styles.groupBySelectorLabel}>
-          {intl.formatMessage(messages.GroupByLabel)}
+          {intl.formatMessage(messages.groupByLabel)}
         </Title>
         {this.getGroupBy()}
         {Boolean(isGroupByOrgVisible) && (
@@ -293,25 +291,11 @@ class GroupByBase extends React.Component<GroupByProps> {
 }
 
 const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>(
-  (state, { endDate, startDate, orgReportPathsType, tagReportPathsType }) => {
-    const tagQuery =
-      endDate && startDate
-        ? {
-            start_date: startDate,
-            end_date: endDate,
-          }
-        : {
-            filter: {
-              resolution: 'monthly',
-              time_scope_units: 'month',
-              time_scope_value: -1,
-            },
-          };
-
+  (state, { orgReportPathsType, tagReportPathsType }) => {
     // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
     const tagQueryString = getQuery({
-      ...tagQuery,
       key_only: true,
+      limit: 1000,
     });
     const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
     const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
@@ -322,7 +306,8 @@ const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps
     );
 
     const orgQueryString = getQuery({
-      // TBD...
+      key_only: true,
+      limit: 1000,
     });
     const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, orgQueryString);
     const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(

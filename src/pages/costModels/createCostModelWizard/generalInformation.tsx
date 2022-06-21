@@ -1,7 +1,6 @@
 import {
   FormGroup,
-  FormSelect,
-  FormSelectOption,
+  SelectDirection,
   Stack,
   StackItem,
   TextArea,
@@ -12,6 +11,7 @@ import {
 import messages from 'locales/messages';
 import { currencyOptions } from 'pages/components/currency';
 import { Form } from 'pages/costModels/components/forms/form';
+import { Selector } from 'pages/costModels/components/inputs/selector';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
@@ -41,7 +41,29 @@ type GeneralInformationProps = GeneralInformationOwnProps &
 
 class GeneralInformation extends React.Component<GeneralInformationProps> {
   public render() {
+    const getValueLabel = (valStr: string, options) => {
+      const val = options.find(o => o.value === valStr);
+      return !val ? valStr : intl.formatMessage(val.label, { units: val.value });
+    };
     const { intl } = this.props;
+    const sourceTypeOptions = [
+      {
+        label: messages.costModelsWizardOnboardAws,
+        value: 'AWS',
+      },
+      {
+        label: messages.azure,
+        value: 'Azure',
+      },
+      {
+        label: messages.gcp,
+        value: 'GCP',
+      },
+      {
+        label: messages.costModelsWizardOnboardOcp,
+        value: 'OCP',
+      },
+    ];
 
     return (
       <CostModelContext.Consumer>
@@ -59,12 +81,12 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
           <Stack hasGutter>
             <StackItem>
               <Title headingLevel="h2" size={TitleSizes.xl}>
-                {intl.formatMessage(messages.CostModelsWizardGeneralInfoTitle)}
+                {intl.formatMessage(messages.costModelsWizardGeneralInfoTitle)}
               </Title>
             </StackItem>
             <StackItem>
-              <a href={intl.formatMessage(messages.DocsConfigCostModels)} rel="noreferrer" target="_blank">
-                {intl.formatMessage(messages.LearnMore)}
+              <a href={intl.formatMessage(messages.docsConfigCostModels)} rel="noreferrer" target="_blank">
+                {intl.formatMessage(messages.learnMore)}
               </a>
             </StackItem>
             <StackItem>
@@ -72,7 +94,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                 <FormGroup
                   helperTextInvalid={nameErrors(name)}
                   validated={nameErrors(name) === null || !dirtyName ? 'default' : 'error'}
-                  label={intl.formatMessage(messages.Names, { count: 1 })}
+                  label={intl.formatMessage(messages.names, { count: 1 })}
                   isRequired
                   fieldId="name"
                 >
@@ -89,7 +111,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                 <FormGroup
                   helperTextInvalid={descriptionErrors(description)}
                   validated={descriptionErrors(description) === null ? 'default' : 'error'}
-                  label={intl.formatMessage(messages.Description)}
+                  label={intl.formatMessage(messages.description)}
                   fieldId="description"
                 >
                   <TextArea
@@ -102,32 +124,38 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                     onChange={onDescChange}
                   />
                 </FormGroup>
-                <FormGroup label={intl.formatMessage(messages.CostModelsSourceType)} isRequired fieldId="source-type">
-                  <FormSelect id="source-type" value={type} onChange={onTypeChange}>
-                    <FormSelectOption
-                      value=""
-                      label={intl.formatMessage(messages.CostModelsWizardEmptySourceTypeLabel)}
-                    />
-                    <FormSelectOption value="AWS" label={intl.formatMessage(messages.CostModelsWizardOnboardAWS)} />
-                    <FormSelectOption value="Azure" label={intl.formatMessage(messages.Azure)} />
-                    <FormSelectOption value="GCP" label={intl.formatMessage(messages.GCP)} />
-                    <FormSelectOption value="OCP" label={intl.formatMessage(messages.CostModelsWizardOnboardOCP)} />
-                  </FormSelect>
-                </FormGroup>
+                <Selector
+                  isRequired
+                  id="source-type-selector"
+                  direction={SelectDirection.up}
+                  appendMenuTo="inline"
+                  maxHeight={styles.selector.maxHeight}
+                  label={messages.costModelsSourceType}
+                  toggleAriaLabel={intl.formatMessage(messages.costModelsWizardEmptySourceTypeLabel)}
+                  placeholderText={intl.formatMessage(messages.costModelsWizardEmptySourceTypeLabel)}
+                  value={getValueLabel(type, sourceTypeOptions)}
+                  onChange={onTypeChange}
+                  options={sourceTypeOptions}
+                />
                 {
                   /* Todo: Show in-progress features in beta environment only */
                   isFeatureVisible(FeatureType.currency) && (
-                    <FormGroup label={intl.formatMessage(messages.Currency)} fieldId="currency-units">
-                      <FormSelect id="currency-units" value={currencyUnits} onChange={onCurrencyChange}>
-                        {currencyOptions.map(option => (
-                          <FormSelectOption
-                            key={option.value}
-                            label={intl.formatMessage(option.label, { units: option.value })}
-                            value={option.value}
-                          />
-                        ))}
-                      </FormSelect>
-                    </FormGroup>
+                    <Selector
+                      label={messages.currency}
+                      direction={SelectDirection.up}
+                      appendMenuTo="inline"
+                      maxHeight={styles.selector.maxHeight}
+                      toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
+                      value={getValueLabel(currencyUnits, currencyOptions)}
+                      onChange={onCurrencyChange}
+                      id="currency-units-selector"
+                      options={currencyOptions.map(o => {
+                        return {
+                          label: intl.formatMessage(o.label, { units: o.value }),
+                          value: o.value,
+                        };
+                      })}
+                    />
                   )
                 }
               </Form>

@@ -67,24 +67,24 @@ const formatTypeOptions: {
   label: MessageDescriptor;
   value: string;
 }[] = [
-  { label: messages.ExportFormatType, value: 'csv' },
-  { label: messages.ExportFormatType, value: 'json' },
+  { label: messages.exportFormatType, value: 'csv' },
+  { label: messages.exportFormatType, value: 'json' },
 ];
 
 const resolutionOptions: {
   label: MessageDescriptor;
   value: string;
 }[] = [
-  { label: messages.ExportResolution, value: 'daily' },
-  { label: messages.ExportResolution, value: 'monthly' },
+  { label: messages.exportResolution, value: 'daily' },
+  { label: messages.exportResolution, value: 'monthly' },
 ];
 
 const timeScopeOptions: {
   label: MessageDescriptor;
   value: string;
 }[] = [
-  { label: messages.ExportTimeScope, value: 'current' },
-  { label: messages.ExportTimeScope, value: 'previous' },
+  { label: messages.exportTimeScope, value: 'current' },
+  { label: messages.exportTimeScope, value: 'previous' },
 ];
 
 export class ExportModalBase extends React.Component<ExportModalProps, ExportModalState> {
@@ -132,11 +132,11 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
 
   private nameValidator = value => {
     if (value.trim().length === 0) {
-      return messages.ExportNameRequired;
+      return messages.exportNameRequired;
     }
     // Todo: what is the max length allowed?
     if (value.length > 50) {
-      return messages.ExportNameTooLong;
+      return messages.exportNameTooLong;
     }
     return undefined;
   };
@@ -161,7 +161,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       if (items && items.length === 0 && isAllItems) {
         sortedItems = [
           {
-            label: intl.formatMessage(messages.ExportAll) as string,
+            label: intl.formatMessage(messages.exportAll) as string,
           },
         ];
       } else {
@@ -169,9 +169,9 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       }
     }
 
-    let selectedLabel = intl.formatMessage(messages.ExportSelected, { groupBy, count });
+    let selectedLabel = intl.formatMessage(messages.exportSelected, { groupBy, count });
     if (groupBy.indexOf(tagPrefix) !== -1) {
-      selectedLabel = intl.formatMessage(messages.ExportSelected, { groupBy: 'tag', count });
+      selectedLabel = intl.formatMessage(messages.exportSelected, { groupBy: 'tag', count });
     }
 
     const thisMonth = new Date();
@@ -182,7 +182,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
     const defaultName =
       name !== undefined
         ? name
-        : intl.formatMessage(messages.ExportName, {
+        : intl.formatMessage(messages.exportName, {
             provider: reportPathsType,
             groupBy: groupBy.indexOf(tagPrefix) !== -1 ? 'tag' : groupBy,
           });
@@ -195,7 +195,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
         style={styles.modal}
         isOpen={this.props.isOpen}
         onClose={this.handleClose}
-        title={intl.formatMessage(messages.ExportTitle)}
+        title={intl.formatMessage(messages.exportTitle)}
         variant="small"
         actions={[
           <ExportSubmit
@@ -219,19 +219,19 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             onClick={this.handleClose}
             variant={ButtonVariant.link}
           >
-            {intl.formatMessage(messages.Cancel)}
+            {intl.formatMessage(messages.cancel)}
           </Button>,
         ]}
       >
-        {error && <Alert variant="danger" style={styles.alert} title={intl.formatMessage(messages.ExportError)} />}
+        {error && <Alert variant="danger" style={styles.alert} title={intl.formatMessage(messages.exportError)} />}
         <div style={styles.title}>
           {/* Todo: Show in-progress features in beta environment only */}
           {isFeatureVisible(FeatureType.exports) ? (
             <span>
-              {intl.formatMessage(messages.ExportDesc, { value: <b>{intl.formatMessage(messages.ExportsTitle)}</b> })}
+              {intl.formatMessage(messages.exportDesc, { value: <b>{intl.formatMessage(messages.exportsTitle)}</b> })}
             </span>
           ) : (
-            <span>{intl.formatMessage(messages.ExportHeading, { groupBy })}</span>
+            <span>{intl.formatMessage(messages.exportHeading, { groupBy })}</span>
           )}
         </div>
         <Form style={styles.form}>
@@ -242,7 +242,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                 <FormGroup
                   fieldId="exportName"
                   helperTextInvalid={helpText ? intl.formatMessage(helpText) : undefined}
-                  label={intl.formatMessage(messages.Names, { count: 1 })}
+                  label={intl.formatMessage(messages.names, { count: 1 })}
                   isRequired
                   validated={validated}
                 >
@@ -258,7 +258,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
               </GridItem>
             )}
             {showAggregateType && (
-              <FormGroup fieldId="aggregate-type" label={intl.formatMessage(messages.ExportAggregateType)} isRequired>
+              <FormGroup fieldId="aggregate-type" label={intl.formatMessage(messages.exportAggregateType)} isRequired>
                 <React.Fragment>
                   {resolutionOptions.map((option, index) => (
                     <Radio
@@ -277,7 +277,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
               </FormGroup>
             )}
             {showTimeScope && (
-              <FormGroup fieldId="timeScope" label={intl.formatMessage(messages.ExportTimeScopeTitle)} isRequired>
+              <FormGroup fieldId="timeScope" label={intl.formatMessage(messages.exportTimeScopeTitle)} isRequired>
                 <React.Fragment>
                   {timeScopeOptions.map((option, index) => (
                     <Radio
@@ -304,7 +304,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             {/* Todo: Show in-progress features in beta environment only */}
             {showFormatType && isFeatureVisible(FeatureType.exports) && (
               <GridItem span={12}>
-                <FormGroup fieldId="formatType" label={intl.formatMessage(messages.ExportFormatTypeTitle)} isRequired>
+                <FormGroup fieldId="formatType" label={intl.formatMessage(messages.exportFormatTypeTitle)} isRequired>
                   {formatTypeOptions.map((option, index) => (
                     <Radio
                       key={index}

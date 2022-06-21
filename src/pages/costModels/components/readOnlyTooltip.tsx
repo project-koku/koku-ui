@@ -14,7 +14,7 @@ export const ReadOnlyTooltip: React.FunctionComponent<ReadOnlyTooltipBase> = ({
 }) => {
   return isDisabled ? (
     <Tooltip isContentLeftAligned content={<div>{tooltip}</div>}>
-      <div>{children}</div>
+      <div aria-label="Read only">{children}</div>
     </Tooltip>
   ) : (
     children

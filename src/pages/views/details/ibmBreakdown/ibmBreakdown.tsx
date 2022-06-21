@@ -86,7 +86,7 @@ const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, IbmBreakdown
     costOverviewComponent: <CostOverview groupBy={groupBy} query={query} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
-    emptyStateTitle: props.intl.formatMessage(messages.IBMDetailsTitle),
+    emptyStateTitle: props.intl.formatMessage(messages.ibmDetailsTitle),
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData />,

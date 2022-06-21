@@ -89,7 +89,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
     const { endDate, groupBy, intl, reportPathsType, resolution, startDate } = this.props;
 
     // defaultMessage: '<provider>_<groupBy>_<resolution>_<start-date>_<end-date>',
-    const fileName = intl.formatMessage(messages.ExportFileName, {
+    const fileName = intl.formatMessage(messages.exportFileName, {
       endDate,
       provider: reportPathsType,
       groupBy: groupBy.indexOf(tagPrefix) !== -1 ? 'tag' : groupBy,
@@ -136,7 +136,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
         onClick={this.handleFetchReport}
         variant={ButtonVariant.primary}
       >
-        {intl.formatMessage(messages.ExportGenerate)}
+        {intl.formatMessage(messages.exportGenerate)}
       </Button>
     );
   }

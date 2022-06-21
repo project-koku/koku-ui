@@ -14,16 +14,15 @@ import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { formatCurrencyRate, unFormat } from 'utils/format';
+import { formatCurrencyRate, unitsLookupKey } from 'utils/format';
 
-import { compareBy } from './rateForm/utils';
 import TagRateTable from './tagRateTable';
 
 interface RateTableProps extends WrappedComponentProps {
   actions?: IActions;
   isCompact?: boolean;
-  isNormalized?: boolean; // Normalize rates to format currency in current locale
   tiers: Rate[];
+  sortCallback?: ({ index: number, direction: any }) => void;
 }
 
 // defaultIntl required for testing
@@ -31,74 +30,72 @@ const RateTableBase: React.SFC<RateTableProps> = ({
   actions,
   intl = defaultIntl,
   isCompact,
-  isNormalized = false,
   tiers,
+  sortCallback = () => {},
 }) => {
   const [expanded, setExpanded] = React.useState({});
   const [sortBy, setSortBy] = React.useState<ISortBy>({});
+  const getMetric = value => intl.formatMessage(messages.metricValues, { value }) || value;
+  const getMeasurement = (measurement, units) => {
+    units = intl.formatMessage(messages.units, { units: unitsLookupKey(units) }) || units;
+    return intl.formatMessage(messages.measurementValues, {
+      value: measurement.toLowerCase().replace('-', '_'),
+      units,
+      count: 2,
+    });
+  };
   const onSort = (_event, index: number, direction: SortByDirection) => {
     setSortBy({ index, direction });
+    sortCallback({ index, direction });
   };
   let counter = 0;
-  const rows = tiers
-    .sort((r1, r2) => {
-      const projection =
-        sortBy.index === 1
-          ? (r: Rate) => r.metric.label_metric
-          : sortBy.index === 2
-          ? (r: Rate) => r.metric.label_measurement
-          : () => '';
-      return compareBy(r1, r2, sortBy.direction, projection);
-    })
-    .reduce((acc, tier, ix) => {
-      const rateKind = tier.tiered_rates ? 'regular' : 'tagging';
-      let compoundRows = [];
-      if (rateKind === 'tagging') {
-        compoundRows = [
-          {
-            compoundParent: 4,
-            parent: ix + counter,
-            cells: [
-              {
-                title: <TagRateTable isNormalized={isNormalized} tagRates={tier.tag_rates} />,
-                props: { colSpan: 6, className: 'pf-m-no-padding' },
-              },
-            ],
-          },
-        ];
-        counter += 1;
-      }
-      const isOpen = rateKind === 'tagging' ? expanded[ix + counter - 1] || false : undefined;
-      const tierRate = tier.tiered_rates ? tier.tiered_rates[0].value : 0;
-      const tierRateValue = Number(isNormalized ? unFormat(tierRate.toString()) : tierRate);
-
-      return [
-        ...acc,
+  const rows = tiers.reduce((acc, tier, ix) => {
+    const rateKind = tier.tiered_rates ? 'regular' : 'tagging';
+    let compoundRows = [];
+    if (rateKind === 'tagging') {
+      compoundRows = [
         {
-          data: { index: ix, hasChildren: rateKind === 'tagging' },
+          compoundParent: 4,
+          parent: ix + counter,
           cells: [
-            tier.description || '',
-            tier.metric.label_metric,
-            `${tier.metric.label_measurement} (${tier.metric.label_measurement_unit})`,
-            tier.cost_type,
             {
-              title:
-                rateKind === 'regular'
-                  ? formatCurrencyRate(tierRateValue, tier.tiered_rates[0].unit)
-                  : intl.formatMessage(messages.Various),
-              props: { isOpen, style: { padding: rateKind === 'tagging' ? '' : '1.5rem 1rem' } },
+              title: <TagRateTable tagRates={tier.tag_rates} />,
+              props: { colSpan: 6, className: 'pf-m-no-padding' },
             },
           ],
         },
-        ...compoundRows,
       ];
-    }, []);
+      counter += 1;
+    }
+    const isOpen = rateKind === 'tagging' ? expanded[ix + counter - 1] || false : undefined;
+    const tierRate = tier.tiered_rates ? tier.tiered_rates[0].value : 0;
+    return [
+      ...acc,
+      {
+        data: { index: ix, hasChildren: rateKind === 'tagging' },
+        cells: [
+          tier.description || '',
+          getMetric(tier.metric.label_metric),
+          getMeasurement(tier.metric.label_measurement, tier.metric.label_measurement_unit),
+          tier.cost_type,
+          {
+            title:
+              rateKind === 'regular'
+                ? formatCurrencyRate(tierRate, tier.tiered_rates[0].unit)
+                : intl.formatMessage(messages.various),
+            props: { isOpen, style: { padding: rateKind === 'tagging' ? '' : '1.5rem 1rem' } },
+          },
+        ],
+      },
+      ...compoundRows,
+    ];
+  }, []);
   const cells = [
-    { title: intl.formatMessage(messages.Description) },
-    { title: intl.formatMessage(messages.Metric), ...(rows.length && { transforms: [sortable] }) },
-    { title: intl.formatMessage(messages.Measurement), ...(rows.length && { transforms: [sortable] }) },
-    { title: intl.formatMessage(messages.CalculationType) },
-    { title: intl.formatMessage(messages.Rate), cellTransforms: [compoundExpand] },
+    { title: intl.formatMessage(messages.description) },
+    { title: intl.formatMessage(messages.metric), ...(rows.length && { transforms: [sortable] }) },
+    { title: intl.formatMessage(messages.measurement), ...(rows.length && { transforms: [sortable] }) },
+    { title: intl.formatMessage(messages.calculationType) },
+    { title: intl.formatMessage(messages.rate), cellTransforms: [compoundExpand] },
   ];
   const onExpand = (_event: any, rowIndex: number, _colIndex: number, isOpen: boolean) => {
     setExpanded({ ...expanded, [rowIndex]: !isOpen });
@@ -113,7 +110,7 @@ const RateTableBase: React.SFC<RateTableProps> = ({
     <Table
       onSort={onSort}
       sortBy={sortBy}
-      aria-label={intl.formatMessage(messages.CostModelsWizardCreatePriceList)}
+      aria-label={intl.formatMessage(messages.costModelsWizardCreatePriceList)}
       variant={isCompact ? TableVariant.compact : undefined}
       rows={rows}
       cells={cells}

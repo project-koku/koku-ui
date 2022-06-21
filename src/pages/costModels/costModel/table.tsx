@@ -64,13 +64,13 @@ class TableBase extends React.Component<Props, State> {
     return (
       <>
         <Title headingLevel="h2" size={TitleSizes.md} style={styles.sourceTypeTitle}>
-          {intl.formatMessage(messages.CostModelsSourceType)}: {current.source_type}
+          {intl.formatMessage(messages.costModelsSourceType)}: {current.source_type}
         </Title>
         <SourcesToolbar
           actionButtonProps={{
             isDisabled: !isWritePermission,
             onClick: onAdd,
-            children: intl.formatMessage(messages.CostModelsAssignSources, { count: 1 }),
+            children: intl.formatMessage(messages.costModelsAssignSources, { count: 1 }),
           }}
           filter={{
             onClearAll: () =>
@@ -85,7 +85,7 @@ class TableBase extends React.Component<Props, State> {
               });
             },
             query: this.state.query,
-            categoryNames: { name: intl.formatMessage(messages.Names, { count: 1 }) },
+            categoryNames: { name: intl.formatMessage(messages.names, { count: 1 }) },
           }}
           filterInputProps={{
             id: 'sources-tab-toolbar',
@@ -102,7 +102,7 @@ class TableBase extends React.Component<Props, State> {
               });
             },
             value: this.state.currentFilter,
-            placeholder: intl.formatMessage(messages.CostModelsFilterPlaceholder),
+            placeholder: intl.formatMessage(messages.costModelsFilterPlaceholder),
           }}
         />
         {res.length > 0 && (
@@ -117,14 +117,14 @@ class TableBase extends React.Component<Props, State> {
             <EmptyState>
               <EmptyStateIcon icon={DollarSignIcon} />
               <Title headingLevel="h2" size={TitleSizes.lg}>
-                {intl.formatMessage(messages.CostModelsSourceEmptyStateDesc)}
+                {intl.formatMessage(messages.costModelsSourceEmptyStateDesc)}
               </Title>
-              <EmptyStateBody>{intl.formatMessage(messages.CostModelsSourceEmptyStateTitle)}</EmptyStateBody>
+              <EmptyStateBody>{intl.formatMessage(messages.costModelsSourceEmptyStateTitle)}</EmptyStateBody>
             </EmptyState>
           </div>
         )}
         {filteredRows.length === 0 && rows.length > 0 && (
-          <EmptyFilterState filter={this.state.filter} subTitle={messages.EmptyFilterSourceStateSubtitle} />
+          <EmptyFilterState filter={this.state.filter} subTitle={messages.emptyFilterSourceStateSubtitle} />
         )}
       </>
     );

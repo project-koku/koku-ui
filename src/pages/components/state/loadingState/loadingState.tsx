@@ -10,8 +10,8 @@ interface LoadingStateProps extends WrappedComponentProps {
 
 // defaultIntl required for testing
 const LoadingStateBase: React.SFC<LoadingStateProps> = ({ intl = defaultIntl }) => {
-  const title = intl.formatMessage(messages.LoadingStateTitle);
-  const subTitle = intl.formatMessage(messages.LoadingStateDesc);
+  const title = intl.formatMessage(messages.loadingStateTitle);
+  const subTitle = intl.formatMessage(messages.loadingStateDesc);
 
   return (
     <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">

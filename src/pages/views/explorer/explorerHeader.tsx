@@ -20,9 +20,8 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
-import { getLast60DaysDate } from 'utils/dateRange';
+import { CostTypes } from 'utils/costType';
 import { FeatureType, isFeatureVisible } from 'utils/feature';
-import { getCostType } from 'utils/localStorage';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -61,6 +60,7 @@ import {
 } from './explorerUtils';
 
 interface ExplorerHeaderOwnProps {
+  costType?: CostTypes;
   groupBy?: string;
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
@@ -185,7 +185,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       group_by: { [getGroupByDefault(value)]: '*' },
       order_by: undefined, // Clear sort
       perspective: value,
-      ...(value === PerspectiveType.aws && { cost_type: getCostType() }),
     };
     this.setState({ currentPerspective: value }, () => {
       if (onPerspectiveClicked) {
@@ -262,6 +261,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
   public render() {
     const {
+      costType,
       groupBy,
       intl,
       onFilterAdded,
@@ -285,14 +285,11 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     const resourcePathsType = getResourcePathsType(perspective);
     const tagReportPathsType = getTagReportPathsType(perspective);
 
-    // Fetch tags with largest date range available
-    const { start_date, end_date } = getLast60DaysDate();
-
     return (
       <header style={styles.header}>
         <div style={styles.headerContent}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {intl.formatMessage(messages.ExplorerTitle)}
+            {intl.formatMessage(messages.explorerTitle)}
           </Title>
           <div style={styles.headerContentRight}>
             {/* Todo: Show in-progress features in beta environment only */}
@@ -304,7 +301,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
           {this.getPerspective(noProviders)}
           <div style={styles.groupBy}>
             <GroupBy
-              endDate={end_date}
               getIdKeyForGroupBy={getIdKeyForGroupBy}
               groupBy={groupBy}
               isDisabled={noProviders}
@@ -314,13 +310,12 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
               perspective={perspective}
               showOrgs={orgReportPathsType}
               showTags={tagReportPathsType}
-              startDate={start_date}
               tagReportPathsType={tagReportPathsType}
             />
           </div>
           {perspective === PerspectiveType.aws && (
             <div style={styles.costType}>
-              <CostType onSelect={this.handleCostTypeSelected} />
+              <CostType onSelect={this.handleCostTypeSelected} costType={costType} />
             </div>
           )}
         </div>
@@ -340,7 +335,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHeaderStateProps>(
-  (state, { perspective }) => {
+  (state, { costType, perspective }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
     const dateRange = getDateRangeDefault(queryFromRoute);
     const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
@@ -381,7 +376,7 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       dateRange,
       start_date,
       end_date,
-      ...(perspective === PerspectiveType.aws && { cost_type: queryFromRoute.cost_type }),
+      ...(perspective === PerspectiveType.aws && { cost_type: costType }),
     };
     const queryString = getQuery({
       ...query,

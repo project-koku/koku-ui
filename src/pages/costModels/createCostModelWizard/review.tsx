@@ -32,14 +32,14 @@ const ReviewSuccessBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
       <EmptyState>
         <EmptyStateIcon icon={OkIcon} color="green" />
         <Title headingLevel="h2" size={TitleSizes.lg}>
-          {intl.formatMessage(messages.CostModelsWizardReviewStatusTitle)}
+          {intl.formatMessage(messages.costModelsWizardReviewStatusTitle)}
         </Title>
         <EmptyStateBody>
-          {intl.formatMessage(messages.CostModelsWizardReviewStatusSubTitle, { value: name })}
+          {intl.formatMessage(messages.costModelsWizardReviewStatusSubTitle, { value: name })}
         </EmptyStateBody>
         <EmptyStateSecondaryActions>
           <Button variant="link" onClick={onClose}>
-            {intl.formatMessage(messages.Close)}
+            {intl.formatMessage(messages.close)}
           </Button>
         </EmptyStateSecondaryActions>
       </EmptyState>
@@ -61,15 +61,15 @@ const ReviewDetailsBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
           <Stack hasGutter>
             <StackItem>
               <Title headingLevel="h2" size={TitleSizes.xl}>
-                {intl.formatMessage(messages.CostModelsWizardStepsReview)}
+                {intl.formatMessage(messages.costModelsWizardStepsReview)}
               </Title>
             </StackItem>
             <StackItem>
               <TextContent>
                 <Text component={TextVariants.h6}>
-                  {intl.formatMessage(messages.CostModelsWizardReviewStatusSubDetails, {
-                    create: <strong>{intl.formatMessage(messages.Create)}</strong>,
-                    back: <strong>{intl.formatMessage(messages.Back)}</strong>,
+                  {intl.formatMessage(messages.costModelsWizardReviewStatusSubDetails, {
+                    create: <strong>{intl.formatMessage(messages.create)}</strong>,
+                    back: <strong>{intl.formatMessage(messages.back)}</strong>,
                   })}
                 </Text>
               </TextContent>
@@ -78,51 +78,51 @@ const ReviewDetailsBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
               <TextContent>
                 <TextList component={TextListVariants.dl}>
                   <TextListItem component={TextListItemVariants.dt}>
-                    {intl.formatMessage(messages.Names, { count: 1 })}
+                    {intl.formatMessage(messages.names, { count: 1 })}
                   </TextListItem>
                   <TextListItem component={TextListItemVariants.dd}>{name}</TextListItem>
                   <TextListItem component={TextListItemVariants.dt}>
-                    {intl.formatMessage(messages.Description)}
+                    {intl.formatMessage(messages.description)}
                   </TextListItem>
                   <TextListItem component={TextListItemVariants.dd}>{description}</TextListItem>
                   <TextListItem component={TextListItemVariants.dt}>
-                    {intl.formatMessage(messages.Currency)}
+                    {intl.formatMessage(messages.currency)}
                   </TextListItem>
                   <TextListItem component={TextListItemVariants.dd}>
-                    {intl.formatMessage(messages.CurrencyOptions, { units: currencyUnits })}
+                    {intl.formatMessage(messages.currencyOptions, { units: currencyUnits })}
                   </TextListItem>
                   {type === 'OCP' && (
                     <>
                       <TextListItem component={TextListItemVariants.dt}>
-                        {intl.formatMessage(messages.PriceList)}
+                        {intl.formatMessage(messages.priceList)}
                       </TextListItem>
                       <TextListItem component={TextListItemVariants.dd}>
                         {tiers.length > 0 ? (
-                          <RateTable isNormalized tiers={tiers} />
+                          <RateTable tiers={tiers} />
                         ) : (
-                          intl.formatMessage(messages.CostModelsWizardNoRatesAdded)
+                          intl.formatMessage(messages.costModelsWizardNoRatesAdded)
                         )}
                       </TextListItem>
                     </>
                   )}
                   <TextListItem component={TextListItemVariants.dt}>
-                    {intl.formatMessage(messages.CostModelsWizardReviewMarkDiscount)}
+                    {intl.formatMessage(messages.costModelsWizardReviewMarkDiscount)}
                   </TextListItem>
                   <TextListItem component={TextListItemVariants.dd}>
-                    {intl.formatMessage(messages.Percent, { value: isDiscount ? '-' + markup : markup })}
+                    {intl.formatMessage(messages.percent, { value: isDiscount ? '-' + markup : markup })}
                   </TextListItem>
                   {type === 'OCP' && (
                     <>
                       <TextListItem component={TextListItemVariants.dt}>
-                        {intl.formatMessage(messages.DistributionType)}
+                        {intl.formatMessage(messages.distributionType)}
                       </TextListItem>
                       <TextListItem component={TextListItemVariants.dd}>{distribution}</TextListItem>
                     </>
                   )}
                   <TextListItem component={TextListItemVariants.dt}>
-                    {intl.formatMessage(messages.CostModelsAssignSources, { count: 2 })}{' '}
+                    {intl.formatMessage(messages.costModelsAssignSources, { count: 2 })}{' '}
                     {selectedSources.find(src => Boolean(src.costmodel)) && (
-                      <WarningIcon text={intl.formatMessage(messages.CostModelsWizardWarningSources)} />
+                      <WarningIcon text={intl.formatMessage(messages.costModelsWizardWarningSources)} />
                     )}
                   </TextListItem>
                   <TextListItem component={TextListItemVariants.dd}>

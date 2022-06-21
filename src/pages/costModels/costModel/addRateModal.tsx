@@ -54,7 +54,7 @@ export const AddRateModalBase: React.FunctionComponent<AddRateModalBaseProps> = 
 
   return (
     <Modal
-      title={intl.formatMessage(messages.PriceListAddRate)}
+      title={intl.formatMessage(messages.priceListAddRate)}
       isOpen={isOpen}
       onClose={onClose}
       variant="large"
@@ -65,16 +65,16 @@ export const AddRateModalBase: React.FunctionComponent<AddRateModalBaseProps> = 
           isDisabled={!canSubmit || isProcessing}
           onClick={onProceed}
         >
-          {intl.formatMessage(messages.PriceListAddRate)}
+          {intl.formatMessage(messages.priceListAddRate)}
         </Button>,
         <Button key="cancel" variant={ButtonVariant.link} isDisabled={isProcessing} onClick={onClose}>
-          {intl.formatMessage(messages.Cancel)}
+          {intl.formatMessage(messages.cancel)}
         </Button>,
       ]}
     >
       <Form>
         {updateError && <Alert variant="danger" title={`${updateError}`} />}
-        <RateForm metricsHash={metricsHash} rateFormData={rateFormData} />
+        <RateForm currencyUnits={costModel.currency} metricsHash={metricsHash} rateFormData={rateFormData} />
       </Form>
     </Modal>
   );

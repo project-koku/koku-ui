@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { emptyPage, noMatchPageName, page1 } from 'api/costModels.data';
 import { createMemoryHistory } from 'history';
 import messages from 'locales/messages';
@@ -29,8 +29,8 @@ function regExp(msg) {
 }
 
 test('loading table', () => {
-  const { queryAllByText } = renderUI({});
-  expect(queryAllByText(/Looking for sources/i)).toHaveLength(1);
+  renderUI({});
+  expect(screen.queryAllByText(/Looking for sources/i)).toHaveLength(1);
 });
 
 // Todo: Replace no_cost_models_title with default message string
@@ -43,8 +43,8 @@ test('empty table', () => {
       query: initialCostModelsQuery,
     },
   };
-  const { queryAllByText } = renderUI(state);
-  expect(queryAllByText(regExp(messages.CostModelsEmptyState))).toHaveLength(1);
+  renderUI(state);
+  expect(screen.queryAllByText(regExp(messages.costModelsEmptyState))).toHaveLength(1);
 });
 
 test('first page table', () => {
@@ -56,10 +56,10 @@ test('first page table', () => {
       query: initialCostModelsQuery,
     },
   };
-  const { queryAllByText } = renderUI(state);
-  expect(queryAllByText(/Cost Management Azure Cost Model/i)).toHaveLength(1);
-  expect(queryAllByText(/Cost Management AWS Cost Model/i)).toHaveLength(1);
-  expect(queryAllByText(/Cost Management OpenShift Cost Model/i)).toHaveLength(1);
+  renderUI(state);
+  expect(screen.queryAllByText(/Cost Management Azure Cost Model/i)).toHaveLength(1);
+  expect(screen.queryAllByText(/Cost Management AWS Cost Model/i)).toHaveLength(1);
+  expect(screen.queryAllByText(/Cost Management OpenShift Cost Model/i)).toHaveLength(1);
 });
 
 test('no match table', () => {
@@ -71,6 +71,6 @@ test('no match table', () => {
       query: initialCostModelsQuery,
     },
   };
-  const { queryAllByText } = renderUI(state);
-  expect(queryAllByText(/No match found/i)).toHaveLength(1);
+  renderUI(state);
+  expect(screen.queryAllByText(/No match found/i)).toHaveLength(1);
 });

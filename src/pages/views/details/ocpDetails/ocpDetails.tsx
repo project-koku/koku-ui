@@ -83,16 +83,16 @@ const baseQuery: OcpQuery = {
 };
 
 const defaultColumnOptions: ColumnManagementModalOption[] = [
-  { label: messages.MonthOverMonthChange, value: DetailsTableColumnIds.monthOverMonth },
+  { label: messages.monthOverMonthChange, value: DetailsTableColumnIds.monthOverMonth },
   {
-    description: messages.OCPDetailsInfrastructureCostDesc,
-    label: messages.OCPDetailsInfrastructureCost,
+    description: messages.ocpDetailsInfrastructureCostDesc,
+    label: messages.ocpDetailsInfrastructureCost,
     value: DetailsTableColumnIds.infrastructure,
     hidden: true,
   },
   {
-    description: messages.OCPDetailsSupplementaryCostDesc,
-    label: messages.OCPDetailsSupplementaryCost,
+    description: messages.ocpDetailsSupplementaryCostDesc,
+    label: messages.ocpDetailsSupplementaryCost,
     value: DetailsTableColumnIds.supplementary,
     hidden: true,
   },
@@ -435,7 +435,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
-    const title = intl.formatMessage(messages.OCPDetailsTitle);
+    const title = intl.formatMessage(messages.ocpDetailsTitle);
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
     if (reportError) {

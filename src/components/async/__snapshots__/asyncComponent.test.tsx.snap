@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`spreads props to wrapped component 1`] = `
-Object {
-  "quote": "The only winning move is not to play.",
-}
-`;

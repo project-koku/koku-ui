@@ -38,12 +38,12 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
 
     const markupValidator = value => {
       if (!isPercentageFormatValid(value)) {
-        return messages.MarkupOrDiscountNumber;
+        return messages.markupOrDiscountNumber;
       }
       // Test number of decimals
       const decimals = countDecimals(value);
       if (decimals > 10) {
-        return messages.MarkupOrDiscountTooLong;
+        return messages.markupOrDiscountTooLong;
       }
       return undefined;
     };
@@ -66,14 +66,14 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
             <Stack hasGutter>
               <StackItem>
                 <Title headingLevel="h2" size={TitleSizes.xl}>
-                  {intl.formatMessage(messages.CostCalculations)}
+                  {intl.formatMessage(messages.costCalculations)}
                 </Title>
               </StackItem>
               <StackItem>
                 <Title headingLevel="h3" size="md">
-                  {intl.formatMessage(messages.MarkupOrDiscount)}
+                  {intl.formatMessage(messages.markupOrDiscount)}
                 </Title>
-                {intl.formatMessage(messages.MarkupOrDiscountModalDesc)}
+                {intl.formatMessage(messages.markupOrDiscountModalDesc)}
               </StackItem>
               <StackItem>
                 <Flex style={styles.markupRadioContainer}>
@@ -82,8 +82,8 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
                       <Radio
                         isChecked={!isDiscount}
                         name="discount"
-                        label={intl.formatMessage(messages.MarkupPlus)}
-                        aria-label={intl.formatMessage(messages.MarkupPlus)}
+                        label={intl.formatMessage(messages.markupPlus)}
+                        aria-label={intl.formatMessage(messages.markupPlus)}
                         id="markup"
                         value="false" // "+"
                         onChange={handleSignChange}
@@ -92,8 +92,8 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
                       <Radio
                         isChecked={isDiscount}
                         name="discount"
-                        label={intl.formatMessage(messages.DiscountMinus)}
-                        aria-label={intl.formatMessage(messages.DiscountMinus)}
+                        label={intl.formatMessage(messages.discountMinus)}
+                        aria-label={intl.formatMessage(messages.discountMinus)}
                         id="discount"
                         value="true" // '-'
                         onChange={handleSignChange}
@@ -112,11 +112,11 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
                           <InputGroup>
                             <InputGroupText style={styles.sign}>
                               {isDiscount
-                                ? intl.formatMessage(messages.DiscountMinus)
-                                : intl.formatMessage(messages.MarkupPlus)}
+                                ? intl.formatMessage(messages.discountMinus)
+                                : intl.formatMessage(messages.markupPlus)}
                             </InputGroupText>
                             <TextInput
-                              aria-label={intl.formatMessage(messages.Rate)}
+                              aria-label={intl.formatMessage(messages.rate)}
                               id="markup-input-box"
                               isRequired
                               onKeyDown={handleOnKeyDown}
@@ -128,7 +128,7 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
                               value={markup}
                             />
                             <InputGroupText style={styles.percent}>
-                              {intl.formatMessage(messages.PercentSymbol)}
+                              {intl.formatMessage(messages.percentSymbol)}
                             </InputGroupText>
                           </InputGroup>
                         </FormGroup>
@@ -140,13 +140,13 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
               <StackItem>
                 <div style={styles.exampleMargin}>
                   <TextContent>
-                    <Text component={TextVariants.h6}>{intl.formatMessage(messages.ExamplesTitle)}</Text>
+                    <Text component={TextVariants.h6}>{intl.formatMessage(messages.examplesTitle)}</Text>
                   </TextContent>
                   <List>
-                    <ListItem>{intl.formatMessage(messages.CostModelsExamplesNoAdjust)}</ListItem>
-                    <ListItem>{intl.formatMessage(messages.CostModelsExamplesDoubleMarkup)}</ListItem>
-                    <ListItem>{intl.formatMessage(messages.CostModelsExamplesReduceZero)}</ListItem>
-                    <ListItem>{intl.formatMessage(messages.CostModelsExamplesReduceSeventyfive)}</ListItem>
+                    <ListItem>{intl.formatMessage(messages.costModelsExamplesNoAdjust)}</ListItem>
+                    <ListItem>{intl.formatMessage(messages.costModelsExamplesDoubleMarkup)}</ListItem>
+                    <ListItem>{intl.formatMessage(messages.costModelsExamplesReduceZero)}</ListItem>
+                    <ListItem>{intl.formatMessage(messages.costModelsExamplesReduceSeventyfive)}</ListItem>
                   </List>
                 </div>
               </StackItem>
@@ -154,10 +154,10 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
                 <>
                   <StackItem>
                     <Title headingLevel="h3" size="md">
-                      {intl.formatMessage(messages.DistributionType)}
+                      {intl.formatMessage(messages.distributionType)}
                     </Title>
                     <TextContent>
-                      <Text style={styles.cardDescription}>{intl.formatMessage(messages.DistributionModelDesc)}</Text>
+                      <Text style={styles.cardDescription}>{intl.formatMessage(messages.distributionModelDesc)}</Text>
                     </TextContent>
                   </StackItem>
                   <StackItem isFilled>
@@ -166,8 +166,8 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
                         <Radio
                           isChecked={distribution === 'cpu'}
                           name="distribution"
-                          label={intl.formatMessage(messages.CpuTitle)}
-                          aria-label={intl.formatMessage(messages.CpuTitle)}
+                          label={intl.formatMessage(messages.cpuTitle)}
+                          aria-label={intl.formatMessage(messages.cpuTitle)}
                           id="cpuDistribution"
                           value="cpu"
                           onChange={handleDistributionChange}
@@ -175,8 +175,8 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
                         <Radio
                           isChecked={distribution === 'memory'}
                           name="distribution"
-                          label={intl.formatMessage(messages.MemoryTitle)}
-                          aria-label={intl.formatMessage(messages.MemoryTitle)}
+                          label={intl.formatMessage(messages.memoryTitle)}
+                          aria-label={intl.formatMessage(messages.memoryTitle)}
                           id="memoryDistribution"
                           value="memory"
                           onChange={handleDistributionChange}

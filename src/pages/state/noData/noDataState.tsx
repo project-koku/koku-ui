@@ -19,12 +19,12 @@ class NoDataStateBase extends React.Component<NoDataStateProps> {
       <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
         <EmptyStateIcon icon={FileInvoiceDollarIcon} />
         <Title headingLevel="h5" size="lg">
-          {intl.formatMessage(messages.NoDataStateTitle)}
+          {intl.formatMessage(messages.noDataStateTitle)}
         </Title>
-        <EmptyStateBody>{intl.formatMessage(messages.NoDataStateDesc)}</EmptyStateBody>
+        <EmptyStateBody>{intl.formatMessage(messages.noDataStateDesc)}</EmptyStateBody>
         {showReload && (
           <Button variant="primary" onClick={() => window.location.reload()}>
-            {intl.formatMessage(messages.NoDataStateRefresh)}
+            {intl.formatMessage(messages.noDataStateRefresh)}
           </Button>
         )}
       </EmptyState>

@@ -1,10 +1,11 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import { WithPriceListSearch } from './withPriceListSearch';
 
 test('with price list search', () => {
-  const { getByRole, getByText } = render(
+  render(
     <WithPriceListSearch initialFilters={{ primary: 'metrics', metrics: [], measurements: [] }}>
       {({ onClearAll, onRemove, onSelect, setSearch, search }) => {
         return (
@@ -35,31 +36,31 @@ test('with price list search', () => {
       }}
     </WithPriceListSearch>
   );
-  expect(getByRole('main').outerHTML).toEqual(
+  expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: metrics</div><div>Metrics: None</div><div>Measurements: None</div></main>`
   );
-  fireEvent.click(getByText('Select CPU'));
-  expect(getByRole('main').outerHTML).toEqual(
+  userEvent.click(screen.getByText('Select CPU'));
+  expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: metrics</div><div>Metrics: CPU</div><div>Measurements: None</div></main>`
   );
-  fireEvent.click(getByText('Remove CPU'));
-  expect(getByRole('main').outerHTML).toEqual(
+  userEvent.click(screen.getByText('Remove CPU'));
+  expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: metrics</div><div>Metrics: None</div><div>Measurements: None</div></main>`
   );
-  fireEvent.click(getByText('Select request'));
-  expect(getByRole('main').outerHTML).toEqual(
+  userEvent.click(screen.getByText('Select request'));
+  expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: metrics</div><div>Metrics: None</div><div>Measurements: Request</div></main>`
   );
-  fireEvent.click(getByText('Remove request'));
-  expect(getByRole('main').outerHTML).toEqual(
+  userEvent.click(screen.getByText('Remove request'));
+  expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: metrics</div><div>Metrics: None</div><div>Measurements: None</div></main>`
   );
-  fireEvent.click(getByText('Set search'));
-  expect(getByRole('main').outerHTML).toEqual(
+  userEvent.click(screen.getByText('Set search'));
+  expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: measurements</div><div>Metrics: Memory</div><div>Measurements: Usage</div></main>`
   );
-  fireEvent.click(getByText('Clear all'));
-  expect(getByRole('main').outerHTML).toEqual(
+  userEvent.click(screen.getByText('Clear all'));
+  expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: measurements</div><div>Metrics: None</div><div>Measurements: None</div></main>`
   );
 });

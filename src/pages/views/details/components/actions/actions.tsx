@@ -103,7 +103,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     // tslint:disable:jsx-wrap-multiline
     const items = [
       <DropdownItem component="button" isDisabled={isDisabled} key="export-action" onClick={this.handleExportModalOpen}>
-        {intl.formatMessage(messages.DetailsActionsExport)}
+        {intl.formatMessage(messages.detailsActionsExport)}
       </DropdownItem>,
     ];
 
@@ -115,7 +115,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
           isDisabled={isDisabled || groupBy.includes(tagPrefix) || source_uuid.length === 0}
           onClick={() => redirectToCostModel(source_uuid[0], history)}
         >
-          {intl.formatMessage(messages.DetailsActionsPriceList)}
+          {intl.formatMessage(messages.detailsActionsPriceList)}
         </DropdownItem>
       );
     }

@@ -1,3 +1,4 @@
+import { AlertVariant } from '@patternfly/react-core';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import { getRBAC, RBAC } from 'api/rbac';
 import { intl } from 'components/i18n';
@@ -21,9 +22,9 @@ export const fetchRbac = (): any => {
       .catch(err => {
         dispatch(
           addNotification({
-            title: intl.formatMessage(messages.RbacErrorTitle),
-            description: intl.formatMessage(messages.RbacErrorDescription),
-            variant: 'danger',
+            title: intl.formatMessage(messages.rbacErrorTitle),
+            description: intl.formatMessage(messages.rbacErrorDescription),
+            variant: AlertVariant.danger,
             dismissable: true,
           })
         );

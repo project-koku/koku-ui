@@ -50,7 +50,7 @@ class ExportsLinkBase extends React.Component<ExportsLinkProps> {
     if (isActionLink) {
       return (
         <div className="pf-c-alert__action-group">
-          <AlertActionLink onClick={this.handleToggle}>{intl.formatMessage(messages.ExportsTitle)}</AlertActionLink>
+          <AlertActionLink onClick={this.handleToggle}>{intl.formatMessage(messages.exportsTitle)}</AlertActionLink>
         </div>
       );
     }
@@ -60,7 +60,7 @@ class ExportsLinkBase extends React.Component<ExportsLinkProps> {
           <span style={styles.exportsIcon}>
             <AngleDoubleLeftIcon />
           </span>
-          {intl.formatMessage(messages.ExportsTitle)}
+          {intl.formatMessage(messages.exportsTitle)}
         </Button>
       </div>
     );

@@ -8,4 +8,7 @@ export const styles = {
     minHeight: '75px',
     maxHeight: '150px',
   },
+  selector: {
+    maxHeight: '350px',
+  },
 } as { [className: string]: React.CSSProperties };

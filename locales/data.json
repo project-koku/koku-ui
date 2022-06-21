@@ -1,18 +1,36 @@
 {
   "en": {
-    "AWS": [
+    "ExamplesTitle": [
+      {
+        "type": 0,
+        "value": "Examples"
+      }
+    ],
+    "NoExportsStateTitle": [
+      {
+        "type": 0,
+        "value": "There are no export files available"
+      }
+    ],
+    "PriceListPosNumberRate": [
+      {
+        "type": 0,
+        "value": "Rate must be a positive number"
+      }
+    ],
+    "aws": [
       {
         "type": 0,
         "value": "Amazon Web Services"
       }
     ],
-    "AWSComputeTitle": [
+    "awsComputeTitle": [
       {
         "type": 0,
         "value": "Compute (EC2) instances usage"
       }
     ],
-    "AWSCostTrendTitle": [
+    "awsCostTrendTitle": [
       {
         "type": 0,
         "value": "Amazon Web Services cumulative cost comparison ("
@@ -26,7 +44,7 @@
         "value": ")"
       }
     ],
-    "AWSDailyCostTrendTitle": [
+    "awsDailyCostTrendTitle": [
       {
         "type": 0,
         "value": "Amazon Web Services daily cost comparison ("
@@ -40,49 +58,49 @@
         "value": ")"
       }
     ],
-    "AWSDashboardCostTitle": [
+    "awsDashboardCostTitle": [
       {
         "type": 0,
         "value": "Amazon Web Services cost"
       }
     ],
-    "AWSDesc": [
+    "awsDesc": [
       {
         "type": 0,
         "value": "Raw cost from Amazon Web Services infrastructure."
       }
     ],
-    "AWSDetailsTable": [
+    "awsDetailsTable": [
       {
         "type": 0,
         "value": "Amazon Web Services details table"
       }
     ],
-    "AWSDetailsTitle": [
+    "awsDetailsTitle": [
       {
         "type": 0,
         "value": "Amazon Web Services Details"
       }
     ],
-    "AWSOcpDashboardCostTitle": [
+    "awsOcpDashboardCostTitle": [
       {
         "type": 0,
         "value": "Amazon Web Services filtered by OpenShift cost"
       }
     ],
-    "Azure": [
+    "azure": [
       {
         "type": 0,
         "value": "Microsoft Azure"
       }
     ],
-    "AzureComputeTitle": [
+    "azureComputeTitle": [
       {
         "type": 0,
         "value": "Virtual machines usage"
       }
     ],
-    "AzureCostTrendTitle": [
+    "azureCostTrendTitle": [
       {
         "type": 0,
         "value": "Microsoft Azure cumulative cost comparison ("
@@ -96,7 +114,7 @@
         "value": ")"
       }
     ],
-    "AzureDailyCostTrendTitle": [
+    "azureDailyCostTrendTitle": [
       {
         "type": 0,
         "value": "Microsoft Azure daily cost comparison ("
@@ -110,43 +128,43 @@
         "value": ")"
       }
     ],
-    "AzureDashboardCostTitle": [
+    "azureDashboardCostTitle": [
       {
         "type": 0,
         "value": "Microsoft Azure cost"
       }
     ],
-    "AzureDesc": [
+    "azureDesc": [
       {
         "type": 0,
         "value": "Raw cost from Azure infrastructure."
       }
     ],
-    "AzureDetailsTable": [
+    "azureDetailsTable": [
       {
         "type": 0,
         "value": "Microsoft Azure details table"
       }
     ],
-    "AzureDetailsTitle": [
+    "azureDetailsTitle": [
       {
         "type": 0,
         "value": "Microsoft Azure details"
       }
     ],
-    "AzureOcpDashboardCostTitle": [
+    "azureOcpDashboardCostTitle": [
       {
         "type": 0,
         "value": "Microsoft Azure filtered by OpenShift cost"
       }
     ],
-    "Back": [
+    "back": [
       {
         "type": 0,
         "value": "Back"
       }
     ],
-    "BreakdownBackToDetails": [
+    "breakdownBackToDetails": [
       {
         "options": {
           "account": {
@@ -349,13 +367,13 @@
         "value": "groupBy"
       }
     ],
-    "BreakdownBackToDetailsAriaLabel": [
+    "breakdownBackToDetailsAriaLabel": [
       {
         "type": 0,
         "value": "Back to details"
       }
     ],
-    "BreakdownBackToTitles": [
+    "breakdownBackToTitles": [
       {
         "options": {
           "aws": {
@@ -406,25 +424,25 @@
         "value": "value"
       }
     ],
-    "BreakdownCostBreakdownAriaLabel": [
+    "breakdownCostBreakdownAriaLabel": [
       {
         "type": 0,
         "value": "A description of markup, raw cost and usage cost"
       }
     ],
-    "BreakdownCostBreakdownTitle": [
+    "breakdownCostBreakdownTitle": [
       {
         "type": 0,
         "value": "Cost breakdown"
       }
     ],
-    "BreakdownCostChartAriaDesc": [
+    "breakdownCostChartAriaDesc": [
       {
         "type": 0,
         "value": "Breakdown of markup, raw, and usage costs"
       }
     ],
-    "BreakdownCostChartTooltip": [
+    "breakdownCostChartTooltip": [
       {
         "type": 1,
         "value": "name"
@@ -438,19 +456,19 @@
         "value": "value"
       }
     ],
-    "BreakdownCostOverviewTitle": [
+    "breakdownCostOverviewTitle": [
       {
         "type": 0,
         "value": "Cost overview"
       }
     ],
-    "BreakdownHistoricalDataTitle": [
+    "breakdownHistoricalDataTitle": [
       {
         "type": 0,
         "value": "Historical data"
       }
     ],
-    "BreakdownSummaryTitle": [
+    "breakdownSummaryTitle": [
       {
         "options": {
           "account": {
@@ -557,13 +575,13 @@
         "value": "value"
       }
     ],
-    "BreakdownTitle": [
+    "breakdownTitle": [
       {
         "type": 1,
         "value": "value"
       }
     ],
-    "BreakdownTotalCostDate": [
+    "breakdownTotalCostDate": [
       {
         "options": {
           "0": {
@@ -1294,25 +1312,19 @@
         "value": "month"
       }
     ],
-    "CPUTitle": [
-      {
-        "type": 0,
-        "value": "CPU"
-      }
-    ],
-    "CalculationType": [
+    "calculationType": [
       {
         "type": 0,
         "value": "Calculation type"
       }
     ],
-    "Cancel": [
+    "cancel": [
       {
         "type": 0,
         "value": "Cancel"
       }
     ],
-    "ChartCostForecastConeLegendLabel": [
+    "chartCostForecastConeLegendLabel": [
       {
         "options": {
           "0": {
@@ -1947,13 +1959,13 @@
         "value": "month"
       }
     ],
-    "ChartCostForecastConeLegendNoDataLabel": [
+    "chartCostForecastConeLegendNoDataLabel": [
       {
         "type": 0,
         "value": "Cost confidence (no data)"
       }
     ],
-    "ChartCostForecastConeLegendTooltip": [
+    "chartCostForecastConeLegendTooltip": [
       {
         "options": {
           "0": {
@@ -2060,7 +2072,7 @@
         "value": "month"
       }
     ],
-    "ChartCostForecastConeTooltip": [
+    "chartCostForecastConeTooltip": [
       {
         "type": 1,
         "value": "value0"
@@ -2074,7 +2086,7 @@
         "value": "value1"
       }
     ],
-    "ChartCostForecastLegendLabel": [
+    "chartCostForecastLegendLabel": [
       {
         "options": {
           "0": {
@@ -2709,13 +2721,13 @@
         "value": "month"
       }
     ],
-    "ChartCostForecastLegendNoDataLabel": [
+    "chartCostForecastLegendNoDataLabel": [
       {
         "type": 0,
         "value": "Cost forecast (no data)"
       }
     ],
-    "ChartCostForecastLegendTooltip": [
+    "chartCostForecastLegendTooltip": [
       {
         "options": {
           "0": {
@@ -2822,7 +2834,7 @@
         "value": "month"
       }
     ],
-    "ChartCostInfrastructureForecastConeLegendLabel": [
+    "chartCostInfrastructureForecastConeLegendLabel": [
       {
         "options": {
           "0": {
@@ -3457,13 +3469,13 @@
         "value": "month"
       }
     ],
-    "ChartCostInfrastructureForecastConeLegendNoDataLabel": [
+    "chartCostInfrastructureForecastConeLegendNoDataLabel": [
       {
         "type": 0,
         "value": "Infrastructure confidence (no data)"
       }
     ],
-    "ChartCostInfrastructureForecastConeLegendTooltip": [
+    "chartCostInfrastructureForecastConeLegendTooltip": [
       {
         "options": {
           "0": {
@@ -3570,7 +3582,7 @@
         "value": "month"
       }
     ],
-    "ChartCostInfrastructureForecastLegendLabel": [
+    "chartCostInfrastructureForecastLegendLabel": [
       {
         "options": {
           "0": {
@@ -4205,13 +4217,13 @@
         "value": "month"
       }
     ],
-    "ChartCostInfrastructureForecastLegendNoDataLabel": [
+    "chartCostInfrastructureForecastLegendNoDataLabel": [
       {
         "type": 0,
         "value": "Infrastructure forecast (no data)"
       }
     ],
-    "ChartCostInfrastructureForecastLegendTooltip": [
+    "chartCostInfrastructureForecastLegendTooltip": [
       {
         "options": {
           "0": {
@@ -4318,7 +4330,7 @@
         "value": "month"
       }
     ],
-    "ChartCostInfrastructureLegendLabel": [
+    "chartCostInfrastructureLegendLabel": [
       {
         "options": {
           "0": {
@@ -4953,13 +4965,13 @@
         "value": "month"
       }
     ],
-    "ChartCostInfrastructureLegendNoDataLabel": [
+    "chartCostInfrastructureLegendNoDataLabel": [
       {
         "type": 0,
         "value": "Infrastructure cost (no data)"
       }
     ],
-    "ChartCostInfrastructureLegendTooltip": [
+    "chartCostInfrastructureLegendTooltip": [
       {
         "options": {
           "0": {
@@ -5066,7 +5078,7 @@
         "value": "month"
       }
     ],
-    "ChartCostLegendLabel": [
+    "chartCostLegendLabel": [
       {
         "options": {
           "0": {
@@ -5701,13 +5713,13 @@
         "value": "month"
       }
     ],
-    "ChartCostLegendNoDataLabel": [
+    "chartCostLegendNoDataLabel": [
       {
         "type": 0,
         "value": "Cost (no data)"
       }
     ],
-    "ChartCostLegendTooltip": [
+    "chartCostLegendTooltip": [
       {
         "options": {
           "0": {
@@ -5814,7 +5826,7 @@
         "value": "month"
       }
     ],
-    "ChartCostSupplementaryLegendLabel": [
+    "chartCostSupplementaryLegendLabel": [
       {
         "options": {
           "0": {
@@ -6449,13 +6461,13 @@
         "value": "month"
       }
     ],
-    "ChartCostSupplementaryLegendNoDataLabel": [
+    "chartCostSupplementaryLegendNoDataLabel": [
       {
         "type": 0,
         "value": "Supplementary cost (no data)"
       }
     ],
-    "ChartCostSupplementaryLegendTooltip": [
+    "chartCostSupplementaryLegendTooltip": [
       {
         "options": {
           "0": {
@@ -6562,7 +6574,7 @@
         "value": "month"
       }
     ],
-    "ChartDateRange": [
+    "chartDateRange": [
       {
         "options": {
           "0": {
@@ -7245,7 +7257,7 @@
         "value": "month"
       }
     ],
-    "ChartDayOfTheMonth": [
+    "chartDayOfTheMonth": [
       {
         "type": 0,
         "value": "Day "
@@ -7255,7 +7267,7 @@
         "value": "day"
       }
     ],
-    "ChartLimitLegendLabel": [
+    "chartLimitLegendLabel": [
       {
         "options": {
           "0": {
@@ -7890,13 +7902,13 @@
         "value": "month"
       }
     ],
-    "ChartLimitLegendNoDataLabel": [
+    "chartLimitLegendNoDataLabel": [
       {
         "type": 0,
         "value": "Limit (no data)"
       }
     ],
-    "ChartLimitLegendTooltip": [
+    "chartLimitLegendTooltip": [
       {
         "options": {
           "0": {
@@ -8003,13 +8015,13 @@
         "value": "month"
       }
     ],
-    "ChartNoData": [
+    "chartNoData": [
       {
         "type": 0,
         "value": "no data"
       }
     ],
-    "ChartOthers": [
+    "chartOthers": [
       {
         "offset": 0,
         "options": {
@@ -8043,7 +8055,7 @@
         "value": "count"
       }
     ],
-    "ChartRequestLegendLabel": [
+    "chartRequestLegendLabel": [
       {
         "options": {
           "0": {
@@ -8678,7 +8690,7 @@
         "value": "month"
       }
     ],
-    "ChartRequestLegendTooltip": [
+    "chartRequestLegendTooltip": [
       {
         "options": {
           "0": {
@@ -8785,13 +8797,13 @@
         "value": "month"
       }
     ],
-    "ChartRequestsLegendNoDataLabel": [
+    "chartRequestsLegendNoDataLabel": [
       {
         "type": 0,
         "value": "Requests (no data)"
       }
     ],
-    "ChartUsageLegendLabel": [
+    "chartUsageLegendLabel": [
       {
         "options": {
           "0": {
@@ -9426,13 +9438,13 @@
         "value": "month"
       }
     ],
-    "ChartUsageLegendNoDataLabel": [
+    "chartUsageLegendNoDataLabel": [
       {
         "type": 0,
         "value": "Usage (no data)"
       }
     ],
-    "ChartUsageLegendTooltip": [
+    "chartUsageLegendTooltip": [
       {
         "options": {
           "0": {
@@ -9539,49 +9551,49 @@
         "value": "month"
       }
     ],
-    "Close": [
+    "close": [
       {
         "type": 0,
         "value": "Close"
       }
     ],
-    "Clusters": [
+    "clusters": [
       {
         "type": 0,
         "value": "Clusters"
       }
     ],
-    "Cost": [
+    "cost": [
       {
         "type": 0,
         "value": "Cost"
       }
     ],
-    "CostCalculations": [
+    "costCalculations": [
       {
         "type": 0,
         "value": "Cost calculations"
       }
     ],
-    "CostManagement": [
+    "costManagement": [
       {
         "type": 0,
         "value": "Cost Management"
       }
     ],
-    "CostModels": [
+    "costModels": [
       {
         "type": 0,
         "value": "Cost Models"
       }
     ],
-    "CostModelsAddTagValues": [
+    "costModelsAddTagValues": [
       {
         "type": 0,
         "value": "Add more tag values"
       }
     ],
-    "CostModelsAssignSources": [
+    "costModelsAssignSources": [
       {
         "offset": 0,
         "options": {
@@ -9607,7 +9619,7 @@
         "value": "count"
       }
     ],
-    "CostModelsAssignSourcesErrorDescription": [
+    "costModelsAssignSourcesErrorDescription": [
       {
         "type": 0,
         "value": "You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our "
@@ -9621,31 +9633,31 @@
         "value": " for known outages."
       }
     ],
-    "CostModelsAssignSourcesErrorTitle": [
+    "costModelsAssignSourcesErrorTitle": [
       {
         "type": 0,
         "value": "This action is temporarily unavailable"
       }
     ],
-    "CostModelsAssignSourcesParen": [
+    "costModelsAssignSourcesParen": [
       {
         "type": 0,
         "value": "Assign source(s)"
       }
     ],
-    "CostModelsAssignedSources": [
+    "costModelsAssignedSources": [
       {
         "type": 0,
         "value": "Assigned sources"
       }
     ],
-    "CostModelsAvailableSources": [
+    "costModelsAvailableSources": [
       {
         "type": 0,
         "value": "The following sources are assigned to my production cost model:"
       }
     ],
-    "CostModelsCanDelete": [
+    "costModelsCanDelete": [
       {
         "type": 0,
         "value": "This action will delete "
@@ -9659,7 +9671,7 @@
         "value": " cost model from the system. This action cannot be undone"
       }
     ],
-    "CostModelsCanNotDelete": [
+    "costModelsCanNotDelete": [
       {
         "type": 0,
         "value": "The following sources are assigned to "
@@ -9673,13 +9685,13 @@
         "value": " cost model:"
       }
     ],
-    "CostModelsDelete": [
+    "costModelsDelete": [
       {
         "type": 0,
         "value": "Delete cost model"
       }
     ],
-    "CostModelsDeleteDesc": [
+    "costModelsDeleteDesc": [
       {
         "type": 0,
         "value": "This action will delete "
@@ -9693,121 +9705,127 @@
         "value": " cost model from the system. This action cannot be undone."
       }
     ],
-    "CostModelsDeleteSource": [
+    "costModelsDeleteSource": [
       {
         "type": 0,
         "value": "You must unassign any sources before you can delete this cost model."
       }
     ],
-    "CostModelsDescTooLong": [
+    "costModelsDescTooLong": [
       {
         "type": 0,
         "value": "Should not exceed 500 characters"
       }
     ],
-    "CostModelsDetailsAssignSourcesTitle": [
+    "costModelsDetailsAssignSourcesTitle": [
       {
         "type": 0,
         "value": "Assign sources"
       }
     ],
-    "CostModelsDistributionDesc": [
+    "costModelsDistributionDesc": [
       {
         "type": 0,
         "value": "The following is the type of metric that is set to be used when distributing costs to the project level breakdowns."
       }
     ],
-    "CostModelsDistributionEdit": [
+    "costModelsDistributionEdit": [
       {
         "type": 0,
         "value": "Edit distribution"
       }
     ],
-    "CostModelsEmptyState": [
+    "costModelsEmptyState": [
       {
         "type": 0,
         "value": "What is your hybrid cloud costing you?"
       }
     ],
-    "CostModelsEmptyStateDesc": [
+    "costModelsEmptyStateDesc": [
       {
         "type": 0,
         "value": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the button below to begin the journey."
       }
     ],
-    "CostModelsEmptyStateLearnMore": [
+    "costModelsEmptyStateLearnMore": [
       {
         "type": 0,
         "value": "Read about setting up a cost model"
       }
     ],
-    "CostModelsEnterTagKey": [
+    "costModelsEnterTagDescription": [
+      {
+        "type": 0,
+        "value": "Enter a tag description"
+      }
+    ],
+    "costModelsEnterTagKey": [
       {
         "type": 0,
         "value": "Enter a tag key"
       }
     ],
-    "CostModelsEnterTagRate": [
+    "costModelsEnterTagRate": [
       {
         "type": 0,
         "value": "Enter rate by tag"
       }
     ],
-    "CostModelsEnterTagValue": [
+    "costModelsEnterTagValue": [
       {
         "type": 0,
         "value": "Enter a tag value"
       }
     ],
-    "CostModelsExamplesDoubleMarkup": [
+    "costModelsExamplesDoubleMarkup": [
       {
         "type": 0,
         "value": "A markup rate of (+) 100% doubles the base costs of your source(s)."
       }
     ],
-    "CostModelsExamplesNoAdjust": [
+    "costModelsExamplesNoAdjust": [
       {
         "type": 0,
         "value": "A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your source(s)."
       }
     ],
-    "CostModelsExamplesReduceSeventyfive": [
+    "costModelsExamplesReduceSeventyfive": [
       {
         "type": 0,
         "value": "A discount rate of (-) 25% reduces the base costs of your source(s) to 75% of the original value."
       }
     ],
-    "CostModelsExamplesReduceZero": [
+    "costModelsExamplesReduceZero": [
       {
         "type": 0,
         "value": "A discount rate of (-) 100% reduces the base costs of your source(s) to 0."
       }
     ],
-    "CostModelsFilterPlaceholder": [
+    "costModelsFilterPlaceholder": [
       {
         "type": 0,
         "value": "Filter by name..."
       }
     ],
-    "CostModelsFilterTagKey": [
+    "costModelsFilterTagKey": [
       {
         "type": 0,
         "value": "Filter by tag key"
       }
     ],
-    "CostModelsInfoTooLong": [
+    "costModelsInfoTooLong": [
       {
         "type": 0,
         "value": "Should not exceed 100 characters"
       }
     ],
-    "CostModelsLastChange": [
+    "costModelsLastChange": [
       {
         "type": 0,
         "value": "Last change"
       }
     ],
-    "CostModelsPopover": [
+    "costModelsPopover": [
       {
         "type": 0,
         "value": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources. "
@@ -9817,61 +9835,79 @@
         "value": "learnMore"
       }
     ],
-    "CostModelsPopoverAriaLabel": [
+    "costModelsPopoverAriaLabel": [
       {
         "type": 0,
         "value": "Cost model info popover"
       }
     ],
-    "CostModelsRateTooLong": [
+    "costModelsRateTooLong": [
       {
         "type": 0,
         "value": "Should not exceed 10 decimals"
       }
     ],
-    "CostModelsReadOnly": [
+    "costModelsReadOnly": [
       {
         "type": 0,
         "value": "You have read only permissions"
       }
     ],
-    "CostModelsRefreshDialog": [
+    "costModelsRefreshDialog": [
       {
         "type": 0,
         "value": "Refresh this dialog"
       }
     ],
-    "CostModelsRequiredField": [
+    "costModelsRemoveTagLabel": [
+      {
+        "type": 0,
+        "value": "Remove tag value"
+      }
+    ],
+    "costModelsRequiredField": [
       {
         "type": 0,
         "value": "This field is required"
       }
     ],
-    "CostModelsRouterErrorTitle": [
+    "costModelsRouterErrorTitle": [
       {
         "type": 0,
         "value": "Fail routing to cost model"
       }
     ],
-    "CostModelsRouterServerError": [
+    "costModelsRouterServerError": [
       {
         "type": 0,
         "value": "Server error: could not get the cost model."
       }
     ],
-    "CostModelsSourceDelete": [
+    "costModelsSelectMeasurement": [
+      {
+        "type": 0,
+        "value": "Select Measurement"
+      }
+    ],
+    "costModelsSelectMetric": [
+      {
+        "type": 0,
+        "value": "Select Metric"
+      }
+    ],
+    "costModelsSourceDelete": [
       {
         "type": 0,
         "value": "Unassign"
       }
     ],
-    "CostModelsSourceDeleteSource": [
+    "costModelsSourceDeleteSource": [
       {
         "type": 0,
         "value": "Unassign source"
       }
     ],
-    "CostModelsSourceDeleteSourceDesc": [
+    "costModelsSourceDeleteSourceDesc": [
       {
         "type": 0,
         "value": "This will remove the assignment of "
@@ -9893,79 +9929,79 @@
         "value": " cost model. You can then assign the cost model to a new source."
       }
     ],
-    "CostModelsSourceEmptyStateDesc": [
+    "costModelsSourceEmptyStateDesc": [
       {
         "type": 0,
         "value": "Select the source(s) you want to apply this cost model to."
       }
     ],
-    "CostModelsSourceEmptyStateTitle": [
+    "costModelsSourceEmptyStateTitle": [
       {
         "type": 0,
         "value": "No sources are assigned"
       }
     ],
-    "CostModelsSourceTablePaginationAriaLabel": [
+    "costModelsSourceTablePaginationAriaLabel": [
       {
         "type": 0,
         "value": "Sources table pagination controls"
       }
     ],
-    "CostModelsSourceType": [
+    "costModelsSourceType": [
       {
         "type": 0,
         "value": "Source type"
       }
     ],
-    "CostModelsSourcesTableAriaLabel": [
+    "costModelsSourcesTableAriaLabel": [
       {
         "type": 0,
         "value": "Sources table"
       }
     ],
-    "CostModelsTableAriaLabel": [
+    "costModelsTableAriaLabel": [
       {
         "type": 0,
         "value": "Cost models table"
       }
     ],
-    "CostModelsTagRateTableAriaLabel": [
+    "costModelsTagRateTableAriaLabel": [
       {
         "type": 0,
         "value": "Tag rates"
       }
     ],
-    "CostModelsTagRateTableDefault": [
+    "costModelsTagRateTableDefault": [
       {
         "type": 0,
         "value": "Default"
       }
     ],
-    "CostModelsTagRateTableKey": [
+    "costModelsTagRateTableKey": [
       {
         "type": 0,
         "value": "Tag key"
       }
     ],
-    "CostModelsTagRateTableRate": [
+    "costModelsTagRateTableRate": [
       {
         "type": 0,
         "value": "Rate"
       }
     ],
-    "CostModelsTagRateTableValue": [
+    "costModelsTagRateTableValue": [
       {
         "type": 0,
         "value": "Tag value"
       }
     ],
-    "CostModelsUUIDEmptyState": [
+    "costModelsUUIDEmptyState": [
       {
         "type": 0,
         "value": "Cost model can not be found"
       }
     ],
-    "CostModelsUUIDEmptyStateDesc": [
+    "costModelsUUIDEmptyStateDesc": [
       {
         "type": 0,
         "value": "Cost model with uuid: "
@@ -9979,25 +10015,31 @@
         "value": " does not exist."
       }
     ],
-    "CostModelsWizardCreateCostModel": [
+    "costModelsWizardCreateCostModel": [
       {
         "type": 0,
         "value": "Create cost model"
       }
     ],
-    "CostModelsWizardCreatePriceList": [
+    "costModelsWizardCreatePriceList": [
       {
         "type": 0,
         "value": "Create a price list"
       }
     ],
-    "CostModelsWizardEmptySourceTypeLabel": [
+    "costModelsWizardCurrencyToggleLabel": [
+      {
+        "type": 0,
+        "value": "Select currency"
+      }
+    ],
+    "costModelsWizardEmptySourceTypeLabel": [
       {
         "type": 0,
         "value": "Select source type"
       }
     ],
-    "CostModelsWizardEmptyStateCreate": [
+    "costModelsWizardEmptyStateCreate": [
       {
         "type": 0,
         "value": "To create a price list, begin by clicking the "
@@ -10011,13 +10053,13 @@
         "value": " button."
       }
     ],
-    "CostModelsWizardEmptyStateOtherTime": [
+    "costModelsWizardEmptyStateOtherTime": [
       {
         "type": 0,
         "value": "You can create a price list or modify one at a later time."
       }
     ],
-    "CostModelsWizardEmptyStateSkipStep": [
+    "costModelsWizardEmptyStateSkipStep": [
       {
         "type": 0,
         "value": "To skip this step, click the "
@@ -10031,55 +10073,55 @@
         "value": " button."
       }
     ],
-    "CostModelsWizardEmptyStateTitle": [
+    "costModelsWizardEmptyStateTitle": [
       {
         "type": 0,
         "value": "A price list has not been created."
       }
     ],
-    "CostModelsWizardGeneralInfoTitle": [
+    "costModelsWizardGeneralInfoTitle": [
       {
         "type": 0,
         "value": "Enter general information"
       }
     ],
-    "CostModelsWizardNoRatesAdded": [
+    "costModelsWizardNoRatesAdded": [
       {
         "type": 0,
         "value": "No rates were added to the price list"
       }
     ],
-    "CostModelsWizardOnboardAWS": [
+    "costModelsWizardOnboardAws": [
       {
         "type": 0,
         "value": "Amazon Web Services (AWS)"
       }
     ],
-    "CostModelsWizardOnboardOCP": [
+    "costModelsWizardOnboardOcp": [
       {
         "type": 0,
         "value": "Red Hat OpenShift Container Platform"
       }
     ],
-    "CostModelsWizardPriceListMetric": [
+    "costModelsWizardPriceListMetric": [
       {
         "type": 0,
         "value": "Select the metric you want to assign a price to, and specify a measurement unit and rate. You can optionally set multiple rates for particular tags."
       }
     ],
-    "CostModelsWizardRateAriaLabel": [
+    "costModelsWizardRateAriaLabel": [
       {
         "type": 0,
         "value": "Assign rate"
       }
     ],
-    "CostModelsWizardReviewMarkDiscount": [
+    "costModelsWizardReviewMarkDiscount": [
       {
         "type": 0,
         "value": "Markup/Discount"
       }
     ],
-    "CostModelsWizardReviewStatusSubDetails": [
+    "costModelsWizardReviewStatusSubDetails": [
       {
         "type": 0,
         "value": "Review and confirm your cost model configuration and assignments. Click "
@@ -10101,7 +10143,7 @@
         "value": " to revise."
       }
     ],
-    "CostModelsWizardReviewStatusSubTitle": [
+    "costModelsWizardReviewStatusSubTitle": [
       {
         "type": 0,
         "value": "Costs for resources connected to the assigned sources will now be calculated using the newly created "
@@ -10115,13 +10157,13 @@
         "value": " cost model."
       }
     ],
-    "CostModelsWizardReviewStatusTitle": [
+    "costModelsWizardReviewStatusTitle": [
       {
         "type": 0,
         "value": "Creation successful"
       }
     ],
-    "CostModelsWizardSourceCaption": [
+    "costModelsWizardSourceCaption": [
       {
         "options": {
           "aws": {
@@ -10164,7 +10206,7 @@
         "value": "value"
       }
     ],
-    "CostModelsWizardSourceErrorDescription": [
+    "costModelsWizardSourceErrorDescription": [
       {
         "type": 0,
         "value": "Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our "
@@ -10178,43 +10220,43 @@
         "value": " for known outages."
       }
     ],
-    "CostModelsWizardSourceErrorTitle": [
+    "costModelsWizardSourceErrorTitle": [
       {
         "type": 0,
         "value": "This step is temporarily unavailable"
       }
     ],
-    "CostModelsWizardSourceSubtitle": [
+    "costModelsWizardSourceSubtitle": [
       {
         "type": 0,
         "value": "Select one or more sources to this cost model. You can skip this step and assign the cost model to a source at a later time. A source will be unavailable for selection if a cost model is already assigned to it."
       }
     ],
-    "CostModelsWizardSourceTableAriaLabel": [
+    "costModelsWizardSourceTableAriaLabel": [
       {
         "type": 0,
         "value": "Assign sources to cost model table"
       }
     ],
-    "CostModelsWizardSourceTableCostModel": [
+    "costModelsWizardSourceTableCostModel": [
       {
         "type": 0,
         "value": "Cost model assigned"
       }
     ],
-    "CostModelsWizardSourceTableDefaultCostModel": [
+    "costModelsWizardSourceTableDefaultCostModel": [
       {
         "type": 0,
         "value": "Default cost model"
       }
     ],
-    "CostModelsWizardSourceTitle": [
+    "costModelsWizardSourceTitle": [
       {
         "type": 0,
         "value": "Assign sources to the cost model (optional)"
       }
     ],
-    "CostModelsWizardSourceWarning": [
+    "costModelsWizardSourceWarning": [
       {
         "type": 0,
         "value": "This source is assigned to "
@@ -10228,139 +10270,145 @@
         "value": " cost model. You will have to unassigned it first"
       }
     ],
-    "CostModelsWizardStepsGenInfo": [
+    "costModelsWizardStepsGenInfo": [
       {
         "type": 0,
         "value": "Enter information"
       }
     ],
-    "CostModelsWizardStepsPriceList": [
+    "costModelsWizardStepsPriceList": [
       {
         "type": 0,
         "value": "Price list"
       }
     ],
-    "CostModelsWizardStepsReview": [
+    "costModelsWizardStepsReview": [
       {
         "type": 0,
         "value": "Review details"
       }
     ],
-    "CostModelsWizardStepsSources": [
+    "costModelsWizardStepsSources": [
       {
         "type": 0,
         "value": "Assign a source to the cost model"
       }
     ],
-    "CostModelsWizardSubTitleTable": [
+    "costModelsWizardSubTitleTable": [
       {
         "type": 0,
         "value": "The following is a list of rates you have set so far for this price list."
       }
     ],
-    "CostModelsWizardWarningSources": [
+    "costModelsWizardWarningSources": [
       {
         "type": 0,
         "value": "Cannot assign cost model to a source that is already assigned to another one"
       }
     ],
-    "CostTypeAmortized": [
+    "costTypeAmortized": [
       {
         "type": 0,
         "value": "Amortized"
       }
     ],
-    "CostTypeAmortizedDesc": [
+    "costTypeAmortizedDesc": [
       {
         "type": 0,
         "value": "Recurring and/or upfront costs are distributed evenly across the month"
       }
     ],
-    "CostTypeBlended": [
+    "costTypeBlended": [
       {
         "type": 0,
         "value": "Blended"
       }
     ],
-    "CostTypeBlendedDesc": [
+    "costTypeBlendedDesc": [
       {
         "type": 0,
         "value": "Using a blended rate to calcuate cost usage"
       }
     ],
-    "CostTypeLabel": [
+    "costTypeLabel": [
       {
         "type": 0,
         "value": "Show cost as"
       }
     ],
-    "CostTypeUnblended": [
+    "costTypeUnblended": [
       {
         "type": 0,
         "value": "Unblended"
       }
     ],
-    "CostTypeUnblendedDesc": [
+    "costTypeUnblendedDesc": [
       {
         "type": 0,
         "value": "Usage cost on the day you are charged"
       }
     ],
-    "Create": [
+    "cpuTitle": [
+      {
+        "type": 0,
+        "value": "CPU"
+      }
+    ],
+    "create": [
       {
         "type": 0,
         "value": "Create"
       }
     ],
-    "CreateCostModelConfirmMsg": [
+    "createCostModelConfirmMsg": [
       {
         "type": 0,
         "value": "Are you sure you want to stop creating a cost model? All settings will be discarded."
       }
     ],
-    "CreateCostModelDesc": [
+    "createCostModelDesc": [
       {
         "type": 0,
         "value": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources."
       }
     ],
-    "CreateCostModelExit": [
+    "createCostModelExit": [
       {
         "type": 0,
         "value": "Exit cost model creation"
       }
     ],
-    "CreateCostModelExitYes": [
+    "createCostModelExitYes": [
       {
         "type": 0,
         "value": "Yes, I want to exit"
       }
     ],
-    "CreateCostModelNoContinue": [
+    "createCostModelNoContinue": [
       {
         "type": 0,
         "value": "No, I want to continue"
       }
     ],
-    "CreateCostModelTitle": [
+    "createCostModelTitle": [
       {
         "type": 0,
         "value": "Create a cost model"
       }
     ],
-    "CreateRate": [
+    "createRate": [
       {
         "type": 0,
         "value": "Create rate"
       }
     ],
-    "Currency": [
+    "currency": [
       {
         "type": 0,
         "value": "Currency"
       }
     ],
-    "CurrencyAbbreviations": [
+    "currencyAbbreviations": [
       {
         "options": {
           "billion": {
@@ -10431,7 +10479,7 @@
         "value": "symbol"
       }
     ],
-    "CurrencyOptions": [
+    "currencyOptions": [
       {
         "options": {
           "AUD": {
@@ -10562,7 +10610,7 @@
         "value": "units"
       }
     ],
-    "CurrencyUnits": [
+    "currencyUnits": [
       {
         "options": {
           "AUD": {
@@ -10693,7 +10741,7 @@
         "value": "units"
       }
     ],
-    "DashboardCumulativeCostComparison": [
+    "dashboardCumulativeCostComparison": [
       {
         "type": 0,
         "value": "Cumulative cost comparison ("
@@ -10707,7 +10755,7 @@
         "value": ")"
       }
     ],
-    "DashboardDailyUsageComparison": [
+    "dashboardDailyUsageComparison": [
       {
         "type": 0,
         "value": "Daily usage comparison ("
@@ -10721,25 +10769,25 @@
         "value": ")"
       }
     ],
-    "DashboardDatabaseTitle": [
+    "dashboardDatabaseTitle": [
       {
         "type": 0,
         "value": "Database services cost"
       }
     ],
-    "DashboardNetworkTitle": [
+    "dashboardNetworkTitle": [
       {
         "type": 0,
         "value": "Network services cost"
       }
     ],
-    "DashboardStorageTitle": [
+    "dashboardStorageTitle": [
       {
         "type": 0,
         "value": "Storage services usage"
       }
     ],
-    "DashboardTotalCostTooltip": [
+    "dashboardTotalCostTooltip": [
       {
         "type": 0,
         "value": "This total cost is the sum of the infrastructure cost "
@@ -10757,31 +10805,31 @@
         "value": "supplementaryCost"
       }
     ],
-    "Delete": [
+    "delete": [
       {
         "type": 0,
         "value": "Delete"
       }
     ],
-    "Description": [
+    "description": [
       {
         "type": 0,
         "value": "Description"
       }
     ],
-    "DetailsActionsExport": [
+    "detailsActionsExport": [
       {
         "type": 0,
         "value": "Export data"
       }
     ],
-    "DetailsActionsPriceList": [
+    "detailsActionsPriceList": [
       {
         "type": 0,
         "value": "View all price lists"
       }
     ],
-    "DetailsClustersModalTitle": [
+    "detailsClustersModalTitle": [
       {
         "options": {
           "account": {
@@ -10984,13 +11032,13 @@
         "value": "groupBy"
       }
     ],
-    "DetailsColumnManagementTitle": [
+    "detailsColumnManagementTitle": [
       {
         "type": 0,
         "value": "Manage columns"
       }
     ],
-    "DetailsCostValue": [
+    "detailsCostValue": [
       {
         "type": 0,
         "value": "Cost: "
@@ -11000,13 +11048,13 @@
         "value": "value"
       }
     ],
-    "DetailsEmptyState": [
+    "detailsEmptyState": [
       {
         "type": 0,
         "value": "Processing data to generate a list of all services that sums to a total cost..."
       }
     ],
-    "DetailsMoreClusters": [
+    "detailsMoreClusters": [
       {
         "type": 0,
         "value": ", "
@@ -11020,7 +11068,7 @@
         "value": " more..."
       }
     ],
-    "DetailsResourceNames": [
+    "detailsResourceNames": [
       {
         "options": {
           "account": {
@@ -11127,7 +11175,7 @@
         "value": "value"
       }
     ],
-    "DetailsSummaryModalTitle": [
+    "detailsSummaryModalTitle": [
       {
         "options": {
           "account": {
@@ -11282,19 +11330,19 @@
         "value": "groupBy"
       }
     ],
-    "DetailsUnusedRequestsLabel": [
+    "detailsUnusedRequestsLabel": [
       {
         "type": 0,
         "value": "Unrequested capacity"
       }
     ],
-    "DetailsUnusedUsageLabel": [
+    "detailsUnusedUsageLabel": [
       {
         "type": 0,
         "value": "Unused capacity"
       }
     ],
-    "DetailsUnusedUsageUnits": [
+    "detailsUnusedUsageUnits": [
       {
         "type": 1,
         "value": "units"
@@ -11312,7 +11360,7 @@
         "value": "% of capacity)"
       }
     ],
-    "DetailsUsageCapacity": [
+    "detailsUsageCapacity": [
       {
         "type": 0,
         "value": "Capacity - "
@@ -11330,7 +11378,7 @@
         "value": "units"
       }
     ],
-    "DetailsUsageLimit": [
+    "detailsUsageLimit": [
       {
         "type": 0,
         "value": "Limit - "
@@ -11348,7 +11396,7 @@
         "value": "units"
       }
     ],
-    "DetailsUsageRequests": [
+    "detailsUsageRequests": [
       {
         "type": 0,
         "value": "Requests - "
@@ -11366,7 +11414,7 @@
         "value": "units"
       }
     ],
-    "DetailsUsageUsage": [
+    "detailsUsageUsage": [
       {
         "type": 0,
         "value": "Usage - "
@@ -11384,7 +11432,7 @@
         "value": "units"
       }
     ],
-    "DetailsViewAll": [
+    "detailsViewAll": [
       {
         "options": {
           "account": {
@@ -11491,139 +11539,133 @@
         "value": "value"
       }
     ],
-    "DiscountMinus": [
+    "discountMinus": [
       {
         "type": 0,
         "value": "Discount (-)"
       }
     ],
-    "DistributionModelDesc": [
+    "distributionModelDesc": [
       {
         "type": 0,
         "value": "This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns."
       }
     ],
-    "DistributionType": [
+    "distributionType": [
       {
         "type": 0,
         "value": "Distribution type"
       }
     ],
-    "DocsAddOcpSources": [
+    "docsAddOcpSources": [
       {
         "type": 0,
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/adding_an_openshift_container_platform_source_to_cost_management"
       }
     ],
-    "DocsConfigCostModels": [
+    "docsConfigCostModels": [
       {
         "type": 0,
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#assembly-setting-up-cost-models"
       }
     ],
-    "DocsCostModelTerminology": [
+    "docsCostModelTerminology": [
       {
         "type": 0,
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#cost-model-terminology"
       }
     ],
-    "DocsUsingCostModels": [
+    "docsUsingCostModels": [
       {
         "type": 0,
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models"
       }
     ],
-    "Download": [
+    "download": [
       {
         "type": 0,
         "value": "Download"
       }
     ],
-    "Edit": [
+    "edit": [
       {
         "type": 0,
         "value": "Edit"
       }
     ],
-    "EditCostModel": [
+    "editCostModel": [
       {
         "type": 0,
         "value": "Edit cost model"
       }
     ],
-    "EditMarkup": [
+    "editMarkup": [
       {
         "type": 0,
         "value": "Edit markup"
       }
     ],
-    "EditMarkupOrDiscount": [
+    "editMarkupOrDiscount": [
       {
         "type": 0,
         "value": "Edit markup or discount"
       }
     ],
-    "EmptyFilterSourceStateSubtitle": [
+    "emptyFilterSourceStateSubtitle": [
       {
         "type": 0,
         "value": "Sorry, no source with the given filter was found."
       }
     ],
-    "EmptyFilterStateSubtitle": [
+    "emptyFilterStateSubtitle": [
       {
         "type": 0,
         "value": "Sorry, no data with the given filter was found."
       }
     ],
-    "EmptyFilterStateTitle": [
+    "emptyFilterStateTitle": [
       {
         "type": 0,
         "value": "No match found"
       }
     ],
-    "EqualsSymbol": [
+    "equalsSymbol": [
       {
         "type": 0,
         "value": "="
       }
     ],
-    "ErrorStateNotAuthorizedDesc": [
+    "errorStateNotAuthorizedDesc": [
       {
         "type": 0,
         "value": "Contact the cost management administrator to provide access to this application"
       }
     ],
-    "ErrorStateNotAuthorizedTitle": [
+    "errorStateNotAuthorizedTitle": [
       {
         "type": 0,
         "value": "You don't have access to the Cost management application"
       }
     ],
-    "ErrorStateUnexpectedDesc": [
+    "errorStateUnexpectedDesc": [
       {
         "type": 0,
         "value": "We encountered an unexpected error. Contact your administrator."
       }
     ],
-    "ErrorStateUnexpectedTitle": [
+    "errorStateUnexpectedTitle": [
       {
         "type": 0,
         "value": "Oops!"
       }
     ],
-    "ExamplesTitle": [
-      {
-        "type": 0,
-        "value": "Examples"
-      }
-    ],
-    "ExpiresOn": [
+    "expiresOn": [
       {
         "type": 0,
         "value": "Expires on"
       }
     ],
-    "ExplorerChartTitle": [
+    "explorerChartTitle": [
       {
         "options": {
           "aws": {
@@ -11714,7 +11756,7 @@
         "value": "value"
       }
     ],
-    "ExplorerDateColumn": [
+    "explorerDateColumn": [
       {
         "options": {
           "0": {
@@ -11869,7 +11911,7 @@
         "value": "month"
       }
     ],
-    "ExplorerDateRange": [
+    "explorerDateRange": [
       {
         "options": {
           "current_month_to_date": {
@@ -11920,7 +11962,7 @@
         "value": "value"
       }
     ],
-    "ExplorerMonthDate": [
+    "explorerMonthDate": [
       {
         "type": 1,
         "value": "month"
@@ -11934,25 +11976,25 @@
         "value": "date"
       }
     ],
-    "ExplorerTableAriaLabel": [
+    "explorerTableAriaLabel": [
       {
         "type": 0,
         "value": "Cost Explorer table"
       }
     ],
-    "ExplorerTitle": [
+    "explorerTitle": [
       {
         "type": 0,
         "value": "Cost Explorer"
       }
     ],
-    "ExportAggregateType": [
+    "exportAggregateType": [
       {
         "type": 0,
         "value": "Aggregate type"
       }
     ],
-    "ExportAll": [
+    "exportAll": [
       {
         "type": 0,
         "value": "The active selections from the table plus the values here will be used to generate an export file. When the file is available, download it from the "
@@ -11966,13 +12008,13 @@
         "value": " view."
       }
     ],
-    "ExportError": [
+    "exportError": [
       {
         "type": 0,
         "value": "Something went wrong, please try fewer selections"
       }
     ],
-    "ExportFileName": [
+    "exportFileName": [
       {
         "options": {
           "account": {
@@ -12715,7 +12757,7 @@
         "value": "groupBy"
       }
     ],
-    "ExportFormatType": [
+    "exportFormatType": [
       {
         "options": {
           "csv": {
@@ -12742,19 +12784,19 @@
         "value": "value"
       }
     ],
-    "ExportFormatTypeTitle": [
+    "exportFormatTypeTitle": [
       {
         "type": 0,
         "value": "Format type"
       }
     ],
-    "ExportGenerate": [
+    "exportGenerate": [
       {
         "type": 0,
         "value": "Generate export"
       }
     ],
-    "ExportHeading": [
+    "exportHeading": [
       {
         "options": {
           "account": {
@@ -12861,7 +12903,7 @@
         "value": "groupBy"
       }
     ],
-    "ExportName": [
+    "exportName": [
       {
         "options": {
           "account": {
@@ -13988,19 +14030,19 @@
         "value": "groupBy"
       }
     ],
-    "ExportNameRequired": [
+    "exportNameRequired": [
       {
         "type": 0,
         "value": "Please enter a name for the export"
       }
     ],
-    "ExportNameTooLong": [
+    "exportNameTooLong": [
       {
         "type": 0,
         "value": "Should not exceed 50 characters"
       }
     ],
-    "ExportResolution": [
+    "exportResolution": [
       {
         "options": {
           "daily": {
@@ -14027,7 +14069,7 @@
         "value": "value"
       }
     ],
-    "ExportSelected": [
+    "exportSelected": [
       {
         "options": {
           "account": {
@@ -14230,7 +14272,7 @@
         "value": "groupBy"
       }
     ],
-    "ExportTimeScope": [
+    "exportTimeScope": [
       {
         "options": {
           "current": {
@@ -14273,43 +14315,49 @@
         "value": "value"
       }
     ],
-    "ExportTimeScopeTitle": [
+    "exportTimeScopeTitle": [
       {
         "type": 0,
         "value": "Month"
       }
     ],
-    "ExportTitle": [
+    "exportTitle": [
       {
         "type": 0,
         "value": "Export"
       }
     ],
-    "ExportsDesc": [
+    "exportsDesc": [
       {
         "type": 0,
         "value": "Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed."
       }
     ],
-    "ExportsFailed": [
+    "exportsEmptyState": [
+      {
+        "type": 0,
+        "value": "To get started, close this view and select rows in the table you want to export and click the export button to start the journey."
+      }
+    ],
+    "exportsFailed": [
       {
         "type": 0,
         "value": "Could not create export file"
       }
     ],
-    "ExportsFailedDesc": [
+    "exportsFailedDesc": [
       {
         "type": 0,
         "value": "Something went wrong with the generation of this export file. Try exporting again."
       }
     ],
-    "ExportsSuccess": [
+    "exportsSuccess": [
       {
         "type": 0,
         "value": "Export preparing for download"
       }
     ],
-    "ExportsSuccessDesc": [
+    "exportsSuccessDesc": [
       {
         "type": 0,
         "value": "The export is preparing for download. It will be accessible from "
@@ -14327,25 +14375,25 @@
         "value": "link"
       }
     ],
-    "ExportsTableAriaLabel": [
+    "exportsTableAriaLabel": [
       {
         "type": 0,
         "value": "Available exports table"
       }
     ],
-    "ExportsTitle": [
+    "exportsTitle": [
       {
         "type": 0,
         "value": "All exports"
       }
     ],
-    "ExportsUnavailable": [
+    "exportsUnavailable": [
       {
         "type": 0,
         "value": "Export cannot be generated"
       }
     ],
-    "FilterByButtonAriaLabel": [
+    "filterByButtonAriaLabel": [
       {
         "options": {
           "account": {
@@ -14460,7 +14508,7 @@
         "value": "value"
       }
     ],
-    "FilterByInputAriaLabel": [
+    "filterByInputAriaLabel": [
       {
         "options": {
           "account": {
@@ -14575,19 +14623,19 @@
         "value": "value"
       }
     ],
-    "FilterByOrgUnitAriaLabel": [
+    "filterByOrgUnitAriaLabel": [
       {
         "type": 0,
         "value": "Organizational units"
       }
     ],
-    "FilterByOrgUnitPlaceholder": [
+    "filterByOrgUnitPlaceholder": [
       {
         "type": 0,
         "value": "Choose unit"
       }
     ],
-    "FilterByPlaceholder": [
+    "filterByPlaceholder": [
       {
         "options": {
           "account": {
@@ -14718,43 +14766,43 @@
         "value": "value"
       }
     ],
-    "FilterByTagKeyAriaLabel": [
+    "filterByTagKeyAriaLabel": [
       {
         "type": 0,
         "value": "Tag keys"
       }
     ],
-    "FilterByTagKeyPlaceholder": [
+    "filterByTagKeyPlaceholder": [
       {
         "type": 0,
         "value": "Choose key"
       }
     ],
-    "FilterByTagValueAriaLabel": [
+    "filterByTagValueAriaLabel": [
       {
         "type": 0,
         "value": "Tag values"
       }
     ],
-    "FilterByTagValueButtonAriaLabel": [
+    "filterByTagValueButtonAriaLabel": [
       {
         "type": 0,
         "value": "Filter button for tag value"
       }
     ],
-    "FilterByTagValueInputPlaceholder": [
+    "filterByTagValueInputPlaceholder": [
       {
         "type": 0,
         "value": "Filter by value"
       }
     ],
-    "FilterByTagValuePlaceholder": [
+    "filterByTagValuePlaceholder": [
       {
         "type": 0,
         "value": "Choose value"
       }
     ],
-    "FilterByValues": [
+    "filterByValues": [
       {
         "options": {
           "account": {
@@ -14869,7 +14917,7 @@
         "value": "value"
       }
     ],
-    "ForDate": [
+    "forDate": [
       {
         "options": {
           "0": {
@@ -15504,25 +15552,25 @@
         "value": "month"
       }
     ],
-    "GCP": [
+    "gcp": [
       {
         "type": 0,
         "value": "Google Cloud Platform"
       }
     ],
-    "GCPComputeTitle": [
+    "gcpComputeTitle": [
       {
         "type": 0,
         "value": "Compute instances usage"
       }
     ],
-    "GCPCostTitle": [
+    "gcpCostTitle": [
       {
         "type": 0,
         "value": "Google Cloud Platform Services cost"
       }
     ],
-    "GCPCostTrendTitle": [
+    "gcpCostTrendTitle": [
       {
         "type": 0,
         "value": "Google Cloud Platform Services cumulative cost comparison ("
@@ -15536,7 +15584,7 @@
         "value": ")"
       }
     ],
-    "GCPDailyCostTrendTitle": [
+    "gcpDailyCostTrendTitle": [
       {
         "type": 0,
         "value": "Google Cloud Platform Services daily cost comparison ("
@@ -15550,25 +15598,25 @@
         "value": ")"
       }
     ],
-    "GCPDesc": [
+    "gcpDesc": [
       {
         "type": 0,
         "value": "Raw cost from Google Cloud Platform infrastructure."
       }
     ],
-    "GCPDetailsTable": [
+    "gcpDetailsTable": [
       {
         "type": 0,
         "value": "Google Cloud Platform details table"
       }
     ],
-    "GCPDetailsTitle": [
+    "gcpDetailsTitle": [
       {
         "type": 0,
         "value": "Google Cloud Platform Details"
       }
     ],
-    "GroupByAll": [
+    "groupByAll": [
       {
         "options": {
           "account": {
@@ -15915,13 +15963,13 @@
         "value": "value"
       }
     ],
-    "GroupByLabel": [
+    "groupByLabel": [
       {
         "type": 0,
         "value": "Group by"
       }
     ],
-    "GroupByTop": [
+    "groupByTop": [
       {
         "options": {
           "account": {
@@ -16268,7 +16316,7 @@
         "value": "value"
       }
     ],
-    "GroupByValueNames": [
+    "groupByValueNames": [
       {
         "options": {
           "account": {
@@ -16375,7 +16423,7 @@
         "value": "groupBy"
       }
     ],
-    "GroupByValues": [
+    "groupByValues": [
       {
         "options": {
           "account": {
@@ -16722,7 +16770,7 @@
         "value": "value"
       }
     ],
-    "GroupByValuesTitleCase": [
+    "groupByValuesTitleCase": [
       {
         "options": {
           "account": {
@@ -17069,7 +17117,7 @@
         "value": "value"
       }
     ],
-    "HistoricalChartCostLabel": [
+    "historicalChartCostLabel": [
       {
         "type": 0,
         "value": "Cost ("
@@ -17083,13 +17131,13 @@
         "value": ")"
       }
     ],
-    "HistoricalChartDayOfMonthLabel": [
+    "historicalChartDayOfMonthLabel": [
       {
         "type": 0,
         "value": "Day of Month"
       }
     ],
-    "HistoricalChartTitle": [
+    "historicalChartTitle": [
       {
         "options": {
           "cost": {
@@ -17144,7 +17192,7 @@
         "value": "value"
       }
     ],
-    "HistoricalChartUsageLabel": [
+    "historicalChartUsageLabel": [
       {
         "options": {
           "instance_type": {
@@ -17171,25 +17219,25 @@
         "value": "value"
       }
     ],
-    "IBM": [
+    "ibm": [
       {
         "type": 0,
         "value": "IBM Cloud"
       }
     ],
-    "IBMComputeTitle": [
+    "ibmComputeTitle": [
       {
         "type": 0,
         "value": "Compute instances usage"
       }
     ],
-    "IBMCostTitle": [
+    "ibmCostTitle": [
       {
         "type": 0,
         "value": "IBM Cloud Services cost"
       }
     ],
-    "IBMCostTrendTitle": [
+    "ibmCostTrendTitle": [
       {
         "type": 0,
         "value": "IBM Cloud Services cumulative cost comparison ("
@@ -17203,7 +17251,7 @@
         "value": ")"
       }
     ],
-    "IBMDailyCostTrendTitle": [
+    "ibmDailyCostTrendTitle": [
       {
         "type": 0,
         "value": "IBM Cloud Services daily cost comparison ("
@@ -17217,25 +17265,25 @@
         "value": ")"
       }
     ],
-    "IBMDesc": [
+    "ibmDesc": [
       {
         "type": 0,
         "value": "Raw cost from IBM Cloud infrastructure."
       }
     ],
-    "IBMDetailsTable": [
+    "ibmDetailsTable": [
       {
         "type": 0,
         "value": "IBM Cloud details table"
       }
     ],
-    "IBMDetailsTitle": [
+    "ibmDetailsTitle": [
       {
         "type": 0,
         "value": "IBM Cloud Details"
       }
     ],
-    "InactiveSourcesGoTitle": [
+    "inactiveSourcesGoTitle": [
       {
         "type": 0,
         "value": "A problem was detected with "
@@ -17245,49 +17293,49 @@
         "value": "value"
       }
     ],
-    "InactiveSourcesGoTo": [
+    "inactiveSourcesGoTo": [
       {
         "type": 0,
         "value": "Go to Sources for more information"
       }
     ],
-    "InactiveSourcesTitleMultiplier": [
+    "inactiveSourcesTitleMultiplier": [
       {
         "type": 0,
         "value": "A problem was detected with the following sources"
       }
     ],
-    "Infrastructure": [
+    "infrastructure": [
       {
         "type": 0,
         "value": "Infrastructure"
       }
     ],
-    "LearnMore": [
+    "learnMore": [
       {
         "type": 0,
         "value": "Learn more"
       }
     ],
-    "LoadingStateDesc": [
+    "loadingStateDesc": [
       {
         "type": 0,
         "value": "Searching for your sources. Do not refresh the browser"
       }
     ],
-    "LoadingStateTitle": [
+    "loadingStateTitle": [
       {
         "type": 0,
         "value": "Looking for sources..."
       }
     ],
-    "MaintenanceEmptyStateDesc": [
+    "maintenanceEmptyStateDesc": [
       {
         "type": 0,
         "value": "Cost Management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT)."
       }
     ],
-    "MaintenanceEmptyStateInfo": [
+    "maintenanceEmptyStateInfo": [
       {
         "type": 0,
         "value": "For more information visit "
@@ -17297,91 +17345,91 @@
         "value": "url"
       }
     ],
-    "MaintenanceEmptyStateThanks": [
+    "maintenanceEmptyStateThanks": [
       {
         "type": 0,
         "value": "We will be back soon. Thank you for your patience!"
       }
     ],
-    "ManageColumnsAriaLabel": [
+    "manageColumnsAriaLabel": [
       {
         "type": 0,
         "value": "Table column management"
       }
     ],
-    "ManageColumnsDesc": [
+    "manageColumnsDesc": [
       {
         "type": 0,
         "value": "Selected categories will be displayed in the table"
       }
     ],
-    "ManageColumnsTitle": [
+    "manageColumnsTitle": [
       {
         "type": 0,
         "value": "Manage columns"
       }
     ],
-    "MarkupDescription": [
+    "markupDescription": [
       {
         "type": 0,
         "value": "The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost management application"
       }
     ],
-    "MarkupOrDiscount": [
+    "markupOrDiscount": [
       {
         "type": 0,
         "value": "Markup or Discount"
       }
     ],
-    "MarkupOrDiscountDesc": [
+    "markupOrDiscountDesc": [
       {
         "type": 0,
         "value": "This Percentage is applied to raw cost calculations by multiplying the cost with this percentage. Costs calculated from price list rates will not be effected."
       }
     ],
-    "MarkupOrDiscountModalDesc": [
+    "markupOrDiscountModalDesc": [
       {
         "type": 0,
         "value": "Use markup/discount to manipulate how the raw costs are being calculated for your sources. Note, costs calculated from price list rates will not be affected by this."
       }
     ],
-    "MarkupOrDiscountNumber": [
+    "markupOrDiscountNumber": [
       {
         "type": 0,
         "value": "Markup or discount must be a number"
       }
     ],
-    "MarkupOrDiscountTooLong": [
+    "markupOrDiscountTooLong": [
       {
         "type": 0,
         "value": "Should not exceed 10 decimals"
       }
     ],
-    "MarkupPlus": [
+    "markupPlus": [
       {
         "type": 0,
         "value": "Markup (+)"
       }
     ],
-    "MarkupTitle": [
+    "markupTitle": [
       {
         "type": 0,
         "value": "Markup"
       }
     ],
-    "Measurement": [
+    "measurement": [
       {
         "type": 0,
         "value": "Measurement"
       }
     ],
-    "MeasurementPlaceholder": [
+    "measurementPlaceholder": [
       {
         "type": 0,
         "value": "Filter by measurements"
       }
     ],
-    "MeasurementValues": [
+    "measurementValues": [
       {
         "options": {
           "count": {
@@ -17536,25 +17584,97 @@
         "value": "value"
       }
     ],
-    "MemoryTitle": [
+    "measurementValuesDesc": [
+      {
+        "options": {
+          "count": {
+            "value": [
+              {
+                "options": {
+                  "cluster_month": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "The distinct number of clusters identified during the month"
+                      }
+                    ]
+                  },
+                  "node_month": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "The distinct number of nodes identified during the month"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  },
+                  "pvc_month": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "The distinct number of volume claims identified during the month"
+                      }
+                    ]
+                  }
+                },
+                "type": 5,
+                "value": "units"
+              }
+            ]
+          },
+          "effective_usage": {
+            "value": [
+              {
+                "type": 0,
+                "value": "The greater of usage and request each hour"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "request": {
+            "value": [
+              {
+                "type": 0,
+                "value": "The pod resources requested, as reported by OpenShift"
+              }
+            ]
+          },
+          "usage": {
+            "value": [
+              {
+                "type": 0,
+                "value": "The pod resources used, as reported by OpenShift"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "memoryTitle": [
       {
         "type": 0,
         "value": "Memory"
       }
     ],
-    "Metric": [
+    "metric": [
       {
         "type": 0,
         "value": "Metric"
       }
     ],
-    "MetricPlaceholder": [
+    "metricPlaceholder": [
       {
         "type": 0,
         "value": "Filter by metrics"
       }
     ],
-    "MetricValues": [
+    "metricValues": [
       {
         "options": {
           "cluster": {
@@ -17613,13 +17733,13 @@
         "value": "value"
       }
     ],
-    "MonthOverMonthChange": [
+    "monthOverMonthChange": [
       {
         "type": 0,
         "value": "Month over month change"
       }
     ],
-    "Name": [
+    "names": [
       {
         "offset": 0,
         "options": {
@@ -17645,25 +17765,25 @@
         "value": "count"
       }
     ],
-    "Next": [
+    "next": [
       {
         "type": 0,
         "value": "next"
       }
     ],
-    "No": [
+    "no": [
       {
         "type": 0,
-        "value": "no"
+        "value": "No"
       }
     ],
-    "NoAuthorizedStateAws": [
+    "noAuthorizedStateAws": [
       {
         "type": 0,
         "value": "Amazon Web Services in Cost Management"
       }
     ],
-    "NoDataForDate": [
+    "noDataForDate": [
       {
         "options": {
           "0": {
@@ -18202,163 +18322,157 @@
         "value": "month"
       }
     ],
-    "NoDataStateDesc": [
+    "noDataStateDesc": [
       {
         "type": 0,
         "value": "We have detected a source, but we are not done processing the incoming data. The time to process could take up to 24 hours. Try refreshing the page at a later time."
       }
     ],
-    "NoDataStateRefresh": [
+    "noDataStateRefresh": [
       {
         "type": 0,
         "value": "Refresh this page"
       }
     ],
-    "NoDataStateTitle": [
+    "noDataStateTitle": [
       {
         "type": 0,
         "value": "Still processing the data"
       }
     ],
-    "NoProvidersStateAwsDesc": [
+    "noProvidersStateAwsDesc": [
       {
         "type": 0,
         "value": "Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags."
       }
     ],
-    "NoProvidersStateAwsTitle": [
+    "noProvidersStateAwsTitle": [
       {
         "type": 0,
         "value": "Track your Amazon Web Services spending!"
       }
     ],
-    "NoProvidersStateAzureDesc": [
+    "noProvidersStateAzureDesc": [
       {
         "type": 0,
         "value": "Add a Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags."
       }
     ],
-    "NoProvidersStateAzureTitle": [
+    "noProvidersStateAzureTitle": [
       {
         "type": 0,
         "value": "Track your Microsoft Azure spending!"
       }
     ],
-    "NoProvidersStateGcpDesc": [
+    "noProvidersStateGcpDesc": [
       {
         "type": 0,
         "value": "Add a Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags."
       }
     ],
-    "NoProvidersStateGcpTitle": [
+    "noProvidersStateGcpTitle": [
       {
         "type": 0,
         "value": "Track your Google Cloud Platform spending!"
       }
     ],
-    "NoProvidersStateGetStarted": [
+    "noProvidersStateGetStarted": [
       {
         "type": 0,
         "value": "Get started with Sources"
       }
     ],
-    "NoProvidersStateIbmDesc": [
+    "noProvidersStateIbmDesc": [
       {
         "type": 0,
         "value": "Add an IBM Cloud account to see a total cost breakdown of your spend by accounts, services, regions, or tags."
       }
     ],
-    "NoProvidersStateIbmTitle": [
+    "noProvidersStateIbmTitle": [
       {
         "type": 0,
         "value": "Track your IBM Cloud spending!"
       }
     ],
-    "NoProvidersStateOcpAddSources": [
+    "noProvidersStateOcpAddSources": [
       {
         "type": 0,
         "value": "Add an OpenShift cluster to Cost Management"
       }
     ],
-    "NoProvidersStateOcpDesc": [
+    "noProvidersStateOcpDesc": [
       {
         "type": 0,
         "value": "Add an OpenShift Container Platform cluster to see a total cost breakdown of your pods by cluster, node, project, or labels."
       }
     ],
-    "NoProvidersStateOcpTitle": [
+    "noProvidersStateOcpTitle": [
       {
         "type": 0,
         "value": "Track your OpenShift spending!"
       }
     ],
-    "NoProvidersStateOverviewDesc": [
+    "noProvidersStateOverviewDesc": [
       {
         "type": 0,
         "value": "Add a source, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage."
       }
     ],
-    "NoProvidersStateOverviewTitle": [
+    "noProvidersStateOverviewTitle": [
       {
         "type": 0,
         "value": "Track your spending!"
       }
     ],
-    "NoResultsFound": [
+    "noResultsFound": [
       {
         "type": 0,
         "value": "No results found"
       }
     ],
-    "NotAuthorizedStateAzure": [
+    "notAuthorizedStateAzure": [
       {
         "type": 0,
         "value": "Microsoft Azure in Cost Management"
       }
     ],
-    "NotAuthorizedStateCostModels": [
+    "notAuthorizedStateCostModels": [
       {
         "type": 0,
         "value": "Cost Models in Cost Management"
       }
     ],
-    "NotAuthorizedStateGcp": [
+    "notAuthorizedStateGcp": [
       {
         "type": 0,
         "value": "Google Cloud Platform in Cost Management"
       }
     ],
-    "NotAuthorizedStateIbm": [
+    "notAuthorizedStateIbm": [
       {
         "type": 0,
         "value": "IBM Cloud in Cost Management"
       }
     ],
-    "NotAuthorizedStateOcp": [
+    "notAuthorizedStateOcp": [
       {
         "type": 0,
         "value": "OpenShift in Cost Management"
       }
     ],
-    "OCPCPUUsageAndRequests": [
-      {
-        "type": 0,
-        "value": "CPU usage and requests"
-      }
-    ],
-    "OCPCloudDashboardComputeTitle": [
+    "ocpCloudDashboardComputeTitle": [
       {
         "type": 0,
         "value": "Compute services usage"
       }
     ],
-    "OCPCloudDashboardCostTitle": [
+    "ocpCloudDashboardCostTitle": [
       {
         "type": 0,
         "value": "All cloud filtered by OpenShift cost"
       }
     ],
-    "OCPCloudDashboardCostTrendTitle": [
+    "ocpCloudDashboardCostTrendTitle": [
       {
         "type": 0,
         "value": "All cloud filtered by OpenShift cumulative cost comparison ("
@@ -18372,7 +18486,7 @@
         "value": ")"
       }
     ],
-    "OCPCloudDashboardDailyCostTrendTitle": [
+    "ocpCloudDashboardDailyCostTrendTitle": [
       {
         "type": 0,
         "value": "All cloud filtered by OpenShift daily cost comparison ("
@@ -18386,7 +18500,13 @@
         "value": ")"
       }
     ],
-    "OCPDailyUsageAndRequestComparison": [
+    "ocpCpuUsageAndRequests": [
+      {
+        "type": 0,
+        "value": "CPU usage and requests"
+      }
+    ],
+    "ocpDailyUsageAndRequestComparison": [
       {
         "type": 0,
         "value": "Daily usage and requests comparison ("
@@ -18400,19 +18520,19 @@
         "value": ")"
       }
     ],
-    "OCPDashboardCPUUsageAndRequests": [
+    "ocpDashboardCPUUsageAndRequests": [
       {
         "type": 0,
         "value": "OpenShift CPU usage and requests"
       }
     ],
-    "OCPDashboardCostTitle": [
+    "ocpDashboardCostTitle": [
       {
         "type": 0,
         "value": "All OpenShift cost"
       }
     ],
-    "OCPDashboardCostTrendTitle": [
+    "ocpDashboardCostTrendTitle": [
       {
         "type": 0,
         "value": "All OpenShift cumulative cost comparison ("
@@ -18426,7 +18546,7 @@
         "value": ")"
       }
     ],
-    "OCPDashboardDailyCostTitle": [
+    "ocpDashboardDailyCostTitle": [
       {
         "type": 0,
         "value": "All OpenShift daily cost comparison ("
@@ -18440,55 +18560,55 @@
         "value": ")"
       }
     ],
-    "OCPDashboardMemoryUsageAndRequests": [
+    "ocpDashboardMemoryUsageAndRequests": [
       {
         "type": 0,
         "value": "OpenShift Memory usage and requests"
       }
     ],
-    "OCPDetailsInfrastructureCost": [
+    "ocpDetailsInfrastructureCost": [
       {
         "type": 0,
         "value": "Infrastructure cost"
       }
     ],
-    "OCPDetailsInfrastructureCostDesc": [
+    "ocpDetailsInfrastructureCostDesc": [
       {
         "type": 0,
         "value": "The cost based on raw usage data from the underlying infrastructure."
       }
     ],
-    "OCPDetailsSupplementaryCost": [
+    "ocpDetailsSupplementaryCost": [
       {
         "type": 0,
         "value": "Supplementary cost"
       }
     ],
-    "OCPDetailsSupplementaryCostDesc": [
+    "ocpDetailsSupplementaryCostDesc": [
       {
         "type": 0,
         "value": "All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics."
       }
     ],
-    "OCPDetailsTable": [
+    "ocpDetailsTable": [
       {
         "type": 0,
         "value": "OpenShift details table"
       }
     ],
-    "OCPDetailsTitle": [
+    "ocpDetailsTitle": [
       {
         "type": 0,
         "value": "OpenShift details"
       }
     ],
-    "OCPInfrastructureCostTitle": [
+    "ocpInfrastructureCostTitle": [
       {
         "type": 0,
         "value": "OpenShift infrastructure cost"
       }
     ],
-    "OCPInfrastructureCostTrendTitle": [
+    "ocpInfrastructureCostTrendTitle": [
       {
         "type": 0,
         "value": "OpenShift cumulative infrastructure cost comparison ("
@@ -18502,7 +18622,7 @@
         "value": ")"
       }
     ],
-    "OCPInfrastructureDailyCostTrendTitle": [
+    "ocpInfrastructureDailyCostTrendTitle": [
       {
         "type": 0,
         "value": "OpenShift daily infrastructure cost comparison ("
@@ -18516,19 +18636,19 @@
         "value": ")"
       }
     ],
-    "OCPMemoryUsageAndRequests": [
+    "ocpMemoryUsageAndRequests": [
       {
         "type": 0,
         "value": "Memory usage and requests"
       }
     ],
-    "OCPSupplementaryCostTitle": [
+    "ocpSupplementaryCostTitle": [
       {
         "type": 0,
         "value": "OpenShift supplementary cost"
       }
     ],
-    "OCPSupplementaryCostTrendTitle": [
+    "ocpSupplementaryCostTrendTitle": [
       {
         "type": 0,
         "value": "OpenShift cumulative supplementary cost comparison ("
@@ -18542,7 +18662,7 @@
         "value": ")"
       }
     ],
-    "OCPSupplementaryDailyCostTrendTitle": [
+    "ocpSupplementaryDailyCostTrendTitle": [
       {
         "type": 0,
         "value": "OpenShift daily supplementary cost comparison ("
@@ -18556,25 +18676,25 @@
         "value": ")"
       }
     ],
-    "OCPUsageAndRequests": [
+    "ocpUsageAndRequests": [
       {
         "type": 0,
         "value": "OpenShift Volume usage and requests"
       }
     ],
-    "OCPUsageCostTitle": [
+    "ocpUsageCostTitle": [
       {
         "type": 0,
         "value": "OpenShift usage cost"
       }
     ],
-    "OCPUsageDashboardCPUTitle": [
+    "ocpUsageDashboardCPUTitle": [
       {
         "type": 0,
         "value": "OpenShift CPU usage and requests"
       }
     ],
-    "OCPUsageDashboardCostTrendTitle": [
+    "ocpUsageDashboardCostTrendTitle": [
       {
         "type": 0,
         "value": "Metering cumulative cost comparison ("
@@ -18588,103 +18708,103 @@
         "value": ")"
       }
     ],
-    "OCPVolumeUsageAndRequests": [
+    "ocpVolumeUsageAndRequests": [
       {
         "type": 0,
         "value": "Volume usage and requests"
       }
     ],
-    "OpenShift": [
+    "openShift": [
       {
         "type": 0,
         "value": "OpenShift"
       }
     ],
-    "OpenShiftCloudInfrastructure": [
+    "openShiftCloudInfrastructure": [
       {
         "type": 0,
         "value": "OpenShift cloud infrastructure"
       }
     ],
-    "OpenShiftCloudInfrastructureDesc": [
+    "openShiftCloudInfrastructureDesc": [
       {
         "type": 0,
         "value": "Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data."
       }
     ],
-    "OpenShiftDesc": [
+    "openShiftDesc": [
       {
         "type": 0,
         "value": "Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics."
       }
     ],
-    "OverviewInfoArialLabel": [
+    "overviewInfoArialLabel": [
       {
         "type": 0,
         "value": "A description of perspectives"
       }
     ],
-    "OverviewTitle": [
+    "overviewTitle": [
       {
         "type": 0,
         "value": "Cost Management Overview"
       }
     ],
-    "PageTitleAWS": [
+    "pageTitleAws": [
       {
         "type": 0,
         "value": "Amazon Web Services - Cost Management | Red Hat OpenShift Cluster Manager"
       }
     ],
-    "PageTitleAzure": [
+    "pageTitleAzure": [
       {
         "type": 0,
         "value": "Microsoft Azure - Cost Management | Red Hat OpenShift Cluster Manager"
       }
     ],
-    "PageTitleCostModels": [
+    "pageTitleCostModels": [
       {
         "type": 0,
         "value": "Cost Models - Cost Management | Red Hat OpenShift Cluster Manager"
       }
     ],
-    "PageTitleDefault": [
+    "pageTitleDefault": [
       {
         "type": 0,
         "value": "Cost Management | Red Hat OpenShift Cluster Manager"
       }
     ],
-    "PageTitleExplorer": [
+    "pageTitleExplorer": [
       {
         "type": 0,
         "value": "Cost Explorer - Cost Management | Red Hat OpenShift Cluster Manager"
       }
     ],
-    "PageTitleGCP": [
+    "pageTitleGcp": [
       {
         "type": 0,
         "value": "Google Cloud Platform - Cost Management | Red Hat OpenShift Cluster Manager"
       }
     ],
-    "PageTitleIBM": [
+    "pageTitleIbm": [
       {
         "type": 0,
         "value": "IBM Cloud - Cost Management | Red Hat OpenShift Cluster Manager"
       }
     ],
-    "PageTitleOpenShift": [
+    "pageTitleOcp": [
       {
         "type": 0,
         "value": "OpenShift - Cost Management | Red Hat OpenShift Cluster Manager"
       }
     ],
-    "PageTitleOverview": [
+    "pageTitleOverview": [
       {
         "type": 0,
         "value": "Overview - Cost Management | Red Hat OpenShift Cluster Manager"
       }
     ],
-    "Percent": [
+    "percent": [
       {
         "type": 1,
         "value": "value"
@@ -18694,7 +18814,7 @@
         "value": " %"
       }
     ],
-    "PercentOfCost": [
+    "percentOfCost": [
       {
         "type": 1,
         "value": "value"
@@ -18704,13 +18824,13 @@
         "value": " % of cost"
       }
     ],
-    "PercentSymbol": [
+    "percentSymbol": [
       {
         "type": 0,
         "value": "%"
       }
     ],
-    "PercentTotalCost": [
+    "percentTotalCost": [
       {
         "type": 1,
         "value": "value"
@@ -18736,13 +18856,13 @@
         "value": " %)"
       }
     ],
-    "Perspective": [
+    "perspective": [
       {
         "type": 0,
         "value": "Perspective"
       }
     ],
-    "PerspectiveValues": [
+    "perspectiveValues": [
       {
         "options": {
           "aws": {
@@ -18833,25 +18953,25 @@
         "value": "value"
       }
     ],
-    "PriceList": [
+    "priceList": [
       {
         "type": 0,
         "value": "Price list"
       }
     ],
-    "PriceListAddRate": [
+    "priceListAddRate": [
       {
         "type": 0,
         "value": "Add rate"
       }
     ],
-    "PriceListDeleteRate": [
+    "priceListDeleteRate": [
       {
         "type": 0,
         "value": "Delete rate"
       }
     ],
-    "PriceListDesc": [
+    "priceListDesc": [
       {
         "offset": 0,
         "options": {
@@ -18905,103 +19025,97 @@
         "value": "count"
       }
     ],
-    "PriceListDuplicate": [
+    "priceListDuplicate": [
       {
         "type": 0,
         "value": "This tag key is already in use"
       }
     ],
-    "PriceListEditRate": [
+    "priceListEditRate": [
       {
         "type": 0,
         "value": "Edit rate"
       }
     ],
-    "PriceListEmptyRate": [
+    "priceListEmptyRate": [
       {
         "type": 0,
         "value": "No rates are set"
       }
     ],
-    "PriceListEmptyRateDesc": [
+    "priceListEmptyRateDesc": [
       {
         "type": 0,
         "value": "To add rates to the price list, click on the \"Add\" rate button above."
       }
     ],
-    "PriceListNumberRate": [
+    "priceListNumberRate": [
       {
         "type": 0,
         "value": "Rate must be a number"
       }
     ],
-    "PriceListPosNumberRate": [
-      {
-        "type": 0,
-        "value": "Rate must be a positive number"
-      }
-    ],
-    "Rate": [
+    "rate": [
       {
         "type": 0,
         "value": "Rate"
       }
     ],
-    "RawCostDescription": [
+    "rawCostDescription": [
       {
         "type": 0,
         "value": "The costs reported by a cloud provider without any cost model calculations applied."
       }
     ],
-    "RawCostTitle": [
+    "rawCostTitle": [
       {
         "type": 0,
         "value": "Raw cost"
       }
     ],
-    "RbacErrorDescription": [
+    "rbacErrorDescription": [
       {
         "type": 0,
         "value": "There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin."
       }
     ],
-    "RbacErrorTitle": [
+    "rbacErrorTitle": [
       {
         "type": 0,
         "value": "Failed to get RBAC information"
       }
     ],
-    "RedHatStatusUrl": [
+    "redHatStatusUrl": [
       {
         "type": 0,
         "value": "https://status.redhat.com"
       }
     ],
-    "Requests": [
+    "requests": [
       {
         "type": 0,
         "value": "Requests"
       }
     ],
-    "Save": [
+    "save": [
       {
         "type": 0,
         "value": "Save"
       }
     ],
-    "Select": [
+    "select": [
       {
         "type": 0,
         "value": "Select..."
       }
     ],
-    "SelectAll": [
+    "selectAll": [
       {
         "type": 0,
         "value": "Select all"
       }
     ],
-    "Selected": [
+    "selected": [
       {
         "type": 1,
         "value": "value"
@@ -19011,7 +19125,7 @@
         "value": " selected"
       }
     ],
-    "SinceDate": [
+    "sinceDate": [
       {
         "options": {
           "0": {
@@ -19550,13 +19664,13 @@
         "value": "month"
       }
     ],
-    "Sources": [
+    "sources": [
       {
         "type": 0,
         "value": "Sources"
       }
     ],
-    "Status": [
+    "status": [
       {
         "options": {
           "failed": {
@@ -19591,31 +19705,31 @@
         "value": "value"
       }
     ],
-    "StatusActions": [
+    "statusActions": [
       {
         "type": 0,
         "value": "Status/Actions"
       }
     ],
-    "Suggestions": [
+    "suggestions": [
       {
         "type": 0,
         "value": "Suggestions"
       }
     ],
-    "Supplementary": [
+    "supplementary": [
       {
         "type": 0,
         "value": "Supplementary"
       }
     ],
-    "TagHeadingKey": [
+    "tagHeadingKey": [
       {
         "type": 0,
         "value": "Key"
       }
     ],
-    "TagHeadingTitle": [
+    "tagHeadingTitle": [
       {
         "type": 0,
         "value": "Tags ("
@@ -19629,25 +19743,25 @@
         "value": ")"
       }
     ],
-    "TagHeadingValue": [
+    "tagHeadingValue": [
       {
         "type": 0,
         "value": "Value"
       }
     ],
-    "TagNames": [
+    "tagNames": [
       {
         "type": 0,
         "value": "Tag names"
       }
     ],
-    "TimeOfExport": [
+    "timeOfExport": [
       {
         "type": 0,
         "value": "Time of export"
       }
     ],
-    "ToolBarBulkSelectAll": [
+    "toolBarBulkSelectAll": [
       {
         "type": 0,
         "value": "Select all ("
@@ -19661,25 +19775,25 @@
         "value": " items)"
       }
     ],
-    "ToolBarBulkSelectAriaDeselect": [
+    "toolBarBulkSelectAriaDeselect": [
       {
         "type": 0,
         "value": "Deselect all items"
       }
     ],
-    "ToolBarBulkSelectAriaSelect": [
+    "toolBarBulkSelectAriaSelect": [
       {
         "type": 0,
         "value": "Select all items"
       }
     ],
-    "ToolBarBulkSelectNone": [
+    "toolBarBulkSelectNone": [
       {
         "type": 0,
         "value": "Select none (0 items)"
       }
     ],
-    "ToolBarBulkSelectPage": [
+    "toolBarBulkSelectPage": [
       {
         "type": 0,
         "value": "Select page ("
@@ -19693,19 +19807,19 @@
         "value": " items)"
       }
     ],
-    "ToolBarPriceListMeasurementPlaceHolder": [
+    "toolBarPriceListMeasurementPlaceHolder": [
       {
         "type": 0,
         "value": "Filter by measurements"
       }
     ],
-    "ToolBarPriceListMetricPlaceHolder": [
+    "toolBarPriceListMetricPlaceHolder": [
       {
         "type": 0,
         "value": "Filter by metrics"
       }
     ],
-    "UnitTooltips": [
+    "unitTooltips": [
       {
         "options": {
           "core_hours": {
@@ -19817,7 +19931,7 @@
         "value": "units"
       }
     ],
-    "Units": [
+    "units": [
       {
         "options": {
           "core_hours": {
@@ -19892,31 +20006,31 @@
         "value": "units"
       }
     ],
-    "Usage": [
+    "usage": [
       {
         "type": 0,
         "value": "Usage"
       }
     ],
-    "UsageCostDescription": [
+    "usageCostDescription": [
       {
         "type": 0,
         "value": "The portion of cost calculated by applying hourly and/or monthly price list rates to metrics."
       }
     ],
-    "UsageCostTitle": [
+    "usageCostTitle": [
       {
         "type": 0,
         "value": "Usage cost"
       }
     ],
-    "Various": [
+    "various": [
       {
         "type": 0,
         "value": "Various"
       }
     ],
-    "Yes": [
+    "yes": [
       {
         "type": 0,
         "value": "Yes"

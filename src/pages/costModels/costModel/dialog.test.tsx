@@ -1,5 +1,4 @@
-import { Alert } from '@patternfly/react-core';
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import Dialog from './dialog';
@@ -7,39 +6,35 @@ import Dialog from './dialog';
 const defaultProps = {
   onClose: jest.fn(),
   onProceed: jest.fn(),
+  isOpen: true,
   title: 'Test dialog',
   body: <div>This is a test dialog body</div>,
   t: (text: string) => text,
 };
 
-test('dialog has exclamation triangle icon in the title', () => {
-  const view = shallow(<Dialog {...defaultProps} />);
-  const icon = view.prop('header').props.children[0];
-  expect(icon.type.displayName).toBe('ExclamationTriangleIcon');
-  expect(icon.props).toEqual({
-    color: 'orange',
-    noVerticalAlign: false,
-    size: 'sm',
-  });
+test('dialog title renders correctly with icon and title text', () => {
+  render(<Dialog {...defaultProps} />);
+  expect(screen.getByText('Test dialog')).toMatchSnapshot();
 });
 
 test('dialog with a delete action', () => {
-  const view = shallow(<Dialog {...defaultProps} actionText="Delete!" />);
-  expect(view.props().actions.length).toBe(2);
+  render(<Dialog {...defaultProps} actionText="Delete!" />);
+  expect(screen.getByRole('button', { name: 'Delete!' })).not.toBeNull();
 });
 
 test('dialog with no action', () => {
-  const view = shallow(<Dialog {...defaultProps} actionText="" />);
-  expect(view.props().actions.length).toBe(1);
+  render(<Dialog {...defaultProps} actionText="" />);
+  // should only be "x" and "close", so 2 buttons
+  expect(screen.getAllByRole('button').length).toBe(2);
 });
 
 test('dialog with error', () => {
-  const view = shallow(<Dialog {...defaultProps} error="Opps!" />);
-  expect(view.find(Alert).props().title).toBe('Opps!');
-  expect(view.find(Alert).props().variant).toBe('danger');
+  render(<Dialog {...defaultProps} error="Opps!" />);
+  expect(screen.getByText(/danger alert/i)).not.toBeNull();
+  expect(screen.getByText(/opps!/i)).not.toBeNull();
 });
 
 test('dialog is small', () => {
-  const view = shallow(<Dialog {...defaultProps} isSmall />);
-  expect(view.props().variant).toBe('small');
+  render(<Dialog {...defaultProps} isSmall />);
+  expect(screen.getByLabelText(/test dialog/i).getAttribute('class')).toContain('pf-m-sm');
 });

@@ -107,7 +107,7 @@ const descriptionMergeProps = (
   const children =
     filterType === 'description' ? (
       <FilterInput
-        placeholder={intl.formatMessage(messages.FilterByPlaceholder, { value: filterType })}
+        placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: filterType })}
         value={value}
         onChange={(text: string) => setValue(text)}
         onKeyPress={onKeyPress(push, 'description', { ...initialCostModelsQuery, ...query }, { value, setValue })}
@@ -118,7 +118,7 @@ const descriptionMergeProps = (
     deleteChip: onDeleteChip(push, 'description', { ...initialCostModelsQuery, ...query }),
     deleteChipGroup: onDeleteChipGroup(push, { ...initialCostModelsQuery, ...query }, 'description'),
     chips,
-    categoryName: intl.formatMessage(messages.Description),
+    categoryName: intl.formatMessage(messages.description),
     children,
   } as ToolbarFilterProps;
 };
@@ -150,7 +150,7 @@ const nameFilterMergeProps = (
   const children =
     filterType === 'name' ? (
       <FilterInput
-        placeholder={intl.formatMessage(messages.FilterByPlaceholder, { value: filterType })}
+        placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: filterType })}
         value={value}
         onChange={(text: string) => setValue(text)}
         onKeyPress={onKeyPress(push, 'name', { ...initialCostModelsQuery, ...query }, { value, setValue })}
@@ -161,7 +161,7 @@ const nameFilterMergeProps = (
     deleteChip: onDeleteChip(push, 'name', { ...initialCostModelsQuery, ...query }),
     deleteChipGroup: onDeleteChipGroup(push, { ...initialCostModelsQuery, ...query }, 'name'),
     chips,
-    categoryName: intl.formatMessage(messages.Names, { count: 1 }),
+    categoryName: intl.formatMessage(messages.names, { count: 1 }),
     children,
   } as ToolbarFilterProps;
 };
@@ -213,18 +213,18 @@ const sourceTypeFilterMergeProps = (
             }}
             id={id}
           >
-            {intl.formatMessage(messages.FilterByPlaceholder, { value: 'source_type' })}
+            {intl.formatMessage(messages.filterByPlaceholder, { value: 'source_type' })}
           </DropdownToggle>
         }
         dropdownItems={[
           <DropdownItem key="aws" component="button" onClick={() => onFilter('aws')}>
-            {intl.formatMessage(messages.AWS)}
+            {intl.formatMessage(messages.aws)}
           </DropdownItem>,
           <DropdownItem key="azure" component="button" onClick={() => onFilter('azure')}>
-            {intl.formatMessage(messages.Azure)}
+            {intl.formatMessage(messages.azure)}
           </DropdownItem>,
           <DropdownItem key="ocp" component="button" onClick={() => onFilter('ocp')}>
-            {intl.formatMessage(messages.OpenShift)}
+            {intl.formatMessage(messages.openShift)}
           </DropdownItem>,
         ]}
       />
@@ -233,7 +233,7 @@ const sourceTypeFilterMergeProps = (
   return {
     deleteChip: onDeleteChipGroup(push, { ...initialCostModelsQuery, ...query }, 'source_type'),
     chips,
-    categoryName: intl.formatMessage(messages.CostModelsSourceType),
+    categoryName: intl.formatMessage(messages.costModelsSourceType),
     children,
   } as ToolbarFilterProps;
 };

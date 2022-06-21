@@ -26,6 +26,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { CostTypes, getCostType } from 'utils/costType';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 import { styles } from './explorer.styles';
@@ -51,6 +52,7 @@ import {
 interface ExplorerStateProps {
   awsProviders: Providers;
   azureProviders: Providers;
+  costType?: CostTypes;
   dateRange: DateRangeType;
   gcpProviders: Providers;
   ibmProviders: Providers;
@@ -419,6 +421,7 @@ class Explorer extends React.Component<ExplorerProps> {
     const {
       awsProviders,
       azureProviders,
+      costType,
       gcpProviders,
       ibmProviders,
       intl,
@@ -447,7 +450,7 @@ class Explorer extends React.Component<ExplorerProps> {
     const groupByTagKey = getGroupByTagKey(query);
     const computedItems = this.getComputedItems();
     const itemsTotal = report && report.meta ? report.meta.count : 0;
-    const title = intl.formatMessage(messages.ExplorerTitle);
+    const title = intl.formatMessage(messages.explorerTitle);
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
     if (reportError) {
@@ -471,6 +474,7 @@ class Explorer extends React.Component<ExplorerProps> {
     return (
       <div style={styles.explorer}>
         <ExplorerHeader
+          costType={costType}
           groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
           onFilterAdded={this.handleFilterAdded}
           onFilterRemoved={this.handleFilterRemoved}
@@ -555,6 +559,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     groupBy = { [getGroupByDefault(perspective)]: '*' };
   }
 
+  const costType = getCostType();
   const query = {
     filter: {
       ...baseQuery.filter,
@@ -567,7 +572,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     dateRange,
     start_date,
     end_date,
-    ...(perspective === PerspectiveType.aws && { cost_type: queryFromRoute.cost_type }),
+    ...(perspective === PerspectiveType.aws && { cost_type: costType }),
   };
   const queryString = getQuery({
     ...query,
@@ -585,6 +590,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   return {
     awsProviders,
     azureProviders,
+    costType,
     dateRange,
     gcpProviders,
     ibmProviders,
