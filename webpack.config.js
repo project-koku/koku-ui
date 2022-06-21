@@ -29,7 +29,7 @@ const {
 const gitRevisionPlugin = new GitRevisionPlugin({
   branch: true,
 });
-const betaBranches = ['master', 'stage-beta', 'prod-beta'];
+const betaBranches = ['main', 'master', 'stage-beta', 'prod-beta'];
 const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
 
 const localhost = process.env.PLATFORM === 'linux' ? 'localhost' : 'host.docker.internal';
@@ -216,17 +216,6 @@ module.exports = (_env, argv) => {
       // !isProduction && new webpack.HotModuleReplacementPlugin(),
       // production plugins
     ].filter(Boolean),
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          commons: {
-            test: /[\\/]node_modules[\\/](react|react-dom|redux|@patternfly*)[\\/]/,
-            name: 'vendor',
-            chunks: 'all',
-          },
-        },
-      },
-    },
     performance: {
       assetFilter: assetFilename => !(fileRegEx.test(assetFilename) || /\.map$/.test(assetFilename)),
     },

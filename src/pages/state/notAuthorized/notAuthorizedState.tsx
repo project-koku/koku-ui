@@ -20,30 +20,30 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps> {
     switch (pathname) {
       case paths.awsDetails:
       case paths.awsDetailsBreakdown:
-        msg = messages.NotAuthorizedStateAws;
+        msg = messages.notAuthorizedStateAws;
         break;
       case paths.azureDetails:
       case paths.azureDetailsBreakdown:
-        msg = messages.NotAuthorizedStateAzure;
+        msg = messages.notAuthorizedStateAzure;
         break;
       case paths.costModels:
-        msg = messages.NotAuthorizedStateCostModels;
+        msg = messages.notAuthorizedStateCostModels;
         break;
       case paths.gcpDetails:
       case paths.gcpDetailsBreakdown:
-        msg = messages.NotAuthorizedStateGcp;
+        msg = messages.notAuthorizedStateGcp;
         break;
       case paths.ibmDetails:
       case paths.ibmDetailsBreakdown:
-        msg = messages.NotAuthorizedStateIbm;
+        msg = messages.notAuthorizedStateIbm;
         break;
       case paths.ocpDetails:
       case paths.ocpDetailsBreakdown:
-        msg = messages.NotAuthorizedStateOcp;
+        msg = messages.notAuthorizedStateOcp;
         break;
       case paths.explorer:
       default:
-        msg = messages.CostManagement;
+        msg = messages.costManagement;
         break;
     }
     return <_NotAuthorized serviceName={intl.formatMessage(msg)} />;

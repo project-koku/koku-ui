@@ -64,7 +64,7 @@ class ExportsDrawerBase extends React.Component<ExportsDrawerProps> {
           /* @ts-ignore */}
           <span tabIndex={isOpen ? 0 : -1} ref={this.drawerRef}>
             <Title headingLevel="h1" size={TitleSizes.xl}>
-              {intl.formatMessage(messages.ExportsTitle)}
+              {intl.formatMessage(messages.exportsTitle)}
             </Title>
           </span>
           <DrawerActions>
@@ -72,7 +72,7 @@ class ExportsDrawerBase extends React.Component<ExportsDrawerProps> {
           </DrawerActions>
         </DrawerHead>
         <DrawerContentBody>
-          <ExportsContent />
+          <ExportsContent onClose={this.handleClose} />
         </DrawerContentBody>
       </DrawerPanelContent>
     );

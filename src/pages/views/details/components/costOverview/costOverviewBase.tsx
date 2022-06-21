@@ -56,7 +56,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
         <Card>
           <CardTitle>
             <Title headingLevel="h2" size={TitleSizes.lg}>
-              {intl.formatMessage(messages.Clusters)}
+              {intl.formatMessage(messages.clusters)}
             </Title>
           </CardTitle>
           <CardBody>
@@ -76,23 +76,23 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
       <Card>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.BreakdownCostBreakdownTitle)}
+            {intl.formatMessage(messages.breakdownCostBreakdownTitle)}
             <Popover
-              aria-label={intl.formatMessage(messages.BreakdownCostBreakdownAriaLabel)}
+              aria-label={intl.formatMessage(messages.breakdownCostBreakdownAriaLabel)}
               enableFlip
               bodyContent={
                 <>
-                  <p style={styles.infoTitle}>{intl.formatMessage(messages.RawCostTitle)}</p>
-                  <p>{intl.formatMessage(messages.RawCostDescription)}</p>
+                  <p style={styles.infoTitle}>{intl.formatMessage(messages.rawCostTitle)}</p>
+                  <p>{intl.formatMessage(messages.rawCostDescription)}</p>
                   <br />
-                  <p style={styles.infoTitle}>{intl.formatMessage(messages.UsageCostTitle)}</p>
-                  <p>{intl.formatMessage(messages.UsageCostDescription)}</p>
+                  <p style={styles.infoTitle}>{intl.formatMessage(messages.usageCostTitle)}</p>
+                  <p>{intl.formatMessage(messages.usageCostDescription)}</p>
                   <br />
-                  <p style={styles.infoTitle}>{intl.formatMessage(messages.MarkupTitle)}</p>
-                  <p>{intl.formatMessage(messages.MarkupDescription)}</p>
+                  <p style={styles.infoTitle}>{intl.formatMessage(messages.markupTitle)}</p>
+                  <p>{intl.formatMessage(messages.markupDescription)}</p>
                   <br />
-                  <a href={intl.formatMessage(messages.DocsCostModelTerminology)} rel="noreferrer" target="_blank">
-                    {intl.formatMessage(messages.LearnMore)}
+                  <a href={intl.formatMessage(messages.docsCostModelTerminology)} rel="noreferrer" target="_blank">
+                    {intl.formatMessage(messages.learnMore)}
                   </a>
                 </>
               }
@@ -118,7 +118,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
       <Card>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.CpuTitle)}
+            {intl.formatMessage(messages.cpuTitle)}
           </Title>
         </CardTitle>
         <CardBody>
@@ -136,7 +136,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
       <Card>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.MemoryTitle)}
+            {intl.formatMessage(messages.memoryTitle)}
           </Title>
         </CardTitle>
         <CardBody>

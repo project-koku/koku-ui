@@ -29,13 +29,13 @@ const mapStateToProps = (state: RootState, ownProps: WrappedComponentProps) => {
 
   const children = (
     <>
-      {intl.formatMessage(messages.CostModels)}
+      {intl.formatMessage(messages.costModels)}
       <Popover
-        aria-label={intl.formatMessage(messages.CostModelsPopoverAriaLabel)}
-        bodyContent={intl.formatMessage(messages.CostModelsPopover, {
+        aria-label={intl.formatMessage(messages.costModelsPopoverAriaLabel)}
+        bodyContent={intl.formatMessage(messages.costModelsPopover, {
           learnMore: (
-            <a href={intl.formatMessage(messages.DocsUsingCostModels)} rel="noreferrer" target="_blank">
-              {intl.formatMessage(messages.LearnMore)}
+            <a href={intl.formatMessage(messages.docsUsingCostModels)} rel="noreferrer" target="_blank">
+              {intl.formatMessage(messages.learnMore)}
             </a>
           ),
         })}

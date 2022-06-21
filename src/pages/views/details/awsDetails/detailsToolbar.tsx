@@ -113,18 +113,18 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     const { intl, orgReport, tagReport } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.FilterByValues, { value: 'account' }), key: 'account' },
-      { name: intl.formatMessage(messages.FilterByValues, { value: 'service' }), key: 'service' },
-      { name: intl.formatMessage(messages.FilterByValues, { value: 'region' }), key: 'region' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'account' }), key: 'account' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'service' }), key: 'service' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'region' }), key: 'region' },
     ];
     if (orgReport && orgReport.data && orgReport.data.length) {
       options.push({
-        name: intl.formatMessage(messages.FilterByValues, { value: 'org_unit_id' }),
+        name: intl.formatMessage(messages.filterByValues, { value: 'org_unit_id' }),
         key: orgUnitIdKey,
       });
     }
     if (tagReport && tagReport.data && tagReport.data.length) {
-      options.push({ name: intl.formatMessage(messages.FilterByValues, { value: 'tag' }), key: tagKey });
+      options.push({ name: intl.formatMessage(messages.filterByValues, { value: 'tag' }), key: tagKey });
     }
     return options;
   };
@@ -181,12 +181,8 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
   // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
   const queryString = getQuery({
-    filter: {
-      resolution: 'monthly',
-      time_scope_units: 'month',
-      time_scope_value: -1,
-    },
     key_only: true,
+    limit: 1000,
   });
   const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, queryString);
   const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgReportPathsType, orgReportType, queryString);

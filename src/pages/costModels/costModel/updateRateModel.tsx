@@ -95,7 +95,7 @@ const UpdateRateModalBase: React.FunctionComponent<UpdateRateModalBaseProps> = (
 
   return (
     <Modal
-      title={intl.formatMessage(messages.PriceListEditRate)}
+      title={intl.formatMessage(messages.priceListEditRate)}
       isOpen={isOpen}
       onClose={onClose}
       variant="large"
@@ -106,10 +106,10 @@ const UpdateRateModalBase: React.FunctionComponent<UpdateRateModalBaseProps> = (
           onClick={onProceed}
           isDisabled={!canSubmit || isProcessing || !gotDiffs}
         >
-          {intl.formatMessage(messages.Save)}
+          {intl.formatMessage(messages.save)}
         </Button>,
         <Button key="cancel" variant="link" onClick={onClose} isDisabled={isProcessing}>
-          {intl.formatMessage(messages.Cancel)}
+          {intl.formatMessage(messages.cancel)}
         </Button>,
       ]}
     >

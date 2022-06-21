@@ -85,7 +85,7 @@ class TagModalBase extends React.Component<TagModalProps> {
       <Modal
         isOpen={isOpen}
         onClose={this.handleClose}
-        title={intl.formatMessage(messages.TagHeadingTitle, { value: this.getTagValueCount() })}
+        title={intl.formatMessage(messages.tagHeadingTitle, { value: this.getTagValueCount() })}
         width={'50%'}
       >
         <TagContent groupBy={groupBy} groupByValue={groupByValue} tagReport={tagReport} />

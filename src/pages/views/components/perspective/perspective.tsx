@@ -100,7 +100,7 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
     return (
       <div style={styles.perspectiveSelector}>
         <Title headingLevel="h3" size="md" style={styles.perspectiveLabel}>
-          {intl.formatMessage(messages.Perspective)}
+          {intl.formatMessage(messages.perspective)}
         </Title>
         {this.getSelect()}
       </div>

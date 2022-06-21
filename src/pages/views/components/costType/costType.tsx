@@ -7,11 +7,13 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { CostTypes, getCostType, invalidateCostType, setCostType } from 'utils/localStorage';
+import { CostTypes } from 'utils/costType';
+import { invalidateSession, restoreCostType, setCostType } from 'utils/localStorage';
 
 import { styles } from './costType.styles';
 
 interface CostTypeOwnProps {
+  costType: CostTypes;
   isDisabled?: boolean;
   onSelect?: (value: string) => void;
 }
@@ -41,9 +43,9 @@ const costTypeOptions: {
   label: MessageDescriptor;
   value: string;
 }[] = [
-  { desc: messages.CostTypeAmortizedDesc, label: messages.CostTypeAmortized, value: CostTypes.amortized },
-  { desc: messages.CostTypeBlendedDesc, label: messages.CostTypeBlended, value: CostTypes.blended },
-  { desc: messages.CostTypeUnblendedDesc, label: messages.CostTypeUnblended, value: CostTypes.unblended },
+  { desc: messages.costTypeAmortizedDesc, label: messages.costTypeAmortized, value: CostTypes.amortized },
+  { desc: messages.costTypeBlendedDesc, label: messages.costTypeBlended, value: CostTypes.blended },
+  { desc: messages.costTypeUnblendedDesc, label: messages.costTypeUnblended, value: CostTypes.unblended },
 ];
 
 class CostTypeBase extends React.Component<CostTypeProps> {
@@ -53,10 +55,12 @@ class CostTypeBase extends React.Component<CostTypeProps> {
   public state: CostTypeState = { ...this.defaultState };
 
   private getSelect = () => {
-    const { isDisabled } = this.props;
+    const { costType, isDisabled } = this.props;
     const { isSelectOpen } = this.state;
 
-    const costType = getCostType(); // Get cost type from local storage
+    // Restore from query param if available
+    restoreCostType();
+
     const selectOptions = this.getSelectOptions();
     const selection = selectOptions.find((option: CostTypeOption) => option.value === costType);
 
@@ -118,12 +122,12 @@ class CostTypeBase extends React.Component<CostTypeProps> {
     const { intl } = this.props;
 
     // Clear local storage value if current session is not valid
-    invalidateCostType();
+    invalidateSession();
 
     return (
       <div style={styles.costSelector}>
         <Title headingLevel="h3" size="md" style={styles.costLabel}>
-          {intl.formatMessage(messages.CostTypeLabel)}
+          {intl.formatMessage(messages.costTypeLabel)}
         </Title>
         {this.getSelect()}
       </div>

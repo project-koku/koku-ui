@@ -23,12 +23,14 @@ export interface Filters {
 
 export interface Query {
   cost_type?: any;
+  currency?: any;
   dateRange?: any;
   end_date?: any;
   filter?: any;
   filter_by?: any;
   group_by?: any;
   key_only?: boolean;
+  limit?: number;
   order_by?: any;
   perspective?: any;
   search?: any;

@@ -82,7 +82,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
     costOverviewComponent: <CostOverview groupBy={groupBy} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
-    emptyStateTitle: props.intl.formatMessage(messages.OCPDetailsTitle),
+    emptyStateTitle: props.intl.formatMessage(messages.ocpDetailsTitle),
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData />,

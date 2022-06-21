@@ -24,7 +24,7 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { getCostType } from 'utils/localStorage';
+import { CostTypes, getCostType } from 'utils/costType';
 
 import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';
@@ -32,6 +32,7 @@ import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
 
 interface AwsDetailsStateProps {
+  costType: CostTypes;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -380,14 +381,14 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   private updateReport = () => {
-    const { query, location, fetchReport, history, queryString } = this.props;
+    const { costType, query, location, fetchReport, history, queryString } = this.props;
     if (!location.search) {
       history.replace(
         this.getRouteForQuery({
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
           order_by: { cost: 'desc' },
-          cost_type: query ? query.cost_type : getCostType(),
+          cost_type: costType,
         })
       );
     } else {
@@ -396,11 +397,12 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   public render() {
-    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } = this.props;
+    const { costType, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } =
+      this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
-    const title = intl.formatMessage(messages.AWSDetailsTitle);
+    const title = intl.formatMessage(messages.awsDetailsTitle);
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
     if (reportError) {
@@ -421,6 +423,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     return (
       <div style={styles.awsDetails}>
         <DetailsHeader
+          costType={costType}
           groupBy={groupById}
           onCostTypeSelected={this.handleCostTypeSelected}
           onGroupBySelected={this.handleGroupBySelected}
@@ -448,6 +451,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStateProps>((state, props) => {
   const queryFromRoute = parseQuery<AwsQuery>(location.search);
+  const costType = getCostType();
   const query = {
     delta: 'cost',
     filter: {
@@ -457,7 +461,7 @@ const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStat
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
-    cost_type: queryFromRoute.cost_type || getCostType(),
+    cost_type: costType,
   };
   const queryString = getQuery(query);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
@@ -474,6 +478,7 @@ const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStat
   );
 
   return {
+    costType,
     providers: filterProviders(providers, ProviderType.aws),
     providersError,
     providersFetchStatus,

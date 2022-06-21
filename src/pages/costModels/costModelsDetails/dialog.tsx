@@ -39,9 +39,9 @@ const mergeProps = (
 
   const actions = DeleteDialogActions({
     status: stateName,
-    deleteText: intl.formatMessage(messages.CostModelsDelete),
+    deleteText: intl.formatMessage(messages.costModelsDelete),
     deleteAction: () => dispatchProps.deleteCostModel(uuid),
-    cancelText: intl.formatMessage(messages.Cancel),
+    cancelText: intl.formatMessage(messages.cancel),
     cancelAction: dispatchProps.closeDialog,
     sourcesNo: sources.length,
   });
@@ -50,17 +50,17 @@ const mergeProps = (
     status: stateName,
     sources,
     error: stateProps.deleteError,
-    cannotDeleteTitle: intl.formatMessage(messages.CostModelsDeleteSource),
-    cannotDeleteBody: intl.formatMessage(messages.CostModelsCanNotDelete, { name }),
-    canDeleteBody: intl.formatMessage(messages.CostModelsCanDelete, { name }),
+    cannotDeleteTitle: intl.formatMessage(messages.costModelsDeleteSource),
+    cannotDeleteBody: intl.formatMessage(messages.costModelsCanNotDelete, { name }),
+    canDeleteBody: intl.formatMessage(messages.costModelsCanDelete, { name }),
   });
 
   return {
     actions,
     isOpen: stateName !== 'close',
     variant: ModalVariant.small,
-    'aria-label': intl.formatMessage(messages.CostModelsDelete),
-    title: intl.formatMessage(messages.CostModelsDelete),
+    'aria-label': intl.formatMessage(messages.costModelsDelete),
+    title: intl.formatMessage(messages.costModelsDelete),
     titleIconVariant: 'warning',
     onClose: dispatchProps.closeDialog,
     children,

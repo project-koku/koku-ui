@@ -81,7 +81,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
       const isSelected = this.props.checked[providerData.uuid] ? this.props.checked[providerData.uuid].selected : false;
       const provCostModels =
         providerData.cost_models === undefined
-          ? intl.formatMessage(messages.CostModelsWizardSourceTableDefaultCostModel)
+          ? intl.formatMessage(messages.costModelsWizardSourceTableDefaultCostModel)
           : providerData.cost_models.map(cm => cm.name).join(',');
       const isAssigned =
         providerData.cost_models.length &&
@@ -90,7 +90,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
       const warningIcon = isAssigned ? (
         <WarningIcon
           key={providerData.uuid}
-          text={intl.formatMessage(messages.CostModelsWizardSourceWarning, { costModel: provCostModels })}
+          text={intl.formatMessage(messages.costModelsWizardSourceWarning, { costModel: provCostModels })}
         />
       ) : null;
       const cellName = (
@@ -172,10 +172,10 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         />
         {sources.length > 0 && (
           <Table
-            aria-label={intl.formatMessage(messages.CostModelsAssignSources, { count: 1 })}
+            aria-label={intl.formatMessage(messages.costModelsAssignSources, { count: 1 })}
             cells={[
-              intl.formatMessage(messages.Names, { count: 1 }),
-              intl.formatMessage(messages.CostModelsWizardSourceTableCostModel),
+              intl.formatMessage(messages.names, { count: 1 }),
+              intl.formatMessage(messages.costModelsWizardSourceTableCostModel),
             ]}
             rows={sources}
             onSelect={onSelect}
@@ -185,7 +185,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
           </Table>
         )}
         {sources.length === 0 && (
-          <EmptyFilterState filter={this.props.filter} subTitle={messages.EmptyFilterSourceStateSubtitle} />
+          <EmptyFilterState filter={this.props.filter} subTitle={messages.emptyFilterSourceStateSubtitle} />
         )}
         <Toolbar id="costmodels_details.sources_pagination_datatoolbar">
           <ToolbarContent style={{ flexDirection: 'row-reverse' }}>

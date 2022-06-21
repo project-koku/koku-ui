@@ -34,10 +34,8 @@ interface TagValueOwnProps extends WrappedComponentProps {
 }
 
 interface TagValueStateProps {
-  endDate?: string;
   groupBy: string;
   groupByValue: string | number;
-  startDate?: string;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
 }
@@ -140,16 +138,16 @@ class TagValueBase extends React.Component<TagValueProps> {
             name="tagkeyvalue-input"
             id="tagkeyvalue-input"
             type="search"
-            aria-label={intl.formatMessage(messages.FilterByTagValueAriaLabel)}
+            aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
             onChange={this.onTagValueChange}
             value={tagKeyValue}
-            placeholder={intl.formatMessage(messages.FilterByTagValueInputPlaceholder)}
+            placeholder={intl.formatMessage(messages.filterByTagValueInputPlaceholder)}
             onKeyDown={evt => onTagValueInput(evt)}
           />
           <Button
             isDisabled={isDisabled}
             variant={ButtonVariant.control}
-            aria-label={intl.formatMessage(messages.FilterByTagValueButtonAriaLabel)}
+            aria-label={intl.formatMessage(messages.filterByTagValueButtonAriaLabel)}
             onClick={evt => onTagValueInput(evt)}
           >
             <SearchIcon />
@@ -161,12 +159,12 @@ class TagValueBase extends React.Component<TagValueProps> {
       <Select
         isDisabled={isDisabled}
         variant={SelectVariant.checkbox}
-        aria-label={intl.formatMessage(messages.FilterByTagValueAriaLabel)}
+        aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
         onToggle={this.onTagValueToggle}
         onSelect={onTagValueSelect}
         selections={selections}
         isOpen={isTagValueExpanded}
-        placeholderText={intl.formatMessage(messages.FilterByTagValuePlaceholder)}
+        placeholderText={intl.formatMessage(messages.filterByTagValuePlaceholder)}
       >
         {selectOptions}
       </Select>
@@ -178,39 +176,15 @@ const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStatePro
   (state, { tagKey, tagReportPathsType }) => {
     const query = parseQuery<Query>(location.search);
 
-    const endDate = query.end_date;
-    const startDate = query.start_date;
     const groupByOrgValue = getGroupByOrgValue(query);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
 
-    const tagKeyFilter = tagKey
-      ? {
-          key: tagKey,
-        }
-      : {};
-
-    const tagQuery =
-      endDate && startDate
-        ? {
-            start_date: startDate,
-            end_date: endDate,
-            filter: {
-              ...tagKeyFilter,
-            },
-          }
-        : {
-            filter: {
-              resolution: 'monthly',
-              time_scope_units: 'month',
-              time_scope_value: -1,
-              ...tagKeyFilter,
-            },
-          };
-
     // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
     const tagQueryString = getQuery({
-      ...tagQuery,
+      filter: {
+        key: tagKey,
+      },
     });
     const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
     const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
@@ -221,10 +195,8 @@ const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStatePro
     );
 
     return {
-      endDate,
       groupBy,
       groupByValue,
-      startDate,
       tagQueryString,
       tagReport,
       tagReportFetchStatus,
@@ -240,6 +212,3 @@ const TagValueConnect = connect(mapStateToProps, mapDispatchToProps)(TagValueBas
 const TagValue = injectIntl(TagValueConnect);
 
 export { TagValue, TagValueProps };
-
-// https://stage.foo.redhat.com:1337/api/cost-management/v1/tags/openshift/?start_date=2021-11-01&end_date=2021-11-08&key=environment&filter[tag:environment]=Development&filter[project]=*
-// https://stage.foo.redhat.com:1337/api/cost-management/v1/reports/openshift/costs/?filter[limit]=10&filter[offset]=0&filter[tag:environment]=Development&group_by[project]=*&end_date=2021-11-08&start_date=2021-11-01

@@ -130,13 +130,13 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
     return (
       <div style={styles.groupBySelector}>
         <Select
-          aria-label={intl.formatMessage(messages.FilterByTagKeyAriaLabel)}
+          aria-label={intl.formatMessage(messages.filterByTagKeyAriaLabel)}
           isDisabled={isDisabled}
           onClear={this.handleGroupByClear}
           onToggle={this.handleGroupByToggle}
           onSelect={this.handleGroupBySelected}
           isOpen={isGroupByOpen}
-          placeholderText={intl.formatMessage(messages.FilterByTagKeyPlaceholder)}
+          placeholderText={intl.formatMessage(messages.filterByTagKeyPlaceholder)}
           selections={currentItem}
           variant={SelectVariant.typeahead}
         >

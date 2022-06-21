@@ -86,7 +86,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
     costOverviewComponent: <CostOverview groupBy={groupBy} query={query} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
-    emptyStateTitle: props.intl.formatMessage(messages.GCPDetailsTitle),
+    emptyStateTitle: props.intl.formatMessage(messages.gcpDetailsTitle),
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData />,

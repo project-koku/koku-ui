@@ -33,7 +33,7 @@ let file = fs.readFileSync('yarn.lock', 'utf8');
 let deps = parseDependencies(file);
 let path = 'koku-ui-manifest';
 let data = stringifyDependencies(deps);
-let buffer = new Buffer(data);
+let buffer = new Buffer.from(data);
 
 fs.open(path, 'w', function(err, fd) {
   if (err) {

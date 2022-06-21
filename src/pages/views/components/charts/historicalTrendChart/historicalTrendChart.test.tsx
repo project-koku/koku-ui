@@ -1,15 +1,12 @@
-jest.mock('date-fns/format');
-
-import { Chart, ChartArea } from '@patternfly/react-charts';
+import { render, screen } from '@testing-library/react';
 import { AwsReport, AwsReportData } from 'api/reports/awsReports';
-import { shallow } from 'enzyme';
 import * as utils from 'pages/views/components/charts/common/chartDatumUtils';
 import React from 'react';
 
 import { HistoricalTrendChart, HistoricalTrendChartProps } from './historicalTrendChart';
 
-const currentMonthReport: AwsReport = createReport('1-15-18');
-const previousMonthReport: AwsReport = createReport('12-15-17');
+const currentMonthReport: AwsReport = createReport('2018-01-01');
+const previousMonthReport: AwsReport = createReport('2017-12-01');
 
 const currentData = utils.transformReport(currentMonthReport, utils.ChartType.daily);
 const previousData = utils.transformReport(previousMonthReport, utils.ChartType.daily);
@@ -18,66 +15,29 @@ const props: HistoricalTrendChartProps = {
   title: 'Trend Title',
   height: 100,
   currentData,
+  intl: null,
   previousData,
   formatter: jest.fn(),
   formatOptions: {},
 };
 
+/* eslint-disable testing-library/no-node-access */
+
 test('reports are formatted to datums', () => {
-  const view = shallow(<HistoricalTrendChart {...props} />);
-  const charts = view.find(ChartArea);
-  expect(charts.length).toBe(2);
-  expect(charts.at(0).prop('data')).toMatchSnapshot('previous month data');
-  expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
+  render(<HistoricalTrendChart {...props} />);
+  const chart = screen.getByText(props.title).parentElement;
+  expect(chart).toMatchSnapshot();
 });
 
 test('null previous and current reports are handled', () => {
-  const view = shallow(<HistoricalTrendChart {...props} currentData={null} previousData={null} />);
-  const charts = view.find(ChartArea);
-  expect(charts.length).toBe(2);
+  render(<HistoricalTrendChart {...props} currentData={null} previousData={null} />);
+  const chart = screen.getByText(props.title).parentElement;
+  expect(chart).toMatchSnapshot();
 });
 
 test('height from props is used', () => {
-  const view = shallow(<HistoricalTrendChart {...props} />);
-  expect(view.find(Chart).prop('height')).toBe(props.height);
-});
-
-test('labels formats with datum and value formatted from props', () => {
-  const tooltipFormatMock = jest.spyOn(utils, 'getTooltipContent');
-  const formatLabel = jest.fn();
-  tooltipFormatMock.mockImplementation(() => formatLabel);
-
-  const view = shallow(<HistoricalTrendChart {...props} />);
-  const datum: utils.ChartDatum = {
-    x: 1,
-    y: 1,
-    key: '1-1-1',
-    units: 'hrs',
-  };
-  const group = view.find(Chart);
-  group.props().containerComponent.props.labels({ datum });
-  expect(formatLabel).toBeCalledWith(datum.y, datum.units, props.formatOptions);
-  expect(view.find(Chart).prop('height')).toBe(props.height);
-});
-
-test('trend is a running total', () => {
-  const multiDayReport: AwsReport = {
-    data: [createReportDataPoint('1-15-18', 1), createReportDataPoint('1-16-18', 2)],
-  };
-  const multiDaytData = utils.transformReport(multiDayReport, utils.ChartType.daily);
-  const view = shallow(<HistoricalTrendChart {...props} currentData={multiDaytData} />);
-  const charts = view.find(ChartArea);
-  expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
-});
-
-test('trend is a daily value', () => {
-  const multiDayReport: AwsReport = {
-    data: [createReportDataPoint('1-15-18', 1), createReportDataPoint('1-16-18', 2)],
-  };
-  const multiDaytData = utils.transformReport(multiDayReport, utils.ChartType.daily);
-  const view = shallow(<HistoricalTrendChart {...props} currentData={multiDaytData} />);
-  const charts = view.find(ChartArea);
-  expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
+  render(<HistoricalTrendChart {...props} />);
+  expect(screen.getByTestId('historical-chart-wrapper').getAttribute('style')).toContain('height: 100px');
 });
 
 function createReport(date: string): AwsReport {
@@ -89,6 +49,9 @@ function createReport(date: string): AwsReport {
 function createReportDataPoint(date: string, total = 1): AwsReportData {
   return {
     date,
-    values: [{ date, cost: { value: total, units: 'unit' } }],
+    values: [
+      { date, cost: { value: total, units: 'unit' } },
+      { date, cost: { value: total, units: 'unit' } },
+    ],
   };
 }

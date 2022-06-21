@@ -105,28 +105,28 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
     } = this.props;
 
     const key = showUsageLegendLabel
-      ? messages.ChartUsageLegendLabel
+      ? messages.chartUsageLegendLabel
       : showSupplementaryLabel
-      ? messages.ChartCostSupplementaryLegendLabel
+      ? messages.chartCostSupplementaryLegendLabel
       : showInfrastructureLabel
-      ? messages.ChartCostInfrastructureLegendLabel
-      : messages.ChartCostLegendLabel;
+      ? messages.chartCostInfrastructureLegendLabel
+      : messages.chartCostLegendLabel;
 
     const tooltipKey = showUsageLegendLabel
-      ? messages.ChartUsageLegendTooltip
+      ? messages.chartUsageLegendTooltip
       : showSupplementaryLabel
-      ? messages.ChartCostSupplementaryLegendTooltip
+      ? messages.chartCostSupplementaryLegendTooltip
       : showInfrastructureLabel
-      ? messages.ChartCostInfrastructureLegendTooltip
-      : messages.ChartCostLegendTooltip;
+      ? messages.chartCostInfrastructureLegendTooltip
+      : messages.chartCostLegendTooltip;
 
     const noDataKey = showUsageLegendLabel
-      ? messages.ChartUsageLegendNoDataLabel
+      ? messages.chartUsageLegendNoDataLabel
       : showSupplementaryLabel
-      ? messages.ChartCostSupplementaryLegendNoDataLabel
+      ? messages.chartCostSupplementaryLegendNoDataLabel
       : showInfrastructureLabel
-      ? messages.ChartCostInfrastructureLegendNoDataLabel
-      : messages.ChartCostLegendNoDataLabel;
+      ? messages.chartCostInfrastructureLegendNoDataLabel
+      : messages.chartCostLegendNoDataLabel;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -176,17 +176,17 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         legendItem: {
           name: getCostRangeString(
             forecastData,
-            messages.ChartCostForecastLegendLabel,
+            messages.chartCostForecastLegendLabel,
             false,
             false,
             0,
-            messages.ChartCostForecastLegendNoDataLabel
+            messages.chartCostForecastLegendNoDataLabel
           ),
           symbol: {
             fill: chartStyles.forecastDataColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(forecastData, messages.ChartCostForecastLegendTooltip, false, false),
+          tooltip: getCostRangeString(forecastData, messages.chartCostForecastLegendTooltip, false, false),
         },
         style: {
           data: {
@@ -201,17 +201,17 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         legendItem: {
           name: getCostRangeString(
             forecastConeData,
-            messages.ChartCostForecastConeLegendLabel,
+            messages.chartCostForecastConeLegendLabel,
             false,
             false,
             0,
-            messages.ChartCostForecastConeLegendNoDataLabel
+            messages.chartCostForecastConeLegendNoDataLabel
           ),
           symbol: {
             fill: chartStyles.forecastConeDataColorScale[0],
             type: 'triangleLeft',
           },
-          tooltip: getCostRangeString(forecastConeData, messages.ChartCostForecastConeLegendTooltip, false, false),
+          tooltip: getCostRangeString(forecastConeData, messages.chartCostForecastConeLegendTooltip, false, false),
         },
         style: {
           data: {
@@ -366,7 +366,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
           labelComponent: (
             <ChartLegendTooltip
               legendData={getLegendData(series, hiddenSeries, true)}
-              title={datum => intl.formatMessage(messages.ChartDayOfTheMonth, { day: datum.x })}
+              title={datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })}
             />
           ),
         })
@@ -378,7 +378,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
           {title}
         </Title>
         <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
-          <div style={{ height, width }}>
+          <div style={{ height, width }} data-testid="trend-chart-wrapper">
             <Chart
               containerComponent={container}
               domain={domain}

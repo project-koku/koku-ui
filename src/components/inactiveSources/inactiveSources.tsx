@@ -80,8 +80,8 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
     const names = this.getInactiveSourceNames();
     const title =
       names.length === 1
-        ? intl.formatMessage(messages.InactiveSourcesTitle, { value: names[0] })
-        : intl.formatMessage(messages.InactiveSourcesTitleMultiplier);
+        ? intl.formatMessage(messages.inactiveSourcesTitle, { value: names[0] })
+        : intl.formatMessage(messages.inactiveSourcesTitleMultiplier);
 
     if (names.length === 0) {
       if (providers && providersFetchStatus === FetchStatus.complete && !providersError) {
@@ -105,7 +105,7 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
           actionClose={<AlertActionCloseButton onClose={this.handleOnClose} />}
           actionLinks={
             <React.Fragment>
-              <a href={`${release}/settings/sources`}>{intl.formatMessage(messages.InactiveSourcesGoTo)}</a>
+              <a href={`${release}/settings/sources`}>{intl.formatMessage(messages.inactiveSourcesGoTo)}</a>
             </React.Fragment>
           }
         >

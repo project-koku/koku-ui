@@ -94,14 +94,14 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     const { intl, tagReport } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.FilterByValues, { value: 'account' }), key: 'account' },
-      { name: intl.formatMessage(messages.FilterByValues, { value: 'project' }), key: 'project' },
-      { name: intl.formatMessage(messages.FilterByValues, { value: 'service' }), key: 'service' },
-      { name: intl.formatMessage(messages.FilterByValues, { value: 'region' }), key: 'region' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'account' }), key: 'account' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'service' }), key: 'service' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'region' }), key: 'region' },
     ];
 
     if (tagReport && tagReport.data && tagReport.data.length) {
-      options.push({ name: intl.formatMessage(messages.FilterByValues, { value: tagKey }), key: tagKey });
+      options.push({ name: intl.formatMessage(messages.filterByValues, { value: tagKey }), key: tagKey });
     }
     return options;
   };
@@ -156,12 +156,8 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
   // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
   const queryString = getQuery({
-    filter: {
-      resolution: 'monthly',
-      time_scope_units: 'month',
-      time_scope_value: -1,
-    },
     key_only: true,
+    limit: 1000,
   });
 
   const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);

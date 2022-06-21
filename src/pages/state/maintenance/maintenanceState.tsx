@@ -14,17 +14,17 @@ class MaintenanceStateBase extends React.Component<MaintenanceStateBaseOwnProps>
       <Maintenance
         description={
           <Stack>
-            <StackItem>{intl.formatMessage(messages.MaintenanceEmptyStateDesc)}</StackItem>
+            <StackItem>{intl.formatMessage(messages.maintenanceEmptyStateDesc)}</StackItem>
             <StackItem>
-              {intl.formatMessage(messages.MaintenanceEmptyStateInfo, {
+              {intl.formatMessage(messages.maintenanceEmptyStateInfo, {
                 url: (
-                  <a href={intl.formatMessage(messages.RedHatStatusUrl)} rel="noreferrer" target="_blank">
+                  <a href={intl.formatMessage(messages.redHatStatusUrl)} rel="noreferrer" target="_blank">
                     "status page"
                   </a>
                 ),
               })}
             </StackItem>
-            <StackItem>{intl.formatMessage(messages.MaintenanceEmptyStateThanks)}</StackItem>
+            <StackItem>{intl.formatMessage(messages.maintenanceEmptyStateThanks)}</StackItem>
           </Stack>
         }
       />

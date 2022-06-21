@@ -50,7 +50,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
       tagValues,
     },
     tieredRates: {
-      0: { value: regular, isDirty: regularDirty },
+      0: { inputValue, isDirty: regularDirty },
     },
     toggleTaggingRate,
     updateDefaultTag,
@@ -59,19 +59,29 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
   const getMetricLabel = m => {
     // Match message descriptor or default to API string
     const value = m.replace(/ /g, '_').toLowerCase();
-    const label = intl.formatMessage(messages.MetricValues, { value });
-    return label ? label : m;
+    return intl.formatMessage(messages.metricValues, { value }) || m;
   };
   const getMeasurementLabel = (m, u) => {
     // Match message descriptor or default to API string
-    const _units = u.replace(/-/g, '_').toLowerCase();
-    const units = intl.formatMessage(messages.Units, { units: unitsLookupKey(_units) });
-    const label = intl.formatMessage(messages.MeasurementValues, {
-      value: m.toLowerCase().replace('-', '_'),
+    const units = intl.formatMessage(messages.units, { units: unitsLookupKey(u) }) || u;
+    return (
+      intl.formatMessage(messages.measurementValues, {
+        value: m.toLowerCase().replace('-', '_'),
+        units,
+        count: 2,
+      }) || m
+    );
+  };
+  const getMeasurementDescription = (o, u) => {
+    // Match message descriptor or default to API string
+    // units only works with Node, Cluster, and PVC. it does not need to be translated
+    // if the metric is CPU, Memory, or Storage, units will be like `core_hours` or `gb_hours` and must be translated
+    const units = u.toLowerCase().replace('-', '_');
+    const desc = intl.formatMessage(messages.measurementValuesDesc, {
+      value: o.toLowerCase().replace('-', '_'),
       units: units ? units : u,
-      count: 2,
     });
-    return label ? label : m;
+    return desc ? desc : o;
   };
   const metricOptions = React.useMemo(() => {
     return Object.keys(metricsHash);
@@ -93,7 +103,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
       <SimpleInput
         style={style}
         id="description"
-        label={messages.Description}
+        label={messages.description}
         value={description}
         validated={errors.description ? 'error' : 'default'}
         helperTextInvalid={errors.description}
@@ -104,16 +114,13 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
           <Selector
             isRequired
             style={style}
-            id="metric"
-            label={messages.Metric}
+            id="metric-selector"
+            toggleAriaLabel={intl.formatMessage(messages.costModelsSelectMetric)}
+            label={intl.formatMessage(messages.metric)}
+            placeholderText={intl.formatMessage(messages.select)}
             value={metric}
             onChange={setMetric}
             options={[
-              {
-                label: messages.Select,
-                value: '',
-                isDisabled: true,
-              },
               ...metricOptions.map(opt => {
                 return {
                   label: getMetricLabel(opt),
@@ -131,21 +138,24 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
               helperTextInvalid={errors.measurement}
               isInvalid={errors.measurement && measurementDirty}
               style={style}
-              id="measurement"
-              label={messages.Measurement}
-              value={measurement}
+              id="measurement-selector"
+              label={intl.formatMessage(messages.measurement)}
+              toggleAriaLabel={intl.formatMessage(messages.costModelsSelectMeasurement)}
+              value={
+                !metricsHash[metric][measurement]
+                  ? measurement
+                  : getMeasurementLabel(measurement, metricsHash[metric][measurement].label_measurement_unit)
+              }
               onChange={setMeasurement}
+              placeholderText="Select..."
               options={[
-                {
-                  label: messages.Select,
-                  value: '',
-                  isDisabled: true,
-                },
                 ...measurementOptions.map(opt => {
+                  const unit = metricsHash[metric][opt].label_measurement_unit;
                   return {
-                    label: getMeasurementLabel(opt, metricsHash[metric][opt].label_measurement_unit),
+                    label: getMeasurementLabel(opt, unit),
                     value: opt,
                     isDisabled: false,
+                    description: getMeasurementDescription(opt, unit),
                   };
                 }),
               ]}
@@ -160,27 +170,27 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
               isInline
               style={style}
               fieldId="calculation"
-              label={intl.formatMessage(messages.CalculationType)}
+              label={intl.formatMessage(messages.calculationType)}
             >
               <Radio
                 name="calculation"
                 id="calculation_infra"
-                label={intl.formatMessage(messages.Infrastructure)}
+                label={intl.formatMessage(messages.infrastructure)}
                 isChecked={calculation === 'Infrastructure'}
                 onChange={() => setCalculation('Infrastructure')}
               />
               <Radio
                 name="calculation"
                 id="calculation_suppl"
-                label={intl.formatMessage(messages.Supplementary)}
+                label={intl.formatMessage(messages.supplementary)}
                 isChecked={calculation === 'Supplementary'}
                 onChange={() => setCalculation('Supplementary')}
               />
             </FormGroup>
             {metric !== 'Cluster' ? (
               <Switch
-                aria-label={intl.formatMessage(messages.CostModelsEnterTagRate)}
-                label={intl.formatMessage(messages.CostModelsEnterTagRate)}
+                aria-label={intl.formatMessage(messages.costModelsEnterTagRate)}
+                label={intl.formatMessage(messages.costModelsEnterTagRate)}
                 isChecked={rateKind === 'tagging'}
                 onChange={toggleTaggingRate}
               />
@@ -194,7 +204,7 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
               onChange={setRegular}
               style={style}
               validated={errors.tieredRates && regularDirty ? 'error' : 'default'}
-              value={regular}
+              value={inputValue}
             />
           ) : (
             <>
@@ -204,8 +214,8 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
                 value={tagKey}
                 onChange={setTagKey}
                 id="tag-key"
-                label={messages.CostModelsFilterTagKey}
-                placeholder={intl.formatMessage(messages.CostModelsEnterTagKey)}
+                label={messages.costModelsFilterTagKey}
+                placeholder={intl.formatMessage(messages.costModelsEnterTagKey)}
                 validated={errors.tagKey && isTagKeyDirty ? 'error' : 'default'}
                 helperTextInvalid={errors.tagKey}
               />
@@ -222,8 +232,8 @@ const RateFormBase: React.FunctionComponent<RateFormProps> = ({
                 updateDefaultTag={updateDefaultTag}
                 updateTag={updateTag}
               />
-              <Button data-testid="add_more" style={addStyle} variant={ButtonVariant.link} onClick={addTag}>
-                <PlusCircleIcon /> {intl.formatMessage(messages.CostModelsAddTagValues)}
+              <Button style={addStyle} variant={ButtonVariant.link} onClick={addTag}>
+                <PlusCircleIcon /> {intl.formatMessage(messages.costModelsAddTagValues)}
               </Button>
             </>
           )}

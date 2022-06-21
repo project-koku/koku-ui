@@ -13,7 +13,7 @@ export function getToday(hrs: number = 0, min: number = 0, sec: number = 0) {
   return today;
 }
 
-export function getNoDataForDateRangeString(message: MessageDescriptor = messages.NoDataForDate, offset: number = 1) {
+export function getNoDataForDateRangeString(message: MessageDescriptor = messages.noDataForDate, offset: number = 1) {
   const today = getToday();
 
   if (offset) {
@@ -29,7 +29,7 @@ export function getNoDataForDateRangeString(message: MessageDescriptor = message
 
 export function getForDateRangeString(
   value: string | number,
-  message: MessageDescriptor = messages.ForDate,
+  message: MessageDescriptor = messages.forDate,
   offset: number = 1
 ) {
   const today = getToday();
@@ -51,7 +51,7 @@ export function getForDateRangeString(
   });
 }
 
-export function getSinceDateRangeString(message: MessageDescriptor = messages.SinceDate) {
+export function getSinceDateRangeString(message: MessageDescriptor = messages.sinceDate) {
   const today = getToday();
   const month = getMonth(today);
   const endDate = format(today, 'd');

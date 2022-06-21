@@ -11,16 +11,16 @@ import EmptyStateBase from './emptyStateBase';
 // defaultIntl required for testing
 const NoCostModels = HookIntoProps(({ intl = defaultIntl }) => {
   return {
-    title: intl.formatMessage(messages.CostModelsEmptyState),
-    description: intl.formatMessage(messages.CostModelsEmptyStateDesc),
+    title: intl.formatMessage(messages.costModelsEmptyState),
+    description: intl.formatMessage(messages.costModelsEmptyStateDesc),
     icon: PlusCircleIcon,
     actions: (
       <>
         <CreateCostModelButton />
         <br />
         <br />
-        <a href={intl.formatMessage(messages.DocsConfigCostModels)} rel="noreferrer" target="_blank">
-          {intl.formatMessage(messages.CostModelsEmptyStateLearnMore)}
+        <a href={intl.formatMessage(messages.docsConfigCostModels)} rel="noreferrer" target="_blank">
+          {intl.formatMessage(messages.costModelsEmptyStateLearnMore)}
         </a>
       </>
     ),

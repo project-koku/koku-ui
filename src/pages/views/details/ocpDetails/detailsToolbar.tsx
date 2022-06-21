@@ -93,14 +93,14 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     const { intl, tagReport } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.FilterByValues, { value: 'cluster' }), key: 'cluster' },
-      { name: intl.formatMessage(messages.FilterByValues, { value: 'node' }), key: 'node' },
-      { name: intl.formatMessage(messages.FilterByValues, { value: 'project' }), key: 'project' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'node' }), key: 'node' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' },
     ];
 
     if (tagReport && tagReport.data && tagReport.data.length) {
       options.push({
-        name: intl.formatMessage(messages.FilterByValues, { value: tagKey }),
+        name: intl.formatMessage(messages.filterByValues, { value: tagKey }),
         key: tagKey,
       });
     }
@@ -158,12 +158,8 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
   // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
   const queryString = getQuery({
-    filter: {
-      resolution: 'monthly',
-      time_scope_units: 'month',
-      time_scope_value: -1,
-    },
     key_only: true,
+    limit: 1000,
   });
   const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
   const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagReportPathsType, tagReportType, queryString);

@@ -92,14 +92,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const columns = groupByTagKey
       ? [
           {
-            title: intl.formatMessage(messages.TagNames),
+            title: intl.formatMessage(messages.tagNames),
           },
           {
-            title: intl.formatMessage(messages.MonthOverMonthChange),
+            title: intl.formatMessage(messages.monthOverMonthChange),
           },
           {
             orderBy: 'cost',
-            title: intl.formatMessage(messages.Cost),
+            title: intl.formatMessage(messages.cost),
             ...(computedItems.length && { transforms: [sortable] }),
           },
           {
@@ -109,15 +109,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       : [
           {
             orderBy: groupById,
-            title: intl.formatMessage(messages.DetailsResourceNames, { value: groupById }),
+            title: intl.formatMessage(messages.detailsResourceNames, { value: groupById }),
             ...(computedItems.length && { transforms: [sortable] }),
           },
           {
-            title: intl.formatMessage(messages.MonthOverMonthChange),
+            title: intl.formatMessage(messages.monthOverMonthChange),
           },
           {
             orderBy: 'cost',
-            title: intl.formatMessage(messages.Cost),
+            title: intl.formatMessage(messages.cost),
             ...(computedItems.length && { transforms: [sortable] }),
           },
           {
@@ -216,7 +216,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{intl.formatMessage(messages.DetailsEmptyState)}</EmptyStateBody>
+        <EmptyStateBody>{intl.formatMessage(messages.detailsEmptyState)}</EmptyStateBody>
       </EmptyState>
     );
   };
@@ -260,7 +260,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       return (
         <div className="monthOverMonthOverride">
           <div className={iconOverride} key={`month-over-month-cost-${index}`}>
-            {showPercentage ? intl.formatMessage(messages.Percent, { value: percentage }) : <EmptyValueState />}
+            {showPercentage ? intl.formatMessage(messages.percent, { value: percentage }) : <EmptyValueState />}
             {Boolean(showPercentage && item.delta_percent !== null && item.delta_value > 0) && (
               <span className="fa fa-sort-up" style={styles.infoArrow} key={`month-over-month-icon-${index}`} />
             )}
@@ -316,7 +316,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       <>
         {formatCurrency(item.cost.total.value, item.cost.total.units)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
-          {intl.formatMessage(messages.PercentOfCost, { value: percentValue })}
+          {intl.formatMessage(messages.percentOfCost, { value: percentValue })}
         </div>
       </>
     );
@@ -362,7 +362,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <>
         <Table
-          aria-label={intl.formatMessage(messages.GCPDetailsTableAriaLabel)}
+          aria-label={intl.formatMessage(messages.gcpDetailsTableAriaLabel)}
           canSelectAll={false}
           cells={columns}
           className="tableOverride"

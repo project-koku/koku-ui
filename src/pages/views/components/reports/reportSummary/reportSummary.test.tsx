@@ -1,29 +1,27 @@
-import { CardBody, CardFooter } from '@patternfly/react-core';
-import { mount } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { FetchStatus } from 'store/common';
 
 import { ReportSummary, ReportSummaryProps } from './reportSummary';
 
 const props: ReportSummaryProps = {
+  intl: null,
   title: 'report title',
   status: FetchStatus.complete,
-  t: jest.fn(v => `t(${v})`),
 };
 
 test('on fetch status complete display reports', () => {
-  const view = mount(<ReportSummary {...props}>hello world</ReportSummary>);
-  expect(view.find(CardBody).text()).toEqual('hello world');
+  render(<ReportSummary {...props}>hello world</ReportSummary>);
+  expect(screen.getByText(/report title/i)).not.toBeNull();
+  expect(screen.getByText(/hello world/i)).not.toBeNull();
 });
 
 test('show subtitle if given', () => {
-  const view = mount(<ReportSummary {...props} subTitle={'sub-title'} />);
-  expect(view.find('p').length).toBe(1);
-  expect(view.find('p').text()).toEqual('sub-title');
+  render(<ReportSummary {...props} subTitle={'sub-title'} />);
+  expect(screen.getByText(/sub-title/i)).not.toBeNull();
 });
 
 test('show details link in card footer if given', () => {
-  const view = mount(<ReportSummary {...props} detailsLink={<a href="#/">link</a>} />);
-  expect(view.find(CardFooter).length).toBe(1);
-  expect(view.find(CardFooter).text()).toEqual('link');
+  render(<ReportSummary {...props} detailsLink={<a href="#/">a link</a>} />);
+  expect(screen.getByRole('link', { name: 'a link' }).getAttribute('href')).toBe('#/');
 });

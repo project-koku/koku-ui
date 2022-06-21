@@ -66,9 +66,9 @@ class CostChartBase extends React.Component<CostChartProps> {
     const raw = formatCurrency(hasRaw ? report.meta.total.cost.raw.value : 0, rawUnits);
     const usage = formatCurrency(hasUsage ? report.meta.total.cost.usage.value : 0, usageUnits);
 
-    const markupLabel = intl.formatMessage(messages.MarkupTitle);
-    const rawLabel = intl.formatMessage(messages.RawCostTitle);
-    const usageLabel = intl.formatMessage(messages.UsageCostTitle);
+    const markupLabel = intl.formatMessage(messages.markupTitle);
+    const rawLabel = intl.formatMessage(messages.rawCostTitle);
+    const usageLabel = intl.formatMessage(messages.usageCostTitle);
 
     // Override legend label layout
     const LegendLabel = this.getLegendLabel();
@@ -87,8 +87,8 @@ class CostChartBase extends React.Component<CostChartProps> {
           this.getSkeleton()
         ) : (
           <ChartPie
-            ariaDesc={intl.formatMessage(messages.BreakdownCostChartAriaDesc)}
-            ariaTitle={intl.formatMessage(messages.BreakdownCostBreakdownTitle)}
+            ariaDesc={intl.formatMessage(messages.breakdownCostChartAriaDesc)}
+            ariaTitle={intl.formatMessage(messages.breakdownCostBreakdownTitle)}
             constrainToVisibleArea
             data={[
               { x: rawLabel, y: rawValue, units: rawUnits },
@@ -97,7 +97,7 @@ class CostChartBase extends React.Component<CostChartProps> {
             ]}
             height={chartStyles.chartHeight}
             labels={({ datum }) =>
-              intl.formatMessage(messages.BreakdownCostChartTooltip, {
+              intl.formatMessage(messages.breakdownCostChartTooltip, {
                 name: datum.x,
                 value: formatCurrency(datum.y, datum.units),
               })

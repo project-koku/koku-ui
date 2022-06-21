@@ -13,6 +13,7 @@ import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy'
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { CostTypes } from 'utils/costType';
 import { getForDateRangeString } from 'utils/dateRange';
 import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { formatCurrency } from 'utils/format';
@@ -20,6 +21,7 @@ import { formatCurrency } from 'utils/format';
 import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps {
+  costType?: CostTypes;
   detailsURL?: string;
   description?: string;
   groupBy?: string;
@@ -85,7 +87,17 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   };
 
   public render() {
-    const { description, groupBy, query, intl, showCostType = false, tabs, tagReportPathsType, title } = this.props;
+    const {
+      costType,
+      description,
+      groupBy,
+      query,
+      intl,
+      showCostType = false,
+      tabs,
+      tagReportPathsType,
+      title,
+    } = this.props;
 
     const filterByAccount = query && query.filter ? query.filter.account : undefined;
     const groupByOrg = getGroupByOrgValue(query);
@@ -103,15 +115,15 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
     return (
       <header style={styles.header}>
         <div style={styles.headerContent}>
-          <nav aria-label={intl.formatMessage(messages.BreakdownBackToDetailsAriaLabel)} className="breadcrumbOverride">
+          <nav aria-label={intl.formatMessage(messages.breakdownBackToDetailsAriaLabel)} className="breadcrumbOverride">
             <ol className="pf-c-breadcrumb__list">
               <li className="pf-c-breadcrumb__item">
                 <span className="pf-c-breadcrumb__item-divider">
                   <AngleLeftIcon />
                 </span>
                 <Link to={this.buildDetailsLink()}>
-                  {intl.formatMessage(messages.BreakdownBackToDetails, {
-                    value: intl.formatMessage(messages.BreakdownBackToTitles, { value: tagReportPathsType }),
+                  {intl.formatMessage(messages.breakdownBackToDetails, {
+                    value: intl.formatMessage(messages.breakdownBackToTitles, { value: tagReportPathsType }),
                     groupBy: groupByKey,
                   })}
                 </Link>
@@ -126,12 +138,12 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
         <div style={styles.headerContent}>
           <div style={styles.title}>
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
-              {intl.formatMessage(messages.BreakdownTitle, { value: title })}
+              {intl.formatMessage(messages.breakdownTitle, { value: title })}
               {description && <div style={styles.infoDescription}>{description}</div>}
             </Title>
             {showCostType && (
               <div style={styles.costType}>
-                <CostType onSelect={this.handleCostTypeSelected} />
+                <CostType onSelect={this.handleCostTypeSelected} costType={costType} />
               </div>
             )}
           </div>
@@ -143,8 +155,8 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
             </div>
             <div style={styles.costLabelDate}>
               {getForDateRangeString(
-                intl.formatMessage(messages.GroupByValuesTitleCase, { value: groupByKey, count: 2 }),
-                messages.BreakdownTotalCostDate,
+                intl.formatMessage(messages.groupByValuesTitleCase, { value: groupByKey, count: 2 }),
+                messages.breakdownTotalCostDate,
                 0
               )}
             </div>

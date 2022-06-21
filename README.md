@@ -8,13 +8,27 @@ User interface is based on Patternfly [![Patternfly][pf-logo]][patternfly]
 To submit an issue, please visit https://issues.redhat.com/projects/COST/
 
 ## Requirements
-* [NodeJS v14+][nodejs]
+* [NodeJS v16+][nodejs]
 * [yarn 1.22+][yarn]
+
+## Setup /etc/hosts entries (do this once)
+
+Edit the /etc/hosts file and add the following entries
+```
+127.0.0.1 prod.foo.redhat.com
+127.0.0.1 stage.foo.redhat.com
+```
+
+Alternatively, run the [patch-etc-hosts.sh][patch-etc-hosts] script from the insights-proxy repo
+```
+sudo bash scripts/patch-etc-hosts.sh
+```
 
 ## Getting Started
 1. Install requirements listed above.
-2. Clone the repository, and open a terminal in the base of this project.
-3. Run the command `yarn install` to install all the dependencies.
+2. Setup /etc/hosts entries listed above. 
+3. Clone the repository, and open a terminal in the base of this project.
+4. Run the command `yarn install` to install all the dependencies.
 
 ## Building
 ```
@@ -29,7 +43,7 @@ yarn test
 ## Manifest
 Produces a file used by product security for vulnerability and compliance tracking.
 ```
-yarn update:manifest
+yarn manifest:update
 ```
 
 ## Running Koku UI against a hosted Koku API, using webpack proxy
@@ -131,6 +145,10 @@ Follow the [steps](#koku-api) to run a local Koku API instance
 http://localhost:1337/beta/settings/applications/cost-management
 ```
 
+## Releasing Koku UI
+
+This [release][release-doc] doc describes how to release the UI to each staging environment.
+
 ## Useful Links
 
 #### Libs
@@ -148,7 +166,7 @@ http://localhost:1337/beta/settings/applications/cost-management
   * [Route](https://reacttraining.com/react-router/web/api/Route)
 * [React I18Next](https://react.i18next.com/) - React Wrapper for i18next
 * [PatternFly React 4](https://patternfly-react.netlify.com/)
-  * [Source](https://github.com/patternfly/patternfly-react/tree/master/packages) - `react-*/**`
+  * [Source](https://github.com/patternfly/patternfly-react/tree/main/packages) - `react-*/**`
   * [PRS](https://github.com/patternfly/patternfly-react/pulls?q=is%3Aopen+is%3Apr+label%3APF4)
   * [Issues](https://github.com/patternfly/patternfly-react/issues?q=is%3Aopen+is%3Aissue+label%3APF4)
 
@@ -188,8 +206,10 @@ http://localhost:1337/beta/settings/applications/cost-management
 [build-badge]: https://img.shields.io/travis/project-koku/koku-ui.svg?style=for-the-badge
 [koku-readme]: https://github.com/project-koku/koku#readme
 [license-badge]: https://img.shields.io/github/license/project-koku/koku-ui.svg?longCache=true&style=for-the-badge
-[license]: https://github.com/project-koku/koku-ui/blob/master/LICENSE
+[license]: https://github.com/project-koku/koku-ui/blob/main/LICENSE
 [nodejs]: https://nodejs.org/en/
+[patch-etc-hosts]: https://github.com/RedHatInsights/insights-proxy/blob/master/scripts/patch-etc-hosts.sh
 [pf-logo]: https://www.patternfly.org/v4/images/logo.4189e7eb1a0741ea2b3b51b80d33c4cb.svg
 [patternfly]: https://www.patternfly.org/
+[release-doc]: https://github.com/project-koku/koku-ui/blob/main/release.md
 [yarn]: https://yarnpkg.com/en/

@@ -97,15 +97,15 @@ class UsageChartBase extends React.Component<UsageChartProps> {
 
     const hasLimit = hasTotal && report.meta.total.limit && report.meta.total.limit !== null;
     const limit = Math.trunc(hasLimit ? report.meta.total.limit.value : 0);
-    const limitUnits = intl.formatMessage(messages.Units, {
+    const limitUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasLimit ? report.meta.total.limit.units : undefined),
     });
     datum.limit = {
-      legend: intl.formatMessage(messages.DetailsUsageLimit, {
+      legend: intl.formatMessage(messages.detailsUsageLimit, {
         value: limit,
         units: limitUnits,
       }),
-      tooltip: intl.formatMessage(messages.DetailsUsageLimit, {
+      tooltip: intl.formatMessage(messages.detailsUsageLimit, {
         value: limit,
         units: limitUnits,
       }),
@@ -116,16 +116,16 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     if (groupBy === 'cluster') {
       const hasCapacity = hasTotal && report.meta.total.request && report.meta.total.request !== null;
       const capacity = Math.trunc(hasCapacity ? report.meta.total.capacity.value : 0);
-      const capacityUnits = intl.formatMessage(messages.Units, {
+      const capacityUnits = intl.formatMessage(messages.units, {
         units: unitsLookupKey(hasCapacity ? report.meta.total.capacity.units : undefined),
       });
       datum.ranges = [
         {
-          legend: intl.formatMessage(messages.DetailsUsageCapacity, {
+          legend: intl.formatMessage(messages.detailsUsageCapacity, {
             value: capacity,
             units: capacityUnits,
           }),
-          tooltip: intl.formatMessage(messages.DetailsUsageCapacity, {
+          tooltip: intl.formatMessage(messages.detailsUsageCapacity, {
             value: capacity,
             units: capacityUnits,
           }),
@@ -137,31 +137,31 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     const hasRequest = hasTotal && report.meta.total.request && report.meta.total.request !== null;
     const hasUsage = hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
     const request = Math.trunc(hasRequest ? report.meta.total.request.value : 0);
-    const requestUnits = intl.formatMessage(messages.Units, {
+    const requestUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasRequest ? report.meta.total.request.units : undefined),
     });
     const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
-    const usageUnits = intl.formatMessage(messages.Units, {
+    const usageUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasUsage ? report.meta.total.usage.units : undefined),
     });
     datum.usage = [
       {
-        legend: intl.formatMessage(messages.DetailsUsageUsage, {
+        legend: intl.formatMessage(messages.detailsUsageUsage, {
           value: usage,
           units: usageUnits,
         }),
-        tooltip: intl.formatMessage(messages.DetailsUsageUsage, {
+        tooltip: intl.formatMessage(messages.detailsUsageUsage, {
           value: usage,
           units: usageUnits,
         }),
         value: Math.trunc(usage),
       },
       {
-        legend: intl.formatMessage(messages.DetailsUsageRequests, {
+        legend: intl.formatMessage(messages.detailsUsageRequests, {
           value: request,
           units: requestUnits,
         }),
-        tooltip: intl.formatMessage(messages.DetailsUsageRequests, {
+        tooltip: intl.formatMessage(messages.detailsUsageRequests, {
           value: request,
           units: requestUnits,
         }),
@@ -259,11 +259,11 @@ class UsageChartBase extends React.Component<UsageChartProps> {
 
     const capacity = Math.trunc(hasCapacity ? report.meta.total.capacity.value : 0);
     const request = Math.trunc(hasRequest ? report.meta.total.request.value : 0);
-    const requestUnits = intl.formatMessage(messages.Units, {
+    const requestUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasRequest ? report.meta.total.request.units : undefined),
     });
     const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
-    const usageUnits = intl.formatMessage(messages.Units, {
+    const usageUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasUsage ? report.meta.total.usage.units : undefined),
     });
 
@@ -283,10 +283,10 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     return (
       <Grid hasGutter>
         <GridItem md={12} lg={6}>
-          <div>{intl.formatMessage(messages.DetailsUnusedUsageLabel)}</div>
+          <div>{intl.formatMessage(messages.detailsUnusedUsageLabel)}</div>
           <div style={styles.capacity}>{formatUnits(unusedUsageCapacity, usageUnits)}</div>
           <div>
-            {intl.formatMessage(messages.DetailsUnusedUnits, {
+            {intl.formatMessage(messages.detailsUnusedUnits, {
               percentage: formatPercentage(unusedUsageCapacityPercentage, {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
@@ -296,10 +296,10 @@ class UsageChartBase extends React.Component<UsageChartProps> {
           </div>
         </GridItem>
         <GridItem md={12} lg={6}>
-          <div>{intl.formatMessage(messages.DetailsUnusedRequestsLabel)}</div>
+          <div>{intl.formatMessage(messages.detailsUnusedRequestsLabel)}</div>
           <div style={styles.capacity}>{formatUnits(unusedRequestCapacity, requestUnits)}</div>
           <div>
-            {intl.formatMessage(messages.DetailsUnusedUnits, {
+            {intl.formatMessage(messages.detailsUnusedUnits, {
               percentage: formatPercentage(unusedRequestCapacityPercentage, {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,

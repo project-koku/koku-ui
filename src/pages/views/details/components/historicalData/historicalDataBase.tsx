@@ -31,7 +31,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
       <Card>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.HistoricalChartTitle, { value: widget.reportType })}
+            {intl.formatMessage(messages.historicalChartTitle, { value: widget.reportType })}
           </Title>
         </CardTitle>
         <CardBody>
@@ -53,7 +53,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
       <Card>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.HistoricalChartTitle, { value: widget.reportType })}
+            {intl.formatMessage(messages.historicalChartTitle, { value: widget.reportType })}
           </Title>
         </CardTitle>
         <CardBody>
@@ -75,7 +75,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
       <Card>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.HistoricalChartTitle, { value: widget.reportType })}
+            {intl.formatMessage(messages.historicalChartTitle, { value: widget.reportType })}
           </Title>
         </CardTitle>
         <CardBody>

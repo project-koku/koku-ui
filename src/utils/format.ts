@@ -66,7 +66,7 @@ export const formatCurrencyAbbreviation: Formatter = (value, units = 'USD') => {
   // Apply format and insert symbol next to the numeric portion of the formatted string
   if (format != null) {
     const { val, symbol } = format;
-    return intl.formatMessage(messages.CurrencyAbbreviations, {
+    return intl.formatMessage(messages.currencyAbbreviations, {
       symbol,
       value: formatCurrency(fValue / val, units, {
         minimumFractionDigits: 0,
@@ -205,8 +205,13 @@ export const isPercentageFormatValid = (value: string) => {
   return isCurrencyFormatValid(value);
 };
 
-// Some locales have a comma decimal separator (e.g., "1.234,56" in German is "1,234.56" in USD).
-// This function normalizes a given currency or percentage for APIs.
+// This function normalizes a given currency or percentage.
+//
+// Some locales us a comma as the decimal separator (e.g., "1.234,56" in German), which must be
+// replaced for APIs where USD decimal format is expected.
+//
+// Note that the group separator (e.g., "1,234.56" in USD) must also be removed when formatting
+// currencies and percentages to display in the browser's locale.
 export const unFormat = (value: string) => {
   if (!value) {
     return value;
@@ -233,12 +238,16 @@ export const unitsLookupKey = (units): string => {
     case 'gb':
     case 'gb_hours':
     case 'gb_mo':
+    case 'cluser_month':
+    case 'pvc_month':
     case 'gibibyte_month':
     case 'hour':
     case 'hrs':
     case 'tag_mo':
     case 'vm_hours':
       return lookup;
+    case 'gb_month':
+      return 'gb_mo';
     default:
       return undefined;
   }

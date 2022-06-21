@@ -65,7 +65,7 @@ class SummaryModalContentBase extends React.Component<SummaryModalContentProps> 
       <>
         <div style={styles.subTitle}>
           <Title headingLevel="h2" size={TitleSizes.xl}>
-            {intl.formatMessage(messages.DetailsCostValue, { value: cost })}
+            {intl.formatMessage(messages.detailsCostValue, { value: cost })}
           </Title>
         </div>
         <div style={styles.mainContent}>

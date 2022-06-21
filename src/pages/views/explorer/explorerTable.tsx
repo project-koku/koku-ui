@@ -122,8 +122,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
             {
               cellTransforms: [nowrap],
               title: groupByOrg
-                ? intl.formatMessage(messages.Names, { count: 2 })
-                : intl.formatMessage(messages.TagNames),
+                ? intl.formatMessage(messages.names, { count: 2 })
+                : intl.formatMessage(messages.tagNames),
             },
           ]
         : [
@@ -131,7 +131,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
               cellTransforms: [nowrap],
               date: undefined,
               orderBy: groupById === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupById,
-              title: intl.formatMessage(messages.GroupByValueNames, { groupBy: groupById }),
+              title: intl.formatMessage(messages.groupByValueNames, { groupBy: groupById }),
               ...(computedItems.length && { transforms: [sortable] }),
             },
           ];
@@ -161,7 +161,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       const month = getMonth(mapIdDate);
       columns.push({
         cellTransforms: [nowrap],
-        title: intl.formatMessage(messages.ExplorerChartDate, { date, month }),
+        title: intl.formatMessage(messages.explorerChartDate, { date, month }),
         ...(isSortable && {
           date: mapId,
           orderBy: 'cost',
@@ -206,7 +206,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
           title:
             item[reportItem] && item[reportItem][reportItemValue]
               ? formatCurrency(item[reportItem][reportItemValue].value, item[reportItem][reportItemValue].units)
-              : intl.formatMessage(messages.ChartNoData),
+              : intl.formatMessage(messages.chartNoData),
         });
       });
 
@@ -265,7 +265,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{intl.formatMessage(messages.DetailsEmptyState)}</EmptyStateBody>
+        <EmptyStateBody>{intl.formatMessage(messages.detailsEmptyState)}</EmptyStateBody>
       </EmptyState>
     );
   };
@@ -337,7 +337,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     return (
       <div style={styles.tableContainer}>
         <Table
-          aria-label={intl.formatMessage(messages.ExplorerTableAriaLabel)}
+          aria-label={intl.formatMessage(messages.explorerTableAriaLabel)}
           canSelectAll={false}
           cells={columns}
           className="explorerTableOverride"

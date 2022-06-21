@@ -86,7 +86,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
     costOverviewComponent: <CostOverview groupBy={groupBy} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
-    emptyStateTitle: props.intl.formatMessage(messages.AzureDetailsTitle),
+    emptyStateTitle: props.intl.formatMessage(messages.azureDetailsTitle),
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData />,

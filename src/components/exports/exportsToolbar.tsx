@@ -33,7 +33,7 @@ export class ExportsToolbarBase extends React.Component<ExportsToolbarProps> {
   private getCategoryOptions = (): ToolbarChipGroup[] => {
     const { intl } = this.props;
 
-    return [{ name: intl.formatMessage(messages.FilterByValues, { value: 'name' }), key: 'name' }];
+    return [{ name: intl.formatMessage(messages.filterByValues, { value: 'name' }), key: 'name' }];
   };
 
   public render() {

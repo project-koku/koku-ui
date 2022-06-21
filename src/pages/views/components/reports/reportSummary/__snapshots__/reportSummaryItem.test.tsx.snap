@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`gets percentage from value and total value: Progress Bar Value 1`] = `10`;
-
-exports[`gets percentage from value and total value: Rendered Label 1`] = `null`;
-
-exports[`sets percent to 0 if totalValue is 0: Progress Bar Value 1`] = `0`;
-
-exports[`sets percent to 0 if totalValue is 0: Rendered label 1`] = `null`;

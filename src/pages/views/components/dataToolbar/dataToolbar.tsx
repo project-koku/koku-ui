@@ -241,13 +241,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
     const dropdownItems = [
       <DropdownItem key="item-1" onClick={() => this.handleOnBulkSelectClicked('none')}>
-        {intl.formatMessage(messages.ToolBarBulkSelectNone)}
+        {intl.formatMessage(messages.toolBarBulkSelectNone)}
       </DropdownItem>,
       <DropdownItem key="item-2" onClick={() => this.handleOnBulkSelectClicked('page')}>
-        {intl.formatMessage(messages.ToolBarBulkSelectPage, { value: itemsPerPage })}
+        {intl.formatMessage(messages.toolBarBulkSelectPage, { value: itemsPerPage })}
       </DropdownItem>,
       <DropdownItem key="item-3" onClick={() => this.handleOnBulkSelectClicked('all')}>
-        {intl.formatMessage(messages.ToolBarBulkSelectAll, { value: itemsTotal })}
+        {intl.formatMessage(messages.toolBarBulkSelectAll, { value: itemsTotal })}
       </DropdownItem>,
     ];
 
@@ -263,7 +263,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                 id="bulk-select"
                 key="bulk-select"
                 aria-label={intl.formatMessage(
-                  anySelected ? messages.ToolBarBulkSelectAriaDeselect : messages.ToolBarBulkSelectAriaSelect
+                  anySelected ? messages.toolBarBulkSelectAriaDeselect : messages.toolBarBulkSelectAriaSelect
                 )}
                 isChecked={isChecked}
                 onClick={() => {
@@ -274,7 +274,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
             onToggle={this.handleOnBulkSelectToggle}
           >
             {numSelected !== 0 && (
-              <React.Fragment>{intl.formatMessage(messages.Selected, { value: numSelected })}</React.Fragment>
+              <React.Fragment>{intl.formatMessage(messages.selected, { value: numSelected })}</React.Fragment>
             )}
           </DropdownToggle>
         }
@@ -394,16 +394,16 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                 name={`category-input-${categoryOption.key}`}
                 id={`category-input-${categoryOption.key}`}
                 type="search"
-                aria-label={intl.formatMessage(messages.FilterByInputAriaLabel, { value: categoryOption.key })}
+                aria-label={intl.formatMessage(messages.filterByInputAriaLabel, { value: categoryOption.key })}
                 onChange={this.handleOnCategoryInputChange}
                 value={categoryInput}
-                placeholder={intl.formatMessage(messages.FilterByPlaceholder, { value: categoryOption.key })}
+                placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: categoryOption.key })}
                 onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
               />
               <Button
                 isDisabled={isDisabled}
                 variant={ButtonVariant.control}
-                aria-label={intl.formatMessage(messages.FilterByButtonAriaLabel, { value: categoryOption.key })}
+                aria-label={intl.formatMessage(messages.filterByButtonAriaLabel, { value: categoryOption.key })}
                 onClick={evt => this.onCategoryInput(evt, categoryOption.key)}
               >
                 <SearchIcon />
@@ -418,7 +418,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   private getDefaultCategoryOptions = (): ToolbarChipGroup[] => {
     const { intl } = this.props;
 
-    return [{ name: intl.formatMessage(messages.Names, { count: 1 }), key: 'name' }];
+    return [{ name: intl.formatMessage(messages.names, { count: 1 }), key: 'name' }];
   };
 
   private handleOnCategoryInputChange = (value: string) => {
@@ -512,7 +512,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       <ToolbarFilter
         categoryName={{
           key: orgUnitIdKey,
-          name: intl.formatMessage(messages.FilterByValues, { value: 'org_unit_id' }),
+          name: intl.formatMessage(messages.filterByValues, { value: 'org_unit_id' }),
         }}
         chips={chips}
         deleteChip={this.onDelete}
@@ -523,12 +523,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           isDisabled={isDisabled}
           className="selectOverride"
           variant={SelectVariant.checkbox}
-          aria-label={intl.formatMessage(messages.FilterByOrgUnitAriaLabel)}
+          aria-label={intl.formatMessage(messages.filterByOrgUnitAriaLabel)}
           onToggle={this.handleOnOrgUnitToggle}
           onSelect={this.handleOnOrgUnitSelect}
           selections={selections}
           isOpen={isOrgUnitSelectExpanded}
-          placeholderText={intl.formatMessage(messages.FilterByOrgUnitPlaceholder)}
+          placeholderText={intl.formatMessage(messages.filterByOrgUnitPlaceholder)}
         >
           {options.map(option => (
             <SelectOption description={option.id} key={option.id} value={option} />
@@ -630,12 +630,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         <Select
           isDisabled={isDisabled}
           variant={SelectVariant.typeahead}
-          typeAheadAriaLabel={intl.formatMessage(messages.FilterByTagKeyAriaLabel)}
+          typeAheadAriaLabel={intl.formatMessage(messages.filterByTagKeyAriaLabel)}
           onClear={this.handleOnTagKeyClear}
           onToggle={this.handleOnTagKeyToggle}
           onSelect={this.handleOnTagKeySelect}
           isOpen={isTagKeySelectExpanded}
-          placeholderText={intl.formatMessage(messages.FilterByTagKeyPlaceholder)}
+          placeholderText={intl.formatMessage(messages.filterByTagKeyPlaceholder)}
           selections={currentTagKey}
         >
           {selectOptions}
@@ -814,7 +814,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return (
       <ToolbarItem>
         <Button onClick={this.handleColumnManagementClicked} variant={ButtonVariant.link}>
-          {intl.formatMessage(messages.DetailsColumnManagementTitle)}
+          {intl.formatMessage(messages.detailsColumnManagementTitle)}
         </Button>
       </ToolbarItem>
     );

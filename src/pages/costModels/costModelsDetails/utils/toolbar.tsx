@@ -48,13 +48,13 @@ const selectorMergeProps = (
   const { intl = defaultIntl } = ownProps; // Default required for testing
   const options = [
     <SelectOption key="name" value="name">
-      {intl.formatMessage(messages.Names, { count: 1 })}
+      {intl.formatMessage(messages.names, { count: 1 })}
     </SelectOption>,
     <SelectOption key="description" value="description">
-      {intl.formatMessage(messages.Description)}
+      {intl.formatMessage(messages.description)}
     </SelectOption>,
     <SelectOption key="sourceType" value="sourceType">
-      {intl.formatMessage(messages.CostModelsSourceType)}
+      {intl.formatMessage(messages.costModelsSourceType)}
     </SelectOption>,
   ];
   return {

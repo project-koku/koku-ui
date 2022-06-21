@@ -21,6 +21,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getCostType } from 'utils/costType';
 import { formatUnits } from 'utils/format';
 import { skeletonWidth } from 'utils/skeleton';
 
@@ -94,7 +95,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
     const { intl } = this.props;
 
     const computedItemDate = new Date(computedItem.date + 'T00:00:00');
-    const xVal = intl.formatMessage(messages.ExplorerChartDate, {
+    const xVal = intl.formatMessage(messages.explorerChartDate, {
       date: getDate(computedItemDate),
       month: getMonth(computedItemDate),
     });
@@ -220,7 +221,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
       <>
         <div style={styles.titleContainer}>
           <Title headingLevel="h3" size="md">
-            {intl.formatMessage(messages.ExplorerChartTitle, { value: perspective })}
+            {intl.formatMessage(messages.explorerChartTitle, { value: perspective })}
           </Title>
         </div>
         <div style={styles.chartContainer}>
@@ -275,7 +276,7 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
       dateRange,
       start_date,
       end_date,
-      ...(perspective === PerspectiveType.aws && { cost_type: queryFromRoute.cost_type }),
+      ...(perspective === PerspectiveType.aws && { cost_type: getCostType() }),
     };
     const queryString = getQuery({
       ...query,

@@ -27,6 +27,20 @@ export const getSessionToken = () => {
   return localStorage.getItem(sessionTokenID);
 };
 
+// Invalidates session if not valid and restores query param values
+export const invalidateSession = () => {
+  if (!isSessionValid()) {
+    deleteSessionToken();
+
+    // Delete cost type
+    deleteCostType();
+
+    // Delete currency
+    deleteAccountCurrency();
+    deleteCurrency();
+  }
+};
+
 // Returns true if session is valid
 export const isSessionValid = () => {
   return getSessionToken() === getPartialTokenCookie();
@@ -41,13 +55,6 @@ export const saveSessionToken = () => {
  * Cost type
  */
 
-// eslint-disable-next-line no-shadow
-export const enum CostTypes {
-  amortized = 'savingsplan_effective_cost',
-  blended = 'blended_cost',
-  unblended = 'unblended_cost',
-}
-
 // Delete cost type
 export const deleteCostType = () => {
   localStorage.removeItem(costTypeID);
@@ -56,16 +63,7 @@ export const deleteCostType = () => {
 // Returns cost type
 export const getCostType = () => {
   const costType = localStorage.getItem(costTypeID);
-  return costType && costType !== null ? costType : CostTypes.unblended;
-};
-
-// Invalidates cost type if current session is not valid
-export const invalidateCostType = () => {
-  if (!isSessionValid()) {
-    deleteSessionToken();
-    deleteCostType();
-    restoreCostType(); // Restore from query param
-  }
+  return costType && costType !== null ? costType : undefined;
 };
 
 // Returns true if cost type is available
@@ -74,12 +72,11 @@ export const isCostTypeAvailable = () => {
   return costType && costType !== null;
 };
 
-// Restore cost type upon page refresh if query param is available
+// Restore cost type from query param if available
 export const restoreCostType = () => {
-  const costType = localStorage.getItem(costTypeID);
   const queryFromRoute = parseQuery<Query>(location.search);
 
-  if (queryFromRoute.cost_type && costType === null) {
+  if (queryFromRoute.cost_type) {
     setCostType(queryFromRoute.cost_type);
   }
 };
@@ -116,19 +113,19 @@ export const getCurrency = () => {
   return units ? units : 'USD';
 };
 
-// Invalidates currency if current session is not valid
-export const invalidateCurrency = () => {
-  if (!isSessionValid()) {
-    deleteAccountCurrency();
-    deleteSessionToken();
-    deleteCurrency();
-  }
-};
-
 // Returns true if currency is available
 export const isCurrencyAvailable = () => {
   const currency = localStorage.getItem(currencyID);
   return currency && currency !== null;
+};
+
+// Restore currency from query param if available
+export const restoreCurrency = () => {
+  const queryFromRoute = parseQuery<Query>(location.search);
+
+  if (queryFromRoute.currency) {
+    setCurrency(queryFromRoute.currency);
+  }
 };
 
 // Set account currency
