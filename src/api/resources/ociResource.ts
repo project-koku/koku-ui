@@ -4,7 +4,7 @@ import { Resource, ResourceType } from './resource';
 
 export const ResourceTypePaths: Partial<Record<ResourceType, string>> = {
   [ResourceType.region]: 'resource-types/oci-regions/',
-  [ResourceType.payerTenantId]: 'resource-types/oci-subscription-guids/',
+  [ResourceType.payerTenantId]: 'resource-types/oci-payer-tenant-ids/',
   [ResourceType.productService]: 'resource-types/oci-services/',
 };
 
