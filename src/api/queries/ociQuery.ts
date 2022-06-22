@@ -13,9 +13,9 @@ interface OciGroupBys {
 }
 
 interface OciOrderBys {
-  subscription_guid?: string;
-  resource_location?: string;
-  service_name?: string;
+  payer_tenant_id?: string;
+  region?: string;
+  product_service?: string;
   cost?: string;
   usage?: string;
 }

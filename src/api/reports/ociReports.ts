@@ -10,22 +10,22 @@ export interface OciReportItem extends ReportItem {
   subscription_guid?: string;
 }
 
-export interface GroupByAccountData extends Omit<OciReportData, 'subscription_guids'> {
+export interface GroupByAccountData extends Omit<OciReportData, 'payer_tenant_ids'> {
   account: string;
 }
 
-export interface GroupByServiceData extends Omit<OciReportData, 'service_names'> {
+export interface GroupByServiceData extends Omit<OciReportData, 'product_services'> {
   service: string;
 }
 
-export interface GroupByRegionData extends Omit<OciReportData, 'resource_locations'> {
+export interface GroupByRegionData extends Omit<OciReportData, 'regions'> {
   region: string;
 }
 
 export interface OciReportData extends ReportData {
-  resource_locations?: GroupByRegionData[];
-  service_names?: GroupByServiceData[];
-  subscription_guids?: GroupByAccountData[];
+  regions?: GroupByRegionData[];
+  product_services?: GroupByServiceData[];
+  payer_tenant_ids?: GroupByAccountData[];
 }
 
 export interface OciReportMeta extends ReportMeta {
