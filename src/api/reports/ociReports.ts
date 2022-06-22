@@ -5,9 +5,9 @@ import { ReportType } from './report';
 import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportValue } from './report';
 
 export interface OciReportItem extends ReportItem {
-  resource_location?: string;
-  service_name?: string;
-  subscription_guid?: string;
+  region?: string;
+  product_service?: string;
+  payer_tenant_id?: string;
 }
 
 export interface GroupByAccountData extends Omit<OciReportData, 'payer_tenant_ids'> {

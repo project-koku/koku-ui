@@ -3,9 +3,9 @@ import axios from 'axios';
 import { Resource, ResourceType } from './resource';
 
 export const ResourceTypePaths: Partial<Record<ResourceType, string>> = {
-  [ResourceType.resourceLocation]: 'resource-types/oci-regions/',
-  [ResourceType.subscriptionGuid]: 'resource-types/oci-subscription-guids/',
-  [ResourceType.serviceName]: 'resource-types/oci-services/',
+  [ResourceType.region]: 'resource-types/oci-regions/',
+  [ResourceType.payerTenantId]: 'resource-types/oci-subscription-guids/',
+  [ResourceType.productService]: 'resource-types/oci-services/',
 };
 
 export function runResource(resourceType: ResourceType, query: string) {

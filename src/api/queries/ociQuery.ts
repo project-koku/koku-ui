@@ -1,15 +1,15 @@
 import * as utils from './query';
 
 export interface OciFilters extends utils.Filters {
-  subscription_guid?: string | number;
+  payer_tenant_id?: string | number;
 }
 
 type OciGroupByValue = string | string[];
 
 interface OciGroupBys {
-  service_name?: OciGroupByValue;
-  subscription_guid?: OciGroupByValue;
-  resource_location?: OciGroupByValue;
+  product_service?: OciGroupByValue;
+  payer_tenant_id?: OciGroupByValue;
+  region?: OciGroupByValue;
 }
 
 interface OciOrderBys {
