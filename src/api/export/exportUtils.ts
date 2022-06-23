@@ -7,6 +7,7 @@ import { runExport as runAzureOcpExport } from './azureOcpExport';
 import { runExport as runGcpExport } from './gcpExport';
 import { runExport as runGcpOcpExport } from './gcpOcpExport';
 import { runExport as runIbmExport } from './ibmExport';
+import { runExport as runOciExport } from './ociExport';
 import { runExport as runOcpCloudExport } from './ocpCloudExport';
 import { runExport as runOcpExport } from './ocpExport';
 
@@ -21,6 +22,9 @@ export function runExport(reportPathsType: ReportPathsType, reportType: ReportTy
       break;
     case ReportPathsType.azure:
       report = runAzureExport(reportType, query);
+      break;
+    case ReportPathsType.oci:
+      report = runOciExport(reportType, query);
       break;
     case ReportPathsType.azureOcp:
       report = runAzureOcpExport(reportType, query);
