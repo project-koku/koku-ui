@@ -13458,6 +13458,14 @@
                       }
                     ]
                   },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Project"
+                      }
+                    ]
+                  },
                   "azure_ocp": {
                     "value": [
                       {
@@ -13551,6 +13559,14 @@
                       }
                     ]
                   },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Region"
+                      }
+                    ]
+                  },
                   "azure_ocp": {
                     "value": [
                       {
@@ -13641,6 +13657,14 @@
                       {
                         "type": 0,
                         "value": "Amazon Web Services filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Region"
                       }
                     ]
                   },
@@ -13838,6 +13862,14 @@
                       }
                     ]
                   },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Service"
+                      }
+                    ]
+                  },
                   "azure_ocp": {
                     "value": [
                       {
@@ -13931,6 +13963,14 @@
                       }
                     ]
                   },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Account"
+                      }
+                    ]
+                  },
                   "azure_ocp": {
                     "value": [
                       {
@@ -14021,6 +14061,14 @@
                       {
                         "type": 0,
                         "value": "Amazon Web Services filtered by OpenShift grouped by Tag"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Tag"
                       }
                     ]
                   },
