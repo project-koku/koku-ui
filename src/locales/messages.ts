@@ -132,7 +132,7 @@ export default defineMessages({
       'ocp {OpenShift} ' +
       'other {}}',
     description: 'Breakdown back to page titles',
-    id: 'BackToTitles',
+    id: 'breakdownBackToTitles',
   },
   breakdownCostBreakdownAriaLabel: {
     defaultMessage: 'A description of markup, raw cost and usage cost',

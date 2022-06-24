@@ -1,64 +1,5 @@
 {
   "en": {
-    "BackToTitles": [
-      {
-        "options": {
-          "aws": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Amazon Web Services"
-              }
-            ]
-          },
-          "azure": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Microsoft Azure"
-              }
-            ]
-          },
-          "gcp": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Google Cloud Platform"
-              }
-            ]
-          },
-          "ibm": {
-            "value": [
-              {
-                "type": 0,
-                "value": "IBM Cloud - Top 5 Costliest"
-              }
-            ]
-          },
-          "oci": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Oracle Cloud Infrastructure"
-              }
-            ]
-          },
-          "ocp": {
-            "value": [
-              {
-                "type": 0,
-                "value": "OpenShift"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          }
-        },
-        "type": 5,
-        "value": "value"
-      }
-    ],
     "ExamplesTitle": [
       {
         "type": 0,
@@ -430,6 +371,65 @@
       {
         "type": 0,
         "value": "Back to details"
+      }
+    ],
+    "breakdownBackToTitles": [
+      {
+        "options": {
+          "aws": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Amazon Web Services"
+              }
+            ]
+          },
+          "azure": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Microsoft Azure"
+              }
+            ]
+          },
+          "gcp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Google Cloud Platform"
+              }
+            ]
+          },
+          "ibm": {
+            "value": [
+              {
+                "type": 0,
+                "value": "IBM Cloud - Top 5 Costliest"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Oracle Cloud Infrastructure"
+              }
+            ]
+          },
+          "ocp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "OpenShift"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
       }
     ],
     "breakdownCostBreakdownAriaLabel": [
