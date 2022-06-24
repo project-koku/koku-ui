@@ -384,14 +384,6 @@
               }
             ]
           },
-          "azure": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Microsoft Azure"
-              }
-            ]
-          },
           "gcp": {
             "value": [
               {
@@ -405,6 +397,14 @@
               {
                 "type": 0,
                 "value": "IBM Cloud - Top 5 Costliest"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Oracle Cloud Infrastructure"
               }
             ]
           },
@@ -10174,19 +10174,19 @@
               }
             ]
           },
-          "azure": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Select from the following Microsoft Azure sources:"
-              }
-            ]
-          },
           "gcp": {
             "value": [
               {
                 "type": 0,
                 "value": "Select from the following Google Cloud Platform sources:"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Select from the following Oracle Cloud Infrastructure sources:"
               }
             ]
           },
@@ -11732,6 +11732,14 @@
               }
             ]
           },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Oracle Cloud Infrastructure - Top 5 Costliest"
+              }
+            ]
+          },
           "ocp": {
             "value": [
               {
@@ -12974,6 +12982,14 @@
                       }
                     ]
                   },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Account"
+                      }
+                    ]
+                  },
                   "ocp": {
                     "value": [
                       {
@@ -13064,6 +13080,14 @@
                       {
                         "type": 0,
                         "value": "IBM Cloud filtered by OpenShift grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Cluster"
                       }
                     ]
                   },
@@ -13160,6 +13184,14 @@
                       }
                     ]
                   },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by GCP Project"
+                      }
+                    ]
+                  },
                   "ocp": {
                     "value": [
                       {
@@ -13250,6 +13282,14 @@
                       {
                         "type": 0,
                         "value": "IBM Cloud filtered by OpenShift grouped by Node"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Node"
                       }
                     ]
                   },
@@ -13346,6 +13386,14 @@
                       }
                     ]
                   },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Organizational unit"
+                      }
+                    ]
+                  },
                   "ocp": {
                     "value": [
                       {
@@ -13394,14 +13442,6 @@
                       }
                     ]
                   },
-                  "azure": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "Microsoft Azure grouped by Project"
-                      }
-                    ]
-                  },
                   "azure_ocp": {
                     "value": [
                       {
@@ -13439,6 +13479,14 @@
                       {
                         "type": 0,
                         "value": "IBM Cloud filtered by OpenShift grouped by Project"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Project"
                       }
                     ]
                   },
@@ -13487,14 +13535,6 @@
                       }
                     ]
                   },
-                  "azure": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "Microsoft Azure grouped by Region"
-                      }
-                    ]
-                  },
                   "azure_ocp": {
                     "value": [
                       {
@@ -13532,6 +13572,14 @@
                       {
                         "type": 0,
                         "value": "IBM Cloud filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Region"
                       }
                     ]
                   },
@@ -13580,14 +13628,6 @@
                       }
                     ]
                   },
-                  "azure": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "Microsoft Azure grouped by Region"
-                      }
-                    ]
-                  },
                   "azure_ocp": {
                     "value": [
                       {
@@ -13625,6 +13665,14 @@
                       {
                         "type": 0,
                         "value": "IBM Cloud filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Region"
                       }
                     ]
                   },
@@ -13721,6 +13769,14 @@
                       }
                     ]
                   },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Service"
+                      }
+                    ]
+                  },
                   "ocp": {
                     "value": [
                       {
@@ -13766,14 +13822,6 @@
                       }
                     ]
                   },
-                  "azure": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "Microsoft Azure grouped by Service"
-                      }
-                    ]
-                  },
                   "azure_ocp": {
                     "value": [
                       {
@@ -13811,6 +13859,14 @@
                       {
                         "type": 0,
                         "value": "IBM Cloud filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Service"
                       }
                     ]
                   },
@@ -13859,14 +13915,6 @@
                       }
                     ]
                   },
-                  "azure": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "Microsoft Azure grouped by Account"
-                      }
-                    ]
-                  },
                   "azure_ocp": {
                     "value": [
                       {
@@ -13904,6 +13952,14 @@
                       {
                         "type": 0,
                         "value": "IBM Cloud filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Account"
                       }
                     ]
                   },
@@ -13952,14 +14008,6 @@
                       }
                     ]
                   },
-                  "azure": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "Microsoft Azure grouped by Tag"
-                      }
-                    ]
-                  },
                   "azure_ocp": {
                     "value": [
                       {
@@ -13997,6 +14045,14 @@
                       {
                         "type": 0,
                         "value": "IBM Cloud filtered by OpenShift grouped by Tag"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Tag"
                       }
                     ]
                   },
@@ -18394,6 +18450,18 @@
         "value": "Track your IBM Cloud spending!"
       }
     ],
+    "noProvidersStateOciDesc": [
+      {
+        "type": 0,
+        "value": "Add an Oracle Cloud Infrastructure account to see a total cost breakdown of your spend by accounts, services, regions, or tags."
+      }
+    ],
+    "noProvidersStateOciTitle": [
+      {
+        "type": 0,
+        "value": "Track your Oracle Cloud Infrastructure spending!"
+      }
+    ],
     "noProvidersStateOcpAddSources": [
       {
         "type": 0,
@@ -18454,10 +18522,80 @@
         "value": "IBM Cloud in Cost Management"
       }
     ],
+    "notAuthorizedStateOci": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure in Cost Management"
+      }
+    ],
     "notAuthorizedStateOcp": [
       {
         "type": 0,
         "value": "OpenShift in Cost Management"
+      }
+    ],
+    "oci": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure"
+      }
+    ],
+    "ociComputeTitle": [
+      {
+        "type": 0,
+        "value": "Virtual machines usage"
+      }
+    ],
+    "ociCostTrendTitle": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure cumulative cost comparison ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "ociDailyCostTrendTitle": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure daily cost comparison ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "ociDashboardCostTitle": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure cost"
+      }
+    ],
+    "ociDesc": [
+      {
+        "type": 0,
+        "value": "Raw cost from Oracle Cloud Infrastructure."
+      }
+    ],
+    "ociDetailsTable": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure details table"
+      }
+    ],
+    "ociDetailsTitle": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure details"
       }
     ],
     "ocpCloudDashboardComputeTitle": [
@@ -18792,6 +18930,12 @@
         "value": "IBM Cloud - Cost Management | Red Hat OpenShift Cluster Manager"
       }
     ],
+    "pageTitleOci": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
     "pageTitleOcp": [
       {
         "type": 0,
@@ -18926,6 +19070,14 @@
               {
                 "type": 0,
                 "value": "IBM filtered by OpenShift"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Oracle Cloud Infrastructure"
               }
             ]
           },
