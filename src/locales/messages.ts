@@ -125,13 +125,14 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'aws {Amazon Web Services} ' +
+      'azure {Microsoft Azure} ' +
       'oci {Oracle Cloud Infrastructure} ' +
       'gcp {Google Cloud Platform} ' +
       'ibm {IBM Cloud - Top 5 Costliest} ' +
       'ocp {OpenShift} ' +
       'other {}}',
     description: 'Breakdown back to page titles',
-    id: 'breakdownBackToTitles',
+    id: 'BackToTitles',
   },
   breakdownCostBreakdownAriaLabel: {
     defaultMessage: 'A description of markup, raw cost and usage cost',
@@ -1116,6 +1117,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'aws {Select from the following Amazon Web Services sources:} ' +
+      'azure {Select from the following Microsoft Azure sources:} ' +
       'oci {Select from the following Oracle Cloud Infrastructure sources:} ' +
       'gcp {Select from the following Google Cloud Platform sources:} ' +
       'ocp {Select from the following Red Hat OpenShift sources:} ' +

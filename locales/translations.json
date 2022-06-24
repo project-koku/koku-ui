@@ -1,4 +1,5 @@
 {
+  "BackToTitles": "{value, select, aws {Amazon Web Services} azure {Microsoft Azure} oci {Oracle Cloud Infrastructure} gcp {Google Cloud Platform} ibm {IBM Cloud - Top 5 Costliest} ocp {OpenShift} other {}}",
   "ExamplesTitle": "Examples",
   "NoExportsStateTitle": "There are no export files available",
   "PriceListPosNumberRate": "Rate must be a positive number",
@@ -23,7 +24,6 @@
   "back": "Back",
   "breakdownBackToDetails": "{groupBy, select, account {Back to {value} account details} cluster {Back to {value} cluster details} gcp_project {Back to {value} GCP project details} node {Back to {value} node details} org_unit_id {Back to {value} organizational unit details} project {Back to {value} project details} region {Back to {value} region details} resource_location {Back to {value} region details} service {Back to {value} service details} service_name {Back to {value} service details} subscription_guid {Back to {value} account details} tag {Back to {value} tag details} other {}}",
   "breakdownBackToDetailsAriaLabel": "Back to details",
-  "breakdownBackToTitles": "{value, select, aws {Amazon Web Services} oci {Oracle Cloud Infrastructure} gcp {Google Cloud Platform} ibm {IBM Cloud - Top 5 Costliest} ocp {OpenShift} other {}}",
   "breakdownCostBreakdownAriaLabel": "A description of markup, raw cost and usage cost",
   "breakdownCostBreakdownTitle": "Cost breakdown",
   "breakdownCostChartAriaDesc": "Breakdown of markup, raw, and usage costs",
@@ -152,7 +152,7 @@
   "costModelsWizardReviewStatusSubDetails": "Review and confirm your cost model configuration and assignments. Click {create} to create the cost model, or {back} to revise.",
   "costModelsWizardReviewStatusSubTitle": "Costs for resources connected to the assigned sources will now be calculated using the newly created {value} cost model.",
   "costModelsWizardReviewStatusTitle": "Creation successful",
-  "costModelsWizardSourceCaption": "{value, select, aws {Select from the following Amazon Web Services sources:} oci {Select from the following Oracle Cloud Infrastructure sources:} gcp {Select from the following Google Cloud Platform sources:} ocp {Select from the following Red Hat OpenShift sources:} other {}}",
+  "costModelsWizardSourceCaption": "{value, select, aws {Select from the following Amazon Web Services sources:} azure {Select from the following Microsoft Azure sources:} oci {Select from the following Oracle Cloud Infrastructure sources:} gcp {Select from the following Google Cloud Platform sources:} ocp {Select from the following Red Hat OpenShift sources:} other {}}",
   "costModelsWizardSourceErrorDescription": "Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {url} for known outages.",
   "costModelsWizardSourceErrorTitle": "This step is temporarily unavailable",
   "costModelsWizardSourceSubtitle": "Select one or more sources to this cost model. You can skip this step and assign the cost model to a source at a later time. A source will be unavailable for selection if a cost model is already assigned to it.",
