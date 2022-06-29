@@ -823,10 +823,10 @@
   dependencies:
     "@babel/runtime" "^7.6.2"
 
-"@redhat-cloud-services/frontend-components-config-utilities@^1.5.21":
-  version "1.5.21"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config-utilities/-/frontend-components-config-utilities-1.5.21.tgz#ceda63948ec9f8f9dfd0b9c6741c8ef13390ac70"
-  integrity sha512-hJei9fEGePSt+BC2H9AnUYRLdKSEJ7YX4/rdCls4nG6p0Dst1tqwszPYbhF2vbH1mgiF7lupd74VAkBridA0wQ==
+"@redhat-cloud-services/frontend-components-config-utilities@^1.5.23":
+  version "1.5.23"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config-utilities/-/frontend-components-config-utilities-1.5.23.tgz#7af70deda2ba573f065c228b2a7c6413de022fa0"
+  integrity sha512-pYdbF9NTJ2wgYpG49cNXVCbi0Yv+xss18pPjx2RDVlV+Fe+u9l+WtxG2GzpOGxx2w4UnpMtFgQH9nbe045lYCQ==
   dependencies:
     node-fetch "2.6.7"
 
@@ -861,10 +861,10 @@
     mkdirp "^1.0.4"
     react-content-loader ">=3.4.1"
 
-"@redhat-cloud-services/frontend-components-utilities@^3.2.21":
-  version "3.2.21"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.2.21.tgz#a0ff2d22edcc4cf3e67b22505967e27f6be7ceae"
-  integrity sha512-VsCfNM/gY4CNZVobKnoSd8GZ7lYOsvCwoCZgNZThbehGYwL6JukB92o9Vqu4ysflps3PXGOoU1fwGxt4xEhhyA==
+"@redhat-cloud-services/frontend-components-utilities@^3.2.22":
+  version "3.2.22"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.2.22.tgz#edf2c6c0041d9f476d11e03cf6f35b32fad988dc"
+  integrity sha512-53QDGOZs6HVw1mKb/yAcsZoSWDVKYCBKyysJBmhLfeyQvFgbBw3NRjfrSprf7eE0/wI/RHBjHQRBnWgJ+s7ezA==
   dependencies:
     "@redhat-cloud-services/types" "^0.0.5"
     "@sentry/browser" "^5.4.0"
@@ -874,10 +874,10 @@
     mkdirp "^1.0.4"
     react-content-loader ">=3.4.1"
 
-"@redhat-cloud-services/frontend-components@^3.9.5":
-  version "3.9.5"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.5.tgz#c1c22eafb9e0120f06fc8502299f6a04d83fed09"
-  integrity sha512-N6YP003wLQa+JVHWnhZPNw2QSlUSgkAu3g9H9zXg7wZfPV1KknBekm6wazq7Sk9qbgPnydiOtZMH1eZOwuXStg==
+"@redhat-cloud-services/frontend-components@^3.9.6":
+  version "3.9.6"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.6.tgz#f8ceb2c93a9f701a7e24ab8321e6f948a1def01b"
+  integrity sha512-6oMdb651revtOLKdw6GuzkwL4+V+l9d3NNuUns0howTJfBMDXR3ISbqNpc62+hQw7zPEHex1CIlUkDjFvJpyZA==
   dependencies:
     "@redhat-cloud-services/frontend-components-utilities" ">=3.0.0"
     "@redhat-cloud-services/types" "^0.0.5"

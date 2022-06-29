@@ -128,13 +128,13 @@ mgmt_services/cost-mgmt:koku-ui/@patternfly/react-table:4.93.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@patternfly/react-tokens:4.76.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@popperjs/core:2.11.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@react-aria/ssr:3.1.2.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-config-utilities:1.5.21.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-config-utilities:1.5.23.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-notifications:3.2.8.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-translations:3.2.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.12.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.12.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.21.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components:3.9.5.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.2.22.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components:3.9.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/rbac-client:1.0.108.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/types:0.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/types:0.0.5.yarnlock
