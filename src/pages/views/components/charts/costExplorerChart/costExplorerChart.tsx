@@ -52,6 +52,7 @@ interface State {
   cursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: ChartSeries[];
+  tickValues?: number[];
   width: number;
   units?: string;
 }
@@ -64,6 +65,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
 
   public state: State = {
     hiddenSeries: new Set(),
+    tickValues: [],
     width: 0,
   };
 
@@ -211,7 +213,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
     }
     const cursorVoronoiContainer = this.getCursorVoronoiContainer();
     const units = this.getUnits(series);
-    this.setState({ cursorVoronoiContainer, series, units });
+    this.setState({ cursorVoronoiContainer, series, tickValues: this.getTickValues(), units });
   };
 
   // Adds a child name to help identify hidden data series
@@ -429,7 +431,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
         top: 8,
       },
     } = this.props;
-    const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
+    const { cursorVoronoiContainer, hiddenSeries, series, tickValues, width } = this.state;
 
     // Clone original container. See https://issues.redhat.com/browse/COST-762
     const container = cursorVoronoiContainer
@@ -468,7 +470,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
             {series && series.length > 0 && (
               <ChartStack>{series.map((s, index) => this.getChart(s, index, barWidth))}</ChartStack>
             )}
-            <ChartAxis style={chartStyles.xAxis} tickValues={this.getTickValues()} fixLabelOverlap />
+            <ChartAxis style={chartStyles.xAxis} tickValues={tickValues} fixLabelOverlap />
             <ChartAxis dependentAxis style={chartStyles.yAxis} tickFormat={this.getTickValue} />
           </Chart>
         </div>
