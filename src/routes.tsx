@@ -36,6 +36,8 @@ const paths = {
   gcpDetailsBreakdown: '/gcp/breakdown',
   ibmDetails: '/ibm',
   ibmDetailsBreakdown: '/ibm/breakdown',
+  ociDetails: '/oci',
+  ociDetailsBreakdown: '/oci/breakdown',
   ocpDetails: '/ocp',
   ocpDetailsBreakdown: '/ocp/breakdown',
   overview: '/',
