@@ -61,15 +61,24 @@ test('changeWidgetTab', () => {
 
 describe('getGroupByForTab', () => {
   test('services tab', () => {
-    expect(getGroupByForTab(AzureDashboardTab.service_names)).toMatchSnapshot();
+    const widget = getGroupByForTab({
+      currentTab: AzureDashboardTab.service_names,
+    });
+    expect(widget).toMatchSnapshot();
   });
 
   test('accounts tab', () => {
-    expect(getGroupByForTab(AzureDashboardTab.subscription_guids)).toMatchSnapshot();
+    const widget = getGroupByForTab({
+      currentTab: AzureDashboardTab.subscription_guids,
+    });
+    expect(widget).toMatchSnapshot();
   });
 
   test('regions tab', () => {
-    expect(getGroupByForTab(AzureDashboardTab.resource_locations)).toMatchSnapshot();
+    const widget = getGroupByForTab({
+      currentTab: AzureDashboardTab.resource_locations,
+    });
+    expect(widget).toMatchSnapshot();
   });
 
   test('unknown tab', () => {

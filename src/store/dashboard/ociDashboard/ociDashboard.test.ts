@@ -56,15 +56,24 @@ test('changeWidgetTab', () => {
 
 describe('getGroupByForTab', () => {
   test('services tab', () => {
-    expect(getGroupByForTab(OciDashboardTab.service_names)).toMatchSnapshot();
+    const widget = getGroupByForTab({
+      currentTab: OciDashboardTab.service_names,
+    });
+    expect(widget).toMatchSnapshot();
   });
 
   test('accounts tab', () => {
-    expect(getGroupByForTab(OciDashboardTab.payer_tenant_ids)).toMatchSnapshot();
+    const widget = getGroupByForTab({
+      currentTab: OciDashboardTab.payer_tenant_ids,
+    });
+    expect(widget).toMatchSnapshot();
   });
 
   test('regions tab', () => {
-    expect(getGroupByForTab(OciDashboardTab.resource_locations)).toMatchSnapshot();
+    const widget = getGroupByForTab({
+      currentTab: OciDashboardTab.resource_locations,
+    });
+    expect(widget).toMatchSnapshot();
   });
 
   test('unknown tab', () => {
