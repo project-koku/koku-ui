@@ -5,25 +5,20 @@ import { ChartType } from 'pages/views/components/charts/common/chartDatumUtils'
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
 
-import * as actions from './azureDashboardActions';
-import {
-  azureDashboardStateKey,
-  AzureDashboardTab,
-  getGroupByForTab,
-  getQueryForWidgetTabs,
-} from './azureDashboardCommon';
-import { azureDashboardReducer } from './azureDashboardReducer';
-import * as selectors from './azureDashboardSelectors';
+import * as actions from './ociDashboardActions';
+import { getGroupByForTab, getQueryForWidgetTabs, ociDashboardStateKey, OciDashboardTab } from './ociDashboardCommon';
+import { ociDashboardReducer } from './ociDashboardReducer';
+import * as selectors from './ociDashboardSelectors';
 import {
   costSummaryWidget,
   databaseWidget,
   networkWidget,
   storageWidget,
   virtualMachineWidget,
-} from './azureDashboardWidgets';
+} from './ociDashboardWidgets';
 
-const createAzureDashboardStore = createMockStoreCreator({
-  [azureDashboardStateKey]: azureDashboardReducer,
+const createOciDashboardStore = createMockStoreCreator({
+  [ociDashboardStateKey]: ociDashboardReducer,
 });
 
 const fetchReportMock = reportActions.fetchReport as jest.Mock;
@@ -33,7 +28,7 @@ beforeEach(() => {
 });
 
 test('default state', () => {
-  const store = createAzureDashboardStore();
+  const store = createOciDashboardStore();
   const state = store.getState();
   expect(selectors.selectCurrentWidgets(state)).toEqual([
     costSummaryWidget.id,
@@ -46,37 +41,37 @@ test('default state', () => {
 });
 
 test('fetch widget reports', () => {
-  const store = createAzureDashboardStore();
+  const store = createOciDashboardStore();
   store.dispatch(actions.fetchWidgetReports(costSummaryWidget.id));
   expect(fetchReportMock.mock.calls).toMatchSnapshot();
 });
 
 test('changeWidgetTab', () => {
-  const store = createAzureDashboardStore();
-  store.dispatch(actions.changeWidgetTab(costSummaryWidget.id, AzureDashboardTab.resource_locations));
+  const store = createOciDashboardStore();
+  store.dispatch(actions.changeWidgetTab(costSummaryWidget.id, OciDashboardTab.resource_locations));
   const widget = selectors.selectWidget(store.getState(), costSummaryWidget.id);
-  expect(widget.currentTab).toBe(AzureDashboardTab.resource_locations);
+  expect(widget.currentTab).toBe(OciDashboardTab.resource_locations);
   expect(fetchReportMock).toHaveBeenCalledTimes(3);
 });
 
 describe('getGroupByForTab', () => {
   test('services tab', () => {
     const widget = getGroupByForTab({
-      currentTab: AzureDashboardTab.service_names,
+      currentTab: OciDashboardTab.service_names,
     });
     expect(widget).toMatchSnapshot();
   });
 
   test('accounts tab', () => {
     const widget = getGroupByForTab({
-      currentTab: AzureDashboardTab.subscription_guids,
+      currentTab: OciDashboardTab.payer_tenant_ids,
     });
     expect(widget).toMatchSnapshot();
   });
 
   test('regions tab', () => {
     const widget = getGroupByForTab({
-      currentTab: AzureDashboardTab.resource_locations,
+      currentTab: OciDashboardTab.resource_locations,
     });
     expect(widget).toMatchSnapshot();
   });
@@ -91,8 +86,8 @@ test('getQueryForWidget', () => {
     id: 1,
     titleKey: '',
     reportType: ReportType.cost,
-    availableTabs: [AzureDashboardTab.subscription_guids],
-    currentTab: AzureDashboardTab.subscription_guids,
+    availableTabs: [OciDashboardTab.payer_tenant_ids],
+    currentTab: OciDashboardTab.payer_tenant_ids,
     details: { formatOptions: {} },
     trend: {
       formatOptions: {},
@@ -107,10 +102,10 @@ test('getQueryForWidget', () => {
   [
     [
       undefined,
-      'filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&group_by[subscription_guid]=*',
+      'filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&group_by[payer_tenant_id]=*',
     ],
-    [{}, 'group_by[subscription_guid]=*'],
-    [{ limit: 3 }, 'filter[limit]=3&group_by[subscription_guid]=*'],
+    [{}, 'group_by[payer_tenant_id]=*'],
+    [{ limit: 3 }, 'filter[limit]=3&group_by[payer_tenant_id]=*'],
   ].forEach(value => {
     expect(getQueryForWidgetTabs(widget, value[0])).toEqual(value[1]);
   });

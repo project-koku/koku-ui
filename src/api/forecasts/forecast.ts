@@ -43,6 +43,7 @@ export const enum ForecastPathsType {
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp',
   ibm = 'gcp', // Todo: update to use ibm backend apis when they become available
+  oci = 'oci',
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud',
 }
