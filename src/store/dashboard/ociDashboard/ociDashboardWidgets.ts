@@ -55,10 +55,12 @@ export const databaseWidget: OciDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service_name: 'Database,Cosmos DB,Cache for Redis',
+    database_services:
+      'Autonomous Database,Autonomous Data Warehouse,Autonomous Transaction Processing,Autonomous JSON Database,Exadata Database Service,Database Cloud Service,Autonomous Database on Exadata,MySQL HeatWave,NoSQL,Search Service with OpenSearch',
   },
   tabsFilter: {
-    service_name: 'Database,Cosmos DB,Cache for Redis',
+    database_services:
+      'Autonomous Database,Autonomous Data Warehouse,Autonomous Transaction Processing,Autonomous JSON Database,Exadata Database Service,Database Cloud Service,Autonomous Database on Exadata,MySQL HeatWave,NoSQL,Search Service with OpenSearch',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
@@ -79,10 +81,12 @@ export const networkWidget: OciDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service_name: 'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
+    network_services:
+      'Virtual Cloud Networks,Networking Gateways,Load Balancers,Site-to-Site VPN,Client-to-Site VPN,FastConnect,Customer-Premises Equipment,DNS Management',
   },
   tabsFilter: {
-    service_name: 'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
+    network_services:
+      'Virtual Cloud Networks,Networking Gateways,Load Balancers,Site-to-Site VPN,Client-to-Site VPN,FastConnect,Customer-Premises Equipment,DNS Management',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
@@ -127,10 +131,10 @@ export const virtualMachineWidget: OciDashboardWidget = {
     usageKey: messages.usage,
   },
   filter: {
-    service_name: 'Virtual Machines',
+    product_service: 'Virtual Machines',
   },
   tabsFilter: {
-    service_name: 'Virtual Machines',
+    product_service: 'Virtual Machines',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
