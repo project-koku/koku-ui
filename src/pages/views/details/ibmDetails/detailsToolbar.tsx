@@ -156,6 +156,11 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
   // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
   const queryString = getQuery({
+    filter: {
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: -1,
+    },
     key_only: true,
     limit: 1000,
   });

@@ -3,7 +3,7 @@ import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey, tagPrefix } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
-import { PerspectiveType } from 'pages/views/explorer/explorerUtils';
+import { getDateRange, getDateRangeDefault, PerspectiveType } from 'pages/views/explorer/explorerUtils';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
@@ -292,8 +292,31 @@ class GroupByBase extends React.Component<GroupByProps> {
 
 const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>(
   (state, { orgReportPathsType, tagReportPathsType }) => {
+    const queryFromRoute = parseQuery<Query>(location.search);
+
+    // Default to current month filter for details pages
+    let tagFilter: any = {
+      filter: {
+        resolution: 'monthly',
+        time_scope_units: 'month',
+        time_scope_value: -1,
+      },
+    };
+
+    // Replace with start and end dates for Cost Explorer
+    if (queryFromRoute.dateRange) {
+      const dateRange = getDateRangeDefault(queryFromRoute);
+      const { end_date, start_date } = getDateRange(dateRange);
+
+      tagFilter = {
+        end_date,
+        start_date,
+      };
+    }
+
     // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
     const tagQueryString = getQuery({
+      ...tagFilter,
       key_only: true,
       limit: 1000,
     });
@@ -306,6 +329,7 @@ const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps
     );
 
     const orgQueryString = getQuery({
+      ...tagFilter,
       key_only: true,
       limit: 1000,
     });

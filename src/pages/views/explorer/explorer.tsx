@@ -541,7 +541,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   // Cost Report
   const queryFromRoute = parseQuery<Query>(location.search);
   const dateRange = getDateRangeDefault(queryFromRoute);
-  const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
+  const { end_date, start_date } = getDateRange(dateRange);
 
   const perspective = getPerspectiveDefault({
     awsProviders,

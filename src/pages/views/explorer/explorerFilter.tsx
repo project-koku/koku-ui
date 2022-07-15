@@ -16,6 +16,7 @@ import { isEqual } from 'utils/equal';
 
 import { DateRange } from './dateRange';
 import { styles } from './explorerFilter.styles';
+import { getDateRange } from './explorerUtils';
 import {
   dateRangeOptions,
   DateRangeType,
@@ -150,7 +151,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
     return dateRange ? dateRange : dateRangeOptions[0];
   };
 
-  private getDateRange = () => {
+  private getDateRangeComponent = () => {
     const { isDisabled } = this.props;
     const { currentDateRange } = this.state;
 
@@ -193,7 +194,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
     return (
       <DataToolbar
         categoryOptions={categoryOptions}
-        dateRange={this.getDateRange()}
+        dateRange={this.getDateRangeComponent()}
         groupBy={groupBy}
         isDisabled={isDisabled}
         onFilterAdded={onFilterAdded}
@@ -215,9 +216,12 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
   (state, { perspective }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
     const dateRange = getDateRangeDefault(queryFromRoute);
+    const { end_date, start_date } = getDateRange(dateRange);
 
     // Omitting key_only to share a single request -- the toolbar needs key values
     const orgQueryString = getQuery({
+      end_date,
+      start_date,
       limit: 1000,
     });
 
@@ -236,6 +240,8 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
 
     // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
     const tagQueryString = getQuery({
+      end_date,
+      start_date,
       key_only: true,
       limit: 1000,
     });

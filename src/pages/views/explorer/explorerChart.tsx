@@ -255,7 +255,7 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
   (state, { perspective }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
     const dateRange = getDateRangeDefault(queryFromRoute);
-    const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
+    const { end_date, start_date } = getDateRange(dateRange);
 
     // Ensure group_by key is not undefined
     let groupBy = queryFromRoute.group_by;
