@@ -238,7 +238,8 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
       );
     }
 
-    // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
+    // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
+    // However, for better server-side performance, we chose to use key_only here.
     const tagQueryString = getQuery({
       end_date,
       start_date,
