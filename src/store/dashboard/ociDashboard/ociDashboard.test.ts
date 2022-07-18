@@ -71,7 +71,7 @@ describe('getGroupByForTab', () => {
 
   test('regions tab', () => {
     const widget = getGroupByForTab({
-      currentTab: OciDashboardTab.resource_locations,
+      currentTab: OciDashboardTab.resources,
     });
     expect(widget).toMatchSnapshot();
   });
