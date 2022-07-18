@@ -48,9 +48,9 @@ test('fetch widget reports', () => {
 
 test('changeWidgetTab', () => {
   const store = createOciDashboardStore();
-  store.dispatch(actions.changeWidgetTab(costSummaryWidget.id, OciDashboardTab.resource_locations));
+  store.dispatch(actions.changeWidgetTab(costSummaryWidget.id, OciDashboardTab.resources));
   const widget = selectors.selectWidget(store.getState(), costSummaryWidget.id);
-  expect(widget.currentTab).toBe(OciDashboardTab.resource_locations);
+  expect(widget.currentTab).toBe(OciDashboardTab.resources);
   expect(fetchReportMock).toHaveBeenCalledTimes(3);
 });
 

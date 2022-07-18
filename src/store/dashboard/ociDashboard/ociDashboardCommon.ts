@@ -14,16 +14,16 @@ export const ociDashboardTabFilters: OciFilters = {
 
 // eslint-disable-next-line no-shadow
 export const enum OciDashboardTab {
-  product_service = 'product_service',
+  service_names = 'product_services',
   payer_tenant_ids = 'payer_tenant_ids',
-  resources = 'resources',
+  resources = 'regions',
 }
 
 export interface OciDashboardWidget extends DashboardWidget<OciDashboardTab> {}
 
 export function getGroupByForTab(widget: OciDashboardWidget): OciQuery['group_by'] {
   switch (widget.currentTab) {
-    case OciDashboardTab.product_service:
+    case OciDashboardTab.service_names:
       // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
       return {
         product_service: widget.tabsFilter && widget.tabsFilter.service_name ? widget.tabsFilter.service_name : '*',
@@ -52,7 +52,7 @@ export function getQueryForWidgetTabs(widget: OciDashboardWidget, filter: OciFil
   };
 
   // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
-  if (widget.currentTab === OciDashboardTab.product_service && widget.tabsFilter && widget.tabsFilter.service_name) {
+  if (widget.currentTab === OciDashboardTab.service_names && widget.tabsFilter && widget.tabsFilter.service_name) {
     newFilter.service = undefined;
   }
   const query: OciQuery = {

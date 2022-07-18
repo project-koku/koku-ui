@@ -19,16 +19,10 @@ beforeEach(() => {
   getMonthMock.mockReturnValue(1);
 });
 
-test('id key for OciDashboardTab.product_service is correct', () => {
-  expect(getIdKeyForTab(OciDashboardTab.product_service).toEqual(OciDashboardTab.product_service));
-})
-
 test('id key for dashboard tab is the tab name in singular form', () => {
-  [OciDashboardTab.payer_tenant_ids, OciDashboardTab.resources].forEach(
-    value => {
-      expect(getIdKeyForTab(value)).toEqual(value.slice(0, -1));
-    }
-  );
+  [OciDashboardTab.service_names, OciDashboardTab.payer_tenant_ids, OciDashboardTab.resources].forEach(value => {
+    expect(getIdKeyForTab(value)).toEqual(value.slice(0, -1));
+  });
 
   expect(getIdKeyForTab(OciDashboardTab.instanceType)).toEqual(OciDashboardTab.instanceType);
 });
