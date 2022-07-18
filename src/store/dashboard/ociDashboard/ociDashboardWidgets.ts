@@ -40,7 +40,7 @@ export const costSummaryWidget: OciDashboardWidget = {
     titleKey: messages.ociCostTrendTitle,
     type: ChartType.rolling,
   },
-  availableTabs: [OciDashboardTab.service_names, OciDashboardTab.payer_tenant_ids, OciDashboardTab.resource_locations],
+  availableTabs: [OciDashboardTab.service_names, OciDashboardTab.payer_tenant_ids, OciDashboardTab.resources],
   chartType: DashboardChartType.dailyTrend,
   currentTab: OciDashboardTab.service_names,
 };
