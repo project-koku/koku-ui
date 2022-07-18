@@ -338,7 +338,7 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
   (state, { costType, perspective }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
     const dateRange = getDateRangeDefault(queryFromRoute);
-    const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
+    const { end_date, start_date } = getDateRange(dateRange);
 
     const providersQueryString = getProvidersQuery(providersQuery);
     const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
