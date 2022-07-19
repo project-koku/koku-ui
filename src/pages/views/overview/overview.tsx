@@ -66,6 +66,7 @@ import {
   isOcpAvailable,
 } from 'utils/userAccess';
 
+import OciDashboard from './ociDashboard';
 import { styles } from './overview.styles';
 
 // eslint-disable-next-line no-shadow
@@ -422,7 +423,8 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getTabItem = (tab: OverviewTab, index: number) => {
-    const { awsProviders, azureProviders, costType, gcpProviders, ibmProviders, ocpProviders } = this.props;
+    const { awsProviders, azureProviders, ociProviders, costType, gcpProviders, ibmProviders, ocpProviders } =
+      this.props;
     const { activeTabKey, currentInfrastructurePerspective, currentOcpPerspective } = this.state;
 
     const emptyTab = <></>; // Lazily load tabs
@@ -461,6 +463,9 @@ class OverviewBase extends React.Component<OverviewProps> {
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azure) {
         const hasData = hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders);
         return hasData ? <AzureDashboard /> : noData;
+      } else if (currentInfrastructurePerspective === InfrastructurePerspective.oci) {
+        const hasData = hasCurrentMonthData(ociProviders) || hasPreviousMonthData(ociProviders);
+        return hasData ? <OciDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azureOcp) {
         const hasData =
           hasCloudCurrentMonthData(azureProviders, ocpProviders) ||
@@ -735,6 +740,7 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
   return {
     awsProviders: filterProviders(providers, ProviderType.aws),
     azureProviders: filterProviders(providers, ProviderType.azure),
+    ociProviders: filterProviders(providers, ProviderType.oci),
     gcpProviders: filterProviders(providers, ProviderType.gcp),
     ibmProviders: filterProviders(providers, ProviderType.ibm),
     ocpProviders: filterProviders(providers, ProviderType.ocp),

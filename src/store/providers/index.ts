@@ -3,6 +3,7 @@ import {
   azureProvidersQuery,
   gcpProvidersQuery,
   ibmProvidersQuery,
+  ociProvidersQuery,
   ocpProvidersQuery,
   providersQuery,
 } from 'store/providers/providersCommon';
@@ -15,6 +16,7 @@ import * as providersSelectors from './providersSelectors';
 export {
   awsProvidersQuery,
   azureProvidersQuery,
+  ociProvidersQuery,
   gcpProvidersQuery,
   ibmProvidersQuery,
   ocpProvidersQuery,
