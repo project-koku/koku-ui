@@ -60,6 +60,7 @@ import {
   hasIbmAccess,
   isAwsAvailable,
   isAzureAvailable,
+  isOciAvailable,
   isGcpAvailable,
   isIbmAvailable,
   isOcpAvailable,
@@ -77,6 +78,7 @@ const enum InfrastructurePerspective {
   gcpOcp = 'gcp_ocp', // GCP filtered by Ocp
   ibm = 'ibm',
   ibmOcp = 'ibm_ocp', // IBM filtered by Ocp
+  oci = 'oci',
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
 }
 
@@ -112,6 +114,7 @@ interface OverviewStateProps {
   costType?: CostTypes;
   gcpProviders?: Providers;
   ibmProviders?: Providers;
+  ociProviders?: Providers;
   ocpProviders?: Providers;
   providers: Providers;
   providersError: AxiosError;
@@ -150,6 +153,9 @@ const infrastructureAwsOcpOptions = [{ label: messages.perspectiveValues, value:
 
 // Infrastructure Azure options
 const infrastructureAzureOptions = [{ label: messages.perspectiveValues, value: 'azure' }];
+
+// Infrastructure Oci options
+const infrastructureOciOptions = [{ label: messages.perspectiveValues, value: 'oci' }];
 
 // Infrastructure Azure filtered by OpenShift options
 const infrastructureAzureOcpOptions = [{ label: messages.perspectiveValues, value: 'azure_ocp' }];
@@ -210,6 +216,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     if (
       this.isAwsAvailable() ||
       this.isAzureAvailable() ||
+      this.isOciAvailable() ||
       this.isGcpAvailable() ||
       this.isIbmAvailable() ||
       this.isOcpCloudAvailable()
@@ -244,13 +251,14 @@ class OverviewBase extends React.Component<OverviewProps> {
 
     const hasAws = this.isAwsAvailable();
     const hasAzure = this.isAzureAvailable();
+    const hasOci = this.isOciAvailable();
     const hasGcp = this.isGcpAvailable();
     const hasIbm = this.isIbmAvailable();
     const hasOcp = this.isOcpAvailable();
     const hasOcpCloud = this.isOcpCloudAvailable();
 
-    const showOcpOnly = hasOcp && !(hasAws || hasAzure || hasGcp || hasIbm || hasOcpCloud);
-    const showInfrastructureOnly = !hasOcp && (hasAws || hasAzure || hasGcp || hasIbm || hasOcpCloud);
+    const showOcpOnly = hasOcp && !(hasAws || hasAzure || hasOci || hasGcp || hasIbm || hasOcpCloud);
+    const showInfrastructureOnly = !hasOcp && (hasAws || hasAzure || hasOci || hasGcp || hasIbm || hasOcpCloud);
 
     if (showOcpOnly) {
       return OverviewTab.ocp;
@@ -269,6 +277,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       case InfrastructurePerspective.aws:
       case InfrastructurePerspective.awsOcp:
       case InfrastructurePerspective.azure:
+      case InfrastructurePerspective.oci:
       case InfrastructurePerspective.azureOcp:
       case InfrastructurePerspective.gcp:
       case InfrastructurePerspective.gcpOcp:
@@ -286,6 +295,9 @@ class OverviewBase extends React.Component<OverviewProps> {
     }
     if (this.isAzureAvailable()) {
       return InfrastructurePerspective.azure;
+    }
+    if (this.isOciAvailable()) {
+      return InfrastructurePerspective.oci;
     }
     if (this.isGcpAvailable()) {
       return InfrastructurePerspective.gcp;
@@ -316,12 +328,13 @@ class OverviewBase extends React.Component<OverviewProps> {
 
     const hasAws = this.isAwsAvailable();
     const hasAzure = this.isAzureAvailable();
+    const hasOci = this.isOciAvailable();
     const hasGcp = this.isGcpAvailable();
     const hasIbm = this.isIbmAvailable();
     const hasOcp = this.isOcpAvailable();
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
-    if (!(hasAws || hasAzure || hasGcp || hasIbm || hasOcp)) {
+    if (!(hasAws || hasAzure || hasOci || hasGcp || hasIbm || hasOcp)) {
       return null;
     }
 
@@ -352,6 +365,9 @@ class OverviewBase extends React.Component<OverviewProps> {
       }
       if (hasAzure) {
         options.push(...infrastructureAzureOptions);
+      }
+      if (hasOci) {
+        options.push(...infrastructureOciOptions);
       }
       if (this.isAzureOcpAvailable()) {
         options.push(...infrastructureAzureOcpOptions);
@@ -551,6 +567,11 @@ class OverviewBase extends React.Component<OverviewProps> {
     return isAzureAvailable(userAccess, azureProviders);
   };
 
+  private isOciAvailable = () => {
+    const { ociProviders, userAccess } = this.props;
+    return isOciAvailable(userAccess, ociProviders);
+  };
+
   private isAzureOcpAvailable = () => {
     const { azureProviders, ocpProviders, userAccess } = this.props;
     return hasAzureAccess(userAccess) && hasCloudProvider(azureProviders, ocpProviders);
@@ -594,12 +615,13 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { providersFetchStatus, intl, userAccessFetchStatus } = this.props;
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
-    const noAwsProviders = !this.isAwsAvailable() && providersFetchStatus === FetchStatus.complete;
-    const noAzureProviders = !this.isAzureAvailable() && providersFetchStatus === FetchStatus.complete;
-    const noGcpProviders = !this.isGcpAvailable() && providersFetchStatus === FetchStatus.complete;
-    const noIbmProviders = !this.isIbmAvailable() && providersFetchStatus === FetchStatus.complete;
-    const noOcpProviders = !this.isOcpAvailable() && providersFetchStatus === FetchStatus.complete;
-    const noProviders = noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders;
+    const noProviders = providersFetchStatus === FetchStatus.complete
+      && !this.isAwsAvailable()
+      && !this.isAzureAvailable()
+      && !this.isGcpAvailable()
+      && !this.isIbmAvailable()
+      && !this.isOciAvailable()
+      && !this.isOcpAvailable()
 
     const isLoading =
       providersFetchStatus === FetchStatus.inProgress || userAccessFetchStatus === FetchStatus.inProgress;
