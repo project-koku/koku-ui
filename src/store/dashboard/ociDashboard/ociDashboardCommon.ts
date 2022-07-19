@@ -24,10 +24,7 @@ export interface OciDashboardWidget extends DashboardWidget<OciDashboardTab> {}
 export function getGroupByForTab(widget: OciDashboardWidget): OciQuery['group_by'] {
   switch (widget.currentTab) {
     case OciDashboardTab.product_services:
-      // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
-      return {
-        product_service: widget.tabsFilter && widget.tabsFilter.service_name ? widget.tabsFilter.service_name : '*',
-      };
+      return { product_service: '*' };
     case OciDashboardTab.payer_tenant_ids:
       return { payer_tenant_id: '*' };
     case OciDashboardTab.regions:
