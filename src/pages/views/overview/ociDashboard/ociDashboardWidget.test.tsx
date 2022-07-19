@@ -20,7 +20,7 @@ beforeEach(() => {
 });
 
 test('id key for dashboard tab is the tab name in singular form', () => {
-  [OciDashboardTab.service_names, OciDashboardTab.payer_tenant_ids, OciDashboardTab.resources].forEach(value => {
+  [OciDashboardTab.product_services, OciDashboardTab.payer_tenant_ids, OciDashboardTab.regions].forEach(value => {
     expect(getIdKeyForTab(value)).toEqual(value.slice(0, -1));
   });
 

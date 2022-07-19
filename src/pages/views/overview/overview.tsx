@@ -60,9 +60,9 @@ import {
   hasIbmAccess,
   isAwsAvailable,
   isAzureAvailable,
-  isOciAvailable,
   isGcpAvailable,
   isIbmAvailable,
+  isOciAvailable,
   isOcpAvailable,
 } from 'utils/userAccess';
 
@@ -615,13 +615,14 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { providersFetchStatus, intl, userAccessFetchStatus } = this.props;
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
-    const noProviders = providersFetchStatus === FetchStatus.complete
-      && !this.isAwsAvailable()
-      && !this.isAzureAvailable()
-      && !this.isGcpAvailable()
-      && !this.isIbmAvailable()
-      && !this.isOciAvailable()
-      && !this.isOcpAvailable()
+    const noProviders =
+      providersFetchStatus === FetchStatus.complete &&
+      !this.isAwsAvailable() &&
+      !this.isAzureAvailable() &&
+      !this.isGcpAvailable() &&
+      !this.isIbmAvailable() &&
+      !this.isOciAvailable() &&
+      !this.isOcpAvailable();
 
     const isLoading =
       providersFetchStatus === FetchStatus.inProgress || userAccessFetchStatus === FetchStatus.inProgress;

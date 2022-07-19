@@ -48,16 +48,16 @@ test('fetch widget reports', () => {
 
 test('changeWidgetTab', () => {
   const store = createOciDashboardStore();
-  store.dispatch(actions.changeWidgetTab(costSummaryWidget.id, OciDashboardTab.resources));
+  store.dispatch(actions.changeWidgetTab(costSummaryWidget.id, OciDashboardTab.regions));
   const widget = selectors.selectWidget(store.getState(), costSummaryWidget.id);
-  expect(widget.currentTab).toBe(OciDashboardTab.resources);
+  expect(widget.currentTab).toBe(OciDashboardTab.regions);
   expect(fetchReportMock).toHaveBeenCalledTimes(3);
 });
 
 describe('getGroupByForTab', () => {
   test('services tab', () => {
     const widget = getGroupByForTab({
-      currentTab: OciDashboardTab.service_names,
+      currentTab: OciDashboardTab.product_services,
     });
     expect(widget).toMatchSnapshot();
   });
@@ -71,7 +71,7 @@ describe('getGroupByForTab', () => {
 
   test('regions tab', () => {
     const widget = getGroupByForTab({
-      currentTab: OciDashboardTab.resources,
+      currentTab: OciDashboardTab.regions,
     });
     expect(widget).toMatchSnapshot();
   });

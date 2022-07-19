@@ -19,11 +19,11 @@ interface OciDashboardWidgetDispatchProps {
 
 export const getIdKeyForTab = (tab: OciDashboardTab): ComputedOciReportItemsParams['idKey'] => {
   switch (tab) {
-    case OciDashboardTab.service_names:
+    case OciDashboardTab.product_services:
       return 'product_service';
     case OciDashboardTab.payer_tenant_ids:
       return 'payer_tenant_id';
-    case OciDashboardTab.resources:
+    case OciDashboardTab.regions:
       return 'region';
   }
 };
