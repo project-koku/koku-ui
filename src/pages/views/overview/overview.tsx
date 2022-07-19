@@ -52,7 +52,7 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { CostTypes, getCostType } from 'utils/costType';
 import { getSinceDateRangeString } from 'utils/dateRange';
-import { FeatureType, isFeatureVisible } from 'utils/feature';
+import { FeatureType, isFeatureVisible, isStageBeta } from 'utils/feature';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -655,12 +655,14 @@ class OverviewBase extends React.Component<OverviewProps> {
                       <br />
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.gcp)}</p>
                       <p>{intl.formatMessage(messages.gcpDesc)}</p>
-                      {/* Todo: Show in-progress features in beta environment only */}
-                      {isFeatureVisible(FeatureType.ibm) && (
+                      {isStageBeta() && (
                         <>
                           <br />
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.ibm)}</p>
                           <p>{intl.formatMessage(messages.ibmDesc)}</p>
+                          <br />
+                          <p style={styles.infoTitle}>{intl.formatMessage(messages.oci)}</p>
+                          <p>{intl.formatMessage(messages.ociDesc)}</p>
                         </>
                       )}
                       <br />
