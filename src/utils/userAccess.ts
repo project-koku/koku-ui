@@ -45,12 +45,12 @@ export const isAzureAvailable = (userAccess: UserAccess, azureProviders: Provide
   return hasAzureAccess(userAccess) && hasProviders(azureProviders);
 };
 
-// Returns true if user has access to Azure
+// Returns true if user has access to Oci
 export const hasOciAccess = (userAccess: UserAccess) => {
   return hasAccess(userAccess, UserAccessType.oci);
 };
 
-// Returns true if user has access to Azure and at least one source provider
+// Returns true if user has access to Oci and at least one source provider
 export const isOciAvailable = (userAccess: UserAccess, ociProviders: Providers) => {
   return hasOciAccess(userAccess) && hasProviders(ociProviders);
 };
