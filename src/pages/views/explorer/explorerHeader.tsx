@@ -55,6 +55,7 @@ import {
   infrastructureGcpOptions,
   infrastructureIbmOcpOptions,
   infrastructureIbmOptions,
+  infrastructureOciOptions,
   infrastructureOcpCloudOptions,
   ocpOptions,
   PerspectiveType,
@@ -167,6 +168,9 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     }
     if (this.isAzureOcpAvailable()) {
       options.push(...infrastructureAzureOcpOptions);
+    }
+    if (isFeatureVisible(FeatureType.oci) && hasOci) {
+      options.push(...infrastructureOciOptions);
     }
 
     return (

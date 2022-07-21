@@ -5,7 +5,7 @@ export const enum FeatureType {
   exports = 'exports', // Async exports https://issues.redhat.com/browse/COST-2223
   gcpOcp = 'gcp_ocp', // GCP filtered by OpenShift https://issues.redhat.com/browse/COST-682
   ibm = 'ibm', // IBM https://issues.redhat.com/browse/COST-935
-  oci = 'oci', // Open Container Initiative
+  oci = 'oci', // Open Container Initiative / Oracle Cloud Infrastructure
 }
 
 // Show in-progress features for stage-beta environment only

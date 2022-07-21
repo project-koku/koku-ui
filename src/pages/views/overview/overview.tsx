@@ -52,7 +52,7 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { CostTypes, getCostType } from 'utils/costType';
 import { getSinceDateRangeString } from 'utils/dateRange';
-import { FeatureType, isFeatureVisible, isStageBeta } from 'utils/feature';
+import { FeatureType, isFeatureVisible } from 'utils/feature';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -367,7 +367,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (hasAzure) {
         options.push(...infrastructureAzureOptions);
       }
-      if (hasOci) {
+      if (isFeatureVisible(FeatureType.oci) && hasOci) {
         options.push(...infrastructureOciOptions);
       }
       if (this.isAzureOcpAvailable()) {
@@ -660,11 +660,15 @@ class OverviewBase extends React.Component<OverviewProps> {
                       <br />
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.gcp)}</p>
                       <p>{intl.formatMessage(messages.gcpDesc)}</p>
-                      {isStageBeta() && (
+                      {isFeatureVisible(FeatureType.ibm) && (
                         <>
                           <br />
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.ibm)}</p>
                           <p>{intl.formatMessage(messages.ibmDesc)}</p>
+                        </>
+                      )}
+                      {isFeatureVisible(FeatureType.oci) && (
+                        <>
                           <br />
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.oci)}</p>
                           <p>{intl.formatMessage(messages.ociDesc)}</p>

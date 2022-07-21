@@ -145,6 +145,9 @@ export const infrastructureAwsOcpOptions = [{ label: messages.perspectiveValues,
 // Infrastructure Azure options
 export const infrastructureAzureOptions = [{ label: messages.perspectiveValues, value: 'azure' }];
 
+// Infrastructure OCI options
+export const infrastructureOciOptions = [{ label: messages.perspectiveValues, value: 'oci' }];
+
 // Infrastructure Azure filtered by OpenShift options
 export const infrastructureAzureOcpOptions = [{ label: messages.perspectiveValues, value: 'azure_ocp' }];
 

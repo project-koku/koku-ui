@@ -27,7 +27,14 @@ import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { CostTypes, getCostType } from 'utils/costType';
-import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
+import {
+  isAwsAvailable,
+  isAzureAvailable,
+  isGcpAvailable,
+  isIbmAvailable,
+  isOciAvailable,
+  isOcpAvailable,
+} from 'utils/userAccess';
 
 import { styles } from './explorer.styles';
 import { ExplorerChart } from './explorerChart';
@@ -389,7 +396,7 @@ class Explorer extends React.Component<ExplorerProps> {
 
   private isOciAvailable = () => {
     const { ociProviders, userAccess } = this.props;
-    return isAzureAvailable(userAccess, ociProviders);
+    return isOciAvailable(userAccess, ociProviders);
   };
 
   private isGcpAvailable = () => {
