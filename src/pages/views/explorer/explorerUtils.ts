@@ -28,6 +28,7 @@ import {
   isAzureAvailable,
   isGcpAvailable,
   isIbmAvailable,
+  isOciAvailable,
   isOcpAvailable,
 } from 'utils/userAccess';
 
@@ -51,6 +52,7 @@ export const enum PerspectiveType {
   gcpOcp = 'gcp_ocp', // Gcp filtered by Ocp
   ibm = 'ibm',
   ibmOcp = 'ibm_ocp', // IBM filtered by Ocp
+  oci = 'oci',
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
 }
@@ -143,6 +145,9 @@ export const infrastructureAwsOcpOptions = [{ label: messages.perspectiveValues,
 // Infrastructure Azure options
 export const infrastructureAzureOptions = [{ label: messages.perspectiveValues, value: 'azure' }];
 
+// Infrastructure OCI options
+export const infrastructureOciOptions = [{ label: messages.perspectiveValues, value: 'oci' }];
+
 // Infrastructure Azure filtered by OpenShift options
 export const infrastructureAzureOcpOptions = [{ label: messages.perspectiveValues, value: 'azure_ocp' }];
 
@@ -225,6 +230,7 @@ export const getDateRangeDefault = (queryFromRoute: Query) => {
 export const getPerspectiveDefault = ({
   awsProviders,
   azureProviders,
+  ociProviders,
   gcpProviders,
   ibmProviders,
   ocpProviders,
@@ -233,6 +239,7 @@ export const getPerspectiveDefault = ({
 }: {
   awsProviders: Providers;
   azureProviders: Providers;
+  ociProviders: Providers;
   gcpProviders: Providers;
   ibmProviders: Providers;
   ocpProviders: Providers;
@@ -272,6 +279,9 @@ export const getPerspectiveDefault = ({
   }
   if (isAzureAvailable(userAccess, azureProviders)) {
     return PerspectiveType.azure;
+  }
+  if (isOciAvailable(userAccess, ociProviders)) {
+    return PerspectiveType.oci;
   }
   if (isGcpAvailable(userAccess, gcpProviders)) {
     return PerspectiveType.gcp;
