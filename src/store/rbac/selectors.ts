@@ -17,10 +17,14 @@ export const isCostModelWritePermission = (state: RootState) => {
     return false;
   }
   const [app, resource, operation] = costModelPermissions.permission.split(':');
-  if (app === 'cost-management' && resource === '*' && operation === '*') {
+  if (
+    app === 'cost-management' &&
+    (resource === 'write' || resource === '*') &&
+    (operation === 'write' || operation === '*')
+  ) {
     return true;
   }
-  if ((resource === 'rate' || resource === 'cost_model') && operation === 'write') {
+  if ((resource === 'rate' || resource === 'cost_model') && (operation === 'write' || operation === '*')) {
     return true;
   }
   return false;
