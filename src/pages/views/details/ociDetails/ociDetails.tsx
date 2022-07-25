@@ -68,7 +68,7 @@ const baseQuery: OciQuery = {
   },
   filter_by: {},
   group_by: {
-    subscription_guid: '*',
+    payer_tenant_id: '*',
   },
   order_by: {
     cost: 'desc',
