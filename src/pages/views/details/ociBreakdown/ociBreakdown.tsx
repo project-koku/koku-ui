@@ -20,9 +20,9 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type AzureCostOwnProps = WrappedComponentProps;
+type OciCostOwnProps = WrappedComponentProps;
 
-interface AzureCostStateProps {
+interface OciCostStateProps {
   CostOverview?: React.ReactNode;
   detailsURL: string;
   HistoricalData?: React.ReactNode;
@@ -38,16 +38,16 @@ interface AzureCostStateProps {
   reportPathsType: ReportPathsType;
 }
 
-interface AzureCostDispatchProps {
+interface OciCostDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = paths.azureDetails;
+const detailsURL = paths.ociDetails;
 const reportType = ReportType.cost;
-const reportPathsType = ReportPathsType.azure;
+const reportPathsType = ReportPathsType.oci;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<OciCostOwnProps, OciCostStateProps>((state, props) => {
   const query = parseQuery<OcpQuery>(location.search);
   const groupBy = getGroupById(query);
   const groupByValue = getGroupByValue(query);
@@ -86,14 +86,14 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
     costOverviewComponent: <CostOverview groupBy={groupBy} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
-    emptyStateTitle: props.intl.formatMessage(messages.azureDetailsTitle),
+    emptyStateTitle: props.intl.formatMessage(messages.ociDetailsTitle),
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData />,
-    providers: filterProviders(providers, ProviderType.azure),
+    providers: filterProviders(providers, ProviderType.oci),
     providersError,
     providersFetchStatus,
-    providerType: ProviderType.azure,
+    providerType: ProviderType.oci,
     query,
     queryString,
     report,
@@ -101,15 +101,15 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
     reportFetchStatus,
     reportType,
     reportPathsType,
-    tagReportPathsType: TagPathsType.azure,
+    tagReportPathsType: TagPathsType.oci,
     title: groupByValue,
   };
 });
 
-const mapDispatchToProps: AzureCostDispatchProps = {
+const mapDispatchToProps: OciCostDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const AzureCost = injectIntl(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
+const OciCost = injectIntl(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
 
-export default AzureCost;
+export default OciCost;
