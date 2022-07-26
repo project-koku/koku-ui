@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import { accountSettingsReducer, accountSettingsStateKey } from 'store/accountSettings';
 import { awsCostOverviewReducer, awsCostOverviewStateKey } from 'store/breakdown/costOverview/awsCostOverview';
 import { azureCostOverviewReducer, azureCostOverviewStateKey } from 'store/breakdown/costOverview/azureCostOverview';
+import { ociCostOverviewReducer, ociCostOverviewStateKey } from 'store/breakdown/costOverview/ociCostOverview';
 import { gcpCostOverviewReducer, gcpCostOverviewStateKey } from 'store/breakdown/costOverview/gcpCostOverview';
 import { ibmCostOverviewReducer, ibmCostOverviewStateKey } from 'store/breakdown/costOverview/ibmCostOverview';
 import { ocpCostOverviewReducer, ocpCostOverviewStateKey } from 'store/breakdown/costOverview/ocpCostOverview';
@@ -11,6 +12,10 @@ import {
   azureHistoricalDataReducer,
   azureHistoricalDataStateKey,
 } from 'store/breakdown/historicalData/azureHistoricalData';
+import {
+  ociHistoricalDataReducer,
+  ociHistoricalDataStateKey,
+} from 'store/breakdown/historicalData/ociHistoricalData';
 import { gcpHistoricalDataReducer, gcpHistoricalDataStateKey } from 'store/breakdown/historicalData/gcpHistoricalData';
 import { ibmHistoricalDataReducer, ibmHistoricalDataStateKey } from 'store/breakdown/historicalData/ibmHistoricalData';
 import { ocpHistoricalDataReducer, ocpHistoricalDataStateKey } from 'store/breakdown/historicalData/ocpHistoricalData';
@@ -49,8 +54,10 @@ export const rootReducer = combineReducers({
   [awsHistoricalDataStateKey]: awsHistoricalDataReducer,
   [azureOcpDashboardStateKey]: azureOcpDashboardReducer,
   [azureCostOverviewStateKey]: azureCostOverviewReducer,
+  [ociCostOverviewStateKey]: ociCostOverviewReducer,
   [azureDashboardStateKey]: azureDashboardReducer,
   [azureHistoricalDataStateKey]: azureHistoricalDataReducer,
+  [ociHistoricalDataStateKey]: ociHistoricalDataReducer,
   [costModelsStateKey]: costModelsReducer,
   [exportStateKey]: exportReducer,
   [gcpCostOverviewStateKey]: gcpCostOverviewReducer,
