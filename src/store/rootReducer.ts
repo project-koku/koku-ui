@@ -20,6 +20,7 @@ import { costModelsReducer, costModelsStateKey } from 'store/costModels';
 import { awsDashboardReducer, awsDashboardStateKey } from 'store/dashboard/awsDashboard';
 import { awsOcpDashboardReducer, awsOcpDashboardStateKey } from 'store/dashboard/awsOcpDashboard';
 import { azureDashboardReducer, azureDashboardStateKey } from 'store/dashboard/azureDashboard';
+import { ociDashboardReducer, ociDashboardStateKey } from 'store/dashboard/ociDashboard';
 import { azureOcpDashboardReducer, azureOcpDashboardStateKey } from 'store/dashboard/azureOcpDashboard';
 import { gcpDashboardReducer, gcpDashboardStateKey } from 'store/dashboard/gcpDashboard';
 import { gcpOcpDashboardReducer, gcpOcpDashboardStateKey } from 'store/dashboard/gcpOcpDashboard';
@@ -53,6 +54,7 @@ export const rootReducer = combineReducers({
   [azureCostOverviewStateKey]: azureCostOverviewReducer,
   [ociCostOverviewStateKey]: ociCostOverviewReducer,
   [azureDashboardStateKey]: azureDashboardReducer,
+  [ociDashboardStateKey]: ociDashboardReducer,
   [azureHistoricalDataStateKey]: azureHistoricalDataReducer,
   [ociHistoricalDataStateKey]: ociHistoricalDataReducer,
   [costModelsStateKey]: costModelsReducer,

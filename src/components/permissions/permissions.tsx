@@ -13,6 +13,7 @@ import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import {
   hasAwsAccess,
   hasAzureAccess,
+  hasOciAccess,
   hasCostModelAccess,
   hasGcpAccess,
   hasIbmAccess,
@@ -53,6 +54,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
 
     const aws = hasAwsAccess(userAccess);
     const azure = hasAzureAccess(userAccess);
+    const oci = hasOciAccess(userAccess);
     const costModel = hasCostModelAccess(userAccess);
     const gcp = hasGcpAccess(userAccess);
     const ibm = hasIbmAccess(userAccess);
@@ -62,7 +64,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
     switch (path) {
       case paths.explorer:
       case paths.overview:
-        return aws || azure || costModel || gcp || ibm || ocp;
+        return aws || azure || costModel || gcp || ibm || ocp || oci;
       case paths.awsDetails:
       case paths.awsDetailsBreakdown:
         return aws;
@@ -74,6 +76,9 @@ class PermissionsBase extends React.Component<PermissionsProps> {
       case paths.gcpDetails:
       case paths.gcpDetailsBreakdown:
         return gcp;
+      case paths.ociDetails:
+      case paths.ociDetailsBreakdown:
+        return oci;
       case paths.ibmDetails:
       case paths.ibmDetailsBreakdown:
         return ibm;
