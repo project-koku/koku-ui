@@ -51,8 +51,8 @@ const groupByOptions: {
   value: ComputedOciReportItemsParams['idKey'];
 }[] = [
   { label: 'payer_tenant_id', value: 'payer_tenant_id' },
-  { label: 'service_name', value: 'product_service' },
-  { label: 'resource_location', value: 'region' },
+  { label: 'product_service', value: 'product_service' },
+  { label: 'region', value: 'region' },
 ];
 
 const tagReportPathsType = TagPathsType.oci;

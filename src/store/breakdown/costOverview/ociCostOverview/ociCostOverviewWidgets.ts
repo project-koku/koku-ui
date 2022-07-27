@@ -16,8 +16,8 @@ export const costWidget: OciCostOverviewWidget = {
 export const accountSummaryWidget: OciCostOverviewWidget = {
   id: getId(),
   reportSummary: {
-    reportGroupBy: 'subscription_guid',
-    showWidgetOnGroupBy: ['resource_location', 'service_name', tagPrefix],
+    reportGroupBy: 'payer_tenant_id',
+    showWidgetOnGroupBy: ['region', 'product_service', tagPrefix],
   },
   reportPathsType: ReportPathsType.oci,
   reportType: ReportType.cost,
@@ -27,8 +27,8 @@ export const accountSummaryWidget: OciCostOverviewWidget = {
 export const regionSummaryWidget: OciCostOverviewWidget = {
   id: getId(),
   reportSummary: {
-    reportGroupBy: 'resource_location',
-    showWidgetOnGroupBy: ['subscription_guid', 'service_name', tagPrefix],
+    reportGroupBy: 'region',
+    showWidgetOnGroupBy: ['payer_tenant_id', 'product_service', tagPrefix],
   },
   reportPathsType: ReportPathsType.oci,
   reportType: ReportType.cost,
@@ -38,8 +38,8 @@ export const regionSummaryWidget: OciCostOverviewWidget = {
 export const serviceSummaryWidget: OciCostOverviewWidget = {
   id: getId(),
   reportSummary: {
-    reportGroupBy: 'service_name',
-    showWidgetOnGroupBy: ['resource_location', 'subscription_guid', tagPrefix],
+    reportGroupBy: 'product_service',
+    showWidgetOnGroupBy: ['region', 'payer_tenant_id', tagPrefix],
   },
   reportPathsType: ReportPathsType.oci,
   reportType: ReportType.cost,
