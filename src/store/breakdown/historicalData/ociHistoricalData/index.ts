@@ -2,9 +2,4 @@ import { ociHistoricalDataStateKey, OciHistoricalDataWidget } from './ociHistori
 import { ociHistoricalDataReducer } from './ociHistoricalDataReducer';
 import * as ociHistoricalDataSelectors from './ociHistoricalDataSelectors';
 
-export {
-  ociHistoricalDataStateKey,
-  ociHistoricalDataReducer,
-  ociHistoricalDataSelectors,
-  OciHistoricalDataWidget,
-};
+export { ociHistoricalDataStateKey, ociHistoricalDataReducer, ociHistoricalDataSelectors, OciHistoricalDataWidget };

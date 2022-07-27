@@ -1,5 +1,5 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
-import { OciQuery, getQuery } from 'api/queries/ociQuery';
+import { getQuery, OciQuery } from 'api/queries/ociQuery';
 import { tagKey } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
 import { OciTag } from 'api/tags/ociTags';

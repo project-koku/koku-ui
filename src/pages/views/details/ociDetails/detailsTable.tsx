@@ -3,7 +3,7 @@ import './ociDetailsTable.scss';
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
-import { OciQuery, getQuery } from 'api/queries/ociQuery';
+import { getQuery, OciQuery } from 'api/queries/ociQuery';
 import { tagPrefix } from 'api/queries/query';
 import { OciReport } from 'api/reports/ociReports';
 import { ReportPathsType } from 'api/reports/report';

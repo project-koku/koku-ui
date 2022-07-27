@@ -1,10 +1,5 @@
 import { OciCostOverviewWidget } from './ociCostOverviewCommon';
-import {
-  accountSummaryWidget,
-  costWidget,
-  regionSummaryWidget,
-  serviceSummaryWidget,
-} from './ociCostOverviewWidgets';
+import { accountSummaryWidget, costWidget, regionSummaryWidget, serviceSummaryWidget } from './ociCostOverviewWidgets';
 
 export type OciCostOverviewState = Readonly<{
   widgets: Record<number, OciCostOverviewWidget>;

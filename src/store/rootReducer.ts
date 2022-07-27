@@ -3,21 +3,18 @@ import { combineReducers } from 'redux';
 import { accountSettingsReducer, accountSettingsStateKey } from 'store/accountSettings';
 import { awsCostOverviewReducer, awsCostOverviewStateKey } from 'store/breakdown/costOverview/awsCostOverview';
 import { azureCostOverviewReducer, azureCostOverviewStateKey } from 'store/breakdown/costOverview/azureCostOverview';
-import { ociCostOverviewReducer, ociCostOverviewStateKey } from 'store/breakdown/costOverview/ociCostOverview';
 import { gcpCostOverviewReducer, gcpCostOverviewStateKey } from 'store/breakdown/costOverview/gcpCostOverview';
 import { ibmCostOverviewReducer, ibmCostOverviewStateKey } from 'store/breakdown/costOverview/ibmCostOverview';
+import { ociCostOverviewReducer, ociCostOverviewStateKey } from 'store/breakdown/costOverview/ociCostOverview';
 import { ocpCostOverviewReducer, ocpCostOverviewStateKey } from 'store/breakdown/costOverview/ocpCostOverview';
 import { awsHistoricalDataReducer, awsHistoricalDataStateKey } from 'store/breakdown/historicalData/awsHistoricalData';
 import {
   azureHistoricalDataReducer,
   azureHistoricalDataStateKey,
 } from 'store/breakdown/historicalData/azureHistoricalData';
-import {
-  ociHistoricalDataReducer,
-  ociHistoricalDataStateKey,
-} from 'store/breakdown/historicalData/ociHistoricalData';
 import { gcpHistoricalDataReducer, gcpHistoricalDataStateKey } from 'store/breakdown/historicalData/gcpHistoricalData';
 import { ibmHistoricalDataReducer, ibmHistoricalDataStateKey } from 'store/breakdown/historicalData/ibmHistoricalData';
+import { ociHistoricalDataReducer, ociHistoricalDataStateKey } from 'store/breakdown/historicalData/ociHistoricalData';
 import { ocpHistoricalDataReducer, ocpHistoricalDataStateKey } from 'store/breakdown/historicalData/ocpHistoricalData';
 import { costModelsReducer, costModelsStateKey } from 'store/costModels';
 import { awsDashboardReducer, awsDashboardStateKey } from 'store/dashboard/awsDashboard';

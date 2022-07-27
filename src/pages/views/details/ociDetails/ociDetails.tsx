@@ -1,6 +1,6 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
-import { OciQuery, getQuery, getQueryRoute, parseQuery } from 'api/queries/ociQuery';
+import { getQuery, getQueryRoute, OciQuery, parseQuery } from 'api/queries/ociQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { tagPrefix } from 'api/queries/query';
 import { OciReport } from 'api/reports/ociReports';
@@ -25,10 +25,10 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOciReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
-import { styles } from './ociDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
+import { styles } from './ociDetails.styles';
 
 interface OciDetailsStateProps {
   providers: Providers;

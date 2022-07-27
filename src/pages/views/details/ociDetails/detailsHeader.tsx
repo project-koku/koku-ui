@@ -1,6 +1,6 @@
 import { Title, TitleSizes } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
-import { OciQuery, getQuery } from 'api/queries/ociQuery';
+import { getQuery, OciQuery } from 'api/queries/ociQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { OciReport } from 'api/reports/ociReports';
 import { TagPathsType } from 'api/tags/tag';
