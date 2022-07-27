@@ -13,10 +13,10 @@ import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import {
   hasAwsAccess,
   hasAzureAccess,
-  hasOciAccess,
   hasCostModelAccess,
   hasGcpAccess,
   hasIbmAccess,
+  hasOciAccess,
   hasOcpAccess,
 } from 'utils/userAccess';
 

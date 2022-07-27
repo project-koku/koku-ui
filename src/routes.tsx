@@ -9,9 +9,7 @@ const AwsDetails = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'pa
 const AzureBreakdown = asyncComponent(
   () => import(/* webpackChunkName: "azure" */ 'pages/views/details/azureBreakdown')
 );
-const OciBreakdown = asyncComponent(
-  () => import(/* webpackChunkName: "oci" */ 'pages/views/details/ociBreakdown')
-);
+const OciBreakdown = asyncComponent(() => import(/* webpackChunkName: "oci" */ 'pages/views/details/ociBreakdown'));
 const AzureDetails = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/views/details/azureDetails'));
 const OciDetails = asyncComponent(() => import(/* webpackChunkName: "oci" */ 'pages/views/details/ociDetails'));
 const Explorer = asyncComponent(() => import(/* webpackChunkName: "explorer" */ 'pages/views/explorer'));
