@@ -33,6 +33,9 @@ export function runForecast(forecastPathsType: ForecastPathsType, forecastType: 
     case ForecastPathsType.ibm:
       forecast = runIbmForecast(forecastType, query);
       break;
+    case ForecastPathsType.oci:
+      forecast = runOcpForecast(forecastType, query);
+      break;
     case ForecastPathsType.ocp:
       forecast = runOcpForecast(forecastType, query);
       break;
