@@ -386,10 +386,10 @@ class OciDetails extends React.Component<OciDetailsProps> {
       // API returns empy data array for no sources
       const noProviders = providers && providers.meta && providers.meta.count === 0;
 
-      if (noProviders) {
+      if (noProviders && reportError) {
         return <NoProviders providerType={ProviderType.oci} title={title} />;
       }
-      if (!hasCurrentMonthData(providers)) {
+      if (!hasCurrentMonthData(providers) && reportError) {
         return <NoData title={title} />;
       }
     }

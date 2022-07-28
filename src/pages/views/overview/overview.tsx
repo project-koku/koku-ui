@@ -424,8 +424,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getTabItem = (tab: OverviewTab, index: number) => {
-    const { awsProviders, azureProviders, ociProviders, costType, gcpProviders, ibmProviders, ocpProviders } =
-      this.props;
+    const { awsProviders, azureProviders, costType, gcpProviders, ibmProviders, ocpProviders } = this.props;
     const { activeTabKey, currentInfrastructurePerspective, currentOcpPerspective } = this.state;
 
     const emptyTab = <></>; // Lazily load tabs
@@ -470,8 +469,9 @@ class OverviewBase extends React.Component<OverviewProps> {
         const hasData = hasCurrentMonthData(ibmProviders) || hasPreviousMonthData(ibmProviders);
         return hasData ? <IbmDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.oci) {
-        const hasData = hasCurrentMonthData(ociProviders) || hasPreviousMonthData(ociProviders);
-        return hasData ? <OciDashboard /> : noData;
+        // const hasData = hasCurrentMonthData(ociProviders) || hasPreviousMonthData(ociProviders);
+        // return !hasData ? <OciDashboard /> : noData;
+        return <OciDashboard />;
       } else {
         return noData;
       }

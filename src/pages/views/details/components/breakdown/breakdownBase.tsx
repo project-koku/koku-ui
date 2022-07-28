@@ -240,10 +240,10 @@ class BreakdownBase extends React.Component<BreakdownProps> {
       const noProviders =
         providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
-      if (noProviders) {
+      if (noProviders && reportError) {
         return <NoProviders providerType={providerType} title={emptyStateTitle} />;
       }
-      if (!hasCurrentMonthData(providers)) {
+      if (!hasCurrentMonthData(providers) && reportError) {
         return <NoData title={title} />;
       }
     }
