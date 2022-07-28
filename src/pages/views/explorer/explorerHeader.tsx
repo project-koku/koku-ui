@@ -169,6 +169,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     if (this.isAzureOcpAvailable()) {
       options.push(...infrastructureAzureOcpOptions);
     }
+    // Todo: Show in-progress features in beta environment only
     if (isFeatureVisible(FeatureType.oci) && hasOci) {
       options.push(...infrastructureOciOptions);
     }
@@ -227,11 +228,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     return isAzureAvailable(userAccess, azureProviders);
   };
 
-  private isOciAvailable = () => {
-    const { ociProviders, userAccess } = this.props;
-    return isOciAvailable(userAccess, ociProviders);
-  };
-
   private isAzureOcpAvailable = () => {
     const { azureProviders, ocpProviders, userAccess } = this.props;
     return hasAzureAccess(userAccess) && hasCloudProvider(azureProviders, ocpProviders);
@@ -255,6 +251,11 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   private isIbmOcpAvailable = () => {
     const { ibmProviders, ocpProviders, userAccess } = this.props;
     return hasIbmAccess(userAccess) && hasCloudProvider(ibmProviders, ocpProviders);
+  };
+
+  private isOciAvailable = () => {
+    const { ociProviders, userAccess } = this.props;
+    return isOciAvailable(userAccess, ociProviders);
   };
 
   private isOcpAvailable = () => {

@@ -217,9 +217,9 @@ class OverviewBase extends React.Component<OverviewProps> {
     if (
       this.isAwsAvailable() ||
       this.isAzureAvailable() ||
-      this.isOciAvailable() ||
       this.isGcpAvailable() ||
       this.isIbmAvailable() ||
+      this.isOciAvailable() ||
       this.isOcpCloudAvailable()
     ) {
       availableTabs.push({
@@ -329,13 +329,13 @@ class OverviewBase extends React.Component<OverviewProps> {
 
     const hasAws = this.isAwsAvailable();
     const hasAzure = this.isAzureAvailable();
-    const hasOci = this.isOciAvailable();
     const hasGcp = this.isGcpAvailable();
     const hasIbm = this.isIbmAvailable();
+    const hasOci = this.isOciAvailable();
     const hasOcp = this.isOcpAvailable();
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
-    if (!(hasAws || hasAzure || hasOci || hasGcp || hasIbm || hasOcp)) {
+    if (!(hasAws || hasAzure || hasGcp || hasIbm || hasOci || hasOcp)) {
       return null;
     }
 
@@ -367,11 +367,12 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (hasAzure) {
         options.push(...infrastructureAzureOptions);
       }
-      if (isFeatureVisible(FeatureType.oci) && hasOci) {
-        options.push(...infrastructureOciOptions);
-      }
       if (this.isAzureOcpAvailable()) {
         options.push(...infrastructureAzureOcpOptions);
+      }
+      // Todo: Show in-progress features in beta environment only
+      if (isFeatureVisible(FeatureType.oci) && hasOci) {
+        options.push(...infrastructureOciOptions);
       }
     } else {
       options.push(...ocpOptions);
@@ -450,6 +451,14 @@ class OverviewBase extends React.Component<OverviewProps> {
         const hasData =
           hasCloudCurrentMonthData(awsProviders, ocpProviders) || hasCloudPreviousMonthData(awsProviders, ocpProviders);
         return hasData ? <AwsOcpDashboard /> : noData;
+      } else if (currentInfrastructurePerspective === InfrastructurePerspective.azure) {
+        const hasData = hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders);
+        return hasData ? <AzureDashboard /> : noData;
+      } else if (currentInfrastructurePerspective === InfrastructurePerspective.azureOcp) {
+        const hasData =
+          hasCloudCurrentMonthData(azureProviders, ocpProviders) ||
+          hasCloudPreviousMonthData(azureProviders, ocpProviders);
+        return hasData ? <AzureOcpDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcp) {
         const hasData = hasCurrentMonthData(gcpProviders) || hasPreviousMonthData(gcpProviders);
         return hasData ? <GcpDashboard /> : noData;
@@ -460,17 +469,9 @@ class OverviewBase extends React.Component<OverviewProps> {
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.ibm) {
         const hasData = hasCurrentMonthData(ibmProviders) || hasPreviousMonthData(ibmProviders);
         return hasData ? <IbmDashboard /> : noData;
-      } else if (currentInfrastructurePerspective === InfrastructurePerspective.azure) {
-        const hasData = hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders);
-        return hasData ? <AzureDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.oci) {
         const hasData = hasCurrentMonthData(ociProviders) || hasPreviousMonthData(ociProviders);
         return hasData ? <OciDashboard /> : noData;
-      } else if (currentInfrastructurePerspective === InfrastructurePerspective.azureOcp) {
-        const hasData =
-          hasCloudCurrentMonthData(azureProviders, ocpProviders) ||
-          hasCloudPreviousMonthData(azureProviders, ocpProviders);
-        return hasData ? <AzureOcpDashboard /> : noData;
       } else {
         return noData;
       }
@@ -572,11 +573,6 @@ class OverviewBase extends React.Component<OverviewProps> {
     return isAzureAvailable(userAccess, azureProviders);
   };
 
-  private isOciAvailable = () => {
-    const { ociProviders, userAccess } = this.props;
-    return isOciAvailable(userAccess, ociProviders);
-  };
-
   private isAzureOcpAvailable = () => {
     const { azureProviders, ocpProviders, userAccess } = this.props;
     return hasAzureAccess(userAccess) && hasCloudProvider(azureProviders, ocpProviders);
@@ -600,6 +596,11 @@ class OverviewBase extends React.Component<OverviewProps> {
   private isIbmOcpAvailable = () => {
     const { ibmProviders, ocpProviders, userAccess } = this.props;
     return hasIbmAccess(userAccess) && hasCloudProvider(ibmProviders, ocpProviders);
+  };
+
+  private isOciAvailable = () => {
+    const { ociProviders, userAccess } = this.props;
+    return isOciAvailable(userAccess, ociProviders);
   };
 
   private isOcpAvailable = () => {
@@ -744,9 +745,9 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
   return {
     awsProviders: filterProviders(providers, ProviderType.aws),
     azureProviders: filterProviders(providers, ProviderType.azure),
-    ociProviders: filterProviders(providers, ProviderType.oci),
     gcpProviders: filterProviders(providers, ProviderType.gcp),
     ibmProviders: filterProviders(providers, ProviderType.ibm),
+    ociProviders: filterProviders(providers, ProviderType.oci),
     ocpProviders: filterProviders(providers, ProviderType.ocp),
     costType,
     providers,

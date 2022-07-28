@@ -17,6 +17,7 @@ import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAw
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
 import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
+import { ComputedOciReportItemsParams } from 'utils/computedReport/getComputedOciReportItems';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate, getLast90DaysDate } from 'utils/dateRange';
 import {
@@ -124,6 +125,15 @@ export const groupByIbmOptions: {
   { label: 'account', value: 'account' },
   { label: 'project', value: 'project' },
   { label: 'service', value: 'service' },
+  { label: 'region', value: 'region' },
+];
+
+export const groupByOciOptions: {
+  label: string;
+  value: ComputedOciReportItemsParams['idKey'];
+}[] = [
+  { label: 'payer_tenant_id', value: 'payer_tenant_id' },
+  { label: 'product_service', value: 'product_service' },
   { label: 'region', value: 'region' },
 ];
 
@@ -258,6 +268,7 @@ export const getPerspectiveDefault = ({
     case PerspectiveType.gcpOcp:
     case PerspectiveType.ibm:
     case PerspectiveType.ibmOcp:
+    case PerspectiveType.oci:
     case PerspectiveType.ocpCloud:
       return perspective;
   }
@@ -280,14 +291,14 @@ export const getPerspectiveDefault = ({
   if (isAzureAvailable(userAccess, azureProviders)) {
     return PerspectiveType.azure;
   }
-  if (isOciAvailable(userAccess, ociProviders)) {
-    return PerspectiveType.oci;
-  }
   if (isGcpAvailable(userAccess, gcpProviders)) {
     return PerspectiveType.gcp;
   }
   if (isIbmAvailable(userAccess, ibmProviders)) {
     return PerspectiveType.ibm;
+  }
+  if (isOciAvailable(userAccess, ociProviders)) {
+    return PerspectiveType.oci;
   }
   return undefined;
 };
@@ -309,6 +320,9 @@ export const getGroupByDefault = (perspective: string) => {
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
       result = 'project';
+      break;
+    case PerspectiveType.oci:
+      result = 'payer_tenant_id';
       break;
     default:
       result = undefined;
@@ -336,6 +350,9 @@ export const getGroupByOptions = (perspective: string) => {
       break;
     case PerspectiveType.ibm:
       result = groupByIbmOptions;
+      break;
+    case PerspectiveType.oci:
+      result = groupByOciOptions;
       break;
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
@@ -394,6 +411,9 @@ export const getReportPathsType = (perspective: string) => {
       break;
     case PerspectiveType.ibm:
       result = ReportPathsType.ibm;
+      break;
+    case PerspectiveType.oci:
+      result = ReportPathsType.oci;
       break;
     case PerspectiveType.ocp:
       result = ReportPathsType.ocp;
