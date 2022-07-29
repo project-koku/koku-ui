@@ -20,10 +20,22 @@ Array [
 ]
 `;
 
-exports[`getGroupByForTab accounts tab 1`] = `Object {}`;
+exports[`getGroupByForTab accounts tab 1`] = `
+Object {
+  "subscription_guid": "*",
+}
+`;
 
-exports[`getGroupByForTab regions tab 1`] = `Object {}`;
+exports[`getGroupByForTab regions tab 1`] = `
+Object {
+  "resource_location": "*",
+}
+`;
 
-exports[`getGroupByForTab services tab 1`] = `Object {}`;
+exports[`getGroupByForTab services tab 1`] = `
+Object {
+  "service_name": "*",
+}
+`;
 
 exports[`getGroupByForTab unknown tab 1`] = `Object {}`;

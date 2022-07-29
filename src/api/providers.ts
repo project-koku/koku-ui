@@ -63,6 +63,7 @@ export const enum ProviderType {
   gcp = 'gcp',
   ibm = 'ibm',
   ocp = 'ocp',
+  oci = 'oci',
 }
 
 export function fetchProviders(query: string) {

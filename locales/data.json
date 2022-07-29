@@ -250,6 +250,38 @@
           "other": {
             "value": []
           },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Back to "
+              },
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " account details"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Back to "
+              },
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " service details"
+              }
+            ]
+          },
           "project": {
             "value": [
               {
@@ -408,6 +440,14 @@
               }
             ]
           },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Oracle Cloud Infrastructure"
+              }
+            ]
+          },
           "ocp": {
             "value": [
               {
@@ -513,6 +553,22 @@
           },
           "other": {
             "value": []
+          },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost by accounts"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost by services"
+              }
+            ]
           },
           "project": {
             "value": [
@@ -10190,6 +10246,14 @@
               }
             ]
           },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Select from the following Oracle Cloud Infrastructure sources:"
+              }
+            ]
+          },
           "ocp": {
             "value": [
               {
@@ -10915,6 +10979,38 @@
           "other": {
             "value": []
           },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "account "
+              },
+              {
+                "type": 1,
+                "value": "name"
+              },
+              {
+                "type": 0,
+                "value": " clusters"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "service "
+              },
+              {
+                "type": 1,
+                "value": "name"
+              },
+              {
+                "type": 0,
+                "value": " clusters"
+              }
+            ]
+          },
           "project": {
             "value": [
               {
@@ -11114,6 +11210,22 @@
           "other": {
             "value": []
           },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Account names"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Service names"
+              }
+            ]
+          },
           "project": {
             "value": [
               {
@@ -11240,6 +11352,30 @@
           },
           "other": {
             "value": []
+          },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 1,
+                "value": "name"
+              },
+              {
+                "type": 0,
+                "value": " accounts"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 1,
+                "value": "name"
+              },
+              {
+                "type": 0,
+                "value": " services"
+              }
+            ]
           },
           "project": {
             "value": [
@@ -11477,6 +11613,22 @@
           },
           "other": {
             "value": []
+          },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "View all accounts"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "View all services"
+              }
+            ]
           },
           "project": {
             "value": [
@@ -11729,6 +11881,14 @@
               {
                 "type": 0,
                 "value": "IBM Cloud filtered by OpenShift - Top 5 Costliest"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Oracle Cloud Infrastructure - Top 5 Costliest"
               }
             ]
           },
@@ -11995,6 +12155,12 @@
       }
     ],
     "exportAll": [
+      {
+        "type": 0,
+        "value": "Export all"
+      }
+    ],
+    "exportDesc": [
       {
         "type": 0,
         "value": "The active selections from the table plus the values here will be used to generate an export file. When the file is available, download it from the "
@@ -12324,6 +12490,128 @@
           },
           "other": {
             "value": []
+          },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "options": {
+                  "daily": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "provider"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_accounts_daily_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
+                      }
+                    ]
+                  },
+                  "monthly": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "provider"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_accounts_monthly_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "resolution"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "options": {
+                  "daily": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "provider"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_services_daily_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
+                      }
+                    ]
+                  },
+                  "monthly": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "provider"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_services_monthly_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "resolution"
+              }
+            ]
           },
           "project": {
             "value": [
@@ -12842,6 +13130,22 @@
           "other": {
             "value": []
           },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Aggregates of the following accounts will be exported to a .csv file."
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Aggregates of the following services will be exported to a .csv file."
+              }
+            ]
+          },
           "project": {
             "value": [
               {
@@ -12974,6 +13278,14 @@
                       }
                     ]
                   },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Account"
+                      }
+                    ]
+                  },
                   "ocp": {
                     "value": [
                       {
@@ -13064,6 +13376,14 @@
                       {
                         "type": 0,
                         "value": "IBM Cloud filtered by OpenShift grouped by Cluster"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Cluster"
                       }
                     ]
                   },
@@ -13160,6 +13480,14 @@
                       }
                     ]
                   },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by GCP Project"
+                      }
+                    ]
+                  },
                   "ocp": {
                     "value": [
                       {
@@ -13250,6 +13578,14 @@
                       {
                         "type": 0,
                         "value": "IBM Cloud filtered by OpenShift grouped by Node"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Node"
                       }
                     ]
                   },
@@ -13346,6 +13682,14 @@
                       }
                     ]
                   },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Organizational unit"
+                      }
+                    ]
+                  },
                   "ocp": {
                     "value": [
                       {
@@ -13373,6 +13717,48 @@
           },
           "other": {
             "value": []
+          },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "options": {
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Account"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "options": {
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Service"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
           },
           "project": {
             "value": [
@@ -13439,6 +13825,14 @@
                       {
                         "type": 0,
                         "value": "IBM Cloud filtered by OpenShift grouped by Project"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Project"
                       }
                     ]
                   },
@@ -13535,6 +13929,14 @@
                       }
                     ]
                   },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Region"
+                      }
+                    ]
+                  },
                   "ocp": {
                     "value": [
                       {
@@ -13625,6 +14027,14 @@
                       {
                         "type": 0,
                         "value": "IBM Cloud filtered by OpenShift grouped by Region"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Region"
                       }
                     ]
                   },
@@ -13721,6 +14131,14 @@
                       }
                     ]
                   },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Service"
+                      }
+                    ]
+                  },
                   "ocp": {
                     "value": [
                       {
@@ -13811,6 +14229,14 @@
                       {
                         "type": 0,
                         "value": "IBM Cloud filtered by OpenShift grouped by Service"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Service"
                       }
                     ]
                   },
@@ -13907,6 +14333,14 @@
                       }
                     ]
                   },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Account"
+                      }
+                    ]
+                  },
                   "ocp": {
                     "value": [
                       {
@@ -13997,6 +14431,14 @@
                       {
                         "type": 0,
                         "value": "IBM Cloud filtered by OpenShift grouped by Tag"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Tag"
                       }
                     ]
                   },
@@ -14154,6 +14596,38 @@
           },
           "other": {
             "value": []
+          },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Selected accounts ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Selected services ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
+              }
+            ]
           },
           "project": {
             "value": [
@@ -14447,6 +14921,22 @@
           "other": {
             "value": []
           },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter button for account name"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter button for service name"
+              }
+            ]
+          },
           "project": {
             "value": [
               {
@@ -14561,6 +15051,22 @@
           },
           "other": {
             "value": []
+          },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for account name"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for service_name name"
+              }
+            ]
           },
           "project": {
             "value": [
@@ -14696,6 +15202,22 @@
           },
           "other": {
             "value": []
+          },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by account"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by service"
+              }
+            ]
           },
           "project": {
             "value": [
@@ -14855,6 +15377,22 @@
           },
           "other": {
             "value": []
+          },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Account"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Service"
+              }
+            ]
           },
           "project": {
             "value": [
@@ -15762,6 +16300,62 @@
           "other": {
             "value": []
           },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All account"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All accounts"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All service"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All services"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
           "project": {
             "value": [
               {
@@ -16115,6 +16709,62 @@
           "other": {
             "value": []
           },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Top account"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Top accounts"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Top service"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Top services"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
           "project": {
             "value": [
               {
@@ -16362,6 +17012,22 @@
           "other": {
             "value": []
           },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Account names"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Service names"
+              }
+            ]
+          },
           "project": {
             "value": [
               {
@@ -16568,6 +17234,62 @@
           },
           "other": {
             "value": []
+          },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "account"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "accounts"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "service"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "services"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
           },
           "project": {
             "value": [
@@ -16915,6 +17637,62 @@
           },
           "other": {
             "value": []
+          },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Account"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Accounts"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Service"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Services"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
           },
           "project": {
             "value": [
@@ -18394,6 +19172,18 @@
         "value": "Track your IBM Cloud spending!"
       }
     ],
+    "noProvidersStateOciDesc": [
+      {
+        "type": 0,
+        "value": "Add an Oracle Cloud Infrastructure account to see a total cost breakdown of your spend by accounts, services, regions, or tags."
+      }
+    ],
+    "noProvidersStateOciTitle": [
+      {
+        "type": 0,
+        "value": "Track your Oracle Cloud Infrastructure spending!"
+      }
+    ],
     "noProvidersStateOcpAddSources": [
       {
         "type": 0,
@@ -18454,10 +19244,80 @@
         "value": "IBM Cloud in Cost Management"
       }
     ],
+    "notAuthorizedStateOci": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure in Cost Management"
+      }
+    ],
     "notAuthorizedStateOcp": [
       {
         "type": 0,
         "value": "OpenShift in Cost Management"
+      }
+    ],
+    "oci": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure"
+      }
+    ],
+    "ociComputeTitle": [
+      {
+        "type": 0,
+        "value": "Virtual machines usage"
+      }
+    ],
+    "ociCostTrendTitle": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure cumulative cost comparison ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "ociDailyCostTrendTitle": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure daily cost comparison ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "ociDashboardCostTitle": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure cost"
+      }
+    ],
+    "ociDesc": [
+      {
+        "type": 0,
+        "value": "Raw cost from Oracle Cloud Infrastructure."
+      }
+    ],
+    "ociDetailsTable": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure details table"
+      }
+    ],
+    "ociDetailsTitle": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure details"
       }
     ],
     "ocpCloudDashboardComputeTitle": [
@@ -18792,6 +19652,12 @@
         "value": "IBM Cloud - Cost Management | Red Hat OpenShift Cluster Manager"
       }
     ],
+    "pageTitleOci": [
+      {
+        "type": 0,
+        "value": "Oracle Cloud Infrastructure - Cost Management | Red Hat OpenShift Cluster Manager"
+      }
+    ],
     "pageTitleOcp": [
       {
         "type": 0,
@@ -18926,6 +19792,14 @@
               {
                 "type": 0,
                 "value": "IBM filtered by OpenShift"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Oracle Cloud Infrastructure"
               }
             ]
           },

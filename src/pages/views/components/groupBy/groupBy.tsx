@@ -3,7 +3,7 @@ import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey, tagPrefix } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
-import { PerspectiveType } from 'pages/views/explorer/explorerUtils';
+import { getDateRange, getDateRangeDefault, PerspectiveType } from 'pages/views/explorer/explorerUtils';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
@@ -24,12 +24,11 @@ interface GroupByOwnProps extends WrappedComponentProps {
     label: string;
     value: string;
   }[];
-  orgQueryString?: string;
   orgReportPathsType?: OrgPathsType;
   perspective?: PerspectiveType;
+  queryString?: string;
   showOrgs?: boolean;
   showTags?: boolean;
-  tagQueryString?: string;
   tagReportPathsType: TagPathsType;
 }
 
@@ -92,12 +91,11 @@ class GroupByBase extends React.Component<GroupByProps> {
     const {
       fetchOrg,
       fetchTag,
-      orgQueryString,
       orgReportFetchStatus,
       orgReportPathsType,
+      queryString,
       showOrgs,
       showTags,
-      tagQueryString,
       tagReportFetchStatus,
       tagReportPathsType,
     } = this.props;
@@ -107,10 +105,10 @@ class GroupByBase extends React.Component<GroupByProps> {
       },
       () => {
         if (showOrgs && orgReportFetchStatus !== FetchStatus.inProgress) {
-          fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
+          fetchOrg(orgReportPathsType, orgReportType, queryString);
         }
         if (showTags && tagReportFetchStatus !== FetchStatus.inProgress) {
-          fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+          fetchTag(tagReportPathsType, tagReportType, queryString);
         }
       }
     );
@@ -121,13 +119,12 @@ class GroupByBase extends React.Component<GroupByProps> {
       fetchOrg,
       fetchTag,
       groupBy,
-      orgQueryString,
       orgReportFetchStatus,
       orgReportPathsType,
       perspective,
+      queryString,
       showOrgs,
       showTags,
-      tagQueryString,
       tagReportFetchStatus,
       tagReportPathsType,
     } = this.props;
@@ -141,10 +138,10 @@ class GroupByBase extends React.Component<GroupByProps> {
       }
       this.setState({ currentItem: this.getCurrentGroupBy(), ...(options ? options : {}) }, () => {
         if (showOrgs && orgReportFetchStatus !== FetchStatus.inProgress) {
-          fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
+          fetchOrg(orgReportPathsType, orgReportType, queryString);
         }
         if (showTags && tagReportFetchStatus !== FetchStatus.inProgress) {
-          fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+          fetchTag(tagReportPathsType, tagReportType, queryString);
         }
       });
     }
@@ -292,36 +289,55 @@ class GroupByBase extends React.Component<GroupByProps> {
 
 const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>(
   (state, { orgReportPathsType, tagReportPathsType }) => {
-    // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
-    const tagQueryString = getQuery({
+    const queryFromRoute = parseQuery<Query>(location.search);
+
+    // Default to current month filter for details pages
+    let tagFilter: any = {
+      filter: {
+        resolution: 'monthly',
+        time_scope_units: 'month',
+        time_scope_value: -1,
+      },
+    };
+
+    // Replace with start and end dates for Cost Explorer
+    if (queryFromRoute.dateRange) {
+      const dateRange = getDateRangeDefault(queryFromRoute);
+      const { end_date, start_date } = getDateRange(dateRange);
+
+      tagFilter = {
+        end_date,
+        start_date,
+      };
+    }
+
+    // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
+    // However, for better server-side performance, we chose to use key_only here.
+    const queryString = getQuery({
+      ...tagFilter,
       key_only: true,
       limit: 1000,
     });
-    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
+    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
     const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
       state,
       tagReportPathsType,
       tagReportType,
-      tagQueryString
+      queryString
     );
 
-    const orgQueryString = getQuery({
-      key_only: true,
-      limit: 1000,
-    });
-    const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, orgQueryString);
+    const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, queryString);
     const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(
       state,
       orgReportPathsType,
       orgReportType,
-      orgQueryString
+      queryString
     );
 
     return {
-      orgQueryString,
       orgReport,
       orgReportFetchStatus,
-      tagQueryString,
+      queryString,
       tagReport,
       tagReportFetchStatus,
     };

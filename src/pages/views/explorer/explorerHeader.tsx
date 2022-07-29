@@ -31,6 +31,7 @@ import {
   isAzureAvailable,
   isGcpAvailable,
   isIbmAvailable,
+  isOciAvailable,
   isOcpAvailable,
 } from 'utils/userAccess';
 
@@ -54,6 +55,7 @@ import {
   infrastructureGcpOptions,
   infrastructureIbmOcpOptions,
   infrastructureIbmOptions,
+  infrastructureOciOptions,
   infrastructureOcpCloudOptions,
   ocpOptions,
   PerspectiveType,
@@ -74,6 +76,7 @@ interface ExplorerHeaderStateProps {
   azureProviders?: Providers;
   gcpProviders?: Providers;
   ibmProviders?: Providers;
+  ociProviders?: Providers;
   ocpProviders?: Providers;
   providers: Providers;
   providersError: AxiosError;
@@ -123,12 +126,13 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
     const hasAws = this.isAwsAvailable();
     const hasAzure = this.isAzureAvailable();
+    const hasOci = this.isOciAvailable();
     const hasGcp = this.isGcpAvailable();
     const hasIbm = this.isIbmAvailable();
     const hasOcp = this.isOcpAvailable();
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
-    if (!(hasAws || hasAzure || hasGcp || hasIbm || hasOcp)) {
+    if (!(hasAws || hasAzure || hasOci || hasGcp || hasIbm || hasOcp)) {
       return null;
     }
 
@@ -164,6 +168,10 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     }
     if (this.isAzureOcpAvailable()) {
       options.push(...infrastructureAzureOcpOptions);
+    }
+    // Todo: Show in-progress features in beta environment only
+    if (isFeatureVisible(FeatureType.oci) && hasOci) {
+      options.push(...infrastructureOciOptions);
     }
 
     return (
@@ -243,6 +251,11 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   private isIbmOcpAvailable = () => {
     const { ibmProviders, ocpProviders, userAccess } = this.props;
     return hasIbmAccess(userAccess) && hasCloudProvider(ibmProviders, ocpProviders);
+  };
+
+  private isOciAvailable = () => {
+    const { ociProviders, userAccess } = this.props;
+    return isOciAvailable(userAccess, ociProviders);
   };
 
   private isOcpAvailable = () => {
@@ -338,7 +351,7 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
   (state, { costType, perspective }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
     const dateRange = getDateRangeDefault(queryFromRoute);
-    const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
+    const { end_date, start_date } = getDateRange(dateRange);
 
     const providersQueryString = getProvidersQuery(providersQuery);
     const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
@@ -389,6 +402,7 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       azureProviders: filterProviders(providers, ProviderType.azure),
       gcpProviders: filterProviders(providers, ProviderType.gcp),
       ibmProviders: filterProviders(providers, ProviderType.ibm),
+      ociProviders: filterProviders(providers, ProviderType.oci),
       ocpProviders: filterProviders(providers, ProviderType.ocp),
       providers,
       providersError,

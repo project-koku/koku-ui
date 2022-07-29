@@ -14,6 +14,8 @@ export const enum ResourceType {
   cluster = 'cluster',
   gcpProject = 'gcp_project',
   node = 'node',
+  payerTenantId = 'payer_tenant_id',
+  productService = 'product_service',
   project = 'project',
   region = 'region',
   resourceLocation = 'resource_location',
@@ -32,6 +34,7 @@ export const enum ResourcePathsType {
   gcpOcp = 'gcp_ocp',
   ibm = 'ibm',
   ibmOcp = 'ibm_ocp',
+  oci = 'oci',
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud',
 }
