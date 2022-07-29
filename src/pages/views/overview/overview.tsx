@@ -659,6 +659,9 @@ class OverviewBase extends React.Component<OverviewProps> {
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.openShift)}</p>
                       <p>{intl.formatMessage(messages.openShiftDesc)}</p>
                       <br />
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.aws)}</p>
+                      <p>{intl.formatMessage(messages.awsDesc)}</p>
+                      <br />
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.gcp)}</p>
                       <p>{intl.formatMessage(messages.gcpDesc)}</p>
                       {isFeatureVisible(FeatureType.ibm) && (
@@ -668,6 +671,9 @@ class OverviewBase extends React.Component<OverviewProps> {
                           <p>{intl.formatMessage(messages.ibmDesc)}</p>
                         </>
                       )}
+                      <br />
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.azure)}</p>
+                      <p>{intl.formatMessage(messages.azureDesc)}</p>
                       {isFeatureVisible(FeatureType.oci) && (
                         <>
                           <br />
@@ -675,12 +681,6 @@ class OverviewBase extends React.Component<OverviewProps> {
                           <p>{intl.formatMessage(messages.ociDesc)}</p>
                         </>
                       )}
-                      <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.aws)}</p>
-                      <p>{intl.formatMessage(messages.awsDesc)}</p>
-                      <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.azure)}</p>
-                      <p>{intl.formatMessage(messages.azureDesc)}</p>
                     </>
                   }
                 >
