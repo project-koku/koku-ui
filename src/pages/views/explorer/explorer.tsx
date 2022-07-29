@@ -27,7 +27,14 @@ import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { CostTypes, getCostType } from 'utils/costType';
-import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
+import {
+  isAwsAvailable,
+  isAzureAvailable,
+  isGcpAvailable,
+  isIbmAvailable,
+  isOciAvailable,
+  isOcpAvailable,
+} from 'utils/userAccess';
 
 import { styles } from './explorer.styles';
 import { ExplorerChart } from './explorerChart';
@@ -52,6 +59,7 @@ import {
 interface ExplorerStateProps {
   awsProviders: Providers;
   azureProviders: Providers;
+  ociProviders: Providers;
   costType?: CostTypes;
   dateRange: DateRangeType;
   gcpProviders: Providers;
@@ -386,6 +394,11 @@ class Explorer extends React.Component<ExplorerProps> {
     return isAzureAvailable(userAccess, azureProviders);
   };
 
+  private isOciAvailable = () => {
+    const { ociProviders, userAccess } = this.props;
+    return isOciAvailable(userAccess, ociProviders);
+  };
+
   private isGcpAvailable = () => {
     const { gcpProviders, userAccess } = this.props;
     return isGcpAvailable(userAccess, gcpProviders);
@@ -421,6 +434,7 @@ class Explorer extends React.Component<ExplorerProps> {
     const {
       awsProviders,
       azureProviders,
+      ociProviders,
       costType,
       gcpProviders,
       ibmProviders,
@@ -441,7 +455,9 @@ class Explorer extends React.Component<ExplorerProps> {
     const noGcpProviders = !this.isGcpAvailable() && providersFetchStatus === FetchStatus.complete;
     const noIbmProviders = !this.isIbmAvailable() && providersFetchStatus === FetchStatus.complete;
     const noOcpProviders = !this.isOcpAvailable() && providersFetchStatus === FetchStatus.complete;
-    const noProviders = noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders;
+    const noOciProviders = !this.isOciAvailable() && providersFetchStatus === FetchStatus.complete;
+    const noProviders =
+      noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders && noOciProviders;
 
     const isLoading =
       providersFetchStatus === FetchStatus.inProgress || userAccessFetchStatus === FetchStatus.inProgress;
@@ -463,6 +479,7 @@ class Explorer extends React.Component<ExplorerProps> {
       !(
         hasData(awsProviders) ||
         hasData(azureProviders) ||
+        hasData(ociProviders) ||
         hasData(gcpProviders) ||
         hasData(ibmProviders) ||
         hasData(ocpProviders)
@@ -525,6 +542,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
 
   const awsProviders = filterProviders(providers, ProviderType.aws);
   const azureProviders = filterProviders(providers, ProviderType.azure);
+  const ociProviders = filterProviders(providers, ProviderType.oci);
   const gcpProviders = filterProviders(providers, ProviderType.gcp);
   const ibmProviders = filterProviders(providers, ProviderType.ibm);
   const ocpProviders = filterProviders(providers, ProviderType.ocp);
@@ -541,11 +559,12 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   // Cost Report
   const queryFromRoute = parseQuery<Query>(location.search);
   const dateRange = getDateRangeDefault(queryFromRoute);
-  const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
+  const { end_date, start_date } = getDateRange(dateRange);
 
   const perspective = getPerspectiveDefault({
     awsProviders,
     azureProviders,
+    ociProviders,
     gcpProviders,
     ibmProviders,
     ocpProviders,
@@ -594,6 +613,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     dateRange,
     gcpProviders,
     ibmProviders,
+    ociProviders,
     ocpProviders,
     perspective,
     providers,

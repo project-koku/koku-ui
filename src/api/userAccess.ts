@@ -22,6 +22,7 @@ export const enum UserAccessType {
   explorer = 'explorer',
   gcp = 'gcp',
   ibm = 'ibm',
+  oci = 'oci',
   ocp = 'ocp',
 }
 

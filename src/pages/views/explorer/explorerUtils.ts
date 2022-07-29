@@ -17,6 +17,7 @@ import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAw
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
 import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
+import { ComputedOciReportItemsParams } from 'utils/computedReport/getComputedOciReportItems';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate, getLast90DaysDate } from 'utils/dateRange';
 import {
@@ -28,6 +29,7 @@ import {
   isAzureAvailable,
   isGcpAvailable,
   isIbmAvailable,
+  isOciAvailable,
   isOcpAvailable,
 } from 'utils/userAccess';
 
@@ -51,6 +53,7 @@ export const enum PerspectiveType {
   gcpOcp = 'gcp_ocp', // Gcp filtered by Ocp
   ibm = 'ibm',
   ibmOcp = 'ibm_ocp', // IBM filtered by Ocp
+  oci = 'oci',
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
 }
@@ -125,6 +128,15 @@ export const groupByIbmOptions: {
   { label: 'region', value: 'region' },
 ];
 
+export const groupByOciOptions: {
+  label: string;
+  value: ComputedOciReportItemsParams['idKey'];
+}[] = [
+  { label: 'payer_tenant_id', value: 'payer_tenant_id' },
+  { label: 'product_service', value: 'product_service' },
+  { label: 'region', value: 'region' },
+];
+
 export const groupByOcpOptions: {
   label: string;
   value: ComputedOcpReportItemsParams['idKey'];
@@ -142,6 +154,9 @@ export const infrastructureAwsOcpOptions = [{ label: messages.perspectiveValues,
 
 // Infrastructure Azure options
 export const infrastructureAzureOptions = [{ label: messages.perspectiveValues, value: 'azure' }];
+
+// Infrastructure OCI options
+export const infrastructureOciOptions = [{ label: messages.perspectiveValues, value: 'oci' }];
 
 // Infrastructure Azure filtered by OpenShift options
 export const infrastructureAzureOcpOptions = [{ label: messages.perspectiveValues, value: 'azure_ocp' }];
@@ -225,6 +240,7 @@ export const getDateRangeDefault = (queryFromRoute: Query) => {
 export const getPerspectiveDefault = ({
   awsProviders,
   azureProviders,
+  ociProviders,
   gcpProviders,
   ibmProviders,
   ocpProviders,
@@ -233,6 +249,7 @@ export const getPerspectiveDefault = ({
 }: {
   awsProviders: Providers;
   azureProviders: Providers;
+  ociProviders: Providers;
   gcpProviders: Providers;
   ibmProviders: Providers;
   ocpProviders: Providers;
@@ -251,6 +268,7 @@ export const getPerspectiveDefault = ({
     case PerspectiveType.gcpOcp:
     case PerspectiveType.ibm:
     case PerspectiveType.ibmOcp:
+    case PerspectiveType.oci:
     case PerspectiveType.ocpCloud:
       return perspective;
   }
@@ -279,6 +297,9 @@ export const getPerspectiveDefault = ({
   if (isIbmAvailable(userAccess, ibmProviders)) {
     return PerspectiveType.ibm;
   }
+  if (isOciAvailable(userAccess, ociProviders)) {
+    return PerspectiveType.oci;
+  }
   return undefined;
 };
 
@@ -299,6 +320,9 @@ export const getGroupByDefault = (perspective: string) => {
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
       result = 'project';
+      break;
+    case PerspectiveType.oci:
+      result = 'payer_tenant_id';
       break;
     default:
       result = undefined;
@@ -326,6 +350,9 @@ export const getGroupByOptions = (perspective: string) => {
       break;
     case PerspectiveType.ibm:
       result = groupByIbmOptions;
+      break;
+    case PerspectiveType.oci:
+      result = groupByOciOptions;
       break;
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
@@ -384,6 +411,9 @@ export const getReportPathsType = (perspective: string) => {
       break;
     case PerspectiveType.ibm:
       result = ReportPathsType.ibm;
+      break;
+    case PerspectiveType.oci:
+      result = ReportPathsType.oci;
       break;
     case PerspectiveType.ocp:
       result = ReportPathsType.ocp;

@@ -9,8 +9,10 @@ const AwsDetails = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'pa
 const AzureBreakdown = asyncComponent(
   () => import(/* webpackChunkName: "azure" */ 'pages/views/details/azureBreakdown')
 );
+const OciBreakdown = asyncComponent(() => import(/* webpackChunkName: "oci" */ 'pages/views/details/ociBreakdown'));
 const AzureDetails = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/views/details/azureDetails'));
-const Explorer = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/views/explorer'));
+const OciDetails = asyncComponent(() => import(/* webpackChunkName: "oci" */ 'pages/views/details/ociDetails'));
+const Explorer = asyncComponent(() => import(/* webpackChunkName: "explorer" */ 'pages/views/explorer'));
 const GcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/views/details/gcpBreakdown'));
 const GcpDetails = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/views/details/gcpDetails'));
 const IbmBreakdown = asyncComponent(() => import(/* webpackChunkName: "ibm" */ 'pages/views/details/ibmBreakdown'));
@@ -36,6 +38,8 @@ const paths = {
   gcpDetailsBreakdown: '/gcp/breakdown',
   ibmDetails: '/ibm',
   ibmDetailsBreakdown: '/ibm/breakdown',
+  ociDetails: '/oci',
+  ociDetailsBreakdown: '/oci/breakdown',
   ocpDetails: '/ocp',
   ocpDetailsBreakdown: '/ocp/breakdown',
   overview: '/',
@@ -82,6 +86,18 @@ const routes = [
     path: paths.azureDetailsBreakdown,
     labelKey: 'navigation.azure_details_breakdown',
     component: permissionsComponent(AzureBreakdown),
+    exact: true,
+  },
+  {
+    path: paths.ociDetails,
+    labelKey: 'navigation.oci_details',
+    component: permissionsComponent(OciDetails),
+    exact: true,
+  },
+  {
+    path: paths.ociDetailsBreakdown,
+    labelKey: 'navigation.oci_details_breakdown',
+    component: permissionsComponent(OciBreakdown),
     exact: true,
   },
   {

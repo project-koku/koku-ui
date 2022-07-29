@@ -34,7 +34,10 @@ export interface DashboardWidget<T> {
     usageFormatOptions?: FormatOptions;
   };
   filter?: {
+    database_services?: string;
     limit?: number;
+    network_services?: string;
+    product_service?: string;
     service?: string;
     service_name?: string;
   };
@@ -46,7 +49,10 @@ export interface DashboardWidget<T> {
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey: MessageDescriptor;
   tabsFilter?: {
+    database_services?: string;
     limit?: number;
+    network_services?: string;
+    product_service?: string;
     service?: string;
     service_name?: string;
   };

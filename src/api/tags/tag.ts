@@ -30,6 +30,7 @@ export const enum TagPathsType {
   aws = 'aws',
   awsOcp = 'aws_ocp',
   azure = 'azure',
+  oci = 'oci',
   azureOcp = 'azure_ocp',
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp',
