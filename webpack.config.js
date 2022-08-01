@@ -19,6 +19,9 @@ const distDir = path.resolve(__dirname, './dist/');
 const betaEnv = process.env.BETA_ENV;
 const nodeEnv = process.env.NODE_ENV;
 
+// Set `true` for testing cloud-services-config https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
+const useLocalCloudServicesConfig = false;
+
 const {
   rbac,
   backofficeProxy,
@@ -32,7 +35,7 @@ const gitRevisionPlugin = new GitRevisionPlugin({
 const betaBranches = ['main', 'master', 'stage-beta', 'prod-beta'];
 const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
 
-const localhost = process.env.PLATFORM === 'linux' ? 'localhost' : 'host.docker.internal';
+const localhost = process.env.PLATFORM === 'linux' || useLocalCloudServicesConfig ? 'localhost' : 'host.docker.internal';
 
 // show what files changed since last compilation
 class WatchRunPlugin {
@@ -80,12 +83,14 @@ module.exports = (_env, argv) => {
     modules: false,
   };
 
-  const routes = {
-    // For testing cloud-services-config https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
-    // '/beta/config': {
-    //   host: `http://${localhost}:8889`,
-    // },
-  };
+  const routes = {};
+
+  if (useLocalCloudServicesConfig) {
+    routes['/beta/config'] = {
+      host: `http://${localhost}:8889`,
+    };
+  }
+
 
   // For local API development route will be set to :
   // '/api/cost-management/v1/': { host: 'http://localhost:8000' },
