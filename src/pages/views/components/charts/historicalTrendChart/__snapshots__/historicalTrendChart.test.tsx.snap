@@ -114,14 +114,14 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-2-tickLabels-0"
+                id="chart-axis-tickLabels-1659563364131adf09qevui"
                 x="8"
                 y="6.969999999999999"
               >
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255);"
+                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
                   text-anchor="middle"
                   x="8"
                 >
@@ -135,14 +135,14 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-2-tickLabels-1"
+                id="chart-axis-tickLabels-1659563364131ukdgupxofd"
                 x="0.5333333333333332"
                 y="6.969999999999999"
               >
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255);"
+                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
                   text-anchor="middle"
                   x="0.5333333333333332"
                 >
@@ -156,14 +156,14 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-2-tickLabels-2"
+                id="chart-axis-tickLabels-16595633641312ems4ur8hf7"
                 x="-8"
                 y="6.969999999999999"
               >
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255);"
+                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
                   text-anchor="middle"
                   x="-8"
                 >
@@ -191,14 +191,14 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-3-tickLabels-0"
+                id="chart-axis-tickLabels-1659563364131ve66mes3w8j"
                 x="-7"
                 y="-14.4"
               >
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255);"
+                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -212,14 +212,14 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-3-tickLabels-1"
+                id="chart-axis-tickLabels-165956336413130hjr0p4tys"
                 x="-7"
                 y="-8.8"
               >
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255);"
+                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -233,14 +233,14 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-3-tickLabels-2"
+                id="chart-axis-tickLabels-1659563364131xpd3frl12de"
                 x="-7"
                 y="-3.2"
               >
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255);"
+                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -254,14 +254,14 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-3-tickLabels-3"
+                id="chart-axis-tickLabels-1659563364131xx4155vblua"
                 x="-7"
                 y="2.4000000000000012"
               >
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255);"
+                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -275,14 +275,14 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-3-tickLabels-4"
+                id="chart-axis-tickLabels-165956336413101dw9030piso"
                 x="-7"
                 y="8"
               >
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255);"
+                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -325,7 +325,7 @@ exports[`null previous and current reports are handled 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-labels-0"
+              id="chart-legendLabels-1659563364131gc5rfn1mcn8"
               x="30.8"
               y="86.97"
             >
@@ -342,7 +342,7 @@ exports[`null previous and current reports are handled 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-labels-1"
+              id="chart-legendLabels-16595633641316a2bwxdr0qj"
               x="171.89999999999998"
               y="86.97"
             >
@@ -488,14 +488,14 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-2-tickLabels-0"
+                id="chart-axis-tickLabels-1659563364131jeedc0pcj4j"
                 x="8"
                 y="6.969999999999999"
               >
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255);"
+                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
                   text-anchor="middle"
                   x="8"
                 >
@@ -509,14 +509,14 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-2-tickLabels-1"
+                id="chart-axis-tickLabels-1659563364131u5tqgcuv3g"
                 x="0.5333333333333332"
                 y="6.969999999999999"
               >
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255);"
+                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
                   text-anchor="middle"
                   x="0.5333333333333332"
                 >
@@ -530,14 +530,14 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-2-tickLabels-2"
+                id="chart-axis-tickLabels-16595633641310wkl2xgjlh7"
                 x="-8"
                 y="6.969999999999999"
               >
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255);"
+                  style="font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
                   text-anchor="middle"
                   x="-8"
                 >
@@ -565,14 +565,14 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-3-tickLabels-0"
+                id="chart-axis-tickLabels-1659563364131tyxmig5e9x"
                 x="-7"
                 y="-13"
               >
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255);"
+                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -586,14 +586,14 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-3-tickLabels-1"
+                id="chart-axis-tickLabels-1659563364131klpsn0zqx7"
                 x="-7"
                 y="-6"
               >
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255);"
+                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -607,14 +607,14 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-3-tickLabels-2"
+                id="chart-axis-tickLabels-1659563364131jbcvdvi4wm"
                 x="-7"
                 y="1"
               >
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255);"
+                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -628,14 +628,14 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-3-tickLabels-3"
+                id="chart-axis-tickLabels-1659563364131kzyapiqg3mr"
                 x="-7"
                 y="8"
               >
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255);"
+                  style="font-size: 0px; font-family: \\"RedHatText\\",\\"Overpass\\",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -678,7 +678,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-labels-0"
+              id="chart-legendLabels-1659563364131zuujg3a2y"
               x="30.8"
               y="86.97"
             >
@@ -695,7 +695,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-labels-1"
+              id="chart-legendLabels-165956336413117fh5rp4lc7"
               x="7421.909375000033"
               y="86.97"
             >
