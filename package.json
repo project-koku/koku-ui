@@ -17,7 +17,7 @@
     "start": "node scripts/start-dev-server.js",
     "start:dev": "NODE_OPTIONS=--max-old-space-size=8192 webpack serve -c ./webpack.config.js",
     "stats": "yarn build:client --profile --json > stats.json",
-    "test": "jest",
+    "test": "jest --no-cache",
     "test:clean": "jest --clearCache",
     "test:update": "yarn test:clean && jest --updateSnapshot",
     "translations": "yarn translations:extract && yarn translations:compile && yarn translations:compile:ast && yarn translations:datafile",
