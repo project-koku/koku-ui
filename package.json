@@ -28,11 +28,12 @@
     "translations:compile:ast": "npx formatjs compile ./build/messages/src/Messages.json --out-file ./locales/en.json --ast",
     "translations:datafile": "node scripts/createDataJson.js",
     "translations:syncTranslations": "node scripts/syncTranslations.js",
+    "manifest:test": ".travis/check_manifest.sh",
     "manifest:update": "node scripts/createManifest",
     "codemods:test": "yarn pf-codemods ./src",
     "container:test": "docker stop -t 0 koku-ui-test >/dev/null; docker build -t koku-ui-test . && docker run -i --rm -p 8080:8080 --name koku-ui-test koku-ui-test",
     "insights:proxy": "docker stop -t 0 insightsproxy >/dev/null; docker run -e LOCAL_CHROME -e PLATFORM -e PORT -e LOCAL_API -e SPANDX_HOST -e SPANDX_PORT --rm -t --name insightsproxy -p 1337:1337 docker.io/redhatinsights/insights-proxy",
-    "verify": "tsc --noEmit"
+    "verify": "yarn manifest:test && yarn lint && yarn test && yarn build"
   },
   "dependencies": {
     "@patternfly/patternfly": "^4.202.1",
