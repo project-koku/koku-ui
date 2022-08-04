@@ -80,9 +80,9 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
       data = uniq(tagReport.data);
     }
 
-    return data.map(item => {
+    return data.map((item, index) => {
       const tagKey = hasTagKeys ? item.key : item;
-      return <SelectOption key={item.key} value={tagKey} />;
+      return <SelectOption key={`${tagKey}:${index}`} value={tagKey} />;
     });
   };
 
