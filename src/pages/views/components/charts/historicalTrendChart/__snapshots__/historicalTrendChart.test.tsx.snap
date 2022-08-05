@@ -114,7 +114,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-1659563364131adf09qevui"
+                id="chart-axis-2-tickLabels-0"
                 x="8"
                 y="6.969999999999999"
               >
@@ -135,7 +135,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-1659563364131ukdgupxofd"
+                id="chart-axis-2-tickLabels-1"
                 x="0.5333333333333332"
                 y="6.969999999999999"
               >
@@ -156,7 +156,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-16595633641312ems4ur8hf7"
+                id="chart-axis-2-tickLabels-2"
                 x="-8"
                 y="6.969999999999999"
               >
@@ -191,7 +191,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-1659563364131ve66mes3w8j"
+                id="chart-axis-3-tickLabels-0"
                 x="-7"
                 y="-14.4"
               >
@@ -212,7 +212,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-165956336413130hjr0p4tys"
+                id="chart-axis-3-tickLabels-1"
                 x="-7"
                 y="-8.8"
               >
@@ -233,7 +233,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-1659563364131xpd3frl12de"
+                id="chart-axis-3-tickLabels-2"
                 x="-7"
                 y="-3.2"
               >
@@ -254,7 +254,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-1659563364131xx4155vblua"
+                id="chart-axis-3-tickLabels-3"
                 x="-7"
                 y="2.4000000000000012"
               >
@@ -275,7 +275,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-165956336413101dw9030piso"
+                id="chart-axis-3-tickLabels-4"
                 x="-7"
                 y="8"
               >
@@ -325,7 +325,7 @@ exports[`null previous and current reports are handled 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="chart-legendLabels-1659563364131gc5rfn1mcn8"
+              id="legend-labels-0"
               x="30.8"
               y="86.97"
             >
@@ -342,7 +342,7 @@ exports[`null previous and current reports are handled 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="chart-legendLabels-16595633641316a2bwxdr0qj"
+              id="legend-labels-1"
               x="171.89999999999998"
               y="86.97"
             >
@@ -488,7 +488,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-1659563364131jeedc0pcj4j"
+                id="chart-axis-2-tickLabels-0"
                 x="8"
                 y="6.969999999999999"
               >
@@ -509,7 +509,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-1659563364131u5tqgcuv3g"
+                id="chart-axis-2-tickLabels-1"
                 x="0.5333333333333332"
                 y="6.969999999999999"
               >
@@ -530,7 +530,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-16595633641310wkl2xgjlh7"
+                id="chart-axis-2-tickLabels-2"
                 x="-8"
                 y="6.969999999999999"
               >
@@ -565,7 +565,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-1659563364131tyxmig5e9x"
+                id="chart-axis-3-tickLabels-0"
                 x="-7"
                 y="-13"
               >
@@ -586,7 +586,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-1659563364131klpsn0zqx7"
+                id="chart-axis-3-tickLabels-1"
                 x="-7"
                 y="-6"
               >
@@ -607,7 +607,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-1659563364131jbcvdvi4wm"
+                id="chart-axis-3-tickLabels-2"
                 x="-7"
                 y="1"
               >
@@ -628,7 +628,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-1659563364131kzyapiqg3mr"
+                id="chart-axis-3-tickLabels-3"
                 x="-7"
                 y="8"
               >
@@ -678,7 +678,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="chart-legendLabels-1659563364131zuujg3a2y"
+              id="legend-labels-0"
               x="30.8"
               y="86.97"
             >
@@ -695,7 +695,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="chart-legendLabels-165956336413117fh5rp4lc7"
+              id="legend-labels-1"
               x="7421.909375000033"
               y="86.97"
             >

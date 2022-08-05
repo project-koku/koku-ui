@@ -242,7 +242,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-16595633641240tsyb3csrgw"
+                id="chart-axis-6-tickLabels-0"
                 x="8"
                 y="-3.030000000000001"
               >
@@ -263,7 +263,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-165956336412492wvemipe9"
+                id="chart-axis-6-tickLabels-1"
                 x="0.5333333333333332"
                 y="-3.030000000000001"
               >
@@ -284,7 +284,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-1659563364124kloq42y498g"
+                id="chart-axis-6-tickLabels-2"
                 x="-8"
                 y="-3.030000000000001"
               >
@@ -319,7 +319,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-1659563364124qp8eckr1uj"
+                id="chart-axis-7-tickLabels-0"
                 x="-7"
                 y="-20.5"
               >
@@ -340,7 +340,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-1659563364124i5iym4nusv9"
+                id="chart-axis-7-tickLabels-1"
                 x="-7"
                 y="-11"
               >
@@ -361,7 +361,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-1659563364124wpb32j200y"
+                id="chart-axis-7-tickLabels-2"
                 x="-7"
                 y="-1.5"
               >
@@ -382,7 +382,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-tickLabels-16595633641248w7zcf5pjev"
+                id="chart-axis-7-tickLabels-3"
                 x="-7"
                 y="8"
               >
@@ -492,7 +492,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="chart-legendLabels-16595633641249131axnldy"
+              id="legend-labels-0"
               x="30.8"
               y="96.97"
             >
@@ -509,7 +509,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="chart-legendLabels-1659563364124nmh9qmgenya"
+              id="legend-labels-1"
               x="8109.134375000024"
               y="96.97"
             >
@@ -526,7 +526,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="chart-legendLabels-1659563364124m9y34g2hf29"
+              id="legend-labels-2"
               x="30.8"
               y="127.875"
             >
@@ -543,7 +543,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="chart-legendLabels-1659563364124efizokdrd0m"
+              id="legend-labels-3"
               x="8109.134375000024"
               y="127.875"
             >
@@ -560,7 +560,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="chart-legendLabels-1659563364124zx1hoiz8gw"
+              id="legend-labels-4"
               x="30.8"
               y="158.78"
             >
@@ -577,7 +577,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="chart-legendLabels-1659563364124xwg9g8dt2s"
+              id="legend-labels-5"
               x="8109.134375000024"
               y="158.78"
             >
