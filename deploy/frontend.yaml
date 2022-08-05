@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: hccm-frontend
+objects:
+  - apiVersion: cloud.redhat.com/v1alpha1
+    kind: Frontend
+    metadata:
+      name: hccm
+    spec:
+      envName: ${ENV_NAME}
+      title: 'Cost Management'
+      deploymentRepo: https://github.com/project-koku/koku-ui
+      API:
+        versions:
+          - v1
+      frontend:
+        paths:
+          - /apps/cost-management
+      image: ${IMAGE}:${IMAGE_TAG}
+      navItems:
+        - title: Cost Management
+          expandable: true
+          routes:
+            - appId: 'cost-management'
+              title: Overview
+              href: "/openshift/cost-management"
+            - appId: 'cost-management'
+              title: 'OpenShift'
+              href: '/openshift/cost-management/ocp'
+            - appId: 'cost-management'
+              title: 'Amazon Web Services'
+              href: '/openshift/cost-management/aws'
+            - appId: 'cost-management'
+              title: 'Google Cloud Platform'
+              href: '/openshift/cost-management/gcp'
+            - appId: 'cost-management'
+              title: 'IBM Cloud'
+              href: '/openshift/cost-management/ibm'
+            - appId: 'cost-management'
+              title: 'Microsoft Azure'
+              href: '/openshift/cost-management/azure'
+            - appId: 'cost-management'
+              title: 'Oracle Cloud Infrastructure'
+              href: '/openshift/cost-management/oci'
+            - appId: 'cost-management'
+              title: 'Cost models'
+              href: '/openshift/cost-management/cost-models'
+            - appId: 'cost-management'
+              title: 'Cost Explorer'
+              href: '/openshift/cost-management/explorer'
+      module:
+        manifestLocation: "/apps/cost-management/fed-mods.json"
+        modules:
+          - id: "cost-management"
+            module: "./RootApp"
+            routes:
+              - pathname: /openshift/cost-management
+parameters:
+  - name: ENV_NAME
+    required: true
+  - name: IMAGE_TAG
+    required: true
+  - name: IMAGE
+    value: quay.io/cloudservices/hccm-frontend
