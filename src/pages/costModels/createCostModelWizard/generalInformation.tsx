@@ -16,11 +16,11 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { FeatureType, isFeatureVisible } from 'utils/feature';
 
 import { CostModelContext } from './context';
 import { descriptionErrors, nameErrors } from './steps';
 import { styles } from './wizard.styles';
+import { Feature, FeatureToggle } from 'components/feature';
 
 interface GeneralInformationOwnProps {
   // TBD...
@@ -139,7 +139,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                 />
                 {
                   /* Todo: Show in-progress features in beta environment only */
-                  isFeatureVisible(FeatureType.currency) && (
+                  <Feature flag={FeatureToggle.currency}>
                     <Selector
                       label={messages.currency}
                       direction={SelectDirection.up}
@@ -156,7 +156,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                         };
                       })}
                     />
-                  )
+                  </Feature>
                 }
               </Form>
             </StackItem>

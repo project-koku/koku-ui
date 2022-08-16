@@ -5,6 +5,7 @@ import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
+import { Feature, FeatureToggle } from 'components/feature';
 import messages from 'locales/messages';
 import { Currency } from 'pages/components/currency';
 import { CostType } from 'pages/views/components/costType';
@@ -15,7 +16,6 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { CostTypes } from 'utils/costType';
 import { getForDateRangeString } from 'utils/dateRange';
-import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './breakdownHeader.styles';
@@ -131,8 +131,9 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
             </ol>
           </nav>
           <div style={styles.headerContentRight}>
-            {/* Todo: Show in-progress features in beta environment only */}
-            {isFeatureVisible(FeatureType.currency) && <Currency />}
+            <Feature flag={FeatureToggle.currency}>
+              <Currency />
+            </Feature>
           </div>
         </div>
         <div style={styles.headerContent}>

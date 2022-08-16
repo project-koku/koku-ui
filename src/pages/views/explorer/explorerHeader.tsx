@@ -6,6 +6,7 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import { ExportsLink } from 'components/exports';
+import { Feature, FeatureToggle } from 'components/feature';
 import messages from 'locales/messages';
 import { Currency } from 'pages/components/currency';
 import { CostType } from 'pages/views/components/costType';
@@ -21,7 +22,6 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { CostTypes } from 'utils/costType';
-import { FeatureType, isFeatureVisible } from 'utils/feature';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -47,17 +47,6 @@ import {
   getResourcePathsType,
   getRouteForQuery,
   getTagReportPathsType,
-  infrastructureAwsOcpOptions,
-  infrastructureAwsOptions,
-  infrastructureAzureOcpOptions,
-  infrastructureAzureOptions,
-  infrastructureGcpOcpOptions,
-  infrastructureGcpOptions,
-  infrastructureIbmOcpOptions,
-  infrastructureIbmOptions,
-  infrastructureOciOptions,
-  infrastructureOcpCloudOptions,
-  ocpOptions,
   PerspectiveType,
 } from './explorerUtils';
 
@@ -136,50 +125,22 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       return null;
     }
 
-    // Dynamically show options if providers are available
-    const options = [];
-    if (hasOcp) {
-      options.push(...ocpOptions);
-    }
-    if (this.isOcpCloudAvailable()) {
-      options.push(...infrastructureOcpCloudOptions);
-    }
-    if (hasAws) {
-      options.push(...infrastructureAwsOptions);
-    }
-    if (this.isAwsOcpAvailable()) {
-      options.push(...infrastructureAwsOcpOptions);
-    }
-    if (hasGcp) {
-      options.push(...infrastructureGcpOptions);
-    }
-    if (isFeatureVisible(FeatureType.gcpOcp) && this.isGcpOcpAvailable()) {
-      options.push(...infrastructureGcpOcpOptions);
-    }
-    if (hasIbm) {
-      options.push(...infrastructureIbmOptions);
-    }
-    // Todo: Show in-progress features in beta environment only
-    if (isFeatureVisible(FeatureType.ibm) && this.isIbmOcpAvailable()) {
-      options.push(...infrastructureIbmOcpOptions);
-    }
-    if (hasAzure) {
-      options.push(...infrastructureAzureOptions);
-    }
-    if (this.isAzureOcpAvailable()) {
-      options.push(...infrastructureAzureOcpOptions);
-    }
-    // Todo: Show in-progress features in beta environment only
-    if (isFeatureVisible(FeatureType.oci) && hasOci) {
-      options.push(...infrastructureOciOptions);
-    }
-
     return (
       <Perspective
-        currentItem={currentPerspective || options[0].value}
+        currentItem={currentPerspective}
+        hasAws={hasAws}
+        hasAwsOcp={this.isAwsOcpAvailable()}
+        hasAzure={hasAzure}
+        hasAzureOcp={this.isAzureOcpAvailable()}
+        hasGcp={hasGcp}
+        hasGcpOcp={this.isGcpOcpAvailable()}
+        hasIbm={hasIbm}
+        hasIbmOcp={this.isIbmOcpAvailable()}
+        hasOci={hasOci}
+        hasOcp={hasOcp}
+        hasOcpCloud={this.isOcpCloudAvailable()}
         isDisabled={isDisabled}
         onSelected={this.handlePerspectiveSelected}
-        options={options}
       />
     );
   };
@@ -305,9 +266,12 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
             {intl.formatMessage(messages.explorerTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            {/* Todo: Show in-progress features in beta environment only */}
-            {isFeatureVisible(FeatureType.currency) && <Currency />}
-            {isFeatureVisible(FeatureType.exports) && <ExportsLink />}
+            <Feature flag={FeatureToggle.currency}>
+              <Currency />
+            </Feature>
+            <Feature flag={FeatureToggle.exports}>
+              <ExportsLink />
+            </Feature>
           </div>
         </div>
         <div style={styles.perspectiveContainer}>

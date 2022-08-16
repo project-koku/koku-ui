@@ -279,6 +279,7 @@ mgmt_services/cost-mgmt:koku-ui/@typescript-eslint/utils:5.12.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@typescript-eslint/utils:5.18.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@typescript-eslint/visitor-keys:5.12.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@typescript-eslint/visitor-keys:5.18.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@unleash/proxy-client-react:3.3.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@vue/compiler-core:3.2.31.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@vue/compiler-core:3.2.31.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@vue/compiler-dom:3.2.31.yarnlock
@@ -1217,6 +1218,7 @@ mgmt_services/cost-mgmt:koku-ui/text-table:0.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/throat:6.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/through:2.3.8.yarnlock
 mgmt_services/cost-mgmt:koku-ui/thunky:1.1.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/tiny-emitter:2.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/tiny-invariant:1.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/tiny-warning:1.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/tiny-warning:1.0.3.yarnlock
@@ -1258,6 +1260,7 @@ mgmt_services/cost-mgmt:koku-ui/uncontrollable:7.2.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/unist-util-stringify-position:2.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/universalify:0.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/universalify:2.0.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/unleash-proxy-client:2.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/unpipe:1.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/unpipe:1.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/update-browserslist-db:1.0.5.yarnlock

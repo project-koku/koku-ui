@@ -1,10 +1,12 @@
 import { AlertVariant } from '@patternfly/react-core';
 import { addNotification, removeNotification } from '@redhat-cloud-services/frontend-components-notifications';
+import { useFlag } from '@unleash/proxy-client-react';
 import { Export } from 'api/export/export';
 import { runExport } from 'api/export/exportUtils';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ExportsLink } from 'components/exports/exportsLink';
+import { FeatureToggle } from 'components/feature/feature';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
@@ -14,8 +16,6 @@ import { getExportId } from 'store/export/exportCommon';
 import { selectExport, selectExportFetchStatus } from 'store/export/exportSelectors';
 import { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
-import { FeatureType, isFeatureVisible } from 'utils/feature';
-
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
 interface ExportActionMeta {
@@ -48,7 +48,7 @@ export function exportReport(
         dispatch(fetchExportSuccess(res.data, meta));
 
         /* Todo: Show in-progress features in beta environment only */
-        if (isFeatureVisible(FeatureType.exports)) {
+        if (useFlag(FeatureToggle.exports)) {
           const description = intl.formatMessage(messages.exportsSuccessDesc, {
             link: <ExportsLink isActionLink onClick={() => dispatch(removeNotification(exportSuccessID))} />,
             value: <b>{intl.formatMessage(messages.exportsTitle)}</b>,
@@ -69,7 +69,7 @@ export function exportReport(
         dispatch(fetchExportFailure(err, meta));
 
         /* Todo: Show in-progress features in beta environment only */
-        if (isFeatureVisible(FeatureType.exports)) {
+        if (useFlag(FeatureToggle.exports)) {
           dispatch(
             addNotification({
               description: intl.formatMessage(messages.exportsFailedDesc),

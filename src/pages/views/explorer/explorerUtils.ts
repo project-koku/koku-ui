@@ -146,36 +146,6 @@ export const groupByOcpOptions: {
   { label: 'project', value: 'project' },
 ];
 
-// Infrastructure AWS options
-export const infrastructureAwsOptions = [{ label: messages.perspectiveValues, value: 'aws' }];
-
-// Infrastructure AWS filtered by OpenShift options
-export const infrastructureAwsOcpOptions = [{ label: messages.perspectiveValues, value: 'aws_ocp' }];
-
-// Infrastructure Azure options
-export const infrastructureAzureOptions = [{ label: messages.perspectiveValues, value: 'azure' }];
-
-// Infrastructure OCI options
-export const infrastructureOciOptions = [{ label: messages.perspectiveValues, value: 'oci' }];
-
-// Infrastructure Azure filtered by OpenShift options
-export const infrastructureAzureOcpOptions = [{ label: messages.perspectiveValues, value: 'azure_ocp' }];
-
-// Infrastructure GCP options
-export const infrastructureGcpOptions = [{ label: messages.perspectiveValues, value: 'gcp' }];
-
-// Infrastructure GCP filtered by OpenShift options
-export const infrastructureGcpOcpOptions = [{ label: messages.perspectiveValues, value: 'gcp_ocp' }];
-
-// Infrastructure IBM options
-export const infrastructureIbmOptions = [{ label: messages.perspectiveValues, value: 'ibm' }];
-
-// Infrastructure IBM filtered by OpenShift options
-export const infrastructureIbmOcpOptions = [{ label: messages.perspectiveValues, value: 'ibm_ocp' }];
-
-// Infrastructure Ocp cloud options
-export const infrastructureOcpCloudOptions = [{ label: messages.perspectiveValues, value: 'ocp_cloud' }];
-
 // Ocp options
 export const ocpOptions = [{ label: messages.perspectiveValues, value: 'ocp' }];
 

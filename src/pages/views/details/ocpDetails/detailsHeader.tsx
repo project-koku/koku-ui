@@ -6,6 +6,7 @@ import { OcpReport } from 'api/reports/ocpReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { ExportsLink } from 'components/exports';
+import { Feature, FeatureToggle } from 'components/feature';
 import messages from 'locales/messages';
 import { Currency } from 'pages/components/currency';
 import { EmptyValueState } from 'pages/components/state/emptyValueState/emptyValueState';
@@ -18,7 +19,6 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { ComputedOcpReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
-import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './detailsHeader.styles';
@@ -97,9 +97,12 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             {intl.formatMessage(messages.ocpDetailsTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            {/* Todo: Show in-progress features in beta environment only */}
-            {isFeatureVisible(FeatureType.currency) && <Currency />}
-            {isFeatureVisible(FeatureType.exports) && <ExportsLink />}
+            <Feature flag={FeatureToggle.currency}>
+              <Currency />
+            </Feature>
+            <Feature flag={FeatureToggle.exports}>
+              <ExportsLink />
+            </Feature>
           </div>
         </div>
         <div style={styles.headerContent}>

@@ -7,6 +7,7 @@ import { AwsReport } from 'api/reports/awsReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { ExportsLink } from 'components/exports';
+import { Feature, FeatureToggle } from 'components/feature';
 import messages from 'locales/messages';
 import { Currency } from 'pages/components/currency';
 import { CostType } from 'pages/views/components/costType';
@@ -20,7 +21,6 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { ComputedAwsReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { CostTypes } from 'utils/costType';
 import { getSinceDateRangeString } from 'utils/dateRange';
-import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './detailsHeader.styles';
@@ -86,9 +86,12 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             {intl.formatMessage(messages.awsDetailsTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            {/* Todo: Show in-progress features in beta environment only */}
-            {isFeatureVisible(FeatureType.currency) && <Currency />}
-            {isFeatureVisible(FeatureType.exports) && <ExportsLink />}
+            <Feature flag={FeatureToggle.currency}>
+              <Currency />
+            </Feature>
+            <Feature flag={FeatureToggle.exports}>
+              <ExportsLink />
+            </Feature>
           </div>
         </div>
         <div style={styles.headerContent}>

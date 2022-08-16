@@ -35,7 +35,8 @@ const gitRevisionPlugin = new GitRevisionPlugin({
 const betaBranches = ['main', 'master', 'stage-beta', 'prod-beta'];
 const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
 
-const localhost = process.env.PLATFORM === 'linux' || useLocalCloudServicesConfig ? 'localhost' : 'host.docker.internal';
+const localhost =
+  process.env.PLATFORM === 'linux' || useLocalCloudServicesConfig ? 'localhost' : 'host.docker.internal';
 
 // show what files changed since last compilation
 class WatchRunPlugin {
@@ -90,7 +91,6 @@ module.exports = (_env, argv) => {
       host: `http://${localhost}:8889`,
     };
   }
-
 
   // For local API development route will be set to :
   // '/api/cost-management/v1/': { host: 'http://localhost:8000' },
@@ -205,7 +205,10 @@ module.exports = (_env, argv) => {
          * Package can be re-enabled for sharing once chrome starts providing global routing pakcage to all applications
          */
         exclude: ['react-router-dom'],
-        shared: [{ 'react-redux': { requiredVersion: dependencies['react-redux'] } }],
+        shared: [
+          { 'react-redux': { requiredVersion: dependencies['react-redux'] } },
+          { '@unleash/proxy-client-react': { requiredVersion: '*', singleton: true } },
+        ],
         exposes: {
           './RootApp': path.resolve(__dirname, './src/federatedEntry.tsx'),
           // Shared component module path. Must include default export!

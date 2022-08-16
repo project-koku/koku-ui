@@ -18,6 +18,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
+import { Feature, FeatureToggle } from 'components/feature';
 import messages from 'locales/messages';
 import { Currency } from 'pages/components/currency';
 import Loading from 'pages/state/loading';
@@ -52,7 +53,6 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { CostTypes, getCostType } from 'utils/costType';
 import { getSinceDateRangeString } from 'utils/dateRange';
-import { FeatureType, isFeatureVisible } from 'utils/feature';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -142,39 +142,6 @@ interface OverviewState {
 }
 
 type OverviewProps = OverviewOwnProps & OverviewStateProps & OverviewDispatchProps;
-
-// Ocp options
-const ocpOptions = [{ label: messages.perspectiveValues, value: 'ocp' }];
-
-// Infrastructure AWS options
-const infrastructureAwsOptions = [{ label: messages.perspectiveValues, value: 'aws' }];
-
-// Infrastructure AWS filtered by OpenShift options
-const infrastructureAwsOcpOptions = [{ label: messages.perspectiveValues, value: 'aws_ocp' }];
-
-// Infrastructure Azure options
-const infrastructureAzureOptions = [{ label: messages.perspectiveValues, value: 'azure' }];
-
-// Infrastructure Oci options
-const infrastructureOciOptions = [{ label: messages.perspectiveValues, value: 'oci' }];
-
-// Infrastructure Azure filtered by OpenShift options
-const infrastructureAzureOcpOptions = [{ label: messages.perspectiveValues, value: 'azure_ocp' }];
-
-// Infrastructure GCP options
-const infrastructureGcpOptions = [{ label: messages.perspectiveValues, value: 'gcp' }];
-
-// Infrastructure GCP filtered by OCP options
-const infrastructureGcpOcpOptions = [{ label: messages.perspectiveValues, value: 'gcp_ocp' }];
-
-// Infrastructure IBM options
-const infrastructureIbmOptions = [{ label: messages.perspectiveValues, value: 'ibm' }];
-
-// Infrastructure IBM filtered by OCP options
-const infrastructureIbmOcpOptions = [{ label: messages.perspectiveValues, value: 'ibm_ocp' }];
-
-// Infrastructure Ocp cloud options
-const infrastructureOcpCloudOptions = [{ label: messages.perspectiveValues, value: 'ocp_cloud' }];
 
 class OverviewBase extends React.Component<OverviewProps> {
   protected defaultState: OverviewState = {
@@ -339,53 +306,25 @@ class OverviewBase extends React.Component<OverviewProps> {
       return null;
     }
 
-    // Dynamically show options if providers are available
-    const options = [];
-    if (this.getCurrentTab() === OverviewTab.infrastructure) {
-      if (this.isOcpCloudAvailable()) {
-        options.push(...infrastructureOcpCloudOptions);
-      }
-      if (hasAws) {
-        options.push(...infrastructureAwsOptions);
-      }
-      if (this.isAwsOcpAvailable()) {
-        options.push(...infrastructureAwsOcpOptions);
-      }
-      if (hasGcp) {
-        options.push(...infrastructureGcpOptions);
-      }
-      if (isFeatureVisible(FeatureType.gcpOcp) && this.isGcpOcpAvailable()) {
-        options.push(...infrastructureGcpOcpOptions);
-      }
-      if (hasIbm) {
-        options.push(...infrastructureIbmOptions);
-      }
-      // Todo: Show in-progress features in beta environment only
-      if (isFeatureVisible(FeatureType.ibm) && this.isIbmOcpAvailable()) {
-        options.push(...infrastructureIbmOcpOptions);
-      }
-      if (hasAzure) {
-        options.push(...infrastructureAzureOptions);
-      }
-      if (this.isAzureOcpAvailable()) {
-        options.push(...infrastructureAzureOcpOptions);
-      }
-      // Todo: Show in-progress features in beta environment only
-      if (isFeatureVisible(FeatureType.oci) && hasOci) {
-        options.push(...infrastructureOciOptions);
-      }
-    } else {
-      options.push(...ocpOptions);
-    }
-
     const currentItem =
       this.getCurrentTab() === OverviewTab.infrastructure ? currentInfrastructurePerspective : currentOcpPerspective;
 
     return (
       <Perspective
-        currentItem={currentItem || options[0].value}
+        currentItem={currentItem}
+        hasAws={hasAws}
+        hasAwsOcp={this.isAwsOcpAvailable()}
+        hasAzure={hasAzure}
+        hasAzureOcp={this.isAzureOcpAvailable()}
+        hasGcp={hasGcp}
+        hasGcpOcp={this.isGcpOcpAvailable()}
+        hasIbm={hasIbm}
+        hasIbmOcp={this.isIbmOcpAvailable()}
+        hasOci={hasOci}
+        hasOcp={hasOcp}
+        hasOcpCloud={this.isOcpCloudAvailable()}
+        isInfrastructureTab={this.getCurrentTab() === OverviewTab.infrastructure}
         onSelected={this.handlePerspectiveSelected}
-        options={options}
       />
     );
   };
@@ -664,23 +603,19 @@ class OverviewBase extends React.Component<OverviewProps> {
                       <br />
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.gcp)}</p>
                       <p>{intl.formatMessage(messages.gcpDesc)}</p>
-                      {isFeatureVisible(FeatureType.ibm) && (
-                        <>
-                          <br />
-                          <p style={styles.infoTitle}>{intl.formatMessage(messages.ibm)}</p>
-                          <p>{intl.formatMessage(messages.ibmDesc)}</p>
-                        </>
-                      )}
+                      <Feature flag={FeatureToggle.ibm}>
+                        <br />
+                        <p style={styles.infoTitle}>{intl.formatMessage(messages.ibm)}</p>
+                        <p>{intl.formatMessage(messages.ibmDesc)}</p>
+                      </Feature>
                       <br />
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.azure)}</p>
                       <p>{intl.formatMessage(messages.azureDesc)}</p>
-                      {isFeatureVisible(FeatureType.oci) && (
-                        <>
-                          <br />
-                          <p style={styles.infoTitle}>{intl.formatMessage(messages.oci)}</p>
-                          <p>{intl.formatMessage(messages.ociDesc)}</p>
-                        </>
-                      )}
+                      <Feature flag={FeatureToggle.oci}>
+                        <br />
+                        <p style={styles.infoTitle}>{intl.formatMessage(messages.oci)}</p>
+                        <p>{intl.formatMessage(messages.ociDesc)}</p>
+                      </Feature>
                     </>
                   }
                 >
@@ -691,8 +626,9 @@ class OverviewBase extends React.Component<OverviewProps> {
               </span>
             </Title>
             <div style={styles.headerContentRight}>
-              {/* Todo: Show in-progress features in beta environment only */}
-              {isFeatureVisible(FeatureType.currency) && <Currency />}
+              <Feature flag={FeatureToggle.currency}>
+                <Currency />
+              </Feature>
             </div>
           </div>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
