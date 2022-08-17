@@ -56,11 +56,11 @@ export const databaseWidget: OciDashboardWidget = {
   },
   filter: {
     product_service:
-      'Autonomous Database,Autonomous Data Warehouse,Autonomous Transaction Processing,Autonomous JSON Database,Exadata Database Service,Database Cloud Service,Autonomous Database on Exadata,MySQL HeatWave,NoSQL,Search Service with OpenSearch',
+      'Database,Autonomous Database,Autonomous Data Warehouse,Autonomous Transaction Processing,Autonomous JSON Database,Exadata Database Service,Database Cloud Service,Autonomous Database on Exadata,MySQL HeatWave,NoSQL,Search Service with OpenSearch',
   },
   tabsFilter: {
     product_service:
-      'Autonomous Database,Autonomous Data Warehouse,Autonomous Transaction Processing,Autonomous JSON Database,Exadata Database Service,Database Cloud Service,Autonomous Database on Exadata,MySQL HeatWave,NoSQL,Search Service with OpenSearch',
+      'Database,Autonomous Database,Autonomous Data Warehouse,Autonomous Transaction Processing,Autonomous JSON Database,Exadata Database Service,Database Cloud Service,Autonomous Database on Exadata,MySQL HeatWave,NoSQL,Search Service with OpenSearch',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
@@ -82,11 +82,11 @@ export const networkWidget: OciDashboardWidget = {
   },
   filter: {
     product_service:
-      'Virtual Cloud Networks,Networking Gateways,Load Balancers,Site-to-Site VPN,Client-to-Site VPN,FastConnect,Customer-Premises Equipment,DNS Management',
+      'Network,Virtual Cloud Networks,Networking Gateways,Load Balancers,Site-to-Site VPN,Client-to-Site VPN,FastConnect,Customer-Premises Equipment,DNS Management',
   },
   tabsFilter: {
     product_service:
-      'Virtual Cloud Networks,Networking Gateways,Load Balancers,Site-to-Site VPN,Client-to-Site VPN,FastConnect,Customer-Premises Equipment,DNS Management',
+      'Network,Virtual Cloud Networks,Networking Gateways,Load Balancers,Site-to-Site VPN,Client-to-Site VPN,FastConnect,Customer-Premises Equipment,DNS Management',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
@@ -131,10 +131,10 @@ export const virtualMachineWidget: OciDashboardWidget = {
     usageKey: messages.usage,
   },
   filter: {
-    product_service: 'Virtual Machines',
+    product_service: 'Compute,Virtual Machines',
   },
   tabsFilter: {
-    product_service: 'Virtual Machines',
+    product_service: 'Compute,Virtual Machines',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
