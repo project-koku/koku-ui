@@ -1,5 +1,3 @@
-import { useFlag } from '@unleash/proxy-client-react';
-import { FeatureToggle } from 'components/feature';
 import messages from 'locales/messages';
 import { PerspectiveSelect } from 'pages/views/components/perspective/perspectiveSelect';
 import React from 'react';
@@ -52,6 +50,8 @@ interface OverviewPerspectiveProps extends RouteComponentProps<void> {
   hasOcp?: boolean;
   hasOcpCloud?: boolean;
   isDisabled?: boolean;
+  isIbmFeatureEnabled?: boolean;
+  isOciFeatureEnabled?: boolean;
   isInfrastructureTab?: boolean; // Used by the overview page
   onSelected?: (value: string) => void;
 }
@@ -66,6 +66,8 @@ const getInfrastructureOptions = ({
   hasIbm,
   hasIbmOcp,
   hasOci,
+  isIbmFeatureEnabled,
+  isOciFeatureEnabled,
 }) => {
   const options = [];
 
@@ -84,7 +86,7 @@ const getInfrastructureOptions = ({
   if (hasIbm) {
     options.push(...infrastructureIbmOptions);
   }
-  if (hasIbmOcp && useFlag(FeatureToggle.ibm)) {
+  if (hasIbmOcp && isIbmFeatureEnabled) {
     options.push(...infrastructureIbmOcpOptions);
   }
   if (hasAzure) {
@@ -93,7 +95,7 @@ const getInfrastructureOptions = ({
   if (hasAzureOcp) {
     options.push(...infrastructureAzureOcpOptions);
   }
-  if (hasOci && useFlag(FeatureToggle.oci)) {
+  if (hasOci && isOciFeatureEnabled) {
     options.push(...infrastructureOciOptions);
   }
   return options;
@@ -113,7 +115,9 @@ const OverviewPerspectiveBase: React.SFC<OverviewPerspectiveProps> = ({
   hasOcp,
   hasOcpCloud,
   isDisabled,
+  isIbmFeatureEnabled,
   isInfrastructureTab,
+  isOciFeatureEnabled,
   onSelected,
 }): any => {
   // Dynamically show options if providers are available
@@ -135,6 +139,8 @@ const OverviewPerspectiveBase: React.SFC<OverviewPerspectiveProps> = ({
           hasIbm,
           hasIbmOcp,
           hasOci,
+          isIbmFeatureEnabled,
+          isOciFeatureEnabled,
         })
       );
     } else if (hasOcp) {
@@ -158,6 +164,8 @@ const OverviewPerspectiveBase: React.SFC<OverviewPerspectiveProps> = ({
         hasIbm,
         hasIbmOcp,
         hasOci,
+        isIbmFeatureEnabled,
+        isOciFeatureEnabled,
       })
     );
   }

@@ -14,7 +14,6 @@ import {
 import { Query, tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import { Feature, FeatureToggle } from 'components/feature';
 import { format } from 'date-fns';
 import messages from 'locales/messages';
 import { orderBy } from 'lodash';
@@ -23,6 +22,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { exportActions } from 'store/export';
+import { featureSelectors } from 'store/feature';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
@@ -46,7 +46,7 @@ export interface ExportModalOwnProps {
 }
 
 interface ExportModalStateProps {
-  // TBD...
+  isExportsFeatureEnabled?: boolean;
 }
 
 interface ExportModalDispatchProps {
@@ -147,6 +147,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       groupBy,
       intl,
       isAllItems,
+      isExportsFeatureEnabled,
       items,
       query,
       reportPathsType,
@@ -225,18 +226,17 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       >
         {error && <Alert variant="danger" style={styles.alert} title={intl.formatMessage(messages.exportError)} />}
         <div style={styles.title}>
-          <Feature
-            defaultValue={<span>{intl.formatMessage(messages.exportHeading, { groupBy })}</span>}
-            flag={FeatureToggle.exports}
-          >
+          {isExportsFeatureEnabled ? (
             <span>
               {intl.formatMessage(messages.exportDesc, { value: <b>{intl.formatMessage(messages.exportsTitle)}</b> })}
             </span>
-          </Feature>
+          ) : (
+            <span>{intl.formatMessage(messages.exportHeading, { groupBy })}</span>
+          )}
         </div>
         <Form style={styles.form}>
           <Grid hasGutter md={6}>
-            <Feature flag={FeatureToggle.exports}>
+            {isExportsFeatureEnabled && (
               <GridItem span={12}>
                 <FormGroup
                   fieldId="exportName"
@@ -255,7 +255,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                   />
                 </FormGroup>
               </GridItem>
-            </Feature>
+            )}
             {showAggregateType && (
               <FormGroup fieldId="aggregate-type" label={intl.formatMessage(messages.exportAggregateType)} isRequired>
                 <React.Fragment>
@@ -300,26 +300,24 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                 </React.Fragment>
               </FormGroup>
             )}
-            {showFormatType && (
-              <Feature flag={FeatureToggle.exports}>
-                <GridItem span={12}>
-                  <FormGroup fieldId="formatType" label={intl.formatMessage(messages.exportFormatTypeTitle)} isRequired>
-                    {formatTypeOptions.map((option, index) => (
-                      <Radio
-                        key={index}
-                        id={`formatType-${index}`}
-                        isValid={option.value !== undefined}
-                        label={intl.formatMessage(option.label, { value: option.value })}
-                        value={option.value}
-                        checked={formatType === option.value}
-                        name="formatType"
-                        onChange={this.handleTypeChange}
-                        aria-label={intl.formatMessage(option.label, { value: option.value })}
-                      />
-                    ))}
-                  </FormGroup>
-                </GridItem>
-              </Feature>
+            {showFormatType && isExportsFeatureEnabled && (
+              <GridItem span={12}>
+                <FormGroup fieldId="formatType" label={intl.formatMessage(messages.exportFormatTypeTitle)} isRequired>
+                  {formatTypeOptions.map((option, index) => (
+                    <Radio
+                      key={index}
+                      id={`formatType-${index}`}
+                      isValid={option.value !== undefined}
+                      label={intl.formatMessage(option.label, { value: option.value })}
+                      value={option.value}
+                      checked={formatType === option.value}
+                      name="formatType"
+                      onChange={this.handleTypeChange}
+                      aria-label={intl.formatMessage(option.label, { value: option.value })}
+                    />
+                  ))}
+                </FormGroup>
+              </GridItem>
             )}
             <GridItem span={12}>
               <FormGroup label={selectedLabel} fieldId="selectedLabels">
@@ -337,8 +335,10 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
   }
 }
 
-const mapStateToProps = createMapStateToProps<ExportModalOwnProps, unknown>(() => {
-  return {};
+const mapStateToProps = createMapStateToProps<ExportModalOwnProps, unknown>(state => {
+  return {
+    isExportsFeatureEnabled: featureSelectors.selectIsExportsFeatureEnabled(state),
+  };
 });
 
 const mapDispatchToProps: ExportModalDispatchProps = {

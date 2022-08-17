@@ -18,7 +18,6 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
-import { Feature, FeatureToggle } from 'components/feature';
 import messages from 'locales/messages';
 import { Currency } from 'pages/components/currency';
 import Loading from 'pages/state/loading';
@@ -49,6 +48,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureSelectors } from 'store/feature';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { CostTypes, getCostType } from 'utils/costType';
@@ -115,6 +115,9 @@ interface OverviewStateProps {
   costType?: CostTypes;
   gcpProviders?: Providers;
   ibmProviders?: Providers;
+  isCurrencyFeatureEnabled?: boolean;
+  isIbmFeatureEnabled?: boolean;
+  isOciFeatureEnabled?: boolean;
   ociProviders?: Providers;
   ocpProviders?: Providers;
   providers: Providers;
@@ -292,6 +295,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getPerspective = () => {
+    const { isIbmFeatureEnabled, isOciFeatureEnabled } = this.props;
     const { currentInfrastructurePerspective, currentOcpPerspective } = this.state;
 
     const hasAws = this.isAwsAvailable();
@@ -323,7 +327,9 @@ class OverviewBase extends React.Component<OverviewProps> {
         hasOci={hasOci}
         hasOcp={hasOcp}
         hasOcpCloud={this.isOcpCloudAvailable()}
+        isIbmFeatureEnabled={isIbmFeatureEnabled}
         isInfrastructureTab={this.getCurrentTab() === OverviewTab.infrastructure}
+        isOciFeatureEnabled={isOciFeatureEnabled}
         onSelected={this.handlePerspectiveSelected}
       />
     );
@@ -557,7 +563,14 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   public render() {
-    const { providersFetchStatus, intl, userAccessFetchStatus } = this.props;
+    const {
+      providersFetchStatus,
+      intl,
+      isCurrencyFeatureEnabled,
+      isIbmFeatureEnabled,
+      isOciFeatureEnabled,
+      userAccessFetchStatus,
+    } = this.props;
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
     const noProviders =
@@ -603,19 +616,23 @@ class OverviewBase extends React.Component<OverviewProps> {
                       <br />
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.gcp)}</p>
                       <p>{intl.formatMessage(messages.gcpDesc)}</p>
-                      <Feature flag={FeatureToggle.ibm}>
-                        <br />
-                        <p style={styles.infoTitle}>{intl.formatMessage(messages.ibm)}</p>
-                        <p>{intl.formatMessage(messages.ibmDesc)}</p>
-                      </Feature>
+                      {isIbmFeatureEnabled && (
+                        <>
+                          <br />
+                          <p style={styles.infoTitle}>{intl.formatMessage(messages.ibm)}</p>
+                          <p>{intl.formatMessage(messages.ibmDesc)}</p>
+                        </>
+                      )}
                       <br />
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.azure)}</p>
                       <p>{intl.formatMessage(messages.azureDesc)}</p>
-                      <Feature flag={FeatureToggle.oci}>
-                        <br />
-                        <p style={styles.infoTitle}>{intl.formatMessage(messages.oci)}</p>
-                        <p>{intl.formatMessage(messages.ociDesc)}</p>
-                      </Feature>
+                      {isOciFeatureEnabled && (
+                        <>
+                          <br />
+                          <p style={styles.infoTitle}>{intl.formatMessage(messages.oci)}</p>
+                          <p>{intl.formatMessage(messages.ociDesc)}</p>
+                        </>
+                      )}
                     </>
                   }
                 >
@@ -625,11 +642,7 @@ class OverviewBase extends React.Component<OverviewProps> {
                 </Popover>
               </span>
             </Title>
-            <div style={styles.headerContentRight}>
-              <Feature flag={FeatureToggle.currency}>
-                <Currency />
-              </Feature>
-            </div>
+            <div style={styles.headerContentRight}>{isCurrencyFeatureEnabled && <Currency />}</div>
           </div>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
           <div style={styles.headerContent}>
@@ -683,6 +696,9 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     azureProviders: filterProviders(providers, ProviderType.azure),
     gcpProviders: filterProviders(providers, ProviderType.gcp),
     ibmProviders: filterProviders(providers, ProviderType.ibm),
+    isCurrencyFeatureEnabled: featureSelectors.selectIsCurrencyFeatureEnabled(state),
+    isIbmFeatureEnabled: featureSelectors.selectIsIbmFeatureEnabled(state),
+    isOciFeatureEnabled: featureSelectors.selectIsOciFeatureEnabled(state),
     ociProviders: filterProviders(providers, ProviderType.oci),
     ocpProviders: filterProviders(providers, ProviderType.ocp),
     costType,

@@ -6,6 +6,7 @@ import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import { asyncComponent } from 'components/async';
 import { ExportsDrawer } from 'components/exports';
+import { Feature } from 'components/feature';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
@@ -72,7 +73,7 @@ class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps> {
     const { accountSettingsFetchStatus, children, providersFetchStatus, userAccessFetchStatus } = this.props;
 
     return (
-      <>
+      <Feature>
         {userAccessFetchStatus === FetchStatus.complete && (
           <Permissions>
             {providersFetchStatus === FetchStatus.complete && (
@@ -83,7 +84,7 @@ class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps> {
             )}
           </Permissions>
         )}
-      </>
+      </Feature>
     );
   }
 }

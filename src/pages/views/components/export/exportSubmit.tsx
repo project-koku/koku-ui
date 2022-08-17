@@ -11,6 +11,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/export';
+import { featureSelectors } from 'store/feature';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getToday } from 'utils/dateRange';
@@ -36,6 +37,7 @@ interface ExportSubmitDispatchProps {
 
 interface ExportSubmitStateProps {
   endDate: string;
+  isExportsFeatureEnabled?: boolean;
   queryString: string;
   report: Export;
   reportError: AxiosError;
@@ -111,9 +113,9 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   };
 
   private handleFetchReport = () => {
-    const { exportReport, queryString, reportPathsType } = this.props;
+    const { exportReport, isExportsFeatureEnabled, queryString, reportPathsType } = this.props;
 
-    exportReport(reportPathsType, reportType, queryString);
+    exportReport(reportPathsType, reportType, queryString, isExportsFeatureEnabled);
 
     this.setState(
       {
@@ -224,6 +226,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
 
   return {
     endDate,
+    isExportsFeatureEnabled: featureSelectors.selectIsExportsFeatureEnabled(state),
     queryString,
     report,
     reportError,

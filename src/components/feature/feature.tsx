@@ -1,11 +1,11 @@
 import { useFlag } from '@unleash/proxy-client-react';
-import React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { FunctionComponent, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { featureActions } from 'store/feature';
 
-interface FeatureProps extends RouteComponentProps<void> {
+interface FeatureProps extends RouteComponentProps {
   children?: React.ReactNode;
-  defaultValue?: React.ReactNode;
-  flag?: string;
 }
 
 // eslint-disable-next-line no-shadow
@@ -16,11 +16,27 @@ const enum FeatureToggle {
   oci = 'cost-management.oci', // Oracle Cloud Infrastructure
 }
 
-const FeatureBase: React.SFC<FeatureProps> = ({ children, flag, defaultValue = null }): any => {
-  const isEnabled = useFlag(flag);
-  return isEnabled ? children : defaultValue;
+const FeatureBase: FunctionComponent<FeatureProps> = ({ children = null }): any => {
+  const dispatch = useDispatch();
+  const isCurrencyFeatureEnabled = useFlag(FeatureToggle.currency);
+  const isExportsFeatureEnabled = useFlag(FeatureToggle.exports);
+  const isIbmFeatureEnabled = useFlag(FeatureToggle.ibm);
+  const isOciFeatureEnabled = useFlag(FeatureToggle.oci);
+
+  useEffect(() => {
+    dispatch(
+      featureActions.initFeatures({
+        isCurrencyFeatureEnabled,
+        isExportsFeatureEnabled,
+        isIbmFeatureEnabled,
+        isOciFeatureEnabled,
+      })
+    );
+  }, []);
+
+  return children;
 };
 
 const Feature = withRouter(FeatureBase);
 
-export { Feature, FeatureProps, FeatureToggle };
+export { Feature, FeatureToggle };

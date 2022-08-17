@@ -16,18 +16,18 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
+import { featureSelectors } from 'store/feature';
 
 import { CostModelContext } from './context';
 import { descriptionErrors, nameErrors } from './steps';
 import { styles } from './wizard.styles';
-import { Feature, FeatureToggle } from 'components/feature';
 
 interface GeneralInformationOwnProps {
   // TBD...
 }
 
 interface GeneralInformationStateProps {
-  // TBD...
+  isCurrencyFeatureEnabled?: boolean;
 }
 
 interface GeneralInformationDispatchProps {
@@ -45,7 +45,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
       const val = options.find(o => o.value === valStr);
       return !val ? valStr : intl.formatMessage(val.label, { units: val.value });
     };
-    const { intl } = this.props;
+    const { intl, isCurrencyFeatureEnabled } = this.props;
     const sourceTypeOptions = [
       {
         label: messages.costModelsWizardOnboardAws,
@@ -137,27 +137,24 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                   onChange={onTypeChange}
                   options={sourceTypeOptions}
                 />
-                {
-                  /* Todo: Show in-progress features in beta environment only */
-                  <Feature flag={FeatureToggle.currency}>
-                    <Selector
-                      label={messages.currency}
-                      direction={SelectDirection.up}
-                      appendMenuTo="inline"
-                      maxHeight={styles.selector.maxHeight}
-                      toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
-                      value={getValueLabel(currencyUnits, currencyOptions)}
-                      onChange={onCurrencyChange}
-                      id="currency-units-selector"
-                      options={currencyOptions.map(o => {
-                        return {
-                          label: intl.formatMessage(o.label, { units: o.value }),
-                          value: o.value,
-                        };
-                      })}
-                    />
-                  </Feature>
-                }
+                {isCurrencyFeatureEnabled && (
+                  <Selector
+                    label={messages.currency}
+                    direction={SelectDirection.up}
+                    appendMenuTo="inline"
+                    maxHeight={styles.selector.maxHeight}
+                    toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
+                    value={getValueLabel(currencyUnits, currencyOptions)}
+                    onChange={onCurrencyChange}
+                    id="currency-units-selector"
+                    options={currencyOptions.map(o => {
+                      return {
+                        label: intl.formatMessage(o.label, { units: o.value }),
+                        value: o.value,
+                      };
+                    })}
+                  />
+                )}
               </Form>
             </StackItem>
           </Stack>
@@ -167,9 +164,9 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<GeneralInformationOwnProps, GeneralInformationStateProps>(() => {
+const mapStateToProps = createMapStateToProps<GeneralInformationOwnProps, GeneralInformationStateProps>(state => {
   return {
-    // TBD...
+    isCurrencyFeatureEnabled: featureSelectors.selectIsCurrencyFeatureEnabled(state),
   };
 });
 

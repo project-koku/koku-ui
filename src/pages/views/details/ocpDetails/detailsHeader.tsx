@@ -6,7 +6,6 @@ import { OcpReport } from 'api/reports/ocpReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { ExportsLink } from 'components/exports';
-import { Feature, FeatureToggle } from 'components/feature';
 import messages from 'locales/messages';
 import { Currency } from 'pages/components/currency';
 import { EmptyValueState } from 'pages/components/state/emptyValueState/emptyValueState';
@@ -16,6 +15,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureSelectors } from 'store/feature';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { ComputedOcpReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
@@ -30,6 +30,8 @@ interface DetailsHeaderOwnProps {
 }
 
 interface DetailsHeaderStateProps {
+  isCurrencyFeatureEnabled?: boolean;
+  isExportsFeatureEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -65,7 +67,16 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   public state: DetailsHeaderState = { ...this.defaultState };
 
   public render() {
-    const { groupBy, onGroupBySelected, providers, providersError, report, intl } = this.props;
+    const {
+      groupBy,
+      isCurrencyFeatureEnabled,
+      isExportsFeatureEnabled,
+      onGroupBySelected,
+      providers,
+      providersError,
+      report,
+      intl,
+    } = this.props;
     const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
 
     let cost: string | React.ReactNode = <EmptyValueState />;
@@ -97,12 +108,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             {intl.formatMessage(messages.ocpDetailsTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            <Feature flag={FeatureToggle.currency}>
-              <Currency />
-            </Feature>
-            <Feature flag={FeatureToggle.exports}>
-              <ExportsLink />
-            </Feature>
+            {isCurrencyFeatureEnabled && <Currency />}
+            {isExportsFeatureEnabled && <ExportsLink />}
           </div>
         </div>
         <div style={styles.headerContent}>
@@ -153,6 +160,8 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   );
 
   return {
+    isCurrencyFeatureEnabled: featureSelectors.selectIsCurrencyFeatureEnabled(state),
+    isExportsFeatureEnabled: featureSelectors.selectIsExportsFeatureEnabled(state),
     providers: filterProviders(providers, ProviderType.ocp),
     providersError,
     providersFetchStatus,

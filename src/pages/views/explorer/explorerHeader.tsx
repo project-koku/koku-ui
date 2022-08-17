@@ -6,7 +6,6 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import { ExportsLink } from 'components/exports';
-import { Feature, FeatureToggle } from 'components/feature';
 import messages from 'locales/messages';
 import { Currency } from 'pages/components/currency';
 import { CostType } from 'pages/views/components/costType';
@@ -18,6 +17,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureSelectors } from 'store/feature';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
@@ -65,6 +65,10 @@ interface ExplorerHeaderStateProps {
   azureProviders?: Providers;
   gcpProviders?: Providers;
   ibmProviders?: Providers;
+  isCurrencyFeatureEnabled?: boolean;
+  isExportsFeatureEnabled?: boolean;
+  isIbmFeatureEnabled?: boolean;
+  isOciFeatureEnabled?: boolean;
   ociProviders?: Providers;
   ocpProviders?: Providers;
   providers: Providers;
@@ -111,6 +115,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   }
 
   private getPerspective = (isDisabled: boolean) => {
+    const { isIbmFeatureEnabled, isOciFeatureEnabled } = this.props;
     const { currentPerspective } = this.state;
 
     const hasAws = this.isAwsAvailable();
@@ -140,6 +145,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
         hasOcp={hasOcp}
         hasOcpCloud={this.isOcpCloudAvailable()}
         isDisabled={isDisabled}
+        isIbmFeatureEnabled={isIbmFeatureEnabled}
+        isOciFeatureEnabled={isOciFeatureEnabled}
         onSelected={this.handlePerspectiveSelected}
       />
     );
@@ -238,6 +245,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       costType,
       groupBy,
       intl,
+      isCurrencyFeatureEnabled,
+      isExportsFeatureEnabled,
       onFilterAdded,
       onFilterRemoved,
       onGroupBySelected,
@@ -266,12 +275,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
             {intl.formatMessage(messages.explorerTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            <Feature flag={FeatureToggle.currency}>
-              <Currency />
-            </Feature>
-            <Feature flag={FeatureToggle.exports}>
-              <ExportsLink />
-            </Feature>
+            {isCurrencyFeatureEnabled && <Currency />}
+            {isExportsFeatureEnabled && <ExportsLink />}
           </div>
         </div>
         <div style={styles.perspectiveContainer}>
@@ -366,6 +371,10 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       azureProviders: filterProviders(providers, ProviderType.azure),
       gcpProviders: filterProviders(providers, ProviderType.gcp),
       ibmProviders: filterProviders(providers, ProviderType.ibm),
+      isCurrencyFeatureEnabled: featureSelectors.selectIsCurrencyFeatureEnabled(state),
+      isExportsFeatureEnabled: featureSelectors.selectIsExportsFeatureEnabled(state),
+      isIbmFeatureEnabled: featureSelectors.selectIsIbmFeatureEnabled(state),
+      isOciFeatureEnabled: featureSelectors.selectIsOciFeatureEnabled(state),
       ociProviders: filterProviders(providers, ProviderType.oci),
       ocpProviders: filterProviders(providers, ProviderType.ocp),
       providers,
