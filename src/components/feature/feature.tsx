@@ -13,7 +13,7 @@ const enum FeatureToggle {
   currency = 'cost-management.ui.currency', // Currency support https://issues.redhat.com/browse/COST-1277
   exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
   ibm = 'cost-management.ui.ibm', // IBM https://issues.redhat.com/browse/COST-935
-  oci = 'cost-management.ui.oci', // Oracle Cloud Infrastructure
+  oci = 'cost-management.ui.oci', // Oracle Cloud Infrastructure https://issues.redhat.com/browse/COST-2358
 }
 
 const FeatureBase: FunctionComponent<FeatureProps> = ({ children = null }): any => {

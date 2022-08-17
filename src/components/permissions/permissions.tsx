@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { paths, routes } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureSelectors } from 'store/feature';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import {
   hasAwsAccess,
@@ -19,7 +20,6 @@ import {
   hasOciAccess,
   hasOcpAccess,
 } from 'utils/userAccess';
-import { featureSelectors } from 'store/feature';
 
 interface PermissionsOwnProps extends RouteComponentProps<void> {
   children?: React.ReactNode;
