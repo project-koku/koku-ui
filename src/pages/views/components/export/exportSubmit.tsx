@@ -11,7 +11,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/export';
-import { featureSelectors } from 'store/feature';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getToday } from 'utils/dateRange';
@@ -226,7 +226,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
 
   return {
     endDate,
-    isExportsFeatureEnabled: featureSelectors.selectIsExportsFeatureEnabled(state),
+    isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
     queryString,
     report,
     reportError,

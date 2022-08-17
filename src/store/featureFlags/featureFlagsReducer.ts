@@ -1,32 +1,32 @@
 import { ActionType, getType } from 'typesafe-actions';
 
-import { initFeatures, resetState } from './featureActions';
+import { resetState, setFeatureFlags } from './featureFlagsActions';
 
-export type FeatureAction = ActionType<typeof initFeatures | typeof resetState>;
+export type FeatureFlagsAction = ActionType<typeof setFeatureFlags | typeof resetState>;
 
-export type FeatureState = Readonly<{
+export type FeatureFlagsState = Readonly<{
   isCurrencyFeatureEnabled: boolean;
   isExportsFeatureEnabled: boolean;
   isIbmFeatureEnabled: boolean;
   isOciFeatureEnabled: boolean;
 }>;
 
-export const defaultState: FeatureState = {
+export const defaultState: FeatureFlagsState = {
   isCurrencyFeatureEnabled: false,
   isExportsFeatureEnabled: false,
   isIbmFeatureEnabled: false,
   isOciFeatureEnabled: false,
 };
 
-export const stateKey = 'feature';
+export const stateKey = 'featureFlags';
 
-export function featureReducer(state = defaultState, action: FeatureAction): FeatureState {
+export function featureFlagsReducer(state = defaultState, action: FeatureFlagsAction): FeatureFlagsState {
   switch (action.type) {
     case getType(resetState):
       state = defaultState;
       return state;
 
-    case getType(initFeatures):
+    case getType(setFeatureFlags):
       return {
         ...state,
         isCurrencyFeatureEnabled: action.payload.isCurrencyFeatureEnabled,

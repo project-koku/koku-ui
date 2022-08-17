@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { paths, routes } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { featureSelectors } from 'store/feature';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import {
   hasAwsAccess,
@@ -121,8 +121,8 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
   );
 
   return {
-    isIbmFeatureEnabled: featureSelectors.selectIsIbmFeatureEnabled(state),
-    isOciFeatureEnabled: featureSelectors.selectIsOciFeatureEnabled(state),
+    isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
+    isOciFeatureEnabled: featureFlagsSelectors.selectIsOciFeatureEnabled(state),
     userAccess,
     userAccessError,
     userAccessFetchStatus,

@@ -15,7 +15,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createMapStateToProps } from 'store/common';
-import { featureSelectors } from 'store/feature';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { CostTypes } from 'utils/costType';
 import { getForDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/format';
@@ -185,7 +185,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps> {
 
 const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, BreakdownHeaderStateProps>(state => {
   return {
-    isCurrencyFeatureEnabled: featureSelectors.selectIsCurrencyFeatureEnabled(state),
+    isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
   };
 });
 

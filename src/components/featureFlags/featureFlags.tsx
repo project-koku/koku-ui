@@ -2,9 +2,9 @@ import { useFlag } from '@unleash/proxy-client-react';
 import { FunctionComponent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { featureActions } from 'store/feature';
+import { featureFlagsActions } from 'store/featureFlags';
 
-interface FeatureProps extends RouteComponentProps {
+interface FeatureFlagsProps extends RouteComponentProps {
   children?: React.ReactNode;
 }
 
@@ -16,7 +16,7 @@ const enum FeatureToggle {
   oci = 'cost-management.ui.oci', // Oracle Cloud Infrastructure https://issues.redhat.com/browse/COST-2358
 }
 
-const FeatureBase: FunctionComponent<FeatureProps> = ({ children = null }): any => {
+const FeatureFlagsBase: FunctionComponent<FeatureFlagsProps> = ({ children = null }): any => {
   const dispatch = useDispatch();
   const isCurrencyFeatureEnabled = useFlag(FeatureToggle.currency);
   const isExportsFeatureEnabled = useFlag(FeatureToggle.exports);
@@ -25,7 +25,7 @@ const FeatureBase: FunctionComponent<FeatureProps> = ({ children = null }): any 
 
   useEffect(() => {
     dispatch(
-      featureActions.initFeatures({
+      featureFlagsActions.setFeatureFlags({
         isCurrencyFeatureEnabled,
         isExportsFeatureEnabled,
         isIbmFeatureEnabled,
@@ -37,6 +37,6 @@ const FeatureBase: FunctionComponent<FeatureProps> = ({ children = null }): any 
   return children;
 };
 
-const Feature = withRouter(FeatureBase);
+const FeatureFlags = withRouter(FeatureFlagsBase);
 
-export { Feature, FeatureToggle };
+export { FeatureFlags, FeatureToggle };

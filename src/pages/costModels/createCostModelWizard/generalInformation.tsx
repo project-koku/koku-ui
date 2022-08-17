@@ -16,7 +16,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { featureSelectors } from 'store/feature';
+import { featureFlagsSelectors } from 'store/featureFlags';
 
 import { CostModelContext } from './context';
 import { descriptionErrors, nameErrors } from './steps';
@@ -166,7 +166,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
 
 const mapStateToProps = createMapStateToProps<GeneralInformationOwnProps, GeneralInformationStateProps>(state => {
   return {
-    isCurrencyFeatureEnabled: featureSelectors.selectIsCurrencyFeatureEnabled(state),
+    isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
   };
 });
 

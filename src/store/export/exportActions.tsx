@@ -31,7 +31,7 @@ export function exportReport(
   reportPathsType: ReportPathsType,
   reportType: ReportType,
   query: string,
-  isExportsFeatureEnabled: boolean = false
+  isExportsFeatureEnabled: boolean
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {
     if (!isExportExpired(getState(), reportPathsType, reportType, query)) {

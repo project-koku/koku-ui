@@ -22,7 +22,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { exportActions } from 'store/export';
-import { featureSelectors } from 'store/feature';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
@@ -337,7 +337,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
 
 const mapStateToProps = createMapStateToProps<ExportModalOwnProps, unknown>(state => {
   return {
-    isExportsFeatureEnabled: featureSelectors.selectIsExportsFeatureEnabled(state),
+    isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
   };
 });
 
