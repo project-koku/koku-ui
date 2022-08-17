@@ -10,10 +10,10 @@ interface FeatureProps extends RouteComponentProps {
 
 // eslint-disable-next-line no-shadow
 const enum FeatureToggle {
-  currency = 'cost-management.currency', // Currency support https://issues.redhat.com/browse/COST-1277
-  exports = 'cost-management.exports', // Async exports https://issues.redhat.com/browse/COST-2223
-  ibm = 'cost-management.ibm', // IBM https://issues.redhat.com/browse/COST-935
-  oci = 'cost-management.oci', // Oracle Cloud Infrastructure
+  currency = 'cost-management.ui.currency', // Currency support https://issues.redhat.com/browse/COST-1277
+  exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
+  ibm = 'cost-management.ui.ibm', // IBM https://issues.redhat.com/browse/COST-935
+  oci = 'cost-management.ui.oci', // Oracle Cloud Infrastructure
 }
 
 const FeatureBase: FunctionComponent<FeatureProps> = ({ children = null }): any => {
