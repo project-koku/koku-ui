@@ -1,113 +1,185 @@
-import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Select, SelectOption, SelectOptionObject, SelectVariant, Title } from '@patternfly/react-core';
 import messages from 'locales/messages';
+import { PerspectiveSelect } from 'pages/views/components/perspective/perspectiveSelect';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { RouteComponentProps, withRouter } from 'react-router';
 
-import { styles } from './perspective.styles';
+// Infrastructure AWS options
+const infrastructureAwsOptions = [{ label: messages.perspectiveValues, value: 'aws' }];
 
-interface PerspectiveOwnProps {
-  currentItem: string;
+// Infrastructure AWS filtered by OpenShift options
+const infrastructureAwsOcpOptions = [{ label: messages.perspectiveValues, value: 'aws_ocp' }];
+
+// Infrastructure Azure options
+const infrastructureAzureOptions = [{ label: messages.perspectiveValues, value: 'azure' }];
+
+// Infrastructure Oci options
+const infrastructureOciOptions = [{ label: messages.perspectiveValues, value: 'oci' }];
+
+// Infrastructure Azure filtered by OpenShift options
+const infrastructureAzureOcpOptions = [{ label: messages.perspectiveValues, value: 'azure_ocp' }];
+
+// Infrastructure GCP options
+const infrastructureGcpOptions = [{ label: messages.perspectiveValues, value: 'gcp' }];
+
+// Infrastructure GCP filtered by OCP options
+const infrastructureGcpOcpOptions = [{ label: messages.perspectiveValues, value: 'gcp_ocp' }];
+
+// Infrastructure IBM options
+const infrastructureIbmOptions = [{ label: messages.perspectiveValues, value: 'ibm' }];
+
+// Infrastructure IBM filtered by OCP options
+const infrastructureIbmOcpOptions = [{ label: messages.perspectiveValues, value: 'ibm_ocp' }];
+
+// Infrastructure Ocp cloud options
+const infrastructureOcpCloudOptions = [{ label: messages.perspectiveValues, value: 'ocp_cloud' }];
+
+// Ocp options
+const ocpOptions = [{ label: messages.perspectiveValues, value: 'ocp' }];
+
+interface OverviewPerspectiveProps extends RouteComponentProps<void> {
+  currentItem?: string;
+  hasAws?: boolean;
+  hasAwsOcp?: boolean;
+  hasAzure?: boolean;
+  hasAzureOcp?: boolean;
+  hasGcp?: boolean;
+  hasGcpOcp?: boolean;
+  hasIbm?: boolean;
+  hasIbmOcp?: boolean;
+  hasOci?: boolean;
+  hasOcp?: boolean;
+  hasOcpCloud?: boolean;
   isDisabled?: boolean;
-  onSelected(value: string);
-  options?: {
-    label: MessageDescriptor;
-    value: string;
-  }[];
+  isIbmFeatureEnabled?: boolean;
+  isOciFeatureEnabled?: boolean;
+  isInfrastructureTab?: boolean; // Used by the overview page
+  onSelected?: (value: string) => void;
 }
 
-interface PerspectiveState {
-  isSelectOpen: boolean;
-}
+const getInfrastructureOptions = ({
+  hasAws,
+  hasAwsOcp,
+  hasAzure,
+  hasAzureOcp,
+  hasGcp,
+  hasGcpOcp,
+  hasIbm,
+  hasIbmOcp,
+  hasOci,
+  isIbmFeatureEnabled,
+  isOciFeatureEnabled,
+}) => {
+  const options = [];
 
-interface PerspectiveOption extends SelectOptionObject {
-  toString(): string; // label
-  value?: string;
-}
+  if (hasAws) {
+    options.push(...infrastructureAwsOptions);
+  }
+  if (hasAwsOcp) {
+    options.push(...infrastructureAwsOcpOptions);
+  }
+  if (hasGcp) {
+    options.push(...infrastructureGcpOptions);
+  }
+  if (hasGcpOcp) {
+    options.push(...infrastructureGcpOcpOptions);
+  }
+  if (hasIbm) {
+    options.push(...infrastructureIbmOptions);
+  }
+  if (hasIbmOcp && isIbmFeatureEnabled) {
+    options.push(...infrastructureIbmOcpOptions);
+  }
+  if (hasAzure) {
+    options.push(...infrastructureAzureOptions);
+  }
+  if (hasAzureOcp) {
+    options.push(...infrastructureAzureOcpOptions);
+  }
+  if (hasOci && isOciFeatureEnabled) {
+    options.push(...infrastructureOciOptions);
+  }
+  return options;
+};
 
-type PerspectiveProps = PerspectiveOwnProps & WrappedComponentProps;
+const OverviewPerspectiveBase: React.SFC<OverviewPerspectiveProps> = ({
+  currentItem,
+  hasAws,
+  hasAwsOcp,
+  hasAzure,
+  hasAzureOcp,
+  hasGcp,
+  hasGcpOcp,
+  hasIbm,
+  hasIbmOcp,
+  hasOci,
+  hasOcp,
+  hasOcpCloud,
+  isDisabled,
+  isIbmFeatureEnabled,
+  isInfrastructureTab,
+  isOciFeatureEnabled,
+  onSelected,
+}): any => {
+  // Dynamically show options if providers are available
+  const options = [];
 
-class PerspectiveBase extends React.Component<PerspectiveProps> {
-  protected defaultState: PerspectiveState = {
-    isSelectOpen: false,
-  };
-  public state: PerspectiveState = { ...this.defaultState };
-
-  private getSelectOptions = (): PerspectiveOption[] => {
-    const { intl, options } = this.props;
-
-    const selections: PerspectiveOption[] = [];
-
-    options.map(option => {
-      selections.push({
-        toString: () => intl.formatMessage(option.label, { value: option.value }),
-        value: option.value,
-      });
-    });
-    return selections;
-  };
-
-  private getSelect = () => {
-    const { currentItem, intl, isDisabled, options } = this.props;
-    const { isSelectOpen } = this.state;
-
-    if (options.length === 1) {
-      return (
-        <div style={styles.perspectiveOptionLabel}>
-          {intl.formatMessage(options[0].label, { value: options[0].value })}
-        </div>
+  if (isInfrastructureTab !== undefined) {
+    if (isInfrastructureTab) {
+      if (hasOcpCloud) {
+        options.push(...infrastructureOcpCloudOptions);
+      }
+      options.push(
+        ...getInfrastructureOptions({
+          hasAws,
+          hasAwsOcp,
+          hasAzure,
+          hasAzureOcp,
+          hasGcp,
+          hasGcpOcp,
+          hasIbm,
+          hasIbmOcp,
+          hasOci,
+          isIbmFeatureEnabled,
+          isOciFeatureEnabled,
+        })
       );
+    } else if (hasOcp) {
+      options.push(...ocpOptions);
     }
-
-    const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: PerspectiveOption) => option.value === currentItem);
-
-    return (
-      <Select
-        id="perspectiveSelect"
-        isDisabled={isDisabled}
-        isOpen={isSelectOpen}
-        onSelect={this.handleSelect}
-        onToggle={this.handleToggle}
-        selections={selection}
-        variant={SelectVariant.single}
-      >
-        {selectOptions.map(option => (
-          <SelectOption key={option.value} value={option} />
-        ))}
-      </Select>
-    );
-  };
-
-  private handleSelect = (event, selection: PerspectiveOption) => {
-    const { onSelected } = this.props;
-
-    if (onSelected) {
-      onSelected(selection.value);
+  } else {
+    if (hasOcp) {
+      options.push(...ocpOptions);
     }
-    this.setState({
-      isSelectOpen: false,
-    });
-  };
-
-  private handleToggle = isSelectOpen => {
-    this.setState({ isSelectOpen });
-  };
-
-  public render() {
-    const { intl } = this.props;
-
-    return (
-      <div style={styles.perspectiveSelector}>
-        <Title headingLevel="h3" size="md" style={styles.perspectiveLabel}>
-          {intl.formatMessage(messages.perspective)}
-        </Title>
-        {this.getSelect()}
-      </div>
+    if (hasOcpCloud) {
+      options.push(...infrastructureOcpCloudOptions);
+    }
+    options.push(
+      ...getInfrastructureOptions({
+        hasAws,
+        hasAwsOcp,
+        hasAzure,
+        hasAzureOcp,
+        hasGcp,
+        hasGcpOcp,
+        hasIbm,
+        hasIbmOcp,
+        hasOci,
+        isIbmFeatureEnabled,
+        isOciFeatureEnabled,
+      })
     );
   }
-}
 
-const Perspective = injectIntl(PerspectiveBase);
+  return (
+    <PerspectiveSelect
+      currentItem={currentItem || options[0].value}
+      isDisabled={isDisabled}
+      onSelected={onSelected}
+      options={options}
+    />
+  );
+};
+
+const Perspective = withRouter(OverviewPerspectiveBase);
 
 export { Perspective };

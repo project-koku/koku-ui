@@ -54,6 +54,7 @@
     "@types/react-redux": "7.1.20",
     "@types/react-router-dom": "5.3.2",
     "@types/webpack": "5.28.0",
+    "@unleash/proxy-client-react": "^3.3.0",
     "axios": "^0.26.0",
     "cross-env": "^7.0.3",
     "date-fns": "^2.28.0",
@@ -72,6 +73,7 @@
     "redux-thunk": "^2.4.1",
     "typesafe-actions": "^5.1.0",
     "typescript": "4.6.3",
+    "unleash-proxy-client": "^2.1.0",
     "victory-core": "^36.2.1",
     "xstate": "^4.30.0"
   },
