@@ -19,12 +19,15 @@ import {
   hasOciAccess,
   hasOcpAccess,
 } from 'utils/userAccess';
+import { featureSelectors } from 'store/feature';
 
 interface PermissionsOwnProps extends RouteComponentProps<void> {
   children?: React.ReactNode;
 }
 
 interface PermissionsStateProps {
+  isIbmFeatureEnabled?: boolean;
+  isOciFeatureEnabled?: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -46,7 +49,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
   }
 
   private hasPermissions() {
-    const { userAccess, userAccessFetchStatus } = this.props;
+    const { isIbmFeatureEnabled, isOciFeatureEnabled, userAccess, userAccessFetchStatus } = this.props;
 
     if (!(userAccess && userAccessFetchStatus === FetchStatus.complete)) {
       return false;
@@ -54,10 +57,10 @@ class PermissionsBase extends React.Component<PermissionsProps> {
 
     const aws = hasAwsAccess(userAccess);
     const azure = hasAzureAccess(userAccess);
-    const oci = hasOciAccess(userAccess);
+    const oci = hasOciAccess(userAccess) && isOciFeatureEnabled;
     const costModel = hasCostModelAccess(userAccess);
     const gcp = hasGcpAccess(userAccess);
-    const ibm = hasIbmAccess(userAccess);
+    const ibm = hasIbmAccess(userAccess) && isIbmFeatureEnabled;
     const ocp = hasOcpAccess(userAccess);
     const path = this.getRoutePath();
 
@@ -118,6 +121,8 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
   );
 
   return {
+    isIbmFeatureEnabled: featureSelectors.selectIsIbmFeatureEnabled(state),
+    isOciFeatureEnabled: featureSelectors.selectIsOciFeatureEnabled(state),
     userAccess,
     userAccessError,
     userAccessFetchStatus,
