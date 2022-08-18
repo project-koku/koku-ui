@@ -190,7 +190,7 @@ mgmt_services/cost-mgmt:koku-ui/@sinonjs/fake-timers:9.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@testing-library/dom:8.16.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@testing-library/dom:8.13.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@testing-library/react:12.1.5.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@testing-library/user-event:13.5.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@testing-library/user-event:14.4.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@tootallnate/once:2.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/aria-query:4.2.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/babel__core:7.1.19.yarnlock

@@ -39,7 +39,8 @@ test('see filter chips in toolbar', () => {
   expect(screen.queryAllByText(/randomDesc/)).toHaveLength(1);
 });
 
-test('click clear all filters', () => {
+test('click clear all filters', async () => {
+  const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
   const state = {
     costModels: {
       costModels: filterByAll,
@@ -49,6 +50,6 @@ test('click clear all filters', () => {
     },
   };
   renderUI(state);
-  userEvent.click(screen.queryAllByText(/Clear all filters/)[0]);
+  await user.click(screen.queryAllByText(/Clear all filters/)[0]);
   expect(history.location.search).toBe('?limit=10&offset=0');
 });

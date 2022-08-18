@@ -5,7 +5,7 @@ import { Machine } from 'xstate';
 
 import { WithStateMachine } from './withStateMachine';
 
-test('with state machine', () => {
+test('with state machine', async () => {
   const toggleMachine = Machine({
     initial: 'off',
     states: {
@@ -22,6 +22,8 @@ test('with state machine', () => {
     },
   });
 
+  const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
   render(
     <WithStateMachine machine={toggleMachine}>
       {({ current, send }) => {
@@ -31,6 +33,6 @@ test('with state machine', () => {
   );
   const buttonNode = screen.getByRole('button');
   expect(buttonNode.outerHTML).toBe('<button>OFF</button>');
-  userEvent.click(buttonNode);
+  await user.click(buttonNode);
   expect(buttonNode.outerHTML).toBe('<button>ON</button>');
 });
