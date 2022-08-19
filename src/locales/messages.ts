@@ -1556,30 +1556,30 @@ export default defineMessages({
   },
   docsAddOcpSources: {
     defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/adding_an_openshift_container_platform_source_to_cost_management',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/adding_an_openshift_container_platform_source_to_cost_management',
     description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/adding_an_openshift_container_platform_source_to_cost_management',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/adding_an_openshift_container_platform_source_to_cost_management',
     id: 'docsAddOcpSources',
   },
   docsConfigCostModels: {
     defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#assembly-setting-up-cost-models',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index#assembly-setting-up-cost-models',
     description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#assembly-setting-up-cost-models',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index#assembly-setting-up-cost-models',
     id: 'docsConfigCostModels',
   },
   docsCostModelTerminology: {
     defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#cost-model-terminology',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index#cost-model-terminology',
     description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#cost-model-terminology',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index#cost-model-terminology',
     id: 'docsCostModelTerminology',
   },
   docsUsingCostModels: {
     defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index',
     description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index',
     id: 'docsUsingCostModels',
   },
   download: {
