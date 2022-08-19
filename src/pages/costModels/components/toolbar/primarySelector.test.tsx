@@ -4,8 +4,9 @@ import React from 'react';
 
 import { PrimarySelector } from './primarySelector';
 
-test('primary selector', () => {
+test('primary selector', async () => {
   const setPrimary = jest.fn();
+  const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
   render(
     <PrimarySelector
       primary={'metrics'}
@@ -18,8 +19,10 @@ test('primary selector', () => {
   );
   expect(screen.queryAllByText('Metrics').length).toBe(1);
   expect(screen.queryAllByText('Measurements').length).toBe(0);
-  userEvent.click(screen.getByRole('button'));
-  expect(screen.getAllByRole('option').length).toBe(2);
-  userEvent.click(screen.getAllByRole('option')[1]);
+  const button = screen.getByRole('button');
+  await user.click(button);
+  const options = screen.getAllByRole('option');
+  expect(options.length).toBe(2);
+  await user.click(options[1]);
   expect(setPrimary.mock.calls).toEqual([['measurements']]);
 });
