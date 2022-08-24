@@ -20,7 +20,7 @@ const betaEnv = process.env.BETA_ENV;
 const nodeEnv = process.env.NODE_ENV;
 
 // Set `true` for testing cloud-services-config https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
-const useLocalCloudServicesConfig = false;
+const useLocalCloudServicesConfig = process.env.USE_LOCAL_CLOUD_SERVICES_CONFIG === 'true';
 
 const {
   rbac,
@@ -75,6 +75,7 @@ module.exports = (_env, argv) => {
   console.log(`Using deployments: ${appDeployment}`);
   console.log(`Using proxy: ${useProxy}`);
   console.log(`Using local API: ${useLocalRoutes}`);
+  console.log(`Using local cloud services config: ${useLocalCloudServicesConfig}`);
   console.log(`Public path: ${publicPath}`);
   console.log('~~~~~~~~~~~~~~~~~~~~~');
 

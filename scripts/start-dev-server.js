@@ -7,6 +7,12 @@ async function setEnv() {
   return inquirer
     .prompt([
       {
+        name: 'localCloudServicesConfig',
+        message: 'Do you want to use local cloud services config?',
+        type: 'confirm',
+        default: false,
+      },
+      {
         name: 'localApi',
         message: 'Do you want to use local API?',
         type: 'confirm',
@@ -26,11 +32,12 @@ async function setEnv() {
       },
     ])
     .then(answers => {
-      const { uiEnv, clouddotEnv, insightsProxy, localApi } = answers;
+      const { uiEnv, clouddotEnv, insightsProxy, localApi, localCloudServicesConfig } = answers;
       process.env.BETA_ENV = uiEnv === 'beta' ? 'true' : 'false';
       process.env.CLOUDOT_ENV = clouddotEnv ? clouddotEnv : 'stage';
       process.env.USE_PROXY = 'true';
       process.env.USE_LOCAL_ROUTES = localApi.toString();
+      process.env.USE_LOCAL_CLOUD_SERVICES_CONFIG = localCloudServicesConfig.toString();
       if (localApi) {
         process.env.USE_PROXY = 'false';
         process.env.KEYCLOAK_PORT = 4020;
