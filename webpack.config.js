@@ -19,9 +19,6 @@ const distDir = path.resolve(__dirname, './dist/');
 const betaEnv = process.env.BETA_ENV;
 const nodeEnv = process.env.NODE_ENV;
 
-// Set `true` for testing cloud-services-config https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
-const useLocalCloudServicesConfig = false;
-
 const {
   rbac,
   backofficeProxy,
@@ -35,6 +32,7 @@ const gitRevisionPlugin = new GitRevisionPlugin({
 const betaBranches = ['main', 'master', 'stage-beta', 'prod-beta'];
 const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
 
+const useLocalCloudServicesConfig = process.env.USE_LOCAL_CLOUD_SERVICES_CONFIG === 'true';
 const localhost =
   process.env.PLATFORM === 'linux' || useLocalCloudServicesConfig ? 'localhost' : 'host.docker.internal';
 
@@ -75,6 +73,7 @@ module.exports = (_env, argv) => {
   console.log(`Using deployments: ${appDeployment}`);
   console.log(`Using proxy: ${useProxy}`);
   console.log(`Using local API: ${useLocalRoutes}`);
+  console.log(`Using local cloud services config: ${useLocalCloudServicesConfig}`);
   console.log(`Public path: ${publicPath}`);
   console.log('~~~~~~~~~~~~~~~~~~~~~');
 
@@ -86,6 +85,7 @@ module.exports = (_env, argv) => {
 
   const routes = {};
 
+  // See https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
   if (useLocalCloudServicesConfig) {
     routes['/beta/config'] = {
       host: `http://${localhost}:8889`,
