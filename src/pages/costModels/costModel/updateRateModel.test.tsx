@@ -256,133 +256,138 @@ describe('update-rate', () => {
     render(<RenderFormDataUI index={-1} />);
   });
 
-  test('submit regular', () => {
+  test('submit regular', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<RenderFormDataUI index={0} />);
-    userEvent.type(screen.getByDisplayValue(/openshift-aws-node/i), 'a new description');
+    await user.type(screen.getByDisplayValue(/openshift-aws-node/i), 'a new description');
     // eslint-disable-next-line testing-library/prefer-presence-queries
     expect(screen.getByText(regExp(messages.save)).getAttribute('disabled')).toBeNull();
-    userEvent.click(screen.getByText(regExp(messages.save)));
+    await user.click(screen.getByText(regExp(messages.save)));
   });
 
   test('regular', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     let options = null;
     render(<RenderFormDataUI index={0} />);
     const descInput = screen.getByDisplayValue('openshift-aws-node');
     const saveButton = screen.getByText(regExp(messages.save));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
-    userEvent.clear(descInput);
-    userEvent.type(descInput, 'a new description');
+    await user.clear(descInput);
+    await user.type(descInput, 'a new description');
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    userEvent.clear(descInput);
-    userEvent.type(descInput, 'openshift-aws-node');
+    await user.clear(descInput);
+    await user.type(descInput, 'openshift-aws-node');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    userEvent.click(screen.getByLabelText('Select Measurement'));
+    await user.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
-    userEvent.click(options[1]);
-
-    expect(saveButton.getAttribute('disabled')).toBeNull();
-
-    userEvent.click(screen.getByLabelText('Select Measurement'));
-    options = await screen.findAllByRole('option');
-    userEvent.click(options[0]);
-
-    expect(saveButton.getAttribute('disabled')).not.toBeNull();
-
-    userEvent.click(screen.getByLabelText('Select Metric'));
-    options = await screen.findAllByRole('option');
-    userEvent.click(options[1]);
-
-    userEvent.click(screen.getByLabelText('Select Measurement'));
-    options = await screen.findAllByRole('option');
-    userEvent.click(options[0]);
+    await user.click(options[1]);
 
     expect(saveButton.getAttribute('disabled')).toBeNull();
 
-    userEvent.click(screen.getByLabelText('Select Metric'));
+    await user.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
-    userEvent.click(options[0]);
+    await user.click(options[0]);
 
-    userEvent.click(screen.getByLabelText('Select Measurement'));
+    expect(saveButton.getAttribute('disabled')).not.toBeNull();
+
+    await user.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
-    userEvent.click(options[0]);
+    await user.click(options[1]);
 
-    expect(saveButton.getAttribute('disabled')).not.toBeNull();
+    await user.click(screen.getByLabelText('Select Measurement'));
+    options = await screen.findAllByRole('option');
+    await user.click(options[0]);
 
-    userEvent.click(screen.getByLabelText(/infrastructure/i));
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    userEvent.click(screen.getByLabelText(/supplementary/i));
+
+    await user.click(screen.getByLabelText('Select Metric'));
+    options = await screen.findAllByRole('option');
+    await user.click(options[0]);
+
+    await user.click(screen.getByLabelText('Select Measurement'));
+    options = await screen.findAllByRole('option');
+    await user.click(options[0]);
+
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    userEvent.type(screen.getByDisplayValue(/55/i), '.3');
+    await user.click(screen.getByLabelText(/infrastructure/i));
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    userEvent.type(screen.getByDisplayValue(/55.3/i), '{backspace}{backspace}');
+    await user.click(screen.getByLabelText(/supplementary/i));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    userEvent.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate)));
-    expect(saveButton.getAttribute('disabled')).not.toBeNull();
-    userEvent.type(screen.getByLabelText(regExp(messages.costModelsFilterTagKey)), 'openshift');
-    userEvent.type(screen.getByLabelText(regExp(messages.costModelsTagRateTableValue)), 'worker');
-    userEvent.type(screen.getByLabelText(regExp(messages.rate)), '0.321');
+    await user.type(screen.getByDisplayValue(/55/i), '.3');
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    userEvent.click(saveButton);
+    await user.type(screen.getByDisplayValue(/55.3/i), '{backspace}{backspace}');
+    expect(saveButton.getAttribute('disabled')).not.toBeNull();
+
+    await user.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate)));
+    expect(saveButton.getAttribute('disabled')).not.toBeNull();
+    await user.type(screen.getByLabelText(regExp(messages.costModelsFilterTagKey)), 'openshift');
+    await user.type(screen.getByLabelText(regExp(messages.costModelsTagRateTableValue)), 'worker');
+    await user.type(screen.getByLabelText(regExp(messages.rate)), '0.321');
+    expect(saveButton.getAttribute('disabled')).toBeNull();
+    await user.click(saveButton);
   });
 
-  test('tag', () => {
+  test('tag', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<RenderFormDataUI index={1} />);
     const saveButton = screen.getByText(regExp(messages.save));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
-    userEvent.type(screen.getByDisplayValue(/^container$/i), '1');
+    await user.type(screen.getByDisplayValue(/^container$/i), '1');
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    userEvent.type(screen.getByDisplayValue(/^container1$/i), '{backspace}');
+    await user.type(screen.getByDisplayValue(/^container1$/i), '{backspace}');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    userEvent.type(screen.getByDisplayValue(/any container$/i), '1');
+    await user.type(screen.getByDisplayValue(/any container$/i), '1');
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    userEvent.type(screen.getByDisplayValue(/any container1$/i), '{backspace}');
+    await user.type(screen.getByDisplayValue(/any container1$/i), '{backspace}');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    userEvent.type(screen.getByDisplayValue(/^0.4$/i), '3');
+    await user.type(screen.getByDisplayValue(/^0.4$/i), '3');
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    userEvent.type(screen.getByDisplayValue(/^0.43$/i), '{backspace}');
+    await user.type(screen.getByDisplayValue(/^0.43$/i), '{backspace}');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    userEvent.click(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableDefault))[1]);
+    await user.click(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableDefault))[1]);
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    userEvent.click(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableDefault))[0]);
+    await user.click(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableDefault))[0]);
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    userEvent.click(screen.getByText(/Add more tag values/i));
-    userEvent.type(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableValue))[4], 'something random');
-    userEvent.type(screen.getAllByLabelText(regExp(messages.rate))[4], '1.01');
+    await user.click(screen.getByText(/Add more tag values/i));
+    await user.type(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableValue))[4], 'something random');
+    await user.type(screen.getAllByLabelText(regExp(messages.rate))[4], '1.01');
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    userEvent.click(screen.getAllByLabelText(regExp(messages.costModelsRemoveTagLabel))[4]);
+    await user.click(screen.getAllByLabelText(regExp(messages.costModelsRemoveTagLabel))[4]);
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    userEvent.type(screen.getByDisplayValue(/openshift-region-1/i), '2');
+    await user.type(screen.getByDisplayValue(/openshift-region-1/i), '2');
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    userEvent.type(screen.getByDisplayValue(/openshift-region-12/i), '{backspace}');
+    await user.type(screen.getByDisplayValue(/openshift-region-12/i), '{backspace}');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
   });
 
   test('duplicate tag key from regular rate', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     let options = null;
     render(<RenderFormDataUI index={0} />);
 
-    userEvent.click(screen.getByLabelText('Select Measurement'));
+    await user.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
-    userEvent.click(options[1]);
+    await user.click(options[1]);
 
-    userEvent.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate)));
-    userEvent.type(screen.getByLabelText(regExp(messages.costModelsFilterTagKey)), 'openshift-region-1');
+    await user.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate)));
+    await user.type(screen.getByLabelText(regExp(messages.costModelsFilterTagKey)), 'openshift-region-1');
     expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
   });
 
-  test('duplicate tag key from tag rate', () => {
+  test('duplicate tag key from tag rate', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<RenderFormDataUI index={2} />);
     const filterTagInput = screen.getByLabelText(regExp(messages.costModelsFilterTagKey));
-    userEvent.clear(filterTagInput);
-    userEvent.type(filterTagInput, 'openshift-region-1');
+    await user.clear(filterTagInput);
+    await user.type(filterTagInput, 'openshift-region-1');
     expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
   });
 });

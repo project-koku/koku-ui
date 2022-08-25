@@ -12,10 +12,12 @@ import { TagLink } from 'pages/views/details/components/tag/tagLink';
 import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { createMapStateToProps } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { CostTypes } from 'utils/costType';
 import { getForDateRangeString } from 'utils/dateRange';
-import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './breakdownHeader.styles';
@@ -34,9 +36,17 @@ interface BreakdownHeaderOwnProps {
   title: string;
 }
 
-type BreakdownHeaderProps = BreakdownHeaderOwnProps & WrappedComponentProps;
+interface BreakdownHeaderStateProps {
+  isCurrencyFeatureEnabled?: boolean;
+}
 
-class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
+interface BreakdownHeaderDispatchProps {
+  // TBD...
+}
+
+type BreakdownHeaderProps = BreakdownHeaderOwnProps & BreakdownHeaderStateProps & WrappedComponentProps;
+
+class BreakdownHeader extends React.Component<BreakdownHeaderProps> {
   private buildDetailsLink = () => {
     const { detailsURL, groupBy, query } = this.props;
 
@@ -91,8 +101,9 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
       costType,
       description,
       groupBy,
-      query,
       intl,
+      isCurrencyFeatureEnabled,
+      query,
       showCostType = false,
       tabs,
       tagReportPathsType,
@@ -130,10 +141,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
               </li>
             </ol>
           </nav>
-          <div style={styles.headerContentRight}>
-            {/* Todo: Show in-progress features in beta environment only */}
-            {isFeatureVisible(FeatureType.currency) && <Currency />}
-          </div>
+          <div style={styles.headerContentRight}>{isCurrencyFeatureEnabled && <Currency />}</div>
         </div>
         <div style={styles.headerContent}>
           <div style={styles.title}>
@@ -175,6 +183,14 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   }
 }
 
-const BreakdownHeader = injectIntl(BreakdownHeaderBase);
+const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, BreakdownHeaderStateProps>(state => {
+  return {
+    isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
+  };
+});
 
-export { BreakdownHeader, BreakdownHeaderProps };
+const mapDispatchToProps: BreakdownHeaderDispatchProps = {
+  // TDB
+};
+
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(BreakdownHeader));

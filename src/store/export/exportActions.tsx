@@ -14,7 +14,6 @@ import { getExportId } from 'store/export/exportCommon';
 import { selectExport, selectExportFetchStatus } from 'store/export/exportSelectors';
 import { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
-import { FeatureType, isFeatureVisible } from 'utils/feature';
 
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
@@ -31,7 +30,8 @@ const exportSuccessID = 'cost_management_export_success';
 export function exportReport(
   reportPathsType: ReportPathsType,
   reportType: ReportType,
-  query: string
+  query: string,
+  isExportsFeatureEnabled: boolean
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {
     if (!isExportExpired(getState(), reportPathsType, reportType, query)) {
@@ -47,8 +47,7 @@ export function exportReport(
       .then(res => {
         dispatch(fetchExportSuccess(res.data, meta));
 
-        /* Todo: Show in-progress features in beta environment only */
-        if (isFeatureVisible(FeatureType.exports)) {
+        if (isExportsFeatureEnabled) {
           const description = intl.formatMessage(messages.exportsSuccessDesc, {
             link: <ExportsLink isActionLink onClick={() => dispatch(removeNotification(exportSuccessID))} />,
             value: <b>{intl.formatMessage(messages.exportsTitle)}</b>,
@@ -68,8 +67,7 @@ export function exportReport(
       .catch(err => {
         dispatch(fetchExportFailure(err, meta));
 
-        /* Todo: Show in-progress features in beta environment only */
-        if (isFeatureVisible(FeatureType.exports)) {
+        if (isExportsFeatureEnabled) {
           dispatch(
             addNotification({
               description: intl.formatMessage(messages.exportsFailedDesc),

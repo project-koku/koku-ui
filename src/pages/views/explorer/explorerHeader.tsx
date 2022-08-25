@@ -17,11 +17,11 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { CostTypes } from 'utils/costType';
-import { FeatureType, isFeatureVisible } from 'utils/feature';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -47,17 +47,6 @@ import {
   getResourcePathsType,
   getRouteForQuery,
   getTagReportPathsType,
-  infrastructureAwsOcpOptions,
-  infrastructureAwsOptions,
-  infrastructureAzureOcpOptions,
-  infrastructureAzureOptions,
-  infrastructureGcpOcpOptions,
-  infrastructureGcpOptions,
-  infrastructureIbmOcpOptions,
-  infrastructureIbmOptions,
-  infrastructureOciOptions,
-  infrastructureOcpCloudOptions,
-  ocpOptions,
   PerspectiveType,
 } from './explorerUtils';
 
@@ -76,6 +65,10 @@ interface ExplorerHeaderStateProps {
   azureProviders?: Providers;
   gcpProviders?: Providers;
   ibmProviders?: Providers;
+  isCurrencyFeatureEnabled?: boolean;
+  isExportsFeatureEnabled?: boolean;
+  isIbmFeatureEnabled?: boolean;
+  isOciFeatureEnabled?: boolean;
   ociProviders?: Providers;
   ocpProviders?: Providers;
   providers: Providers;
@@ -122,6 +115,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   }
 
   private getPerspective = (isDisabled: boolean) => {
+    const { isIbmFeatureEnabled, isOciFeatureEnabled } = this.props;
     const { currentPerspective } = this.state;
 
     const hasAws = this.isAwsAvailable();
@@ -136,50 +130,24 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       return null;
     }
 
-    // Dynamically show options if providers are available
-    const options = [];
-    if (hasOcp) {
-      options.push(...ocpOptions);
-    }
-    if (this.isOcpCloudAvailable()) {
-      options.push(...infrastructureOcpCloudOptions);
-    }
-    if (hasAws) {
-      options.push(...infrastructureAwsOptions);
-    }
-    if (this.isAwsOcpAvailable()) {
-      options.push(...infrastructureAwsOcpOptions);
-    }
-    if (hasGcp) {
-      options.push(...infrastructureGcpOptions);
-    }
-    if (isFeatureVisible(FeatureType.gcpOcp) && this.isGcpOcpAvailable()) {
-      options.push(...infrastructureGcpOcpOptions);
-    }
-    if (hasIbm) {
-      options.push(...infrastructureIbmOptions);
-    }
-    // Todo: Show in-progress features in beta environment only
-    if (isFeatureVisible(FeatureType.ibm) && this.isIbmOcpAvailable()) {
-      options.push(...infrastructureIbmOcpOptions);
-    }
-    if (hasAzure) {
-      options.push(...infrastructureAzureOptions);
-    }
-    if (this.isAzureOcpAvailable()) {
-      options.push(...infrastructureAzureOcpOptions);
-    }
-    // Todo: Show in-progress features in beta environment only
-    if (isFeatureVisible(FeatureType.oci) && hasOci) {
-      options.push(...infrastructureOciOptions);
-    }
-
     return (
       <Perspective
-        currentItem={currentPerspective || options[0].value}
+        currentItem={currentPerspective}
+        hasAws={hasAws}
+        hasAwsOcp={this.isAwsOcpAvailable()}
+        hasAzure={hasAzure}
+        hasAzureOcp={this.isAzureOcpAvailable()}
+        hasGcp={hasGcp}
+        hasGcpOcp={this.isGcpOcpAvailable()}
+        hasIbm={hasIbm}
+        hasIbmOcp={this.isIbmOcpAvailable()}
+        hasOci={hasOci}
+        hasOcp={hasOcp}
+        hasOcpCloud={this.isOcpCloudAvailable()}
         isDisabled={isDisabled}
+        isIbmFeatureEnabled={isIbmFeatureEnabled}
+        isOciFeatureEnabled={isOciFeatureEnabled}
         onSelected={this.handlePerspectiveSelected}
-        options={options}
       />
     );
   };
@@ -277,6 +245,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       costType,
       groupBy,
       intl,
+      isCurrencyFeatureEnabled,
+      isExportsFeatureEnabled,
       onFilterAdded,
       onFilterRemoved,
       onGroupBySelected,
@@ -305,9 +275,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
             {intl.formatMessage(messages.explorerTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            {/* Todo: Show in-progress features in beta environment only */}
-            {isFeatureVisible(FeatureType.currency) && <Currency />}
-            {isFeatureVisible(FeatureType.exports) && <ExportsLink />}
+            {isCurrencyFeatureEnabled && <Currency />}
+            {isExportsFeatureEnabled && <ExportsLink />}
           </div>
         </div>
         <div style={styles.perspectiveContainer}>
@@ -402,6 +371,10 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       azureProviders: filterProviders(providers, ProviderType.azure),
       gcpProviders: filterProviders(providers, ProviderType.gcp),
       ibmProviders: filterProviders(providers, ProviderType.ibm),
+      isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
+      isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
+      isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
+      isOciFeatureEnabled: featureFlagsSelectors.selectIsOciFeatureEnabled(state),
       ociProviders: filterProviders(providers, ProviderType.oci),
       ocpProviders: filterProviders(providers, ProviderType.ocp),
       providers,

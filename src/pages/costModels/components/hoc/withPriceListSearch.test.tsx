@@ -4,7 +4,8 @@ import React from 'react';
 
 import { WithPriceListSearch } from './withPriceListSearch';
 
-test('with price list search', () => {
+test('with price list search', async () => {
+  const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
   render(
     <WithPriceListSearch initialFilters={{ primary: 'metrics', metrics: [], measurements: [] }}>
       {({ onClearAll, onRemove, onSelect, setSearch, search }) => {
@@ -39,27 +40,27 @@ test('with price list search', () => {
   expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: metrics</div><div>Metrics: None</div><div>Measurements: None</div></main>`
   );
-  userEvent.click(screen.getByText('Select CPU'));
+  await user.click(screen.getByText('Select CPU'));
   expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: metrics</div><div>Metrics: CPU</div><div>Measurements: None</div></main>`
   );
-  userEvent.click(screen.getByText('Remove CPU'));
+  await user.click(screen.getByText('Remove CPU'));
   expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: metrics</div><div>Metrics: None</div><div>Measurements: None</div></main>`
   );
-  userEvent.click(screen.getByText('Select request'));
+  await user.click(screen.getByText('Select request'));
   expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: metrics</div><div>Metrics: None</div><div>Measurements: Request</div></main>`
   );
-  userEvent.click(screen.getByText('Remove request'));
+  await user.click(screen.getByText('Remove request'));
   expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: metrics</div><div>Metrics: None</div><div>Measurements: None</div></main>`
   );
-  userEvent.click(screen.getByText('Set search'));
+  await user.click(screen.getByText('Set search'));
   expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: measurements</div><div>Metrics: Memory</div><div>Measurements: Usage</div></main>`
   );
-  userEvent.click(screen.getByText('Clear all'));
+  await user.click(screen.getByText('Clear all'));
   expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: measurements</div><div>Metrics: None</div><div>Measurements: None</div></main>`
   );

@@ -4,7 +4,7 @@ import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import { OcpCloudQuery, parseQuery } from 'api/queries/ocpCloudQuery';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import { styles } from './emptyFilterState.styles';
@@ -27,10 +27,24 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
   subTitle = messages.emptyFilterStateSubtitle,
   title = messages.emptyFilterStateTitle,
 }) => {
+  const ImgScroll = () => {
+    const imgs = [styles.icon2, styles.icon3, styles.icon4, styles.icon5, styles.icon6];
+    const [index, setIndex] = useState(imgs.length - 1);
+
+    useEffect(() => {
+      if (index > 0) {
+        setTimeout(() => {
+          setIndex(index - 1);
+        }, 1000);
+      }
+    });
+    return <img style={imgs[index]} />;
+  };
+
   const getIcon = () => {
     const trim = (val: string) => val.replace(/\s+/g, '').toLowerCase();
-    const filterTest1 = (val: string) => trim(val) === atob('a29rdQ==');
-    const filterTest2 = (val: string) => trim(val) === atob('cmVkaGF0');
+    const filterTest1 = (val: string) => trim(val) === atob('cmVkaGF0');
+    const filterTest2 = (val: string) => trim(val) === atob('a29rdQ==');
     let showAltIcon1 = false;
     let showAltIcon2 = false;
 
@@ -73,8 +87,10 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
         }
       }
     }
-    if (showAltIcon1 || showAltIcon2) {
-      return <img style={showAltIcon1 ? styles.icon1 : styles.icon2} />;
+    if (showAltIcon1) {
+      return <img style={styles.icon1} />;
+    } else if (showAltIcon2) {
+      return <ImgScroll />;
     } else {
       return <EmptyStateIcon icon={icon} />;
     }

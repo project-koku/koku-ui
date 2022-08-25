@@ -22,9 +22,9 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { exportActions } from 'store/export';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { FeatureType, isFeatureVisible } from 'utils/feature';
 
 import { styles } from './exportModal.styles';
 import { ExportSubmit } from './exportSubmit';
@@ -46,7 +46,7 @@ export interface ExportModalOwnProps {
 }
 
 interface ExportModalStateProps {
-  // TBD...
+  isExportsFeatureEnabled?: boolean;
 }
 
 interface ExportModalDispatchProps {
@@ -147,6 +147,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       groupBy,
       intl,
       isAllItems,
+      isExportsFeatureEnabled,
       items,
       query,
       reportPathsType,
@@ -225,8 +226,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       >
         {error && <Alert variant="danger" style={styles.alert} title={intl.formatMessage(messages.exportError)} />}
         <div style={styles.title}>
-          {/* Todo: Show in-progress features in beta environment only */}
-          {isFeatureVisible(FeatureType.exports) ? (
+          {isExportsFeatureEnabled ? (
             <span>
               {intl.formatMessage(messages.exportDesc, { value: <b>{intl.formatMessage(messages.exportsTitle)}</b> })}
             </span>
@@ -236,8 +236,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
         </div>
         <Form style={styles.form}>
           <Grid hasGutter md={6}>
-            {/* Todo: Show in-progress features in beta environment only */}
-            {isFeatureVisible(FeatureType.exports) && (
+            {isExportsFeatureEnabled && (
               <GridItem span={12}>
                 <FormGroup
                   fieldId="exportName"
@@ -301,8 +300,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                 </React.Fragment>
               </FormGroup>
             )}
-            {/* Todo: Show in-progress features in beta environment only */}
-            {showFormatType && isFeatureVisible(FeatureType.exports) && (
+            {showFormatType && isExportsFeatureEnabled && (
               <GridItem span={12}>
                 <FormGroup fieldId="formatType" label={intl.formatMessage(messages.exportFormatTypeTitle)} isRequired>
                   {formatTypeOptions.map((option, index) => (
@@ -337,8 +335,10 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
   }
 }
 
-const mapStateToProps = createMapStateToProps<ExportModalOwnProps, unknown>(() => {
-  return {};
+const mapStateToProps = createMapStateToProps<ExportModalOwnProps, unknown>(state => {
+  return {
+    isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
+  };
 });
 
 const mapDispatchToProps: ExportModalDispatchProps = {

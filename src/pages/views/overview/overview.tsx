@@ -48,11 +48,11 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { CostTypes, getCostType } from 'utils/costType';
 import { getSinceDateRangeString } from 'utils/dateRange';
-import { FeatureType, isFeatureVisible } from 'utils/feature';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -115,6 +115,9 @@ interface OverviewStateProps {
   costType?: CostTypes;
   gcpProviders?: Providers;
   ibmProviders?: Providers;
+  isCurrencyFeatureEnabled?: boolean;
+  isIbmFeatureEnabled?: boolean;
+  isOciFeatureEnabled?: boolean;
   ociProviders?: Providers;
   ocpProviders?: Providers;
   providers: Providers;
@@ -142,39 +145,6 @@ interface OverviewState {
 }
 
 type OverviewProps = OverviewOwnProps & OverviewStateProps & OverviewDispatchProps;
-
-// Ocp options
-const ocpOptions = [{ label: messages.perspectiveValues, value: 'ocp' }];
-
-// Infrastructure AWS options
-const infrastructureAwsOptions = [{ label: messages.perspectiveValues, value: 'aws' }];
-
-// Infrastructure AWS filtered by OpenShift options
-const infrastructureAwsOcpOptions = [{ label: messages.perspectiveValues, value: 'aws_ocp' }];
-
-// Infrastructure Azure options
-const infrastructureAzureOptions = [{ label: messages.perspectiveValues, value: 'azure' }];
-
-// Infrastructure Oci options
-const infrastructureOciOptions = [{ label: messages.perspectiveValues, value: 'oci' }];
-
-// Infrastructure Azure filtered by OpenShift options
-const infrastructureAzureOcpOptions = [{ label: messages.perspectiveValues, value: 'azure_ocp' }];
-
-// Infrastructure GCP options
-const infrastructureGcpOptions = [{ label: messages.perspectiveValues, value: 'gcp' }];
-
-// Infrastructure GCP filtered by OCP options
-const infrastructureGcpOcpOptions = [{ label: messages.perspectiveValues, value: 'gcp_ocp' }];
-
-// Infrastructure IBM options
-const infrastructureIbmOptions = [{ label: messages.perspectiveValues, value: 'ibm' }];
-
-// Infrastructure IBM filtered by OCP options
-const infrastructureIbmOcpOptions = [{ label: messages.perspectiveValues, value: 'ibm_ocp' }];
-
-// Infrastructure Ocp cloud options
-const infrastructureOcpCloudOptions = [{ label: messages.perspectiveValues, value: 'ocp_cloud' }];
 
 class OverviewBase extends React.Component<OverviewProps> {
   protected defaultState: OverviewState = {
@@ -325,6 +295,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getPerspective = () => {
+    const { isIbmFeatureEnabled, isOciFeatureEnabled } = this.props;
     const { currentInfrastructurePerspective, currentOcpPerspective } = this.state;
 
     const hasAws = this.isAwsAvailable();
@@ -339,53 +310,27 @@ class OverviewBase extends React.Component<OverviewProps> {
       return null;
     }
 
-    // Dynamically show options if providers are available
-    const options = [];
-    if (this.getCurrentTab() === OverviewTab.infrastructure) {
-      if (this.isOcpCloudAvailable()) {
-        options.push(...infrastructureOcpCloudOptions);
-      }
-      if (hasAws) {
-        options.push(...infrastructureAwsOptions);
-      }
-      if (this.isAwsOcpAvailable()) {
-        options.push(...infrastructureAwsOcpOptions);
-      }
-      if (hasGcp) {
-        options.push(...infrastructureGcpOptions);
-      }
-      if (isFeatureVisible(FeatureType.gcpOcp) && this.isGcpOcpAvailable()) {
-        options.push(...infrastructureGcpOcpOptions);
-      }
-      if (hasIbm) {
-        options.push(...infrastructureIbmOptions);
-      }
-      // Todo: Show in-progress features in beta environment only
-      if (isFeatureVisible(FeatureType.ibm) && this.isIbmOcpAvailable()) {
-        options.push(...infrastructureIbmOcpOptions);
-      }
-      if (hasAzure) {
-        options.push(...infrastructureAzureOptions);
-      }
-      if (this.isAzureOcpAvailable()) {
-        options.push(...infrastructureAzureOcpOptions);
-      }
-      // Todo: Show in-progress features in beta environment only
-      if (isFeatureVisible(FeatureType.oci) && hasOci) {
-        options.push(...infrastructureOciOptions);
-      }
-    } else {
-      options.push(...ocpOptions);
-    }
-
     const currentItem =
       this.getCurrentTab() === OverviewTab.infrastructure ? currentInfrastructurePerspective : currentOcpPerspective;
 
     return (
       <Perspective
-        currentItem={currentItem || options[0].value}
+        currentItem={currentItem}
+        hasAws={hasAws}
+        hasAwsOcp={this.isAwsOcpAvailable()}
+        hasAzure={hasAzure}
+        hasAzureOcp={this.isAzureOcpAvailable()}
+        hasGcp={hasGcp}
+        hasGcpOcp={this.isGcpOcpAvailable()}
+        hasIbm={hasIbm}
+        hasIbmOcp={this.isIbmOcpAvailable()}
+        hasOci={hasOci}
+        hasOcp={hasOcp}
+        hasOcpCloud={this.isOcpCloudAvailable()}
+        isIbmFeatureEnabled={isIbmFeatureEnabled}
+        isInfrastructureTab={this.getCurrentTab() === OverviewTab.infrastructure}
+        isOciFeatureEnabled={isOciFeatureEnabled}
         onSelected={this.handlePerspectiveSelected}
-        options={options}
       />
     );
   };
@@ -618,7 +563,14 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   public render() {
-    const { providersFetchStatus, intl, userAccessFetchStatus } = this.props;
+    const {
+      providersFetchStatus,
+      intl,
+      isCurrencyFeatureEnabled,
+      isIbmFeatureEnabled,
+      isOciFeatureEnabled,
+      userAccessFetchStatus,
+    } = this.props;
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
     const noProviders =
@@ -664,7 +616,7 @@ class OverviewBase extends React.Component<OverviewProps> {
                       <br />
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.gcp)}</p>
                       <p>{intl.formatMessage(messages.gcpDesc)}</p>
-                      {isFeatureVisible(FeatureType.ibm) && (
+                      {isIbmFeatureEnabled && (
                         <>
                           <br />
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.ibm)}</p>
@@ -674,7 +626,7 @@ class OverviewBase extends React.Component<OverviewProps> {
                       <br />
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.azure)}</p>
                       <p>{intl.formatMessage(messages.azureDesc)}</p>
-                      {isFeatureVisible(FeatureType.oci) && (
+                      {isOciFeatureEnabled && (
                         <>
                           <br />
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.oci)}</p>
@@ -690,10 +642,7 @@ class OverviewBase extends React.Component<OverviewProps> {
                 </Popover>
               </span>
             </Title>
-            <div style={styles.headerContentRight}>
-              {/* Todo: Show in-progress features in beta environment only */}
-              {isFeatureVisible(FeatureType.currency) && <Currency />}
-            </div>
+            <div style={styles.headerContentRight}>{isCurrencyFeatureEnabled && <Currency />}</div>
           </div>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
           <div style={styles.headerContent}>
@@ -747,6 +696,9 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     azureProviders: filterProviders(providers, ProviderType.azure),
     gcpProviders: filterProviders(providers, ProviderType.gcp),
     ibmProviders: filterProviders(providers, ProviderType.ibm),
+    isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
+    isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
+    isOciFeatureEnabled: featureFlagsSelectors.selectIsOciFeatureEnabled(state),
     ociProviders: filterProviders(providers, ProviderType.oci),
     ocpProviders: filterProviders(providers, ProviderType.ocp),
     costType,

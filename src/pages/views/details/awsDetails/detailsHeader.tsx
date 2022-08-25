@@ -16,11 +16,11 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { ComputedAwsReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { CostTypes } from 'utils/costType';
 import { getSinceDateRangeString } from 'utils/dateRange';
-import { FeatureType, isFeatureVisible } from 'utils/feature';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './detailsHeader.styles';
@@ -34,10 +34,12 @@ interface DetailsHeaderOwnProps {
 }
 
 interface DetailsHeaderStateProps {
-  queryString?: string;
+  isCurrencyFeatureEnabled?: boolean;
+  isExportsFeatureEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
+  queryString?: string;
 }
 
 type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & WrappedComponentProps;
@@ -73,7 +75,17 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   };
 
   public render() {
-    const { costType, groupBy, onGroupBySelected, providers, providersError, report, intl } = this.props;
+    const {
+      costType,
+      groupBy,
+      isCurrencyFeatureEnabled,
+      isExportsFeatureEnabled,
+      onGroupBySelected,
+      providers,
+      providersError,
+      report,
+      intl,
+    } = this.props;
     const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
 
     const hasCost =
@@ -86,9 +98,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             {intl.formatMessage(messages.awsDetailsTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            {/* Todo: Show in-progress features in beta environment only */}
-            {isFeatureVisible(FeatureType.currency) && <Currency />}
-            {isFeatureVisible(FeatureType.exports) && <ExportsLink />}
+            {isCurrencyFeatureEnabled && <Currency />}
+            {isExportsFeatureEnabled && <ExportsLink />}
           </div>
         </div>
         <div style={styles.headerContent}>
@@ -139,6 +150,8 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   );
 
   return {
+    isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
+    isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
     providers: filterProviders(providers, ProviderType.aws),
     providersError,
     providersFetchStatus,
