@@ -32,7 +32,9 @@ const gitRevisionPlugin = new GitRevisionPlugin({
 const betaBranches = ['main', 'master', 'stage-beta', 'prod-beta'];
 const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
 
-const localhost = process.env.PLATFORM === 'linux' ? 'localhost' : 'host.docker.internal';
+const useLocalCloudServicesConfig = process.env.USE_LOCAL_CLOUD_SERVICES_CONFIG === 'true';
+const localhost =
+  process.env.PLATFORM === 'linux' || useLocalCloudServicesConfig ? 'localhost' : 'host.docker.internal';
 
 // show what files changed since last compilation
 class WatchRunPlugin {
@@ -71,6 +73,7 @@ module.exports = (_env, argv) => {
   console.log(`Using deployments: ${appDeployment}`);
   console.log(`Using proxy: ${useProxy}`);
   console.log(`Using local API: ${useLocalRoutes}`);
+  console.log(`Using local cloud services config: ${useLocalCloudServicesConfig}`);
   console.log(`Public path: ${publicPath}`);
   console.log('~~~~~~~~~~~~~~~~~~~~~');
 
@@ -80,12 +83,14 @@ module.exports = (_env, argv) => {
     modules: false,
   };
 
-  const routes = {
-    // For testing cloud-services-config https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
-    // '/beta/config': {
-    //   host: `http://${localhost}:8889`,
-    // },
-  };
+  const routes = {};
+
+  // See https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
+  if (useLocalCloudServicesConfig) {
+    routes['/beta/config'] = {
+      host: `http://${localhost}:8889`,
+    };
+  }
 
   // For local API development route will be set to :
   // '/api/cost-management/v1/': { host: 'http://localhost:8000' },
@@ -200,7 +205,10 @@ module.exports = (_env, argv) => {
          * Package can be re-enabled for sharing once chrome starts providing global routing pakcage to all applications
          */
         exclude: ['react-router-dom'],
-        shared: [{ 'react-redux': { requiredVersion: dependencies['react-redux'] } }],
+        shared: [
+          { 'react-redux': { requiredVersion: dependencies['react-redux'] } },
+          { '@unleash/proxy-client-react': { requiredVersion: '*', singleton: true } },
+        ],
         exposes: {
           './RootApp': path.resolve(__dirname, './src/federatedEntry.tsx'),
           // Shared component module path. Must include default export!

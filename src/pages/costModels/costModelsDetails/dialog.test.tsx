@@ -33,7 +33,8 @@ test('delete dialog closed', () => {
   expect(screen.queryAllByText(/This action will delete/i)).toHaveLength(0);
 });
 
-test('delete dialog open', () => {
+test('delete dialog open', async () => {
+  const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
   const state = {
     costModels: {
       isDialogOpen: {
@@ -65,11 +66,12 @@ test('delete dialog open', () => {
   expect(screen.queryAllByText(regExp(messages.costModelsDelete))).toHaveLength(2);
   expect(screen.queryAllByText(/This action will delete/i)).toHaveLength(1);
   expect(screen.queryAllByText(/The following sources are assigned to/i)).toHaveLength(0);
-  userEvent.click(screen.getAllByText(regExp(messages.costModelsDelete))[1]);
+  await user.click(screen.getAllByText(regExp(messages.costModelsDelete))[1]);
   expect(screen.getAllByText(regExp(messages.costModelsDelete))[1].getAttribute('disabled')).not.toBeNull();
 });
 
-test('delete dialog error', () => {
+test('delete dialog error', async () => {
+  const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
   const state = {
     costModels: {
       isDialogOpen: {
@@ -101,6 +103,6 @@ test('delete dialog error', () => {
   expect(screen.queryAllByText(regExp(messages.costModelsDelete))).toHaveLength(1);
   expect(screen.queryAllByText(/This action will delete/i)).toHaveLength(0);
   expect(screen.queryAllByText(/The following sources are assigned to/i)).toHaveLength(1);
-  userEvent.click(screen.getByText(regExp(messages.cancel)));
+  await user.click(screen.getByText(regExp(messages.cancel)));
   expect(screen.queryAllByText(regExp(messages.costModelsDelete))).toHaveLength(0);
 });

@@ -10,19 +10,31 @@ export function asyncComponent<Props>(
   let LoadedComponent: React.ComponentType<Props> = null;
 
   class Async extends React.Component<Props, State> {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    private _isMounted = false;
+
     public state: State = {
       isLoading: !LoadedComponent,
     };
 
     public componentDidMount() {
+      this._isMounted = true;
+
       if (!this.state.isLoading) {
         return;
       }
 
       loader().then(Comp => {
         LoadedComponent = (Comp as any).default ? (Comp as any).default : Comp;
-        this.setState({ isLoading: false });
+        if (this._isMounted) {
+          this.setState({ isLoading: false });
+        }
       });
+    }
+
+    public componentWillUnmount() {
+      this._isMounted = false;
     }
 
     public render() {

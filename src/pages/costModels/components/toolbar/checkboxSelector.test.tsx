@@ -4,8 +4,9 @@ import React from 'react';
 
 import { CheckboxSelector } from './checkboxSelector';
 
-test('checkbox selector', () => {
+test('checkbox selector', async () => {
   const setSelections = jest.fn();
+  const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
   render(
     <CheckboxSelector
       options={[
@@ -22,11 +23,11 @@ test('checkbox selector', () => {
   expect(screen.queryAllByText('CPU').length).toBe(0);
   expect(screen.queryAllByText('Memory').length).toBe(0);
   expect(screen.queryAllByText('Storage').length).toBe(0);
-  userEvent.click(screen.getByRole('button'));
+  await user.click(screen.getByRole('button'));
   expect(screen.queryAllByText('CPU').length).toBe(1);
   expect(screen.queryAllByText('Memory').length).toBe(1);
   expect(screen.queryAllByText('Storage').length).toBe(1);
   expect(setSelections.mock.calls.length).toBe(0);
-  userEvent.click(screen.getAllByRole('checkbox')[0]);
+  await user.click(screen.getAllByRole('checkbox')[0]);
   expect(setSelections.mock.calls).toEqual([['cpu']]);
 });

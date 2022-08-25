@@ -18,7 +18,7 @@ import { reportActions } from 'store/reports';
 import { CostTypes } from 'utils/costType';
 
 import { styles } from './breakdown.styles';
-import { BreakdownHeader } from './breakdownHeader';
+import BreakdownHeader from './breakdownHeader';
 
 // eslint-disable-next-line no-shadow
 const enum BreakdownTab {

@@ -1,7 +1,9 @@
 module.exports = {
   testEnvironment: 'jsdom',
   clearMocks: true,
-  timers: 'fake',
+  fakeTimers: {
+    enableGlobally: true,
+  },
   transform: {
     '^.+\\.[jt]sx?$': '<rootDir>/test/transformTS.js',
     '^.+\\.(jpg)$': '<rootDir>/test/transformFile.js',
@@ -15,6 +17,8 @@ module.exports = {
     '\\.(css|less|sass|scss)$': '<rootDir>/test/styleMock.js',
   },
   roots: ['<rootDir>/src'],
-  testURL: 'http://localhost/',
+  testEnvironmentOptions: {
+    url: 'http://localhost/',
+  },
   testTimeout: 30000,
 };
