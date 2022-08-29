@@ -1,5 +1,5 @@
 import { AlertVariant } from '@patternfly/react-core';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
+import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import { getRBAC, RBAC } from 'api/rbac';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';

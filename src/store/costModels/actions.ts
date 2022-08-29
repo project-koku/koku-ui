@@ -1,5 +1,5 @@
 import { AlertVariant } from '@patternfly/react-core';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
+import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import {
   CostModel,
   CostModelRequest,
