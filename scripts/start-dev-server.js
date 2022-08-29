@@ -3,6 +3,30 @@ const inquirer = require('inquirer');
 const { resolve } = require('path');
 const { spawn } = require('child_process');
 
+function defaults() {
+  process.env.BETA_ENV = 'true';
+  process.env.CLOUDOT_ENV = 'stage';
+  process.env.USE_PROXY = 'true';
+  process.env.USE_LOCAL_ROUTES = 'false';
+  process.env.USE_LOCAL_CLOUD_SERVICES_CONFIG = 'false';
+}
+
+async function setup() {
+  return inquirer
+    .prompt([
+      {
+        name: 'setupEnv',
+        message: 'Do you want to setup the run environment?',
+        type: 'confirm',
+        default: false,
+      },
+    ])
+    .then(answers => {
+      const { setupEnv } = answers;
+      process.env.SETUP_ENV = setupEnv;
+    });
+}
+
 async function setEnv() {
   return inquirer
     .prompt([
@@ -32,7 +56,7 @@ async function setEnv() {
       },
     ])
     .then(answers => {
-      const { uiEnv, clouddotEnv, insightsProxy, localApi, localCloudServicesConfig } = answers;
+      const { uiEnv, clouddotEnv, localApi, localCloudServicesConfig } = answers;
       process.env.BETA_ENV = uiEnv === 'beta' ? 'true' : 'false';
       process.env.CLOUDOT_ENV = clouddotEnv ? clouddotEnv : 'stage';
       process.env.USE_PROXY = 'true';
@@ -46,7 +70,11 @@ async function setEnv() {
 }
 
 async function run() {
-  await setEnv();
+  defaults();
+  await setup();
+  if (process.env.SETUP_ENV === 'true') {
+    await setEnv();
+  }
   const child = spawn('yarn', ['start:dev'], {
     stdio: [process.stdout, process.stdout, process.stdout],
     cwd: resolve(__dirname, '../'),
