@@ -219,7 +219,7 @@ mgmt_services/cost-mgmt:koku-ui/@types/json-stable-stringify:1.0.34.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/json5:0.0.29.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/mdast:3.0.10.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/mime:3.0.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@types/node:18.7.13.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@types/node:18.7.14.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/node:17.0.45.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/picomatch:2.3.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/prettier:2.7.0.yarnlock
@@ -254,7 +254,7 @@ mgmt_services/cost-mgmt:koku-ui/@types/warning:3.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/webpack:5.28.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/ws:8.5.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/yargs-parser:21.0.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@types/yargs:17.0.11.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@types/yargs:17.0.12.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@typescript-eslint/eslint-plugin:5.35.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@typescript-eslint/parser:5.35.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@typescript-eslint/scope-manager:5.35.1.yarnlock
