@@ -22,7 +22,7 @@ interface RateTableProps extends WrappedComponentProps {
   actions?: IActions;
   isCompact?: boolean;
   tiers: Rate[];
-  sortCallback?: ({ index: number, direction: any }) => void;
+  sortCallback?: ({ index, direction }) => void;
 }
 
 // defaultIntl required for testing

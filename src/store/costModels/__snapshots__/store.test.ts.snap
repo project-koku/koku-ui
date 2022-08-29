@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`default state 1`] = `
-Object {
-  "costModels": Object {
+{
+  "costModels": {
     "costModels": null,
     "currentFilterType": "name",
     "currentFilterValue": "",
-    "delete": Object {
+    "delete": {
       "error": null,
       "status": 0,
     },
     "dialogData": null,
     "error": null,
-    "isDialogOpen": Object {
+    "isDialogOpen": {
       "addRate": false,
       "addSource": false,
       "createWizard": false,
@@ -27,7 +27,7 @@ Object {
       "updateRate": false,
     },
     "status": 0,
-    "update": Object {
+    "update": {
       "current": null,
       "error": null,
       "status": 0,
