@@ -7,8 +7,8 @@ import {
   ComputedReportItemType,
   ComputedReportItemValueType,
   transformReport,
-} from 'pages/views/components/charts/common/chartDatumUtils';
-import { TrendChart } from 'pages/views/components/charts/trendChart';
+} from 'routes/views/components/charts/common/chartDatumUtils';
+import { TrendChart } from 'routes/views/components/charts/trendChart';
 import React from 'react';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';

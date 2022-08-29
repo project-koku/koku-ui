@@ -1,7 +1,7 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { Query } from 'api/queries/query';
 import messages from 'locales/messages';
-import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
+import { DataToolbar } from 'routes/views/components/dataToolbar/dataToolbar';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';

@@ -7,7 +7,7 @@ import { OcpCloudReport } from 'api/reports/ocpCloudReports';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
-import { GroupBy } from 'pages/details/components/groupBy/groupBy';
+import { GroupBy } from 'routes/details/components/groupBy/groupBy';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

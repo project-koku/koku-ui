@@ -1,4 +1,4 @@
-import { DashboardBase } from 'pages/views/overview/components/dashboardBase';
+import { DashboardBase } from 'routes/views/overview/components/dashboardBase';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';

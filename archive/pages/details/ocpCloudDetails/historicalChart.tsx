@@ -13,7 +13,7 @@ import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
 import {
   chartStyles,
   styles,
-} from 'pages/details/components/historicalData/historicalChart.styles';
+} from 'routes/details/components/historicalData/historicalChart.styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

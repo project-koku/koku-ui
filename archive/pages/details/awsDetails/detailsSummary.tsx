@@ -1,7 +1,7 @@
 import {
   Summary,
   SummaryProps,
-} from 'pages/details/components/summary/summary';
+} from 'routes/details/components/summary/summary';
 import React from 'react';
 import { Omit } from 'react-redux';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';

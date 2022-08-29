@@ -8,10 +8,10 @@ import {
   GridItem,
 } from '@patternfly/react-core';
 import { ReportPathsType } from 'api/reports/report';
-import { BulletChart } from 'pages/details/components/bulletChart/bulletChart';
-import { Cluster } from 'pages/details/components/cluster/cluster';
-import { HistoricalModal } from 'pages/details/components/historicalData/historicalModal';
-import { Tag } from 'pages/details/components/tag/tag';
+import { BulletChart } from 'routes/details/components/bulletChart/bulletChart';
+import { Cluster } from 'routes/details/components/cluster/cluster';
+import { HistoricalModal } from 'routes/details/components/historicalData/historicalModal';
+import { Tag } from 'routes/details/components/tag/tag';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

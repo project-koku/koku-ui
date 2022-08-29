@@ -1,5 +1,5 @@
 import { PageTitle } from 'components/pageTitle/pageTitle';
-import Maintenance from 'pages/state/maintenance';
+import Maintenance from 'routes/state/maintenance';
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';

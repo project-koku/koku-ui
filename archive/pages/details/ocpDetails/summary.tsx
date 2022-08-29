@@ -10,8 +10,8 @@ import {
   ReportSummaryItem,
   ReportSummaryItems,
 } from 'components/reports/reportSummary';
-import { styles } from 'pages/details/components/summary/summary.styles';
-import { SummaryModal } from 'pages/details/components/summary/summaryModal';
+import { styles } from 'routes/details/components/summary/summary.styles';
+import { SummaryModal } from 'routes/details/components/summary/summaryModal';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

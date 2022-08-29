@@ -2,7 +2,7 @@ import { ToolbarChipGroup } from '@patternfly/react-core';
 import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import { OcpCloudReport } from 'api/reports/ocpCloudReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
+import { DataToolbar } from 'routes/details/components/dataToolbar/dataToolbar';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

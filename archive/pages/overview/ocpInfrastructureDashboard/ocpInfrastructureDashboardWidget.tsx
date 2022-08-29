@@ -2,7 +2,7 @@ import {
   DashboardWidgetBase,
   DashboardWidgetOwnProps,
   DashboardWidgetStateProps,
-} from 'pages/views/overview/components/dashboardWidgetBase';
+} from 'routes/views/overview/components/dashboardWidgetBase';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
