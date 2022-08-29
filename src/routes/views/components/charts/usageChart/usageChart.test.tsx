@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { OcpReport, OcpReportData } from 'api/reports/ocpReports';
-import * as utils from 'routes/views/components/charts/common/chartDatumUtils';
 import React from 'react';
+import * as utils from 'routes/views/components/charts/common/chartDatumUtils';
 
 import { UsageChart, UsageChartProps } from './usageChart';
 

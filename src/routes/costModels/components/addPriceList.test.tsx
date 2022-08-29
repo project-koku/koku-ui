@@ -2,8 +2,8 @@ import { configure, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Rate } from 'api/rates';
 import messages from 'locales/messages';
-import { CostModelContext, defaultCostModelContext } from 'routes/costModels/createCostModelWizard/context';
 import React from 'react';
+import { CostModelContext, defaultCostModelContext } from 'routes/costModels/createCostModelWizard/context';
 
 import AddPriceList from './addPriceList';
 

@@ -14,10 +14,10 @@ import { getQuery, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
-import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
+import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
 

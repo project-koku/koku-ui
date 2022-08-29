@@ -4,6 +4,10 @@ import { Report } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { format, getDate, getMonth } from 'date-fns';
 import messages from 'locales/messages';
+import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import {
   ChartDatum,
   ComputedReportItemType,
@@ -13,10 +17,6 @@ import {
 } from 'routes/views/components/charts/common/chartDatumUtils';
 import { CostExplorerChart } from 'routes/views/components/charts/costExplorerChart';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
-import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';

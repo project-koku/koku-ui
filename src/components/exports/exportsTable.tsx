@@ -19,9 +19,9 @@ import { sortable, SortByDirection, Table, TableBody, TableHeader, TableVariant 
 import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import messages from 'locales/messages';
-import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
 
 import { ExportsActions } from './exportActions';
 import { styles } from './exportsTable.styles';

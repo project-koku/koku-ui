@@ -4,11 +4,11 @@ import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey } from 'api/queries/q
 import { ResourcePathsType } from 'api/resources/resource';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
-import { DataToolbar } from 'routes/views/components/dataToolbar/dataToolbar';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { DataToolbar } from 'routes/views/components/dataToolbar/dataToolbar';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';

@@ -3,11 +3,11 @@ import { IAction, ICell, SortByDirection } from '@patternfly/react-table';
 import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
 import { CostModel } from 'api/costModels';
 import { relativeTime } from 'human-date';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
 import { LoadingState } from 'routes/components/state/loadingState/loadingState';
 import NoCostModels from 'routes/costModels/costModelsDetails/noCostModels';
-import React from 'react';
-import { Link } from 'react-router-dom';
 
 import { CostModelsQuery, stringifySearch } from './query';
 

@@ -5,6 +5,9 @@ import { getQuery } from 'api/queries/awsQuery';
 import { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
+import React from 'react';
+import { WrappedComponentProps } from 'react-intl';
+import { Link } from 'react-router-dom';
 import {
   ChartType,
   ComputedReportItemType,
@@ -24,9 +27,6 @@ import {
   ReportSummaryTrend,
   ReportSummaryUsage,
 } from 'routes/views/components/reports/reportSummary';
-import React from 'react';
-import { WrappedComponentProps } from 'react-intl';
-import { Link } from 'react-router-dom';
 import { DashboardChartType, DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
 

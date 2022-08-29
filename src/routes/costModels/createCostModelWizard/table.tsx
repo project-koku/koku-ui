@@ -1,12 +1,12 @@
 import { Checkbox, Stack, StackItem, Text, TextContent, TextVariants, Title, TitleSizes } from '@patternfly/react-core';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import messages from 'locales/messages';
+import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { LoadingState } from 'routes/components/state/loadingState/loadingState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'routes/costModels/components/filterLogic';
 import { PaginationToolbarTemplate } from 'routes/costModels/components/paginationToolbarTemplate';
 import { WarningIcon } from 'routes/costModels/components/warningIcon';
-import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import { AssignSourcesToolbar } from './assignSourcesToolbar';
 import { CostModelContext } from './context';

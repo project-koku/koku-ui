@@ -1,8 +1,8 @@
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import React from 'react';
 import { WithStateMachine } from 'routes/costModels/components/hoc/withStateMachine';
 import { selectMachineState } from 'routes/costModels/components/logic/selectStateMachine';
 import { Option } from 'routes/costModels/components/logic/types';
-import React from 'react';
 
 interface CheckboxSelectorProps {
   setSelections: (selection: string) => void;

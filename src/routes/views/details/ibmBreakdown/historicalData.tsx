@@ -1,6 +1,6 @@
-import { HistoricalDataBase } from 'routes/views/details/components/historicalData/historicalDataBase';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
+import { HistoricalDataBase } from 'routes/views/details/components/historicalData/historicalDataBase';
 import { ibmHistoricalDataSelectors } from 'store/breakdown/historicalData/ibmHistoricalData';
 import { createMapStateToProps } from 'store/common';
 

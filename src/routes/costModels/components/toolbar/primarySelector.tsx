@@ -1,9 +1,9 @@
 import { Select, SelectOption } from '@patternfly/react-core';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
+import React from 'react';
 import { WithStateMachine } from 'routes/costModels/components/hoc/withStateMachine';
 import { selectMachineState } from 'routes/costModels/components/logic/selectStateMachine';
 import { Option } from 'routes/costModels/components/logic/types';
-import React from 'react';
 
 export interface PrimarySelectorProps {
   setPrimary: (primary: string) => void;

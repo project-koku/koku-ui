@@ -13,10 +13,10 @@ import {
 import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
 import messages from 'locales/messages';
-import { parseApiError } from 'routes/costModels/createCostModelWizard/parseError';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
+import { parseApiError } from 'routes/costModels/createCostModelWizard/parseError';
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { costModelsSelectors } from 'store/costModels';

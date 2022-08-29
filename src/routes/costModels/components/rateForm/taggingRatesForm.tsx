@@ -2,10 +2,10 @@ import { Button, ButtonVariant, Checkbox, FormGroup, Split, SplitItem } from '@p
 import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
-import { RateInput } from 'routes/costModels/components/inputs/rateInput';
-import { SimpleInput } from 'routes/costModels/components/inputs/simpleInput';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { RateInput } from 'routes/costModels/components/inputs/rateInput';
+import { SimpleInput } from 'routes/costModels/components/inputs/simpleInput';
 
 import { UseRateData } from './useRateForm';
 import { RateFormErrors, RateFormTagValue } from './utils';

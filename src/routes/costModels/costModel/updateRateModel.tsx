@@ -3,6 +3,9 @@ import { CostModelRequest } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
+import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { connect } from 'react-redux';
 import { Form } from 'routes/costModels/components/forms/form';
 import {
   canSubmit as isReadyForSubmit,
@@ -12,9 +15,6 @@ import {
   RateForm,
   useRateData,
 } from 'routes/costModels/components/rateForm';
-import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';

@@ -12,6 +12,8 @@ import {
   getInteractiveLegendEvents,
 } from '@patternfly/react-charts';
 import messages from 'locales/messages';
+import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { default as ChartTheme } from 'routes/views/components/charts/chartTheme';
 import { getMaxValue } from 'routes/views/components/charts/common/chartDatumUtils';
 import {
@@ -25,8 +27,6 @@ import {
   isDataHidden,
   isSeriesHidden,
 } from 'routes/views/components/charts/common/chartUtils';
-import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { formatCurrencyAbbreviation, FormatOptions, Formatter } from 'utils/format';
 import { noop } from 'utils/noop';
 

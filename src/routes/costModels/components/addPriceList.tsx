@@ -14,6 +14,8 @@ import {
 import { MetricHash } from 'api/metrics';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
+import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import {
   canSubmit as isReadyForSubmit,
   RateForm,
@@ -21,8 +23,6 @@ import {
   useRateData,
 } from 'routes/costModels/components/rateForm';
 import { CostModelContext } from 'routes/costModels/createCostModelWizard/context';
-import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 interface AddPriceListOwnProps {
   cancel: () => void;

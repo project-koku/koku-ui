@@ -1,10 +1,10 @@
+import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
 import {
   DashboardWidgetBase,
   DashboardWidgetOwnProps,
   DashboardWidgetStateProps,
 } from 'routes/views/overview/components/dashboardWidgetBase';
-import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { awsDashboardActions, awsDashboardSelectors, AwsDashboardTab } from 'store/dashboard/awsDashboard';
 import { forecastSelectors } from 'store/forecasts';

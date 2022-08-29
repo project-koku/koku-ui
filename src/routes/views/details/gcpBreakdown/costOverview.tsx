@@ -1,6 +1,6 @@
-import { CostOverviewBase } from 'routes/views/details/components/costOverview/costOverviewBase';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
+import { CostOverviewBase } from 'routes/views/details/components/costOverview/costOverviewBase';
 import { gcpCostOverviewSelectors } from 'store/breakdown/costOverview/gcpCostOverview';
 import { createMapStateToProps } from 'store/common';
 

@@ -2,9 +2,9 @@ import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circ
 import { intl as defaultIntl } from 'components/i18n';
 import HookIntoProps from 'hook-into-props';
 import messages from 'locales/messages';
-import { CreateCostModelButton } from 'routes/costModels/costModelsDetails/createCostModelButton';
 import React from 'react';
 import { injectIntl } from 'react-intl';
+import { CreateCostModelButton } from 'routes/costModels/costModelsDetails/createCostModelButton';
 
 import EmptyStateBase from './emptyStateBase';
 

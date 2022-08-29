@@ -6,14 +6,14 @@ import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query
 import { Report } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
-import { Currency } from 'routes/components/currency';
-import { CostType } from 'routes/views/components/costType';
-import { TagLink } from 'routes/views/details/components/tag/tagLink';
-import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Currency } from 'routes/components/currency';
+import { CostType } from 'routes/views/components/costType';
+import { TagLink } from 'routes/views/details/components/tag/tagLink';
+import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { CostTypes } from 'utils/costType';

@@ -14,13 +14,13 @@ import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/ico
 import { orgUnitIdKey, Query, tagPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import messages from 'locales/messages';
+import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Cluster } from 'routes/views/details/components/cluster/cluster';
 import { CostChart } from 'routes/views/details/components/costChart/costChart';
 import { SummaryCard } from 'routes/views/details/components/summary/summaryCard';
 import { UsageChart } from 'routes/views/details/components/usageChart/usageChart';
 import { styles } from 'routes/views/details/ocpDetails/detailsHeader.styles';
-import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { CostOverviewWidget, CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 
 interface CostOverviewOwnProps {

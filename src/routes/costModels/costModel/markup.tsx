@@ -13,10 +13,10 @@ import {
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
-import { ReadOnlyTooltip } from 'routes/costModels/components/readOnlyTooltip';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
+import { ReadOnlyTooltip } from 'routes/costModels/components/readOnlyTooltip';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';

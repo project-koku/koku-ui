@@ -1,6 +1,6 @@
+import React from 'react';
 import { LoadingState } from 'routes/components/state/loadingState/loadingState';
 import { SourceStepErrorState } from 'routes/costModels/components/errorState';
-import React from 'react';
 
 import { CostModelContext } from './context';
 import SourcesTable from './table';

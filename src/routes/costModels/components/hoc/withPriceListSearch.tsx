@@ -1,5 +1,5 @@
-import { checkBoxLogic, deleteChip } from 'routes/costModels/components/logic/selectCheckbox';
 import React from 'react';
+import { checkBoxLogic, deleteChip } from 'routes/costModels/components/logic/selectCheckbox';
 
 export interface PriceListSearchQuery {
   primary: string;

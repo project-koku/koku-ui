@@ -1,5 +1,5 @@
-import { DashboardBase } from 'routes/views/overview/components/dashboardBase';
 import { connect } from 'react-redux';
+import { DashboardBase } from 'routes/views/overview/components/dashboardBase';
 import { createMapStateToProps } from 'store/common';
 import { ibmDashboardSelectors } from 'store/dashboard/ibmDashboard';
 

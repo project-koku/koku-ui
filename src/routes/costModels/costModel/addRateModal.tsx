@@ -2,6 +2,9 @@ import { Alert, Button, ButtonVariant, Form, Modal } from '@patternfly/react-cor
 import { CostModelRequest } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import messages from 'locales/messages';
+import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { connect } from 'react-redux';
 import {
   canSubmit as isReadyForSubmit,
   mergeToRequest,
@@ -9,9 +12,6 @@ import {
   useRateData,
 } from 'routes/costModels/components/rateForm';
 import { initialRateFormData } from 'routes/costModels/components/rateForm/utils';
-import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';

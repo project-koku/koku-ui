@@ -1,7 +1,7 @@
 import './reportSummaryDailyTrend.scss';
 
-import { DailyTrendChart, DailyTrendChartProps } from 'routes/views/components/charts/dailyTrendChart';
 import React from 'react';
+import { DailyTrendChart, DailyTrendChartProps } from 'routes/views/components/charts/dailyTrendChart';
 
 const ReportSummaryDailyTrend: React.SFC<DailyTrendChartProps> = props => (
   <div className="chart">

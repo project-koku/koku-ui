@@ -2,12 +2,12 @@ import { EmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@
 import { DollarSignIcon } from '@patternfly/react-icons/dist/esm/icons/dollar-sign-icon';
 import { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
-import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
-import { addMultiValueQuery, removeMultiValueQuery } from 'routes/costModels/components/filterLogic';
-import SourcesTable from 'routes/costModels/costModel/sourcesTable';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
+import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
+import { addMultiValueQuery, removeMultiValueQuery } from 'routes/costModels/components/filterLogic';
+import SourcesTable from 'routes/costModels/costModel/sourcesTable';
 import { createMapStateToProps } from 'store/common';
 import { rbacSelectors } from 'store/rbac';
 

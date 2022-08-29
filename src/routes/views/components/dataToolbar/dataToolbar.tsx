@@ -33,9 +33,9 @@ import { Tag, TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
-import { ResourceTypeahead } from 'routes/views/components/resourceTypeahead/resourceTypeahead';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { ResourceTypeahead } from 'routes/views/components/resourceTypeahead/resourceTypeahead';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
 

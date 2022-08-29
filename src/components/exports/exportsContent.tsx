@@ -3,11 +3,11 @@ import { getQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import Loading from 'routes/state/loading';
-import { addQueryFilter, removeQueryFilter } from 'routes/views/utils/query';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
+import Loading from 'routes/state/loading';
+import { addQueryFilter, removeQueryFilter } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 

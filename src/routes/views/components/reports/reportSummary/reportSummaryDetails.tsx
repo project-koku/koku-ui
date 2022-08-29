@@ -3,10 +3,10 @@ import './reportSummaryDetails.scss';
 import { Tooltip } from '@patternfly/react-core';
 import { Report, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
-import { EmptyValueState } from 'routes/components/state/emptyValueState/emptyValueState';
-import { ComputedReportItemType } from 'routes/views/components/charts/common/chartDatumUtils';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { EmptyValueState } from 'routes/components/state/emptyValueState/emptyValueState';
+import { ComputedReportItemType } from 'routes/views/components/charts/common/chartDatumUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, FormatOptions, formatUnits, unitsLookupKey } from 'utils/format';
 

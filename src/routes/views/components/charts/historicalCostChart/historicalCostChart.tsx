@@ -12,6 +12,8 @@ import {
 import { Title, TitleSizes } from '@patternfly/react-core';
 import { getDate } from 'date-fns';
 import messages from 'locales/messages';
+import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { default as ChartTheme } from 'routes/views/components/charts/chartTheme';
 import { getCostRangeString } from 'routes/views/components/charts/common/chartDatumUtils';
 import { getDateRange } from 'routes/views/components/charts/common/chartDatumUtils';
@@ -26,8 +28,6 @@ import {
   isDataAvailable,
   isSeriesHidden,
 } from 'routes/views/components/charts/common/chartUtils';
-import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FormatOptions, Formatter } from 'utils/format';
 import { noop } from 'utils/noop';
 

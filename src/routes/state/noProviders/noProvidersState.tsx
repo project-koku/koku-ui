@@ -4,10 +4,10 @@ import { ExternalLinkAltIcon } from '@patternfly/react-icons/dist/esm/icons/exte
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { ProviderType } from 'api/providers';
 import messages from 'locales/messages';
-import CostIcon from 'routes/components/icons/costIcon';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import CostIcon from 'routes/components/icons/costIcon';
 import { getReleasePath } from 'utils/paths';
 
 import { styles } from './noProvidersState.styles';

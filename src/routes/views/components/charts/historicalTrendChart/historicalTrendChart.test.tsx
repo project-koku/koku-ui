@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { AwsReport, AwsReportData } from 'api/reports/awsReports';
-import * as utils from 'routes/views/components/charts/common/chartDatumUtils';
 import React from 'react';
+import * as utils from 'routes/views/components/charts/common/chartDatumUtils';
 
 import { HistoricalTrendChart, HistoricalTrendChartProps } from './historicalTrendChart';
 

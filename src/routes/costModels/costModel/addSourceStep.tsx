@@ -3,14 +3,14 @@ import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
 import messages from 'locales/messages';
+import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { connect } from 'react-redux';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
 import { LoadingState } from 'routes/components/state/loadingState/loadingState';
 import { SourcesModalErrorState } from 'routes/costModels/components/errorState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'routes/costModels/components/filterLogic';
 import { WarningIcon } from 'routes/costModels/components/warningIcon';
-import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 

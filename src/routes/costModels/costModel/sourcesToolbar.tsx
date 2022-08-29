@@ -14,8 +14,8 @@ import {
 } from '@patternfly/react-core';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
-import { ReadOnlyTooltip } from 'routes/costModels/components/readOnlyTooltip';
 import React from 'react';
+import { ReadOnlyTooltip } from 'routes/costModels/components/readOnlyTooltip';
 
 interface FilterInputProps {
   id: string;

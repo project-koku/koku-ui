@@ -14,12 +14,12 @@ import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
-import { ReportSummaryItem, ReportSummaryItems } from 'routes/views/components/reports/reportSummary';
-import { SummaryModal } from 'routes/views/details/components/summary/summaryModal';
-import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
+import { ReportSummaryItem, ReportSummaryItems } from 'routes/views/components/reports/reportSummary';
+import { SummaryModal } from 'routes/views/details/components/summary/summaryModal';
+import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';

@@ -4,10 +4,10 @@ import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { render } from '@testing-library/react';
 import { intl } from 'components/i18n';
 import { format, getDate, getMonth, startOfMonth } from 'date-fns';
-import { ChartType } from 'routes/views/components/charts/common/chartDatumUtils';
-import { DashboardWidgetBase, DashboardWidgetProps } from 'routes/views/overview/components/dashboardWidgetBase';
 import React from 'react';
 import { defineMessages } from 'react-intl';
+import { ChartType } from 'routes/views/components/charts/common/chartDatumUtils';
+import { DashboardWidgetBase, DashboardWidgetProps } from 'routes/views/overview/components/dashboardWidgetBase';
 import { FetchStatus } from 'store/common';
 import { mockDate } from 'testUtils';
 

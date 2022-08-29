@@ -19,6 +19,10 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import messages from 'locales/messages';
+import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router-dom';
 import { Currency } from 'routes/components/currency';
 import Loading from 'routes/state/loading';
 import NoData from 'routes/state/noData/noData';
@@ -43,10 +47,6 @@ import {
   hasCurrentMonthData,
   hasPreviousMonthData,
 } from 'routes/views/utils/providers';
-import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';

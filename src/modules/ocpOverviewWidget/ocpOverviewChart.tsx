@@ -2,6 +2,8 @@ import { Skeleton, Title } from '@patternfly/react-core';
 import { getQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import React from 'react';
+import { connect } from 'react-redux';
 import {
   ChartType,
   ComputedReportItemType,
@@ -9,8 +11,6 @@ import {
   transformReport,
 } from 'routes/views/components/charts/common/chartDatumUtils';
 import { TrendChart } from 'routes/views/components/charts/trendChart';
-import React from 'react';
-import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { unitsLookupKey } from 'utils/format';
