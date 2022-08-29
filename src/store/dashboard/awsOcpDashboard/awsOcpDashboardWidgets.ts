@@ -6,7 +6,7 @@ import {
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'pages/views/components/charts/common/chartDatumUtils';
+} from 'routes/views/components/charts/common/chartDatumUtils';
 import { awsDashboardWidgets } from 'store/dashboard/awsDashboard';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';

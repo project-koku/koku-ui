@@ -6,7 +6,7 @@ import {
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'pages/views/components/charts/common/chartDatumUtils';
+} from 'routes/views/components/charts/common/chartDatumUtils';
 import { azureDashboardWidgets } from 'store/dashboard/azureDashboard';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatUnits } from 'utils/format';

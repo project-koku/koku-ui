@@ -3,28 +3,28 @@ import { permissionsComponent } from 'components/permissions';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-const NotFound = asyncComponent(() => import(/* webpackChunkName: "notFound" */ 'pages/state/notFound'));
-const AwsBreakdown = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'pages/views/details/awsBreakdown'));
-const AwsDetails = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'pages/views/details/awsDetails'));
+const NotFound = asyncComponent(() => import(/* webpackChunkName: "notFound" */ 'routes/state/notFound'));
+const AwsBreakdown = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'routes/views/details/awsBreakdown'));
+const AwsDetails = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'routes/views/details/awsDetails'));
 const AzureBreakdown = asyncComponent(
-  () => import(/* webpackChunkName: "azure" */ 'pages/views/details/azureBreakdown')
+  () => import(/* webpackChunkName: "azure" */ 'routes/views/details/azureBreakdown')
 );
-const OciBreakdown = asyncComponent(() => import(/* webpackChunkName: "oci" */ 'pages/views/details/ociBreakdown'));
-const AzureDetails = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/views/details/azureDetails'));
-const OciDetails = asyncComponent(() => import(/* webpackChunkName: "oci" */ 'pages/views/details/ociDetails'));
-const Explorer = asyncComponent(() => import(/* webpackChunkName: "explorer" */ 'pages/views/explorer'));
-const GcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/views/details/gcpBreakdown'));
-const GcpDetails = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/views/details/gcpDetails'));
-const IbmBreakdown = asyncComponent(() => import(/* webpackChunkName: "ibm" */ 'pages/views/details/ibmBreakdown'));
-const IbmDetails = asyncComponent(() => import(/* webpackChunkName: "ibm" */ 'pages/views/details/ibmDetails'));
-const OcpDetails = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'pages/views/details/ocpDetails'));
-const OcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'pages/views/details/ocpBreakdown'));
-const Overview = asyncComponent(() => import(/* webpackChunkName: "overview" */ 'pages/views/overview'));
+const OciBreakdown = asyncComponent(() => import(/* webpackChunkName: "oci" */ 'routes/views/details/ociBreakdown'));
+const AzureDetails = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'routes/views/details/azureDetails'));
+const OciDetails = asyncComponent(() => import(/* webpackChunkName: "oci" */ 'routes/views/details/ociDetails'));
+const Explorer = asyncComponent(() => import(/* webpackChunkName: "explorer" */ 'routes/views/explorer'));
+const GcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'routes/views/details/gcpBreakdown'));
+const GcpDetails = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'routes/views/details/gcpDetails'));
+const IbmBreakdown = asyncComponent(() => import(/* webpackChunkName: "ibm" */ 'routes/views/details/ibmBreakdown'));
+const IbmDetails = asyncComponent(() => import(/* webpackChunkName: "ibm" */ 'routes/views/details/ibmDetails'));
+const OcpDetails = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'routes/views/details/ocpDetails'));
+const OcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'routes/views/details/ocpBreakdown'));
+const Overview = asyncComponent(() => import(/* webpackChunkName: "overview" */ 'routes/views/overview'));
 const CostModelsDetails = asyncComponent(
-  () => import(/* webpackChunkName: "costModels" */ 'pages/costModels/costModelsDetails')
+  () => import(/* webpackChunkName: "costModels" */ 'routes/costModels/costModelsDetails')
 );
-// import(/* webpackChunkName: "costModels" */ './pages/costModels/costModelList')
-const CostModel = asyncComponent(() => import(/* webpackChunkName: "costModel" */ 'pages/costModels/costModel'));
+// import(/* webpackChunkName: "costModels" */ './routes/costModels/costModelList')
+const CostModel = asyncComponent(() => import(/* webpackChunkName: "costModel" */ 'routes/costModels/costModel'));
 
 // For syncing with permissions
 const paths = {

@@ -1,13 +1,13 @@
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
-import Loading from 'pages/state/loading';
-import NotAuthorized from 'pages/state/notAuthorized';
-import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { paths, routes } from 'routes';
+import Loading from 'routes/state/loading';
+import NotAuthorized from 'routes/state/notAuthorized';
+import NotAvailable from 'routes/state/notAvailable';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';

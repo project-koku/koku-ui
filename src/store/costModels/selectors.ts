@@ -1,4 +1,4 @@
-import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
+import { parseApiError } from 'routes/costModels/createCostModelWizard/parseError';
 import { FetchStatus } from 'store/common';
 import { selectPagination } from 'store/djangoUtils/pagination';
 import { selectQuery } from 'store/djangoUtils/query';
