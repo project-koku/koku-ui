@@ -467,8 +467,6 @@ mgmt_services/cost-mgmt:koku-ui/copy-webpack-plugin:11.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/core-js-pure:3.21.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/core-js:2.6.12.yarnlock
 mgmt_services/cost-mgmt:koku-ui/core-util-is:1.0.3.yarnlock
-mgmt_services/cost-mgmt:koku-ui/cross-env:7.0.3.yarnlock
-mgmt_services/cost-mgmt:koku-ui/cross-spawn:7.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/cross-spawn:7.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/cross-spawn:7.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/css-in-js-utils:2.0.1.yarnlock
@@ -692,7 +690,6 @@ mgmt_services/cost-mgmt:koku-ui/glob-parent:6.0.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/glob-to-regexp:0.4.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/glob:7.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/glob:7.2.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/glob:7.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/globals:11.12.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/globals:13.13.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/globals:13.13.0.yarnlock
@@ -738,7 +735,6 @@ mgmt_services/cost-mgmt:koku-ui/http-parser-js:0.5.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/http-proxy-agent:5.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/http-proxy-middleware:2.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/http-proxy:1.18.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/https-proxy-agent:5.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/https-proxy-agent:5.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/human-date:1.4.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/human-signals:2.1.0.yarnlock
