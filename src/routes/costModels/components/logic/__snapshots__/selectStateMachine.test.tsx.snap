@@ -1,22 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[` 1`] = `
-Array [
-  Object {
-    "selection": Array [],
+[
+  {
+    "selection": [],
   },
-  Array [
+  [
     "collapsed",
   ],
 ]
 `;
 
 exports[`selectmachine via TOGGLE: reaches state: "#(machine).expanded" ({"selection":[]}) 1`] = `
-Array [
-  Object {
-    "selection": Array [],
+[
+  {
+    "selection": [],
   },
-  Array [
+  [
     "expanded",
   ],
 ]

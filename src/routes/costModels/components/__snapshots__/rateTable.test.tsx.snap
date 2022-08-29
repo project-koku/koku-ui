@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`rate-table sort by metric & measurement 1`] = `
-Array [
+[
   <td
     class=""
     data-key="1"
@@ -34,7 +34,7 @@ Array [
 `;
 
 exports[`rate-table sort by metric & measurement 2`] = `
-Array [
+[
   <td
     class=""
     data-key="1"
@@ -67,7 +67,7 @@ Array [
 `;
 
 exports[`rate-table sort by metric & measurement 3`] = `
-Array [
+[
   <td
     class=""
     data-key="1"
