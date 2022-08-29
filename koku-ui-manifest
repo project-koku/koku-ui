@@ -171,8 +171,8 @@ mgmt_services/cost-mgmt:koku-ui/@types/aria-query:4.2.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/babel__core:7.1.19.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/babel__generator:7.6.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/babel__template:7.4.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@types/babel__traverse:7.18.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@types/babel__traverse:7.18.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@types/babel__traverse:7.18.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@types/babel__traverse:7.18.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/body-parser:1.19.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/bonjour:3.5.10.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/connect-history-api-fallback:1.3.5.yarnlock
@@ -514,7 +514,7 @@ mgmt_services/cost-mgmt:koku-ui/domutils:2.8.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/dot-case:3.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/ecdsa-sig-formatter:1.0.11.yarnlock
 mgmt_services/cost-mgmt:koku-ui/ee-first:1.1.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/electron-to-chromium:1.4.233.yarnlock
+mgmt_services/cost-mgmt:koku-ui/electron-to-chromium:1.4.234.yarnlock
 mgmt_services/cost-mgmt:koku-ui/emittery:0.10.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/emoji-regex:10.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/emoji-regex:8.0.0.yarnlock
@@ -1092,7 +1092,7 @@ mgmt_services/cost-mgmt:koku-ui/safer-buffer:2.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/safer-buffer:2.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/sanitize-html:2.7.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/sass-loader:13.0.2.yarnlock
-mgmt_services/cost-mgmt:koku-ui/sass:1.54.5.yarnlock
+mgmt_services/cost-mgmt:koku-ui/sass:1.54.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/saxes:6.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/scheduler:0.20.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/schema-utils:3.1.1.yarnlock
