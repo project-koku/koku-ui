@@ -6,6 +6,7 @@ mgmt_services/cost-mgmt:koku-ui/@babel/code-frame:7.18.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@babel/compat-data:7.18.13.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@babel/core:7.18.13.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@babel/core:7.18.13.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@babel/eslint-parser:7.18.9.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@babel/generator:7.18.13.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@babel/generator:7.18.13.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@babel/helper-compilation-targets:7.18.9.yarnlock
@@ -138,6 +139,7 @@ mgmt_services/cost-mgmt:koku-ui/@patternfly/react-table:4.100.8.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@patternfly/react-tokens:4.83.8.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@popperjs/core:2.11.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@react-aria/ssr:3.3.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/eslint-config-redhat-cloud-services:1.2.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-config-utilities:1.5.23.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-notifications:3.2.9.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-translations:3.2.4.yarnlock
@@ -544,6 +546,7 @@ mgmt_services/cost-mgmt:koku-ui/escodegen:2.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-config-airbnb-base:12.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-config-airbnb:16.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-config-prettier:2.10.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/eslint-config-prettier:8.5.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-config-standard-jsx:5.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-config-standard-react:6.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-config-standard:11.0.0.yarnlock
@@ -559,9 +562,11 @@ mgmt_services/cost-mgmt:koku-ui/eslint-plugin-markdown:3.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-node:6.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-patternfly-react:4.74.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-prettier:2.7.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/eslint-plugin-prettier:3.4.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-prettier:4.2.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-promise:3.8.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-react-hooks:4.6.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/eslint-plugin-react:7.31.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-react:7.31.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-react:7.31.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-rulesdir:0.1.0.yarnlock
@@ -577,6 +582,7 @@ mgmt_services/cost-mgmt:koku-ui/eslint-scope:7.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-utils:3.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-visitor-keys:1.3.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-visitor-keys:1.3.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/eslint-visitor-keys:2.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-visitor-keys:2.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-visitor-keys:3.3.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint:8.22.0.yarnlock
@@ -998,6 +1004,7 @@ mgmt_services/cost-mgmt:koku-ui/postcss:8.4.16.yarnlock
 mgmt_services/cost-mgmt:koku-ui/prelude-ls:1.2.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/prelude-ls:1.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/prettier-linter-helpers:1.0.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/prettier:2.7.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/prettier:2.7.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/pretty-error:4.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/pretty-format:27.5.1.yarnlock

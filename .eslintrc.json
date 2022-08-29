@@ -15,6 +15,7 @@
         "testing-library"
     ],
     "extends": [
+        "@redhat-cloud-services/eslint-config-redhat-cloud-services",
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:react/recommended"
@@ -31,16 +32,19 @@
         }
     },
     "globals": {
+        "afterEach": "readonly",
+        "beforeEach": "readonly",
         "describe": "readonly",
-        "test": "readonly",
-        "jest": "readonly",
         "expect": "readonly",
-        "require": "readonly",
         "global": "writable",
         "insights": "readonly",
         "it": "readonly",
-        "afterEach": "readonly",
-        "beforeEach": "readonly"
+        "jest": "readonly",
+        "mount": "readonly",
+        "render": "readonly",
+        "require": "readonly",
+        "test": "readonly",
+        "shallow": "readonly"
     },
     "rules": {
         "@typescript-eslint/adjacent-overload-signatures": "error",
