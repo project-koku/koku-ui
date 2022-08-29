@@ -71,6 +71,7 @@ module.exports = (_env, argv) => {
   console.log(`Current branch: ${gitBranch}`);
   console.log(`Beta branches: ${betaBranches}`);
   console.log(`Using deployments: ${appDeployment}`);
+  console.log(`Using clouddot env: ${process.env.CLOUDOT_ENV}`);
   console.log(`Using proxy: ${useProxy}`);
   console.log(`Using local API: ${useLocalRoutes}`);
   console.log(`Using local cloud services config: ${useLocalCloudServicesConfig}`);
