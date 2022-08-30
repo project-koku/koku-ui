@@ -1,5 +1,5 @@
 import { AlertVariant } from '@patternfly/react-core';
-import { addNotification, removeNotification } from '@redhat-cloud-services/frontend-components-notifications';
+import { addNotification, removeNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import { Export } from 'api/export/export';
 import { runExport } from 'api/export/exportUtils';
 import { ReportPathsType, ReportType } from 'api/reports/report';
