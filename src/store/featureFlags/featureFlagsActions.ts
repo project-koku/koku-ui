@@ -1,6 +1,6 @@
 import { createAction } from 'typesafe-actions';
 
-interface FeatureFlagsActionMeta {
+export interface FeatureFlagsActionMeta {
   isCurrencyFeatureEnabled?: boolean;
   isExportsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
