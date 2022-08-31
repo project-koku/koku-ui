@@ -112,7 +112,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-2-tickLabels-0"
+                id="chart-axis-2-ChartLabel-0"
                 x="8"
                 y="76.97"
               >
@@ -133,7 +133,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-2-tickLabels-1"
+                id="chart-axis-2-ChartLabel-1"
                 x="0.5333333333333332"
                 y="76.97"
               >
@@ -154,7 +154,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-2-tickLabels-2"
+                id="chart-axis-2-ChartLabel-2"
                 x="-8"
                 y="76.97"
               >
@@ -189,7 +189,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-3-tickLabels-0"
+                id="chart-axis-3-ChartLabel-0"
                 x="-7"
                 y="39.5"
               >
@@ -210,7 +210,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-3-tickLabels-1"
+                id="chart-axis-3-ChartLabel-1"
                 x="-7"
                 y="29"
               >
@@ -231,7 +231,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-3-tickLabels-2"
+                id="chart-axis-3-ChartLabel-2"
                 x="-7"
                 y="18.5"
               >
@@ -252,7 +252,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="chart-axis-3-tickLabels-3"
+                id="chart-axis-3-ChartLabel-3"
                 x="-7"
                 y="8"
               >
@@ -302,7 +302,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-labels-0"
+              id="legend-ChartLabel-0"
               x="30.8"
               y="100.97"
             >
@@ -319,7 +319,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-labels-1"
+              id="legend-ChartLabel-1"
               x="30.8"
               y="131.875"
             >
