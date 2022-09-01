@@ -3231,6 +3231,11 @@ export default defineMessages({
     description: 'Various',
     id: 'various',
   },
+  volumeTitle: {
+    defaultMessage: 'Volume',
+    description: 'Volume',
+    id: 'volumeTitle',
+  },
   yes: {
     defaultMessage: 'Yes',
     description: 'Yes',

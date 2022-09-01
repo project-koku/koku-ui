@@ -468,5 +468,6 @@
   "usageCostDescription": "The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.",
   "usageCostTitle": "Usage cost",
   "various": "Various",
+  "volumeTitle": "Volume",
   "yes": "Yes"
 }
