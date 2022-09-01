@@ -176,6 +176,24 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
     return null;
   };
 
+  // Returns volume usage chart
+  private getVolumeUsageChart = (widget: CostOverviewWidget) => {
+    const { intl } = this.props;
+
+    return (
+      <Card>
+        <CardTitle>
+          <Title headingLevel="h2" size={TitleSizes.lg}>
+            {intl.formatMessage(messages.volumeTitle)}
+          </Title>
+        </CardTitle>
+        <CardBody>
+          <UsageChart reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
+        </CardBody>
+      </Card>
+    );
+  };
+
   // Helper to fill grid columns instead of rows, based on the order defined by the reducer
   private getWidgetsColumns = () => {
     const { selectWidgets, widgets } = this.props;
@@ -218,6 +236,8 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
         return this.getMemoryUsageChart(widget);
       case CostOverviewWidgetType.reportSummary:
         return this.getSummaryCard(widget);
+      case CostOverviewWidgetType.volumeUsage:
+        return this.getVolumeUsageChart(widget);
       default:
         return null;
     }

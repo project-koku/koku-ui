@@ -4,8 +4,7 @@ import { ChartBullet } from '@patternfly/react-charts';
 import { Grid, GridItem, Skeleton } from '@patternfly/react-core';
 import { OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getQuery, Query } from 'api/queries/query';
-import { Report } from 'api/reports/report';
-import { ReportPathsType, ReportType } from 'api/reports/report';
+import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -85,7 +84,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   };
 
   private getChartDatum(): ChartDatum {
-    const { groupBy, report, intl } = this.props;
+    const { groupBy, report, intl, reportType } = this.props;
     const datum: ChartDatum = {
       limit: {},
       ranges: [],
@@ -112,9 +111,9 @@ class UsageChartBase extends React.Component<UsageChartProps> {
       value: Math.trunc(limit),
     };
 
-    // Qualitative range included only when grouped by cluster
-    if (groupBy === 'cluster') {
-      const hasCapacity = hasTotal && report.meta.total.request && report.meta.total.request !== null;
+    // Qualitative range included when grouped by cluster and volume usage
+    if (groupBy === 'cluster' || reportType === ReportType.volume) {
+      const hasCapacity = hasTotal && report.meta.total.capacity && report.meta.total.capacity !== null;
       const capacity = Math.trunc(hasCapacity ? report.meta.total.capacity.value : 0);
       const capacityUnits = intl.formatMessage(messages.units, {
         units: unitsLookupKey(hasCapacity ? report.meta.total.capacity.units : undefined),
@@ -253,7 +252,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   private getFreeSpace() {
     const { report, intl } = this.props;
     const hasTotal = report && report.meta && report.meta.total;
-    const hasCapacity = hasTotal && report.meta.total.request && report.meta.total.request !== null;
+    const hasCapacity = hasTotal && report.meta.total.capacity && report.meta.total.capacity !== null;
     const hasRequest = hasTotal && report.meta.total.request && report.meta.total.request !== null;
     const hasUsage = hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
 

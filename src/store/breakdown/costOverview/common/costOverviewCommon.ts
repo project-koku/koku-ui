@@ -7,6 +7,7 @@ export const enum CostOverviewWidgetType {
   cpuUsage = 'cpuUsage', // This type displays cpu usage as a bullet chart
   memoryUsage = 'memoryUsage', // This type displays memory usage as a bullet chart
   reportSummary = 'summary', // This type displays a cost report summary
+  volumeUsage = 'volumeUsage', // This type displays volume usage as a bullet chart
 }
 
 export interface CostOverviewWidget {

@@ -55,3 +55,10 @@ export const projectSummaryWidget: OcpCostOverviewWidget = {
   reportPathsType: ReportPathsType.ocp,
   type: CostOverviewWidgetType.reportSummary,
 };
+
+export const volumeUsageWidget: OcpCostOverviewWidget = {
+  id: getId(),
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.volume,
+  type: CostOverviewWidgetType.volumeUsage,
+};
