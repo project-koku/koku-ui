@@ -1,5 +1,5 @@
 import { useFlag } from '@unleash/proxy-client-react';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { featureFlagsActions } from 'store/featureFlags';
@@ -16,19 +16,25 @@ const enum FeatureToggle {
   oci = 'cost-management.ui.oci', // Oracle Cloud Infrastructure https://issues.redhat.com/browse/COST-2358
 }
 
-const getFlags = (): featureFlagsActions.FeatureFlagsActionMeta => {
-  return {
-    isCurrencyFeatureEnabled: useFlag(FeatureToggle.currency),
-    isExportsFeatureEnabled: useFlag(FeatureToggle.exports),
-    isIbmFeatureEnabled: useFlag(FeatureToggle.ibm),
-    isOciFeatureEnabled: useFlag(FeatureToggle.oci),
-  };
-};
-
 const FeatureFlagsBase: FunctionComponent<FeatureFlagsProps> = ({ children = null }): any => {
   const dispatch = useDispatch();
 
-  dispatch(featureFlagsActions.setFeatureFlags(getFlags()));
+  const isCurrencyFeatureEnabled = useFlag(FeatureToggle.currency);
+  const isExportsFeatureEnabled = useFlag(FeatureToggle.exports);
+  const isIbmFeatureEnabled = useFlag(FeatureToggle.ibm);
+  const isOciFeatureEnabled = useFlag(FeatureToggle.oci);
+
+  useEffect(() => {
+    dispatch(
+      featureFlagsActions.setFeatureFlags({
+        isCurrencyFeatureEnabled,
+        isExportsFeatureEnabled,
+        isIbmFeatureEnabled,
+        isOciFeatureEnabled,
+      })
+    );
+  }, []);
+
   return children;
 };
 
