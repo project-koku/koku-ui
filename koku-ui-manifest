@@ -559,13 +559,13 @@ mgmt_services/cost-mgmt:koku-ui/eslint-plugin-jsdoc:39.3.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-jsx-a11y:6.6.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-markdown:3.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-node:6.0.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/eslint-plugin-patternfly-react:4.74.3.yarnlock
-mgmt_services/cost-mgmt:koku-ui/eslint-plugin-prettier:4.2.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/eslint-plugin-patternfly-react:4.75.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-prettier:2.7.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-prettier:3.4.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/eslint-plugin-prettier:4.2.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-promise:3.8.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-react-hooks:4.6.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/eslint-plugin-react:7.31.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/eslint-plugin-react:7.31.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-react:7.31.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-react:7.31.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-rulesdir:0.1.0.yarnlock

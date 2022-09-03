@@ -126,7 +126,8 @@
             "as-needed"
         ],
         "react/display-name": 0,
-        "react/no-unescaped-entities": ["error", {"forbid": [">", "}"]}],
+        "react/no-unescaped-entities": ["error", { "forbid": [">", "}"]}],
+        "react/no-unknown-property": ["error", { "ignore": ["key"]}],
         "react/prop-types": 0,
         "simple-import-sort/imports": "error",
         "spaced-comment": "error",
