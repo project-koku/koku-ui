@@ -132,4 +132,4 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
 
 const Permissions = withRouter(connect(mapStateToProps, undefined)(PermissionsBase));
 
-export { Permissions, PermissionsProps };
+export default Permissions;

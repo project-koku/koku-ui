@@ -1,5 +1,5 @@
 import { asyncComponent } from 'components/async';
-import { permissionsComponent } from 'components/permissions';
+import { userAccess } from 'components/userAccess';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
@@ -49,97 +49,97 @@ const routes = [
   {
     path: paths.overview,
     labelKey: 'cost_management_overview',
-    component: permissionsComponent(Overview),
+    component: userAccess(Overview),
     exact: true,
   },
   {
     path: paths.costModels,
     labelKey: 'navigation.cost_models',
-    component: permissionsComponent(CostModelsDetails),
+    component: userAccess(CostModelsDetails),
     exact: true,
   },
   {
     path: `${paths.costModels}/:uuid`,
     labelKey: 'navigation.cost_models',
-    component: permissionsComponent(CostModel),
+    component: userAccess(CostModel),
     exact: true,
   },
   {
     path: paths.awsDetails,
     labelKey: 'navigation.aws_details',
-    component: permissionsComponent(AwsDetails),
+    component: userAccess(AwsDetails),
     exact: true,
   },
   {
     path: paths.awsDetailsBreakdown,
     labelKey: 'navigation.aws_details_breakdown',
-    component: permissionsComponent(AwsBreakdown),
+    component: userAccess(AwsBreakdown),
     exact: true,
   },
   {
     path: paths.azureDetails,
     labelKey: 'navigation.azure_details',
-    component: permissionsComponent(AzureDetails),
+    component: userAccess(AzureDetails),
     exact: true,
   },
   {
     path: paths.azureDetailsBreakdown,
     labelKey: 'navigation.azure_details_breakdown',
-    component: permissionsComponent(AzureBreakdown),
+    component: userAccess(AzureBreakdown),
     exact: true,
   },
   {
     path: paths.ociDetails,
     labelKey: 'navigation.oci_details',
-    component: permissionsComponent(OciDetails),
+    component: userAccess(OciDetails),
     exact: true,
   },
   {
     path: paths.ociDetailsBreakdown,
     labelKey: 'navigation.oci_details_breakdown',
-    component: permissionsComponent(OciBreakdown),
+    component: userAccess(OciBreakdown),
     exact: true,
   },
   {
     path: paths.explorer,
     labelKey: 'navigation.explorer',
-    component: permissionsComponent(Explorer),
+    component: userAccess(Explorer),
     exact: true,
   },
   {
     path: paths.gcpDetails,
     labelKey: 'navigation.gcp_details',
-    component: permissionsComponent(GcpDetails),
+    component: userAccess(GcpDetails),
     exact: true,
   },
   {
     path: paths.gcpDetailsBreakdown,
     labelKey: 'navigation.gcp_details_breakdown',
-    component: permissionsComponent(GcpBreakdown),
+    component: userAccess(GcpBreakdown),
     exact: true,
   },
   {
     path: paths.ibmDetails,
     labelKey: 'navigation.ibm_details',
-    component: permissionsComponent(IbmDetails),
+    component: userAccess(IbmDetails),
     exact: true,
   },
   {
     path: paths.ibmDetailsBreakdown,
     labelKey: 'navigation.ibm_details_breakdown',
-    component: permissionsComponent(IbmBreakdown),
+    component: userAccess(IbmBreakdown),
     exact: true,
   },
   {
     path: paths.ocpDetails,
     labelKey: 'navigation.ocp_details',
-    component: permissionsComponent(OcpDetails),
+    component: userAccess(OcpDetails),
     exact: true,
   },
   {
     path: paths.ocpDetailsBreakdown,
     labelKey: 'navigation.ocp_details_breakdown',
-    component: permissionsComponent(OcpBreakdown),
+    component: userAccess(OcpBreakdown),
     exact: true,
   },
 ];
