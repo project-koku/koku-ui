@@ -17,7 +17,7 @@ import { uiActions } from 'store/ui';
 import { userAccessActions, userAccessQuery, userAccessSelectors } from 'store/userAccess';
 
 const InactiveSources = asyncComponent(() => import(/* webpackChunkName: "notFound" */ 'components/inactiveSources'));
-const Permissions = asyncComponent(() => import(/* webpackChunkName: "notFound" */ 'components/permissions'));
+const Permissions = asyncComponent(() => import(/* webpackChunkName: "notFound" */ './permissions'));
 
 interface PermissionsWrapperOwnProps {
   children?: React.ReactNode;
