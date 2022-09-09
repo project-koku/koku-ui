@@ -5,20 +5,14 @@ const PermissionsWrapper = asyncComponent(
   () => import(/* webpackChunkName: "permissionsWrapper" */ './permissionsWrapper')
 );
 
-interface State {
-  // TBD...
-}
-
-// Permissions component wrapper for AsyncComponent
-export function userAccess<Props>(AysncComponent) {
-  class PermissionsComponent extends React.Component<Props, State> {
-    public render() {
-      return (
-        <PermissionsWrapper>
-          <AysncComponent {...this.props} />
-        </PermissionsWrapper>
-      );
-    }
-  }
+// Permissions component wrapper
+export function userAccess<Props>(Component) {
+  const PermissionsComponent: React.FC<Props> = props => {
+    return (
+      <PermissionsWrapper>
+        <Component {...props} />
+      </PermissionsWrapper>
+    );
+  };
   return PermissionsComponent;
 }
