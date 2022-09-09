@@ -1,12 +1,14 @@
 import { useFlag } from '@unleash/proxy-client-react';
-import { FunctionComponent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { featureFlagsActions } from 'store/featureFlags';
 
-interface FeatureFlagsProps extends RouteComponentProps {
+interface FeatureFlagsOwnProps {
   children?: React.ReactNode;
 }
+
+type FeatureFlagsProps = FeatureFlagsOwnProps & RouteComponentProps<void>;
 
 // eslint-disable-next-line no-shadow
 const enum FeatureToggle {
@@ -16,7 +18,7 @@ const enum FeatureToggle {
   oci = 'cost-management.ui.oci', // Oracle Cloud Infrastructure https://issues.redhat.com/browse/COST-2358
 }
 
-const FeatureFlagsBase: FunctionComponent<FeatureFlagsProps> = ({ children = null }): any => {
+const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
   const dispatch = useDispatch();
 
   const isCurrencyFeatureEnabled = useFlag(FeatureToggle.currency);
@@ -35,7 +37,7 @@ const FeatureFlagsBase: FunctionComponent<FeatureFlagsProps> = ({ children = nul
     );
   }, []);
 
-  return children;
+  return <>{children}</>;
 };
 
 const FeatureFlags = withRouter(FeatureFlagsBase);
