@@ -33,7 +33,7 @@ interface AddPriceListOwnProps {
 
 type AddPriceListProps = AddPriceListOwnProps & WrappedComponentProps;
 
-const AddPriceList: React.FunctionComponent<AddPriceListProps> = ({
+const AddPriceList: React.FC<AddPriceListProps> = ({
   cancel,
   currencyUnits,
   intl = defaultIntl, // Default required for testing

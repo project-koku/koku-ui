@@ -46,7 +46,7 @@ type SelectorProps = SelectorFormGroupOwnProps &
   SelectorFormSelectProps &
   WrappedComponentProps;
 
-const SelectorBase: React.FunctionComponent<SelectorProps> = ({
+const SelectorBase: React.FC<SelectorProps> = ({
   'aria-label': ariaLabel,
   helperTextInvalid: helpText,
   id,

@@ -32,7 +32,7 @@ interface Props extends WrappedComponentProps {
   setCostModelDialog: typeof costModelsActions.setCostModelDialog;
 }
 
-const MarkupCardBase: React.FunctionComponent<Props> = ({
+const MarkupCardBase: React.FC<Props> = ({
   intl,
   isWritePermission,
   setCostModelDialog,

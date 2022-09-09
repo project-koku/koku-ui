@@ -11,7 +11,7 @@ interface TagRateTableProps extends WrappedComponentProps {
 }
 
 // defaultIntl required for testing
-const TagRateTable: React.FunctionComponent<TagRateTableProps> = ({ intl = defaultIntl, tagRates }) => {
+const TagRateTable: React.FC<TagRateTableProps> = ({ intl = defaultIntl, tagRates }) => {
   const cells = [
     intl.formatMessage(messages.costModelsTagRateTableKey),
     intl.formatMessage(messages.costModelsTagRateTableValue),

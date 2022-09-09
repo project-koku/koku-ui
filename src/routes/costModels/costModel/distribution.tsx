@@ -31,7 +31,7 @@ interface Props extends WrappedComponentProps {
   setCostModelDialog: typeof costModelsActions.setCostModelDialog;
 }
 
-const DistributionCardBase: React.FunctionComponent<Props> = ({
+const DistributionCardBase: React.FC<Props> = ({
   intl,
   isWritePermission,
   setCostModelDialog,

@@ -22,12 +22,7 @@ interface RateFormOwnProps {
 type RateFormProps = RateFormOwnProps & WrappedComponentProps;
 
 // defaultIntl required for testing
-const RateFormBase: React.FunctionComponent<RateFormProps> = ({
-  currencyUnits,
-  intl = defaultIntl,
-  metricsHash,
-  rateFormData,
-}) => {
+const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIntl, metricsHash, rateFormData }) => {
   const {
     addTag,
     calculation,

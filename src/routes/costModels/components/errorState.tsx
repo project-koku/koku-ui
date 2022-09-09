@@ -27,7 +27,7 @@ interface OwnProps {
 type ErrorEmptyProps = Pick<EmptyStateProps, 'variant'>;
 type ErrorStateProps = ErrorEmptyProps & OwnProps;
 
-export const ErrorState: React.FunctionComponent<ErrorStateProps> = ({ variant, actionButton, title, description }) => {
+export const ErrorState: React.FC<ErrorStateProps> = ({ variant, actionButton, title, description }) => {
   return (
     <EmptyState variant={variant}>
       <EmptyStateIcon icon={ExclamationCircleIcon} color={global_DangerColor_100.value} />
@@ -48,7 +48,7 @@ interface SourcesErrorStateProps extends WrappedComponentProps {
   onRefresh: () => void;
 }
 
-export const SourceStepErrorStateBase: React.FunctionComponent<SourcesErrorStateProps> = ({ intl, onRefresh }) => {
+export const SourceStepErrorStateBase: React.FC<SourcesErrorStateProps> = ({ intl, onRefresh }) => {
   const title = intl.formatMessage(messages.costModelsWizardSourceErrorTitle);
   const description = intl.formatMessage(messages.costModelsWizardSourceErrorDescription, {
     url: (
@@ -79,7 +79,7 @@ export const SourceStepErrorStateBase: React.FunctionComponent<SourcesErrorState
 const SourceStepErrorState = injectIntl(SourceStepErrorStateBase);
 export { SourceStepErrorState };
 
-export const SourcesModalErrorStateBase: React.FunctionComponent<SourcesErrorStateProps> = ({ intl, onRefresh }) => {
+export const SourcesModalErrorStateBase: React.FC<SourcesErrorStateProps> = ({ intl, onRefresh }) => {
   const title = intl.formatMessage(messages.costModelsAssignSourcesErrorTitle);
   const description = intl.formatMessage(messages.costModelsAssignSourcesErrorDescription, {
     url: (
