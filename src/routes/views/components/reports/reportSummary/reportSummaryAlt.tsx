@@ -25,7 +25,7 @@ interface OcpCloudReportSummaryAltProps extends WrappedComponentProps {
   title: string;
 }
 
-const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = ({
+const OcpCloudReportSummaryAltBase: React.FC<OcpCloudReportSummaryAltProps> = ({
   children,
   detailsLink,
   status,

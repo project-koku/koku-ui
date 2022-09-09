@@ -6,7 +6,7 @@ interface WarningIconProps {
   text: string;
 }
 
-export const WarningIcon: React.SFC<WarningIconProps> = ({ text }) => {
+export const WarningIcon: React.FC<WarningIconProps> = ({ text }) => {
   return (
     <Tooltip content={text} enableFlip>
       <WarningTriangleIcon color="orange" />

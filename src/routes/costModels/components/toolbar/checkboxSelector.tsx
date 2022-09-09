@@ -12,7 +12,7 @@ interface CheckboxSelectorProps {
   isDisabled?: boolean;
 }
 
-export const CheckboxSelector: React.SFC<CheckboxSelectorProps> = ({
+export const CheckboxSelector: React.FC<CheckboxSelectorProps> = ({
   options,
   placeholderText,
   setSelections,

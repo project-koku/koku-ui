@@ -26,7 +26,7 @@ interface RateTableProps extends WrappedComponentProps {
 }
 
 // defaultIntl required for testing
-const RateTableBase: React.SFC<RateTableProps> = ({
+const RateTableBase: React.FC<RateTableProps> = ({
   actions,
   intl = defaultIntl,
   isCompact,

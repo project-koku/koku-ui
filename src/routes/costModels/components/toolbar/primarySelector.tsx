@@ -12,7 +12,7 @@ export interface PrimarySelectorProps {
   isDisabled?: boolean;
 }
 
-export const PrimarySelector: React.SFC<PrimarySelectorProps> = ({ setPrimary, primary, options, isDisabled }) => {
+export const PrimarySelector: React.FC<PrimarySelectorProps> = ({ setPrimary, primary, options, isDisabled }) => {
   return (
     <WithStateMachine
       machine={selectMachineState.withConfig({

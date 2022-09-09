@@ -6,7 +6,7 @@ import { UsageChart, UsageChartProps } from 'routes/views/components/charts/usag
 
 interface UsageChartPropsExt extends Omit<UsageChartProps, 'intl'> {}
 
-const ReportSummaryUsage: React.SFC<UsageChartPropsExt> = props => (
+const ReportSummaryUsage: React.FC<UsageChartPropsExt> = props => (
   <div className="chart">
     <UsageChart {...props} />
   </div>

@@ -6,7 +6,7 @@ import { TrendChart, TrendChartProps } from 'routes/views/components/charts/tren
 
 interface TrendChartPropsExt extends Omit<TrendChartProps, 'intl'> {}
 
-const ReportSummaryTrend: React.SFC<TrendChartPropsExt> = props => (
+const ReportSummaryTrend: React.FC<TrendChartPropsExt> = props => (
   <div className="chart">
     <TrendChart {...props} />
   </div>

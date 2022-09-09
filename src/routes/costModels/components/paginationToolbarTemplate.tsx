@@ -5,7 +5,7 @@ interface PaginationToolbarTemplateProps extends PaginationProps {
   id?: string;
 }
 
-export const PaginationToolbarTemplate: React.SFC<PaginationToolbarTemplateProps> = ({
+export const PaginationToolbarTemplate: React.FC<PaginationToolbarTemplateProps> = ({
   id,
   itemCount,
   perPage,

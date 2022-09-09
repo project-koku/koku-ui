@@ -17,7 +17,7 @@ interface EmptyFilterStateProps extends WrappedComponentProps {
   title?: MessageDescriptor;
 }
 
-const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
+const EmptyFilterStateBase: React.FC<EmptyFilterStateProps> = ({
   filter,
   icon = SearchIcon,
   intl = defaultIntl, // Default required for testing

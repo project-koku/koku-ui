@@ -11,7 +11,7 @@ interface ErrorStateProps extends WrappedComponentProps {
   icon?: any;
 }
 
-const ErrorStateBase: React.SFC<ErrorStateProps> = ({ error, icon = ErrorCircleOIcon, intl }) => {
+const ErrorStateBase: React.FC<ErrorStateProps> = ({ error, icon = ErrorCircleOIcon, intl }) => {
   let title = intl.formatMessage(messages.errorStateUnexpectedTitle);
   let subTitle = intl.formatMessage(messages.errorStateUnexpectedDesc);
 

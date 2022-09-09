@@ -25,7 +25,7 @@ interface FilterInputProps {
   placeholder?: string;
 }
 
-const FilterInput: React.SFC<FilterInputProps> = ({ id, placeholder = '', value, onChange, onSearch }) => {
+const FilterInput: React.FC<FilterInputProps> = ({ id, placeholder = '', value, onChange, onSearch }) => {
   return (
     <InputGroup>
       <TextInput
@@ -59,7 +59,7 @@ interface SourcesToolbarProps {
   };
 }
 
-export const SourcesToolbar: React.SFC<SourcesToolbarProps> = ({
+export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
   filterInputProps,
   paginationProps,
   filter,

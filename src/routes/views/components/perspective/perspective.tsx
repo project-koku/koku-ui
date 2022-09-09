@@ -101,7 +101,7 @@ const getInfrastructureOptions = ({
   return options;
 };
 
-const OverviewPerspectiveBase: React.SFC<OverviewPerspectiveProps> = ({
+const OverviewPerspectiveBase: React.FC<OverviewPerspectiveProps> = ({
   currentItem,
   hasAws,
   hasAwsOcp,

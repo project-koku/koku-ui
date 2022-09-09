@@ -31,7 +31,7 @@ interface FilterInputProps {
   placeholder?: string;
 }
 
-const FilterInput: React.SFC<FilterInputProps> = ({ placeholder = '', value, onChange, onKeyPress }) => {
+const FilterInput: React.FC<FilterInputProps> = ({ placeholder = '', value, onChange, onKeyPress }) => {
   return (
     <InputGroup>
       <TextInput

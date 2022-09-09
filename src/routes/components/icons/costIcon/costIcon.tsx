@@ -10,7 +10,7 @@ interface CostIconProps extends WrappedComponentProps {
 
 const icon = require('./Cost-icon.svg');
 
-const CostIcon: React.SFC<CostIconProps> = ({ className, intl }) => {
+const CostIcon: React.FC<CostIconProps> = ({ className, intl }) => {
   return (
     <img
       className={`cost-icon ${className}`}

@@ -30,7 +30,7 @@ interface ReportSummaryDetailsOwnProps {
 
 type ReportSummaryDetailsProps = ReportSummaryDetailsOwnProps & WrappedComponentProps;
 
-const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
+const ReportSummaryDetailsBase: React.FC<ReportSummaryDetailsProps> = ({
   chartType,
   computedReportItem = 'cost',
   computedReportItemValue = 'total',

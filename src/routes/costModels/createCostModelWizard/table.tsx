@@ -11,7 +11,7 @@ import { WarningIcon } from 'routes/costModels/components/warningIcon';
 import { AssignSourcesToolbar } from './assignSourcesToolbar';
 import { CostModelContext } from './context';
 
-const SourcesTable: React.SFC<WrappedComponentProps> = ({ intl }) => {
+const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
   return (
     <CostModelContext.Consumer>
       {({
