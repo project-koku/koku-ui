@@ -18,7 +18,7 @@ interface ReportSummaryItemOwnProps {
 
 type ReportSummaryItemProps = ReportSummaryItemOwnProps & WrappedComponentProps;
 
-const ReportSummaryItemBase: React.SFC<ReportSummaryItemProps> = ({
+const ReportSummaryItemBase: React.FC<ReportSummaryItemProps> = ({
   intl = defaultIntl, // Default required for testing
   label,
   totalValue,

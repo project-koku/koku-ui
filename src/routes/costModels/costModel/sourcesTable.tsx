@@ -18,7 +18,7 @@ interface SourcesTableStateProps {
 
 type SourcesTableProps = SourcesTableOwnProps & SourcesTableStateProps & WrappedComponentProps;
 
-const SourcesTable: React.FunctionComponent<SourcesTableProps> = ({ canWrite, costModels, intl, showDeleteDialog }) => {
+const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl, showDeleteDialog }) => {
   const getActions = (): IAction[] => {
     if (canWrite) {
       return [

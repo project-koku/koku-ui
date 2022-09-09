@@ -60,7 +60,7 @@ const updateTiersCurrency = (tiers, currencyUnits = 'USD') => {
   return rates;
 };
 
-const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
+const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
   intl,
   isProcess,
   isSuccess,

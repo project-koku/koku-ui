@@ -16,7 +16,7 @@ type SimpleInputProps = SimpleInputOwnProps &
   SimpleInputFormGroupProps &
   WrappedComponentProps;
 
-const SimpleInputBase: React.FunctionComponent<SimpleInputProps> = ({
+const SimpleInputBase: React.FC<SimpleInputProps> = ({
   id,
   intl = defaultIntl, // Default required for testing
   label,

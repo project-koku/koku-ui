@@ -7,7 +7,7 @@ interface ReadOnlyTooltipBase {
   isDisabled: boolean;
 }
 
-export const ReadOnlyTooltip: React.FunctionComponent<ReadOnlyTooltipBase> = ({
+export const ReadOnlyTooltip: React.FC<ReadOnlyTooltipBase> = ({
   children,
   tooltip = 'You have read only permissions',
   isDisabled,

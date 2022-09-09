@@ -22,7 +22,7 @@ interface TaggingRatesFormOwnProps {
 
 type TaggingRatesFormProps = TaggingRatesFormOwnProps & WrappedComponentProps;
 
-const TaggingRatesFormBase: React.FunctionComponent<TaggingRatesFormProps> = ({
+const TaggingRatesFormBase: React.FC<TaggingRatesFormProps> = ({
   currencyUnits,
   defaultTag,
   errors,

@@ -17,7 +17,7 @@ interface Props extends WrappedComponentProps {
   error?: string;
 }
 
-const DialogBase: React.SFC<Props> = ({
+const DialogBase: React.FC<Props> = ({
   intl = defaultIntl, // Default required for testing
   onClose,
   onProceed,

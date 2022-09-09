@@ -26,7 +26,7 @@ interface PriceListToolbarProps {
   button: React.ReactNode;
 }
 
-export const PriceListToolbar: React.SFC<PriceListToolbarProps> = ({
+export const PriceListToolbar: React.FC<PriceListToolbarProps> = ({
   primary,
   secondaries,
   pagination,

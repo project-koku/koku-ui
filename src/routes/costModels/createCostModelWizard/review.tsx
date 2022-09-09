@@ -26,7 +26,7 @@ import { WarningIcon } from 'routes/costModels/components/warningIcon';
 
 import { CostModelContext } from './context';
 
-const ReviewSuccessBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
+const ReviewSuccessBase: React.FC<WrappedComponentProps> = ({ intl }) => (
   <CostModelContext.Consumer>
     {({ onClose, name }) => (
       <EmptyState>
@@ -49,7 +49,7 @@ const ReviewSuccessBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
 
 const ReviewSuccess = injectIntl(ReviewSuccessBase);
 
-const ReviewDetailsBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
+const ReviewDetailsBase: React.FC<WrappedComponentProps> = ({ intl }) => (
   <CostModelContext.Consumer>
     {({ checked, createError, currencyUnits, description, distribution, isDiscount, markup, name, tiers, type }) => {
       const selectedSources = Object.keys(checked)

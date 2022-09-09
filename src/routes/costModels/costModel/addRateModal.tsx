@@ -31,7 +31,7 @@ interface AddRateModalBaseStateProps {
 
 type AddRateModalBaseProps = AddRateModalBaseOwnProps & AddRateModalBaseStateProps & WrappedComponentProps;
 
-export const AddRateModalBase: React.FunctionComponent<AddRateModalBaseProps> = ({
+export const AddRateModalBase: React.FC<AddRateModalBaseProps> = ({
   costModel,
   intl,
   isOpen,

@@ -14,7 +14,7 @@ interface ReportSummaryProps extends WrappedComponentProps {
   title: string;
 }
 
-const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({ children, detailsLink, title, subTitle, status }) => (
+const ReportSummaryBase: React.FC<ReportSummaryProps> = ({ children, detailsLink, title, subTitle, status }) => (
   <Card className="reportSummary">
     <CardTitle>
       <Title headingLevel="h2" size={TitleSizes.lg}>

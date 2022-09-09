@@ -6,7 +6,7 @@ import { CostChart, CostChartProps } from 'routes/views/components/charts/costCh
 
 interface CostChartPropsExt extends Omit<CostChartProps, 'intl'> {}
 
-const ReportSummaryCost: React.SFC<CostChartPropsExt> = props => (
+const ReportSummaryCost: React.FC<CostChartPropsExt> = props => (
   <div className="chart">
     <CostChart {...props} />
   </div>

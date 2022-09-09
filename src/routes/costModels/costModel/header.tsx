@@ -49,7 +49,7 @@ interface Props extends WrappedComponentProps {
   isWritePermission: boolean;
 }
 
-const Header: React.FunctionComponent<Props> = ({
+const Header: React.FC<Props> = ({
   intl,
   tabRefs,
   tabIndex,

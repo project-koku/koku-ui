@@ -25,7 +25,7 @@ type RateFormGroup = Pick<FormGroupProps, 'fieldId' | 'style'>;
 type RateTextInput = Pick<TextInputProps, 'value' | 'onChange' | 'validated' | 'onBlur'>;
 type RateInputBaseProps = RateFormGroup & RateTextInput & UniqueProps & WrappedComponentProps;
 
-const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
+const RateInputBase: React.FC<RateInputBaseProps> = ({
   currencyUnits = 'USD',
   fieldId,
   helperTextInvalid: helpText = messages.priceListPosNumberRate,

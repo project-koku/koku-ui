@@ -35,7 +35,7 @@ interface UpdateRateModaBaseStateProps {
 
 type UpdateRateModalBaseProps = UpdateRateModaBaseOwnProps & UpdateRateModaBaseStateProps & WrappedComponentProps;
 
-const UpdateRateModalBase: React.FunctionComponent<UpdateRateModalBaseProps> = ({
+const UpdateRateModalBase: React.FC<UpdateRateModalBaseProps> = ({
   costModel,
   index,
   intl = defaultIntl, // Default required for testing
