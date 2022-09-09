@@ -6,7 +6,7 @@ import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import { asyncComponent } from 'components/async';
 import { ExportsDrawer } from 'components/exports';
-import { PageTitle } from 'components/pageTitle/pageTitle';
+import { PageTitle } from 'components/pageTitle';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';

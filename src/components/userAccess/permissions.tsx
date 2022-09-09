@@ -36,21 +36,25 @@ interface PermissionsStateProps {
 
 type PermissionsProps = PermissionsOwnProps & PermissionsStateProps;
 
-class PermissionsBase extends React.Component<PermissionsProps> {
-  private getRoutePath() {
-    const { location } = this.props;
-
+const PermissionsBase: React.FC<PermissionsProps> = ({
+  children = null,
+  isIbmFeatureEnabled,
+  isOciFeatureEnabled,
+  location,
+  userAccess,
+  userAccessError,
+  userAccessFetchStatus,
+}) => {
+  const getRoutePath = () => {
     // cost models may include UUID in path
     const _pathname =
       location.pathname && location.pathname.startsWith(paths.costModels) ? paths.costModels : location.pathname;
     const currRoute = routes.find(({ path }) => path === _pathname);
 
     return currRoute ? currRoute.path : undefined;
-  }
+  };
 
-  private hasPermissions() {
-    const { isIbmFeatureEnabled, isOciFeatureEnabled, userAccess, userAccessFetchStatus } = this.props;
-
+  const hasPermissions = () => {
     if (!(userAccess && userAccessFetchStatus === FetchStatus.complete)) {
       return false;
     }
@@ -62,7 +66,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
     const gcp = hasGcpAccess(userAccess);
     const ibm = hasIbmAccess(userAccess) && isIbmFeatureEnabled;
     const ocp = hasOcpAccess(userAccess);
-    const path = this.getRoutePath();
+    const path = getRoutePath();
 
     switch (path) {
       case paths.explorer:
@@ -91,23 +95,20 @@ class PermissionsBase extends React.Component<PermissionsProps> {
       default:
         return false;
     }
+  };
+
+  // Page access denied because user doesn't have RBAC permissions and is not an org admin
+  let result = <NotAuthorized pathname={location.pathname} />;
+
+  if (userAccessFetchStatus === FetchStatus.inProgress) {
+    result = <Loading />;
+  } else if (userAccessError) {
+    result = <NotAvailable />;
+  } else if (hasPermissions()) {
+    result = <>{children}</>;
   }
-
-  public render() {
-    const { children = null, location, userAccessFetchStatus, userAccessError } = this.props;
-
-    if (userAccessFetchStatus === FetchStatus.inProgress) {
-      return <Loading />;
-    } else if (userAccessError) {
-      return <NotAvailable />;
-    } else if (this.hasPermissions()) {
-      return children;
-    }
-
-    // Page access denied because user doesn't have RBAC permissions and is not an org admin
-    return <NotAuthorized pathname={location.pathname} />;
-  }
-}
+  return result;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsStateProps>((state, props) => {
