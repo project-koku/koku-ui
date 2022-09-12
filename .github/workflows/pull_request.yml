@@ -69,11 +69,6 @@ jobs:
           git add .
           git commit --message "Update koku-manifest file"
           git push
-      - name: Remove work-in-progress tag for dependabot
-        if: ${{github.actor == 'dependabot[bot]'}}
-        uses: actions-ecosystem/action-remove-labels@v1
-        with:
-          labels: dependency-bot-wip
       - name: Check manifest
         if: ${{ success() }}
         run: ${{ github.workspace }}/.travis/check_manifest.sh
