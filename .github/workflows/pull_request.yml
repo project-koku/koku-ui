@@ -6,7 +6,10 @@ on:
     branches: [ main, master, prod-beta, prod-stable, stage-beta, stage-stable ]
 env:
   BRANCH: ${{ github.base_ref }}
-
+permissions:
+  pull-requests: write
+  packages: write
+  contents: write
 jobs:
   build:
     name: koku-ui build
@@ -17,6 +20,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Checkout PR
+        if: ${{github.actor == 'dependabot[bot]' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr checkout ${{ github.event.pull_request.number }}
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -42,6 +50,25 @@ jobs:
       - name: Install Node.js packages
         if: ${{ steps.modules-cache.outputs.cache-hit != 'true' }}
         run: yarn --frozen-lockfile
+      - name: Set up git config
+        if: ${{github.actor == 'dependabot[bot]' }}
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update manifest
+        if: ${{github.actor == 'dependabot[bot]' }}
+        run: node scripts/createManifest.js
+      - name: Push koku-manifest changes
+        if: ${{github.actor == 'dependabot[bot]' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git add .
+          git commit --message "Update koku-manifest file"
+          git push
       - name: Check manifest
         if: ${{ success() }}
         run: ${{ github.workspace }}/.travis/check_manifest.sh
