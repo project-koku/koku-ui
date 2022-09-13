@@ -14,8 +14,6 @@
     "lint": "yarn lint:ts",
     "lint:ts": "node --max-old-space-size=4096 node_modules/.bin/eslint --ext ts,tsx src/",
     "lint:ts:fix": "yarn lint:ts --fix",
-    "manifest:test": ".travis/check_manifest.sh",
-    "manifest:update": "node scripts/createManifest",
     "start": "node scripts/start-dev-server.js",
     "start:dev": "NODE_OPTIONS=--max-old-space-size=8192 webpack serve -c webpack.config.js",
     "stats": "yarn build:prod --profile --json > stats.json",
@@ -30,7 +28,7 @@
     "translations:compile:ast": "npx formatjs compile build/messages/src/Messages.json --out-file locales/en.json --ast",
     "translations:datafile": "node scripts/createDataJson.js",
     "translations:syncTranslations": "node scripts/syncTranslations.js",
-    "verify": "yarn manifest:test && yarn lint && yarn test && yarn build"
+    "verify": "yarn lint && yarn test && yarn build"
   },
   "dependencies": {
     "@patternfly/patternfly": "^4.210.2",

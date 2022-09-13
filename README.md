@@ -40,12 +40,6 @@ yarn build
 yarn test
 ```
 
-## Manifest
-Produces a file used by product security for vulnerability and compliance tracking.
-```
-yarn manifest:update
-```
-
 ## Running Koku UI against a hosted Koku API, using webpack proxy
 Note that this approach currently supports the Insights stage-beta, stage-stable, prod-beta, and prod-stable environments.
 

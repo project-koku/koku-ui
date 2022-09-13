@@ -42,9 +42,6 @@ jobs:
       - name: Install Node.js packages
         if: ${{ steps.modules-cache.outputs.cache-hit != 'true' }}
         run: yarn --frozen-lockfile
-      - name: Check manifest
-        if: ${{ success() }}
-        run: ${{ github.workspace }}/.travis/check_manifest.sh
       - name: Lint
         if: ${{ success() }}
         run: yarn lint
