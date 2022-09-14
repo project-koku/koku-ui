@@ -10,6 +10,7 @@
   "scripts": {
     "build": "yarn build:prod",
     "build:prod": "yarn clean && node --max_old_space_size=8192 node_modules/.bin/webpack --mode=production",
+    "check:updates": "yarn npm-check-updates",
     "clean": "rimraf dist/",
     "lint": "yarn lint:ts",
     "lint:ts": "node --max-old-space-size=4096 node_modules/.bin/eslint --ext ts,tsx src/",
@@ -106,6 +107,7 @@
     "jest-environment-jsdom": "^29.0.3",
     "jws": "^4.0.0",
     "mini-css-extract-plugin": "^2.6.1",
+    "npm-check-updates": "^16.1.2",
     "null-loader": "^4.0.1",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
