@@ -2711,10 +2711,10 @@ data-urls@^3.0.2:
     whatwg-mimetype "^3.0.0"
     whatwg-url "^11.0.0"
 
-date-fns@^2.29.2:
-  version "2.29.2"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.2.tgz#0d4b3d0f3dff0f920820a070920f0d9662c51931"
-  integrity sha512-0VNbwmWJDS/G3ySwFSJA3ayhbURMTJLtwM2DTxf9CWondCnh6DTNlO9JgRSq6ibf4eD0lfMJNBxUdEAHHix+bA==
+date-fns@^2.29.3:
+  version "2.29.3"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.3.tgz#27402d2fc67eb442b511b70bbdf98e6411cd68a8"
+  integrity sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==
 
 debounce-promise@^3.1.0:
   version "3.1.2"
@@ -3258,10 +3258,10 @@ eslint-plugin-node@^6.0.1:
     resolve "^1.3.3"
     semver "^5.4.1"
 
-eslint-plugin-patternfly-react@^4.75.5:
-  version "4.75.5"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-patternfly-react/-/eslint-plugin-patternfly-react-4.75.5.tgz#cfc067cb7eaaf38c018f8ced7d97fe00a81dd991"
-  integrity sha512-i+a/NWJnhCojiRohLLIEO0Gdow90shoWammvm8pqrJdmS7O7VazwTYF/99vOKzSRVI2B9mZCzWgnHAPu4pCwoQ==
+eslint-plugin-patternfly-react@^4.76.11:
+  version "4.76.11"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-patternfly-react/-/eslint-plugin-patternfly-react-4.76.11.tgz#61fb7a334a45ae3f71af02e212306f572680a3e6"
+  integrity sha512-F2cW0MlT6Kn4YAfhgSzZB0Rk/XHXtxt53UapkzmiGgvaa/uN4pCp4oX3mU0hiLpvqLlB29xnDH+BiyAQ/SH+Kg==
   dependencies:
     babel-eslint "^9.0.0"
     eslint-config-airbnb "^16.1.0"
