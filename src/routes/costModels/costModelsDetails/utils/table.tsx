@@ -2,7 +2,7 @@ import { Bullseye } from '@patternfly/react-core';
 import { IAction, ICell, SortByDirection } from '@patternfly/react-table';
 import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
 import { CostModel } from 'api/costModels';
-import { relativeTime } from 'human-date';
+import { formatDistanceToNow } from 'date-fns';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
@@ -48,7 +48,7 @@ export function getRowsByStateName(stateName: string, data: any) {
         item.description,
         item.source_type,
         item.sources.length.toString(),
-        relativeTime(item.updated_timestamp),
+        formatDistanceToNow(new Date(item.updated_timestamp), { addSuffix: true }),
       ],
       data: { costModel: item },
     };
