@@ -2,7 +2,9 @@ import { Bullseye } from '@patternfly/react-core';
 import { IAction, ICell, SortByDirection } from '@patternfly/react-table';
 import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
 import { CostModel } from 'api/costModels';
-import { formatDistanceToNow } from 'date-fns';
+import { intl } from 'components/i18n';
+import { format as formatDate } from 'date-fns';
+import messages from 'locales/messages';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
@@ -40,6 +42,12 @@ export function getRowsByStateName(stateName: string, data: any) {
     ];
   }
   return data.map((item: CostModel) => {
+    const dateTime = intl.formatMessage(messages.dateTime, {
+      dateTime: formatDate(
+        new Date(new Date(item.updated_timestamp).toISOString().replace(/z$/i, '')),
+        'dd LLL yyyy kk:mm'
+      ),
+    });
     return {
       cells: [
         {
@@ -48,7 +56,7 @@ export function getRowsByStateName(stateName: string, data: any) {
         item.description,
         item.source_type,
         item.sources.length.toString(),
-        formatDistanceToNow(new Date(item.updated_timestamp), { addSuffix: true }),
+        dateTime,
       ],
       data: { costModel: item },
     };
