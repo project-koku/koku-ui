@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@patternfly/patternfly": "^4.215.1",
-    "@patternfly/react-charts": "^6.92.0",
+    "@patternfly/react-charts": "^6.92.1",
     "@patternfly/react-core": "^4.239.0",
     "@patternfly/react-icons": "^4.90.0",
     "@patternfly/react-styles": "^4.89.0",
