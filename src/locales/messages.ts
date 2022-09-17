@@ -1378,11 +1378,6 @@ export default defineMessages({
     description: 'total cost is the sum of the infrastructure cost and supplementary cost',
     id: 'dashboardTotalCostTooltip',
   },
-  dateTime: {
-    defaultMessage: '{dateTime} UTC',
-    description: 'Date and Time',
-    id: 'dateTime',
-  },
   delete: {
     defaultMessage: 'Delete',
     description: 'Delete',

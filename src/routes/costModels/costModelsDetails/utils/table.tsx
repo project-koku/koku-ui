@@ -2,9 +2,7 @@ import { Bullseye } from '@patternfly/react-core';
 import { IAction, ICell, SortByDirection } from '@patternfly/react-table';
 import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
 import { CostModel } from 'api/costModels';
-import { intl } from 'components/i18n';
-import { format as formatDate } from 'date-fns';
-import messages from 'locales/messages';
+import { format, utcToZonedTime } from 'date-fns-tz';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
@@ -42,11 +40,8 @@ export function getRowsByStateName(stateName: string, data: any) {
     ];
   }
   return data.map((item: CostModel) => {
-    const dateTime = intl.formatMessage(messages.dateTime, {
-      dateTime: formatDate(
-        new Date(new Date(item.updated_timestamp).toISOString().replace(/z$/i, '')),
-        'dd LLL yyyy kk:mm'
-      ),
+    const dateTime = format(utcToZonedTime(item.updated_timestamp, 'UTC'), 'dd LLL yyyy kk:mm zzz', {
+      timeZone: 'UTC',
     });
     return {
       cells: [
