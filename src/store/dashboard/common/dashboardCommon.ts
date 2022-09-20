@@ -66,6 +66,7 @@ export interface DashboardWidget<T> {
     showInfrastructureLabel?: boolean; // Trend chart legend items show "Infrastructure cost" instead of "cost"
     showSupplementaryLabel?: boolean; // Trend chart legend items show "Supplementary cost" instead of "cost"
     titleKey: MessageDescriptor;
+    chartName: string; // Will be the prefix for ids within the chart
     type: number;
   };
   topItems?: {

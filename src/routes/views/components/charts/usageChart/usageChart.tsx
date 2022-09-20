@@ -43,6 +43,7 @@ interface UsageChartOwnProps {
   previousRequestData?: any;
   previousUsageData?: any;
   title?: string;
+  chartName: string;
   formatter?: Formatter;
   formatOptions?: FormatOptions;
 }
@@ -287,6 +288,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         top: 8,
       },
       title,
+      chartName,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
     const domain = getDomain(series, hiddenSeries);
@@ -324,6 +326,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
               padding={padding}
               theme={ChartTheme}
               width={width}
+              name={chartName}
             >
               {series &&
                 series.map((s, index) => {

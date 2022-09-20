@@ -231,7 +231,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     showInfrastructureLabel: boolean = false,
     showSupplementaryLabel: boolean = false
   ) => {
-    const { chartFormatter, currentReport, details, previousReport, trend } = this.props;
+    const { chartFormatter, currentReport, details, previousReport, trend, intl } = this.props;
     const { currentComparison } = this.state;
 
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
@@ -239,6 +239,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     const daily = currentComparison === Comparison.daily;
     const type = daily ? ChartType.daily : trend.type;
+    const chartName = trend.chartName;
 
     // Cost data
     const currentData = transformReport(currentReport, type, 'date', computedReportItem, computedReportItemValue);
@@ -262,12 +263,14 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           formatOptions={trend.formatOptions}
           formatter={chartFormatter || formatUnits}
           height={height}
+          intl={intl}
           previousData={previousData}
           showForecast={trend.computedForecastItem !== undefined}
           showInfrastructureLabel={showInfrastructureLabel}
           showSupplementaryLabel={showSupplementaryLabel}
           showUsageLegendLabel={details.showUsageLegendLabel}
           units={this.getUnits()}
+          chartName={chartName}
         />
       </>
     );
@@ -410,6 +413,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementary cost, etc.
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
     const title = intl.formatMessage(trend.titleKey, { units: this.getFormattedUnits() });
+    const chartName = trend.chartName;
 
     // Cost data
     const currentData = transformReport(currentReport, trend.type, 'date', computedReportItem, computedReportItemValue);
@@ -440,6 +444,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         showSupplementaryLabel={showSupplementaryLabel}
         showUsageLegendLabel={details.showUsageLegendLabel}
         title={title}
+        chartName={chartName}
         units={this.getUnits()}
       />
     );
@@ -452,6 +457,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const title = intl.formatMessage(trend.titleKey, {
       units: this.getFormattedUnits(),
     });
+    const chartName = trend.chartName;
 
     // Request data
     const currentRequestData = transformReport(currentReport, trend.type, 'date', 'request');
@@ -473,6 +479,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         previousRequestData={previousRequestData}
         previousUsageData={previousUsageData}
         title={title}
+        chartName={chartName}
       />
     );
   };

@@ -49,6 +49,7 @@ interface TrendChartOwnProps {
   showSupplementaryLabel?: boolean; // Show supplementary cost labels
   showUsageLegendLabel?: boolean; // The cost legend label is shown by default
   title?: string;
+  chartName: string;
   units?: string;
 }
 
@@ -353,6 +354,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         top: 8,
       },
       title,
+      chartName,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
     const domain = getDomain(series, hiddenSeries);
@@ -371,7 +373,6 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
           ),
         })
       : undefined;
-
     return (
       <>
         <Title headingLevel="h3" size="md">
@@ -388,6 +389,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom-left"
+              name={chartName}
               padding={padding}
               theme={ChartTheme}
               width={width}
