@@ -244,7 +244,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
     return result;
   }
 
-  private getLegend = () => {
+  private getLegend = (chartName) => {
     const { legendItemsPerRow } = this.props;
     const { hiddenSeries, series, width } = this.state;
 
@@ -257,7 +257,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         height={25}
         gutter={20}
         itemsPerRow={itemsPerRow}
-        name="legend"
+        name={chartName + "-legend"}
       />
     );
   };
@@ -320,7 +320,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
               domain={domain}
               events={this.getEvents()}
               height={height}
-              legendComponent={this.getLegend()}
+              legendComponent={this.getLegend(chartName)}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom-left"
               padding={padding}

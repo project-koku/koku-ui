@@ -311,7 +311,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
     return result;
   }
 
-  private getLegend = () => {
+  private getLegend = (chartName) => {
     const { legendItemsPerRow } = this.props;
     const { hiddenSeries, series, width } = this.state;
 
@@ -322,7 +322,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         gutter={20}
         height={25}
         itemsPerRow={legendItemsPerRow}
-        name="legend"
+        name={chartName + "-legend"}
         orientation={width > 150 ? 'horizontal' : 'vertical'}
       />
     );
@@ -386,7 +386,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
               events={this.getEvents()}
               height={height}
               legendAllowWrap
-              legendComponent={this.getLegend()}
+              legendComponent={this.getLegend(chartName)}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom-left"
               name={chartName}
