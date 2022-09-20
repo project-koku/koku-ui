@@ -302,7 +302,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-ChartLabel-0"
+              id="chart-legend-ChartLabel-0"
               x="30.8"
               y="100.97"
             >
@@ -319,7 +319,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-ChartLabel-1"
+              id="chart-legend-ChartLabel-1"
               x="30.8"
               y="131.875"
             >
