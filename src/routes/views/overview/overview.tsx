@@ -636,7 +636,7 @@ class OverviewBase extends React.Component<OverviewProps> {
                     </>
                   }
                 >
-                  <Button variant={ButtonVariant.plain}>
+                  <Button aria-label={intl.formatMessage(messages.overviewInfoButtonArialLabel)} variant={ButtonVariant.plain}>
                     <OutlinedQuestionCircleIcon />
                   </Button>
                 </Popover>

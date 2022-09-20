@@ -40538,6 +40538,12 @@
         "value": "A description of perspectives"
       }
     ],
+    "overviewInfoButtonArialLabel": [
+      {
+        "type": 0,
+        "value": "A dialog with a description of perspectives"
+      }
+    ],
     "overviewTitle": [
       {
         "type": 0,
