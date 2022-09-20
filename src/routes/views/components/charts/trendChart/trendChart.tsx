@@ -381,6 +381,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
           <div style={{ height, width }} data-testid="trend-chart-wrapper">
             <Chart
+              title={title || 'Trend Chart'}
               containerComponent={container}
               domain={domain}
               events={this.getEvents()}

@@ -8,7 +8,7 @@ exports[`reports are formatted to datums 1`] = `
     data-ouia-component-type="PF4/Title"
     data-ouia-safe="true"
   >
-    Trend Title
+    Example Trend Title
   </h3>
   <div
     class="chartOverride"
@@ -23,12 +23,18 @@ exports[`reports are formatted to datums 1`] = `
         style="height: 100%; width: 100%; user-select: none; pointer-events: none; position: relative;"
       >
         <svg
+          aria-labelledby="victory-container-4-title"
           height="100"
           role="img"
           style="pointer-events: all; width: 100%; height: 100%;"
           viewBox="0 0 0 100"
           width="0"
         >
+          <title
+            id="victory-container-4-title"
+          >
+            Example Trend Title
+          </title>
           <g
             clip-path="url(#victory-clip-5)"
             style="height: 100%; width: 100%; user-select: none;"
