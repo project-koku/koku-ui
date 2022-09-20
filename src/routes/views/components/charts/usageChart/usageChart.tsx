@@ -310,9 +310,11 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
 
     return (
       <>
-        <Title headingLevel="h3" size="md">
-          {title}
-        </Title>
+        {title?.length && (
+          <Title headingLevel="h3" size="md">
+            {title}
+          </Title>
+        )}
         <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
           <div style={{ height, width }} data-testid="usage-chart-wrapper">
             <Chart
