@@ -2234,9 +2234,11 @@ export default defineMessages({
       '{value, select, ' +
       'cost {Cost comparison} ' +
       'cpu {CPU usage, request, and limit comparison} ' +
+      'instance_type {Compute usage comparison}' +
       'memory {Memory usage, request, and limit comparison} ' +
       'modal {{name} daily usage comparison} ' +
       'storage {Storage usage comparison} ' +
+      'virtual_machine {Virtual machine usage comparison}' +
       'other {}}',
     description: 'Historical chart titles',
     id: 'historicalChartTitle',
