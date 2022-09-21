@@ -1,4 +1,5 @@
 import { Card, CardBody, CardTitle, Grid, GridItem, Title, TitleSizes } from '@patternfly/react-core';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -23,6 +24,13 @@ interface HistoricalDataStateProps {
 type HistoricalDataProps = HistoricalDataOwnProps & HistoricalDataStateProps & WrappedComponentProps;
 
 class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
+  private getTitleKey = (reportPathsType, reportType) => {
+    if (reportPathsType === ReportPathsType.azure) {
+      return reportType === ReportType.instanceType ? 'virtual_machine' : reportType;
+    }
+    return reportType === ReportType.instanceType ? 'instance_type' : reportType;
+  };
+
   // Returns cost chart
   private getCostChart = (widget: HistoricalDataWidget) => {
     const { costType, intl } = this.props;
@@ -31,7 +39,9 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
       <Card>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.historicalChartTitle, { value: widget.reportType })}
+            {intl.formatMessage(messages.historicalChartTitle, {
+              value: this.getTitleKey(widget.reportPathsType, widget.reportType),
+            })}
           </Title>
         </CardTitle>
         <CardBody>
@@ -53,7 +63,9 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
       <Card>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.historicalChartTitle, { value: widget.reportType })}
+            {intl.formatMessage(messages.historicalChartTitle, {
+              value: this.getTitleKey(widget.reportPathsType, widget.reportType),
+            })}
           </Title>
         </CardTitle>
         <CardBody>
@@ -75,7 +87,9 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
       <Card>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.historicalChartTitle, { value: widget.reportType })}
+            {intl.formatMessage(messages.historicalChartTitle, {
+              value: this.getTitleKey(widget.reportPathsType, widget.reportType),
+            })}
           </Title>
         </CardTitle>
         <CardBody>
