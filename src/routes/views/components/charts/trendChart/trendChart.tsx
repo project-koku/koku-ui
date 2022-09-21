@@ -300,19 +300,20 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents() {
+    const { chartName } = this.props;
     const { hiddenSeries, series } = this.state;
 
     const result = getInteractiveLegendEvents({
       chartNames: getChartNames(series),
       isHidden: index => isSeriesHidden(hiddenSeries, index),
-      legendName: 'legend',
+      legendName: chartName ? chartName + '-legend' : 'legend',
       onLegendClick: props => this.handleLegendClick(props.index),
     });
     return result;
   }
 
-  private getLegend = (chartName = 'chart') => {
-    const { legendItemsPerRow } = this.props;
+  private getLegend = () => {
+    const { legendItemsPerRow, chartName } = this.props;
     const { hiddenSeries, series, width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
@@ -322,7 +323,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         gutter={20}
         height={25}
         itemsPerRow={legendItemsPerRow}
-        name={chartName + '-legend'}
+        name={chartName ? chartName + '-legend' : 'legend'}
         orientation={width > 150 ? 'horizontal' : 'vertical'}
       />
     );
@@ -389,7 +390,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
               events={this.getEvents()}
               height={height}
               legendAllowWrap
-              legendComponent={this.getLegend(chartName)}
+              legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom-left"
               name={chartName}

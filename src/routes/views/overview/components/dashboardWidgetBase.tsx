@@ -457,7 +457,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const title = intl.formatMessage(trend.titleKey, {
       units: this.getFormattedUnits(),
     });
-    const chartName = trend.chartName;
 
     // Request data
     const currentRequestData = transformReport(currentReport, trend.type, 'date', 'request');
@@ -479,7 +478,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         previousRequestData={previousRequestData}
         previousUsageData={previousUsageData}
         title={title}
-        chartName={chartName}
+        chartName={trend.chartName}
       />
     );
   };
