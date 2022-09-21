@@ -239,7 +239,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     const daily = currentComparison === Comparison.daily;
     const type = daily ? ChartType.daily : trend.type;
-    const chartName = trend.chartName;
 
     // Cost data
     const currentData = transformReport(currentReport, type, 'date', computedReportItem, computedReportItemValue);
@@ -270,7 +269,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           showSupplementaryLabel={showSupplementaryLabel}
           showUsageLegendLabel={details.showUsageLegendLabel}
           units={this.getUnits()}
-          chartName={chartName}
+          chartName={trend.chartName}
         />
       </>
     );
@@ -413,7 +412,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementary cost, etc.
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
     const title = intl.formatMessage(trend.titleKey, { units: this.getFormattedUnits() });
-    const chartName = trend.chartName;
 
     // Cost data
     const currentData = transformReport(currentReport, trend.type, 'date', computedReportItem, computedReportItemValue);
@@ -444,7 +442,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         showSupplementaryLabel={showSupplementaryLabel}
         showUsageLegendLabel={details.showUsageLegendLabel}
         title={title}
-        chartName={chartName}
+        chartName={trend.chartName}
         units={this.getUnits()}
       />
     );
