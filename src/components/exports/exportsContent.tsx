@@ -76,8 +76,11 @@ class ExportsContentBase extends React.Component<ExportsContentProps> {
         onSetPage={this.handleSetPage}
         page={page}
         perPage={limit}
+        titles={{
+          paginationTitle: `exports ${isBottom ? 'bottom' : 'top'} pagination`,
+        }}
         variant={isBottom ? PaginationVariant.bottom : PaginationVariant.top}
-        widgetId="`pagination${isBottom ? '-bottom' : ''}`"
+        widgetId={`exports-pagination${isBottom ? '-bottom' : ''}`}
       />
     );
   };

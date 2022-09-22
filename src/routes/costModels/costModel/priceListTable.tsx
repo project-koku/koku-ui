@@ -268,6 +268,9 @@ class PriceListTable extends React.Component<Props, State> {
                         })
                       }
                       onPerPageSelect={(_evt, perPage) => this.setState({ pagination: { page: 1, perPage } })}
+                      titles={{
+                        paginationTitle: `pricelist top pagination`,
+                      }}
                     />
                   }
                 />
@@ -360,6 +363,9 @@ class PriceListTable extends React.Component<Props, State> {
                                 pagination: { page: 1, perPage },
                               })
                             }
+                            titles={{
+                              paginationTitle: `pricelist bottom pagination`,
+                            }}
                             variant="bottom"
                           />
                         </ToolbarItem>
