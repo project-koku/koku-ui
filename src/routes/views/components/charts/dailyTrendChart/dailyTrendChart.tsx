@@ -37,6 +37,7 @@ import { chartStyles } from './dailyTrendChart.styles';
 
 interface DailyTrendChartOwnProps {
   adjustContainerHeight?: boolean;
+  chartName: string;
   containerHeight?: number;
   currentData: any;
   forecastData?: any;

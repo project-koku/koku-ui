@@ -231,7 +231,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     showInfrastructureLabel: boolean = false,
     showSupplementaryLabel: boolean = false
   ) => {
-    const { chartFormatter, currentReport, details, previousReport, trend, intl } = this.props;
+    const { chartFormatter, currentReport, details, previousReport, trend } = this.props;
     const { currentComparison } = this.state;
 
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
@@ -262,7 +262,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           formatOptions={trend.formatOptions}
           formatter={chartFormatter || formatUnits}
           height={height}
-          intl={intl}
           previousData={previousData}
           showForecast={trend.computedForecastItem !== undefined}
           showInfrastructureLabel={showInfrastructureLabel}

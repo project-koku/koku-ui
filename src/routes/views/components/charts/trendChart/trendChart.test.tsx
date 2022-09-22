@@ -13,6 +13,7 @@ const previousData = utils.transformReport(previousMonthReport, utils.ChartType.
 
 const props: TrendChartProps = {
   title: 'Example Trend Title',
+  chartName: 'exampleTrendChart',
   height: 100,
   intl: null,
   currentData,

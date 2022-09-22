@@ -34,6 +34,7 @@ import { chartStyles } from './trendChart.styles';
 
 interface TrendChartOwnProps {
   adjustContainerHeight?: boolean;
+  chartName: string;
   containerHeight?: number;
   currentData: any;
   forecastData?: any;
@@ -49,7 +50,6 @@ interface TrendChartOwnProps {
   showSupplementaryLabel?: boolean; // Show supplementary cost labels
   showUsageLegendLabel?: boolean; // The cost legend label is shown by default
   title?: string;
-  chartName: string;
   units?: string;
 }
 
@@ -306,7 +306,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
     const result = getInteractiveLegendEvents({
       chartNames: getChartNames(series),
       isHidden: index => isSeriesHidden(hiddenSeries, index),
-      legendName: chartName ? chartName + '-legend' : 'legend',
+      legendName: chartName + '-legend',
       onLegendClick: props => this.handleLegendClick(props.index),
     });
     return result;
@@ -323,7 +323,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         gutter={20}
         height={25}
         itemsPerRow={legendItemsPerRow}
-        name={chartName ? chartName + '-legend' : 'legend'}
+        name={`${chartName}-legend`}
         orientation={width > 150 ? 'horizontal' : 'vertical'}
       />
     );
