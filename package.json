@@ -111,7 +111,7 @@
     "null-loader": "^4.0.1",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
-    "sass": "^1.54.9",
+    "sass": "^1.55.0",
     "sass-loader": "^13.0.2",
     "ts-loader": "^9.4.1",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
