@@ -20,9 +20,9 @@ import { skeletonWidth } from 'utils/skeleton';
 import { chartStyles, styles } from './ocpOverviewChart.styles';
 
 interface OcpOverviewChartOwnProps {
+  chartName: string;
   computedReportItemType?: ComputedReportItemType;
   title?: string; // This is just a test property
-  chartName: string;
 }
 
 interface OcpOverviewChartStateProps {
@@ -85,7 +85,7 @@ class OcpOverviewChartBase extends React.Component<OcpOverviewChartProps> {
   }
 
   private getChart = () => {
-    const { currentReport, previousReport, chartName } = this.props;
+    const { chartName, currentReport, previousReport } = this.props;
     const units = this.getUnits();
 
     const currentData = transformReport(
@@ -106,12 +106,12 @@ class OcpOverviewChartBase extends React.Component<OcpOverviewChartProps> {
     return (
       <TrendChart
         adjustContainerHeight
+        chartName={chartName}
         containerHeight={chartStyles.chartContainerHeight}
         currentData={currentData}
         formatter={formatUnits}
         height={chartStyles.chartHeight}
         previousData={previousData}
-        chartName={chartName}
         units={units}
       />
     );

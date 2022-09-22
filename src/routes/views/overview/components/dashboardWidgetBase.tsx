@@ -255,6 +255,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         </div>
         <ReportSummaryComponent
           adjustContainerHeight={adjustContainerHeight}
+          chartName={trend.chartName}
           containerHeight={containerHeight}
           currentData={currentData}
           forecastData={forecastData}
@@ -268,7 +269,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           showSupplementaryLabel={showSupplementaryLabel}
           showUsageLegendLabel={details.showUsageLegendLabel}
           units={this.getUnits()}
-          chartName={trend.chartName}
         />
       </>
     );
@@ -429,6 +429,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       <ReportSummaryTrend
         adjustContainerHeight={adjustContainerHeight}
         containerHeight={containerHeight}
+        chartName={trend.chartName}
         currentData={currentData}
         forecastData={forecastData}
         forecastConeData={forecastConeData}
@@ -441,7 +442,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         showSupplementaryLabel={showSupplementaryLabel}
         showUsageLegendLabel={details.showUsageLegendLabel}
         title={title}
-        chartName={trend.chartName}
         units={this.getUnits()}
       />
     );
@@ -466,6 +466,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     return (
       <ReportSummaryUsage
         adjustContainerHeight={adjustContainerHeight}
+        chartName={trend.chartName}
         containerHeight={chartStyles.containerUsageHeight}
         currentRequestData={currentRequestData}
         currentUsageData={currentUsageData}
@@ -475,7 +476,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         previousRequestData={previousRequestData}
         previousUsageData={previousUsageData}
         title={title}
-        chartName={trend.chartName}
       />
     );
   };

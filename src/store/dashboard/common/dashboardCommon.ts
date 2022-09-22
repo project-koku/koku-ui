@@ -57,16 +57,16 @@ export interface DashboardWidget<T> {
     service_name?: string;
   };
   trend: {
+    chartName: string; // Will be the prefix for ids within the chart
     computedForecastItem?: string; // The computed forecast item to use in charts.
     computedForecastInfrastructureItem?: string; // The computed forecast infrastructure item to use in charts.
     computedReportItem: string; // The computed report item to use in charts, summary, etc.
     computedReportItemValue: string; // The computed report value (e.g., raw, markup, total, or usage)
-    formatOptions?: FormatOptions;
     dailyTitleKey?: MessageDescriptor;
+    formatOptions?: FormatOptions;
     showInfrastructureLabel?: boolean; // Trend chart legend items show "Infrastructure cost" instead of "cost"
     showSupplementaryLabel?: boolean; // Trend chart legend items show "Supplementary cost" instead of "cost"
     titleKey: MessageDescriptor;
-    chartName: string; // Will be the prefix for ids within the chart
     type: number;
   };
   topItems?: {

@@ -20,11 +20,12 @@ import { baseQuery, isOcpAvailable } from './ocpOverviewUtils';
 import { styles } from './ocpOverviewWidget.styles';
 
 interface OcpOverviewWidgetOwnProps {
-  title?: string; // This is just a test property
   chartName: string;
+  title?: string; // This is just a test property
 }
 
 interface OcpOverviewWidgetStateProps {
+  chartName?: string;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -32,7 +33,6 @@ interface OcpOverviewWidgetStateProps {
   query: Query;
   queryString: string;
   title?: string; // This is just a test property
-  chartName?: string;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;

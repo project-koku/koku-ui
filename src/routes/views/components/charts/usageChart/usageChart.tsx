@@ -34,6 +34,7 @@ import { chartStyles } from './usageChart.styles';
 
 interface UsageChartOwnProps {
   adjustContainerHeight?: boolean;
+  chartName: string;
   containerHeight?: number;
   currentRequestData?: any;
   currentUsageData: any;
@@ -43,7 +44,6 @@ interface UsageChartOwnProps {
   previousRequestData?: any;
   previousUsageData?: any;
   title?: string;
-  chartName: string;
   formatter?: Formatter;
   formatOptions?: FormatOptions;
 }
@@ -246,7 +246,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
   }
 
   private getLegend = () => {
-    const { legendItemsPerRow, chartName } = this.props;
+    const { chartName, legendItemsPerRow } = this.props;
     const { hiddenSeries, series, width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
@@ -280,6 +280,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
 
   public render() {
     const {
+      chartName,
       height,
       intl,
       padding = {
@@ -289,7 +290,6 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         top: 8,
       },
       title,
-      chartName,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
     const domain = getDomain(series, hiddenSeries);
@@ -319,7 +319,6 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
           <div style={{ height, width }} data-testid="usage-chart-wrapper">
             <Chart
-              title={title || 'Usage Chart'}
               containerComponent={container}
               domain={domain}
               events={this.getEvents()}
@@ -327,10 +326,11 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom-left"
+              name={chartName}
               padding={padding}
               theme={ChartTheme}
+              title={title || 'Usage Chart'}
               width={width}
-              name={chartName}
             >
               {series &&
                 series.map((s, index) => {

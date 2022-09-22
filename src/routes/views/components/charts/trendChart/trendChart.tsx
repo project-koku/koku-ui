@@ -313,7 +313,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
   }
 
   private getLegend = () => {
-    const { legendItemsPerRow, chartName } = this.props;
+    const { chartName, legendItemsPerRow } = this.props;
     const { hiddenSeries, series, width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
@@ -346,6 +346,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
 
   public render() {
     const {
+      chartName,
       height,
       intl,
       padding = {
@@ -355,7 +356,6 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         top: 8,
       },
       title,
-      chartName,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
     const domain = getDomain(series, hiddenSeries);
@@ -384,7 +384,6 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
           <div style={{ height, width }} data-testid="trend-chart-wrapper">
             <Chart
-              title={title || 'Trend Chart'}
               containerComponent={container}
               domain={domain}
               events={this.getEvents()}
@@ -396,6 +395,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
               name={chartName}
               padding={padding}
               theme={ChartTheme}
+              title={title || 'Trend Chart'}
               width={width}
             >
               {series &&
