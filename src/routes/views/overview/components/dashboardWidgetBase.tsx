@@ -255,6 +255,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         </div>
         <ReportSummaryComponent
           adjustContainerHeight={adjustContainerHeight}
+          chartName={trend.chartName}
           containerHeight={containerHeight}
           currentData={currentData}
           forecastData={forecastData}
@@ -428,6 +429,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       <ReportSummaryTrend
         adjustContainerHeight={adjustContainerHeight}
         containerHeight={containerHeight}
+        chartName={trend.chartName}
         currentData={currentData}
         forecastData={forecastData}
         forecastConeData={forecastConeData}
@@ -464,6 +466,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     return (
       <ReportSummaryUsage
         adjustContainerHeight={adjustContainerHeight}
+        chartName={trend.chartName}
         containerHeight={chartStyles.containerUsageHeight}
         currentRequestData={currentRequestData}
         currentUsageData={currentUsageData}

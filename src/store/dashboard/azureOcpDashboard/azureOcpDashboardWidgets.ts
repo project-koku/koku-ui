@@ -31,6 +31,7 @@ export const costSummaryWidget: AzureOcpDashboardWidget = {
     limit: 3,
   },
   trend: {
+    chartName: 'azureOcpCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
@@ -63,6 +64,7 @@ export const databaseWidget: AzureOcpDashboardWidget = {
     service_name: azureDashboardWidgets.databaseWidget.tabsFilter.service_name,
   },
   trend: {
+    chartName: 'azureOcpDatabaseChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -87,6 +89,7 @@ export const networkWidget: AzureOcpDashboardWidget = {
     service_name: azureDashboardWidgets.networkWidget.tabsFilter.service_name,
   },
   trend: {
+    chartName: 'azureOcpNetworkChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -114,6 +117,7 @@ export const storageWidget: AzureOcpDashboardWidget = {
     service_name: 'Storage',
   },
   trend: {
+    chartName: 'azureOcpStorageChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
@@ -141,6 +145,7 @@ export const virtualMachineWidget: AzureOcpDashboardWidget = {
     service_name: 'Virtual Machines',
   },
   trend: {
+    chartName: 'azureOcpComputeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,

@@ -407,6 +407,7 @@
   "openShiftCloudInfrastructureDesc": "Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.",
   "openShiftDesc": "Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.",
   "overviewInfoArialLabel": "A description of perspectives",
+  "overviewInfoButtonArialLabel": "A dialog with a description of perspectives",
   "overviewTitle": "Cost Management Overview",
   "pageTitleAws": "Amazon Web Services - Cost Management | Red Hat OpenShift Cluster Manager",
   "pageTitleAzure": "Microsoft Azure - Cost Management | Red Hat OpenShift Cluster Manager",

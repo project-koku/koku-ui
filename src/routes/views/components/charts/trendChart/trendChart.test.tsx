@@ -12,7 +12,8 @@ const currentData = utils.transformReport(currentMonthReport, utils.ChartType.da
 const previousData = utils.transformReport(previousMonthReport, utils.ChartType.daily);
 
 const props: TrendChartProps = {
-  title: 'Trend Title',
+  title: 'Example Trend Title',
+  chartName: 'exampleTrendChart',
   height: 100,
   intl: null,
   currentData,
@@ -24,7 +25,7 @@ const props: TrendChartProps = {
 test('reports are formatted to datums', () => {
   render(<TrendChart {...props} />);
   /* eslint-disable-next-line testing-library/no-node-access */
-  expect(screen.getByText(props.title).parentElement).toMatchSnapshot();
+  expect(screen.getAllByText(props.title)[0].parentElement).toMatchSnapshot();
   expect(screen.queryByText(/no data/i)).toBeNull();
 });
 

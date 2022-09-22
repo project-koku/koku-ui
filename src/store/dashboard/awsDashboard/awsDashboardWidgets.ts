@@ -35,6 +35,7 @@ export const computeWidget: AwsDashboardWidget = {
     service: 'AmazonEC2',
   },
   trend: {
+    chartName: 'awsComputeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
@@ -61,6 +62,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
     limit: 3,
   },
   trend: {
+    chartName: 'awsCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
@@ -91,6 +93,7 @@ export const databaseWidget: AwsDashboardWidget = {
     service: 'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
   },
   trend: {
+    chartName: 'awsDatabaseChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -117,6 +120,7 @@ export const networkWidget: AwsDashboardWidget = {
     service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
   },
   trend: {
+    chartName: 'awsNetworkChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -140,6 +144,7 @@ export const storageWidget: AwsDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
+    chartName: 'awsStorageChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,

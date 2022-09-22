@@ -36,6 +36,7 @@ export const computeWidget: GcpDashboardWidget = {
     service: 'Compute Engine',
   },
   trend: {
+    chartName: 'gcpComputeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
@@ -62,6 +63,7 @@ export const costSummaryWidget: GcpDashboardWidget = {
     limit: 3,
   },
   trend: {
+    chartName: 'gcpCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
@@ -91,6 +93,7 @@ export const databaseWidget: GcpDashboardWidget = {
     service: 'Bigtable,Datastore,Database Migrations,Firebase,Firestore,MemoryStore,Spanner,SQL',
   },
   trend: {
+    chartName: 'gcpDatabaseChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -118,6 +121,7 @@ export const networkWidget: GcpDashboardWidget = {
       'Network,VPC,Firewall,Route,IP,DNS,CDN,NAT,Traffic Director,Service Discovery,Cloud Domains,Private Service Connect,Cloud Armor',
   },
   trend: {
+    chartName: 'gcpNetworkChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -140,6 +144,7 @@ export const storageWidget: GcpDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
+    chartName: 'gcpUsageChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,

@@ -36,6 +36,7 @@ export const computeWidget: GcpOcpDashboardWidget = {
     service: 'Compute Engine',
   },
   trend: {
+    chartName: 'gcpOcpComputeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
@@ -61,6 +62,7 @@ export const costSummaryWidget: GcpOcpDashboardWidget = {
     limit: 3,
   },
   trend: {
+    chartName: 'gcpOcpCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
@@ -90,6 +92,7 @@ export const databaseWidget: GcpOcpDashboardWidget = {
     service: gcpDashboardWidgets.databaseWidget.tabsFilter.service,
   },
   trend: {
+    chartName: 'gcpOcpDatabaseChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -115,6 +118,7 @@ export const networkWidget: GcpOcpDashboardWidget = {
     service: gcpDashboardWidgets.networkWidget.tabsFilter.service,
   },
   trend: {
+    chartName: 'gcpOcpNetworkChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -137,6 +141,7 @@ export const storageWidget: GcpOcpDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
+    chartName: 'gcpOcpStorageChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,

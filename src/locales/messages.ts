@@ -2874,6 +2874,11 @@ export default defineMessages({
     description: 'A description of perspectives',
     id: 'overviewInfoArialLabel',
   },
+  overviewInfoButtonArialLabel: {
+    defaultMessage: 'A dialog with a description of perspectives',
+    description: 'A dialog with a description of perspectives',
+    id: 'overviewInfoButtonArialLabel',
+  },
   overviewTitle: {
     defaultMessage: 'Cost Management Overview',
     description: 'Cost Management Overview',

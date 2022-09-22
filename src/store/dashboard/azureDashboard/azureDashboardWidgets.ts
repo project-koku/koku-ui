@@ -33,6 +33,7 @@ export const costSummaryWidget: AzureDashboardWidget = {
     limit: 3,
   },
   trend: {
+    chartName: 'azureCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
@@ -65,6 +66,7 @@ export const databaseWidget: AzureDashboardWidget = {
     service_name: 'Database,Cosmos DB,Cache for Redis',
   },
   trend: {
+    chartName: 'azureDatabaseChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -89,6 +91,7 @@ export const networkWidget: AzureDashboardWidget = {
     service_name: 'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
   },
   trend: {
+    chartName: 'azureNetworkChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -110,6 +113,7 @@ export const storageWidget: AzureDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
+    chartName: 'azureStorageChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
@@ -137,6 +141,7 @@ export const virtualMachineWidget: AzureDashboardWidget = {
     service_name: 'Virtual Machines',
   },
   trend: {
+    chartName: 'azureComputeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,

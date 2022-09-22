@@ -34,6 +34,7 @@ import { chartStyles } from './trendChart.styles';
 
 interface TrendChartOwnProps {
   adjustContainerHeight?: boolean;
+  chartName: string;
   containerHeight?: number;
   currentData: any;
   forecastData?: any;
@@ -299,19 +300,20 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents() {
+    const { chartName } = this.props;
     const { hiddenSeries, series } = this.state;
 
     const result = getInteractiveLegendEvents({
       chartNames: getChartNames(series),
       isHidden: index => isSeriesHidden(hiddenSeries, index),
-      legendName: 'legend',
+      legendName: chartName + '-legend',
       onLegendClick: props => this.handleLegendClick(props.index),
     });
     return result;
   }
 
   private getLegend = () => {
-    const { legendItemsPerRow } = this.props;
+    const { chartName, legendItemsPerRow } = this.props;
     const { hiddenSeries, series, width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
@@ -321,7 +323,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         gutter={20}
         height={25}
         itemsPerRow={legendItemsPerRow}
-        name="legend"
+        name={`${chartName}-legend`}
         orientation={width > 150 ? 'horizontal' : 'vertical'}
       />
     );
@@ -344,6 +346,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
 
   public render() {
     const {
+      chartName,
       height,
       intl,
       padding = {
@@ -371,12 +374,13 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
           ),
         })
       : undefined;
-
     return (
       <>
-        <Title headingLevel="h3" size="md">
-          {title}
-        </Title>
+        {title?.length && (
+          <Title headingLevel="h3" size="md">
+            {title}
+          </Title>
+        )}
         <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
           <div style={{ height, width }} data-testid="trend-chart-wrapper">
             <Chart
@@ -388,8 +392,10 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom-left"
+              name={chartName}
               padding={padding}
               theme={ChartTheme}
+              title={title || 'Trend Chart'}
               width={width}
             >
               {series &&

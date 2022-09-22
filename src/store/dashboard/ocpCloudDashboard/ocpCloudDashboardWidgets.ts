@@ -33,6 +33,7 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
     limit: 3,
   },
   trend: {
+    chartName: 'ocpCloudCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
@@ -64,6 +65,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
     service: 'AmazonEC2',
   },
   trend: {
+    chartName: 'ocpCloudComputeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
@@ -91,6 +93,7 @@ export const databaseWidget: OcpCloudDashboardWidget = {
       gcpDashboardWidgets.databaseWidget.filter.service,
   },
   trend: {
+    chartName: 'ocpCloudDatabaseChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -118,6 +121,7 @@ export const networkWidget: OcpCloudDashboardWidget = {
       gcpDashboardWidgets.networkWidget.filter.service,
   },
   trend: {
+    chartName: 'ocpCloudNetworkChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -140,6 +144,7 @@ export const storageWidget: OcpCloudDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
+    chartName: 'ocpCloudStorageChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,

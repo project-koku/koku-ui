@@ -31,6 +31,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
     viewAllPath: paths.ocpDetails,
   },
   trend: {
+    chartName: 'ocpCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedForecastInfrastructureItem: ComputedForecastItemType.infrastructure,
     computedReportItem: ComputedReportItemType.cost,
@@ -60,6 +61,7 @@ export const cpuWidget: OcpDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
+    chartName: 'ocpCpuChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.ocpDailyUsageAndRequestComparison,
@@ -81,6 +83,7 @@ export const memoryWidget: OcpDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
+    chartName: 'ocpMemoryChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.ocpDailyUsageAndRequestComparison,
@@ -102,6 +105,7 @@ export const volumeWidget: OcpDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
+    chartName: 'ocpVolumeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.ocpDailyUsageAndRequestComparison,

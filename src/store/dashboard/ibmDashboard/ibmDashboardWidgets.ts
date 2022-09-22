@@ -36,6 +36,7 @@ export const computeWidget: IbmDashboardWidget = {
     service: 'Compute Engine',
   },
   trend: {
+    chartName: 'ibmComputeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
@@ -62,6 +63,7 @@ export const costSummaryWidget: IbmDashboardWidget = {
     limit: 3,
   },
   trend: {
+    chartName: 'ibmCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
@@ -91,6 +93,7 @@ export const databaseWidget: IbmDashboardWidget = {
     service: 'Bigtable,Datastore,Database Migrations,Firestore,MemoryStore,Spanner,SQL',
   },
   trend: {
+    chartName: 'ibmDatabaseChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -118,6 +121,7 @@ export const networkWidget: IbmDashboardWidget = {
       'VPC network,Network services,Hybrid Connectivity,Network Service Tiers,Network Security,Network Intelligence',
   },
   trend: {
+    chartName: 'ibmNetworkChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -140,6 +144,7 @@ export const storageWidget: IbmDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
+    chartName: 'ibmStorageChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,

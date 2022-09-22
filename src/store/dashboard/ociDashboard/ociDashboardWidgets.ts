@@ -33,6 +33,7 @@ export const costSummaryWidget: OciDashboardWidget = {
     limit: 3,
   },
   trend: {
+    chartName: 'ociCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
@@ -63,6 +64,7 @@ export const databaseWidget: OciDashboardWidget = {
       'Database,Autonomous Database,Autonomous Data Warehouse,Autonomous Transaction Processing,Autonomous JSON Database,Exadata Database Service,Database Cloud Service,Autonomous Database on Exadata,MySQL HeatWave,NoSQL,Search Service with OpenSearch',
   },
   trend: {
+    chartName: 'ociDatabaseChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -89,6 +91,7 @@ export const networkWidget: OciDashboardWidget = {
       'Network,Virtual Cloud Networks,Networking Gateways,Load Balancers,Site-to-Site VPN,Client-to-Site VPN,FastConnect,Customer-Premises Equipment,DNS Management',
   },
   trend: {
+    chartName: 'ociNetworkChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
@@ -110,6 +113,7 @@ export const storageWidget: OciDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
+    chartName: 'ociStorageChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
@@ -137,6 +141,7 @@ export const virtualMachineWidget: OciDashboardWidget = {
     product_service: 'Compute,Virtual Machines',
   },
   trend: {
+    chartName: 'ociComputeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,

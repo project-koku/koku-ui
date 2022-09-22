@@ -20,10 +20,12 @@ import { baseQuery, isOcpAvailable } from './ocpOverviewUtils';
 import { styles } from './ocpOverviewWidget.styles';
 
 interface OcpOverviewWidgetOwnProps {
+  chartName: string;
   title?: string; // This is just a test property
 }
 
 interface OcpOverviewWidgetStateProps {
+  chartName?: string;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -83,6 +85,7 @@ class OcpOverviewWidgetBase extends React.Component<OcpOverviewWidgetProps> {
       userAccessFetchStatus === FetchStatus.inProgress || providersFetchStatus === FetchStatus.inProgress;
 
     const title = this.props.title;
+    const chartName = this.props.chartName;
 
     // Test for no providers
     const noProviders = !isOcpAvailable(providers, providersFetchStatus, userAccess);
@@ -101,7 +104,7 @@ class OcpOverviewWidgetBase extends React.Component<OcpOverviewWidgetProps> {
     return (
       <div style={styles.chartContent}>
         <div style={styles.chartContainer}>
-          <OcpOverviewChart title={title} />
+          <OcpOverviewChart chartName={chartName} title={title} />
         </div>
       </div>
     );
