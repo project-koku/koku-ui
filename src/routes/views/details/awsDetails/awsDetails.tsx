@@ -189,7 +189,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         titles={{
           paginationTitle: intl.formatMessage(messages.paginationTitle, {
             title: intl.formatMessage(messages.aws),
-            placement: 'top',
+            placement: isBottom ? 'bottom' : 'top',
           }),
         }}
         variant={isBottom ? PaginationVariant.bottom : PaginationVariant.top}
