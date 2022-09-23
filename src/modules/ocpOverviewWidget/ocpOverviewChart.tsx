@@ -106,11 +106,11 @@ class OcpOverviewChartBase extends React.Component<OcpOverviewChartProps> {
     return (
       <TrendChart
         adjustContainerHeight
-        chartName={chartName}
         containerHeight={chartStyles.chartContainerHeight}
         currentData={currentData}
         formatter={formatUnits}
         height={chartStyles.chartHeight}
+        name={chartName}
         previousData={previousData}
         units={units}
       />

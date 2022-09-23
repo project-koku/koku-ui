@@ -38,6 +38,7 @@ interface HistoricalTrendChartOwnProps {
   formatOptions?: FormatOptions;
   formatter: Formatter;
   height: number;
+  name?: string;
   padding?: any;
   previousData?: any;
   legendItemsPerRow?: number;
@@ -179,19 +180,20 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents() {
+    const { name = '' } = this.props;
     const { hiddenSeries, series } = this.state;
 
     const result = getInteractiveLegendEvents({
       chartNames: getChartNames(series),
       isHidden: index => isSeriesHidden(hiddenSeries, index),
-      legendName: 'legend',
+      legendName: `${name}-legend`,
       onLegendClick: props => this.handleLegendClick(props.index),
     });
     return result;
   }
 
   private getLegend = () => {
-    const { legendItemsPerRow } = this.props;
+    const { legendItemsPerRow, name = '' } = this.props;
     const { hiddenSeries, series } = this.state;
 
     return (
@@ -200,7 +202,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
         height={25}
         gutter={20}
         itemsPerRow={legendItemsPerRow}
-        name="legend"
+        name={`${name}-legend`}
       />
     );
   };
@@ -223,8 +225,9 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
   public render() {
     const {
       height,
-      intl,
       containerHeight = height,
+      intl,
+      name,
       padding = {
         bottom: 120,
         left: 8,
@@ -268,6 +271,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom"
+              name={name}
               padding={padding}
               theme={ChartTheme}
               width={width}

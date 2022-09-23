@@ -17,6 +17,10 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const costSummaryWidget: OciDashboardWidget = {
+  availableTabs: [OciDashboardTab.product_services, OciDashboardTab.payer_tenant_ids, OciDashboardTab.regions],
+  chartType: DashboardChartType.dailyTrend,
+  chartName: 'ociCostChart',
+  currentTab: OciDashboardTab.product_services,
   id: getId(),
   titleKey: messages.ociDashboardCostTitle,
   forecastPathsType: ForecastPathsType.oci,
@@ -33,7 +37,6 @@ export const costSummaryWidget: OciDashboardWidget = {
     limit: 3,
   },
   trend: {
-    chartName: 'ociCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
@@ -41,12 +44,11 @@ export const costSummaryWidget: OciDashboardWidget = {
     titleKey: messages.ociCostTrendTitle,
     type: ChartType.rolling,
   },
-  availableTabs: [OciDashboardTab.product_services, OciDashboardTab.payer_tenant_ids, OciDashboardTab.regions],
-  chartType: DashboardChartType.dailyTrend,
-  currentTab: OciDashboardTab.product_services,
 };
 
 export const databaseWidget: OciDashboardWidget = {
+  chartName: 'ociDatabaseChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.oci,
@@ -64,16 +66,16 @@ export const databaseWidget: OciDashboardWidget = {
       'Database,Autonomous Database,Autonomous Data Warehouse,Autonomous Transaction Processing,Autonomous JSON Database,Exadata Database Service,Database Cloud Service,Autonomous Database on Exadata,MySQL HeatWave,NoSQL,Search Service with OpenSearch',
   },
   trend: {
-    chartName: 'ociDatabaseChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const networkWidget: OciDashboardWidget = {
+  chartName: 'ociNetworkChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.oci,
@@ -91,16 +93,16 @@ export const networkWidget: OciDashboardWidget = {
       'Network,Virtual Cloud Networks,Networking Gateways,Load Balancers,Site-to-Site VPN,Client-to-Site VPN,FastConnect,Customer-Premises Equipment,DNS Management',
   },
   trend: {
-    chartName: 'ociNetworkChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const storageWidget: OciDashboardWidget = {
+  chartName: 'ociStorageChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.oci,
@@ -113,16 +115,17 @@ export const storageWidget: OciDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
-    chartName: 'ociStorageChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const virtualMachineWidget: OciDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'ociComputeChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.ociComputeTitle,
   reportPathsType: ReportPathsType.oci,
@@ -141,12 +144,9 @@ export const virtualMachineWidget: OciDashboardWidget = {
     product_service: 'Compute,Virtual Machines',
   },
   trend: {
-    chartName: 'ociComputeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };

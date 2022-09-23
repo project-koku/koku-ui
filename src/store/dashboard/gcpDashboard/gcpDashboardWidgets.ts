@@ -17,6 +17,9 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const computeWidget: GcpDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'gcpComputeChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.gcpComputeTitle,
   forecastPathsType: ForecastPathsType.gcp,
@@ -36,17 +39,19 @@ export const computeWidget: GcpDashboardWidget = {
     service: 'Compute Engine',
   },
   trend: {
-    chartName: 'gcpComputeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };
 
 export const costSummaryWidget: GcpDashboardWidget = {
+  availableTabs: [GcpDashboardTab.services, GcpDashboardTab.gcpProjects, GcpDashboardTab.regions],
+  chartFormatter: formatCurrency,
+  chartType: DashboardChartType.dailyTrend,
+  chartName: 'gcpCostChart',
+  currentTab: GcpDashboardTab.services,
   id: getId(),
   titleKey: messages.gcpCostTitle,
   forecastPathsType: ForecastPathsType.gcp,
@@ -63,7 +68,6 @@ export const costSummaryWidget: GcpDashboardWidget = {
     limit: 3,
   },
   trend: {
-    chartName: 'gcpCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
@@ -71,13 +75,12 @@ export const costSummaryWidget: GcpDashboardWidget = {
     titleKey: messages.gcpCostTrendTitle,
     type: ChartType.rolling,
   },
-  availableTabs: [GcpDashboardTab.services, GcpDashboardTab.gcpProjects, GcpDashboardTab.regions],
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.dailyTrend,
-  currentTab: GcpDashboardTab.services,
 };
 
 export const databaseWidget: GcpDashboardWidget = {
+  chartFormatter: formatCurrency,
+  chartName: 'gcpDatabaseChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.gcp,
@@ -93,17 +96,17 @@ export const databaseWidget: GcpDashboardWidget = {
     service: 'Bigtable,Datastore,Database Migrations,Firebase,Firestore,MemoryStore,Spanner,SQL',
   },
   trend: {
-    chartName: 'gcpDatabaseChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.trend,
 };
 
 export const networkWidget: GcpDashboardWidget = {
+  chartFormatter: formatCurrency,
+  chartName: 'gcpNetworkChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.gcp,
@@ -121,17 +124,17 @@ export const networkWidget: GcpDashboardWidget = {
       'Network,VPC,Firewall,Route,IP,DNS,CDN,NAT,Traffic Director,Service Discovery,Cloud Domains,Private Service Connect,Cloud Armor',
   },
   trend: {
-    chartName: 'gcpNetworkChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.trend,
 };
 
 export const storageWidget: GcpDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'gcpUsageChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.gcp,
@@ -144,12 +147,9 @@ export const storageWidget: GcpDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
-    chartName: 'gcpUsageChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };

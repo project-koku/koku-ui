@@ -17,6 +17,14 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const costSummaryWidget: AzureDashboardWidget = {
+  availableTabs: [
+    AzureDashboardTab.service_names,
+    AzureDashboardTab.subscription_guids,
+    AzureDashboardTab.resource_locations,
+  ],
+  chartName: 'azureCostChart',
+  chartType: DashboardChartType.dailyTrend,
+  currentTab: AzureDashboardTab.service_names,
   id: getId(),
   titleKey: messages.azureDashboardCostTitle,
   forecastPathsType: ForecastPathsType.azure,
@@ -33,7 +41,6 @@ export const costSummaryWidget: AzureDashboardWidget = {
     limit: 3,
   },
   trend: {
-    chartName: 'azureCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
@@ -41,16 +48,11 @@ export const costSummaryWidget: AzureDashboardWidget = {
     titleKey: messages.azureCostTrendTitle,
     type: ChartType.rolling,
   },
-  availableTabs: [
-    AzureDashboardTab.service_names,
-    AzureDashboardTab.subscription_guids,
-    AzureDashboardTab.resource_locations,
-  ],
-  chartType: DashboardChartType.dailyTrend,
-  currentTab: AzureDashboardTab.service_names,
 };
 
 export const databaseWidget: AzureDashboardWidget = {
+  chartName: 'azureDatabaseChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.azure,
@@ -66,16 +68,16 @@ export const databaseWidget: AzureDashboardWidget = {
     service_name: 'Database,Cosmos DB,Cache for Redis',
   },
   trend: {
-    chartName: 'azureDatabaseChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const networkWidget: AzureDashboardWidget = {
+  chartName: 'azureNetworkChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.azure,
@@ -91,16 +93,16 @@ export const networkWidget: AzureDashboardWidget = {
     service_name: 'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
   },
   trend: {
-    chartName: 'azureNetworkChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const storageWidget: AzureDashboardWidget = {
+  chartName: 'azureStorageChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.azure,
@@ -113,16 +115,17 @@ export const storageWidget: AzureDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
-    chartName: 'azureStorageChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const virtualMachineWidget: AzureDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'azureComputeChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.azureComputeTitle,
   reportPathsType: ReportPathsType.azure,
@@ -141,12 +144,9 @@ export const virtualMachineWidget: AzureDashboardWidget = {
     service_name: 'Virtual Machines',
   },
   trend: {
-    chartName: 'azureComputeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };

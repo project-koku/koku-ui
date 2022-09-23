@@ -12,13 +12,14 @@ const currentData = utils.transformReport(currentMonthReport, utils.ChartType.da
 const previousData = utils.transformReport(previousMonthReport, utils.ChartType.daily);
 
 const props: HistoricalTrendChartProps = {
-  title: 'Trend Title',
-  height: 100,
   currentData,
-  intl: null,
-  previousData,
   formatter: jest.fn(),
   formatOptions: {},
+  height: 100,
+  intl: null,
+  name: 'exampleTrendChart',
+  previousData,
+  title: 'Trend Title',
 };
 
 /* eslint-disable testing-library/no-node-access */

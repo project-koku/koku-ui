@@ -34,12 +34,12 @@ import { chartStyles } from './usageChart.styles';
 
 interface UsageChartOwnProps {
   adjustContainerHeight?: boolean;
-  chartName: string;
   containerHeight?: number;
   currentRequestData?: any;
   currentUsageData: any;
   height?: number;
   legendItemsPerRow?: number;
+  name?: string;
   padding?: any;
   previousRequestData?: any;
   previousUsageData?: any;
@@ -233,20 +233,20 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents() {
-    const { chartName } = this.props;
+    const { name = '' } = this.props;
     const { hiddenSeries, series } = this.state;
 
     const result = getInteractiveLegendEvents({
       chartNames: getChartNames(series),
       isHidden: index => isSeriesHidden(hiddenSeries, index),
-      legendName: chartName ? chartName + '-legend' : 'legend',
+      legendName: `${name}-legend`,
       onLegendClick: props => this.handleLegendClick(props.index),
     });
     return result;
   }
 
   private getLegend = () => {
-    const { chartName, legendItemsPerRow } = this.props;
+    const { name = '', legendItemsPerRow } = this.props;
     const { hiddenSeries, series, width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
@@ -258,7 +258,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         height={25}
         gutter={20}
         itemsPerRow={itemsPerRow}
-        name={chartName ? chartName + '-legend' : 'legend'}
+        name={`${name}-legend`}
       />
     );
   };
@@ -280,9 +280,9 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
 
   public render() {
     const {
-      chartName,
       height,
       intl,
+      name,
       padding = {
         bottom: 75,
         left: 8,
@@ -326,7 +326,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom-left"
-              name={chartName}
+              name={name}
               padding={padding}
               theme={ChartTheme}
               title={title || 'Usage Chart'}

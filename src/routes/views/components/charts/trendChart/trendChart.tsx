@@ -34,7 +34,6 @@ import { chartStyles } from './trendChart.styles';
 
 interface TrendChartOwnProps {
   adjustContainerHeight?: boolean;
-  chartName: string;
   containerHeight?: number;
   currentData: any;
   forecastData?: any;
@@ -43,6 +42,7 @@ interface TrendChartOwnProps {
   formatter: Formatter;
   height?: number;
   legendItemsPerRow?: number;
+  name?: string;
   previousData?: any;
   padding?: any;
   showForecast?: boolean; // Show forecast legend regardless if data is available
@@ -300,20 +300,20 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents() {
-    const { chartName } = this.props;
+    const { name = '' } = this.props;
     const { hiddenSeries, series } = this.state;
 
     const result = getInteractiveLegendEvents({
       chartNames: getChartNames(series),
       isHidden: index => isSeriesHidden(hiddenSeries, index),
-      legendName: chartName + '-legend',
+      legendName: `${name}-legend`,
       onLegendClick: props => this.handleLegendClick(props.index),
     });
     return result;
   }
 
   private getLegend = () => {
-    const { chartName, legendItemsPerRow } = this.props;
+    const { name = '', legendItemsPerRow } = this.props;
     const { hiddenSeries, series, width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
@@ -323,7 +323,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         gutter={20}
         height={25}
         itemsPerRow={legendItemsPerRow}
-        name={`${chartName}-legend`}
+        name={`${name}-legend`}
         orientation={width > 150 ? 'horizontal' : 'vertical'}
       />
     );
@@ -346,9 +346,9 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
 
   public render() {
     const {
-      chartName,
       height,
       intl,
+      name,
       padding = {
         bottom: 50,
         left: 8,
@@ -392,7 +392,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom-left"
-              name={chartName}
+              name={name}
               padding={padding}
               theme={ChartTheme}
               title={title || 'Trend Chart'}

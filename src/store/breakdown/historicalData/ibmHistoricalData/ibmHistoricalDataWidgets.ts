@@ -7,6 +7,7 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const costWidget: IbmHistoricalDataWidget = {
+  chartName: 'ibmCostChart',
   id: getId(),
   reportPathsType: ReportPathsType.ibm,
   reportType: ReportType.cost,
@@ -14,6 +15,7 @@ export const costWidget: IbmHistoricalDataWidget = {
 };
 
 export const computeUsageWidget: IbmHistoricalDataWidget = {
+  chartName: 'ibmComputeChart',
   id: getId(),
   reportPathsType: ReportPathsType.ibm,
   reportType: ReportType.instanceType,
@@ -21,6 +23,7 @@ export const computeUsageWidget: IbmHistoricalDataWidget = {
 };
 
 export const storageUsageWidget: IbmHistoricalDataWidget = {
+  chartName: 'ibmStorageChart',
   id: getId(),
   reportPathsType: ReportPathsType.ibm,
   reportType: ReportType.storage,

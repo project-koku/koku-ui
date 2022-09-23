@@ -7,6 +7,7 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const costWidget: GcpHistoricalDataWidget = {
+  chartName: 'gcpCostChart',
   id: getId(),
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.cost,
@@ -14,6 +15,7 @@ export const costWidget: GcpHistoricalDataWidget = {
 };
 
 export const computeUsageWidget: GcpHistoricalDataWidget = {
+  chartName: 'gcpComputeChart',
   id: getId(),
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.instanceType,
@@ -21,6 +23,7 @@ export const computeUsageWidget: GcpHistoricalDataWidget = {
 };
 
 export const storageUsageWidget: GcpHistoricalDataWidget = {
+  chartName: 'gcpStorageChart',
   id: getId(),
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.storage,

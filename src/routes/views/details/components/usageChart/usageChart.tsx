@@ -26,6 +26,7 @@ export interface ChartDatum {
 }
 
 interface UsageChartOwnProps {
+  name?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType; // cpu or memory
 }
@@ -171,7 +172,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   }
 
   private getChart = () => {
-    const { groupBy, reportFetchStatus, report } = this.props;
+    const { groupBy, name, reportFetchStatus, report } = this.props;
     const { width } = this.state;
 
     const chartDatum = this.getChartDatum();
@@ -205,6 +206,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
               legendItemsPerRow={this.getItemsPerRow()}
               maxDomain={this.isDatumEmpty(chartDatum) ? 100 : undefined}
               minDomain={0}
+              name={name}
               padding={{
                 bottom: 75,
                 left: 10,

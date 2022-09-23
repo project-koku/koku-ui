@@ -43,6 +43,7 @@ interface CostChartOwnProps {
   forecastInfrastructureData?: any;
   height?: number;
   legendItemsPerRow?: number;
+  name?: string;
   padding?: any;
   previousInfrastructureCostData?: any;
   previousCostData?: any;
@@ -390,12 +391,13 @@ class CostChartBase extends React.Component<CostChartProps, State> {
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents() {
+    const { name = '' } = this.props;
     const { hiddenSeries, series } = this.state;
 
     const result = getInteractiveLegendEvents({
       chartNames: getChartNames(series),
       isHidden: index => isSeriesHidden(hiddenSeries, index),
-      legendName: 'legend',
+      legendName: `${name}-legend`,
       onLegendClick: props => this.handleLegendClick(props.index),
     });
     return result;
@@ -434,6 +436,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
   }
 
   private getLegend = () => {
+    const { name = '' } = this.props;
     const { hiddenSeries, series } = this.state;
 
     return (
@@ -441,7 +444,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
         data={getLegendData(series, hiddenSeries)}
         height={25}
         gutter={20}
-        name="legend"
+        name={`${name}-legend`}
         responsive={false}
       />
     );
@@ -466,6 +469,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
     const {
       height,
       intl,
+      name,
       padding = {
         bottom: 50,
         left: 8,
@@ -515,6 +519,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom-left"
+              name={name}
               padding={padding}
               theme={ChartTheme}
               width={width}

@@ -46,6 +46,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
         </CardTitle>
         <CardBody>
           <HistoricalDataCostChart
+            chartName={widget.chartName}
             costType={costType}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
@@ -70,6 +71,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
         </CardTitle>
         <CardBody>
           <HistoricalDataTrendChart
+            chartName={widget.chartName}
             costType={costType}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
@@ -93,7 +95,11 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
           </Title>
         </CardTitle>
         <CardBody>
-          <HistoricalDataUsageChart reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
+          <HistoricalDataUsageChart
+            chartName={widget.chartName}
+            reportPathsType={widget.reportPathsType}
+            reportType={widget.reportType}
+          />
         </CardBody>
       </Card>
     );

@@ -7,11 +7,12 @@ import { HistoricalCostChartTestProps } from './testProps/historicalCostChartPro
 
 const props: HistoricalCostChartProps = {
   ...HistoricalCostChartTestProps,
-  intl: defaultIntl,
-  height: 100,
-  title: 'Usage Title',
   formatter: jest.fn(),
   formatOptions: {},
+  intl: defaultIntl,
+  height: 100,
+  name: 'exampleCostChart',
+  title: 'Usage Title',
 };
 
 test('reports are propertly generated', () => {

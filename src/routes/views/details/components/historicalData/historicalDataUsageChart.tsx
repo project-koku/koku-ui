@@ -16,6 +16,7 @@ import { skeletonWidth } from 'utils/skeleton';
 import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalDataUsageChartOwnProps {
+  chartName?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -69,7 +70,8 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
   };
 
   public render() {
-    const { currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, intl } = this.props;
+    const { chartName, currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, intl } =
+      this.props;
 
     // Current data
     const currentLimitData = transformReport(currentReport, ChartType.daily, 'date', 'limit');
@@ -102,6 +104,7 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
               formatter={formatUnits}
               formatOptions={{}}
               height={chartStyles.chartHeight}
+              name={chartName}
               previousLimitData={previousLimitData}
               previousRequestData={previousRequestData}
               previousUsageData={previousUsageData}

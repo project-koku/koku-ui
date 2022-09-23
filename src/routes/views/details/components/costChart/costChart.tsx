@@ -16,6 +16,7 @@ interface CostChartOwnProps {
 }
 
 interface CostChartStateProps {
+  name?: string;
   report?: Report;
   reportFetchStatus?: FetchStatus;
 }
@@ -47,7 +48,7 @@ class CostChartBase extends React.Component<CostChartProps> {
   };
 
   public render() {
-    const { report, reportFetchStatus, intl } = this.props;
+    const { name, report, reportFetchStatus, intl } = this.props;
 
     const hasCost = report && report.meta && report.meta.total && report.meta.total.cost;
     const hasMarkup = hasCost && report.meta.total.cost.markup;
@@ -116,6 +117,7 @@ class CostChartBase extends React.Component<CostChartProps> {
             ]}
             legendOrientation="vertical"
             legendPosition="right"
+            name={name}
             padding={{
               bottom: 20,
               left: 0,

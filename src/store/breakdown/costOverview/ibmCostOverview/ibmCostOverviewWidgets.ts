@@ -8,6 +8,7 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const costWidget: IbmCostOverviewWidget = {
+  chartName: 'ibmCostWidget',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,

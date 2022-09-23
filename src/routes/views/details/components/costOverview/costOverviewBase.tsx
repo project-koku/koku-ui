@@ -69,7 +69,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
   };
 
   // Returns cost breakdown chart
-  private getCostChart = () => {
+  private getCostChart = (widget: CostOverviewWidget) => {
     const { report, intl } = this.props;
 
     return (
@@ -104,7 +104,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
           </Title>
         </CardTitle>
         <CardBody>
-          <CostChart report={report} />
+          <CostChart name={widget.chartName} report={report} />
         </CardBody>
       </Card>
     );
@@ -122,7 +122,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
           </Title>
         </CardTitle>
         <CardBody>
-          <UsageChart reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
+          <UsageChart name={widget.chartName} reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
         </CardBody>
       </Card>
     );
@@ -140,7 +140,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
           </Title>
         </CardTitle>
         <CardBody>
-          <UsageChart reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
+          <UsageChart name={widget.chartName} reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
         </CardBody>
       </Card>
     );
@@ -188,7 +188,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
           </Title>
         </CardTitle>
         <CardBody>
-          <UsageChart reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
+          <UsageChart name={widget.chartName} reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
         </CardBody>
       </Card>
     );
@@ -229,7 +229,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
       case CostOverviewWidgetType.cluster:
         return this.getClusterChart(widget);
       case CostOverviewWidgetType.cost:
-        return this.getCostChart();
+        return this.getCostChart(widget);
       case CostOverviewWidgetType.cpuUsage:
         return this.getCpuUsageChart(widget);
       case CostOverviewWidgetType.memoryUsage:
