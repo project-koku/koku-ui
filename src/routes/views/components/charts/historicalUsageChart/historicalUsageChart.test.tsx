@@ -16,13 +16,14 @@ const previousUsageData = utils.transformReport(previousMonthReport, utils.Chart
 const props: HistoricalUsageChartProps = {
   currentRequestData,
   currentUsageData,
+  formatter: jest.fn(),
+  formatOptions: {},
   intl: null,
   height: 100,
+  name: 'exampleUsageChart',
   previousRequestData,
   previousUsageData,
   title: 'Usage Title',
-  formatter: jest.fn(),
-  formatOptions: {},
 };
 
 test('reports are formatted to datums', () => {

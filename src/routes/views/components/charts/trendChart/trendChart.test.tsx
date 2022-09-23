@@ -12,14 +12,14 @@ const currentData = utils.transformReport(currentMonthReport, utils.ChartType.da
 const previousData = utils.transformReport(previousMonthReport, utils.ChartType.daily);
 
 const props: TrendChartProps = {
-  title: 'Example Trend Title',
-  name: 'exampleTrendChart',
-  height: 100,
-  intl: null,
   currentData,
-  previousData,
   formatter: jest.fn(),
   formatOptions: {},
+  height: 100,
+  intl: null,
+  name: 'exampleTrendChart',
+  previousData,
+  title: 'Example Trend Title',
 };
 
 test('reports are formatted to datums', () => {

@@ -196,7 +196,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <text
                   direction="inherit"
                   dx="0"
-                  id="chart-axis-4-ChartLabel-0"
+                  id="exampleCostChart-ChartAxis-4-ChartLabel-0"
                   x="8"
                   y="6.969999999999999"
                 >
@@ -217,7 +217,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <text
                   direction="inherit"
                   dx="0"
-                  id="chart-axis-4-ChartLabel-1"
+                  id="exampleCostChart-ChartAxis-4-ChartLabel-1"
                   x="0.5333333333333332"
                   y="6.969999999999999"
                 >
@@ -238,7 +238,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <text
                   direction="inherit"
                   dx="0"
-                  id="chart-axis-4-ChartLabel-2"
+                  id="exampleCostChart-ChartAxis-4-ChartLabel-2"
                   x="-8"
                   y="6.969999999999999"
                 >
@@ -291,7 +291,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <text
                   direction="inherit"
                   dx="0"
-                  id="chart-axis-5-ChartLabel-0"
+                  id="exampleCostChart-ChartAxis-5-ChartLabel-0"
                   x="-7"
                   y="-14.4"
                 >
@@ -312,7 +312,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <text
                   direction="inherit"
                   dx="0"
-                  id="chart-axis-5-ChartLabel-1"
+                  id="exampleCostChart-ChartAxis-5-ChartLabel-1"
                   x="-7"
                   y="-8.8"
                 >
@@ -333,7 +333,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <text
                   direction="inherit"
                   dx="0"
-                  id="chart-axis-5-ChartLabel-2"
+                  id="exampleCostChart-ChartAxis-5-ChartLabel-2"
                   x="-7"
                   y="-3.2"
                 >
@@ -354,7 +354,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <text
                   direction="inherit"
                   dx="0"
-                  id="chart-axis-5-ChartLabel-3"
+                  id="exampleCostChart-ChartAxis-5-ChartLabel-3"
                   x="-7"
                   y="2.4000000000000012"
                 >
@@ -375,7 +375,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <text
                   direction="inherit"
                   dx="0"
-                  id="chart-axis-5-ChartLabel-4"
+                  id="exampleCostChart-ChartAxis-5-ChartLabel-4"
                   x="-7"
                   y="8"
                 >
@@ -465,7 +465,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="undefined-legend-ChartLabel-0"
+                id="exampleCostChart-legend-ChartLabel-0"
                 x="30.8"
                 y="113.875"
               >
@@ -482,7 +482,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="undefined-legend-ChartLabel-1"
+                id="exampleCostChart-legend-ChartLabel-1"
                 x="248.44062500000004"
                 y="113.875"
               >
@@ -499,7 +499,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="undefined-legend-ChartLabel-2"
+                id="exampleCostChart-legend-ChartLabel-2"
                 x="30.8"
                 y="144.78"
               >
@@ -516,7 +516,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="undefined-legend-ChartLabel-3"
+                id="exampleCostChart-legend-ChartLabel-3"
                 x="248.44062500000004"
                 y="144.78"
               >
@@ -745,7 +745,7 @@ exports[`reports are propertly generated 1`] = `
                 <text
                   direction="inherit"
                   dx="0"
-                  id="chart-axis-4-ChartLabel-0"
+                  id="exampleCostChart-ChartAxis-4-ChartLabel-0"
                   x="8"
                   y="6.969999999999999"
                 >
@@ -766,7 +766,7 @@ exports[`reports are propertly generated 1`] = `
                 <text
                   direction="inherit"
                   dx="0"
-                  id="chart-axis-4-ChartLabel-1"
+                  id="exampleCostChart-ChartAxis-4-ChartLabel-1"
                   x="0.5333333333333332"
                   y="6.969999999999999"
                 >
@@ -787,7 +787,7 @@ exports[`reports are propertly generated 1`] = `
                 <text
                   direction="inherit"
                   dx="0"
-                  id="chart-axis-4-ChartLabel-2"
+                  id="exampleCostChart-ChartAxis-4-ChartLabel-2"
                   x="-8"
                   y="6.969999999999999"
                 >
@@ -840,7 +840,7 @@ exports[`reports are propertly generated 1`] = `
                 <text
                   direction="inherit"
                   dx="0"
-                  id="chart-axis-5-ChartLabel-0"
+                  id="exampleCostChart-ChartAxis-5-ChartLabel-0"
                   x="-7"
                   y="-12.557150451887294"
                 >
@@ -861,7 +861,7 @@ exports[`reports are propertly generated 1`] = `
                 <text
                   direction="inherit"
                   dx="0"
-                  id="chart-axis-5-ChartLabel-1"
+                  id="exampleCostChart-ChartAxis-5-ChartLabel-1"
                   x="-7"
                   y="-5.114300903774588"
                 >
@@ -882,7 +882,7 @@ exports[`reports are propertly generated 1`] = `
                 <text
                   direction="inherit"
                   dx="0"
-                  id="chart-axis-5-ChartLabel-2"
+                  id="exampleCostChart-ChartAxis-5-ChartLabel-2"
                   x="-7"
                   y="2.3285486443381185"
                 >
@@ -972,7 +972,7 @@ exports[`reports are propertly generated 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="undefined-legend-ChartLabel-0"
+                id="exampleCostChart-legend-ChartLabel-0"
                 x="30.8"
                 y="113.875"
               >
@@ -989,7 +989,7 @@ exports[`reports are propertly generated 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="undefined-legend-ChartLabel-1"
+                id="exampleCostChart-legend-ChartLabel-1"
                 x="9504.693749999997"
                 y="113.875"
               >
@@ -1006,7 +1006,7 @@ exports[`reports are propertly generated 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="undefined-legend-ChartLabel-2"
+                id="exampleCostChart-legend-ChartLabel-2"
                 x="30.8"
                 y="144.78"
               >
@@ -1023,7 +1023,7 @@ exports[`reports are propertly generated 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="undefined-legend-ChartLabel-3"
+                id="exampleCostChart-legend-ChartLabel-3"
                 x="9504.693749999997"
                 y="144.78"
               >
