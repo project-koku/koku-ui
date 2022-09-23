@@ -34,9 +34,6 @@ function BottomPaginationBase(props: Omit<PaginationProps, 'ref'>): JSX.Element 
             itemCount={itemCount}
             page={page}
             perPage={perPage}
-            titles={{
-              paginationTitle: `bottom pagination`,
-            }}
           />
         </ToolbarItem>
       </ToolbarContent>

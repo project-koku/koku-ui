@@ -832,6 +832,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         }}
       >
         <Button
+          aria-label="Export data"
           isDisabled={isDisabled || isExportDisabled}
           onClick={this.handleExportClicked}
           variant={ButtonVariant.plain}

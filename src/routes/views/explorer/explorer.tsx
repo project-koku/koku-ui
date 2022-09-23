@@ -187,7 +187,7 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private getPagination = (isBottom: boolean = false) => {
-    const { report } = this.props;
+    const { intl, report } = this.props;
 
     const count = report && report.meta ? report.meta.count : 0;
     const limit =
@@ -209,7 +209,10 @@ class Explorer extends React.Component<ExplorerProps> {
         page={page}
         perPage={limit}
         titles={{
-          paginationTitle: `exports ${isBottom ? 'bottom' : 'top'} pagination`,
+          paginationTitle: intl.formatMessage(messages.paginationTitle, {
+            title: intl.formatMessage(messages.explorerTitle),
+            placement: isBottom ? 'bottom' : 'top',
+          }),
         }}
         variant={isBottom ? PaginationVariant.bottom : PaginationVariant.top}
         widgetId={`exports-pagination${isBottom ? '-bottom' : ''}`}

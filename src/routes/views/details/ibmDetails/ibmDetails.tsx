@@ -162,7 +162,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
   };
 
   private getPagination = (isBottom: boolean = false) => {
-    const { report } = this.props;
+    const { intl, report } = this.props;
 
     const count = report && report.meta ? report.meta.count : 0;
     const limit =
@@ -184,7 +184,10 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
         page={page}
         perPage={limit}
         titles={{
-          paginationTitle: `exports ${isBottom ? 'bottom' : 'top'} pagination`,
+          paginationTitle: intl.formatMessage(messages.paginationTitle, {
+            title: intl.formatMessage(messages.ibm),
+            placement: isBottom ? 'bottom' : 'top',
+          }),
         }}
         variant={isBottom ? PaginationVariant.bottom : PaginationVariant.top}
         widgetId={`exports-pagination${isBottom ? '-bottom' : ''}`}
