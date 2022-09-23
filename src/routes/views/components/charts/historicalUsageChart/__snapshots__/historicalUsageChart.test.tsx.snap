@@ -492,7 +492,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-ChartLabel-0"
+              id="undefined-legend-ChartLabel-0"
               x="30.8"
               y="96.97"
             >
@@ -509,7 +509,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-ChartLabel-1"
+              id="undefined-legend-ChartLabel-1"
               x="8109.134375000024"
               y="96.97"
             >
@@ -526,7 +526,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-ChartLabel-2"
+              id="undefined-legend-ChartLabel-2"
               x="30.8"
               y="127.875"
             >
@@ -543,7 +543,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-ChartLabel-3"
+              id="undefined-legend-ChartLabel-3"
               x="8109.134375000024"
               y="127.875"
             >
@@ -560,7 +560,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-ChartLabel-4"
+              id="undefined-legend-ChartLabel-4"
               x="30.8"
               y="158.78"
             >
@@ -577,7 +577,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-ChartLabel-5"
+              id="undefined-legend-ChartLabel-5"
               x="8109.134375000024"
               y="158.78"
             >

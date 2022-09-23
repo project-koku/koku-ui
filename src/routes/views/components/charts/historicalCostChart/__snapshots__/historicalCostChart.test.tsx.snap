@@ -465,7 +465,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="legend-ChartLabel-0"
+                id="undefined-legend-ChartLabel-0"
                 x="30.8"
                 y="113.875"
               >
@@ -482,7 +482,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="legend-ChartLabel-1"
+                id="undefined-legend-ChartLabel-1"
                 x="248.44062500000004"
                 y="113.875"
               >
@@ -499,7 +499,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="legend-ChartLabel-2"
+                id="undefined-legend-ChartLabel-2"
                 x="30.8"
                 y="144.78"
               >
@@ -516,7 +516,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="legend-ChartLabel-3"
+                id="undefined-legend-ChartLabel-3"
                 x="248.44062500000004"
                 y="144.78"
               >
@@ -972,7 +972,7 @@ exports[`reports are propertly generated 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="legend-ChartLabel-0"
+                id="undefined-legend-ChartLabel-0"
                 x="30.8"
                 y="113.875"
               >
@@ -989,7 +989,7 @@ exports[`reports are propertly generated 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="legend-ChartLabel-1"
+                id="undefined-legend-ChartLabel-1"
                 x="9504.693749999997"
                 y="113.875"
               >
@@ -1006,7 +1006,7 @@ exports[`reports are propertly generated 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="legend-ChartLabel-2"
+                id="undefined-legend-ChartLabel-2"
                 x="30.8"
                 y="144.78"
               >
@@ -1023,7 +1023,7 @@ exports[`reports are propertly generated 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="legend-ChartLabel-3"
+                id="undefined-legend-ChartLabel-3"
                 x="9504.693749999997"
                 y="144.78"
               >

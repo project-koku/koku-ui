@@ -37,7 +37,6 @@ import { chartStyles } from './dailyTrendChart.styles';
 
 interface DailyTrendChartOwnProps {
   adjustContainerHeight?: boolean;
-  chartName: string;
   containerHeight?: number;
   currentData: any;
   forecastData?: any;
@@ -46,6 +45,7 @@ interface DailyTrendChartOwnProps {
   formatter: Formatter;
   height?: number;
   legendItemsPerRow?: number;
+  name?: string;
   previousData?: any;
   padding?: any;
   showForecast?: boolean; // Show forecast legend regardless if data is available
@@ -348,20 +348,21 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents() {
+    const { name } = this.props;
     const { hiddenSeries, series } = this.state;
 
     const result = getInteractiveLegendEvents({
       chartNames: getChartNames(series),
       isDataHidden: data => isDataHidden(series, hiddenSeries, data),
       isHidden: index => isSeriesHidden(hiddenSeries, index),
-      legendName: 'legend',
+      legendName: `${name}-legend`,
       onLegendClick: props => this.handleLegendClick(props.index),
     });
     return result;
   }
 
   private getLegend = () => {
-    const { legendItemsPerRow } = this.props;
+    const { legendItemsPerRow, name } = this.props;
     const { hiddenSeries, series, width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
@@ -371,7 +372,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
         gutter={20}
         height={25}
         itemsPerRow={legendItemsPerRow}
-        name="legend"
+        name={`${name}-legend`}
         orientation={width > 150 ? 'horizontal' : 'vertical'}
       />
     );
@@ -396,6 +397,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
     const {
       height,
       intl,
+      name,
       padding = {
         bottom: 50,
         left: 8,
@@ -446,6 +448,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom-left"
+              name={name}
               padding={padding}
               theme={ChartTheme}
               width={width}

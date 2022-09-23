@@ -325,7 +325,7 @@ exports[`null previous and current reports are handled 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-ChartLabel-0"
+              id="undefined-legend-ChartLabel-0"
               x="30.8"
               y="86.97"
             >
@@ -342,7 +342,7 @@ exports[`null previous and current reports are handled 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-ChartLabel-1"
+              id="undefined-legend-ChartLabel-1"
               x="171.89999999999998"
               y="86.97"
             >
@@ -678,7 +678,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-ChartLabel-0"
+              id="undefined-legend-ChartLabel-0"
               x="30.8"
               y="86.97"
             >
@@ -695,7 +695,7 @@ exports[`reports are formatted to datums 1`] = `
             <text
               direction="inherit"
               dx="0"
-              id="legend-ChartLabel-1"
+              id="undefined-legend-ChartLabel-1"
               x="7421.909375000033"
               y="86.97"
             >

@@ -1,11 +1,16 @@
 import './reportSummaryDailyTrend.scss';
 
 import React from 'react';
+import { Omit } from 'react-redux';
 import { DailyTrendChart, DailyTrendChartProps } from 'routes/views/components/charts/dailyTrendChart';
 
-const ReportSummaryDailyTrend: React.FC<DailyTrendChartProps> = props => (
+interface DailyTrendChartPropsExt extends Omit<DailyTrendChartProps, 'intl'> {
+  chartName?: string;
+}
+
+const ReportSummaryDailyTrend: React.FC<DailyTrendChartPropsExt> = ({ chartName, ...rest }) => (
   <div className="chart">
-    <DailyTrendChart {...props} />
+    <DailyTrendChart name={chartName} {...rest} />
   </div>
 );
 

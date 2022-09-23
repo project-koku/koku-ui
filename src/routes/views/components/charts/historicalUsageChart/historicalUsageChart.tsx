@@ -43,6 +43,7 @@ interface HistoricalUsageChartOwnProps {
   formatter?: Formatter;
   height: number;
   legendItemsPerRow?: number;
+  name?: string;
   padding?: any;
   previousLimitData?: any;
   previousRequestData?: any;
@@ -291,19 +292,20 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents() {
+    const { name } = this.props;
     const { hiddenSeries, series } = this.state;
 
     const result = getInteractiveLegendEvents({
       chartNames: getChartNames(series),
       isHidden: index => isSeriesHidden(hiddenSeries, index),
-      legendName: 'legend',
+      legendName: `${name}-legend`,
       onLegendClick: props => this.handleLegendClick(props.index),
     });
     return result;
   }
 
   private getLegend = () => {
-    const { legendItemsPerRow } = this.props;
+    const { legendItemsPerRow, name } = this.props;
     const { hiddenSeries, series, width } = this.state;
     const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 900 ? chartStyles.itemsPerRow : 2;
 
@@ -313,7 +315,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         height={25}
         gutter={20}
         itemsPerRow={itemsPerRow}
-        name="legend"
+        name={`${name}-legend`}
       />
     );
   };
@@ -337,8 +339,9 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
     const {
       adjustContainerHeight,
       height,
-      intl,
       containerHeight = height,
+      intl,
+      name,
       padding = {
         bottom: 130,
         left: 8,
@@ -388,6 +391,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom"
+              name={name}
               padding={padding}
               theme={ChartTheme}
               width={width}

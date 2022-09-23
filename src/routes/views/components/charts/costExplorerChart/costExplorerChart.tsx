@@ -39,6 +39,7 @@ interface CostExplorerChartOwnProps {
   formatter?: Formatter;
   height?: number;
   legendItemsPerRow?: number;
+  name?: string;
   padding?: any;
   top1stData: any;
   top2ndData: any;
@@ -321,19 +322,21 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents = () => {
+    const { name } = this.props;
     const { hiddenSeries, series } = this.state;
 
     const result = getInteractiveLegendEvents({
       chartNames: getChartNames(series),
       isDataHidden: data => isDataHidden(series, hiddenSeries, data),
       isHidden: index => isSeriesHidden(hiddenSeries, index),
-      legendName: 'legend',
+      legendName: `${name}-legend`,
       onLegendClick: props => this.handleLegendClick(props.index),
     });
     return result;
   };
 
   private getLegend = () => {
+    const { name } = this.props;
     const { hiddenSeries, series } = this.state;
 
     return (
@@ -341,7 +344,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
         data={getLegendData(series, hiddenSeries)}
         height={25}
         gutter={20}
-        name="legend"
+        name={`${name}-legend`}
         responsive={false}
       />
     );
@@ -424,6 +427,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
     const {
       height,
       intl,
+      name,
       padding = {
         bottom: 50,
         left: 40,
@@ -462,6 +466,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
             legendComponent={this.getLegend()}
             legendData={getLegendData(series, hiddenSeries)}
             legendPosition="bottom-left"
+            name={name}
             padding={padding}
             theme={ChartTheme}
             themeColor={ChartThemeColor.multiOrdered}
