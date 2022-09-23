@@ -953,15 +953,15 @@
   optionalDependencies:
     "@redhat-cloud-services/frontend-components-utilities" ">=3.0.0"
 
-"@redhat-cloud-services/frontend-components-utilities@*", "@redhat-cloud-services/frontend-components-utilities@>=3.0.0", "@redhat-cloud-services/frontend-components-utilities@^3.2.24":
-  version "3.2.24"
-  resolved "https://registry.npmjs.org/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.2.24.tgz"
-  integrity sha512-7FDAnJ8+LbQY6w+d0WTIFaxObkY6bIzKRGcCBtqw/safntqqcRg1fKRTy/sHNrWisgEFHkOJ6XxlsHtBLgmWfw==
+"@redhat-cloud-services/frontend-components-utilities@*", "@redhat-cloud-services/frontend-components-utilities@>=3.0.0", "@redhat-cloud-services/frontend-components-utilities@^3.2.25":
+  version "3.2.25"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.2.25.tgz#af0de1fe788149ae992513bdf9c88f4a03fda92d"
+  integrity sha512-uN6+M5JCDZNUGzighRSDc6avImX6bJo/2UZNkmMyPc7scujHGRAVZhHlHVmNKg/S8iwQ3tIFSMJjvxcRtSONgA==
   dependencies:
-    "@redhat-cloud-services/types" "^0.0.5"
+    "@redhat-cloud-services/types" "^0.0.10"
     "@sentry/browser" "^5.4.0"
     awesome-debounce-promise "^2.1.0"
-    axios "^0.25.0"
+    axios "^0.21.4"
     commander ">=2.20.0"
     mkdirp "^1.0.4"
     react-content-loader ">=3.4.1"
@@ -983,6 +983,11 @@
   integrity sha512-h40H/Jn9exJGlF1KCFSHeGx6zgor54u7mC5k/30vfbaFSreD1ZKVHnnFb+xBgmfgj2j/4sASZxPRU21ix9qVPQ==
   dependencies:
     axios "^0.21.1"
+
+"@redhat-cloud-services/types@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/types/-/types-0.0.10.tgz#4892002c4fdcae964d0efce6085e082defbf3813"
+  integrity sha512-xessQxyp4ZzthPDk7w2uAGqYAmJYRe5317gXYRYYl/AubxO6JWHstBaU18Lau7oocXw5jUobogS+Acb8CB3igw==
 
 "@redhat-cloud-services/types@^0.0.5":
   version "0.0.5"
@@ -2176,19 +2181,12 @@ axe-core@^4.4.3:
   resolved "https://registry.npmjs.org/axe-core/-/axe-core-4.4.3.tgz"
   integrity sha512-32+ub6kkdhhWick/UjvEwRchgoetXqTK14INLqbGm5U2TzBkBNF3nQtLYm8ovxSkQWArjEQvftCKryjZaATu3w==
 
-axios@^0.21.1:
+axios@^0.21.1, axios@^0.21.4:
   version "0.21.4"
   resolved "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz"
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
   dependencies:
     follow-redirects "^1.14.0"
-
-axios@^0.25.0:
-  version "0.25.0"
-  resolved "https://registry.npmjs.org/axios/-/axios-0.25.0.tgz"
-  integrity sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==
-  dependencies:
-    follow-redirects "^1.14.7"
 
 axios@^0.27.2:
   version "0.27.2"
@@ -3747,10 +3745,10 @@ eslint-plugin-standard@^3.0.1:
   resolved "https://registry.npmjs.org/eslint-plugin-standard/-/eslint-plugin-standard-3.1.0.tgz"
   integrity sha512-fVcdyuKRr0EZ4fjWl3c+gp1BANFJD1+RaWa2UPYfMZ6jCtp5RG00kSaXnK/dE5sYzt4kaWJ9qdxqUfc0d9kX0w==
 
-eslint-plugin-testing-library@^5.6.4:
-  version "5.6.4"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-testing-library/-/eslint-plugin-testing-library-5.6.4.tgz#9dffd9feafbb08a36240f88156357685b56f0b8a"
-  integrity sha512-0oW3tC5NNT2WexmJ3848a/utawOymw4ibl3/NkwywndVAz2hT9+ab70imA7ccg3RaScQgMvJT60OL00hpmJvrg==
+eslint-plugin-testing-library@^5.7.0:
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-testing-library/-/eslint-plugin-testing-library-5.7.0.tgz#08046bce93c63c0d4bf01ec62550130237bb1575"
+  integrity sha512-pI8LKtFiAflBpN4h14vTtfhKqLwtIW40TNhWyw0ckqHm0W/J0VmYtThoxpTAdHrvEWnkALSG1Z8ABBkIncMIHA==
   dependencies:
     "@typescript-eslint/utils" "^5.13.0"
 
@@ -4133,7 +4131,7 @@ focus-trap@6.9.2:
   dependencies:
     tabbable "^5.3.2"
 
-follow-redirects@^1.0.0, follow-redirects@^1.14.0, follow-redirects@^1.14.7, follow-redirects@^1.14.9:
+follow-redirects@^1.0.0, follow-redirects@^1.14.0, follow-redirects@^1.14.9:
   version "1.15.1"
   resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.1.tgz"
   integrity sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==
