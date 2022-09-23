@@ -155,7 +155,7 @@ export class ColumnManagementModalBase extends React.Component<ColumnManagementM
             <DataListItem aria-labelledby={option.value} key={option.value}>
               <DataListItemRow>
                 <DataListCheck
-                  aria-labelledby={`${option.value}Label`} 
+                  aria-labelledby={`${option.value}Label`}
                   isChecked={!this.isHidden(option.value)}
                   name={option.value}
                   id={option.value}
