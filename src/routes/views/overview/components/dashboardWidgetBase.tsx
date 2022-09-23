@@ -231,7 +231,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     showInfrastructureLabel: boolean = false,
     showSupplementaryLabel: boolean = false
   ) => {
-    const { chartFormatter, currentReport, details, previousReport, trend } = this.props;
+    const { chartFormatter, chartName, currentReport, details, previousReport, trend } = this.props;
     const { currentComparison } = this.state;
 
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
@@ -255,7 +255,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         </div>
         <ReportSummaryComponent
           adjustContainerHeight={adjustContainerHeight}
-          chartName={trend.chartName}
+          chartName={chartName}
           containerHeight={containerHeight}
           currentData={currentData}
           forecastData={forecastData}
@@ -406,7 +406,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     showInfrastructureLabel: boolean = false,
     showSupplementaryLabel: boolean = false
   ) => {
-    const { chartFormatter, currentReport, details, intl, previousReport, trend } = this.props;
+    const { chartFormatter, chartName, currentReport, details, intl, previousReport, trend } = this.props;
 
     const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementary cost, etc.
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
@@ -429,7 +429,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       <ReportSummaryTrend
         adjustContainerHeight={adjustContainerHeight}
         containerHeight={containerHeight}
-        chartName={trend.chartName}
+        chartName={chartName}
         currentData={currentData}
         forecastData={forecastData}
         forecastConeData={forecastConeData}
@@ -449,7 +449,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   // This chart displays usage and requests
   private getUsageChart = (height: number, adjustContainerHeight: boolean = false) => {
-    const { chartFormatter, currentReport, intl, previousReport, trend } = this.props;
+    const { chartFormatter, chartName, currentReport, intl, previousReport, trend } = this.props;
 
     const title = intl.formatMessage(trend.titleKey, {
       units: this.getFormattedUnits(),
@@ -466,7 +466,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     return (
       <ReportSummaryUsage
         adjustContainerHeight={adjustContainerHeight}
-        chartName={trend.chartName}
+        chartName={chartName}
         containerHeight={chartStyles.containerUsageHeight}
         currentRequestData={currentRequestData}
         currentUsageData={currentUsageData}

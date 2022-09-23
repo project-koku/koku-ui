@@ -19,6 +19,11 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const costSummaryWidget: OcpCloudDashboardWidget = {
+  availableTabs: [OcpCloudDashboardTab.services, OcpCloudDashboardTab.accounts, OcpCloudDashboardTab.regions],
+  chartFormatter: formatCurrency,
+  chartName: 'ocpCloudCostChart',
+  chartType: DashboardChartType.dailyTrend,
+  currentTab: OcpCloudDashboardTab.services,
   id: getId(),
   titleKey: messages.ocpCloudDashboardCostTitle,
   forecastPathsType: ForecastPathsType.ocpCloud,
@@ -33,7 +38,6 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
     limit: 3,
   },
   trend: {
-    chartName: 'ocpCloudCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
@@ -41,15 +45,14 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
     titleKey: messages.ocpCloudDashboardCostTrendTitle,
     type: ChartType.rolling,
   },
-  availableTabs: [OcpCloudDashboardTab.services, OcpCloudDashboardTab.accounts, OcpCloudDashboardTab.regions],
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.dailyTrend,
-  currentTab: OcpCloudDashboardTab.services,
 };
 
 // Cloud widgets
 
 export const computeWidget: OcpCloudDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'ocpCloudComputeChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.ocpCloudDashboardComputeTitle,
   reportPathsType: ReportPathsType.ocpCloud,
@@ -65,17 +68,17 @@ export const computeWidget: OcpCloudDashboardWidget = {
     service: 'AmazonEC2',
   },
   trend: {
-    chartName: 'ocpCloudComputeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };
 
 export const databaseWidget: OcpCloudDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'ocpCloudDatabaseChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.ocpCloud,
@@ -93,17 +96,17 @@ export const databaseWidget: OcpCloudDashboardWidget = {
       gcpDashboardWidgets.databaseWidget.filter.service,
   },
   trend: {
-    chartName: 'ocpCloudDatabaseChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };
 
 export const networkWidget: OcpCloudDashboardWidget = {
+  chartFormatter: formatCurrency,
+  chartName: 'ocpCloudNetworkChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.ocpCloud,
@@ -121,17 +124,17 @@ export const networkWidget: OcpCloudDashboardWidget = {
       gcpDashboardWidgets.networkWidget.filter.service,
   },
   trend: {
-    chartName: 'ocpCloudNetworkChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.trend,
 };
 
 export const storageWidget: OcpCloudDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'ocpCloudStorageChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.ocpCloud,
@@ -144,12 +147,9 @@ export const storageWidget: OcpCloudDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
-    chartName: 'ocpCloudStorageChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };

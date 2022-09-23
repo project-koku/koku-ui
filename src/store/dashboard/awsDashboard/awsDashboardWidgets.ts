@@ -17,6 +17,9 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const computeWidget: AwsDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'awsComputeChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.awsComputeTitle,
   reportPathsType: ReportPathsType.aws,
@@ -35,17 +38,19 @@ export const computeWidget: AwsDashboardWidget = {
     service: 'AmazonEC2',
   },
   trend: {
-    chartName: 'awsComputeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };
 
 export const costSummaryWidget: AwsDashboardWidget = {
+  availableTabs: [AwsDashboardTab.services, AwsDashboardTab.accounts, AwsDashboardTab.regions],
+  chartFormatter: formatCurrency,
+  chartName: 'awsCostChart',
+  chartType: DashboardChartType.dailyTrend,
+  currentTab: AwsDashboardTab.services,
   id: getId(),
   titleKey: messages.awsDashboardCostTitle,
   forecastPathsType: ForecastPathsType.aws,
@@ -58,11 +63,11 @@ export const costSummaryWidget: AwsDashboardWidget = {
     showHorizontal: true,
     viewAllPath: paths.awsDetails,
   },
+  savingsPlan: true,
   tabsFilter: {
     limit: 3,
   },
   trend: {
-    chartName: 'awsCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
@@ -70,14 +75,12 @@ export const costSummaryWidget: AwsDashboardWidget = {
     titleKey: messages.awsCostTrendTitle,
     type: ChartType.rolling,
   },
-  availableTabs: [AwsDashboardTab.services, AwsDashboardTab.accounts, AwsDashboardTab.regions],
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.dailyTrend,
-  currentTab: AwsDashboardTab.services,
-  savingsPlan: true,
 };
 
 export const databaseWidget: AwsDashboardWidget = {
+  chartFormatter: formatCurrency,
+  chartName: 'awsDatabaseChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.aws,
@@ -89,22 +92,22 @@ export const databaseWidget: AwsDashboardWidget = {
   filter: {
     service: 'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
   },
+  savingsPlan: true,
   tabsFilter: {
     service: 'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
   },
   trend: {
-    chartName: 'awsDatabaseChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.trend,
-  savingsPlan: true,
 };
 
 export const networkWidget: AwsDashboardWidget = {
+  chartFormatter: formatCurrency,
+  chartName: 'awsNetworkChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.aws,
@@ -116,22 +119,22 @@ export const networkWidget: AwsDashboardWidget = {
   filter: {
     service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
   },
+  savingsPlan: true,
   tabsFilter: {
     service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
   },
   trend: {
-    chartName: 'awsNetworkChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.trend,
-  savingsPlan: true,
 };
 
 export const storageWidget: AwsDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'awsStorageChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.aws,
@@ -144,12 +147,9 @@ export const storageWidget: AwsDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
-    chartName: 'awsStorageChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };

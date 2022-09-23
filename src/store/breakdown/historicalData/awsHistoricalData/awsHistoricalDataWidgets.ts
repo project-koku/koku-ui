@@ -7,6 +7,7 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const costWidget: AwsHistoricalDataWidget = {
+  chartName: 'awsCostChart',
   id: getId(),
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.cost,
@@ -14,6 +15,7 @@ export const costWidget: AwsHistoricalDataWidget = {
 };
 
 export const computeUsageWidget: AwsHistoricalDataWidget = {
+  chartName: 'awsComputeChart',
   id: getId(),
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.instanceType,
@@ -21,6 +23,7 @@ export const computeUsageWidget: AwsHistoricalDataWidget = {
 };
 
 export const storageUsageWidget: AwsHistoricalDataWidget = {
+  chartName: 'awsStorageChart',
   id: getId(),
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.storage,

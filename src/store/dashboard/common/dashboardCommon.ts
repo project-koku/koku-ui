@@ -15,6 +15,7 @@ export const enum DashboardChartType {
 export interface DashboardWidget<T> {
   availableTabs?: T[];
   chartFormatter?: Formatter;
+  chartName: string; // Will be the prefix for ids within the chart
   chartType?: DashboardChartType;
   currentTab?: T;
   details: {
@@ -57,7 +58,6 @@ export interface DashboardWidget<T> {
     service_name?: string;
   };
   trend: {
-    chartName: string; // Will be the prefix for ids within the chart
     computedForecastItem?: string; // The computed forecast item to use in charts.
     computedForecastInfrastructureItem?: string; // The computed forecast infrastructure item to use in charts.
     computedReportItem: string; // The computed report item to use in charts, summary, etc.

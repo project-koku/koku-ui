@@ -17,6 +17,14 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const costSummaryWidget: AzureOcpDashboardWidget = {
+  availableTabs: [
+    AzureOcpDashboardTab.service_names,
+    AzureOcpDashboardTab.subscription_guids,
+    AzureOcpDashboardTab.resource_locations,
+  ],
+  chartName: 'azureOcpCostChart',
+  chartType: DashboardChartType.dailyTrend,
+  currentTab: AzureOcpDashboardTab.service_names,
   id: getId(),
   titleKey: messages.azureOcpDashboardCostTitle,
   forecastPathsType: ForecastPathsType.azureOcp,
@@ -31,7 +39,6 @@ export const costSummaryWidget: AzureOcpDashboardWidget = {
     limit: 3,
   },
   trend: {
-    chartName: 'azureOcpCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
@@ -39,16 +46,11 @@ export const costSummaryWidget: AzureOcpDashboardWidget = {
     titleKey: messages.azureCostTrendTitle,
     type: ChartType.rolling,
   },
-  availableTabs: [
-    AzureOcpDashboardTab.service_names,
-    AzureOcpDashboardTab.subscription_guids,
-    AzureOcpDashboardTab.resource_locations,
-  ],
-  chartType: DashboardChartType.dailyTrend,
-  currentTab: AzureOcpDashboardTab.service_names,
 };
 
 export const databaseWidget: AzureOcpDashboardWidget = {
+  chartName: 'azureOcpDatabaseChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.azureOcp,
@@ -64,16 +66,16 @@ export const databaseWidget: AzureOcpDashboardWidget = {
     service_name: azureDashboardWidgets.databaseWidget.tabsFilter.service_name,
   },
   trend: {
-    chartName: 'azureOcpDatabaseChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const networkWidget: AzureOcpDashboardWidget = {
+  chartName: 'azureOcpNetworkChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.azureOcp,
@@ -89,16 +91,16 @@ export const networkWidget: AzureOcpDashboardWidget = {
     service_name: azureDashboardWidgets.networkWidget.tabsFilter.service_name,
   },
   trend: {
-    chartName: 'azureOcpNetworkChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const storageWidget: AzureOcpDashboardWidget = {
+  chartName: 'azureOcpStorageChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.azureOcp,
@@ -117,16 +119,17 @@ export const storageWidget: AzureOcpDashboardWidget = {
     service_name: 'Storage',
   },
   trend: {
-    chartName: 'azureOcpStorageChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const virtualMachineWidget: AzureOcpDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'azureOcpComputeChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.azureComputeTitle,
   reportPathsType: ReportPathsType.azureOcp,
@@ -145,12 +148,9 @@ export const virtualMachineWidget: AzureOcpDashboardWidget = {
     service_name: 'Virtual Machines',
   },
   trend: {
-    chartName: 'azureOcpComputeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };

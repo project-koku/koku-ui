@@ -17,6 +17,9 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const computeWidget: AwsOcpDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'awsOcpComputeChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.awsComputeTitle,
   reportPathsType: ReportPathsType.awsOcp,
@@ -35,17 +38,19 @@ export const computeWidget: AwsOcpDashboardWidget = {
     service: 'AmazonEC2',
   },
   trend: {
-    chartName: 'awsOcpComputeChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };
 
 export const costSummaryWidget: AwsOcpDashboardWidget = {
+  availableTabs: [AwsOcpDashboardTab.services, AwsOcpDashboardTab.accounts, AwsOcpDashboardTab.regions],
+  chartFormatter: formatCurrency,
+  chartName: 'awsOcpCostChart',
+  chartType: DashboardChartType.dailyTrend,
+  currentTab: AwsOcpDashboardTab.services,
   id: getId(),
   titleKey: messages.awsOcpDashboardCostTitle,
   forecastPathsType: ForecastPathsType.awsOcp,
@@ -60,7 +65,6 @@ export const costSummaryWidget: AwsOcpDashboardWidget = {
     limit: 3,
   },
   trend: {
-    chartName: 'awsOcpCostChart',
     computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
@@ -68,13 +72,12 @@ export const costSummaryWidget: AwsOcpDashboardWidget = {
     titleKey: messages.awsCostTrendTitle,
     type: ChartType.rolling,
   },
-  availableTabs: [AwsOcpDashboardTab.services, AwsOcpDashboardTab.accounts, AwsOcpDashboardTab.regions],
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.dailyTrend,
-  currentTab: AwsOcpDashboardTab.services,
 };
 
 export const databaseWidget: AwsOcpDashboardWidget = {
+  chartFormatter: formatCurrency,
+  chartName: 'awsOcpDatabaseChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.awsOcp,
@@ -90,17 +93,17 @@ export const databaseWidget: AwsOcpDashboardWidget = {
     service: awsDashboardWidgets.databaseWidget.tabsFilter.service,
   },
   trend: {
-    chartName: 'awsOcpDatabaseChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.trend,
 };
 
 export const networkWidget: AwsOcpDashboardWidget = {
+  chartFormatter: formatCurrency,
+  chartName: 'awsOcpNetworkChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.awsOcp,
@@ -116,17 +119,17 @@ export const networkWidget: AwsOcpDashboardWidget = {
     service: awsDashboardWidgets.networkWidget.tabsFilter.service,
   },
   trend: {
-    chartName: 'awsOcpNetworkChart',
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.trend,
 };
 
 export const storageWidget: AwsOcpDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'awsOcpStorageChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.awsOcp,
@@ -139,12 +142,9 @@ export const storageWidget: AwsOcpDashboardWidget = {
     usageKey: messages.usage,
   },
   trend: {
-    chartName: 'awsOcpStorageChart',
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
     titleKey: messages.dashboardDailyUsageComparison,
     type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };

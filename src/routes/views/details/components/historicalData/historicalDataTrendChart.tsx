@@ -16,6 +16,7 @@ import { skeletonWidth } from 'utils/skeleton';
 import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalDataTrendChartOwnProps {
+  chartName?: string;
   costType?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
@@ -70,8 +71,15 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
   };
 
   public render() {
-    const { currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, reportType, intl } =
-      this.props;
+    const {
+      chartName,
+      currentReport,
+      currentReportFetchStatus,
+      previousReport,
+      previousReportFetchStatus,
+      reportType,
+      intl,
+    } = this.props;
 
     const isCostChart = reportType === ReportType.cost;
 
@@ -123,6 +131,7 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
               formatOptions={{}}
               formatter={formatUnits}
               height={chartStyles.chartHeight}
+              name={chartName}
               previousData={previousData}
               units={isCostChart ? costUnits : usageUnits}
               xAxisLabel={intl.formatMessage(messages.historicalChartDayOfMonthLabel)}

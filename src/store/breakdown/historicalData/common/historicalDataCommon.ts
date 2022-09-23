@@ -8,6 +8,7 @@ export const enum HistoricalDataWidgetType {
 }
 
 export interface HistoricalDataWidget {
+  chartName: string; // Will be the prefix for ids within the chart
   id: number;
   reportPathsType: ReportPathsType; // Report URL path
   reportType: ReportType; // Report type; cost, storage, etc.

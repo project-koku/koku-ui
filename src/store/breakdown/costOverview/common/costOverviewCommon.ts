@@ -11,6 +11,7 @@ export const enum CostOverviewWidgetType {
 }
 
 export interface CostOverviewWidget {
+  chartName?: string; // Will be the prefix for ids within the chart
   id: number;
   cluster?: {
     reportGroupBy: string; // Report group_by
