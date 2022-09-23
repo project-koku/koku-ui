@@ -348,7 +348,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents() {
-    const { name } = this.props;
+    const { name = '' } = this.props;
     const { hiddenSeries, series } = this.state;
 
     const result = getInteractiveLegendEvents({
@@ -362,7 +362,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
   }
 
   private getLegend = () => {
-    const { legendItemsPerRow, name } = this.props;
+    const { legendItemsPerRow, name = '' } = this.props;
     const { hiddenSeries, series, width } = this.state;
 
     // Todo: use PF legendAllowWrap feature

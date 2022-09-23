@@ -180,7 +180,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents() {
-    const { name } = this.props;
+    const { name = '' } = this.props;
     const { hiddenSeries, series } = this.state;
 
     const result = getInteractiveLegendEvents({
@@ -193,7 +193,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
   }
 
   private getLegend = () => {
-    const { legendItemsPerRow, name } = this.props;
+    const { legendItemsPerRow, name = '' } = this.props;
     const { hiddenSeries, series } = this.state;
 
     return (

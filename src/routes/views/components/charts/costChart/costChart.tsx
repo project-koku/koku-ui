@@ -391,7 +391,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents() {
-    const { name } = this.props;
+    const { name = '' } = this.props;
     const { hiddenSeries, series } = this.state;
 
     const result = getInteractiveLegendEvents({
@@ -436,7 +436,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
   }
 
   private getLegend = () => {
-    const { name } = this.props;
+    const { name = '' } = this.props;
     const { hiddenSeries, series } = this.state;
 
     return (

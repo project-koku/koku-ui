@@ -244,7 +244,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents() {
-    const { name } = this.props;
+    const { name = '' } = this.props;
     const { hiddenSeries, series } = this.state;
 
     const result = getInteractiveLegendEvents({
@@ -257,7 +257,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
   }
 
   private getLegend = () => {
-    const { legendItemsPerRow, name } = this.props;
+    const { legendItemsPerRow, name = '' } = this.props;
     const { hiddenSeries, series, width } = this.state;
 
     const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 700 ? chartStyles.itemsPerRow : 2;
