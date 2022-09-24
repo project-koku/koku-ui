@@ -2934,6 +2934,15 @@ export default defineMessages({
     description: 'Overview - Cost Management | Red Hat OpenShift Cluster Manager',
     id: 'pageTitleOverview',
   },
+  paginationTitle: {
+    defaultMessage:
+      '{placement, select, ' +
+      'top {{title} top pagination} ' +
+      'bottom {{title} bottom pagination} ' +
+      'other {{title} pagination}}',
+    description: 'title for pagination aria',
+    id: 'paginationTitle',
+  },
   percent: {
     defaultMessage: '{value} %',
     description: 'Percent value',

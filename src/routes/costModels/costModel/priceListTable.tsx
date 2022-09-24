@@ -268,6 +268,12 @@ class PriceListTable extends React.Component<Props, State> {
                         })
                       }
                       onPerPageSelect={(_evt, perPage) => this.setState({ pagination: { page: 1, perPage } })}
+                      titles={{
+                        paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                          title: intl.formatMessage(messages.priceList),
+                          placement: 'top',
+                        }),
+                      }}
                     />
                   }
                 />
@@ -360,6 +366,12 @@ class PriceListTable extends React.Component<Props, State> {
                                 pagination: { page: 1, perPage },
                               })
                             }
+                            titles={{
+                              paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                                title: intl.formatMessage(messages.priceList),
+                                placement: 'bottom',
+                              }),
+                            }}
                             variant="bottom"
                           />
                         </ToolbarItem>

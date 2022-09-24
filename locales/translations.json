@@ -419,6 +419,7 @@
   "pageTitleOci": "Oracle Cloud Infrastructure - Cost Management | Red Hat OpenShift Cluster Manager",
   "pageTitleOcp": "OpenShift - Cost Management | Red Hat OpenShift Cluster Manager",
   "pageTitleOverview": "Overview - Cost Management | Red Hat OpenShift Cluster Manager",
+  "paginationTitle": "{placement, select, top {{title} top pagination} bottom {{title} bottom pagination} other {{title} pagination}}",
   "percent": "{value} %",
   "percentOfCost": "{value} % of cost",
   "percentSymbol": "%",
