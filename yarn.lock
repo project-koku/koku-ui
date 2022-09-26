@@ -6265,10 +6265,10 @@ npm-bundled@^2.0.0:
   dependencies:
     npm-normalize-package-bin "^2.0.0"
 
-npm-check-updates@^16.2.1:
-  version "16.2.1"
-  resolved "https://registry.yarnpkg.com/npm-check-updates/-/npm-check-updates-16.2.1.tgz#584bc05716a3d438530a03508f186c2b781a709f"
-  integrity sha512-WPKs8BZeSQMFfK9ABk4ZtdcWYG1J9LjtQ8nOBZ2aZc0kejlJtBchZHkyezuQbWcJQDW06zyforgjG5/ts+zh4w==
+npm-check-updates@^16.3.2:
+  version "16.3.2"
+  resolved "https://registry.yarnpkg.com/npm-check-updates/-/npm-check-updates-16.3.2.tgz#90191c44ec6deeb97ab1d4d2762eab93fb6cbc2e"
+  integrity sha512-ebxWtGPu8yHmT+MYB/UvluemkpV81nFOZEMOtlw7/YygyyZq0eYFbkDy8/M5k3brbhtWjIrnBNXV4bPLoVWiOg==
   dependencies:
     chalk "^5.0.1"
     cli-table "^0.3.11"
@@ -8280,10 +8280,10 @@ universalify@^0.2.0:
   resolved "https://registry.npmjs.org/universalify/-/universalify-0.2.0.tgz"
   integrity sha512-CJ1QgKmNg3CwvAv/kOFmtnEN05f0D/cn9QntgNOQlQF9dgvVTHj3t+8JPdjqawCHk7V/KA+fbUqzZ9XWhcqPUg==
 
-unleash-proxy-client@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/unleash-proxy-client/-/unleash-proxy-client-2.2.0.tgz#15ae4e113101d82f30f5dfb9c3d5e9d1b0d145df"
-  integrity sha512-G8ufn6bIoKOYMb3CRMW9VQp/yjwfnHRZObFGqS3ydDl+EujoQFdC7xjQF5sh1eu05x39HQvlSTaH+HTJ+uxR7w==
+unleash-proxy-client@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/unleash-proxy-client/-/unleash-proxy-client-2.2.1.tgz#e6fdb3bb9511b90dd7fe3b09d5de623d5feda53d"
+  integrity sha512-r4rtDRs3p/cnhCiYT/x4FhRYeTZuiy4Wi0W9gcsRaz8Ev6ILZkMcSShgPAdWro2jp2f/yGKQ8swivqKdeHuz9A==
   dependencies:
     tiny-emitter "^2.1.0"
     uuid "^8.3.2"
