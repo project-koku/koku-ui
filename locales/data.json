@@ -28571,6 +28571,12 @@
         "value": "Cost model info popover"
       }
     ],
+    "costModelsPopoverButtonAriaLabel": [
+      {
+        "type": 0,
+        "value": "Opens a dialog with cost model info"
+      }
+    ],
     "costModelsRateTooLong": [
       {
         "type": 0,

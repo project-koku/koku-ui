@@ -765,6 +765,11 @@ export default defineMessages({
     description: 'Cost model info popover',
     id: 'costModelsPopoverAriaLabel',
   },
+  costModelsPopoverButtonAriaLabel: {
+    defaultMessage: 'Opens a dialog with cost model info',
+    description: 'Opens a dialog with cost model info',
+    id: 'costModelsPopoverButtonAriaLabel',
+  },
   costModelsRateTooLong: {
     defaultMessage: 'Should not exceed 10 decimals',
     description: 'Should not exceed 10 decimals',
