@@ -812,13 +812,13 @@
   resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-4.215.1.tgz#d63eaf997521f7e0c615acd406253680539fbe95"
   integrity sha512-coOipHiQs92OYYO+pWfukEKOkY+VUL6ptusTxh98DvIu/tQYzJDJxEmzYXmwqxORM19oLxAJEGktPoLNKElj6A==
 
-"@patternfly/react-charts@6.94.4":
-  version "6.94.4"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-6.94.4.tgz#98f993b16b94b0c739047f2acb11ecd994199c1c"
-  integrity sha512-u6WeNAQ1kLSTafdnTPqApJr71VLNFMLrkabOyBVSuacuPCFh3dvn6wWCLvf8B2VkYlV6yUNPb11az4Sisr61RA==
+"@patternfly/react-charts@6.94.5":
+  version "6.94.5"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-6.94.5.tgz#253a479798b24f699a0c26ae9c09ef1543845c05"
+  integrity sha512-8HcpVoxTqC1396k9PJzlwdecOcfPkmgbNTh+ZDl4QyK3i6l/U9uXrLreHQkbKuz+tAztQnkARfxP13CF3h+A+Q==
   dependencies:
-    "@patternfly/react-styles" "^4.91.3"
-    "@patternfly/react-tokens" "^4.93.3"
+    "@patternfly/react-styles" "^4.91.4"
+    "@patternfly/react-tokens" "^4.93.4"
     hoist-non-react-statics "^3.3.0"
     lodash "^4.17.19"
     tslib "^2.0.0"
@@ -862,15 +862,10 @@
   resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-4.89.0.tgz#a4817f6ae7b143bea041d53f003dfe3b1850e8e6"
   integrity sha512-SkT+qx3Xqu70T5s+i/AUT2hI2sKAPDX4ffeiJIUDu/oyWiFdk+/9DEivnLSyJMruroXXN33zKibvzb5rH7DKTQ==
 
-"@patternfly/react-styles@^4.89.0":
-  version "4.89.1"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-4.89.1.tgz#49403e87b5b391f2f2039cb2b7ab9c6c754670e7"
-  integrity sha512-gXy0Tf3HvBi0W4eSJN+NBMFfQ0U7zQVLlIzWna1DAw2DdM0T4ISR86cd4VRMXh9aLHeYOPld0P/ScwsOpMqJBA==
-
-"@patternfly/react-styles@^4.91.3":
-  version "4.91.3"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-4.91.3.tgz#6d474d3b38599090d7f7df723726e5fe6f6008c1"
-  integrity sha512-oi84DoY4Bn173zXtW0svJFsh/jVtlimDI9mkWH7UID9jgdHzXAooCPstXQIsQ1/mYWQSG2kXUCKeJGhJTAYBjg==
+"@patternfly/react-styles@^4.89.0", "@patternfly/react-styles@^4.91.4":
+  version "4.91.4"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-4.91.4.tgz#ad6858e971e05e6fa0c11d14eda713709652e5c9"
+  integrity sha512-P5UWIZY/pn/SVfY4REF+fxMD2cH5QgDpL5X3WsQoaXG1FrE5c4WF5tt/lHxSs5jZJSZvbP6118P3u9qbYl3Evw==
 
 "@patternfly/react-table@4.108.0":
   version "4.108.0"
@@ -889,15 +884,10 @@
   resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-4.91.0.tgz#f173a5a36911a789ea966a7e5955de92aeccf8fc"
   integrity sha512-QeQCy8o8E/16fAr8mxqXIYRmpTsjCHJXi5p5jmgEDFmYMesN6Pqfv6N5D0FHb+CIaNOZWRps7GkWvlIMIE81sw==
 
-"@patternfly/react-tokens@^4.91.0":
-  version "4.91.1"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-4.91.1.tgz#f8785d2ebd0d4a498852dbbaab6d6cc75755343d"
-  integrity sha512-hFGCDeYB6KpF7XpjblJ/ZQzE3l62ttYYsTchhV45JmpAmBYhE2GzBYmAzUDhucrtNwyoTzIrNcDvj8s+sDNtaw==
-
-"@patternfly/react-tokens@^4.93.3":
-  version "4.93.3"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-4.93.3.tgz#16d428b8f930ae76f3b0ba30c365549eb63a401e"
-  integrity sha512-OdLLsV/S43k8otAjEWSO+qHIpWU5pkKQ94l56FH0/5wpcoJxdOslxFVV+a3JjucLZ2JWqWqBBkFZ0ON8zMXMvg==
+"@patternfly/react-tokens@^4.91.0", "@patternfly/react-tokens@^4.93.4":
+  version "4.93.4"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-4.93.4.tgz#fb32ac08db9803127adc17449611e6a3a6cdef2b"
+  integrity sha512-0tW5BanDjaw42wiZkLu0fmg5P/WruUbxmUpRT7RJS7QKO3vL4Rh9NrXydIPVU7APpEnZyf/S4TJUeosEILLCRA==
 
 "@pnpm/network.ca-file@^1.0.1":
   version "1.0.1"
@@ -8280,10 +8270,10 @@ universalify@^0.2.0:
   resolved "https://registry.npmjs.org/universalify/-/universalify-0.2.0.tgz"
   integrity sha512-CJ1QgKmNg3CwvAv/kOFmtnEN05f0D/cn9QntgNOQlQF9dgvVTHj3t+8JPdjqawCHk7V/KA+fbUqzZ9XWhcqPUg==
 
-unleash-proxy-client@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/unleash-proxy-client/-/unleash-proxy-client-2.2.0.tgz#15ae4e113101d82f30f5dfb9c3d5e9d1b0d145df"
-  integrity sha512-G8ufn6bIoKOYMb3CRMW9VQp/yjwfnHRZObFGqS3ydDl+EujoQFdC7xjQF5sh1eu05x39HQvlSTaH+HTJ+uxR7w==
+unleash-proxy-client@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/unleash-proxy-client/-/unleash-proxy-client-2.2.1.tgz#e6fdb3bb9511b90dd7fe3b09d5de623d5feda53d"
+  integrity sha512-r4rtDRs3p/cnhCiYT/x4FhRYeTZuiy4Wi0W9gcsRaz8Ev6ILZkMcSShgPAdWro2jp2f/yGKQ8swivqKdeHuz9A==
   dependencies:
     tiny-emitter "^2.1.0"
     uuid "^8.3.2"
