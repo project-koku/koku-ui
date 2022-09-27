@@ -3,11 +3,11 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import { paths } from 'routes';
 import {
-  ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'routes/views/components/charts/common/chartDatumUtils';
+  DatumType,
+} from 'routes/views/components/charts/common/chartDatum';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
 
@@ -40,8 +40,8 @@ export const computeWidget: AwsDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
 };
 
@@ -72,8 +72,8 @@ export const costSummaryWidget: AwsDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     dailyTitleKey: messages.awsDailyCostTrendTitle,
+    datumType: DatumType.cumulative,
     titleKey: messages.awsCostTrendTitle,
-    type: ChartType.rolling,
   },
 };
 
@@ -99,8 +99,8 @@ export const databaseWidget: AwsDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
 };
 
@@ -126,8 +126,8 @@ export const networkWidget: AwsDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
 };
 
@@ -149,7 +149,7 @@ export const storageWidget: AwsDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
 };

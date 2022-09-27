@@ -63,11 +63,11 @@ export interface DashboardWidget<T> {
     computedReportItem: string; // The computed report item to use in charts, summary, etc.
     computedReportItemValue: string; // The computed report value (e.g., raw, markup, total, or usage)
     dailyTitleKey?: MessageDescriptor;
+    datumType: number;
     formatOptions?: FormatOptions;
     showInfrastructureLabel?: boolean; // Trend chart legend items show "Infrastructure cost" instead of "cost"
     showSupplementaryLabel?: boolean; // Trend chart legend items show "Supplementary cost" instead of "cost"
     titleKey: MessageDescriptor;
-    type: number;
   };
   topItems?: {
     formatOptions?: FormatOptions;

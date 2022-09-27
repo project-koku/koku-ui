@@ -5,7 +5,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
-import { ChartType, transformReport } from 'routes/views/components/charts/common/chartDatumUtils';
+import { DatumType, transformReport } from 'routes/views/components/charts/common/chartDatum';
 import { HistoricalCostChart } from 'routes/views/components/charts/historicalCostChart';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -75,12 +75,22 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
       this.props;
 
     // Current data
-    const currentData = transformReport(currentReport, ChartType.rolling, 'date', 'cost');
-    const currentInfrastructureCostData = transformReport(currentReport, ChartType.rolling, 'date', 'infrastructure');
+    const currentData = transformReport(currentReport, DatumType.cumulative, 'date', 'cost');
+    const currentInfrastructureCostData = transformReport(
+      currentReport,
+      DatumType.cumulative,
+      'date',
+      'infrastructure'
+    );
 
     // Previous data
-    const previousData = transformReport(previousReport, ChartType.rolling, 'date', 'cost');
-    const previousInfrastructureCostData = transformReport(previousReport, ChartType.rolling, 'date', 'infrastructure');
+    const previousData = transformReport(previousReport, DatumType.cumulative, 'date', 'cost');
+    const previousInfrastructureCostData = transformReport(
+      previousReport,
+      DatumType.cumulative,
+      'date',
+      'infrastructure'
+    );
 
     const costUnits =
       currentReport && currentReport.meta && currentReport.meta.total && currentReport.meta.total.cost

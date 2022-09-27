@@ -3,11 +3,11 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import { paths } from 'routes';
 import {
-  ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'routes/views/components/charts/common/chartDatumUtils';
+  DatumType,
+} from 'routes/views/components/charts/common/chartDatum';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
 
@@ -41,8 +41,8 @@ export const costSummaryWidget: OcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     dailyTitleKey: messages.ocpDashboardDailyCostTitle,
+    datumType: DatumType.cumulative,
     titleKey: messages.ocpDashboardCostTrendTitle,
-    type: ChartType.rolling,
   },
   tabsFilter: {
     limit: 3,
@@ -66,8 +66,8 @@ export const cpuWidget: OcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.ocpDailyUsageAndRequestComparison,
-    type: ChartType.daily,
   },
 };
 
@@ -88,8 +88,8 @@ export const memoryWidget: OcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.ocpDailyUsageAndRequestComparison,
-    type: ChartType.daily,
   },
 };
 
@@ -110,7 +110,7 @@ export const volumeWidget: OcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.ocpDailyUsageAndRequestComparison,
-    type: ChartType.daily,
   },
 };

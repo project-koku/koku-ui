@@ -1,7 +1,7 @@
 jest.mock('store/reports/reportActions');
 
 import { ReportType } from 'api/reports/report';
-import { ChartType } from 'routes/views/components/charts/common/chartDatumUtils';
+import { DatumType } from 'routes/views/components/charts/common/chartDatum';
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
 
@@ -86,8 +86,8 @@ test('getQueryForWidget', () => {
     currentTab: GcpOcpDashboardTab.accounts,
     details: { formatOptions: {} },
     trend: {
+      datumType: DatumType.rolling,
       titleKey: '',
-      type: ChartType.daily,
       formatOptions: {},
     },
     topItems: {

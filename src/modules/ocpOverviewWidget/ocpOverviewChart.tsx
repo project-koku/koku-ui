@@ -5,11 +5,11 @@ import { AxiosError } from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  ChartType,
   ComputedReportItemType,
   ComputedReportItemValueType,
+  DatumType,
   transformReport,
-} from 'routes/views/components/charts/common/chartDatumUtils';
+} from 'routes/views/components/charts/common/chartDatum';
 import { TrendChart } from 'routes/views/components/charts/trendChart';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -90,14 +90,14 @@ class OcpOverviewChartBase extends React.Component<OcpOverviewChartProps> {
 
     const currentData = transformReport(
       currentReport,
-      ChartType.rolling,
+      DatumType.cumulative,
       'date',
       computedReportItem,
       computedReportItemValue
     );
     const previousData = transformReport(
       previousReport,
-      ChartType.rolling,
+      DatumType.cumulative,
       'date',
       computedReportItem,
       computedReportItemValue

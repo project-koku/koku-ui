@@ -1,7 +1,7 @@
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 
-import { getTooltipContent, transformReport } from './chartDatumUtils';
+import { getTooltipContent, transformReport } from './chartDatum';
 import { transformReportProps } from './testProps/transformReportProps';
 import { transformReportReturns } from './testProps/transformReportReturns';
 

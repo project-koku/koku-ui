@@ -1,17 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import { OcpReport, OcpReportData } from 'api/reports/ocpReports';
 import React from 'react';
-import * as utils from 'routes/views/components/charts/common/chartDatumUtils';
+import * as utils from 'routes/views/components/charts/common/chartDatum';
 
 import { UsageChart, UsageChartProps } from './usageChart';
 
 const currentMonthReport: OcpReport = createReport('2018-01-15');
 const previousMonthReport: OcpReport = createReport('2017-12-15');
 
-const currentRequestData = utils.transformReport(currentMonthReport, utils.ChartType.daily, 'date', 'request');
-const currentUsageData = utils.transformReport(currentMonthReport, utils.ChartType.daily, 'date', 'usage');
-const previousRequestData = utils.transformReport(previousMonthReport, utils.ChartType.daily, 'date', 'request');
-const previousUsageData = utils.transformReport(previousMonthReport, utils.ChartType.daily, 'date', 'usage');
+const currentRequestData = utils.transformReport(currentMonthReport, utils.DatumType.rolling, 'date', 'request');
+const currentUsageData = utils.transformReport(currentMonthReport, utils.DatumType.rolling, 'date', 'usage');
+const previousRequestData = utils.transformReport(previousMonthReport, utils.DatumType.rolling, 'date', 'request');
+const previousUsageData = utils.transformReport(previousMonthReport, utils.DatumType.rolling, 'date', 'usage');
 
 const props: UsageChartProps = {
   currentRequestData,

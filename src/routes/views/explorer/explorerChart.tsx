@@ -14,7 +14,7 @@ import {
   ComputedReportItemValueType,
   isFloat,
   isInt,
-} from 'routes/views/components/charts/common/chartDatumUtils';
+} from 'routes/views/components/charts/common/chartDatum';
 import { CostExplorerChart } from 'routes/views/components/charts/costExplorerChart';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -157,7 +157,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
     return getUnsortedComputedReportItems({
       report,
       idKey: this.getGroupBy(),
-      daily: true,
+      isDateMap: true,
     });
   };
 

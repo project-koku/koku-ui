@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import { AwsReport, AwsReportData } from 'api/reports/awsReports';
 import React from 'react';
-import * as utils from 'routes/views/components/charts/common/chartDatumUtils';
+import * as utils from 'routes/views/components/charts/common/chartDatum';
 
 import { TrendChart, TrendChartProps } from './trendChart';
 
 const currentMonthReport: AwsReport = createReport('2018-01-15');
 const previousMonthReport: AwsReport = createReport('2017-12-15');
 
-const currentData = utils.transformReport(currentMonthReport, utils.ChartType.daily);
-const previousData = utils.transformReport(previousMonthReport, utils.ChartType.daily);
+const currentData = utils.transformReport(currentMonthReport, utils.DatumType.rolling);
+const previousData = utils.transformReport(previousMonthReport, utils.DatumType.rolling);
 
 const props: TrendChartProps = {
   currentData,

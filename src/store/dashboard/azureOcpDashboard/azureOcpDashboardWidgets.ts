@@ -2,11 +2,11 @@ import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import {
-  ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'routes/views/components/charts/common/chartDatumUtils';
+  DatumType,
+} from 'routes/views/components/charts/common/chartDatum';
 import { azureDashboardWidgets } from 'store/dashboard/azureDashboard';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatUnits } from 'utils/format';
@@ -43,8 +43,8 @@ export const costSummaryWidget: AzureOcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     dailyTitleKey: messages.azureDailyCostTrendTitle,
+    datumType: DatumType.cumulative,
     titleKey: messages.azureCostTrendTitle,
-    type: ChartType.rolling,
   },
 };
 
@@ -68,8 +68,8 @@ export const databaseWidget: AzureOcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
 };
 
@@ -93,8 +93,8 @@ export const networkWidget: AzureOcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
 };
 
@@ -121,8 +121,8 @@ export const storageWidget: AzureOcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
 };
 
@@ -150,7 +150,7 @@ export const virtualMachineWidget: AzureOcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
 };

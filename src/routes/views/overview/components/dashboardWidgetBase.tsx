@@ -9,12 +9,12 @@ import React from 'react';
 import { WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import {
-  ChartType,
   ComputedReportItemType,
+  DatumType,
   transformForecast,
   transformForecastCone,
   transformReport,
-} from 'routes/views/components/charts/common/chartDatumUtils';
+} from 'routes/views/components/charts/common/chartDatum';
 import {
   ReportSummary,
   ReportSummaryAlt,
@@ -171,7 +171,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
 
     const daily = currentComparison === Comparison.daily;
-    const type = daily ? ChartType.daily : trend.type;
+    const type = daily ? DatumType.rolling : trend.datumType;
 
     // Infrastructure data
     const currentInfrastructureData = transformReport(
@@ -238,7 +238,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
 
     const daily = currentComparison === Comparison.daily;
-    const type = daily ? ChartType.daily : trend.type;
+    const type = daily ? DatumType.rolling : trend.datumType;
 
     // Cost data
     const currentData = transformReport(currentReport, type, 'date', computedReportItem, computedReportItemValue);
@@ -280,7 +280,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     // Todo: Add cumulative / daily prop
     const daily = currentComparison === Comparison.daily;
-    const type = daily ? ChartType.daily : trend.type;
+    const type = daily ? DatumType.rolling : trend.datumType;
 
     let forecastData;
     let forecastConeData;
@@ -321,7 +321,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           }
 
           // For cumulative data, forecast values should begin at last reported total with zero confidence values
-          if (type === ChartType.rolling) {
+          if (type === DatumType.cumulative) {
             const firstReported =
               forecast.data[0].values && forecast.data[0].values.length > 0
                 ? forecast.data[0].values[0].date
@@ -413,10 +413,16 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const title = intl.formatMessage(trend.titleKey, { units: this.getFormattedUnits() });
 
     // Cost data
-    const currentData = transformReport(currentReport, trend.type, 'date', computedReportItem, computedReportItemValue);
+    const currentData = transformReport(
+      currentReport,
+      trend.datumType,
+      'date',
+      computedReportItem,
+      computedReportItemValue
+    );
     const previousData = transformReport(
       previousReport,
-      trend.type,
+      trend.datumType,
       'date',
       computedReportItem,
       computedReportItemValue
@@ -456,12 +462,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     });
 
     // Request data
-    const currentRequestData = transformReport(currentReport, trend.type, 'date', 'request');
-    const previousRequestData = transformReport(previousReport, trend.type, 'date', 'request');
+    const currentRequestData = transformReport(currentReport, trend.datumType, 'date', 'request');
+    const previousRequestData = transformReport(previousReport, trend.datumType, 'date', 'request');
 
     // Usage data
-    const currentUsageData = transformReport(currentReport, trend.type, 'date', 'usage');
-    const previousUsageData = transformReport(previousReport, trend.type, 'date', 'usage');
+    const currentUsageData = transformReport(currentReport, trend.datumType, 'date', 'usage');
+    const previousUsageData = transformReport(previousReport, trend.datumType, 'date', 'usage');
 
     return (
       <ReportSummaryUsage
