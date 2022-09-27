@@ -1,4 +1,4 @@
-import 'routes/views/components/charts/common/charts-common.scss';
+import 'routes/views/components/charts/common/chart.scss';
 
 import {
   Chart,
