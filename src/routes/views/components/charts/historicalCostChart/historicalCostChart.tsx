@@ -92,12 +92,9 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
   }
 
   private initDatum = () => {
-    const { currentCostData, currentInfrastructureCostData, previousCostData, previousInfrastructureCostData } =
-      this.props;
+    const { currentCostData, previousCostData } = this.props;
 
     const costKey = messages.chartCostLegendLabel;
-    const costInfrastructureKey = messages.chartCostInfrastructureLegendLabel;
-    const costInfrastructureTooltipKey = messages.chartCostInfrastructureLegendTooltip;
     const costTooltipKey = messages.chartCostLegendTooltip;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
@@ -136,56 +133,6 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
           data: {
             ...chartStyles.currentCostData,
             stroke: chartStyles.currentColorScale[0],
-          },
-        },
-      },
-      {
-        childName: 'previousInfrastructureCost',
-        data: previousInfrastructureCostData,
-        legendItem: {
-          name: getCostRangeString(
-            previousInfrastructureCostData,
-            costInfrastructureKey,
-            true,
-            true,
-            1,
-            messages.chartCostInfrastructureLegendNoDataLabel
-          ),
-          symbol: {
-            fill: chartStyles.previousColorScale[1],
-            type: 'dash',
-          },
-          tooltip: getCostRangeString(previousInfrastructureCostData, costInfrastructureTooltipKey, false, false, 1),
-        },
-        style: {
-          data: {
-            ...chartStyles.previousInfrastructureCostData,
-            stroke: chartStyles.previousColorScale[1],
-          },
-        },
-      },
-      {
-        childName: 'currentInfrastructureCost',
-        data: currentInfrastructureCostData,
-        legendItem: {
-          name: getCostRangeString(
-            currentInfrastructureCostData,
-            costInfrastructureKey,
-            true,
-            false,
-            0,
-            messages.chartCostInfrastructureLegendNoDataLabel
-          ),
-          symbol: {
-            fill: chartStyles.currentColorScale[1],
-            type: 'dash',
-          },
-          tooltip: getCostRangeString(currentInfrastructureCostData, costInfrastructureTooltipKey, false, false),
-        },
-        style: {
-          data: {
-            ...chartStyles.currentInfrastructureCostData,
-            stroke: chartStyles.currentColorScale[1],
           },
         },
       },
