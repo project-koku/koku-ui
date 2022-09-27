@@ -91,6 +91,7 @@ export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
               itemCount={paginationProps.itemCount}
               page={paginationProps.page}
               perPage={paginationProps.perPage}
+              titles={{paginationTitle: 'sources toolbar pagination'}}
               onSetPage={paginationProps.onSetPage}
               onPerPageSelect={paginationProps.onPerPageSelect}
             />

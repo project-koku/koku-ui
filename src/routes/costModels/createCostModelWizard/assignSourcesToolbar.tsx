@@ -84,6 +84,7 @@ export const AssignSourcesToolbarBase: React.FC<AssignSourcesToolbarBaseProps> =
             perPage={paginationProps.perPage}
             onSetPage={paginationProps.onSetPage}
             onPerPageSelect={paginationProps.onPerPageSelect}
+            titles={{paginationTitle: 'assignsources toolbar pagination'}}
           />
         </ToolbarItem>
       </ToolbarContent>

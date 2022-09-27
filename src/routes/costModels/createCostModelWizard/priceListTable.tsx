@@ -223,6 +223,7 @@ class PriceListTable extends React.Component<Props, State> {
                               page={priceListPagination.page}
                               onSetPage={priceListPagination.onPageSet}
                               onPerPageSelect={priceListPagination.onPerPageSet}
+                              titles={{paginationTitle: 'price list table pagination top'}}
                             />
                           }
                         />
@@ -261,6 +262,7 @@ class PriceListTable extends React.Component<Props, State> {
                           page={priceListPagination.page}
                           onSetPage={priceListPagination.onPageSet}
                           onPerPageSelect={priceListPagination.onPerPageSet}
+                          titles={{paginationTitle: 'assignsources toolbar pagination bottom'}}
                         />
                       </>
                     );

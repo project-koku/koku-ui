@@ -25,6 +25,7 @@ export const PaginationToolbarTemplate: React.FC<PaginationToolbarTemplateProps>
             page={page}
             onSetPage={onSetPage}
             onPerPageSelect={onPerPageSelect}
+            titles={{'paginationTitle': 'costmodelstoolbarpagination'}}
           />
         </ToolbarItem>
       </ToolbarContent>
