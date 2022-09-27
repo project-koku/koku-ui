@@ -46,7 +46,6 @@ interface TrendChartOwnProps {
   previousData?: any;
   padding?: any;
   showForecast?: boolean; // Show forecast legend regardless if data is available
-  showInfrastructureLabel?: boolean; // Show supplementary cost labels
   showSupplementaryLabel?: boolean; // Show supplementary cost labels
   showUsageLegendLabel?: boolean; // The cost legend label is shown by default
   title?: string;
@@ -100,7 +99,6 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
       forecastConeData,
       previousData,
       showForecast,
-      showInfrastructureLabel = false,
       showSupplementaryLabel = false,
       showUsageLegendLabel = false,
     } = this.props;
@@ -109,24 +107,18 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
       ? messages.chartUsageLegendLabel
       : showSupplementaryLabel
       ? messages.chartCostSupplementaryLegendLabel
-      : showInfrastructureLabel
-      ? messages.chartCostInfrastructureLegendLabel
       : messages.chartCostLegendLabel;
 
     const tooltipKey = showUsageLegendLabel
       ? messages.chartUsageLegendTooltip
       : showSupplementaryLabel
       ? messages.chartCostSupplementaryLegendTooltip
-      : showInfrastructureLabel
-      ? messages.chartCostInfrastructureLegendTooltip
       : messages.chartCostLegendTooltip;
 
     const noDataKey = showUsageLegendLabel
       ? messages.chartUsageLegendNoDataLabel
       : showSupplementaryLabel
       ? messages.chartCostSupplementaryLegendNoDataLabel
-      : showInfrastructureLabel
-      ? messages.chartCostInfrastructureLegendNoDataLabel
       : messages.chartCostLegendNoDataLabel;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
@@ -232,7 +224,6 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
       height,
       containerHeight = height,
       showForecast,
-      showInfrastructureLabel,
       showSupplementaryLabel,
     } = this.props;
     const { width } = this.state;
@@ -240,7 +231,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
     let adjustedContainerHeight = containerHeight;
     if (adjustContainerHeight) {
       if (showForecast) {
-        const maxWidth = showSupplementaryLabel || showInfrastructureLabel ? 900 : 700;
+        const maxWidth = showSupplementaryLabel ? 900 : 700;
         if (width < maxWidth) {
           adjustedContainerHeight += 25;
         }
