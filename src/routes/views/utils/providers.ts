@@ -44,12 +44,12 @@ export const filterProviders = (providers: Providers, sourceType: ProviderType) 
 };
 
 // Ensure at least one source provider has data available
-const _hasData = (providers: Providers, dataType: DataType) => {
+const _hasData = (providers: Providers, datumType: DataType) => {
   let result = false;
 
   if (providers && providers.data) {
     for (const provider of providers.data) {
-      if (provider[dataType]) {
+      if (provider[datumType]) {
         result = true;
         break;
       }

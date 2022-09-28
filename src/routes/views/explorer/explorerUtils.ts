@@ -8,10 +8,7 @@ import { TagPathsType } from 'api/tags/tag';
 import { UserAccess } from 'api/userAccess';
 import { format } from 'date-fns';
 import messages from 'locales/messages';
-import {
-  ComputedReportItemType,
-  ComputedReportItemValueType,
-} from 'routes/views/components/charts/common/chartDatumUtils';
+import { ComputedReportItemType, ComputedReportItemValueType } from 'routes/views/components/charts/common/chartDatum';
 import { hasCloudProvider } from 'routes/views/utils/providers';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';

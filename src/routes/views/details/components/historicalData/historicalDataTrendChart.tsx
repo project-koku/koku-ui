@@ -5,7 +5,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
-import { ChartType, transformReport } from 'routes/views/components/charts/common/chartDatumUtils';
+import { DatumType, transformReport } from 'routes/views/components/charts/common/chartDatum';
 import { HistoricalTrendChart } from 'routes/views/components/charts/historicalTrendChart';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -86,13 +86,13 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
     // Current data
     const currentData = transformReport(
       currentReport,
-      isCostChart ? ChartType.rolling : ChartType.daily,
+      isCostChart ? DatumType.cumulative : DatumType.rolling,
       'date',
       isCostChart ? 'cost' : 'usage'
     );
     const previousData = transformReport(
       previousReport,
-      isCostChart ? ChartType.rolling : ChartType.daily,
+      isCostChart ? DatumType.cumulative : DatumType.rolling,
       'date',
       isCostChart ? 'cost' : 'usage'
     );

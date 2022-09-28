@@ -12,10 +12,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
-import {
-  ComputedReportItemType,
-  ComputedReportItemValueType,
-} from 'routes/views/components/charts/common/chartDatumUtils';
+import { ComputedReportItemType, ComputedReportItemValueType } from 'routes/views/components/charts/common/chartDatum';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
@@ -112,7 +109,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
-      daily: true,
+      isDateMap: true,
     });
 
     // Add first column heading (i.e., name)

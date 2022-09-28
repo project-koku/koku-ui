@@ -150,7 +150,7 @@ class Explorer extends React.Component<ExplorerProps> {
     const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
-      daily: false, // Don't use daily here, so we can use a flattened data structure with row selection
+      isDateMap: false, // Don't use isDateMap here, so we can use a flattened data structure with row selection
     });
     return computedItems;
   };

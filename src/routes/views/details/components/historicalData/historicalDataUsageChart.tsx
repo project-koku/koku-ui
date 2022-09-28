@@ -5,7 +5,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
-import { ChartType, transformReport } from 'routes/views/components/charts/common/chartDatumUtils';
+import { DatumType, transformReport } from 'routes/views/components/charts/common/chartDatum';
 import { HistoricalUsageChart } from 'routes/views/components/charts/historicalUsageChart';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -74,14 +74,14 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
       this.props;
 
     // Current data
-    const currentLimitData = transformReport(currentReport, ChartType.daily, 'date', 'limit');
-    const currentRequestData = transformReport(currentReport, ChartType.daily, 'date', 'request');
-    const currentUsageData = transformReport(currentReport, ChartType.daily, 'date', 'usage');
+    const currentLimitData = transformReport(currentReport, DatumType.rolling, 'date', 'limit');
+    const currentRequestData = transformReport(currentReport, DatumType.rolling, 'date', 'request');
+    const currentUsageData = transformReport(currentReport, DatumType.rolling, 'date', 'usage');
 
     // Previous data
-    const previousLimitData = transformReport(previousReport, ChartType.daily, 'date', 'limit');
-    const previousRequestData = transformReport(previousReport, ChartType.daily, 'date', 'request');
-    const previousUsageData = transformReport(previousReport, ChartType.daily, 'date', 'usage');
+    const previousLimitData = transformReport(previousReport, DatumType.rolling, 'date', 'limit');
+    const previousRequestData = transformReport(previousReport, DatumType.rolling, 'date', 'request');
+    const previousUsageData = transformReport(previousReport, DatumType.rolling, 'date', 'usage');
 
     const usageUnits =
       currentReport && currentReport.meta && currentReport.meta.total && currentReport.meta.total.usage

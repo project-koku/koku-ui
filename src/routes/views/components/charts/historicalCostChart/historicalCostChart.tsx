@@ -15,8 +15,8 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { default as ChartTheme } from 'routes/views/components/charts/chartTheme';
-import { getCostRangeString } from 'routes/views/components/charts/common/chartDatumUtils';
-import { getDateRange } from 'routes/views/components/charts/common/chartDatumUtils';
+import { getCostRangeString } from 'routes/views/components/charts/common/chartDatum';
+import { getDateRange } from 'routes/views/components/charts/common/chartDatum';
 import {
   ChartSeries,
   getChartNames,

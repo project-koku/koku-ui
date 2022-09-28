@@ -49,16 +49,16 @@ export const enum ComputedReportItemValueType {
   usage = 'usage', // infrastructure.usage.value
 }
 
+// The datum type, which can be applied to daily or monthly data
 // eslint-disable-next-line no-shadow
-export const enum ChartType {
+export const enum DatumType {
+  cumulative,
   rolling,
-  daily,
-  monthly,
 }
 
 export function transformForecast(
   forecast: Forecast,
-  type: ChartType = ChartType.daily,
+  datumType,
   forecastItem: string = 'cost',
   forecastItemValue: string = 'total'
 ): ChartDatum[] {
@@ -72,20 +72,20 @@ export function transformForecast(
   } as any;
   const computedItems = getComputedForecastItems(items);
   let chartDatums;
-  if (type === ChartType.daily || type === ChartType.monthly) {
-    chartDatums = computedItems.map(i => createForecastDatum(i[forecastItem][forecastItemValue].value, i));
-  } else {
+  if (datumType === DatumType.cumulative) {
     chartDatums = computedItems.reduce<ChartDatum[]>((acc, d) => {
       const prevValue = acc.length ? acc[acc.length - 1].y : 0;
       return [...acc, createForecastDatum(prevValue + d[forecastItem][forecastItemValue].value, d)];
     }, []);
+  } else {
+    chartDatums = computedItems.map(i => createForecastDatum(i[forecastItem][forecastItemValue].value, i));
   }
-  return padChartDatums(chartDatums, type);
+  return padChartDatums(chartDatums, datumType);
 }
 
 export function transformForecastCone(
   forecast: Forecast,
-  type: ChartType = ChartType.daily,
+  datumType,
   forecastItem: string = 'cost',
   forecastItemValue: string = 'total'
 ): ChartDatum[] {
@@ -99,11 +99,7 @@ export function transformForecastCone(
   } as any;
   const computedItems = getComputedForecastItems(items);
   let chartDatums;
-  if (type === ChartType.daily || type === ChartType.monthly) {
-    chartDatums = computedItems.map(i =>
-      createForecastConeDatum(i[forecastItem].confidence_max.value, i[forecastItem].confidence_min.value, i)
-    );
-  } else {
+  if (datumType === DatumType.cumulative) {
     chartDatums = computedItems.reduce<ChartDatum[]>((acc, d) => {
       const prevMaxValue = acc.length ? acc[acc.length - 1].y : d[forecastItem][forecastItemValue].value;
       const prevMinValue = acc.length ? acc[acc.length - 1].y0 : d[forecastItem][forecastItemValue].value;
@@ -116,13 +112,17 @@ export function transformForecastCone(
         ),
       ];
     }, []);
+  } else {
+    chartDatums = computedItems.map(i =>
+      createForecastConeDatum(i[forecastItem].confidence_max.value, i[forecastItem].confidence_min.value, i)
+    );
   }
-  return padChartDatums(chartDatums, type);
+  return padChartDatums(chartDatums, datumType);
 }
 
 export function transformReport(
   report: Report,
-  type: ChartType = ChartType.daily,
+  datumType,
   idKey: any = 'date',
   reportItem: string = 'cost',
   reportItemValue: string = 'total' // useful for infrastructure.usage values
@@ -138,19 +138,19 @@ export function transformReport(
   } as any;
   const computedItems = getComputedReportItems(items);
   let chartDatums;
-  if (type === ChartType.daily || type === ChartType.monthly) {
-    chartDatums = computedItems.map(i => {
-      const val = i[reportItem][reportItemValue] ? i[reportItem][reportItemValue].value : i[reportItem].value;
-      return createReportDatum(val, i, idKey, reportItem, reportItemValue);
-    });
-  } else {
+  if (datumType === DatumType.cumulative) {
     chartDatums = computedItems.reduce<ChartDatum[]>((acc, d) => {
       const prevValue = acc.length ? acc[acc.length - 1].y : 0;
       const val = d[reportItem][reportItemValue] ? d[reportItem][reportItemValue].value : d[reportItem].value;
       return [...acc, createReportDatum(prevValue + val, d, idKey, reportItem, reportItemValue)];
     }, []);
+  } else {
+    chartDatums = computedItems.map(i => {
+      const val = i[reportItem][reportItemValue] ? i[reportItem][reportItemValue].value : i[reportItem].value;
+      return createReportDatum(val, i, idKey, reportItem, reportItemValue);
+    });
   }
-  return idKey === 'date' ? padChartDatums(chartDatums, type) : chartDatums;
+  return idKey === 'date' ? padChartDatums(chartDatums, datumType) : chartDatums;
 }
 
 export function createForecastDatum<T extends ComputedForecastItem>(
@@ -217,7 +217,7 @@ export function createReportDatum<T extends ComputedReportItem>(
 }
 
 // Fill in missing data with previous value to represent cumulative daily cost
-export function fillChartDatums(datums: ChartDatum[], type: ChartType = ChartType.daily): ChartDatum[] {
+export function fillChartDatums(datums: ChartDatum[], datumType): ChartDatum[] {
   const result = [];
   if (!datums || datums.length === 0) {
     return result;
@@ -244,14 +244,14 @@ export function fillChartDatums(datums: ChartDatum[], type: ChartType = ChartTyp
       // Note: We want to identify missing data, but charts won't extrapolate (connect data points) if we return null here
       // for missing daily values. For example, if there is only data for the first and last day of the month, charts would
       // typically draw a line between two points by default. However, showing "no data" is more obvious there was a problem.
-      if (type === ChartType.daily) {
+      if (datumType === DatumType.cumulative) {
+        prevChartDatum = chartDatum;
+      } else {
         prevChartDatum = {
           key: id,
           x: getDate(new Date(id + 'T00:00:00')),
           y: null,
         };
-      } else {
-        prevChartDatum = chartDatum;
       }
     }
   }
@@ -261,7 +261,7 @@ export function fillChartDatums(datums: ChartDatum[], type: ChartType = ChartTyp
 // This pads chart datums with null datum objects, representing missing data at the beginning and end of the
 // data series. The remaining data is left as is to allow for extrapolation. This allows us to display a "no data"
 // message in the tooltip, which helps distinguish between zero values and when there is no data available.
-export function padChartDatums(datums: ChartDatum[], type: ChartType = ChartType.daily): ChartDatum[] {
+export function padChartDatums(datums: ChartDatum[], datumType): ChartDatum[] {
   const result = [];
   if (!datums || datums.length === 0) {
     return result;
@@ -287,7 +287,7 @@ export function padChartDatums(datums: ChartDatum[], type: ChartType = ChartType
     const id = format(padDate, 'yyyy-MM-dd');
     result.push(createReportDatum(null, { id }, 'date', null));
   }
-  return fillChartDatums(result, type);
+  return fillChartDatums(result, datumType);
 }
 
 export function getDatumDateRange(datums: ChartDatum[], offset: number = 0): [Date, Date] {
