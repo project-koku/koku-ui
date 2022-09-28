@@ -188,7 +188,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             groupBy: groupBy.indexOf(tagPrefix) !== -1 ? 'tag' : groupBy,
           });
 
-    const helpText = this.nameValidator(defaultName);
+    const helpText = isExportsFeatureEnabled ? this.nameValidator(defaultName) : undefined;
     const validated = helpText ? 'error' : 'default';
 
     return (
