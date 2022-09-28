@@ -64,7 +64,7 @@ export const AssignSourcesToolbarBase: React.FC<AssignSourcesToolbarBaseProps> =
   filter,
 }) => {
   return (
-    <Toolbar id="assign-sources-toolbar" clearAllFilters={filter.onClearAll}>
+    <Toolbar id="assign-sources-modal-toolbar" clearAllFilters={filter.onClearAll}>
       <ToolbarContent>
         <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
           <ToolbarItem variant="search-filter">
@@ -82,7 +82,12 @@ export const AssignSourcesToolbarBase: React.FC<AssignSourcesToolbarBaseProps> =
             itemCount={paginationProps.itemCount}
             page={paginationProps.page}
             perPage={paginationProps.perPage}
-            titles={{paginationTitle: 'assignsourcesmodaltoolbar pagination'}}
+            titles={{
+              paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                title: intl.formatMessage(messages.costModelsAssignSourcesParen),
+                placement: 'top',
+              }),
+            }}
             onSetPage={paginationProps.onSetPage}
             onPerPageSelect={paginationProps.onPerPageSelect}
           />

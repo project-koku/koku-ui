@@ -66,6 +66,10 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
         data: { orderName: 'updated_timestamp' },
         ...(rows.length && { transforms: [sortable] }),
       },
+      {
+        title: '',
+        props: { 'aria-label': intl.formatMessage(messages.costModelsActions) },
+      },
     ] as ICell[];
 
     const sortBy = parseOrdering(query, cells);

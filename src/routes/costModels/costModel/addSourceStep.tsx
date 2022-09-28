@@ -132,7 +132,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
             },
           }}
           filterInputProps={{
-            id: 'assign-sources-modal-toolbar',
+            id: 'assign-sources-modal-toolbar-input',
             onChange: value =>
               this.props.updateFilter({
                 currentFilterType: 'name',
@@ -195,10 +195,12 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
                 isDisabled={this.props.isLoadingSources}
                 perPage={this.props.pagination.perPage}
                 page={this.props.pagination.page}
-                titles={{'paginationTitle': intl.formatMessage(messages.paginationTitle, {
-                  title: intl.formatMessage(messages.costModelsAssignSourcesParen),
-                  placement: 'top',
-                }),}}
+                titles={{
+                  paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                    title: intl.formatMessage(messages.costModelsAssignSourcesParen),
+                    placement: 'bottom',
+                  }),
+                }}
                 onPerPageSelect={(_evt, newPerPage) => {
                   this.props.fetch(
                     `limit=${newPerPage}&offset=0&${this.props.query.name ? `name=${this.props.query.name}` : ''}`

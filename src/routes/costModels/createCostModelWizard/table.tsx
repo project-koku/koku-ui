@@ -38,7 +38,7 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
             </StackItem>
             <StackItem>
               <TextContent>
-                <Text component={TextVariants.h6}>{intl.formatMessage(messages.costModelsWizardSourceSubtitle)}</Text>
+                <Text component={TextVariants.h3}>{intl.formatMessage(messages.costModelsWizardSourceSubtitle)}</Text>
               </TextContent>
             </StackItem>
             <StackItem>
@@ -97,6 +97,7 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
                             }}
                             id={r.name}
                             key={r.name}
+                            aria-label={`Select row ${ix}`}
                             isChecked={checked[r.uuid] && checked[r.uuid].selected}
                             isDisabled={Boolean(r.costmodel)}
                           />
@@ -126,7 +127,7 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
                 itemCount={itemCount}
                 perPage={perPage}
                 page={page}
-                titles={{paginationTitle: 'sources pagination'}}
+                titles={{ paginationTitle: 'sources pagination' }}
                 onSetPage={(_evt, newPage) => {
                   fetchSources(sourceType, query, newPage, perPage);
                 }}

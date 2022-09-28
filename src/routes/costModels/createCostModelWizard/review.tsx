@@ -66,7 +66,7 @@ const ReviewDetailsBase: React.FC<WrappedComponentProps> = ({ intl }) => (
             </StackItem>
             <StackItem>
               <TextContent>
-                <Text component={TextVariants.h6}>
+                <Text component={TextVariants.h3}>
                   {intl.formatMessage(messages.costModelsWizardReviewStatusSubDetails, {
                     create: <strong>{intl.formatMessage(messages.create)}</strong>,
                     back: <strong>{intl.formatMessage(messages.back)}</strong>,

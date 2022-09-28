@@ -591,6 +591,11 @@ export default defineMessages({
     description: 'Cost Models',
     id: 'costModels',
   },
+  costModelsActions: {
+    defaultMessage: 'Cost model actions',
+    description: 'Cost models',
+    id: 'costModelsActions',
+  },
   costModelsAddTagValues: {
     defaultMessage: 'Add more tag values',
     description: 'Add more tag values',
@@ -661,6 +666,11 @@ export default defineMessages({
     defaultMessage: 'Assign sources',
     description: 'Assign sources',
     id: 'costModelsDetailsAssignSourcesTitle',
+  },
+  costModelsDetailsTitle: {
+    defaultMessage: 'Cost Model Details',
+    description: 'Cost Model Details',
+    id: 'costModelsDetailsTitle',
   },
   costModelsDistributionDesc: {
     defaultMessage:

@@ -7,6 +7,8 @@ import {
   ToolbarItem,
   ToolbarItemVariant,
 } from '@patternfly/react-core';
+import { intl } from 'components/i18n';
+import messages from 'locales/messages';
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -34,7 +36,12 @@ function BottomPaginationBase(props: Omit<PaginationProps, 'ref'>): JSX.Element 
             itemCount={itemCount}
             page={page}
             perPage={perPage}
-            titles={{paginationTitle: 'details bottom pagination'}}
+            titles={{
+              paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                title: intl.formatMessage(messages.costModelsDetailsTitle),
+                placement: 'bottom',
+              }),
+            }}
           />
         </ToolbarItem>
       </ToolbarContent>

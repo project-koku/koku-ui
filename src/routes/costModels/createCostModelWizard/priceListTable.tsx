@@ -122,7 +122,7 @@ class PriceListTable extends React.Component<Props, State> {
               </StackItem>
               <StackItem>
                 <TextContent>
-                  <Text component={TextVariants.h6}>{intl.formatMessage(messages.costModelsWizardSubTitleTable)}</Text>
+                  <Text component={TextVariants.h3}>{intl.formatMessage(messages.costModelsWizardSubTitleTable)}</Text>
                 </TextContent>
               </StackItem>
               <StackItem>
@@ -223,7 +223,12 @@ class PriceListTable extends React.Component<Props, State> {
                               page={priceListPagination.page}
                               onSetPage={priceListPagination.onPageSet}
                               onPerPageSelect={priceListPagination.onPerPageSet}
-                              titles={{paginationTitle: 'price list table pagination top'}}
+                              titles={{
+                                paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                                  title: intl.formatMessage(messages.costModelsAssignSourcesParen),
+                                  placement: 'top',
+                                }),
+                              }}
                             />
                           }
                         />
@@ -262,7 +267,12 @@ class PriceListTable extends React.Component<Props, State> {
                           page={priceListPagination.page}
                           onSetPage={priceListPagination.onPageSet}
                           onPerPageSelect={priceListPagination.onPerPageSet}
-                          titles={{paginationTitle: 'assignsources toolbar pagination bottom'}}
+                          titles={{
+                            paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                              title: intl.formatMessage(messages.costModelsAssignSourcesParen),
+                              placement: 'bottom',
+                            }),
+                          }}
                         />
                       </>
                     );

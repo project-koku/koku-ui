@@ -1,4 +1,6 @@
 import { Pagination, PaginationProps, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
+import { intl } from 'components/i18n';
+import messages from 'locales/messages';
 import React from 'react';
 
 interface PaginationToolbarTemplateProps extends PaginationProps {
@@ -25,7 +27,12 @@ export const PaginationToolbarTemplate: React.FC<PaginationToolbarTemplateProps>
             page={page}
             onSetPage={onSetPage}
             onPerPageSelect={onPerPageSelect}
-            titles={{'paginationTitle': 'costmodelstoolbarpagination'}}
+            titles={{
+              paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                title: intl.formatMessage(messages.createCostModelTitle),
+                placement: 'bottom',
+              }),
+            }}
           />
         </ToolbarItem>
       </ToolbarContent>
