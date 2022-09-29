@@ -379,6 +379,15 @@
     "@formatjs/icu-skeleton-parser" "1.3.13"
     tslib "2.4.0"
 
+"@formatjs/icu-messageformat-parser@2.1.8":
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/@formatjs/icu-messageformat-parser/-/icu-messageformat-parser-2.1.8.tgz#45cb678da4c760009b52fe6ca2c13aedbc200fee"
+  integrity sha512-T1R/UtPSCdznwjlfIJDl9XnjZdcFap+rPJrKC9uATr/sUdziVad3SfRQFf50JOuHptbk6knz+VdiYdApek4Sag==
+  dependencies:
+    "@formatjs/ecma402-abstract" "1.12.0"
+    "@formatjs/icu-skeleton-parser" "1.3.13"
+    tslib "2.4.0"
+
 "@formatjs/icu-skeleton-parser@1.3.13":
   version "1.3.13"
   resolved "https://registry.npmjs.org/@formatjs/icu-skeleton-parser/-/icu-skeleton-parser-1.3.13.tgz"
@@ -425,12 +434,12 @@
     intl-messageformat "10.1.4"
     tslib "2.4.0"
 
-"@formatjs/ts-transformer@3.10.0":
-  version "3.10.0"
-  resolved "https://registry.npmjs.org/@formatjs/ts-transformer/-/ts-transformer-3.10.0.tgz"
-  integrity sha512-5BOp9xjLaaSm+QlMoYSF3E0Juq3SI26j4satKffDYzl7diikkyGcyPHQh+mjcdmLT2Zu2kEMzU4/mF3SD3QPcw==
+"@formatjs/ts-transformer@3.10.1":
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/@formatjs/ts-transformer/-/ts-transformer-3.10.1.tgz#b0eafbea6c338c33f29e1bd2ba94412997c3fe73"
+  integrity sha512-D3ZmZIpoenKN3KCm6cGvwxtVbH5Y1VbSmwT1h67OFTYMnyL11IYitVDe7MoUJ5UoTklMyMtqn9oruTsl7dpT/w==
   dependencies:
-    "@formatjs/icu-messageformat-parser" "2.1.7"
+    "@formatjs/icu-messageformat-parser" "2.1.8"
     "@types/json-stable-stringify" "^1.0.32"
     "@types/node" "14 || 16 || 17"
     chalk "^4.0.0"
@@ -824,13 +833,13 @@
   resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-4.215.1.tgz#d63eaf997521f7e0c615acd406253680539fbe95"
   integrity sha512-coOipHiQs92OYYO+pWfukEKOkY+VUL6ptusTxh98DvIu/tQYzJDJxEmzYXmwqxORM19oLxAJEGktPoLNKElj6A==
 
-"@patternfly/react-charts@6.94.5":
-  version "6.94.5"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-6.94.5.tgz#253a479798b24f699a0c26ae9c09ef1543845c05"
-  integrity sha512-8HcpVoxTqC1396k9PJzlwdecOcfPkmgbNTh+ZDl4QyK3i6l/U9uXrLreHQkbKuz+tAztQnkARfxP13CF3h+A+Q==
+"@patternfly/react-charts@6.94.6":
+  version "6.94.6"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-6.94.6.tgz#c7e30d4eeefefbcc0fe176a0238ab4fb0415a0ec"
+  integrity sha512-MrUqeL4cxGYswF0DXGOMOeVANA76FzlWIK0OFrB8bPqHz7ex17BabGdEH6xQ1udRCJwyCQEuW5abkvzpvanXSA==
   dependencies:
-    "@patternfly/react-styles" "^4.91.4"
-    "@patternfly/react-tokens" "^4.93.4"
+    "@patternfly/react-styles" "^4.91.5"
+    "@patternfly/react-tokens" "^4.93.5"
     hoist-non-react-statics "^3.3.0"
     lodash "^4.17.19"
     tslib "^2.0.0"
@@ -874,10 +883,10 @@
   resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-4.89.0.tgz#a4817f6ae7b143bea041d53f003dfe3b1850e8e6"
   integrity sha512-SkT+qx3Xqu70T5s+i/AUT2hI2sKAPDX4ffeiJIUDu/oyWiFdk+/9DEivnLSyJMruroXXN33zKibvzb5rH7DKTQ==
 
-"@patternfly/react-styles@^4.89.0", "@patternfly/react-styles@^4.91.4":
-  version "4.91.4"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-4.91.4.tgz#ad6858e971e05e6fa0c11d14eda713709652e5c9"
-  integrity sha512-P5UWIZY/pn/SVfY4REF+fxMD2cH5QgDpL5X3WsQoaXG1FrE5c4WF5tt/lHxSs5jZJSZvbP6118P3u9qbYl3Evw==
+"@patternfly/react-styles@^4.89.0", "@patternfly/react-styles@^4.91.5":
+  version "4.91.5"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-4.91.5.tgz#c9824b0fefaf1710f1049ca948e5f45b2bf7f1f9"
+  integrity sha512-6JKcqfFJPYRQWhsonbkWX+iUyJQCkZHzSzVGr6f9Dnqytqt0kYpoei66zoYEJR02aW7beLtuOHpPI5Zm3VmaGA==
 
 "@patternfly/react-table@4.108.0":
   version "4.108.0"
@@ -896,10 +905,10 @@
   resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-4.91.0.tgz#f173a5a36911a789ea966a7e5955de92aeccf8fc"
   integrity sha512-QeQCy8o8E/16fAr8mxqXIYRmpTsjCHJXi5p5jmgEDFmYMesN6Pqfv6N5D0FHb+CIaNOZWRps7GkWvlIMIE81sw==
 
-"@patternfly/react-tokens@^4.91.0", "@patternfly/react-tokens@^4.93.4":
-  version "4.93.4"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-4.93.4.tgz#fb32ac08db9803127adc17449611e6a3a6cdef2b"
-  integrity sha512-0tW5BanDjaw42wiZkLu0fmg5P/WruUbxmUpRT7RJS7QKO3vL4Rh9NrXydIPVU7APpEnZyf/S4TJUeosEILLCRA==
+"@patternfly/react-tokens@^4.91.0", "@patternfly/react-tokens@^4.93.5":
+  version "4.93.5"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-4.93.5.tgz#ab777dac32a568908680eb8b6a6e76473625f766"
+  integrity sha512-4DZf//F4TeiYmb0bQfBehW937NM3lQjUv/82wV80oyOIzWC7z9X8pY9U4heFrxc4HN8NLiToYGOk96ikYyfzJQ==
 
 "@pnpm/network.ca-file@^1.0.1":
   version "1.0.1"
@@ -3558,13 +3567,13 @@ eslint-module-utils@^2.7.3:
   dependencies:
     debug "^3.2.7"
 
-eslint-plugin-formatjs@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-formatjs/-/eslint-plugin-formatjs-4.3.1.tgz#8219d9109e714e9e255f30ed90f9f7ff125e5b16"
-  integrity sha512-Hjjo5/jCrLj3DURzn1YBXps7VcTjejQ7nxJDuI15PCnJUUWBIOs1cquEUo89n8ikbLogBu1r+DWtpmTWDSCMTg==
+eslint-plugin-formatjs@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-formatjs/-/eslint-plugin-formatjs-4.3.2.tgz#fcbdc5b72ec20acabed5c41b7ed4caeef00a2879"
+  integrity sha512-L6j/BwS4ihTUU0igNgErQPFFcbc0W5Pq/6yvUR6nzo+TV0KFbVxrWPkOdqnNpfQl1n+gY3gSzrfN6NXuB8YEGA==
   dependencies:
-    "@formatjs/icu-messageformat-parser" "2.1.7"
-    "@formatjs/ts-transformer" "3.10.0"
+    "@formatjs/icu-messageformat-parser" "2.1.8"
+    "@formatjs/ts-transformer" "3.10.1"
     "@types/eslint" "7 || 8"
     "@types/picomatch" "^2.3.0"
     "@typescript-eslint/typescript-estree" "^5.9.1"
