@@ -1523,6 +1523,16 @@ export default defineMessages({
     description: 'Examples',
     id: 'ExamplesTitle',
   },
+  excludeLabel: {
+    defaultMessage: 'Excludes: {value}',
+    description: 'Excludes filter label',
+    id: 'excludeLabel',
+  },
+  excludeValues: {
+    defaultMessage: '{value, select, ' + 'excludes {excludes} ' + 'includes {includes} ' + 'other {}}',
+    description: 'Exclude filter values',
+    id: 'excludeValues',
+  },
   expiresOn: {
     defaultMessage: 'Expires on',
     description: 'Expires on',

@@ -30485,6 +30485,43 @@
         "value": "Oops!"
       }
     ],
+    "excludeLabel": [
+      {
+        "type": 0,
+        "value": "Excludes: "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      }
+    ],
+    "excludeValues": [
+      {
+        "options": {
+          "excludes": {
+            "value": [
+              {
+                "type": 0,
+                "value": "excludes"
+              }
+            ]
+          },
+          "includes": {
+            "value": [
+              {
+                "type": 0,
+                "value": "includes"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
     "expiresOn": [
       {
         "type": 0,

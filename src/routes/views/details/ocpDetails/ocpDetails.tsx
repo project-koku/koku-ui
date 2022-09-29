@@ -24,7 +24,7 @@ import {
 } from 'routes/views/details/components/columnManagement/columnManagementModal';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
-import { addQueryFilter, removeQueryFilter } from 'routes/views/utils/query';
+import { addFilterToQuery, Filter, removeFilterFromQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -73,6 +73,7 @@ const baseQuery: OcpQuery = {
     time_scope_units: 'month',
     time_scope_value: -1,
   },
+  exclude: {},
   filter_by: {},
   group_by: {
     project: '*',
@@ -337,17 +338,17 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     this.setState({ isExportModalOpen: true });
   };
 
-  private handleFilterAdded = (filterType: string, filterValue: string) => {
+  private handleFilterAdded = (filter: Filter) => {
     const { history, query } = this.props;
 
-    const filteredQuery = addQueryFilter(query, filterType, filterValue);
+    const filteredQuery = addFilterToQuery(query, filter);
     history.replace(this.getRouteForQuery(filteredQuery, true));
   };
 
-  private handleFilterRemoved = (filterType: string, filterValue: string) => {
+  private handleFilterRemoved = (filter: Filter) => {
     const { history, query } = this.props;
 
-    const filteredQuery = removeQueryFilter(query, filterType, filterValue);
+    const filteredQuery = removeFilterFromQuery(query, filter);
     history.replace(this.getRouteForQuery(filteredQuery, true));
   };
 
@@ -426,6 +427,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     if (!location.search) {
       history.replace(
         this.getRouteForQuery({
+          exclude: query ? query.exclude : undefined,
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
           order_by: { cost: 'desc' },
@@ -491,6 +493,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
       ...baseQuery.filter,
       ...queryFromRoute.filter,
     },
+    exclude: queryFromRoute.exclude || baseQuery.exclude,
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,

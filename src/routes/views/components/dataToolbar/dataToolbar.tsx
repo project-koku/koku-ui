@@ -36,6 +36,7 @@ import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { ResourceTypeahead } from 'routes/views/components/resourceTypeahead/resourceTypeahead';
+import { Filter } from 'routes/views/utils/query';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
 
@@ -43,7 +44,7 @@ import { styles } from './dataToolbar.styles';
 import { TagValue } from './tagValue';
 
 interface Filters {
-  [key: string]: string[] | { [key: string]: string[] };
+  [key: string]: Filter[] | { [key: string]: Filter[] };
 }
 
 interface DataToolbarOwnProps {
@@ -57,10 +58,13 @@ interface DataToolbarOwnProps {
   itemsPerPage?: number;
   itemsTotal?: number;
   onBulkSelected?: (action: string) => void;
+  onClearAll?: (type: string) => void;
   onColumnManagementClicked?: () => void;
   onExportClicked?: () => void;
-  onFilterAdded?: (filterType: string, filterValue: string) => void;
-  onFilterRemoved?: (filterType: string, filterValue?: string) => void;
+  onExcludeAdded?: (excludeType: string, excludeValue: string) => void;
+  onExcludeRemoved?: (excludeType: string, excludeValue?: string) => void;
+  onFilterAdded?: (filter: Filter) => void;
+  onFilterRemoved?: (filterType: Filter) => void;
   orgReport?: Org; // Report containing AWS organizational unit data
   pagination?: React.ReactNode; // Optional pagination controls to display in toolbar
   query?: Query; // Query containing filter_by params used to restore state upon page refresh
@@ -80,9 +84,11 @@ interface DataToolbarState {
   currentCategory?: string;
   currentOrgUnit?: string;
   currentTagKey?: string;
+  currentExclude?: string;
   filters: Filters;
   isBulkSelectOpen: boolean;
   isCategorySelectOpen: boolean;
+  isExcludeSelectOpen: boolean;
   isOrgUnitSelectExpanded: boolean;
   isTagValueDropdownOpen: boolean;
   isTagKeySelectExpanded: boolean;
@@ -99,11 +105,22 @@ interface CategoryOption extends SelectOptionObject {
   value?: string;
 }
 
+interface ExcludeOption extends SelectOptionObject {
+  toString(): string; // label
+  value?: string;
+}
+
 type DataToolbarProps = DataToolbarOwnProps & WrappedComponentProps;
 
 const defaultFilters = {
   tag: {},
 };
+
+// eslint-disable-next-line no-shadow
+const enum ExcludeType {
+  exclude = 'exclude',
+  include = 'include',
+}
 
 export class DataToolbarBase extends React.Component<DataToolbarProps> {
   protected defaultState: DataToolbarState = {
@@ -111,6 +128,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     filters: cloneDeep(defaultFilters),
     isBulkSelectOpen: false,
     isCategorySelectOpen: false,
+    isExcludeSelectOpen: false,
     isOrgUnitSelectExpanded: false,
     isTagValueDropdownOpen: false,
     isTagKeySelectExpanded: false,
@@ -122,6 +140,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   public componentDidMount() {
     this.setState({
       currentCategory: this.getDefaultCategory(),
+      currentExclude: ExcludeType.include,
     });
   }
 
@@ -172,46 +191,104 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return categoryOptions[0].key;
   };
 
+  private getFilter = (filterType: string, filterValue: string, isExcludes = false): Filter => {
+    return { type: filterType, value: filterValue, isExcludes };
+  };
+
+  private getFilters = (filterType: string, filterValues: string[], isExcludes = false): Filter[] => {
+    return filterValues.map(value => this.getFilter(filterType, value, isExcludes));
+  };
+
   private getActiveFilters = query => {
     const filters = cloneDeep(defaultFilters);
+
+    const parseFilters = (key, values, isExcludes = false) => {
+      if (key.indexOf(tagPrefix) !== -1) {
+        if (filters.tag[key.substring(tagPrefix.length)]) {
+          filters.tag[key.substring(tagPrefix.length)] = [
+            ...filters.tag[key.substring(tagPrefix.length)],
+            ...this.getFilters(key, values, isExcludes),
+          ];
+        } else {
+          filters.tag[key.substring(tagPrefix.length)] = this.getFilters(key, values, isExcludes);
+        }
+      } else if (filters[key]) {
+        filters[key] = [...filters[key], ...this.getFilters(key, values, isExcludes)];
+      } else {
+        filters[key] = this.getFilters(key, values, isExcludes);
+      }
+    };
 
     if (query && query.filter_by) {
       Object.keys(query.filter_by).forEach(key => {
         const values = Array.isArray(query.filter_by[key]) ? [...query.filter_by[key]] : [query.filter_by[key]];
-
-        if (key.indexOf(tagPrefix) !== -1) {
-          filters.tag[key.substring(tagPrefix.length)] = values;
-        } else {
-          filters[key] = values;
-        }
+        parseFilters(key, values);
+      });
+    }
+    if (query && query.exclude) {
+      Object.keys(query.exclude).forEach(key => {
+        const values = Array.isArray(query.exclude[key]) ? [...query.exclude[key]] : [query.exclude[key]];
+        parseFilters(key, values, true);
       });
     }
     return filters;
   };
 
+  private getChips = (filters: Filter[]): string[] => {
+    const { intl } = this.props;
+
+    const chips = [];
+    if (filters) {
+      filters.forEach(item => {
+        chips.push({
+          key: item.value,
+          node: item.isExcludes ? intl.formatMessage(messages.excludeLabel, { value: item.value }) : item.value,
+        });
+      });
+    }
+    return chips;
+  };
+
   private onDelete = (type: any, chip: any) => {
+    const { intl } = this.props;
+    const { filters } = this.state;
+
     // Todo: workaround for https://github.com/patternfly/patternfly-react/issues/3552
     // This prevents us from using a localized string, if necessary
-    const filterType = type && type.key ? type.key : type;
-    const id = chip && chip.key ? chip.key : chip;
+    let _type = type && type.key ? type.key : type;
+    if (_type && _type.indexOf(tagPrefix) !== -1) {
+      _type = _type.slice(tagPrefix.length);
+    }
 
-    if (filterType) {
+    if (_type) {
+      const excludePrefix = intl.formatMessage(messages.excludeLabel, { value: '' });
+      let id = chip && chip.key ? chip.key : chip;
+      if (id && id.indexOf(excludePrefix) !== -1) {
+        const isExcludes = id ? id.indexOf(excludePrefix) !== -1 : false;
+        id = isExcludes ? id.slice(excludePrefix.length) : id;
+      }
+
+      let filter;
+      if (filters.tag[_type]) {
+        filter = filters.tag[_type].find(item => item.value === id);
+      } else if (filters[_type]) {
+        filter = (filters[_type] as Filter[]).find(item => item.value === id);
+      }
+
       this.setState(
         (prevState: any) => {
-          if (prevState.filters.tag[filterType]) {
+          if (prevState.filters.tag[_type]) {
             // Todo: use ID
-            prevState.filters.tag[filterType] = prevState.filters.tag[filterType].filter(s => s !== id);
-          } else if (prevState.filters[filterType]) {
-            prevState.filters[filterType] = prevState.filters[filterType].filter(s => s !== id);
+            prevState.filters.tag[_type] = prevState.filters.tag[_type].filter(item => item.value !== id);
+          } else if (prevState.filters[_type]) {
+            prevState.filters[_type] = prevState.filters[_type].filter(item => item.value !== id);
           }
           return {
             filters: prevState.filters,
           };
         },
         () => {
-          const { filters } = this.state;
-          const _filterType = filters.tag[filterType] ? `${tagPrefix}${filterType}` : filterType; // Todo: use ID
-          this.props.onFilterRemoved(_filterType, id);
+          this.props.onFilterRemoved(filter);
         }
       );
     } else {
@@ -374,7 +451,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return (
       <ToolbarFilter
         categoryName={categoryOption}
-        chips={filters[categoryOption.key] as string[]}
+        chips={this.getChips(filters[categoryOption.key] as Filter[])}
         deleteChip={this.onDelete}
         key={categoryOption.key}
         showToolbarItem={currentCategory === categoryOption.key}
@@ -426,57 +503,134 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   private onCategoryInput = (event, key) => {
-    const { categoryInput, currentCategory } = this.state;
+    const { categoryInput, currentCategory, currentExclude } = this.state;
 
     if ((event && event.key && event.key !== 'Enter') || categoryInput.trim() === '') {
       return;
     }
 
+    // Avoid dups in both filters and excludes
+    // if (excludes[key] && (excludes[key] as string[]).includes(categoryInput)) {
+    //   return;
+    // } else if (filters[key] && (filters[key] as string[]).includes(categoryInput)) {
+    //   return;
+    // }
+
+    const isExcludes = currentExclude === ExcludeType.exclude;
+    const filter = this.getFilter(currentCategory, categoryInput, isExcludes);
     this.setState(
       (prevState: any) => {
-        const prevFilters = prevState.filters[key];
+        const prevItems = prevState.filters[key] ? prevState.filters[key] : [];
         return {
           filters: {
             ...prevState.filters,
             [currentCategory]:
-              prevFilters && prevFilters.includes(categoryInput)
-                ? prevFilters
-                : prevFilters
-                ? [...prevFilters, categoryInput]
-                : [categoryInput],
+              prevItems && prevItems.find(item => item.value === categoryInput)
+                ? prevItems
+                : prevItems
+                ? [...prevItems, filter]
+                : [filter],
+            categoryInput: '',
           },
-          categoryInput: '',
         };
       },
       () => {
-        this.props.onFilterAdded(currentCategory, categoryInput);
+        this.props.onFilterAdded(filter);
       }
     );
   };
 
   private onCategoryInputSelect = (value, key) => {
-    const { currentCategory } = this.state;
+    const { currentCategory, currentExclude } = this.state;
 
+    // Avoid dups in both filters and excludes
+    // if (excludes[key] && (excludes[key] as string[]).includes(value)) {
+    //   return;
+    // } else if (filters[key] && (filters[key] as string[]).includes(value)) {
+    //   return;
+    // }
+
+    const isExcludes = currentExclude === ExcludeType.exclude;
+    const filter = this.getFilter(currentCategory, value, isExcludes);
     this.setState(
       (prevState: any) => {
-        const prevFilters = prevState.filters[key];
+        const prevItems = prevState.filters[key] ? prevState.filters[key] : [];
         return {
           filters: {
             ...prevState.filters,
             [currentCategory]:
-              prevFilters && prevFilters.includes(value)
-                ? prevFilters
-                : prevFilters
-                ? [...prevFilters, value]
-                : [value],
+              prevItems && prevItems.find(item => item.value === value)
+                ? prevItems
+                : prevItems
+                ? [...prevItems, filter]
+                : [filter],
+            categoryInput: '',
           },
-          categoryInput: '',
         };
       },
       () => {
-        this.props.onFilterAdded(currentCategory, value);
+        this.props.onFilterAdded(filter);
       }
     );
+  };
+
+  // Exclude select
+
+  public getExcludeSelect() {
+    const { isDisabled } = this.props;
+    const { currentExclude, isExcludeSelectOpen } = this.state;
+
+    const selectOptions = this.getExcludeSelectOptions();
+    const selection = selectOptions.find((option: ExcludeOption) => option.value === currentExclude);
+
+    return (
+      <ToolbarItem>
+        <Select
+          id="exclude-select"
+          isDisabled={isDisabled}
+          isOpen={isExcludeSelectOpen}
+          onSelect={this.handleOnExcludeSelect}
+          onToggle={this.handleOnExcludeToggle}
+          selections={selection}
+          variant={SelectVariant.single}
+        >
+          {selectOptions.map(option => (
+            <SelectOption key={option.value} value={option} />
+          ))}
+        </Select>
+      </ToolbarItem>
+    );
+  }
+
+  private getExcludeSelectOptions = (): ExcludeOption[] => {
+    const { intl } = this.props;
+
+    const excludeOptions = [
+      { name: intl.formatMessage(messages.excludeValues, { value: 'excludes' }), key: ExcludeType.exclude },
+      { name: intl.formatMessage(messages.excludeValues, { value: 'includes' }), key: ExcludeType.include },
+    ];
+
+    const options: ExcludeOption[] = [];
+    excludeOptions.map(option => {
+      options.push({
+        toString: () => option.name,
+        value: option.key,
+      });
+    });
+    return options;
+  };
+
+  private handleOnExcludeSelect = (event, selection: ExcludeOption) => {
+    this.setState({
+      currentExclude: selection.value,
+      isExcludeSelectOpen: !this.state.isExcludeSelectOpen,
+    });
+  };
+
+  private handleOnExcludeToggle = isOpen => {
+    this.setState({
+      isExcludeSelectOpen: isOpen,
+    });
   };
 
   // Org unit select
@@ -488,19 +642,21 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       id: option.key,
       toString: () => option.name,
       compareTo: value =>
-        filters[orgUnitIdKey] ? (filters[orgUnitIdKey] as any).find(val => val === value.id) : false,
+        filters[orgUnitIdKey] ? (filters[orgUnitIdKey] as any).find(filter => filter.value === value.id) : false,
     }));
 
     const chips = []; // Get selected items as PatternFly's ToolbarChip type
     const selections = []; // Select options and selections must be same type
     if (filters[orgUnitIdKey] && Array.isArray(filters[orgUnitIdKey])) {
-      (filters[orgUnitIdKey] as any).map(id => {
-        const option = options.find(val => val.id === id);
+      (filters[orgUnitIdKey] as any).map(filter => {
+        const option = options.find(item => item.id === filter.value);
         if (option) {
           selections.push(option);
           chips.push({
             key: option.id,
-            node: option.toString(),
+            node: filter.isExcludes
+              ? intl.formatMessage(messages.excludeLabel, { value: option.toString() })
+              : option.toString(),
           });
         }
       });
@@ -578,28 +734,35 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   }
 
   private handleOnOrgUnitSelect = (event, selection) => {
+    const { currentExclude, filters } = this.state;
+
     const checked = event.target.checked;
+    let filter;
+    if (checked) {
+      const isExcludes = currentExclude === ExcludeType.exclude;
+      filter = this.getFilter(orgUnitIdKey, selection.id, isExcludes);
+    } else if (filters[orgUnitIdKey]) {
+      filter = (filters[orgUnitIdKey] as Filter[]).find(item => item.value === selection.id);
+    }
 
     this.setState(
       (prevState: any) => {
-        const prevSelections = prevState.filters[orgUnitIdKey] ? prevState.filters[orgUnitIdKey] : [];
+        const prevItems = prevState.filters[orgUnitIdKey] ? prevState.filters[orgUnitIdKey] : [];
         return {
           filters: {
             ...prevState.filters,
             tag: {
               ...prevState.filters.tag,
             },
-            [orgUnitIdKey]: checked
-              ? [...prevSelections, selection.id]
-              : prevSelections.filter(value => value !== selection.id),
+            [orgUnitIdKey]: checked ? [...prevItems, filter] : prevItems.filter(item => item.value !== filter.value),
           },
         };
       },
       () => {
         if (checked) {
-          this.props.onFilterAdded(orgUnitIdKey, selection.id);
+          this.props.onFilterAdded(filter);
         } else {
-          this.onDelete(orgUnitIdKey, selection.id);
+          this.props.onFilterRemoved(filter);
         }
       }
     );
@@ -721,7 +884,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return (
       <ToolbarFilter
         categoryName={categoryName}
-        chips={filters.tag[tagKeyOption.key]}
+        chips={this.getChips(filters.tag[tagKeyOption.key])}
         deleteChip={this.onDelete}
         key={tagKeyOption.key}
         showToolbarItem={currentCategory === tagKey && currentTagKey === tagKeyOption.key}
@@ -730,7 +893,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           onTagValueSelect={this.onTagValueSelect}
           onTagValueInput={this.onTagValueInput}
           onTagValueInputChange={this.onTagValueInputChange}
-          selections={filters.tag[tagKeyOption.key] ? filters.tag[tagKeyOption.key] : []}
+          selections={filters.tag[tagKeyOption.key] ? filters.tag[tagKeyOption.key].map(filter => filter.value) : []}
           tagKey={currentTagKey}
           tagKeyValue={tagKeyValueInput}
           tagReportPathsType={tagReportPathsType}
@@ -744,17 +907,27 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   private onTagValueInput = event => {
-    const { currentTagKey, tagKeyValueInput } = this.state;
+    const { currentExclude, currentTagKey, tagKeyValueInput } = this.state;
 
     if ((event.key && event.key !== 'Enter') || tagKeyValueInput.trim() === '') {
       return;
     }
+
+    // Avoid dups in both filters and excludes
+    // if (excludes.tag[currentTagKey] && excludes.tag[currentTagKey].includes(tagKeyValueInput)) {
+    //   return;
+    // } else if (filters.tag[currentTagKey] && filters.tag[currentTagKey].includes(tagKeyValueInput)) {
+    //   return;
+    // }
+
+    const isExcludes = currentExclude === ExcludeType.exclude;
+    const filter = this.getFilter(`${tagPrefix}${currentTagKey}`, tagKeyValueInput, isExcludes);
+
     this.setState(
       (prevState: any) => {
-        const prevSelections = prevState.filters.tag[currentTagKey] ? prevState.filters.tag[currentTagKey] : [];
-
-        for (const val of prevSelections) {
-          if (val === tagKeyValueInput) {
+        const prevItems = prevState.filters.tag[currentTagKey] ? prevState.filters.tag[currentTagKey] : [];
+        for (const item of prevItems) {
+          if (item.value === tagKeyValueInput) {
             return {
               ...prevState.filters,
               tagKeyValueInput: '',
@@ -766,42 +939,48 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
             ...prevState.filters,
             tag: {
               ...prevState.filters.tag,
-              [currentTagKey]: [...prevSelections, tagKeyValueInput],
+              [currentTagKey]: [...prevItems, filter],
             },
           },
           tagKeyValueInput: '',
         };
       },
       () => {
-        this.props.onFilterAdded(`${tagPrefix}${currentTagKey}`, tagKeyValueInput);
+        this.props.onFilterAdded(filter);
       }
     );
   };
 
   private onTagValueSelect = (event, selection) => {
-    const { currentTagKey } = this.state;
+    const { currentExclude, currentTagKey, filters } = this.state;
 
     const checked = event.target.checked;
+    let filter;
+    if (checked) {
+      const isExcludes = currentExclude === ExcludeType.exclude;
+      filter = this.getFilter(`${tagPrefix}${currentTagKey}`, selection, isExcludes);
+    } else if (filters.tag[currentTagKey]) {
+      filter = filters.tag[currentTagKey].find(item => item.value === selection);
+    }
+
     this.setState(
       (prevState: any) => {
-        const prevSelections = prevState.filters.tag[currentTagKey] ? prevState.filters.tag[currentTagKey] : [];
+        const prevItems = prevState.filters.tag[currentTagKey] ? prevState.filters.tag[currentTagKey] : [];
         return {
           filters: {
             ...prevState.filters,
             tag: {
               ...prevState.filters.tag,
-              [currentTagKey]: checked
-                ? [...prevSelections, selection]
-                : prevSelections.filter(value => value !== selection),
+              [currentTagKey]: checked ? [...prevItems, filter] : prevItems.filter(item => item.value !== filter.value),
             },
           },
         };
       },
       () => {
         if (checked) {
-          this.props.onFilterAdded(`${tagPrefix}${currentTagKey}`, selection);
+          this.props.onFilterAdded(filter);
         } else {
-          this.onDelete(currentTagKey, selection);
+          this.props.onFilterRemoved(filter);
         }
       }
     );
@@ -874,6 +1053,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
                 <ToolbarGroup variant="filter-group">
                   {this.getCategorySelect()}
+                  {this.getExcludeSelect()}
                   {this.getTagKeySelect()}
                   {this.getTagKeyOptions().map(option => this.getTagValueSelect(option))}
                   {this.getOrgUnitSelect()}

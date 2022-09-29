@@ -223,6 +223,8 @@
   "errorStateNotAuthorizedTitle": "You don't have access to the Cost management application",
   "errorStateUnexpectedDesc": "We encountered an unexpected error. Contact your administrator.",
   "errorStateUnexpectedTitle": "Oops!",
+  "excludeLabel": "Excludes: {value}",
+  "excludeValues": "{value, select, excludes {excludes} includes {includes} other {}}",
   "expiresOn": "Expires on",
   "explorerChartTitle": "{value, select, aws {Amazon Web Services - Top 5 Costliest} aws_ocp {Amazon Web Services filtered by OpenShift - Top 5 Costliest} azure {Microsoft Azure - Top 5 Costliest} oci {Oracle Cloud Infrastructure - Top 5 Costliest} azure_ocp {Microsoft Azure filtered by OpenShift - Top 5 Costliest} gcp {Google Cloud Platform - Top 5 Costliest} gcp_ocp {Google Cloud Platform filtered by OpenShift - Top 5 Costliest} ibm {IBM Cloud - Top 5 Costliest} ibm_ocp {IBM Cloud filtered by OpenShift - Top 5 Costliest} ocp {All OpenShift - Top 5 Costliest} ocp_cloud {All cloud filtered by OpenShift - Top 5 Costliest} other {}}",
   "explorerDateColumn": "{month, select, 0 {Jan {date}} 1 {Feb {date}} 2 {Mar {date}} 3 {Apr {date}} 4 {May {date}} 5 {Jun {date}} 6 {Jul {date}} 7 {Aug {date}} 8 {Sep {date}} 9 {Oct {date}} 10 {Nov {date}} 11 {Dec {date}} other {}}",

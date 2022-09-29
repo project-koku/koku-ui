@@ -9,6 +9,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { DataToolbar } from 'routes/views/components/dataToolbar/dataToolbar';
+import { Filter } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
@@ -25,8 +26,8 @@ interface DetailsToolbarOwnProps {
   groupBy: string;
   onBulkSelected(action: string);
   onExportClicked();
-  onFilterAdded(filterType: string, filterValue: string);
-  onFilterRemoved(filterType: string, filterValue?: string);
+  onFilterAdded(filter: Filter);
+  onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
   query?: AwsQuery;
   queryString?: string;

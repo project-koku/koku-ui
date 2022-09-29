@@ -9,6 +9,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { DataToolbar } from 'routes/views/components/dataToolbar/dataToolbar';
+import { Filter } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
@@ -31,8 +32,8 @@ import {
 interface ExplorerFilterOwnProps {
   groupBy: string;
   isDisabled?: boolean;
-  onFilterAdded(filterType: string, filterValue: string);
-  onFilterRemoved(filterType: string, filterValue?: string);
+  onFilterAdded(filter: Filter);
+  onFilterRemoved(filter: Filter);
   orgQueryString?: string;
   pagination?: React.ReactNode;
   perspective: PerspectiveType;

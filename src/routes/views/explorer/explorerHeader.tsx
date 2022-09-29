@@ -16,6 +16,7 @@ import { CostType } from 'routes/views/components/costType';
 import { GroupBy } from 'routes/views/components/groupBy/groupBy';
 import { Perspective } from 'routes/views/components/perspective/perspective';
 import { filterProviders, hasCloudProvider } from 'routes/views/utils/providers';
+import { Filter } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
@@ -53,8 +54,8 @@ import {
 interface ExplorerHeaderOwnProps {
   costType?: CostTypes;
   groupBy?: string;
-  onFilterAdded(filterType: string, filterValue: string);
-  onFilterRemoved(filterType: string, filterValue?: string);
+  onFilterAdded(filter: Filter);
+  onFilterRemoved(filter: Filter);
   onGroupBySelected(value: string);
   onPerspectiveClicked(value: string);
   perspective: PerspectiveType;
@@ -157,6 +158,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
+      exclude: undefined,
       filter_by: undefined,
       group_by: { [getGroupByDefault(value)]: '*' },
       order_by: undefined, // Clear sort
@@ -351,6 +353,7 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
         ...baseQuery.filter,
         ...queryFromRoute.filter,
       },
+      exclude: queryFromRoute.exclude || baseQuery.exclude,
       filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
       group_by: groupBy,
       order_by: queryFromRoute.order_by,
