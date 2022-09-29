@@ -35,8 +35,11 @@ import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { connect } from 'react-redux';
 import { ResourceTypeahead } from 'routes/views/components/resourceTypeahead/resourceTypeahead';
 import { Filter } from 'routes/views/utils/query';
+import { createMapStateToProps } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
 
@@ -96,6 +99,10 @@ interface DataToolbarState {
   tagKeyValueInput?: string;
 }
 
+interface DataToolbarStateProps {
+  isExcludesFeatureEnabled?: boolean;
+}
+
 interface GroupByOrgOption extends SelectOptionObject {
   id?: string;
 }
@@ -110,7 +117,7 @@ interface ExcludeOption extends SelectOptionObject {
   value?: string;
 }
 
-type DataToolbarProps = DataToolbarOwnProps & WrappedComponentProps;
+type DataToolbarProps = DataToolbarOwnProps & DataToolbarStateProps & WrappedComponentProps;
 
 const defaultFilters = {
   tag: {},
@@ -1034,6 +1041,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     const {
       categoryOptions,
       dateRange,
+      isExcludesFeatureEnabled,
       pagination,
       showBulkSelect,
       showColumnManagement,
@@ -1053,7 +1061,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
                 <ToolbarGroup variant="filter-group">
                   {this.getCategorySelect()}
-                  {this.getExcludeSelect()}
+                  {isExcludesFeatureEnabled && this.getExcludeSelect()}
                   {this.getTagKeySelect()}
                   {this.getTagKeyOptions().map(option => this.getTagValueSelect(option))}
                   {this.getOrgUnitSelect()}
@@ -1082,6 +1090,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   }
 }
 
-const DataToolbar = injectIntl(DataToolbarBase);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>((state, props) => {
+  return {
+    isExcludesFeatureEnabled: featureFlagsSelectors.selectIsExcludesFeatureEnabled(state),
+  };
+});
+
+const DataToolbar = injectIntl(connect(mapStateToProps, {})(DataToolbarBase));
 
 export { DataToolbar, DataToolbarProps };

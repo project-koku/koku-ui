@@ -20,6 +20,12 @@ test('currency feature is enabled', async () => {
   expect(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(store.getState())).toBe(true);
 });
 
+test('excludes feature is enabled', async () => {
+  const store = createUIStore();
+  store.dispatch(actions.setFeatureFlags({ isExcludesFeatureEnabled: true }));
+  expect(featureFlagsSelectors.selectIsExcludesFeatureEnabled(store.getState())).toBe(true);
+});
+
 test('exports feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureFlags({ isExportsFeatureEnabled: true }));
