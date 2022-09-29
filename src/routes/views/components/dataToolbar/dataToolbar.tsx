@@ -64,8 +64,6 @@ interface DataToolbarOwnProps {
   onClearAll?: (type: string) => void;
   onColumnManagementClicked?: () => void;
   onExportClicked?: () => void;
-  onExcludeAdded?: (excludeType: string, excludeValue: string) => void;
-  onExcludeRemoved?: (excludeType: string, excludeValue?: string) => void;
   onFilterAdded?: (filter: Filter) => void;
   onFilterRemoved?: (filterType: Filter) => void;
   orgReport?: Org; // Report containing AWS organizational unit data
@@ -516,13 +514,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       return;
     }
 
-    // Avoid dups in both filters and excludes
-    // if (excludes[key] && (excludes[key] as string[]).includes(categoryInput)) {
-    //   return;
-    // } else if (filters[key] && (filters[key] as string[]).includes(categoryInput)) {
-    //   return;
-    // }
-
     const isExcludes = currentExclude === ExcludeType.exclude;
     const filter = this.getFilter(currentCategory, categoryInput, isExcludes);
     this.setState(
@@ -549,13 +540,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
   private onCategoryInputSelect = (value, key) => {
     const { currentCategory, currentExclude } = this.state;
-
-    // Avoid dups in both filters and excludes
-    // if (excludes[key] && (excludes[key] as string[]).includes(value)) {
-    //   return;
-    // } else if (filters[key] && (filters[key] as string[]).includes(value)) {
-    //   return;
-    // }
 
     const isExcludes = currentExclude === ExcludeType.exclude;
     const filter = this.getFilter(currentCategory, value, isExcludes);
@@ -920,13 +904,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       return;
     }
 
-    // Avoid dups in both filters and excludes
-    // if (excludes.tag[currentTagKey] && excludes.tag[currentTagKey].includes(tagKeyValueInput)) {
-    //   return;
-    // } else if (filters.tag[currentTagKey] && filters.tag[currentTagKey].includes(tagKeyValueInput)) {
-    //   return;
-    // }
-
     const isExcludes = currentExclude === ExcludeType.exclude;
     const filter = this.getFilter(`${tagPrefix}${currentTagKey}`, tagKeyValueInput, isExcludes);
 
@@ -1090,8 +1067,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>(state => {
   return {
     isExcludesFeatureEnabled: featureFlagsSelectors.selectIsExcludesFeatureEnabled(state),
   };
