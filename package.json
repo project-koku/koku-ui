@@ -85,7 +85,7 @@
     "commander": "^9.4.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
-    "eslint": "8.24.0",
+    "eslint": "8.22.0",
     "eslint-plugin-formatjs": "^4.3.2",
     "eslint-plugin-jest-dom": "^4.0.2",
     "eslint-plugin-jsdoc": "^39.3.6",
