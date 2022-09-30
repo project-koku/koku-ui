@@ -17866,6 +17866,16 @@
         "value": "Select all"
       }
     ],
+    "selectRow": [
+      {
+        "type": 0,
+        "value": "Select row "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      }
+    ],
     "selected": [
       {
         "type": 1,

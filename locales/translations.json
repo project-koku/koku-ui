@@ -441,6 +441,7 @@
   "save": "Save",
   "select": "Select...",
   "selectAll": "Select all",
+  "selectRow": "Select row {value}",
   "selected": "{value} selected",
   "sinceDate": "{month, select, 0 {{count, plural, one {January {startDate}} other {January {startDate}-{endDate}}}} 1 {{count, plural, one {February {startDate}} other {February {startDate}-{endDate}}}} 2 {{count, plural, one {March {startDate}} other {March {startDate}-{endDate}}}} 3 {{count, plural, one {April {startDate}} other {April {startDate}-{endDate}}}} 4 {{count, plural, one {May {startDate}} other {May {startDate}-{endDate}}}} 5 {{count, plural, one {June {startDate}} other {June {startDate}-{endDate}}}} 6 {{count, plural, one {July {startDate}} other {July {startDate}-{endDate}}}} 7 {{count, plural, one {August {startDate}} other {August {startDate}-{endDate}}}} 8 {{count, plural, one {September {startDate}} other {September {startDate}-{endDate}}}} 9 {{count, plural, one {October {startDate}} other {October {startDate}-{endDate}}}} 10 {{count, plural, one {November {startDate}} other {November {startDate}-{endDate}}}} 11 {{count, plural, one {December {startDate}} other {December {startDate}-{endDate}}}} other {}}",
   "sources": "Sources",
