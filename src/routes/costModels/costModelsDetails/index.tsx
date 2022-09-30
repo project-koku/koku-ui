@@ -8,7 +8,7 @@ import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
 import { rbacActions } from 'store/rbac';
 
-import CostModelsBottomPagination from './bottomPagination';
+import { CostModelsBottomPagination } from './bottomPagination';
 import { CreateCostModelWizard } from './createCostModelButton';
 import DeleteDialog from './dialog';
 import Header from './header';

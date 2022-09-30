@@ -7,7 +7,10 @@ import {
   ToolbarItem,
   ToolbarItemVariant,
 } from '@patternfly/react-core';
+import { intl as defaultIntl } from 'components/i18n';
+import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { RootState } from 'store';
@@ -21,8 +24,18 @@ import {
   stringifySearch,
 } from './utils/query';
 
-function BottomPaginationBase(props: Omit<PaginationProps, 'ref'>): JSX.Element {
-  const { variant, itemCount, page, perPage, onSetPage, onPerPageSelect } = props;
+type BottomPaginationBaseProps = Omit<PaginationProps, 'ref'> & WrappedComponentProps;
+
+const BottomPaginationBase: React.FC<BottomPaginationBaseProps> = props => {
+  const {
+    variant,
+    intl = defaultIntl, // for testing
+    itemCount,
+    page,
+    perPage,
+    onSetPage,
+    onPerPageSelect,
+  } = props;
   return (
     <Toolbar>
       <ToolbarContent>
@@ -34,12 +47,18 @@ function BottomPaginationBase(props: Omit<PaginationProps, 'ref'>): JSX.Element 
             itemCount={itemCount}
             page={page}
             perPage={perPage}
+            titles={{
+              paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                title: intl.formatMessage(messages.costModelsDetailsTitle),
+                placement: 'bottom',
+              }),
+            }}
           />
         </ToolbarItem>
       </ToolbarContent>
     </Toolbar>
   );
-}
+};
 
 const mapStateToProps = (state: RootState) => {
   const { count, page, perPage } = costModelsSelectors.pagination(state);
@@ -84,6 +103,6 @@ const mergeProps = (stateProps: ReturnType<typeof mapStateToProps>, dispatchProp
   };
 };
 
-const CostModelsBottomPagination = withRouter(connect(mapStateToProps, undefined, mergeProps)(BottomPaginationBase));
-
-export default CostModelsBottomPagination;
+export const CostModelsBottomPagination = withRouter(
+  connect(mapStateToProps, undefined, mergeProps)(injectIntl(BottomPaginationBase))
+);

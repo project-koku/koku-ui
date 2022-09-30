@@ -591,6 +591,11 @@ export default defineMessages({
     description: 'Cost Models',
     id: 'costModels',
   },
+  costModelsActions: {
+    defaultMessage: 'Cost model actions',
+    description: 'Cost models',
+    id: 'costModelsActions',
+  },
   costModelsAddTagValues: {
     defaultMessage: 'Add more tag values',
     description: 'Add more tag values',
@@ -661,6 +666,11 @@ export default defineMessages({
     defaultMessage: 'Assign sources',
     description: 'Assign sources',
     id: 'costModelsDetailsAssignSourcesTitle',
+  },
+  costModelsDetailsTitle: {
+    defaultMessage: 'Cost Model Details',
+    description: 'Cost Model Details',
+    id: 'costModelsDetailsTitle',
   },
   costModelsDistributionDesc: {
     defaultMessage:
@@ -764,6 +774,11 @@ export default defineMessages({
     defaultMessage: 'Cost model info popover',
     description: 'Cost model info popover',
     id: 'costModelsPopoverAriaLabel',
+  },
+  costModelsPopoverButtonAriaLabel: {
+    defaultMessage: 'Opens a dialog with cost model info',
+    description: 'Opens a dialog with cost model info',
+    id: 'costModelsPopoverButtonAriaLabel',
   },
   costModelsRateTooLong: {
     defaultMessage: 'Should not exceed 10 decimals',
@@ -2968,6 +2983,11 @@ export default defineMessages({
     defaultMessage: 'Select all',
     description: 'Select all',
     id: 'selectAll',
+  },
+  selectRow: {
+    defaultMessage: 'Select row {value}',
+    description: 'Select row {value}',
+    id: 'selectRow',
   },
   selected: {
     defaultMessage: '{value} selected',

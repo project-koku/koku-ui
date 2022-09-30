@@ -76,7 +76,7 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
     return (
       <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
         <EmptyStateIcon icon={icon ? icon : PlusCircleIcon} />
-        <Title headingLevel="h5" size="lg">
+        <Title headingLevel="h1" size="lg">
           {intl.formatMessage(titleKey)}
         </Title>
         <EmptyStateBody>{intl.formatMessage(descKey)}</EmptyStateBody>

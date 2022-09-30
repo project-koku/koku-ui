@@ -52,7 +52,7 @@ const AddPriceList: React.FC<AddPriceListProps> = ({
       </StackItem>
       <StackItem>
         <TextContent>
-          <Text component={TextVariants.h6}>{intl.formatMessage(messages.costModelsWizardPriceListMetric)}</Text>
+          <Text component={TextVariants.h3}>{intl.formatMessage(messages.costModelsWizardPriceListMetric)}</Text>
         </TextContent>
       </StackItem>
       <StackItem>

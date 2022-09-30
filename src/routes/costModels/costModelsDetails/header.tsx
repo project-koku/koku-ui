@@ -41,7 +41,10 @@ const mapStateToProps = (state: RootState, ownProps: WrappedComponentProps) => {
         })}
         enableFlip
       >
-        <Button variant={ButtonVariant.plain}>
+        <Button
+          aria-label={intl.formatMessage(messages.costModelsPopoverButtonAriaLabel)}
+          variant={ButtonVariant.plain}
+        >
           <OutlinedQuestionCircleIcon />
         </Button>
       </Popover>

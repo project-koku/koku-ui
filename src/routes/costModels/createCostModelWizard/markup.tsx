@@ -140,7 +140,7 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
               <StackItem>
                 <div style={styles.exampleMargin}>
                   <TextContent>
-                    <Text component={TextVariants.h6}>{intl.formatMessage(messages.examplesTitle)}</Text>
+                    <Text component={TextVariants.h3}>{intl.formatMessage(messages.examplesTitle)}</Text>
                   </TextContent>
                   <List>
                     <ListItem>{intl.formatMessage(messages.costModelsExamplesNoAdjust)}</ListItem>

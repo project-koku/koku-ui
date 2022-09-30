@@ -23,7 +23,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
 import { WithPriceListSearch } from 'routes/costModels/components/hoc/withPriceListSearch';
-import PaginationToolbarTemplate from 'routes/costModels/components/paginationToolbarTemplate';
+import { PaginationToolbarTemplate } from 'routes/costModels/components/paginationToolbarTemplate';
 import { PriceListToolbar } from 'routes/costModels/components/priceListToolbar';
 import { compareBy } from 'routes/costModels/components/rateForm/utils';
 import { RateTable } from 'routes/costModels/components/rateTable';
@@ -122,7 +122,7 @@ class PriceListTable extends React.Component<Props, State> {
               </StackItem>
               <StackItem>
                 <TextContent>
-                  <Text component={TextVariants.h6}>{intl.formatMessage(messages.costModelsWizardSubTitleTable)}</Text>
+                  <Text component={TextVariants.h3}>{intl.formatMessage(messages.costModelsWizardSubTitleTable)}</Text>
                 </TextContent>
               </StackItem>
               <StackItem>
@@ -223,6 +223,12 @@ class PriceListTable extends React.Component<Props, State> {
                               page={priceListPagination.page}
                               onSetPage={priceListPagination.onPageSet}
                               onPerPageSelect={priceListPagination.onPerPageSet}
+                              titles={{
+                                paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                                  title: intl.formatMessage(messages.costModelsAssignSourcesParen),
+                                  placement: 'top',
+                                }),
+                              }}
                             />
                           }
                         />
@@ -261,6 +267,12 @@ class PriceListTable extends React.Component<Props, State> {
                           page={priceListPagination.page}
                           onSetPage={priceListPagination.onPageSet}
                           onPerPageSelect={priceListPagination.onPerPageSet}
+                          titles={{
+                            paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                              title: intl.formatMessage(messages.costModelsAssignSourcesParen),
+                              placement: 'bottom',
+                            }),
+                          }}
                         />
                       </>
                     );

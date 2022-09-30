@@ -1,12 +1,15 @@
 import { Pagination, PaginationProps, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
+import messages from 'locales/messages';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
-interface PaginationToolbarTemplateProps extends PaginationProps {
+interface PaginationToolbarTemplateProps extends PaginationProps, WrappedComponentProps {
   id?: string;
 }
 
-export const PaginationToolbarTemplate: React.FC<PaginationToolbarTemplateProps> = ({
+export const PaginationToolbarTemplateBase: React.FC<PaginationToolbarTemplateProps> = ({
   id,
+  intl,
   itemCount,
   perPage,
   page,
@@ -25,6 +28,12 @@ export const PaginationToolbarTemplate: React.FC<PaginationToolbarTemplateProps>
             page={page}
             onSetPage={onSetPage}
             onPerPageSelect={onPerPageSelect}
+            titles={{
+              paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                title: intl.formatMessage(messages.createCostModelTitle),
+                placement: 'bottom',
+              }),
+            }}
           />
         </ToolbarItem>
       </ToolbarContent>
@@ -32,4 +41,4 @@ export const PaginationToolbarTemplate: React.FC<PaginationToolbarTemplateProps>
   );
 };
 
-export default PaginationToolbarTemplate;
+export const PaginationToolbarTemplate = injectIntl(PaginationToolbarTemplateBase);

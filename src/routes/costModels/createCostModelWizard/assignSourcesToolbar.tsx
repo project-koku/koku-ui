@@ -84,6 +84,12 @@ export const AssignSourcesToolbarBase: React.FC<AssignSourcesToolbarBaseProps> =
             perPage={paginationProps.perPage}
             onSetPage={paginationProps.onSetPage}
             onPerPageSelect={paginationProps.onPerPageSelect}
+            titles={{
+              paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                title: intl.formatMessage(messages.costModelsAssignSourcesParen),
+                placement: 'bottom',
+              }),
+            }}
           />
         </ToolbarItem>
       </ToolbarContent>
