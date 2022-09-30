@@ -6,51 +6,25 @@ export interface Filter {
   value?: string;
 }
 
+// eslint-disable-next-line no-shadow
+enum QueryFilterType {
+  filter = 'filter_by',
+  exclude = 'exclude',
+}
+
 export const addFilterToQuery = (query: Query, filter: Filter) => {
-  if (filter.isExcludes) {
-    return addQueryExclude(query, filter.type, filter.value);
-  } else {
-    return addQueryFilter(query, filter.type, filter.value);
-  }
+  return addQueryFilter(
+    query,
+    filter.type,
+    filter.value,
+    filter.isExcludes ? QueryFilterType.exclude : QueryFilterType.filter
+  );
 };
 
-export const addQueryExclude = (query: Query, filterType: string, filterValue: string) => {
+export const addQueryFilter = (query: Query, filterType: string, filterValue: string, type: QueryFilterType) => {
   const newQuery = { ...JSON.parse(JSON.stringify(query)) };
-  if (!newQuery.exclude) {
-    newQuery.exclude = {};
-  }
-
-  // Filter by * won't generate a new request if group_by * already exists
-  if (filterValue === '*' && newQuery.group_by[filterValue] === '*') {
-    return;
-  }
-
-  if (newQuery.exclude && newQuery.exclude[filterType]) {
-    let found = false;
-    const excludes = newQuery.exclude[filterType];
-    if (!Array.isArray(excludes)) {
-      found = filterValue === newQuery.exclude[filterType];
-    } else {
-      for (const exclude of excludes) {
-        if (exclude === filterValue) {
-          found = true;
-          break;
-        }
-      }
-    }
-    if (!found) {
-      newQuery.exclude[filterType] = [newQuery.exclude[filterType], filterValue];
-    }
-  } else {
-    newQuery.exclude[filterType] = [filterValue];
-  }
-  return newQuery;
-};
-
-export const addQueryFilter = (query: Query, filterType: string, filterValue: string) => {
-  const newQuery = { ...JSON.parse(JSON.stringify(query)) };
-  if (!newQuery.filter_by) {
-    newQuery.filter_by = {};
+  if (!newQuery[type]) {
+    newQuery[type] = {};
   }
 
   // Filter by * won't generate a new request if group_by * already exists
@@ -58,11 +32,11 @@ export const addQueryFilter = (query: Query, filterType: string, filterValue: st
     return;
   }
 
-  if (newQuery.filter_by && newQuery.filter_by[filterType]) {
+  if (newQuery[type] && newQuery[type][filterType]) {
     let found = false;
-    const filters = newQuery.filter_by[filterType];
+    const filters = newQuery[type][filterType];
     if (!Array.isArray(filters)) {
-      found = filterValue === newQuery.filter_by[filterType];
+      found = filterValue === newQuery[type][filterType];
     } else {
       for (const filter of filters) {
         if (filter === filterValue) {
@@ -72,10 +46,10 @@ export const addQueryFilter = (query: Query, filterType: string, filterValue: st
       }
     }
     if (!found) {
-      newQuery.filter_by[filterType] = [newQuery.filter_by[filterType], filterValue];
+      newQuery[type][filterType] = [newQuery[type][filterType], filterValue];
     }
   } else {
-    newQuery.filter_by[filterType] = [filterValue];
+    newQuery[type][filterType] = [filterValue];
   }
   return newQuery;
 };
@@ -83,59 +57,38 @@ export const addQueryFilter = (query: Query, filterType: string, filterValue: st
 export const removeFilterFromQuery = (query: Query, filter: Filter) => {
   // Clear all
   if (filter === null) {
-    const excludesQuery = removeQueryExclude(query, null, null);
-    return removeQueryFilter(excludesQuery, null, null);
-  } else if (filter.isExcludes) {
-    return removeQueryExclude(query, filter.type, filter.value);
+    const excludesQuery = removeQueryFilter(query, null, null, QueryFilterType.exclude);
+    return removeQueryFilter(excludesQuery, null, null, QueryFilterType.filter);
   } else {
-    return removeQueryFilter(query, filter.type, filter.value);
+    return removeQueryFilter(
+      query,
+      filter.type,
+      filter.value,
+      filter.isExcludes ? QueryFilterType.exclude : QueryFilterType.filter
+    );
   }
 };
 
-export const removeQueryExclude = (query: Query, filterType: string, filterValue: string) => {
+export const removeQueryFilter = (query: Query, filterType: string, filterValue: string, type: QueryFilterType) => {
   const newQuery = { ...JSON.parse(JSON.stringify(query)) };
-  if (!newQuery.exclude) {
-    newQuery.exclude = {};
+  if (!newQuery[type]) {
+    newQuery[type] = {};
   }
 
   if (filterType === null) {
-    newQuery.exclude = undefined; // Clear all
+    newQuery[type] = undefined; // Clear all
   } else if (filterValue === null) {
-    newQuery.exclude[filterType] = undefined; // Clear all values
-  } else if (Array.isArray(newQuery.exclude[filterType])) {
-    const index = newQuery.exclude[filterType].indexOf(filterValue);
+    newQuery[type][filterType] = undefined; // Clear all values
+  } else if (Array.isArray(newQuery[type][filterType])) {
+    const index = newQuery[type][filterType].indexOf(filterValue);
     if (index > -1) {
-      newQuery.exclude[filterType] = [
-        ...query.exclude[filterType].slice(0, index),
-        ...query.exclude[filterType].slice(index + 1),
+      newQuery[type][filterType] = [
+        ...query[type][filterType].slice(0, index),
+        ...query[type][filterType].slice(index + 1),
       ];
     }
   } else {
-    newQuery.exclude[filterType] = undefined;
-  }
-  return newQuery;
-};
-
-export const removeQueryFilter = (query: Query, filterType: string, filterValue: string) => {
-  const newQuery = { ...JSON.parse(JSON.stringify(query)) };
-  if (!newQuery.filter_by) {
-    newQuery.filter_by = {};
-  }
-
-  if (filterType === null) {
-    newQuery.filter_by = undefined; // Clear all
-  } else if (filterValue === null) {
-    newQuery.filter_by[filterType] = undefined; // Clear all values
-  } else if (Array.isArray(newQuery.filter_by[filterType])) {
-    const index = newQuery.filter_by[filterType].indexOf(filterValue);
-    if (index > -1) {
-      newQuery.filter_by[filterType] = [
-        ...query.filter_by[filterType].slice(0, index),
-        ...query.filter_by[filterType].slice(index + 1),
-      ];
-    }
-  } else {
-    newQuery.filter_by[filterType] = undefined;
+    newQuery[type][filterType] = undefined;
   }
   return newQuery;
 };
