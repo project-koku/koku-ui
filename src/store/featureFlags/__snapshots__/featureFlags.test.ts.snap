@@ -3,6 +3,7 @@
 exports[`default state 1`] = `
 {
   "isCurrencyFeatureEnabled": false,
+  "isExcludesFeatureEnabled": false,
   "isExportsFeatureEnabled": false,
   "isIbmFeatureEnabled": false,
   "isOciFeatureEnabled": false,

@@ -7,7 +7,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import Loading from 'routes/state/loading';
-import { addQueryFilter, removeQueryFilter } from 'routes/views/utils/query';
+import { addFilterToQuery, Filter, removeFilterFromQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 
@@ -103,19 +103,19 @@ class ExportsContentBase extends React.Component<ExportsContentProps> {
     );
   };
 
-  private handleFilterAdded = (filterType: string, filterValue: string) => {
+  private handleFilterAdded = (filter: Filter) => {
     const { query } = this.state;
 
-    const filteredQuery = addQueryFilter(query, filterType, filterValue);
+    const filteredQuery = addFilterToQuery(query, filter);
     this.setState({ query: filteredQuery }, () => {
       // Fetch
     });
   };
 
-  private handleFilterRemoved = (filterType: string, filterValue: string) => {
+  private handleFilterRemoved = (filter: Filter) => {
     const { query } = this.state;
 
-    const filteredQuery = removeQueryFilter(query, filterType, filterValue);
+    const filteredQuery = removeFilterFromQuery(query, filter);
 
     this.setState({ query: filteredQuery }, () => {
       // Fetch

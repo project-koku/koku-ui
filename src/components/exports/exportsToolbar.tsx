@@ -5,13 +5,14 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { DataToolbar } from 'routes/views/components/dataToolbar/dataToolbar';
+import { Filter } from 'routes/views/utils/query';
 import { createMapStateToProps } from 'store/common';
 
 import { styles } from './exports.styles';
 
 interface ExportsToolbarOwnProps {
-  onFilterAdded(filterType: string, filterValue: string);
-  onFilterRemoved(filterType: string, filterValue?: string);
+  onFilterAdded(filter: Filter);
+  onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
   query?: Query;
 }

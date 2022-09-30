@@ -60,6 +60,7 @@ export const baseQuery: Query = {
     limit: 10,
     offset: 0,
   },
+  exclude: {},
   filter_by: {},
   order_by: {
     cost: 'desc',
