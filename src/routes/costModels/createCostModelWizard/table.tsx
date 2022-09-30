@@ -97,7 +97,7 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
                             }}
                             id={r.name}
                             key={r.name}
-                            aria-label={`Select row ${ix}`}
+                            aria-label={intl.formatMessage(messages.selectRow, { value: ix })}
                             isChecked={checked[r.uuid] && checked[r.uuid].selected}
                             isDisabled={Boolean(r.costmodel)}
                           />

@@ -2984,6 +2984,11 @@ export default defineMessages({
     description: 'Select all',
     id: 'selectAll',
   },
+  selectRow: {
+    defaultMessage: 'Select row {value}',
+    description: 'Select row {value}',
+    id: 'selectRow',
+  },
   selected: {
     defaultMessage: '{value} selected',
     description: '{value} selected',

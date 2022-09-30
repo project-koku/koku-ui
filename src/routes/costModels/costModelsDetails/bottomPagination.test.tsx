@@ -8,7 +8,7 @@ import { createStore } from 'redux';
 import { FetchStatus } from 'store/common';
 import { rootReducer, RootState } from 'store/rootReducer';
 
-import CostModelsBottomPagination from './bottomPagination';
+import { CostModelsBottomPagination } from './bottomPagination';
 import { initialCostModelsQuery } from './utils/query';
 
 const renderUI = (state: Partial<RootState>) => {

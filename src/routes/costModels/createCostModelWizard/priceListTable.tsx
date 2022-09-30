@@ -23,7 +23,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
 import { WithPriceListSearch } from 'routes/costModels/components/hoc/withPriceListSearch';
-import PaginationToolbarTemplate from 'routes/costModels/components/paginationToolbarTemplate';
+import { PaginationToolbarTemplate } from 'routes/costModels/components/paginationToolbarTemplate';
 import { PriceListToolbar } from 'routes/costModels/components/priceListToolbar';
 import { compareBy } from 'routes/costModels/components/rateForm/utils';
 import { RateTable } from 'routes/costModels/components/rateTable';
