@@ -1,5 +1,5 @@
-import { useFlag } from '@unleash/proxy-client-react';
-import React, { useEffect } from 'react';
+import { useUnleashClient, useUnleashContext } from '@unleash/proxy-client-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { featureFlagsActions } from 'store/featureFlags';
@@ -19,26 +19,55 @@ const enum FeatureToggle {
   oci = 'cost-management.ui.oci', // Oracle Cloud Infrastructure https://issues.redhat.com/browse/COST-2358
 }
 
+// The FeatureFlags component saves feature flags in store because Unleash hooks are only supported by function components
 const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
   const dispatch = useDispatch();
+  const updateContext = useUnleashContext();
+  const client = useUnleashClient();
+  const [userId, setUserId] = useState();
 
-  const isCurrencyFeatureEnabled = useFlag(FeatureToggle.currency);
-  const isExcludesFeatureEnabled = useFlag(FeatureToggle.excludes);
-  const isExportsFeatureEnabled = useFlag(FeatureToggle.exports);
-  const isIbmFeatureEnabled = useFlag(FeatureToggle.ibm);
-  const isOciFeatureEnabled = useFlag(FeatureToggle.oci);
+  const insights = (window as any).insights;
+  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
+    insights.chrome.auth.getUser().then(user => {
+      setUserId(user.identity.account_number);
+    });
+  }
+
+  const isMounted = useRef(false);
+  useMemo(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, [userId]);
 
   useEffect(() => {
-    dispatch(
-      featureFlagsActions.setFeatureFlags({
-        isCurrencyFeatureEnabled,
-        isExcludesFeatureEnabled,
-        isExportsFeatureEnabled,
-        isIbmFeatureEnabled,
-        isOciFeatureEnabled,
-      })
-    );
-  }, []);
+    if (userId && isMounted.current) {
+      updateContext({
+        userId,
+      });
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    // Wait for the new flags to pull in from the different context
+    const fetchFlags = async () => {
+      await updateContext({ userId }).then(() => {
+        dispatch(
+          featureFlagsActions.setFeatureFlags({
+            isCurrencyFeatureEnabled: client.isEnabled(FeatureToggle.currency),
+            isExcludesFeatureEnabled: client.isEnabled(FeatureToggle.excludes),
+            isExportsFeatureEnabled: client.isEnabled(FeatureToggle.exports),
+            isIbmFeatureEnabled: client.isEnabled(FeatureToggle.ibm),
+            isOciFeatureEnabled: client.isEnabled(FeatureToggle.oci),
+          })
+        );
+      });
+    };
+    if (userId && isMounted.current) {
+      fetchFlags();
+    }
+  }, [userId]);
 
   return <>{children}</>;
 };
