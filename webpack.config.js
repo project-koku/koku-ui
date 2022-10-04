@@ -56,6 +56,7 @@ module.exports = (_env, argv) => {
   const gitBranch = process.env.TRAVIS_BRANCH || process.env.BRANCH || gitRevisionPlugin.branch();
   const isProduction = nodeEnv === 'production' || argv.mode === 'production';
   const isBeta = betaEnv === 'true';
+  const useEmphemeralRoutes = process.env.USE_EMPHEMERAL_ROUTES === 'true';
   const useLocalRoutes = process.env.USE_LOCAL_ROUTES === 'true';
   const appDeployment = (isProduction && betaBranches.includes(gitBranch)) || isBeta ? 'beta/apps' : 'apps';
   const publicPath = `/${appDeployment}/${insights.appname}/`;
@@ -73,7 +74,9 @@ module.exports = (_env, argv) => {
   console.log(`Using deployments: ${appDeployment}`);
   console.log(`Using clouddot env: ${process.env.CLOUDOT_ENV}`);
   console.log(`Using proxy: ${useProxy}`);
-  console.log(`Using local API: ${useLocalRoutes}`);
+  console.log(`Using port: ${port}`);
+  console.log(`Using ephemeral API routes: ${useEmphemeralRoutes}`);
+  console.log(`Using local API routes: ${useLocalRoutes}`);
   console.log(`Using local cloud services config: ${useLocalCloudServicesConfig}`);
   console.log(`Public path: ${publicPath}`);
   console.log('~~~~~~~~~~~~~~~~~~~~~');
@@ -95,7 +98,7 @@ module.exports = (_env, argv) => {
 
   // For local API development route will be set to :
   // '/api/cost-management/v1/': { host: 'http://localhost:8000' },
-  if (useLocalRoutes) {
+  if (useLocalRoutes || useEmphemeralRoutes) {
     const localKokuPort = process.env.LOCAL_API_PORT ? process.env.LOCAL_API_PORT : '8000';
     const localKukoHost = process.env.LOCAL_API ? process.env.LOCAL_API : 'localhost';
     const localKoku = 'http://' + localKukoHost + ':' + localKokuPort;

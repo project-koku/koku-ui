@@ -7,38 +7,69 @@ function defaults() {
   process.env.BETA_ENV = 'true';
   process.env.CLOUDOT_ENV = 'stage';
   process.env.USE_PROXY = 'true';
+  process.env.USE_EMPHEMERAL_ROUTES = 'false';
   process.env.USE_LOCAL_ROUTES = 'false';
   process.env.USE_LOCAL_CLOUD_SERVICES_CONFIG = 'false';
 }
 
-async function setup() {
+async function setupEnv() {
   return inquirer
     .prompt([
       {
-        name: 'setupEnv',
+        name: 'setup',
         message: 'Do you want to setup the run environment?',
         type: 'confirm',
         default: false,
       },
     ])
     .then(answers => {
-      const { setupEnv } = answers;
-      process.env.SETUP_ENV = setupEnv;
+      const { setup } = answers;
+      process.env.SETUP_ENV = setup;
     });
 }
 
-async function setEnv() {
+async function setupEphemeralRoutes() {
+  return inquirer
+    .prompt([
+      {
+        name: 'ephemeralRoutes',
+        message: 'Do you want to use ephemeral API routes?',
+        type: 'confirm',
+        default: false,
+      },
+    ])
+    .then(answers => {
+      const { ephemeralRoutes } = answers;
+      process.env.USE_EMPHEMERAL_ROUTES = ephemeralRoutes.toString();
+    });
+}
+
+async function setupLocalRoutes() {
+  return inquirer
+    .prompt([
+      {
+        name: 'localRoutes',
+        message: 'Do you want to use local API routes?',
+        type: 'confirm',
+        default: false,
+      },
+    ])
+    .then(answers => {
+      const { localRoutes } = answers;
+      process.env.USE_LOCAL_ROUTES = localRoutes.toString();
+      if (localRoutes) {
+        process.env.USE_PROXY = 'false';
+        process.env.KEYCLOAK_PORT = 4020;
+      }
+    });
+}
+
+async function setConfig() {
   return inquirer
     .prompt([
       {
         name: 'localCloudServicesConfig',
         message: 'Do you want to use local cloud services config?',
-        type: 'confirm',
-        default: false,
-      },
-      {
-        name: 'localApi',
-        message: 'Do you want to use local API?',
         type: 'confirm',
         default: false,
       },
@@ -56,24 +87,22 @@ async function setEnv() {
       },
     ])
     .then(answers => {
-      const { uiEnv, clouddotEnv, localApi, localCloudServicesConfig } = answers;
-      process.env.BETA_ENV = uiEnv === 'beta' ? 'true' : 'false';
-      process.env.CLOUDOT_ENV = clouddotEnv ? clouddotEnv : 'stage';
-      process.env.USE_PROXY = 'true';
-      process.env.USE_LOCAL_ROUTES = localApi.toString();
+      const { uiEnv, clouddotEnv, localCloudServicesConfig } = answers;
       process.env.USE_LOCAL_CLOUD_SERVICES_CONFIG = localCloudServicesConfig.toString();
-      if (localApi) {
-        process.env.USE_PROXY = 'false';
-        process.env.KEYCLOAK_PORT = 4020;
-      }
+      process.env.CLOUDOT_ENV = clouddotEnv ? clouddotEnv : 'stage';
+      process.env.BETA_ENV = uiEnv === 'beta' ? 'true' : 'false';
     });
 }
 
 async function run() {
   defaults();
-  await setup();
+  await setupEnv();
   if (process.env.SETUP_ENV === 'true') {
-    await setEnv();
+    await setupEphemeralRoutes();
+    if (process.env.USE_EMPHEMERAL_ROUTES !== 'true') {
+      await setupLocalRoutes();
+    }
+    await setConfig();
   }
   const child = spawn('yarn', ['start:dev'], {
     stdio: [process.stdout, process.stdout, process.stdout],
