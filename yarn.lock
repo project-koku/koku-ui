@@ -6252,14 +6252,14 @@ npm-bundled@^2.0.0:
   dependencies:
     npm-normalize-package-bin "^2.0.0"
 
-npm-check-updates@^16.3.4:
-  version "16.3.4"
-  resolved "https://registry.yarnpkg.com/npm-check-updates/-/npm-check-updates-16.3.4.tgz#5084530a6e035ab11e83c25ba9d94d3690043d78"
-  integrity sha512-PDkd+KRhgzsB01c9dCo8O/Aad98ODb7aRxPamg+QOUXEdi/CcbItynxdCvHx9r1AXoMm0w1zixHeUZf8ktBwqQ==
+npm-check-updates@^16.3.8:
+  version "16.3.8"
+  resolved "https://registry.yarnpkg.com/npm-check-updates/-/npm-check-updates-16.3.8.tgz#3f128ce8ca658f6af8f1ebfc8c905168a7996dfe"
+  integrity sha512-2CUeCWEs+arWQUJH2IEkiZU/Ak2fLBqGkMyM5JDkfnGhz1VHNe3yyGiXD+0JeVmjbXTEpgZ0t6C9VK52atGuAw==
   dependencies:
     chalk "^5.0.1"
     cli-table "^0.3.11"
-    commander "^9.4.0"
+    commander "^9.4.1"
     fast-memoize "^2.5.2"
     find-up "5.0.0"
     fp-and-or "^0.1.3"
