@@ -953,7 +953,7 @@
   optionalDependencies:
     "@redhat-cloud-services/frontend-components-utilities" ">=3.0.0"
 
-"@redhat-cloud-services/frontend-components-utilities@*", "@redhat-cloud-services/frontend-components-utilities@>=3.0.0", "@redhat-cloud-services/frontend-components-utilities@^3.2.27":
+"@redhat-cloud-services/frontend-components-utilities@*", "@redhat-cloud-services/frontend-components-utilities@>=3.0.0", "@redhat-cloud-services/frontend-components-utilities@^3.2.25", "@redhat-cloud-services/frontend-components-utilities@^3.2.27":
   version "3.2.27"
   resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.2.27.tgz#291005e90ed669086c83fff9c161426cd54b396e"
   integrity sha512-+fFxd/RlC2mRp2+LsVksJPwe9sFQmKF1wN2tMS7AdKp7MpD6LlEW74LH0tCdwjJ2h2NPnV3wUogRc0akSXxgaw==
@@ -966,16 +966,16 @@
     mkdirp "^1.0.4"
     react-content-loader "^6.2.0"
 
-"@redhat-cloud-services/frontend-components@^3.9.11":
-  version "3.9.11"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.11.tgz#896b9e7811283378494821ca02d3f27afcb54ea9"
-  integrity sha512-cy2VJ2BiAiUd/sOEY6Fe12LbjYmpWA1wDHg3CHuVRj84J1UFRi4vbJZMO8v0jhdiD6Uf9BLYwbEf2e2eeWAT2g==
+"@redhat-cloud-services/frontend-components@^3.9.14":
+  version "3.9.14"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.14.tgz#718e5fe62b895f90160119e44ece97f706f2534a"
+  integrity sha512-3W5veFSkYtXcRvigcdgW3ZpG3y5Ovu0ehUODjEoUidlLouwXrsopX6zSsqD92RzIwZrthHgK0zoKvkAjywd3yg==
   dependencies:
-    "@redhat-cloud-services/frontend-components-utilities" ">=3.0.0"
+    "@redhat-cloud-services/frontend-components-utilities" "^3.2.25"
     "@redhat-cloud-services/types" "^0.0.10"
-    "@scalprum/core" "^0.1.1"
-    "@scalprum/react-core" "^0.1.7"
-    sanitize-html "^2.3.2"
+    "@scalprum/core" "^0.2.3"
+    "@scalprum/react-core" "^0.2.4"
+    sanitize-html "^2.7.2"
 
 "@redhat-cloud-services/rbac-client@^1.0.111":
   version "1.0.111"
@@ -1011,17 +1011,17 @@
     uncontrollable "^7.2.1"
     warning "^4.0.3"
 
-"@scalprum/core@^0.1.1", "@scalprum/core@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.npmjs.org/@scalprum/core/-/core-0.1.2.tgz"
-  integrity sha512-dupFyb1niBpyy1Mb6+bSbhZhNGYGQ4T32iNNdLB6Pvey64bApSnXl7AFl2D8468xO1YTb4Bah1libovLWvZovQ==
+"@scalprum/core@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@scalprum/core/-/core-0.2.3.tgz#419ad7f9a3e208e0b5379eaa82e94989c39c06e4"
+  integrity sha512-bL7YjXWSgtAw44ha+goEF/cCWUu1BELB0qo4Y8hlfmn0+FMnoIHcY0gD1OOotz7Oy74r5+DRxi5Wra40DTG8Qg==
 
-"@scalprum/react-core@^0.1.7":
-  version "0.1.9"
-  resolved "https://registry.npmjs.org/@scalprum/react-core/-/react-core-0.1.9.tgz"
-  integrity sha512-lb6sQQp7eylEF8z6UIeGygzURWXJ+1dbQi2NXctp7EU8zJ/3vfDD3dDGp2YOjs1DEVrG6Byxjf5394jlBFB2Vw==
+"@scalprum/react-core@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@scalprum/react-core/-/react-core-0.2.4.tgz#479a9fb38fd8225357601064cd15d355bceacdc0"
+  integrity sha512-90gysvvsS0qeCabgC20s6N9Wd4oQHHxO/Uiyy3gQZRgmTx8MBffjktTtjOj34XuEsvKATfNy0tn2iyNzNc+I6g==
   dependencies:
-    "@scalprum/core" "^0.1.2"
+    "@scalprum/core" "^0.2.3"
     lodash "^4.17.0"
 
 "@sentry/browser@^5.30.0":
@@ -7443,10 +7443,10 @@ safe-buffer@5.2.1, safe-buffer@>=5.1.0, safe-buffer@^5.0.1, safe-buffer@^5.1.0, 
   resolved "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-sanitize-html@^2.3.2:
-  version "2.7.1"
-  resolved "https://registry.npmjs.org/sanitize-html/-/sanitize-html-2.7.1.tgz"
-  integrity sha512-oOpe8l4J8CaBk++2haoN5yNI5beekjuHv3JRPKUx/7h40Rdr85pemn4NkvUB3TcBP7yjat574sPlcMAyv4UQig==
+sanitize-html@^2.7.2:
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/sanitize-html/-/sanitize-html-2.7.2.tgz#54c5189af75e3237d996e4b9a5e3eaad12c7f7fc"
+  integrity sha512-DggSTe7MviO+K4YTCwprG6W1vsG+IIX67yp/QY55yQqKCJYSWzCA1rZbaXzkjoKeL9+jqwm56wD6srYLtUNivg==
   dependencies:
     deepmerge "^4.2.2"
     escape-string-regexp "^4.0.0"
