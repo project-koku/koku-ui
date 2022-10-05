@@ -448,7 +448,8 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private updateReport = () => {
-    const { dateRange, fetchReport, history, location, perspective, query, queryString } = this.props;
+    const { costType, currency, dateRange, fetchReport, history, location, perspective, query, queryString } =
+      this.props;
     if (!location.search) {
       history.replace(
         getRouteForQuery(history, {
@@ -457,6 +458,8 @@ class Explorer extends React.Component<ExplorerProps> {
           group_by: query ? query.group_by : undefined,
           order_by: query ? query.order_by : undefined,
           dateRange, // Preserve date range
+          cost_type: costType,
+          currency,
         })
       );
     } else if (perspective) {

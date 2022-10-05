@@ -356,7 +356,8 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       dateRange,
       start_date,
       end_date,
-      ...(perspective === PerspectiveType.aws && { cost_type: costType }),
+      cost_type: costType,
+      currency,
     };
     const queryString = getQuery({
       ...query,
