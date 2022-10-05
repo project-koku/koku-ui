@@ -14,6 +14,7 @@ import { HistoricalDataUsageChart } from './historicalDataUsageChart';
 
 interface HistoricalDataOwnProps {
   costType?: string;
+  currency?: string;
 }
 
 interface HistoricalDataStateProps {
@@ -33,7 +34,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
 
   // Returns cost chart
   private getCostChart = (widget: HistoricalDataWidget) => {
-    const { costType, intl } = this.props;
+    const { costType, currency, intl } = this.props;
 
     return (
       <Card>
@@ -48,6 +49,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
           <HistoricalDataCostChart
             chartName={widget.chartName}
             costType={costType}
+            currency={currency}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
           />
@@ -58,7 +60,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
 
   // Returns trend chart
   private getTrendChart = (widget: HistoricalDataWidget) => {
-    const { costType, intl } = this.props;
+    const { costType, currency, intl } = this.props;
 
     return (
       <Card>
@@ -73,6 +75,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
           <HistoricalDataTrendChart
             chartName={widget.chartName}
             costType={costType}
+            currency={currency}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
           />

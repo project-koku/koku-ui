@@ -14,6 +14,8 @@ import { formatCurrency } from 'utils/format';
 import { styles } from './summaryModal.styles';
 
 interface SummaryModalContentOwnProps {
+  costType?: string;
+  currency?: string;
   reportGroupBy?: string;
   reportPathsType: ReportPathsType;
 }
@@ -90,7 +92,7 @@ class SummaryModalContentBase extends React.Component<SummaryModalContentProps> 
 }
 
 const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, SummaryModalContentStateProps>(
-  (state, { reportGroupBy, reportPathsType }) => {
+  (state, { costType, currency, reportGroupBy, reportPathsType }) => {
     const query = parseQuery<Query>(location.search);
     const groupByOrgValue = getGroupByOrgValue(query);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
@@ -112,6 +114,8 @@ const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, Summa
       group_by: {
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
       },
+      cost_type: costType,
+      currency,
     };
     const queryString = getQuery(newQuery);
 

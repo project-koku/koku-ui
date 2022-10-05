@@ -30,6 +30,7 @@ import { styles } from './summaryCard.styles';
 
 interface SummaryOwnProps {
   costType?: string;
+  currency?: string;
   reportGroupBy?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
@@ -65,8 +66,8 @@ class SummaryBase extends React.Component<SummaryProps> {
   }
 
   public componentDidUpdate(prevProps: SummaryProps) {
-    const { costType, fetchReport, queryString, reportPathsType, reportType } = this.props;
-    if (prevProps.queryString !== queryString || prevProps.costType !== costType) {
+    const { costType, currency, fetchReport, queryString, reportPathsType, reportType } = this.props;
+    if (prevProps.queryString !== queryString || prevProps.costType !== costType || prevProps.currency !== currency) {
       fetchReport(reportPathsType, reportType, queryString);
     }
   }
@@ -102,7 +103,7 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   private getViewAll = () => {
-    const { groupBy, query, reportGroupBy, reportPathsType, intl } = this.props;
+    const { costType, currency, groupBy, query, reportGroupBy, reportPathsType, intl } = this.props;
     const { isBulletChartModalOpen } = this.state;
 
     const computedItems = this.getItems();
@@ -128,6 +129,8 @@ class SummaryBase extends React.Component<SummaryProps> {
             {intl.formatMessage(messages.detailsViewAll, { value: reportGroupBy })}
           </Button>
           <SummaryModal
+            costType={costType}
+            currency={currency}
             groupBy={groupBy}
             groupByValue={groupByValue}
             isOpen={isBulletChartModalOpen}
@@ -181,14 +184,13 @@ class SummaryBase extends React.Component<SummaryProps> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps>(
-  (state, { costType, reportGroupBy, reportPathsType, reportType }) => {
+  (state, { costType, currency, reportGroupBy, reportPathsType, reportType }) => {
     const query = parseQuery<Query>(location.search);
     const groupByOrgValue = getGroupByOrgValue(query);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
 
     const newQuery: Query = {
-      cost_type: costType,
       filter: {
         limit: 3,
         resolution: 'monthly',
@@ -205,6 +207,8 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
       group_by: {
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
       },
+      cost_type: costType,
+      currency,
     };
     const queryString = getQuery(newQuery);
 

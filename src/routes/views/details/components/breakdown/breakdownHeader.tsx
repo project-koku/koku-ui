@@ -24,10 +24,12 @@ import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps {
   costType?: CostTypes;
+  currency?: string;
   detailsURL?: string;
   description?: string;
   groupBy?: string;
   onCostTypeSelected(value: string);
+  onCurrencySelected(value: string);
   query: Query;
   report: Report;
   showCostType?: boolean;
@@ -88,21 +90,16 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps> {
     return cost;
   };
 
-  private handleCostTypeSelected = (value: string) => {
-    const { onCostTypeSelected } = this.props;
-
-    if (onCostTypeSelected) {
-      onCostTypeSelected(value);
-    }
-  };
-
   public render() {
     const {
       costType,
+      currency,
       description,
       groupBy,
       intl,
       isCurrencyFeatureEnabled,
+      onCostTypeSelected,
+      onCurrencySelected,
       query,
       showCostType = false,
       tabs,
@@ -141,7 +138,9 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps> {
               </li>
             </ol>
           </nav>
-          <div style={styles.headerContentRight}>{isCurrencyFeatureEnabled && <Currency />}</div>
+          <div style={styles.headerContentRight}>
+            {isCurrencyFeatureEnabled && <Currency currency={currency} onSelect={onCurrencySelected} />}
+          </div>
         </div>
         <div style={styles.headerContent}>
           <div style={styles.title}>
@@ -151,7 +150,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps> {
             </Title>
             {showCostType && (
               <div style={styles.costType}>
-                <CostType onSelect={this.handleCostTypeSelected} costType={costType} />
+                <CostType onSelect={onCostTypeSelected} costType={costType} />
               </div>
             )}
           </div>

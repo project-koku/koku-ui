@@ -38,6 +38,7 @@ export const getIdKeyForTab = (tab: BreakdownTab) => {
 interface BreakdownStateProps {
   costOverviewComponent?: React.ReactNode;
   costType?: CostTypes;
+  currency?: string;
   description?: string;
   detailsURL: string;
   emptyStateTitle?: string;
@@ -194,6 +195,17 @@ class BreakdownBase extends React.Component<BreakdownProps> {
     history.replace(this.getRouteForQuery(newQuery));
   };
 
+  private handleCurrencySelected = (value: string) => {
+    const { history, query } = this.props;
+
+    // Need param to restore cost type upon page refresh
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      currency: value,
+    };
+    history.replace(this.getRouteForQuery(newQuery));
+  };
+
   private handleTabClick = (event, tabIndex) => {
     const { activeTabKey } = this.state;
     if (activeTabKey !== tabIndex) {
@@ -213,6 +225,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   public render() {
     const {
       costType,
+      currency,
       description,
       detailsURL,
       emptyStateTitle,
@@ -251,10 +264,12 @@ class BreakdownBase extends React.Component<BreakdownProps> {
       <>
         <BreakdownHeader
           costType={costType}
+          currency={currency}
           description={description}
           detailsURL={detailsURL}
           groupBy={groupBy}
           onCostTypeSelected={this.handleCostTypeSelected}
+          onCurrencySelected={this.handleCurrencySelected}
           query={query}
           report={report}
           showCostType={showCostType}

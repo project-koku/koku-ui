@@ -10,6 +10,8 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { SummaryModalContent } from './summaryModalContent';
 
 interface SummaryModalOwnProps {
+  costType?: string;
+  currency?: string;
   groupBy: string;
   groupByValue: string | number;
   isOpen: boolean;
@@ -37,7 +39,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
   };
 
   public render() {
-    const { groupByValue, intl, isOpen, reportGroupBy, reportPathsType } = this.props;
+    const { costType, currency, groupByValue, intl, isOpen, reportGroupBy, reportPathsType } = this.props;
 
     return (
       <Modal
@@ -50,7 +52,12 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
         })}
         variant="large"
       >
-        <SummaryModalContent reportGroupBy={reportGroupBy} reportPathsType={reportPathsType} />
+        <SummaryModalContent
+          costType={costType}
+          currency={currency}
+          reportGroupBy={reportGroupBy}
+          reportPathsType={reportPathsType}
+        />
       </Modal>
     );
   }
