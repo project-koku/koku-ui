@@ -1,4 +1,6 @@
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { RootState } from 'store/rootReducer';
+import { getCurrency } from 'utils/currency';
 
 import {
   getQueryForWidget,
@@ -27,21 +29,27 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
     ...ociDashboardTabFilters,
     ...(widget.tabsFilter ? widget.tabsFilter : {}),
   };
-  // Todo: Currency has not been implemented for OCI
-  // const props = {
-  //   ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
-  // };
+  const props = {
+    ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
+  };
 
   return {
-    previous: getQueryForWidget({
-      ...filter,
-      time_scope_value: -2,
-    }),
-    current: getQueryForWidget(filter),
+    previous: getQueryForWidget(
+      {
+        ...filter,
+        time_scope_value: -2,
+      },
+      props
+    ),
+    current: getQueryForWidget(filter, props),
     forecast: getQueryForWidget({}, { limit: 31 }), // Todo: Currency has not been implemented for forecast
-    tabs: getQueryForWidgetTabs(widget, {
-      ...tabsFilter,
-      resolution: 'monthly',
-    }),
+    tabs: getQueryForWidgetTabs(
+      widget,
+      {
+        ...tabsFilter,
+        resolution: 'monthly',
+      },
+      props
+    ),
   };
 };

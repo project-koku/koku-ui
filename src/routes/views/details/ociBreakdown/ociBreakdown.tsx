@@ -14,8 +14,10 @@ import BreakdownBase from 'routes/views/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { filterProviders } from 'routes/views/utils/providers';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { getCurrency } from 'utils/currency';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
@@ -52,8 +54,7 @@ const mapStateToProps = createMapStateToProps<OciCostOwnProps, OciCostStateProps
   const query = parseQuery<OcpQuery>(location.search);
   const groupBy = getGroupById(query);
   const groupByValue = getGroupByValue(query);
-  // Todo: Currency has not been implemented for OCI
-  const currency = /* featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : */ undefined;
+  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
 
   const newQuery: Query = {
     filter: {

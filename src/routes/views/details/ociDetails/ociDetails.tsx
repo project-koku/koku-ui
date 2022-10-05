@@ -20,10 +20,12 @@ import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
 import { addFilterToQuery, Filter, removeFilterFromQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOciReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getCurrency } from 'utils/currency';
 
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -445,8 +447,7 @@ class OciDetails extends React.Component<OciDetailsProps> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OciDetailsOwnProps, OciDetailsStateProps>((state, props) => {
   const queryFromRoute = parseQuery<OciQuery>(location.search);
-  // Todo: Currency has not been implemented for OCI
-  const currency = /* featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : */ undefined;
+  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
   const query = {
     delta: 'cost',
     filter: {

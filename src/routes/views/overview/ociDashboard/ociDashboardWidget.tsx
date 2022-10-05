@@ -7,9 +7,11 @@ import {
 } from 'routes/views/overview/components/dashboardWidgetBase';
 import { createMapStateToProps } from 'store/common';
 import { ociDashboardActions, ociDashboardSelectors, OciDashboardTab } from 'store/dashboard/ociDashboard';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedOciReportItemsParams } from 'utils/computedReport/getComputedOciReportItems';
+import { getCurrency } from 'utils/currency';
 
 interface OciDashboardWidgetDispatchProps {
   fetchForecasts: typeof ociDashboardActions.fetchWidgetForecasts;
@@ -34,8 +36,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
     const queries = ociDashboardSelectors.selectWidgetQueries(state, widgetId);
     return {
       ...widget,
-      // Todo: Currency has not been implemented for OCI
-      // ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
+      ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
       getIdKeyForTab,
       currentQuery: queries.current,
       forecastQuery: queries.forecast,
