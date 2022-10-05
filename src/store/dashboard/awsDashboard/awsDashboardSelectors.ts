@@ -43,7 +43,7 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
       props
     ),
     current: getQueryForWidget(widget, filter, props),
-    forecast: getQueryForWidget(widget, {}), // Todo: Currency has not been implemented for forecast
+    forecast: getQueryForWidget(widget, {}, props),
     tabs: getQueryForWidgetTabs(
       widget,
       {

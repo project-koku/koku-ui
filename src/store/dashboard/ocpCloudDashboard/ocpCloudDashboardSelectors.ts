@@ -42,7 +42,7 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
       props
     ),
     current: getQueryForWidget(defaultFilter, props),
-    forecast: getQueryForWidget({}, { limit: 31 }), // Todo: Currency has not been implemented for forecast
+    forecast: getQueryForWidget({}, { limit: 31, ...props }),
     tabs: getQueryForWidgetTabs(
       widget,
       {
