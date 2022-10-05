@@ -7,9 +7,11 @@ import {
 } from 'routes/views/overview/components/dashboardWidgetBase';
 import { createMapStateToProps } from 'store/common';
 import { azureDashboardActions, azureDashboardSelectors, AzureDashboardTab } from 'store/dashboard/azureDashboard';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
+import { getCurrency } from 'utils/currency';
 
 interface AzureDashboardWidgetDispatchProps {
   fetchForecasts: typeof azureDashboardActions.fetchWidgetForecasts;
@@ -34,6 +36,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
     const queries = azureDashboardSelectors.selectWidgetQueries(state, widgetId);
     return {
       ...widget,
+      ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
       getIdKeyForTab,
       currentQuery: queries.current,
       forecastQuery: queries.forecast,

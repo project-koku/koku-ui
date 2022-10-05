@@ -7,10 +7,12 @@ import {
 } from 'routes/views/overview/components/dashboardWidgetBase';
 import { createMapStateToProps } from 'store/common';
 import { awsDashboardActions, awsDashboardSelectors, AwsDashboardTab } from 'store/dashboard/awsDashboard';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { getCostType } from 'utils/costType';
+import { getCurrency } from 'utils/currency';
 
 interface AwsDashboardWidgetDispatchProps {
   fetchForecasts: typeof awsDashboardActions.fetchWidgetForecasts;
@@ -35,6 +37,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
     const queries = awsDashboardSelectors.selectWidgetQueries(state, widgetId);
     return {
       ...widget,
+      ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
       costType: getCostType(),
       getIdKeyForTab,
       currentQuery: queries.current,

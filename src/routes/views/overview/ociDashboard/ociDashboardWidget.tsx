@@ -34,6 +34,8 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
     const queries = ociDashboardSelectors.selectWidgetQueries(state, widgetId);
     return {
       ...widget,
+      // Todo: Currency has not been implemented for OCI
+      // ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
       getIdKeyForTab,
       currentQuery: queries.current,
       forecastQuery: queries.forecast,

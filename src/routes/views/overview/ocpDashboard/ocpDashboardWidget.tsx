@@ -7,9 +7,11 @@ import {
 } from 'routes/views/overview/components/dashboardWidgetBase';
 import { createMapStateToProps } from 'store/common';
 import { ocpDashboardActions, ocpDashboardSelectors, OcpDashboardTab } from 'store/dashboard/ocpDashboard';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
+import { getCurrency } from 'utils/currency';
 
 import { chartStyles } from './ocpDashboardWidget.styles';
 
@@ -36,6 +38,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
     const queries = ocpDashboardSelectors.selectWidgetQueries(state, widgetId);
     return {
       ...widget,
+      ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
       getIdKeyForTab,
       chartAltHeight: chartStyles.chartAltHeight,
       containerAltHeight: chartStyles.containerAltHeight,

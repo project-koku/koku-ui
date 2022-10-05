@@ -43,6 +43,7 @@ interface DashboardWidgetOwnProps {
   chartAltHeight?: number;
   containerAltHeight?: number;
   costType?: string;
+  currency?: string;
   getIdKeyForTab: <T extends DashboardWidget<any>>(tab: T) => string;
   widgetId: number;
 }
@@ -91,9 +92,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   }
 
   public componentDidUpdate(prevProps: DashboardWidgetProps) {
-    const { costType, fetchReports, fetchForecasts, trend, widgetId } = this.props;
+    const { costType, currency, fetchReports, fetchForecasts, trend, widgetId } = this.props;
 
-    if (prevProps.costType !== costType) {
+    if (prevProps.costType !== costType || prevProps.currency !== currency) {
       fetchReports(widgetId);
       if (trend.computedForecastItem !== undefined) {
         fetchForecasts(widgetId);
