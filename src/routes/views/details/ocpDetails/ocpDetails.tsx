@@ -26,10 +26,12 @@ import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
 import { addFilterToQuery, Filter, removeFilterFromQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getCurrency } from 'utils/currency';
 
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable, DetailsTableColumnIds } from './detailsTable';
@@ -37,6 +39,7 @@ import { DetailsToolbar } from './detailsToolbar';
 import { styles } from './ocpDetails.styles';
 
 interface OcpDetailsStateProps {
+  currency?: string;
   providers: Providers;
   providersFetchStatus: FetchStatus;
   query: OcpQuery;
@@ -120,6 +123,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     this.handleColumnManagementModalClose = this.handleColumnManagementModalClose.bind(this);
     this.handleColumnManagementModalOpen = this.handleColumnManagementModalOpen.bind(this);
     this.handleColumnManagementModalSave = this.handleColumnManagementModalSave.bind(this);
+    this.handleCurrencySelected = this.handleCurrencySelected.bind(this);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
     this.handleFilterAdded = this.handleFilterAdded.bind(this);
@@ -303,6 +307,16 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     );
   };
 
+  private handleCurrencySelected = (value: string) => {
+    const { history, query } = this.props;
+
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      currency: value,
+    };
+    history.replace(this.getRouteForQuery(newQuery));
+  };
+
   private handleBulkSelected = (action: string) => {
     const { isAllSelected } = this.state;
 
@@ -439,7 +453,8 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   public render() {
-    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } = this.props;
+    const { currency, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } =
+      this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
@@ -463,7 +478,13 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     }
     return (
       <div style={styles.ocpDetails}>
-        <DetailsHeader groupBy={groupById} onGroupBySelected={this.handleGroupBySelected} report={report} />
+        <DetailsHeader
+          currency={currency}
+          groupBy={groupById}
+          onCurrencySelected={this.handleCurrencySelected}
+          onGroupBySelected={this.handleGroupBySelected}
+          report={report}
+        />
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}
@@ -487,16 +508,18 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStateProps>((state, props) => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
+  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
   const query = {
     delta: 'cost',
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
     },
-    exclude: queryFromRoute.exclude || baseQuery.exclude,
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
+    exclude: queryFromRoute.exclude || baseQuery.exclude,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
+    currency,
   };
   const queryString = getQuery(query);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
@@ -512,6 +535,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   );
 
   return {
+    currency,
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     query,

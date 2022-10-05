@@ -21,10 +21,12 @@ import { hasCurrentMonthData } from 'routes/views/utils/providers';
 import { filterProviders } from 'routes/views/utils/providers';
 import { addFilterToQuery, Filter, removeFilterFromQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedIbmReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getCurrency } from 'utils/currency';
 
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -32,6 +34,7 @@ import { DetailsToolbar } from './detailsToolbar';
 import { styles } from './ibmDetails.styles';
 
 interface IbmDetailsStateProps {
+  currency?: string;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -92,6 +95,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
+    this.handleCurrencySelected = this.handleCurrencySelected.bind(this);
     this.handleBulkSelected = this.handleBulkSelected.bind(this);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
@@ -255,6 +259,16 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
     );
   };
 
+  private handleCurrencySelected = (value: string) => {
+    const { history, query } = this.props;
+
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      currency: value,
+    };
+    history.replace(this.getRouteForQuery(newQuery));
+  };
+
   private handleBulkSelected = (action: string) => {
     const { isAllSelected } = this.state;
 
@@ -379,7 +393,8 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
   };
 
   public render() {
-    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } = this.props;
+    const { currency, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } =
+      this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
@@ -403,7 +418,13 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
     }
     return (
       <div style={styles.ibmDetails}>
-        <DetailsHeader groupBy={groupById} onGroupBySelected={this.handleGroupBySelected} report={report} />
+        <DetailsHeader
+          currency={currency}
+          groupBy={groupById}
+          onCurrencySelected={this.handleCurrencySelected}
+          onGroupBySelected={this.handleGroupBySelected}
+          report={report}
+        />
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}
@@ -426,16 +447,18 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStateProps>((state, props) => {
   const queryFromRoute = parseQuery<IbmQuery>(location.search);
+  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
   const query = {
     delta: 'cost',
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
     },
-    exclude: queryFromRoute.exclude || baseQuery.exclude,
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
+    exclude: queryFromRoute.exclude || baseQuery.exclude,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
+    currency,
   };
   const queryString = getQuery(query);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
@@ -452,6 +475,7 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
   );
 
   return {
+    currency,
     providers: filterProviders(providers, ProviderType.ibm),
     providersError,
     providersFetchStatus,

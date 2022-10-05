@@ -20,10 +20,12 @@ import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
 import { addFilterToQuery, Filter, removeFilterFromQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getCurrency } from 'utils/currency';
 
 import { styles } from './azureDetails.styles';
 import { DetailsHeader } from './detailsHeader';
@@ -31,6 +33,7 @@ import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
 
 interface AzureDetailsStateProps {
+  currency?: string;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -91,6 +94,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
+    this.handleCurrencySelected = this.handleCurrencySelected.bind(this);
     this.handleBulkSelected = this.handleBulkSelected.bind(this);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
@@ -255,6 +259,16 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     );
   };
 
+  private handleCurrencySelected = (value: string) => {
+    const { history, query } = this.props;
+
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      currency: value,
+    };
+    history.replace(this.getRouteForQuery(newQuery));
+  };
+
   private handleBulkSelected = (action: string) => {
     const { isAllSelected } = this.state;
 
@@ -379,7 +393,8 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
   };
 
   public render() {
-    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } = this.props;
+    const { currency, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } =
+      this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
@@ -403,7 +418,13 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     }
     return (
       <div style={styles.azureDetails}>
-        <DetailsHeader groupBy={groupById} onGroupBySelected={this.handleGroupBySelected} report={report} />
+        <DetailsHeader
+          currency={currency}
+          groupBy={groupById}
+          onCurrencySelected={this.handleCurrencySelected}
+          onGroupBySelected={this.handleGroupBySelected}
+          report={report}
+        />
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}
@@ -426,16 +447,18 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<AzureDetailsOwnProps, AzureDetailsStateProps>((state, props) => {
   const queryFromRoute = parseQuery<AzureQuery>(location.search);
+  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
   const query = {
     delta: 'cost',
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
     },
-    exclude: queryFromRoute.exclude || baseQuery.exclude,
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
+    exclude: queryFromRoute.exclude || baseQuery.exclude,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
+    currency,
   };
   const queryString = getQuery(query);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
@@ -452,6 +475,7 @@ const mapStateToProps = createMapStateToProps<AzureDetailsOwnProps, AzureDetails
   );
 
   return {
+    currency,
     providers: filterProviders(providers, ProviderType.azure),
     providersError,
     providersFetchStatus,
