@@ -47,7 +47,8 @@ export function getQueryForWidget(filter: AwsFilters = awsOcpDashboardDefaultFil
 
 export function getQueryForWidgetTabs(
   widget: AwsOcpDashboardWidget,
-  filter: AwsFilters = awsOcpDashboardDefaultFilters
+  filter: AwsFilters = awsOcpDashboardDefaultFilters,
+  props?
 ) {
   const group_by = getGroupByForTab(widget);
   const newFilter = {
@@ -61,6 +62,7 @@ export function getQueryForWidgetTabs(
   const query: AwsQuery = {
     filter: newFilter,
     group_by,
+    ...(props ? props : {}),
   };
   return getQuery(query);
 }

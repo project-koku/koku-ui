@@ -27,6 +27,10 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
     ...ociDashboardTabFilters,
     ...(widget.tabsFilter ? widget.tabsFilter : {}),
   };
+  // Todo: Currency has not been implemented for OCI
+  // const props = {
+  //   ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
+  // };
 
   return {
     previous: getQueryForWidget({
@@ -34,7 +38,7 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
       time_scope_value: -2,
     }),
     current: getQueryForWidget(filter),
-    forecast: getQueryForWidget({}, { limit: 31 }),
+    forecast: getQueryForWidget({}, { limit: 31 }), // Todo: Currency has not been implemented for forecast
     tabs: getQueryForWidgetTabs(widget, {
       ...tabsFilter,
       resolution: 'monthly',

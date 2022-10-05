@@ -174,7 +174,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
       dateRange: value,
     };
     this.setState({ currentDateRange: value }, () => {
-      history.replace(getRouteForQuery(history, newQuery, true));
+      history.replace(getRouteForQuery(history, newQuery));
     });
   };
 

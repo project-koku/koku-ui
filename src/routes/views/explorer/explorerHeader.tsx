@@ -53,7 +53,10 @@ import {
 
 interface ExplorerHeaderOwnProps {
   costType?: CostTypes;
+  currency?: string;
   groupBy?: string;
+  onCostTypeSelected(value: string);
+  onCurrencySelected(value: string);
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   onGroupBySelected(value: string);
@@ -168,19 +171,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       if (onPerspectiveClicked) {
         onPerspectiveClicked(value);
       }
-      history.replace(getRouteForQuery(history, newQuery, true));
+      history.replace(getRouteForQuery(history, newQuery));
     });
-  };
-
-  private handleCostTypeSelected = (value: string) => {
-    const { history, query } = this.props;
-
-    // Need param to restore cost type upon page refresh
-    const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      cost_type: value,
-    };
-    history.replace(getRouteForQuery(history, newQuery, false)); // Don't reset pagination
   };
 
   private isAwsAvailable = () => {
@@ -245,10 +237,13 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   public render() {
     const {
       costType,
+      currency,
       groupBy,
       intl,
       isCurrencyFeatureEnabled,
       isExportsFeatureEnabled,
+      onCostTypeSelected,
+      onCurrencySelected,
       onFilterAdded,
       onFilterRemoved,
       onGroupBySelected,
@@ -277,7 +272,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
             {intl.formatMessage(messages.explorerTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            {isCurrencyFeatureEnabled && <Currency />}
+            {isCurrencyFeatureEnabled && <Currency currency={currency} onSelect={onCurrencySelected} />}
             {isExportsFeatureEnabled && <ExportsLink />}
           </div>
         </div>
@@ -299,7 +294,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
           </div>
           {perspective === PerspectiveType.aws && (
             <div style={styles.costType}>
-              <CostType onSelect={this.handleCostTypeSelected} costType={costType} />
+              <CostType costType={costType} onSelect={onCostTypeSelected} />
             </div>
           )}
         </div>
@@ -319,7 +314,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHeaderStateProps>(
-  (state, { costType, perspective }) => {
+  (state, { costType, currency, perspective }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
     const dateRange = getDateRangeDefault(queryFromRoute);
     const { end_date, start_date } = getDateRange(dateRange);

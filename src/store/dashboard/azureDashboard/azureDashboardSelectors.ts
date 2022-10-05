@@ -1,4 +1,6 @@
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { RootState } from 'store/rootReducer';
+import { getCurrency } from 'utils/currency';
 
 import {
   azureDashboardDefaultFilters,
@@ -27,17 +29,27 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
     ...azureDashboardTabFilters,
     ...(widget.tabsFilter ? widget.tabsFilter : {}),
   };
+  const props = {
+    ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
+  };
 
   return {
-    previous: getQueryForWidget({
-      ...filter,
-      time_scope_value: -2,
-    }),
-    current: getQueryForWidget(filter),
-    forecast: getQueryForWidget({}, { limit: 31 }),
-    tabs: getQueryForWidgetTabs(widget, {
-      ...tabsFilter,
-      resolution: 'monthly',
-    }),
+    previous: getQueryForWidget(
+      {
+        ...filter,
+        time_scope_value: -2,
+      },
+      props
+    ),
+    current: getQueryForWidget(filter, props),
+    forecast: getQueryForWidget({}, { limit: 31 }), // Todo: Currency has not been implemented for forecast
+    tabs: getQueryForWidgetTabs(
+      widget,
+      {
+        ...tabsFilter,
+        resolution: 'monthly',
+      },
+      props
+    ),
   };
 };
