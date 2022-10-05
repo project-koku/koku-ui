@@ -43,12 +43,12 @@
     json5 "^2.2.1"
     semver "^6.3.0"
 
-"@babel/eslint-parser@^7.13.14":
-  version "7.18.9"
-  resolved "https://registry.npmjs.org/@babel/eslint-parser/-/eslint-parser-7.18.9.tgz"
-  integrity sha512-KzSGpMBggz4fKbRbWLNyPVTuQr6cmCcBhOyXTw/fieOVaw5oYAwcAj4a7UKcDYCPxQq+CG1NCDZH9e2JTXquiQ==
+"@babel/eslint-parser@^7.19.1":
+  version "7.19.1"
+  resolved "https://registry.yarnpkg.com/@babel/eslint-parser/-/eslint-parser-7.19.1.tgz#4f68f6b0825489e00a24b41b6a1ae35414ecd2f4"
+  integrity sha512-AqNf2QWt1rtu2/1rLswy6CDP7H9Oh3mMhk177Y67Rg8d7RD9WfOLLv8CGn6tisFvS2htm86yIe1yLF6I1UDaGQ==
   dependencies:
-    eslint-scope "^5.1.1"
+    "@nicolo-ribaudo/eslint-scope-5-internals" "5.1.1-v1"
     eslint-visitor-keys "^2.1.0"
     semver "^6.3.0"
 
@@ -724,6 +724,13 @@
   resolved "https://registry.npmjs.org/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
+"@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
+  version "5.1.1-v1"
+  resolved "https://registry.yarnpkg.com/@nicolo-ribaudo/eslint-scope-5-internals/-/eslint-scope-5-internals-5.1.1-v1.tgz#dbf733a965ca47b1973177dc0bb6c889edcfb129"
+  integrity sha512-54/JRvkLIzzDWshCWfuhadfrfZVPiElY8Fcgmg1HroEly/EDSszzhBAsarCux+D/kOslTRquNzuyGSmUSTTHGg==
+  dependencies:
+    eslint-scope "5.1.1"
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
@@ -916,17 +923,17 @@
   dependencies:
     "@babel/runtime" "^7.6.2"
 
-"@redhat-cloud-services/eslint-config-redhat-cloud-services@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.npmjs.org/@redhat-cloud-services/eslint-config-redhat-cloud-services/-/eslint-config-redhat-cloud-services-1.2.3.tgz"
-  integrity sha512-x3xZRURN2G+oQKfFqyUNps0F8fdOAEhjdNv+fc2X03X6t9y3GWOOaB/SJE1Jzhrde3rQR42OwoY3L+BApVIQ1g==
+"@redhat-cloud-services/eslint-config-redhat-cloud-services@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/eslint-config-redhat-cloud-services/-/eslint-config-redhat-cloud-services-1.2.4.tgz#ea28fd0263665f07621335c2843afb7c592793e7"
+  integrity sha512-GVqdo2P4wSFsiUArQ3Badqe50KIcRBKihFz75LHFYsTdwRdeau7iZgjovQUqo1wZ6PdF3k6wZ/daRf57YioxlQ==
   dependencies:
-    "@babel/eslint-parser" "^7.13.14"
-    eslint-config-prettier "^8.3.0"
-    eslint-plugin-prettier "^3.1.4"
-    eslint-plugin-react "^7.28.0"
-    eslint-plugin-rulesdir "^0.1.0"
-    prettier "^2.1.2"
+    "@babel/eslint-parser" "^7.19.1"
+    eslint-config-prettier "^8.5.0"
+    eslint-plugin-prettier "^3.4.1"
+    eslint-plugin-react "^7.31.8"
+    eslint-plugin-rulesdir "^0.2.1"
+    prettier "^2.7.1"
 
 "@redhat-cloud-services/frontend-components-config-utilities@^1.5.23":
   version "1.5.23"
@@ -953,18 +960,18 @@
   optionalDependencies:
     "@redhat-cloud-services/frontend-components-utilities" ">=3.0.0"
 
-"@redhat-cloud-services/frontend-components-utilities@*", "@redhat-cloud-services/frontend-components-utilities@>=3.0.0", "@redhat-cloud-services/frontend-components-utilities@^3.2.25":
-  version "3.2.25"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.2.25.tgz#af0de1fe788149ae992513bdf9c88f4a03fda92d"
-  integrity sha512-uN6+M5JCDZNUGzighRSDc6avImX6bJo/2UZNkmMyPc7scujHGRAVZhHlHVmNKg/S8iwQ3tIFSMJjvxcRtSONgA==
+"@redhat-cloud-services/frontend-components-utilities@*", "@redhat-cloud-services/frontend-components-utilities@>=3.0.0", "@redhat-cloud-services/frontend-components-utilities@^3.2.27":
+  version "3.2.27"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.2.27.tgz#291005e90ed669086c83fff9c161426cd54b396e"
+  integrity sha512-+fFxd/RlC2mRp2+LsVksJPwe9sFQmKF1wN2tMS7AdKp7MpD6LlEW74LH0tCdwjJ2h2NPnV3wUogRc0akSXxgaw==
   dependencies:
     "@redhat-cloud-services/types" "^0.0.10"
-    "@sentry/browser" "^5.4.0"
+    "@sentry/browser" "^5.30.0"
     awesome-debounce-promise "^2.1.0"
-    axios "^0.21.4"
-    commander ">=2.20.0"
+    axios "^0.27.2"
+    commander "^2.20.3"
     mkdirp "^1.0.4"
-    react-content-loader ">=3.4.1"
+    react-content-loader "^6.2.0"
 
 "@redhat-cloud-services/frontend-components@^3.9.11":
   version "3.9.11"
@@ -1024,7 +1031,7 @@
     "@scalprum/core" "^0.1.2"
     lodash "^4.17.0"
 
-"@sentry/browser@^5.4.0":
+"@sentry/browser@^5.30.0":
   version "5.30.0"
   resolved "https://registry.npmjs.org/@sentry/browser/-/browser-5.30.0.tgz"
   integrity sha512-rOb58ZNVJWh1VuMuBG1mL9r54nZqKeaIlwSlvzJfc89vyfd7n6tQ1UXMN383QBz/MS5H5z44Hy5eE+7pCrYAfw==
@@ -2176,7 +2183,7 @@ axe-core@^4.4.3:
   resolved "https://registry.npmjs.org/axe-core/-/axe-core-4.4.3.tgz"
   integrity sha512-32+ub6kkdhhWick/UjvEwRchgoetXqTK14INLqbGm5U2TzBkBNF3nQtLYm8ovxSkQWArjEQvftCKryjZaATu3w==
 
-axios@^0.21.1, axios@^0.21.4:
+axios@^0.21.1:
   version "0.21.4"
   resolved "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz"
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
@@ -2732,12 +2739,7 @@ combined-stream@^1.0.8:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@>=2.20.0, commander@^9.4.0, commander@^9.4.1:
-  version "9.4.1"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-9.4.1.tgz#d1dd8f2ce6faf93147295c0df13c7c21141cfbdd"
-  integrity sha512-5EEkTNyHNGFPD2H+c/dXXfQZYa/scCKasxWcXJaWnNJ99pnQN9Vnmqow+p+PlFPE63Q6mThaZws1T+HxfpgtPw==
-
-commander@^2.20.0:
+commander@^2.20.0, commander@^2.20.3:
   version "2.20.3"
   resolved "https://registry.npmjs.org/commander/-/commander-2.20.3.tgz"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
@@ -2751,6 +2753,11 @@ commander@^8.3.0:
   version "8.3.0"
   resolved "https://registry.npmjs.org/commander/-/commander-8.3.0.tgz"
   integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
+
+commander@^9.4.0, commander@^9.4.1:
+  version "9.4.1"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-9.4.1.tgz#d1dd8f2ce6faf93147295c0df13c7c21141cfbdd"
+  integrity sha512-5EEkTNyHNGFPD2H+c/dXXfQZYa/scCKasxWcXJaWnNJ99pnQN9Vnmqow+p+PlFPE63Q6mThaZws1T+HxfpgtPw==
 
 comment-parser@1.3.1:
   version "1.3.1"
@@ -3509,9 +3516,9 @@ eslint-config-prettier@^2.9.0:
   dependencies:
     get-stdin "^5.0.1"
 
-eslint-config-prettier@^8.3.0:
+eslint-config-prettier@^8.5.0:
   version "8.5.0"
-  resolved "https://registry.npmjs.org/eslint-config-prettier/-/eslint-config-prettier-8.5.0.tgz"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.5.0.tgz#5a81680ec934beca02c7b1a61cf8ca34b66feab1"
   integrity sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==
 
 eslint-config-standard-jsx@^5.0.0:
@@ -3673,9 +3680,9 @@ eslint-plugin-prettier@^2.6.0:
     fast-diff "^1.1.1"
     jest-docblock "^21.0.0"
 
-eslint-plugin-prettier@^3.1.4:
+eslint-plugin-prettier@^3.4.1:
   version "3.4.1"
-  resolved "https://registry.npmjs.org/eslint-plugin-prettier/-/eslint-plugin-prettier-3.4.1.tgz"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-3.4.1.tgz#e9ddb200efb6f3d05ffe83b1665a716af4a387e5"
   integrity sha512-htg25EUYUeIhKHXjOinK4BgCcDwtLHjqaxCDsMy5nbnUMkKFvIhMVCp+5GFUXQ4Nr8lBsPqtGAqBenbpFqAA2g==
   dependencies:
     prettier-linter-helpers "^1.0.0"
@@ -3697,7 +3704,7 @@ eslint-plugin-react-hooks@^4.1.2:
   resolved "https://registry.npmjs.org/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.6.0.tgz"
   integrity sha512-oFc7Itz9Qxh2x4gNHStv3BqJq54ExXmfC+a1NjAta66IAN87Wu0R/QArgIS9qKzX3dXKPI9H5crl9QchNMY9+g==
 
-eslint-plugin-react@^7.28.0, eslint-plugin-react@^7.31.8, eslint-plugin-react@^7.7.0:
+eslint-plugin-react@^7.31.8, eslint-plugin-react@^7.7.0:
   version "7.31.8"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.31.8.tgz#3a4f80c10be1bcbc8197be9e8b641b2a3ef219bf"
   integrity sha512-5lBTZmgQmARLLSYiwI71tiGVTLUuqXantZM6vlSY39OaDSV0M7+32K5DnLkmFrwTe+Ksz0ffuLUC91RUviVZfw==
@@ -3721,6 +3728,11 @@ eslint-plugin-rulesdir@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/eslint-plugin-rulesdir/-/eslint-plugin-rulesdir-0.1.0.tgz"
   integrity sha512-HdZ8XhTY8QkOxXX4X++lyWJdOeJ9ATkWQ6Rp+PVq9jk8Km2LTTOgbFXqIIqACl3TPVXBhxP5hU51ddT93wKvdA==
+
+eslint-plugin-rulesdir@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-rulesdir/-/eslint-plugin-rulesdir-0.2.1.tgz#e246bb9657e68eb0a30680c60775f40aa829ec0b"
+  integrity sha512-t7rQvEyfE4JZJu6dPl4/uVr6Fr0fxopBhzVbtq3isfOHMKdlIe9xW/5CtIaWZI0E1U+wzAk0lEnZC8laCD5YLA==
 
 eslint-plugin-simple-import-sort@^8.0.0:
   version "8.0.0"
@@ -6815,7 +6827,7 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@^2.1.2, prettier@^2.7.1:
+prettier@^2.7.1:
   version "2.7.1"
   resolved "https://registry.npmjs.org/prettier/-/prettier-2.7.1.tgz"
   integrity sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==
@@ -7034,7 +7046,7 @@ react-bootstrap@^2.5.0:
     uncontrollable "^7.2.1"
     warning "^4.0.3"
 
-react-content-loader@>=3.4.1:
+react-content-loader@^6.2.0:
   version "6.2.0"
   resolved "https://registry.npmjs.org/react-content-loader/-/react-content-loader-6.2.0.tgz"
   integrity sha512-r1dI6S+uHNLW68qraLE2njJYOuy6976PpCExuCZUcABWbfnF3FMcmuESRI8L4Bj45wnZ7n8g71hkPLzbma7/Cw==
