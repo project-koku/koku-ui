@@ -102,7 +102,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             {intl.formatMessage(messages.awsDetailsTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            {isCurrencyFeatureEnabled && <Currency onSelect={onCurrencySelected} currency={currency} />}
+            {isCurrencyFeatureEnabled && <Currency currency={currency} onSelect={onCurrencySelected} />}
             {isExportsFeatureEnabled && <ExportsLink />}
           </div>
         </div>
