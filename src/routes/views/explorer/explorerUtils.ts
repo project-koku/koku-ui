@@ -468,13 +468,6 @@ export const getTagReportPathsType = (perspective: string) => {
   return result;
 };
 
-export const getRouteForQuery = (history, query: Query, reset: boolean = false) => {
-  // Reset pagination
-  if (reset) {
-    query.filter = {
-      ...query.filter,
-      offset: baseQuery.filter.offset,
-    };
-  }
+export const getRouteForQuery = (history, query: Query) => {
   return `${history.location.pathname}?${getQueryRoute(query)}`;
 };

@@ -21,12 +21,14 @@ import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy
 import { filterProviders, hasData } from 'routes/views/utils/providers';
 import { addFilterToQuery, Filter, removeFilterFromQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { CostTypes, getCostType } from 'utils/costType';
+import { getCurrency } from 'utils/currency';
 import {
   isAwsAvailable,
   isAzureAvailable,
@@ -61,6 +63,7 @@ interface ExplorerStateProps {
   azureProviders: Providers;
   ociProviders: Providers;
   costType?: CostTypes;
+  currency?: string;
   dateRange: DateRangeType;
   gcpProviders: Providers;
   ibmProviders: Providers;
@@ -109,6 +112,8 @@ class Explorer extends React.Component<ExplorerProps> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
+    this.handleCostTypeSelected = this.handleCostTypeSelected.bind(this);
+    this.handleCurrencySelected = this.handleCurrencySelected.bind(this);
     this.handleBulkSelected = this.handleBulkSelected.bind(this);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
@@ -265,6 +270,28 @@ class Explorer extends React.Component<ExplorerProps> {
     );
   };
 
+  private handleCostTypeSelected = (value: string) => {
+    const { history, query } = this.props;
+
+    // Need param to restore cost type upon page refresh
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      cost_type: value,
+    };
+    history.replace(getRouteForQuery(history, newQuery));
+  };
+
+  private handleCurrencySelected = (value: string) => {
+    const { history, query } = this.props;
+
+    // Need param to restore cost type upon page refresh
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      currency: value,
+    };
+    history.replace(getRouteForQuery(history, newQuery));
+  };
+
   private handleBulkSelected = (action: string) => {
     const { isAllSelected } = this.state;
 
@@ -292,14 +319,14 @@ class Explorer extends React.Component<ExplorerProps> {
     const { history, query } = this.props;
 
     const filteredQuery = addFilterToQuery(query, filter);
-    history.replace(getRouteForQuery(history, filteredQuery, true));
+    history.replace(getRouteForQuery(history, filteredQuery));
   };
 
   private handleFilterRemoved = (filter: Filter) => {
     const { history, query } = this.props;
 
     const filteredQuery = removeFilterFromQuery(query, filter);
-    history.replace(getRouteForQuery(history, filteredQuery, true));
+    history.replace(getRouteForQuery(history, filteredQuery));
   };
 
   private handleGroupBySelected = groupBy => {
@@ -324,7 +351,7 @@ class Explorer extends React.Component<ExplorerProps> {
       order_by: undefined, // Clear sort
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {
-      history.replace(getRouteForQuery(history, newQuery, true));
+      history.replace(getRouteForQuery(history, newQuery));
     });
   };
 
@@ -335,7 +362,7 @@ class Explorer extends React.Component<ExplorerProps> {
       ...query.filter,
       limit: perPage,
     };
-    const filteredQuery = getRouteForQuery(history, newQuery, true);
+    const filteredQuery = getRouteForQuery(history, newQuery);
     history.replace(filteredQuery);
   };
 
@@ -443,6 +470,7 @@ class Explorer extends React.Component<ExplorerProps> {
       azureProviders,
       ociProviders,
       costType,
+      currency,
       gcpProviders,
       ibmProviders,
       intl,
@@ -499,7 +527,10 @@ class Explorer extends React.Component<ExplorerProps> {
       <div style={styles.explorer}>
         <ExplorerHeader
           costType={costType}
+          currency={currency}
           groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+          onCostTypeSelected={this.handleCostTypeSelected}
+          onCurrencySelected={this.handleCurrencySelected}
           onFilterAdded={this.handleFilterAdded}
           onFilterRemoved={this.handleFilterRemoved}
           onGroupBySelected={this.handleGroupBySelected}
@@ -510,6 +541,8 @@ class Explorer extends React.Component<ExplorerProps> {
           <div style={styles.chartContent}>
             <div style={styles.chartContainer}>
               <ExplorerChart
+                costType={costType}
+                currency={currency}
                 computedReportItemType={getComputedReportItemType(perspective)}
                 computedReportItemValueType={getComputedReportItemValueType(perspective)}
                 perspective={perspective}
@@ -585,21 +618,24 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     groupBy = { [getGroupByDefault(perspective)]: '*' };
   }
 
-  const costType = getCostType();
+  const costType = perspective === PerspectiveType.aws ? getCostType() : undefined;
+  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
+
   const query = {
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
     },
-    exclude: queryFromRoute.exclude || baseQuery.exclude,
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
+    exclude: queryFromRoute.exclude || baseQuery.exclude,
     group_by: groupBy,
     order_by: queryFromRoute.order_by,
     perspective,
     dateRange,
     start_date,
     end_date,
-    ...(perspective === PerspectiveType.aws && { cost_type: costType }),
+    cost_type: costType,
+    currency,
   };
   const queryString = getQuery({
     ...query,
@@ -618,6 +654,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     awsProviders,
     azureProviders,
     costType,
+    currency,
     dateRange,
     gcpProviders,
     ibmProviders,
