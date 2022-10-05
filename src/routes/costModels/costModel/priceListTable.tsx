@@ -14,7 +14,7 @@ import {
   ToolbarItem,
   ToolbarItemVariant,
 } from '@patternfly/react-core';
-import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/esm/icons/file-invoice-dollar-icon';
+import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { SortByDirection } from '@patternfly/react-table';
 import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
 import { CostModel } from 'api/costModels';
@@ -288,7 +288,7 @@ class PriceListTable extends React.Component<Props, State> {
                   search.metrics.length === 0 && (
                     <Bullseye>
                       <EmptyState>
-                        <EmptyStateIcon icon={FileInvoiceDollarIcon} />
+                        <EmptyStateIcon icon={PlusCircleIcon} />
                         <Title headingLevel="h2" size={TitleSizes.lg}>
                           {intl.formatMessage(messages.priceListEmptyRate)}
                         </Title>
