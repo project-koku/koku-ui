@@ -935,16 +935,16 @@
   dependencies:
     node-fetch "2.6.7"
 
-"@redhat-cloud-services/frontend-components-notifications@^3.2.10":
-  version "3.2.10"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-notifications/-/frontend-components-notifications-3.2.10.tgz#db0b3bfb8017f26938c67529b40d1acfd85a7bc4"
-  integrity sha512-qtVBwVD42iKz49/lWsR05zL6fNkBD5WLQWEPsfPAdskA2D0Qx0KGP404QlQ1hgKmzcgEIeY1gIxADJc/ANIT0Q==
+"@redhat-cloud-services/frontend-components-notifications@^3.2.11":
+  version "3.2.11"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-notifications/-/frontend-components-notifications-3.2.11.tgz#2720239aa25a64210dc60d29e4c5dbc91ffbd015"
+  integrity sha512-c3TUNcYfqNCDJ++cNeUoQTPunQvGNF979lP8WJIyetC5apiBM5D2f3QzVmPQ6wV4FTrf1fS6GGH4Oo2qzM0HLQ==
   dependencies:
     "@redhat-cloud-services/frontend-components-utilities" "*"
-    redux-promise-middleware "6.1.2"
+    redux-promise-middleware "6.1.3"
   optionalDependencies:
-    react-redux ">=5.0.7"
-    redux ">=4.0.5"
+    react-redux "^7.2.9"
+    redux "^4.2.0"
 
 "@redhat-cloud-services/frontend-components-translations@^3.2.4":
   version "3.2.4"
@@ -7133,10 +7133,22 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-redux@>=5.0.7, react-redux@^7.2.8:
+react-redux@^7.2.8:
   version "7.2.8"
   resolved "https://registry.npmjs.org/react-redux/-/react-redux-7.2.8.tgz"
   integrity sha512-6+uDjhs3PSIclqoCk0kd6iX74gzrGc3W5zcAjbrFgEdIjRSQObdIwfx80unTkVUYvbQ95Y8Av3OvFHq1w5EOUw==
+  dependencies:
+    "@babel/runtime" "^7.15.4"
+    "@types/react-redux" "^7.1.20"
+    hoist-non-react-statics "^3.3.2"
+    loose-envify "^1.4.0"
+    prop-types "^15.7.2"
+    react-is "^17.0.2"
+
+react-redux@^7.2.9:
+  version "7.2.9"
+  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-7.2.9.tgz#09488fbb9416a4efe3735b7235055442b042481d"
+  integrity sha512-Gx4L3uM182jEEayZfRbI/G11ZpYdNAnBs70lFVMNdHJI76XYtR+7m0MN+eAs7UHBPhWXcnFPaS+9owSCJQHNpQ==
   dependencies:
     "@babel/runtime" "^7.15.4"
     "@types/react-redux" "^7.1.20"
@@ -7246,17 +7258,17 @@ rechoir@^0.7.0:
   dependencies:
     resolve "^1.9.0"
 
-redux-promise-middleware@6.1.2:
-  version "6.1.2"
-  resolved "https://registry.npmjs.org/redux-promise-middleware/-/redux-promise-middleware-6.1.2.tgz"
-  integrity sha512-ZqZu/nnSzGgwTtNbGoGVontpk7LjTOv0kigtt3CcgXI9gpq+8WlfXTXRZD0WTD5yaohRq0q2nYmJXSTjwXs83Q==
+redux-promise-middleware@6.1.3:
+  version "6.1.3"
+  resolved "https://registry.yarnpkg.com/redux-promise-middleware/-/redux-promise-middleware-6.1.3.tgz#315f6a9fcabe1f02a9c2f30fa615f838d7b01b66"
+  integrity sha512-B/Hi5Ct5d9y5d/KG0f6MZUXKA0nrQh5583mHCx13HY3Avte8KfpoRH/TB5QT6k/FcjT6JCxjv7jedymidy2A1A==
 
 redux-thunk@^2.4.1:
   version "2.4.1"
   resolved "https://registry.npmjs.org/redux-thunk/-/redux-thunk-2.4.1.tgz"
   integrity sha512-OOYGNY5Jy2TWvTL1KgAlVy6dcx3siPJ1wTq741EPyUKfn6W6nChdICjZwCd0p8AZBs5kWpZlbkXW2nE/zjUa+Q==
 
-redux@>=4.0.5, redux@^4.0.0, redux@^4.2.0:
+redux@^4.0.0, redux@^4.2.0:
   version "4.2.0"
   resolved "https://registry.npmjs.org/redux/-/redux-4.2.0.tgz"
   integrity sha512-oSBmcKKIuIR4ME29/AeNUnl5L+hvBq7OaJWzaptTQJAntaPvxIJqfnjbaEiCzzaIz+XmVILfqAM3Ob0aXLPfjA==
