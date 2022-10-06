@@ -29,7 +29,7 @@ interface ExplorerTableOwnProps {
   isAllSelected?: boolean;
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
-  onSort(value: string, date: string, isSortAscending: boolean);
+  onSort(value: string, isSortAscending: boolean, date: string);
   perspective: PerspectiveType;
   query: AwsQuery;
   report: AwsReport;
@@ -323,7 +323,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     if (onSort) {
       const column = columns[index - 1];
       const isSortAscending = direction === SortByDirection.asc;
-      onSort(column.orderBy, column.date, isSortAscending);
+      onSort(column.orderBy, isSortAscending, column.date);
     }
   };
 

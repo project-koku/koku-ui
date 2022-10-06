@@ -63,10 +63,20 @@ export const handleSetPage = (history, query: Query, report, pageNumber) => {
   history.replace(filteredQuery);
 };
 
-export const handleSort = (history, query: Query, sortType: string, isSortAscending: boolean) => {
+export const handleSort = (
+  history,
+  query: Query,
+  sortType: string,
+  isSortAscending: boolean,
+  date: string = undefined
+) => {
   const newQuery = { ...JSON.parse(JSON.stringify(query)) };
   newQuery.order_by = {};
   newQuery.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
+
+  if (date) {
+    newQuery.order_by.date = date;
+  }
   const filteredQuery = getRouteForQuery(history, newQuery);
   history.replace(filteredQuery);
 };
