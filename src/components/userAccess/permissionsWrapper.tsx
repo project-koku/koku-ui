@@ -52,11 +52,14 @@ type PermissionsWrapperProps = PermissionsWrapperOwnProps &
 class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps> {
   public componentDidMount() {
     const {
+      accountSettingsFetchStatus,
       fetchAccountSettings,
       fetchProviders,
       fetchUserAccess,
+      providersFetchStatus,
       providersQueryString,
       resetState,
+      userAccessFetchStatus,
       userAccessQueryString,
     } = this.props;
 
@@ -64,9 +67,15 @@ class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps> {
     resetState();
 
     // Fetched in order of component usage via render()
-    fetchUserAccess(UserAccessType.all, userAccessQueryString);
-    fetchProviders(ProviderType.all, providersQueryString);
-    fetchAccountSettings();
+    if (userAccessFetchStatus !== FetchStatus.inProgress) {
+      fetchUserAccess(UserAccessType.all, userAccessQueryString);
+    }
+    if (providersFetchStatus !== FetchStatus.inProgress) {
+      fetchProviders(ProviderType.all, providersQueryString);
+    }
+    if (accountSettingsFetchStatus !== FetchStatus.inProgress) {
+      fetchAccountSettings();
+    }
   }
 
   public render() {
