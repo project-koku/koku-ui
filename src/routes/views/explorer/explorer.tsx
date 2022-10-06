@@ -19,6 +19,7 @@ import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
+  getRouteForQuery,
   handleCostTypeSelected,
   handleCurrencySelected,
   handleFilterAdded,
@@ -62,7 +63,6 @@ import {
   getPerspectiveDefault,
   getReportPathsType,
   getReportType,
-  getRouteForQuery,
   PerspectiveType,
 } from './explorerUtils';
 

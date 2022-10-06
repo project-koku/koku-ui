@@ -16,6 +16,7 @@ import { CostType } from 'routes/views/components/costType';
 import { GroupBy } from 'routes/views/components/groupBy';
 import { Perspective } from 'routes/views/components/perspective';
 import { Filter } from 'routes/views/utils/filter';
+import { getRouteForQuery } from 'routes/views/utils/history';
 import { filterProviders, hasCloudProvider } from 'routes/views/utils/providers';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
@@ -46,7 +47,6 @@ import {
   getGroupByOptions,
   getOrgReportPathsType,
   getResourcePathsType,
-  getRouteForQuery,
   getTagReportPathsType,
   PerspectiveType,
 } from './explorerUtils';

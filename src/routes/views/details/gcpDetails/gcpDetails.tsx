@@ -1,6 +1,6 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
-import { GcpQuery, getQuery, getQueryRoute, parseQuery } from 'api/queries/gcpQuery';
+import { GcpQuery, getQuery, parseQuery } from 'api/queries/gcpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { tagPrefix } from 'api/queries/query';
 import { GcpReport } from 'api/reports/gcpReports';
@@ -18,6 +18,7 @@ import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
+  getRouteForQuery,
   handleCurrencySelected,
   handleFilterAdded,
   handleFilterRemoved,
@@ -200,19 +201,6 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
     );
   };
 
-  private getRouteForQuery(query: GcpQuery, reset: boolean = false) {
-    const { history } = this.props;
-
-    // Reset pagination
-    if (reset) {
-      query.filter = {
-        ...query.filter,
-        offset: baseQuery.filter.offset,
-      };
-    }
-    return `${history.location.pathname}?${getQueryRoute(query)}`;
-  }
-
   private getTable = () => {
     const { history, query, report, reportFetchStatus } = this.props;
     const { isAllSelected, selectedItems } = this.state;
@@ -294,7 +282,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
       order_by: { cost: 'desc' },
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {
-      history.replace(this.getRouteForQuery(newQuery, true));
+      history.replace(getRouteForQuery(history, newQuery, true));
     });
   };
 
@@ -315,10 +303,10 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   };
 
   private updateReport = () => {
-    const { query, location, fetchReport, history, queryString } = this.props;
+    const { fetchReport, history, location, query, queryString } = this.props;
     if (!location.search) {
       history.replace(
-        this.getRouteForQuery({
+        getRouteForQuery(history, {
           exclude: query ? query.exclude : undefined,
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
