@@ -76,12 +76,7 @@ export class App extends React.Component<AppProps, AppState> {
     const { maintenanceMode } = this.state;
     const route = maintenanceMode ? <Maintenance /> : <Routes />;
 
-    return (
-      <>
-        <FeatureFlags />
-        {route}
-      </>
-    );
+    return <FeatureFlags>{route}</FeatureFlags>;
   }
 }
 

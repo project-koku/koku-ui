@@ -1,8 +1,12 @@
-import { useUnleashClient, useUnleashContext } from '@unleash/proxy-client-react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Spinner } from '@patternfly/react-core';
+import { Main } from '@redhat-cloud-services/frontend-components/Main';
+import { useFlagsStatus, useUnleashClient, useUnleashContext } from '@unleash/proxy-client-react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { featureFlagsActions } from 'store/featureFlags';
+
+import { styles } from './featureFlags.styles';
 
 interface FeatureFlagsOwnProps {
   children?: React.ReactNode;
@@ -19,19 +23,20 @@ const enum FeatureToggle {
   oci = 'cost-management.ui.oci', // Oracle Cloud Infrastructure https://issues.redhat.com/browse/COST-2358
 }
 
+let userId;
+const insights = (window as any).insights;
+if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
+  insights.chrome.auth.getUser().then(user => {
+    userId = user.identity.account_number;
+  });
+}
+
 // The FeatureFlags component saves feature flags in store because Unleash hooks are only supported by function components
 const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
   const dispatch = useDispatch();
+  const { flagsReady } = useFlagsStatus();
   const updateContext = useUnleashContext();
   const client = useUnleashClient();
-  const [userId, setUserId] = useState();
-
-  const insights = (window as any).insights;
-  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
-    insights.chrome.auth.getUser().then(user => {
-      setUserId(user.identity.account_number);
-    });
-  }
 
   const isMounted = useRef(false);
   useMemo(() => {
@@ -39,7 +44,7 @@ const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
     return () => {
       isMounted.current = false;
     };
-  }, [userId]);
+  }, []);
 
   useEffect(() => {
     if (userId && isMounted.current) {
@@ -69,7 +74,16 @@ const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
     }
   }, [userId]);
 
-  return <>{children}</>;
+  if (flagsReady) {
+    return <>{children}</>;
+  }
+  return (
+    <Main>
+      <div style={styles.content}>
+        <Spinner />
+      </div>
+    </Main>
+  );
 };
 
 const FeatureFlags = withRouter(FeatureFlagsBase);
