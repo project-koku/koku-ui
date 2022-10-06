@@ -149,4 +149,4 @@ const mapStateToProps = createMapStateToProps<InactiveSourcesOwnProps, InactiveS
 
 const InactiveSources = injectIntl(connect(mapStateToProps, undefined)(InactiveSourcesBase));
 
-export { InactiveSources, InactiveSourcesProps };
+export default InactiveSources;

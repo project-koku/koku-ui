@@ -406,4 +406,4 @@ const mapDispatchToProps: UsageChartDispatchProps = {
 
 const UsageChart = injectIntl(connect(mapStateToProps, mapDispatchToProps)(UsageChartBase));
 
-export { UsageChart, UsageChartProps };
+export default UsageChart;

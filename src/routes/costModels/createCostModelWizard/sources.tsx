@@ -1,5 +1,5 @@
 import React from 'react';
-import { LoadingState } from 'routes/components/state/loadingState/loadingState';
+import { LoadingState } from 'routes/components/state/loadingState';
 import { SourceStepErrorState } from 'routes/costModels/components/errorState';
 
 import { CostModelContext } from './context';

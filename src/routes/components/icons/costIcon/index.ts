@@ -1,3 +1,1 @@
-import CostIcon from './costIcon';
-
-export default CostIcon;
+export { default as CostIcon } from './costIcon';

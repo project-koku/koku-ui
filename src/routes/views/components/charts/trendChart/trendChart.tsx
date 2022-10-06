@@ -59,7 +59,7 @@ interface State {
   width: number;
 }
 
-type TrendChartProps = TrendChartOwnProps & WrappedComponentProps;
+export type TrendChartProps = TrendChartOwnProps & WrappedComponentProps;
 
 class TrendChartBase extends React.Component<TrendChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
@@ -405,4 +405,4 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
 
 const TrendChart = injectIntl(TrendChartBase);
 
-export { TrendChart, TrendChartProps };
+export default TrendChart;

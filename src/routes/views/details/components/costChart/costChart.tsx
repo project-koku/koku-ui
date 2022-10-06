@@ -135,4 +135,4 @@ class CostChartBase extends React.Component<CostChartProps> {
 
 const CostChart = injectIntl(CostChartBase);
 
-export { CostChart, CostChartProps };
+export default CostChart;

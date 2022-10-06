@@ -116,4 +116,4 @@ const EmptyFilterStateBase: React.FC<EmptyFilterStateProps> = ({
 
 const EmptyFilterState = injectIntl(EmptyFilterStateBase);
 
-export { EmptyFilterState };
+export default EmptyFilterState;

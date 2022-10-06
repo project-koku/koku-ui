@@ -56,7 +56,7 @@ interface State {
   width: number;
 }
 
-type HistoricalTrendChartProps = HistoricalTrendChartOwnProps & WrappedComponentProps;
+export type HistoricalTrendChartProps = HistoricalTrendChartOwnProps & WrappedComponentProps;
 
 class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
@@ -292,4 +292,4 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
 
 const HistoricalTrendChart = injectIntl(HistoricalTrendChartBase);
 
-export { HistoricalTrendChart, HistoricalTrendChartProps };
+export default HistoricalTrendChart;

@@ -26,4 +26,4 @@ const LoadingStateBase: React.FC<LoadingStateProps> = ({ intl = defaultIntl }) =
 
 const LoadingState = injectIntl(LoadingStateBase);
 
-export { LoadingState };
+export default LoadingState;

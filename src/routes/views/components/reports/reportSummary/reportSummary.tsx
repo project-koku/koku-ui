@@ -6,7 +6,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FetchStatus } from 'store/common';
 import { skeletonWidth } from 'utils/skeleton';
 
-interface ReportSummaryProps extends WrappedComponentProps {
+export interface ReportSummaryProps extends WrappedComponentProps {
   children?: React.ReactNode;
   detailsLink?: React.ReactNode;
   status: number;
@@ -40,4 +40,4 @@ const ReportSummaryBase: React.FC<ReportSummaryProps> = ({ children, detailsLink
 
 const ReportSummary = injectIntl(ReportSummaryBase);
 
-export { ReportSummary, ReportSummaryProps };
+export default ReportSummary;

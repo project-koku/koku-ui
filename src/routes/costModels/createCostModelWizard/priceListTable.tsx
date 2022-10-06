@@ -21,7 +21,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
-import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
+import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { WithPriceListSearch } from 'routes/costModels/components/hoc/withPriceListSearch';
 import { PaginationToolbarTemplate } from 'routes/costModels/components/paginationToolbarTemplate';
 import { PriceListToolbar } from 'routes/costModels/components/priceListToolbar';

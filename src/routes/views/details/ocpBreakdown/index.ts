@@ -1,3 +1,1 @@
-import OcpBreakdown from './ocpBreakdown';
-
-export default OcpBreakdown;
+export { default } from './ocpBreakdown';

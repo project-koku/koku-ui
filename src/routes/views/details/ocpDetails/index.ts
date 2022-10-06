@@ -1,3 +1,1 @@
-import OcpDetails from './ocpDetails';
-
-export default OcpDetails;
+export { default } from './ocpDetails';

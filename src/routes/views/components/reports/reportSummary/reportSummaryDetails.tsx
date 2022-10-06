@@ -5,7 +5,7 @@ import { Report, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { EmptyValueState } from 'routes/components/state/emptyValueState/emptyValueState';
+import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { ComputedReportItemType } from 'routes/views/components/charts/common/chartDatum';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, FormatOptions, formatUnits, unitsLookupKey } from 'utils/format';
@@ -28,7 +28,7 @@ interface ReportSummaryDetailsOwnProps {
   usageLabel?: string;
 }
 
-type ReportSummaryDetailsProps = ReportSummaryDetailsOwnProps & WrappedComponentProps;
+export type ReportSummaryDetailsProps = ReportSummaryDetailsOwnProps & WrappedComponentProps;
 
 const ReportSummaryDetailsBase: React.FC<ReportSummaryDetailsProps> = ({
   chartType,
@@ -222,4 +222,4 @@ const ReportSummaryDetailsBase: React.FC<ReportSummaryDetailsProps> = ({
 
 const ReportSummaryDetails = injectIntl(ReportSummaryDetailsBase);
 
-export { ReportSummaryDetails, ReportSummaryDetailsProps };
+export default ReportSummaryDetails;

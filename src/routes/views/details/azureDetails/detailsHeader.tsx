@@ -11,7 +11,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { Currency } from 'routes/components/currency';
-import { GroupBy } from 'routes/views/components/groupBy/groupBy';
+import { GroupBy } from 'routes/views/components/groupBy';
 import { filterProviders } from 'routes/views/utils/providers';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';

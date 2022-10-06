@@ -7,7 +7,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import CostIcon from 'routes/components/icons/costIcon';
+import { CostIcon } from 'routes/components/icons/costIcon';
 import { getReleasePath } from 'utils/paths';
 
 import { styles } from './noProvidersState.styles';

@@ -1,3 +1,1 @@
-import OcpDashboard from './ocpDashboard';
-
-export default OcpDashboard;
+export { default as OcpDashboard } from './ocpDashboard';

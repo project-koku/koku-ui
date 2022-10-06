@@ -3,7 +3,7 @@ import { OcpReport, OcpReportData } from 'api/reports/ocpReports';
 import React from 'react';
 import * as utils from 'routes/views/components/charts/common/chartDatum';
 
-import { HistoricalUsageChart, HistoricalUsageChartProps } from './historicalUsageChart';
+import HistoricalUsageChart, { HistoricalUsageChartProps } from './historicalUsageChart';
 
 const currentMonthReport: OcpReport = createReport('2018-01-15');
 const previousMonthReport: OcpReport = createReport('2017-12-15');

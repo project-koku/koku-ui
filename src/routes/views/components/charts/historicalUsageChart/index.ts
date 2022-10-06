@@ -1,1 +1,1 @@
-export { HistoricalUsageChart, HistoricalUsageChartProps } from './historicalUsageChart';
+export { default as HistoricalUsageChart, HistoricalUsageChartProps } from './historicalUsageChart';

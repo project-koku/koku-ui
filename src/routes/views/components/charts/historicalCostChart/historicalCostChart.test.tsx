@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { intl as defaultIntl } from 'components/i18n';
 import React from 'react';
 
-import { HistoricalCostChart, HistoricalCostChartProps } from './historicalCostChart';
+import HistoricalCostChart, { HistoricalCostChartProps } from './historicalCostChart';
 import { HistoricalCostChartTestProps } from './testProps/historicalCostChartProps';
 
 const props: HistoricalCostChartProps = {

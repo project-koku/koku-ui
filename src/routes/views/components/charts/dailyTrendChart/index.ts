@@ -1,1 +1,1 @@
-export { DailyTrendChart, DailyTrendChartProps } from './dailyTrendChart';
+export { default as DailyTrendChart, DailyTrendChartProps } from './dailyTrendChart';

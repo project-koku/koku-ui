@@ -1,1 +1,1 @@
-export * from './userAccess';
+export { default as userAccess } from './userAccess';

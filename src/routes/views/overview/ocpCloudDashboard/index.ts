@@ -1,3 +1,1 @@
-import OcpCloudDashboard from './ocpCloudDashboard';
-
-export default OcpCloudDashboard;
+export { default as OcpCloudDashboard } from './ocpCloudDashboard';

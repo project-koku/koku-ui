@@ -115,4 +115,4 @@ const mapDispatchToProps: ExportsDrawerDispatchProps = {
 
 const ExportsDrawer = injectIntl(connect(mapStateToProps, mapDispatchToProps)(ExportsDrawerBase));
 
-export { ExportsDrawer };
+export default ExportsDrawer;

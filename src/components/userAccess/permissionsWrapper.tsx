@@ -16,7 +16,9 @@ import { providersActions, providersQuery, providersSelectors } from 'store/prov
 import { uiActions } from 'store/ui';
 import { userAccessActions, userAccessQuery, userAccessSelectors } from 'store/userAccess';
 
-const InactiveSources = asyncComponent(() => import(/* webpackChunkName: "notFound" */ 'components/inactiveSources'));
+const InactiveSources = asyncComponent(
+  () => import(/* webpackChunkName: "notFound" */ 'components/inactiveSources/inactiveSources')
+);
 const Permissions = asyncComponent(() => import(/* webpackChunkName: "notFound" */ './permissions'));
 
 interface PermissionsWrapperOwnProps {

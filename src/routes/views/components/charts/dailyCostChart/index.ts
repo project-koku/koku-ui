@@ -1,1 +1,1 @@
-export { DailyCostChart, DailyCostChartProps } from './dailyCostChart';
+export { default as DailyCostChart, DailyCostChartProps } from './dailyCostChart';

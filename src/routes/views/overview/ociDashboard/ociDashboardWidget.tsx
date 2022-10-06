@@ -4,7 +4,7 @@ import {
   DashboardWidgetBase,
   DashboardWidgetOwnProps,
   DashboardWidgetStateProps,
-} from 'routes/views/overview/components/dashboardWidgetBase';
+} from 'routes/views/overview/components';
 import { createMapStateToProps } from 'store/common';
 import { ociDashboardActions, ociDashboardSelectors, OciDashboardTab } from 'store/dashboard/ociDashboard';
 import { forecastSelectors } from 'store/forecasts';

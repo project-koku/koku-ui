@@ -1,1 +1,1 @@
-export * from './currency';
+export { default as Currency, currencyOptions } from './currency';

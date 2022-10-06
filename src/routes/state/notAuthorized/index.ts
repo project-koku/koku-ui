@@ -1,3 +1,1 @@
-import NotAuthorized from './notAuthorized';
-
-export default NotAuthorized;
+export { default as NotAuthorized } from './notAuthorized';

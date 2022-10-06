@@ -1,3 +1,1 @@
-import AzureDetails from './azureDetails';
-
-export default AzureDetails;
+export { default } from './azureDetails';

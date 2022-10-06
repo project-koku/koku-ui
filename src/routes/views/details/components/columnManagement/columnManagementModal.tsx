@@ -191,4 +191,4 @@ const mapDispatchToProps: ColumnManagementModalDispatchProps = {
 const ColumnManagementModalConnect = connect(mapStateToProps, mapDispatchToProps)(ColumnManagementModalBase);
 const ColumnManagementModal = injectIntl(ColumnManagementModalConnect);
 
-export { ColumnManagementModal, ColumnManagementModalProps };
+export default ColumnManagementModal;

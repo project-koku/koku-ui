@@ -148,4 +148,4 @@ const mapDispatchToProps: CostTypeDispatchProps = {
 const CostTypeConnect = connect(mapStateToProps, mapDispatchToProps)(CostTypeBase);
 const CostType = injectIntl(CostTypeConnect);
 
-export { CostType };
+export default CostType;

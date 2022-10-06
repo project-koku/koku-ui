@@ -1,3 +1,1 @@
-import IbmBreakdown from './ibmBreakdown';
-
-export default IbmBreakdown;
+export { default } from './ibmBreakdown';

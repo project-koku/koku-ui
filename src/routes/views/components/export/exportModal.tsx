@@ -348,4 +348,4 @@ const mapDispatchToProps: ExportModalDispatchProps = {
 const ExportModalConnect = connect(mapStateToProps, mapDispatchToProps)(ExportModalBase);
 const ExportModal = injectIntl(ExportModalConnect);
 
-export { ExportModal, ExportModalProps };
+export default ExportModal;

@@ -1,3 +1,1 @@
-import { CostType } from './costType';
-
-export { CostType };
+export { default as CostType } from './costType';

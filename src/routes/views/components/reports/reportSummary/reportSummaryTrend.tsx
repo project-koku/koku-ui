@@ -4,14 +4,14 @@ import React from 'react';
 import { Omit } from 'react-redux';
 import { TrendChart, TrendChartProps } from 'routes/views/components/charts/trendChart';
 
-interface TrendChartPropsExt extends Omit<TrendChartProps, 'intl'> {
+export interface ReportSummaryTrendProps extends Omit<TrendChartProps, 'intl'> {
   chartName?: string;
 }
 
-const ReportSummaryTrend: React.FC<TrendChartPropsExt> = ({ chartName, ...rest }) => (
+const ReportSummaryTrend: React.FC<ReportSummaryTrendProps> = ({ chartName, ...rest }) => (
   <div className="chart">
     <TrendChart name={chartName} {...rest} />
   </div>
 );
 
-export { ReportSummaryTrend };
+export default ReportSummaryTrend;

@@ -55,7 +55,7 @@ interface State {
   width: number;
 }
 
-type UsageChartProps = UsageChartOwnProps & WrappedComponentProps;
+export type UsageChartProps = UsageChartOwnProps & WrappedComponentProps;
 
 class UsageChartBase extends React.Component<UsageChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
@@ -348,4 +348,4 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
 
 const UsageChart = injectIntl(UsageChartBase);
 
-export { UsageChart, UsageChartProps };
+export default UsageChart;

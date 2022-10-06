@@ -1,3 +1,1 @@
-import AzureDashboard from './azureDashboard';
-
-export default AzureDashboard;
+export { default as AzureDashboard } from './azureDashboard';

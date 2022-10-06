@@ -6,7 +6,7 @@ const PermissionsWrapper = asyncComponent(
 );
 
 // Permissions component wrapper
-export function userAccess<Props>(Component) {
+function userAccess<Props>(Component) {
   const PermissionsComponent: React.FC<Props> = props => {
     return (
       <PermissionsWrapper>
@@ -16,3 +16,5 @@ export function userAccess<Props>(Component) {
   };
   return PermissionsComponent;
 }
+
+export default userAccess;

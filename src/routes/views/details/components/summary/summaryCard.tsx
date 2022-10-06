@@ -229,4 +229,4 @@ const mapDispatchToProps: SummaryDispatchProps = {
 
 const SummaryCard = injectIntl(connect(mapStateToProps, mapDispatchToProps)(SummaryBase));
 
-export { SummaryCard, SummaryProps };
+export default SummaryCard;

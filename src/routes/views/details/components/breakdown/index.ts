@@ -1,3 +1,1 @@
-import BreakdownBase from './breakdownBase';
-
-export default BreakdownBase;
+export { default as BreakdownBase } from './breakdownBase';

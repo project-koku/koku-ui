@@ -1,3 +1,1 @@
-import OciDashboard from './ociDashboard';
-
-export default OciDashboard;
+export { default as OciDashboard } from './ociDashboard';

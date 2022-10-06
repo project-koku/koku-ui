@@ -1,3 +1,1 @@
-import Overview from './overview';
-
-export default Overview;
+export { default } from './overview';

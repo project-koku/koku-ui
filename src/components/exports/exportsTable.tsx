@@ -21,7 +21,7 @@ import { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
+import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 
 import { ExportsActions } from './exportActions';
 import { styles } from './exportsTable.styles';
