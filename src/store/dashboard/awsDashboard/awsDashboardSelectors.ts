@@ -1,4 +1,6 @@
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { RootState } from 'store/rootReducer';
+import { getCurrency } from 'utils/currency';
 
 import {
   awsDashboardDefaultFilters,
@@ -27,17 +29,28 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
     ...awsDashboardTabFilters,
     ...(widget.tabsFilter ? widget.tabsFilter : {}),
   };
+  const props = {
+    ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
+  };
 
   return {
-    previous: getQueryForWidget(widget, {
-      ...filter,
-      time_scope_value: -2,
-    }),
-    current: getQueryForWidget(widget, filter),
-    forecast: getQueryForWidget(widget, {}),
-    tabs: getQueryForWidgetTabs(widget, {
-      ...tabsFilter,
-      resolution: 'monthly',
-    }),
+    previous: getQueryForWidget(
+      widget,
+      {
+        ...filter,
+        time_scope_value: -2,
+      },
+      props
+    ),
+    current: getQueryForWidget(widget, filter, props),
+    forecast: getQueryForWidget(widget, {}, props),
+    tabs: getQueryForWidgetTabs(
+      widget,
+      {
+        ...tabsFilter,
+        resolution: 'monthly',
+      },
+      props
+    ),
   };
 };

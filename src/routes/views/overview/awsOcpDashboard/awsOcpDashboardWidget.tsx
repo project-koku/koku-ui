@@ -7,9 +7,11 @@ import {
 } from 'routes/views/overview/components';
 import { createMapStateToProps } from 'store/common';
 import { awsOcpDashboardActions, awsOcpDashboardSelectors, AwsOcpDashboardTab } from 'store/dashboard/awsOcpDashboard';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
+import { getCurrency } from 'utils/currency';
 
 interface AwsOcpDashboardWidgetDispatchProps {
   fetchForecasts: typeof awsOcpDashboardActions.fetchWidgetForecasts;
@@ -34,6 +36,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
     const queries = awsOcpDashboardSelectors.selectWidgetQueries(state, widgetId);
     return {
       ...widget,
+      ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
       getIdKeyForTab,
       currentQuery: queries.current,
       forecastQuery: queries.forecast,

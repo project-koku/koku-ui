@@ -52,6 +52,7 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { CostTypes, getCostType } from 'utils/costType';
+import { getCurrency } from 'utils/currency';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import {
   hasAwsAccess,
@@ -113,6 +114,7 @@ interface OverviewStateProps {
   awsProviders?: Providers;
   azureProviders?: Providers;
   costType?: CostTypes;
+  currency?: string;
   gcpProviders?: Providers;
   ibmProviders?: Providers;
   isCurrencyFeatureEnabled?: boolean;
@@ -210,11 +212,17 @@ class OverviewBase extends React.Component<OverviewProps> {
     if (currentItem === InfrastructurePerspective.aws) {
       return (
         <div style={styles.costType}>
-          <CostType onSelect={this.handleCostTypeSelected} costType={costType} />
+          <CostType costType={costType} onSelect={this.handleCostTypeSelected} />
         </div>
       );
     }
     return null;
+  };
+
+  private getCurrency = () => {
+    const { currency } = this.props;
+
+    return <Currency onSelect={this.handleCurrencySelected} currency={currency} />;
   };
 
   private getCurrentTab = () => {
@@ -369,7 +377,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getTabItem = (tab: OverviewTab, index: number) => {
-    const { awsProviders, azureProviders, ociProviders, costType, gcpProviders, ibmProviders, ocpProviders } =
+    const { awsProviders, azureProviders, ociProviders, costType, currency, gcpProviders, ibmProviders, ocpProviders } =
       this.props;
     const { activeTabKey, currentInfrastructurePerspective, currentOcpPerspective } = this.state;
 
@@ -388,42 +396,42 @@ class OverviewBase extends React.Component<OverviewProps> {
           hasCloudData(azureProviders, ocpProviders) ||
           hasCloudData(gcpProviders, ocpProviders) ||
           hasCloudData(ibmProviders, ocpProviders);
-        return hasData ? <OcpCloudDashboard /> : noData;
+        return hasData ? <OcpCloudDashboard currency={currency} /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.aws) {
         const hasData = hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders);
         return hasData ? <AwsDashboard costType={costType} /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.awsOcp) {
         const hasData =
           hasCloudCurrentMonthData(awsProviders, ocpProviders) || hasCloudPreviousMonthData(awsProviders, ocpProviders);
-        return hasData ? <AwsOcpDashboard /> : noData;
+        return hasData ? <AwsOcpDashboard currency={currency} /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azure) {
         const hasData = hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders);
-        return hasData ? <AzureDashboard /> : noData;
+        return hasData ? <AzureDashboard currency={currency} /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azureOcp) {
         const hasData =
           hasCloudCurrentMonthData(azureProviders, ocpProviders) ||
           hasCloudPreviousMonthData(azureProviders, ocpProviders);
-        return hasData ? <AzureOcpDashboard /> : noData;
+        return hasData ? <AzureOcpDashboard currency={currency} /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcp) {
         const hasData = hasCurrentMonthData(gcpProviders) || hasPreviousMonthData(gcpProviders);
-        return hasData ? <GcpDashboard /> : noData;
+        return hasData ? <GcpDashboard currency={currency} /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcpOcp) {
         const hasData =
           hasCloudCurrentMonthData(gcpProviders, ocpProviders) || hasCloudPreviousMonthData(gcpProviders, ocpProviders);
-        return hasData ? <GcpOcpDashboard /> : noData;
+        return hasData ? <GcpOcpDashboard currency={currency} /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.ibm) {
         const hasData = hasCurrentMonthData(ibmProviders) || hasPreviousMonthData(ibmProviders);
-        return hasData ? <IbmDashboard /> : noData;
+        return hasData ? <IbmDashboard currency={currency} /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.oci) {
         const hasData = hasCurrentMonthData(ociProviders) || hasPreviousMonthData(ociProviders);
-        return hasData ? <OciDashboard /> : noData;
+        return hasData ? <OciDashboard currency={currency} /> : noData;
       } else {
         return noData;
       }
     } else if (currentTab === OverviewTab.ocp) {
       const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
       if (currentOcpPerspective === OcpPerspective.ocp) {
-        return hasData ? <OcpDashboard /> : noData;
+        return hasData ? <OcpDashboard currency={currency} /> : noData;
       } else {
         return noData;
       }
@@ -458,6 +466,16 @@ class OverviewBase extends React.Component<OverviewProps> {
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
       cost_type: value,
+    };
+    history.replace(this.getRouteForQuery(newQuery));
+  };
+
+  private handleCurrencySelected = (value: string) => {
+    const { history, query } = this.props;
+
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      currency: value,
     };
     history.replace(this.getRouteForQuery(newQuery));
   };
@@ -645,7 +663,7 @@ class OverviewBase extends React.Component<OverviewProps> {
                 </Popover>
               </span>
             </Title>
-            <div style={styles.headerContentRight}>{isCurrencyFeatureEnabled && <Currency />}</div>
+            <div style={styles.headerContentRight}>{isCurrencyFeatureEnabled && this.getCurrency()}</div>
           </div>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
           <div style={styles.headerContent}>
@@ -666,13 +684,16 @@ class OverviewBase extends React.Component<OverviewProps> {
 const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStateProps>((state, props) => {
   const queryFromRoute = parseQuery<OverviewQuery>(location.search);
   const costType = getCostType();
+  const isCurrencyFeatureEnabled = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state);
+  const currency = isCurrencyFeatureEnabled ? getCurrency() : undefined;
   const perspective = queryFromRoute.perspective;
   const tabKey = queryFromRoute.tabKey && !Number.isNaN(queryFromRoute.tabKey) ? Number(queryFromRoute.tabKey) : 0;
 
   const query = {
-    ...(perspective && { perspective }),
     tabKey,
+    ...(perspective && { perspective }),
     ...(perspective === InfrastructurePerspective.aws && { cost_type: costType }),
+    currency,
   };
   const queryString = getQuery(query);
 
@@ -699,12 +720,13 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     azureProviders: filterProviders(providers, ProviderType.azure),
     gcpProviders: filterProviders(providers, ProviderType.gcp),
     ibmProviders: filterProviders(providers, ProviderType.ibm),
-    isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
+    isCurrencyFeatureEnabled,
     isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
     isOciFeatureEnabled: featureFlagsSelectors.selectIsOciFeatureEnabled(state),
     ociProviders: filterProviders(providers, ProviderType.oci),
     ocpProviders: filterProviders(providers, ProviderType.ocp),
     costType,
+    currency,
     providers,
     providersError,
     providersFetchStatus,

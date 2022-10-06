@@ -48,7 +48,11 @@ export function getQueryForWidget(filter: IbmFilters = ibmDashboardDefaultFilter
   return getQuery(query);
 }
 
-export function getQueryForWidgetTabs(widget: IbmDashboardWidget, filter: IbmFilters = ibmDashboardDefaultFilters) {
+export function getQueryForWidgetTabs(
+  widget: IbmDashboardWidget,
+  filter: IbmFilters = ibmDashboardDefaultFilters,
+  props?
+) {
   const group_by = getGroupByForTab(widget);
   const newFilter = {
     ...JSON.parse(JSON.stringify(filter)),
@@ -61,6 +65,7 @@ export function getQueryForWidgetTabs(widget: IbmDashboardWidget, filter: IbmFil
   const query: IbmQuery = {
     filter: newFilter,
     group_by,
+    ...(props ? props : {}),
   };
   return getQuery(query);
 }

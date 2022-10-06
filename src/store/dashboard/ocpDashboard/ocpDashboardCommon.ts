@@ -43,10 +43,15 @@ export function getQueryForWidget(filter: OcpFilters = ocpDashboardDefaultFilter
   return getQuery(query);
 }
 
-export function getQueryForWidgetTabs(widget: OcpDashboardWidget, filter: OcpFilters = ocpDashboardDefaultFilters) {
+export function getQueryForWidgetTabs(
+  widget: OcpDashboardWidget,
+  filter: OcpFilters = ocpDashboardDefaultFilters,
+  props?
+) {
   const query: OcpQuery = {
     filter,
     group_by: getGroupByForTab(widget.currentTab),
+    ...(props ? props : {}),
   };
   return getQuery(query);
 }

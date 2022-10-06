@@ -23,7 +23,9 @@ import { formatCurrency } from 'utils/format';
 import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
+  currency?: string;
   groupBy?: string;
+  onCurrencySelected(value: string);
   onGroupBySelected(value: string);
   report: OciReport;
 }
@@ -62,9 +64,11 @@ const tagReportPathsType = TagPathsType.oci;
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   public render() {
     const {
+      currency,
       groupBy,
       isCurrencyFeatureEnabled,
       isExportsFeatureEnabled,
+      onCurrencySelected,
       onGroupBySelected,
       providers,
       providersError,
@@ -83,7 +87,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             {intl.formatMessage(messages.ociDetailsTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            {isCurrencyFeatureEnabled && <Currency />}
+            {isCurrencyFeatureEnabled && <Currency currency={currency} onSelect={onCurrencySelected} />}
             {isExportsFeatureEnabled && <ExportsLink />}
           </div>
         </div>

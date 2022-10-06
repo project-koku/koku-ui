@@ -26,9 +26,11 @@ import { formatCurrency } from 'utils/format';
 import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
+  currency?: string;
   costType?: CostTypes;
   groupBy?: string;
   onCostTypeSelected(value: string);
+  onCurrencySelected(value: string);
   onGroupBySelected(value: string);
   report: AwsReport;
 }
@@ -77,9 +79,11 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   public render() {
     const {
       costType,
+      currency,
       groupBy,
       isCurrencyFeatureEnabled,
       isExportsFeatureEnabled,
+      onCurrencySelected,
       onGroupBySelected,
       providers,
       providersError,
@@ -98,7 +102,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             {intl.formatMessage(messages.awsDetailsTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            {isCurrencyFeatureEnabled && <Currency />}
+            {isCurrencyFeatureEnabled && <Currency currency={currency} onSelect={onCurrencySelected} />}
             {isExportsFeatureEnabled && <ExportsLink />}
           </div>
         </div>
@@ -116,7 +120,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
               tagReportPathsType={tagReportPathsType}
             />
             <div style={styles.costType}>
-              <CostType onSelect={this.handleCostTypeSelected} costType={costType} />
+              <CostType costType={costType} onSelect={this.handleCostTypeSelected} />
             </div>
           </div>
           {Boolean(showContent) && (

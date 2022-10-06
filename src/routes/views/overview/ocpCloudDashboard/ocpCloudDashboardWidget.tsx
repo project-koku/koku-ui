@@ -11,9 +11,11 @@ import {
   ocpCloudDashboardSelectors,
   OcpCloudDashboardTab,
 } from 'store/dashboard/ocpCloudDashboard';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedOcpCloudReportItemsParams } from 'utils/computedReport/getComputedOcpCloudReportItems';
+import { getCurrency } from 'utils/currency';
 
 interface OcpCloudDashboardWidgetDispatchProps {
   fetchForecasts: typeof ocpCloudDashboardActions.fetchWidgetForecasts;
@@ -38,6 +40,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
     const queries = ocpCloudDashboardSelectors.selectWidgetQueries(state, widgetId);
     return {
       ...widget,
+      ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
       getIdKeyForTab,
       currentQuery: queries.current,
       forecastQuery: queries.forecast,

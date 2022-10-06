@@ -7,9 +7,11 @@ import {
 } from 'routes/views/overview/components';
 import { createMapStateToProps } from 'store/common';
 import { ibmDashboardActions, ibmDashboardSelectors, IbmDashboardTab } from 'store/dashboard/ibmDashboard';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
+import { getCurrency } from 'utils/currency';
 
 interface IbmDashboardWidgetDispatchProps {
   fetchForecasts: typeof ibmDashboardActions.fetchWidgetForecasts;
@@ -34,6 +36,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
     const queries = ibmDashboardSelectors.selectWidgetQueries(state, widgetId);
     return {
       ...widget,
+      ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
       getIdKeyForTab,
       currentQuery: queries.current,
       previousQuery: queries.previous,

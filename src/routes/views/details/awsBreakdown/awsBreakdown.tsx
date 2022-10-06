@@ -14,9 +14,11 @@ import { BreakdownBase } from 'routes/views/details/components/breakdown';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import { filterProviders } from 'routes/views/utils/providers';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCostType } from 'utils/costType';
+import { getCurrency } from 'utils/currency';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
@@ -54,6 +56,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
   const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
   const costType = getCostType();
+  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
 
   const newQuery: Query = {
     filter: {
@@ -71,6 +74,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
       ...(groupBy && { [groupBy]: groupByValue }),
     },
     cost_type: costType,
+    currency,
   };
   const queryString = getQuery(newQuery);
 
@@ -88,14 +92,17 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
   );
 
   return {
-    costOverviewComponent: <CostOverview costType={costType} groupBy={groupBy} query={query} report={report} />,
+    costOverviewComponent: (
+      <CostOverview costType={costType} currency={currency} groupBy={groupBy} query={query} report={report} />
+    ),
     costType,
+    currency,
     description: query[breakdownDescKey],
     detailsURL,
     emptyStateTitle: props.intl.formatMessage(messages.awsDetailsTitle),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData costType={costType} />,
+    historicalDataComponent: <HistoricalData costType={costType} currency={currency} />,
     providers: filterProviders(providers, ProviderType.aws),
     providersError,
     providersFetchStatus,

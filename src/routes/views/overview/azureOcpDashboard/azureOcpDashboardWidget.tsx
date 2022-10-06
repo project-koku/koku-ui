@@ -11,9 +11,11 @@ import {
   azureOcpDashboardSelectors,
   AzureOcpDashboardTab,
 } from 'store/dashboard/azureOcpDashboard';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
+import { getCurrency } from 'utils/currency';
 
 interface AzureOcpDashboardWidgetDispatchProps {
   fetchForecasts: typeof azureOcpDashboardActions.fetchWidgetForecasts;
@@ -38,6 +40,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
     const queries = azureOcpDashboardSelectors.selectWidgetQueries(state, widgetId);
     return {
       ...widget,
+      ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
       getIdKeyForTab,
       currentQuery: queries.current,
       forecastQuery: queries.forecast,

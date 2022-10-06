@@ -7,9 +7,11 @@ import {
 } from 'routes/views/overview/components';
 import { createMapStateToProps } from 'store/common';
 import { gcpDashboardActions, gcpDashboardSelectors, GcpDashboardTab } from 'store/dashboard/gcpDashboard';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
+import { getCurrency } from 'utils/currency';
 
 interface GcpDashboardWidgetDispatchProps {
   fetchForecasts: typeof gcpDashboardActions.fetchWidgetForecasts;
@@ -34,6 +36,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
     const queries = gcpDashboardSelectors.selectWidgetQueries(state, widgetId);
     return {
       ...widget,
+      ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
       getIdKeyForTab,
       currentQuery: queries.current,
       previousQuery: queries.previous,

@@ -18,6 +18,7 @@ import { chartStyles, styles } from './historicalChart.styles';
 interface HistoricalDataTrendChartOwnProps {
   chartName?: string;
   costType?: string;
+  currency?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -51,12 +52,21 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
   }
 
   public componentDidUpdate(prevProps: HistoricalDataTrendChartProps) {
-    const { fetchReport, costType, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
+    const { fetchReport, costType, currency, currentQueryString, previousQueryString, reportPathsType, reportType } =
+      this.props;
 
-    if (prevProps.currentQueryString !== currentQueryString || prevProps.costType !== costType) {
+    if (
+      prevProps.currentQueryString !== currentQueryString ||
+      prevProps.costType !== costType ||
+      prevProps.currency !== currency
+    ) {
       fetchReport(reportPathsType, reportType, currentQueryString);
     }
-    if (prevProps.previousQueryString !== previousQueryString || prevProps.costType !== costType) {
+    if (
+      prevProps.previousQueryString !== previousQueryString ||
+      prevProps.costType !== costType ||
+      prevProps.currency !== currency
+    ) {
       fetchReport(reportPathsType, reportType, previousQueryString);
     }
   }
@@ -145,14 +155,13 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, HistoricalDataTrendChartStateProps>(
-  (state, { costType, reportPathsType, reportType }) => {
+  (state, { costType, currency, reportPathsType, reportType }) => {
     const query = parseQuery<Query>(location.search);
     const groupByOrgValue = getGroupByOrgValue(query);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
 
     const baseQuery: Query = {
-      cost_type: costType,
       filter_by: {
         // Add filters here to apply logical OR/AND
         ...(query && query.filter_by && query.filter_by),
@@ -162,6 +171,8 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),
       },
+      cost_type: costType,
+      currency,
     };
     const currentQuery: Query = {
       ...baseQuery,

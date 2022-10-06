@@ -7,11 +7,12 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { getCurrency, invalidateSession, restoreCurrency, setCurrency } from 'utils/localStorage';
+import { invalidateSession, restoreCurrency, setCurrency } from 'utils/localStorage';
 
 import { styles } from './currency.styles';
 
 interface CurrencyOwnProps {
+  currency?: string;
   isDisabled?: boolean;
   onSelect?: (value: string) => void;
 }
@@ -63,13 +64,12 @@ class CurrencyBase extends React.Component<CurrencyProps> {
   public state: CurrencyState = { ...this.defaultState };
 
   private getSelect = () => {
-    const { isDisabled } = this.props;
+    const { currency, isDisabled } = this.props;
     const { isSelectOpen } = this.state;
 
     // Restore from query param if available
     restoreCurrency();
 
-    const currency = getCurrency(); // Get currency from local storage
     const selectOptions = this.getSelectOptions();
     const selection = selectOptions.find((option: CurrencyOption) => option.value === currency);
 

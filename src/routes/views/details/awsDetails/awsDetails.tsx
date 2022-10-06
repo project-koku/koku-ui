@@ -20,11 +20,13 @@ import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
 import { addFilterToQuery, Filter, removeFilterFromQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { CostTypes, getCostType } from 'utils/costType';
+import { getCurrency } from 'utils/currency';
 
 import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';
@@ -33,6 +35,7 @@ import { DetailsToolbar } from './detailsToolbar';
 
 interface AwsDetailsStateProps {
   costType: CostTypes;
+  currency?: string;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -93,6 +96,8 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
+    this.handleCostTypeSelected = this.handleCostTypeSelected.bind(this);
+    this.handleCurrencySelected = this.handleCurrencySelected.bind(this);
     this.handleBulkSelected = this.handleBulkSelected.bind(this);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
@@ -270,6 +275,16 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     history.replace(this.getRouteForQuery(newQuery, false)); // Don't reset pagination
   };
 
+  private handleCurrencySelected = (value: string) => {
+    const { history, query } = this.props;
+
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      currency: value,
+    };
+    history.replace(this.getRouteForQuery(newQuery));
+  };
+
   private handleBulkSelected = (action: string) => {
     const { isAllSelected } = this.state;
 
@@ -405,7 +420,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   public render() {
-    const { costType, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } =
+    const { costType, currency, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } =
       this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -432,8 +447,10 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       <div style={styles.awsDetails}>
         <DetailsHeader
           costType={costType}
+          currency={currency}
           groupBy={groupById}
           onCostTypeSelected={this.handleCostTypeSelected}
+          onCurrencySelected={this.handleCurrencySelected}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />
@@ -460,17 +477,19 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStateProps>((state, props) => {
   const queryFromRoute = parseQuery<AwsQuery>(location.search);
   const costType = getCostType();
+  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
   const query = {
     delta: 'cost',
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
     },
-    exclude: queryFromRoute.exclude || baseQuery.exclude,
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
+    exclude: queryFromRoute.exclude || baseQuery.exclude,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
     cost_type: costType,
+    currency,
   };
   const queryString = getQuery(query);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
@@ -488,6 +507,7 @@ const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStat
 
   return {
     costType,
+    currency,
     providers: filterProviders(providers, ProviderType.aws),
     providersError,
     providersFetchStatus,

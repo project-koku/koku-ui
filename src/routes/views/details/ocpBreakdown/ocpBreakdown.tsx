@@ -14,8 +14,10 @@ import { BreakdownBase } from 'routes/views/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { filterProviders } from 'routes/views/utils/providers';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { getCurrency } from 'utils/currency';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
@@ -24,6 +26,7 @@ type OcpBreakdownOwnProps = WrappedComponentProps;
 
 interface OcpBreakdownStateProps {
   CostOverview?: React.ReactNode;
+  currency?: string;
   detailsURL: string;
   HistoricalData?: React.ReactNode;
   query: Query;
@@ -48,6 +51,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
   const query = parseQuery<OcpQuery>(location.search);
   const groupBy = getGroupById(query);
   const groupByValue = getGroupByValue(query);
+  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
 
   const newQuery: Query = {
     filter: {
@@ -63,6 +67,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
     },
+    currency,
   };
   const queryString = getQuery(newQuery);
 
@@ -79,13 +84,14 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
   );
 
   return {
-    costOverviewComponent: <CostOverview groupBy={groupBy} report={report} />,
+    costOverviewComponent: <CostOverview currency={currency} groupBy={groupBy} report={report} />,
+    currency,
     description: query[breakdownDescKey],
     detailsURL,
     emptyStateTitle: props.intl.formatMessage(messages.ocpDetailsTitle),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData />,
+    historicalDataComponent: <HistoricalData currency={currency} />,
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     providerType: ProviderType.ocp,

@@ -1,5 +1,5 @@
 import { EmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@patternfly/react-core';
-import { DollarSignIcon } from '@patternfly/react-icons/dist/esm/icons/dollar-sign-icon';
+import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React from 'react';
@@ -115,7 +115,7 @@ class TableBase extends React.Component<Props, State> {
         {rows.length === 0 && (
           <div style={styles.emptyState}>
             <EmptyState>
-              <EmptyStateIcon icon={DollarSignIcon} />
+              <EmptyStateIcon icon={PlusCircleIcon} />
               <Title headingLevel="h2" size={TitleSizes.lg}>
                 {intl.formatMessage(messages.costModelsSourceEmptyStateDesc)}
               </Title>
