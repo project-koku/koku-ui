@@ -1,3 +1,1 @@
-import OciDetails from './ociDetails';
-
-export default OciDetails;
+export { default } from './ociDetails';

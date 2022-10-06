@@ -58,7 +58,7 @@ interface State {
   units?: string;
 }
 
-type CostExplorerChartProps = CostExplorerChartOwnProps & WrappedComponentProps;
+export type CostExplorerChartProps = CostExplorerChartOwnProps & WrappedComponentProps;
 
 class CostExplorerChartBase extends React.Component<CostExplorerChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
@@ -486,4 +486,4 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
 
 const CostExplorerChart = injectIntl(CostExplorerChartBase);
 
-export { CostExplorerChart, CostExplorerChartProps };
+export default CostExplorerChart;

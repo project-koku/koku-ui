@@ -36,7 +36,7 @@ import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
-import { ResourceTypeahead } from 'routes/views/components/resourceTypeahead/resourceTypeahead';
+import { ResourceTypeahead } from 'routes/views/components/resourceTypeahead';
 import { Filter } from 'routes/views/utils/query';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
@@ -1075,4 +1075,4 @@ const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarSt
 
 const DataToolbar = injectIntl(connect(mapStateToProps, {})(DataToolbarBase));
 
-export { DataToolbar, DataToolbarProps };
+export default DataToolbar;

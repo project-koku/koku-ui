@@ -1,3 +1,1 @@
-import AzureBreakdown from './azureBreakdown';
-
-export default AzureBreakdown;
+export { default } from './azureBreakdown';

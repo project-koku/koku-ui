@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Currency } from 'routes/components/currency';
 import { CostType } from 'routes/views/components/costType';
-import { TagLink } from 'routes/views/details/components/tag/tagLink';
+import { TagLink } from 'routes/views/details/components/tag';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';

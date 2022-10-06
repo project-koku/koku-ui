@@ -62,7 +62,7 @@ interface State {
   width: number;
 }
 
-type DailyTrendChartProps = DailyTrendChartOwnProps & WrappedComponentProps;
+export type DailyTrendChartProps = DailyTrendChartOwnProps & WrappedComponentProps;
 
 class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
@@ -471,4 +471,4 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
 
 const DailyTrendChart = injectIntl(DailyTrendChartBase);
 
-export { DailyTrendChart, DailyTrendChartProps };
+export default DailyTrendChart;

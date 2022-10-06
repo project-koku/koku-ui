@@ -8,7 +8,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { ExportModal } from 'routes/views/components/export/exportModal';
+import { ExportModal } from 'routes/views/components/export';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
@@ -148,4 +148,4 @@ const mapDispatchToProps: DetailsActionsDispatchProps = {
 const DetailsActionsConnect = connect(mapStateToProps, mapDispatchToProps)(DetailsActionsBase);
 const Actions = injectIntl(withRouter(DetailsActionsConnect));
 
-export { Actions, DetailsActionsProps };
+export default Actions;

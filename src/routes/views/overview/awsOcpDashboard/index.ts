@@ -1,3 +1,1 @@
-import AwsOcpDashboard from './awsOcpDashboard';
-
-export default AwsOcpDashboard;
+export { default as AwsOcpDashboard } from './awsOcpDashboard';

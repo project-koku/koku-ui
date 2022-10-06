@@ -3,7 +3,7 @@ import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { LoadingState } from 'routes/components/state/loadingState/loadingState';
+import { LoadingState } from 'routes/components/state/loadingState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'routes/costModels/components/filterLogic';
 import { PaginationToolbarTemplate } from 'routes/costModels/components/paginationToolbarTemplate';
 import { WarningIcon } from 'routes/costModels/components/warningIcon';

@@ -150,4 +150,4 @@ const mapDispatchToProps: TagLinkDispatchProps = {
 
 const TagLink = injectIntl(connect(mapStateToProps, mapDispatchToProps)(TagLinkBase));
 
-export { TagLink, TagLinkProps };
+export default TagLink;

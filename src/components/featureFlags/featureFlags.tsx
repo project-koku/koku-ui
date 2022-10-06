@@ -11,7 +11,7 @@ interface FeatureFlagsOwnProps {
 type FeatureFlagsProps = FeatureFlagsOwnProps & RouteComponentProps<void>;
 
 // eslint-disable-next-line no-shadow
-const enum FeatureToggle {
+export const enum FeatureToggle {
   currency = 'cost-management.ui.currency', // Currency support https://issues.redhat.com/browse/COST-1277
   excludes = 'cost-management.ui.negative-filtering', // Contains filter https://issues.redhat.com/browse/COST-2773
   exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
@@ -74,4 +74,4 @@ const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
 
 const FeatureFlags = withRouter(FeatureFlagsBase);
 
-export { FeatureFlags, FeatureToggle };
+export default FeatureFlags;

@@ -2,7 +2,7 @@ import { ToolbarChipGroup } from '@patternfly/react-core';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
-import { DataToolbar } from 'routes/views/components/dataToolbar/dataToolbar';
+import { DataToolbar } from 'routes/views/components/dataToolbar';
 import { createMapStateToProps } from 'store/common';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 

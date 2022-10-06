@@ -1,3 +1,1 @@
-import GcpDashboard from './gcpDashboard';
-
-export default GcpDashboard;
+export { default as GcpDashboard } from './gcpDashboard';

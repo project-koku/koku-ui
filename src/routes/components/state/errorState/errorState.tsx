@@ -34,4 +34,4 @@ const ErrorStateBase: React.FC<ErrorStateProps> = ({ error, icon = ErrorCircleOI
 
 const ErrorState = injectIntl(ErrorStateBase);
 
-export { ErrorState };
+export default ErrorState;

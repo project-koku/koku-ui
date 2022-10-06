@@ -16,7 +16,7 @@ interface ReportSummaryItemOwnProps {
   formatOptions?: FormatOptions;
 }
 
-type ReportSummaryItemProps = ReportSummaryItemOwnProps & WrappedComponentProps;
+export type ReportSummaryItemProps = ReportSummaryItemOwnProps & WrappedComponentProps;
 
 const ReportSummaryItemBase: React.FC<ReportSummaryItemProps> = ({
   intl = defaultIntl, // Default required for testing
@@ -44,4 +44,4 @@ const ReportSummaryItemBase: React.FC<ReportSummaryItemProps> = ({
 
 const ReportSummaryItem = injectIntl(ReportSummaryItemBase);
 
-export { ReportSummaryItem, ReportSummaryItemProps };
+export default ReportSummaryItem;

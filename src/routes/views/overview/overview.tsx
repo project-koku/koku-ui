@@ -24,20 +24,20 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Currency } from 'routes/components/currency';
-import Loading from 'routes/state/loading';
+import { Loading } from 'routes/state/loading';
 import NoData from 'routes/state/noData/noData';
-import NoProviders from 'routes/state/noProviders';
+import { NoProviders } from 'routes/state/noProviders';
 import { CostType } from 'routes/views/components/costType';
-import { Perspective } from 'routes/views/components/perspective/perspective';
-import AwsDashboard from 'routes/views/overview/awsDashboard';
-import AwsOcpDashboard from 'routes/views/overview/awsOcpDashboard';
-import AzureDashboard from 'routes/views/overview/azureDashboard';
-import AzureOcpDashboard from 'routes/views/overview/azureOcpDashboard';
-import GcpDashboard from 'routes/views/overview/gcpDashboard';
-import GcpOcpDashboard from 'routes/views/overview/gcpOcpDashboard';
-import IbmDashboard from 'routes/views/overview/ibmDashboard';
-import OcpCloudDashboard from 'routes/views/overview/ocpCloudDashboard';
-import OcpDashboard from 'routes/views/overview/ocpDashboard';
+import { Perspective } from 'routes/views/components/perspective';
+import { AwsDashboard } from 'routes/views/overview/awsDashboard';
+import { AwsOcpDashboard } from 'routes/views/overview/awsOcpDashboard';
+import { AzureDashboard } from 'routes/views/overview/azureDashboard';
+import { AzureOcpDashboard } from 'routes/views/overview/azureOcpDashboard';
+import { GcpDashboard } from 'routes/views/overview/gcpDashboard';
+import { GcpOcpDashboard } from 'routes/views/overview/gcpOcpDashboard';
+import { IbmDashboard } from 'routes/views/overview/ibmDashboard';
+import { OcpCloudDashboard } from 'routes/views/overview/ocpCloudDashboard';
+import { OcpDashboard } from 'routes/views/overview/ocpDashboard';
 import {
   filterProviders,
   hasCloudCurrentMonthData,
@@ -66,7 +66,7 @@ import {
   isOcpAvailable,
 } from 'utils/userAccess';
 
-import OciDashboard from './ociDashboard';
+import { OciDashboard } from './ociDashboard';
 import { styles } from './overview.styles';
 
 // eslint-disable-next-line no-shadow

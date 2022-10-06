@@ -4,7 +4,7 @@ import {
   DashboardWidgetBase,
   DashboardWidgetOwnProps,
   DashboardWidgetStateProps,
-} from 'routes/views/overview/components/dashboardWidgetBase';
+} from 'routes/views/overview/components';
 import { createMapStateToProps } from 'store/common';
 import { gcpDashboardActions, gcpDashboardSelectors, GcpDashboardTab } from 'store/dashboard/gcpDashboard';
 import { forecastSelectors } from 'store/forecasts';

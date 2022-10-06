@@ -99,4 +99,4 @@ class ClusterBase extends React.Component<ClusterProps> {
 
 const Cluster = injectIntl(ClusterBase);
 
-export { Cluster, ClusterProps };
+export default Cluster;

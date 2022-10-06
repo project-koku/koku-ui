@@ -39,7 +39,7 @@ const enum Comparison {
   daily = 'daily',
 }
 
-interface DashboardWidgetOwnProps {
+export interface DashboardWidgetOwnProps {
   chartAltHeight?: number;
   containerAltHeight?: number;
   costType?: string;
@@ -47,7 +47,7 @@ interface DashboardWidgetOwnProps {
   widgetId: number;
 }
 
-interface DashboardWidgetStateProps extends DashboardWidget<any> {
+export interface DashboardWidgetStateProps extends DashboardWidget<any> {
   currentQuery: string;
   currentReport: Report;
   currentReportFetchStatus: number;
@@ -672,4 +672,4 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   }
 }
 
-export { DashboardWidgetBase, DashboardWidgetProps, DashboardWidgetOwnProps, DashboardWidgetStateProps };
+export default DashboardWidgetBase;

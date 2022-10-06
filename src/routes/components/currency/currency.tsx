@@ -156,4 +156,4 @@ const mapDispatchToProps: CurrencyDispatchProps = {
 const CurrencyConnect = connect(mapStateToProps, mapDispatchToProps)(CurrencyBase);
 const Currency = injectIntl(CurrencyConnect);
 
-export { Currency };
+export default Currency;

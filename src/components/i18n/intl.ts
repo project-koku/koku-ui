@@ -10,7 +10,7 @@ export const getLocale = () => {
 
 const cache = createIntlCache();
 
-export const intl = createIntl(
+const intl = createIntl(
   {
     defaultLocale: 'en',
     locale,
@@ -20,3 +20,5 @@ export const intl = createIntl(
   },
   cache
 );
+
+export default intl;

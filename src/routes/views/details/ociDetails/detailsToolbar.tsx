@@ -8,7 +8,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
-import { DataToolbar } from 'routes/views/components/dataToolbar/dataToolbar';
+import { DataToolbar } from 'routes/views/components/dataToolbar';
 import { Filter } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';

@@ -35,4 +35,4 @@ const DashboardBase: React.FC<DashboardProps> = ({ costType, DashboardWidget, se
   </div>
 );
 
-export { DashboardBase };
+export default DashboardBase;

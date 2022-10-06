@@ -82,4 +82,4 @@ const mapDispatchToProps: ExportsLinkDispatchProps = {
 
 const ExportsLink = injectIntl(connect(mapStateToProps, mapDispatchToProps)(ExportsLinkBase));
 
-export { ExportsLink };
+export default ExportsLink;

@@ -135,4 +135,4 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
 
 const HistoricalDataBase = injectIntl(HistoricalDatasBase);
 
-export { HistoricalDataBase };
+export default HistoricalDataBase;

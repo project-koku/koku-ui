@@ -1,3 +1,1 @@
-import AwsDashboard from './awsDashboard';
-
-export default AwsDashboard;
+export { default as AwsDashboard } from './awsDashboard';

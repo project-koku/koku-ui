@@ -18,7 +18,7 @@ type ResourceTypeaheadProps = ResourceTypeaheadOwnProps;
 
 // This wrapper provides text input value as the search prop for ResourceInput.
 // This is used to create a query param to retrieve cached API requests.
-export class ResourceTypeahead extends React.Component<ResourceTypeaheadProps> {
+class ResourceTypeahead extends React.Component<ResourceTypeaheadProps> {
   protected defaultState: ResourceTypeaheadState = {
     search: undefined,
   };
@@ -76,3 +76,5 @@ export class ResourceTypeahead extends React.Component<ResourceTypeaheadProps> {
     );
   }
 }
+
+export default ResourceTypeahead;

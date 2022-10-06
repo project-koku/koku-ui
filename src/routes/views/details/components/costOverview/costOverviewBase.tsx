@@ -16,10 +16,10 @@ import { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { Cluster } from 'routes/views/details/components/cluster/cluster';
-import { CostChart } from 'routes/views/details/components/costChart/costChart';
-import { SummaryCard } from 'routes/views/details/components/summary/summaryCard';
-import { UsageChart } from 'routes/views/details/components/usageChart/usageChart';
+import { Cluster } from 'routes/views/details/components/cluster';
+import { CostChart } from 'routes/views/details/components/costChart';
+import { SummaryCard } from 'routes/views/details/components/summary';
+import { UsageChart } from 'routes/views/details/components/usageChart';
 import { styles } from 'routes/views/details/ocpDetails/detailsHeader.styles';
 import { CostOverviewWidget, CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 
@@ -270,4 +270,4 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
 
 const CostOverviewBase = injectIntl(CostOverviewsBase);
 
-export { CostOverviewBase };
+export default CostOverviewBase;

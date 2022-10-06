@@ -21,7 +21,7 @@ interface ReportSummaryItemsOwnProps extends ComputedReportItemsParams<Report, R
   status?: number;
 }
 
-type ReportSummaryItemsProps = ReportSummaryItemsOwnProps & WrappedComponentProps;
+export type ReportSummaryItemsProps = ReportSummaryItemsOwnProps & WrappedComponentProps;
 
 class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
   public shouldComponentUpdate(nextProps: ReportSummaryItemsProps) {
@@ -71,4 +71,4 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
 
 const ReportSummaryItems = injectIntl(ReportSummaryItemsBase);
 
-export { ReportSummaryItems, ReportSummaryItemsProps, ReportSummaryItemsRenderProps };
+export default ReportSummaryItems;

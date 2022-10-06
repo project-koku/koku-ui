@@ -1,3 +1,1 @@
-import AwsDetails from './awsDetails';
-
-export default AwsDetails;
+export { default } from './awsDetails';

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { DashboardBase } from 'routes/views/overview/components/dashboardBase';
+import { DashboardBase } from 'routes/views/overview/components';
 import { createMapStateToProps } from 'store/common';
 import { gcpDashboardSelectors } from 'store/dashboard/gcpDashboard';
 

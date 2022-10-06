@@ -1,3 +1,1 @@
-import IbmDetails from './ibmDetails';
-
-export default IbmDetails;
+export { default } from './ibmDetails';

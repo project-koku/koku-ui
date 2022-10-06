@@ -1,3 +1,1 @@
-import OciBreakdown from './ociBreakdown';
-
-export default OciBreakdown;
+export { default } from './ociBreakdown';

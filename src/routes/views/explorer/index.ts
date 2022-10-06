@@ -1,3 +1,1 @@
-import Explorer from './explorer';
-
-export default Explorer;
+export { default } from './explorer';

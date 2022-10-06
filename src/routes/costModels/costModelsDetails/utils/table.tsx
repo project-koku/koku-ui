@@ -5,8 +5,8 @@ import { CostModel } from 'api/costModels';
 import { intl } from 'components/i18n';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
-import { LoadingState } from 'routes/components/state/loadingState/loadingState';
+import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
+import { LoadingState } from 'routes/components/state/loadingState';
 import NoCostModels from 'routes/costModels/costModelsDetails/noCostModels';
 
 import { CostModelsQuery, stringifySearch } from './query';

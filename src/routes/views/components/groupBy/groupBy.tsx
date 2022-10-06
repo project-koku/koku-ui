@@ -352,4 +352,4 @@ const mapDispatchToProps: GroupByDispatchProps = {
 const GroupByConnect = connect(mapStateToProps, mapDispatchToProps)(GroupByBase);
 const GroupBy = injectIntl(GroupByConnect);
 
-export { GroupBy, GroupByProps };
+export default GroupBy;

@@ -1,3 +1,1 @@
-import IbmDashboard from './ibmDashboard';
-
-export default IbmDashboard;
+export { default as IbmDashboard } from './ibmDashboard';

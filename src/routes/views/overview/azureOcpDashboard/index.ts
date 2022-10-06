@@ -1,3 +1,1 @@
-import AzureOcpDashboard from './azureOcpDashboard';
-
-export default AzureOcpDashboard;
+export { default as AzureOcpDashboard } from './azureOcpDashboard';

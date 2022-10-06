@@ -219,4 +219,4 @@ const mapDispatchToProps: HistoricalDataTrendChartDispatchProps = {
 
 const HistoricalDataTrendChart = injectIntl(connect(mapStateToProps, mapDispatchToProps)(HistoricalDataTrendChartBase));
 
-export { HistoricalDataTrendChart, HistoricalDataTrendChartProps };
+export { HistoricalDataTrendChart };

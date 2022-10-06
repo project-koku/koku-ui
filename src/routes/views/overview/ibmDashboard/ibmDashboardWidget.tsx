@@ -4,7 +4,7 @@ import {
   DashboardWidgetBase,
   DashboardWidgetOwnProps,
   DashboardWidgetStateProps,
-} from 'routes/views/overview/components/dashboardWidgetBase';
+} from 'routes/views/overview/components';
 import { createMapStateToProps } from 'store/common';
 import { ibmDashboardActions, ibmDashboardSelectors, IbmDashboardTab } from 'store/dashboard/ibmDashboard';
 import { forecastSelectors } from 'store/forecasts';

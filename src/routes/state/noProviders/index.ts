@@ -1,3 +1,1 @@
-import NoProviders from './noProviders';
-
-export default NoProviders;
+export { default as NoProviders } from './noProviders';

@@ -5,7 +5,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
-import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
+import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'routes/costModels/components/filterLogic';
 import SourcesTable from 'routes/costModels/costModel/sourcesTable';
 import { createMapStateToProps } from 'store/common';

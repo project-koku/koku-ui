@@ -60,7 +60,7 @@ interface State {
   width: number;
 }
 
-type HistoricalUsageChartProps = HistoricalUsageChartOwnProps & WrappedComponentProps;
+export type HistoricalUsageChartProps = HistoricalUsageChartOwnProps & WrappedComponentProps;
 
 class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
@@ -412,4 +412,4 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
 
 const HistoricalUsageChart = injectIntl(HistoricalUsageChartBase);
 
-export { HistoricalUsageChart, HistoricalUsageChartProps };
+export default HistoricalUsageChart;

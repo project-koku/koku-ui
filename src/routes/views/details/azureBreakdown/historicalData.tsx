@@ -1,6 +1,6 @@
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
-import { HistoricalDataBase } from 'routes/views/details/components/historicalData/historicalDataBase';
+import { HistoricalDataBase } from 'routes/views/details/components/historicalData';
 import { azureHistoricalDataSelectors } from 'store/breakdown/historicalData/azureHistoricalData';
 import { createMapStateToProps } from 'store/common';
 

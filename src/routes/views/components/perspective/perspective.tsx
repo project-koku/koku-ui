@@ -182,4 +182,4 @@ const OverviewPerspectiveBase: React.FC<OverviewPerspectiveProps> = ({
 
 const Perspective = withRouter(OverviewPerspectiveBase);
 
-export { Perspective };
+export default Perspective;

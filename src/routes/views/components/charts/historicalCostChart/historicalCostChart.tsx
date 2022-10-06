@@ -58,7 +58,7 @@ interface State {
   width: number;
 }
 
-type HistoricalCostChartProps = HistoricalCostChartOwnProps & WrappedComponentProps;
+export type HistoricalCostChartProps = HistoricalCostChartOwnProps & WrappedComponentProps;
 
 class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
@@ -311,4 +311,4 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
 
 const HistoricalCostChart = injectIntl(HistoricalCostChartBase);
 
-export { HistoricalCostChart, HistoricalCostChartProps };
+export default HistoricalCostChart;

@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 
-import { asyncComponent } from './asyncComponent';
+import asyncComponent from './asyncComponent';
 
 const UnwrappedComponent = props => <div>{props.quote || 'Unwrapped'}</div>;
 

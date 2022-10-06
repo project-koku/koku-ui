@@ -3,7 +3,7 @@ import { AwsReport, AwsReportData } from 'api/reports/awsReports';
 import React from 'react';
 import * as utils from 'routes/views/components/charts/common/chartDatum';
 
-import { TrendChart, TrendChartProps } from './trendChart';
+import TrendChart, { TrendChartProps } from './trendChart';
 
 const currentMonthReport: AwsReport = createReport('2018-01-15');
 const previousMonthReport: AwsReport = createReport('2017-12-15');

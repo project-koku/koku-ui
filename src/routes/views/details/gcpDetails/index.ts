@@ -1,3 +1,1 @@
-import GcpDetails from './gcpDetails';
-
-export default GcpDetails;
+export { default } from './gcpDetails';

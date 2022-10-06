@@ -202,4 +202,4 @@ const mapDispatchToProps: HistoricalDataCostChartDispatchProps = {
 
 const HistoricalDataCostChart = injectIntl(connect(mapStateToProps, mapDispatchToProps)(HistoricalDataCostChartBase));
 
-export { HistoricalDataCostChart, HistoricalDataCostChartProps };
+export { HistoricalDataCostChart };

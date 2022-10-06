@@ -11,7 +11,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
-import { EmptyFilterState } from 'routes/components/state/emptyFilterState/emptyFilterState';
+import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { ComputedReportItemType, ComputedReportItemValueType } from 'routes/views/components/charts/common/chartDatum';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';

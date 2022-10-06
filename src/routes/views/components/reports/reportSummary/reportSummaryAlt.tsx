@@ -16,7 +16,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FetchStatus } from 'store/common';
 import { skeletonWidth } from 'utils/skeleton';
 
-interface OcpCloudReportSummaryAltProps extends WrappedComponentProps {
+export interface ReportSummaryAltAltProps extends WrappedComponentProps {
   children?: React.ReactNode;
   detailsLink?: React.ReactNode;
   status: number;
@@ -25,7 +25,7 @@ interface OcpCloudReportSummaryAltProps extends WrappedComponentProps {
   title: string;
 }
 
-const OcpCloudReportSummaryAltBase: React.FC<OcpCloudReportSummaryAltProps> = ({
+const ReportSummaryAltBase: React.FC<ReportSummaryAltAltProps> = ({
   children,
   detailsLink,
   status,
@@ -71,6 +71,6 @@ const OcpCloudReportSummaryAltBase: React.FC<OcpCloudReportSummaryAltProps> = ({
   </Card>
 );
 
-const ReportSummaryAlt = injectIntl(OcpCloudReportSummaryAltBase);
+const ReportSummaryAlt = injectIntl(ReportSummaryAltBase);
 
-export { ReportSummaryAlt, OcpCloudReportSummaryAltProps };
+export default ReportSummaryAlt;
