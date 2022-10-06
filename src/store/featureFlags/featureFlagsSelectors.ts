@@ -4,6 +4,8 @@ import { stateKey } from './featureFlagsReducer';
 
 export const selectFeatureFlagsState = (state: RootState) => state[stateKey];
 
+export const selectHasFeatureFlags = (state: RootState) => selectFeatureFlagsState(state).hasFeatureFlags;
+
 export const selectIsCurrencyFeatureEnabled = (state: RootState) =>
   selectFeatureFlagsState(state)?.isCurrencyFeatureEnabled;
 export const selectIsExcludesFeatureEnabled = (state: RootState) =>
