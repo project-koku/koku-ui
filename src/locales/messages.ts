@@ -3101,13 +3101,16 @@ export default defineMessages({
   unitTooltips: {
     defaultMessage:
       '{units, select, ' +
+      'byte_ms {{value} Byte-ms} ' +
       'core_hours {{value} core-hours} ' +
       'gb {{value} GB} ' +
       'gb_hours {{value} GB-hours} ' +
       'gb_mo {{value} GB-month} ' +
+      'gb_ms {{value} GB-ms} ' +
       'gibibyte_month {{value} GiB-month} ' +
       'hour {{value} hours} ' +
       'hrs {{value} hours} ' +
+      'ms {{value} milliseconds} ' +
       'vm_hours {{value} VM-hours} ' +
       'other {{value}}}',
     description: 'return value and unit based on key: "units"',
@@ -3116,13 +3119,16 @@ export default defineMessages({
   units: {
     defaultMessage:
       '{units, select, ' +
+      'byte_ms {Byte-ms} ' +
       'core_hours {core-hours} ' +
       'gb {GB} ' +
       'gb_hours {GB-hours} ' +
       'gb_mo {GB-month} ' +
+      'gb_ms {GB-ms} ' +
       'gibibyte_month {GiB-month} ' +
       'hour {hours} ' +
       'hrs {hours} ' +
+      'ms {milliseconds} ' +
       'vm_hours {VM-hours} ' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',

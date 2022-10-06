@@ -125,17 +125,19 @@ export const formatUnits: Formatter = (value, units, options) => {
   const fValue = value || 0;
 
   switch (lookup) {
+    case 'byte_ms':
     case 'core_hours':
     case 'hour':
     case 'hrs':
-      return formatUsageHrs(fValue, options);
     case 'gb':
     case 'gb_hours':
     case 'gb_mo':
+    case 'gb_ms':
     case 'gibibyte_month':
+    case 'ms':
     case 'tag_mo':
     case 'vm_hours':
-      return formatUsageGb(fValue, options);
+      return formatUsage(fValue, options);
   }
   return unknownTypeFormatter(fValue, options);
 };
@@ -162,17 +164,7 @@ export const formatPercentageMarkup: PercentageFormatter = (
   return value.toLocaleString(getLocale(), options);
 };
 
-const formatUsageGb: UnitsFormatter = (
-  value,
-  options: FormatOptions = {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }
-) => {
-  return value.toLocaleString(getLocale(), options);
-};
-
-const formatUsageHrs: UnitsFormatter = (
+const formatUsage: UnitsFormatter = (
   value,
   options: FormatOptions = {
     minimumFractionDigits: 0,
@@ -234,15 +226,18 @@ export const unitsLookupKey = (units): string => {
   const lookup = units ? units.replace(/[- ]/g, '_').toLowerCase() : '';
 
   switch (lookup) {
+    case 'byte_ms':
     case 'core_hours':
     case 'gb':
     case 'gb_hours':
     case 'gb_mo':
+    case 'gb_ms':
     case 'cluser_month':
     case 'pvc_month':
     case 'gibibyte_month':
     case 'hour':
     case 'hrs':
+    case 'ms':
     case 'tag_mo':
     case 'vm_hours':
       return lookup;
