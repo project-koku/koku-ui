@@ -1,12 +1,10 @@
-import { Spinner } from '@patternfly/react-core';
+import { Bullseye, Spinner } from '@patternfly/react-core';
 import { Main } from '@redhat-cloud-services/frontend-components/Main';
 import { useFlagsStatus, useUnleashClient, useUnleashContext } from '@unleash/proxy-client-react';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { featureFlagsActions } from 'store/featureFlags';
-
-import { styles } from './featureFlags.styles';
 
 interface FeatureFlagsOwnProps {
   children?: React.ReactNode;
@@ -31,7 +29,7 @@ if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.
   });
 }
 
-// The FeatureFlags component saves feature flags in store because Unleash hooks are only supported by function components
+// The FeatureFlags component saves feature flags in store for places where Unleash hooks not available
 const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
   const dispatch = useDispatch();
   const { flagsReady } = useFlagsStatus();
@@ -79,9 +77,9 @@ const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
   }
   return (
     <Main>
-      <div style={styles.content}>
+      <Bullseye>
         <Spinner />
-      </div>
+      </Bullseye>
     </Main>
   );
 };
