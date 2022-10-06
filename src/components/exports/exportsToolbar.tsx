@@ -5,7 +5,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { DataToolbar } from 'routes/views/components/dataToolbar';
-import { Filter } from 'routes/views/utils/query';
+import { Filter } from 'routes/views/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
 import { styles } from './exports.styles';

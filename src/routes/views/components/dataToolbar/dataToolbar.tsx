@@ -37,7 +37,7 @@ import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { ResourceTypeahead } from 'routes/views/components/resourceTypeahead';
-import { Filter } from 'routes/views/utils/query';
+import { Filter } from 'routes/views/utils/filter';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';

@@ -22,9 +22,9 @@ import {
   ColumnManagementModalOption,
   initHiddenColumns,
 } from 'routes/views/details/components/columnManagement';
+import { addFilterToQuery, Filter, removeFilterFromQuery } from 'routes/views/utils/filter';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
-import { addFilterToQuery, Filter, removeFilterFromQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
