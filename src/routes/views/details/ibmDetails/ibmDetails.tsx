@@ -1,6 +1,6 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
-import { getQuery, getQueryRoute, IbmQuery, parseQuery } from 'api/queries/ibmQuery';
+import { getQuery, IbmQuery, parseQuery } from 'api/queries/ibmQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { tagPrefix } from 'api/queries/query';
 import { IbmReport } from 'api/reports/ibmReports';
@@ -17,9 +17,17 @@ import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
+import {
+  getRouteForQuery,
+  handleCurrencySelected,
+  handleFilterAdded,
+  handleFilterRemoved,
+  handlePerPageSelect,
+  handleSetPage,
+  handleSort,
+} from 'routes/views/utils/history';
 import { hasCurrentMonthData } from 'routes/views/utils/providers';
 import { filterProviders } from 'routes/views/utils/providers';
-import { addFilterToQuery, Filter, removeFilterFromQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
@@ -95,16 +103,10 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleCurrencySelected = this.handleCurrencySelected.bind(this);
     this.handleBulkSelected = this.handleBulkSelected.bind(this);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
-    this.handleFilterAdded = this.handleFilterAdded.bind(this);
-    this.handleFilterRemoved = this.handleFilterRemoved.bind(this);
-    this.handlePerPageSelect = this.handlePerPageSelect.bind(this);
     this.handleSelected = this.handleSelected.bind(this);
-    this.handleSetPage = this.handleSetPage.bind(this);
-    this.handleSort = this.handleSort.bind(this);
   }
 
   public componentDidMount() {
@@ -167,7 +169,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
   };
 
   private getPagination = (isBottom: boolean = false) => {
-    const { intl, report } = this.props;
+    const { history, intl, query, report } = this.props;
 
     const count = report && report.meta ? report.meta.count : 0;
     const limit =
@@ -184,8 +186,8 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
       <Pagination
         isCompact={!isBottom}
         itemCount={count}
-        onPerPageSelect={this.handlePerPageSelect}
-        onSetPage={this.handleSetPage}
+        onPerPageSelect={(event, perPage) => handlePerPageSelect(history, query, perPage)}
+        onSetPage={(event, pageNumber) => handleSetPage(history, query, report, pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -200,21 +202,8 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
     );
   };
 
-  private getRouteForQuery(query: IbmQuery, reset: boolean = false) {
-    const { history } = this.props;
-
-    // Reset pagination
-    if (reset) {
-      query.filter = {
-        ...query.filter,
-        offset: baseQuery.filter.offset,
-      };
-    }
-    return `${history.location.pathname}?${getQueryRoute(query)}`;
-  }
-
   private getTable = () => {
-    const { query, report, reportFetchStatus } = this.props;
+    const { history, query, report, reportFetchStatus } = this.props;
     const { isAllSelected, selectedItems } = this.state;
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
@@ -225,7 +214,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
-        onSort={this.handleSort}
+        onSort={(sortType, isSortAscending) => handleSort(history, query, sortType, isSortAscending)}
         query={query}
         report={report}
         selectedItems={selectedItems}
@@ -234,7 +223,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
   };
 
   private getToolbar = (computedItems: ComputedReportItem[]) => {
-    const { query, report } = this.props;
+    const { history, query, report } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -250,23 +239,13 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}
-        onFilterAdded={this.handleFilterAdded}
-        onFilterRemoved={this.handleFilterRemoved}
+        onFilterAdded={filter => handleFilterAdded(history, query, filter)}
+        onFilterRemoved={filter => handleFilterRemoved(history, query, filter)}
         pagination={this.getPagination()}
         query={query}
         selectedItems={selectedItems}
       />
     );
-  };
-
-  private handleCurrencySelected = (value: string) => {
-    const { history, query } = this.props;
-
-    const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      currency: value,
-    };
-    history.replace(this.getRouteForQuery(newQuery));
   };
 
   private handleBulkSelected = (action: string) => {
@@ -292,20 +271,6 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
     this.setState({ isExportModalOpen: true });
   };
 
-  private handleFilterAdded = (filter: Filter) => {
-    const { history, query } = this.props;
-
-    const filteredQuery = addFilterToQuery(query, filter);
-    history.replace(this.getRouteForQuery(filteredQuery, true));
-  };
-
-  private handleFilterRemoved = (filter: Filter) => {
-    const { history, query } = this.props;
-
-    const filteredQuery = removeFilterFromQuery(query, filter);
-    history.replace(this.getRouteForQuery(filteredQuery, true));
-  };
-
   private handleGroupBySelected = groupBy => {
     const { history, query } = this.props;
     const groupByKey: keyof IbmQuery['group_by'] = groupBy as any;
@@ -318,19 +283,8 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
       order_by: { cost: 'desc' },
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {
-      history.replace(this.getRouteForQuery(newQuery, true));
+      history.replace(getRouteForQuery(history, newQuery, true));
     });
-  };
-
-  private handlePerPageSelect = (_event, perPage) => {
-    const { history, query } = this.props;
-    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
-    newQuery.filter = {
-      ...query.filter,
-      limit: perPage,
-    };
-    const filteredQuery = this.getRouteForQuery(newQuery, true);
-    history.replace(filteredQuery);
   };
 
   private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
@@ -349,38 +303,11 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
     this.setState({ isAllSelected: false, selectedItems: newItems });
   };
 
-  private handleSetPage = (event, pageNumber) => {
-    const { history, query, report } = this.props;
-
-    const limit =
-      report && report.meta && report.meta.filter && report.meta.filter.limit
-        ? report.meta.filter.limit
-        : baseQuery.filter.limit;
-    const offset = pageNumber * limit - limit;
-
-    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
-    newQuery.filter = {
-      ...query.filter,
-      offset,
-    };
-    const filteredQuery = this.getRouteForQuery(newQuery);
-    history.replace(filteredQuery);
-  };
-
-  private handleSort = (sortType: string, isSortAscending: boolean) => {
-    const { history, query } = this.props;
-    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
-    newQuery.order_by = {};
-    newQuery.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
-    const filteredQuery = this.getRouteForQuery(newQuery);
-    history.replace(filteredQuery);
-  };
-
   private updateReport = () => {
-    const { query, location, fetchReport, history, queryString } = this.props;
+    const { fetchReport, history, location, query, queryString } = this.props;
     if (!location.search) {
       history.replace(
-        this.getRouteForQuery({
+        getRouteForQuery(history, {
           exclude: query ? query.exclude : undefined,
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
@@ -393,7 +320,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
   };
 
   public render() {
-    const { currency, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } =
+    const { currency, history, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } =
       this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -421,7 +348,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
-          onCurrencySelected={this.handleCurrencySelected}
+          onCurrencySelected={value => handleCurrencySelected(history, query, value)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />

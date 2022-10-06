@@ -1,7 +1,7 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { OrgPathsType } from 'api/orgs/org';
 import { Providers } from 'api/providers';
-import { getQueryRoute, Query } from 'api/queries/query';
+import { Query } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ResourcePathsType } from 'api/resources/resource';
 import { TagPathsType } from 'api/tags/tag';
@@ -466,8 +466,4 @@ export const getTagReportPathsType = (perspective: string) => {
       break;
   }
   return result;
-};
-
-export const getRouteForQuery = (history, query: Query) => {
-  return `${history.location.pathname}?${getQueryRoute(query)}`;
 };

@@ -1,6 +1,6 @@
 import { Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
-import { getQueryRoute, Query } from 'api/queries/query';
+import { Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
@@ -12,6 +12,7 @@ import { Loading } from 'routes/state/loading';
 import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
+import { handleCostTypeSelected, handleCurrencySelected } from 'routes/views/utils/history';
 import { hasCurrentMonthData } from 'routes/views/utils/providers';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
@@ -113,12 +114,6 @@ class BreakdownBase extends React.Component<BreakdownProps> {
     return availableTabs;
   };
 
-  private getRouteForQuery = (query: Query) => {
-    const { history } = this.props;
-
-    return `${history.location.pathname}?${getQueryRoute(query)}`;
-  };
-
   private getTab = (tab: BreakdownTab, contentRef, index: number) => {
     return (
       <Tab
@@ -184,28 +179,6 @@ class BreakdownBase extends React.Component<BreakdownProps> {
     }
   };
 
-  private handleCostTypeSelected = (value: string) => {
-    const { history, query } = this.props;
-
-    // Need param to restore cost type upon page refresh
-    const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      cost_type: value,
-    };
-    history.replace(this.getRouteForQuery(newQuery));
-  };
-
-  private handleCurrencySelected = (value: string) => {
-    const { history, query } = this.props;
-
-    // Need param to restore cost type upon page refresh
-    const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      currency: value,
-    };
-    history.replace(this.getRouteForQuery(newQuery));
-  };
-
   private handleTabClick = (event, tabIndex) => {
     const { activeTabKey } = this.state;
     if (activeTabKey !== tabIndex) {
@@ -230,6 +203,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
       detailsURL,
       emptyStateTitle,
       groupBy,
+      history,
       providers,
       providersFetchStatus,
       providerType,
@@ -268,8 +242,8 @@ class BreakdownBase extends React.Component<BreakdownProps> {
           description={description}
           detailsURL={detailsURL}
           groupBy={groupBy}
-          onCostTypeSelected={this.handleCostTypeSelected}
-          onCurrencySelected={this.handleCurrencySelected}
+          onCostTypeSelected={value => handleCostTypeSelected(history, query, value)}
+          onCurrencySelected={value => handleCurrencySelected(history, query, value)}
           query={query}
           report={report}
           showCostType={showCostType}

@@ -18,8 +18,17 @@ import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
+import {
+  getRouteForQuery,
+  handleCostTypeSelected,
+  handleCurrencySelected,
+  handleFilterAdded,
+  handleFilterRemoved,
+  handlePerPageSelect,
+  handleSetPage,
+  handleSort,
+} from 'routes/views/utils/history';
 import { filterProviders, hasData } from 'routes/views/utils/providers';
-import { addFilterToQuery, Filter, removeFilterFromQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
@@ -54,7 +63,6 @@ import {
   getPerspectiveDefault,
   getReportPathsType,
   getReportType,
-  getRouteForQuery,
   PerspectiveType,
 } from './explorerUtils';
 
@@ -112,18 +120,11 @@ class Explorer extends React.Component<ExplorerProps> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleCostTypeSelected = this.handleCostTypeSelected.bind(this);
-    this.handleCurrencySelected = this.handleCurrencySelected.bind(this);
     this.handleBulkSelected = this.handleBulkSelected.bind(this);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
-    this.handleFilterAdded = this.handleFilterAdded.bind(this);
-    this.handleFilterRemoved = this.handleFilterRemoved.bind(this);
-    this.handlePerPageSelect = this.handlePerPageSelect.bind(this);
     this.handlePerspectiveClick = this.handlePerspectiveClick.bind(this);
     this.handleSelected = this.handleSelected.bind(this);
-    this.handleSetPage = this.handleSetPage.bind(this);
-    this.handleSort = this.handleSort.bind(this);
   }
 
   public componentDidMount() {
@@ -192,7 +193,7 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private getPagination = (isBottom: boolean = false) => {
-    const { intl, report } = this.props;
+    const { history, intl, query, report } = this.props;
 
     const count = report && report.meta ? report.meta.count : 0;
     const limit =
@@ -209,8 +210,8 @@ class Explorer extends React.Component<ExplorerProps> {
       <Pagination
         isCompact={!isBottom}
         itemCount={count}
-        onPerPageSelect={this.handlePerPageSelect}
-        onSetPage={this.handleSetPage}
+        onPerPageSelect={(event, perPage) => handlePerPageSelect(history, query, perPage)}
+        onSetPage={(event, pageNumber) => handleSetPage(history, query, report, pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -226,7 +227,7 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private getTable = () => {
-    const { perspective, query, report, reportFetchStatus } = this.props;
+    const { history, perspective, query, report, reportFetchStatus } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -240,7 +241,9 @@ class Explorer extends React.Component<ExplorerProps> {
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
-        onSort={this.handleSort}
+        onSort={(sortType, isSortAscending, date: string) =>
+          handleSort(history, query, sortType, isSortAscending, date)
+        }
         perspective={perspective}
         query={query}
         report={report}
@@ -270,28 +273,6 @@ class Explorer extends React.Component<ExplorerProps> {
     );
   };
 
-  private handleCostTypeSelected = (value: string) => {
-    const { history, query } = this.props;
-
-    // Need param to restore cost type upon page refresh
-    const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      cost_type: value,
-    };
-    history.replace(getRouteForQuery(history, newQuery));
-  };
-
-  private handleCurrencySelected = (value: string) => {
-    const { history, query } = this.props;
-
-    // Need param to restore cost type upon page refresh
-    const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      currency: value,
-    };
-    history.replace(getRouteForQuery(history, newQuery));
-  };
-
   private handleBulkSelected = (action: string) => {
     const { isAllSelected } = this.state;
 
@@ -313,20 +294,6 @@ class Explorer extends React.Component<ExplorerProps> {
 
   public handleExportModalOpen = () => {
     this.setState({ isExportModalOpen: true });
-  };
-
-  private handleFilterAdded = (filter: Filter) => {
-    const { history, query } = this.props;
-
-    const filteredQuery = addFilterToQuery(query, filter);
-    history.replace(getRouteForQuery(history, filteredQuery));
-  };
-
-  private handleFilterRemoved = (filter: Filter) => {
-    const { history, query } = this.props;
-
-    const filteredQuery = removeFilterFromQuery(query, filter);
-    history.replace(getRouteForQuery(history, filteredQuery));
   };
 
   private handleGroupBySelected = groupBy => {
@@ -355,17 +322,6 @@ class Explorer extends React.Component<ExplorerProps> {
     });
   };
 
-  private handlePerPageSelect = (_event, perPage) => {
-    const { history, query } = this.props;
-    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
-    newQuery.filter = {
-      ...query.filter,
-      limit: perPage,
-    };
-    const filteredQuery = getRouteForQuery(history, newQuery);
-    history.replace(filteredQuery);
-  };
-
   private handlePerspectiveClick = () => {
     this.setState({ isAllSelected: false, selectedItems: [] });
   };
@@ -384,37 +340,6 @@ class Explorer extends React.Component<ExplorerProps> {
       }
     }
     this.setState({ isAllSelected: false, selectedItems: newItems });
-  };
-
-  private handleSetPage = (event, pageNumber) => {
-    const { history, query, report } = this.props;
-
-    const limit =
-      report && report.meta && report.meta.filter && report.meta.filter.limit
-        ? report.meta.filter.limit
-        : baseQuery.filter.limit;
-    const offset = pageNumber * limit - limit;
-
-    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
-    newQuery.filter = {
-      ...query.filter,
-      offset,
-    };
-    const filteredQuery = getRouteForQuery(history, newQuery);
-    history.replace(filteredQuery);
-  };
-
-  private handleSort = (sortType: string, date: string, isSortAscending: boolean) => {
-    const { history, query } = this.props;
-    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
-    newQuery.order_by = {};
-    newQuery.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
-
-    if (date) {
-      newQuery.order_by.date = date;
-    }
-    const filteredQuery = getRouteForQuery(history, newQuery);
-    history.replace(filteredQuery);
   };
 
   private isAwsAvailable = () => {
@@ -476,6 +401,7 @@ class Explorer extends React.Component<ExplorerProps> {
       currency,
       gcpProviders,
       ibmProviders,
+      history,
       intl,
       ocpProviders,
       providersFetchStatus,
@@ -532,10 +458,10 @@ class Explorer extends React.Component<ExplorerProps> {
           costType={costType}
           currency={currency}
           groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
-          onCostTypeSelected={this.handleCostTypeSelected}
-          onCurrencySelected={this.handleCurrencySelected}
-          onFilterAdded={this.handleFilterAdded}
-          onFilterRemoved={this.handleFilterRemoved}
+          onCostTypeSelected={value => handleCostTypeSelected(history, query, value)}
+          onCurrencySelected={value => handleCurrencySelected(history, query, value)}
+          onFilterAdded={filter => handleFilterAdded(history, query, filter)}
+          onFilterRemoved={filter => handleFilterRemoved(history, query, filter)}
           onGroupBySelected={this.handleGroupBySelected}
           onPerspectiveClicked={this.handlePerspectiveClick}
           perspective={perspective}

@@ -9,7 +9,8 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { DataToolbar } from 'routes/views/components/dataToolbar';
-import { Filter } from 'routes/views/utils/query';
+import { Filter } from 'routes/views/utils/filter';
+import { getRouteForQuery } from 'routes/views/utils/history';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
@@ -24,7 +25,6 @@ import {
   getDateRangeDefault,
   getGroupByOptions,
   getOrgReportPathsType,
-  getRouteForQuery,
   getTagReportPathsType,
   PerspectiveType,
 } from './explorerUtils';
