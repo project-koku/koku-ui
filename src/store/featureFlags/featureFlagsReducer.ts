@@ -26,10 +26,6 @@ export const stateKey = 'featureFlags';
 
 export function featureFlagsReducer(state = defaultState, action: FeatureFlagsAction): FeatureFlagsState {
   switch (action.type) {
-    case getType(resetState):
-      state = defaultState;
-      return state;
-
     case getType(setFeatureFlags):
       return {
         ...state,
