@@ -5,6 +5,7 @@ import { resetState, setFeatureFlags } from './featureFlagsActions';
 export type FeatureFlagsAction = ActionType<typeof setFeatureFlags | typeof resetState>;
 
 export type FeatureFlagsState = Readonly<{
+  hasFeatureFlags: boolean;
   isCurrencyFeatureEnabled: boolean;
   isExcludesFeatureEnabled: boolean;
   isExportsFeatureEnabled: boolean;
@@ -13,6 +14,7 @@ export type FeatureFlagsState = Readonly<{
 }>;
 
 export const defaultState: FeatureFlagsState = {
+  hasFeatureFlags: false,
   isCurrencyFeatureEnabled: false,
   isExcludesFeatureEnabled: false,
   isExportsFeatureEnabled: false,
@@ -31,6 +33,7 @@ export function featureFlagsReducer(state = defaultState, action: FeatureFlagsAc
     case getType(setFeatureFlags):
       return {
         ...state,
+        hasFeatureFlags: true,
         isCurrencyFeatureEnabled: action.payload.isCurrencyFeatureEnabled,
         isExcludesFeatureEnabled: action.payload.isExcludesFeatureEnabled,
         isExportsFeatureEnabled: action.payload.isExportsFeatureEnabled,

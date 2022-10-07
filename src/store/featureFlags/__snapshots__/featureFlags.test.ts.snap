@@ -2,6 +2,7 @@
 
 exports[`default state 1`] = `
 {
+  "hasFeatureFlags": false,
   "isCurrencyFeatureEnabled": false,
   "isExcludesFeatureEnabled": false,
   "isExportsFeatureEnabled": false,
