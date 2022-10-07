@@ -44,7 +44,7 @@ const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
     };
   }, []);
 
-  // Needs to run everytime or flag may be false
+  // Update everytime or flags may be false
   useLayoutEffect(() => {
     if (userId && isMounted.current) {
       updateContext({
@@ -56,7 +56,11 @@ const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
   useLayoutEffect(() => {
     // Wait for the new flags to pull in from the different context
     const fetchFlags = async () => {
+      // eslint-disable-next-line no-console
+      console.log('*** In fetchFlags (waiting...)', userId);
       await updateContext({ userId }).then(() => {
+        // eslint-disable-next-line no-console
+        console.log('*** In updateContext (DONE)', userId);
         dispatch(
           featureFlagsActions.setFeatureFlags({
             isCurrencyFeatureEnabled: client.isEnabled(FeatureToggle.currency),
@@ -72,6 +76,9 @@ const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
       fetchFlags();
     }
   });
+
+  // eslint-disable-next-line no-console
+  console.log('*** flagsReady?', flagsReady);
 
   if (flagsReady) {
     return <>{children}</>;
