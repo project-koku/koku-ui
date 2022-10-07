@@ -1,11 +1,10 @@
 import { Bullseye, Spinner } from '@patternfly/react-core';
 import { Main } from '@redhat-cloud-services/frontend-components/Main';
 import { useFlagsStatus, useUnleashClient, useUnleashContext } from '@unleash/proxy-client-react';
-import React, { useEffect, useMemo, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useLayoutEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { RootState } from 'store';
-import { featureFlagsActions, featureFlagsSelectors } from 'store/featureFlags';
+import { featureFlagsActions } from 'store/featureFlags';
 
 interface FeatureFlagsOwnProps {
   children?: React.ReactNode;
@@ -32,29 +31,29 @@ if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.
 
 // The FeatureFlags component saves feature flags in store for places where Unleash hooks not available
 const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
-  const hasFlags = useSelector((state: RootState) => featureFlagsSelectors.selectHasFeatureFlags(state));
   const updateContext = useUnleashContext();
   const { flagsReady } = useFlagsStatus();
   const client = useUnleashClient();
   const dispatch = useDispatch();
 
   const isMounted = useRef(false);
-  useMemo(() => {
+  useLayoutEffect(() => {
     isMounted.current = true;
     return () => {
       isMounted.current = false;
     };
   }, []);
 
-  useEffect(() => {
+  // Needs to run everytime or flag may be false
+  useLayoutEffect(() => {
     if (userId && isMounted.current) {
       updateContext({
         userId,
       });
     }
-  }, [userId]);
+  });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Wait for the new flags to pull in from the different context
     const fetchFlags = async () => {
       await updateContext({ userId }).then(() => {
@@ -72,9 +71,9 @@ const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
     if (userId && isMounted.current) {
       fetchFlags();
     }
-  }, [userId]);
+  });
 
-  if (flagsReady && hasFlags) {
+  if (flagsReady) {
     return <>{children}</>;
   }
   return (
