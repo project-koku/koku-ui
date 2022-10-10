@@ -1,6 +1,4 @@
-import { Bullseye, Spinner } from '@patternfly/react-core';
-import { Main } from '@redhat-cloud-services/frontend-components/Main';
-import { useFlagsStatus, useUnleashClient, useUnleashContext } from '@unleash/proxy-client-react';
+import { useUnleashClient, useUnleashContext } from '@unleash/proxy-client-react';
 import React, { useLayoutEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -32,7 +30,6 @@ if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.
 // The FeatureFlags component saves feature flags in store for places where Unleash hooks not available
 const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
   const updateContext = useUnleashContext();
-  const { flagsReady } = useFlagsStatus();
   const client = useUnleashClient();
   const dispatch = useDispatch();
 
@@ -56,11 +53,7 @@ const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
   useLayoutEffect(() => {
     // Wait for the new flags to pull in from the different context
     const fetchFlags = async () => {
-      // eslint-disable-next-line no-console
-      console.log('*** In fetchFlags (waiting...)', userId);
       await updateContext({ userId }).then(() => {
-        // eslint-disable-next-line no-console
-        console.log('*** In updateContext (DONE)', userId);
         dispatch(
           featureFlagsActions.setFeatureFlags({
             isCurrencyFeatureEnabled: client.isEnabled(FeatureToggle.currency),
@@ -77,19 +70,7 @@ const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
     }
   });
 
-  // eslint-disable-next-line no-console
-  console.log('*** flagsReady?', flagsReady);
-
-  if (flagsReady) {
-    return <>{children}</>;
-  }
-  return (
-    <Main>
-      <Bullseye>
-        <Spinner />
-      </Bullseye>
-    </Main>
-  );
+  return <>{children}</>;
 };
 
 const FeatureFlags = withRouter(FeatureFlagsBase);
