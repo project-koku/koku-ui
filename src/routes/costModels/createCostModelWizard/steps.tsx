@@ -1,20 +1,20 @@
-import { intl } from 'components/i18n';
 import messages from 'locales/messages';
+import { MessageDescriptor } from 'react-intl';
 import { countDecimals, isPercentageFormatValid } from 'utils/format';
 
-export const nameErrors = (name: string): string | null => {
+export const nameErrors = (name: string): MessageDescriptor | null => {
   if (name.length === 0) {
-    return intl.formatMessage(messages.costModelsRequiredField);
+    return messages.costModelsRequiredField;
   }
   if (name.length > 100) {
-    return intl.formatMessage(messages.costModelsInfoTooLong);
+    return messages.costModelsInfoTooLong;
   }
   return null;
 };
 
-export const descriptionErrors = (description: string): string | null => {
+export const descriptionErrors = (description: string): MessageDescriptor | null => {
   if (description.length > 500) {
-    return intl.formatMessage(messages.costModelsDescTooLong);
+    return messages.costModelsDescTooLong;
   }
   return null;
 };
