@@ -109,7 +109,9 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                   />
                 </FormGroup>
                 <FormGroup
-                  helperTextInvalid={descriptionErrors(description) && intl.formatMessage(descriptionErrors(description))}
+                  helperTextInvalid={
+                    descriptionErrors(description) && intl.formatMessage(descriptionErrors(description))
+                  }
                   validated={descriptionErrors(description) === null ? 'default' : 'error'}
                   label={intl.formatMessage(messages.description)}
                   fieldId="description"
