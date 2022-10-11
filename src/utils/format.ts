@@ -32,7 +32,7 @@ export const countDecimals = (value: string, useLocale: boolean = true) => {
 export const formatCurrency: Formatter = (value: number, units: string, options: FormatOptions = {}) => {
   let fValue = value;
   // Don't show negative zero -- https://issues.redhat.com/browse/COST-3087
-  if (!value || Number(value.toFixed(2)) === 0) {
+  if (!value || Number(value).toFixed(2) === '-0.00') {
     fValue = 0;
   }
   // Don't specify default fraction digits here, rely on react-intl instead
