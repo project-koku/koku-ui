@@ -92,7 +92,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
             <StackItem>
               <Form style={styles.form}>
                 <FormGroup
-                  helperTextInvalid={nameErrors(name)}
+                  helperTextInvalid={nameErrors(name) && intl.formatMessage(nameErrors(name))}
                   validated={nameErrors(name) === null || !dirtyName ? 'default' : 'error'}
                   label={intl.formatMessage(messages.names, { count: 1 })}
                   isRequired
@@ -109,7 +109,9 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
                   />
                 </FormGroup>
                 <FormGroup
-                  helperTextInvalid={descriptionErrors(description)}
+                  helperTextInvalid={
+                    descriptionErrors(description) && intl.formatMessage(descriptionErrors(description))
+                  }
                   validated={descriptionErrors(description) === null ? 'default' : 'error'}
                   label={intl.formatMessage(messages.description)}
                   fieldId="description"
