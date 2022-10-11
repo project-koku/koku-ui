@@ -7,12 +7,10 @@ import {
   TextInput,
   Toolbar,
   ToolbarFilter,
-  ToolbarFilterProps,
   ToolbarProps,
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import { intl as defaultIntl } from 'components/i18n';
-import HookIntoProps from 'hook-into-props';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -86,6 +84,17 @@ export const onDeleteChipGroup = (push: HistoryPush, query: CostModelsQuery, key
   };
 };
 
+interface DescriptionFilterOwnProps {
+  deleteChip?: any;
+  deleteChipGroup?: any;
+  filterType?: any;
+  chips?: any;
+  categoryName?: string;
+  query?: any;
+}
+
+type DescriptionFilterProps = DescriptionFilterOwnProps & WrappedComponentProps & RouteComponentProps;
+
 const descriptionMapStateToProps = (state: RootState) => {
   const filterType = costModelsSelectors.currentFilterType(state);
   const query: Partial<CostModelsQuery> = costModelsSelectors.query(state);
@@ -95,39 +104,75 @@ const descriptionMapStateToProps = (state: RootState) => {
 const descriptionMergeProps = (
   stateProps: ReturnType<typeof descriptionMapStateToProps>,
   dispatchProps,
-  ownProps: WrappedComponentProps & RouteComponentProps & Inputer
+  ownProps: WrappedComponentProps & RouteComponentProps
 ) => {
   const {
     intl = defaultIntl, // Default required for testing
-    value,
-    setValue,
-    history: { push },
+    history,
   } = ownProps;
   const { filterType, query } = stateProps;
+
+  const chips = query.description ? query.description.split(',') : [];
+  return {
+    categoryName: intl.formatMessage(messages.description),
+    chips,
+    deleteChip: onDeleteChip(history.push, 'description', { ...initialCostModelsQuery, ...query }),
+    deleteChipGroup: onDeleteChipGroup(history.push, { ...initialCostModelsQuery, ...query }, 'description'),
+    filterType,
+    history,
+    intl,
+    query,
+  };
+};
+
+const DescriptionFilterBase: React.FC<DescriptionFilterProps> = ({
+  deleteChip,
+  deleteChipGroup,
+  filterType,
+  history,
+  intl,
+  chips,
+  categoryName,
+  query,
+}) => {
+  const [value, setValue] = React.useState('');
   const children =
     filterType === 'description' ? (
       <FilterInput
         placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: filterType })}
         value={value}
         onChange={(text: string) => setValue(text)}
-        onKeyPress={onKeyPress(push, 'description', { ...initialCostModelsQuery, ...query }, { value, setValue })}
+        onKeyPress={onKeyPress(
+          history.push,
+          'description',
+          { ...initialCostModelsQuery, ...query },
+          { value, setValue }
+        )}
       />
     ) : null;
-  const chips = query.description ? query.description.split(',') : [];
-  return {
-    deleteChip: onDeleteChip(push, 'description', { ...initialCostModelsQuery, ...query }),
-    deleteChipGroup: onDeleteChipGroup(push, { ...initialCostModelsQuery, ...query }, 'description'),
-    chips,
-    categoryName: intl.formatMessage(messages.description),
-    children,
-  } as ToolbarFilterProps;
+  return (
+    <ToolbarFilter deleteChip={deleteChip} deleteChipGroup={deleteChipGroup} chips={chips} categoryName={categoryName}>
+      {children}
+    </ToolbarFilter>
+  );
 };
+const DescriptionFilterConnect = connect(
+  descriptionMapStateToProps,
+  undefined,
+  descriptionMergeProps
+)(DescriptionFilterBase);
+export const DescriptionFilter = injectIntl(withRouter(DescriptionFilterConnect));
 
-const DescriptionFilterConnect = connect(descriptionMapStateToProps, undefined, descriptionMergeProps)(ToolbarFilter);
-export const DescriptionFilter = HookIntoProps(() => {
-  const [value, setValue] = React.useState('');
-  return { value, setValue };
-})(injectIntl(withRouter(DescriptionFilterConnect)));
+interface NameFilterOwnProps {
+  deleteChip?: any;
+  deleteChipGroup?: any;
+  filterType?: any;
+  chips?: any;
+  categoryName?: string;
+  query?: any;
+}
+
+type NameFilterProps = NameFilterOwnProps & WrappedComponentProps & RouteComponentProps;
 
 const nameFilterMapStateToProps = (state: RootState) => {
   const filterType = costModelsSelectors.currentFilterType(state);
@@ -138,39 +183,56 @@ const nameFilterMapStateToProps = (state: RootState) => {
 const nameFilterMergeProps = (
   stateProps: ReturnType<typeof nameFilterMapStateToProps>,
   dispatchProps,
-  ownProps: Inputer & WrappedComponentProps & RouteComponentProps
+  ownProps: WrappedComponentProps & RouteComponentProps
 ) => {
   const {
     intl = defaultIntl, // Default required for testing
-    setValue,
-    value,
-    history: { push },
+    history,
   } = ownProps;
+
   const { filterType, query } = stateProps;
+  const chips = query.name ? query.name.split(',') : [];
+
+  return {
+    deleteChip: onDeleteChip(history.push, 'name', { ...initialCostModelsQuery, ...query }),
+    deleteChipGroup: onDeleteChipGroup(history.push, { ...initialCostModelsQuery, ...query }, 'name'),
+    filterType,
+    chips,
+    categoryName: intl.formatMessage(messages.names, { count: 1 }),
+    history,
+    intl,
+    query,
+  };
+};
+
+const NameFilterBase: React.FC<NameFilterProps> = ({
+  deleteChip,
+  deleteChipGroup,
+  filterType,
+  history,
+  intl,
+  chips,
+  categoryName,
+  query,
+}) => {
+  const [value, setValue] = React.useState('');
   const children =
     filterType === 'name' ? (
       <FilterInput
         placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: filterType })}
         value={value}
         onChange={(text: string) => setValue(text)}
-        onKeyPress={onKeyPress(push, 'name', { ...initialCostModelsQuery, ...query }, { value, setValue })}
+        onKeyPress={onKeyPress(history.push, 'name', { ...initialCostModelsQuery, ...query }, { value, setValue })}
       />
     ) : null;
-  const chips = query.name ? query.name.split(',') : [];
-  return {
-    deleteChip: onDeleteChip(push, 'name', { ...initialCostModelsQuery, ...query }),
-    deleteChipGroup: onDeleteChipGroup(push, { ...initialCostModelsQuery, ...query }, 'name'),
-    chips,
-    categoryName: intl.formatMessage(messages.names, { count: 1 }),
-    children,
-  } as ToolbarFilterProps;
+  return (
+    <ToolbarFilter deleteChip={deleteChip} deleteChipGroup={deleteChipGroup} chips={chips} categoryName={categoryName}>
+      {children}
+    </ToolbarFilter>
+  );
 };
-
-const NameFilterConnect = connect(nameFilterMapStateToProps, undefined, nameFilterMergeProps)(ToolbarFilter);
-export const NameFilter = HookIntoProps(() => {
-  const [value, setValue] = React.useState('');
-  return { value, setValue };
-})(injectIntl(withRouter(NameFilterConnect)));
+const NameFilterConnect = connect(nameFilterMapStateToProps, undefined, nameFilterMergeProps)(NameFilterBase);
+export const NameFilter = injectIntl(withRouter(NameFilterConnect));
 
 export const onSelect = (id: string, setToggle: Opener['setIsOpen']) => {
   return () => {
@@ -179,6 +241,17 @@ export const onSelect = (id: string, setToggle: Opener['setIsOpen']) => {
     element && element.focus();
   };
 };
+
+interface SourceTypeFilterOwnProps {
+  deleteChip?: any;
+  deleteChipGroup?: any;
+  filterType?: any;
+  chips?: any;
+  categoryName?: string;
+  query?: any;
+}
+
+type SourceTypeFilterProps = SourceTypeFilterOwnProps & WrappedComponentProps & RouteComponentProps;
 
 const sourceTypeFilterMapStateToProps = (state: RootState) => {
   const filterType = costModelsSelectors.currentFilterType(state);
@@ -189,18 +262,40 @@ const sourceTypeFilterMapStateToProps = (state: RootState) => {
 const sourceTypeFilterMergeProps = (
   stateProps: ReturnType<typeof sourceTypeFilterMapStateToProps>,
   _dispatchProps,
-  ownProps: Opener & WrappedComponentProps & RouteComponentProps
+  ownProps: WrappedComponentProps & RouteComponentProps
 ) => {
-  const id = 'source-type-filter';
   const {
     intl = defaultIntl, // Default required for testing
-    isOpen,
-    setIsOpen,
-    history: { push },
+    history,
   } = ownProps;
   const { filterType, query } = stateProps;
+
+  const chips = query.source_type ? [query.source_type] : [];
+  return {
+    chips,
+    categoryName: intl.formatMessage(messages.costModelsSourceType),
+    deleteChip: onDeleteChipGroup(history.push, { ...initialCostModelsQuery, ...query }, 'source_type'),
+    filterType,
+    history,
+    intl,
+    query,
+  };
+};
+
+const SourceTypeFilterBase: React.FC<SourceTypeFilterProps> = ({
+  deleteChip,
+  deleteChipGroup,
+  filterType,
+  history,
+  intl,
+  chips,
+  categoryName,
+  query,
+}) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const id = 'source-type-filter';
   const onFilter = (source: string) =>
-    push(stringifySearch({ ...initialCostModelsQuery, ...query, source_type: source }));
+    history.push(stringifySearch({ ...initialCostModelsQuery, ...query, source_type: source }));
   const children =
     filterType === 'sourceType' ? (
       <Dropdown
@@ -229,24 +324,18 @@ const sourceTypeFilterMergeProps = (
         ]}
       />
     ) : null;
-  const chips = query.source_type ? [query.source_type] : [];
-  return {
-    deleteChip: onDeleteChipGroup(push, { ...initialCostModelsQuery, ...query }, 'source_type'),
-    chips,
-    categoryName: intl.formatMessage(messages.costModelsSourceType),
-    children,
-  } as ToolbarFilterProps;
+  return (
+    <ToolbarFilter deleteChip={deleteChip} deleteChipGroup={deleteChipGroup} chips={chips} categoryName={categoryName}>
+      {children}
+    </ToolbarFilter>
+  );
 };
-
-const SourceFilterConnect = connect(
+const SourceTypeFilterConnect = connect(
   sourceTypeFilterMapStateToProps,
   undefined,
   sourceTypeFilterMergeProps
-)(ToolbarFilter);
-export const SourceTypeFilter = HookIntoProps(() => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  return { isOpen, setIsOpen };
-})(injectIntl(withRouter(SourceFilterConnect)));
+)(SourceTypeFilterBase);
+export const SourceTypeFilter = injectIntl(withRouter(SourceTypeFilterConnect));
 
 const toolbarMapStateToProps = (state: RootState) => {
   const query: Partial<CostModelsQuery> = costModelsSelectors.query(state);

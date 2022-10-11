@@ -4,12 +4,10 @@ import {
   PaginationVariant,
   Select,
   SelectOption,
-  SelectProps,
   SelectVariant,
 } from '@patternfly/react-core';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { intl as defaultIntl } from 'components/i18n';
-import HookIntoProps from 'hook-into-props';
 import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
@@ -20,15 +18,21 @@ import { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
 import { CostModelsQuery, initialCostModelsQuery, limitTransform, offsetTransform, stringifySearch } from './query';
-import { Opener } from './types';
 
-const selectorMapStateToProps = (state: RootState) => {
+interface CostModelsFilterSelectorOwnProps {
+  filterType?: any;
+  updateFilterType?: any;
+}
+
+type CostModelsFilterSelectorProps = CostModelsFilterSelectorOwnProps & WrappedComponentProps & RouteComponentProps;
+
+const costModelsFilterSelectorMapStateToProps = (state: RootState) => {
   return {
     filterType: costModelsSelectors.currentFilterType(state),
   };
 };
 
-const selectorMapDispatchToProps = (dispatch: Dispatch) => {
+const costModelsFilterSelectorMapDispatchToProps = (dispatch: Dispatch) => {
   return {
     updateFilterType: (value: string) => {
       dispatch(
@@ -40,12 +44,26 @@ const selectorMapDispatchToProps = (dispatch: Dispatch) => {
   };
 };
 
-const selectorMergeProps = (
-  stateProps: ReturnType<typeof selectorMapStateToProps>,
-  dispatchProps: ReturnType<typeof selectorMapDispatchToProps>,
-  ownProps: Opener & WrappedComponentProps
+const costModelsFilterMergeProps = (
+  stateProps: ReturnType<typeof costModelsFilterSelectorMapStateToProps>,
+  dispatchProps: ReturnType<typeof costModelsFilterSelectorMapDispatchToProps>,
+  ownProps: WrappedComponentProps
 ) => {
   const { intl = defaultIntl } = ownProps; // Default required for testing
+  const { filterType } = stateProps;
+  return {
+    filterType,
+    intl,
+    updateFilterType: dispatchProps.updateFilterType,
+  };
+};
+
+const CostModelsFilterSelectorBase: React.FC<CostModelsFilterSelectorProps> = ({
+  filterType,
+  intl,
+  updateFilterType,
+}) => {
+  const [isOpen, setIsOpen] = React.useState(false);
   const options = [
     <SelectOption key="name" value="name">
       {intl.formatMessage(messages.names, { count: 1 })}
@@ -57,24 +75,28 @@ const selectorMergeProps = (
       {intl.formatMessage(messages.costModelsSourceType)}
     </SelectOption>,
   ];
-  return {
-    variant: SelectVariant.single,
-    selections: stateProps.filterType,
-    onToggle: ownProps.setIsOpen,
-    isOpen: ownProps.isOpen,
-    onSelect: (_event, value: string) => {
-      dispatchProps.updateFilterType(value);
-      ownProps.setIsOpen(false);
-    },
-    children: options,
-    toggleIcon: <FilterIcon />,
-  } as SelectProps;
+  return (
+    <Select
+      isOpen={isOpen}
+      onSelect={(_event, value: string) => {
+        updateFilterType(value);
+        setIsOpen(false);
+      }}
+      onToggle={setIsOpen}
+      selections={filterType}
+      toggleIcon={<FilterIcon />}
+      variant={SelectVariant.single}
+    >
+      {options}
+    </Select>
+  );
 };
-
-export const CostModelsFilterSelector = HookIntoProps(() => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  return { isOpen, setIsOpen };
-})(injectIntl(connect(selectorMapStateToProps, selectorMapDispatchToProps, selectorMergeProps)(Select)));
+const CostModelsFilterSelectorConnect = connect(
+  costModelsFilterSelectorMapStateToProps,
+  costModelsFilterSelectorMapDispatchToProps,
+  costModelsFilterMergeProps
+)(CostModelsFilterSelectorBase);
+export const CostModelsFilterSelector = injectIntl(withRouter(CostModelsFilterSelectorConnect));
 
 const topPaginationMapStateToProps = (state: RootState) => {
   const { count, page, perPage } = costModelsSelectors.pagination(state);
