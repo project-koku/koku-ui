@@ -1,7 +1,4 @@
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
-
-jest.mock('axios');
-
 import axios from 'axios';
 import { awsUserAccessQuery } from 'store/userAccess/userAccessCommon';
 

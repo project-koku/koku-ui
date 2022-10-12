@@ -1,5 +1,3 @@
-jest.mock('axios');
-
 import { ReportType } from 'api/reports/report';
 import axios from 'axios';
 
