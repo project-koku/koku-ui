@@ -273,6 +273,7 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
         offset: undefined,
       },
       filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
+      exclude: queryFromRoute.exclude || baseQuery.exclude,
       group_by: groupBy,
       perspective,
       dateRange,
