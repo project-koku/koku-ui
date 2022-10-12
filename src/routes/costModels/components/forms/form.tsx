@@ -1,6 +1,5 @@
 import { Form as FormPF4, FormProps as FormPF4Props } from '@patternfly/react-core';
 import React from 'react';
-import { Omit } from 'react-redux';
 
 type FormProps = Omit<FormPF4Props, 'onSubmit'>;
 

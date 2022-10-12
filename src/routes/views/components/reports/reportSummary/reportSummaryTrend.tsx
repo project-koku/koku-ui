@@ -1,7 +1,6 @@
 import './reportSummaryTrend.scss';
 
 import React from 'react';
-import { Omit } from 'react-redux';
 import { TrendChart, TrendChartProps } from 'routes/views/components/charts/trendChart';
 
 export interface ReportSummaryTrendProps extends Omit<TrendChartProps, 'intl'> {

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Omit } from 'react-redux';
 
 import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType, ReportValue } from './report';
 

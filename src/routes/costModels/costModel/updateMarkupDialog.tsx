@@ -31,11 +31,11 @@ import { countDecimals, formatPercentageMarkup, isPercentageFormatValid, unForma
 import { styles } from './costCalc.styles';
 
 interface Props extends WrappedComponentProps {
-  isLoading: boolean;
-  onClose: typeof costModelsActions.setCostModelDialog;
-  updateCostModel: typeof costModelsActions.updateCostModel;
-  error: string;
-  current: CostModel;
+  isLoading?: boolean;
+  onClose?: typeof costModelsActions.setCostModelDialog;
+  updateCostModel?: typeof costModelsActions.updateCostModel;
+  error?: string;
+  current?: CostModel;
 }
 
 interface State {
@@ -231,16 +231,6 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
   }
 }
 
-// Fixes issue with Typescript:
-// https://github.com/microsoft/TypeScript/issues/25103#issuecomment-412806226
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  return {
-    ...stateProps,
-    ...dispatchProps,
-    ...ownProps,
-  };
-};
-
 export default injectIntl(
   connect(
     createMapStateToProps(state => {
@@ -253,6 +243,6 @@ export default injectIntl(
       onClose: costModelsActions.setCostModelDialog,
       updateCostModel: costModelsActions.updateCostModel,
     },
-    mergeProps
+    undefined
   )(UpdateMarkupModelBase)
 );
