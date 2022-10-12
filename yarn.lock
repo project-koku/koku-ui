@@ -1054,10 +1054,23 @@
     victory-voronoi-container "^36.6.7"
     victory-zoom-container "^36.6.7"
 
-"@patternfly/react-core@4.250.2", "@patternfly/react-core@^4.250.2":
+"@patternfly/react-core@4.250.2":
   version "4.250.2"
   resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-4.250.2.tgz#2b11cc4ea5cfdc8b782a82d73f104b85642f6017"
   integrity sha512-D5e6ymu9jckAWEEZT6Tq5fVbvFhN5G+h5b5Ueh2lPMrbeK/WjmvR1fXKWb3fkwC5lHFY452xJOOl5gBUCNY9bQ==
+  dependencies:
+    "@patternfly/react-icons" "^4.92.6"
+    "@patternfly/react-styles" "^4.91.6"
+    "@patternfly/react-tokens" "^4.93.6"
+    focus-trap "6.9.2"
+    react-dropzone "9.0.0"
+    tippy.js "5.1.2"
+    tslib "^2.0.0"
+
+"@patternfly/react-core@^4.250.4":
+  version "4.250.4"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-4.250.4.tgz#58310f08cce01a18e84f187ae17acc6370a30fe2"
+  integrity sha512-SvyvAUxOPSwVTlUlEsIfIiHVF+4oIaWrxTQ0mRBfKXvk+p3L1Bus27unRT4H44kV8mZlFqoeFdt9LFu6kOY/5Q==
   dependencies:
     "@patternfly/react-icons" "^4.92.6"
     "@patternfly/react-styles" "^4.91.6"
@@ -1077,12 +1090,12 @@
   resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-4.91.6.tgz#2cd4f0d5dca7774fe6a64505b8a3e7bd2abd66c6"
   integrity sha512-3wCYkvGRgbx6u5JrCaUNcpDvyTOrgvXU/Mh2hs8s/njBUDpyuyRb+gkFoE3l3Ro3Lk0DnRLYpIjCSjl38Bd0iA==
 
-"@patternfly/react-table@4.111.5":
-  version "4.111.5"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-table/-/react-table-4.111.5.tgz#5c76ad5aa382135de766c30623da0af7d57f575e"
-  integrity sha512-3xFT14s3oHwIOFQOnXymyY0rYQSQ25jQVM+lf2334X9JB073yMmbWxynyjj7Ujbyejn+0+AwVyS0UPibnlA0Hw==
+"@patternfly/react-table@4.111.7":
+  version "4.111.7"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-table/-/react-table-4.111.7.tgz#ea99f415621320734424bd69a0fc90515764b552"
+  integrity sha512-9XZlNLHpA0yYMlmevUQUB4UKdmim8880Aa3DwMsvmazEzkmt1cZTDBH4dpdUN4h/tZlXqJhtSWqodH40unZs6w==
   dependencies:
-    "@patternfly/react-core" "^4.250.2"
+    "@patternfly/react-core" "^4.250.4"
     "@patternfly/react-icons" "^4.92.6"
     "@patternfly/react-styles" "^4.91.6"
     "@patternfly/react-tokens" "^4.93.6"
