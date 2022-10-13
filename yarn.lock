@@ -1179,10 +1179,10 @@
     "@scalprum/react-core" "^0.2.4"
     sanitize-html "^2.7.2"
 
-"@redhat-cloud-services/rbac-client@^1.0.111":
-  version "1.0.111"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/rbac-client/-/rbac-client-1.0.111.tgz#094cccd14d2d29ba9a21cf41763a9aecab4d9363"
-  integrity sha512-h40H/Jn9exJGlF1KCFSHeGx6zgor54u7mC5k/30vfbaFSreD1ZKVHnnFb+xBgmfgj2j/4sASZxPRU21ix9qVPQ==
+"@redhat-cloud-services/rbac-client@^1.0.112":
+  version "1.0.112"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/rbac-client/-/rbac-client-1.0.112.tgz#d39d6e7b733037864a37b539ffe165022c468329"
+  integrity sha512-y6efugtJemDicQtRlsfHvTEH9L32HohlrwJLgE6sZBNkpgm5Xm1DQk3LzAO9crGtnXQqdEPxHojjdsk6HsGD3Q==
   dependencies:
     axios "^0.21.1"
 
