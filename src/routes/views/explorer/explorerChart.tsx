@@ -277,8 +277,6 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
       group_by: groupBy,
       perspective,
       dateRange,
-      start_date,
-      end_date,
       cost_type: costType,
       currency,
     };
@@ -286,6 +284,8 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
       ...query,
       perspective: undefined,
       dateRange: undefined,
+      start_date,
+      end_date,
     });
 
     const reportPathsType = getReportPathsType(perspective);

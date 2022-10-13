@@ -3,9 +3,8 @@ import './explorerTable.scss';
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import { nowrap, sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
-import { AwsQuery, getQuery } from 'api/queries/awsQuery';
-import { parseQuery, Query } from 'api/queries/query';
-import { AwsReport } from 'api/reports/awsReports';
+import { getQuery, parseQuery, Query } from 'api/queries/query';
+import { Report } from 'api/reports/report';
 import { format, getDate, getMonth } from 'date-fns';
 import messages from 'locales/messages';
 import React from 'react';
@@ -20,7 +19,7 @@ import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/comput
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './explorerTable.styles';
-import { DateRangeType, getDateRange, getDateRangeDefault, PerspectiveType } from './explorerUtils';
+import { getDateRange, getDateRangeDefault, PerspectiveType } from './explorerUtils';
 
 interface ExplorerTableOwnProps {
   computedReportItemType?: ComputedReportItemType;
@@ -31,13 +30,12 @@ interface ExplorerTableOwnProps {
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean, date: string);
   perspective: PerspectiveType;
-  query: AwsQuery;
-  report: AwsReport;
+  query: Query;
+  report: Report;
   selectedItems?: ComputedReportItem[];
 }
 
 interface ExplorerTableStateProps {
-  dateRange: DateRangeType;
   end_date?: string;
   start_date?: string;
 }
@@ -360,7 +358,6 @@ const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTab
     const { end_date, start_date } = getDateRange(dateRange);
 
     return {
-      dateRange,
       end_date,
       perspective,
       start_date,

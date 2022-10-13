@@ -561,8 +561,6 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     order_by: queryFromRoute.order_by,
     perspective,
     dateRange,
-    start_date,
-    end_date,
     cost_type: costType,
     currency,
   };
@@ -570,6 +568,8 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     ...query,
     perspective: undefined,
     dateRange: undefined,
+    end_date,
+    start_date,
   });
 
   const reportPathsType = getReportPathsType(perspective);

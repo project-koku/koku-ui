@@ -354,8 +354,6 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       order_by: queryFromRoute.order_by,
       perspective,
       dateRange,
-      start_date,
-      end_date,
       cost_type: costType,
       currency,
     };
@@ -363,6 +361,8 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       ...query,
       perspective: undefined,
       dateRange: undefined,
+      start_date,
+      end_date,
     });
 
     return {
