@@ -9,12 +9,13 @@ import messages from 'locales/messages';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
+import { getDateRange } from 'routes/views/utils/dateRange';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/export';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getToday } from 'utils/dateRange';
+import { getToday } from 'utils/dates';
 
 export interface ExportSubmitOwnProps {
   disabled?: boolean;
@@ -146,9 +147,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
 
 const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
   const { groupBy, isAllItems, items, query, reportPathsType, resolution, timeScope } = props;
-
-  let endDate = query.end_date;
-  let startDate = query.start_date;
+  let { end_date, start_date } = getDateRange(query.dateRange);
 
   // Todo: Add name and format type for "all exports" feature
   const getQueryString = () => {
@@ -158,7 +157,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
         limit: undefined,
         offset: undefined,
         resolution: resolution ? resolution : undefined,
-        ...(!(startDate && endDate) && { time_scope_value: timeScope === 'previous' ? -2 : -1 }),
+        ...(!(start_date && end_date) && { time_scope_value: timeScope === 'previous' ? -2 : -1 }),
       },
       filter_by: {},
       limit: 0,
@@ -213,25 +212,25 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   const reportError = exportSelectors.selectExportError(state, reportPathsType, reportType, queryString);
   const reportFetchStatus = exportSelectors.selectExportFetchStatus(state, reportPathsType, reportType, queryString);
 
-  if (!(startDate && endDate)) {
+  if (!(start_date && end_date)) {
     const isPrevious = timeScope === 'previous';
     const today = getToday();
 
     if (isPrevious) {
       today.setMonth(today.getMonth() - 1);
     }
-    endDate = format(isPrevious ? endOfMonth(today) : today, 'yyyy-MM-dd');
-    startDate = format(startOfMonth(today), 'yyyy-MM-dd');
+    end_date = format(isPrevious ? endOfMonth(today) : today, 'yyyy-MM-dd');
+    start_date = format(startOfMonth(today), 'yyyy-MM-dd');
   }
 
   return {
-    endDate,
+    endDate: end_date,
     isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
     queryString,
     report,
     reportError,
     reportFetchStatus,
-    startDate,
+    startDate: start_date,
   };
 });
 

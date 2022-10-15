@@ -17,7 +17,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { ComputedGcpReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedGcpReportItems';
-import { getSinceDateRangeString } from 'utils/dateRange';
+import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './detailsHeader.styles';

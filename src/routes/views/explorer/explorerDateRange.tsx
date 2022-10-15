@@ -3,7 +3,7 @@ import { Select, SelectOption, SelectOptionObject, SelectVariant } from '@patter
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 
-interface DateRangeOwnProps {
+interface ExplorerDateRangeOwnProps {
   currentItem?: string;
   isDisabled?: boolean;
   onItemClicked(value: string);
@@ -13,29 +13,29 @@ interface DateRangeOwnProps {
   }[];
 }
 
-interface DateRangeState {
+interface ExplorerDateRangeState {
   isSelectOpen: boolean;
 }
 
-interface DateRangeOption extends SelectOptionObject {
+interface ExplorerDateRangeOption extends SelectOptionObject {
   toString(): string; // label
   value?: string;
 }
 
-type DateRangeProps = DateRangeOwnProps & WrappedComponentProps;
+type ExplorerDateRangeProps = ExplorerDateRangeOwnProps & WrappedComponentProps;
 
-class DateRangeBase extends React.Component<DateRangeProps> {
-  protected defaultState: DateRangeState = {
+class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps> {
+  protected defaultState: ExplorerDateRangeState = {
     isSelectOpen: false,
   };
-  public state: DateRangeState = { ...this.defaultState };
+  public state: ExplorerDateRangeState = { ...this.defaultState };
 
   private getSelect = () => {
     const { currentItem, isDisabled } = this.props;
     const { isSelectOpen } = this.state;
 
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: DateRangeOption) => option.value === currentItem);
+    const selection = selectOptions.find((option: ExplorerDateRangeOption) => option.value === currentItem);
 
     return (
       <Select
@@ -54,10 +54,10 @@ class DateRangeBase extends React.Component<DateRangeProps> {
     );
   };
 
-  private getSelectOptions = (): DateRangeOption[] => {
+  private getSelectOptions = (): ExplorerDateRangeOption[] => {
     const { intl, options } = this.props;
 
-    const selectOptions: DateRangeOption[] = [];
+    const selectOptions: ExplorerDateRangeOption[] = [];
 
     options.map(option => {
       selectOptions.push({
@@ -68,7 +68,7 @@ class DateRangeBase extends React.Component<DateRangeProps> {
     return selectOptions;
   };
 
-  private handleSelect = (event, selection: DateRangeOption) => {
+  private handleSelect = (event, selection: ExplorerDateRangeOption) => {
     const { onItemClicked } = this.props;
 
     if (onItemClicked) {
@@ -88,6 +88,6 @@ class DateRangeBase extends React.Component<DateRangeProps> {
   }
 }
 
-const DateRange = injectIntl(DateRangeBase);
+const ExplorerDateRange = injectIntl(ExplorerDateRangeBase);
 
-export { DateRange };
+export { ExplorerDateRange };

@@ -17,7 +17,7 @@ import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { CostTypes } from 'utils/costType';
-import { getForDateRangeString } from 'utils/dateRange';
+import { getForDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './breakdownHeader.styles';

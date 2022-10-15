@@ -9,6 +9,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { DataToolbar } from 'routes/views/components/dataToolbar';
+import { DateRangeType, getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
 import { Filter } from 'routes/views/utils/filter';
 import { getRouteForQuery } from 'routes/views/utils/history';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -16,13 +17,10 @@ import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
 import { isEqual } from 'utils/equal';
 
-import { DateRange } from './dateRange';
+import { ExplorerDateRange } from './explorerDateRange';
 import { styles } from './explorerFilter.styles';
-import { getDateRange } from './explorerUtils';
 import {
   dateRangeOptions,
-  DateRangeType,
-  getDateRangeDefault,
   getGroupByOptions,
   getOrgReportPathsType,
   getTagReportPathsType,
@@ -157,7 +155,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
     const { currentDateRange } = this.state;
 
     return (
-      <DateRange
+      <ExplorerDateRange
         currentItem={currentDateRange}
         isDisabled={isDisabled}
         onItemClicked={this.handleDateRangeClick}
