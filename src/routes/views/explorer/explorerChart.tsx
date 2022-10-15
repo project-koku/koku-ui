@@ -16,6 +16,7 @@ import {
   isInt,
 } from 'routes/views/components/charts/common/chartDatum';
 import { CostExplorerChart } from 'routes/views/components/charts/costExplorerChart';
+import { getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -26,15 +27,7 @@ import { formatUnits } from 'utils/format';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './explorerChart.styles';
-import {
-  baseQuery,
-  getDateRange,
-  getDateRangeDefault,
-  getGroupByDefault,
-  getReportPathsType,
-  getReportType,
-  PerspectiveType,
-} from './explorerUtils';
+import { baseQuery, getGroupByDefault, getReportPathsType, getReportType, PerspectiveType } from './explorerUtils';
 
 interface ExplorerChartOwnProps extends RouteComponentProps<void>, WrappedComponentProps {
   costType?: CostTypes;

@@ -53,7 +53,7 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { CostTypes, getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/currency';
-import { getSinceDateRangeString } from 'utils/dateRange';
+import { getSinceDateRangeString } from 'utils/dates';
 import {
   hasAwsAccess,
   hasAzureAccess,

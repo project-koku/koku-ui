@@ -15,6 +15,7 @@ import { Currency } from 'routes/components/currency';
 import { CostType } from 'routes/views/components/costType';
 import { GroupBy } from 'routes/views/components/groupBy';
 import { Perspective } from 'routes/views/components/perspective';
+import { getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
 import { Filter } from 'routes/views/utils/filter';
 import { getRouteForQuery } from 'routes/views/utils/history';
 import { filterProviders, hasCloudProvider } from 'routes/views/utils/providers';
@@ -41,8 +42,6 @@ import { ExplorerFilter } from './explorerFilter';
 import { styles } from './explorerHeader.styles';
 import {
   baseQuery,
-  getDateRange,
-  getDateRangeDefault,
   getGroupByDefault,
   getGroupByOptions,
   getOrgReportPathsType,
@@ -50,7 +49,6 @@ import {
   getTagReportPathsType,
   PerspectiveType,
 } from './explorerUtils';
-
 interface ExplorerHeaderOwnProps {
   costType?: CostTypes;
   currency?: string;

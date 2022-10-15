@@ -20,7 +20,7 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { ComputedAwsReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { CostTypes } from 'utils/costType';
-import { getSinceDateRangeString } from 'utils/dateRange';
+import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './detailsHeader.styles';

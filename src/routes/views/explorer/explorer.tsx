@@ -17,6 +17,7 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
+import { DateRangeType, getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   getRouteForQuery,
@@ -54,11 +55,8 @@ import { ExplorerTable } from './explorerTable';
 import { ExplorerToolbar } from './explorerToolbar';
 import {
   baseQuery,
-  DateRangeType,
   getComputedReportItemType,
   getComputedReportItemValueType,
-  getDateRange,
-  getDateRangeDefault,
   getGroupByDefault,
   getPerspectiveDefault,
   getReportPathsType,

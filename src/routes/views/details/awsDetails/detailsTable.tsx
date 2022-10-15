@@ -19,7 +19,7 @@ import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy
 import { getOrgBreakdownPath } from 'routes/views/utils/paths';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dateRange';
+import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dates';
 import { formatCurrency, formatPercentage } from 'utils/format';
 
 import { styles } from './detailsTable.styles';

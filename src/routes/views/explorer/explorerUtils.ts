@@ -6,7 +6,6 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ResourcePathsType } from 'api/resources/resource';
 import { TagPathsType } from 'api/tags/tag';
 import { UserAccess } from 'api/userAccess';
-import { format } from 'date-fns';
 import messages from 'locales/messages';
 import { ComputedReportItemType, ComputedReportItemValueType } from 'routes/views/components/charts/common/chartDatum';
 import { hasCloudProvider } from 'routes/views/utils/providers';
@@ -16,7 +15,6 @@ import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGc
 import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
 import { ComputedOciReportItemsParams } from 'utils/computedReport/getComputedOciReportItems';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
-import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate, getLast90DaysDate } from 'utils/dateRange';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -29,16 +27,6 @@ import {
   isOciAvailable,
   isOcpAvailable,
 } from 'utils/userAccess';
-
-// The date range drop down has the options below (if today is Jan 18th…)
-// eslint-disable-next-line no-shadow
-export const enum DateRangeType {
-  currentMonthToDate = 'current_month_to_date', // Current month (Jan 1 - Jan 18)
-  previousMonthToDate = 'previous_month_to_date', // Previous and current month (Dec 1 - Jan 18)
-  lastNinetyDays = 'last_ninety_days', // Last 90 days
-  lastSixtyDays = 'last_sixty_days', // Last 60 days (Nov 18 - Jan 17)
-  lastThirtyDays = 'last_thirty_days', // Last 30 days (Dec 18 - Jan 17)
-}
 
 // eslint-disable-next-line no-shadow
 export const enum PerspectiveType {
@@ -167,42 +155,6 @@ export const getComputedReportItemValueType = (perspective: string) => {
       break;
   }
   return result;
-};
-
-export const getDateRange = (dateRangeType: DateRangeType) => {
-  const endDate = new Date();
-  const startDate = new Date();
-  let dateRange;
-
-  switch (dateRangeType) {
-    case DateRangeType.previousMonthToDate:
-      startDate.setDate(1); // Required to obtain correct month
-      startDate.setMonth(startDate.getMonth() - 1); // Note: Must include previous and current month
-
-      dateRange = {
-        end_date: format(endDate, 'yyyy-MM-dd'),
-        start_date: format(startDate, 'yyyy-MM-dd'),
-      };
-      break;
-    case DateRangeType.lastNinetyDays:
-      dateRange = getLast90DaysDate();
-      break;
-    case DateRangeType.lastSixtyDays:
-      dateRange = getLast60DaysDate();
-      break;
-    case DateRangeType.lastThirtyDays:
-      dateRange = getLast30DaysDate();
-      break;
-    case DateRangeType.currentMonthToDate:
-    default:
-      dateRange = getCurrentMonthDate();
-      break;
-  }
-  return dateRange;
-};
-
-export const getDateRangeDefault = (queryFromRoute: Query) => {
-  return queryFromRoute.dateRange || DateRangeType.currentMonthToDate;
 };
 
 export const getPerspectiveDefault = ({

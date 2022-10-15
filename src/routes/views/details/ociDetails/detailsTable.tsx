@@ -18,7 +18,7 @@ import { Actions } from 'routes/views/details/components/actions';
 import { getBreakdownPath } from 'routes/views/utils/paths';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOciReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dateRange';
+import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dates';
 import { formatCurrency, formatPercentage } from 'utils/format';
 
 import { styles } from './detailsTable.styles';
