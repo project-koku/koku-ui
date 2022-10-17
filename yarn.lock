@@ -434,12 +434,12 @@
     intl-messageformat "10.2.1"
     tslib "2.4.0"
 
-"@formatjs/ts-transformer@3.11.0":
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/@formatjs/ts-transformer/-/ts-transformer-3.11.0.tgz#c3ca558aec2f519df5c36132bafff3754d4316be"
-  integrity sha512-Hc0Xls0JPLvIX7v0NRnLPIhW7Jj26FQLBqwPviQ1IoFHSkmgJrjySYahT7jxxPaH4BaNn2660DemVNnaZDNCvA==
+"@formatjs/ts-transformer@3.11.1":
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/@formatjs/ts-transformer/-/ts-transformer-3.11.1.tgz#c63df7d059f6e47af023dd0793905f04a3777f69"
+  integrity sha512-mZw3cgok/4zdqR3KAKayncy7IvTypwzJeENq6N+Tcx7rc2NtyihfPFVDn2W2AGRjVH9GRFibkNiu4nVI9xF0Og==
   dependencies:
-    "@formatjs/icu-messageformat-parser" "2.1.9"
+    "@formatjs/icu-messageformat-parser" "2.1.10"
     "@types/json-stable-stringify" "^1.0.32"
     "@types/node" "14 || 16 || 17"
     chalk "^4.0.0"
@@ -3785,13 +3785,13 @@ eslint-plugin-cypress@^2.12.1:
   dependencies:
     globals "^11.12.0"
 
-eslint-plugin-formatjs@^4.3.3:
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-formatjs/-/eslint-plugin-formatjs-4.3.3.tgz#67d22bea83b58b5f56c25d3ff3e72b78880dafcb"
-  integrity sha512-529JsqoqvVLguggWdSP/CrEcnakBMhELHZXNMpreJcSgjxm2Xij79XlY0KqyJ9PtRv4AWNor8R4UI8LsZ8+c/A==
+eslint-plugin-formatjs@^4.3.4:
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-formatjs/-/eslint-plugin-formatjs-4.3.4.tgz#f54ffc4aa4507243c1f3ef503f9c7abda28c696e"
+  integrity sha512-0dQKl3pxwCJMBWHaPMC0mqgM5tRpQt4/l162hiNX4h3Po+Mx0L0KHMiGWk5HoKRvO4m/738TPSWdDGhmLKYzFw==
   dependencies:
-    "@formatjs/icu-messageformat-parser" "2.1.9"
-    "@formatjs/ts-transformer" "3.11.0"
+    "@formatjs/icu-messageformat-parser" "2.1.10"
+    "@formatjs/ts-transformer" "3.11.1"
     "@types/eslint" "7 || 8"
     "@types/picomatch" "^2.3.0"
     "@typescript-eslint/typescript-estree" "^5.9.1"
