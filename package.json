@@ -109,7 +109,7 @@
     "jest-mock-axios": "^4.7.0-beta",
     "jws": "^4.0.0",
     "mini-css-extract-plugin": "^2.6.1",
-    "npm-check-updates": "^16.3.11",
+    "npm-check-updates": "^16.3.13",
     "null-loader": "^4.0.1",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
