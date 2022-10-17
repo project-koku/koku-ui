@@ -370,6 +370,15 @@
   dependencies:
     tslib "2.4.0"
 
+"@formatjs/icu-messageformat-parser@2.1.10":
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/@formatjs/icu-messageformat-parser/-/icu-messageformat-parser-2.1.10.tgz#d11114343fcb4c6d5ccabdeac50badf49c83fd9e"
+  integrity sha512-KkRMxhifWkRC45dhM9tqm0GXbb6NPYTGVYY3xx891IKc6p++DQrZTnmkVSNNO47OEERLfuP2KkPFPJBuu8z/wg==
+  dependencies:
+    "@formatjs/ecma402-abstract" "1.13.0"
+    "@formatjs/icu-skeleton-parser" "1.3.14"
+    tslib "2.4.0"
+
 "@formatjs/icu-messageformat-parser@2.1.9":
   version "2.1.9"
   resolved "https://registry.yarnpkg.com/@formatjs/icu-messageformat-parser/-/icu-messageformat-parser-2.1.9.tgz#abd5ba32ad9f2f5226e0b78e0313ecf438835c30"
@@ -425,12 +434,12 @@
     intl-messageformat "10.2.0"
     tslib "2.4.0"
 
-"@formatjs/ts-transformer@3.11.0":
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/@formatjs/ts-transformer/-/ts-transformer-3.11.0.tgz#c3ca558aec2f519df5c36132bafff3754d4316be"
-  integrity sha512-Hc0Xls0JPLvIX7v0NRnLPIhW7Jj26FQLBqwPviQ1IoFHSkmgJrjySYahT7jxxPaH4BaNn2660DemVNnaZDNCvA==
+"@formatjs/ts-transformer@3.11.1":
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/@formatjs/ts-transformer/-/ts-transformer-3.11.1.tgz#c63df7d059f6e47af023dd0793905f04a3777f69"
+  integrity sha512-mZw3cgok/4zdqR3KAKayncy7IvTypwzJeENq6N+Tcx7rc2NtyihfPFVDn2W2AGRjVH9GRFibkNiu4nVI9xF0Og==
   dependencies:
-    "@formatjs/icu-messageformat-parser" "2.1.9"
+    "@formatjs/icu-messageformat-parser" "2.1.10"
     "@types/json-stable-stringify" "^1.0.32"
     "@types/node" "14 || 16 || 17"
     chalk "^4.0.0"
@@ -581,16 +590,6 @@
     "@types/node" "*"
     jest-mock "^28.1.3"
 
-"@jest/environment@^29.1.2", "@jest/environment@^29.2.0":
-  version "29.2.0"
-  resolved "https://registry.yarnpkg.com/@jest/environment/-/environment-29.2.0.tgz#7e5604e4ead098572056a962a970f3d79379fbd8"
-  integrity sha512-foaVv1QVPB31Mno3LlL58PxEQQOLZd9zQfCpyQQCQIpUAtdFP1INBjkphxrCfKT13VxpA0z5jFGIkmZk0DAg2Q==
-  dependencies:
-    "@jest/fake-timers" "^29.2.0"
-    "@jest/types" "^29.2.0"
-    "@types/node" "*"
-    jest-mock "^29.2.0"
-
 "@jest/environment@^29.2.0":
   version "29.2.0"
   resolved "https://registry.yarnpkg.com/@jest/environment/-/environment-29.2.0.tgz#7e5604e4ead098572056a962a970f3d79379fbd8"
@@ -649,18 +648,6 @@
     jest-message-util "^28.1.3"
     jest-mock "^28.1.3"
     jest-util "^28.1.3"
-
-"@jest/fake-timers@^29.1.2", "@jest/fake-timers@^29.2.0":
-  version "29.2.0"
-  resolved "https://registry.yarnpkg.com/@jest/fake-timers/-/fake-timers-29.2.0.tgz#e43635c1bd73b23886e80ca12307092ef2ee1929"
-  integrity sha512-mX0V0uQsgeSLTt0yTqanAhhpeUKMGd2uq+PSLAfO40h72bvfNNQ7pIEl9vIwNMFxRih1ENveEjSBsLjxGGDPSw==
-  dependencies:
-    "@jest/types" "^29.2.0"
-    "@sinonjs/fake-timers" "^9.1.2"
-    "@types/node" "*"
-    jest-message-util "^29.2.0"
-    jest-mock "^29.2.0"
-    jest-util "^29.2.0"
 
 "@jest/fake-timers@^29.2.0":
   version "29.2.0"
@@ -3771,13 +3758,13 @@ eslint-plugin-cypress@^2.12.1:
   dependencies:
     globals "^11.12.0"
 
-eslint-plugin-formatjs@^4.3.3:
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-formatjs/-/eslint-plugin-formatjs-4.3.3.tgz#67d22bea83b58b5f56c25d3ff3e72b78880dafcb"
-  integrity sha512-529JsqoqvVLguggWdSP/CrEcnakBMhELHZXNMpreJcSgjxm2Xij79XlY0KqyJ9PtRv4AWNor8R4UI8LsZ8+c/A==
+eslint-plugin-formatjs@^4.3.4:
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-formatjs/-/eslint-plugin-formatjs-4.3.4.tgz#f54ffc4aa4507243c1f3ef503f9c7abda28c696e"
+  integrity sha512-0dQKl3pxwCJMBWHaPMC0mqgM5tRpQt4/l162hiNX4h3Po+Mx0L0KHMiGWk5HoKRvO4m/738TPSWdDGhmLKYzFw==
   dependencies:
-    "@formatjs/icu-messageformat-parser" "2.1.9"
-    "@formatjs/ts-transformer" "3.11.0"
+    "@formatjs/icu-messageformat-parser" "2.1.10"
+    "@formatjs/ts-transformer" "3.11.1"
     "@types/eslint" "7 || 8"
     "@types/picomatch" "^2.3.0"
     "@typescript-eslint/typescript-estree" "^5.9.1"
@@ -5808,15 +5795,6 @@ jest-mock@^28.1.3:
     "@jest/types" "^28.1.3"
     "@types/node" "*"
 
-jest-mock@^29.1.2, jest-mock@^29.2.0:
-  version "29.2.0"
-  resolved "https://registry.yarnpkg.com/jest-mock/-/jest-mock-29.2.0.tgz#3531012881178f59f4b5fd1e243acc329d08d6a1"
-  integrity sha512-aiWGR0P8ivssIO17xkehLGFtCcef2ZwQFNPwEer1jQLHxPctDlIg3Hs6QMq1KpPz5dkCcgM7mwGif4a9IPznlg==
-  dependencies:
-    "@jest/types" "^29.2.0"
-    "@types/node" "*"
-    jest-util "^29.2.0"
-
 jest-mock@^29.2.0:
   version "29.2.0"
   resolved "https://registry.yarnpkg.com/jest-mock/-/jest-mock-29.2.0.tgz#3531012881178f59f4b5fd1e243acc329d08d6a1"
@@ -6069,18 +6047,6 @@ jest-util@^28.1.3:
     picomatch "^2.2.3"
 
 jest-util@^29.1.2, jest-util@^29.2.0:
-  version "29.2.0"
-  resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-29.2.0.tgz#797935697e83a5722aeba401ed6cd01264295566"
-  integrity sha512-8M1dx12ujkBbnhwytrezWY0Ut79hbflwodE+qZKjxSRz5qt4xDp6dQQJaOCFvCmE0QJqp9KyEK33lpPNjnhevw==
-  dependencies:
-    "@jest/types" "^29.2.0"
-    "@types/node" "*"
-    chalk "^4.0.0"
-    ci-info "^3.2.0"
-    graceful-fs "^4.2.9"
-    picomatch "^2.2.3"
-
-jest-util@^29.2.0:
   version "29.2.0"
   resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-29.2.0.tgz#797935697e83a5722aeba401ed6cd01264295566"
   integrity sha512-8M1dx12ujkBbnhwytrezWY0Ut79hbflwodE+qZKjxSRz5qt4xDp6dQQJaOCFvCmE0QJqp9KyEK33lpPNjnhevw==
