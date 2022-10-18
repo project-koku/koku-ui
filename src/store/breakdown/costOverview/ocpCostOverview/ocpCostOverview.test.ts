@@ -12,6 +12,7 @@ import {
   cpuUsageWidget,
   memoryUsageWidget,
   projectSummaryWidget,
+  volumeUsageWidget,
 } from './ocpCostOverviewWidgets';
 
 const createOcpCostOverviewStore = createMockStoreCreator({
@@ -33,6 +34,7 @@ test('default state', () => {
     projectSummaryWidget.id,
     cpuUsageWidget.id,
     memoryUsageWidget.id,
+    volumeUsageWidget.id,
   ]);
   expect(selectors.selectWidget(state, costWidget.id)).toEqual(costWidget);
 });

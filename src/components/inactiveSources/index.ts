@@ -1,3 +1,1 @@
-import { InactiveSources } from './inactiveSources';
-
-export default InactiveSources;
+export { default as InactiveSources } from './inactiveSources';

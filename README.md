@@ -40,12 +40,6 @@ yarn build
 yarn test
 ```
 
-## Manifest
-Produces a file used by product security for vulnerability and compliance tracking.
-```
-yarn manifest:update
-```
-
 ## Running Koku UI against a hosted Koku API, using webpack proxy
 Note that this approach currently supports the Insights stage-beta, stage-stable, prod-beta, and prod-stable environments.
 
@@ -147,7 +141,7 @@ http://localhost:1337/beta/settings/applications/cost-management
 
 ## Releasing Koku UI
 
-This [release][release-doc] doc describes how to release the UI to each staging environment.
+This [RELEASE][release-doc] doc describes how to release the UI to each staging environment.
 
 ## Useful Links
 
@@ -211,5 +205,5 @@ This [release][release-doc] doc describes how to release the UI to each staging 
 [patch-etc-hosts]: https://github.com/RedHatInsights/insights-proxy/blob/master/scripts/patch-etc-hosts.sh
 [pf-logo]: https://www.patternfly.org/v4/images/logo.4189e7eb1a0741ea2b3b51b80d33c4cb.svg
 [patternfly]: https://www.patternfly.org/
-[release-doc]: https://github.com/project-koku/koku-ui/blob/main/release.md
+[release-doc]: https://github.com/project-koku/koku-ui/blob/main/RELEASE.md
 [yarn]: https://yarnpkg.com/en/

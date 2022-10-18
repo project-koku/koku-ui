@@ -50,7 +50,8 @@ export function getQueryForWidget(filter: GcpFilters = gcpOcpDashboardDefaultFil
 
 export function getQueryForWidgetTabs(
   widget: GcpOcpDashboardWidget,
-  filter: GcpFilters = gcpOcpDashboardDefaultFilters
+  filter: GcpFilters = gcpOcpDashboardDefaultFilters,
+  props?
 ) {
   const group_by = getGroupByForTab(widget);
   const newFilter = {
@@ -64,6 +65,7 @@ export function getQueryForWidgetTabs(
   const query: GcpQuery = {
     filter: newFilter,
     group_by,
+    ...(props ? props : {}),
   };
   return getQuery(query);
 }

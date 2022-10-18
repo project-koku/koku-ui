@@ -1,9 +1,9 @@
-import { PageTitle } from 'components/pageTitle/pageTitle';
-import Maintenance from 'pages/state/maintenance';
+import { FeatureFlags } from 'components/featureFlags';
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
+import { Maintenance } from 'routes/state/maintenance';
 import { createMapStateToProps } from 'store/common';
 
 import { Routes, routes } from './routes';
@@ -76,7 +76,7 @@ export class App extends React.Component<AppProps, AppState> {
     const { maintenanceMode } = this.state;
     const route = maintenanceMode ? <Maintenance /> : <Routes />;
 
-    return <PageTitle>{route}</PageTitle>;
+    return <FeatureFlags>{route}</FeatureFlags>;
   }
 }
 

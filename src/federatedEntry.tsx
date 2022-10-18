@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
-import { IntlProvider } from '@redhat-cloud-services/frontend-components-translations';
+import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
+import IntlProvider from '@redhat-cloud-services/frontend-components-translations/Provider';
 import { initApi } from 'api/api';
 import { getLocale } from 'components/i18n';
 import React from 'react';

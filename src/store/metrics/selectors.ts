@@ -1,6 +1,6 @@
 import { MetricHash } from 'api/metrics';
 import { AxiosError } from 'axios';
-import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
+import { parseApiError } from 'routes/costModels/createCostModelWizard/parseError';
 import { FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
 

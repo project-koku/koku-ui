@@ -1,13 +1,13 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
+import { paths } from 'routes';
 import {
-  ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'pages/views/components/charts/common/chartDatumUtils';
-import { paths } from 'routes';
+  DatumType,
+} from 'routes/views/components/charts/common/chartDatum';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatUnits } from 'utils/format';
 
@@ -17,6 +17,14 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const costSummaryWidget: AzureDashboardWidget = {
+  availableTabs: [
+    AzureDashboardTab.service_names,
+    AzureDashboardTab.subscription_guids,
+    AzureDashboardTab.resource_locations,
+  ],
+  chartName: 'azureCostChart',
+  chartType: DashboardChartType.dailyTrend,
+  currentTab: AzureDashboardTab.service_names,
   id: getId(),
   titleKey: messages.azureDashboardCostTitle,
   forecastPathsType: ForecastPathsType.azure,
@@ -37,19 +45,14 @@ export const costSummaryWidget: AzureDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     dailyTitleKey: messages.azureDailyCostTrendTitle,
+    datumType: DatumType.cumulative,
     titleKey: messages.azureCostTrendTitle,
-    type: ChartType.rolling,
   },
-  availableTabs: [
-    AzureDashboardTab.service_names,
-    AzureDashboardTab.subscription_guids,
-    AzureDashboardTab.resource_locations,
-  ],
-  chartType: DashboardChartType.dailyTrend,
-  currentTab: AzureDashboardTab.service_names,
 };
 
 export const databaseWidget: AzureDashboardWidget = {
+  chartName: 'azureDatabaseChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.azure,
@@ -67,13 +70,14 @@ export const databaseWidget: AzureDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const networkWidget: AzureDashboardWidget = {
+  chartName: 'azureNetworkChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.azure,
@@ -91,13 +95,14 @@ export const networkWidget: AzureDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const storageWidget: AzureDashboardWidget = {
+  chartName: 'azureStorageChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.azure,
@@ -112,13 +117,15 @@ export const storageWidget: AzureDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const virtualMachineWidget: AzureDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'azureComputeChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.azureComputeTitle,
   reportPathsType: ReportPathsType.azure,
@@ -139,9 +146,7 @@ export const virtualMachineWidget: AzureDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };

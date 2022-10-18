@@ -1,17 +1,18 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { Query } from 'api/queries/query';
 import messages from 'locales/messages';
-import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
+import { DataToolbar } from 'routes/views/components/dataToolbar';
+import { Filter } from 'routes/views/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
 import { styles } from './exports.styles';
 
 interface ExportsToolbarOwnProps {
-  onFilterAdded(filterType: string, filterValue: string);
-  onFilterRemoved(filterType: string, filterValue?: string);
+  onFilterAdded(filter: Filter);
+  onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
   query?: Query;
 }

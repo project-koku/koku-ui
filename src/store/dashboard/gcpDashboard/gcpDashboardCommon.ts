@@ -48,7 +48,11 @@ export function getQueryForWidget(filter: GcpFilters = gcpDashboardDefaultFilter
   return getQuery(query);
 }
 
-export function getQueryForWidgetTabs(widget: GcpDashboardWidget, filter: GcpFilters = gcpDashboardDefaultFilters) {
+export function getQueryForWidgetTabs(
+  widget: GcpDashboardWidget,
+  filter: GcpFilters = gcpDashboardDefaultFilters,
+  props?
+) {
   const group_by = getGroupByForTab(widget);
   const newFilter = {
     ...JSON.parse(JSON.stringify(filter)),
@@ -61,6 +65,7 @@ export function getQueryForWidgetTabs(widget: GcpDashboardWidget, filter: GcpFil
   const query: GcpQuery = {
     filter: newFilter,
     group_by,
+    ...(props ? props : {}),
   };
   return getQuery(query);
 }

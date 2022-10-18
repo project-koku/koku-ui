@@ -1,13 +1,13 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
+import { paths } from 'routes';
 import {
-  ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'pages/views/components/charts/common/chartDatumUtils';
-import { paths } from 'routes';
+  DatumType,
+} from 'routes/views/components/charts/common/chartDatum';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
 
@@ -17,6 +17,9 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const computeWidget: GcpDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'gcpComputeChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.gcpComputeTitle,
   forecastPathsType: ForecastPathsType.gcp,
@@ -38,14 +41,17 @@ export const computeWidget: GcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };
 
 export const costSummaryWidget: GcpDashboardWidget = {
+  availableTabs: [GcpDashboardTab.services, GcpDashboardTab.gcpProjects, GcpDashboardTab.regions],
+  chartFormatter: formatCurrency,
+  chartType: DashboardChartType.dailyTrend,
+  chartName: 'gcpCostChart',
+  currentTab: GcpDashboardTab.services,
   id: getId(),
   titleKey: messages.gcpCostTitle,
   forecastPathsType: ForecastPathsType.gcp,
@@ -66,16 +72,15 @@ export const costSummaryWidget: GcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     dailyTitleKey: messages.gcpDailyCostTrendTitle,
+    datumType: DatumType.cumulative,
     titleKey: messages.gcpCostTrendTitle,
-    type: ChartType.rolling,
   },
-  availableTabs: [GcpDashboardTab.services, GcpDashboardTab.gcpProjects, GcpDashboardTab.regions],
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.dailyTrend,
-  currentTab: GcpDashboardTab.services,
 };
 
 export const databaseWidget: GcpDashboardWidget = {
+  chartFormatter: formatCurrency,
+  chartName: 'gcpDatabaseChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.gcp,
@@ -93,14 +98,15 @@ export const databaseWidget: GcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.trend,
 };
 
 export const networkWidget: GcpDashboardWidget = {
+  chartFormatter: formatCurrency,
+  chartName: 'gcpNetworkChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.gcp,
@@ -120,14 +126,15 @@ export const networkWidget: GcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.trend,
 };
 
 export const storageWidget: GcpDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'gcpUsageChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.gcp,
@@ -142,9 +149,7 @@ export const storageWidget: GcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };

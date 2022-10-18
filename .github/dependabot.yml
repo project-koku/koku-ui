@@ -1,0 +1,17 @@
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/" # Location of package manifests
+    target-branch: "main"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependency-bot"
+    commit-message:
+      prefix: "(chore)"
+    reviewers:
+      - "gitdallas"
+      - "dlabrecq"

@@ -26,6 +26,7 @@ export interface Query {
   currency?: any;
   dateRange?: any;
   end_date?: any;
+  exclude?: any;
   filter?: any;
   filter_by?: any;
   group_by?: any;

@@ -2,11 +2,11 @@ import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import {
-  ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'pages/views/components/charts/common/chartDatumUtils';
+  DatumType,
+} from 'routes/views/components/charts/common/chartDatum';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { gcpDashboardWidgets } from 'store/dashboard/gcpDashboard';
 import { formatCurrency, formatUnits } from 'utils/format';
@@ -17,6 +17,9 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const computeWidget: GcpOcpDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'gcpOcpComputeChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.gcpComputeTitle,
   forecastPathsType: ForecastPathsType.gcpOcp,
@@ -38,14 +41,17 @@ export const computeWidget: GcpOcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };
 
 export const costSummaryWidget: GcpOcpDashboardWidget = {
+  availableTabs: [GcpOcpDashboardTab.services, GcpOcpDashboardTab.gcpProjects, GcpOcpDashboardTab.regions],
+  chartFormatter: formatCurrency,
+  chartName: 'gcpOcpCostChart',
+  chartType: DashboardChartType.dailyTrend,
+  currentTab: GcpOcpDashboardTab.services,
   id: getId(),
   titleKey: messages.gcpCostTitle,
   forecastPathsType: ForecastPathsType.gcpOcp,
@@ -65,16 +71,15 @@ export const costSummaryWidget: GcpOcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     dailyTitleKey: messages.gcpDailyCostTrendTitle,
+    datumType: DatumType.cumulative,
     titleKey: messages.gcpCostTrendTitle,
-    type: ChartType.rolling,
   },
-  availableTabs: [GcpOcpDashboardTab.services, GcpOcpDashboardTab.gcpProjects, GcpOcpDashboardTab.regions],
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.dailyTrend,
-  currentTab: GcpOcpDashboardTab.services,
 };
 
 export const databaseWidget: GcpOcpDashboardWidget = {
+  chartFormatter: formatCurrency,
+  chartName: 'gcpOcpDatabaseChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.gcpOcp,
@@ -92,14 +97,15 @@ export const databaseWidget: GcpOcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.trend,
 };
 
 export const networkWidget: GcpOcpDashboardWidget = {
+  chartFormatter: formatCurrency,
+  chartName: 'gcpOcpNetworkChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.gcpOcp,
@@ -117,14 +123,15 @@ export const networkWidget: GcpOcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.trend,
 };
 
 export const storageWidget: GcpOcpDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'gcpOcpStorageChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.gcpOcp,
@@ -139,9 +146,7 @@ export const storageWidget: GcpOcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };

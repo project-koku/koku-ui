@@ -1,4 +1,4 @@
-import { notificationsMiddleware } from '@redhat-cloud-services/frontend-components-notifications';
+import notificationsMiddleware from '@redhat-cloud-services/frontend-components-notifications/notificationsMiddleware';
 import axios from 'axios';
 import { applyMiddleware, compose, createStore, DeepPartial } from 'redux';
 import thunk from 'redux-thunk';
@@ -13,8 +13,8 @@ declare global {
 }
 
 const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ serialize: true })
+  typeof window === 'object' && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ serialize: true })
     : compose;
 
 export const middlewares = [thunk, notificationsMiddleware()];

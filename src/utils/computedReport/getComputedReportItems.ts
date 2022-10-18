@@ -43,24 +43,24 @@ export interface ComputedReportItem extends ComputedReportOcpItem, ComputedRepor
 }
 
 export interface ComputedReportItemsParams<R extends Report, T extends ReportItem> {
-  daily?: boolean;
   idKey: keyof T;
+  isDateMap?: boolean;
   report: R;
   sortKey?: keyof ComputedReportItem;
   sortDirection?: SortDirection;
 }
 
 export function getComputedReportItems<R extends Report, T extends ReportItem>({
-  daily,
   idKey,
+  isDateMap,
   report,
   sortDirection = SortDirection.asc,
   sortKey = 'date',
 }: ComputedReportItemsParams<R, T>) {
   return sort(
     getUnsortedComputedReportItems<R, T>({
-      daily,
       idKey,
+      isDateMap,
       report,
       sortDirection,
       sortKey,
@@ -124,7 +124,7 @@ function getUsageData(val, item?: any) {
 
 // Details pages typically use this function with filter[resolution]=monthly
 export function getUnsortedComputedReportItems<R extends Report, T extends ReportItem>({
-  daily = false,
+  isDateMap = false,
   report,
   idKey, // Note: The idKey must use org_entities for reports, while group_by uses org_unit_id
 }: ComputedReportItemsParams<R, T>) {
@@ -180,7 +180,7 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
           }
         }
 
-        if (daily) {
+        if (isDateMap) {
           const data = {
             ...getUsageData(val), // capacity, limit, request, & usage
             cluster,

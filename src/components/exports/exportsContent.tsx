@@ -3,11 +3,11 @@ import { getQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import Loading from 'pages/state/loading';
-import { addQueryFilter, removeQueryFilter } from 'pages/views/utils/query';
 import React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
+import { Loading } from 'routes/state/loading';
+import { addFilterToQuery, Filter, removeFilterFromQuery } from 'routes/views/utils/filter';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 
@@ -55,7 +55,7 @@ class ExportsContentBase extends React.Component<ExportsContentProps> {
   public state: ExportsContentState = { ...this.defaultState };
 
   private getPagination = (isBottom: boolean = false) => {
-    const { report } = this.props;
+    const { intl, report } = this.props;
 
     const count = report && report.meta ? report.meta.count : 0;
     const limit =
@@ -76,8 +76,14 @@ class ExportsContentBase extends React.Component<ExportsContentProps> {
         onSetPage={this.handleSetPage}
         page={page}
         perPage={limit}
+        titles={{
+          paginationTitle: intl.formatMessage(messages.paginationTitle, {
+            title: intl.formatMessage(messages.exportsTitle),
+            placement: isBottom ? 'bottom' : 'top',
+          }),
+        }}
         variant={isBottom ? PaginationVariant.bottom : PaginationVariant.top}
-        widgetId="`pagination${isBottom ? '-bottom' : ''}`"
+        widgetId={`exports-pagination${isBottom ? '-bottom' : ''}`}
       />
     );
   };
@@ -97,19 +103,19 @@ class ExportsContentBase extends React.Component<ExportsContentProps> {
     );
   };
 
-  private handleFilterAdded = (filterType: string, filterValue: string) => {
+  private handleFilterAdded = (filter: Filter) => {
     const { query } = this.state;
 
-    const filteredQuery = addQueryFilter(query, filterType, filterValue);
+    const filteredQuery = addFilterToQuery(query, filter);
     this.setState({ query: filteredQuery }, () => {
       // Fetch
     });
   };
 
-  private handleFilterRemoved = (filterType: string, filterValue: string) => {
+  private handleFilterRemoved = (filter: Filter) => {
     const { query } = this.state;
 
-    const filteredQuery = removeQueryFilter(query, filterType, filterValue);
+    const filteredQuery = removeFilterFromQuery(query, filter);
 
     this.setState({ query: filteredQuery }, () => {
       // Fetch

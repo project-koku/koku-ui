@@ -7,6 +7,7 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const costWidget: OciHistoricalDataWidget = {
+  chartName: 'ociCostChart',
   id: getId(),
   reportPathsType: ReportPathsType.oci,
   reportType: ReportType.cost,
@@ -14,6 +15,7 @@ export const costWidget: OciHistoricalDataWidget = {
 };
 
 export const computeUsageWidget: OciHistoricalDataWidget = {
+  chartName: 'ociComputeChart',
   id: getId(),
   reportPathsType: ReportPathsType.oci,
   reportType: ReportType.instanceType,
@@ -21,6 +23,7 @@ export const computeUsageWidget: OciHistoricalDataWidget = {
 };
 
 export const storageUsageWidget: OciHistoricalDataWidget = {
+  chartName: 'ociStorageChart',
   id: getId(),
   reportPathsType: ReportPathsType.oci,
   reportType: ReportType.storage,

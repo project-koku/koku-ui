@@ -7,6 +7,7 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const costWidget: AzureHistoricalDataWidget = {
+  chartName: 'azureCostChart',
   id: getId(),
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.cost,
@@ -14,6 +15,7 @@ export const costWidget: AzureHistoricalDataWidget = {
 };
 
 export const computeUsageWidget: AzureHistoricalDataWidget = {
+  chartName: 'azureComputeChart',
   id: getId(),
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.instanceType,
@@ -21,6 +23,7 @@ export const computeUsageWidget: AzureHistoricalDataWidget = {
 };
 
 export const storageUsageWidget: AzureHistoricalDataWidget = {
+  chartName: 'azureStorageChart',
   id: getId(),
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.storage,

@@ -1,10 +1,10 @@
 import { AlertVariant } from '@patternfly/react-core';
-import { addNotification, removeNotification } from '@redhat-cloud-services/frontend-components-notifications';
+import { addNotification, removeNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import { Export } from 'api/export/export';
 import { runExport } from 'api/export/exportUtils';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import { ExportsLink } from 'components/exports/exportsLink';
+import { ExportsLink } from 'components/exports';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
