@@ -7,6 +7,7 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const costWidget: OciCostOverviewWidget = {
+  chartName: 'ociCostWidget',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,

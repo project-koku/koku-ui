@@ -1,7 +1,7 @@
 jest.mock('store/reports/reportActions');
 
 import { ReportType } from 'api/reports/report';
-import { ChartType } from 'pages/views/components/charts/common/chartDatumUtils';
+import { DatumType } from 'routes/views/components/charts/common/chartDatum';
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
 
@@ -95,9 +95,9 @@ test('getQueryForWidget', () => {
     currentTab: AzureDashboardTab.subscription_guids,
     details: { formatOptions: {} },
     trend: {
+      datumType: DatumType.rolling,
       formatOptions: {},
       titleKey: '',
-      type: ChartType.daily,
     },
     topItems: {
       formatOptions: {},

@@ -18,6 +18,7 @@ export const clusterWidget: OcpCostOverviewWidget = {
 };
 
 export const costWidget: OcpCostOverviewWidget = {
+  chartName: 'ocpCostWidget',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
@@ -25,6 +26,7 @@ export const costWidget: OcpCostOverviewWidget = {
 };
 
 export const cpuUsageWidget: OcpCostOverviewWidget = {
+  chartName: 'ocpCpuWidget',
   id: getId(),
   usage: {
     showCapacityOnGroupBy: ['cluster'],
@@ -35,6 +37,7 @@ export const cpuUsageWidget: OcpCostOverviewWidget = {
 };
 
 export const memoryUsageWidget: OcpCostOverviewWidget = {
+  chartName: 'ocpMemoryWidget',
   id: getId(),
   usage: {
     showCapacityOnGroupBy: ['cluster'],
@@ -54,4 +57,12 @@ export const projectSummaryWidget: OcpCostOverviewWidget = {
   reportType: ReportType.cost,
   reportPathsType: ReportPathsType.ocp,
   type: CostOverviewWidgetType.reportSummary,
+};
+
+export const volumeUsageWidget: OcpCostOverviewWidget = {
+  chartName: 'ocpVolumeWidget',
+  id: getId(),
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.volume,
+  type: CostOverviewWidgetType.volumeUsage,
 };

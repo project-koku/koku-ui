@@ -1,13 +1,13 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
+import { paths } from 'routes';
 import {
-  ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'pages/views/components/charts/common/chartDatumUtils';
-import { paths } from 'routes';
+  DatumType,
+} from 'routes/views/components/charts/common/chartDatum';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatUnits } from 'utils/format';
 
@@ -17,6 +17,10 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const costSummaryWidget: OciDashboardWidget = {
+  availableTabs: [OciDashboardTab.product_services, OciDashboardTab.payer_tenant_ids, OciDashboardTab.regions],
+  chartType: DashboardChartType.dailyTrend,
+  chartName: 'ociCostChart',
+  currentTab: OciDashboardTab.product_services,
   id: getId(),
   titleKey: messages.ociDashboardCostTitle,
   forecastPathsType: ForecastPathsType.oci,
@@ -37,15 +41,14 @@ export const costSummaryWidget: OciDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     dailyTitleKey: messages.ociDailyCostTrendTitle,
+    datumType: DatumType.cumulative,
     titleKey: messages.ociCostTrendTitle,
-    type: ChartType.rolling,
   },
-  availableTabs: [OciDashboardTab.product_services, OciDashboardTab.payer_tenant_ids, OciDashboardTab.regions],
-  chartType: DashboardChartType.dailyTrend,
-  currentTab: OciDashboardTab.product_services,
 };
 
 export const databaseWidget: OciDashboardWidget = {
+  chartName: 'ociDatabaseChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.oci,
@@ -65,13 +68,14 @@ export const databaseWidget: OciDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const networkWidget: OciDashboardWidget = {
+  chartName: 'ociNetworkChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.oci,
@@ -91,13 +95,14 @@ export const networkWidget: OciDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const storageWidget: OciDashboardWidget = {
+  chartName: 'ociStorageChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.oci,
@@ -112,13 +117,15 @@ export const storageWidget: OciDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const virtualMachineWidget: OciDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'ociComputeChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.ociComputeTitle,
   reportPathsType: ReportPathsType.oci,
@@ -139,9 +146,7 @@ export const virtualMachineWidget: OciDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };

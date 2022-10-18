@@ -1,1 +1,1 @@
-export { getLocale, intl } from './intl';
+export { default as intl, getLocale } from './intl';

@@ -1,7 +1,4 @@
 import { getProvidersQuery } from 'api/queries/providersQuery';
-
-jest.mock('axios');
-
 import axios from 'axios';
 import { awsProvidersQuery } from 'store/providers/providersCommon';
 

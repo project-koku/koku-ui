@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`default state 1`] = `
-Object {
-  "sources": Object {
+{
+  "sources": {
     "currentFilterType": "name",
     "currentFilterValue": "",
     "error": null,

@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`fetch widget reports 1`] = `
-Array [
-  Array [
+[
+  [
     "ocp",
     "cost",
     "filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily",
   ],
-  Array [
+  [
     "ocp",
     "cost",
     "filter[time_scope_units]=month&filter[time_scope_value]=-2&filter[resolution]=daily",
   ],
-  Array [
+  [
     "ocp",
     "cost",
     "filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=monthly&filter[limit]=3&group_by[project]=*",
@@ -21,21 +21,21 @@ Array [
 `;
 
 exports[`getGroupByForTab clusters tab 1`] = `
-Object {
+{
   "cluster": "*",
 }
 `;
 
 exports[`getGroupByForTab nodes tab 1`] = `
-Object {
+{
   "node": "*",
 }
 `;
 
 exports[`getGroupByForTab projects tab 1`] = `
-Object {
+{
   "project": "*",
 }
 `;
 
-exports[`getGroupByForTab unknown tab 1`] = `Object {}`;
+exports[`getGroupByForTab unknown tab 1`] = `{}`;

@@ -2,11 +2,11 @@ import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import {
-  ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'pages/views/components/charts/common/chartDatumUtils';
+  DatumType,
+} from 'routes/views/components/charts/common/chartDatum';
 import { awsDashboardWidgets } from 'store/dashboard/awsDashboard';
 import { azureDashboardWidgets } from 'store/dashboard/azureDashboard';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
@@ -19,6 +19,11 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const costSummaryWidget: OcpCloudDashboardWidget = {
+  availableTabs: [OcpCloudDashboardTab.services, OcpCloudDashboardTab.accounts, OcpCloudDashboardTab.regions],
+  chartFormatter: formatCurrency,
+  chartName: 'ocpCloudCostChart',
+  chartType: DashboardChartType.dailyTrend,
+  currentTab: OcpCloudDashboardTab.services,
   id: getId(),
   titleKey: messages.ocpCloudDashboardCostTitle,
   forecastPathsType: ForecastPathsType.ocpCloud,
@@ -37,18 +42,17 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     dailyTitleKey: messages.ocpCloudDashboardDailyCostTrendTitle,
+    datumType: DatumType.cumulative,
     titleKey: messages.ocpCloudDashboardCostTrendTitle,
-    type: ChartType.rolling,
   },
-  availableTabs: [OcpCloudDashboardTab.services, OcpCloudDashboardTab.accounts, OcpCloudDashboardTab.regions],
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.dailyTrend,
-  currentTab: OcpCloudDashboardTab.services,
 };
 
 // Cloud widgets
 
 export const computeWidget: OcpCloudDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'ocpCloudComputeChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.ocpCloudDashboardComputeTitle,
   reportPathsType: ReportPathsType.ocpCloud,
@@ -66,14 +70,15 @@ export const computeWidget: OcpCloudDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };
 
 export const databaseWidget: OcpCloudDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'ocpCloudDatabaseChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.ocpCloud,
@@ -93,14 +98,15 @@ export const databaseWidget: OcpCloudDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };
 
 export const networkWidget: OcpCloudDashboardWidget = {
+  chartFormatter: formatCurrency,
+  chartName: 'ocpCloudNetworkChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.ocpCloud,
@@ -120,14 +126,15 @@ export const networkWidget: OcpCloudDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
-  chartFormatter: formatCurrency,
-  chartType: DashboardChartType.trend,
 };
 
 export const storageWidget: OcpCloudDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'ocpCloudStorageChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.ocpCloud,
@@ -142,9 +149,7 @@ export const storageWidget: OcpCloudDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };

@@ -2,11 +2,11 @@ import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import {
-  ChartType,
   ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
-} from 'pages/views/components/charts/common/chartDatumUtils';
+  DatumType,
+} from 'routes/views/components/charts/common/chartDatum';
 import { azureDashboardWidgets } from 'store/dashboard/azureDashboard';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatUnits } from 'utils/format';
@@ -17,6 +17,14 @@ let currrentId = 0;
 const getId = () => currrentId++;
 
 export const costSummaryWidget: AzureOcpDashboardWidget = {
+  availableTabs: [
+    AzureOcpDashboardTab.service_names,
+    AzureOcpDashboardTab.subscription_guids,
+    AzureOcpDashboardTab.resource_locations,
+  ],
+  chartName: 'azureOcpCostChart',
+  chartType: DashboardChartType.dailyTrend,
+  currentTab: AzureOcpDashboardTab.service_names,
   id: getId(),
   titleKey: messages.azureOcpDashboardCostTitle,
   forecastPathsType: ForecastPathsType.azureOcp,
@@ -35,19 +43,14 @@ export const costSummaryWidget: AzureOcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     dailyTitleKey: messages.azureDailyCostTrendTitle,
+    datumType: DatumType.cumulative,
     titleKey: messages.azureCostTrendTitle,
-    type: ChartType.rolling,
   },
-  availableTabs: [
-    AzureOcpDashboardTab.service_names,
-    AzureOcpDashboardTab.subscription_guids,
-    AzureOcpDashboardTab.resource_locations,
-  ],
-  chartType: DashboardChartType.dailyTrend,
-  currentTab: AzureOcpDashboardTab.service_names,
 };
 
 export const databaseWidget: AzureOcpDashboardWidget = {
+  chartName: 'azureOcpDatabaseChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardDatabaseTitle,
   reportPathsType: ReportPathsType.azureOcp,
@@ -65,13 +68,14 @@ export const databaseWidget: AzureOcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const networkWidget: AzureOcpDashboardWidget = {
+  chartName: 'azureOcpNetworkChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardNetworkTitle,
   reportPathsType: ReportPathsType.azureOcp,
@@ -89,13 +93,14 @@ export const networkWidget: AzureOcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.cumulative,
     titleKey: messages.dashboardCumulativeCostComparison,
-    type: ChartType.rolling,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const storageWidget: AzureOcpDashboardWidget = {
+  chartName: 'azureOcpStorageChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.dashboardStorageTitle,
   reportPathsType: ReportPathsType.azureOcp,
@@ -116,13 +121,15 @@ export const storageWidget: AzureOcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
-  chartType: DashboardChartType.trend,
 };
 
 export const virtualMachineWidget: AzureOcpDashboardWidget = {
+  chartFormatter: formatUnits,
+  chartName: 'azureOcpComputeChart',
+  chartType: DashboardChartType.trend,
   id: getId(),
   titleKey: messages.azureComputeTitle,
   reportPathsType: ReportPathsType.azureOcp,
@@ -143,9 +150,7 @@ export const virtualMachineWidget: AzureOcpDashboardWidget = {
   trend: {
     computedReportItem: ComputedReportItemType.usage,
     computedReportItemValue: ComputedReportItemValueType.total,
+    datumType: DatumType.rolling,
     titleKey: messages.dashboardDailyUsageComparison,
-    type: ChartType.daily,
   },
-  chartFormatter: formatUnits,
-  chartType: DashboardChartType.trend,
 };

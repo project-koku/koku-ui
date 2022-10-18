@@ -1,7 +1,7 @@
 jest.mock('store/reports/reportActions');
 
 import { ReportType } from 'api/reports/report';
-import { ChartType, ComputedReportItemType } from 'pages/views/components/charts/common/chartDatumUtils';
+import { ComputedReportItemType, DatumType } from 'routes/views/components/charts/common/chartDatum';
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
 
@@ -75,9 +75,9 @@ test('getQueryForWidget', () => {
     details: { formatOptions: {} },
     trend: {
       computedReportItem: ComputedReportItemType.cost,
+      datumType: DatumType.rolling,
       formatOptions: {},
       titleKey: '',
-      type: ChartType.daily,
     },
     topItems: {
       formatOptions: {},

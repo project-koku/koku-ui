@@ -312,135 +312,6 @@ export default defineMessages({
     description: 'Cost forecast date label tooltip',
     id: 'chartCostForecastLegendTooltip',
   },
-  chartCostInfrastructureForecastConeLegendLabel: {
-    defaultMessage:
-      '{month, select, ' +
-      '0 {{count, plural, one {Infrastructure confidence (Jan {startDate})} other {Infrastructure confidence (Jan {startDate}-{endDate})}}} ' +
-      '1 {{count, plural, one {Infrastructure confidence (Feb {startDate})} other {Infrastructure confidence (Feb {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {Infrastructure confidence (Mar {startDate})} other {Infrastructure confidence (Mar {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {Infrastructure confidence (Apr {startDate})} other {Infrastructure confidence (Apr {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {Infrastructure confidence (May {startDate})} other {Infrastructure confidence (May {startDate}-{endDate})}}} ' +
-      '5 {{count, plural, one {Infrastructure confidence (Jun {startDate})} other {Infrastructure confidence (Jun {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {Infrastructure confidence (Jul {startDate})} other {Infrastructure confidence (Jul {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {Infrastructure confidence (Aug {startDate})} other {Infrastructure confidence (Aug {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {Infrastructure confidence (Sep {startDate})} other {Infrastructure confidence (Sep {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {Infrastructure confidence (Oct {startDate})} other {Infrastructure confidence (Oct {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {Infrastructure confidence (Nov {startDate})} other {Infrastructure confidence (Nov {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {Infrastructure confidence (Dec {startDate})} other {Infrastructure confidence (Dec {startDate}-{endDate})}}} ' +
-      'other {}}',
-    description: 'Infrastructure date label',
-    id: 'chartCostInfrastructureForecastConeLegendLabel',
-  },
-  chartCostInfrastructureForecastConeLegendNoDataLabel: {
-    defaultMessage: 'Infrastructure confidence (no data)',
-    description: 'Infrastructure confidence (no data)',
-    id: 'chartCostInfrastructureForecastConeLegendNoDataLabel',
-  },
-  chartCostInfrastructureForecastConeLegendTooltip: {
-    defaultMessage:
-      '{month, select, ' +
-      '0 {Infrastructure confidence (Jan)} ' +
-      '1 {Infrastructure confidence (Feb)} ' +
-      '2 {Infrastructure confidence (Mar)} ' +
-      '3 {Infrastructure confidence (Apr)} ' +
-      '4 {Infrastructure confidence (May)} ' +
-      '5 {Infrastructure confidence (Jun)} ' +
-      '6 {Infrastructure confidence (Jul)} ' +
-      '7 {Infrastructure confidence (Aug)} ' +
-      '8 {Infrastructure confidence (Sep)} ' +
-      '9 {Infrastructure confidence (Oct)} ' +
-      '10 {Infrastructure confidence (Nov)} ' +
-      '11 {Infrastructure confidence (Dec)} ' +
-      'other {}}',
-    description: 'Infrastructure date label tooltip',
-    id: 'chartCostInfrastructureForecastConeLegendTooltip',
-  },
-  chartCostInfrastructureForecastLegendLabel: {
-    defaultMessage:
-      '{month, select, ' +
-      '0 {{count, plural, one {Infrastructure forecast (Jan {startDate})} other {Infrastructure forecast (Jan {startDate}-{endDate})}}} ' +
-      '1 {{count, plural, one {Infrastructure forecast (Feb {startDate})} other {Infrastructure forecast (Feb {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {Infrastructure forecast (Mar {startDate})} other {Infrastructure forecast (Mar {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {Infrastructure forecast (Apr {startDate})} other {Infrastructure forecast (Apr {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {Infrastructure forecast (May {startDate})} other {Infrastructure forecast (May {startDate}-{endDate})}}} ' +
-      '5 {{count, plural, one {Infrastructure forecast (Jun {startDate})} other {Infrastructure forecast (Jun {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {Infrastructure forecast (Jul {startDate})} other {Infrastructure forecast (Jul {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {Infrastructure forecast (Aug {startDate})} other {Infrastructure forecast (Aug {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {Infrastructure forecast (Sep {startDate})} other {Infrastructure forecast (Sep {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {Infrastructure forecast (Oct {startDate})} other {Infrastructure forecast (Oct {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {Infrastructure forecast (Nov {startDate})} other {Infrastructure forecast (Nov {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {Infrastructure forecast (Dec {startDate})} other {Infrastructure forecast (Dec {startDate}-{endDate})}}} ' +
-      'other {}}',
-    description: 'Infrastructure date label',
-    id: 'chartCostInfrastructureForecastLegendLabel',
-  },
-  chartCostInfrastructureForecastLegendNoDataLabel: {
-    defaultMessage: 'Infrastructure forecast (no data)',
-    description: 'Infrastructure forecast (no data)',
-    id: 'chartCostInfrastructureForecastLegendNoDataLabel',
-  },
-  chartCostInfrastructureForecastLegendTooltip: {
-    defaultMessage:
-      '{month, select, ' +
-      '0 {Infrastructure forecast (Jan)} ' +
-      '1 {Infrastructure forecast (Feb)} ' +
-      '2 {Infrastructure forecast (Mar)} ' +
-      '3 {Infrastructure forecast (Apr)} ' +
-      '4 {Infrastructure forecast (May)} ' +
-      '5 {Infrastructure forecast (Jun)} ' +
-      '6 {Infrastructure forecast (Jul)} ' +
-      '7 {Infrastructure forecast (Aug)} ' +
-      '8 {Infrastructure forecast (Sep)} ' +
-      '9 {Infrastructure forecast (Oct)} ' +
-      '10 {Infrastructure forecast (Nov)} ' +
-      '11 {Infrastructure forecast (Dec)} ' +
-      'other {}}',
-    description: 'Infrastructure date label tooltip',
-    id: 'chartCostInfrastructureForecastLegendTooltip',
-  },
-  chartCostInfrastructureLegendLabel: {
-    defaultMessage:
-      '{month, select, ' +
-      '0 {{count, plural, one {Infrastructure cost (Jan {startDate})} other {Infrastructure cost (Jan {startDate}-{endDate})}}} ' +
-      '1 {{count, plural, one {Infrastructure cost (Feb {startDate})} other {Infrastructure cost (Feb {startDate}-{endDate})}}} ' +
-      '2 {{count, plural, one {Infrastructure cost (Mar {startDate})} other {Infrastructure cost (Mar {startDate}-{endDate})}}} ' +
-      '3 {{count, plural, one {Infrastructure cost (Apr {startDate})} other {Infrastructure cost (Apr {startDate}-{endDate})}}} ' +
-      '4 {{count, plural, one {Infrastructure cost (May {startDate})} other {Infrastructure cost (May {startDate}-{endDate})}}} ' +
-      '5 {{count, plural, one {Infrastructure cost (Jun {startDate})} other {Infrastructure cost (Jun {startDate}-{endDate})}}} ' +
-      '6 {{count, plural, one {Infrastructure cost (Jul {startDate})} other {Infrastructure cost (Jul {startDate}-{endDate})}}} ' +
-      '7 {{count, plural, one {Infrastructure cost (Aug {startDate})} other {Infrastructure cost (Aug {startDate}-{endDate})}}} ' +
-      '8 {{count, plural, one {Infrastructure cost (Sep {startDate})} other {Infrastructure cost (Sep {startDate}-{endDate})}}} ' +
-      '9 {{count, plural, one {Infrastructure cost (Oct {startDate})} other {Infrastructure cost (Oct {startDate}-{endDate})}}} ' +
-      '10 {{count, plural, one {Infrastructure cost (Nov {startDate})} other {Infrastructure cost (Nov {startDate}-{endDate})}}} ' +
-      '11 {{count, plural, one {Infrastructure cost (Dec {startDate})} other {Infrastructure cost (Dec {startDate}-{endDate})}}} ' +
-      'other {}}',
-    description: 'Infrastructure cost label',
-    id: 'chartCostInfrastructureLegendLabel',
-  },
-  chartCostInfrastructureLegendNoDataLabel: {
-    defaultMessage: 'Infrastructure cost (no data)',
-    description: 'Infrastructure cost (no data)',
-    id: 'chartCostInfrastructureLegendNoDataLabel',
-  },
-  chartCostInfrastructureLegendTooltip: {
-    defaultMessage:
-      '{month, select, ' +
-      '0 {Infrastructure cost (Jan)} ' +
-      '1 {Infrastructure cost (Feb)} ' +
-      '2 {Infrastructure cost (Mar)} ' +
-      '3 {Infrastructure cost (Apr)} ' +
-      '4 {Infrastructure cost (May)} ' +
-      '5 {Infrastructure cost (Jun)} ' +
-      '6 {Infrastructure cost (Jul)} ' +
-      '7 {Infrastructure cost (Aug)} ' +
-      '8 {Infrastructure cost (Sep)} ' +
-      '9 {Infrastructure cost (Oct)} ' +
-      '10 {Infrastructure cost (Nov)} ' +
-      '11 {Infrastructure cost (Dec)} ' +
-      'other {}}',
-    description: 'Infrastructure cost label tooltip',
-    id: 'chartCostInfrastructureLegendTooltip',
-  },
   chartCostLegendLabel: {
     defaultMessage:
       '{month, select, ' +
@@ -720,6 +591,11 @@ export default defineMessages({
     description: 'Cost Models',
     id: 'costModels',
   },
+  costModelsActions: {
+    defaultMessage: 'Cost model actions',
+    description: 'Cost models',
+    id: 'costModelsActions',
+  },
   costModelsAddTagValues: {
     defaultMessage: 'Add more tag values',
     description: 'Add more tag values',
@@ -790,6 +666,11 @@ export default defineMessages({
     defaultMessage: 'Assign sources',
     description: 'Assign sources',
     id: 'costModelsDetailsAssignSourcesTitle',
+  },
+  costModelsDetailsTitle: {
+    defaultMessage: 'Cost Model Details',
+    description: 'Cost Model Details',
+    id: 'costModelsDetailsTitle',
   },
   costModelsDistributionDesc: {
     defaultMessage:
@@ -893,6 +774,11 @@ export default defineMessages({
     defaultMessage: 'Cost model info popover',
     description: 'Cost model info popover',
     id: 'costModelsPopoverAriaLabel',
+  },
+  costModelsPopoverButtonAriaLabel: {
+    defaultMessage: 'Opens a dialog with cost model info',
+    description: 'Opens a dialog with cost model info',
+    id: 'costModelsPopoverButtonAriaLabel',
   },
   costModelsRateTooLong: {
     defaultMessage: 'Should not exceed 10 decimals',
@@ -1652,6 +1538,16 @@ export default defineMessages({
     description: 'Examples',
     id: 'ExamplesTitle',
   },
+  excludeLabel: {
+    defaultMessage: 'Excludes: {value}',
+    description: 'Excludes filter label',
+    id: 'excludeLabel',
+  },
+  excludeValues: {
+    defaultMessage: '{value, select, ' + 'excludes {excludes} ' + 'includes {includes} ' + 'other {}}',
+    description: 'Exclude filter values',
+    id: 'excludeValues',
+  },
   expiresOn: {
     defaultMessage: 'Expires on',
     description: 'Expires on',
@@ -2234,9 +2130,11 @@ export default defineMessages({
       '{value, select, ' +
       'cost {Cost comparison} ' +
       'cpu {CPU usage, request, and limit comparison} ' +
+      'instance_type {Compute usage comparison}' +
       'memory {Memory usage, request, and limit comparison} ' +
       'modal {{name} daily usage comparison} ' +
       'storage {Storage usage comparison} ' +
+      'virtual_machine {Virtual machine usage comparison}' +
       'other {}}',
     description: 'Historical chart titles',
     id: 'historicalChartTitle',
@@ -2872,6 +2770,11 @@ export default defineMessages({
     description: 'A description of perspectives',
     id: 'overviewInfoArialLabel',
   },
+  overviewInfoButtonArialLabel: {
+    defaultMessage: 'A dialog with a description of perspectives',
+    description: 'A dialog with a description of perspectives',
+    id: 'overviewInfoButtonArialLabel',
+  },
   overviewTitle: {
     defaultMessage: 'Cost Management Overview',
     description: 'Cost Management Overview',
@@ -2926,6 +2829,15 @@ export default defineMessages({
     defaultMessage: 'Overview - Cost Management | Red Hat OpenShift Cluster Manager',
     description: 'Overview - Cost Management | Red Hat OpenShift Cluster Manager',
     id: 'pageTitleOverview',
+  },
+  paginationTitle: {
+    defaultMessage:
+      '{placement, select, ' +
+      'top {{title} top pagination} ' +
+      'bottom {{title} bottom pagination} ' +
+      'other {{title} pagination}}',
+    description: 'title for pagination aria',
+    id: 'paginationTitle',
   },
   percent: {
     defaultMessage: '{value} %',
@@ -3072,6 +2984,11 @@ export default defineMessages({
     description: 'Select all',
     id: 'selectAll',
   },
+  selectRow: {
+    defaultMessage: 'Select row {value}',
+    description: 'Select row {value}',
+    id: 'selectRow',
+  },
   selected: {
     defaultMessage: '{value} selected',
     description: '{value} selected',
@@ -3184,13 +3101,16 @@ export default defineMessages({
   unitTooltips: {
     defaultMessage:
       '{units, select, ' +
+      'byte_ms {{value} Byte-ms} ' +
       'core_hours {{value} core-hours} ' +
       'gb {{value} GB} ' +
       'gb_hours {{value} GB-hours} ' +
       'gb_mo {{value} GB-month} ' +
+      'gb_ms {{value} GB-ms} ' +
       'gibibyte_month {{value} GiB-month} ' +
       'hour {{value} hours} ' +
       'hrs {{value} hours} ' +
+      'ms {{value} milliseconds} ' +
       'vm_hours {{value} VM-hours} ' +
       'other {{value}}}',
     description: 'return value and unit based on key: "units"',
@@ -3199,13 +3119,16 @@ export default defineMessages({
   units: {
     defaultMessage:
       '{units, select, ' +
+      'byte_ms {Byte-ms} ' +
       'core_hours {core-hours} ' +
       'gb {GB} ' +
       'gb_hours {GB-hours} ' +
       'gb_mo {GB-month} ' +
+      'gb_ms {GB-ms} ' +
       'gibibyte_month {GiB-month} ' +
       'hour {hours} ' +
       'hrs {hours} ' +
+      'ms {milliseconds} ' +
       'vm_hours {VM-hours} ' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
@@ -3230,6 +3153,11 @@ export default defineMessages({
     defaultMessage: 'Various',
     description: 'Various',
     id: 'various',
+  },
+  volumeTitle: {
+    defaultMessage: 'Volume',
+    description: 'Volume',
+    id: 'volumeTitle',
   },
   yes: {
     defaultMessage: 'Yes',

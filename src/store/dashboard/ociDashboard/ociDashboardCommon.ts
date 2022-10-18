@@ -45,7 +45,11 @@ export function getQueryForWidget(filter: OciFilters = ociDashboardDefaultFilter
   return getQuery(query);
 }
 
-export function getQueryForWidgetTabs(widget: OciDashboardWidget, filter: OciFilters = ociDashboardDefaultFilters) {
+export function getQueryForWidgetTabs(
+  widget: OciDashboardWidget,
+  filter: OciFilters = ociDashboardDefaultFilters,
+  props?
+) {
   const group_by = getGroupByForTab(widget);
   const newFilter = {
     ...JSON.parse(JSON.stringify(filter)),
@@ -61,6 +65,7 @@ export function getQueryForWidgetTabs(widget: OciDashboardWidget, filter: OciFil
   const query: OciQuery = {
     filter: newFilter,
     group_by,
+    ...(props ? props : {}),
   };
   return getQuery(query);
 }

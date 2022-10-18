@@ -58,7 +58,7 @@ class ExportsDrawerBase extends React.Component<ExportsDrawerProps> {
     const { intl, isOpen } = this.props;
 
     return (
-      <DrawerPanelContent minSize="1000px">
+      <DrawerPanelContent id="ExportsDrawer" minSize="1000px">
         <DrawerHead>
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
           /* @ts-ignore */}
@@ -115,4 +115,4 @@ const mapDispatchToProps: ExportsDrawerDispatchProps = {
 
 const ExportsDrawer = injectIntl(connect(mapStateToProps, mapDispatchToProps)(ExportsDrawerBase));
 
-export { ExportsDrawer };
+export default ExportsDrawer;

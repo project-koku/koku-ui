@@ -1,0 +1,481 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reports are formatted to datums 1`] = `
+<div
+  data-testid="usage-chart-wrapper"
+  style="height: 100px; width: 0px;"
+>
+  <div
+    class="pf-c-chart"
+    style="height: 100%; width: 100%; user-select: none; pointer-events: none; position: relative;"
+  >
+    <svg
+      aria-labelledby="victory-container-4-title"
+      height="100"
+      role="img"
+      style="pointer-events: all; width: 100%; height: 100%;"
+      viewBox="0 0 0 100"
+      width="0"
+    >
+      <title
+        id="victory-container-4-title"
+      >
+        Usage Chart
+      </title>
+      <g
+        clip-path="url(#victory-clip-5)"
+        style="height: 100%; width: 100%; user-select: none;"
+      >
+        <defs>
+          <clippath
+            id="victory-clip-5"
+          >
+            <rect
+              height="17"
+              vector-effect="non-scaling-stroke"
+              width="16"
+              x="-8"
+              y="8"
+            />
+          </clippath>
+        </defs>
+        <g>
+          <path
+            d="M0.5333333333333332,25L0.5333333333333332,25Z"
+            role="presentation"
+            shape-rendering="auto"
+            style="fill: none; stroke: none; fill-opacity: 0.3; stroke-width: 2;"
+          />
+          <path
+            d="M0.5333333333333332,25Z"
+            role="presentation"
+            shape-rendering="auto"
+            style="fill: none; stroke: #d2d2d2; fill-opacity: 0.3; stroke-width: 2;"
+          />
+        </g>
+      </g>
+      <g
+        clip-path="url(#victory-clip-6)"
+        style="height: 100%; width: 100%; user-select: none;"
+      >
+        <defs>
+          <clippath
+            id="victory-clip-6"
+          >
+            <rect
+              height="17"
+              vector-effect="non-scaling-stroke"
+              width="16"
+              x="-8"
+              y="8"
+            />
+          </clippath>
+        </defs>
+        <g>
+          <path
+            d="M0.5333333333333332,25L0.5333333333333332,25Z"
+            role="presentation"
+            shape-rendering="auto"
+            style="fill: none; stroke: none; fill-opacity: 0.3; stroke-width: 2;"
+          />
+          <path
+            d="M0.5333333333333332,25Z"
+            role="presentation"
+            shape-rendering="auto"
+            style="fill: none; stroke: #38812f; fill-opacity: 0.3; stroke-width: 2;"
+          />
+        </g>
+      </g>
+      <g
+        clip-path="url(#victory-clip-7)"
+        style="height: 100%; width: 100%; user-select: none;"
+      >
+        <defs>
+          <clippath
+            id="victory-clip-7"
+          >
+            <rect
+              height="17"
+              vector-effect="non-scaling-stroke"
+              width="16"
+              x="-8"
+              y="8"
+            />
+          </clippath>
+        </defs>
+        <g>
+          <path
+            d="M0.5333333333333332,25L0.5333333333333332,25Z"
+            role="presentation"
+            shape-rendering="auto"
+            style="fill: none; stroke: none; stroke-dasharray: 3,3; fill-opacity: 0.3; stroke-width: 2;"
+          />
+          <path
+            d="M0.5333333333333332,25Z"
+            role="presentation"
+            shape-rendering="auto"
+            style="fill: none; stroke: #d2d2d2; stroke-dasharray: 3,3; fill-opacity: 0.3; stroke-width: 2;"
+          />
+        </g>
+      </g>
+      <g
+        clip-path="url(#victory-clip-8)"
+        style="height: 100%; width: 100%; user-select: none;"
+      >
+        <defs>
+          <clippath
+            id="victory-clip-8"
+          >
+            <rect
+              height="17"
+              vector-effect="non-scaling-stroke"
+              width="16"
+              x="-8"
+              y="8"
+            />
+          </clippath>
+        </defs>
+        <g>
+          <path
+            d="M0.5333333333333332,25L0.5333333333333332,25Z"
+            role="presentation"
+            shape-rendering="auto"
+            style="fill: none; stroke: none; stroke-dasharray: 3,3; fill-opacity: 0.3; stroke-width: 2;"
+          />
+          <path
+            d="M0.5333333333333332,25Z"
+            role="presentation"
+            shape-rendering="auto"
+            style="fill: none; stroke: #4cb140; stroke-dasharray: 3,3; fill-opacity: 0.3; stroke-width: 2;"
+          />
+        </g>
+      </g>
+      <g
+        role="presentation"
+      >
+        <line
+          role="presentation"
+          shape-rendering="auto"
+          style="stroke: var(--pf-chart-axis--axis--stroke--Color, #d2d2d2); fill: var(--pf-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
+          vector-effect="non-scaling-stroke"
+          x1="8"
+          x2="-8"
+          y1="25"
+          y2="25"
+        />
+        <g
+          role="presentation"
+        >
+          <text
+            direction="inherit"
+            dx="0"
+            id="exampleUsageChart-ChartAxis-4-ChartLabel-0"
+            x="8"
+            y="51.97"
+          >
+            <tspan
+              dx="0"
+              dy="0"
+              style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
+              text-anchor="middle"
+              x="8"
+            >
+              1
+            </tspan>
+          </text>
+        </g>
+        <g
+          role="presentation"
+        >
+          <text
+            direction="inherit"
+            dx="0"
+            id="exampleUsageChart-ChartAxis-4-ChartLabel-1"
+            x="0.5333333333333332"
+            y="51.97"
+          >
+            <tspan
+              dx="0"
+              dy="0"
+              style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
+              text-anchor="middle"
+              x="0.5333333333333332"
+            >
+              15
+            </tspan>
+          </text>
+        </g>
+        <g
+          role="presentation"
+        >
+          <text
+            direction="inherit"
+            dx="0"
+            id="exampleUsageChart-ChartAxis-4-ChartLabel-2"
+            x="-8"
+            y="51.97"
+          >
+            <tspan
+              dx="0"
+              dy="0"
+              style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
+              text-anchor="middle"
+              x="-8"
+            >
+              31
+            </tspan>
+          </text>
+        </g>
+      </g>
+      <g
+        role="presentation"
+      >
+        <line
+          role="presentation"
+          shape-rendering="auto"
+          style="stroke: var(--pf-chart-axis--axis--stroke--Color, #d2d2d2); fill: var(--pf-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
+          vector-effect="non-scaling-stroke"
+          x1="8"
+          x2="8"
+          y1="8"
+          y2="25"
+        />
+        <g
+          role="presentation"
+        >
+          <text
+            direction="inherit"
+            dx="0"
+            id="exampleUsageChart-ChartAxis-5-ChartLabel-0"
+            x="-7"
+            y="20.75"
+          >
+            <tspan
+              dx="0"
+              dy="0"
+              style="font-size: 0px; font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+              text-anchor="end"
+              x="-7"
+            >
+              0.00000000005
+            </tspan>
+          </text>
+        </g>
+        <g
+          role="presentation"
+        >
+          <text
+            direction="inherit"
+            dx="0"
+            id="exampleUsageChart-ChartAxis-5-ChartLabel-1"
+            x="-7"
+            y="16.5"
+          >
+            <tspan
+              dx="0"
+              dy="0"
+              style="font-size: 0px; font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+              text-anchor="end"
+              x="-7"
+            >
+              0.00000000010
+            </tspan>
+          </text>
+        </g>
+        <g
+          role="presentation"
+        >
+          <text
+            direction="inherit"
+            dx="0"
+            id="exampleUsageChart-ChartAxis-5-ChartLabel-2"
+            x="-7"
+            y="12.25"
+          >
+            <tspan
+              dx="0"
+              dy="0"
+              style="font-size: 0px; font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+              text-anchor="end"
+              x="-7"
+            >
+              0.00000000015
+            </tspan>
+          </text>
+        </g>
+        <g
+          role="presentation"
+        >
+          <text
+            direction="inherit"
+            dx="0"
+            id="exampleUsageChart-ChartAxis-5-ChartLabel-3"
+            x="-7"
+            y="8"
+          >
+            <tspan
+              dx="0"
+              dy="0"
+              style="font-size: 0px; font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+              text-anchor="end"
+              x="-7"
+            >
+              0.00000000020
+            </tspan>
+          </text>
+        </g>
+      </g>
+      <g>
+        <rect
+          height="123.61999999999999"
+          role="presentation"
+          shape-rendering="auto"
+          style="fill: none;"
+          vector-effect="non-scaling-stroke"
+          width="8079.734375000026"
+          x="0"
+          y="57"
+        />
+        <path
+          d="M 7.84, 73.156
+      h12.32
+      v-4.312
+      h-12.32
+      z"
+          role="presentation"
+          shape-rendering="auto"
+          style="fill: #d2d2d2;"
+        />
+        <path
+          d="M 7.84, 104.061
+      h12.32
+      v-4.312
+      h-12.32
+      z"
+          role="presentation"
+          shape-rendering="auto"
+          style="fill: #38812f;"
+        />
+        <path
+          d="M 7.84, 134.966
+      h3.6959999999999997
+      v-4.312
+      h-3.6959999999999997
+      z
+      M 12.767999999999999, 134.966
+      h3.6959999999999997
+      v-4.312
+      h-3.6959999999999997
+      z
+      M 17.695999999999998, 134.966
+      h3.6959999999999997
+      v-4.312
+      h-3.6959999999999997
+      z"
+          role="presentation"
+          shape-rendering="auto"
+          style="fill: #d2d2d2;"
+        />
+        <path
+          d="M 7.84, 165.87099999999998
+      h3.6959999999999997
+      v-4.312
+      h-3.6959999999999997
+      z
+      M 12.767999999999999, 165.87099999999998
+      h3.6959999999999997
+      v-4.312
+      h-3.6959999999999997
+      z
+      M 17.695999999999998, 165.87099999999998
+      h3.6959999999999997
+      v-4.312
+      h-3.6959999999999997
+      z"
+          role="presentation"
+          shape-rendering="auto"
+          style="fill: #4cb140;"
+        />
+        <text
+          direction="inherit"
+          dx="0"
+          id="exampleUsageChart-legend-ChartLabel-0"
+          x="30.8"
+          y="75.97"
+        >
+          <tspan
+            dx="0"
+            dy="0"
+            style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
+            text-anchor="start"
+            x="30.8"
+          >
+            {month, select, 0 {{count, plural, one {Usage (Jan {startDate})} other {Usage (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Usage (Feb {startDate})} other {Usage (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Usage (Mar {startDate})} other {Usage (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Usage (Apr {startDate})} other {Usage (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Usage (May {startDate})} other {Usage (May {startDate}-{endDate})}}} 5 {{count, plural, one {Usage (Jun {startDate})} other {Usage (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Usage (Jul {startDate})} other {Usage (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Usage (Aug {startDate})} other {Usage (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Usage (Sep {startDate})} other {Usage (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Usage (Oct {startDate})} other {Usage (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Usage (Nov {startDate})} other {Usage (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Usage (Dec {startDate})} other {Usage (Dec {startDate}-{endDate})}}} other {}}{"count":31,"startDate":"1","endDate":"31","month":11,"year":2017}
+          </tspan>
+        </text>
+        <text
+          direction="inherit"
+          dx="0"
+          id="exampleUsageChart-legend-ChartLabel-1"
+          x="30.8"
+          y="106.875"
+        >
+          <tspan
+            dx="0"
+            dy="0"
+            style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
+            text-anchor="start"
+            x="30.8"
+          >
+            {month, select, 0 {{count, plural, one {Usage (Jan {startDate})} other {Usage (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Usage (Feb {startDate})} other {Usage (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Usage (Mar {startDate})} other {Usage (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Usage (Apr {startDate})} other {Usage (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Usage (May {startDate})} other {Usage (May {startDate}-{endDate})}}} 5 {{count, plural, one {Usage (Jun {startDate})} other {Usage (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Usage (Jul {startDate})} other {Usage (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Usage (Aug {startDate})} other {Usage (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Usage (Sep {startDate})} other {Usage (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Usage (Oct {startDate})} other {Usage (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Usage (Nov {startDate})} other {Usage (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Usage (Dec {startDate})} other {Usage (Dec {startDate}-{endDate})}}} other {}}{"count":31,"startDate":"1","endDate":"31","month":0,"year":2018}
+          </tspan>
+        </text>
+        <text
+          direction="inherit"
+          dx="0"
+          id="exampleUsageChart-legend-ChartLabel-2"
+          x="30.8"
+          y="137.78"
+        >
+          <tspan
+            dx="0"
+            dy="0"
+            style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
+            text-anchor="start"
+            x="30.8"
+          >
+            {month, select, 0 {{count, plural, one {Requests (Jan {startDate})} other {Requests (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Requests (Feb {startDate})} other {Requests (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Requests (Mar {startDate})} other {Requests (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Requests (Apr {startDate})} other {Requests (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Requests (May {startDate})} other {Requests (May {startDate}-{endDate})}}} 5 {{count, plural, one {Requests (Jun {startDate})} other {Requests (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Requests (Jul {startDate})} other {Requests (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Requests (Aug {startDate})} other {Requests (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Requests (Sep {startDate})} other {Requests (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Requests (Oct {startDate})} other {Requests (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Requests (Nov {startDate})} other {Requests (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Requests (Dec {startDate})} other {Requests (Dec {startDate}-{endDate})}}} other {}}{"count":31,"startDate":"1","endDate":"31","month":11,"year":2017}
+          </tspan>
+        </text>
+        <text
+          direction="inherit"
+          dx="0"
+          id="exampleUsageChart-legend-ChartLabel-3"
+          x="30.8"
+          y="168.68499999999997"
+        >
+          <tspan
+            dx="0"
+            dy="0"
+            style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
+            text-anchor="start"
+            x="30.8"
+          >
+            {month, select, 0 {{count, plural, one {Requests (Jan {startDate})} other {Requests (Jan {startDate}-{endDate})}}} 1 {{count, plural, one {Requests (Feb {startDate})} other {Requests (Feb {startDate}-{endDate})}}} 2 {{count, plural, one {Requests (Mar {startDate})} other {Requests (Mar {startDate}-{endDate})}}} 3 {{count, plural, one {Requests (Apr {startDate})} other {Requests (Apr {startDate}-{endDate})}}} 4 {{count, plural, one {Requests (May {startDate})} other {Requests (May {startDate}-{endDate})}}} 5 {{count, plural, one {Requests (Jun {startDate})} other {Requests (Jun {startDate}-{endDate})}}} 6 {{count, plural, one {Requests (Jul {startDate})} other {Requests (Jul {startDate}-{endDate})}}} 7 {{count, plural, one {Requests (Aug {startDate})} other {Requests (Aug {startDate}-{endDate})}}} 8 {{count, plural, one {Requests (Sep {startDate})} other {Requests (Sep {startDate}-{endDate})}}} 9 {{count, plural, one {Requests (Oct {startDate})} other {Requests (Oct {startDate}-{endDate})}}} 10 {{count, plural, one {Requests (Nov {startDate})} other {Requests (Nov {startDate}-{endDate})}}} 11 {{count, plural, one {Requests (Dec {startDate})} other {Requests (Dec {startDate}-{endDate})}}} other {}}{"count":31,"startDate":"1","endDate":"31","month":0,"year":2018}
+          </tspan>
+        </text>
+      </g>
+    </svg>
+    <div
+      style="z-index: 99; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"
+    >
+      <svg
+        height="100"
+        style="overflow: visible; width: 100%; height: 100%;"
+        viewBox="0 0 0 100"
+        width="0"
+      />
+    </div>
+  </div>
+</div>
+`;

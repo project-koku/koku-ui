@@ -1,4 +1,4 @@
-import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
+import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import { combineReducers } from 'redux';
 import { accountSettingsReducer, accountSettingsStateKey } from 'store/accountSettings';
 import { awsCostOverviewReducer, awsCostOverviewStateKey } from 'store/breakdown/costOverview/awsCostOverview';
@@ -84,5 +84,5 @@ export const rootReducer = combineReducers({
   [tagStateKey]: tagReducer,
   [uiStateKey]: uiReducer,
   [userAccessStateKey]: userAccessReducer,
-  notifications,
+  notifications: notificationsReducer,
 });

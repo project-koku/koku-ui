@@ -15,6 +15,7 @@ export const enum DashboardChartType {
 export interface DashboardWidget<T> {
   availableTabs?: T[];
   chartFormatter?: Formatter;
+  chartName: string; // Will be the prefix for ids within the chart
   chartType?: DashboardChartType;
   currentTab?: T;
   details: {
@@ -61,12 +62,11 @@ export interface DashboardWidget<T> {
     computedForecastInfrastructureItem?: string; // The computed forecast infrastructure item to use in charts.
     computedReportItem: string; // The computed report item to use in charts, summary, etc.
     computedReportItemValue: string; // The computed report value (e.g., raw, markup, total, or usage)
-    formatOptions?: FormatOptions;
     dailyTitleKey?: MessageDescriptor;
-    showInfrastructureLabel?: boolean; // Trend chart legend items show "Infrastructure cost" instead of "cost"
+    datumType: number;
+    formatOptions?: FormatOptions;
     showSupplementaryLabel?: boolean; // Trend chart legend items show "Supplementary cost" instead of "cost"
     titleKey: MessageDescriptor;
-    type: number;
   };
   topItems?: {
     formatOptions?: FormatOptions;

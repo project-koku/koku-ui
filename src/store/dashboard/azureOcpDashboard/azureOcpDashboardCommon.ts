@@ -47,7 +47,8 @@ export function getQueryForWidget(filter: AzureFilters = azureOcpDashboardDefaul
 
 export function getQueryForWidgetTabs(
   widget: AzureOcpDashboardWidget,
-  filter: AzureFilters = azureOcpDashboardDefaultFilters
+  filter: AzureFilters = azureOcpDashboardDefaultFilters,
+  props?
 ) {
   const group_by = getGroupByForTab(widget);
   const newFilter = {
@@ -61,6 +62,7 @@ export function getQueryForWidgetTabs(
   const query: AzureQuery = {
     filter: newFilter,
     group_by,
+    ...(props ? props : {}),
   };
   return getQuery(query);
 }
