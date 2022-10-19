@@ -149,6 +149,17 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   const { groupBy, isAllItems, items, query, reportPathsType, resolution, timeScope } = props;
   let { end_date, start_date } = getDateRange(query.dateRange);
 
+  if (!query.dateRange) {
+    const isPrevious = timeScope === 'previous';
+    const today = getToday();
+
+    if (isPrevious) {
+      today.setMonth(today.getMonth() - 1);
+    }
+    end_date = format(isPrevious ? endOfMonth(today) : today, 'yyyy-MM-dd');
+    start_date = format(startOfMonth(today), 'yyyy-MM-dd');
+  }
+
   // Todo: Add name and format type for "all exports" feature
   const getQueryString = () => {
     const newQuery: Query = {
@@ -157,7 +168,6 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
         limit: undefined,
         offset: undefined,
         resolution: resolution ? resolution : undefined,
-        ...(!(start_date && end_date) && { time_scope_value: timeScope === 'previous' ? -2 : -1 }),
       },
       filter_by: {},
       limit: 0,
@@ -165,6 +175,8 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
       perspective: undefined,
       dateRange: undefined,
       delta: undefined,
+      start_date,
+      end_date,
     };
 
     // Store filter_by as an array so we can add to it below
@@ -211,17 +223,6 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   const report = exportSelectors.selectExport(state, reportPathsType, reportType, queryString);
   const reportError = exportSelectors.selectExportError(state, reportPathsType, reportType, queryString);
   const reportFetchStatus = exportSelectors.selectExportFetchStatus(state, reportPathsType, reportType, queryString);
-
-  if (!(start_date && end_date)) {
-    const isPrevious = timeScope === 'previous';
-    const today = getToday();
-
-    if (isPrevious) {
-      today.setMonth(today.getMonth() - 1);
-    }
-    end_date = format(isPrevious ? endOfMonth(today) : today, 'yyyy-MM-dd');
-    start_date = format(startOfMonth(today), 'yyyy-MM-dd');
-  }
 
   return {
     endDate: end_date,
