@@ -149,7 +149,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   const { groupBy, isAllItems, items, query, reportPathsType, resolution, timeScope } = props;
   let { end_date, start_date } = getDateRange(query.dateRange);
 
-  if (!(start_date && end_date)) {
+  if (!query.dateRange) {
     const isPrevious = timeScope === 'previous';
     const today = getToday();
 
