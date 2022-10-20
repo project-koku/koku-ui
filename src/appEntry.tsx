@@ -34,13 +34,15 @@ export default () => {
   const locale = getLocale();
 
   return (
-    <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale]} onError={console.log}>
-      <Provider store={store as any}>
-        <NotificationsPortal />
-        <Router basename={basename}>
-          <App basename={basename} />
-        </Router>
-      </Provider>
-    </IntlProvider>
+    <div className="cost-management">
+      <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale]} onError={console.log}>
+        <Provider store={store as any}>
+          <NotificationsPortal />
+          <Router basename={basename}>
+            <App basename={basename} />
+          </Router>
+        </Provider>
+      </IntlProvider>
+    </div>
   );
 };
