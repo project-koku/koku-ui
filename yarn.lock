@@ -7179,10 +7179,10 @@ npm-bundled@^1.1.1:
   dependencies:
     npm-normalize-package-bin "^1.0.1"
 
-npm-check-updates@^16.3.13:
-  version "16.3.13"
-  resolved "https://registry.yarnpkg.com/npm-check-updates/-/npm-check-updates-16.3.13.tgz#3757cae7dd3c5860caae60e97e5bbc3b7d536971"
-  integrity sha512-iBMvWZG4tvQBg4Ocb5QvyqIXW1t8D4/6usMPWgMWjw3/7Sh2/GXFMRlWKCVqeT5uBL/W6siNGTr4/QVXEM+WLQ==
+npm-check-updates@^16.3.14:
+  version "16.3.14"
+  resolved "https://registry.yarnpkg.com/npm-check-updates/-/npm-check-updates-16.3.14.tgz#08b77f09e8bdc36fb3826d4fced6fedf7fb59971"
+  integrity sha512-6sJg4rILKJiXGYPZei0lgFIe+5/nxuwh7PP3SDeZH0Oh2fJfnnzXtO8CQTG2JugYcB5p5nkksyN+NE1YE8XRYg==
   dependencies:
     chalk "^5.1.2"
     cli-table "^0.3.11"
@@ -7198,7 +7198,7 @@ npm-check-updates@^16.3.13:
     lodash "^4.17.21"
     minimatch "^5.1.0"
     p-map "^4.0.0"
-    pacote "^15.0.0"
+    pacote "15.0.0"
     parse-github-url "^1.0.2"
     progress "^2.0.3"
     prompts-ncu "^2.5.1"
@@ -7524,7 +7524,7 @@ package-json@^8.1.0:
     registry-url "^6.0.0"
     semver "^7.3.7"
 
-pacote@^15.0.0:
+pacote@15.0.0:
   version "15.0.0"
   resolved "https://registry.yarnpkg.com/pacote/-/pacote-15.0.0.tgz#32f6f7e9b59f4dd17e48c5f957c0d777f2d59021"
   integrity sha512-YsMK5om14r2rf4Ukum5R43zKFoJe0swrsZRbG4fUfTJUxHpdMrie6+Js/jaNtn7Bq0YRL9SnAajPqz6n4wgi6g==
