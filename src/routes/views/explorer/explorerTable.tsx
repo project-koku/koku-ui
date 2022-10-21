@@ -246,7 +246,6 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       columns,
       loadingRows,
       rows,
-      sortBy: {},
     });
   };
 

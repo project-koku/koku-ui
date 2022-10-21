@@ -240,7 +240,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       columns: filteredColumns,
       loadingRows,
       rows: filteredRows,
-      sortBy: {},
     });
   };
 

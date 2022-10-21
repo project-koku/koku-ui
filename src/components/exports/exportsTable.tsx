@@ -150,7 +150,6 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
       columns,
       loadingRows,
       rows,
-      sortBy: {},
     });
   };
 
