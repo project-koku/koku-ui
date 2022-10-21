@@ -34,6 +34,7 @@ module.exports = {
   stats,
   standalone: process.env.LOCAL_API_PORT ? true : false,
   useProxy: process.env.LOCAL_API_PORT ? false : true,
+  // useCache: true,
   /**
    * Change to false after your app is registered in configuration files
    */

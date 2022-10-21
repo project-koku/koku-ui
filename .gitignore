@@ -50,6 +50,7 @@ node_modules/
 public/
 dist/
 .DS_Store
+.cache
 .idea
 /build/
 report.*.json
