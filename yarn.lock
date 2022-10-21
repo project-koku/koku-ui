@@ -1134,10 +1134,10 @@
   dependencies:
     "@babel/runtime" "^7.6.2"
 
-"@redhat-cloud-services/eslint-config-redhat-cloud-services@^1.2.5":
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/eslint-config-redhat-cloud-services/-/eslint-config-redhat-cloud-services-1.2.5.tgz#a2a865be097e1c87ef53a52faebf46119ff30d11"
-  integrity sha512-wOcexp6f02bUuHGdr2/X4TlCVwjBhZPRubvEBzgwrmyoQBM58ogw3JkxHpeZrzI7OHIlkyXPmKpqmxTdKwHR5g==
+"@redhat-cloud-services/eslint-config-redhat-cloud-services@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/eslint-config-redhat-cloud-services/-/eslint-config-redhat-cloud-services-1.2.6.tgz#46c145bbe49ae46aa609ef8361943984d451491c"
+  integrity sha512-x0nN0cH5uk7Y1j7SqdFkRx+nUITtjkRkFPPmSHIC8DPOeWROkUUd350rxDKZe01C7cqAtdUKV+I88Jo6D91PEQ==
   dependencies:
     "@babel/eslint-parser" "^7.19.1"
     eslint-config-prettier "^8.5.0"
