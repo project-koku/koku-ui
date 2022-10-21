@@ -328,6 +328,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
   public render() {
     const { intl, isLoading } = this.props;
     const { columns, loadingRows, rows } = this.state;
+    
     return (
       <div style={styles.tableContainer}>
         <Table
