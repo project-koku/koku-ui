@@ -457,6 +457,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
       <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
         <div style={{ height, width }}>
           <Chart
+            ariaTitle={intl.formatMessage(messages.explorerChartAriaTitle)}
             containerComponent={container}
             domain={this.getDomain(series, hiddenSeries)}
             domainPadding={{ x: this.getBarWidth(true) }}
