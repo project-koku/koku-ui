@@ -86,7 +86,6 @@
     "aphrodite": "^2.4.0",
     "copy-webpack-plugin": "^11.0.0",
     "eslint": "^8.25.0",
-    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-formatjs": "^4.3.4",
     "eslint-plugin-jest-dom": "^4.0.2",
     "eslint-plugin-jsdoc": "^39.3.14",
