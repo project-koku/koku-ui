@@ -21,10 +21,12 @@ export {
   gcpUserAccessQuery,
   ibmUserAccessQuery,
   ocpUserAccessQuery,
-  UserAccessAction,
   userAccessActions,
   userAccessReducer,
   userAccessSelectors,
-  UserAccessState,
-  userAccessStateKey,
+  userAccessStateKey
 };
+export type {
+  UserAccessAction, UserAccessState
+};
+
