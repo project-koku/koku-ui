@@ -1,9 +1,10 @@
 import { Alert, Button, ButtonVariant, Form, Modal } from '@patternfly/react-core';
-import { CostModelRequest } from 'api/costModels';
-import { MetricHash } from 'api/metrics';
+import type { CostModelRequest } from 'api/costModels';
+import type { MetricHash } from 'api/metrics';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import {
   canSubmit as isReadyForSubmit,

@@ -11,7 +11,8 @@ import { awsDashboardWidgets } from 'store/dashboard/awsDashboard';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
 
-import { AwsOcpDashboardTab, AwsOcpDashboardWidget } from './awsOcpDashboardCommon';
+import type { AwsOcpDashboardWidget } from './awsOcpDashboardCommon';
+import { AwsOcpDashboardTab } from './awsOcpDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

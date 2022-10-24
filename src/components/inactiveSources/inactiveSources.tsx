@@ -1,12 +1,14 @@
 import './inactiveSources.scss';
 
 import { Alert, AlertActionCloseButton } from '@patternfly/react-core';
-import { Providers, ProviderType } from 'api/providers';
+import type { Providers } from 'api/providers';
+import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';

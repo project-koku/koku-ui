@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { PagedResponse } from './api';
+import type { PagedResponse } from './api';
 
 export interface Metric {
   name: string;

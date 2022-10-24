@@ -1,7 +1,9 @@
-import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Select, SelectOption, SelectOptionObject, SelectVariant } from '@patternfly/react-core';
+import type { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { SelectOptionObject } from '@patternfly/react-core';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 interface ExplorerDateRangeOwnProps {
   currentItem?: string;

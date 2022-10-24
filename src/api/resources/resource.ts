@@ -1,4 +1,4 @@
-import { PagedMetaData, PagedResponse } from 'api/api';
+import type { PagedMetaData, PagedResponse } from 'api/api';
 
 export interface ResourceData {
   account_alias: string;

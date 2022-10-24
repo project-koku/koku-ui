@@ -1,5 +1,6 @@
-import { getQuery, OcpFilters, OcpQuery } from 'api/queries/ocpQuery';
-import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
+import type { OcpFilters, OcpQuery } from 'api/queries/ocpQuery';
+import { getQuery } from 'api/queries/ocpQuery';
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const ocpDashboardStateKey = 'ocpDashboard';
 export const ocpDashboardDefaultFilters: OcpFilters = {

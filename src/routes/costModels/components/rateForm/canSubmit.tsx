@@ -1,4 +1,4 @@
-import { RateFormData } from './utils';
+import type { RateFormData } from './utils';
 
 export function canSubmit(rateFormData: RateFormData): boolean {
   if (rateFormData.rateKind === 'tagging') {

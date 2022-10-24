@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { PagedResponse } from './api';
-import { Metric } from './metrics';
+import type { PagedResponse } from './api';
+import type { Metric } from './metrics';
 
 export interface RateRequest {
   metric: { name: string };

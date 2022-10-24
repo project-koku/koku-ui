@@ -1,9 +1,11 @@
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
-import { UserAccess, UserAccessType } from 'api/userAccess';
+import type { UserAccess } from 'api/userAccess';
+import { UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import type { RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { paths, routes } from 'routes';
 import { Loading } from 'routes/state/loading';
 import { NotAuthorized } from 'routes/state/notAuthorized';

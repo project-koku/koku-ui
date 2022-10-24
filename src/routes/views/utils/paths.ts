@@ -1,4 +1,5 @@
-import { getQueryRoute, Query } from 'api/queries/query';
+import type { Query } from 'api/queries/query';
+import { getQueryRoute } from 'api/queries/query';
 import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey } from 'api/queries/query';
 
 export const getBreakdownPath = ({

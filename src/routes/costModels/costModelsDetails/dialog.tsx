@@ -1,10 +1,12 @@
-import { Modal, ModalProps, ModalVariant } from '@patternfly/react-core';
+import type { ModalProps } from '@patternfly/react-core';
+import { Modal, ModalVariant } from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { RootState } from 'store';
+import type { Dispatch } from 'redux';
+import type { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
 import { DeleteDialogActions, DeleteDialogBody, getDialogStateName } from './utils/dialog';

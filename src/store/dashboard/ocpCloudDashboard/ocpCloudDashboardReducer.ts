@@ -1,7 +1,8 @@
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './ocpCloudDashboardActions';
-import { OcpCloudDashboardWidget } from './ocpCloudDashboardCommon';
+import type { OcpCloudDashboardWidget } from './ocpCloudDashboardCommon';
 import {
   computeWidget,
   costSummaryWidget,

@@ -1,7 +1,8 @@
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './azureOcpDashboardActions';
-import { AzureOcpDashboardWidget } from './azureOcpDashboardCommon';
+import type { AzureOcpDashboardWidget } from './azureOcpDashboardCommon';
 import {
   costSummaryWidget,
   databaseWidget,

@@ -1,12 +1,12 @@
-import { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
-import { Forecast } from 'api/forecasts/forecast';
+import type { Forecast } from 'api/forecasts/forecast';
 import { getQuery } from 'api/queries/awsQuery';
-import { Report } from 'api/reports/report';
+import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
-import { WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import {
   ComputedReportItemType,
@@ -27,7 +27,8 @@ import {
   ReportSummaryTrend,
   ReportSummaryUsage,
 } from 'routes/views/components/reports/reportSummary';
-import { DashboardChartType, DashboardWidget } from 'store/dashboard/common/dashboardCommon';
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
 
 import { ChartComparison } from './chartComparison';

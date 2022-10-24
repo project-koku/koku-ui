@@ -3,13 +3,15 @@ import './azureDetailsTable.scss';
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
-import { AzureQuery, getQuery } from 'api/queries/azureQuery';
+import type { AzureQuery } from 'api/queries/azureQuery';
+import { getQuery } from 'api/queries/azureQuery';
 import { tagPrefix } from 'api/queries/query';
-import { AzureReport } from 'api/reports/azureReports';
+import type { AzureReport } from 'api/reports/azureReports';
 import { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { paths } from 'routes';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
@@ -17,7 +19,8 @@ import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { Actions } from 'routes/views/details/components/actions';
 import { getBreakdownPath } from 'routes/views/utils/paths';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
-import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dates';
 import { formatCurrency, formatPercentage } from 'utils/format';
 
@@ -382,4 +385,5 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
 const DetailsTable = injectIntl(DetailsTableBase);
 
-export { DetailsTable, DetailsTableProps };
+export { DetailsTable };
+export type { DetailsTableProps };

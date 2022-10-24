@@ -1,8 +1,9 @@
-import { Org } from 'api/orgs/org';
+import type { Org } from 'api/orgs/org';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { fetchOrgFailure, fetchOrgRequest, fetchOrgSuccess } from './orgActions';
 

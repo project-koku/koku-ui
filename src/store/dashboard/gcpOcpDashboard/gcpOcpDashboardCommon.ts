@@ -1,5 +1,6 @@
-import { GcpFilters, GcpQuery, getQuery } from 'api/queries/gcpQuery';
-import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
+import type { GcpFilters, GcpQuery } from 'api/queries/gcpQuery';
+import { getQuery } from 'api/queries/gcpQuery';
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const gcpOcpDashboardStateKey = 'gcpOcpDashboard';
 export const gcpOcpDashboardDefaultFilters: GcpFilters = {

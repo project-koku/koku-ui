@@ -1,8 +1,9 @@
-import { Rates } from 'api/rates';
+import type { Rates } from 'api/rates';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { fetchPriceListFailure, fetchPriceListRequest, fetchPriceListSuccess } from './actions';
 

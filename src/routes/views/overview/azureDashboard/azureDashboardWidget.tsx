@@ -1,16 +1,13 @@
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import {
-  DashboardWidgetBase,
-  DashboardWidgetOwnProps,
-  DashboardWidgetStateProps,
-} from 'routes/views/overview/components';
+import type { DashboardWidgetOwnProps, DashboardWidgetStateProps } from 'routes/views/overview/components';
+import { DashboardWidgetBase } from 'routes/views/overview/components';
 import { createMapStateToProps } from 'store/common';
 import { azureDashboardActions, azureDashboardSelectors, AzureDashboardTab } from 'store/dashboard/azureDashboard';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
+import type { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { getCurrency } from 'utils/currency';
 
 interface AzureDashboardWidgetDispatchProps {

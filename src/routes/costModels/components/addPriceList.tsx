@@ -11,17 +11,14 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
-import { MetricHash } from 'api/metrics';
+import type { MetricHash } from 'api/metrics';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import {
-  canSubmit as isReadyForSubmit,
-  RateForm,
-  RateFormData,
-  useRateData,
-} from 'routes/costModels/components/rateForm';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
+import type { RateFormData } from 'routes/costModels/components/rateForm';
+import { canSubmit as isReadyForSubmit, RateForm, useRateData } from 'routes/costModels/components/rateForm';
 import { CostModelContext } from 'routes/costModels/createCostModelWizard/context';
 
 interface AddPriceListOwnProps {

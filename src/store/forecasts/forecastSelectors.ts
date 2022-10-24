@@ -1,5 +1,5 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
-import { RootState } from 'store/rootReducer';
+import type { RootState } from 'store/rootReducer';
 
 import { forecastStateKey, getForecastId } from './forecastCommon';
 

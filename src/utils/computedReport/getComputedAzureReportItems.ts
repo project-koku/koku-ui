@@ -1,7 +1,7 @@
-import { AzureQuery } from 'api/queries/azureQuery';
-import { AzureReport, AzureReportItem } from 'api/reports/azureReports';
+import type { AzureQuery } from 'api/queries/azureQuery';
+import type { AzureReport, AzureReportItem } from 'api/reports/azureReports';
 
-import { ComputedReportItemsParams } from './getComputedReportItems';
+import type { ComputedReportItemsParams } from './getComputedReportItems';
 
 export interface ComputedAzureReportItemsParams extends ComputedReportItemsParams<AzureReport, AzureReportItem> {}
 

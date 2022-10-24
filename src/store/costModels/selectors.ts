@@ -2,7 +2,7 @@ import { parseApiError } from 'routes/costModels/createCostModelWizard/parseErro
 import { FetchStatus } from 'store/common';
 import { selectPagination } from 'store/djangoUtils/pagination';
 import { selectQuery } from 'store/djangoUtils/query';
-import { RootState } from 'store/rootReducer';
+import type { RootState } from 'store/rootReducer';
 
 import { stateKey } from './reducer';
 

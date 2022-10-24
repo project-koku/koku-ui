@@ -2,7 +2,8 @@ import './reportSummary.scss';
 
 import { Card, CardBody, CardFooter, CardTitle, Skeleton, Title, TitleSizes } from '@patternfly/react-core';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { FetchStatus } from 'store/common';
 import { skeletonWidth } from 'utils/skeleton';
 

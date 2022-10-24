@@ -1,9 +1,12 @@
-import { Select, SelectOption, SelectOptionObject, SelectVariant } from '@patternfly/react-core';
-import { Org } from 'api/orgs/org';
-import { orgUnitIdKey, orgUnitNameKey, parseQuery, Query } from 'api/queries/query';
+import type { SelectOptionObject } from '@patternfly/react-core';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import type { Org } from 'api/orgs/org';
+import type { Query } from 'api/queries/query';
+import { orgUnitIdKey, orgUnitNameKey, parseQuery } from 'api/queries/query';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 import { styles } from './groupBy.styles';
 
@@ -161,4 +164,5 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
 
 const GroupByOrg = injectIntl(GroupByOrgBase);
 
-export { GroupByOrg, GroupByOrgProps };
+export { GroupByOrg };
+export type { GroupByOrgProps };

@@ -1,4 +1,4 @@
-import { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import {
   Alert,
   Button,
@@ -11,20 +11,22 @@ import {
   Radio,
   TextInput,
 } from '@patternfly/react-core';
-import { Query, tagPrefix } from 'api/queries/query';
+import type { Query } from 'api/queries/query';
+import { tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { format } from 'date-fns';
 import messages from 'locales/messages';
 import { orderBy } from 'lodash';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { exportActions } from 'store/export';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 import { styles } from './exportModal.styles';
 import { ExportSubmit } from './exportSubmit';

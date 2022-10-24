@@ -1,14 +1,17 @@
 import { Title, TitleSizes } from '@patternfly/react-core';
-import { Providers, ProviderType } from 'api/providers';
-import { getQuery, IbmQuery } from 'api/queries/ibmQuery';
+import type { Providers } from 'api/providers';
+import { ProviderType } from 'api/providers';
+import type { IbmQuery } from 'api/queries/ibmQuery';
+import { getQuery } from 'api/queries/ibmQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { IbmReport } from 'api/reports/ibmReports';
+import type { IbmReport } from 'api/reports/ibmReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { ExportsLink } from 'components/exports';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Currency } from 'routes/components/currency';
 import { GroupBy } from 'routes/views/components/groupBy';
@@ -16,7 +19,8 @@ import { filterProviders } from 'routes/views/utils/providers';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
-import { ComputedIbmReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedIbmReportItems';
+import type { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedIbmReportItems';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 
@@ -146,4 +150,5 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
 
 const DetailsHeader = injectIntl(connect(mapStateToProps, {})(DetailsHeaderBase));
 
-export { DetailsHeader, DetailsHeaderProps };
+export { DetailsHeader };
+export type { DetailsHeaderProps };

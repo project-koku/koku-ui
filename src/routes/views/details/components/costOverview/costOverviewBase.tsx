@@ -11,17 +11,20 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
-import { orgUnitIdKey, Query, tagPrefix } from 'api/queries/query';
-import { Report } from 'api/reports/report';
+import type { Query } from 'api/queries/query';
+import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
+import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { Cluster } from 'routes/views/details/components/cluster';
 import { CostChart } from 'routes/views/details/components/costChart';
 import { SummaryCard } from 'routes/views/details/components/summary';
 import { UsageChart } from 'routes/views/details/components/usageChart';
 import { styles } from 'routes/views/details/ocpDetails/detailsHeader.styles';
-import { CostOverviewWidget, CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
+import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
+import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 
 interface CostOverviewOwnProps {
   costType?: string;

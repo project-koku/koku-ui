@@ -1,6 +1,7 @@
-import { applyMiddleware, combineReducers, createStore, DeepPartial, Reducer, ReducersMapObject, Store } from 'redux';
+import type { DeepPartial, Reducer, ReducersMapObject, Store } from 'redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 
-import { RootState } from './rootReducer';
+import type { RootState } from './rootReducer';
 import { middlewares } from './store';
 
 type MockReducer<S> = ReducersMapObject<S, any> | Reducer<S>;

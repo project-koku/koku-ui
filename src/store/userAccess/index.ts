@@ -10,7 +10,8 @@ import {
 
 import * as userAccessActions from './userAccessActions';
 import { stateKey as userAccessStateKey } from './userAccessCommon';
-import { UserAccessAction, userAccessReducer, UserAccessState } from './userAccessReducer';
+import type { UserAccessAction, UserAccessState } from './userAccessReducer';
+import { userAccessReducer } from './userAccessReducer';
 import * as userAccessSelectors from './userAccessSelectors';
 
 export {
@@ -24,9 +25,6 @@ export {
   userAccessActions,
   userAccessReducer,
   userAccessSelectors,
-  userAccessStateKey
+  userAccessStateKey,
 };
-export type {
-  UserAccessAction, UserAccessState
-};
-
+export type { UserAccessAction, UserAccessState };

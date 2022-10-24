@@ -1,22 +1,27 @@
 import { Title, TitleSizes } from '@patternfly/react-core';
-import { Providers, ProviderType } from 'api/providers';
+import type { Providers } from 'api/providers';
+import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { getQuery, parseQuery, Query } from 'api/queries/query';
+import type { Query } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
-import { UserAccess, UserAccessType } from 'api/userAccess';
+import type { UserAccess } from 'api/userAccess';
+import { UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import { ExportsLink } from 'components/exports';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import type { RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Currency } from 'routes/components/currency';
 import { CostType } from 'routes/views/components/costType';
 import { GroupBy } from 'routes/views/components/groupBy';
 import { Perspective } from 'routes/views/components/perspective';
 import { getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
-import { Filter } from 'routes/views/utils/filter';
+import type { Filter } from 'routes/views/utils/filter';
 import { getRouteForQuery } from 'routes/views/utils/history';
 import { filterProviders, hasCloudProvider } from 'routes/views/utils/providers';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -49,6 +54,7 @@ import {
   getTagReportPathsType,
   PerspectiveType,
 } from './explorerUtils';
+
 interface ExplorerHeaderOwnProps {
   costType?: CostTypes;
   currency?: string;
@@ -390,4 +396,5 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
 
 const ExplorerHeader = injectIntl(withRouter(connect(mapStateToProps, {})(ExplorerHeaderBase)));
 
-export { ExplorerHeader, ExplorerHeaderProps };
+export { ExplorerHeader };
+export type { ExplorerHeaderProps };

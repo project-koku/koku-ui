@@ -1,5 +1,5 @@
 import { ProviderType } from 'api/providers';
-import { ProvidersQuery } from 'api/queries/providersQuery';
+import type { ProvidersQuery } from 'api/queries/providersQuery';
 
 export const stateKey = 'providers';
 export const addProviderKey = 'add-provider';

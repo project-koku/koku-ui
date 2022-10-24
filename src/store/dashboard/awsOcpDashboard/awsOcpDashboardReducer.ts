@@ -1,7 +1,8 @@
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './awsOcpDashboardActions';
-import { AwsOcpDashboardWidget } from './awsOcpDashboardCommon';
+import type { AwsOcpDashboardWidget } from './awsOcpDashboardCommon';
 import {
   computeWidget,
   costSummaryWidget,

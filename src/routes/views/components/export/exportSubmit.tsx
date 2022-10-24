@@ -1,20 +1,22 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
-import { Export } from 'api/export/export';
-import { getQuery, orgUnitIdKey, Query, tagPrefix } from 'api/queries/query';
+import type { Export } from 'api/export/export';
+import type { Query } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { endOfMonth, format, startOfMonth } from 'date-fns';
 import fileDownload from 'js-file-download';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { getDateRange } from 'routes/views/utils/dateRange';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/export';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getToday } from 'utils/dates';
 
 export interface ExportSubmitOwnProps {
@@ -242,4 +244,5 @@ const mapDispatchToProps: ExportSubmitDispatchProps = {
 const ExportSubmitConnect = connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase);
 const ExportSubmit = injectIntl(ExportSubmitConnect);
 
-export { ExportSubmit, ExportSubmitProps };
+export { ExportSubmit };
+export type { ExportSubmitProps };

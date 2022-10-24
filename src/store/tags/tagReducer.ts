@@ -1,8 +1,9 @@
-import { Tag } from 'api/tags/tag';
+import type { Tag } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { fetchTagFailure, fetchTagRequest, fetchTagSuccess } from './tagActions';
 

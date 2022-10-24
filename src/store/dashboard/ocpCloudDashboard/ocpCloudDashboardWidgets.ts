@@ -13,7 +13,8 @@ import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { gcpDashboardWidgets } from 'store/dashboard/gcpDashboard';
 import { formatCurrency, formatUnits } from 'utils/format';
 
-import { OcpCloudDashboardTab, OcpCloudDashboardWidget } from './ocpCloudDashboardCommon';
+import type { OcpCloudDashboardWidget } from './ocpCloudDashboardCommon';
+import { OcpCloudDashboardTab } from './ocpCloudDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

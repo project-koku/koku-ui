@@ -1,14 +1,17 @@
 import { Title, TitleSizes } from '@patternfly/react-core';
-import { Providers, ProviderType } from 'api/providers';
-import { AzureQuery, getQuery } from 'api/queries/azureQuery';
+import type { Providers } from 'api/providers';
+import { ProviderType } from 'api/providers';
+import type { AzureQuery } from 'api/queries/azureQuery';
+import { getQuery } from 'api/queries/azureQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { AzureReport } from 'api/reports/azureReports';
+import type { AzureReport } from 'api/reports/azureReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { ExportsLink } from 'components/exports';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Currency } from 'routes/components/currency';
 import { GroupBy } from 'routes/views/components/groupBy';
@@ -16,7 +19,8 @@ import { filterProviders } from 'routes/views/utils/providers';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
-import { ComputedAzureReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
+import type { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 
@@ -145,4 +149,5 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
 
 const DetailsHeader = injectIntl(connect(mapStateToProps, {})(DetailsHeaderBase));
 
-export { DetailsHeader, DetailsHeaderProps };
+export { DetailsHeader };
+export type { DetailsHeaderProps };

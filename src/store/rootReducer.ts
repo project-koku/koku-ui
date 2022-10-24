@@ -35,7 +35,7 @@ import { reportReducer, reportStateKey } from 'store/reports';
 import { resourceReducer, resourceStateKey } from 'store/resources';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { tagReducer, tagStateKey } from 'store/tags';
-import { StateType } from 'typesafe-actions';
+import type { StateType } from 'typesafe-actions';
 
 import { featureFlagsReducer, featureFlagsStateKey } from './featureFlags';
 import { metricsReducer, metricsStateKey } from './metrics';
@@ -43,6 +43,7 @@ import { providersReducer, providersStateKey } from './providers';
 import { rbacReducer, rbacStateKey } from './rbac';
 import { uiReducer, uiStateKey } from './ui';
 import { userAccessReducer, userAccessStateKey } from './userAccess';
+
 export type RootState = StateType<typeof rootReducer>;
 
 export const rootReducer = combineReducers({

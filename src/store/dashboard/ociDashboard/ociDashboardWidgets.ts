@@ -11,7 +11,8 @@ import {
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatUnits } from 'utils/format';
 
-import { OciDashboardTab, OciDashboardWidget } from './ociDashboardCommon';
+import type { OciDashboardWidget } from './ociDashboardCommon';
+import { OciDashboardTab } from './ociDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

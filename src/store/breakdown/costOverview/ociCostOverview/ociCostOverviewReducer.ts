@@ -1,4 +1,4 @@
-import { OciCostOverviewWidget } from './ociCostOverviewCommon';
+import type { OciCostOverviewWidget } from './ociCostOverviewCommon';
 import { accountSummaryWidget, costWidget, regionSummaryWidget, serviceSummaryWidget } from './ociCostOverviewWidgets';
 
 export type OciCostOverviewState = Readonly<{

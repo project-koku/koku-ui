@@ -2,9 +2,10 @@ import { Button, ButtonVariant, Popover, TextContent, Title, TitleSizes } from '
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { RootState } from 'store';
+import type { RootState } from 'store';
 
 import { styles } from './header.styles';
 

@@ -1,4 +1,5 @@
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { HistoricalDataBase } from 'routes/views/details/components/historicalData';
 import { awsHistoricalDataSelectors } from 'store/breakdown/historicalData/awsHistoricalData';

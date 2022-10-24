@@ -1,8 +1,9 @@
-import { Export } from 'api/export/export';
+import type { Export } from 'api/export/export';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { fetchExportFailure, fetchExportRequest, fetchExportSuccess } from './exportActions';
 

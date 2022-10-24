@@ -1,17 +1,18 @@
 import { Button, ButtonVariant, FormGroup, Grid, GridItem, Radio, Switch } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
-import { MetricHash } from 'api/metrics';
+import type { MetricHash } from 'api/metrics';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { RateInput } from 'routes/costModels/components/inputs/rateInput';
 import { Selector } from 'routes/costModels/components/inputs/selector';
 import { SimpleInput } from 'routes/costModels/components/inputs/simpleInput';
 import { unitsLookupKey } from 'utils/format';
 
 import { TaggingRatesForm } from './taggingRatesForm';
-import { UseRateData } from './useRateForm';
+import type { UseRateData } from './useRateForm';
 
 interface RateFormOwnProps {
   currencyUnits?: string;

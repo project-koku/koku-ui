@@ -1,1 +1,2 @@
-export { default as UsageChart, UsageChartProps } from './usageChart';
+export { default as UsageChart } from './usageChart';
+export type { UsageChartProps } from './usageChart';

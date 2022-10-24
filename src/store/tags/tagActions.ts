@@ -1,9 +1,10 @@
-import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import type { Tag } from 'api/tags/tag';
+import { TagPathsType, TagType } from 'api/tags/tag';
 import { runTag } from 'api/tags/tagUtils';
 import { AxiosError } from 'axios';
-import { ThunkAction } from 'redux-thunk';
+import type { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
-import { RootState } from 'store/rootReducer';
+import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
 import { getTagId } from './tagCommon';

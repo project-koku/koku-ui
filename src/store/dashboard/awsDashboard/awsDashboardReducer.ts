@@ -1,7 +1,8 @@
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './awsDashboardActions';
-import { AwsDashboardWidget } from './awsDashboardCommon';
+import type { AwsDashboardWidget } from './awsDashboardCommon';
 import { computeWidget, costSummaryWidget, databaseWidget, networkWidget, storageWidget } from './awsDashboardWidgets';
 
 export type AwsDashboardAction = ActionType<typeof setWidgetTab>;

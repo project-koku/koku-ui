@@ -1,7 +1,7 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { HistoricalDataWidgetType } from 'store/breakdown/historicalData/common/historicalDataCommon';
 
-import { GcpHistoricalDataWidget } from './gcpHistoricalDataCommon';
+import type { GcpHistoricalDataWidget } from './gcpHistoricalDataCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

@@ -1,4 +1,5 @@
-import { Select, SelectOption, SelectOptionObject, SelectVariant } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import React from 'react';
 
 interface ChartComparisonOwnProps {

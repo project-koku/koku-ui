@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { FetchStatus } from 'store/common';
 
-import ReportSummary, { ReportSummaryProps } from './reportSummary';
+import type { ReportSummaryProps } from './reportSummary';
+import ReportSummary from './reportSummary';
 
 const props: ReportSummaryProps = {
   intl: null,

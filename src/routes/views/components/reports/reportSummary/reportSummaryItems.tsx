@@ -1,15 +1,13 @@
 import './reportSummaryItems.scss';
 
 import { Skeleton } from '@patternfly/react-core';
-import { Report, ReportItem } from 'api/reports/report';
+import type { Report, ReportItem } from 'api/reports/report';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { FetchStatus } from 'store/common';
-import {
-  ComputedReportItem,
-  ComputedReportItemsParams,
-  getComputedReportItems,
-} from 'utils/computedReport/getComputedReportItems';
+import type { ComputedReportItem, ComputedReportItemsParams } from 'utils/computedReport/getComputedReportItems';
+import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { skeletonWidth } from 'utils/skeleton';
 
 interface ReportSummaryItemsRenderProps {

@@ -1,8 +1,9 @@
 import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRow } from '@patternfly/react-core';
-import { Tag } from 'api/tags/tag';
+import type { Tag } from 'api/tags/tag';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 
 import { styles } from './tag.styles';
@@ -86,4 +87,5 @@ class TagContentBase extends React.Component<TagContentProps> {
 
 const TagContent = injectIntl(connect()(TagContentBase));
 
-export { TagContent, TagContentProps };
+export { TagContent };
+export type { TagContentProps };

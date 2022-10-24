@@ -1,10 +1,11 @@
 import { Alert, Button, Modal, Stack, StackItem } from '@patternfly/react-core';
-import { CostModelRequest } from 'api/costModels';
-import { MetricHash } from 'api/metrics';
+import type { CostModelRequest } from 'api/costModels';
+import type { MetricHash } from 'api/metrics';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Form } from 'routes/costModels/components/forms/form';
 import {

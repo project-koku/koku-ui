@@ -11,7 +11,8 @@ import { azureDashboardWidgets } from 'store/dashboard/azureDashboard';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatUnits } from 'utils/format';
 
-import { AzureOcpDashboardTab, AzureOcpDashboardWidget } from './azureOcpDashboardCommon';
+import type { AzureOcpDashboardWidget } from './azureOcpDashboardCommon';
+import { AzureOcpDashboardTab } from './azureOcpDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

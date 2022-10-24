@@ -1,4 +1,5 @@
-import { ICell, ISortBy, SortByDirection } from '@patternfly/react-table';
+import type { ICell, ISortBy } from '@patternfly/react-table';
+import { SortByDirection } from '@patternfly/react-table';
 
 export const initialCostModelsQuery = {
   limit: 10 as null | number,

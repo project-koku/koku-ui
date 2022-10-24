@@ -1,4 +1,4 @@
-import { Forecast, ForecastData } from 'api/forecasts/forecast';
+import type { Forecast, ForecastData } from 'api/forecasts/forecast';
 import { sort, SortDirection } from 'utils/sort';
 
 export interface ComputedForecastValue {

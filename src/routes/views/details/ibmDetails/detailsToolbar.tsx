@@ -1,17 +1,20 @@
-import { ToolbarChipGroup } from '@patternfly/react-core';
-import { getQuery, IbmQuery } from 'api/queries/ibmQuery';
+import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { IbmQuery } from 'api/queries/ibmQuery';
+import { getQuery } from 'api/queries/ibmQuery';
 import { tagKey } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
-import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import type { Tag } from 'api/tags/tag';
+import { TagPathsType, TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { DataToolbar } from 'routes/views/components/dataToolbar';
-import { Filter } from 'routes/views/utils/filter';
+import type { Filter } from 'routes/views/utils/filter';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
-import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {
@@ -183,4 +186,5 @@ const mapDispatchToProps: DetailsToolbarDispatchProps = {
 const DetailsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase);
 const DetailsToolbar = injectIntl(DetailsToolbarConnect);
 
-export { DetailsToolbar, DetailsToolbarProps };
+export { DetailsToolbar };
+export type { DetailsToolbarProps };

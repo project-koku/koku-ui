@@ -1,6 +1,6 @@
-import { Rate } from 'api/rates';
+import type { Rate } from 'api/rates';
 
-import { RateFormData } from './utils';
+import type { RateFormData } from './utils';
 
 export function hasDiff(rate: Rate, rateFormData: RateFormData): boolean {
   if (!rate) {

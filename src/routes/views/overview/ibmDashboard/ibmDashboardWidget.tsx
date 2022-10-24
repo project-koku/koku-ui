@@ -1,16 +1,13 @@
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import {
-  DashboardWidgetBase,
-  DashboardWidgetOwnProps,
-  DashboardWidgetStateProps,
-} from 'routes/views/overview/components';
+import type { DashboardWidgetOwnProps, DashboardWidgetStateProps } from 'routes/views/overview/components';
+import { DashboardWidgetBase } from 'routes/views/overview/components';
 import { createMapStateToProps } from 'store/common';
 import { ibmDashboardActions, ibmDashboardSelectors, IbmDashboardTab } from 'store/dashboard/ibmDashboard';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
+import type { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
 import { getCurrency } from 'utils/currency';
 
 interface IbmDashboardWidgetDispatchProps {

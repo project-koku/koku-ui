@@ -1,5 +1,6 @@
 import * as awsOcpDashboardActions from './awsOcpDashboardActions';
-import { awsOcpDashboardStateKey, AwsOcpDashboardTab, AwsOcpDashboardWidget } from './awsOcpDashboardCommon';
+import type { AwsOcpDashboardWidget } from './awsOcpDashboardCommon';
+import { awsOcpDashboardStateKey, AwsOcpDashboardTab } from './awsOcpDashboardCommon';
 import { awsOcpDashboardReducer } from './awsOcpDashboardReducer';
 import * as awsOcpDashboardSelectors from './awsOcpDashboardSelectors';
 

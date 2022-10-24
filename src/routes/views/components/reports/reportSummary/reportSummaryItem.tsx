@@ -4,8 +4,9 @@ import { Progress, ProgressSize } from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { FormatOptions } from 'utils/format';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
+import type { FormatOptions } from 'utils/format';
 import { formatCurrency, formatPercentage, unitsLookupKey } from 'utils/format';
 
 interface ReportSummaryItemOwnProps {

@@ -1,7 +1,8 @@
 import './reportSummaryCost.scss';
 
 import React from 'react';
-import { CostChart, CostChartProps } from 'routes/views/components/charts/costChart';
+import type { CostChartProps } from 'routes/views/components/charts/costChart';
+import { CostChart } from 'routes/views/components/charts/costChart';
 
 export interface ReportSummaryCostProps extends Omit<CostChartProps, 'intl'> {
   chartName?: string;

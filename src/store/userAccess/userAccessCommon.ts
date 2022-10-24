@@ -1,4 +1,4 @@
-import { UserAccessQuery } from 'api/queries/userAccessQuery';
+import type { UserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccessType } from 'api/userAccess';
 
 export const stateKey = 'userAccess';

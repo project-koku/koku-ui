@@ -1,4 +1,4 @@
-import { OciHistoricalDataWidget } from './ociHistoricalDataCommon';
+import type { OciHistoricalDataWidget } from './ociHistoricalDataCommon';
 import { computeUsageWidget, costWidget, storageUsageWidget } from './ociHistoricalDataWidgets';
 
 export type OciHistoricalDataState = Readonly<{

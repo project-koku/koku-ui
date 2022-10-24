@@ -1,7 +1,8 @@
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './ocpDashboardActions';
-import { OcpDashboardWidget } from './ocpDashboardCommon';
+import type { OcpDashboardWidget } from './ocpDashboardCommon';
 import { costSummaryWidget, cpuWidget, memoryWidget, volumeWidget } from './ocpDashboardWidgets';
 
 export type OcpDashboardAction = ActionType<typeof setWidgetTab>;

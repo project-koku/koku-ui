@@ -1,7 +1,7 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { HistoricalDataWidgetType } from 'store/breakdown/historicalData/common/historicalDataCommon';
 
-import { AwsHistoricalDataWidget } from './awsHistoricalDataCommon';
+import type { AwsHistoricalDataWidget } from './awsHistoricalDataCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

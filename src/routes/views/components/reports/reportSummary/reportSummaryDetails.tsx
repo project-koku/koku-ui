@@ -1,14 +1,17 @@
 import './reportSummaryDetails.scss';
 
 import { Tooltip } from '@patternfly/react-core';
-import { Report, ReportType } from 'api/reports/report';
+import type { Report } from 'api/reports/report';
+import { ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { ComputedReportItemType } from 'routes/views/components/charts/common/chartDatum';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
-import { formatCurrency, FormatOptions, formatUnits, unitsLookupKey } from 'utils/format';
+import type { FormatOptions } from 'utils/format';
+import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
 
 interface ReportSummaryDetailsOwnProps {
   chartType?: DashboardChartType;

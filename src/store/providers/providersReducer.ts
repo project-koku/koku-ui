@@ -1,8 +1,9 @@
-import { Providers } from 'api/providers';
+import type { Providers } from 'api/providers';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { fetchProvidersFailure, fetchProvidersRequest, fetchProvidersSuccess } from './providersActions';
 

@@ -1,9 +1,9 @@
+import type { EmptyStateProps } from '@patternfly/react-core';
 import {
   Button,
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
-  EmptyStateProps,
   EmptyStateVariant,
   Stack,
   StackItem,
@@ -14,9 +14,10 @@ import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/esm/icons/ex
 import global_DangerColor_100 from '@patternfly/react-tokens/dist/js/global_danger_color_100';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { RootState } from 'store/rootReducer';
+import type { RootState } from 'store/rootReducer';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 
 interface OwnProps {

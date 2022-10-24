@@ -7,7 +7,8 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { createStore } from 'redux';
 import { FetchStatus } from 'store/common';
-import { rootReducer, RootState } from 'store/rootReducer';
+import type { RootState } from 'store/rootReducer';
+import { rootReducer } from 'store/rootReducer';
 
 import CostModelsTable from './table';
 import { initialCostModelsQuery } from './utils/query';

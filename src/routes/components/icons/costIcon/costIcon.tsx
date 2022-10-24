@@ -2,7 +2,8 @@ import './costIcon.scss';
 
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 interface CostIconProps extends WrappedComponentProps {
   className?: string;

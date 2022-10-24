@@ -3,12 +3,13 @@ import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-ci
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { RateInput } from 'routes/costModels/components/inputs/rateInput';
 import { SimpleInput } from 'routes/costModels/components/inputs/simpleInput';
 
-import { UseRateData } from './useRateForm';
-import { RateFormErrors, RateFormTagValue } from './utils';
+import type { UseRateData } from './useRateForm';
+import type { RateFormErrors, RateFormTagValue } from './utils';
 
 interface TaggingRatesFormOwnProps {
   currencyUnits?: string;
