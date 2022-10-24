@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-import { Forecast, ForecastType } from './forecast';
+import type { Forecast } from './forecast';
+import { ForecastType } from './forecast';
 
 export const ForecastTypePaths: Partial<Record<ForecastType, string>> = {
   [ForecastType.cost]: 'forecasts/oci/costs/',

@@ -1,8 +1,10 @@
 import _NotAuthorized from '@redhat-cloud-services/frontend-components/NotAuthorized';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
+import type { RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { paths } from 'routes';
 
 interface NotAuthorizedStateOwnProps {

@@ -1,1 +1,2 @@
-export { default as HistoricalTrendChart, HistoricalTrendChartProps } from './historicalTrendChart';
+export { default as HistoricalTrendChart } from './historicalTrendChart';
+export type { HistoricalTrendChartProps } from './historicalTrendChart';

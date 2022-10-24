@@ -1,5 +1,6 @@
+import type { Providers } from 'api/providers';
 import { fetchProviders as apiGetProviders } from 'api/providers';
-import { Providers, ProviderType } from 'api/providers';
+import { ProviderType } from 'api/providers';
 import { AxiosError } from 'axios';
 import { createAction } from 'typesafe-actions';
 

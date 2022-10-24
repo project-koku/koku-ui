@@ -1,9 +1,10 @@
 import { Table, TableBody, TableGridBreakpoint, TableHeader, TableVariant } from '@patternfly/react-table';
-import { TagRates } from 'api/rates';
+import type { TagRates } from 'api/rates';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { formatCurrencyRate } from 'utils/format';
 
 interface TagRateTableProps extends WrappedComponentProps {

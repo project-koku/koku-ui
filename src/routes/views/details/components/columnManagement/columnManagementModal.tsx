@@ -15,7 +15,8 @@ import {
 } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, MessageDescriptor, WrappedComponentProps } from 'react-intl';
+import type { MessageDescriptor, WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 

@@ -11,7 +11,8 @@ import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { gcpDashboardWidgets } from 'store/dashboard/gcpDashboard';
 import { formatCurrency, formatUnits } from 'utils/format';
 
-import { GcpOcpDashboardTab, GcpOcpDashboardWidget } from './gcpOcpDashboardCommon';
+import type { GcpOcpDashboardWidget } from './gcpOcpDashboardCommon';
+import { GcpOcpDashboardTab } from './gcpOcpDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

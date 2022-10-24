@@ -1,7 +1,8 @@
 jest.mock('api/orgs/orgUtils');
 
 import { waitFor } from '@testing-library/react';
-import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
+import type { Org } from 'api/orgs/org';
+import { OrgPathsType, OrgType } from 'api/orgs/org';
 import { runOrg } from 'api/orgs/orgUtils';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';

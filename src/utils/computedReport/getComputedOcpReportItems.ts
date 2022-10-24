@@ -1,7 +1,7 @@
-import { OcpQuery } from 'api/queries/ocpQuery';
-import { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
+import type { OcpQuery } from 'api/queries/ocpQuery';
+import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
 
-import { ComputedReportItemsParams } from './getComputedReportItems';
+import type { ComputedReportItemsParams } from './getComputedReportItems';
 
 export interface ComputedOcpReportItemsParams extends ComputedReportItemsParams<OcpReport, OcpReportItem> {}
 

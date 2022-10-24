@@ -13,11 +13,12 @@ import {
 } from '@patternfly/react-charts';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { default as ChartTheme } from 'routes/views/components/charts/chartTheme';
 import { getMaxValue } from 'routes/views/components/charts/common/chartDatum';
+import type { ChartSeries } from 'routes/views/components/charts/common/chartUtils';
 import {
-  ChartSeries,
   getChartNames,
   getLegendData,
   getResizeObserver,
@@ -27,7 +28,8 @@ import {
   isDataHidden,
   isSeriesHidden,
 } from 'routes/views/components/charts/common/chartUtils';
-import { formatCurrencyAbbreviation, FormatOptions, Formatter } from 'utils/format';
+import type { FormatOptions, Formatter } from 'utils/format';
+import { formatCurrencyAbbreviation } from 'utils/format';
 import { noop } from 'utils/noop';
 
 import { chartStyles } from './costExplorerChart.styles';

@@ -1,9 +1,10 @@
-import { Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
+import type { Resource } from 'api/resources/resource';
+import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import { runResource } from 'api/resources/resourceUtils';
 import { AxiosError } from 'axios';
-import { ThunkAction } from 'redux-thunk';
+import type { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
-import { RootState } from 'store/rootReducer';
+import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
 import { getResourceId } from './resourceCommon';

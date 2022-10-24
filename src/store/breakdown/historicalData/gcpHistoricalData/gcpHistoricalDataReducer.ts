@@ -1,4 +1,4 @@
-import { GcpHistoricalDataWidget } from './gcpHistoricalDataCommon';
+import type { GcpHistoricalDataWidget } from './gcpHistoricalDataCommon';
 import { computeUsageWidget, costWidget, storageUsageWidget } from './gcpHistoricalDataWidgets';
 
 export type GcpHistoricalDataState = Readonly<{

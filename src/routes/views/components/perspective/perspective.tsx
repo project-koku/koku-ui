@@ -1,6 +1,7 @@
 import messages from 'locales/messages';
 import React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
+import type { RouteComponentProps } from 'react-router';
+import { withRouter } from 'react-router';
 import { PerspectiveSelect } from 'routes/views/components/perspective/perspectiveSelect';
 
 // Infrastructure AWS options

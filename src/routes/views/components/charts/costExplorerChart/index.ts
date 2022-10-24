@@ -1,1 +1,2 @@
-export { default as CostExplorerChart, CostExplorerChartProps } from './costExplorerChart';
+export { default as CostExplorerChart } from './costExplorerChart';
+export type { CostExplorerChartProps } from './costExplorerChart';

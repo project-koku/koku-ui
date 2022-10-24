@@ -1,4 +1,5 @@
-import { ocpCostOverviewStateKey, OcpCostOverviewWidget } from './ocpCostOverviewCommon';
+import type { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
+import { ocpCostOverviewStateKey } from './ocpCostOverviewCommon';
 import { ocpCostOverviewReducer } from './ocpCostOverviewReducer';
 import * as ocpCostOverviewSelectors from './ocpCostOverviewSelectors';
 

@@ -1,27 +1,27 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
-import { Providers, ProviderType } from 'api/providers';
-import { getQuery, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
+import type { Providers } from 'api/providers';
+import { ProviderType } from 'api/providers';
+import type { OcpQuery } from 'api/queries/ocpQuery';
+import { getQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { tagPrefix } from 'api/queries/query';
-import { OcpReport } from 'api/reports/ocpReports';
+import type { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import type { RouteComponentProps } from 'react-router-dom';
 import { Loading } from 'routes/state/loading';
 import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
-import {
-  ColumnManagementModal,
-  ColumnManagementModalOption,
-  initHiddenColumns,
-} from 'routes/views/details/components/columnManagement';
+import type { ColumnManagementModalOption } from 'routes/views/details/components/columnManagement';
+import { ColumnManagementModal, initHiddenColumns } from 'routes/views/details/components/columnManagement';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   getRouteForQuery,
@@ -38,7 +38,8 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
-import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getCurrency } from 'utils/currency';
 
 import { DetailsHeader } from './detailsHeader';

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType, ReportValue } from './report';
+import type { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportValue } from './report';
+import { ReportType } from './report';
 
 // Todo: Remove capacity, limit, & request?
 export interface OcpCloudReportItem extends ReportItem {

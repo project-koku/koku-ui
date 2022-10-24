@@ -1,7 +1,8 @@
-import { CostModel, CostModelProvider, CostModelRequest } from 'api/costModels';
+import type { CostModel, CostModelProvider, CostModelRequest } from 'api/costModels';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';

@@ -1,9 +1,11 @@
 import notificationsMiddleware from '@redhat-cloud-services/frontend-components-notifications/notificationsMiddleware';
 import axios from 'axios';
-import { applyMiddleware, compose, createStore, DeepPartial } from 'redux';
+import type { DeepPartial } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
-import { rootReducer, RootState } from './rootReducer';
+import type { RootState } from './rootReducer';
+import { rootReducer } from './rootReducer';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {

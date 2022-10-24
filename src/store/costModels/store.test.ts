@@ -1,15 +1,9 @@
 jest.mock('api/costModels');
 
 import { waitFor } from '@testing-library/react';
-import {
-  CostModel,
-  CostModelProvider,
-  CostModels,
-  deleteCostModel,
-  fetchCostModels,
-  updateCostModel,
-} from 'api/costModels';
-import { Rate } from 'api/rates';
+import type { CostModel, CostModelProvider, CostModels } from 'api/costModels';
+import { deleteCostModel, fetchCostModels, updateCostModel } from 'api/costModels';
+import type { Rate } from 'api/rates';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 

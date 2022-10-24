@@ -1,20 +1,20 @@
-import { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { OrgPathsType } from 'api/orgs/org';
-import { Providers } from 'api/providers';
-import { Query } from 'api/queries/query';
+import type { Providers } from 'api/providers';
+import type { Query } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ResourcePathsType } from 'api/resources/resource';
 import { TagPathsType } from 'api/tags/tag';
-import { UserAccess } from 'api/userAccess';
+import type { UserAccess } from 'api/userAccess';
 import messages from 'locales/messages';
 import { ComputedReportItemType, ComputedReportItemValueType } from 'routes/views/components/charts/common/chartDatum';
 import { hasCloudProvider } from 'routes/views/utils/providers';
-import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
-import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
-import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
-import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
-import { ComputedOciReportItemsParams } from 'utils/computedReport/getComputedOciReportItems';
-import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
+import type { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
+import type { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
+import type { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
+import type { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
+import type { ComputedOciReportItemsParams } from 'utils/computedReport/getComputedOciReportItems';
+import type { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import {
   hasAwsAccess,
   hasAzureAccess,

@@ -1070,10 +1070,10 @@
   dependencies:
     node-fetch "2.6.7"
 
-"@redhat-cloud-services/frontend-components-config@4.6.23":
-  version "4.6.23"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-4.6.23.tgz#c0956cb63dc7c39230cfb98c7c5e905de0bb0a91"
-  integrity sha512-9M9Rq74hG7zZgfCkxdKhXA2VbqHEZjgDY6CcDlidXmLX0mvAW9rZuveQ4mgBRrAQhv6/Ctem07qfvHTE4G1MKQ==
+"@redhat-cloud-services/frontend-components-config@^4.6.25":
+  version "4.6.25"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-4.6.25.tgz#970e5b30b0f69d70293e7c95453809c9a27e6f5b"
+  integrity sha512-SwSa7JoXHC10vIZOdNADuWKHOY/88dl0vM8jl1S8ITJ7Vpkn64dxoyCDYWYFRlhM7potU4wHdUvVAZ4NPqn4GQ==
   dependencies:
     "@redhat-cloud-services/frontend-components-config-utilities" "^1.5.23"
     assert "^2.0.0"

@@ -1,7 +1,7 @@
 import { SortByDirection } from '@patternfly/react-table';
-import { CostModel, CostModelRequest } from 'api/costModels';
-import { MetricHash } from 'api/metrics';
-import { Rate, RateRequest, TagRates } from 'api/rates';
+import type { CostModel, CostModelRequest } from 'api/costModels';
+import type { MetricHash } from 'api/metrics';
+import type { Rate, RateRequest, TagRates } from 'api/rates';
 import { countDecimals, formatCurrencyRateRaw, isCurrencyFormatValid, unFormat } from 'utils/format';
 
 import { textHelpers } from './constants';

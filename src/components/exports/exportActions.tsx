@@ -1,7 +1,8 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 interface ExportsActionsOwnProps extends WrappedComponentProps {
   isDisabled?: boolean;

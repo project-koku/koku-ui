@@ -1,4 +1,5 @@
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { resetState, setFeatureFlags } from './featureFlagsActions';
 

@@ -1,4 +1,5 @@
-import { Providers, ProviderType } from 'api/providers';
+import type { Providers } from 'api/providers';
+import { ProviderType } from 'api/providers';
 
 // eslint-disable-next-line no-shadow
 const enum DataType {

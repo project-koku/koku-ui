@@ -1,4 +1,4 @@
-import { OcpHistoricalDataWidget } from './ocpHistoricalDataCommon';
+import type { OcpHistoricalDataWidget } from './ocpHistoricalDataCommon';
 import { costWidget, cpuUsageWidget, memoryUsageWidget } from './ocpHistoricalDataWidgets';
 
 export type OcpHistoricalDataState = Readonly<{

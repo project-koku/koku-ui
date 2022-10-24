@@ -1,4 +1,5 @@
-import { parseQuery, Query } from 'api/queries/query';
+import type { Query } from 'api/queries/query';
+import { parseQuery } from 'api/queries/query';
 import { getCostType as getCostTypeFromLocaleStorage } from 'utils/localStorage';
 
 // eslint-disable-next-line no-shadow

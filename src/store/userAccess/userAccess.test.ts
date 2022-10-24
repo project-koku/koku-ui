@@ -2,7 +2,8 @@ jest.mock('api/userAccess');
 
 import { waitFor } from '@testing-library/react';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
-import { fetchUserAccess, UserAccess, UserAccessType } from 'api/userAccess';
+import type { UserAccess } from 'api/userAccess';
+import { fetchUserAccess, UserAccessType } from 'api/userAccess';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 

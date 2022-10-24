@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { MetricHash } from 'api/metrics';
+import type { MetricHash } from 'api/metrics';
 import React from 'react';
 import { getAccountCurrency } from 'utils/localStorage';
 

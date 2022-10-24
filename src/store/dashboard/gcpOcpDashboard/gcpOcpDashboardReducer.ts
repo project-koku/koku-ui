@@ -1,7 +1,8 @@
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './gcpOcpDashboardActions';
-import { GcpOcpDashboardWidget } from './gcpOcpDashboardCommon';
+import type { GcpOcpDashboardWidget } from './gcpOcpDashboardCommon';
 import {
   computeWidget,
   costSummaryWidget,

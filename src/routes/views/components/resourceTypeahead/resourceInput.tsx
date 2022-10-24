@@ -1,3 +1,4 @@
+import type { ToolbarChipGroup } from '@patternfly/react-core';
 import {
   Button,
   Divider,
@@ -9,15 +10,17 @@ import {
   TextInputGroup,
   TextInputGroupMain,
   TextInputGroupUtilities,
-  ToolbarChipGroup,
 } from '@patternfly/react-core';
 import SearchIcon from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import TimesIcon from '@patternfly/react-icons/dist/esm/icons/times-icon';
-import { getQuery, Query } from 'api/queries/query';
-import { Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
+import type { Query } from 'api/queries/query';
+import { getQuery } from 'api/queries/query';
+import type { Resource } from 'api/resources/resource';
+import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { resourceActions, resourceSelectors } from 'store/resources';

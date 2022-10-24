@@ -2,12 +2,13 @@ import { Button } from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import type { Dispatch } from 'redux';
 import { ReadOnlyTooltip } from 'routes/costModels/components/readOnlyTooltip';
 import { CostModelWizard } from 'routes/costModels/createCostModelWizard';
-import { RootState } from 'store';
+import type { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 

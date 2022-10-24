@@ -1,7 +1,9 @@
-import { IAction, ICell, IRow, Table, TableBody, TableGridBreakpoint, TableHeader } from '@patternfly/react-table';
+import type { IAction, ICell, IRow } from '@patternfly/react-table';
+import { Table, TableBody, TableGridBreakpoint, TableHeader } from '@patternfly/react-table';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsSelectors } from 'store/costModels';

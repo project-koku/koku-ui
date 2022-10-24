@@ -1,4 +1,5 @@
-import { ocpHistoricalDataStateKey, OcpHistoricalDataWidget } from './ocpHistoricalDataCommon';
+import type { OcpHistoricalDataWidget } from './ocpHistoricalDataCommon';
+import { ocpHistoricalDataStateKey } from './ocpHistoricalDataCommon';
 import { ocpHistoricalDataReducer } from './ocpHistoricalDataReducer';
 import * as ocpHistoricalDataSelectors from './ocpHistoricalDataSelectors';
 

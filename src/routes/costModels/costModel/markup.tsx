@@ -11,10 +11,11 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
-import { CostModel } from 'api/costModels';
+import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { ReadOnlyTooltip } from 'routes/costModels/components/readOnlyTooltip';
 import { createMapStateToProps } from 'store/common';

@@ -10,11 +10,12 @@ import {
   TextContent,
   TextVariants,
 } from '@patternfly/react-core';
-import { CostModel } from 'api/costModels';
-import { Provider } from 'api/providers';
+import type { CostModel } from 'api/costModels';
+import type { Provider } from 'api/providers';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { parseApiError } from 'routes/costModels/createCostModelWizard/parseError';
 import { FetchStatus } from 'store/common';

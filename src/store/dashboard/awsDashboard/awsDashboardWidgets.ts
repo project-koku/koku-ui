@@ -11,7 +11,8 @@ import {
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
 
-import { AwsDashboardTab, AwsDashboardWidget } from './awsDashboardCommon';
+import type { AwsDashboardWidget } from './awsDashboardCommon';
+import { AwsDashboardTab } from './awsDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

@@ -2,7 +2,8 @@ import { EmptyState, EmptyStateBody, EmptyStateVariant, Spinner, Title } from '@
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 interface LoadingStateProps extends WrappedComponentProps {
   icon?: string;

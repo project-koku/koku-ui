@@ -16,11 +16,13 @@ import { OutlinedClockIcon } from '@patternfly/react-icons/dist/esm/icons/outlin
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { SyncIcon } from '@patternfly/react-icons/dist/esm/icons/sync-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader, TableVariant } from '@patternfly/react-table';
-import { getQuery, Query } from 'api/queries/query';
-import { Report } from 'api/reports/report';
+import type { Query } from 'api/queries/query';
+import { getQuery } from 'api/queries/query';
+import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 
 import { ExportsActions } from './exportActions';
@@ -304,4 +306,5 @@ class ExportsTableBase extends React.Component<ExportsTableProps> {
 
 const ExportsTable = injectIntl(ExportsTableBase);
 
-export { ExportsTable, ExportsTableProps };
+export { ExportsTable };
+export type { ExportsTableProps };

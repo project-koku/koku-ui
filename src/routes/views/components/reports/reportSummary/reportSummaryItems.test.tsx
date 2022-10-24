@@ -3,7 +3,8 @@ import React from 'react';
 import { FetchStatus } from 'store/common';
 import * as utils from 'utils/computedReport/getComputedReportItems';
 
-import ReportSummaryItems, { ReportSummaryItemsProps } from './reportSummaryItems';
+import type { ReportSummaryItemsProps } from './reportSummaryItems';
+import ReportSummaryItems from './reportSummaryItems';
 
 jest.spyOn(utils, 'getComputedReportItems');
 

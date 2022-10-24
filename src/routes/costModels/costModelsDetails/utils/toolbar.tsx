@@ -1,23 +1,20 @@
-import {
-  Pagination,
-  PaginationProps,
-  PaginationVariant,
-  Select,
-  SelectOption,
-  SelectVariant,
-} from '@patternfly/react-core';
+import type { PaginationProps } from '@patternfly/react-core';
+import { Pagination, PaginationVariant, Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Dispatch } from 'redux';
-import { RootState } from 'store';
+import type { RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import type { Dispatch } from 'redux';
+import type { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
-import { CostModelsQuery, initialCostModelsQuery, limitTransform, offsetTransform, stringifySearch } from './query';
+import type { CostModelsQuery } from './query';
+import { initialCostModelsQuery, limitTransform, offsetTransform, stringifySearch } from './query';
 
 interface CostModelsFilterSelectorOwnProps {
   filterType?: any;

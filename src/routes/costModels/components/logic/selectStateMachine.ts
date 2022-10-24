@@ -1,4 +1,5 @@
-import { Machine, MachineConfig } from 'xstate';
+import type { MachineConfig } from 'xstate';
+import { Machine } from 'xstate';
 
 export interface SelectMachineContext {
   selection?: string[];

@@ -11,7 +11,8 @@ import {
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
 
-import { OcpDashboardTab, OcpDashboardWidget } from './ocpDashboardCommon';
+import type { OcpDashboardWidget } from './ocpDashboardCommon';
+import { OcpDashboardTab } from './ocpDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

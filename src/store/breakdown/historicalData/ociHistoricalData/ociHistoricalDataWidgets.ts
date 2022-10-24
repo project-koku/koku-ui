@@ -1,7 +1,7 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { HistoricalDataWidgetType } from 'store/breakdown/historicalData/common/historicalDataCommon';
 
-import { OciHistoricalDataWidget } from './ociHistoricalDataCommon';
+import type { OciHistoricalDataWidget } from './ociHistoricalDataCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

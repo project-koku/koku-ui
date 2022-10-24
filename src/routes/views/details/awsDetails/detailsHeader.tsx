@@ -1,15 +1,18 @@
 import { Title, TitleSizes } from '@patternfly/react-core';
 import { OrgPathsType } from 'api/orgs/org';
-import { Providers, ProviderType } from 'api/providers';
-import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import type { Providers } from 'api/providers';
+import { ProviderType } from 'api/providers';
+import type { AwsQuery } from 'api/queries/awsQuery';
+import { getQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { AwsReport } from 'api/reports/awsReports';
+import type { AwsReport } from 'api/reports/awsReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { ExportsLink } from 'components/exports';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Currency } from 'routes/components/currency';
 import { CostType } from 'routes/views/components/costType';
@@ -18,7 +21,8 @@ import { filterProviders } from 'routes/views/utils/providers';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
-import { ComputedAwsReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
+import type { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { CostTypes } from 'utils/costType';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
@@ -165,4 +169,5 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
 
 const DetailsHeader = injectIntl(connect(mapStateToProps, {})(DetailsHeaderBase));
 
-export { DetailsHeader, DetailsHeaderProps };
+export { DetailsHeader };
+export type { DetailsHeaderProps };

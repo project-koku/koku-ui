@@ -1,10 +1,12 @@
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
-import { parseQuery, Query, tagPrefix } from 'api/queries/query';
-import { Tag } from 'api/tags/tag';
+import type { Query } from 'api/queries/query';
+import { parseQuery, tagPrefix } from 'api/queries/query';
+import type { Tag } from 'api/tags/tag';
 import messages from 'locales/messages';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 import { styles } from './groupBy.styles';
 
@@ -149,4 +151,5 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
 
 const GroupByTag = injectIntl(GroupByTagBase);
 
-export { GroupByTag, GroupByTagProps };
+export { GroupByTag };
+export type { GroupByTagProps };

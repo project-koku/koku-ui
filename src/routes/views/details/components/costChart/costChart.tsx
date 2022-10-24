@@ -1,9 +1,10 @@
 import { ChartLabel, ChartLegend, ChartPie, ChartThemeColor } from '@patternfly/react-charts';
 import { Skeleton } from '@patternfly/react-core';
-import { Report } from 'api/reports/report';
+import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 import { formatCurrency } from 'utils/format';

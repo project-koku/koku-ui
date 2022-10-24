@@ -1,5 +1,6 @@
-import { getQuery, IbmFilters, IbmQuery } from 'api/queries/ibmQuery';
-import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
+import type { IbmFilters, IbmQuery } from 'api/queries/ibmQuery';
+import { getQuery } from 'api/queries/ibmQuery';
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const ibmDashboardStateKey = 'ibmDashboard';
 export const ibmDashboardDefaultFilters: IbmFilters = {

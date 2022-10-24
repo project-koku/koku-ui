@@ -1,10 +1,6 @@
 import * as costModelsActions from './actions';
-import {
-  CostModelsAction,
-  CostModelsState,
-  reducer as costModelsReducer,
-  stateKey as costModelsStateKey,
-} from './reducer';
+import type { CostModelsAction, CostModelsState } from './reducer';
+import { reducer as costModelsReducer, stateKey as costModelsStateKey } from './reducer';
 import * as costModelsSelectors from './selectors';
 
 export {

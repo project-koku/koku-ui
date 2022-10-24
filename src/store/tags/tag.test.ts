@@ -1,7 +1,8 @@
 jest.mock('api/tags/tagUtils');
 
 import { waitFor } from '@testing-library/react';
-import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import type { Tag } from 'api/tags/tag';
+import { TagPathsType, TagType } from 'api/tags/tag';
 import { runTag } from 'api/tags/tagUtils';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';

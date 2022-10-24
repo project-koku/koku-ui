@@ -1,6 +1,8 @@
-import { getQueryRoute, Query } from 'api/queries/query';
+import type { Query } from 'api/queries/query';
+import { getQueryRoute } from 'api/queries/query';
 
-import { addFilterToQuery, Filter, removeFilterFromQuery } from './filter';
+import type { Filter } from './filter';
+import { addFilterToQuery, removeFilterFromQuery } from './filter';
 
 export const getRouteForQuery = (history, query: Query, reset: boolean = false) => {
   // Reset pagination

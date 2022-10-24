@@ -1,5 +1,6 @@
 import * as azureOcpDashboardActions from './azureOcpDashboardActions';
-import { azureOcpDashboardStateKey, AzureOcpDashboardTab, AzureOcpDashboardWidget } from './azureOcpDashboardCommon';
+import type { AzureOcpDashboardWidget } from './azureOcpDashboardCommon';
+import { azureOcpDashboardStateKey, AzureOcpDashboardTab } from './azureOcpDashboardCommon';
 import { azureOcpDashboardReducer } from './azureOcpDashboardReducer';
 import * as azureOcpDashboardSelectors from './azureOcpDashboardSelectors';
 

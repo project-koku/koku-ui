@@ -1,6 +1,5 @@
 jest.mock('date-fns').mock('date-fns/format');
-
-import { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { render } from '@testing-library/react';
 import { intl } from 'components/i18n';
 import { format, getDate, getMonth, startOfMonth } from 'date-fns';

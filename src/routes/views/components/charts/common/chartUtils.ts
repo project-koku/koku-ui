@@ -1,8 +1,8 @@
 import { getInteractiveLegendItemStyles } from '@patternfly/react-charts';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
-import { FormatOptions, Formatter } from 'utils/format';
-import { DomainTuple, VictoryStyleInterface } from 'victory-core';
+import type { FormatOptions, Formatter } from 'utils/format';
+import type { DomainTuple, VictoryStyleInterface } from 'victory-core';
 
 import { getMaxMinValues, getTooltipContent } from './chartDatum';
 

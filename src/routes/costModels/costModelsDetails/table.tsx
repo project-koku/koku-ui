@@ -1,18 +1,22 @@
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
-import { ICell, IRowData, sortable, Table, TableBody, TableGridBreakpoint, TableHeader } from '@patternfly/react-table';
-import { CostModel } from 'api/costModels';
+import type { ICell, IRowData } from '@patternfly/react-table';
+import { sortable, Table, TableBody, TableGridBreakpoint, TableHeader } from '@patternfly/react-table';
+import type { CostModel } from 'api/costModels';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Dispatch } from 'redux';
+import type { RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import type { Dispatch } from 'redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 
-import { CostModelsQuery, parseOrdering } from './utils/query';
+import type { CostModelsQuery } from './utils/query';
+import { parseOrdering } from './utils/query';
 import { createActions, createOnSort, getRowsByStateName } from './utils/table';
 
 interface CostModelsTableOwnProps {

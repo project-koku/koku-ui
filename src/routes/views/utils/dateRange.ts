@@ -1,4 +1,4 @@
-import { Query } from 'api/queries/query';
+import type { Query } from 'api/queries/query';
 import { format } from 'date-fns';
 import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate, getLast90DaysDate } from 'utils/dates';
 

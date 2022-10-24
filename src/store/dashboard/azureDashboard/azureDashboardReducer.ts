@@ -1,7 +1,8 @@
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './azureDashboardActions';
-import { AzureDashboardWidget } from './azureDashboardCommon';
+import type { AzureDashboardWidget } from './azureDashboardCommon';
 import {
   costSummaryWidget,
   databaseWidget,

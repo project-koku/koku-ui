@@ -1,6 +1,7 @@
 import * as resourceActions from './resourceActions';
 import { resourceStateKey } from './resourceCommon';
-import { CachedResource, ResourceAction, resourceReducer, ResourceState } from './resourceReducer';
+import type { CachedResource, ResourceAction, ResourceState } from './resourceReducer';
+import { resourceReducer } from './resourceReducer';
 import * as resourceSelectors from './resourceSelectors';
 
 export {

@@ -1,1 +1,2 @@
-export { default as CostChart, CostChartProps } from './costChart';
+export { default as CostChart } from './costChart';
+export type { CostChartProps } from './costChart';

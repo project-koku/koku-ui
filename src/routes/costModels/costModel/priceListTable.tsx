@@ -17,13 +17,14 @@ import {
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { SortByDirection } from '@patternfly/react-table';
 import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
-import { CostModel } from 'api/costModels';
-import { MetricHash } from 'api/metrics';
-import { Rate } from 'api/rates';
+import type { CostModel } from 'api/costModels';
+import type { MetricHash } from 'api/metrics';
+import type { Rate } from 'api/rates';
 import { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { LoadingState } from 'routes/components/state/loadingState';

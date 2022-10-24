@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Rate } from 'api/rates';
+import type { Rate } from 'api/rates';
 import React from 'react';
 
 import { RateTable } from './rateTable';

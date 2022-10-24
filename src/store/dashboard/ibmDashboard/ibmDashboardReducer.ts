@@ -1,7 +1,8 @@
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './ibmDashboardActions';
-import { IbmDashboardWidget } from './ibmDashboardCommon';
+import type { IbmDashboardWidget } from './ibmDashboardCommon';
 import { computeWidget, costSummaryWidget, databaseWidget, networkWidget, storageWidget } from './ibmDashboardWidgets';
 
 export type IbmDashboardAction = ActionType<typeof setWidgetTab>;

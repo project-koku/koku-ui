@@ -1,4 +1,5 @@
-import { parseQuery, Query } from 'api/queries/query';
+import type { Query } from 'api/queries/query';
+import { parseQuery } from 'api/queries/query';
 import { getTokenCookie } from 'utils/cookie';
 
 const accountCurrencyID = 'cost_management_account_currency';

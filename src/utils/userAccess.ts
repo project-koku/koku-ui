@@ -1,5 +1,6 @@
-import { Providers } from 'api/providers';
-import { UserAccess, UserAccessType } from 'api/userAccess';
+import type { Providers } from 'api/providers';
+import type { UserAccess } from 'api/userAccess';
+import { UserAccessType } from 'api/userAccess';
 
 const hasAccess = (userAccess: UserAccess, userAccessType: UserAccessType) => {
   let result = false;

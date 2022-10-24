@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { PagedResponse } from './api';
-import { Rate, RateRequest } from './rates';
+import type { PagedResponse } from './api';
+import type { Rate, RateRequest } from './rates';
 
 export interface CostModelProvider {
   name: string;

@@ -1,7 +1,8 @@
 import './reportSummaryUsage.scss';
 
 import React from 'react';
-import { UsageChart, UsageChartProps } from 'routes/views/components/charts/usageChart';
+import type { UsageChartProps } from 'routes/views/components/charts/usageChart';
+import { UsageChart } from 'routes/views/components/charts/usageChart';
 
 export interface ReportSummaryUsageProps extends Omit<UsageChartProps, 'intl'> {
   chartName?: string;

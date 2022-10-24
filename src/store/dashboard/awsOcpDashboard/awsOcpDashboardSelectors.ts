@@ -1,5 +1,5 @@
 import { featureFlagsSelectors } from 'store/featureFlags';
-import { RootState } from 'store/rootReducer';
+import type { RootState } from 'store/rootReducer';
 import { getCurrency } from 'utils/currency';
 
 import {

@@ -11,13 +11,14 @@ import {
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/esm/icons/error-circle-o-icon';
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import PageHeader, { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
-import { CostModel } from 'api/costModels';
+import type { CostModel } from 'api/costModels';
 import { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import type { RouteComponentProps } from 'react-router-dom';
 import DistributionCard from 'routes/costModels/costModel/distribution';
 import MarkupCard from 'routes/costModels/costModel/markup';
 import PriceListTable from 'routes/costModels/costModel/priceListTable';

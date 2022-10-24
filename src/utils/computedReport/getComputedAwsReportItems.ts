@@ -1,7 +1,7 @@
-import { AwsQuery } from 'api/queries/awsQuery';
-import { AwsReport, AwsReportItem } from 'api/reports/awsReports';
+import type { AwsQuery } from 'api/queries/awsQuery';
+import type { AwsReport, AwsReportItem } from 'api/reports/awsReports';
 
-import { ComputedReportItemsParams } from './getComputedReportItems';
+import type { ComputedReportItemsParams } from './getComputedReportItems';
 
 export interface ComputedAwsReportItemsParams extends ComputedReportItemsParams<AwsReport, AwsReportItem> {}
 

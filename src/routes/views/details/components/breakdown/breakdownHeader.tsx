@@ -2,12 +2,14 @@ import './breakdownHeader.scss';
 
 import { Title, TitleSizes } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left-icon';
-import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
-import { Report } from 'api/reports/report';
+import type { Query } from 'api/queries/query';
+import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey } from 'api/queries/query';
+import type { Report } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Currency } from 'routes/components/currency';

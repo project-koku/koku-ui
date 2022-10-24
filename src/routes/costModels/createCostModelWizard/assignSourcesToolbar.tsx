@@ -1,8 +1,8 @@
+import type { PaginationProps } from '@patternfly/react-core';
 import {
   InputGroup,
   InputGroupText,
   Pagination,
-  PaginationProps,
   TextInput,
   Toolbar,
   ToolbarContent,
@@ -14,7 +14,8 @@ import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 interface FilterInputProps {
   id: string;

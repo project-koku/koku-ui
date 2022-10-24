@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-import { Org, OrgType } from './org';
+import type { Org } from './org';
+import { OrgType } from './org';
 
 export interface AwsOrg extends Org {}
 

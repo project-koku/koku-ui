@@ -1,4 +1,5 @@
-import { azureCostOverviewStateKey, AzureCostOverviewWidget } from './azureCostOverviewCommon';
+import type { AzureCostOverviewWidget } from './azureCostOverviewCommon';
+import { azureCostOverviewStateKey } from './azureCostOverviewCommon';
 import { azureCostOverviewReducer } from './azureCostOverviewReducer';
 import * as azureCostOverviewSelectors from './azureCostOverviewSelectors';
 

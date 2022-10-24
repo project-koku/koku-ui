@@ -1,4 +1,4 @@
-import { AzureCostOverviewWidget } from './azureCostOverviewCommon';
+import type { AzureCostOverviewWidget } from './azureCostOverviewCommon';
 import {
   accountSummaryWidget,
   costWidget,

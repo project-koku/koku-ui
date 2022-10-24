@@ -1,8 +1,9 @@
-import { Metrics } from 'api/metrics';
+import type { Metrics } from 'api/metrics';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { fetchMetricsFailure, fetchMetricsRequest, fetchMetricsSuccess } from './actions';
 

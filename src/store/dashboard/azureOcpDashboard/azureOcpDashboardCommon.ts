@@ -1,5 +1,6 @@
-import { AzureFilters, AzureQuery, getQuery } from 'api/queries/azureQuery';
-import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
+import type { AzureFilters, AzureQuery } from 'api/queries/azureQuery';
+import { getQuery } from 'api/queries/azureQuery';
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const azureOcpDashboardStateKey = 'azureOcpDashboard';
 export const azureOcpDashboardDefaultFilters: AzureFilters = {

@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import { AwsReport, AwsReportData } from 'api/reports/awsReports';
+import type { AwsReport, AwsReportData } from 'api/reports/awsReports';
 import React from 'react';
 import * as utils from 'routes/views/components/charts/common/chartDatum';
 
-import HistoricalTrendChart, { HistoricalTrendChartProps } from './historicalTrendChart';
+import type { HistoricalTrendChartProps } from './historicalTrendChart';
+import HistoricalTrendChart from './historicalTrendChart';
 
 const currentMonthReport: AwsReport = createReport('2018-01-01');
 const previousMonthReport: AwsReport = createReport('2017-12-01');

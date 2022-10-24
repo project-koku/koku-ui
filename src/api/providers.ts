@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { PagedMetaData, PagedResponse } from './api';
+import type { PagedMetaData, PagedResponse } from './api';
 
 export interface ProviderAuthentication {
   uuid?: string;

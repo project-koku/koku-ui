@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-import { Tag, TagType } from './tag';
+import type { Tag } from './tag';
+import { TagType } from './tag';
 
 export interface OciTag extends Tag {}
 

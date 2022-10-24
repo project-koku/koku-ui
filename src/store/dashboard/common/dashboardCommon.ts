@@ -1,7 +1,7 @@
-import { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { FormatOptions, Formatter } from 'utils/format';
+import type { FormatOptions, Formatter } from 'utils/format';
 
 // eslint-disable-next-line no-shadow
 export const enum DashboardChartType {

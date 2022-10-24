@@ -1,3 +1,4 @@
+import type { ToolbarProps } from '@patternfly/react-core';
 import {
   Dropdown,
   DropdownItem,
@@ -7,20 +8,22 @@ import {
   TextInput,
   Toolbar,
   ToolbarFilter,
-  ToolbarProps,
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { RootState } from 'store';
+import type { RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import type { RootState } from 'store';
 import { costModelsSelectors } from 'store/costModels';
 
-import { CostModelsQuery, initialCostModelsQuery, stringifySearch } from './query';
-import { HistoryPush, Inputer, Opener } from './types';
+import type { CostModelsQuery } from './query';
+import { initialCostModelsQuery, stringifySearch } from './query';
+import type { HistoryPush, Inputer, Opener } from './types';
 
 interface FilterInputProps {
   value: string;

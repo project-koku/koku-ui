@@ -1,5 +1,6 @@
 import * as awsDashboardActions from './awsDashboardActions';
-import { awsDashboardStateKey, AwsDashboardTab, AwsDashboardWidget } from './awsDashboardCommon';
+import type { AwsDashboardWidget } from './awsDashboardCommon';
+import { awsDashboardStateKey, AwsDashboardTab } from './awsDashboardCommon';
 import { awsDashboardReducer } from './awsDashboardReducer';
 import * as awsDashboardSelectors from './awsDashboardSelectors';
 import * as awsDashboardWidgets from './awsDashboardWidgets';

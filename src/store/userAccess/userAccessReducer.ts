@@ -1,8 +1,9 @@
-import { UserAccess } from 'api/userAccess';
+import type { UserAccess } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { fetchUserAccessFailure, fetchUserAccessRequest, fetchUserAccessSuccess } from './userAccessActions';
 

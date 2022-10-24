@@ -1,8 +1,10 @@
-import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Select, SelectOption, SelectOptionObject, SelectVariant, Title } from '@patternfly/react-core';
+import type { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { SelectOptionObject } from '@patternfly/react-core';
+import { Select, SelectOption, SelectVariant, Title } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 import { styles } from './perspective.styles';
 

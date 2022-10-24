@@ -1,4 +1,4 @@
-import { RouteComponentProps } from 'react-router-dom';
+import type { RouteComponentProps } from 'react-router-dom';
 
 export interface Inputer {
   value: string;
