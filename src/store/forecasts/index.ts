@@ -4,11 +4,12 @@ import { CachedForecast, ForecastAction, forecastReducer, ForecastState } from '
 import * as forecastSelectors from './forecastSelectors';
 
 export {
-  ForecastAction,
-  CachedForecast,
   forecastActions,
   forecastReducer,
   forecastSelectors,
-  ForecastState,
-  forecastStateKey,
+  forecastStateKey
+};
+export type {
+  ForecastAction,
+  CachedForecast, ForecastState
 };

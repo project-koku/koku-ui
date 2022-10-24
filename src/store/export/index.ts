@@ -3,4 +3,5 @@ import { exportStateKey } from './exportCommon';
 import { ExportAction, exportReducer, ExportState } from './exportReducer';
 import * as exportSelectors from './exportSelectors';
 
-export { ExportAction, exportActions, exportReducer, exportSelectors, ExportState, exportStateKey };
+export { exportActions, exportReducer, exportSelectors, exportStateKey };
+export type { ExportAction, ExportState };
