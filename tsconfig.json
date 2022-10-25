@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
-    "outDir": "./dist",
     "allowJs": true,
-    "jsx": "react",
-    "target": "es2017",
-    "module": "esnext",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
+    "isolatedModules": false,
+    "module": "esnext",
     "moduleResolution": "node",
     "noUnusedLocals": true,
+    "outDir": "./dist",
     "resolveJsonModule": true,
+    "target": "es2017",
     "lib": [
       "dom",
       "es2017"
@@ -21,8 +22,7 @@
     "./src/**/*",
     "./scripts/**/*",
     "./test/**/*",
-    "jest.config.js",
-    "webpack.config.js"
+    "jest.config.js"
   ],
   "exclude": [
     "node_modules/**",
