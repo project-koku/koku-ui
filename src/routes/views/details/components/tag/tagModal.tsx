@@ -1,15 +1,16 @@
 import { Modal } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, tagPrefix } from 'api/queries/query';
-import type { Tag } from 'api/tags/tag';
-import { TagPathsType, TagType } from 'api/tags/tag';
+import type { Tag, TagPathsType } from 'api/tags/tag';
+import { TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
-import { createMapStateToProps, FetchStatus } from 'store/common';
+import type { FetchStatus } from 'store/common';
+import { createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
 
 import { TagContent } from './tagContent';

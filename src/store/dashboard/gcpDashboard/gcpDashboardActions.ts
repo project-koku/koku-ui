@@ -3,7 +3,7 @@ import { forecastActions } from 'store/forecasts';
 import { reportActions } from 'store/reports';
 import { createAction } from 'typesafe-actions';
 
-import { GcpDashboardTab } from './gcpDashboardCommon';
+import type { GcpDashboardTab } from './gcpDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './gcpDashboardSelectors';
 
 export const fetchWidgetForecasts = (id: number): ThunkAction => {

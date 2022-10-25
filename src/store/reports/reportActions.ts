@@ -1,7 +1,7 @@
 import type { Report } from 'api/reports/report';
-import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { ReportPathsType, ReportType } from 'api/reports/report';
 import { runReport } from 'api/reports/reportUtils';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import type { ThunkAction } from 'store/common';
 import { FetchStatus } from 'store/common';
 import type { RootState } from 'store/rootReducer';

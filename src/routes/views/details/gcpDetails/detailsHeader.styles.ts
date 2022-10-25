@@ -3,7 +3,7 @@ import global_Color_100 from '@patternfly/react-tokens/dist/js/global_Color_100'
 import global_FontSize_sm from '@patternfly/react-tokens/dist/js/global_FontSize_sm';
 import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
 import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
-import React from 'react';
+import type React from 'react';
 
 export const styles = {
   costValue: {

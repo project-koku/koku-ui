@@ -20,7 +20,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -55,7 +55,8 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
-import { CostTypes, getCostType } from 'utils/costType';
+import type { CostTypes } from 'utils/costType';
+import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/currency';
 import { getSinceDateRangeString } from 'utils/dates';
 import {

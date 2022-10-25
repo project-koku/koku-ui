@@ -1,5 +1,5 @@
 import type { CostModel, CostModels } from 'api/costModels';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';

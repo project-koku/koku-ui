@@ -11,8 +11,8 @@ import {
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import type { Query } from 'api/queries/query';
 import { getQuery, orgUnitIdKey, parseQuery } from 'api/queries/query';
-import type { Tag } from 'api/tags/tag';
-import { TagPathsType, TagType } from 'api/tags/tag';
+import type { Tag, TagPathsType } from 'api/tags/tag';
+import { TagType } from 'api/tags/tag';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';

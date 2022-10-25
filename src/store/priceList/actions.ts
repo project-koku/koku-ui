@@ -1,6 +1,6 @@
 import type { Rates } from 'api/rates';
 import { fetchRate } from 'api/rates';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import type { Dispatch } from 'redux';
 import { expirationMS, FetchStatus } from 'store/common';
 import type { RootState } from 'store/rootReducer';

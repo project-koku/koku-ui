@@ -1,5 +1,5 @@
 import { ReportTypePaths } from 'api/reports/gcpOcpReports';
-import { ReportType } from 'api/reports/report';
+import type { ReportType } from 'api/reports/report';
 import axios from 'axios';
 
 export function runExport(reportType: ReportType, query: string) {

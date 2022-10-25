@@ -1,5 +1,5 @@
 import type { Metrics } from 'api/metrics';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
 import type { ActionType } from 'typesafe-actions';

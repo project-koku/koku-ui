@@ -9,7 +9,8 @@ import { runReport as runOciReport } from './ociReports';
 import { runReport as runOcpCloudReport } from './ocpCloudReports';
 import { runReport as runOcpReport } from './ocpReports';
 import { runReport as runOcpUsageReport } from './ocpUsageReports';
-import { ReportPathsType, ReportType } from './report';
+import type { ReportType } from './report';
+import { ReportPathsType } from './report';
 
 export function runReport(reportPathsType: ReportPathsType, reportType: ReportType, query: string) {
   let report;

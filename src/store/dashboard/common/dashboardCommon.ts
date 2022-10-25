@@ -1,6 +1,6 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
-import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
+import type { ReportPathsType, ReportType } from 'api/reports/report';
 import type { FormatOptions, Formatter } from 'utils/format';
 
 // eslint-disable-next-line no-shadow

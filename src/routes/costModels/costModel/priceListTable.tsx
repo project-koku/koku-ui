@@ -20,7 +20,7 @@ import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavaila
 import type { CostModel } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
 import type { Rate } from 'api/rates';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';

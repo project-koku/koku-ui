@@ -1,4 +1,5 @@
-import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { ReportType } from 'api/reports/report';
+import { ReportPathsType } from 'api/reports/report';
 
 import { runExport as runAwsExport } from './awsExport';
 import { runExport as runAwsOcpExport } from './awsOcpExport';

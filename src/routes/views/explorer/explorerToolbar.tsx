@@ -7,7 +7,8 @@ import { DataToolbar } from 'routes/views/components/dataToolbar';
 import { createMapStateToProps } from 'store/common';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
-import { getTagReportPathsType, PerspectiveType } from './explorerUtils';
+import type { PerspectiveType } from './explorerUtils';
+import { getTagReportPathsType } from './explorerUtils';
 
 interface ExplorerToolbarOwnProps {
   isAllSelected?: boolean;

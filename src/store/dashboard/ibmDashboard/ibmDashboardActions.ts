@@ -3,7 +3,7 @@ import { forecastActions } from 'store/forecasts';
 import { reportActions } from 'store/reports';
 import { createAction } from 'typesafe-actions';
 
-import { IbmDashboardTab } from './ibmDashboardCommon';
+import type { IbmDashboardTab } from './ibmDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './ibmDashboardSelectors';
 
 export const fetchWidgetForecasts = (id: number): ThunkAction => {

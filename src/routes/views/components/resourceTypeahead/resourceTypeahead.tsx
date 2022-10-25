@@ -1,4 +1,4 @@
-import { ResourcePathsType, ResourceType } from 'api/resources/resource';
+import type { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import React from 'react';
 
 import { ResourceInput } from './resourceInput';

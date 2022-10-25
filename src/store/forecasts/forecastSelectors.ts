@@ -1,4 +1,4 @@
-import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
+import type { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import type { RootState } from 'store/rootReducer';
 
 import { forecastStateKey, getForecastId } from './forecastCommon';

@@ -20,7 +20,7 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import type { CostModel } from 'api/costModels';
-import * as H from 'history';
+import type * as H from 'history';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';

@@ -13,8 +13,8 @@ import {
 } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { tagPrefix } from 'api/queries/query';
-import { ReportPathsType } from 'api/reports/report';
-import { AxiosError } from 'axios';
+import type { ReportPathsType } from 'api/reports/report';
+import type { AxiosError } from 'axios';
 import { format } from 'date-fns';
 import messages from 'locales/messages';
 import { orderBy } from 'lodash';

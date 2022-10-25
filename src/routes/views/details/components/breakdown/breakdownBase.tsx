@@ -1,11 +1,11 @@
 import { Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
-import { ProviderType } from 'api/providers';
+import type { ProviderType } from 'api/providers';
 import type { Query } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
-import { ReportPathsType, ReportType } from 'api/reports/report';
-import { TagPathsType } from 'api/tags/tag';
-import { AxiosError } from 'axios';
+import type { ReportPathsType, ReportType } from 'api/reports/report';
+import type { TagPathsType } from 'api/tags/tag';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -18,8 +18,8 @@ import { NotAvailable } from 'routes/state/notAvailable';
 import { handleCostTypeSelected, handleCurrencySelected } from 'routes/views/utils/history';
 import { hasCurrentMonthData } from 'routes/views/utils/providers';
 import { FetchStatus } from 'store/common';
-import { reportActions } from 'store/reports';
-import { CostTypes } from 'utils/costType';
+import type { reportActions } from 'store/reports';
+import type { CostTypes } from 'utils/costType';
 
 import { styles } from './breakdown.styles';
 import BreakdownHeader from './breakdownHeader';

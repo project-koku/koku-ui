@@ -6,7 +6,8 @@ import { format, getDate, getMonth, startOfMonth } from 'date-fns';
 import React from 'react';
 import { defineMessages } from 'react-intl';
 import { DatumType } from 'routes/views/components/charts/common/chartDatum';
-import { DashboardWidgetBase, DashboardWidgetProps } from 'routes/views/overview/components';
+import type { DashboardWidgetProps } from 'routes/views/overview/components';
+import { DashboardWidgetBase } from 'routes/views/overview/components';
 import { FetchStatus } from 'store/common';
 import { mockDate } from 'testUtils';
 

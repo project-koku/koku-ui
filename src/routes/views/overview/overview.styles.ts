@@ -2,7 +2,7 @@ import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/g
 import global_FontSize_md from '@patternfly/react-tokens/dist/js/global_FontSize_md';
 import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
 import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
-import React from 'react';
+import type React from 'react';
 
 export const styles = {
   date: {

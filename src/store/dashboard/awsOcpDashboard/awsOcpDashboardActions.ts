@@ -3,7 +3,7 @@ import { forecastActions } from 'store/forecasts';
 import { reportActions } from 'store/reports';
 import { createAction } from 'typesafe-actions';
 
-import { AwsOcpDashboardTab } from './awsOcpDashboardCommon';
+import type { AwsOcpDashboardTab } from './awsOcpDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './awsOcpDashboardSelectors';
 
 export const fetchWidgetForecasts = (id: number): ThunkAction => {
