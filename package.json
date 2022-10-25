@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "build": "yarn build:prod",
-    "build:prod": "NODE_ENV=production fec build --webpack-config config/dev.webpack.config.js",
+    "build:prod": "NODE_ENV=production fec build",
     "check:updates": "npx npm-check-updates",
     "check:milestone": "npx npm-check-updates -t newest -f '/^(@patternfly|@redhat-cloud-services)/'",
     "check:milestone:update": "npx npm-check-updates -t newest -f '/^(@patternfly|@redhat-cloud-services)/' -u",
@@ -19,7 +19,7 @@
     "lint:ts": "eslint src",
     "lint:ts:fix": "eslint src --fix",
     "patch:hosts": "fec patch-etc-hosts",
-    "start": "fec dev --webpack-config config/dev.webpack.config.js",
+    "start": "fec dev",
     "start:csc": "CLOUD_SERVICES_CONFIG_PORT=8889 npm start",
     "start:ephemeral": "EPHEMERAL_PORT=8000 npm start",
     "start:local:api": "LOCAL_API_PORT=8000 LOCAL_API_HOST=localhost KEYCLOAK_PORT=4020 npm start",
@@ -67,6 +67,7 @@
     "typesafe-actions": "^5.1.0",
     "unleash-proxy-client": "^2.3.0",
     "victory-core": "36.6.7",
+    "webpack-bundle-analyzer": "^4.6.1",
     "xstate": "^4.33.6"
   },
   "devDependencies": {
