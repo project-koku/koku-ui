@@ -18,16 +18,12 @@
     ]
   },
   "include": [
-    "./src/**/*",
-    "./scripts/**/*",
-    "./test/**/*",
-    "jest.config.js",
-    "webpack.config.js"
+    "src/**/*.ts*",
+    "test/**/*"
   ],
   "exclude": [
     "node_modules/**",
-    "./src/**/*.test.ts*",
-    "./src/__mocks__/*",
-    "test/test.env.ts"
+    "src/**/*.test.ts*",
+    "src/__mocks__/*"
   ]
 }

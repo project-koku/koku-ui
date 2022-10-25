@@ -3,4 +3,5 @@ import { azureCostOverviewStateKey } from './azureCostOverviewCommon';
 import { azureCostOverviewReducer } from './azureCostOverviewReducer';
 import * as azureCostOverviewSelectors from './azureCostOverviewSelectors';
 
-export { azureCostOverviewStateKey, azureCostOverviewReducer, azureCostOverviewSelectors, AzureCostOverviewWidget };
+export type { AzureCostOverviewWidget };
+export { azureCostOverviewStateKey, azureCostOverviewReducer, azureCostOverviewSelectors };

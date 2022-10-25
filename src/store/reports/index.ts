@@ -4,4 +4,5 @@ import type { CachedReport, ReportAction, ReportState } from './reportReducer';
 import { reportReducer } from './reportReducer';
 import * as reportSelectors from './reportSelectors';
 
-export { ReportAction, CachedReport, reportActions, reportReducer, reportSelectors, ReportState, reportStateKey };
+export type { ReportAction, CachedReport, ReportState };
+export { reportActions, reportReducer, reportSelectors, reportStateKey };

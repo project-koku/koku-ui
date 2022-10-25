@@ -4,11 +4,11 @@ import { awsOcpDashboardStateKey, AwsOcpDashboardTab } from './awsOcpDashboardCo
 import { awsOcpDashboardReducer } from './awsOcpDashboardReducer';
 import * as awsOcpDashboardSelectors from './awsOcpDashboardSelectors';
 
+export type { AwsOcpDashboardWidget };
 export {
   awsOcpDashboardStateKey,
   awsOcpDashboardReducer,
   awsOcpDashboardActions,
   awsOcpDashboardSelectors,
   AwsOcpDashboardTab,
-  AwsOcpDashboardWidget,
 };

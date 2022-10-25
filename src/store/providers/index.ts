@@ -14,6 +14,7 @@ import type { ProvidersAction, ProvidersState } from './providersReducer';
 import { providersReducer } from './providersReducer';
 import * as providersSelectors from './providersSelectors';
 
+export type { ProvidersAction, ProvidersState };
 export {
   awsProvidersQuery,
   azureProvidersQuery,
@@ -21,11 +22,9 @@ export {
   gcpProvidersQuery,
   ibmProvidersQuery,
   ocpProvidersQuery,
-  ProvidersAction,
   providersActions,
   providersQuery,
   providersReducer,
   providersSelectors,
-  ProvidersState,
   providersStateKey,
 };

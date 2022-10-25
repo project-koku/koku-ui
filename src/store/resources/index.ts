@@ -4,12 +4,5 @@ import type { CachedResource, ResourceAction, ResourceState } from './resourceRe
 import { resourceReducer } from './resourceReducer';
 import * as resourceSelectors from './resourceSelectors';
 
-export {
-  ResourceAction,
-  CachedResource,
-  resourceActions,
-  resourceReducer,
-  resourceSelectors,
-  ResourceState,
-  resourceStateKey,
-};
+export type { ResourceAction, CachedResource, ResourceState };
+export { resourceActions, resourceReducer, resourceSelectors, resourceStateKey };

@@ -4,11 +4,5 @@ import type { AccountSettingsAction, AccountSettingsState } from './accountSetti
 import { accountSettingsReducer } from './accountSettingsReducer';
 import * as accountSettingsSelectors from './accountSettingsSelectors';
 
-export {
-  AccountSettingsAction,
-  accountSettingsActions,
-  accountSettingsReducer,
-  accountSettingsSelectors,
-  AccountSettingsState,
-  accountSettingsStateKey,
-};
+export type { AccountSettingsAction, AccountSettingsState };
+export { accountSettingsActions, accountSettingsReducer, accountSettingsSelectors, accountSettingsStateKey };
