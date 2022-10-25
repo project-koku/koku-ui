@@ -1,6 +1,6 @@
 import type { MapDispatchToProps, MapStateToProps } from 'react-redux';
 import type { Action } from 'redux';
-import { ThunkAction as ReduxThunkAction } from 'redux-thunk';
+import type { ThunkAction as ReduxThunkAction } from 'redux-thunk';
 
 import type { RootState } from './rootReducer';
 

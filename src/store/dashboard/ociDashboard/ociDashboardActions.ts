@@ -3,7 +3,7 @@ import { forecastActions } from 'store/forecasts';
 import { reportActions } from 'store/reports';
 import { createAction } from 'typesafe-actions';
 
-import { OciDashboardTab } from './ociDashboardCommon';
+import type { OciDashboardTab } from './ociDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './ociDashboardSelectors';
 
 export const fetchWidgetForecasts = (id: number): ThunkAction => {

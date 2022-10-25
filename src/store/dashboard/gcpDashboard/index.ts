@@ -5,6 +5,7 @@ import { gcpDashboardReducer } from './gcpDashboardReducer';
 import * as gcpDashboardSelectors from './gcpDashboardSelectors';
 import * as gcpDashboardWidgets from './gcpDashboardWidgets';
 
+export type { GcpDashboardWidget };
 export {
   gcpDashboardStateKey,
   gcpDashboardReducer,
@@ -12,5 +13,4 @@ export {
   gcpDashboardSelectors,
   gcpDashboardWidgets,
   GcpDashboardTab,
-  GcpDashboardWidget,
 };

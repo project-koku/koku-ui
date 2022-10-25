@@ -1,7 +1,7 @@
 import type { Org } from 'api/orgs/org';
-import { OrgPathsType, OrgType } from 'api/orgs/org';
+import type { OrgPathsType, OrgType } from 'api/orgs/org';
 import { runOrg } from 'api/orgs/orgUtils';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import type { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
 import type { RootState } from 'store/rootReducer';

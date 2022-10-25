@@ -4,11 +4,11 @@ import { ocpCloudDashboardStateKey, OcpCloudDashboardTab } from './ocpCloudDashb
 import { ocpCloudDashboardReducer } from './ocpCloudDashboardReducer';
 import * as ocpCloudDashboardSelectors from './ocpCloudDashboardSelectors';
 
+export type { OcpCloudDashboardWidget };
 export {
   ocpCloudDashboardStateKey,
   ocpCloudDashboardReducer,
   ocpCloudDashboardActions,
   ocpCloudDashboardSelectors,
   OcpCloudDashboardTab,
-  OcpCloudDashboardWidget,
 };

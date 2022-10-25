@@ -4,11 +4,11 @@ import { azureOcpDashboardStateKey, AzureOcpDashboardTab } from './azureOcpDashb
 import { azureOcpDashboardReducer } from './azureOcpDashboardReducer';
 import * as azureOcpDashboardSelectors from './azureOcpDashboardSelectors';
 
+export type { AzureOcpDashboardWidget };
 export {
   azureOcpDashboardStateKey,
   azureOcpDashboardReducer,
   azureOcpDashboardActions,
   azureOcpDashboardSelectors,
   AzureOcpDashboardTab,
-  AzureOcpDashboardWidget,
 };

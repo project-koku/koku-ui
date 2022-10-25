@@ -1,4 +1,4 @@
-import { ResourcePathsType, ResourceType } from 'api/resources/resource';
+import type { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import type { RootState } from 'store/rootReducer';
 
 import { getResourceId, resourceStateKey } from './resourceCommon';

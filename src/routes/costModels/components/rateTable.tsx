@@ -1,13 +1,5 @@
-import type { IActions, ISortBy } from '@patternfly/react-table';
-import {
-  compoundExpand,
-  sortable,
-  SortByDirection,
-  Table,
-  TableBody,
-  TableHeader,
-  TableVariant,
-} from '@patternfly/react-table';
+import type { IActions, ISortBy, SortByDirection } from '@patternfly/react-table';
+import { compoundExpand, sortable, Table, TableBody, TableHeader, TableVariant } from '@patternfly/react-table';
 import type { Rate } from 'api/rates';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';

@@ -1,7 +1,7 @@
 import type { Resource } from 'api/resources/resource';
-import { ResourcePathsType, ResourceType } from 'api/resources/resource';
+import type { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import { runResource } from 'api/resources/resourceUtils';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import type { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
 import type { RootState } from 'store/rootReducer';

@@ -5,7 +5,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import { asyncComponent } from 'components/async';
 import { ExportsDrawer } from 'components/exports';
 import { PageTitle } from 'components/pageTitle';

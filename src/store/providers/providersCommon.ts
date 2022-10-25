@@ -1,4 +1,4 @@
-import { ProviderType } from 'api/providers';
+import type { ProviderType } from 'api/providers';
 import type { ProvidersQuery } from 'api/queries/providersQuery';
 
 export const stateKey = 'providers';

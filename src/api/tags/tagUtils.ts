@@ -8,7 +8,8 @@ import { runTag as runIbmTag } from './ibmTags';
 import { runTag as runOciTag } from './ociTags';
 import { runTag as runOcpCloudTag } from './ocpCloudTags';
 import { runTag as runOcpTag } from './ocpTags';
-import { TagPathsType, TagType } from './tag';
+import type { TagType } from './tag';
+import { TagPathsType } from './tag';
 
 export function runTag(tagPathsType: TagPathsType, tagType: TagType, query: string) {
   let tagReport;

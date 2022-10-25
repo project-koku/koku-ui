@@ -1,4 +1,4 @@
-import { TagPathsType, TagType } from 'api/tags/tag';
+import type { TagPathsType, TagType } from 'api/tags/tag';
 
 export const tagStateKey = 'tag';
 

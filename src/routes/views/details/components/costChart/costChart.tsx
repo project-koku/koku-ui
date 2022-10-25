@@ -6,7 +6,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { FetchStatus } from 'store/common';
-import { reportActions } from 'store/reports';
+import type { reportActions } from 'store/reports';
 import { formatCurrency } from 'utils/format';
 import { skeletonWidth } from 'utils/skeleton';
 

@@ -3,4 +3,5 @@ import type { Action as PirceListAction, State as PriceListState } from './reduc
 import { reducer as priceListReducer, stateKey as priceListStateKey } from './reducer';
 import * as priceListSelectors from './selectors';
 
-export { priceListActions, priceListStateKey, PirceListAction, PriceListState, priceListReducer, priceListSelectors };
+export type { PirceListAction, PriceListState };
+export { priceListActions, priceListStateKey, priceListReducer, priceListSelectors };

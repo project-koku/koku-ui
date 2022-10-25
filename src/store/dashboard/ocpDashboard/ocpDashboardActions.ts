@@ -3,7 +3,7 @@ import { forecastActions } from 'store/forecasts';
 import { reportActions } from 'store/reports';
 import { createAction } from 'typesafe-actions';
 
-import { OcpDashboardTab } from './ocpDashboardCommon';
+import type { OcpDashboardTab } from './ocpDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './ocpDashboardSelectors';
 
 export const fetchWidgetForecasts = (id: number): ThunkAction => {

@@ -16,7 +16,7 @@ import TimesIcon from '@patternfly/react-icons/dist/esm/icons/times-icon';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { Resource } from 'api/resources/resource';
-import { ResourcePathsType, ResourceType } from 'api/resources/resource';
+import type { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';

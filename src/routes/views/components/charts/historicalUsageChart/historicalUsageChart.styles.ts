@@ -10,7 +10,7 @@ import { chart_color_green_400 } from '@patternfly/react-tokens/dist/js/chart_co
 import { chart_color_green_500 } from '@patternfly/react-tokens/dist/js/chart_color_green_500';
 import { global_spacer_lg } from '@patternfly/react-tokens/dist/js/global_spacer_lg';
 import { global_spacer_sm } from '@patternfly/react-tokens/dist/js/global_spacer_sm';
-import React from 'react';
+import type React from 'react';
 
 export const chartStyles = {
   currentCapacityData: {

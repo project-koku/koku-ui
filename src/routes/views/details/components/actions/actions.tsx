@@ -1,8 +1,8 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
-import { ProviderType } from 'api/providers';
+import type { ProviderType } from 'api/providers';
 import type { Query } from 'api/queries/query';
 import { tagPrefix } from 'api/queries/query';
-import { ReportPathsType } from 'api/reports/report';
+import type { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';

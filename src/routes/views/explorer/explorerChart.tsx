@@ -2,7 +2,7 @@ import { Skeleton, Title } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import { format, getDate, getMonth } from 'date-fns';
 import messages from 'locales/messages';
 import React from 'react';
@@ -26,12 +26,13 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { CostTypes } from 'utils/costType';
+import type { CostTypes } from 'utils/costType';
 import { formatUnits } from 'utils/format';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './explorerChart.styles';
-import { baseQuery, getGroupByDefault, getReportPathsType, getReportType, PerspectiveType } from './explorerUtils';
+import type { PerspectiveType } from './explorerUtils';
+import { baseQuery, getGroupByDefault, getReportPathsType, getReportType } from './explorerUtils';
 
 interface ExplorerChartOwnProps extends RouteComponentProps<void>, WrappedComponentProps {
   costType?: CostTypes;

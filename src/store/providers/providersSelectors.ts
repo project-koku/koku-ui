@@ -1,4 +1,4 @@
-import { ProviderType } from 'api/providers';
+import type { ProviderType } from 'api/providers';
 import type { RootState } from 'store/rootReducer';
 
 import { addProviderKey, getReportId, stateKey } from './providersCommon';

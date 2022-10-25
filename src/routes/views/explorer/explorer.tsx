@@ -9,7 +9,7 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { Report } from 'api/reports/report';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -21,7 +21,8 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
-import { DateRangeType, getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
+import type { DateRangeType } from 'routes/views/utils/dateRange';
+import { getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   getRouteForQuery,
@@ -42,7 +43,8 @@ import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { CostTypes, getCostType } from 'utils/costType';
+import type { CostTypes } from 'utils/costType';
+import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/currency';
 import {
   isAwsAvailable,

@@ -1,8 +1,8 @@
 import { Skeleton } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery } from 'api/queries/query';
-import type { Report } from 'api/reports/report';
-import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { Report, ReportPathsType } from 'api/reports/report';
+import { ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';

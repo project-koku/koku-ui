@@ -13,7 +13,7 @@ import {
 import type { Query } from 'api/queries/query';
 import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
-import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';

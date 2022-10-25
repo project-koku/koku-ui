@@ -1,5 +1,6 @@
 import { createModel } from '@xstate/test';
-import { assign, interpret, Interpreter } from 'xstate';
+import type { Interpreter } from 'xstate';
+import { assign, interpret } from 'xstate';
 
 import type { SelectMachineContext, SelectMachineEvents, SelectMachineStates } from './selectStateMachine';
 import { selectMachineState } from './selectStateMachine';

@@ -1,7 +1,8 @@
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
-import { resetState, setFeatureFlags } from './featureFlagsActions';
+import type { resetState } from './featureFlagsActions';
+import { setFeatureFlags } from './featureFlagsActions';
 
 export type FeatureFlagsAction = ActionType<typeof setFeatureFlags | typeof resetState>;
 

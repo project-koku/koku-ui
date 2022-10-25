@@ -5,7 +5,7 @@ import global_FontSize_sm from '@patternfly/react-tokens/dist/js/global_FontSize
 import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
 import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
 import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
-import React from 'react';
+import type React from 'react';
 
 export const styles = {
   cost: {

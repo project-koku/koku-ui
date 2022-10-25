@@ -7,7 +7,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import type { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -38,7 +38,8 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { CostTypes, getCostType } from 'utils/costType';
+import type { CostTypes } from 'utils/costType';
+import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/currency';
 
 import { styles } from './awsDetails.styles';

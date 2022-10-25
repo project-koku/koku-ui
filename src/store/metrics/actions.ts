@@ -1,7 +1,7 @@
 import type { Metrics } from 'api/metrics';
 import { fetchRateMetrics } from 'api/metrics';
 import type { AxiosResponse } from 'axios';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import type { Dispatch } from 'redux';
 import { createAsyncAction } from 'typesafe-actions';
 

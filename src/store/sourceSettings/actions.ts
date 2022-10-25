@@ -1,7 +1,7 @@
 import type { Providers } from 'api/providers';
 import { fetchProviders as apiGetSources } from 'api/providers';
 import type { AxiosResponse } from 'axios';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import type { Dispatch } from 'redux';
 import { createAction, createAsyncAction } from 'typesafe-actions';
 

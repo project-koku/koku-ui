@@ -5,7 +5,7 @@ import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left
 import type { Query } from 'api/queries/query';
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
-import { TagPathsType } from 'api/tags/tag';
+import type { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -18,7 +18,7 @@ import { TagLink } from 'routes/views/details/components/tag';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
-import { CostTypes } from 'utils/costType';
+import type { CostTypes } from 'utils/costType';
 import { getForDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 

@@ -7,9 +7,9 @@ import {
   updateCostModel as apiUpdateCostModel,
 } from 'api/costModels';
 import type { AxiosResponse } from 'axios';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import { intl } from 'components/i18n';
-import * as H from 'history';
+import type * as H from 'history';
 import messages from 'locales/messages';
 import type { Dispatch } from 'redux';
 import type { ThunkAction } from 'store/common';

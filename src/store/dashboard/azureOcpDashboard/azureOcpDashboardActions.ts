@@ -3,7 +3,7 @@ import { forecastActions } from 'store/forecasts';
 import { reportActions } from 'store/reports';
 import { createAction } from 'typesafe-actions';
 
-import { AzureOcpDashboardTab } from './azureOcpDashboardCommon';
+import type { AzureOcpDashboardTab } from './azureOcpDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './azureOcpDashboardSelectors';
 
 export const fetchWidgetForecasts = (id: number): ThunkAction => {

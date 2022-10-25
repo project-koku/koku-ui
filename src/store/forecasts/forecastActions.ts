@@ -1,7 +1,7 @@
 import type { Forecast } from 'api/forecasts/forecast';
-import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
+import type { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { runForecast } from 'api/forecasts/forecastUtils';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import type { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
 import type { RootState } from 'store/rootReducer';
