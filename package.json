@@ -40,7 +40,7 @@
   "dependencies": {
     "@patternfly/patternfly": "4.217.1",
     "@patternfly/react-charts": "6.94.7",
-    "@patternfly/react-core": "4.252.0",
+    "@patternfly/react-core": "4.257.1",
     "@patternfly/react-icons": "4.92.6",
     "@patternfly/react-styles": "4.91.6",
     "@patternfly/react-table": "4.111.5",
