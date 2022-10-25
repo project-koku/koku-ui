@@ -76,7 +76,7 @@ class CostChartBase extends React.Component<CostChartProps> {
     const LegendLabel = this.getLegendLabel();
     const Legend = (
       <ChartLegend
-        gutter={25}
+        gutter={75} // Space (width) between legend items
         itemsPerRow={2}
         labelComponent={<LegendLabel dy={10} lineHeight={1.5} values={[raw, markup, usage]} />}
         rowGutter={20}
