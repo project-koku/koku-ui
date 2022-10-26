@@ -1,7 +1,9 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
+const { dependencies, insights } = require('./package.json');
 
+const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './dist/');
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
@@ -30,15 +32,30 @@ class WatchRunPlugin {
 module.exports = {
   appUrl: '/openshift/cost-management',
   debug: true,
+  interceptChromeConfig: false, // Change to false after your app is registered in configuration files
   proxyVerbose: true,
   stats,
   standalone: process.env.LOCAL_API_PORT ? true : false,
   useProxy: process.env.LOCAL_API_PORT ? false : true,
-  // useCache: true,
   /**
-   * Change to false after your app is registered in configuration files
+   * Config for federated modules
    */
-  interceptChromeConfig: false,
+  moduleFederation: {
+    moduleName,
+    /**
+     * There is a know issue with apps using yarn to build their applications that the router package is not properly shared
+     * Same issue was encountered in application services
+     * Package can be re-enabled for sharing once chrome starts providing global routing package to all applications
+     */
+    exclude: ['react-router-dom'],
+    exposes: {
+      './RootApp': path.resolve(__dirname, './src/appEntry.tsx'),
+    },
+    shared: [
+      { 'react-redux': { requiredVersion: dependencies['react-redux'] } },
+      { '@unleash/proxy-client-react': { requiredVersion: '*', singleton: true } },
+    ],
+  },
   /**
    * Add additional webpack plugins
    */
@@ -54,6 +71,9 @@ module.exports = {
       ],
     }),
   ],
+  resolve: {
+    modules: [srcDir, path.resolve(__dirname, './node_modules')],
+  },
   routes: {
     /**
      * Cloud services config routes, typically localhost:8889
