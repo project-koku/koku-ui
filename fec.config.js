@@ -71,6 +71,9 @@ module.exports = {
       ],
     }),
   ],
+  resolve: {
+    modules: [srcDir, path.resolve(__dirname, './node_modules')],
+  },
   routes: {
     /**
      * Cloud services config routes, typically localhost:8889
