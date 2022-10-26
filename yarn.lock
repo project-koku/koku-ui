@@ -1097,10 +1097,10 @@
   dependencies:
     node-fetch "2.6.7"
 
-"@redhat-cloud-services/frontend-components-config@^4.6.27":
-  version "4.6.27"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-4.6.27.tgz#f025b4459e7eae77c62ba9c7bdc94315d9e55449"
-  integrity sha512-OentXGU9UNhX3uk77iCSvofxsjhXYN3uncjajleIJvdFGLq9NVFRMEQ5F7zj6TjfYLl0z7yv6tsBGVojhvwmBg==
+"@redhat-cloud-services/frontend-components-config@^4.6.28":
+  version "4.6.28"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-4.6.28.tgz#b7d4311d8f921d02b744df3cdc7451777496d4c6"
+  integrity sha512-c0sB2CXTLkKk8Pa1tOfDIjEhXWH4Ln4wPhTy0kihR7NShRaZPo7Nw0/1IgyEk0AIyBdQbfHbNlFivWvQBwB7iQ==
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin" "^0.5.8"
     "@redhat-cloud-services/frontend-components-config-utilities" "^1.5.24"
