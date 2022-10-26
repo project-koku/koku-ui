@@ -5,7 +5,7 @@ import type React from 'react';
 
 export const chartStyles = {
   chartHeight: 150,
-  chartWidth: 400,
+  chartWidth: 475,
   subTitle: {
     fontWeight: global_FontWeight_bold.value as any,
   },
