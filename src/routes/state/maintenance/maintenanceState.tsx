@@ -2,7 +2,8 @@ import { Stack, StackItem } from '@patternfly/react-core';
 import Maintenance from '@redhat-cloud-services/frontend-components/Maintenance';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 type MaintenanceStateBaseOwnProps = WrappedComponentProps;
 

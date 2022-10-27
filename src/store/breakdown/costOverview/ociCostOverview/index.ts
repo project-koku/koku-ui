@@ -1,5 +1,7 @@
-import { ociCostOverviewStateKey, OciCostOverviewWidget } from './ociCostOverviewCommon';
+import type { OciCostOverviewWidget } from './ociCostOverviewCommon';
+import { ociCostOverviewStateKey } from './ociCostOverviewCommon';
 import { ociCostOverviewReducer } from './ociCostOverviewReducer';
 import * as ociCostOverviewSelectors from './ociCostOverviewSelectors';
 
-export { ociCostOverviewStateKey, ociCostOverviewReducer, ociCostOverviewSelectors, OciCostOverviewWidget };
+export type { OciCostOverviewWidget };
+export { ociCostOverviewStateKey, ociCostOverviewReducer, ociCostOverviewSelectors };

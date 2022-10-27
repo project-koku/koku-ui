@@ -1,4 +1,4 @@
-import { ResourcePathsType, ResourceType } from 'api/resources/resource';
+import type { ResourcePathsType, ResourceType } from 'api/resources/resource';
 
 export const resourceStateKey = 'resource';
 

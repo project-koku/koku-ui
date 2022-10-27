@@ -10,7 +10,8 @@ import {
 } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { currencyOptions } from 'routes/components/currency';
 import { Form } from 'routes/costModels/components/forms/form';

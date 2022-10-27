@@ -1,10 +1,11 @@
 import { Pagination, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
-import { CostModel } from 'api/costModels';
-import { Provider } from 'api/providers';
+import type { CostModel } from 'api/costModels';
+import type { Provider } from 'api/providers';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { LoadingState } from 'routes/components/state/loadingState';

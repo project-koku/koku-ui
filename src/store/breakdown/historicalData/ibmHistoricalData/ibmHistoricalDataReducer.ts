@@ -1,4 +1,4 @@
-import { IbmHistoricalDataWidget } from './ibmHistoricalDataCommon';
+import type { IbmHistoricalDataWidget } from './ibmHistoricalDataCommon';
 import { computeUsageWidget, costWidget, storageUsageWidget } from './ibmHistoricalDataWidgets';
 
 export type IbmHistoricalDataState = Readonly<{

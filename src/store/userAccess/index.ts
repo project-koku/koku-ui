@@ -10,7 +10,8 @@ import {
 
 import * as userAccessActions from './userAccessActions';
 import { stateKey as userAccessStateKey } from './userAccessCommon';
-import { UserAccessAction, userAccessReducer, UserAccessState } from './userAccessReducer';
+import type { UserAccessAction, UserAccessState } from './userAccessReducer';
+import { userAccessReducer } from './userAccessReducer';
 import * as userAccessSelectors from './userAccessSelectors';
 
 export {
@@ -21,10 +22,9 @@ export {
   gcpUserAccessQuery,
   ibmUserAccessQuery,
   ocpUserAccessQuery,
-  UserAccessAction,
   userAccessActions,
   userAccessReducer,
   userAccessSelectors,
-  UserAccessState,
   userAccessStateKey,
 };
+export type { UserAccessAction, UserAccessState };

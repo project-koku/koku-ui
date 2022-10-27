@@ -1,12 +1,14 @@
-import { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Button, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
+import type { RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { CostIcon } from 'routes/components/icons/costIcon';
 import { getReleasePath } from 'utils/paths';
 

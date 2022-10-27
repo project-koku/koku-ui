@@ -1,4 +1,4 @@
-import { AzureHistoricalDataWidget } from './azureHistoricalDataCommon';
+import type { AzureHistoricalDataWidget } from './azureHistoricalDataCommon';
 import { computeUsageWidget, costWidget, storageUsageWidget } from './azureHistoricalDataWidgets';
 
 export type AzureHistoricalDataState = Readonly<{

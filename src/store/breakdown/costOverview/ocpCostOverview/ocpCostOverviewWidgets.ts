@@ -1,7 +1,7 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 
-import { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
+import type { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

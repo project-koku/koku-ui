@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import FederatedEntry from './federatedEntry';
+import AppEntry from './appEntry';
 
 const root = document.getElementById('root');
-render(<FederatedEntry />, root, () => root.setAttribute('data-ouia-safe', 'true'));
+render(<AppEntry />, root, () => root.setAttribute('data-ouia-safe', 'true'));

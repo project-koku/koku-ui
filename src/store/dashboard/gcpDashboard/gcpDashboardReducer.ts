@@ -1,7 +1,8 @@
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './gcpDashboardActions';
-import { GcpDashboardWidget } from './gcpDashboardCommon';
+import type { GcpDashboardWidget } from './gcpDashboardCommon';
 import { computeWidget, costSummaryWidget, databaseWidget, networkWidget, storageWidget } from './gcpDashboardWidgets';
 
 export type GcpDashboardAction = ActionType<typeof setWidgetTab>;

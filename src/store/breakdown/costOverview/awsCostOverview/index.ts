@@ -1,5 +1,7 @@
-import { awsCostOverviewStateKey, AwsCostOverviewWidget } from './awsCostOverviewCommon';
+import type { AwsCostOverviewWidget } from './awsCostOverviewCommon';
+import { awsCostOverviewStateKey } from './awsCostOverviewCommon';
 import { awsCostOverviewReducer } from './awsCostOverviewReducer';
 import * as awsCostOverviewSelectors from './awsCostOverviewSelectors';
 
-export { awsCostOverviewStateKey, awsCostOverviewReducer, awsCostOverviewSelectors, AwsCostOverviewWidget };
+export type { AwsCostOverviewWidget };
+export { awsCostOverviewStateKey, awsCostOverviewReducer, awsCostOverviewSelectors };

@@ -1,4 +1,4 @@
-import { IbmCostOverviewWidget } from './ibmCostOverviewCommon';
+import type { IbmCostOverviewWidget } from './ibmCostOverviewCommon';
 import {
   accountSummaryWidget,
   costWidget,

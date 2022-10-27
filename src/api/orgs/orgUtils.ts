@@ -1,5 +1,6 @@
 import { runOrg as runAwsOrg } from './awsOrgs';
-import { OrgPathsType, OrgType } from './org';
+import type { OrgType } from './org';
+import { OrgPathsType } from './org';
 
 export function runOrg(orgPathsType: OrgPathsType, orgType: OrgType, query: string) {
   let orgReport;

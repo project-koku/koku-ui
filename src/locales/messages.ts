@@ -1553,6 +1553,11 @@ export default defineMessages({
     description: 'Expires on',
     id: 'expiresOn',
   },
+  explorerChartAriaTitle: {
+    defaultMessage: 'Cost Explorer Chart',
+    description: 'Cost Explorer Chart',
+    id: 'explorerChartAriaTitle',
+  },
   explorerChartDate: {
     defaultMessage:
       '{month, select, ' +

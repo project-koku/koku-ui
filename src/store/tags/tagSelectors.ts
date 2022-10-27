@@ -1,5 +1,5 @@
-import { TagPathsType, TagType } from 'api/tags/tag';
-import { RootState } from 'store/rootReducer';
+import type { TagPathsType, TagType } from 'api/tags/tag';
+import type { RootState } from 'store/rootReducer';
 
 import { getTagId, tagStateKey } from './tagCommon';
 

@@ -1,4 +1,4 @@
-import { Query } from 'api/queries/query';
+import type { Query } from 'api/queries/query';
 
 export interface Filter {
   isExcludes?: boolean;

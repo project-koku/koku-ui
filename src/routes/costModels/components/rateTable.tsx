@@ -1,19 +1,11 @@
-import {
-  compoundExpand,
-  IActions,
-  ISortBy,
-  sortable,
-  SortByDirection,
-  Table,
-  TableBody,
-  TableHeader,
-  TableVariant,
-} from '@patternfly/react-table';
-import { Rate } from 'api/rates';
+import type { IActions, ISortBy, SortByDirection } from '@patternfly/react-table';
+import { compoundExpand, sortable, Table, TableBody, TableHeader, TableVariant } from '@patternfly/react-table';
+import type { Rate } from 'api/rates';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { formatCurrencyRate, unitsLookupKey } from 'utils/format';
 
 import TagRateTable from './tagRateTable';

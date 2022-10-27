@@ -3,12 +3,14 @@ import './explorerTable.scss';
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import { nowrap, sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
-import { getQuery, parseQuery, Query } from 'api/queries/query';
-import { Report } from 'api/reports/report';
+import type { Query } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
+import type { Report } from 'api/reports/report';
 import { format, getDate, getMonth } from 'date-fns';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { ComputedReportItemType, ComputedReportItemValueType } from 'routes/views/components/charts/common/chartDatum';
@@ -16,7 +18,8 @@ import { getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange'
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
-import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './explorerTable.styles';
@@ -246,7 +249,6 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       columns,
       loadingRows,
       rows,
-      sortBy: {},
     });
   };
 
@@ -371,4 +373,5 @@ const mapDispatchToProps: ExplorerTableDispatchProps = {};
 const ExplorerTableConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerTableBase);
 const ExplorerTable = injectIntl(ExplorerTableConnect);
 
-export { ExplorerTable, ExplorerTableProps };
+export { ExplorerTable };
+export type { ExplorerTableProps };

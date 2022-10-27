@@ -1,23 +1,28 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
-import { Providers, ProviderType } from 'api/providers';
+import type { Providers } from 'api/providers';
+import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { getQuery, parseQuery, Query } from 'api/queries/query';
+import type { Query } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
-import { Report } from 'api/reports/report';
-import { UserAccess, UserAccessType } from 'api/userAccess';
-import { AxiosError } from 'axios';
+import type { Report } from 'api/reports/report';
+import type { UserAccess } from 'api/userAccess';
+import { UserAccessType } from 'api/userAccess';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import type { RouteComponentProps } from 'react-router-dom';
 import { Loading } from 'routes/state/loading';
 import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
-import { DateRangeType, getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
+import type { DateRangeType } from 'routes/views/utils/dateRange';
+import { getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   getRouteForQuery,
@@ -36,8 +41,10 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
-import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { CostTypes, getCostType } from 'utils/costType';
+import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import type { CostTypes } from 'utils/costType';
+import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/currency';
 import {
   isAwsAvailable,

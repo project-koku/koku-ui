@@ -1,31 +1,33 @@
-import { ToolbarChipGroup } from '@patternfly/react-core';
-import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
-import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey } from 'api/queries/query';
-import { ResourcePathsType } from 'api/resources/resource';
-import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { Org, OrgPathsType } from 'api/orgs/org';
+import { OrgType } from 'api/orgs/org';
+import type { Query } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, parseQuery, tagKey } from 'api/queries/query';
+import type { ResourcePathsType } from 'api/resources/resource';
+import type { Tag, TagPathsType } from 'api/tags/tag';
+import { TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import type { RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { DataToolbar } from 'routes/views/components/dataToolbar';
-import { DateRangeType, getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
-import { Filter } from 'routes/views/utils/filter';
+import type { DateRangeType } from 'routes/views/utils/dateRange';
+import { getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
+import type { Filter } from 'routes/views/utils/filter';
 import { getRouteForQuery } from 'routes/views/utils/history';
-import { createMapStateToProps, FetchStatus } from 'store/common';
+import type { FetchStatus } from 'store/common';
+import { createMapStateToProps } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
 import { isEqual } from 'utils/equal';
 
 import { ExplorerDateRange } from './explorerDateRange';
 import { styles } from './explorerFilter.styles';
-import {
-  dateRangeOptions,
-  getGroupByOptions,
-  getOrgReportPathsType,
-  getTagReportPathsType,
-  PerspectiveType,
-} from './explorerUtils';
+import type { PerspectiveType } from './explorerUtils';
+import { dateRangeOptions, getGroupByOptions, getOrgReportPathsType, getTagReportPathsType } from './explorerUtils';
 
 interface ExplorerFilterOwnProps {
   groupBy: string;
@@ -281,4 +283,5 @@ const mapDispatchToProps: ExplorerFilterDispatchProps = {
 const ExplorerFilterConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerFilterBase);
 const ExplorerFilter = injectIntl(withRouter(ExplorerFilterConnect));
 
-export { ExplorerFilter, ExplorerFilterProps };
+export { ExplorerFilter };
+export type { ExplorerFilterProps };

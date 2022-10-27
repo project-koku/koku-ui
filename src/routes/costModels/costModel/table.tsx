@@ -1,9 +1,10 @@
 import { EmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
-import { CostModel } from 'api/costModels';
+import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'routes/costModels/components/filterLogic';

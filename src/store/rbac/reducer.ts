@@ -1,7 +1,8 @@
-import { RBAC } from 'api/rbac';
+import type { RBAC } from 'api/rbac';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { fetchRbacFailure, fetchRbacRequest, fetchRbacSuccess } from './actions';
 

@@ -1,21 +1,23 @@
+import type { SelectOptionObject, ToolbarChipGroup } from '@patternfly/react-core';
 import {
   Button,
   ButtonVariant,
   InputGroup,
   Select,
   SelectOption,
-  SelectOptionObject,
   SelectVariant,
   TextInput,
-  ToolbarChipGroup,
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
-import { getQuery, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
-import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import type { Query } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, parseQuery } from 'api/queries/query';
+import type { Tag, TagPathsType } from 'api/tags/tag';
+import { TagType } from 'api/tags/tag';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -211,4 +213,5 @@ const mapDispatchToProps: TagValueDispatchProps = {
 const TagValueConnect = connect(mapStateToProps, mapDispatchToProps)(TagValueBase);
 const TagValue = injectIntl(TagValueConnect);
 
-export { TagValue, TagValueProps };
+export { TagValue };
+export type { TagValueProps };

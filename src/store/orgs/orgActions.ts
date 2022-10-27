@@ -1,9 +1,10 @@
-import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
+import type { Org } from 'api/orgs/org';
+import type { OrgPathsType, OrgType } from 'api/orgs/org';
 import { runOrg } from 'api/orgs/orgUtils';
-import { AxiosError } from 'axios';
-import { ThunkAction } from 'redux-thunk';
+import type { AxiosError } from 'axios';
+import type { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
-import { RootState } from 'store/rootReducer';
+import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
 import { getOrgId } from './orgCommon';

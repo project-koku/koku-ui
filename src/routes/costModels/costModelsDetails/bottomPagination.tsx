@@ -1,6 +1,6 @@
+import type { PaginationProps } from '@patternfly/react-core';
 import {
   Pagination,
-  PaginationProps,
   PaginationVariant,
   Toolbar,
   ToolbarContent,
@@ -10,19 +10,16 @@ import {
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { RootState } from 'store';
+import type { RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import type { RootState } from 'store';
 import { costModelsSelectors } from 'store/costModels';
 
-import {
-  CostModelsQuery,
-  initialCostModelsQuery,
-  limitTransform,
-  offsetTransform,
-  stringifySearch,
-} from './utils/query';
+import type { CostModelsQuery } from './utils/query';
+import { initialCostModelsQuery, limitTransform, offsetTransform, stringifySearch } from './utils/query';
 
 type BottomPaginationBaseProps = Omit<PaginationProps, 'ref'> & WrappedComponentProps;
 

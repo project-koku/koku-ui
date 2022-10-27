@@ -1,4 +1,4 @@
-import { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
+import type { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
 import {
   clusterWidget,
   costWidget,

@@ -1,5 +1,5 @@
 import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
-import React from 'react';
+import type React from 'react';
 
 export const styles = {
   content: {

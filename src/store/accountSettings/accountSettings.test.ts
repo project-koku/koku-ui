@@ -1,7 +1,8 @@
 jest.mock('api/accountSettings');
 
 import { waitFor } from '@testing-library/react';
-import { AccountSettings, fetchAccountSettings } from 'api/accountSettings';
+import type { AccountSettings } from 'api/accountSettings';
+import { fetchAccountSettings } from 'api/accountSettings';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 

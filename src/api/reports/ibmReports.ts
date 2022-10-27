@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType, ReportValue } from './report';
+import type { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportValue } from './report';
+import { ReportType } from './report';
 
 export interface IbmReportItem extends ReportItem {
   account?: string;

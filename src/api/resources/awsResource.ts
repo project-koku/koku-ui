@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-import { Resource, ResourceType } from './resource';
+import type { Resource } from './resource';
+import { ResourceType } from './resource';
 
 export const ResourceTypePaths: Partial<Record<ResourceType, string>> = {
   [ResourceType.account]: 'resource-types/aws-accounts/',

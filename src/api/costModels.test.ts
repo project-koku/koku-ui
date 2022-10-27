@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-import { addCostModel, CostModelRequest, deleteCostModel, fetchCostModels, updateCostModel } from './costModels';
+import type { CostModelRequest } from './costModels';
+import { addCostModel, deleteCostModel, fetchCostModels, updateCostModel } from './costModels';
 
 test('api get cost models calls axios to costmodels', () => {
   fetchCostModels();

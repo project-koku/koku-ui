@@ -1,9 +1,9 @@
-import { ThunkAction } from 'store/common';
+import type { ThunkAction } from 'store/common';
 import { forecastActions } from 'store/forecasts';
 import { reportActions } from 'store/reports';
 import { createAction } from 'typesafe-actions';
 
-import { AzureDashboardTab } from './azureDashboardCommon';
+import type { AzureDashboardTab } from './azureDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './azureDashboardSelectors';
 
 export const fetchWidgetForecasts = (id: number): ThunkAction => {

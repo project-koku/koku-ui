@@ -1,17 +1,19 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
-import { ProviderType } from 'api/providers';
-import { Query } from 'api/queries/query';
+import type { ProviderType } from 'api/providers';
+import type { Query } from 'api/queries/query';
 import { tagPrefix } from 'api/queries/query';
-import { ReportPathsType } from 'api/reports/report';
+import type { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import type { RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { ExportModal } from 'routes/views/components/export';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
-import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface DetailsActionsOwnProps extends WrappedComponentProps, RouteComponentProps<void> {
   groupBy: string;

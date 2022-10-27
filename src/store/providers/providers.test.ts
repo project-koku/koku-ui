@@ -1,7 +1,8 @@
 jest.mock('api/providers');
 
 import { waitFor } from '@testing-library/react';
-import { fetchProviders, Providers, ProviderType } from 'api/providers';
+import type { Providers } from 'api/providers';
+import { fetchProviders, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';

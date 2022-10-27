@@ -1,5 +1,5 @@
 import messages from 'locales/messages';
-import { MessageDescriptor } from 'react-intl';
+import type { MessageDescriptor } from 'react-intl';
 import { countDecimals, isPercentageFormatValid } from 'utils/format';
 
 export const nameErrors = (name: string): MessageDescriptor | null => {

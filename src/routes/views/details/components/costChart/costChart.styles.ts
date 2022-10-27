@@ -1,11 +1,11 @@
 import global_FontWeight_bold from '@patternfly/react-tokens/dist/js/global_FontWeight_bold';
 import global_spacer_3xl from '@patternfly/react-tokens/dist/js/global_spacer_3xl';
 import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
-import React from 'react';
+import type React from 'react';
 
 export const chartStyles = {
   chartHeight: 150,
-  chartWidth: 400,
+  chartWidth: 475,
   subTitle: {
     fontWeight: global_FontWeight_bold.value as any,
   },

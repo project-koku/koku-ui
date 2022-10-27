@@ -3,8 +3,9 @@ import './clusterModal.scss';
 import { Modal } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
+import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 import { ClusterContent } from './clusterContent';
 import { styles } from './clusterModal.styles';

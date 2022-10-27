@@ -1,9 +1,9 @@
+import type { Rates } from 'api/rates';
 import { fetchRate } from 'api/rates';
-import { Rates } from 'api/rates';
-import { AxiosError } from 'axios';
-import { Dispatch } from 'redux';
+import type { AxiosError } from 'axios';
+import type { Dispatch } from 'redux';
 import { expirationMS, FetchStatus } from 'store/common';
-import { RootState } from 'store/rootReducer';
+import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
 import { cachedRates, status } from './selectors';

@@ -1,8 +1,9 @@
-import { Report } from 'api/reports/report';
-import { AxiosError } from 'axios';
+import type { Report } from 'api/reports/report';
+import type { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import { fetchReportFailure, fetchReportRequest, fetchReportSuccess } from './reportActions';
 

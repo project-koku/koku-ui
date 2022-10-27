@@ -1,7 +1,8 @@
-import { Rate } from 'api/rates';
+import type { Rate } from 'api/rates';
 import React from 'react';
 import AddPriceList from 'routes/costModels/components/addPriceList';
-import { RateFormData, transformFormDataToRequest } from 'routes/costModels/components/rateForm/index';
+import type { RateFormData } from 'routes/costModels/components/rateForm/index';
+import { transformFormDataToRequest } from 'routes/costModels/components/rateForm/index';
 
 import { CostModelContext } from './context';
 import PriceListTable from './priceListTable';

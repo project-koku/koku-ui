@@ -1,5 +1,7 @@
 import * as sourcesActions from './actions';
-import { reducer as sourcesReducer, SourcesAction, SourcesState, stateKey as sourcesStateKey } from './reducer';
+import type { SourcesAction, SourcesState } from './reducer';
+import { reducer as sourcesReducer, stateKey as sourcesStateKey } from './reducer';
 import * as sourcesSelectors from './selectors';
 
-export { SourcesAction, sourcesActions, sourcesReducer, sourcesSelectors, SourcesState, sourcesStateKey };
+export type { SourcesAction, SourcesState };
+export { sourcesActions, sourcesReducer, sourcesSelectors, sourcesStateKey };

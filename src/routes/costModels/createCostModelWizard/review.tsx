@@ -20,7 +20,8 @@ import {
 import { OkIcon } from '@patternfly/react-icons/dist/esm/icons/ok-icon';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { RateTable } from 'routes/costModels/components/rateTable';
 import { WarningIcon } from 'routes/costModels/components/warningIcon';
 

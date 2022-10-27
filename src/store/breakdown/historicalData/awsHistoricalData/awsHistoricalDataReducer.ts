@@ -1,4 +1,4 @@
-import { AwsHistoricalDataWidget } from './awsHistoricalDataCommon';
+import type { AwsHistoricalDataWidget } from './awsHistoricalDataCommon';
 import { computeUsageWidget, costWidget, storageUsageWidget } from './awsHistoricalDataWidgets';
 
 export type AwsHistoricalDataState = Readonly<{

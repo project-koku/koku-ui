@@ -1,13 +1,17 @@
 import { Title, TitleSizes } from '@patternfly/react-core';
-import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
-import { Report, ReportPathsType, ReportType } from 'api/reports/report';
+import type { Query } from 'api/queries/query';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery } from 'api/queries/query';
+import type { Report, ReportPathsType } from 'api/reports/report';
+import { ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { ReportSummaryItem, ReportSummaryItems } from 'routes/views/components/reports/reportSummary';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
-import { createMapStateToProps, FetchStatus } from 'store/common';
+import type { FetchStatus } from 'store/common';
+import { createMapStateToProps } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatCurrency } from 'utils/format';
 
@@ -135,4 +139,5 @@ const mapDispatchToProps: SummaryModalContentDispatchProps = {
 
 const SummaryModalContent = injectIntl(connect(mapStateToProps, mapDispatchToProps)(SummaryModalContentBase));
 
-export { SummaryModalContent, SummaryModalContentProps };
+export { SummaryModalContent };
+export type { SummaryModalContentProps };

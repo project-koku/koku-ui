@@ -1,11 +1,13 @@
-import { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { EmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
-import { OcpCloudQuery, parseQuery } from 'api/queries/ocpCloudQuery';
+import type { Query } from 'api/queries/query';
+import { parseQuery } from 'api/queries/query';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 import { styles } from './emptyFilterState.styles';
 
@@ -60,7 +62,7 @@ const EmptyFilterStateBase: React.FC<EmptyFilterStateProps> = ({
         }
       }
     } else {
-      const queryFromRoute = parseQuery<OcpCloudQuery>(location.search);
+      const queryFromRoute = parseQuery<Query>(location.search);
       if (queryFromRoute && queryFromRoute.group_by) {
         for (const values of Object.values(queryFromRoute.group_by)) {
           if (Array.isArray(values)) {
@@ -75,11 +77,11 @@ const EmptyFilterStateBase: React.FC<EmptyFilterStateProps> = ({
               }
             }
           } else {
-            if (filterTest1(values)) {
+            if (filterTest1(values as string)) {
               showAltIcon1 = true;
               break;
             }
-            if (filterTest2(values)) {
+            if (filterTest2(values as string)) {
               showAltIcon2 = true;
               break;
             }

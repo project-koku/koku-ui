@@ -10,12 +10,14 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
-import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
-import { OcpReport } from 'api/reports/ocpReports';
-import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { Query } from 'api/queries/query';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery } from 'api/queries/query';
+import type { OcpReport } from 'api/reports/ocpReports';
+import type { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { ReportSummaryItem, ReportSummaryItems } from 'routes/views/components/reports/reportSummary';
 import { SummaryModal } from 'routes/views/details/components/summary/summaryModal';

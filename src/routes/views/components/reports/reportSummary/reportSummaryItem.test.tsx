@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { intl as defaultIntl } from 'components/i18n';
 import React from 'react';
 
-import ReportSummaryItem, { ReportSummaryItemProps } from './reportSummaryItem';
+import type { ReportSummaryItemProps } from './reportSummaryItem';
+import ReportSummaryItem from './reportSummaryItem';
 
 const props: ReportSummaryItemProps = {
   label: 'Label',

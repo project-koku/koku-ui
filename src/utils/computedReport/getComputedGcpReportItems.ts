@@ -1,7 +1,7 @@
-import { GcpQuery } from 'api/queries/gcpQuery';
-import { GcpReport, GcpReportItem } from 'api/reports/gcpReports';
+import type { GcpQuery } from 'api/queries/gcpQuery';
+import type { GcpReport, GcpReportItem } from 'api/reports/gcpReports';
 
-import { ComputedReportItemsParams } from './getComputedReportItems';
+import type { ComputedReportItemsParams } from './getComputedReportItems';
 
 export interface ComputedGcpReportItemsParams extends ComputedReportItemsParams<GcpReport, GcpReportItem> {}
 

@@ -1,4 +1,4 @@
-import { AwsCostOverviewWidget } from './awsCostOverviewCommon';
+import type { AwsCostOverviewWidget } from './awsCostOverviewCommon';
 import { accountSummaryWidget, costWidget, regionSummaryWidget, serviceSummaryWidget } from './awsCostOverviewWidgets';
 
 export type AwsCostOverviewState = Readonly<{

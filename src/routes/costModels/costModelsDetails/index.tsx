@@ -1,9 +1,9 @@
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
 import React from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
-import { Dispatch } from 'redux';
-import { RootState } from 'store';
+import type { RouteComponentProps } from 'react-router-dom';
+import type { Dispatch } from 'redux';
+import type { RootState } from 'store';
 import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
 import { rbacActions } from 'store/rbac';

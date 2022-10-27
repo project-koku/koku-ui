@@ -1,7 +1,8 @@
-import { CostModel, CostModels } from 'api/costModels';
-import { AxiosError } from 'axios';
+import type { CostModel, CostModels } from 'api/costModels';
+import type { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
-import { ActionType, getType } from 'typesafe-actions';
+import type { ActionType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import {
   deleteCostModelsFailure,

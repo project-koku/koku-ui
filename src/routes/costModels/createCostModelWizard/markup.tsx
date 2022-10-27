@@ -18,7 +18,8 @@ import {
 } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { Form } from 'routes/costModels/components/forms/form';
 import { styles } from 'routes/costModels/costModel/costCalc.styles';
 import { countDecimals, isPercentageFormatValid } from 'utils/format';

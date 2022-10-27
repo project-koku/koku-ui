@@ -1,11 +1,12 @@
 import { ChartLabel, ChartLegend, ChartPie, ChartThemeColor } from '@patternfly/react-charts';
 import { Skeleton } from '@patternfly/react-core';
-import { Report } from 'api/reports/report';
+import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { FetchStatus } from 'store/common';
-import { reportActions } from 'store/reports';
+import type { reportActions } from 'store/reports';
 import { formatCurrency } from 'utils/format';
 import { skeletonWidth } from 'utils/skeleton';
 
@@ -75,7 +76,7 @@ class CostChartBase extends React.Component<CostChartProps> {
     const LegendLabel = this.getLegendLabel();
     const Legend = (
       <ChartLegend
-        gutter={25}
+        gutter={80} // Space (width) between legend items
         itemsPerRow={2}
         labelComponent={<LegendLabel dy={10} lineHeight={1.5} values={[raw, markup, usage]} />}
         rowGutter={20}

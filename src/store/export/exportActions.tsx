@@ -1,18 +1,18 @@
 import { AlertVariant } from '@patternfly/react-core';
 import { addNotification, removeNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
-import { Export } from 'api/export/export';
+import type { Export } from 'api/export/export';
 import { runExport } from 'api/export/exportUtils';
-import { ReportPathsType, ReportType } from 'api/reports/report';
-import { AxiosError } from 'axios';
+import type { ReportPathsType, ReportType } from 'api/reports/report';
+import type { AxiosError } from 'axios';
 import { ExportsLink } from 'components/exports';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { ThunkAction } from 'redux-thunk';
+import type { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
 import { getExportId } from 'store/export/exportCommon';
 import { selectExport, selectExportFetchStatus } from 'store/export/exportSelectors';
-import { RootState } from 'store/rootReducer';
+import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
 const expirationMS = 30 * 60 * 1000; // 30 minutes

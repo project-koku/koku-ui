@@ -1,13 +1,17 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
-import { getQuery, Query } from 'api/queries/query';
-import { Report, ReportPathsType, ReportType } from 'api/reports/report';
-import { AxiosError } from 'axios';
+import type { Query } from 'api/queries/query';
+import { getQuery } from 'api/queries/query';
+import type { Report } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Loading } from 'routes/state/loading';
-import { addFilterToQuery, Filter, removeFilterFromQuery } from 'routes/views/utils/filter';
+import type { Filter } from 'routes/views/utils/filter';
+import { addFilterToQuery, removeFilterFromQuery } from 'routes/views/utils/filter';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 

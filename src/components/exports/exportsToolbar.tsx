@@ -1,11 +1,12 @@
-import { ToolbarChipGroup } from '@patternfly/react-core';
-import { Query } from 'api/queries/query';
+import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { Query } from 'api/queries/query';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { DataToolbar } from 'routes/views/components/dataToolbar';
-import { Filter } from 'routes/views/utils/filter';
+import type { Filter } from 'routes/views/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
 import { styles } from './exports.styles';
@@ -64,4 +65,5 @@ const mapDispatchToProps: ExportsToolbarDispatchProps = {};
 const ExportsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(ExportsToolbarBase);
 const ExportsToolbar = injectIntl(ExportsToolbarConnect);
 
-export { ExportsToolbar, ExportsToolbarProps };
+export { ExportsToolbar };
+export type { ExportsToolbarProps };

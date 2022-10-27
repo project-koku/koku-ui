@@ -1,5 +1,5 @@
-import { UserAccessType } from 'api/userAccess';
-import { RootState } from 'store/rootReducer';
+import type { UserAccessType } from 'api/userAccess';
+import type { RootState } from 'store/rootReducer';
 
 import { getReportId, stateKey } from './userAccessCommon';
 

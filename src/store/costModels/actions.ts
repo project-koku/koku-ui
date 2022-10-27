@@ -1,19 +1,18 @@
 import { AlertVariant } from '@patternfly/react-core';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import type { CostModel, CostModelRequest, CostModels } from 'api/costModels';
 import {
-  CostModel,
-  CostModelRequest,
-  CostModels,
   deleteCostModel as apiDeleteCostModel,
   fetchCostModels as apiGetCostModels,
   updateCostModel as apiUpdateCostModel,
 } from 'api/costModels';
-import { AxiosError, AxiosResponse } from 'axios';
+import type { AxiosResponse } from 'axios';
+import type { AxiosError } from 'axios';
 import { intl } from 'components/i18n';
-import * as H from 'history';
+import type * as H from 'history';
 import messages from 'locales/messages';
-import { Dispatch } from 'redux';
-import { ThunkAction } from 'store/common';
+import type { Dispatch } from 'redux';
+import type { ThunkAction } from 'store/common';
 import { createAction, createAsyncAction } from 'typesafe-actions';
 
 interface FilterQuery {

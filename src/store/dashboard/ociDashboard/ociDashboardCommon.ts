@@ -1,5 +1,6 @@
-import { getQuery, OciFilters, OciQuery } from 'api/queries/ociQuery';
-import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
+import type { OciFilters, OciQuery } from 'api/queries/ociQuery';
+import { getQuery } from 'api/queries/ociQuery';
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const ociDashboardStateKey = 'ociDashboard';
 export const ociDashboardDefaultFilters: OciFilters = {

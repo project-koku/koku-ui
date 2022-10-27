@@ -3,7 +3,7 @@ import global_disabled_color_100 from '@patternfly/react-tokens/dist/js/global_d
 import global_FontSize_xs from '@patternfly/react-tokens/dist/js/global_FontSize_xs';
 import global_spacer_3xl from '@patternfly/react-tokens/dist/js/global_spacer_3xl';
 import global_spacer_xs from '@patternfly/react-tokens/dist/js/global_spacer_xs';
-import React from 'react';
+import type React from 'react';
 
 export const styles = {
   emptyState: {

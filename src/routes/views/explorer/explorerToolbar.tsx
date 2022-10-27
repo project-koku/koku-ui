@@ -1,12 +1,14 @@
-import { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarChipGroup } from '@patternfly/react-core';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { DataToolbar } from 'routes/views/components/dataToolbar';
 import { createMapStateToProps } from 'store/common';
-import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
-import { getTagReportPathsType, PerspectiveType } from './explorerUtils';
+import type { PerspectiveType } from './explorerUtils';
+import { getTagReportPathsType } from './explorerUtils';
 
 interface ExplorerToolbarOwnProps {
   isAllSelected?: boolean;
@@ -89,4 +91,5 @@ const mapDispatchToProps: ExplorerToolbarDispatchProps = {
 const ExplorerToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerToolbarBase);
 const ExplorerToolbar = injectIntl(ExplorerToolbarConnect);
 
-export { ExplorerToolbar, ExplorerToolbarProps };
+export { ExplorerToolbar };
+export type { ExplorerToolbarProps };

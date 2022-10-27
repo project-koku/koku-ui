@@ -2,7 +2,8 @@ jest.mock('api/rates');
 
 global.Date.now = jest.fn(() => 'time');
 
-import { fetchRate, Rates } from 'api/rates';
+import type { Rates } from 'api/rates';
+import { fetchRate } from 'api/rates';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 

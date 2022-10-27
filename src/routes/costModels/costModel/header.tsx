@@ -19,11 +19,12 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
-import { CostModel } from 'api/costModels';
-import * as H from 'history';
+import type { CostModel } from 'api/costModels';
+import type * as H from 'history';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { paths } from 'routes';
 import { ReadOnlyTooltip } from 'routes/costModels/components/readOnlyTooltip';

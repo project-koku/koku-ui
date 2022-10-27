@@ -1,7 +1,8 @@
 jest.mock('api/reports/reportUtils');
 
 import { waitFor } from '@testing-library/react';
-import { Report, ReportPathsType, ReportType } from 'api/reports/report';
+import type { Report } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import { runReport } from 'api/reports/reportUtils';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';

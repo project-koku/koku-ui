@@ -1,8 +1,10 @@
-import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { FormGroup, FormGroupProps, TextInput, TextInputProps } from '@patternfly/react-core';
+import type { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { FormGroupProps, TextInputProps } from '@patternfly/react-core';
+import { FormGroup, TextInput } from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 interface SimpleInputOwnProps {
   helperTextInvalid?: MessageDescriptor | string;

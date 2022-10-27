@@ -1,7 +1,7 @@
-import { OciQuery } from 'api/queries/ociQuery';
-import { OciReport, OciReportItem } from 'api/reports/ociReports';
+import type { OciQuery } from 'api/queries/ociQuery';
+import type { OciReport, OciReportItem } from 'api/reports/ociReports';
 
-import { ComputedReportItemsParams } from './getComputedReportItems';
+import type { ComputedReportItemsParams } from './getComputedReportItems';
 
 export interface ComputedOciReportItemsParams extends ComputedReportItemsParams<OciReport, OciReportItem> {}
 

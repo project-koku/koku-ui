@@ -2,7 +2,7 @@ import { tagPrefix } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 
-import { IbmCostOverviewWidget } from './ibmCostOverviewCommon';
+import type { IbmCostOverviewWidget } from './ibmCostOverviewCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

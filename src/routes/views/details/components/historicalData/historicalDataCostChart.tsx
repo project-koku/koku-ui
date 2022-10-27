@@ -1,9 +1,12 @@
 import { Skeleton } from '@patternfly/react-core';
-import { getQuery, parseQuery, Query } from 'api/queries/query';
-import { Report, ReportPathsType, ReportType } from 'api/reports/report';
+import type { Query } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
+import type { Report } from 'api/reports/report';
+import type { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { DatumType, transformReport } from 'routes/views/components/charts/common/chartDatum';
 import { HistoricalCostChart } from 'routes/views/components/charts/historicalCostChart';

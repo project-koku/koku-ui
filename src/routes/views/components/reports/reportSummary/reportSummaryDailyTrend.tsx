@@ -1,7 +1,8 @@
 import './reportSummaryDailyTrend.scss';
 
 import React from 'react';
-import { DailyTrendChart, DailyTrendChartProps } from 'routes/views/components/charts/dailyTrendChart';
+import type { DailyTrendChartProps } from 'routes/views/components/charts/dailyTrendChart';
+import { DailyTrendChart } from 'routes/views/components/charts/dailyTrendChart';
 
 export interface ReportSummaryDailyTrendProps extends Omit<DailyTrendChartProps, 'intl'> {
   chartName?: string;

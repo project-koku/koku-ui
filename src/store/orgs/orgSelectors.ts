@@ -1,5 +1,5 @@
-import { OrgPathsType, OrgType } from 'api/orgs/org';
-import { RootState } from 'store/rootReducer';
+import type { OrgPathsType, OrgType } from 'api/orgs/org';
+import type { RootState } from 'store/rootReducer';
 
 import { getOrgId, orgStateKey } from './orgCommon';
 

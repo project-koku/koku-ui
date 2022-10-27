@@ -1,7 +1,9 @@
-import { Pagination, PaginationProps, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
+import type { PaginationProps } from '@patternfly/react-core';
+import { Pagination, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 interface PaginationToolbarTemplateProps extends PaginationProps, WrappedComponentProps {
   id?: string;

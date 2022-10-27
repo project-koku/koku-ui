@@ -1,1 +1,2 @@
-export { default as HistoricalCostChart, HistoricalCostChartProps } from './historicalCostChart';
+export { default as HistoricalCostChart } from './historicalCostChart';
+export type { HistoricalCostChartProps } from './historicalCostChart';

@@ -1,4 +1,5 @@
-import { Form as FormPF4, FormProps as FormPF4Props } from '@patternfly/react-core';
+import type { FormProps as FormPF4Props } from '@patternfly/react-core';
+import { Form as FormPF4 } from '@patternfly/react-core';
 import React from 'react';
 
 type FormProps = Omit<FormPF4Props, 'onSubmit'>;

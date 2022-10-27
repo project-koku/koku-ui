@@ -1,4 +1,4 @@
-import { GcpCostOverviewWidget } from './gcpCostOverviewCommon';
+import type { GcpCostOverviewWidget } from './gcpCostOverviewCommon';
 import {
   accountSummaryWidget,
   costWidget,

@@ -1,5 +1,7 @@
-import { ibmCostOverviewStateKey, IbmCostOverviewWidget } from './ibmCostOverviewCommon';
+import type { IbmCostOverviewWidget } from './ibmCostOverviewCommon';
+import { ibmCostOverviewStateKey } from './ibmCostOverviewCommon';
 import { ibmCostOverviewReducer } from './ibmCostOverviewReducer';
 import * as ibmCostOverviewSelectors from './ibmCostOverviewSelectors';
 
-export { ibmCostOverviewStateKey, ibmCostOverviewReducer, ibmCostOverviewSelectors, IbmCostOverviewWidget };
+export type { IbmCostOverviewWidget };
+export { ibmCostOverviewStateKey, ibmCostOverviewReducer, ibmCostOverviewSelectors };

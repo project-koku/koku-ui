@@ -1,7 +1,8 @@
 jest.mock('api/forecasts/forecastUtils');
 
 import { waitFor } from '@testing-library/react';
-import { Forecast, ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
+import type { Forecast } from 'api/forecasts/forecast';
+import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { runForecast } from 'api/forecasts/forecastUtils';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';

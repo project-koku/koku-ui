@@ -1,4 +1,4 @@
-import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { ReportPathsType, ReportType } from 'api/reports/report';
 
 // eslint-disable-next-line no-shadow
 export const enum HistoricalDataWidgetType {

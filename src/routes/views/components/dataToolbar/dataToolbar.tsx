@@ -1,5 +1,6 @@
 import './dataToolbar.scss';
 
+import type { SelectOptionObject, ToolbarChipGroup } from '@patternfly/react-core';
 import {
   Button,
   ButtonVariant,
@@ -11,11 +12,9 @@ import {
   InputGroup,
   Select,
   SelectOption,
-  SelectOptionObject,
   SelectVariant,
   TextInput,
   Toolbar,
-  ToolbarChipGroup,
   ToolbarContent,
   ToolbarFilter,
   ToolbarGroup,
@@ -25,22 +24,25 @@ import {
 import { ExportIcon } from '@patternfly/react-icons/dist/esm/icons/export-icon';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
-import { Org } from 'api/orgs/org';
-import { orgUnitIdKey, orgUnitNameKey, Query, tagKey, tagPrefix } from 'api/queries/query';
-import { ResourcePathsType, ResourceType } from 'api/resources/resource';
+import type { Org } from 'api/orgs/org';
+import type { Query } from 'api/queries/query';
+import { orgUnitIdKey, orgUnitNameKey, tagKey, tagPrefix } from 'api/queries/query';
+import type { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import { isResourceTypeValid } from 'api/resources/resourceUtils';
-import { Tag, TagPathsType } from 'api/tags/tag';
+import type { Tag } from 'api/tags/tag';
+import type { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { ResourceTypeahead } from 'routes/views/components/resourceTypeahead';
-import { Filter } from 'routes/views/utils/filter';
+import type { Filter } from 'routes/views/utils/filter';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
-import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
 
 import { styles } from './dataToolbar.styles';

@@ -2,11 +2,10 @@ import { Card, CardBody, CardTitle, Grid, GridItem, Title, TitleSizes } from '@p
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import {
-  HistoricalDataWidget,
-  HistoricalDataWidgetType,
-} from 'store/breakdown/historicalData/common/historicalDataCommon';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
+import type { HistoricalDataWidget } from 'store/breakdown/historicalData/common/historicalDataCommon';
+import { HistoricalDataWidgetType } from 'store/breakdown/historicalData/common/historicalDataCommon';
 
 import { HistoricalDataCostChart } from './historicalDataCostChart';
 import { HistoricalDataTrendChart } from './historicalDataTrendChart';

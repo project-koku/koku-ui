@@ -1,7 +1,8 @@
 import { Bullseye } from '@patternfly/react-core';
-import { IAction, ICell, SortByDirection } from '@patternfly/react-table';
+import type { IAction, ICell } from '@patternfly/react-table';
+import { SortByDirection } from '@patternfly/react-table';
 import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
-import { CostModel } from 'api/costModels';
+import type { CostModel } from 'api/costModels';
 import { intl } from 'components/i18n';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -9,7 +10,8 @@ import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { LoadingState } from 'routes/components/state/loadingState';
 import NoCostModels from 'routes/costModels/costModelsDetails/noCostModels';
 
-import { CostModelsQuery, stringifySearch } from './query';
+import type { CostModelsQuery } from './query';
+import { stringifySearch } from './query';
 
 export function getRowsByStateName(stateName: string, data: any) {
   let component = null;

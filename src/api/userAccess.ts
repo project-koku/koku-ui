@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { PagedLinks, PagedMetaData } from './api';
+import type { PagedLinks, PagedMetaData } from './api';
 
 export interface UserAccessData {
   access?: boolean;

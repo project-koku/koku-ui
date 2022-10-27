@@ -1,7 +1,8 @@
 import './reportSummaryDailyCost.scss';
 
 import React from 'react';
-import { DailyCostChart, DailyCostChartProps } from 'routes/views/components/charts/dailyCostChart';
+import type { DailyCostChartProps } from 'routes/views/components/charts/dailyCostChart';
+import { DailyCostChart } from 'routes/views/components/charts/dailyCostChart';
 
 export interface ReportSummaryDailyCostProps extends Omit<DailyCostChartProps, 'intl'> {
   chartName?: string;

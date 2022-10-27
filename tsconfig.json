@@ -1,33 +1,30 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
-    "outDir": "./dist",
     "allowJs": true,
-    "jsx": "react",
-    "target": "es2017",
-    "module": "esnext",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
+    "isolatedModules": false,
+    "module": "esnext",
     "moduleResolution": "node",
     "noUnusedLocals": true,
+    "outDir": "./dist",
     "resolveJsonModule": true,
+    "target": "es2017",
     "lib": [
       "dom",
       "es2017"
     ]
   },
   "include": [
-    "./src/**/*",
-    "./scripts/**/*",
-    "./test/**/*",
-    "jest.config.js",
-    "webpack.config.js"
+    "./src/**/*.ts*",
+    "./test/**/*"
   ],
   "exclude": [
-    "node_modules/**",
+    "./node_modules/**",
     "./src/**/*.test.ts*",
-    "./src/__mocks__/*",
-    "test/test.env.ts"
+    "./src/__mocks__/*"
   ]
 }

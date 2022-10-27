@@ -1,7 +1,7 @@
 import axios from 'axios';
 
+import type { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportValue } from './report';
 import { ReportType } from './report';
-import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportValue } from './report';
 
 export interface AzureReportItem extends ReportItem {
   resource_location?: string;

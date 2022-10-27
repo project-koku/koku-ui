@@ -1,22 +1,27 @@
 import { Title, TitleSizes } from '@patternfly/react-core';
-import { Providers, ProviderType } from 'api/providers';
-import { getQuery, OciQuery } from 'api/queries/ociQuery';
+import type { Providers } from 'api/providers';
+import { ProviderType } from 'api/providers';
+import type { OciQuery } from 'api/queries/ociQuery';
+import { getQuery } from 'api/queries/ociQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { OciReport } from 'api/reports/ociReports';
+import type { OciReport } from 'api/reports/ociReports';
 import { TagPathsType } from 'api/tags/tag';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import { ExportsLink } from 'components/exports';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Currency } from 'routes/components/currency';
 import { GroupBy } from 'routes/views/components/groupBy';
 import { filterProviders } from 'routes/views/utils/providers';
-import { createMapStateToProps, FetchStatus } from 'store/common';
+import type { FetchStatus } from 'store/common';
+import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
-import { ComputedOciReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedOciReportItems';
+import type { ComputedOciReportItemsParams } from 'utils/computedReport/getComputedOciReportItems';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOciReportItems';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 
@@ -145,4 +150,5 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
 
 const DetailsHeader = injectIntl(connect(mapStateToProps, {})(DetailsHeaderBase));
 
-export { DetailsHeader, DetailsHeaderProps };
+export { DetailsHeader };
+export type { DetailsHeaderProps };

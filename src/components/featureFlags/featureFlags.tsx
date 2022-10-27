@@ -1,7 +1,8 @@
 import { useUnleashClient, useUnleashContext } from '@unleash/proxy-client-react';
 import React, { useLayoutEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import type { RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { featureFlagsActions } from 'store/featureFlags';
 
 interface FeatureFlagsOwnProps {

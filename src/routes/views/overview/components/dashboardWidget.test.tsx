@@ -1,13 +1,13 @@
 jest.mock('date-fns').mock('date-fns/format');
-
-import { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { render } from '@testing-library/react';
 import { intl } from 'components/i18n';
 import { format, getDate, getMonth, startOfMonth } from 'date-fns';
 import React from 'react';
 import { defineMessages } from 'react-intl';
 import { DatumType } from 'routes/views/components/charts/common/chartDatum';
-import { DashboardWidgetBase, DashboardWidgetProps } from 'routes/views/overview/components';
+import type { DashboardWidgetProps } from 'routes/views/overview/components';
+import { DashboardWidgetBase } from 'routes/views/overview/components';
 import { FetchStatus } from 'store/common';
 import { mockDate } from 'testUtils';
 

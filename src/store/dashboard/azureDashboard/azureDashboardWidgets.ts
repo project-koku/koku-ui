@@ -11,7 +11,8 @@ import {
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatUnits } from 'utils/format';
 
-import { AzureDashboardTab, AzureDashboardWidget } from './azureDashboardCommon';
+import type { AzureDashboardWidget } from './azureDashboardCommon';
+import { AzureDashboardTab } from './azureDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

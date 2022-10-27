@@ -1,17 +1,10 @@
-import { MessageDescriptor } from '@formatjs/intl/src/types';
-import {
-  FormGroup,
-  FormGroupProps,
-  FormSelectProps,
-  Select,
-  SelectDirection,
-  SelectOption,
-  SelectOptionObject,
-  SelectVariant,
-} from '@patternfly/react-core';
+import type { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { FormGroupProps, FormSelectProps, SelectOptionObject } from '@patternfly/react-core';
+import { FormGroup, Select, SelectDirection, SelectOption, SelectVariant } from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
 import React, { useEffect, useState } from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 interface SelectorFormGroupOwnProps {
   helperTextInvalid?: MessageDescriptor | string;

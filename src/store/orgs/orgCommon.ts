@@ -1,4 +1,4 @@
-import { OrgPathsType, OrgType } from 'api/orgs/org';
+import type { OrgPathsType, OrgType } from 'api/orgs/org';
 
 export const orgStateKey = 'org';
 

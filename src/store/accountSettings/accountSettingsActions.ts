@@ -1,5 +1,6 @@
-import { AccountSettings, fetchAccountSettings as apiGetAccountSettings } from 'api/accountSettings';
-import { AxiosError } from 'axios';
+import type { AccountSettings } from 'api/accountSettings';
+import { fetchAccountSettings as apiGetAccountSettings } from 'api/accountSettings';
+import type { AxiosError } from 'axios';
 import { createAction } from 'typesafe-actions';
 
 import { getReportId } from './accountSettingsCommon';

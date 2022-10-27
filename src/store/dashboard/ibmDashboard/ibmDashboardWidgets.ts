@@ -11,7 +11,8 @@ import {
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
 
-import { IbmDashboardTab, IbmDashboardWidget } from './ibmDashboardCommon';
+import type { IbmDashboardWidget } from './ibmDashboardCommon';
+import { IbmDashboardTab } from './ibmDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

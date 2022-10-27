@@ -1,11 +1,12 @@
 import './summaryModal.scss';
 
 import { Modal } from '@patternfly/react-core';
-import { Query } from 'api/queries/query';
-import { ReportPathsType } from 'api/reports/report';
+import type { Query } from 'api/queries/query';
+import type { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 import { SummaryModalContent } from './summaryModalContent';
 

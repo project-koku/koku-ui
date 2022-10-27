@@ -1,10 +1,11 @@
 import { EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/esm/icons/error-circle-o-icon';
 import { LockIcon } from '@patternfly/react-icons/dist/esm/icons/lock-icon';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 interface ErrorStateProps extends WrappedComponentProps {
   error: AxiosError;

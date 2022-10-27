@@ -1,12 +1,15 @@
-import { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Forecast } from 'api/forecasts/forecast';
-import { Report } from 'api/reports/report';
+import type { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { Forecast } from 'api/forecasts/forecast';
+import type { Report } from 'api/reports/report';
 import { intl } from 'components/i18n';
 import { endOfMonth, format, getDate, getYear, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
-import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
-import { ComputedReportItem, getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { formatCurrency, FormatOptions, unitsLookupKey } from 'utils/format';
+import type { ComputedForecastItem } from 'utils/computedForecast/getComputedForecastItems';
+import { getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
+import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import type { FormatOptions } from 'utils/format';
+import { formatCurrency, unitsLookupKey } from 'utils/format';
 import { SortDirection } from 'utils/sort';
 
 export interface ChartDatum {

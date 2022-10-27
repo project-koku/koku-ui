@@ -1,10 +1,9 @@
+import type { ButtonProps, PaginationProps } from '@patternfly/react-core';
 import {
   Button,
-  ButtonProps,
   InputGroup,
   InputGroupText,
   Pagination,
-  PaginationProps,
   TextInput,
   Toolbar,
   ToolbarContent,

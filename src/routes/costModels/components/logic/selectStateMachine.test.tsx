@@ -1,12 +1,9 @@
 import { createModel } from '@xstate/test';
-import { assign, interpret, Interpreter } from 'xstate';
+import type { Interpreter } from 'xstate';
+import { assign, interpret } from 'xstate';
 
-import {
-  SelectMachineContext,
-  SelectMachineEvents,
-  selectMachineState,
-  SelectMachineStates,
-} from './selectStateMachine';
+import type { SelectMachineContext, SelectMachineEvents, SelectMachineStates } from './selectStateMachine';
+import { selectMachineState } from './selectStateMachine';
 
 describe('selectmachine', () => {
   const newMachine = selectMachineState.withConfig({

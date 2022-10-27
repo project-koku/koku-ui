@@ -1,7 +1,7 @@
 import { tagPrefix } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
-import { OciCostOverviewWidget } from 'store/breakdown/costOverview/ociCostOverview';
+import type { OciCostOverviewWidget } from 'store/breakdown/costOverview/ociCostOverview';
 
 let currrentId = 0;
 const getId = () => currrentId++;

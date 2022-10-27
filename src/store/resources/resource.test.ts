@@ -1,7 +1,8 @@
 jest.mock('api/resources/resourceUtils');
 
 import { waitFor } from '@testing-library/react';
-import { Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
+import type { Resource } from 'api/resources/resource';
+import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import { runResource } from 'api/resources/resourceUtils';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';

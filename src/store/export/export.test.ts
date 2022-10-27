@@ -1,7 +1,7 @@
 jest.mock('api/export/exportUtils');
 
 import { waitFor } from '@testing-library/react';
-import { Export } from 'api/export/export';
+import type { Export } from 'api/export/export';
 import { runExport } from 'api/export/exportUtils';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { FetchStatus } from 'store/common';

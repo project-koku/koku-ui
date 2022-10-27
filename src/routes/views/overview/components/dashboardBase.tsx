@@ -1,6 +1,6 @@
 import { Grid, GridItem } from '@patternfly/react-core';
 import React from 'react';
-import { WrappedComponentProps } from 'react-intl';
+import type { WrappedComponentProps } from 'react-intl';
 
 type DashboardOwnProps = WrappedComponentProps;
 

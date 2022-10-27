@@ -1,4 +1,5 @@
-import { parseQuery, Query } from 'api/queries/query';
+import type { Query } from 'api/queries/query';
+import { parseQuery } from 'api/queries/query';
 import { getCurrency as getCurrencyFromLocaleStorage } from 'utils/localStorage';
 
 // Returns cost type

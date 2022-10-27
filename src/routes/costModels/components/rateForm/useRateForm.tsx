@@ -1,9 +1,10 @@
-import { MetricHash } from 'api/metrics';
-import { Rate } from 'api/rates';
+import type { MetricHash } from 'api/metrics';
+import type { Rate } from 'api/rates';
 import React from 'react';
 import { unFormat } from 'utils/format';
 
 import { textHelpers } from './constants';
+import type { RateFormData, RateFormTagValue } from './utils';
 import {
   descriptionErrors,
   initialtaggingRates,
@@ -12,14 +13,7 @@ import {
   OtherTierFromRateForm,
   tagKeyValueErrors,
 } from './utils';
-import {
-  checkRateOnChange,
-  genFormDataFromRate,
-  getDefaultCalculation,
-  initialRateFormData,
-  RateFormData,
-  RateFormTagValue,
-} from './utils';
+import { checkRateOnChange, genFormDataFromRate, getDefaultCalculation, initialRateFormData } from './utils';
 
 type Actions =
   | { type: 'ADD_TAG' }
