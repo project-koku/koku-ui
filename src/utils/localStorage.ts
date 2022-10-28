@@ -29,8 +29,8 @@ export const getSessionToken = () => {
 };
 
 // Invalidates session if not valid and restores query param values
-export const invalidateSession = () => {
-  if (!isSessionValid()) {
+export const invalidateSession = (force = false) => {
+  if (!isSessionValid() || force) {
     deleteSessionToken();
 
     // Delete cost type

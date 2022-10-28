@@ -18,7 +18,6 @@ export const getRouteForQuery = (history, query: Query, reset: boolean = false) 
 export const handleCurrencySelected = (history, query: Query, value: string, reset: boolean = false) => {
   const newQuery = {
     ...JSON.parse(JSON.stringify(query)),
-    currency: value,
   };
   history.replace(getRouteForQuery(history, newQuery, reset));
 };
