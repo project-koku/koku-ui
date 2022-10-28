@@ -160,8 +160,6 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),
       },
-      cost_type: costType,
-      currency,
     };
     const currentQuery: Query = {
       ...baseQuery,
@@ -171,7 +169,11 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
         time_scope_value: -1,
       },
     };
-    const currentQueryString = getQuery(currentQuery);
+    const currentQueryString = getQuery({
+      ...currentQuery,
+      cost_type: costType,
+      currency,
+    });
     const previousQuery: Query = {
       ...baseQuery,
       filter: {
@@ -180,7 +182,11 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
         time_scope_value: -2,
       },
     };
-    const previousQueryString = getQuery(previousQuery);
+    const previousQueryString = getQuery({
+      ...previousQuery,
+      cost_type: costType,
+      currency,
+    });
 
     // Current report
     const currentReport = reportSelectors.selectReport(state, reportPathsType, reportType, currentQueryString);

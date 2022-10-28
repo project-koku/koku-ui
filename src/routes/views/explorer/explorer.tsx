@@ -386,7 +386,6 @@ class Explorer extends React.Component<ExplorerProps> {
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
           order_by: query ? query.order_by : undefined,
-          cost_type: query ? query.cost_type : undefined,
           dateRange, // Preserve date range
         })
       );
@@ -567,10 +566,10 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     order_by: queryFromRoute.order_by,
     perspective,
     dateRange,
-    cost_type: costType,
   };
   const queryString = getQuery({
     ...query,
+    cost_type: costType,
     currency,
     perspective: undefined,
     dateRange: undefined,

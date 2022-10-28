@@ -23,10 +23,8 @@ export const handleCurrencySelected = (history, query: Query, value: string, res
 };
 
 export const handleCostTypeSelected = (history, query: Query, value: string, reset: boolean = false) => {
-  // Need param to restore cost type upon page refresh
   const newQuery = {
     ...JSON.parse(JSON.stringify(query)),
-    cost_type: value,
   };
   history.replace(getRouteForQuery(history, newQuery, reset)); // Don't reset pagination
 };

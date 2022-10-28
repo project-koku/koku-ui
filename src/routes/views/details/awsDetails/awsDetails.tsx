@@ -324,7 +324,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   private updateReport = () => {
-    const { costType, query, location, fetchReport, history, queryString } = this.props;
+    const { query, location, fetchReport, history, queryString } = this.props;
     if (!location.search) {
       history.replace(
         getRouteForQuery(history, {
@@ -332,7 +332,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
           order_by: { cost: 'desc' },
-          cost_type: costType,
         })
       );
     } else {
@@ -419,10 +418,10 @@ const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStat
     exclude: queryFromRoute.exclude || baseQuery.exclude,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
-    cost_type: costType,
   };
   const queryString = getQuery({
     ...query,
+    cost_type: costType,
     currency,
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);

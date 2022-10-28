@@ -275,10 +275,10 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
       group_by: groupBy,
       perspective,
       dateRange,
-      cost_type: costType,
     };
     const queryString = getQuery({
       ...query,
+      cost_type: costType,
       currency,
       perspective: undefined,
       dateRange: undefined,

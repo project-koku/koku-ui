@@ -389,9 +389,11 @@ const mapStateToProps = createMapStateToProps<AzureDetailsOwnProps, AzureDetails
     exclude: queryFromRoute.exclude || baseQuery.exclude,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
-    currency,
   };
-  const queryString = getQuery(query);
+  const queryString = getQuery({
+    ...query,
+    currency,
+  });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);

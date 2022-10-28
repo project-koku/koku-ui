@@ -79,9 +79,11 @@ const mapStateToProps = createMapStateToProps<OciCostOwnProps, OciCostStateProps
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
     },
-    currency,
   };
-  const queryString = getQuery(newQuery);
+  const queryString = getQuery({
+    ...newQuery,
+    currency,
+  });
 
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);

@@ -82,10 +82,12 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
     },
+  };
+  const queryString = getQuery({
+    ...newQuery,
     cost_type: costType,
     currency,
-  };
-  const queryString = getQuery(newQuery);
+  });
 
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);

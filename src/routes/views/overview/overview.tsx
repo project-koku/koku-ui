@@ -465,17 +465,16 @@ class OverviewBase extends React.Component<OverviewProps> {
     }
   };
 
-  private handleCostTypeSelected = (value: string) => {
+  private handleCostTypeSelected = () => {
     const { history, query } = this.props;
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
-      cost_type: value,
     };
     history.replace(this.getRouteForQuery(newQuery));
   };
 
-  private handleCurrencySelected = (value: string) => {
+  private handleCurrencySelected = () => {
     const { history, query } = this.props;
 
     const newQuery = {
@@ -696,10 +695,10 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
   const query = {
     tabKey,
     ...(perspective && { perspective }),
-    ...(perspective === InfrastructurePerspective.aws && { cost_type: costType }),
   };
   const queryString = getQuery({
     ...query,
+    ...(perspective === InfrastructurePerspective.aws && { cost_type: costType }),
     currency,
   });
 
