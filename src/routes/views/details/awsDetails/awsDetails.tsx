@@ -40,7 +40,7 @@ import type { ComputedReportItem } from 'utils/computedReport/getComputedReportI
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import type { CostTypes } from 'utils/costType';
 import { getCostType } from 'utils/costType';
-import { getCurrency } from 'utils/currency';
+import { getCurrency } from 'utils/localStorage';
 
 import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';
@@ -420,9 +420,11 @@ const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStat
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
     cost_type: costType,
-    currency,
   };
-  const queryString = getQuery(query);
+  const queryString = getQuery({
+    ...query,
+    currency,
+  });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);

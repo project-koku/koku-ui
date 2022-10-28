@@ -359,10 +359,10 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       perspective,
       dateRange,
       cost_type: costType,
-      currency,
     };
     const queryString = getQuery({
       ...query,
+      currency,
       perspective: undefined,
       dateRange: undefined,
       start_date,

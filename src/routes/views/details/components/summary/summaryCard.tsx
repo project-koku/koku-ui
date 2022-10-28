@@ -213,9 +213,11 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
       },
       cost_type: costType,
-      currency,
     };
-    const queryString = getQuery(newQuery);
+    const queryString = getQuery({
+      ...newQuery,
+      currency,
+    });
 
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);

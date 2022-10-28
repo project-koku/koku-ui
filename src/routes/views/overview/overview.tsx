@@ -57,8 +57,8 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import type { CostTypes } from 'utils/costType';
 import { getCostType } from 'utils/costType';
-import { getCurrency } from 'utils/currency';
 import { getSinceDateRangeString } from 'utils/dates';
+import { getCurrency } from 'utils/localStorage';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -480,7 +480,6 @@ class OverviewBase extends React.Component<OverviewProps> {
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
-      currency: value,
     };
     history.replace(this.getRouteForQuery(newQuery));
   };
@@ -698,9 +697,11 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     tabKey,
     ...(perspective && { perspective }),
     ...(perspective === InfrastructurePerspective.aws && { cost_type: costType }),
-    currency,
   };
-  const queryString = getQuery(query);
+  const queryString = getQuery({
+    ...query,
+    currency,
+  });
 
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);

@@ -45,7 +45,7 @@ import type { ComputedReportItem } from 'utils/computedReport/getComputedReportI
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import type { CostTypes } from 'utils/costType';
 import { getCostType } from 'utils/costType';
-import { getCurrency } from 'utils/currency';
+import { getCurrency } from 'utils/localStorage';
 import {
   isAwsAvailable,
   isAzureAvailable,
@@ -293,11 +293,11 @@ class Explorer extends React.Component<ExplorerProps> {
     }
   };
 
-  public handleExportModalClose = (isOpen: boolean) => {
+  private handleExportModalClose = (isOpen: boolean) => {
     this.setState({ isExportModalOpen: isOpen });
   };
 
-  public handleExportModalOpen = () => {
+  private handleExportModalOpen = () => {
     this.setState({ isExportModalOpen: true });
   };
 
@@ -307,7 +307,7 @@ class Explorer extends React.Component<ExplorerProps> {
     let groupByKey = groupBy;
     let value = '*';
 
-    // Check for for org units
+    // Check for org units
     const index = groupBy.indexOf(orgUnitIdKey);
     if (index !== -1) {
       groupByKey = orgUnitIdKey.substring(0, orgUnitIdKey.length);
@@ -378,8 +378,7 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private updateReport = () => {
-    const { costType, currency, dateRange, fetchReport, history, location, perspective, query, queryString } =
-      this.props;
+    const { dateRange, fetchReport, history, location, perspective, query, queryString } = this.props;
     if (!location.search) {
       history.replace(
         getRouteForQuery(history, {
@@ -387,9 +386,8 @@ class Explorer extends React.Component<ExplorerProps> {
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
           order_by: query ? query.order_by : undefined,
+          cost_type: query ? query.cost_type : undefined,
           dateRange, // Preserve date range
-          cost_type: costType,
-          currency,
         })
       );
     } else if (perspective) {
@@ -555,6 +553,9 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   const costType = perspective === PerspectiveType.aws ? getCostType() : undefined;
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
 
+  // eslint-disable-next-line no-console
+  console.log('Explorer getCurrency', currency);
+
   const query = {
     filter: {
       ...baseQuery.filter,
@@ -567,10 +568,10 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     perspective,
     dateRange,
     cost_type: costType,
-    currency,
   };
   const queryString = getQuery({
     ...query,
+    currency,
     perspective: undefined,
     dateRange: undefined,
     end_date,
