@@ -76,6 +76,9 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
       ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
       ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
     },
+    exclude: {
+      ...(query && query.exclude && query.exclude),
+    },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
     },
