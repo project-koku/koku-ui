@@ -8,7 +8,7 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import type { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
-import { getCurrency } from 'utils/currency';
+import { getCurrency } from 'utils/localStorage';
 
 interface AwsOcpDashboardWidgetDispatchProps {
   fetchForecasts: typeof awsOcpDashboardActions.fetchWidgetForecasts;

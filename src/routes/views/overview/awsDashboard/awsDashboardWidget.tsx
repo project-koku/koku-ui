@@ -9,7 +9,7 @@ import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import type { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { getCostType } from 'utils/costType';
-import { getCurrency } from 'utils/currency';
+import { getCurrency } from 'utils/localStorage';
 
 interface AwsDashboardWidgetDispatchProps {
   fetchForecasts: typeof awsDashboardActions.fetchWidgetForecasts;

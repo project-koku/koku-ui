@@ -1,6 +1,6 @@
 import { featureFlagsSelectors } from 'store/featureFlags';
 import type { RootState } from 'store/rootReducer';
-import { getCurrency } from 'utils/currency';
+import { getCurrency } from 'utils/localStorage';
 
 import {
   azureOcpDashboardDefaultFilters,
