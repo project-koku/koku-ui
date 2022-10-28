@@ -386,6 +386,9 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
         ...(query && query.filter_by && query.filter_by),
         ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
       },
+      exclude: {
+        ...(query && query.exclude && query.exclude),
+      },
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),
       },

@@ -139,6 +139,9 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
         ...(groupByOrgValue && useFilter && { [orgUnitIdKey]: groupByOrgValue }),
       },
+      exclude: {
+        ...(query && query.exclude && query.exclude),
+      },
       group_by: {
         ...(groupByOrgValue && !useFilter && { [orgUnitIdKey]: groupByOrgValue }),
         ...(groupBy && !groupByOrgValue && { [groupBy]: groupByValue }),
