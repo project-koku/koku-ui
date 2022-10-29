@@ -38,7 +38,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedIbmReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { getCurrency } from 'utils/currency';
+import { getCurrency } from 'utils/localStorage';
 
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -389,9 +389,11 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
     exclude: queryFromRoute.exclude || baseQuery.exclude,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
-    currency,
   };
-  const queryString = getQuery(query);
+  const queryString = getQuery({
+    ...query,
+    currency,
+  });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);

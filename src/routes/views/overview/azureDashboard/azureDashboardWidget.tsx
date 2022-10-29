@@ -8,7 +8,7 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import type { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
-import { getCurrency } from 'utils/currency';
+import { getCurrency } from 'utils/localStorage';
 
 interface AzureDashboardWidgetDispatchProps {
   fetchForecasts: typeof azureDashboardActions.fetchWidgetForecasts;

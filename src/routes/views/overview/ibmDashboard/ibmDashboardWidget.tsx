@@ -8,7 +8,7 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import type { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
-import { getCurrency } from 'utils/currency';
+import { getCurrency } from 'utils/localStorage';
 
 interface IbmDashboardWidgetDispatchProps {
   fetchForecasts: typeof ibmDashboardActions.fetchWidgetForecasts;

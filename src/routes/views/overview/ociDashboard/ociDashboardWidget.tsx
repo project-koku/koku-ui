@@ -8,7 +8,7 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import type { ComputedOciReportItemsParams } from 'utils/computedReport/getComputedOciReportItems';
-import { getCurrency } from 'utils/currency';
+import { getCurrency } from 'utils/localStorage';
 
 interface OciDashboardWidgetDispatchProps {
   fetchForecasts: typeof ociDashboardActions.fetchWidgetForecasts;

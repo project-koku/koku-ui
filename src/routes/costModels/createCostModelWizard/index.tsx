@@ -15,6 +15,7 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
 import { unFormat } from 'utils/format';
+import { getAccountCurrency } from 'utils/localStorage';
 
 import { fetchSources as apiSources } from './api';
 import { CostModelContext } from './context';
@@ -134,7 +135,7 @@ const defaultState = {
   createError: null,
   createProcess: false,
   createSuccess: false,
-  currencyUnits: 'USD',
+  currencyUnits: getAccountCurrency(),
   dataFetched: false,
   description: '',
   distribution: 'cpu',

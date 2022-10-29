@@ -5,6 +5,7 @@ import { resetState } from 'store/ui/uiActions';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 import {
+  getAccountCurrency,
   invalidateSession,
   isCostTypeAvailable,
   isCurrencyAvailable,
@@ -87,7 +88,16 @@ function initCurrency(value: string) {
   // Clear local storage value if current session is not valid
   invalidateSession();
 
+  // Reset UI's currency selection if default currency has changed.
+  if (value !== getAccountCurrency()) {
+    // Todo: After the settings page is moved to the Cost Management UI, we can clear the cached currency there.
+    // That way, resetting the currency for the UI should only affect the user who changed the default.
+    invalidateSession(true);
+  }
+
   if (!isCurrencyAvailable()) {
+    // eslint-disable-next-line no-console
+    console.log('setCurrency', value);
     setCurrency(value);
   }
   setAccountCurrency(value);

@@ -1,5 +1,3 @@
-import type { Query } from 'api/queries/query';
-import { parseQuery } from 'api/queries/query';
 import { getTokenCookie } from 'utils/cookie';
 
 const accountCurrencyID = 'cost_management_account_currency';
@@ -29,8 +27,8 @@ export const getSessionToken = () => {
 };
 
 // Invalidates session if not valid and restores query param values
-export const invalidateSession = () => {
-  if (!isSessionValid()) {
+export const invalidateSession = (force = false) => {
+  if (!isSessionValid() || force) {
     deleteSessionToken();
 
     // Delete cost type
@@ -73,15 +71,6 @@ export const isCostTypeAvailable = () => {
   return costType && costType !== null;
 };
 
-// Restore cost type from query param if available
-export const restoreCostType = () => {
-  const queryFromRoute = parseQuery<Query>(location.search);
-
-  if (queryFromRoute.cost_type) {
-    setCostType(queryFromRoute.cost_type);
-  }
-};
-
 // Set cost type
 export const setCostType = (value: string) => {
   localStorage.setItem(costTypeID, value);
@@ -118,15 +107,6 @@ export const getCurrency = () => {
 export const isCurrencyAvailable = () => {
   const currency = localStorage.getItem(currencyID);
   return currency && currency !== null;
-};
-
-// Restore currency from query param if available
-export const restoreCurrency = () => {
-  const queryFromRoute = parseQuery<Query>(location.search);
-
-  if (queryFromRoute.currency) {
-    setCurrency(queryFromRoute.currency);
-  }
 };
 
 // Set account currency

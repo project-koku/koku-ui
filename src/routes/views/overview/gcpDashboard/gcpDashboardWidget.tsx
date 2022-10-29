@@ -8,7 +8,7 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import type { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
-import { getCurrency } from 'utils/currency';
+import { getCurrency } from 'utils/localStorage';
 
 interface GcpDashboardWidgetDispatchProps {
   fetchForecasts: typeof gcpDashboardActions.fetchWidgetForecasts;
