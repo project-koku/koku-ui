@@ -571,6 +571,16 @@ export default defineMessages({
     description: 'Cost calculations',
     id: 'costCalculations',
   },
+  costCalculationsOptional: {
+    defaultMessage: 'Cost calculations (optional)',
+    description: 'Cost calculations (optional)',
+    id: 'costCalculationsOptional',
+  },
+  costDistribution: {
+    defaultMessage: 'Cost distribution',
+    description: 'Cost distribution',
+    id: 'costDistribution',
+  },
   costManagement: {
     defaultMessage: 'Cost Management',
     description: 'Cost Management',
@@ -1423,6 +1433,20 @@ export default defineMessages({
     description: 'Discount (-)',
     id: 'discountMinus',
   },
+  distribute: {
+    defaultMessage: 'Distribute',
+    description: 'Distribute',
+    id: 'distribute',
+  },
+  distributeCosts: {
+    defaultMessage:
+      '{value, select, ' +
+      'true {Distribute {type, select, platform {platform} workers {workers} other {}} costs}' +
+      'false {Do not distribute {type, select, platform {platform} workers {workers} other {}} costs}' +
+      'other {}}',
+    description: 'distribute costs',
+    id: 'distributeCosts',
+  },
   distributionModelDesc: {
     defaultMessage:
       'This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.',
@@ -1434,6 +1458,11 @@ export default defineMessages({
     defaultMessage: 'Distribution type',
     description: 'Distribution type',
     id: 'distributionType',
+  },
+  distributionTypeDescription: {
+    defaultMessage: 'Distribute costs based on {type} usage',
+    description: 'Distribution type description',
+    id: 'distributionTypeDescription',
   },
   docsAddOcpSources: {
     defaultMessage:
@@ -1462,6 +1491,11 @@ export default defineMessages({
     description:
       'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index',
     id: 'docsUsingCostModels',
+  },
+  doNotDistribute: {
+    defaultMessage: 'Do not distribute',
+    description: 'Do not distribute',
+    id: 'doNotDistribute',
   },
   download: {
     defaultMessage: 'Download',
@@ -2862,6 +2896,16 @@ export default defineMessages({
     description: 'Perspective values',
     id: 'perspectiveValues',
   },
+  platformUnallocatedCapacity: {
+    defaultMessage: 'Platform unallocated capacity',
+    description: 'Platform unallocated capacity',
+    id: 'platformUnallocatedCapacity',
+  },
+  platformUnallocatedCapacityDescription: {
+    defaultMessage: 'Distribute the cost of running the OpenShift services to projects',
+    description: 'Platform unallocated capacity description',
+    id: 'platformUnallocatedCapacityDescription',
+  },
   priceList: {
     defaultMessage: 'Price list',
     description: 'Price list',
@@ -3138,6 +3182,16 @@ export default defineMessages({
     defaultMessage: 'Volume',
     description: 'Volume',
     id: 'volumeTitle',
+  },
+  workersUnallocatedCapacity: {
+    defaultMessage: 'Workers unallocated capacity',
+    description: 'Workers unallocated capcity',
+    id: 'workersUnallocatedCapacity',
+  },
+  workersUnallocatedCapacityDescription: {
+    defaultMessage: 'Distribute unused and non-reserved resource costs to projects',
+    description: 'Workers unallocated capacity description',
+    id: 'workersUnallocatedCapacityDescription',
   },
   yes: {
     defaultMessage: 'Yes',

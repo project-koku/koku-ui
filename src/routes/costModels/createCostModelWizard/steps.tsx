@@ -60,5 +60,6 @@ export const validatorsHash = {
     ctx => isMarkupValid(ctx.markup),
     () => true,
     () => true,
+    () => true,
   ],
 };

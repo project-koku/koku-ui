@@ -51,15 +51,7 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
 
     return (
       <CostModelContext.Consumer>
-        {({
-          handleDistributionChange,
-          handleSignChange,
-          handleMarkupDiscountChange,
-          markup,
-          isDiscount,
-          distribution,
-          type,
-        }) => {
+        {({ handleSignChange, handleMarkupDiscountChange, markup, isDiscount }) => {
           const helpText = markupValidator(markup);
           const validated = helpText ? 'error' : 'default';
 
@@ -67,7 +59,7 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
             <Stack hasGutter>
               <StackItem>
                 <Title headingLevel="h2" size={TitleSizes.xl}>
-                  {intl.formatMessage(messages.costCalculations)}
+                  {intl.formatMessage(messages.costCalculationsOptional)}
                 </Title>
               </StackItem>
               <StackItem>
@@ -151,42 +143,6 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
                   </List>
                 </div>
               </StackItem>
-              {type === 'OCP' && (
-                <>
-                  <StackItem>
-                    <Title headingLevel="h3" size="md">
-                      {intl.formatMessage(messages.distributionType)}
-                    </Title>
-                    <TextContent>
-                      <Text style={styles.cardDescription}>{intl.formatMessage(messages.distributionModelDesc)}</Text>
-                    </TextContent>
-                  </StackItem>
-                  <StackItem isFilled>
-                    <Form>
-                      <FormGroup isInline fieldId="cost-distribution" isRequired>
-                        <Radio
-                          isChecked={distribution === 'cpu'}
-                          name="distribution"
-                          label={intl.formatMessage(messages.cpuTitle)}
-                          aria-label={intl.formatMessage(messages.cpuTitle)}
-                          id="cpuDistribution"
-                          value="cpu"
-                          onChange={handleDistributionChange}
-                        />
-                        <Radio
-                          isChecked={distribution === 'memory'}
-                          name="distribution"
-                          label={intl.formatMessage(messages.memoryTitle)}
-                          aria-label={intl.formatMessage(messages.memoryTitle)}
-                          id="memoryDistribution"
-                          value="memory"
-                          onChange={handleDistributionChange}
-                        />
-                      </FormGroup>
-                    </Form>
-                  </StackItem>
-                </>
-              )}
             </Stack>
           );
         }}

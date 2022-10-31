@@ -13,6 +13,8 @@ export interface CostModel {
   currency?: string;
   description: string;
   distribution: string;
+  distributePlatformUnallocated: boolean;
+  distributeWorkersUnallocated: boolean;
   markup: { value: string; unit: string };
   name: string;
   rates: Rate[];
@@ -26,6 +28,8 @@ export interface CostModelRequest {
   currency?: string;
   description: string;
   distribution: string;
+  distributePlatformUnallocated: boolean;
+  distributeWorkersUnallocated: boolean;
   markup: { value: string; unit: string };
   name: string;
   rates: RateRequest[];
