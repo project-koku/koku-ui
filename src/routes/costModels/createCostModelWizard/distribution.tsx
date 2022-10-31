@@ -4,9 +4,9 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { Form } from 'routes/costModels/components/forms/form';
-import { styles } from './wizard.styles';
 
 import { CostModelContext } from './context';
+import { styles } from './wizard.styles';
 
 class Distribution extends React.Component<WrappedComponentProps> {
   public render() {

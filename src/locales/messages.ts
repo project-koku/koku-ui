@@ -1464,6 +1464,11 @@ export default defineMessages({
     description: 'Distribution type description',
     id: 'distributionTypeDescription',
   },
+  doNotDistribute: {
+    defaultMessage: 'Do not distribute',
+    description: 'Do not distribute',
+    id: 'doNotDistribute',
+  },
   docsAddOcpSources: {
     defaultMessage:
       'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/adding_an_openshift_container_platform_source_to_cost_management',
@@ -1485,23 +1490,18 @@ export default defineMessages({
       'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index#cost-model-terminology',
     id: 'docsCostModelTerminology',
   },
-  docsUsingCostModels: {
-    defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index',
-    description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index',
-    id: 'docsUsingCostModels',
-  },
   docsCostModelsDistribution: {
     defaultMessage:
       'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models',
     description: 'url for cost models distribution',
     id: 'docsCostModelsDistribution',
   },
-  doNotDistribute: {
-    defaultMessage: 'Do not distribute',
-    description: 'Do not distribute',
-    id: 'doNotDistribute',
+  docsUsingCostModels: {
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index',
+    id: 'docsUsingCostModels',
   },
   download: {
     defaultMessage: 'Download',
