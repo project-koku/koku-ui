@@ -81,11 +81,9 @@ class GeneralInformation extends React.Component<GeneralInformationProps> {
         }) => (
           <Stack hasGutter>
             <StackItem>
-              <Title headingLevel="h2" size={TitleSizes.xl}>
+              <Title headingLevel="h2" size={TitleSizes.xl} style={styles.titleWithLearnMore}>
                 {intl.formatMessage(messages.costModelsWizardGeneralInfoTitle)}
               </Title>
-            </StackItem>
-            <StackItem>
               <a href={intl.formatMessage(messages.docsConfigCostModels)} rel="noreferrer" target="_blank">
                 {intl.formatMessage(messages.learnMore)}
               </a>

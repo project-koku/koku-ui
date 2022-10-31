@@ -1,4 +1,7 @@
+import { styles as costCalcStyles } from 'routes/costModels/costModel/costCalc.styles';
+
 export const styles = {
+  ...costCalcStyles,
   form: {
     width: '350px',
   },
@@ -11,4 +14,8 @@ export const styles = {
   selector: {
     maxHeight: '350px',
   },
+  titleWithLearnMore: {
+    display: 'inline-block',
+    marginRight: '1em',
+  }
 } as { [className: string]: React.CSSProperties };

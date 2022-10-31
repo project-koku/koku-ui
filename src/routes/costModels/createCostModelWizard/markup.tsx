@@ -21,7 +21,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { Form } from 'routes/costModels/components/forms/form';
-import { styles } from 'routes/costModels/costModel/costCalc.styles';
+import { styles } from './wizard.styles';
 import { countDecimals, isPercentageFormatValid } from 'utils/format';
 
 import { CostModelContext } from './context';
@@ -58,9 +58,12 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
           return (
             <Stack hasGutter>
               <StackItem>
-                <Title headingLevel="h2" size={TitleSizes.xl}>
+                <Title headingLevel="h2" size={TitleSizes.xl} style={styles.titleWithLearnMore}>
                   {intl.formatMessage(messages.costCalculationsOptional)}
                 </Title>
+                <a href={intl.formatMessage(messages.docsCostModelsDistribution)} rel="noreferrer" target="_blank">
+                  {intl.formatMessage(messages.learnMore)}
+                </a>
               </StackItem>
               <StackItem>
                 <Title headingLevel="h3" size="md">
