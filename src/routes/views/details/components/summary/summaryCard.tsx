@@ -122,8 +122,7 @@ class SummaryBase extends React.Component<SummaryProps> {
       return (
         <div style={styles.viewAllContainer}>
           <Button
-            // {...getTestProps(testIds.details.view_all_btn)}
-            ouiaId="view_all_btn"
+            ouiaId="view-all-btn"
             onClick={this.handleBulletChartModalOpen}
             type={ButtonType.button}
             variant={ButtonVariant.link}

@@ -216,8 +216,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             resolution={resolution}
           />,
           <Button
-            // {...getTestProps(testIds.export.cancel_btn)}
-            ouiaId="cancel_btn"
+            ouiaId="cancel-btn"
             key="cancel"
             onClick={this.handleClose}
             variant={ButtonVariant.link}

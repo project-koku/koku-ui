@@ -94,7 +94,7 @@ class TagLinkBase extends React.Component<TagLinkProps> {
         {Boolean(count > 0) && (
           <>
             <TagIcon />
-            <a id="tag_lnk" href="#/" onClick={this.handleOpen} style={styles.tagLink}>
+            <a data-testid="tag-lnk" href="#/" onClick={this.handleOpen} style={styles.tagLink}>
               {count}
             </a>
           </>

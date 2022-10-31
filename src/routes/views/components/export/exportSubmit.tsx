@@ -135,8 +135,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
 
     return (
       <Button
-        // {...getTestProps(testIds.export.submit_btn)}
-        ouiaId="submit_btn"
+        ouiaId="submit-btn"
         isDisabled={disabled || reportFetchStatus === FetchStatus.inProgress}
         key="confirm"
         onClick={this.handleFetchReport}
