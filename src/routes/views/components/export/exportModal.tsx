@@ -25,7 +25,6 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { exportActions } from 'store/export';
 import { featureFlagsSelectors } from 'store/featureFlags';
-import { getTestProps, testIds } from 'testIds';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 import { styles } from './exportModal.styles';
@@ -217,7 +216,8 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             resolution={resolution}
           />,
           <Button
-            {...getTestProps(testIds.export.cancel_btn)}
+            // {...getTestProps(testIds.export.cancel_btn)}
+            ouiaId="cancel_btn"
             key="cancel"
             onClick={this.handleClose}
             variant={ButtonVariant.link}

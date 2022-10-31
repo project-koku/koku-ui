@@ -24,7 +24,6 @@ import { SummaryModal } from 'routes/views/details/components/summary/summaryMod
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getTestProps, testIds } from 'testIds';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { skeletonWidth } from 'utils/skeleton';
 
@@ -123,7 +122,8 @@ class SummaryBase extends React.Component<SummaryProps> {
       return (
         <div style={styles.viewAllContainer}>
           <Button
-            {...getTestProps(testIds.details.view_all_btn)}
+            // {...getTestProps(testIds.details.view_all_btn)}
+            ouiaId="view_all_btn"
             onClick={this.handleBulletChartModalOpen}
             type={ButtonType.button}
             variant={ButtonVariant.link}

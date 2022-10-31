@@ -11,7 +11,6 @@ import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
-import { getTestProps, testIds } from 'testIds';
 
 import { styles } from './tag.styles';
 import { TagModal } from './tagModal';
@@ -95,7 +94,7 @@ class TagLinkBase extends React.Component<TagLinkProps> {
         {Boolean(count > 0) && (
           <>
             <TagIcon />
-            <a {...getTestProps(testIds.details.tag_lnk)} href="#/" onClick={this.handleOpen} style={styles.tagLink}>
+            <a id="tag_lnk" href="#/" onClick={this.handleOpen} style={styles.tagLink}>
               {count}
             </a>
           </>

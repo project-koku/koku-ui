@@ -16,7 +16,6 @@ import { getDateRange } from 'routes/views/utils/dateRange';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/export';
 import { featureFlagsSelectors } from 'store/featureFlags';
-import { getTestProps, testIds } from 'testIds';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getToday } from 'utils/dates';
 
@@ -136,7 +135,8 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
 
     return (
       <Button
-        {...getTestProps(testIds.export.submit_btn)}
+        // {...getTestProps(testIds.export.submit_btn)}
+        ouiaId="submit_btn"
         isDisabled={disabled || reportFetchStatus === FetchStatus.inProgress}
         key="confirm"
         onClick={this.handleFetchReport}

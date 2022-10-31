@@ -3,7 +3,6 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { getTestProps, testIds } from 'testIds';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
 import { styles } from './cluster.styles';
@@ -88,7 +87,7 @@ class ClusterBase extends React.Component<ClusterProps> {
       <div style={styles.clustersContainer}>
         {Boolean(someClusters) && someClusters.map((cluster, index) => <span key={index}>{cluster}</span>)}
         {Boolean(someClusters.length < allClusters.length) && (
-          <a {...getTestProps(testIds.details.cluster_lnk)} href="#/" onClick={this.handleOpen}>
+          <a id="cluster_link" href="#/" onClick={this.handleOpen}>
             {intl.formatMessage(messages.detailsMoreClusters, { value: allClusters.length - someClusters.length })}
           </a>
         )}
