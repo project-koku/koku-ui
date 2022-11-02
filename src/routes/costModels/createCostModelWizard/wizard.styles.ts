@@ -1,7 +1,4 @@
-import { styles as costCalcStyles } from 'routes/costModels/costModel/costCalc.styles';
-
 export const styles = {
-  ...costCalcStyles,
   form: {
     width: '350px',
   },
