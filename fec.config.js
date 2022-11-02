@@ -40,7 +40,11 @@ module.exports = {
   standalone: process.env.LOCAL_API_PORT ? true : false,
   useCache: true,
   useProxy: process.env.LOCAL_API_PORT ? false : true,
+  /**
+   * Temporarily disabled HMR -- see https://issues.redhat.com/browse/COST-3224
+   *
   ...(process.env.HMR && { _unstableHotReload: process.env.HMR === 'true' }),
+   */
   /**
    * Config for federated modules
    */
