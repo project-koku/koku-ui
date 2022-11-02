@@ -1496,6 +1496,12 @@ export default defineMessages({
     description: 'url for cost models distribution',
     id: 'docsCostModelsDistribution',
   },
+  docsCostModelsMarkup: {
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models',
+    description: 'url for cost models markup',
+    id: 'docsCostModelsMarkup',
+  },
   docsUsingCostModels: {
     defaultMessage:
       'https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index',

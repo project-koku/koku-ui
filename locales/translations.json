@@ -218,6 +218,7 @@
   "docsConfigCostModels": "https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index#assembly-setting-up-cost-models",
   "docsCostModelTerminology": "https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index#cost-model-terminology",
   "docsCostModelsDistribution": "https://access.redhat.com/documentation/en-us/cost_management_service/2022/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models",
+  "docsCostModelsMarkup": "https://access.redhat.com/documentation/en-us/cost_management_service/2022/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models",
   "docsUsingCostModels": "https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index",
   "download": "Download",
   "edit": "Edit",
