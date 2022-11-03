@@ -29,7 +29,7 @@ const store = configureStore({
   // },
 });
 
-export default () => {
+const AppEntry = () => {
   const basename = getBaseName(window.location.pathname);
   const locale = getLocale();
 
@@ -46,3 +46,5 @@ export default () => {
     </div>
   );
 };
+
+export default AppEntry;

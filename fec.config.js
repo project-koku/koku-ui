@@ -1,3 +1,5 @@
+// Based on https://github.com/RedHatInsights/frontend-components/blob/master/packages/config/src/scripts/dev.webpack.config.js
+
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
@@ -36,7 +38,13 @@ module.exports = {
   proxyVerbose: true,
   stats,
   standalone: process.env.LOCAL_API_PORT ? true : false,
+  useCache: true,
   useProxy: process.env.LOCAL_API_PORT ? false : true,
+  /**
+   * Temporarily disabled HMR -- see https://issues.redhat.com/browse/COST-3224
+   *
+  ...(process.env.HMR && { _unstableHotReload: process.env.HMR === 'true' }),
+   */
   /**
    * Config for federated modules
    */

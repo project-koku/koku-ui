@@ -88,4 +88,9 @@ const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>((state
 
 const mapDispatchToProps: AppDispatchProps = { history };
 
-export default compose<React.ComponentType<AppOwnProps>>(withRouter, connect(mapStateToProps, mapDispatchToProps))(App);
+const ComposedApp = compose<React.ComponentType<AppOwnProps>>(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps)
+)(App);
+
+export default ComposedApp;
