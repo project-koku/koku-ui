@@ -2694,11 +2694,6 @@ export default defineMessages({
       'All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.',
     id: 'ocpDetailsSupplementaryCostDesc',
   },
-  ocpDetailsTableAriaLabel: {
-    defaultMessage: 'OpenShift details table',
-    description: 'OpenShift details table',
-    id: 'ocpDetailsTable',
-  },
   ocpDetailsTitle: {
     defaultMessage: 'OpenShift details',
     description: 'OpenShift details title',
