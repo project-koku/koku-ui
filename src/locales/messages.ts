@@ -1264,7 +1264,7 @@ export default defineMessages({
       'ibm {IBM Cloud - Top 5 Costliest details table} ' +
       'ocp {OpenShift details table} ' +
       'other {}}',
-    description: 'Breakdown back to page titles',
+    description: 'Aria labels for details page table',
     id: 'dataTableAriaLabel',
   },
   delete: {
