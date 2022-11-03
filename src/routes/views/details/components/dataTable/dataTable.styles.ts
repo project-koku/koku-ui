@@ -6,9 +6,6 @@ import global_spacer_xs from '@patternfly/react-tokens/dist/js/global_spacer_xs'
 import type React from 'react';
 
 export const styles = {
-  costColumn: {
-    textAlign: 'right',
-  },
   emptyState: {
     backgroundColor: global_BackgroundColor_light_100.value,
     display: 'flex',

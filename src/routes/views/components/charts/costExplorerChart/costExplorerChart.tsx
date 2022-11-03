@@ -388,7 +388,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
 
   private getTruncatedString = (str: string) => {
     const maxChars = 20;
-    return str.length > maxChars ? str.substr(0, maxChars - 1) + '...' : str;
+    return str.length > maxChars ? str.substring(0, maxChars - 1) + '...' : str;
   };
 
   private getTickValue = (t: number) => {

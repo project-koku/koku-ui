@@ -1264,6 +1264,19 @@ export default defineMessages({
     description: 'total cost is the sum of the infrastructure cost and supplementary cost',
     id: 'dashboardTotalCostTooltip',
   },
+  dataTableAriaLabel: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {Amazon Web Services details table} ' +
+      'azure {Microsoft Azure details table} ' +
+      'oci {Oracle Cloud Infrastructure details table} ' +
+      'gcp {Google Cloud Platform details table} ' +
+      'ibm {IBM Cloud - Top 5 Costliest details table} ' +
+      'ocp {OpenShift details table} ' +
+      'other {}}',
+    description: 'Breakdown back to page titles',
+    id: 'breakdownBackToTitles',
+  },
   delete: {
     defaultMessage: 'Delete',
     description: 'Delete',
@@ -2680,11 +2693,6 @@ export default defineMessages({
     description:
       'All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.',
     id: 'ocpDetailsSupplementaryCostDesc',
-  },
-  ocpDetailsTableAriaLabel: {
-    defaultMessage: 'OpenShift details table',
-    description: 'OpenShift details table',
-    id: 'ocpDetailsTable',
   },
   ocpDetailsTitle: {
     defaultMessage: 'OpenShift details',
