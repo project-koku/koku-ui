@@ -1,5 +1,3 @@
-import './dataTable.scss';
-
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import type { ThProps } from '@patternfly/react-table';
@@ -112,7 +110,6 @@ class DataTable extends React.Component<DataTableProps> {
       <>
         <TableComposable
           aria-label={intl.formatMessage(messages.dataTableAriaLabel, { value: groupBy })}
-          className="tableOverride"
           gridBreakPoint="grid-2xl"
         >
           <Thead>
@@ -122,6 +119,7 @@ class DataTable extends React.Component<DataTableProps> {
                   key={`col-${index}-${col.value}`}
                   modifier="nowrap"
                   sort={col.isSortable ? this.getSortParams(index) : undefined}
+                  style={col.style}
                 >
                   {col.name}
                 </Th>

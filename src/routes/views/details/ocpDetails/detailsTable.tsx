@@ -106,14 +106,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           {
             id: DetailsTableColumnIds.infrastructure,
             name: intl.formatMessage(messages.ocpDetailsInfrastructureCost),
+            style: styles.costColumn,
           },
           {
             id: DetailsTableColumnIds.supplementary,
             name: intl.formatMessage(messages.ocpDetailsSupplementaryCost),
+            style: styles.costColumn,
           },
           {
             orderBy: 'cost',
             name: intl.formatMessage(messages.cost),
+            style: styles.costColumn,
             ...(computedItems.length && { isSortable: true }),
           },
           {
@@ -137,6 +140,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             id: DetailsTableColumnIds.infrastructure,
             orderBy: 'infrastructure_cost',
             name: intl.formatMessage(messages.ocpDetailsInfrastructureCost),
+            style: styles.costColumn,
 
             // Sort by infrastructure_cost is not supported -- https://github.com/project-koku/koku/issues/796
             // ...(computedItems.length && { isSortable: true }),
@@ -145,6 +149,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             id: DetailsTableColumnIds.supplementary,
             orderBy: 'supplementary_cost',
             name: intl.formatMessage(messages.ocpDetailsSupplementaryCost),
+            style: styles.costColumn,
 
             // Sort by supplementary_cost is not supported -- https://github.com/project-koku/koku/issues/796
             // ...(computedItems.length && { isSortable: true }),
@@ -152,6 +157,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           {
             orderBy: 'cost',
             name: intl.formatMessage(messages.cost),
+            style: styles.costColumn,
             ...(computedItems.length && { isSortable: true }),
           },
           {
@@ -211,7 +217,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       });
     });
 
-    const filteredColumns = columns.filter(column => !hiddenColumns.has(column.id));
+    const filteredColumns = (columns as any[]).filter(column => !hiddenColumns.has(column.id));
     const filteredRows = rows.map(({ ...row }) => {
       row.cells = row.cells.filter(cell => !hiddenColumns.has(cell.id));
       return row;
