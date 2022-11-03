@@ -15,7 +15,6 @@ import { styles } from './dataTable.styles';
 interface DataTableOwnProps {
   columns?: any[];
   groupBy: string;
-  hiddenColumns: Set<string>;
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);

@@ -1,4 +1,4 @@
-import './detailsTable.scss';
+import 'routes/views/details/components/dataTable/dataTable.scss';
 
 import { ProviderType } from 'api/providers';
 import type { OcpQuery } from 'api/queries/ocpQuery';
@@ -15,14 +15,13 @@ import { paths } from 'routes';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { Actions } from 'routes/views/details/components/actions';
 import { DataTable } from 'routes/views/details/components/dataTable';
+import { styles } from 'routes/views/details/components/dataTable/dataTable.styles';
 import { getBreakdownPath } from 'routes/views/utils/paths';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dates';
 import { formatCurrency, formatPercentage } from 'utils/format';
-
-import { styles } from './detailsTable.styles';
 
 interface DetailsTableOwnProps {
   groupBy: string;
@@ -355,14 +354,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   public render() {
-    const { groupBy, hiddenColumns, isLoading, onSelected, onSort, query, selectedItems } = this.props;
+    const { groupBy, isLoading, onSelected, onSort, query, selectedItems } = this.props;
     const { columns, rows } = this.state;
 
     return (
       <DataTable
         columns={columns}
         groupBy={groupBy}
-        hiddenColumns={hiddenColumns}
         isLoading={isLoading}
         onSelected={onSelected}
         onSort={onSort}
