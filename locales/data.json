@@ -18935,12 +18935,6 @@
         "value": "Raw cost from Amazon Web Services infrastructure."
       }
     ],
-    "awsDetailsTable": [
-      {
-        "type": 0,
-        "value": "Amazon Web Services details table"
-      }
-    ],
     "awsDetailsTitle": [
       {
         "type": 0,
@@ -19003,12 +18997,6 @@
       {
         "type": 0,
         "value": "Raw cost from Azure infrastructure."
-      }
-    ],
-    "azureDetailsTable": [
-      {
-        "type": 0,
-        "value": "Microsoft Azure details table"
       }
     ],
     "azureDetailsTitle": [
@@ -19277,7 +19265,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Amazon Web Services details table"
+                "value": "Amazon Web Services"
               }
             ]
           },
@@ -19285,7 +19273,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Microsoft Azure details table"
+                "value": "Microsoft Azure"
               }
             ]
           },
@@ -19293,7 +19281,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Google Cloud Platform details table"
+                "value": "Google Cloud Platform"
               }
             ]
           },
@@ -19301,7 +19289,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "IBM Cloud - Top 5 Costliest details table"
+                "value": "IBM Cloud - Top 5 Costliest"
               }
             ]
           },
@@ -19309,7 +19297,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Oracle Cloud Infrastructure details table"
+                "value": "Oracle Cloud Infrastructure"
               }
             ]
           },
@@ -19317,7 +19305,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "OpenShift details table"
+                "value": "OpenShift"
               }
             ]
           },
@@ -27508,6 +27496,65 @@
         "value": "supplementaryCost"
       }
     ],
+    "dataTableAriaLabel": [
+      {
+        "options": {
+          "aws": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Amazon Web Services details table"
+              }
+            ]
+          },
+          "azure": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Microsoft Azure details table"
+              }
+            ]
+          },
+          "gcp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Google Cloud Platform details table"
+              }
+            ]
+          },
+          "ibm": {
+            "value": [
+              {
+                "type": 0,
+                "value": "IBM Cloud - Top 5 Costliest details table"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Oracle Cloud Infrastructure details table"
+              }
+            ]
+          },
+          "ocp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "OpenShift details table"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
     "delete": [
       {
         "type": 0,
@@ -32824,12 +32871,6 @@
         "value": "Raw cost from Google Cloud Platform infrastructure."
       }
     ],
-    "gcpDetailsTable": [
-      {
-        "type": 0,
-        "value": "Google Cloud Platform details table"
-      }
-    ],
     "gcpDetailsTitle": [
       {
         "type": 0,
@@ -34747,12 +34788,6 @@
         "value": "Raw cost from IBM Cloud infrastructure."
       }
     ],
-    "ibmDetailsTable": [
-      {
-        "type": 0,
-        "value": "IBM Cloud details table"
-      }
-    ],
     "ibmDetailsTitle": [
       {
         "type": 0,
@@ -36004,12 +36039,6 @@
       {
         "type": 0,
         "value": "Raw cost from Oracle Cloud Infrastructure."
-      }
-    ],
-    "ociDetailsTable": [
-      {
-        "type": 0,
-        "value": "Oracle Cloud Infrastructure details table"
       }
     ],
     "ociDetailsTitle": [

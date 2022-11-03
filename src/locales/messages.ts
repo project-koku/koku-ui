@@ -32,11 +32,6 @@ export default defineMessages({
     description: 'Raw cost from Amazon Web Services infrastructure.',
     id: 'awsDesc',
   },
-  awsDetailsTableAriaLabel: {
-    defaultMessage: 'Amazon Web Services details table',
-    description: 'Amazon Web Services details table',
-    id: 'awsDetailsTable',
-  },
   awsDetailsTitle: {
     defaultMessage: 'Amazon Web Services Details',
     description: 'Amazon Web Services Details',
@@ -76,11 +71,6 @@ export default defineMessages({
     defaultMessage: 'Raw cost from Azure infrastructure.',
     description: 'Raw cost from Azure infrastructure.',
     id: 'azureDesc',
-  },
-  azureDetailsTableAriaLabel: {
-    defaultMessage: 'Microsoft Azure details table',
-    description: 'Microsoft Azure details table',
-    id: 'azureDetailsTable',
   },
   azureDetailsTitle: {
     defaultMessage: 'Microsoft Azure details',
@@ -1275,7 +1265,7 @@ export default defineMessages({
       'ocp {OpenShift details table} ' +
       'other {}}',
     description: 'Breakdown back to page titles',
-    id: 'breakdownBackToTitles',
+    id: 'dataTableAriaLabel',
   },
   delete: {
     defaultMessage: 'Delete',
@@ -2013,11 +2003,6 @@ export default defineMessages({
     description: 'Raw cost from Google Cloud Platform infrastructure.',
     id: 'gcpDesc',
   },
-  gcpDetailsTableAriaLabel: {
-    defaultMessage: 'Google Cloud Platform details table',
-    description: 'Google Cloud Platform details table',
-    id: 'gcpDetailsTable',
-  },
   gcpDetailsTitle: {
     defaultMessage: 'Google Cloud Platform Details',
     description: 'Google Cloud Platform Details',
@@ -2191,11 +2176,6 @@ export default defineMessages({
     defaultMessage: 'Raw cost from IBM Cloud infrastructure.',
     description: 'Raw cost from IBM Cloud infrastructure.',
     id: 'ibmDesc',
-  },
-  ibmDetailsTableAriaLabel: {
-    defaultMessage: 'IBM Cloud details table',
-    description: 'IBM Cloud details table',
-    id: 'ibmDetailsTable',
   },
   ibmDetailsTitle: {
     defaultMessage: 'IBM Cloud Details',
@@ -2601,11 +2581,6 @@ export default defineMessages({
     defaultMessage: 'Raw cost from Oracle Cloud Infrastructure.',
     description: 'Raw cost from Oracle Cloud Infrastructure.',
     id: 'ociDesc',
-  },
-  ociDetailsTableAriaLabel: {
-    defaultMessage: 'Oracle Cloud Infrastructure details table',
-    description: 'Oracle Cloud Infrastructure details table',
-    id: 'ociDetailsTable',
   },
   ociDetailsTitle: {
     defaultMessage: 'Oracle Cloud Infrastructure details',
