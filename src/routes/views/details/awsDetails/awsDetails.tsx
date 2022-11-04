@@ -1,3 +1,5 @@
+import 'routes/views/details/components/dataTable/dataTable.scss';
+
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';

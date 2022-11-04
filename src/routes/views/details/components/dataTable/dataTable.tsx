@@ -15,7 +15,6 @@ import { styles } from './dataTable.styles';
 interface DataTableOwnProps {
   columns?: any[];
   groupBy: string;
-  hiddenColumns: Set<string>;
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
@@ -143,7 +142,7 @@ class DataTable extends React.Component<DataTableProps> {
                   {row.cells.map((item, cellIndex) =>
                     cellIndex === 0 ? (
                       <Td
-                        dataLabel={columns[cellIndex]}
+                        dataLabel={columns[cellIndex].name}
                         key={`cell-${cellIndex}-${rowIndex}`}
                         select={{
                           disable: row.selectionDisabled, // Disable select for "no-project"
@@ -154,7 +153,7 @@ class DataTable extends React.Component<DataTableProps> {
                       />
                     ) : (
                       <Td
-                        dataLabel={columns[cellIndex]}
+                        dataLabel={columns[cellIndex].name}
                         key={`cell-${rowIndex}-${cellIndex}`}
                         isActionCell={cellIndex === row.cells.length - 1}
                       >

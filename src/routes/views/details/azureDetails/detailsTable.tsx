@@ -1,8 +1,5 @@
-import './azureDetailsTable.scss';
+import 'routes/views/details/components/dataTable/dataTable.scss';
 
-import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
-import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
-import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import type { AzureQuery } from 'api/queries/azureQuery';
 import { getQuery } from 'api/queries/azureQuery';
 import { tagPrefix } from 'api/queries/query';
@@ -14,17 +11,16 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { paths } from 'routes';
-import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { Actions } from 'routes/views/details/components/actions';
+import { DataTable } from 'routes/views/details/components/dataTable';
+import { styles } from 'routes/views/details/components/dataTable/dataTable.styles';
 import { getBreakdownPath } from 'routes/views/utils/paths';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dates';
 import { formatCurrency, formatPercentage } from 'utils/format';
-
-import { styles } from './detailsTable.styles';
 
 interface DetailsTableOwnProps {
   isAllSelected?: boolean;
@@ -39,7 +35,6 @@ interface DetailsTableOwnProps {
 
 interface DetailsTableState {
   columns?: any[];
-  loadingRows?: any[];
   rows?: any[];
 }
 
@@ -52,12 +47,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     columns: [],
     rows: [],
   };
-
-  constructor(props: DetailsTableProps) {
-    super(props);
-    this.handleOnSelect = this.handleOnSelect.bind(this);
-    this.handleOnSort = this.handleOnSort.bind(this);
-  }
 
   public componentDidMount() {
     this.initDatum();
@@ -95,36 +84,44 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const columns = groupByTagKey
       ? [
           {
-            title: intl.formatMessage(messages.tagNames),
+            name: '',
           },
           {
-            title: intl.formatMessage(messages.monthOverMonthChange),
+            name: intl.formatMessage(messages.tagNames),
+          },
+          {
+            name: intl.formatMessage(messages.monthOverMonthChange),
           },
           {
             orderBy: 'cost',
-            title: intl.formatMessage(messages.cost),
-            ...(computedItems.length && { transforms: [sortable] }),
+            name: intl.formatMessage(messages.cost),
+            style: styles.costColumn,
+            ...(computedItems.length && { isSortable: true }),
           },
           {
-            title: '',
+            name: '',
           },
         ]
       : [
           {
-            orderBy: groupById,
-            title: intl.formatMessage(messages.detailsResourceNames, { value: groupById }),
-            ...(computedItems.length && { transforms: [sortable] }),
+            name: '',
           },
           {
-            title: intl.formatMessage(messages.monthOverMonthChange),
+            orderBy: groupById,
+            name: intl.formatMessage(messages.detailsResourceNames, { value: groupById }),
+            ...(computedItems.length && { isSortable: true }),
+          },
+          {
+            name: intl.formatMessage(messages.monthOverMonthChange),
           },
           {
             orderBy: 'cost',
-            title: intl.formatMessage(messages.cost),
-            ...(computedItems.length && { transforms: [sortable] }),
+            name: intl.formatMessage(messages.cost),
+            style: styles.costColumn,
+            ...(computedItems.length && { isSortable: true }),
           },
           {
-            title: '',
+            name: '',
           },
         ];
 
@@ -157,46 +154,28 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
       rows.push({
         cells: [
+          {}, // Empty cell for row selection
           {
-            title: (
+            value: (
               <div>
                 {name}
                 {desc}
               </div>
             ),
           },
-          { title: <div>{monthOverMonth}</div> },
-          { title: <div>{cost}</div> },
-          { title: <div>{actions}</div> },
+          { value: <div>{monthOverMonth}</div> },
+          { value: <div>{cost}</div> },
+          { value: <div>{actions}</div> },
         ],
-        disableSelection: !selectable,
         isOpen: false,
         item,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),
+        selectionDisabled: !selectable,
       });
     });
 
-    const loadingRows = [
-      {
-        heightAuto: true,
-        cells: [
-          {
-            props: { colSpan: 5 },
-            title: (
-              <Bullseye>
-                <div style={{ textAlign: 'center' }}>
-                  <Spinner size="xl" />
-                </div>
-              </Bullseye>
-            ),
-          },
-        ],
-      },
-    ];
-
     this.setState({
       columns,
-      loadingRows,
       rows,
     });
   };
@@ -205,22 +184,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const { groupBy, query } = this.props;
 
     return <Actions groupBy={groupBy} item={item} query={query} reportPathsType={reportPathsType} />;
-  };
-
-  private getEmptyState = () => {
-    const { query, intl } = this.props;
-
-    for (const val of Object.values(query.filter_by)) {
-      if (val !== '*') {
-        return <EmptyFilterState filter={val as string} showMargin={false} />;
-      }
-    }
-    return (
-      <EmptyState>
-        <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{intl.formatMessage(messages.detailsEmptyState)}</EmptyStateBody>
-      </EmptyState>
-    );
   };
 
   private getGroupByTagKey = () => {
@@ -285,27 +248,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     }
   };
 
-  public getSortBy = () => {
-    const { query } = this.props;
-    const { columns } = this.state;
-
-    let index = -1;
-    let direction: any = SortByDirection.asc;
-
-    for (const key of Object.keys(query.order_by)) {
-      let c = 0;
-      for (const column of columns) {
-        if (column.orderBy === key) {
-          direction = query.order_by[key] === 'asc' ? SortByDirection.asc : SortByDirection.desc;
-          index = c + 1;
-          break;
-        }
-        c++;
-      }
-    }
-    return index > -1 ? { index, direction } : {};
-  };
-
   private getTotalCost = (item: ComputedReportItem, index: number) => {
     const { report, intl } = this.props;
     const cost =
@@ -324,61 +266,21 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     );
   };
 
-  private handleOnSelect = (event, isSelected, rowId) => {
-    const { onSelected } = this.props;
-
-    let rows;
-    let items = [];
-    if (rowId === -1) {
-      rows = this.state.rows.map(row => {
-        row.selected = isSelected;
-        return row;
-      });
-    } else {
-      rows = [...this.state.rows];
-      rows[rowId].selected = isSelected;
-      items = [rows[rowId].item];
-    }
-    this.setState({ rows }, () => {
-      if (onSelected) {
-        onSelected(items, isSelected);
-      }
-    });
-  };
-
-  private handleOnSort = (event, index, direction) => {
-    const { onSort } = this.props;
-    const { columns } = this.state;
-
-    if (onSort) {
-      const orderBy = columns[index - 1].orderBy;
-      const isSortAscending = direction === SortByDirection.asc;
-      onSort(orderBy, isSortAscending);
-    }
-  };
-
   public render() {
-    const { intl, isLoading } = this.props;
-    const { columns, loadingRows, rows } = this.state;
+    const { groupBy, isLoading, onSelected, onSort, query, selectedItems } = this.props;
+    const { columns, rows } = this.state;
 
     return (
-      <>
-        <Table
-          aria-label={intl.formatMessage(messages.azureDetailsTableAriaLabel)}
-          canSelectAll={false}
-          cells={columns}
-          className="tableOverride"
-          rows={isLoading ? loadingRows : rows}
-          sortBy={this.getSortBy()}
-          onSelect={isLoading ? undefined : this.handleOnSelect}
-          onSort={this.handleOnSort}
-          gridBreakPoint="grid-2xl"
-        >
-          <TableHeader />
-          <TableBody />
-        </Table>
-        {Boolean(rows.length === 0) && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
-      </>
+      <DataTable
+        columns={columns}
+        groupBy={groupBy}
+        isLoading={isLoading}
+        onSelected={onSelected}
+        onSort={onSort}
+        query={query}
+        rows={rows}
+        selectedItems={selectedItems}
+      />
     );
   }
 }
