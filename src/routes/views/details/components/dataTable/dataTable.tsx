@@ -14,7 +14,6 @@ import { styles } from './dataTable.styles';
 
 interface DataTableOwnProps {
   columns?: any[];
-  groupBy: string;
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
@@ -103,14 +102,11 @@ class DataTable extends React.Component<DataTableProps> {
   };
 
   public render() {
-    const { columns, groupBy, intl, isLoading, rows } = this.props;
+    const { columns, intl, isLoading, rows } = this.props;
 
     return (
       <>
-        <TableComposable
-          aria-label={intl.formatMessage(messages.dataTableAriaLabel, { value: groupBy })}
-          gridBreakPoint="grid-2xl"
-        >
+        <TableComposable aria-label={intl.formatMessage(messages.dataTableAriaLabel)} gridBreakPoint="grid-2xl">
           <Thead>
             <Tr>
               {columns.map((col, index) => (

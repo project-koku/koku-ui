@@ -354,13 +354,12 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   public render() {
-    const { groupBy, isLoading, onSelected, onSort, query, selectedItems } = this.props;
+    const { isLoading, onSelected, onSort, query, selectedItems } = this.props;
     const { columns, rows } = this.state;
 
     return (
       <DataTable
         columns={columns}
-        groupBy={groupBy}
         isLoading={isLoading}
         onSelected={onSelected}
         onSort={onSort}
