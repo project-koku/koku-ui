@@ -1255,16 +1255,8 @@ export default defineMessages({
     id: 'dashboardTotalCostTooltip',
   },
   dataTableAriaLabel: {
-    defaultMessage:
-      '{value, select, ' +
-      'aws {Amazon Web Services details table} ' +
-      'azure {Microsoft Azure details table} ' +
-      'oci {Oracle Cloud Infrastructure details table} ' +
-      'gcp {Google Cloud Platform details table} ' +
-      'ibm {IBM Cloud - Top 5 Costliest details table} ' +
-      'ocp {OpenShift details table} ' +
-      'other {}}',
-    description: 'Aria labels for details page table',
+    defaultMessage: 'Details table',
+    description: 'Details table',
     id: 'dataTableAriaLabel',
   },
   delete: {

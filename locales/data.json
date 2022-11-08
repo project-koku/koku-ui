@@ -27498,61 +27498,8 @@
     ],
     "dataTableAriaLabel": [
       {
-        "options": {
-          "aws": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Amazon Web Services details table"
-              }
-            ]
-          },
-          "azure": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Microsoft Azure details table"
-              }
-            ]
-          },
-          "gcp": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Google Cloud Platform details table"
-              }
-            ]
-          },
-          "ibm": {
-            "value": [
-              {
-                "type": 0,
-                "value": "IBM Cloud - Top 5 Costliest details table"
-              }
-            ]
-          },
-          "oci": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Oracle Cloud Infrastructure details table"
-              }
-            ]
-          },
-          "ocp": {
-            "value": [
-              {
-                "type": 0,
-                "value": "OpenShift details table"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          }
-        },
-        "type": 5,
-        "value": "value"
+        "type": 0,
+        "value": "Details table"
       }
     ],
     "delete": [

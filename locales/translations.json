@@ -185,7 +185,7 @@
   "dashboardNetworkTitle": "Network services cost",
   "dashboardStorageTitle": "Storage services usage",
   "dashboardTotalCostTooltip": "This total cost is the sum of the infrastructure cost {infrastructureCost} and supplementary cost {supplementaryCost}",
-  "dataTableAriaLabel": "{value, select, aws {Amazon Web Services details table} azure {Microsoft Azure details table} oci {Oracle Cloud Infrastructure details table} gcp {Google Cloud Platform details table} ibm {IBM Cloud - Top 5 Costliest details table} ocp {OpenShift details table} other {}}",
+  "dataTableAriaLabel": "Details table",
   "delete": "Delete",
   "description": "Description",
   "detailsActionsExport": "Export data",
