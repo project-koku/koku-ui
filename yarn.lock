@@ -1121,20 +1121,7 @@
   optionalDependencies:
     "@redhat-cloud-services/frontend-components-utilities" "^3.2.25"
 
-"@redhat-cloud-services/frontend-components-utilities@*", "@redhat-cloud-services/frontend-components-utilities@^3.2.25":
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.3.4.tgz#62512aec689ab3a322bafa5d99366bae844484e1"
-  integrity sha512-ncIetaqMcK5BP4WtaEYozrvEv3/GrhT8K2JB5wwDeOBgtRKs9VE9YgjUZeVU2J67PhOFUmVVq6yE7sBKaasugQ==
-  dependencies:
-    "@redhat-cloud-services/types" "^0.0.13"
-    "@sentry/browser" "^5.30.0"
-    awesome-debounce-promise "^2.1.0"
-    axios "^0.27.2"
-    commander "^2.20.3"
-    mkdirp "^1.0.4"
-    react-content-loader "^6.2.0"
-
-"@redhat-cloud-services/frontend-components-utilities@^3.3.5":
+"@redhat-cloud-services/frontend-components-utilities@*", "@redhat-cloud-services/frontend-components-utilities@^3.2.25", "@redhat-cloud-services/frontend-components-utilities@^3.3.5":
   version "3.3.5"
   resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.3.5.tgz#dba3628ab0fca269414903a33c8396a73aa58144"
   integrity sha512-SjE3Qi+DXFoTvSdXS0T9no21aASNIP8rlEXkrN2+wMUtxczVYm0+amrl7ArVZzOZuSwUXyDlDlMGnssQzQ2p7Q==
@@ -1147,10 +1134,10 @@
     mkdirp "^1.0.4"
     react-content-loader "^6.2.0"
 
-"@redhat-cloud-services/frontend-components@^3.9.22":
-  version "3.9.22"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.22.tgz#89ef8edb4de80bd3c930060a0b37b89e8b2bbd54"
-  integrity sha512-ZUG1LP0ssyBAt6AOVpxKTwyPNOTUq/oKWzq3fanAxivxd1fDDdVVvLPThg2VTUe19Tyq426E+z+zlj26txJ9QQ==
+"@redhat-cloud-services/frontend-components@^3.9.23":
+  version "3.9.23"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.23.tgz#26b66c14aba99675acc601f95ad94ad122201ecc"
+  integrity sha512-gPR/JrRf9TmvZReHRCUQ0rlQUZ31ZqvHPQwPTxm9l0PMRP/bqlZHxJYmAN7tT1AXV2azm+kDLn8+mAWUSaSbeg==
   dependencies:
     "@redhat-cloud-services/frontend-components-utilities" "^3.2.25"
     "@redhat-cloud-services/types" "^0.0.13"
