@@ -24,8 +24,4 @@ export const styles = {
     color: global_disabled_color_100.value,
     fontSize: global_FontSize_xs.value,
   },
-  tableContainer: {
-    position: 'relative',
-    overflowX: 'auto',
-  },
 } as { [className: string]: React.CSSProperties };
