@@ -2,7 +2,17 @@ import './explorerTable.scss';
 
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
-import { nowrap, sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
+import type { ThProps } from '@patternfly/react-table';
+import {
+  InnerScrollContainer,
+  SortByDirection,
+  TableComposable,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from '@patternfly/react-table';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
@@ -114,24 +124,28 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       isDateMap: true,
     });
 
-    // Add first column heading (i.e., name)
+    // Add first two column headings (i.e., select and name)
     const columns =
       groupByTagKey || groupByOrg
         ? [
             {
-              cellTransforms: [nowrap],
-              title: groupByOrg
+              name: '',
+            },
+            {
+              name: groupByOrg
                 ? intl.formatMessage(messages.names, { count: 2 })
                 : intl.formatMessage(messages.tagNames),
             },
           ]
         : [
             {
-              cellTransforms: [nowrap],
+              name: '',
+            },
+            {
               date: undefined,
+              name: intl.formatMessage(messages.groupByValueNames, { groupBy: groupById }),
               orderBy: groupById === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupById,
-              title: intl.formatMessage(messages.groupByValueNames, { groupBy: groupById }),
-              ...(computedItems.length && { transforms: [sortable] }),
+              ...(computedItems.length && { isSortable: true }),
             },
           ];
 
@@ -159,12 +173,11 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       const date = getDate(mapIdDate);
       const month = getMonth(mapIdDate);
       columns.push({
-        cellTransforms: [nowrap],
-        title: intl.formatMessage(messages.explorerChartDate, { date, month }),
+        name: intl.formatMessage(messages.explorerChartDate, { date, month }),
         ...(isSortable && {
           date: mapId,
           orderBy: 'cost',
-          transforms: [sortable],
+          isSortable: true,
         }),
       });
     }
@@ -202,22 +215,25 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 
         // Add row cells
         cells.push({
-          title:
+          value:
             item[reportItem] && item[reportItem][reportItemValue]
               ? formatCurrency(item[reportItem][reportItemValue].value, item[reportItem][reportItemValue].units)
               : intl.formatMessage(messages.chartNoData),
         });
       });
 
-      // Add first row cell (i.e., name)
-      cells.unshift({
-        title: (
-          <div>
-            {name}
-            {desc}
-          </div>
-        ),
-      });
+      // Add first row cells
+      cells.unshift(
+        {}, // Empty cell for row selection
+        {
+          value: (
+            <div>
+              {name}
+              {desc}
+            </div>
+          ),
+        }
+      );
 
       rows.push({
         cells,
@@ -227,27 +243,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       });
     });
 
-    const loadingRows = [
-      {
-        heightAuto: true,
-        cells: [
-          {
-            props: { colSpan: 5 },
-            title: (
-              <Bullseye>
-                <div style={{ textAlign: 'center' }}>
-                  <Spinner size="xl" />
-                </div>
-              </Bullseye>
-            ),
-          },
-        ],
-      },
-    ];
-
     this.setState({
       columns,
-      loadingRows,
       rows,
     });
   };
@@ -268,47 +265,51 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     );
   };
 
-  public getSortBy = () => {
+  private getSortBy = index => {
     const { query } = this.props;
     const { columns } = this.state;
 
-    let index = -1;
-    let direction: any = SortByDirection.asc;
+    let direction;
 
-    if (query && query.order_by) {
-      for (const key of Object.keys(query.order_by)) {
-        let c = 0;
-        for (const column of columns) {
-          if (column.orderBy === key && !column.date) {
-            direction = query.order_by[key] === 'asc' ? SortByDirection.asc : SortByDirection.desc;
-            index = c + 1;
-            break;
-          } else if (column.date === query.order_by[key]) {
-            direction = query.order_by.cost === 'asc' ? SortByDirection.asc : SortByDirection.desc;
-            index = c + 1;
-            break;
-          }
-          c++;
-        }
-      }
+    const column = columns[index];
+    const hasOrderBy = query && query.order_by && query.order_by;
+
+    if (column.orderBy && !column.date) {
+      direction = hasOrderBy && query.order_by[column.orderBy];
+    } else if (hasOrderBy && query.order_by.date === column.date) {
+      direction = hasOrderBy && query.order_by[column.orderBy];
     }
-    return index > -1 ? { index, direction } : {};
+    return direction
+      ? {
+          index,
+          direction,
+        }
+      : {};
+  };
+
+  private getSortParams = (index: number): ThProps['sort'] => {
+    return {
+      sortBy: this.getSortBy(index),
+      onSort: this.handleOnSort,
+      columnIndex: index,
+    };
   };
 
   private handleOnSelect = (event, isSelected, rowId) => {
     const { onSelected } = this.props;
+    const { rows } = this.state;
 
-    let rows;
+    let newRows;
     let items = [];
     if (rowId === -1) {
-      rows = this.state.rows.map(row => {
+      newRows = rows.map(row => {
         row.selected = isSelected;
         return row;
       });
     } else {
-      rows = [...this.state.rows];
-      rows[rowId].selected = isSelected;
-      items = [rows[rowId].item];
+      newRows = [...rows];
+      newRows[rowId].selected = isSelected;
+      items = [newRows[rowId].item];
     }
     this.setState({ rows }, () => {
       if (onSelected) {
@@ -322,33 +323,82 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     const { columns } = this.state;
 
     if (onSort) {
-      const column = columns[index - 1];
+      const orderBy = columns[index].orderBy;
       const isSortAscending = direction === SortByDirection.asc;
-      onSort(column.orderBy, isSortAscending, column.date);
+      onSort(orderBy, isSortAscending, columns[index].date);
     }
   };
 
   public render() {
     const { intl, isLoading } = this.props;
-    const { columns, loadingRows, rows } = this.state;
+    const { columns, rows } = this.state;
 
     return (
-      <div style={styles.tableContainer}>
-        <Table
+      <InnerScrollContainer>
+        <TableComposable
           aria-label={intl.formatMessage(messages.explorerTableAriaLabel)}
-          canSelectAll={false}
-          cells={columns}
           className="explorerTableOverride"
-          rows={isLoading ? loadingRows : rows}
-          sortBy={this.getSortBy()}
-          onSelect={isLoading ? undefined : this.handleOnSelect}
-          onSort={this.handleOnSort}
+          gridBreakPoint=""
         >
-          <TableHeader />
-          <TableBody />
-        </Table>
+          <Thead>
+            <Tr>
+              {columns.map((col, index) => (
+                <Th
+                  key={`col-${index}-${col.value}`}
+                  modifier="nowrap"
+                  sort={col.isSortable ? this.getSortParams(index) : undefined}
+                  style={col.style}
+                >
+                  {col.name}
+                </Th>
+              ))}
+            </Tr>
+          </Thead>
+          <Tbody>
+            {isLoading ? (
+              <Tr>
+                <Td colSpan={100}>
+                  <Bullseye>
+                    <div style={{ textAlign: 'center' }}>
+                      <Spinner size="xl" />
+                    </div>
+                  </Bullseye>
+                </Td>
+              </Tr>
+            ) : (
+              rows.map((row, rowIndex) => (
+                <Tr key={`row-${rowIndex}`}>
+                  {row.cells.map((item, cellIndex) =>
+                    cellIndex === 0 ? (
+                      <Td
+                        dataLabel={columns[cellIndex].name}
+                        key={`cell-${cellIndex}-${rowIndex}`}
+                        modifier="nowrap"
+                        select={{
+                          disable: row.selectionDisabled, // Disable select for "no-project"
+                          isSelected: row.selected,
+                          onSelect: (_event, isSelected) => this.handleOnSelect(_event, isSelected, rowIndex),
+                          rowIndex,
+                        }}
+                      />
+                    ) : (
+                      <Td
+                        dataLabel={columns[cellIndex].name}
+                        key={`cell-${rowIndex}-${cellIndex}`}
+                        modifier="nowrap"
+                        isActionCell={cellIndex === row.cells.length - 1}
+                      >
+                        {item.value}
+                      </Td>
+                    )
+                  )}
+                </Tr>
+              ))
+            )}
+          </Tbody>
+        </TableComposable>
         {Boolean(rows.length === 0) && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
-      </div>
+      </InnerScrollContainer>
     );
   }
 }
