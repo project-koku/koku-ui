@@ -52,7 +52,7 @@ class DataTable extends React.Component<DataTableProps> {
     const { columns, query } = this.props;
 
     const orderBy = columns[index].orderBy;
-    const direction = query.order_by[orderBy];
+    const direction = query && query.order_by && query.order_by[orderBy];
 
     return direction
       ? {
@@ -144,6 +144,7 @@ class DataTable extends React.Component<DataTableProps> {
                       <Td
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${cellIndex}-${rowIndex}`}
+                        modifier="nowrap"
                         select={{
                           disable: row.selectionDisabled, // Disable select for "no-project"
                           isSelected: row.selected,
@@ -155,6 +156,7 @@ class DataTable extends React.Component<DataTableProps> {
                       <Td
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${rowIndex}-${cellIndex}`}
+                        modifier="nowrap"
                         isActionCell={cellIndex === row.cells.length - 1}
                       >
                         {item.value}
