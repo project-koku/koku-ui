@@ -66,76 +66,78 @@ class Distribution extends React.Component<WrappedComponentProps> {
                 </Form>
               </StackItem>
               {/* TODO: unhide after api implemented */}
-              {false && <> 
-                <StackItem>
-                  <Title headingLevel="h3" size="md">
-                    {intl.formatMessage(messages.platformUnallocatedCapacity)}
-                  </Title>
-                  <TextContent>
-                    <Text style={styles.cardDescription}>
-                      {intl.formatMessage(messages.platformUnallocatedCapacityDescription)}
-                    </Text>
-                  </TextContent>
-                </StackItem>
-                <StackItem isFilled>
-                  <Form>
-                    <FormGroup isInline fieldId="cost-distribution-platform-unallocated" isRequired>
-                      <Radio
-                        isChecked={distributePlatformUnallocated}
-                        name="distributePlatformUnallocated"
-                        label={intl.formatMessage(messages.distribute)}
-                        aria-label={intl.formatMessage(messages.distribute)}
-                        id="distributePlatformTrue"
-                        value="true"
-                        onChange={handleDistributePlatformUnallocatedChange}
-                      />
-                      <Radio
-                        isChecked={!distributePlatformUnallocated}
-                        name="distributePlatformUnallocated"
-                        label={intl.formatMessage(messages.doNotDistribute)}
-                        aria-label={intl.formatMessage(messages.doNotDistribute)}
-                        id="distributePlatformFalse"
-                        value="false"
-                        onChange={handleDistributePlatformUnallocatedChange}
-                      />
-                    </FormGroup>
-                  </Form>
-                </StackItem>
-                <StackItem>
-                  <Title headingLevel="h3" size="md">
-                    {intl.formatMessage(messages.workersUnallocatedCapacity)}
-                  </Title>
-                  <TextContent>
-                    <Text style={styles.cardDescription}>
-                      {intl.formatMessage(messages.workersUnallocatedCapacityDescription)}
-                    </Text>
-                  </TextContent>
-                </StackItem>
-                <StackItem isFilled>
-                  <Form>
-                    <FormGroup isInline fieldId="cost-distribution-workers-unallocated" isRequired>
-                      <Radio
-                        isChecked={distributeWorkersUnallocated}
-                        name="distributeWorkersUnallocated"
-                        label={intl.formatMessage(messages.distribute)}
-                        aria-label={intl.formatMessage(messages.distribute)}
-                        id="distributeWorkersTrue"
-                        value="true"
-                        onChange={handleDistributeWorkersUnallocatedChange}
-                      />
-                      <Radio
-                        isChecked={!distributeWorkersUnallocated}
-                        name="distributeWorkersUnallocated"
-                        label={intl.formatMessage(messages.doNotDistribute)}
-                        aria-label={intl.formatMessage(messages.doNotDistribute)}
-                        id="distributeWorkersFalse"
-                        value="false"
-                        onChange={handleDistributeWorkersUnallocatedChange}
-                      />
-                    </FormGroup>
-                  </Form>
-                </StackItem>
-                </>}
+              {false && (
+                <>
+                  <StackItem>
+                    <Title headingLevel="h3" size="md">
+                      {intl.formatMessage(messages.platformUnallocatedCapacity)}
+                    </Title>
+                    <TextContent>
+                      <Text style={styles.cardDescription}>
+                        {intl.formatMessage(messages.platformUnallocatedCapacityDescription)}
+                      </Text>
+                    </TextContent>
+                  </StackItem>
+                  <StackItem isFilled>
+                    <Form>
+                      <FormGroup isInline fieldId="cost-distribution-platform-unallocated" isRequired>
+                        <Radio
+                          isChecked={distributePlatformUnallocated}
+                          name="distributePlatformUnallocated"
+                          label={intl.formatMessage(messages.distribute)}
+                          aria-label={intl.formatMessage(messages.distribute)}
+                          id="distributePlatformTrue"
+                          value="true"
+                          onChange={handleDistributePlatformUnallocatedChange}
+                        />
+                        <Radio
+                          isChecked={!distributePlatformUnallocated}
+                          name="distributePlatformUnallocated"
+                          label={intl.formatMessage(messages.doNotDistribute)}
+                          aria-label={intl.formatMessage(messages.doNotDistribute)}
+                          id="distributePlatformFalse"
+                          value="false"
+                          onChange={handleDistributePlatformUnallocatedChange}
+                        />
+                      </FormGroup>
+                    </Form>
+                  </StackItem>
+                  <StackItem>
+                    <Title headingLevel="h3" size="md">
+                      {intl.formatMessage(messages.workersUnallocatedCapacity)}
+                    </Title>
+                    <TextContent>
+                      <Text style={styles.cardDescription}>
+                        {intl.formatMessage(messages.workersUnallocatedCapacityDescription)}
+                      </Text>
+                    </TextContent>
+                  </StackItem>
+                  <StackItem isFilled>
+                    <Form>
+                      <FormGroup isInline fieldId="cost-distribution-workers-unallocated" isRequired>
+                        <Radio
+                          isChecked={distributeWorkersUnallocated}
+                          name="distributeWorkersUnallocated"
+                          label={intl.formatMessage(messages.distribute)}
+                          aria-label={intl.formatMessage(messages.distribute)}
+                          id="distributeWorkersTrue"
+                          value="true"
+                          onChange={handleDistributeWorkersUnallocatedChange}
+                        />
+                        <Radio
+                          isChecked={!distributeWorkersUnallocated}
+                          name="distributeWorkersUnallocated"
+                          label={intl.formatMessage(messages.doNotDistribute)}
+                          aria-label={intl.formatMessage(messages.doNotDistribute)}
+                          id="distributeWorkersFalse"
+                          value="false"
+                          onChange={handleDistributeWorkersUnallocatedChange}
+                        />
+                      </FormGroup>
+                    </Form>
+                  </StackItem>
+                </>
+              )}
             </Stack>
           );
         }}
