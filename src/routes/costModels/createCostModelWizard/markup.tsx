@@ -62,9 +62,10 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
                 <Title headingLevel="h2" size={TitleSizes.xl} style={styles.titleWithLearnMore}>
                   {intl.formatMessage(messages.costCalculationsOptional)}
                 </Title>
-                <a href={intl.formatMessage(messages.docsCostModelsMarkup)} rel="noreferrer" target="_blank">
+                {/* TODO: show when we get the new doc urls */}
+                {/* <a href={intl.formatMessage(messages.docsCostModelsMarkup)} rel="noreferrer" target="_blank">
                   {intl.formatMessage(messages.learnMore)}
-                </a>
+                </a> */}
               </StackItem>
               <StackItem>
                 <Title headingLevel="h3" size="md">
