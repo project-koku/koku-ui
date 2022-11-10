@@ -133,18 +133,23 @@ const ReviewDetailsBase: React.FC<WrappedComponentProps> = ({ intl }) => (
                       <TextListItem component={TextListItemVariants.dd}>
                         {intl.formatMessage(messages.distributionTypeDescription, { type: distribution })}
                       </TextListItem>
-                      <TextListItem component={TextListItemVariants.dd}>
-                        {intl.formatMessage(messages.distributeCosts, {
-                          value: distributePlatformUnallocated,
-                          type: 'platform',
-                        })}
-                      </TextListItem>
-                      <TextListItem component={TextListItemVariants.dd}>
-                        {intl.formatMessage(messages.distributeCosts, {
-                          value: distributeWorkersUnallocated,
-                          type: 'workers',
-                        })}
-                      </TextListItem>
+                      {/* TODO: add back after backend done for distribute unallocated */}
+                      {false && (
+                        <>
+                          <TextListItem component={TextListItemVariants.dd}>
+                            {intl.formatMessage(messages.distributeCosts, {
+                              value: distributePlatformUnallocated,
+                              type: 'platform',
+                            })}
+                          </TextListItem>
+                          <TextListItem component={TextListItemVariants.dd}>
+                            {intl.formatMessage(messages.distributeCosts, {
+                              value: distributeWorkersUnallocated,
+                              type: 'workers',
+                            })}
+                          </TextListItem>
+                        </>
+                      )}
                     </>
                   )}
                   <TextListItem component={TextListItemVariants.dt}>
