@@ -52,7 +52,20 @@ const ReviewSuccess = injectIntl(ReviewSuccessBase);
 
 const ReviewDetailsBase: React.FC<WrappedComponentProps> = ({ intl }) => (
   <CostModelContext.Consumer>
-    {({ checked, createError, currencyUnits, description, distribution, isDiscount, markup, name, tiers, type }) => {
+    {({
+      checked,
+      createError,
+      currencyUnits,
+      description,
+      distribution,
+      distributePlatformUnallocated,
+      distributeWorkersUnallocated,
+      isDiscount,
+      markup,
+      name,
+      tiers,
+      type,
+    }) => {
       const selectedSources = Object.keys(checked)
         .filter(key => checked[key].selected)
         .map(key => checked[key].meta);
@@ -115,9 +128,28 @@ const ReviewDetailsBase: React.FC<WrappedComponentProps> = ({ intl }) => (
                   {type === 'OCP' && (
                     <>
                       <TextListItem component={TextListItemVariants.dt}>
-                        {intl.formatMessage(messages.distributionType)}
+                        {intl.formatMessage(messages.costDistribution)}
                       </TextListItem>
-                      <TextListItem component={TextListItemVariants.dd}>{distribution}</TextListItem>
+                      <TextListItem component={TextListItemVariants.dd}>
+                        {intl.formatMessage(messages.distributionTypeDescription, { type: distribution })}
+                      </TextListItem>
+                      {/* TODO: add back after backend done for distribute unallocated */}
+                      {false && (
+                        <>
+                          <TextListItem component={TextListItemVariants.dd}>
+                            {intl.formatMessage(messages.distributeCosts, {
+                              value: distributePlatformUnallocated,
+                              type: 'platform',
+                            })}
+                          </TextListItem>
+                          <TextListItem component={TextListItemVariants.dd}>
+                            {intl.formatMessage(messages.distributeCosts, {
+                              value: distributeWorkersUnallocated,
+                              type: 'workers',
+                            })}
+                          </TextListItem>
+                        </>
+                      )}
                     </>
                   )}
                   <TextListItem component={TextListItemVariants.dt}>

@@ -26240,6 +26240,18 @@
         "value": "Cost calculations"
       }
     ],
+    "costCalculationsOptional": [
+      {
+        "type": 0,
+        "value": "Cost calculations (optional)"
+      }
+    ],
+    "costDistribution": [
+      {
+        "type": 0,
+        "value": "Cost distribution"
+      }
+    ],
     "costManagement": [
       {
         "type": 0,
@@ -28330,6 +28342,97 @@
         "value": "Discount (-)"
       }
     ],
+    "distribute": [
+      {
+        "type": 0,
+        "value": "Distribute"
+      }
+    ],
+    "distributeCosts": [
+      {
+        "options": {
+          "false": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Do not distribute "
+              },
+              {
+                "options": {
+                  "other": {
+                    "value": []
+                  },
+                  "platform": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "platform"
+                      }
+                    ]
+                  },
+                  "workers": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "workers"
+                      }
+                    ]
+                  }
+                },
+                "type": 5,
+                "value": "type"
+              },
+              {
+                "type": 0,
+                "value": " costs"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "true": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Distribute "
+              },
+              {
+                "options": {
+                  "other": {
+                    "value": []
+                  },
+                  "platform": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "platform"
+                      }
+                    ]
+                  },
+                  "workers": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "workers"
+                      }
+                    ]
+                  }
+                },
+                "type": 5,
+                "value": "type"
+              },
+              {
+                "type": 0,
+                "value": " costs"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
     "distributionModelDesc": [
       {
         "type": 0,
@@ -28340,6 +28443,26 @@
       {
         "type": 0,
         "value": "Distribution type"
+      }
+    ],
+    "distributionTypeDescription": [
+      {
+        "type": 0,
+        "value": "Distribute costs based on "
+      },
+      {
+        "type": 1,
+        "value": "type"
+      },
+      {
+        "type": 0,
+        "value": " usage"
+      }
+    ],
+    "doNotDistribute": [
+      {
+        "type": 0,
+        "value": "Do not distribute"
       }
     ],
     "docsAddOcpSources": [
@@ -28358,6 +28481,18 @@
       {
         "type": 0,
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index#cost-model-terminology"
+      }
+    ],
+    "docsCostModelsDistribution": [
+      {
+        "type": 0,
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2022/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
+      }
+    ],
+    "docsCostModelsMarkup": [
+      {
+        "type": 0,
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2022/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
       }
     ],
     "docsUsingCostModels": [
@@ -36545,6 +36680,18 @@
         "value": "value"
       }
     ],
+    "platformUnallocatedCapacity": [
+      {
+        "type": 0,
+        "value": "Platform unallocated capacity"
+      }
+    ],
+    "platformUnallocatedCapacityDescription": [
+      {
+        "type": 0,
+        "value": "Distribute the cost of running the OpenShift services to projects"
+      }
+    ],
     "priceList": [
       {
         "type": 0,
@@ -37696,6 +37843,18 @@
       {
         "type": 0,
         "value": "Volume"
+      }
+    ],
+    "workersUnallocatedCapacity": [
+      {
+        "type": 0,
+        "value": "Workers unallocated capacity"
+      }
+    ],
+    "workersUnallocatedCapacityDescription": [
+      {
+        "type": 0,
+        "value": "Distribute unused and non-reserved resource costs to projects"
       }
     ],
     "yes": [

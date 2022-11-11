@@ -19,6 +19,7 @@ import { getAccountCurrency } from 'utils/localStorage';
 
 import { fetchSources as apiSources } from './api';
 import { CostModelContext } from './context';
+import Distribution from './distribution';
 import GeneralInformation from './generalInformation';
 import Markup from './markup';
 import { parseApiError } from './parseError';
@@ -103,13 +104,27 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
       onClose={closeFnc}
       footer={isSuccess || isProcess || isAddingRate ? <div /> : null}
       onSave={() => {
-        const { currency, description, distribution, isDiscount, markup, name, type, tiers, sources } = context;
+        const {
+          currency,
+          description,
+          distribution,
+          distributePlatformUnallocated,
+          distributeWorkersUnallocated,
+          isDiscount,
+          markup,
+          name,
+          type,
+          tiers,
+          sources,
+        } = context;
         addCostModel({
           name,
           source_type: type,
           currency,
           description,
           distribution,
+          distributePlatformUnallocated,
+          distributeWorkersUnallocated,
           rates: tiers,
           markup: {
             value: `${isDiscount ? '-' : ''}${unFormat(markup)}`,
@@ -139,6 +154,8 @@ const defaultState = {
   dataFetched: false,
   description: '',
   distribution: 'cpu',
+  distributePlatformUnallocated: true,
+  distributeWorkersUnallocated: true,
   dirtyName: false,
   error: null,
   filterName: '',
@@ -178,6 +195,8 @@ interface State {
   description: string;
   dirtyName: boolean;
   distribution: string;
+  distributePlatformUnallocated: boolean;
+  distributeWorkersUnallocated: boolean;
   error: any;
   filterName: string;
   isDialogOpen: boolean;
@@ -315,11 +334,16 @@ class CostModelWizardBase extends React.Component<Props, State> {
         },
         {
           id: 4,
+          name: intl.formatMessage(messages.costDistribution),
+          component: <Distribution />,
+        },
+        {
+          id: 5,
           name: intl.formatMessage(messages.costModelsWizardStepsSources),
           component: <Sources />,
         },
         {
-          id: 5,
+          id: 6,
           name: intl.formatMessage(messages.costModelsWizardStepsReview),
           component: <Review />,
         },
@@ -351,6 +375,8 @@ class CostModelWizardBase extends React.Component<Props, State> {
           dataFetched: this.state.dataFetched,
           dirtyName: this.state.dirtyName,
           distribution: this.state.distribution,
+          distributePlatformUnallocated: this.state.distributePlatformUnallocated,
+          distributeWorkersUnallocated: this.state.distributeWorkersUnallocated,
           error: this.state.error,
           filterName: this.state.filterName,
           fetchSources: (type, query, page, perPage) => {
@@ -387,6 +413,14 @@ class CostModelWizardBase extends React.Component<Props, State> {
           handleDistributionChange: (_, event) => {
             const { value } = event.currentTarget;
             this.setState({ distribution: value });
+          },
+          handleDistributePlatformUnallocatedChange: (_, event) => {
+            const { value } = event.currentTarget;
+            this.setState({ distributePlatformUnallocated: value === 'true' });
+          },
+          handleDistributeWorkersUnallocatedChange: (_, event) => {
+            const { value } = event.currentTarget;
+            this.setState({ distributeWorkersUnallocated: value === 'true' });
           },
           handleMarkupDiscountChange: (_, event) => {
             const { value } = event.currentTarget;
@@ -492,6 +526,8 @@ class CostModelWizardBase extends React.Component<Props, State> {
             currency: this.state.currencyUnits,
             description: this.state.description,
             distribution: this.state.distribution,
+            distributePlatformUnallocated: this.state.distributePlatformUnallocated,
+            distributeWorkersUnallocated: this.state.distributeWorkersUnallocated,
             markup: `${this.state.isDiscount ? '-' : ''}${this.state.markup}`,
             tiers: this.state.tiers,
             priceListCurrent: this.state.priceListCurrent,
