@@ -1141,13 +1141,13 @@
     mkdirp "^1.0.4"
     react-content-loader "^6.2.0"
 
-"@redhat-cloud-services/frontend-components@^3.9.23":
-  version "3.9.23"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.23.tgz#26b66c14aba99675acc601f95ad94ad122201ecc"
-  integrity sha512-gPR/JrRf9TmvZReHRCUQ0rlQUZ31ZqvHPQwPTxm9l0PMRP/bqlZHxJYmAN7tT1AXV2azm+kDLn8+mAWUSaSbeg==
+"@redhat-cloud-services/frontend-components@^3.9.24":
+  version "3.9.24"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.24.tgz#5b194507f2cb9bef1c9b83e2365a5497f16fa06a"
+  integrity sha512-Lh7x0l7vzrjknO5N9NDw1XziJpCTCVwDvTzchF/FuMndev5w7EnPctdXm+Xk7ylBcQ13vkBITMSKW9StwgQdWA==
   dependencies:
     "@redhat-cloud-services/frontend-components-utilities" "^3.2.25"
-    "@redhat-cloud-services/types" "^0.0.13"
+    "@redhat-cloud-services/types" "^0.0.15"
     "@scalprum/core" "^0.2.3"
     "@scalprum/react-core" "^0.2.4"
     sanitize-html "^2.7.2"
@@ -1163,6 +1163,11 @@
   version "0.0.13"
   resolved "https://registry.yarnpkg.com/@redhat-cloud-services/types/-/types-0.0.13.tgz#bd496eaf818082746bc4f2ac0d064113d6d701e1"
   integrity sha512-ZCiTu4ViM1g4KSgkQq/f1bBxU3nllQwwDRMuAXvBK6JQrmmueI52e29nqTHbM6Ovn+/YSASjgnELNkUGfBr4PA==
+
+"@redhat-cloud-services/types@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/types/-/types-0.0.15.tgz#c4792a0f7291523e321fd4925d5d37c762f5e0c0"
+  integrity sha512-1aqJcgQZq4uih+LxRpVJQblt2x4o/hlrqSZMYFhWyTLgnVNhJ8Y7B5pwoVjpA5PCE1fBNahrydVwugEKMsDDtg==
 
 "@restart/hooks@^0.4.6", "@restart/hooks@^0.4.7":
   version "0.4.7"
