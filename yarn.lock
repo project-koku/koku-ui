@@ -1069,10 +1069,10 @@
   dependencies:
     node-fetch "2.6.7"
 
-"@redhat-cloud-services/frontend-components-config@^4.6.31":
-  version "4.6.31"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-4.6.31.tgz#10ec870006eadb4cbadf7329f5044210248b2b1c"
-  integrity sha512-/cBhPO0ml/QDv2ZWHZuV05skdK6nAd/BzvThtLZIJS5O/W/OJYxDeTOLkpA6N7IUPLYUV/lFNK/kAG3rqA6AuA==
+"@redhat-cloud-services/frontend-components-config@^4.6.32":
+  version "4.6.32"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-4.6.32.tgz#1c2dc0a36188a10f6ed580c512f15c4979ae325a"
+  integrity sha512-Md7i0S8GM6QhzCdYZTdHXEU1wI8XBF2by89QhUQEESe040aDMcN/Tgw9eVMzns0ql6WqpdRkTrI7nPz1y4j80g==
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin" "^0.5.8"
     "@redhat-cloud-services/frontend-components-config-utilities" "^1.5.24"
@@ -1111,7 +1111,7 @@
     webpack "^5.74.0"
     webpack-cli "^4.10.0"
     webpack-dev-server "4.11.1"
-    yargs "^17.6.0"
+    yargs "^17.6.2"
 
 "@redhat-cloud-services/frontend-components-notifications@^3.2.12":
   version "3.2.12"
@@ -8984,15 +8984,15 @@ yaml@^1.10.0:
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
   integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
 
-yargs-parser@^21.0.0:
+yargs-parser@^21.1.1:
   version "21.1.1"
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.1.1.tgz#9096bceebf990d21bb31fa9516e0ede294a77d35"
   integrity sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==
 
-yargs@^17.3.1, yargs@^17.6.0:
-  version "17.6.0"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.6.0.tgz#e134900fc1f218bc230192bdec06a0a5f973e46c"
-  integrity sha512-8H/wTDqlSwoSnScvV2N/JHfLWOKuh5MVla9hqLjK3nsfyy6Y4kDSYSvkU5YCUEPOSnRXfIyx3Sq+B/IWudTo4g==
+yargs@^17.3.1, yargs@^17.6.2:
+  version "17.6.2"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.6.2.tgz#2e23f2944e976339a1ee00f18c77fedee8332541"
+  integrity sha512-1/9UrdHjDZc0eOU0HxOHoS78C69UD3JRMvzlJ7S79S2nTaWRA/whGCTV8o9e/N/1Va9YIV7Q4sOxD8VV4pCWOw==
   dependencies:
     cliui "^8.0.1"
     escalade "^3.1.1"
@@ -9000,7 +9000,7 @@ yargs@^17.3.1, yargs@^17.6.0:
     require-directory "^2.1.1"
     string-width "^4.2.3"
     y18n "^5.0.5"
-    yargs-parser "^21.0.0"
+    yargs-parser "^21.1.1"
 
 yocto-queue@^0.1.0:
   version "0.1.0"
