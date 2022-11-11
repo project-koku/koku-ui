@@ -2,6 +2,7 @@ import { createAction } from 'typesafe-actions';
 
 export interface FeatureFlagsActionMeta {
   isCurrencyFeatureEnabled?: boolean;
+  isDistributionFeatureEnabled?: boolean;
   isExcludesFeatureEnabled?: boolean;
   isExportsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;

@@ -8,6 +8,8 @@ export const selectHasFeatureFlags = (state: RootState) => selectFeatureFlagsSta
 
 export const selectIsCurrencyFeatureEnabled = (state: RootState) =>
   selectFeatureFlagsState(state)?.isCurrencyFeatureEnabled;
+export const selectIsDistributionFeatureEnabled = (state: RootState) =>
+  selectFeatureFlagsState(state)?.isDistributionFeatureEnabled;
 export const selectIsExcludesFeatureEnabled = (state: RootState) =>
   selectFeatureFlagsState(state).isExcludesFeatureEnabled;
 export const selectIsExportsFeatureEnabled = (state: RootState) =>
