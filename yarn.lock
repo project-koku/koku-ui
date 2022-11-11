@@ -1128,12 +1128,12 @@
   optionalDependencies:
     "@redhat-cloud-services/frontend-components-utilities" "^3.2.25"
 
-"@redhat-cloud-services/frontend-components-utilities@*", "@redhat-cloud-services/frontend-components-utilities@^3.2.25", "@redhat-cloud-services/frontend-components-utilities@^3.3.6":
-  version "3.3.6"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.3.6.tgz#f31ee603ffb5cb6df1dfba137326fb9b9c433f64"
-  integrity sha512-KQo4G8zOaCYHa3agyTufP9JKSQFkZVu0ZJqcw0Z3lc3++dcUrCZT8LmUAG1hrSMo4vfvqVSydlqmDIQ2ctuW4g==
+"@redhat-cloud-services/frontend-components-utilities@*", "@redhat-cloud-services/frontend-components-utilities@^3.2.25", "@redhat-cloud-services/frontend-components-utilities@^3.3.7":
+  version "3.3.7"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.3.7.tgz#36a251778af532dd25815450de47eecb70f5efd3"
+  integrity sha512-pixpCaJzfCYCUif6w1TBDqRIkqARTgP1yosGqFpyRK0aARUMqV2sO/P76LYSWgN8kt7jfvNau5ALjORWrJ+leg==
   dependencies:
-    "@redhat-cloud-services/types" "^0.0.13"
+    "@redhat-cloud-services/types" "^0.0.15"
     "@sentry/browser" "^5.30.0"
     awesome-debounce-promise "^2.1.0"
     axios "^0.27.2"
