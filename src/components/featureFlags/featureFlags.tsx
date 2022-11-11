@@ -14,6 +14,7 @@ type FeatureFlagsProps = FeatureFlagsOwnProps & RouteComponentProps<void>;
 // eslint-disable-next-line no-shadow
 export const enum FeatureToggle {
   currency = 'cost-management.ui.currency', // Currency support https://issues.redhat.com/browse/COST-1277
+  distribution = 'cost-management.ui.cost-distribution', // Cost distribution https://issues.redhat.com/browse/COST-3249
   excludes = 'cost-management.ui.negative-filtering', // Contains filter https://issues.redhat.com/browse/COST-2773
   exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
   ibm = 'cost-management.ui.ibm', // IBM https://issues.redhat.com/browse/COST-935
@@ -58,6 +59,7 @@ const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
         dispatch(
           featureFlagsActions.setFeatureFlags({
             isCurrencyFeatureEnabled: client.isEnabled(FeatureToggle.currency),
+            isDistributionFeatureEnabled: client.isEnabled(FeatureToggle.distribution),
             isExcludesFeatureEnabled: client.isEnabled(FeatureToggle.excludes),
             isExportsFeatureEnabled: client.isEnabled(FeatureToggle.exports),
             isIbmFeatureEnabled: client.isEnabled(FeatureToggle.ibm),
