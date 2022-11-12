@@ -228,7 +228,7 @@ export default defineMessages({
     id: 'chartCostForecastLegendNoDataLabel',
   },
   chartCostForecastLegendTooltip: {
-    defaultMessage: 'Cost forecast ({dateRange})',
+    defaultMessage: 'Cost forecast ({month})',
     description: 'Cost forecast (Jan 1-31)',
     id: 'chartCostForecastLegendTooltip',
   },

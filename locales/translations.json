@@ -39,7 +39,7 @@
   "chartCostForecastConeTooltip": "{value0} - {value1}",
   "chartCostForecastLegendLabel": "Cost forecast ({dateRange})",
   "chartCostForecastLegendNoDataLabel": "Cost forecast (no data)",
-  "chartCostForecastLegendTooltip": "Cost forecast ({dateRange})",
+  "chartCostForecastLegendTooltip": "Cost forecast ({month})",
   "chartCostLegendLabel": "Cost ({dateRange})",
   "chartCostLegendNoDataLabel": "Cost (no data)",
   "chartCostLegendTooltip": "Cost ({month})",
