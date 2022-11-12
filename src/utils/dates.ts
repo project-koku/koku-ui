@@ -1,6 +1,6 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { intl } from 'components/i18n';
-import { endOfMonth, format, getDate, getMonth, startOfMonth } from 'date-fns';
+import { endOfMonth, format, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 
 export function getToday(hrs: number = 0, min: number = 0, sec: number = 0) {
@@ -14,50 +14,68 @@ export function getToday(hrs: number = 0, min: number = 0, sec: number = 0) {
 }
 
 export function getNoDataForDateRangeString(message: MessageDescriptor = messages.noDataForDate, offset: number = 1) {
-  const today = getToday();
+  const endDate = getToday();
+  const startDate = getToday();
+
+  startDate.setDate(1);
 
   if (offset) {
-    today.setMonth(today.getMonth() - offset);
+    startDate.setMonth(startDate.getMonth() - offset);
+    endDate.setMonth(endDate.getMonth() - offset);
   }
-
-  const month = getMonth(today);
-  const endDate = format(today, 'd');
-  const startDate = format(startOfMonth(today), 'd');
-
-  return intl.formatMessage(message, { count: getDate(today), startDate, endDate, month });
+  const dateRange = intl.formatDateTimeRange(startDate, endDate, {
+    day: 'numeric',
+    month: 'long',
+  });
+  return intl.formatMessage(message, { dateRange });
 }
 
 export function getForDateRangeString(
   value: string | number,
   message: MessageDescriptor = messages.forDate,
-  offset: number = 1
+  offset = 1
 ) {
-  const today = getToday();
+  const endDate = getToday();
+  const startDate = getToday();
+
+  startDate.setDate(1);
 
   if (offset) {
-    today.setMonth(today.getMonth() - offset);
+    startDate.setMonth(startDate.getMonth() - offset);
+    endDate.setMonth(endDate.getMonth() - offset);
   }
-
-  const month = getMonth(today);
-  const endDate = format(today, 'd');
-  const startDate = format(startOfMonth(today), 'd');
-
-  return intl.formatMessage(message, {
-    value,
-    count: getDate(today),
-    startDate,
-    endDate,
-    month,
+  const dateRange = intl.formatDateTimeRange(startDate, endDate, {
+    day: 'numeric',
+    month: 'long',
   });
+  return intl.formatMessage(message, { dateRange, value });
 }
 
 export function getSinceDateRangeString(message: MessageDescriptor = messages.sinceDate) {
-  const today = getToday();
-  const month = getMonth(today);
-  const endDate = format(today, 'd');
-  const startDate = format(startOfMonth(today), 'd');
+  const endDate = getToday();
+  const startDate = getToday();
 
-  return intl.formatMessage(message, { count: getDate(today), startDate, endDate, month });
+  startDate.setDate(1);
+  const dateRange = intl.formatDateTimeRange(startDate, endDate, {
+    day: 'numeric',
+    month: 'long',
+  });
+  return intl.formatMessage(message, { dateRange });
+}
+
+export function getTotalCostDateRangeString(
+  value: string | number,
+  message: MessageDescriptor = messages.breakdownTotalCostDate
+) {
+  const endDate = getToday();
+  const startDate = getToday();
+
+  startDate.setDate(1);
+  const dateRange = intl.formatDateTimeRange(startDate, endDate, {
+    day: 'numeric',
+    month: 'long',
+  });
+  return intl.formatMessage(message, { dateRange, value });
 }
 
 export function getMonthDate(offset: number) {
@@ -74,10 +92,6 @@ export function getMonthDate(offset: number) {
 
 export function getCurrentMonthDate() {
   return getMonthDate(0);
-}
-
-export function getPreviousMonthDate() {
-  return getMonthDate(1);
 }
 
 // Returns offset + 1 days, including today's date. See https://issues.redhat.com/browse/COST-1117

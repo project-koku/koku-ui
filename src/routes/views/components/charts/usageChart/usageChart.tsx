@@ -16,7 +16,11 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { default as ChartTheme } from 'routes/views/components/charts/chartTheme';
-import { getDateRange, getUsageRangeString } from 'routes/views/components/charts/common/chartDatum';
+import {
+  getDateRange,
+  getUsageRangeString,
+  getUsageRangeTooltip,
+} from 'routes/views/components/charts/common/chartDatum';
 import type { ChartSeries } from 'routes/views/components/charts/common/chartUtils';
 import {
   getChartNames,
@@ -109,7 +113,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
             fill: chartStyles.legendColorScale[0],
             type: 'minus',
           },
-          tooltip: getUsageRangeString(previousUsageData, usageTooltipKey, false, false, 1),
+          tooltip: getUsageRangeTooltip(previousUsageData, usageTooltipKey, false, false, 1),
         },
         style: chartStyles.previousUsageData,
       },
@@ -122,7 +126,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
             fill: chartStyles.legendColorScale[1],
             type: 'minus',
           },
-          tooltip: getUsageRangeString(currentUsageData, usageTooltipKey, false, false),
+          tooltip: getUsageRangeTooltip(currentUsageData, usageTooltipKey, false, false),
         },
         style: chartStyles.currentUsageData,
       },
@@ -142,7 +146,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
             fill: chartStyles.legendColorScale[2],
             type: 'dash',
           },
-          tooltip: getUsageRangeString(previousRequestData, requestTooltipKey, false, false, 1),
+          tooltip: getUsageRangeTooltip(previousRequestData, requestTooltipKey, false, false, 1),
         },
         style: chartStyles.previousRequestData,
       },
@@ -162,7 +166,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
             fill: chartStyles.legendColorScale[3],
             type: 'dash',
           },
-          tooltip: getUsageRangeString(currentRequestData, requestTooltipKey, false, false),
+          tooltip: getUsageRangeTooltip(currentRequestData, requestTooltipKey, false, false),
         },
         style: chartStyles.currentRequestData,
       },

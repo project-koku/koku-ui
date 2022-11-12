@@ -16,7 +16,11 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { default as ChartTheme } from 'routes/views/components/charts/chartTheme';
-import { getCostRangeString, getDateRange } from 'routes/views/components/charts/common/chartDatum';
+import {
+  getCostRangeString,
+  getCostRangeTooltip,
+  getDateRange,
+} from 'routes/views/components/charts/common/chartDatum';
 import type { ChartSeries } from 'routes/views/components/charts/common/chartUtils';
 import {
   getChartNames,
@@ -108,7 +112,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(previousCostData, costTooltipKey, false, false, 1),
+          tooltip: getCostRangeTooltip(previousCostData, costTooltipKey, false, false, 1),
         },
         style: {
           data: {
@@ -126,7 +130,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(currentCostData, costTooltipKey, false, false),
+          tooltip: getCostRangeTooltip(currentCostData, costTooltipKey, false, false),
         },
         style: {
           data: {
@@ -154,7 +158,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
             fill: chartStyles.forecastDataColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(forecastData, messages.chartCostForecastLegendTooltip, false, false),
+          tooltip: getCostRangeTooltip(forecastData, messages.chartCostForecastLegendTooltip, false, false),
         },
         style: {
           data: {
@@ -179,7 +183,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
             fill: chartStyles.forecastConeDataColorScale[0],
             type: 'triangleLeft',
           },
-          tooltip: getCostRangeString(forecastConeData, messages.chartCostForecastConeLegendTooltip, false, false),
+          tooltip: getCostRangeTooltip(forecastConeData, messages.chartCostForecastConeLegendTooltip, false, false),
         },
         style: {
           data: {

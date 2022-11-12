@@ -16,7 +16,11 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { default as ChartTheme } from 'routes/views/components/charts/chartTheme';
-import { getCostRangeString, getDateRange } from 'routes/views/components/charts/common/chartDatum';
+import {
+  getCostRangeString,
+  getCostRangeTooltip,
+  getDateRange,
+} from 'routes/views/components/charts/common/chartDatum';
 import type { ChartSeries } from 'routes/views/components/charts/common/chartUtils';
 import {
   getChartNames,
@@ -134,7 +138,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(previousData, tooltipKey, false, false, 1),
+          tooltip: getCostRangeTooltip(previousData, tooltipKey, false, false, 1),
         },
         style: {
           data: {
@@ -152,7 +156,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(currentData, tooltipKey, false, false),
+          tooltip: getCostRangeTooltip(currentData, tooltipKey, false, false),
         },
         style: {
           data: {
@@ -180,7 +184,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
             fill: chartStyles.forecastDataColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(forecastData, messages.chartCostForecastLegendTooltip, false, false),
+          tooltip: getCostRangeTooltip(forecastData, messages.chartCostForecastLegendTooltip, false, false),
         },
         style: {
           data: {
@@ -205,7 +209,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
             fill: chartStyles.forecastConeDataColorScale[0],
             type: 'triangleLeft',
           },
-          tooltip: getCostRangeString(forecastConeData, messages.chartCostForecastConeLegendTooltip, false, false),
+          tooltip: getCostRangeTooltip(forecastConeData, messages.chartCostForecastConeLegendTooltip, false, false),
         },
         style: {
           data: {
@@ -232,7 +236,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
     let adjustedContainerHeight = containerHeight;
     if (adjustContainerHeight) {
       if (showForecast) {
-        const maxWidth = showSupplementaryLabel ? 900 : 700;
+        const maxWidth = showSupplementaryLabel ? 900 : 725;
         if (width < maxWidth) {
           adjustedContainerHeight += 25;
         }

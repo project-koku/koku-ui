@@ -2,7 +2,7 @@ import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import type { Forecast } from 'api/forecasts/forecast';
 import type { Report } from 'api/reports/report';
 import { intl } from 'components/i18n';
-import { endOfMonth, format, getDate, getYear, startOfMonth } from 'date-fns';
+import { endOfMonth, format, getDate, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 import type { ComputedForecastItem } from 'utils/computedForecast/getComputedForecastItems';
 import { getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
@@ -348,24 +348,6 @@ export function getDateRange(
   return [start, end];
 }
 
-// TODO: remove? this doesn't appear to be used anywhere
-export function getDateRangeString(
-  datums: ChartDatum[],
-  firstOfMonth: boolean = false,
-  lastOfMonth: boolean = false,
-  offset: number = 0
-) {
-  const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
-
-  const count = getDate(end);
-  const endDate = format(end, 'dd');
-  const month = Number(format(start, 'M')) - 1; // Required to obtain correct month message
-  const startDate = format(start, 'dd');
-  const year = getYear(end);
-
-  return intl.formatMessage(messages.chartDateRange, { count, startDate, endDate, month, year });
-}
-
 export function getMaxValue(datums: ChartDatum[]) {
   let max = 0;
   if (datums && datums.length) {
@@ -422,16 +404,33 @@ export function getCostRangeString(
   }
 
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
-
-  const month = Number(format(start, 'M')) - 1; // Required to obtain correct month message
-  const year = getYear(end);
-
+  const dateRange = intl.formatDateTimeRange(start, end, {
+    day: 'numeric',
+    month: 'short',
+  });
   return intl.formatMessage(key, {
-    count: getDate(end),
-    startDate: format(start, 'd'),
-    endDate: format(end, 'd'),
+    dateRange,
+  });
+}
+
+export function getCostRangeTooltip(
+  datums: ChartDatum[],
+  key: MessageDescriptor = messages.chartCostLegendLabel,
+  firstOfMonth: boolean = false,
+  lastOfMonth: boolean = false,
+  offset: number = 0,
+  noDataKey: MessageDescriptor = messages.chartNoData
+) {
+  if (!(datums && datums.length)) {
+    return intl.formatMessage(noDataKey);
+  }
+
+  const [start] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
+  const month = intl.formatDate(start, {
+    month: 'short',
+  });
+  return intl.formatMessage(key, {
     month,
-    year,
   });
 }
 
@@ -444,6 +443,17 @@ export function getUsageRangeString(
   noDataKey: MessageDescriptor = messages.chartNoData
 ) {
   return getCostRangeString(datums, key, firstOfMonth, lastOfMonth, offset, noDataKey);
+}
+
+export function getUsageRangeTooltip(
+  datums: ChartDatum[],
+  key: MessageDescriptor = messages.chartUsageLegendLabel,
+  firstOfMonth: boolean = false,
+  lastOfMonth: boolean = false,
+  offset: number = 0,
+  noDataKey: MessageDescriptor = messages.chartNoData
+) {
+  return getCostRangeTooltip(datums, key, firstOfMonth, lastOfMonth, offset, noDataKey);
 }
 
 // Returns true if non negative integer

@@ -19,7 +19,7 @@ import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import type { CostTypes } from 'utils/costType';
-import { getForDateRangeString } from 'utils/dates';
+import { getTotalCostDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 
 import { styles } from './breakdownHeader.styles';
@@ -163,10 +163,8 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps> {
               </Title>
             </div>
             <div style={styles.costLabelDate}>
-              {getForDateRangeString(
-                intl.formatMessage(messages.groupByValuesTitleCase, { value: groupByKey, count: 2 }),
-                messages.breakdownTotalCostDate,
-                0
+              {getTotalCostDateRangeString(
+                intl.formatMessage(messages.groupByValuesTitleCase, { value: groupByKey, count: 2 })
               )}
             </div>
           </div>
