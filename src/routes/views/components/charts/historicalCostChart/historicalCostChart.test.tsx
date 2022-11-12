@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import type { AwsReport, AwsReportData } from 'api/reports/awsReports';
 import { intl as defaultIntl } from 'components/i18n';
 import React from 'react';
 
@@ -18,9 +17,12 @@ const props: HistoricalCostChartProps = {
 };
 
 test('reports are formatted to datums', () => {
-  render(<HistoricalCostChart {...props} />);
-  const chart = screen.getByText(props.title).parentElement;
-  expect(chart).toMatchSnapshot();
+  const view = render(<HistoricalCostChart {...props} />);
+
+  expect(screen.getAllByText(/Cost.*/)).not.toBeNull();
+
+  // below is to capture all the graph points which are contained within an svg
+  expect(view.container).toMatchSnapshot();
 });
 
 test('null previous and current reports are handled', () => {
