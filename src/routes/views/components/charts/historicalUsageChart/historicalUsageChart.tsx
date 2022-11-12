@@ -308,7 +308,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
   private getLegend = () => {
     const { legendItemsPerRow, name = '' } = this.props;
     const { hiddenSeries, series, width } = this.state;
-    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 900 ? chartStyles.itemsPerRow : 2;
+    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 925 ? chartStyles.itemsPerRow : 2;
 
     return (
       <ChartLegend
@@ -359,7 +359,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
     const midDate = Math.floor(endDate / 2);
 
     const adjustedContainerHeight = adjustContainerHeight
-      ? width > 900
+      ? width > 925
         ? containerHeight - 50
         : containerHeight
       : containerHeight;

@@ -208,7 +208,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
     const { legendItemsPerRow, name = '' } = this.props;
     const { hiddenSeries, series, width } = this.state;
 
-    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 700 ? chartStyles.itemsPerRow : 2;
+    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 725 ? chartStyles.itemsPerRow : 2;
 
     return (
       <ChartLegend
@@ -259,7 +259,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
     const midDate = Math.floor(endDate / 2);
 
     const adjustedContainerHeight = adjustContainerHeight
-      ? width > 700
+      ? width > 725
         ? containerHeight - 25
         : containerHeight
       : containerHeight;
