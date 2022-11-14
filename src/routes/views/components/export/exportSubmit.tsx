@@ -18,6 +18,7 @@ import { exportActions, exportSelectors } from 'store/export';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getToday } from 'utils/dates';
+import { getCurrency } from 'utils/localStorage';
 
 export interface ExportSubmitOwnProps {
   disabled?: boolean;
@@ -149,6 +150,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
 
 const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
   const { groupBy, isAllItems, items, query, reportPathsType, resolution, timeScope } = props;
+  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
   let { end_date, start_date } = getDateRange(query.dateRange);
 
   if (!query.dateRange) {
@@ -179,6 +181,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
       delta: undefined,
       start_date,
       end_date,
+      currency,
     };
 
     // Store filter_by as an array so we can add to it below
