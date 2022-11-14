@@ -1141,10 +1141,10 @@
     mkdirp "^1.0.4"
     react-content-loader "^6.2.0"
 
-"@redhat-cloud-services/frontend-components@^3.9.24":
-  version "3.9.24"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.24.tgz#5b194507f2cb9bef1c9b83e2365a5497f16fa06a"
-  integrity sha512-Lh7x0l7vzrjknO5N9NDw1XziJpCTCVwDvTzchF/FuMndev5w7EnPctdXm+Xk7ylBcQ13vkBITMSKW9StwgQdWA==
+"@redhat-cloud-services/frontend-components@^3.9.25":
+  version "3.9.25"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.25.tgz#3085a154c3b1487e15d2b1ae717b3f4e42cf8222"
+  integrity sha512-ynppJJrMtkgzt5/uUF9rR51HeE5WkC5kCkNzIBqAFHHMsGueGazc9y5g1nzPkl7jgBajsTg7tePCLCvKP/HEnw==
   dependencies:
     "@redhat-cloud-services/frontend-components-utilities" "^3.2.25"
     "@redhat-cloud-services/types" "^0.0.15"
@@ -1158,11 +1158,6 @@
   integrity sha512-4ueL+Mb+AuETg6rd48itpA2BovqklCFSbL2vUCpnQ7vj+zH2K/9c9akWRBp/ezVPRTWeMA2bff4kdGXeA/QyJA==
   dependencies:
     axios "^0.21.1"
-
-"@redhat-cloud-services/types@^0.0.13":
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/types/-/types-0.0.13.tgz#bd496eaf818082746bc4f2ac0d064113d6d701e1"
-  integrity sha512-ZCiTu4ViM1g4KSgkQq/f1bBxU3nllQwwDRMuAXvBK6JQrmmueI52e29nqTHbM6Ovn+/YSASjgnELNkUGfBr4PA==
 
 "@redhat-cloud-services/types@^0.0.15":
   version "0.0.15"
