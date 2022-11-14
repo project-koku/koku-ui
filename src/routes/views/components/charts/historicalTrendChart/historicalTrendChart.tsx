@@ -16,7 +16,11 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { default as ChartTheme } from 'routes/views/components/charts/chartTheme';
-import { getCostRangeString, getDateRange } from 'routes/views/components/charts/common/chartDatum';
+import {
+  getCostRangeString,
+  getCostRangeTooltip,
+  getDateRange,
+} from 'routes/views/components/charts/common/chartDatum';
 import type { ChartSeries } from 'routes/views/components/charts/common/chartUtils';
 import {
   getChartNames,
@@ -103,7 +107,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(previousData, toolTipKey, false, false, 1),
+          tooltip: getCostRangeTooltip(previousData, toolTipKey, false, false, 1),
         },
         style: {
           data: {
@@ -121,7 +125,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
             fill: chartStyles.currentColorScale[1],
             type: 'minus',
           },
-          tooltip: getCostRangeString(currentData, toolTipKey, false, false),
+          tooltip: getCostRangeTooltip(currentData, toolTipKey, false, false),
         },
         style: {
           data: {

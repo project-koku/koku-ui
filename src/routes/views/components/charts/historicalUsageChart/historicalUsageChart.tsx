@@ -16,7 +16,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { default as ChartTheme } from 'routes/views/components/charts/chartTheme';
-import { getDateRange } from 'routes/views/components/charts/common/chartDatum';
+import { getDateRange, getUsageRangeTooltip } from 'routes/views/components/charts/common/chartDatum';
 import { getUsageRangeString } from 'routes/views/components/charts/common/chartDatum';
 import type { ChartSeries } from 'routes/views/components/charts/common/chartUtils';
 import {
@@ -125,7 +125,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
           },
-          tooltip: getUsageRangeString(previousUsageData, usageTooltipKey, false, false, 1),
+          tooltip: getUsageRangeTooltip(previousUsageData, usageTooltipKey, false, false, 1),
         },
         style: {
           data: {
@@ -143,7 +143,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
           },
-          tooltip: getUsageRangeString(currentUsageData, usageTooltipKey, false, false),
+          tooltip: getUsageRangeTooltip(currentUsageData, usageTooltipKey, false, false),
         },
         style: {
           data: {
@@ -168,7 +168,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
             fill: chartStyles.previousColorScale[1],
             type: 'dash',
           },
-          tooltip: getUsageRangeString(previousRequestData, requestTooltipKey, false, false, 1),
+          tooltip: getUsageRangeTooltip(previousRequestData, requestTooltipKey, false, false, 1),
         },
         style: {
           data: {
@@ -193,7 +193,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
             fill: chartStyles.currentColorScale[1],
             type: 'dash',
           },
-          tooltip: getUsageRangeString(currentRequestData, requestTooltipKey, false, false),
+          tooltip: getUsageRangeTooltip(currentRequestData, requestTooltipKey, false, false),
         },
         style: {
           data: {
@@ -211,7 +211,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
             fill: chartStyles.previousColorScale[2],
             type: 'minus',
           },
-          tooltip: getUsageRangeString(previousLimitData, limitTooltipKey, false, false, 1),
+          tooltip: getUsageRangeTooltip(previousLimitData, limitTooltipKey, false, false, 1),
         },
         style: {
           data: {
@@ -229,7 +229,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
             fill: chartStyles.currentColorScale[2],
             type: 'minus',
           },
-          tooltip: getUsageRangeString(currentLimitData, limitTooltipKey, false, false),
+          tooltip: getUsageRangeTooltip(currentLimitData, limitTooltipKey, false, false),
         },
         style: {
           data: {
@@ -308,7 +308,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
   private getLegend = () => {
     const { legendItemsPerRow, name = '' } = this.props;
     const { hiddenSeries, series, width } = this.state;
-    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 900 ? chartStyles.itemsPerRow : 2;
+    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 925 ? chartStyles.itemsPerRow : 2;
 
     return (
       <ChartLegend
@@ -359,7 +359,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
     const midDate = Math.floor(endDate / 2);
 
     const adjustedContainerHeight = adjustContainerHeight
-      ? width > 900
+      ? width > 925
         ? containerHeight - 50
         : containerHeight
       : containerHeight;

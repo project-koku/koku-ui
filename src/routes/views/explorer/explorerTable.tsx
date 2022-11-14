@@ -16,7 +16,7 @@ import {
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
-import { format, getDate, getMonth } from 'date-fns';
+import { format } from 'date-fns';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -170,10 +170,11 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 
       // Add column headings
       const mapIdDate = new Date(mapId + 'T00:00:00');
-      const date = getDate(mapIdDate);
-      const month = getMonth(mapIdDate);
       columns.push({
-        name: intl.formatMessage(messages.explorerChartDate, { date, month }),
+        name: intl.formatDate(mapIdDate, {
+          day: 'numeric',
+          month: 'short',
+        }),
         ...(isSortable && {
           date: mapId,
           orderBy: 'cost',

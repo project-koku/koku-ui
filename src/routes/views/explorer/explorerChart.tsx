@@ -3,7 +3,7 @@ import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import type { AxiosError } from 'axios';
-import { format, getDate, getMonth } from 'date-fns';
+import { format } from 'date-fns';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -95,9 +95,9 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
     const { intl } = this.props;
 
     const computedItemDate = new Date(computedItem.date + 'T00:00:00');
-    const xVal = intl.formatMessage(messages.explorerChartDate, {
-      date: getDate(computedItemDate),
-      month: getMonth(computedItemDate),
+    const xVal = intl.formatDate(computedItemDate, {
+      day: 'numeric',
+      month: 'short',
     });
     const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
     return {
