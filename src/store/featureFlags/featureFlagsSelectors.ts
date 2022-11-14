@@ -8,11 +8,17 @@ export const selectHasFeatureFlags = (state: RootState) => selectFeatureFlagsSta
 
 export const selectIsCurrencyFeatureEnabled = (state: RootState) =>
   selectFeatureFlagsState(state)?.isCurrencyFeatureEnabled;
-export const selectIsDistributionFeatureEnabled = (state: RootState) =>
-  selectFeatureFlagsState(state)?.isDistributionFeatureEnabled;
-export const selectIsExcludesFeatureEnabled = (state: RootState) =>
-  selectFeatureFlagsState(state).isExcludesFeatureEnabled;
+export const selectIsCostDistributionFeatureEnabled = (state: RootState) =>
+  selectFeatureFlagsState(state)?.isCostDistributionFeatureEnabled;
+export const selectIsCostTypeFeatureEnabled = (state: RootState) =>
+  selectFeatureFlagsState(state).isCostTypeFeatureEnabled;
+export const selectIsDefaultProjectsFeatureEnabled = (state: RootState) =>
+  selectFeatureFlagsState(state).isDefaultProjectsFeatureEnabled;
 export const selectIsExportsFeatureEnabled = (state: RootState) =>
   selectFeatureFlagsState(state).isExportsFeatureEnabled;
 export const selectIsIbmFeatureEnabled = (state: RootState) => selectFeatureFlagsState(state).isIbmFeatureEnabled;
+export const selectIsNegativeFilteringFeatureEnabled = (state: RootState) =>
+  selectFeatureFlagsState(state).isNegativeFilteringFeatureEnabled;
 export const selectIsOciFeatureEnabled = (state: RootState) => selectFeatureFlagsState(state).isOciFeatureEnabled;
+export const selectIsUnallocatedCostsFeatureEnabled = (state: RootState) =>
+  selectFeatureFlagsState(state).isUnallocatedCostsFeatureEnabled;

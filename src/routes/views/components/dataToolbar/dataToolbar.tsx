@@ -100,7 +100,7 @@ interface DataToolbarState {
 }
 
 interface DataToolbarStateProps {
-  isExcludesFeatureEnabled?: boolean;
+  isNegativeFilteringFeatureEnabled?: boolean;
 }
 
 interface GroupByOrgOption extends SelectOptionObject {
@@ -1020,7 +1020,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     const {
       categoryOptions,
       dateRange,
-      isExcludesFeatureEnabled,
+      isNegativeFilteringFeatureEnabled,
       pagination,
       showBulkSelect,
       showColumnManagement,
@@ -1040,7 +1040,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
                 <ToolbarGroup variant="filter-group">
                   {this.getCategorySelect()}
-                  {isExcludesFeatureEnabled && this.getExcludeSelect()}
+                  {isNegativeFilteringFeatureEnabled && this.getExcludeSelect()}
                   {this.getTagKeySelect()}
                   {this.getTagKeyOptions().map(option => this.getTagValueSelect(option))}
                   {this.getOrgUnitSelect()}
@@ -1071,7 +1071,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
 const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>(state => {
   return {
-    isExcludesFeatureEnabled: featureFlagsSelectors.selectIsExcludesFeatureEnabled(state),
+    isNegativeFilteringFeatureEnabled: featureFlagsSelectors.selectIsNegativeFilteringFeatureEnabled(state),
   };
 });
 

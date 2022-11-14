@@ -13,12 +13,15 @@ type FeatureFlagsProps = FeatureFlagsOwnProps & RouteComponentProps<void>;
 
 // eslint-disable-next-line no-shadow
 export const enum FeatureToggle {
+  costDistribution = 'cost-management.ui.cost-distribution', // Cost distribution https://issues.redhat.com/browse/COST-3249
+  costType = 'cost-management.ui.cost-type', // https://issues.redhat.com/browse/COST-3122
   currency = 'cost-management.ui.currency', // Currency support https://issues.redhat.com/browse/COST-1277
-  distribution = 'cost-management.ui.cost-distribution', // Cost distribution https://issues.redhat.com/browse/COST-3249
-  excludes = 'cost-management.ui.negative-filtering', // Contains filter https://issues.redhat.com/browse/COST-2773
+  defaultProjects = 'cost-management.ui.default-projects', // https://issues.redhat.com/browse/COST-2774
   exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
   ibm = 'cost-management.ui.ibm', // IBM https://issues.redhat.com/browse/COST-935
+  negativeFiltering = 'cost-management.ui.negative-filtering', // Contains filter https://issues.redhat.com/browse/COST-2773
   oci = 'cost-management.ui.oci', // Oracle Cloud Infrastructure https://issues.redhat.com/browse/COST-2358
+  unallocatedCosts = 'cost-management.ui.unallocated-costs', // https://issues.redhat.com/browse/COST-3248
 }
 
 let userId;
@@ -59,11 +62,14 @@ const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
         dispatch(
           featureFlagsActions.setFeatureFlags({
             isCurrencyFeatureEnabled: client.isEnabled(FeatureToggle.currency),
-            isDistributionFeatureEnabled: client.isEnabled(FeatureToggle.distribution),
-            isExcludesFeatureEnabled: client.isEnabled(FeatureToggle.excludes),
+            isCostDistributionFeatureEnabled: client.isEnabled(FeatureToggle.costDistribution),
+            isCostTypeFeatureEnabled: client.isEnabled(FeatureToggle.costType),
+            isDefaultProjectsFeatureEnabled: client.isEnabled(FeatureToggle.defaultProjects),
             isExportsFeatureEnabled: client.isEnabled(FeatureToggle.exports),
+            isNegativeFilteringFeatureEnabled: client.isEnabled(FeatureToggle.negativeFiltering),
             isIbmFeatureEnabled: client.isEnabled(FeatureToggle.ibm),
             isOciFeatureEnabled: client.isEnabled(FeatureToggle.oci),
+            isUnallocatedCostsFeatureEnabled: client.isEnabled(FeatureToggle.unallocatedCosts),
           })
         );
       });

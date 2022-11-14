@@ -3,11 +3,14 @@
 exports[`default state 1`] = `
 {
   "hasFeatureFlags": false,
+  "isCostDistributionFeatureEnabled": false,
+  "isCostTypeFeatureEnabled": false,
   "isCurrencyFeatureEnabled": false,
-  "isDistributionFeatureEnabled": false,
-  "isExcludesFeatureEnabled": false,
+  "isDefaultProjectsFeatureEnabled": false,
   "isExportsFeatureEnabled": false,
   "isIbmFeatureEnabled": false,
+  "isNegativeFilteringFeatureEnabled": false,
   "isOciFeatureEnabled": false,
+  "isUnallocatedCostsFeatureEnabled": false,
 }
 `;
