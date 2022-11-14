@@ -177,7 +177,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
         legendItem: {
           name: getCostRangeString(
             forecastData,
-            messages.chartCostForecastLegendTooltip,
+            messages.chartCostForecastLegendLabel,
             false,
             false,
             0,
@@ -187,7 +187,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
             fill: chartStyles.forecastDataColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeTooltip(forecastData, messages.chartCostForecastConeLegendTooltip, false, false),
+          tooltip: getCostRangeTooltip(forecastData, messages.chartCostForecastLegendTooltip, false, false),
         },
         isBar: true,
         isForecast: true,

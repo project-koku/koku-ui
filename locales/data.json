@@ -730,7 +730,7 @@
       },
       {
         "type": 1,
-        "value": "dateRange"
+        "value": "month"
       },
       {
         "type": 0,
@@ -979,6 +979,18 @@
       {
         "type": 0,
         "value": "DE Cost calculations"
+      }
+    ],
+    "costCalculationsOptional": [
+      {
+        "type": 0,
+        "value": "DE Cost calculations (optional)"
+      }
+    ],
+    "costDistribution": [
+      {
+        "type": 0,
+        "value": "DE Cost distribution"
       }
     ],
     "costManagement": [
@@ -3071,6 +3083,97 @@
         "value": "DE Discount (-)"
       }
     ],
+    "distribute": [
+      {
+        "type": 0,
+        "value": "DE Distribute"
+      }
+    ],
+    "distributeCosts": [
+      {
+        "options": {
+          "false": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE Do not distribute "
+              },
+              {
+                "options": {
+                  "other": {
+                    "value": []
+                  },
+                  "platform": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "platform"
+                      }
+                    ]
+                  },
+                  "workers": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "workers"
+                      }
+                    ]
+                  }
+                },
+                "type": 5,
+                "value": "type"
+              },
+              {
+                "type": 0,
+                "value": " costs"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "true": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DE Distribute "
+              },
+              {
+                "options": {
+                  "other": {
+                    "value": []
+                  },
+                  "platform": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "platform"
+                      }
+                    ]
+                  },
+                  "workers": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "workers"
+                      }
+                    ]
+                  }
+                },
+                "type": 5,
+                "value": "type"
+              },
+              {
+                "type": 0,
+                "value": " costs"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
     "distributionModelDesc": [
       {
         "type": 0,
@@ -3081,6 +3184,26 @@
       {
         "type": 0,
         "value": "DE Distribution type"
+      }
+    ],
+    "distributionTypeDescription": [
+      {
+        "type": 0,
+        "value": "DE Distribute costs based on "
+      },
+      {
+        "type": 1,
+        "value": "type"
+      },
+      {
+        "type": 0,
+        "value": " usage"
+      }
+    ],
+    "doNotDistribute": [
+      {
+        "type": 0,
+        "value": "DE Do not distribute"
       }
     ],
     "docsAddOcpSources": [
@@ -3099,6 +3222,18 @@
       {
         "type": 0,
         "value": "DE https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index#cost-model-terminology"
+      }
+    ],
+    "docsCostModelsDistribution": [
+      {
+        "type": 0,
+        "value": "DE https://access.redhat.com/documentation/en-us/cost_management_service/2022/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
+      }
+    ],
+    "docsCostModelsMarkup": [
+      {
+        "type": 0,
+        "value": "DE https://access.redhat.com/documentation/en-us/cost_management_service/2022/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
       }
     ],
     "docsUsingCostModels": [
@@ -3331,161 +3466,6 @@
         },
         "type": 5,
         "value": "value"
-      }
-    ],
-    "explorerDateColumn": [
-      {
-        "options": {
-          "0": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Jan "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "1": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Feb "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "2": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Mar "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "3": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Apr "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "4": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE May "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "5": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Jun "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "6": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Jul "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "7": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Aug "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "8": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Sep "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "9": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Oct "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "10": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Nov "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "11": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DE Dec "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          }
-        },
-        "type": 5,
-        "value": "month"
       }
     ],
     "explorerDateRange": [
@@ -9363,541 +9343,12 @@
     ],
     "noDataForDate": [
       {
-        "options": {
-          "0": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Jan "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Jan "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "1": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Feb "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Feb "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "2": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Mar "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Mar "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "3": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Apr "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Apr "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "4": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for May "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for May "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "5": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Jun "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Jun "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "6": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Jul "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Jul "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "7": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Aug "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Aug "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "8": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Sep "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Sep "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "9": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Oct "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Oct "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "10": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Nov "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Nov "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "11": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Dec "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "DE No data available for Dec "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          }
-        },
-        "type": 5,
-        "value": "month"
+        "type": 0,
+        "value": "DE No data available for "
+      },
+      {
+        "type": 1,
+        "value": "dateRange"
       }
     ],
     "noDataStateDesc": [
@@ -10665,6 +10116,18 @@
         "value": "value"
       }
     ],
+    "platformUnallocatedCapacity": [
+      {
+        "type": 0,
+        "value": "DE Platform unallocated capacity"
+      }
+    ],
+    "platformUnallocatedCapacityDescription": [
+      {
+        "type": 0,
+        "value": "DE Distribute the cost of running the OpenShift services to projects"
+      }
+    ],
     "priceList": [
       {
         "type": 0,
@@ -11283,6 +10746,18 @@
       {
         "type": 0,
         "value": "DE Volume"
+      }
+    ],
+    "workersUnallocatedCapacity": [
+      {
+        "type": 0,
+        "value": "DE Workers unallocated capacity"
+      }
+    ],
+    "workersUnallocatedCapacityDescription": [
+      {
+        "type": 0,
+        "value": "DE Distribute unused and non-reserved resource costs to projects"
       }
     ],
     "yes": [
@@ -22791,7 +22266,7 @@
       },
       {
         "type": 1,
-        "value": "dateRange"
+        "value": "month"
       },
       {
         "type": 0,
@@ -23040,6 +22515,18 @@
       {
         "type": 0,
         "value": "FR Cost calculations"
+      }
+    ],
+    "costCalculationsOptional": [
+      {
+        "type": 0,
+        "value": "FR Cost calculations (optional)"
+      }
+    ],
+    "costDistribution": [
+      {
+        "type": 0,
+        "value": "FR Cost distribution"
       }
     ],
     "costManagement": [
@@ -25132,6 +24619,97 @@
         "value": "FR Discount (-)"
       }
     ],
+    "distribute": [
+      {
+        "type": 0,
+        "value": "FR Distribute"
+      }
+    ],
+    "distributeCosts": [
+      {
+        "options": {
+          "false": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR Do not distribute "
+              },
+              {
+                "options": {
+                  "other": {
+                    "value": []
+                  },
+                  "platform": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "platform"
+                      }
+                    ]
+                  },
+                  "workers": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "workers"
+                      }
+                    ]
+                  }
+                },
+                "type": 5,
+                "value": "type"
+              },
+              {
+                "type": 0,
+                "value": " costs"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "true": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FR Distribute "
+              },
+              {
+                "options": {
+                  "other": {
+                    "value": []
+                  },
+                  "platform": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "platform"
+                      }
+                    ]
+                  },
+                  "workers": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "workers"
+                      }
+                    ]
+                  }
+                },
+                "type": 5,
+                "value": "type"
+              },
+              {
+                "type": 0,
+                "value": " costs"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
     "distributionModelDesc": [
       {
         "type": 0,
@@ -25142,6 +24720,26 @@
       {
         "type": 0,
         "value": "FR Distribution type"
+      }
+    ],
+    "distributionTypeDescription": [
+      {
+        "type": 0,
+        "value": "FR Distribute costs based on "
+      },
+      {
+        "type": 1,
+        "value": "type"
+      },
+      {
+        "type": 0,
+        "value": " usage"
+      }
+    ],
+    "doNotDistribute": [
+      {
+        "type": 0,
+        "value": "FR Do not distribute"
       }
     ],
     "docsAddOcpSources": [
@@ -25160,6 +24758,18 @@
       {
         "type": 0,
         "value": "FR https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index#cost-model-terminology"
+      }
+    ],
+    "docsCostModelsDistribution": [
+      {
+        "type": 0,
+        "value": "FR https://access.redhat.com/documentation/en-us/cost_management_service/2022/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
+      }
+    ],
+    "docsCostModelsMarkup": [
+      {
+        "type": 0,
+        "value": "FR https://access.redhat.com/documentation/en-us/cost_management_service/2022/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
       }
     ],
     "docsUsingCostModels": [
@@ -25392,161 +25002,6 @@
         },
         "type": 5,
         "value": "value"
-      }
-    ],
-    "explorerDateColumn": [
-      {
-        "options": {
-          "0": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Jan "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "1": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Feb "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "2": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Mar "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "3": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Apr "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "4": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR May "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "5": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Jun "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "6": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Jul "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "7": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Aug "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "8": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Sep "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "9": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Oct "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "10": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Nov "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "11": {
-            "value": [
-              {
-                "type": 0,
-                "value": "FR Dec "
-              },
-              {
-                "type": 1,
-                "value": "date"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          }
-        },
-        "type": 5,
-        "value": "month"
       }
     ],
     "explorerDateRange": [
@@ -31424,541 +30879,12 @@
     ],
     "noDataForDate": [
       {
-        "options": {
-          "0": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Jan "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Jan "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "1": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Feb "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Feb "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "2": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Mar "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Mar "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "3": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Apr "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Apr "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "4": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for May "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for May "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "5": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Jun "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Jun "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "6": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Jul "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Jul "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "7": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Aug "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Aug "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "8": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Sep "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Sep "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "9": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Oct "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Oct "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "10": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Nov "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Nov "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "11": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Dec "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "FR No data available for Dec "
-                      },
-                      {
-                        "type": 1,
-                        "value": "startDate"
-                      },
-                      {
-                        "type": 0,
-                        "value": "-"
-                      },
-                      {
-                        "type": 1,
-                        "value": "endDate"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          }
-        },
-        "type": 5,
-        "value": "month"
+        "type": 0,
+        "value": "FR No data available for "
+      },
+      {
+        "type": 1,
+        "value": "dateRange"
       }
     ],
     "noDataStateDesc": [
@@ -32726,6 +31652,18 @@
         "value": "value"
       }
     ],
+    "platformUnallocatedCapacity": [
+      {
+        "type": 0,
+        "value": "FR Platform unallocated capacity"
+      }
+    ],
+    "platformUnallocatedCapacityDescription": [
+      {
+        "type": 0,
+        "value": "FR Distribute the cost of running the OpenShift services to projects"
+      }
+    ],
     "priceList": [
       {
         "type": 0,
@@ -33344,6 +32282,18 @@
       {
         "type": 0,
         "value": "FR Volume"
+      }
+    ],
+    "workersUnallocatedCapacity": [
+      {
+        "type": 0,
+        "value": "FR Workers unallocated capacity"
+      }
+    ],
+    "workersUnallocatedCapacityDescription": [
+      {
+        "type": 0,
+        "value": "FR Distribute unused and non-reserved resource costs to projects"
       }
     ],
     "yes": [
