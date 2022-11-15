@@ -22,6 +22,12 @@ export function getIdKeyForGroupBy(groupBy: Query['group_by'] = {}): ComputedExp
   if (groupBy.org_unit_id) {
     return 'org_unit_id';
   }
+  if (groupBy.payer_tenant_id) {
+    return 'payer_tenant_id';
+  }
+  if (groupBy.product_service) {
+    return 'product_service';
+  }
   if (groupBy.project) {
     return 'project';
   }
