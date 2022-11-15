@@ -8,22 +8,28 @@ export type FeatureFlagsAction = ActionType<typeof setFeatureFlags | typeof rese
 
 export type FeatureFlagsState = Readonly<{
   hasFeatureFlags: boolean;
+  isCostDistributionFeatureEnabled: boolean;
+  isCostTypeFeatureEnabled: boolean;
   isCurrencyFeatureEnabled: boolean;
-  isDistributionFeatureEnabled: boolean;
-  isExcludesFeatureEnabled: boolean;
+  isDefaultProjectsFeatureEnabled: boolean;
   isExportsFeatureEnabled: boolean;
   isIbmFeatureEnabled: boolean;
+  isNegativeFilteringFeatureEnabled: boolean;
   isOciFeatureEnabled: boolean;
+  isUnallocatedCostsFeatureEnabled: boolean;
 }>;
 
 export const defaultState: FeatureFlagsState = {
   hasFeatureFlags: false,
+  isCostDistributionFeatureEnabled: false,
+  isCostTypeFeatureEnabled: false,
   isCurrencyFeatureEnabled: false,
-  isDistributionFeatureEnabled: false,
-  isExcludesFeatureEnabled: false,
+  isDefaultProjectsFeatureEnabled: false,
   isExportsFeatureEnabled: false,
   isIbmFeatureEnabled: false,
+  isNegativeFilteringFeatureEnabled: false,
   isOciFeatureEnabled: false,
+  isUnallocatedCostsFeatureEnabled: false,
 };
 
 export const stateKey = 'featureFlags';
@@ -34,12 +40,15 @@ export function featureFlagsReducer(state = defaultState, action: FeatureFlagsAc
       return {
         ...state,
         hasFeatureFlags: true,
+        isCostDistributionFeatureEnabled: action.payload.isCostDistributionFeatureEnabled,
+        isCostTypeFeatureEnabled: action.payload.isCostTypeFeatureEnabled,
         isCurrencyFeatureEnabled: action.payload.isCurrencyFeatureEnabled,
-        isDistributionFeatureEnabled: action.payload.isDistributionFeatureEnabled,
-        isExcludesFeatureEnabled: action.payload.isExcludesFeatureEnabled,
+        isDefaultProjectsFeatureEnabled: action.payload.isDefaultProjectsFeatureEnabled,
         isExportsFeatureEnabled: action.payload.isExportsFeatureEnabled,
         isIbmFeatureEnabled: action.payload.isIbmFeatureEnabled,
+        isNegativeFilteringFeatureEnabled: action.payload.isNegativeFilteringFeatureEnabled,
         isOciFeatureEnabled: action.payload.isOciFeatureEnabled,
+        isUnallocatedCostsFeatureEnabled: action.payload.isUnallocatedCostsFeatureEnabled,
       };
 
     default:
