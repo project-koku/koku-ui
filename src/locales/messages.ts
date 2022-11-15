@@ -1395,6 +1395,7 @@ export default defineMessages({
       'last_ninety_days {Last 90 days} ' +
       'last_sixty_days {Last 60 days} ' +
       'last_thirty_days {Last 30 days} ' +
+      'previous_month {Previous month} ' +
       'previous_month_to_date {Previous month and month to date} ' +
       'other {}}',
     description: 'Date range based on {value}',
