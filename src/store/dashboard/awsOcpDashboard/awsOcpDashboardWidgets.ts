@@ -62,6 +62,7 @@ export const costSummaryWidget: AwsOcpDashboardWidget = {
     costKey: messages.cost,
     showHorizontal: true,
   },
+  savingsPlan: true,
   tabsFilter: {
     limit: 3,
   },
@@ -90,6 +91,7 @@ export const databaseWidget: AwsOcpDashboardWidget = {
   filter: {
     service: awsDashboardWidgets.databaseWidget.filter.service,
   },
+  savingsPlan: true,
   tabsFilter: {
     service: awsDashboardWidgets.databaseWidget.tabsFilter.service,
   },
@@ -116,6 +118,7 @@ export const networkWidget: AwsOcpDashboardWidget = {
   filter: {
     service: awsDashboardWidgets.networkWidget.filter.service,
   },
+  savingsPlan: true,
   tabsFilter: {
     service: awsDashboardWidgets.networkWidget.tabsFilter.service,
   },

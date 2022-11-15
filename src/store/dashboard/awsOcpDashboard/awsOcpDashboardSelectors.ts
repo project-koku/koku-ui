@@ -1,5 +1,6 @@
 import { featureFlagsSelectors } from 'store/featureFlags';
 import type { RootState } from 'store/rootReducer';
+import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/localStorage';
 
 import {
@@ -31,18 +32,21 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
   };
   const props = {
     ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
+    ...(featureFlagsSelectors.selectIsCostTypeFeatureEnabled(state) &&
+      widget.savingsPlan && { cost_type: getCostType() }),
   };
 
   return {
     previous: getQueryForWidget(
+      widget,
       {
         ...filter,
         time_scope_value: -2,
       },
       props
     ),
-    current: getQueryForWidget(filter, props),
-    forecast: getQueryForWidget({}, { limit: 31, ...props }),
+    current: getQueryForWidget(widget, filter, props),
+    forecast: getQueryForWidget(widget, {}, { limit: 31, ...props }),
     tabs: getQueryForWidgetTabs(
       widget,
       {

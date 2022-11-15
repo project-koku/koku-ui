@@ -1,7 +1,6 @@
 import type { AwsFilters, AwsQuery } from 'api/queries/awsQuery';
 import { getQuery } from 'api/queries/awsQuery';
 import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
-import { getCostType } from 'utils/costType';
 
 export const awsDashboardStateKey = 'awsDashboard';
 export const awsDashboardDefaultFilters: AwsFilters = {
@@ -44,7 +43,6 @@ export function getGroupByForTab(widget: AwsDashboardWidget): AwsQuery['group_by
 export function getQueryForWidget(widget: AwsDashboardWidget, filter: AwsFilters = awsDashboardDefaultFilters, props?) {
   const query: AwsQuery = {
     filter,
-    ...(widget.savingsPlan && { cost_type: getCostType() }),
     ...(props ? props : {}),
   };
   return getQuery(query);
@@ -65,7 +63,6 @@ export function getQueryForWidgetTabs(
     newFilter.service = undefined;
   }
   const query: AwsQuery = {
-    ...(widget.savingsPlan && { cost_type: getCostType() }),
     filter: newFilter,
     group_by,
     ...(props ? props : {}),

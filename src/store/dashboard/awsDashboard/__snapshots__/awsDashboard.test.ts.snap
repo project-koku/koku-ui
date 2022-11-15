@@ -15,7 +15,7 @@ exports[`fetch widget reports 1`] = `
   [
     "aws",
     "cost",
-    "cost_type=unblended_cost&filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=monthly&filter[limit]=3&group_by[service]=*",
+    "filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=monthly&filter[limit]=3&group_by[service]=*&cost_type=unblended_cost",
   ],
 ]
 `;

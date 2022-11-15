@@ -122,6 +122,7 @@ interface OverviewStateProps {
   currency?: string;
   gcpProviders?: Providers;
   ibmProviders?: Providers;
+  isCostTypeFeatureEnabled?: boolean;
   isCurrencyFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
   isOciFeatureEnabled?: boolean;
@@ -208,13 +209,16 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getCostType = () => {
-    const { costType } = this.props;
+    const { costType, isCostTypeFeatureEnabled } = this.props;
     const { currentInfrastructurePerspective, currentOcpPerspective } = this.state;
 
     const currentItem =
       this.getCurrentTab() === OverviewTab.infrastructure ? currentInfrastructurePerspective : currentOcpPerspective;
 
-    if (currentItem === InfrastructurePerspective.aws) {
+    if (
+      currentItem === InfrastructurePerspective.aws ||
+      (currentItem === InfrastructurePerspective.awsOcp && isCostTypeFeatureEnabled)
+    ) {
       return (
         <div style={styles.costType}>
           <CostType costType={costType} onSelect={this.handleCostTypeSelected} />
@@ -686,11 +690,18 @@ class OverviewBase extends React.Component<OverviewProps> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStateProps>((state, props) => {
   const queryFromRoute = parseQuery<OverviewQuery>(location.search);
-  const costType = getCostType();
+  const tabKey = queryFromRoute.tabKey && !Number.isNaN(queryFromRoute.tabKey) ? Number(queryFromRoute.tabKey) : 0;
+  const perspective = queryFromRoute.perspective;
+
   const isCurrencyFeatureEnabled = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state);
   const currency = isCurrencyFeatureEnabled ? getCurrency() : undefined;
-  const perspective = queryFromRoute.perspective;
-  const tabKey = queryFromRoute.tabKey && !Number.isNaN(queryFromRoute.tabKey) ? Number(queryFromRoute.tabKey) : 0;
+
+  const isCostTypeFeatureEnabled = featureFlagsSelectors.selectIsCostTypeFeatureEnabled(state);
+  const costType =
+    perspective === InfrastructurePerspective.aws ||
+    (perspective === InfrastructurePerspective.awsOcp && isCostTypeFeatureEnabled)
+      ? getCostType()
+      : undefined;
 
   const query = {
     tabKey,
@@ -698,7 +709,7 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
   };
   const queryString = getQuery({
     ...query,
-    ...(perspective === InfrastructurePerspective.aws && { cost_type: costType }),
+    cost_type: costType,
     currency,
   });
 
@@ -725,6 +736,7 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     azureProviders: filterProviders(providers, ProviderType.azure),
     gcpProviders: filterProviders(providers, ProviderType.gcp),
     ibmProviders: filterProviders(providers, ProviderType.ibm),
+    isCostTypeFeatureEnabled,
     isCurrencyFeatureEnabled,
     isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
     isOciFeatureEnabled: featureFlagsSelectors.selectIsOciFeatureEnabled(state),

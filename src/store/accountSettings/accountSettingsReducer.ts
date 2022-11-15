@@ -96,8 +96,6 @@ function initCurrency(value: string) {
   }
 
   if (!isCurrencyAvailable()) {
-    // eslint-disable-next-line no-console
-    console.log('setCurrency', value);
     setCurrency(value);
   }
   setAccountCurrency(value);

@@ -10,6 +10,8 @@ import { reportSelectors } from 'store/reports';
 import type { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { getCurrency } from 'utils/localStorage';
 
+import { getCostType } from '../../../../utils/costType';
+
 interface AwsOcpDashboardWidgetDispatchProps {
   fetchForecasts: typeof awsOcpDashboardActions.fetchWidgetForecasts;
   fetchReports: typeof awsOcpDashboardActions.fetchWidgetReports;
@@ -34,6 +36,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
     return {
       ...widget,
       ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
+      ...(featureFlagsSelectors.selectIsCostTypeFeatureEnabled(state) && { costType: getCostType() }),
       getIdKeyForTab,
       currentQuery: queries.current,
       forecastQuery: queries.forecast,

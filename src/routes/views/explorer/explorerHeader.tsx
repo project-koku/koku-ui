@@ -73,6 +73,7 @@ interface ExplorerHeaderStateProps {
   azureProviders?: Providers;
   gcpProviders?: Providers;
   ibmProviders?: Providers;
+  isCostTypeFeatureEnabled?: boolean;
   isCurrencyFeatureEnabled?: boolean;
   isExportsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
@@ -244,6 +245,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       currency,
       groupBy,
       intl,
+      isCostTypeFeatureEnabled,
       isCurrencyFeatureEnabled,
       isExportsFeatureEnabled,
       onCostTypeSelected,
@@ -296,7 +298,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
               tagReportPathsType={tagReportPathsType}
             />
           </div>
-          {perspective === PerspectiveType.aws && (
+          {(perspective === PerspectiveType.aws ||
+            (perspective === PerspectiveType.awsOcp && isCostTypeFeatureEnabled)) && (
             <div style={styles.costType}>
               <CostType costType={costType} onSelect={onCostTypeSelected} />
             </div>
@@ -374,6 +377,7 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       azureProviders: filterProviders(providers, ProviderType.azure),
       gcpProviders: filterProviders(providers, ProviderType.gcp),
       ibmProviders: filterProviders(providers, ProviderType.ibm),
+      isCostTypeFeatureEnabled: featureFlagsSelectors.selectIsCostTypeFeatureEnabled(state),
       isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
       isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
       isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
