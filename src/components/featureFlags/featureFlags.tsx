@@ -16,11 +16,11 @@ export const enum FeatureToggle {
   costDistribution = 'cost-management.ui.cost-distribution', // Cost distribution https://issues.redhat.com/browse/COST-3249
   costType = 'cost-management.ui.cost-type', // AWS as filtered by OpenShift cost types https://issues.redhat.com/browse/COST-3122
   currency = 'cost-management.ui.currency', // Currency support https://issues.redhat.com/browse/COST-1277
-  defaultProjects = 'cost-management.ui.default-projects', // Default OCP projects https://issues.redhat.com/browse/COST-2774
   exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
   ibm = 'cost-management.ui.ibm', // IBM https://issues.redhat.com/browse/COST-935
   negativeFiltering = 'cost-management.ui.negative-filtering', // Negative (aka exclude) filtering https://issues.redhat.com/browse/COST-2773
   oci = 'cost-management.ui.oci', // Oracle Cloud Infrastructure https://issues.redhat.com/browse/COST-2358
+  platformCosts = 'cost-management.ui.platform-costs', // OCP platform costs https://issues.redhat.com/browse/COST-2774
   unallocatedCosts = 'cost-management.ui.unallocated-costs', // Unallocated (aka idle) costs https://issues.redhat.com/browse/COST-3248
 }
 
@@ -64,11 +64,11 @@ const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
             isCurrencyFeatureEnabled: client.isEnabled(FeatureToggle.currency),
             isCostDistributionFeatureEnabled: client.isEnabled(FeatureToggle.costDistribution),
             isCostTypeFeatureEnabled: client.isEnabled(FeatureToggle.costType),
-            isDefaultProjectsFeatureEnabled: client.isEnabled(FeatureToggle.defaultProjects),
             isExportsFeatureEnabled: client.isEnabled(FeatureToggle.exports),
             isNegativeFilteringFeatureEnabled: client.isEnabled(FeatureToggle.negativeFiltering),
             isIbmFeatureEnabled: client.isEnabled(FeatureToggle.ibm),
             isOciFeatureEnabled: client.isEnabled(FeatureToggle.oci),
+            isPlatformCostsFeatureEnabled: client.isEnabled(FeatureToggle.platformCosts),
             isUnallocatedCostsFeatureEnabled: client.isEnabled(FeatureToggle.unallocatedCosts),
           })
         );

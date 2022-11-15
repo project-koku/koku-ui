@@ -32,12 +32,6 @@ test('cost type feature is enabled', async () => {
   expect(featureFlagsSelectors.selectIsCostTypeFeatureEnabled(store.getState())).toBe(true);
 });
 
-test('default projects feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureFlags({ isDefaultProjectsFeatureEnabled: true }));
-  expect(featureFlagsSelectors.selectIsDefaultProjectsFeatureEnabled(store.getState())).toBe(true);
-});
-
 test('exports feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureFlags({ isExportsFeatureEnabled: true }));
@@ -60,6 +54,12 @@ test('OCI feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureFlags({ isOciFeatureEnabled: true }));
   expect(featureFlagsSelectors.selectIsOciFeatureEnabled(store.getState())).toBe(true);
+});
+
+test('platform costs feature is enabled', async () => {
+  const store = createUIStore();
+  store.dispatch(actions.setFeatureFlags({ isPlatformCostsFeatureEnabled: true }));
+  expect(featureFlagsSelectors.selectIsPlatformCostsFeatureEnabled(store.getState())).toBe(true);
 });
 
 test('unallocated costs feature is enabled', async () => {

@@ -11,11 +11,11 @@ export type FeatureFlagsState = Readonly<{
   isCostDistributionFeatureEnabled: boolean;
   isCostTypeFeatureEnabled: boolean;
   isCurrencyFeatureEnabled: boolean;
-  isDefaultProjectsFeatureEnabled: boolean;
   isExportsFeatureEnabled: boolean;
   isIbmFeatureEnabled: boolean;
   isNegativeFilteringFeatureEnabled: boolean;
   isOciFeatureEnabled: boolean;
+  isPlatformCostsFeatureEnabled: boolean;
   isUnallocatedCostsFeatureEnabled: boolean;
 }>;
 
@@ -24,11 +24,11 @@ export const defaultState: FeatureFlagsState = {
   isCostDistributionFeatureEnabled: false,
   isCostTypeFeatureEnabled: false,
   isCurrencyFeatureEnabled: false,
-  isDefaultProjectsFeatureEnabled: false,
   isExportsFeatureEnabled: false,
   isIbmFeatureEnabled: false,
   isNegativeFilteringFeatureEnabled: false,
   isOciFeatureEnabled: false,
+  isPlatformCostsFeatureEnabled: false,
   isUnallocatedCostsFeatureEnabled: false,
 };
 
@@ -43,11 +43,11 @@ export function featureFlagsReducer(state = defaultState, action: FeatureFlagsAc
         isCostDistributionFeatureEnabled: action.payload.isCostDistributionFeatureEnabled,
         isCostTypeFeatureEnabled: action.payload.isCostTypeFeatureEnabled,
         isCurrencyFeatureEnabled: action.payload.isCurrencyFeatureEnabled,
-        isDefaultProjectsFeatureEnabled: action.payload.isDefaultProjectsFeatureEnabled,
         isExportsFeatureEnabled: action.payload.isExportsFeatureEnabled,
         isIbmFeatureEnabled: action.payload.isIbmFeatureEnabled,
         isNegativeFilteringFeatureEnabled: action.payload.isNegativeFilteringFeatureEnabled,
         isOciFeatureEnabled: action.payload.isOciFeatureEnabled,
+        isPlatformCostsFeatureEnabled: action.payload.isPlatformCostsFeatureEnabled,
         isUnallocatedCostsFeatureEnabled: action.payload.isUnallocatedCostsFeatureEnabled,
       };
 
