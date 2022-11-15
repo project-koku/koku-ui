@@ -1,5 +1,6 @@
 import { featureFlagsSelectors } from 'store/featureFlags';
 import type { RootState } from 'store/rootReducer';
+import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/localStorage';
 
 import {
@@ -31,6 +32,7 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
   };
   const props = {
     ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
+    ...(widget.savingsPlan && { cost_type: getCostType() }),
   };
 
   return {

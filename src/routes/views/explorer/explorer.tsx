@@ -549,11 +549,12 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     groupBy = { [getGroupByDefault(perspective)]: '*' };
   }
 
-  const costType = perspective === PerspectiveType.aws ? getCostType() : undefined;
+  const isCostTypeFeatureEnabled = featureFlagsSelectors.selectIsCostTypeFeatureEnabled(state);
+  const costType =
+    perspective === PerspectiveType.aws || (perspective === PerspectiveType.awsOcp && isCostTypeFeatureEnabled)
+      ? getCostType()
+      : undefined;
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
-
-  // eslint-disable-next-line no-console
-  console.log('Explorer getCurrency', currency);
 
   const query = {
     filter: {

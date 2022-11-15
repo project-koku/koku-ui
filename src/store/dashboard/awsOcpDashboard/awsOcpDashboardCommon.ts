@@ -20,7 +20,9 @@ export const enum AwsOcpDashboardTab {
   regions = 'regions',
 }
 
-export interface AwsOcpDashboardWidget extends DashboardWidget<AwsOcpDashboardTab> {}
+export interface AwsOcpDashboardWidget extends DashboardWidget<AwsOcpDashboardTab> {
+  savingsPlan?: boolean;
+}
 
 export function getGroupByForTab(widget: AwsOcpDashboardWidget): AwsQuery['group_by'] {
   switch (widget.currentTab) {
@@ -38,7 +40,11 @@ export function getGroupByForTab(widget: AwsOcpDashboardWidget): AwsQuery['group
   }
 }
 
-export function getQueryForWidget(filter: AwsFilters = awsOcpDashboardDefaultFilters, props?) {
+export function getQueryForWidget(
+  widget: AwsOcpDashboardWidget,
+  filter: AwsFilters = awsOcpDashboardDefaultFilters,
+  props?
+) {
   const query: AwsQuery = {
     filter,
     ...(props ? props : {}),
