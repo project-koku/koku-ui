@@ -39,12 +39,12 @@
     "verify": "yarn lint && yarn test && yarn build"
   },
   "dependencies": {
-    "@patternfly/patternfly": "4.219.2",
+    "@patternfly/patternfly": "4.221.2",
     "@patternfly/react-charts": "6.94.11",
-    "@patternfly/react-core": "4.258.3",
+    "@patternfly/react-core": "4.262.0",
     "@patternfly/react-icons": "4.92.10",
     "@patternfly/react-styles": "4.91.10",
-    "@patternfly/react-table": "4.111.33",
+    "@patternfly/react-table": "4.111.43",
     "@patternfly/react-tokens": "4.93.10",
     "@redhat-cloud-services/frontend-components": "^3.9.25",
     "@redhat-cloud-services/frontend-components-notifications": "^3.2.12",
