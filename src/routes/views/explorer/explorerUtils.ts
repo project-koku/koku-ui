@@ -60,6 +60,7 @@ export const dateRangeOptions: {
   value: string;
 }[] = [
   { label: messages.explorerDateRange, value: 'current_month_to_date' },
+  { label: messages.explorerDateRange, value: 'previous_month' },
   { label: messages.explorerDateRange, value: 'previous_month_to_date' },
   { label: messages.explorerDateRange, value: 'last_thirty_days' },
   { label: messages.explorerDateRange, value: 'last_sixty_days' },

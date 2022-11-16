@@ -14274,6 +14274,14 @@
           "other": {
             "value": []
           },
+          "previous_month": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Previous month"
+              }
+            ]
+          },
           "previous_month_to_date": {
             "value": [
               {
