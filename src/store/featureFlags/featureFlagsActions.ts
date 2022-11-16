@@ -4,11 +4,11 @@ export interface FeatureFlagsActionMeta {
   isCostDistributionFeatureEnabled?: boolean;
   isCostTypeFeatureEnabled?: boolean;
   isCurrencyFeatureEnabled?: boolean;
-  isDefaultProjectsFeatureEnabled?: boolean;
   isExportsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
   isNegativeFilteringFeatureEnabled?: boolean;
   isOciFeatureEnabled?: boolean;
+  isPlatformCostsFeatureEnabled?: boolean;
   isUnallocatedCostsFeatureEnabled?: boolean;
 }
 

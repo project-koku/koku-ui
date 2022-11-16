@@ -6,11 +6,11 @@ exports[`default state 1`] = `
   "isCostDistributionFeatureEnabled": false,
   "isCostTypeFeatureEnabled": false,
   "isCurrencyFeatureEnabled": false,
-  "isDefaultProjectsFeatureEnabled": false,
   "isExportsFeatureEnabled": false,
   "isIbmFeatureEnabled": false,
   "isNegativeFilteringFeatureEnabled": false,
   "isOciFeatureEnabled": false,
+  "isPlatformCostsFeatureEnabled": false,
   "isUnallocatedCostsFeatureEnabled": false,
 }
 `;
