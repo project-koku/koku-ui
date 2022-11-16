@@ -9,6 +9,9 @@ export const styles = {
   costColumn: {
     textAlign: 'right',
   },
+  defaultLabel: {
+    minWidth: '63px',
+  },
   emptyState: {
     backgroundColor: global_BackgroundColor_light_100.value,
     display: 'flex',
@@ -26,5 +29,8 @@ export const styles = {
   infoDescription: {
     color: global_disabled_color_100.value,
     fontSize: global_FontSize_xs.value,
+  },
+  nameColumn: {
+    width: '1%',
   },
 } as { [className: string]: React.CSSProperties };

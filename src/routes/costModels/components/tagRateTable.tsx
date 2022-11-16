@@ -18,7 +18,7 @@ const TagRateTable: React.FC<TagRateTableProps> = ({ intl = defaultIntl, tagRate
     intl.formatMessage(messages.costModelsTagRateTableValue),
     intl.formatMessage(messages.rate),
     intl.formatMessage(messages.description),
-    intl.formatMessage(messages.costModelsTagRateTableDefault),
+    intl.formatMessage(messages.default),
   ];
 
   const rows =

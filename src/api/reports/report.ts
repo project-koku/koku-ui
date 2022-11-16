@@ -13,8 +13,10 @@ export interface ReportItemValue {
 }
 
 export interface ReportItem {
+  classification?: string; // 'platform', 'project', etc.
   cost?: ReportItemValue;
   date?: string;
+  default_project?: string; // 'True' or 'False'
   delta_percent?: number;
   delta_value?: number;
   infrastructure?: ReportItemValue;
@@ -71,6 +73,7 @@ export interface ReportData extends ReportOrgData {
 }
 
 export interface ReportMeta extends PagedMetaData {
+  category?: string[];
   count: number;
   delta?: {
     percent: number;

@@ -20,6 +20,7 @@ interface OcpOrderBys {
 }
 
 export interface OcpQuery extends utils.Query {
+  category?: string;
   delta?: string;
   filter?: OcpFilters;
   group_by?: OcpGroupBys;

@@ -13,6 +13,7 @@ import {
   Select,
   SelectOption,
   SelectVariant,
+  Switch,
   TextInput,
   Toolbar,
   ToolbarContent,
@@ -45,6 +46,7 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
 
+import { DataKebab } from './dataKebab';
 import { styles } from './dataToolbar.styles';
 import { TagValue } from './tagValue';
 
@@ -68,6 +70,7 @@ interface DataToolbarOwnProps {
   onExportClicked?: () => void;
   onFilterAdded?: (filter: Filter) => void;
   onFilterRemoved?: (filterType: Filter) => void;
+  onPlatformCostsChanged?: (checked: boolean) => void;
   orgReport?: Org; // Report containing AWS organizational unit data
   pagination?: React.ReactNode; // Optional pagination controls to display in toolbar
   query?: Query; // Query containing filter_by params used to restore state upon page refresh
@@ -77,6 +80,7 @@ interface DataToolbarOwnProps {
   showColumnManagement?: boolean; // Show column management
   showExport?: boolean; // Show export icon
   showFilter?: boolean; // Show export icon
+  showPlatformCosts?: boolean; // Show platform costs switch
   style?: React.CSSProperties;
   tagReport?: Tag; // Data containing tag key and value data
   tagReportPathsType?: TagPathsType;
@@ -93,6 +97,7 @@ interface DataToolbarState {
   isCategorySelectOpen: boolean;
   isExcludeSelectOpen: boolean;
   isOrgUnitSelectExpanded: boolean;
+  isPlatformCostsChecked: boolean;
   isTagValueDropdownOpen: boolean;
   isTagKeySelectExpanded: boolean;
   isTagValueSelectExpanded: boolean;
@@ -101,6 +106,7 @@ interface DataToolbarState {
 
 interface DataToolbarStateProps {
   isNegativeFilteringFeatureEnabled?: boolean;
+  isPlatformCostsFeatureEnabled?: boolean;
 }
 
 interface GroupByOrgOption extends SelectOptionObject {
@@ -137,6 +143,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     isCategorySelectOpen: false,
     isExcludeSelectOpen: false,
     isOrgUnitSelectExpanded: false,
+    isPlatformCostsChecked: this.props.groupBy === 'project',
     isTagValueDropdownOpen: false,
     isTagKeySelectExpanded: false,
     isTagValueSelectExpanded: false,
@@ -977,7 +984,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   public getColumnManagement = () => {
     const { intl } = this.props;
     return (
-      <ToolbarItem>
+      <ToolbarItem visibility={{ default: 'hidden', '2xl': 'visible', xl: 'visible', lg: 'hidden' }}>
         <Button onClick={this.handleColumnManagementClicked} variant={ButtonVariant.link}>
           {intl.formatMessage(messages.detailsColumnManagementTitle)}
         </Button>
@@ -1008,12 +1015,71 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     );
   };
 
+  // Platform costs
+
+  public getPlatformCosts = () => {
+    const { intl } = this.props;
+    const { isPlatformCostsChecked } = this.state;
+    return (
+      <ToolbarItem visibility={{ default: 'hidden', '2xl': 'visible', xl: 'visible', lg: 'hidden' }}>
+        <Switch
+          id="platform-costs"
+          label={intl.formatMessage(messages.sumPlatformCosts)}
+          isChecked={isPlatformCostsChecked}
+          onChange={this.handlePlatformCostsChanged}
+        />
+      </ToolbarItem>
+    );
+  };
+
+  // Kebab
+
+  public getKebab = () => {
+    const { showColumnManagement, showPlatformCosts } = this.props;
+    const { isPlatformCostsChecked } = this.state;
+
+    const options = [];
+    if (showColumnManagement) {
+      options.push({
+        label: messages.detailsColumnManagementTitle,
+        onClick: this.handleColumnManagementClicked,
+      });
+    }
+    if (showPlatformCosts) {
+      options.push({
+        label: messages.sumPlatformCosts,
+        onClick: () => this.handlePlatformCostsChanged(!isPlatformCostsChecked),
+      });
+    }
+    return (
+      <ToolbarItem visibility={{ xl: 'hidden' }}>
+        <DataKebab options={options} />
+      </ToolbarItem>
+    );
+  };
+
   private handleColumnManagementClicked = () => {
-    this.props.onColumnManagementClicked();
+    const { onColumnManagementClicked } = this.props;
+    if (onColumnManagementClicked) {
+      onColumnManagementClicked();
+    }
   };
 
   private handleExportClicked = () => {
-    this.props.onExportClicked();
+    const { onExportClicked } = this.props;
+    if (onExportClicked) {
+      onExportClicked();
+    }
+  };
+
+  private handlePlatformCostsChanged = (checked: boolean) => {
+    const { onPlatformCostsChanged } = this.props;
+    const { isPlatformCostsChecked } = this.state;
+    this.setState({ isPlatformCostsChecked: !isPlatformCostsChecked }, () => {
+      if (onPlatformCostsChanged) {
+        onPlatformCostsChanged(checked);
+      }
+    });
   };
 
   public render() {
@@ -1021,11 +1087,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       categoryOptions,
       dateRange,
       isNegativeFilteringFeatureEnabled,
+      isPlatformCostsFeatureEnabled,
       pagination,
       showBulkSelect,
       showColumnManagement,
       showExport,
       showFilter,
+      showPlatformCosts,
       style,
     } = this.props;
     const options = categoryOptions ? categoryOptions : this.getDefaultCategoryOptions();
@@ -1051,10 +1119,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                 </ToolbarGroup>
               </ToolbarToggleGroup>
             )}
-            {(Boolean(showExport) || Boolean(showColumnManagement)) && (
+            {(showExport || showColumnManagement) && (
               <ToolbarGroup>
-                {Boolean(showExport) && this.getExportButton()}
-                {Boolean(showColumnManagement) && this.getColumnManagement()}
+                {showColumnManagement && this.getColumnManagement()}
+                {showPlatformCosts && isPlatformCostsFeatureEnabled && this.getPlatformCosts()}
+                {showExport && this.getExportButton()}
+                {(showColumnManagement || showPlatformCosts) && this.getKebab()}
               </ToolbarGroup>
             )}
             {dateRange && <ToolbarGroup>{dateRange}</ToolbarGroup>}
@@ -1072,6 +1142,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>(state => {
   return {
     isNegativeFilteringFeatureEnabled: featureFlagsSelectors.selectIsNegativeFilteringFeatureEnabled(state),
+    isPlatformCostsFeatureEnabled: featureFlagsSelectors.selectIsPlatformCostsFeatureEnabled(state),
   };
 });
 

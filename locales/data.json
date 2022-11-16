@@ -10780,12 +10780,6 @@
         "value": "There are no export files available"
       }
     ],
-    "PriceListPosNumberRate": [
-      {
-        "type": 0,
-        "value": "Rate must be a positive number"
-      }
-    ],
     "aws": [
       {
         "type": 0,
@@ -12175,12 +12169,6 @@
         "value": "Tag rates"
       }
     ],
-    "costModelsTagRateTableDefault": [
-      {
-        "type": 0,
-        "value": "Default"
-      }
-    ],
     "costModelsTagRateTableKey": [
       {
         "type": 0,
@@ -13021,6 +13009,12 @@
       {
         "type": 0,
         "value": "Details table"
+      }
+    ],
+    "default": [
+      {
+        "type": 0,
+        "value": "Default"
       }
     ],
     "delete": [
@@ -20998,6 +20992,12 @@
         "value": "Rate must be a number"
       }
     ],
+    "priceListPosNumberRate": [
+      {
+        "type": 0,
+        "value": "Rate must be a positive number"
+      }
+    ],
     "rate": [
       {
         "type": 0,
@@ -21135,6 +21135,12 @@
       {
         "type": 0,
         "value": "Suggestions"
+      }
+    ],
+    "sumPlatformCosts": [
+      {
+        "type": 0,
+        "value": "Sum platform costs"
       }
     ],
     "supplementary": [

@@ -648,11 +648,6 @@ export default defineMessages({
     description: 'Tag rates',
     id: 'costModelsTagRateTableAriaLabel',
   },
-  costModelsTagRateTableDefault: {
-    defaultMessage: 'Default',
-    description: 'Default',
-    id: 'costModelsTagRateTableDefault',
-  },
   costModelsTagRateTableKey: {
     defaultMessage: 'Tag key',
     description: 'Tag key',
@@ -1039,6 +1034,11 @@ export default defineMessages({
     defaultMessage: 'Details table',
     description: 'Details table',
     id: 'dataTableAriaLabel',
+  },
+  default: {
+    defaultMessage: 'Default',
+    description: 'Default',
+    id: 'default',
   },
   delete: {
     defaultMessage: 'Delete',
@@ -2691,7 +2691,7 @@ export default defineMessages({
   priceListPosNumberRate: {
     defaultMessage: 'Rate must be a positive number',
     description: 'Rate must be a positive number',
-    id: 'PriceListPosNumberRate',
+    id: 'priceListPosNumberRate',
   },
   rate: {
     defaultMessage: 'Rate',
@@ -2778,6 +2778,11 @@ export default defineMessages({
     defaultMessage: 'Suggestions',
     description: 'Suggestions',
     id: 'suggestions',
+  },
+  sumPlatformCosts: {
+    defaultMessage: 'Sum platform costs',
+    description: 'Sum platform costs',
+    id: 'sumPlatformCosts',
   },
   supplementary: {
     defaultMessage: 'Supplementary',

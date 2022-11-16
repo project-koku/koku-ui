@@ -1,5 +1,6 @@
 import 'routes/views/details/components/dataTable/dataTable.scss';
 
+import { Label } from '@patternfly/react-core';
 import { ProviderType } from 'api/providers';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { getQuery } from 'api/queries/ocpQuery';
@@ -83,6 +84,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
+    const showDefaultProject = groupById === 'project';
 
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({
@@ -98,6 +100,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           },
           {
             name: intl.formatMessage(messages.tagNames),
+            style: groupById === 'project' ? styles.nameColumn : undefined,
+          },
+          {
+            hidden: !showDefaultProject,
+            name: '', // Default column
           },
           {
             name: intl.formatMessage(messages.monthOverMonthChange),
@@ -130,6 +137,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             orderBy: groupById,
             name: intl.formatMessage(messages.detailsResourceNames, { value: groupById }),
             ...(computedItems.length && { isSortable: true }),
+            style: groupById === 'project' ? styles.nameColumn : undefined,
+          },
+          {
+            hidden: !showDefaultProject,
+            name: '', // Default column
           },
           {
             id: DetailsTableColumnIds.monthOverMonth,
@@ -172,23 +184,24 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const cost = this.getTotalCost(item, index);
       const actions = this.getActions(item);
 
-      let name = (
-        <Link
-          to={getBreakdownPath({
-            basePath: paths.ocpDetailsBreakdown,
-            label: label.toString(),
-            description: item.id,
-            groupBy: groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById,
-            query,
-          })}
-        >
-          {label}
-        </Link>
-      );
+      const showLink = label !== `no-${groupById}` && label !== `no-${groupByTagKey}`;
+      const selectable = showLink && item.classification !== 'category';
 
-      const selectable = !(label === `no-${groupById}` || label === `no-${groupByTagKey}`);
-      if (!selectable) {
-        name = label as any;
+      let name = label as any;
+      if (showLink) {
+        name = (
+          <Link
+            to={getBreakdownPath({
+              basePath: paths.ocpDetailsBreakdown,
+              label: label.toString(),
+              description: item.id,
+              groupBy: groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById,
+              query,
+            })}
+          >
+            {label}
+          </Link>
+        );
       }
 
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
@@ -198,10 +211,22 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           {}, // Empty cell for row selection
           {
             value: (
+              <>
+                <div>{name}</div>
+                <div style={styles.infoDescription}>{desc}</div>
+              </>
+            ),
+          },
+          {
+            hidden: !showDefaultProject,
+            value: item.default_project ? (
               <div>
-                {name}
-                {desc}
+                <Label variant="outline" color="green">
+                  {intl.formatMessage(messages.default)}
+                </Label>
               </div>
+            ) : (
+              <div style={styles.defaultLabel} />
             ),
           },
           { value: <div>{monthOverMonth}</div>, id: DetailsTableColumnIds.monthOverMonth },
@@ -216,9 +241,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       });
     });
 
-    const filteredColumns = (columns as any[]).filter(column => !hiddenColumns.has(column.id));
+    const filteredColumns = (columns as any[]).filter(column => !hiddenColumns.has(column.id) && !column.hidden);
     const filteredRows = rows.map(({ ...row }) => {
-      row.cells = row.cells.filter(cell => !hiddenColumns.has(cell.id));
+      row.cells = row.cells.filter(cell => !hiddenColumns.has(cell.id) && !cell.hidden);
       return row;
     });
 
