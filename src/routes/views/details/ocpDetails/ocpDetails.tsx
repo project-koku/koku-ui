@@ -460,7 +460,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
     exclude: queryFromRoute.exclude || baseQuery.exclude,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
-    category: getIdKeyForGroupBy(queryFromRoute.group_by) === 'project' ? queryFromRoute.category : undefined,
+    category: queryFromRoute.category,
   };
   const queryString = getQuery({
     ...query,

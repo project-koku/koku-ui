@@ -143,7 +143,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     isCategorySelectOpen: false,
     isExcludeSelectOpen: false,
     isOrgUnitSelectExpanded: false,
-    isPlatformCostsChecked: this.props.groupBy === 'project',
+    isPlatformCostsChecked: this.props.query ? this.props.query.category === 'platform' : false,
     isTagValueDropdownOpen: false,
     isTagKeySelectExpanded: false,
     isTagValueSelectExpanded: false,
