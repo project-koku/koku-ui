@@ -1340,6 +1340,11 @@ export default defineMessages({
     description: 'No match found',
     id: 'emptyFilterStateTitle',
   },
+  end: {
+    defaultMessage: 'End',
+    description: 'End',
+    id: 'end',
+  },
   equalsSymbol: {
     defaultMessage: '=',
     description: 'Equals symbol',
@@ -2785,6 +2790,11 @@ export default defineMessages({
     defaultMessage: 'Sources',
     description: 'Sources',
     id: 'sources',
+  },
+  start: {
+    defaultMessage: 'Start',
+    description: 'Start',
+    id: 'start',
   },
   status: {
     defaultMessage: '{value, select, ' + 'pending {Pending} ' + 'running {Running} ' + 'failed {Failed} ' + 'other {}}',

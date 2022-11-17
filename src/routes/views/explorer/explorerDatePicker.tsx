@@ -78,6 +78,7 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps> {
       <DatePicker
         aria-label={intl.formatMessage(messages.datePickerStartDateAriaLabel)}
         onChange={this.handleStartDateOnChange}
+        placeholder={intl.formatMessage(messages.start)}
         ref={this.startDateRef}
         validators={[rangeValidator]}
         value={formatDate(startDate)}
@@ -103,6 +104,7 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps> {
         aria-label={intl.formatMessage(messages.datePickerEndDateAriaLabel)}
         isDisabled={!startDate}
         onChange={this.handleEndDateOnChange}
+        placeholder={intl.formatMessage(messages.end)}
         rangeStart={startDate}
         ref={this.endDateRef}
         validators={[rangeValidator]}
