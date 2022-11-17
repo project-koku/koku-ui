@@ -25,7 +25,7 @@ export interface Query {
   category?: string;
   cost_type?: any;
   currency?: any;
-  dateRange?: any;
+  dateRangeType?: any;
   end_date?: any;
   exclude?: any;
   filter?: any;

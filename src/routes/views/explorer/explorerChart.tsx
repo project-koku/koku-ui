@@ -19,7 +19,7 @@ import {
   isInt,
 } from 'routes/views/components/charts/common/chartDatum';
 import { CostExplorerChart } from 'routes/views/components/charts/costExplorerChart';
-import { getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
+import { getDateRangeFromQuery } from 'routes/views/utils/dateRange';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -254,8 +254,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
 const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerChartStateProps>(
   (state, { costType, currency, perspective }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
-    const dateRange = getDateRangeDefault(queryFromRoute);
-    const { end_date, start_date } = getDateRange(dateRange);
+    const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
     // Ensure group_by key is not undefined
     let groupBy = queryFromRoute.group_by;
@@ -273,18 +272,12 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
       filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
       exclude: queryFromRoute.exclude || baseQuery.exclude,
       group_by: groupBy,
-      perspective,
-      dateRange,
-    };
-    const queryString = getQuery({
-      ...query,
       cost_type: costType,
       currency,
-      perspective: undefined,
-      dateRange: undefined,
       start_date,
       end_date,
-    });
+    };
+    const queryString = getQuery(query);
 
     const reportPathsType = getReportPathsType(perspective);
     const reportType = getReportType(perspective);

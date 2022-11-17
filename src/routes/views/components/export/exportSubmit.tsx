@@ -12,7 +12,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { getDateRange } from 'routes/views/utils/dateRange';
+import { getDateRangeFromQuery } from 'routes/views/utils/dateRange';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/export';
 import { featureFlagsSelectors } from 'store/featureFlags';
@@ -151,9 +151,9 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
 const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
   const { groupBy, isAllItems, items, query, reportPathsType, resolution, timeScope } = props;
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
-  let { end_date, start_date } = getDateRange(query.dateRange);
+  let { end_date, start_date } = getDateRangeFromQuery(query);
 
-  if (!query.dateRange) {
+  if (!query.dateRangeType) {
     const isPrevious = timeScope === 'previous';
     const today = getToday();
 
@@ -177,7 +177,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
       limit: 0,
       order_by: undefined,
       perspective: undefined,
-      dateRange: undefined,
+      dateRangeType: undefined,
       delta: undefined,
       start_date,
       end_date,

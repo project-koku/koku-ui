@@ -13011,6 +13011,30 @@
         "value": "Details table"
       }
     ],
+    "datePickerAfterError": [
+      {
+        "type": 0,
+        "value": "Date is after the allowable range"
+      }
+    ],
+    "datePickerBeforeError": [
+      {
+        "type": 0,
+        "value": "Date is before the allowable range"
+      }
+    ],
+    "datePickerEndDateAriaLabel": [
+      {
+        "type": 0,
+        "value": "End date"
+      }
+    ],
+    "datePickerStartDateAriaLabel": [
+      {
+        "type": 0,
+        "value": "Start date"
+      }
+    ],
     "default": [
       {
         "type": 0,
@@ -14052,6 +14076,12 @@
         "value": "No match found"
       }
     ],
+    "end": [
+      {
+        "type": 0,
+        "value": "End"
+      }
+    ],
     "equalsSymbol": [
       {
         "type": 0,
@@ -14238,6 +14268,14 @@
               {
                 "type": 0,
                 "value": "Month to date"
+              }
+            ]
+          },
+          "custom": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Custom"
               }
             ]
           },
@@ -21098,6 +21136,12 @@
         "value": "Sources"
       }
     ],
+    "start": [
+      {
+        "type": 0,
+        "value": "Start"
+      }
+    ],
     "status": [
       {
         "options": {
@@ -21193,6 +21237,12 @@
       {
         "type": 0,
         "value": "Time of export"
+      }
+    ],
+    "to": [
+      {
+        "type": 0,
+        "value": "to"
       }
     ],
     "toolBarBulkSelectAll": [

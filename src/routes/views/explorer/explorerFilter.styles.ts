@@ -6,7 +6,7 @@ import type React from 'react';
 export const styles = {
   toolbarContainer: {
     backgroundColor: global_BackgroundColor_light_100.value,
-    marginLeft: `-${global_spacer_md.value}`,
-    paddingTop: global_spacer_sm.value,
+    marginLeft: global_spacer_md.var,
+    paddingTop: global_spacer_sm.var,
   },
 } as { [className: string]: React.CSSProperties };
