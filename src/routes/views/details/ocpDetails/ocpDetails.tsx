@@ -357,8 +357,9 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       ...JSON.parse(JSON.stringify(query)),
       category: checked ? 'platform' : undefined,
     };
-    const filteredQuery = getRouteForQuery(history, newQuery);
-    history.replace(filteredQuery);
+    this.setState({ isAllSelected: false, selectedItems: [] }, () => {
+      history.replace(getRouteForQuery(history, newQuery, true));
+    });
   };
 
   private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
