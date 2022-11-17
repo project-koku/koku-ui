@@ -57,6 +57,7 @@ interface Filters {
 interface DataToolbarOwnProps {
   categoryOptions?: ToolbarChipGroup[]; // Options for category menu
   dateRange?: React.ReactNode; // Optional date range controls to display in toolbar
+  datePicker?: React.ReactNode; // Optional date picker controls to display in toolbar
   groupBy?: string; // Sync category selection with groupBy value
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
@@ -1086,6 +1087,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     const {
       categoryOptions,
       dateRange,
+      datePicker,
       isNegativeFilteringFeatureEnabled,
       isPlatformCostsFeatureEnabled,
       pagination,
@@ -1127,8 +1129,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                 {(showColumnManagement || showPlatformCosts) && this.getKebab()}
               </ToolbarGroup>
             )}
-            {dateRange && <ToolbarGroup>{dateRange}</ToolbarGroup>}
-
+            {(dateRange || datePicker) && (
+              <ToolbarGroup>
+                {dateRange}
+                {datePicker}
+              </ToolbarGroup>
+            )}
             <ToolbarItem alignment={{ default: 'alignRight' }} variant="pagination">
               {pagination}
             </ToolbarItem>

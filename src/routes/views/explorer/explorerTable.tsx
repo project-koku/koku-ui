@@ -24,7 +24,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { ComputedReportItemType, ComputedReportItemValueType } from 'routes/views/components/charts/common/chartDatum';
-import { getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
+import { getDateRangeFromQuery } from 'routes/views/utils/dateRange';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
@@ -408,8 +408,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTableStateProps>(
   (state, { perspective }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
-    const dateRange = getDateRangeDefault(queryFromRoute);
-    const { end_date, start_date } = getDateRange(dateRange);
+    const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
     return {
       end_date,

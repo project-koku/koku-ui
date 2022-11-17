@@ -20,7 +20,7 @@ import { Currency } from 'routes/components/currency';
 import { CostType } from 'routes/views/components/costType';
 import { GroupBy } from 'routes/views/components/groupBy';
 import { Perspective } from 'routes/views/components/perspective';
-import { getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
+import { DateRangeType, getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import type { Filter } from 'routes/views/utils/filter';
 import { getRouteForQuery } from 'routes/views/utils/history';
 import { filterProviders, hasCloudProvider } from 'routes/views/utils/providers';
@@ -61,6 +61,7 @@ interface ExplorerHeaderOwnProps {
   groupBy?: string;
   onCostTypeSelected(value: string);
   onCurrencySelected(value: string);
+  onDatePickerSelected(startDate: Date, endDate: Date);
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   onGroupBySelected(value: string);
@@ -323,8 +324,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHeaderStateProps>(
   (state, { costType, currency, perspective }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
-    const dateRange = getDateRangeDefault(queryFromRoute);
-    const { end_date, start_date } = getDateRange(dateRange);
+    const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
+    const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
     const providersQueryString = getProvidersQuery(providersQuery);
     const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
@@ -360,16 +361,22 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       group_by: groupBy,
       order_by: queryFromRoute.order_by,
       perspective,
-      dateRange,
+      dateRangeType,
+      ...(dateRangeType === DateRangeType.custom && {
+        end_date,
+        start_date,
+      }),
     };
     const queryString = getQuery({
       ...query,
       cost_type: costType,
       currency,
+      ...(dateRangeType !== DateRangeType.custom && {
+        end_date,
+        start_date,
+      }),
       perspective: undefined,
-      dateRange: undefined,
-      start_date,
-      end_date,
+      dateRangeType: undefined,
     });
 
     return {

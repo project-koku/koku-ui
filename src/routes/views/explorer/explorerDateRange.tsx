@@ -6,9 +6,9 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 
 interface ExplorerDateRangeOwnProps {
-  currentItem?: string;
+  dateRangeType?: string;
   isDisabled?: boolean;
-  onItemClicked(value: string);
+  onSelected(value: string);
   options?: {
     label: MessageDescriptor;
     value: string;
@@ -33,11 +33,11 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps> {
   public state: ExplorerDateRangeState = { ...this.defaultState };
 
   private getSelect = () => {
-    const { currentItem, isDisabled } = this.props;
+    const { dateRangeType, isDisabled } = this.props;
     const { isSelectOpen } = this.state;
 
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: ExplorerDateRangeOption) => option.value === currentItem);
+    const selection = selectOptions.find((option: ExplorerDateRangeOption) => option.value === dateRangeType);
 
     return (
       <Select
@@ -71,10 +71,10 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps> {
   };
 
   private handleSelect = (event, selection: ExplorerDateRangeOption) => {
-    const { onItemClicked } = this.props;
+    const { onSelected } = this.props;
 
-    if (onItemClicked) {
-      onItemClicked(selection.value);
+    if (onSelected) {
+      onSelected(selection.value);
     }
     this.setState({
       isSelectOpen: false,

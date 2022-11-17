@@ -65,6 +65,7 @@ export const dateRangeOptions: {
   { label: messages.explorerDateRange, value: 'last_thirty_days' },
   { label: messages.explorerDateRange, value: 'last_sixty_days' },
   { label: messages.explorerDateRange, value: 'last_ninety_days' },
+  { label: messages.explorerDateRange, value: 'custom' },
 ];
 
 export const groupByAwsOptions: {

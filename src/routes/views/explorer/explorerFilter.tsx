@@ -14,16 +14,17 @@ import { connect } from 'react-redux';
 import type { RouteComponentProps } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { DataToolbar } from 'routes/views/components/dataToolbar';
-import type { DateRangeType } from 'routes/views/utils/dateRange';
-import { getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
+import { DateRangeType, getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import type { Filter } from 'routes/views/utils/filter';
 import { getRouteForQuery } from 'routes/views/utils/history';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
+import { formatStartEndDate } from 'utils/dates';
 import { isEqual } from 'utils/equal';
 
+import { ExplorerDatePicker } from './explorerDatePicker';
 import { ExplorerDateRange } from './explorerDateRange';
 import { styles } from './explorerFilter.styles';
 import type { PerspectiveType } from './explorerUtils';
@@ -43,7 +44,7 @@ interface ExplorerFilterOwnProps {
 }
 
 interface ExplorerFilterStateProps {
-  dateRange: DateRangeType;
+  dateRangeType: DateRangeType;
   orgReport?: Org;
   orgReportFetchStatus?: FetchStatus;
   orgReportPathsType?: OrgPathsType;
@@ -59,7 +60,8 @@ interface ExplorerFilterDispatchProps {
 
 interface ExplorerFilterState {
   categoryOptions?: ToolbarChipGroup[];
-  currentDateRange?: DateRangeType;
+  currentDateRangeType?: DateRangeType;
+  showDatePicker?: boolean;
 }
 
 type ExplorerFilterProps = ExplorerFilterOwnProps &
@@ -72,11 +74,21 @@ const orgReportType = OrgType.org;
 const tagReportType = TagType.tag;
 
 export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
-  protected defaultState: ExplorerFilterState = {};
+  protected defaultState: ExplorerFilterState = {
+    showDatePicker: false,
+  };
   public state: ExplorerFilterState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { fetchOrg, fetchTag, orgQueryString, orgReportPathsType, tagQueryString, tagReportPathsType } = this.props;
+    const {
+      dateRangeType,
+      fetchOrg,
+      fetchTag,
+      orgQueryString,
+      orgReportPathsType,
+      tagQueryString,
+      tagReportPathsType,
+    } = this.props;
 
     if (orgReportPathsType) {
       fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
@@ -86,7 +98,8 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
     }
     this.setState({
       categoryOptions: this.getCategoryOptions(),
-      currentDateRange: this.getDefaultDateRange(),
+      currentDateRangeType: dateRangeType,
+      showDatePicker: dateRangeType === DateRangeType.custom,
     });
   }
 
@@ -119,7 +132,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
     }
     // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
     if (prevProps.perspective !== perspective) {
-      this.handleDateRangeClick(dateRangeOptions[0].value);
+      this.handleDateRangeSelected(dateRangeOptions[0].value);
     }
   }
 
@@ -146,35 +159,54 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
     return options;
   };
 
-  private getDefaultDateRange = () => {
-    const { dateRange } = this.props;
-
-    return dateRange ? dateRange : dateRangeOptions[0];
-  };
-
   private getDateRangeComponent = () => {
     const { isDisabled } = this.props;
-    const { currentDateRange } = this.state;
+    const { currentDateRangeType } = this.state;
 
     return (
       <ExplorerDateRange
-        currentItem={currentDateRange}
+        dateRangeType={currentDateRangeType}
         isDisabled={isDisabled}
-        onItemClicked={this.handleDateRangeClick}
+        onSelected={this.handleDateRangeSelected}
         options={dateRangeOptions}
       />
     );
   };
 
-  private handleDateRangeClick = (value: string) => {
+  private getDatePickerComponent = () => {
+    const { showDatePicker } = this.state;
+
+    return showDatePicker ? <ExplorerDatePicker onSelected={this.handleDatePickerSelected} /> : undefined;
+  };
+
+  private handleDatePickerSelected = (startDate: Date, endDate: Date) => {
     const { history, query } = this.props;
+
+    const { start_date, end_date } = formatStartEndDate(startDate, endDate);
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
-      dateRange: value,
+      dateRangeType: DateRangeType.custom,
+      start_date,
+      end_date,
     };
-    this.setState({ currentDateRange: value }, () => {
-      history.replace(getRouteForQuery(history, newQuery));
+    history.replace(getRouteForQuery(history, newQuery));
+  };
+
+  private handleDateRangeSelected = (value: string) => {
+    const { history, query } = this.props;
+
+    const showDatePicker = value === DateRangeType.custom;
+    this.setState({ currentDateRangeType: value, showDatePicker }, () => {
+      if (!showDatePicker) {
+        const newQuery = {
+          ...JSON.parse(JSON.stringify(query)),
+          dateRangeType: value,
+          start_date: undefined,
+          end_date: undefined,
+        };
+        history.replace(getRouteForQuery(history, newQuery));
+      }
     });
   };
 
@@ -196,6 +228,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
       <DataToolbar
         categoryOptions={categoryOptions}
         dateRange={this.getDateRangeComponent()}
+        datePicker={this.getDatePickerComponent()}
         groupBy={groupBy}
         isDisabled={isDisabled}
         onFilterAdded={onFilterAdded}
@@ -216,8 +249,8 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
 const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFilterStateProps>(
   (state, { perspective }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
-    const dateRange = getDateRangeDefault(queryFromRoute);
-    const { end_date, start_date } = getDateRange(dateRange);
+    const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
+    const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
     // Omitting key_only to share a single request -- the toolbar needs key values
     const orgQueryString = getQuery({
@@ -261,7 +294,7 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
     }
 
     return {
-      dateRange,
+      dateRangeType,
       orgQueryString,
       orgReport,
       orgReportFetchStatus,

@@ -1035,6 +1035,26 @@ export default defineMessages({
     description: 'Details table',
     id: 'dataTableAriaLabel',
   },
+  datePickerAfterError: {
+    defaultMessage: 'Date is after the allowable range',
+    description: 'Date is after the allowable range',
+    id: 'datePickerAfterError',
+  },
+  datePickerBeforeError: {
+    defaultMessage: 'Date is before the allowable range',
+    description: 'Date is before the allowable range',
+    id: 'datePickerBeforeError',
+  },
+  datePickerEndDateAriaLabel: {
+    defaultMessage: 'End date',
+    description: 'End date',
+    id: 'datePickerEndDateAriaLabel',
+  },
+  datePickerStartDateAriaLabel: {
+    defaultMessage: 'Start date',
+    description: 'Start date',
+    id: 'datePickerStartDateAriaLabel',
+  },
   default: {
     defaultMessage: 'Default',
     description: 'Default',
@@ -1391,6 +1411,7 @@ export default defineMessages({
   explorerDateRange: {
     defaultMessage:
       '{value, select, ' +
+      'custom {Custom}' +
       'current_month_to_date {Month to date} ' +
       'last_ninety_days {Last 90 days} ' +
       'last_sixty_days {Last 60 days} ' +
@@ -2814,6 +2835,11 @@ export default defineMessages({
     defaultMessage: 'Time of export',
     description: 'Time of export',
     id: 'timeOfExport',
+  },
+  to: {
+    defaultMessage: 'to',
+    description: 'start date to end date',
+    id: 'to',
   },
   toolBarBulkSelectAll: {
     defaultMessage: 'Select all ({value} items)',

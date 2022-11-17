@@ -12,7 +12,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { PerspectiveType } from 'routes/views/explorer/explorerUtils';
-import { getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
+import { getDateRangeFromQuery } from 'routes/views/utils/dateRange';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
@@ -307,9 +307,8 @@ const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps
     };
 
     // Replace with start and end dates for Cost Explorer
-    if (queryFromRoute.dateRange) {
-      const dateRange = getDateRangeDefault(queryFromRoute);
-      const { end_date, start_date } = getDateRange(dateRange);
+    if (queryFromRoute.dateRangeType) {
+      const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
       tagFilter = {
         end_date,

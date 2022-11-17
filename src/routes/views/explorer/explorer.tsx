@@ -21,8 +21,8 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
-import type { DateRangeType } from 'routes/views/utils/dateRange';
-import { getDateRange, getDateRangeDefault } from 'routes/views/utils/dateRange';
+import { DateRangeType } from 'routes/views/utils/dateRange';
+import { getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   getRouteForQuery,
@@ -77,7 +77,7 @@ interface ExplorerStateProps {
   ociProviders: Providers;
   costType?: CostTypes;
   currency?: string;
-  dateRange: DateRangeType;
+  dateRangeType: DateRangeType;
   gcpProviders: Providers;
   ibmProviders: Providers;
   ocpProviders: Providers;
@@ -103,10 +103,12 @@ interface ExplorerDispatchProps {
 
 interface ExplorerState {
   columns: any[];
+  endDate?: Date;
   isAllSelected: boolean;
   isExportModalOpen: boolean;
   rows: any[];
   selectedItems: ComputedReportItem[];
+  startDate?: Date;
 }
 
 type ExplorerOwnProps = RouteComponentProps<void> & WrappedComponentProps;
@@ -293,6 +295,10 @@ class Explorer extends React.Component<ExplorerProps> {
     }
   };
 
+  private handleDatePickerSelected = (startDate: Date, endDate: Date) => {
+    this.setState({ startDate, endDate });
+  };
+
   private handleExportModalClose = (isOpen: boolean) => {
     this.setState({ isExportModalOpen: isOpen });
   };
@@ -378,7 +384,7 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private updateReport = () => {
-    const { dateRange, fetchReport, history, location, perspective, query, queryString } = this.props;
+    const { dateRangeType, fetchReport, history, location, perspective, query, queryString } = this.props;
     if (!location.search) {
       history.replace(
         getRouteForQuery(history, {
@@ -386,7 +392,7 @@ class Explorer extends React.Component<ExplorerProps> {
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
           order_by: query ? query.order_by : undefined,
-          dateRange, // Preserve date range
+          dateRangeType, // Preserve date range type
         })
       );
     } else if (perspective) {
@@ -462,6 +468,7 @@ class Explorer extends React.Component<ExplorerProps> {
           groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
           onCostTypeSelected={value => handleCostTypeSelected(history, query, value)}
           onCurrencySelected={value => handleCurrencySelected(history, query, value)}
+          onDatePickerSelected={this.handleDatePickerSelected}
           onFilterAdded={filter => handleFilterAdded(history, query, filter)}
           onFilterRemoved={filter => handleFilterRemoved(history, query, filter)}
           onGroupBySelected={this.handleGroupBySelected}
@@ -529,8 +536,8 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
 
   // Cost Report
   const queryFromRoute = parseQuery<Query>(location.search);
-  const dateRange = getDateRangeDefault(queryFromRoute);
-  const { end_date, start_date } = getDateRange(dateRange);
+  const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
+  const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
   const perspective = getPerspectiveDefault({
     awsProviders,
@@ -566,16 +573,22 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     group_by: groupBy,
     order_by: queryFromRoute.order_by,
     perspective,
-    dateRange,
+    dateRangeType,
+    ...(dateRangeType === DateRangeType.custom && {
+      end_date,
+      start_date,
+    }),
   };
   const queryString = getQuery({
     ...query,
     cost_type: costType,
     currency,
+    ...(dateRangeType !== DateRangeType.custom && {
+      end_date,
+      start_date,
+    }),
+    dateRangeType: undefined,
     perspective: undefined,
-    dateRange: undefined,
-    end_date,
-    start_date,
   });
 
   const reportPathsType = getReportPathsType(perspective);
@@ -590,7 +603,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     azureProviders,
     costType,
     currency,
-    dateRange,
+    dateRangeType,
     gcpProviders,
     ibmProviders,
     ociProviders,
