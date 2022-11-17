@@ -12,7 +12,7 @@ import {
 // eslint-disable-next-line no-shadow
 export const enum DateRangeType {
   currentMonthToDate = 'current_month_to_date', // Current month (Jan 1 - Jan 18)
-  custom = 'custom',
+  custom = 'custom', // Any date range within the last 90 days, but no more than 65 days total for best API performance
   previousMonth = 'previous_month', // Previous and current month (Dec 1 - Dec 31)
   previousMonthToDate = 'previous_month_to_date', // Previous and current month (Dec 1 - Jan 18)
   lastNinetyDays = 'last_ninety_days', // Last 90 days
