@@ -82,7 +82,7 @@ const TaggingRatesFormBase: React.FC<TaggingRatesFormProps> = ({
               />
             </SplitItem>
             <SplitItem>
-              <FormGroup fieldId={`isDefault_${ix}`} label={intl.formatMessage(messages.costModelsTagRateTableDefault)}>
+              <FormGroup fieldId={`isDefault_${ix}`} label={intl.formatMessage(messages.default)}>
                 <Checkbox id={`isDefault_${ix}`} isChecked={defaultTag === ix} onChange={() => updateDefaultTag(ix)} />
               </FormGroup>
             </SplitItem>

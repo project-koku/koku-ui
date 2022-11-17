@@ -150,10 +150,12 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
         const mapId = `${id}${idSuffix}`;
 
         // 'clusters' will contain either the cluster alias or default cluster ID
+        const classification = val.classification;
         const cluster_alias = val.clusters && val.clusters.length > 0 ? val.clusters[0] : undefined;
         const cluster = cluster_alias || val.cluster;
         const clusters = val.clusters ? val.clusters : [];
         const date = val.date;
+        const default_project = val.default_project && val.default_project.toLowerCase() === 'true';
         const delta_percent = val.delta_percent ? val.delta_percent : 0;
         const delta_value = val.delta_value ? val.delta_value : 0;
         const source_uuid = val.source_uuid ? val.source_uuid : [];
@@ -183,10 +185,12 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
         if (isDateMap) {
           const data = {
             ...getUsageData(val), // capacity, limit, request, & usage
+            classification,
             cluster,
             clusters,
             cost: getCostData(val, 'cost'),
             date,
+            default_project,
             delta_percent,
             delta_value,
             id,
@@ -212,9 +216,11 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
             itemMap.set(mapId, {
               ...item,
               ...getUsageData(val, item), // capacity, limit, request, & usage
+              classification,
               cluster,
               clusters,
               date,
+              default_project,
               delta_percent,
               delta_value,
               cost: getCostData(val, 'cost', item),
@@ -228,10 +234,12 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
           } else {
             itemMap.set(mapId, {
               ...getUsageData(val), // capacity, limit, request, & usage
+              classification,
               cluster,
               clusters,
               cost: getCostData(val, 'cost'),
               date,
+              default_project,
               delta_percent,
               delta_value,
               id,

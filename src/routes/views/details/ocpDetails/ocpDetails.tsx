@@ -134,6 +134,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     this.handleColumnManagementModalSave = this.handleColumnManagementModalSave.bind(this);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
+    this.handlePlatformCostsChanged = this.handlePlatformCostsChanged.bind(this);
     this.handleSelected = this.handleSelected.bind(this);
   }
 
@@ -290,6 +291,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={filter => handleFilterAdded(history, query, filter)}
         onFilterRemoved={filter => handleFilterRemoved(history, query, filter)}
+        onPlatformCostsChanged={this.handlePlatformCostsChanged}
         pagination={this.getPagination()}
         query={query}
         selectedItems={selectedItems}
@@ -342,10 +344,21 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         [groupByKey]: '*',
       },
       order_by: { cost: 'desc' },
+      category: undefined, // Only applies to projects
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {
       history.replace(getRouteForQuery(history, newQuery, true));
     });
+  };
+
+  private handlePlatformCostsChanged = (checked: boolean) => {
+    const { history, query } = this.props;
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      category: checked ? 'platform' : undefined,
+    };
+    const filteredQuery = getRouteForQuery(history, newQuery);
+    history.replace(filteredQuery);
   };
 
   private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
@@ -447,6 +460,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
     exclude: queryFromRoute.exclude || baseQuery.exclude,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
+    category: queryFromRoute.category,
   };
   const queryString = getQuery({
     ...query,

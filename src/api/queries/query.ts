@@ -22,6 +22,7 @@ export interface Filters {
 }
 
 export interface Query {
+  category?: string;
   cost_type?: any;
   currency?: any;
   dateRange?: any;

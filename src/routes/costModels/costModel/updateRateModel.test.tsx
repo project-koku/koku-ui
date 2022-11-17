@@ -350,9 +350,9 @@ describe('update-rate', () => {
     await user.type(screen.getByDisplayValue(/^0.43$/i), '{backspace}');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await user.click(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableDefault))[1]);
+    await user.click(screen.getAllByLabelText(regExp(messages.default))[1]);
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.click(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableDefault))[0]);
+    await user.click(screen.getAllByLabelText(regExp(messages.default))[0]);
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
     await user.click(screen.getByText(/Add more tag values/i));

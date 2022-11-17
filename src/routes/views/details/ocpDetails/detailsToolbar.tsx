@@ -28,6 +28,7 @@ interface DetailsToolbarOwnProps {
   onExportClicked();
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
+  onPlatformCostsChanged(checked: boolean);
   pagination?: React.ReactNode;
   query?: OcpQuery;
   queryString?: string;
@@ -122,6 +123,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       onExportClicked,
       onFilterAdded,
       onFilterRemoved,
+      onPlatformCostsChanged,
       pagination,
       query,
       selectedItems,
@@ -142,6 +144,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         onExportClicked={onExportClicked}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
+        onPlatformCostsChanged={onPlatformCostsChanged}
         pagination={pagination}
         query={query}
         resourcePathsType={ResourcePathsType.ocp}
@@ -150,6 +153,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         showColumnManagement
         showExport
         showFilter
+        showPlatformCosts={groupBy === 'project'}
         tagReport={tagReport}
         tagReportPathsType={tagReportPathsType}
       />
