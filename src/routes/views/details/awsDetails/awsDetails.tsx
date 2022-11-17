@@ -21,6 +21,7 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
+import { PerspectiveType } from 'routes/views/explorer/explorerUtils';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   getRouteForQuery,
@@ -44,7 +45,6 @@ import type { CostTypes } from 'utils/costType';
 import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/localStorage';
 
-import { PerspectiveType } from '../../explorer/explorerUtils';
 import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
