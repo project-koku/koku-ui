@@ -22,6 +22,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import type { PerspectiveType } from 'routes/views/explorer/explorerUtils';
 import { createMapStateToProps } from 'store/common';
 import { exportActions } from 'store/export';
 import { featureFlagsSelectors } from 'store/featureFlags';
@@ -37,6 +38,7 @@ export interface ExportModalOwnProps {
   isOpen: boolean;
   items?: ComputedReportItem[];
   onClose(isOpen: boolean);
+  perspective?: PerspectiveType;
   query?: Query;
   queryString?: string;
   reportPathsType: ReportPathsType;
@@ -150,6 +152,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       isAllItems,
       isExportsFeatureEnabled,
       items,
+      perspective,
       query,
       reportPathsType,
       showAggregateType = true,
@@ -210,6 +213,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             timeScope={showTimeScope ? timeScope : undefined}
             onClose={this.handleClose}
             onError={this.handleError}
+            perspective={perspective}
             name={defaultName}
             query={query}
             reportPathsType={reportPathsType}

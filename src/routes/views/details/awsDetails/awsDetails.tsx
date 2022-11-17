@@ -44,6 +44,7 @@ import type { CostTypes } from 'utils/costType';
 import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/localStorage';
 
+import { PerspectiveType } from '../../explorer/explorerUtils';
 import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -172,6 +173,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={items}
+        perspective={PerspectiveType.aws}
         onClose={this.handleExportModalClose}
         query={query}
         reportPathsType={reportPathsType}
@@ -289,7 +291,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     let groupByKey = groupBy;
     let value = '*';
 
-    // Check for for org units
+    // Check for org units
     const index = groupBy.indexOf(orgUnitIdKey);
     if (index !== -1) {
       groupByKey = orgUnitIdKey.substring(0, orgUnitIdKey.length);
