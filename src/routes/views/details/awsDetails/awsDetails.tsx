@@ -21,6 +21,7 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
+import { PerspectiveType } from 'routes/views/explorer/explorerUtils';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   getRouteForQuery,
@@ -172,6 +173,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={items}
+        perspective={PerspectiveType.aws}
         onClose={this.handleExportModalClose}
         query={query}
         reportPathsType={reportPathsType}
@@ -289,7 +291,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     let groupByKey = groupBy;
     let value = '*';
 
-    // Check for for org units
+    // Check for org units
     const index = groupBy.indexOf(orgUnitIdKey);
     if (index !== -1) {
       groupByKey = orgUnitIdKey.substring(0, orgUnitIdKey.length);

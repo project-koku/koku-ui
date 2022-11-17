@@ -12,11 +12,13 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { PerspectiveType } from 'routes/views/explorer/explorerUtils';
 import { getDateRangeFromQuery } from 'routes/views/utils/dateRange';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/export';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { getCostType } from 'utils/costType';
 import { getToday } from 'utils/dates';
 import { getCurrency } from 'utils/localStorage';
 
@@ -26,9 +28,10 @@ export interface ExportSubmitOwnProps {
   groupBy?: string;
   isAllItems?: boolean;
   items?: ComputedReportItem[];
+  name?: string;
   onClose(isOpen: boolean);
   onError(error: AxiosError);
-  name?: string;
+  perspective?: PerspectiveType;
   query?: Query;
   reportPathsType: ReportPathsType;
   resolution: string;
@@ -149,10 +152,16 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
 }
 
 const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
-  const { groupBy, isAllItems, items, query, reportPathsType, resolution, timeScope } = props;
-  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
-  let { end_date, start_date } = getDateRangeFromQuery(query);
+  const { groupBy, isAllItems, items, perspective, query, reportPathsType, resolution, timeScope } = props;
 
+  const isCostTypeFeatureEnabled = featureFlagsSelectors.selectIsCostTypeFeatureEnabled(state);
+  const costType =
+    perspective === PerspectiveType.aws || (perspective === PerspectiveType.awsOcp && isCostTypeFeatureEnabled)
+      ? getCostType()
+      : undefined;
+  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
+
+  let { end_date, start_date } = getDateRangeFromQuery(query);
   if (!query.dateRangeType) {
     const isPrevious = timeScope === 'previous';
     const today = getToday();
@@ -179,9 +188,10 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
       perspective: undefined,
       dateRangeType: undefined,
       delta: undefined,
+      cost_type: costType,
+      currency,
       start_date,
       end_date,
-      currency,
     };
 
     // Store filter_by as an array so we can add to it below
