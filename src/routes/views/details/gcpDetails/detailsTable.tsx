@@ -116,14 +116,16 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ];
 
     computedItems.map((item, index) => {
+      const cost = this.getTotalCost(item, index);
       const label = item && item.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
-      const cost = this.getTotalCost(item, index);
+      const isDisabled = label === `no-${groupBy}` || label === `no-${groupByTagKey}`;
+      const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
+      const actions = this.getActions(item, isDisabled);
 
-      const selectable = !(label === `no-${groupBy}` || label === `no-${groupByTagKey}`);
-      const actions = this.getActions(item, !selectable);
-
-      let name = (
+      const name = isDisabled ? (
+        (label as any)
+      ) : (
         <Link
           to={getBreakdownPath({
             basePath: paths.gcpDetailsBreakdown,
@@ -135,11 +137,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           {label}
         </Link>
       );
-
-      const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
-      if (!selectable) {
-        name = label as any;
-      }
 
       rows.push({
         cells: [
@@ -159,7 +156,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         isOpen: false,
         item,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),
-        selectionDisabled: !selectable,
+        selectionDisabled: isDisabled,
       });
     });
 
