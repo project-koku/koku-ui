@@ -1,22 +1,22 @@
 import type { Query } from 'api/queries/query';
 import { getQueryRoute } from 'api/queries/query';
 import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey } from 'api/queries/query';
+import { parseQuery } from 'api/queries/query';
 
 export const getBreakdownPath = ({
   basePath,
   label,
   description,
   groupBy,
-  query,
 }: {
   basePath: string;
   label: string;
   description: string;
   groupBy: string | number;
-  query: Query;
 }) => {
+  const queryFromRoute = parseQuery<Query>(location.search);
   const newQuery = {
-    ...query,
+    ...queryFromRoute,
     ...(description && description !== label && { [breakdownDescKey]: description }),
     group_by: {
       [groupBy]: label,
@@ -31,8 +31,6 @@ export const getOrgBreakdownPath = ({
   groupBy,
   groupByOrg,
   id,
-  orgUnitId,
-  query,
   title,
   type,
 }: {
@@ -41,24 +39,23 @@ export const getOrgBreakdownPath = ({
   groupBy: string | number;
   groupByOrg: string | number; // Used for group_by[org_unit_id]=<groupByOrg> param in the breakdown page
   id: string | number; // group_by[account]=<id> param in the breakdown page
-  orgUnitId: string | number; // Used to navigate back to details page
-  query: Query;
   title: string | number; // Used to display a title in the breakdown header
   type: string; // account or organizational_unit
 }) => {
+  const queryFromRoute = parseQuery<Query>(location.search);
   const newQuery = {
-    ...JSON.parse(JSON.stringify(query)),
+    ...queryFromRoute,
     ...(description && description !== title && { [breakdownDescKey]: description }),
     ...(title && { [breakdownTitleKey]: title }),
-    ...(groupByOrg && orgUnitId && { [orgUnitIdKey]: orgUnitId }),
+    ...(groupByOrg && { [orgUnitIdKey]: groupByOrg }),
     group_by: {
       [groupBy]: id, // This may be overridden below
     },
   };
-  if (!newQuery.filter) {
-    newQuery.filter = {};
-  }
   if (type === 'account') {
+    if (!newQuery.filter) {
+      newQuery.filter = {};
+    }
     newQuery.filter.account = id;
     newQuery.group_by = {
       [orgUnitIdKey]: groupByOrg,

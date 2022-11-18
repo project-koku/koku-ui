@@ -21,8 +21,7 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
-import { PerspectiveType } from 'routes/views/explorer/explorerUtils';
-import { getGroupByTagKey } from 'routes/views/utils/groupBy';
+import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   getRouteForQuery,
   handleCostTypeSelected,
@@ -152,8 +151,8 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
+    const { query, queryString, report } = this.props;
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
-    const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
@@ -173,9 +172,8 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={items}
-        perspective={PerspectiveType.aws}
         onClose={this.handleExportModalClose}
-        query={query}
+        queryString={queryString}
         reportPathsType={reportPathsType}
       />
     );
@@ -216,20 +214,23 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   private getTable = () => {
-    const { history, query, report, reportFetchStatus } = this.props;
+    const { history, query, queryString, report, reportFetchStatus } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
+    const groupByOrg = getGroupByOrgValue(query);
 
     return (
       <DetailsTable
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        groupByTagKey={groupByTagKey}
+        groupByOrg={groupByOrg}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={(sortType, isSortAscending) => handleSort(history, query, sortType, isSortAscending)}
-        query={query}
+        queryString={queryString}
         report={report}
         selectedItems={selectedItems}
       />

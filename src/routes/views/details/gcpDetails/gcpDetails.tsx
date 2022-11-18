@@ -143,8 +143,8 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
+    const { query, queryString, report } = this.props;
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
-    const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
@@ -165,7 +165,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
         isOpen={isExportModalOpen}
         items={items}
         onClose={this.handleExportModalClose}
-        query={query}
+        queryString={queryString}
         reportPathsType={reportPathsType}
       />
     );
@@ -206,7 +206,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   };
 
   private getTable = () => {
-    const { history, query, report, reportFetchStatus } = this.props;
+    const { history, query, queryString, report, reportFetchStatus } = this.props;
     const { isAllSelected, selectedItems } = this.state;
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
@@ -214,11 +214,12 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
     return (
       <DetailsTable
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        groupByTagKey={groupByTagKey}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={(sortType, isSortAscending) => handleSort(history, query, sortType, isSortAscending)}
-        query={query}
+        queryString={queryString}
         report={report}
         selectedItems={selectedItems}
       />

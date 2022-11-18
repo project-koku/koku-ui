@@ -187,8 +187,8 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
+    const { query, queryString, report } = this.props;
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
-    const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
@@ -209,7 +209,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         isOpen={isExportModalOpen}
         items={items}
         onClose={this.handleExportModalClose}
-        query={query}
+        queryString={queryString}
         reportPathsType={reportPathsType}
       />
     );
@@ -250,7 +250,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   private getTable = () => {
-    const { history, query, report, reportFetchStatus } = this.props;
+    const { history, query, queryString, report, reportFetchStatus } = this.props;
     const { hiddenColumns, isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -259,12 +259,13 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     return (
       <DetailsTable
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        groupByTagKey={groupByTagKey}
         hiddenColumns={hiddenColumns}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={(sortType, isSortAscending) => handleSort(history, query, sortType, isSortAscending)}
-        query={query}
+        queryString={queryString}
         report={report}
         selectedItems={selectedItems}
       />
