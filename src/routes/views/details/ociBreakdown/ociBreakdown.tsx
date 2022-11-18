@@ -39,12 +39,12 @@ interface OciCostStateProps {
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   query: Query;
-  queryString: string;
   report: Report;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportType: ReportType;
   reportPathsType: ReportPathsType;
+  reportQueryString: string;
 }
 
 interface OciCostDispatchProps {
@@ -80,14 +80,19 @@ const mapStateToProps = createMapStateToProps<OciCostOwnProps, OciCostStateProps
       ...(groupBy && { [groupBy]: groupByValue }),
     },
   };
-  const queryString = getQuery({
+
+  const reportQueryString = getQuery({
     ...newQuery,
     currency,
   });
-
-  const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
-  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+  const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
+  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
+    state,
+    reportPathsType,
+    reportType,
+    reportQueryString
+  );
 
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
@@ -112,12 +117,12 @@ const mapStateToProps = createMapStateToProps<OciCostOwnProps, OciCostStateProps
     providersFetchStatus,
     providerType: ProviderType.oci,
     query,
-    queryString,
     report,
     reportError,
     reportFetchStatus,
     reportType,
     reportPathsType,
+    reportQueryString,
     tagReportPathsType: TagPathsType.oci,
     title: groupByValue,
   };

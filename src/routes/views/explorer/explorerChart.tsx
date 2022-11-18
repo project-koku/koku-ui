@@ -46,10 +46,10 @@ interface ExplorerChartStateProps {
   end_date?: string;
   perspective: PerspectiveType;
   query: Query;
-  queryString: string;
   report: Report;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
+  reportQueryString: string;
   start_date?: string;
 }
 
@@ -76,9 +76,9 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
   }
 
   public componentDidUpdate(prevProps: ExplorerChartProps) {
-    const { report, reportError, queryString } = this.props;
+    const { report, reportError, reportQueryString } = this.props;
 
-    const newQuery = prevProps.queryString !== queryString;
+    const newQuery = prevProps.reportQueryString !== reportQueryString;
     const noReport = !report && !reportError;
 
     if (newQuery || noReport) {
@@ -116,13 +116,13 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
   };
 
   private fetchReport = () => {
-    const { fetchReport, perspective, queryString } = this.props;
+    const { fetchReport, perspective, reportQueryString } = this.props;
 
     if (perspective) {
       const reportPathsType = getReportPathsType(perspective);
       const reportType = getReportType(perspective);
 
-      fetchReport(reportPathsType, reportType, queryString);
+      fetchReport(reportPathsType, reportType, reportQueryString);
     }
   };
 
@@ -277,23 +277,28 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
       start_date,
       end_date,
     };
-    const queryString = getQuery(query);
 
     const reportPathsType = getReportPathsType(perspective);
     const reportType = getReportType(perspective);
 
-    const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
-    const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
-    const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+    const reportQueryString = getQuery(query);
+    const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
+    const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(
+      state,
+      reportPathsType,
+      reportType,
+      reportQueryString
+    );
 
     return {
       end_date,
       perspective,
       query,
-      queryString,
       report,
       reportError,
       reportFetchStatus,
+      reportQueryString,
       start_date,
     };
   }

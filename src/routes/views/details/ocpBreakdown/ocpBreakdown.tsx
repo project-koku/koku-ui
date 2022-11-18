@@ -35,12 +35,12 @@ interface OcpBreakdownStateProps {
   detailsURL: string;
   HistoricalData?: React.ReactNode;
   query: Query;
-  queryString: string;
   report: Report;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportType: ReportType;
   reportPathsType: ReportPathsType;
+  reportQueryString: string;
 }
 
 interface BreakdownDispatchProps {
@@ -76,14 +76,19 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
       ...(groupBy && { [groupBy]: groupByValue }),
     },
   };
-  const queryString = getQuery({
+
+  const reportQueryString = getQuery({
     ...newQuery,
     currency,
   });
-
-  const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
-  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+  const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
+  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
+    state,
+    reportPathsType,
+    reportType,
+    reportQueryString
+  );
 
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
@@ -106,12 +111,12 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
     providersFetchStatus,
     providerType: ProviderType.ocp,
     query,
-    queryString,
     report,
     reportError,
     reportFetchStatus,
     reportType,
     reportPathsType,
+    reportQueryString,
     tagReportPathsType: TagPathsType.ocp,
     title: groupByValue,
   };

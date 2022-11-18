@@ -1,8 +1,6 @@
 import { Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
-import type { OcpQuery } from 'api/queries/ocpQuery';
-import { getQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { OcpReport } from 'api/reports/ocpReports';
 import { TagPathsType } from 'api/tags/tag';
@@ -42,21 +40,12 @@ interface DetailsHeaderStateProps {
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
-  queryString: string;
+  providersQueryString: string;
 }
 
 interface DetailsHeaderState {}
 
 type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & WrappedComponentProps;
-
-const baseQuery: OcpQuery = {
-  delta: 'cost',
-  filter: {
-    time_scope_units: 'month',
-    time_scope_value: -1,
-    resolution: 'monthly',
-  },
-};
 
 const groupByOptions: {
   label: string;
@@ -157,8 +146,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHeaderStateProps>((state, props) => {
-  const queryString = getQuery(baseQuery);
-
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
   const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
@@ -174,7 +161,7 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
     providers: filterProviders(providers, ProviderType.ocp),
     providersError,
     providersFetchStatus,
-    queryString,
+    providersQueryString,
   };
 });
 

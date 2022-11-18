@@ -31,13 +31,13 @@ interface DetailsToolbarOwnProps {
   onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
   query?: IbmQuery;
-  queryString?: string;
   selectedItems?: ComputedReportItem[];
 }
 
 interface DetailsToolbarStateProps {
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
+  tagQueryString?: string;
 }
 
 interface DetailsToolbarDispatchProps {
@@ -61,7 +61,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public state: DetailsToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { fetchTag, queryString, tagReportFetchStatus } = this.props;
+    const { fetchTag, tagReportFetchStatus, tagQueryString } = this.props;
 
     this.setState(
       {
@@ -69,14 +69,14 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       },
       () => {
         if (tagReportFetchStatus !== FetchStatus.inProgress) {
-          fetchTag(tagReportPathsType, tagReportType, queryString);
+          fetchTag(tagReportPathsType, tagReportType, tagQueryString);
         }
       }
     );
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const { fetchTag, query, queryString, tagReport, tagReportFetchStatus } = this.props;
+    const { fetchTag, query, tagReport, tagReportFetchStatus, tagQueryString } = this.props;
 
     if (!isEqual(tagReport, prevProps.tagReport)) {
       this.setState(
@@ -85,12 +85,12 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         },
         () => {
           if (tagReportFetchStatus !== FetchStatus.inProgress) {
-            fetchTag(tagReportPathsType, tagReportType, queryString);
+            fetchTag(tagReportPathsType, tagReportType, tagQueryString);
           }
         }
       );
     } else if (query && !isEqual(query, prevProps.query) && tagReportFetchStatus !== FetchStatus.inProgress) {
-      fetchTag(tagReportPathsType, tagReportType, queryString);
+      fetchTag(tagReportPathsType, tagReportType, tagQueryString);
     }
   }
 
@@ -160,7 +160,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
   // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
   // However, for better server-side performance, we chose to use key_only here.
-  const queryString = getQuery({
+  const tagQueryString = getQuery({
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -170,12 +170,17 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
     limit: 1000,
   });
 
-  const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
-  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagReportPathsType, tagReportType, queryString);
+  const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
+  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
+    state,
+    tagReportPathsType,
+    tagReportType,
+    tagQueryString
+  );
   return {
-    queryString,
     tagReport,
     tagReportFetchStatus,
+    tagQueryString,
   };
 });
 

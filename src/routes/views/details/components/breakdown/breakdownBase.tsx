@@ -53,12 +53,12 @@ interface BreakdownStateProps {
   providersFetchStatus?: FetchStatus;
   providerType?: ProviderType;
   query: Query;
-  queryString: string;
   report: Report;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
+  reportQueryString: string;
   showCostType?: boolean;
   tagReportPathsType?: TagPathsType;
   title?: string;
@@ -92,9 +92,9 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   }
 
   public componentDidUpdate(prevProps: BreakdownProps) {
-    const { location, report, reportError, queryString } = this.props;
+    const { location, report, reportError, reportQueryString } = this.props;
 
-    const newQuery = prevProps.queryString !== queryString;
+    const newQuery = prevProps.reportQueryString !== reportQueryString;
     const noReport = !report && !reportError;
     const noLocation = !location.search;
 
@@ -192,9 +192,9 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   };
 
   private updateReport = () => {
-    const { location, fetchReport, queryString, reportPathsType, reportType } = this.props;
+    const { location, fetchReport, reportPathsType, reportType, reportQueryString } = this.props;
     if (location.search) {
-      fetchReport(reportPathsType, reportType, queryString);
+      fetchReport(reportPathsType, reportType, reportQueryString);
     }
   };
 

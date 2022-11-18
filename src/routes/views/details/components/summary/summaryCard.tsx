@@ -41,9 +41,9 @@ interface SummaryStateProps {
   groupBy: string;
   groupByValue: string | number;
   query?: Query;
-  queryString?: string;
   report?: OcpReport;
   reportFetchStatus?: FetchStatus;
+  reportQueryString?: string;
 }
 
 interface SummaryState {
@@ -62,14 +62,18 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   public componentDidMount() {
-    const { fetchReport, queryString, reportPathsType, reportType } = this.props;
-    fetchReport(reportPathsType, reportType, queryString);
+    const { fetchReport, reportPathsType, reportType, reportQueryString } = this.props;
+    fetchReport(reportPathsType, reportType, reportQueryString);
   }
 
   public componentDidUpdate(prevProps: SummaryProps) {
-    const { costType, currency, fetchReport, queryString, reportPathsType, reportType } = this.props;
-    if (prevProps.queryString !== queryString || prevProps.costType !== costType || prevProps.currency !== currency) {
-      fetchReport(reportPathsType, reportType, queryString);
+    const { costType, currency, fetchReport, reportPathsType, reportType, reportQueryString } = this.props;
+    if (
+      prevProps.reportQueryString !== reportQueryString ||
+      prevProps.costType !== costType ||
+      prevProps.currency !== currency
+    ) {
+      fetchReport(reportPathsType, reportType, reportQueryString);
     }
   }
 
@@ -212,23 +216,29 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
       },
     };
-    const queryString = getQuery({
+
+    const reportQueryString = getQuery({
       ...newQuery,
       cost_type: costType,
       currency,
     });
+    const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(
+      state,
+      reportPathsType,
+      reportType,
+      reportQueryString
+    );
 
-    const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
-    const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
     return {
       groupBy,
       groupByValue,
       query,
-      queryString,
       report,
       reportFetchStatus,
       reportPathsType,
       reportType,
+      reportQueryString,
     };
   }
 );

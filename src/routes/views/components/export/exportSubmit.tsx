@@ -117,14 +117,14 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
     });
   };
 
-  private handleFetchReport = () => {
-    const { fetchExport, isExportsFeatureEnabled, reportPathsType, reportQueryString } = this.props;
+  private handleFetchExport = () => {
+    const { exportQueryString, fetchExport, isExportsFeatureEnabled, reportPathsType } = this.props;
 
-    fetchExport(reportPathsType, reportType, reportQueryString, isExportsFeatureEnabled);
+    fetchExport(reportPathsType, reportType, exportQueryString, isExportsFeatureEnabled);
 
     this.setState(
       {
-        fetchReportClicked: true,
+        fetchExportClicked: true,
       },
       () => {
         this.getExport();
@@ -140,7 +140,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
         ouiaId="submit-btn"
         isDisabled={disabled || exportFetchStatus === FetchStatus.inProgress}
         key="confirm"
-        onClick={this.handleFetchReport}
+        onClick={this.handleFetchExport}
         variant={ButtonVariant.primary}
       >
         {intl.formatMessage(messages.exportGenerate)}
@@ -235,7 +235,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
     state,
     reportPathsType,
     reportType,
-    reportQueryString
+    exportQueryString
   );
 
   return {

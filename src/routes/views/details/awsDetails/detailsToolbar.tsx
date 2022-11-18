@@ -8,6 +8,7 @@ import { ResourcePathsType } from 'api/resources/resource';
 import type { Tag } from 'api/tags/tag';
 import { TagPathsType, TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
+import { cloneDeep } from 'lodash';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -34,15 +35,16 @@ interface DetailsToolbarOwnProps {
   onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
   query?: AwsQuery;
-  queryString?: string;
   selectedItems?: ComputedReportItem[];
 }
 
 interface DetailsToolbarStateProps {
   orgReport?: Org;
   orgReportFetchStatus?: FetchStatus;
+  orgQueryString?: string;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
+  tagQueryString?: string;
 }
 
 interface DetailsToolbarDispatchProps {
@@ -69,7 +71,8 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public state: DetailsToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { fetchOrg, fetchTag, orgReportFetchStatus, queryString, tagReportFetchStatus } = this.props;
+    const { fetchOrg, fetchTag, orgReportFetchStatus, orgQueryString, tagReportFetchStatus, tagQueryString } =
+      this.props;
 
     this.setState(
       {
@@ -77,18 +80,27 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       },
       () => {
         if (orgReportFetchStatus !== FetchStatus.inProgress) {
-          fetchOrg(orgReportPathsType, orgReportType, queryString);
+          fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
         }
         if (tagReportFetchStatus !== FetchStatus.inProgress) {
-          fetchTag(tagReportPathsType, tagReportType, queryString);
+          fetchTag(tagReportPathsType, tagReportType, tagQueryString);
         }
       }
     );
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const { fetchOrg, fetchTag, orgReport, orgReportFetchStatus, query, queryString, tagReport, tagReportFetchStatus } =
-      this.props;
+    const {
+      fetchOrg,
+      fetchTag,
+      orgReport,
+      orgReportFetchStatus,
+      query,
+      orgQueryString,
+      tagReport,
+      tagReportFetchStatus,
+      tagQueryString,
+    } = this.props;
 
     if (!isEqual(orgReport, prevProps.orgReport) || !isEqual(tagReport, prevProps.tagReport)) {
       this.setState(
@@ -97,19 +109,19 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         },
         () => {
           if (orgReportFetchStatus !== FetchStatus.inProgress) {
-            fetchOrg(orgReportPathsType, orgReportType, queryString);
+            fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
           }
           if (tagReportFetchStatus !== FetchStatus.inProgress) {
-            fetchTag(tagReportPathsType, tagReportType, queryString);
+            fetchTag(tagReportPathsType, tagReportType, tagQueryString);
           }
         }
       );
     } else if (query && !isEqual(query, prevProps.query)) {
       if (orgReportFetchStatus !== FetchStatus.inProgress) {
-        fetchOrg(orgReportPathsType, orgReportType, queryString);
+        fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
       }
       if (tagReportFetchStatus !== FetchStatus.inProgress) {
-        fetchTag(tagReportPathsType, tagReportType, queryString);
+        fetchTag(tagReportPathsType, tagReportType, tagQueryString);
       }
     }
   }
@@ -186,7 +198,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
   // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
   // However, for better server-side performance, we chose to use key_only here.
-  const queryString = getQuery({
+  const tagQueryString = getQuery({
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -195,16 +207,28 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
     key_only: true,
     limit: 1000,
   });
-  const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, queryString);
-  const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgReportPathsType, orgReportType, queryString);
-  const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
-  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagReportPathsType, tagReportType, queryString);
+  const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
+  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
+    state,
+    tagReportPathsType,
+    tagReportType,
+    tagQueryString
+  );
+  const orgQueryString = cloneDeep(tagQueryString);
+  const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, orgQueryString);
+  const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(
+    state,
+    orgReportPathsType,
+    orgReportType,
+    orgQueryString
+  );
   return {
-    queryString,
     orgReport,
     orgReportFetchStatus,
+    orgQueryString,
     tagReport,
     tagReportFetchStatus,
+    tagQueryString,
   };
 });
 

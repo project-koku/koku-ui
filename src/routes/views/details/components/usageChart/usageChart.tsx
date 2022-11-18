@@ -39,7 +39,7 @@ interface UsageChartStateProps {
   groupBy?: string;
   report?: Report;
   reportFetchStatus?: FetchStatus;
-  queryString?: string;
+  reportQueryString?: string;
 }
 
 interface UsageChartDispatchProps {
@@ -60,16 +60,16 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   };
 
   public componentDidMount() {
-    const { fetchReport, queryString, reportPathsType, reportType } = this.props;
-    fetchReport(reportPathsType, reportType, queryString);
+    const { fetchReport, reportPathsType, reportType, reportQueryString } = this.props;
+    fetchReport(reportPathsType, reportType, reportQueryString);
 
     this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
   }
 
   public componentDidUpdate(prevProps: UsageChartProps) {
-    const { fetchReport, queryString, reportPathsType, reportType } = this.props;
-    if (prevProps.queryString !== this.props.queryString) {
-      fetchReport(reportPathsType, reportType, queryString);
+    const { fetchReport, reportPathsType, reportType, reportQueryString } = this.props;
+    if (prevProps.reportQueryString !== this.props.reportQueryString) {
+      fetchReport(reportPathsType, reportType, reportQueryString);
     }
   }
 
@@ -393,16 +393,21 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
         ...(groupBy && { [groupBy]: groupByValue }),
       },
     };
-    const queryString = getQuery(newQuery);
 
-    const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
-    const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+    const reportQueryString = getQuery(newQuery);
+    const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(
+      state,
+      reportPathsType,
+      reportType,
+      reportQueryString
+    );
 
     return {
       groupBy,
       report,
       reportFetchStatus,
-      queryString,
+      reportQueryString,
     };
   }
 );
