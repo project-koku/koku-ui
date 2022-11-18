@@ -22,10 +22,10 @@ const userAccessMock: UserAccess = {
   data: [
     {
       access: true,
-      type: 'aws',
+      type: UserAccessType.aws,
     },
   ],
-};
+} as any;
 
 fetchUserAccessMock.mockReturnValue(Promise.resolve({ data: userAccessMock }));
 
@@ -37,29 +37,33 @@ test('default state', async () => {
 });
 
 test('fetch userAccess success', async () => {
-  const query = getUserAccessQuery(awsUserAccessQuery);
+  const userAccessQueryString = getUserAccessQuery(awsUserAccessQuery);
   const store = createProdvidersStore();
-  store.dispatch(actions.fetchUserAccess(UserAccessType.aws, query));
+  store.dispatch(actions.fetchUserAccess(UserAccessType.aws, userAccessQueryString));
   expect(fetchUserAccessMock).toBeCalled();
-  expect(selectors.selectUserAccessFetchStatus(store.getState(), UserAccessType.aws, query)).toBe(
+  expect(selectors.selectUserAccessFetchStatus(store.getState(), UserAccessType.aws, userAccessQueryString)).toBe(
     FetchStatus.inProgress
   );
   await waitFor(() => expect(selectors.selectUserAccessFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectUserAccessFetchStatus(finishedState, UserAccessType.aws, query)).toBe(FetchStatus.complete);
+  expect(selectors.selectUserAccessFetchStatus(finishedState, UserAccessType.aws, userAccessQueryString)).toBe(
+    FetchStatus.complete
+  );
 });
 
 test('fetch userAccess failure', async () => {
-  const query = getUserAccessQuery(awsUserAccessQuery);
+  const userAccessQueryString = getUserAccessQuery(awsUserAccessQuery);
   const store = createProdvidersStore();
   const error = Symbol('getUserAccess error');
   fetchUserAccessMock.mockReturnValueOnce(Promise.reject(error));
-  store.dispatch(actions.fetchUserAccess(UserAccessType.aws, query));
+  store.dispatch(actions.fetchUserAccess(UserAccessType.aws, userAccessQueryString));
   expect(fetchUserAccessMock).toBeCalled();
-  expect(selectors.selectUserAccessFetchStatus(store.getState(), UserAccessType.aws, query)).toBe(
+  expect(selectors.selectUserAccessFetchStatus(store.getState(), UserAccessType.aws, userAccessQueryString)).toBe(
     FetchStatus.inProgress
   );
   await waitFor(() => expect(selectors.selectUserAccessFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectUserAccessFetchStatus(finishedState, UserAccessType.aws, query)).toBe(FetchStatus.complete);
+  expect(selectors.selectUserAccessFetchStatus(finishedState, UserAccessType.aws, userAccessQueryString)).toBe(
+    FetchStatus.complete
+  );
 });

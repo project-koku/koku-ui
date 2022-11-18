@@ -1,8 +1,7 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import type { Export } from 'api/export/export';
-import type { OcpQuery } from 'api/queries/ocpQuery';
-import { parseQuery } from 'api/queries/ocpQuery';
 import type { Query } from 'api/queries/query';
+import { parseQuery } from 'api/queries/query';
 import { getQuery, orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import type { ReportPathsType } from 'api/reports/report';
 import { ReportType } from 'api/reports/report';
@@ -152,7 +151,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
 const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
   const { groupBy, isAllItems, items, reportPathsType, reportQueryString, resolution, timeScope } = props;
 
-  const queryFromRoute = parseQuery<OcpQuery>(location.search);
+  const queryFromRoute = parseQuery<Query>(location.search);
   const getStartEndDate = () => {
     if (queryFromRoute.dateRangeType) {
       return getDateRangeFromQuery(queryFromRoute);

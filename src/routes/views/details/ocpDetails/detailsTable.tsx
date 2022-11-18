@@ -171,33 +171,30 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ];
 
     computedItems.map((item, index) => {
+      const cost = this.getTotalCost(item, index);
       const label = item && item.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
-      const InfrastructureCost = this.getInfrastructureCost(item, index);
       const supplementaryCost = this.getSupplementaryCost(item, index);
-      const cost = this.getTotalCost(item, index);
-      const actions = this.getActions(item);
-
-      const showLink = label !== `no-${groupBy}` && label !== `no-${groupByTagKey}`;
-      const selectable = showLink && item.classification !== 'category';
-
-      let name = label as any;
-      if (showLink) {
-        name = (
-          <Link
-            to={getBreakdownPath({
-              basePath: paths.ocpDetailsBreakdown,
-              label: label.toString(),
-              description: item.id,
-              groupBy,
-            })}
-          >
-            {label}
-          </Link>
-        );
-      }
-
+      const InfrastructureCost = this.getInfrastructureCost(item, index);
+      const isDisabled = label === `no-${groupBy}` || label === `no-${groupByTagKey}`;
+      const isPlatformCosts = item.classification === 'category';
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
+      const actions = this.getActions(item, isDisabled || isPlatformCosts);
+
+      const name = isDisabled ? (
+        (label as any)
+      ) : (
+        <Link
+          to={getBreakdownPath({
+            basePath: paths.ocpDetailsBreakdown,
+            label: label.toString(),
+            description: item.id,
+            groupBy,
+          })}
+        >
+          {label}
+        </Link>
+      );
 
       rows.push({
         cells: [
@@ -230,7 +227,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ],
         item,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),
-        selectionDisabled: !selectable,
+        selectionDisabled: isDisabled || isPlatformCosts,
       });
     });
 
@@ -246,12 +243,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     });
   };
 
-  private getActions = (item: ComputedReportItem) => {
+  private getActions = (item: ComputedReportItem, isDisabled) => {
     const { groupBy, reportQueryString } = this.props;
 
     return (
       <Actions
         groupBy={groupBy}
+        isDisabled={isDisabled}
         item={item}
         providerType={ProviderType.ocp}
         reportPathsType={reportPathsType}
