@@ -15,7 +15,7 @@ import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/ico
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import type { OverviewQuery } from 'api/queries/overviewQuery';
-import { getQuery, getQueryRoute, parseQuery } from 'api/queries/overviewQuery';
+import { getQueryRoute, parseQuery } from 'api/queries/overviewQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
@@ -133,7 +133,6 @@ interface OverviewStateProps {
   providersFetchStatus: FetchStatus;
   perspective?: string;
   query: OverviewQuery;
-  queryString: string;
   tabKey?: number;
   userAccess: UserAccess;
   userAccessError: AxiosError;
@@ -707,11 +706,6 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     tabKey,
     ...(perspective && { perspective }),
   };
-  const queryString = getQuery({
-    ...query,
-    cost_type: costType,
-    currency,
-  });
 
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
@@ -749,7 +743,6 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     providersFetchStatus,
     perspective,
     query,
-    queryString,
     tabKey,
     userAccess,
     userAccessError,

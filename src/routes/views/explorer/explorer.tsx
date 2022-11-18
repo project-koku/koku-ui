@@ -87,10 +87,10 @@ interface ExplorerStateProps {
   providersFetchStatus: FetchStatus;
   providersQueryString: string;
   query: Query;
-  queryString: string;
   report: Report;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
+  reportQueryString: string;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -139,11 +139,11 @@ class Explorer extends React.Component<ExplorerProps> {
   }
 
   public componentDidUpdate(prevProps: ExplorerProps, prevState: ExplorerState) {
-    const { location, perspective, report, reportError, queryString } = this.props;
+    const { location, perspective, report, reportError, reportQueryString } = this.props;
     const { selectedItems } = this.state;
 
     const newPerspective = prevProps.perspective !== perspective;
-    const newQuery = prevProps.queryString !== queryString;
+    const newQuery = prevProps.reportQueryString !== reportQueryString;
     const noReport = !report && !reportError;
     const noLocation = !location.search;
     const newItems = prevState.selectedItems !== selectedItems;
@@ -169,7 +169,7 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
-    const { perspective, query, queryString, report } = this.props;
+    const { perspective, query, report, reportQueryString } = this.props;
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -191,7 +191,7 @@ class Explorer extends React.Component<ExplorerProps> {
         isOpen={isExportModalOpen}
         items={items}
         onClose={this.handleExportModalClose}
-        queryString={queryString}
+        queryString={reportQueryString}
         reportPathsType={getReportPathsType(perspective)}
         resolution="daily"
         showTimeScope={false}
@@ -384,7 +384,7 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private updateReport = () => {
-    const { dateRangeType, fetchReport, history, location, perspective, query, queryString } = this.props;
+    const { dateRangeType, fetchReport, history, location, perspective, query, reportQueryString } = this.props;
     if (!location.search) {
       history.replace(
         getRouteForQuery(history, {
@@ -396,7 +396,7 @@ class Explorer extends React.Component<ExplorerProps> {
         })
       );
     } else if (perspective) {
-      fetchReport(getReportPathsType(perspective), getReportType(perspective), queryString);
+      fetchReport(getReportPathsType(perspective), getReportType(perspective), reportQueryString);
     }
   };
 
@@ -579,7 +579,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
       start_date,
     }),
   };
-  const queryString = getQuery({
+  const reportQueryString = getQuery({
     ...query,
     cost_type: costType,
     currency,
@@ -594,9 +594,14 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   const reportPathsType = getReportPathsType(perspective);
   const reportType = getReportType(perspective);
 
-  const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
-  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+  const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
+  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
+    state,
+    reportPathsType,
+    reportType,
+    reportQueryString
+  );
 
   return {
     awsProviders,
@@ -614,10 +619,10 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     providersFetchStatus,
     providersQueryString,
     query,
-    queryString,
     report,
     reportError,
     reportFetchStatus,
+    reportQueryString,
     userAccess,
     userAccessError,
     userAccessFetchStatus,

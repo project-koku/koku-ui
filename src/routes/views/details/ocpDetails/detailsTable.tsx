@@ -2,7 +2,6 @@ import 'routes/views/details/components/dataTable/dataTable.scss';
 
 import { Label } from '@patternfly/react-core';
 import { ProviderType } from 'api/providers';
-import { getQuery } from 'api/queries/ocpQuery';
 import type { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -60,12 +59,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
-    const { hiddenColumns, queryString, report, selectedItems } = this.props;
+    const { hiddenColumns, report, selectedItems } = this.props;
     const currentReport = report && report.data ? JSON.stringify(report.data) : '';
     const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
 
     if (
-      getQuery(prevProps.queryString) !== getQuery(queryString) ||
       previousReport !== currentReport ||
       prevProps.selectedItems !== selectedItems ||
       prevProps.hiddenColumns !== hiddenColumns
