@@ -1,6 +1,5 @@
 import 'routes/views/details/components/dataTable/dataTable.scss';
 
-import { getQuery } from 'api/queries/ociQuery';
 import type { OciReport } from 'api/reports/ociReports';
 import { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -51,22 +50,18 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
-    const { queryString, report, selectedItems } = this.props;
+    const { report, selectedItems } = this.props;
     const currentReport = report && report.data ? JSON.stringify(report.data) : '';
     const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
 
-    if (
-      getQuery(prevProps.queryString) !== getQuery(queryString) ||
-      previousReport !== currentReport ||
-      prevProps.selectedItems !== selectedItems
-    ) {
+    if (previousReport !== currentReport || prevProps.selectedItems !== selectedItems) {
       this.initDatum();
     }
   }
 
   private initDatum = () => {
-    const { groupBy, groupByTagKey, isAllSelected, queryString, report, selectedItems, intl } = this.props;
-    if (!queryString || !report) {
+    const { groupBy, groupByTagKey, isAllSelected, report, selectedItems, intl } = this.props;
+    if (!report) {
       return;
     }
 
