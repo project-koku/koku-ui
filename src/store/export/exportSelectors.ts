@@ -1,7 +1,7 @@
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import type { RootState } from 'store/rootReducer';
 
-import { exportStateKey, getExportId } from './exportCommon';
+import { exportStateKey, getFetchId } from './exportCommon';
 
 export const selectExportState = (state: RootState) => state[exportStateKey];
 
@@ -9,19 +9,19 @@ export const selectExport = (
   state: RootState,
   reportPathsType: ReportPathsType,
   reportType: ReportType,
-  query: string
-) => selectExportState(state).byId.get(getExportId(reportPathsType, reportType, query));
+  reportQueryString: string
+) => selectExportState(state).byId.get(getFetchId(reportPathsType, reportType, reportQueryString));
 
 export const selectExportFetchStatus = (
   state: RootState,
   reportPathsType: ReportPathsType,
   reportType: ReportType,
-  query: string
-) => selectExportState(state).fetchStatus.get(getExportId(reportPathsType, reportType, query));
+  reportQueryString: string
+) => selectExportState(state).fetchStatus.get(getFetchId(reportPathsType, reportType, reportQueryString));
 
 export const selectExportError = (
   state: RootState,
   reportPathsType: ReportPathsType,
   reportType: ReportType,
-  query: string
-) => selectExportState(state).errors.get(getExportId(reportPathsType, reportType, query));
+  reportQueryString: string
+) => selectExportState(state).errors.get(getFetchId(reportPathsType, reportType, reportQueryString));

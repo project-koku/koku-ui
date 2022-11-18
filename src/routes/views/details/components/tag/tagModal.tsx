@@ -25,9 +25,9 @@ interface TagModalStateProps {
   groupBy: string;
   groupByValue: string | number;
   query?: Query;
-  queryString?: string;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
+  tagQueryString?: string;
 }
 
 interface TagModalDispatchProps {
@@ -45,14 +45,14 @@ class TagModalBase extends React.Component<TagModalProps> {
   }
 
   public componentDidMount() {
-    const { fetchTag, queryString, tagReportPathsType } = this.props;
-    fetchTag(tagReportPathsType, tagReportType, queryString);
+    const { fetchTag, tagReportPathsType, tagQueryString } = this.props;
+    fetchTag(tagReportPathsType, tagReportType, tagQueryString);
   }
 
   public componentDidUpdate(prevProps: TagModalProps) {
-    const { fetchTag, queryString, tagReportPathsType } = this.props;
-    if (prevProps.queryString !== queryString) {
-      fetchTag(tagReportPathsType, tagReportType, queryString);
+    const { fetchTag, tagReportPathsType, tagQueryString } = this.props;
+    if (prevProps.tagQueryString !== tagQueryString) {
+      fetchTag(tagReportPathsType, tagReportType, tagQueryString);
     }
   }
 
@@ -125,18 +125,23 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
       ...(groupBy && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
     },
   };
-  const queryString = getQuery(newQuery);
 
-  const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
-  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagReportPathsType, tagReportType, queryString);
+  const tagQueryString = getQuery(newQuery);
+  const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
+  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
+    state,
+    tagReportPathsType,
+    tagReportType,
+    tagQueryString
+  );
 
   return {
     groupBy,
     groupByValue,
     query,
-    queryString,
     tagReport,
     tagReportFetchStatus,
+    tagQueryString,
   };
 });
 

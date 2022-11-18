@@ -2,6 +2,6 @@ import type { TagPathsType, TagType } from 'api/tags/tag';
 
 export const tagStateKey = 'tag';
 
-export function getTagId(tagPathsType: TagPathsType, tagType: TagType, query: string) {
-  return `${tagPathsType}--${tagType}--${query}`;
+export function getFetchId(tagPathsType: TagPathsType, tagType: TagType, tagQueryString: string) {
+  return `${tagPathsType}--${tagType}--${tagQueryString}`;
 }

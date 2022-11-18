@@ -25,9 +25,9 @@ interface SummaryModalContentOwnProps {
 }
 
 interface SummaryModalContentStateProps {
-  queryString?: string;
   report?: Report;
   reportFetchStatus?: FetchStatus;
+  reportQueryString?: string;
 }
 
 interface SummaryModalContentDispatchProps {
@@ -47,14 +47,14 @@ class SummaryModalContentBase extends React.Component<SummaryModalContentProps> 
   }
 
   public componentDidMount() {
-    const { fetchReport, queryString, reportPathsType } = this.props;
-    fetchReport(reportPathsType, reportType, queryString);
+    const { fetchReport, reportPathsType, reportQueryString } = this.props;
+    fetchReport(reportPathsType, reportType, reportQueryString);
   }
 
   public componentDidUpdate(prevProps: SummaryModalContentProps) {
-    const { fetchReport, queryString, reportPathsType } = this.props;
-    if (prevProps.queryString !== queryString) {
-      fetchReport(reportPathsType, reportType, queryString);
+    const { fetchReport, reportPathsType, reportQueryString } = this.props;
+    if (prevProps.reportQueryString !== reportQueryString) {
+      fetchReport(reportPathsType, reportType, reportQueryString);
     }
   }
 
@@ -122,18 +122,24 @@ const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, Summa
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
       },
     };
-    const queryString = getQuery({
+
+    const reportQueryString = getQuery({
       ...newQuery,
       cost_type: costType,
       currency,
     });
+    const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(
+      state,
+      reportPathsType,
+      reportType,
+      reportQueryString
+    );
 
-    const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
-    const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
     return {
-      queryString,
       report,
       reportFetchStatus,
+      reportQueryString,
     };
   }
 );

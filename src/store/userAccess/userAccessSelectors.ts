@@ -1,17 +1,23 @@
 import type { UserAccessType } from 'api/userAccess';
 import type { RootState } from 'store/rootReducer';
 
-import { getReportId, stateKey } from './userAccessCommon';
+import { getFetchId, stateKey } from './userAccessCommon';
 
 export const selectUserAccessState = (state: RootState) => state[stateKey];
 
 // Fetch userAccess
 
-export const selectUserAccess = (state: RootState, providerType: UserAccessType, query: string) =>
-  selectUserAccessState(state).byId.get(getReportId(providerType, query));
+export const selectUserAccess = (state: RootState, providerType: UserAccessType, providerQueryString: string) =>
+  selectUserAccessState(state).byId.get(getFetchId(providerType, providerQueryString));
 
-export const selectUserAccessFetchStatus = (state: RootState, providerType: UserAccessType, query: string) =>
-  selectUserAccessState(state).fetchStatus.get(getReportId(providerType, query));
+export const selectUserAccessFetchStatus = (
+  state: RootState,
+  userAccessType: UserAccessType,
+  userAccessQueryString: string
+) => selectUserAccessState(state).fetchStatus.get(getFetchId(userAccessType, userAccessQueryString));
 
-export const selectUserAccessError = (state: RootState, providerType: UserAccessType, query: string) =>
-  selectUserAccessState(state).errors.get(getReportId(providerType, query));
+export const selectUserAccessError = (
+  state: RootState,
+  userAccessType: UserAccessType,
+  userAccessQueryString: string
+) => selectUserAccessState(state).errors.get(getFetchId(userAccessType, userAccessQueryString));

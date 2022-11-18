@@ -50,10 +50,10 @@ interface GcpDetailsStateProps {
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   query: GcpQuery;
-  queryString: string;
   report: GcpReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
+  reportQueryString: string;
 }
 
 interface GcpDetailsDispatchProps {
@@ -117,10 +117,10 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   }
 
   public componentDidUpdate(prevProps: GcpDetailsProps, prevState: GcpDetailsState) {
-    const { location, report, reportError, queryString } = this.props;
+    const { location, report, reportError, reportQueryString } = this.props;
     const { selectedItems } = this.state;
 
-    const newQuery = prevProps.queryString !== queryString;
+    const newQuery = prevProps.reportQueryString !== reportQueryString;
     const noReport = !report && !reportError;
     const noLocation = !location.search;
     const newItems = prevState.selectedItems !== selectedItems;
@@ -143,7 +143,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
-    const { query, queryString, report } = this.props;
+    const { query, report, reportQueryString } = this.props;
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -165,8 +165,8 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
         isOpen={isExportModalOpen}
         items={items}
         onClose={this.handleExportModalClose}
-        queryString={queryString}
         reportPathsType={reportPathsType}
+        reportQueryString={reportQueryString}
       />
     );
   };
@@ -206,7 +206,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   };
 
   private getTable = () => {
-    const { history, query, queryString, report, reportFetchStatus } = this.props;
+    const { history, query, report, reportFetchStatus, reportQueryString } = this.props;
     const { isAllSelected, selectedItems } = this.state;
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
@@ -219,8 +219,8 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={(sortType, isSortAscending) => handleSort(history, query, sortType, isSortAscending)}
-        queryString={queryString}
         report={report}
+        reportQueryString={reportQueryString}
         selectedItems={selectedItems}
       />
     );
@@ -308,7 +308,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   };
 
   private updateReport = () => {
-    const { fetchReport, history, location, query, queryString } = this.props;
+    const { fetchReport, history, location, query, reportQueryString } = this.props;
     if (!location.search) {
       history.replace(
         getRouteForQuery(history, {
@@ -319,7 +319,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
         })
       );
     } else {
-      fetchReport(reportPathsType, reportType, queryString);
+      fetchReport(reportPathsType, reportType, reportQueryString);
     }
   };
 
@@ -390,13 +390,18 @@ const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStat
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
   };
-  const queryString = getQuery({
+  const reportQueryString = getQuery({
     ...query,
     currency,
   });
-  const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
-  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+  const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
+  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
+    state,
+    reportPathsType,
+    reportType,
+    reportQueryString
+  );
 
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
@@ -413,10 +418,10 @@ const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStat
     providersError,
     providersFetchStatus,
     query,
-    queryString,
     report,
     reportError,
     reportFetchStatus,
+    reportQueryString,
 
     // Testing...
     //

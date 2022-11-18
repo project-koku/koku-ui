@@ -26,9 +26,9 @@ const mockTagReport: Tag = {
   },
 } as any;
 
-const query = 'query';
 const tagReportType = TagType.tag;
 const tagReportPathsType = TagPathsType.aws;
+const tagQueryString = 'tagQueryString';
 
 runTagMock.mockResolvedValue({ data: mockTagReport });
 global.Date.now = jest.fn(() => 12345);
@@ -43,47 +43,47 @@ test('default state', () => {
 
 test('fetch tag report success', async () => {
   const store = createTagsStore();
-  store.dispatch(actions.fetchTag(tagReportPathsType, tagReportType, query));
+  store.dispatch(actions.fetchTag(tagReportPathsType, tagReportType, tagQueryString));
   expect(runTagMock).toBeCalled();
-  expect(selectors.selectTagFetchStatus(store.getState(), tagReportPathsType, tagReportType, query)).toBe(
+  expect(selectors.selectTagFetchStatus(store.getState(), tagReportPathsType, tagReportType, tagQueryString)).toBe(
     FetchStatus.inProgress
   );
   await waitFor(() => expect(selectors.selectTagFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectTagFetchStatus(finishedState, tagReportPathsType, tagReportType, query)).toBe(
+  expect(selectors.selectTagFetchStatus(finishedState, tagReportPathsType, tagReportType, tagQueryString)).toBe(
     FetchStatus.complete
   );
-  expect(selectors.selectTagError(finishedState, tagReportPathsType, tagReportType, query)).toBe(null);
+  expect(selectors.selectTagError(finishedState, tagReportPathsType, tagReportType, tagQueryString)).toBe(null);
 });
 
 test('fetch tag report failure', async () => {
   const store = createTagsStore();
   const error = Symbol('tag error');
   runTagMock.mockRejectedValueOnce(error);
-  store.dispatch(actions.fetchTag(tagReportPathsType, tagReportType, query));
+  store.dispatch(actions.fetchTag(tagReportPathsType, tagReportType, tagQueryString));
   expect(runTag).toBeCalled();
-  expect(selectors.selectTagFetchStatus(store.getState(), tagReportPathsType, tagReportType, query)).toBe(
+  expect(selectors.selectTagFetchStatus(store.getState(), tagReportPathsType, tagReportType, tagQueryString)).toBe(
     FetchStatus.inProgress
   );
   await waitFor(() => expect(selectors.selectTagFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectTagFetchStatus(finishedState, tagReportPathsType, tagReportType, query)).toBe(
+  expect(selectors.selectTagFetchStatus(finishedState, tagReportPathsType, tagReportType, tagQueryString)).toBe(
     FetchStatus.complete
   );
-  expect(selectors.selectTagError(finishedState, tagReportPathsType, tagReportType, query)).toBe(error);
+  expect(selectors.selectTagError(finishedState, tagReportPathsType, tagReportType, tagQueryString)).toBe(error);
 });
 
 test('does not fetch tag report if the request is in progress', () => {
   const store = createTagsStore();
-  store.dispatch(actions.fetchTag(tagReportPathsType, tagReportType, query));
-  store.dispatch(actions.fetchTag(tagReportPathsType, tagReportType, query));
+  store.dispatch(actions.fetchTag(tagReportPathsType, tagReportType, tagQueryString));
+  store.dispatch(actions.fetchTag(tagReportPathsType, tagReportType, tagQueryString));
   expect(runTag).toHaveBeenCalledTimes(1);
 });
 
 test('tag report is not refetched if it has not expired', async () => {
   const store = createTagsStore();
-  store.dispatch(actions.fetchTag(tagReportPathsType, tagReportType, query));
+  store.dispatch(actions.fetchTag(tagReportPathsType, tagReportType, tagQueryString));
   await waitFor(() => expect(actions.fetchTag).toHaveBeenCalled());
-  store.dispatch(actions.fetchTag(tagReportPathsType, tagReportType, query));
+  store.dispatch(actions.fetchTag(tagReportPathsType, tagReportType, tagQueryString));
   expect(runTag).toHaveBeenCalledTimes(1);
 });

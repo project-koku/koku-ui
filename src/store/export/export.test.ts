@@ -26,14 +26,14 @@ const mockExport: Export = {
   },
 } as any;
 
-const query = 'query';
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.aws;
+const reportQueryString = 'reportQueryString';
 
 runExportMock.mockResolvedValue({ data: mockExport });
 global.Date.now = jest.fn(() => 12345);
 
-jest.spyOn(actions, 'exportReport');
+jest.spyOn(actions, 'fetchExport');
 jest.spyOn(selectors, 'selectExportFetchStatus');
 
 test('default state', () => {
@@ -43,47 +43,47 @@ test('default state', () => {
 
 test('fetch export success', async () => {
   const store = createExportsStore();
-  store.dispatch(actions.exportReport(reportPathsType, reportType, query));
+  store.dispatch(actions.fetchExport(reportPathsType, reportType, reportQueryString));
   expect(runExportMock).toBeCalled();
-  expect(selectors.selectExportFetchStatus(store.getState(), reportPathsType, reportType, query)).toBe(
+  expect(selectors.selectExportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.inProgress
   );
   await waitFor(() => expect(selectors.selectExportFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectExportFetchStatus(finishedState, reportPathsType, reportType, query)).toBe(
+  expect(selectors.selectExportFetchStatus(finishedState, reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.complete
   );
-  expect(selectors.selectExportError(finishedState, reportPathsType, reportType, query)).toBe(null);
+  expect(selectors.selectExportError(finishedState, reportPathsType, reportType, reportQueryString)).toBe(null);
 });
 
 test('fetch export failure', async () => {
   const store = createExportsStore();
   const error = Symbol('export error');
   runExportMock.mockRejectedValueOnce(error);
-  store.dispatch(actions.exportReport(reportPathsType, reportType, query));
+  store.dispatch(actions.fetchExport(reportPathsType, reportType, reportQueryString));
   expect(runExport).toBeCalled();
-  expect(selectors.selectExportFetchStatus(store.getState(), reportPathsType, reportType, query)).toBe(
+  expect(selectors.selectExportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.inProgress
   );
   await waitFor(() => expect(selectors.selectExportFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectExportFetchStatus(finishedState, reportPathsType, reportType, query)).toBe(
+  expect(selectors.selectExportFetchStatus(finishedState, reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.complete
   );
-  expect(selectors.selectExportError(finishedState, reportPathsType, reportType, query)).toBe(error);
+  expect(selectors.selectExportError(finishedState, reportPathsType, reportType, reportQueryString)).toBe(error);
 });
 
 test('does not export if the request is in progress', () => {
   const store = createExportsStore();
-  store.dispatch(actions.exportReport(reportPathsType, reportType, query));
-  store.dispatch(actions.exportReport(reportPathsType, reportType, query));
+  store.dispatch(actions.fetchExport(reportPathsType, reportType, reportQueryString));
+  store.dispatch(actions.fetchExport(reportPathsType, reportType, reportQueryString));
   expect(runExport).toHaveBeenCalledTimes(1);
 });
 
 test('export is not re-exported if it has not expired', async () => {
   const store = createExportsStore();
-  store.dispatch(actions.exportReport(reportPathsType, reportType, query));
-  await waitFor(() => expect(actions.exportReport).toHaveBeenCalled());
-  store.dispatch(actions.exportReport(reportPathsType, reportType, query));
+  store.dispatch(actions.fetchExport(reportPathsType, reportType, reportQueryString));
+  await waitFor(() => expect(actions.fetchExport).toHaveBeenCalled());
+  store.dispatch(actions.fetchExport(reportPathsType, reportType, reportQueryString));
   expect(runExport).toHaveBeenCalledTimes(1);
 });

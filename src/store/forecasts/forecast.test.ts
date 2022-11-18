@@ -26,9 +26,9 @@ const mockForecast: Forecast = {
   },
 } as any;
 
-const query = 'query';
 const forecastType = ForecastType.cost;
 const forecastPathsType = ForecastPathsType.aws;
+const reportQueryString = 'reportQueryString';
 
 runForecastMock.mockResolvedValue({ data: mockForecast });
 global.Date.now = jest.fn(() => 12345);
@@ -43,47 +43,47 @@ test('default state', () => {
 
 test('fetch forecast success', async () => {
   const store = createForecastsStore();
-  store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, query));
+  store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, reportQueryString));
   expect(runForecastMock).toBeCalled();
-  expect(selectors.selectForecastFetchStatus(store.getState(), forecastPathsType, forecastType, query)).toBe(
-    FetchStatus.inProgress
-  );
+  expect(
+    selectors.selectForecastFetchStatus(store.getState(), forecastPathsType, forecastType, reportQueryString)
+  ).toBe(FetchStatus.inProgress);
   await waitFor(() => expect(selectors.selectForecastFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectForecastFetchStatus(finishedState, forecastPathsType, forecastType, query)).toBe(
+  expect(selectors.selectForecastFetchStatus(finishedState, forecastPathsType, forecastType, reportQueryString)).toBe(
     FetchStatus.complete
   );
-  expect(selectors.selectForecastError(finishedState, forecastPathsType, forecastType, query)).toBe(null);
+  expect(selectors.selectForecastError(finishedState, forecastPathsType, forecastType, reportQueryString)).toBe(null);
 });
 
 test('fetch forecast failure', async () => {
   const store = createForecastsStore();
   const error = Symbol('forecast error');
   runForecastMock.mockRejectedValueOnce(error);
-  store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, query));
+  store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, reportQueryString));
   expect(runForecast).toBeCalled();
-  expect(selectors.selectForecastFetchStatus(store.getState(), forecastPathsType, forecastType, query)).toBe(
-    FetchStatus.inProgress
-  );
+  expect(
+    selectors.selectForecastFetchStatus(store.getState(), forecastPathsType, forecastType, reportQueryString)
+  ).toBe(FetchStatus.inProgress);
   await waitFor(() => expect(selectors.selectForecastFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectForecastFetchStatus(finishedState, forecastPathsType, forecastType, query)).toBe(
+  expect(selectors.selectForecastFetchStatus(finishedState, forecastPathsType, forecastType, reportQueryString)).toBe(
     FetchStatus.complete
   );
-  expect(selectors.selectForecastError(finishedState, forecastPathsType, forecastType, query)).toBe(error);
+  expect(selectors.selectForecastError(finishedState, forecastPathsType, forecastType, reportQueryString)).toBe(error);
 });
 
 test('does not fetch forecast if the request is in progress', () => {
   const store = createForecastsStore();
-  store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, query));
-  store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, query));
+  store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, reportQueryString));
+  store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, reportQueryString));
   expect(runForecast).toHaveBeenCalledTimes(1);
 });
 
 test('forecast is not refetched if it has not expired', async () => {
   const store = createForecastsStore();
-  store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, query));
+  store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, reportQueryString));
   await waitFor(() => expect(actions.fetchForecast).toHaveBeenCalled());
-  store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, query));
+  store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, reportQueryString));
   expect(runForecast).toHaveBeenCalledTimes(1);
 });

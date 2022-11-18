@@ -36,25 +36,25 @@ export function resourceReducer(state = defaultState, action: ResourceAction): R
     case getType(fetchResourceRequest):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.payload.resourceId, FetchStatus.inProgress),
+        fetchStatus: new Map(state.fetchStatus).set(action.payload.fetchId, FetchStatus.inProgress),
       };
 
     case getType(fetchResourceSuccess):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.resourceId, FetchStatus.complete),
-        byId: new Map(state.byId).set(action.meta.resourceId, {
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        byId: new Map(state.byId).set(action.meta.fetchId, {
           ...action.payload,
           timeRequested: Date.now(),
         }),
-        errors: new Map(state.errors).set(action.meta.resourceId, null),
+        errors: new Map(state.errors).set(action.meta.fetchId, null),
       };
 
     case getType(fetchResourceFailure):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.resourceId, FetchStatus.complete),
-        errors: new Map(state.errors).set(action.meta.resourceId, action.payload),
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        errors: new Map(state.errors).set(action.meta.fetchId, action.payload),
       };
     default:
       return state;

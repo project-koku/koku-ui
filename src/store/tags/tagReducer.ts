@@ -36,25 +36,25 @@ export function tagReducer(state = defaultState, action: TagAction): TagState {
     case getType(fetchTagRequest):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.payload.tagId, FetchStatus.inProgress),
+        fetchStatus: new Map(state.fetchStatus).set(action.payload.fetchId, FetchStatus.inProgress),
       };
 
     case getType(fetchTagSuccess):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.tagId, FetchStatus.complete),
-        byId: new Map(state.byId).set(action.meta.tagId, {
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        byId: new Map(state.byId).set(action.meta.fetchId, {
           ...action.payload,
           timeRequested: Date.now(),
         }),
-        errors: new Map(state.errors).set(action.meta.tagId, null),
+        errors: new Map(state.errors).set(action.meta.fetchId, null),
       };
 
     case getType(fetchTagFailure):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.tagId, FetchStatus.complete),
-        errors: new Map(state.errors).set(action.meta.tagId, action.payload),
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        errors: new Map(state.errors).set(action.meta.fetchId, action.payload),
       };
     default:
       return state;

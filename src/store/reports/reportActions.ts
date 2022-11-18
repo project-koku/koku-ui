@@ -7,31 +7,35 @@ import { FetchStatus } from 'store/common';
 import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
-import { getReportId } from './reportCommon';
+import { getFetchId } from './reportCommon';
 import { selectReport, selectReportFetchStatus } from './reportSelectors';
 
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
 interface ReportActionMeta {
-  reportId: string;
+  fetchId: string;
 }
 
 export const fetchReportRequest = createAction('report/request')<ReportActionMeta>();
 export const fetchReportSuccess = createAction('report/success')<Report, ReportActionMeta>();
 export const fetchReportFailure = createAction('report/failure')<AxiosError, ReportActionMeta>();
 
-export function fetchReport(reportPathsType: ReportPathsType, reportType: ReportType, query: string): ThunkAction {
+export function fetchReport(
+  reportPathsType: ReportPathsType,
+  reportType: ReportType,
+  reportQueryString: string
+): ThunkAction {
   return (dispatch, getState) => {
-    if (!isReportExpired(getState(), reportPathsType, reportType, query)) {
+    if (!isReportExpired(getState(), reportPathsType, reportType, reportQueryString)) {
       return;
     }
 
     const meta: ReportActionMeta = {
-      reportId: getReportId(reportPathsType, reportType, query),
+      fetchId: getFetchId(reportPathsType, reportType, reportQueryString),
     };
 
     dispatch(fetchReportRequest(meta));
-    runReport(reportPathsType, reportType, query)
+    runReport(reportPathsType, reportType, reportQueryString)
       .then(res => {
         // See https://github.com/project-koku/koku-ui/pull/580
         // const repsonseData = dropCurrentMonthData(res, query);
@@ -43,9 +47,14 @@ export function fetchReport(reportPathsType: ReportPathsType, reportType: Report
   };
 }
 
-function isReportExpired(state: RootState, reportPathsType: ReportPathsType, reportType: ReportType, query: string) {
-  const report = selectReport(state, reportPathsType, reportType, query);
-  const fetchStatus = selectReportFetchStatus(state, reportPathsType, reportType, query);
+function isReportExpired(
+  state: RootState,
+  reportPathsType: ReportPathsType,
+  reportType: ReportType,
+  reportQueryString: string
+) {
+  const report = selectReport(state, reportPathsType, reportType, reportQueryString);
+  const fetchStatus = selectReportFetchStatus(state, reportPathsType, reportType, reportQueryString);
   if (fetchStatus === FetchStatus.inProgress) {
     return false;
   }

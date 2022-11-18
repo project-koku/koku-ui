@@ -1,8 +1,6 @@
 import { Title, TitleSizes } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
-import type { GcpQuery } from 'api/queries/gcpQuery';
-import { getQuery } from 'api/queries/gcpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { GcpReport } from 'api/reports/gcpReports';
 import { TagPathsType } from 'api/tags/tag';
@@ -41,19 +39,10 @@ interface DetailsHeaderStateProps {
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
-  queryString?: string;
+  providersQueryString?: string;
 }
 
 type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & WrappedComponentProps;
-
-const baseQuery: GcpQuery = {
-  delta: 'cost',
-  filter: {
-    time_scope_units: 'month',
-    time_scope_value: -1,
-    resolution: 'monthly',
-  },
-};
 
 const groupByOptions: {
   label: string;
@@ -128,8 +117,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHeaderStateProps>((state, props) => {
-  const queryString = getQuery(baseQuery);
-
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
   const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
@@ -145,7 +132,7 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
     providers: filterProviders(providers, ProviderType.gcp),
     providersError,
     providersFetchStatus,
-    queryString,
+    providersQueryString,
   };
 });
 

@@ -22,7 +22,6 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { exportActions } from 'store/export';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
@@ -36,8 +35,8 @@ export interface ExportModalOwnProps {
   isOpen: boolean;
   items?: ComputedReportItem[];
   onClose(isOpen: boolean);
-  queryString?: string;
   reportPathsType: ReportPathsType;
+  reportQueryString: string;
   resolution?: 'daily' | 'monthly'; // Default resolution
   showAggregateType?: boolean; // Monthly resolution filters are not valid with date range
   showFormatType?: boolean; // Format type; CVS / JSON
@@ -48,10 +47,6 @@ interface ExportModalStateProps {
   isExportsFeatureEnabled?: boolean;
 }
 
-interface ExportModalDispatchProps {
-  exportReport?: typeof exportActions.exportReport;
-}
-
 interface ExportModalState {
   error?: AxiosError;
   formatType: 'csv' | 'json';
@@ -60,7 +55,7 @@ interface ExportModalState {
   resolution: string;
 }
 
-type ExportModalProps = ExportModalOwnProps & ExportModalDispatchProps & ExportModalStateProps & WrappedComponentProps;
+type ExportModalProps = ExportModalOwnProps & ExportModalStateProps & WrappedComponentProps;
 
 const formatTypeOptions: {
   label: MessageDescriptor;
@@ -148,8 +143,8 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       isAllItems,
       isExportsFeatureEnabled,
       items,
-      queryString,
       reportPathsType,
+      reportQueryString,
       showAggregateType = true,
       showFormatType = true,
       showTimeScope = true,
@@ -209,8 +204,8 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             onClose={this.handleClose}
             onError={this.handleError}
             name={defaultName}
-            queryString={queryString}
             reportPathsType={reportPathsType}
+            reportQueryString={reportQueryString}
             resolution={resolution}
           />,
           <Button ouiaId="cancel-btn" key="cancel" onClick={this.handleClose} variant={ButtonVariant.link}>
@@ -335,11 +330,7 @@ const mapStateToProps = createMapStateToProps<ExportModalOwnProps, unknown>(stat
   };
 });
 
-const mapDispatchToProps: ExportModalDispatchProps = {
-  exportReport: exportActions.exportReport,
-};
-
-const ExportModalConnect = connect(mapStateToProps, mapDispatchToProps)(ExportModalBase);
+const ExportModalConnect = connect(mapStateToProps, undefined)(ExportModalBase);
 const ExportModal = injectIntl(ExportModalConnect);
 
 export default ExportModal;

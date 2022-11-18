@@ -48,7 +48,7 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
     case getType(fetchAccountSettingsRequest):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.payload.reportId, FetchStatus.inProgress),
+        fetchStatus: new Map(state.fetchStatus).set(action.payload.fetchId, FetchStatus.inProgress),
       };
     case getType(fetchAccountSettingsSuccess):
       initCostType(action.payload.data.cost_type);
@@ -56,17 +56,17 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
 
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.reportId, FetchStatus.complete),
-        byId: new Map(state.byId).set(action.meta.reportId, {
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        byId: new Map(state.byId).set(action.meta.fetchId, {
           ...action.payload,
         }),
-        errors: new Map(state.errors).set(action.meta.reportId, null),
+        errors: new Map(state.errors).set(action.meta.fetchId, null),
       };
     case getType(fetchAccountSettingsFailure):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.reportId, FetchStatus.complete),
-        errors: new Map(state.errors).set(action.meta.reportId, action.payload),
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        errors: new Map(state.errors).set(action.meta.fetchId, action.payload),
       };
     default:
       return state;

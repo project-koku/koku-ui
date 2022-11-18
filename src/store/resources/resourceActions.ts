@@ -7,13 +7,13 @@ import { FetchStatus } from 'store/common';
 import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
-import { getResourceId } from './resourceCommon';
+import { getFetchId } from './resourceCommon';
 import { selectResource, selectResourceFetchStatus } from './resourceSelectors';
 
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
 interface ResourceActionMeta {
-  resourceId: string;
+  fetchId: string;
 }
 
 export const fetchResourceRequest = createAction('resource/request')<ResourceActionMeta>();
@@ -23,19 +23,19 @@ export const fetchResourceFailure = createAction('resource/failure')<AxiosError,
 export function fetchResource(
   resourcePathsType: ResourcePathsType,
   resourceType: ResourceType,
-  query: string
+  resourceQueryString: string
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {
-    if (!isResourceExpired(getState(), resourcePathsType, resourceType, query)) {
+    if (!isResourceExpired(getState(), resourcePathsType, resourceType, resourceQueryString)) {
       return;
     }
 
     const meta: ResourceActionMeta = {
-      resourceId: getResourceId(resourcePathsType, resourceType, query),
+      fetchId: getFetchId(resourcePathsType, resourceType, resourceQueryString),
     };
 
     dispatch(fetchResourceRequest(meta));
-    runResource(resourcePathsType, resourceType, query)
+    runResource(resourcePathsType, resourceType, resourceQueryString)
       .then(res => {
         dispatch(fetchResourceSuccess(res.data, meta));
       })
@@ -49,10 +49,10 @@ function isResourceExpired(
   state: RootState,
   resourcePathsType: ResourcePathsType,
   resourceType: ResourceType,
-  query: string
+  resourceQueryString: string
 ) {
-  const resource = selectResource(state, resourcePathsType, resourceType, query);
-  const fetchStatus = selectResourceFetchStatus(state, resourcePathsType, resourceType, query);
+  const resource = selectResource(state, resourcePathsType, resourceType, resourceQueryString);
+  const fetchStatus = selectResourceFetchStatus(state, resourcePathsType, resourceType, resourceQueryString);
   if (fetchStatus === FetchStatus.inProgress) {
     return false;
   }

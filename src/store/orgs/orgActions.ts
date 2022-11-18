@@ -7,13 +7,13 @@ import { FetchStatus } from 'store/common';
 import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
-import { getOrgId } from './orgCommon';
+import { getFetchId } from './orgCommon';
 import { selectOrg, selectOrgFetchStatus } from './orgSelectors';
 
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
 interface OrgActionMeta {
-  orgId: string;
+  fetchId: string;
 }
 
 export const fetchOrgRequest = createAction('org/request')<OrgActionMeta>();
@@ -23,19 +23,19 @@ export const fetchOrgFailure = createAction('org/failure')<AxiosError, OrgAction
 export function fetchOrg(
   orgPathsType: OrgPathsType,
   orgType: OrgType,
-  query: string
+  orgQueryString: string
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {
-    if (!isOrgExpired(getState(), orgPathsType, orgType, query)) {
+    if (!isOrgExpired(getState(), orgPathsType, orgType, orgQueryString)) {
       return;
     }
 
     const meta: OrgActionMeta = {
-      orgId: getOrgId(orgPathsType, orgType, query),
+      fetchId: getFetchId(orgPathsType, orgType, orgQueryString),
     };
 
     dispatch(fetchOrgRequest(meta));
-    runOrg(orgPathsType, orgType, query)
+    runOrg(orgPathsType, orgType, orgQueryString)
       .then(res => {
         // See https://github.com/project-koku/koku-ui/pull/580
         // const repsonseData = dropCurrentMonthData(res, query);
@@ -47,9 +47,9 @@ export function fetchOrg(
   };
 }
 
-function isOrgExpired(state: RootState, orgPathsType: OrgPathsType, orgType: OrgType, query: string) {
-  const orgReport = selectOrg(state, orgPathsType, orgType, query);
-  const fetchStatus = selectOrgFetchStatus(state, orgPathsType, orgType, query);
+function isOrgExpired(state: RootState, orgPathsType: OrgPathsType, orgType: OrgType, orgQueryString: string) {
+  const orgReport = selectOrg(state, orgPathsType, orgType, orgQueryString);
+  const fetchStatus = selectOrgFetchStatus(state, orgPathsType, orgType, orgQueryString);
   if (fetchStatus === FetchStatus.inProgress) {
     return false;
   }

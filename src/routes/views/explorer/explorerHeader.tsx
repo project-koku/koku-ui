@@ -3,7 +3,7 @@ import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery } from 'api/queries/query';
+import { parseQuery } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
@@ -86,7 +86,6 @@ interface ExplorerHeaderStateProps {
   providersFetchStatus: FetchStatus;
   providersQueryString: string;
   query: Query;
-  queryString: string;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -322,7 +321,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHeaderStateProps>(
-  (state, { costType, currency, perspective }) => {
+  (state, { perspective }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
     const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
     const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
@@ -367,17 +366,6 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
         start_date,
       }),
     };
-    const queryString = getQuery({
-      ...query,
-      cost_type: costType,
-      currency,
-      ...(dateRangeType !== DateRangeType.custom && {
-        end_date,
-        start_date,
-      }),
-      perspective: undefined,
-      dateRangeType: undefined,
-    });
 
     return {
       awsProviders: filterProviders(providers, ProviderType.aws),
@@ -396,7 +384,6 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       providersFetchStatus,
       providersQueryString,
       query,
-      queryString,
       userAccess,
       userAccessError,
       userAccessFetchStatus,

@@ -7,13 +7,13 @@ import { FetchStatus } from 'store/common';
 import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
-import { getTagId } from './tagCommon';
+import { getFetchId } from './tagCommon';
 import { selectTag, selectTagFetchStatus } from './tagSelectors';
 
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
 interface TagActionMeta {
-  tagId: string;
+  fetchId: string;
 }
 
 export const fetchTagRequest = createAction('tag/request')<TagActionMeta>();
@@ -23,19 +23,19 @@ export const fetchTagFailure = createAction('tag/failure')<AxiosError, TagAction
 export function fetchTag(
   tagPathsType: TagPathsType,
   tagType: TagType,
-  query: string
+  tagQueryString: string
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {
-    if (!isTagExpired(getState(), tagPathsType, tagType, query)) {
+    if (!isTagExpired(getState(), tagPathsType, tagType, tagQueryString)) {
       return;
     }
 
     const meta: TagActionMeta = {
-      tagId: getTagId(tagPathsType, tagType, query),
+      fetchId: getFetchId(tagPathsType, tagType, tagQueryString),
     };
 
     dispatch(fetchTagRequest(meta));
-    runTag(tagPathsType, tagType, query)
+    runTag(tagPathsType, tagType, tagQueryString)
       .then(res => {
         // See https://github.com/project-koku/koku-ui/pull/580
         // const repsonseData = dropCurrentMonthData(res, query);
@@ -47,9 +47,9 @@ export function fetchTag(
   };
 }
 
-function isTagExpired(state: RootState, tagPathsType: TagPathsType, tagType: TagType, query: string) {
-  const tagReport = selectTag(state, tagPathsType, tagType, query);
-  const fetchStatus = selectTagFetchStatus(state, tagPathsType, tagType, query);
+function isTagExpired(state: RootState, tagPathsType: TagPathsType, tagType: TagType, tagQueryString: string) {
+  const tagReport = selectTag(state, tagPathsType, tagType, tagQueryString);
+  const fetchStatus = selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
   if (fetchStatus === FetchStatus.inProgress) {
     return false;
   }
