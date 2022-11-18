@@ -28,8 +28,8 @@ interface DetailsTableOwnProps {
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
-  queryString: string;
   report: OcpReport;
+  reportQueryString: string;
   selectedItems?: ComputedReportItem[];
 }
 
@@ -73,9 +73,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   private initDatum = () => {
-    const { groupBy, groupByTagKey, hiddenColumns, isAllSelected, queryString, report, selectedItems, intl } =
-      this.props;
-    if (!queryString || !report) {
+    const { groupBy, groupByTagKey, hiddenColumns, isAllSelected, report, selectedItems, intl } = this.props;
+    if (!report) {
       return;
     }
 
@@ -248,15 +247,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getActions = (item: ComputedReportItem) => {
-    const { groupBy, queryString } = this.props;
+    const { groupBy, reportQueryString } = this.props;
 
     return (
       <Actions
         groupBy={groupBy}
         item={item}
         providerType={ProviderType.ocp}
-        queryString={queryString}
         reportPathsType={reportPathsType}
+        reportQueryString={reportQueryString}
         showPriceListOption={groupBy === 'cluster'}
       />
     );

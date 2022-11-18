@@ -19,8 +19,8 @@ interface DetailsActionsOwnProps extends WrappedComponentProps, RouteComponentPr
   isDisabled?: boolean;
   item: ComputedReportItem;
   providerType?: ProviderType;
-  queryString: string;
   reportPathsType: ReportPathsType;
+  reportQueryString: string;
   showPriceListOption?: boolean;
 }
 
@@ -55,7 +55,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   }
 
   private getExportModal = () => {
-    const { groupBy, item, queryString, reportPathsType } = this.props;
+    const { groupBy, item, reportPathsType, reportQueryString } = this.props;
     const { isExportModalOpen } = this.state;
 
     return (
@@ -65,8 +65,8 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
         isOpen={isExportModalOpen}
         items={[item]}
         onClose={this.handleExportModalClose}
-        queryString={queryString}
         reportPathsType={reportPathsType}
+        reportQueryString={reportQueryString}
       />
     );
   };

@@ -26,8 +26,8 @@ interface DetailsTableOwnProps {
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
-  queryString: string;
   report: AwsReport;
+  reportQueryString: string;
   selectedItems?: ComputedReportItem[];
 }
 
@@ -61,8 +61,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   private initDatum = () => {
-    const { groupBy, groupByOrg, groupByTagKey, isAllSelected, queryString, report, selectedItems, intl } = this.props;
-    if (!queryString || !report) {
+    const { groupBy, groupByOrg, groupByTagKey, isAllSelected, report, selectedItems, intl } = this.props;
+    if (!report) {
       return;
     }
 
@@ -176,15 +176,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getActions = (item: ComputedReportItem, index: number, disabled: boolean = false) => {
-    const { groupBy, queryString } = this.props;
+    const { groupBy, reportQueryString } = this.props;
 
     return (
       <Actions
         groupBy={groupBy}
         isDisabled={disabled}
         item={item}
-        queryString={queryString}
         reportPathsType={reportPathsType}
+        reportQueryString={reportQueryString}
       />
     );
   };

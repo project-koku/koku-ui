@@ -18,7 +18,7 @@ import { createAction } from 'typesafe-actions';
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
 interface ExportActionMeta {
-  reportId: string;
+  exportId: string;
 }
 
 export const fetchExportRequest = createAction('report/request')<ExportActionMeta>();
@@ -27,7 +27,7 @@ export const fetchExportFailure = createAction('report/failure')<AxiosError, Exp
 
 const exportSuccessID = 'cost_management_export_success';
 
-export function exportReport(
+export function fetchExport(
   reportPathsType: ReportPathsType,
   reportType: ReportType,
   query: string,
@@ -39,7 +39,7 @@ export function exportReport(
     }
 
     const meta: ExportActionMeta = {
-      reportId: getExportId(reportPathsType, reportType, query),
+      exportId: getExportId(reportPathsType, reportType, query),
     };
 
     dispatch(fetchExportRequest(meta));

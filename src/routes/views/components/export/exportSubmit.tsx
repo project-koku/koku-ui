@@ -30,28 +30,28 @@ export interface ExportSubmitOwnProps {
   name?: string;
   onClose(isOpen: boolean);
   onError(error: AxiosError);
-  queryString: string;
   reportPathsType: ReportPathsType;
+  reportQueryString: string;
   resolution: string;
   timeScope: 'current' | 'previous';
 }
 
 interface ExportSubmitDispatchProps {
-  exportReport?: typeof exportActions.exportReport;
+  fetchExport?: typeof exportActions.fetchExport;
 }
 
 interface ExportSubmitStateProps {
   endDate: string;
+  exportError: AxiosError;
+  exportFetchStatus?: FetchStatus;
+  exportQueryString: string;
+  exportReport: Export;
   isExportsFeatureEnabled?: boolean;
-  report: Export;
-  reportError: AxiosError;
-  reportFetchStatus?: FetchStatus;
-  reportQueryString: string;
   startDate: string;
 }
 
 interface ExportSubmitState {
-  fetchReportClicked: boolean;
+  fetchExportClicked: boolean;
 }
 
 type ExportSubmitProps = ExportSubmitOwnProps &
@@ -63,7 +63,7 @@ const reportType = ReportType.cost;
 
 export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   protected defaultState: ExportSubmitState = {
-    fetchReportClicked: false,
+    fetchExportClicked: false,
   };
   public state: ExportSubmitState = { ...this.defaultState };
 
@@ -72,22 +72,22 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   }
 
   public componentDidUpdate(prevProps: ExportSubmitProps) {
-    const { report, reportError } = this.props;
-    const { fetchReportClicked } = this.state;
+    const { exportError, exportReport } = this.props;
+    const { fetchExportClicked } = this.state;
 
-    if (prevProps.report !== report && fetchReportClicked) {
+    if (prevProps.exportReport !== exportReport && fetchExportClicked) {
       this.getExport();
     }
     if (reportError) {
-      this.props.onError(reportError);
+      this.props.onError(exportError);
     }
   }
 
   private getExport = () => {
-    const { report, reportFetchStatus } = this.props;
+    const { exportFetchStatus, exportReport } = this.props;
 
-    if (report && reportFetchStatus === FetchStatus.complete) {
-      fileDownload(report.data, this.getFileName(), 'text/csv');
+    if (exportReport && exportFetchStatus === FetchStatus.complete) {
+      fileDownload(exportReport.data, this.getFileName(), 'text/csv');
       this.handleClose();
     }
   };
@@ -108,19 +108,19 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   };
 
   private handleClose = () => {
-    const { reportError } = this.props;
+    const { exportError } = this.props;
 
     this.setState({ ...this.defaultState }, () => {
-      if (!reportError) {
+      if (!exportError) {
         this.props.onClose(false);
       }
     });
   };
 
   private handleFetchReport = () => {
-    const { exportReport, isExportsFeatureEnabled, reportPathsType, reportQueryString } = this.props;
+    const { fetchExport, isExportsFeatureEnabled, reportPathsType, reportQueryString } = this.props;
 
-    exportReport(reportPathsType, reportType, reportQueryString, isExportsFeatureEnabled);
+    fetchExport(reportPathsType, reportType, reportQueryString, isExportsFeatureEnabled);
 
     this.setState(
       {
@@ -133,12 +133,12 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   };
 
   public render() {
-    const { disabled, intl, reportFetchStatus } = this.props;
+    const { disabled, exportFetchStatus, intl } = this.props;
 
     return (
       <Button
         ouiaId="submit-btn"
-        isDisabled={disabled || reportFetchStatus === FetchStatus.inProgress}
+        isDisabled={disabled || exportFetchStatus === FetchStatus.inProgress}
         key="confirm"
         onClick={this.handleFetchReport}
         variant={ButtonVariant.primary}
@@ -150,7 +150,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
 }
 
 const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
-  const { groupBy, isAllItems, items, queryString, reportPathsType, resolution, timeScope } = props;
+  const { groupBy, isAllItems, items, reportPathsType, reportQueryString, resolution, timeScope } = props;
 
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const getStartEndDate = () => {
@@ -172,9 +172,9 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   const { end_date, start_date } = getStartEndDate();
 
   const getQueryString = () => {
-    const parsedQuery = parseQuery(queryString);
+    const reportQuery = parseQuery(reportQueryString);
     const newQuery: Query = {
-      ...parsedQuery,
+      ...reportQuery,
       delta: undefined, // Don't want cost delta percentage
       filter: {
         limit: undefined, // Don't want paginated data
@@ -228,10 +228,10 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
     return getQuery(newQuery);
   };
 
-  const reportQueryString = getQueryString();
-  const report = exportSelectors.selectExport(state, reportPathsType, reportType, reportQueryString);
-  const reportError = exportSelectors.selectExportError(state, reportPathsType, reportType, reportQueryString);
-  const reportFetchStatus = exportSelectors.selectExportFetchStatus(
+  const exportQueryString = getQueryString();
+  const exportReport = exportSelectors.selectExport(state, reportPathsType, reportType, exportQueryString);
+  const exportError = exportSelectors.selectExportError(state, reportPathsType, reportType, exportQueryString);
+  const exportFetchStatus = exportSelectors.selectExportFetchStatus(
     state,
     reportPathsType,
     reportType,
@@ -240,17 +240,17 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
 
   return {
     endDate: end_date,
+    exportError,
+    exportFetchStatus,
+    exportQueryString,
+    exportReport,
     isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
-    report,
-    reportError,
-    reportFetchStatus,
-    reportQueryString,
     startDate: start_date,
   };
 });
 
 const mapDispatchToProps: ExportSubmitDispatchProps = {
-  exportReport: exportActions.exportReport,
+  fetchExport: exportActions.fetchExport,
 };
 
 const ExportSubmitConnect = connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase);

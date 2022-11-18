@@ -191,8 +191,8 @@ class Explorer extends React.Component<ExplorerProps> {
         isOpen={isExportModalOpen}
         items={items}
         onClose={this.handleExportModalClose}
-        queryString={reportQueryString}
         reportPathsType={getReportPathsType(perspective)}
+        reportQueryString={reportQueryString}
         resolution="daily"
         showTimeScope={false}
       />

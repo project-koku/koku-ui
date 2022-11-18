@@ -36,25 +36,25 @@ export function exportReducer(state = defaultState, action: ExportAction): Expor
     case getType(fetchExportRequest):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.payload.reportId, FetchStatus.inProgress),
+        fetchStatus: new Map(state.fetchStatus).set(action.payload.exportId, FetchStatus.inProgress),
       };
 
     case getType(fetchExportSuccess):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.reportId, FetchStatus.complete),
-        byId: new Map(state.byId).set(action.meta.reportId, {
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.exportId, FetchStatus.complete),
+        byId: new Map(state.byId).set(action.meta.exportId, {
           data: action.payload as any,
           timeRequested: Date.now(),
         }),
-        errors: new Map(state.errors).set(action.meta.reportId, null),
+        errors: new Map(state.errors).set(action.meta.exportId, null),
       };
 
     case getType(fetchExportFailure):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.reportId, FetchStatus.complete),
-        errors: new Map(state.errors).set(action.meta.reportId, action.payload),
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.exportId, FetchStatus.complete),
+        errors: new Map(state.errors).set(action.meta.exportId, action.payload),
       };
     default:
       return state;
