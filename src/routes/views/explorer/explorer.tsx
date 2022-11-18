@@ -169,7 +169,7 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
-    const { perspective, query, report } = this.props;
+    const { perspective, query, queryString, report } = this.props;
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -191,8 +191,7 @@ class Explorer extends React.Component<ExplorerProps> {
         isOpen={isExportModalOpen}
         items={items}
         onClose={this.handleExportModalClose}
-        perspective={perspective}
-        query={query}
+        queryString={queryString}
         reportPathsType={getReportPathsType(perspective)}
         resolution="daily"
         showTimeScope={false}

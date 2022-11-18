@@ -1,8 +1,6 @@
 import 'routes/views/details/components/dataTable/dataTable.scss';
 
-import type { GcpQuery } from 'api/queries/gcpQuery';
 import { getQuery } from 'api/queries/gcpQuery';
-import { tagPrefix } from 'api/queries/query';
 import type { GcpReport } from 'api/reports/gcpReports';
 import { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -16,7 +14,6 @@ import { Actions } from 'routes/views/details/components/actions';
 import { DataTable } from 'routes/views/details/components/dataTable';
 import { styles } from 'routes/views/details/components/dataTable/dataTable.styles';
 import { getBreakdownPath } from 'routes/views/utils/paths';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedGcpReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dates';
@@ -24,11 +21,12 @@ import { formatCurrency, formatPercentage } from 'utils/format';
 
 interface DetailsTableOwnProps {
   groupBy: string;
+  groupByTagKey?: string;
   isAllSelected?: boolean;
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
-  query: GcpQuery;
+  queryString: string;
   report: GcpReport;
   selectedItems?: ComputedReportItem[];
 }
@@ -53,12 +51,12 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
-    const { query, report, selectedItems } = this.props;
+    const { queryString, report, selectedItems } = this.props;
     const currentReport = report && report.data ? JSON.stringify(report.data) : '';
     const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
 
     if (
-      getQuery(prevProps.query) !== getQuery(query) ||
+      getQuery(prevProps.queryString) !== getQuery(queryString) ||
       previousReport !== currentReport ||
       prevProps.selectedItems !== selectedItems
     ) {
@@ -67,18 +65,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   private initDatum = () => {
-    const { isAllSelected, query, report, selectedItems, intl } = this.props;
-    if (!query || !report) {
+    const { groupBy, groupByTagKey, isAllSelected, queryString, report, selectedItems, intl } = this.props;
+    if (!queryString || !report) {
       return;
     }
-
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
 
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({
       report,
-      idKey: (groupByTagKey as any) || groupById,
+      idKey: groupByTagKey ? groupByTagKey : groupBy,
     });
 
     const columns = groupByTagKey
@@ -107,8 +102,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             name: '',
           },
           {
-            orderBy: groupById,
-            name: intl.formatMessage(messages.detailsResourceNames, { value: groupById }),
+            orderBy: groupBy,
+            name: intl.formatMessage(messages.detailsResourceNames, { value: groupBy }),
             ...(computedItems.length && { isSortable: true }),
           },
           {
@@ -137,15 +132,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             basePath: paths.gcpDetailsBreakdown,
             label: label.toString(),
             description: item.id,
-            groupBy: groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById,
-            query,
+            groupBy,
           })}
         >
           {label}
         </Link>
       );
 
-      const selectable = !(label === `no-${groupById}` || label === `no-${groupByTagKey}`);
+      const selectable = !(label === `no-${groupBy}` || label === `no-${groupByTagKey}`);
       if (!selectable) {
         name = label as any;
       }
@@ -181,23 +175,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getActions = (item: ComputedReportItem) => {
-    const { groupBy, query } = this.props;
+    const { groupBy, queryString } = this.props;
 
-    return <Actions groupBy={groupBy} item={item} query={query} reportPathsType={reportPathsType} />;
-  };
-
-  private getGroupByTagKey = () => {
-    const { query } = this.props;
-    let groupByTagKey;
-
-    for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagPrefix);
-      if (tagIndex !== -1) {
-        groupByTagKey = groupBy.substring(tagIndex + tagPrefix.length) as any;
-        break;
-      }
-    }
-    return groupByTagKey;
+    return <Actions groupBy={groupBy} item={item} queryString={queryString} reportPathsType={reportPathsType} />;
   };
 
   private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
@@ -267,7 +247,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   public render() {
-    const { isLoading, onSelected, onSort, query, selectedItems } = this.props;
+    const { isLoading, onSelected, onSort, selectedItems } = this.props;
     const { columns, rows } = this.state;
 
     return (
@@ -276,7 +256,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         isLoading={isLoading}
         onSelected={onSelected}
         onSort={onSort}
-        query={query}
         rows={rows}
         selectedItems={selectedItems}
       />

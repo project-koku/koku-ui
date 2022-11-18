@@ -1,6 +1,5 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
 import type { ProviderType } from 'api/providers';
-import type { Query } from 'api/queries/query';
 import { tagPrefix } from 'api/queries/query';
 import type { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -20,7 +19,7 @@ interface DetailsActionsOwnProps extends WrappedComponentProps, RouteComponentPr
   isDisabled?: boolean;
   item: ComputedReportItem;
   providerType?: ProviderType;
-  query: Query;
+  queryString: string;
   reportPathsType: ReportPathsType;
   showPriceListOption?: boolean;
 }
@@ -56,7 +55,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   }
 
   private getExportModal = () => {
-    const { groupBy, item, query, reportPathsType } = this.props;
+    const { groupBy, item, queryString, reportPathsType } = this.props;
     const { isExportModalOpen } = this.state;
 
     return (
@@ -66,7 +65,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
         isOpen={isExportModalOpen}
         items={[item]}
         onClose={this.handleExportModalClose}
-        query={query}
+        queryString={queryString}
         reportPathsType={reportPathsType}
       />
     );

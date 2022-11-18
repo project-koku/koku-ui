@@ -11,7 +11,6 @@ import {
   Radio,
   TextInput,
 } from '@patternfly/react-core';
-import type { Query } from 'api/queries/query';
 import { tagPrefix } from 'api/queries/query';
 import type { ReportPathsType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -22,7 +21,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { PerspectiveType } from 'routes/views/explorer/explorerUtils';
 import { createMapStateToProps } from 'store/common';
 import { exportActions } from 'store/export';
 import { featureFlagsSelectors } from 'store/featureFlags';
@@ -38,8 +36,6 @@ export interface ExportModalOwnProps {
   isOpen: boolean;
   items?: ComputedReportItem[];
   onClose(isOpen: boolean);
-  perspective?: PerspectiveType;
-  query?: Query;
   queryString?: string;
   reportPathsType: ReportPathsType;
   resolution?: 'daily' | 'monthly'; // Default resolution
@@ -152,8 +148,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       isAllItems,
       isExportsFeatureEnabled,
       items,
-      perspective,
-      query,
+      queryString,
       reportPathsType,
       showAggregateType = true,
       showFormatType = true,
@@ -213,9 +208,8 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             timeScope={showTimeScope ? timeScope : undefined}
             onClose={this.handleClose}
             onError={this.handleError}
-            perspective={perspective}
             name={defaultName}
-            query={query}
+            queryString={queryString}
             reportPathsType={reportPathsType}
             resolution={resolution}
           />,

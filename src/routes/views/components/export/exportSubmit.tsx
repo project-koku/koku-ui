@@ -1,5 +1,7 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import type { Export } from 'api/export/export';
+import type { OcpQuery } from 'api/queries/ocpQuery';
+import { parseQuery } from 'api/queries/ocpQuery';
 import type { Query } from 'api/queries/query';
 import { getQuery, orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import type { ReportPathsType } from 'api/reports/report';
@@ -12,15 +14,12 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { PerspectiveType } from 'routes/views/explorer/explorerUtils';
 import { getDateRangeFromQuery } from 'routes/views/utils/dateRange';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/export';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getCostType } from 'utils/costType';
 import { getToday } from 'utils/dates';
-import { getCurrency } from 'utils/localStorage';
 
 export interface ExportSubmitOwnProps {
   disabled?: boolean;
@@ -31,8 +30,7 @@ export interface ExportSubmitOwnProps {
   name?: string;
   onClose(isOpen: boolean);
   onError(error: AxiosError);
-  perspective?: PerspectiveType;
-  query?: Query;
+  queryString: string;
   reportPathsType: ReportPathsType;
   resolution: string;
   timeScope: 'current' | 'previous';
@@ -45,10 +43,10 @@ interface ExportSubmitDispatchProps {
 interface ExportSubmitStateProps {
   endDate: string;
   isExportsFeatureEnabled?: boolean;
-  queryString: string;
   report: Export;
   reportError: AxiosError;
   reportFetchStatus?: FetchStatus;
+  reportQueryString: string;
   startDate: string;
 }
 
@@ -120,9 +118,9 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   };
 
   private handleFetchReport = () => {
-    const { exportReport, isExportsFeatureEnabled, queryString, reportPathsType } = this.props;
+    const { exportReport, isExportsFeatureEnabled, reportPathsType, reportQueryString } = this.props;
 
-    exportReport(reportPathsType, reportType, queryString, isExportsFeatureEnabled);
+    exportReport(reportPathsType, reportType, reportQueryString, isExportsFeatureEnabled);
 
     this.setState(
       {
@@ -152,55 +150,51 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
 }
 
 const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
-  const { groupBy, isAllItems, items, perspective, query, reportPathsType, resolution, timeScope } = props;
+  const { groupBy, isAllItems, items, queryString, reportPathsType, resolution, timeScope } = props;
 
-  const isCostTypeFeatureEnabled = featureFlagsSelectors.selectIsCostTypeFeatureEnabled(state);
-  const costType =
-    perspective === PerspectiveType.aws || (perspective === PerspectiveType.awsOcp && isCostTypeFeatureEnabled)
-      ? getCostType()
-      : undefined;
-  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
+  const queryFromRoute = parseQuery<OcpQuery>(location.search);
+  const getStartEndDate = () => {
+    if (queryFromRoute.dateRangeType) {
+      return getDateRangeFromQuery(queryFromRoute);
+    } else {
+      const isPrevious = timeScope === 'previous';
+      const today = getToday();
 
-  let { end_date, start_date } = getDateRangeFromQuery(query);
-  if (!query.dateRangeType) {
-    const isPrevious = timeScope === 'previous';
-    const today = getToday();
-
-    if (isPrevious) {
-      today.setMonth(today.getMonth() - 1);
+      if (isPrevious) {
+        today.setMonth(today.getMonth() - 1);
+      }
+      return {
+        end_date: format(isPrevious ? endOfMonth(today) : today, 'yyyy-MM-dd'),
+        start_date: format(startOfMonth(today), 'yyyy-MM-dd'),
+      };
     }
-    end_date = format(isPrevious ? endOfMonth(today) : today, 'yyyy-MM-dd');
-    start_date = format(startOfMonth(today), 'yyyy-MM-dd');
-  }
+  };
+  const { end_date, start_date } = getStartEndDate();
 
-  // Todo: Add name and format type for "all exports" feature
   const getQueryString = () => {
+    const parsedQuery = parseQuery(queryString);
     const newQuery: Query = {
-      ...JSON.parse(JSON.stringify(query)),
+      ...parsedQuery,
+      delta: undefined, // Don't want cost delta percentage
       filter: {
-        limit: undefined,
-        offset: undefined,
-        resolution: resolution ? resolution : undefined,
+        limit: undefined, // Don't want paginated data
+        offset: undefined, // Don't want a page
+        resolution: resolution ? resolution : undefined, // Resolution is defined by export modal
       },
-      filter_by: {},
-      limit: 0,
-      order_by: undefined,
-      perspective: undefined,
-      dateRangeType: undefined,
-      delta: undefined,
-      cost_type: costType,
-      currency,
+      filter_by: {}, // Don't want page filter, selected items will be filtered below
+      limit: 0, // No limit to number of items returned
+      order_by: undefined, // Don't want items sorted by cost
       start_date,
       end_date,
     };
 
-    // Store filter_by as an array so we can add to it below
-    if (query.filter_by) {
-      for (const key of Object.keys(query.filter_by)) {
+    // Store filter_by as an array, so we can add to it below
+    if (queryFromRoute.filter_by) {
+      for (const key of Object.keys(queryFromRoute.filter_by)) {
         if (newQuery.filter_by[key] === undefined) {
           newQuery.filter_by[key] = [];
         }
-        newQuery.filter_by[key].push(query.filter_by[key]);
+        newQuery.filter_by[key].push(queryFromRoute.filter_by[key]);
       }
     }
 
@@ -210,7 +204,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
         if (newQuery.filter_by[orgUnitIdKey] === undefined) {
           newQuery.filter_by[orgUnitIdKey] = [];
         }
-        newQuery.filter_by[orgUnitIdKey].push(query.group_by[orgUnitIdKey]);
+        newQuery.filter_by[orgUnitIdKey].push(queryFromRoute.group_by[orgUnitIdKey]);
       }
     } else {
       if (groupBy === orgUnitIdKey) {
@@ -234,18 +228,23 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
     return getQuery(newQuery);
   };
 
-  const queryString = getQueryString();
-  const report = exportSelectors.selectExport(state, reportPathsType, reportType, queryString);
-  const reportError = exportSelectors.selectExportError(state, reportPathsType, reportType, queryString);
-  const reportFetchStatus = exportSelectors.selectExportFetchStatus(state, reportPathsType, reportType, queryString);
+  const reportQueryString = getQueryString();
+  const report = exportSelectors.selectExport(state, reportPathsType, reportType, reportQueryString);
+  const reportError = exportSelectors.selectExportError(state, reportPathsType, reportType, reportQueryString);
+  const reportFetchStatus = exportSelectors.selectExportFetchStatus(
+    state,
+    reportPathsType,
+    reportType,
+    reportQueryString
+  );
 
   return {
     endDate: end_date,
     isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
-    queryString,
     report,
     reportError,
     reportFetchStatus,
+    reportQueryString,
     startDate: start_date,
   };
 });
