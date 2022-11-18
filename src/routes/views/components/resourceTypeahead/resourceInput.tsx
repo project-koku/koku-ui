@@ -39,6 +39,7 @@ interface ResourceInputOwnProps {
 
 interface ResourceInputStateProps {
   resourceFetchStatus?: FetchStatus;
+  resourceQueryString?: string;
 }
 
 interface ResourceInputState {
@@ -79,19 +80,15 @@ class ResourceInputBase extends React.Component<ResourceInputProps> {
   }
 
   public componentDidUpdate(prevProps: ResourceInputProps) {
-    const { fetchResource, resourceFetchStatus, resourcePathsType, resourceType, search } = this.props;
+    const { fetchResource, resourceFetchStatus, resourcePathsType, resourceType, resourceQueryString, search } =
+      this.props;
 
     if (search && prevProps.search !== search && resourceFetchStatus !== FetchStatus.inProgress) {
       clearTimeout(this.searchTimeout);
 
-      const query: Query = {
-        search,
-      };
-      const queryString = getQuery(query);
-
       // Delay was 750ms, but reduced -- https://issues.redhat.com/browse/COST-1742
       this.searchTimeout = setTimeout(() => {
-        fetchResource(resourcePathsType, resourceType, queryString);
+        fetchResource(resourcePathsType, resourceType, resourceQueryString);
       }, 625);
     }
   }
@@ -291,19 +288,20 @@ const mapStateToProps = createMapStateToProps<ResourceInputOwnProps, ResourceInp
     const query: Query = {
       search,
     };
-    const queryString = getQuery(query);
 
-    const resource = resourceSelectors.selectResource(state, resourcePathsType, resourceType, queryString);
+    const resourceQueryString = getQuery(query);
+    const resource = resourceSelectors.selectResource(state, resourcePathsType, resourceType, resourceQueryString);
     const resourceFetchStatus = resourceSelectors.selectResourceFetchStatus(
       state,
       resourcePathsType,
       resourceType,
-      queryString
+      resourceQueryString
     );
 
     return {
       resource,
       resourceFetchStatus,
+      resourceQueryString,
     };
   }
 );

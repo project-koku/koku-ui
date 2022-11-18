@@ -27,6 +27,7 @@ interface ExportsContentStateProps {
   report: Report;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
+  reportQueryString: string;
 }
 
 interface ExportsContentDispatchProps {
@@ -212,10 +213,15 @@ const mapStateToProps = createMapStateToProps<ExportsContentOwnProps, ExportsCon
   const reportType = ReportType.cost;
   const reportPathsType = ReportPathsType.ocp;
 
-  const queryString = getQuery(query);
-  // const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
-  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+  const reportQueryString = getQuery(query);
+  // const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
+  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
+    state,
+    reportPathsType,
+    reportType,
+    reportQueryString
+  );
 
   // Todo: For testing
   const report = {
@@ -273,6 +279,7 @@ const mapStateToProps = createMapStateToProps<ExportsContentOwnProps, ExportsCon
     report,
     reportError,
     reportFetchStatus,
+    reportQueryString,
   };
 });
 

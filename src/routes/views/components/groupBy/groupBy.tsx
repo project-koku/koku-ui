@@ -7,6 +7,7 @@ import { getQuery, orgUnitIdKey, parseQuery, tagKey, tagPrefix } from 'api/queri
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
+import { cloneDeep } from 'lodash';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -32,7 +33,6 @@ interface GroupByOwnProps extends WrappedComponentProps {
   }[];
   orgReportPathsType?: OrgPathsType;
   perspective?: PerspectiveType;
-  queryString?: string;
   showOrgs?: boolean;
   showTags?: boolean;
   tagReportPathsType: TagPathsType;
@@ -41,8 +41,10 @@ interface GroupByOwnProps extends WrappedComponentProps {
 interface GroupByStateProps {
   orgReport?: Org;
   orgReportFetchStatus?: FetchStatus;
+  orgQueryString?: string;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
+  tagQueryString?: string;
 }
 
 interface GroupByDispatchProps {
@@ -99,11 +101,12 @@ class GroupByBase extends React.Component<GroupByProps> {
       fetchTag,
       orgReportFetchStatus,
       orgReportPathsType,
-      queryString,
+      orgQueryString,
       showOrgs,
       showTags,
       tagReportFetchStatus,
       tagReportPathsType,
+      tagQueryString,
     } = this.props;
     this.setState(
       {
@@ -111,10 +114,10 @@ class GroupByBase extends React.Component<GroupByProps> {
       },
       () => {
         if (showOrgs && orgReportFetchStatus !== FetchStatus.inProgress) {
-          fetchOrg(orgReportPathsType, orgReportType, queryString);
+          fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
         }
         if (showTags && tagReportFetchStatus !== FetchStatus.inProgress) {
-          fetchTag(tagReportPathsType, tagReportType, queryString);
+          fetchTag(tagReportPathsType, tagReportType, tagQueryString);
         }
       }
     );
@@ -127,12 +130,13 @@ class GroupByBase extends React.Component<GroupByProps> {
       groupBy,
       orgReportFetchStatus,
       orgReportPathsType,
+      orgQueryString,
       perspective,
-      queryString,
       showOrgs,
       showTags,
       tagReportFetchStatus,
       tagReportPathsType,
+      tagQueryString,
     } = this.props;
     if (prevProps.groupBy !== groupBy || prevProps.perspective !== perspective) {
       let options;
@@ -144,10 +148,10 @@ class GroupByBase extends React.Component<GroupByProps> {
       }
       this.setState({ currentItem: this.getCurrentGroupBy(), ...(options ? options : {}) }, () => {
         if (showOrgs && orgReportFetchStatus !== FetchStatus.inProgress) {
-          fetchOrg(orgReportPathsType, orgReportType, queryString);
+          fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
         }
         if (showTags && tagReportFetchStatus !== FetchStatus.inProgress) {
-          fetchTag(tagReportPathsType, tagReportType, queryString);
+          fetchTag(tagReportPathsType, tagReportType, tagQueryString);
         }
       });
     }
@@ -318,33 +322,35 @@ const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps
 
     // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
     // However, for better server-side performance, we chose to use key_only here.
-    const queryString = getQuery({
+    const tagQueryString = getQuery({
       ...tagFilter,
       key_only: true,
       limit: 1000,
     });
-    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
+    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
     const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
       state,
       tagReportPathsType,
       tagReportType,
-      queryString
+      tagQueryString
     );
 
-    const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, queryString);
+    const orgQueryString = cloneDeep(tagQueryString);
+    const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, orgQueryString);
     const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(
       state,
       orgReportPathsType,
       orgReportType,
-      queryString
+      orgQueryString
     );
 
     return {
       orgReport,
       orgReportFetchStatus,
-      queryString,
+      orgQueryString,
       tagReport,
       tagReportFetchStatus,
+      tagQueryString,
     };
   }
 );

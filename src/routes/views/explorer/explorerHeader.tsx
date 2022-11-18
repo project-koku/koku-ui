@@ -321,7 +321,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHeaderStateProps>(
-  (state, { costType, currency, perspective }) => {
+  (state, { perspective }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
     const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
     const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
