@@ -119,7 +119,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const label = item && item.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const cost = this.getTotalCost(item, index);
-      const actions = this.getActions(item);
+
+      const selectable = !(label === `no-${groupBy}` || label === `no-${groupByTagKey}`);
+      const actions = this.getActions(item, !selectable);
 
       let name = (
         <Link
@@ -134,12 +136,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         </Link>
       );
 
-      const selectable = !(label === `no-${groupBy}` || label === `no-${groupByTagKey}`);
+      const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
       if (!selectable) {
         name = label as any;
       }
-
-      const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
 
       rows.push({
         cells: [
@@ -169,11 +169,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     });
   };
 
-  private getActions = (item: ComputedReportItem) => {
+  private getActions = (item: ComputedReportItem, isDisabled) => {
     const { groupBy, reportQueryString } = this.props;
 
     return (
-      <Actions groupBy={groupBy} item={item} reportPathsType={reportPathsType} reportQueryString={reportQueryString} />
+      <Actions
+        groupBy={groupBy}
+        isDisabled={isDisabled}
+        item={item}
+        reportPathsType={reportPathsType}
+        reportQueryString={reportQueryString}
+      />
     );
   };
 

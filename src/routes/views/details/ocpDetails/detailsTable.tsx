@@ -176,10 +176,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const InfrastructureCost = this.getInfrastructureCost(item, index);
       const supplementaryCost = this.getSupplementaryCost(item, index);
       const cost = this.getTotalCost(item, index);
-      const actions = this.getActions(item);
 
       const showLink = label !== `no-${groupBy}` && label !== `no-${groupByTagKey}`;
       const selectable = showLink && item.classification !== 'category';
+      const actions = this.getActions(item, !selectable);
 
       let name = label as any;
       if (showLink) {
@@ -246,12 +246,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     });
   };
 
-  private getActions = (item: ComputedReportItem) => {
+  private getActions = (item: ComputedReportItem, isDisabled) => {
     const { groupBy, reportQueryString } = this.props;
 
     return (
       <Actions
         groupBy={groupBy}
+        isDisabled={isDisabled}
         item={item}
         providerType={ProviderType.ocp}
         reportPathsType={reportPathsType}
