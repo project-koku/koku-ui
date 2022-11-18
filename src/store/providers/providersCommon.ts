@@ -39,6 +39,6 @@ export const providersQuery: ProvidersQuery = {
   limit: 1000,
 };
 
-export function getReportId(type: ProviderType, query: string) {
-  return `${type}--${query}`;
+export function getFetchId(type: ProviderType, provideQueryString: string) {
+  return `${type}--${provideQueryString}`;
 }

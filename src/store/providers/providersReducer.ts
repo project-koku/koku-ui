@@ -32,22 +32,22 @@ export function providersReducer(state = defaultState, action: ProvidersAction):
     case getType(fetchProvidersRequest):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.payload.reportId, FetchStatus.inProgress),
+        fetchStatus: new Map(state.fetchStatus).set(action.payload.fetchId, FetchStatus.inProgress),
       };
     case getType(fetchProvidersSuccess):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.reportId, FetchStatus.complete),
-        byId: new Map(state.byId).set(action.meta.reportId, {
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        byId: new Map(state.byId).set(action.meta.fetchId, {
           ...action.payload,
         }),
-        errors: new Map(state.errors).set(action.meta.reportId, null),
+        errors: new Map(state.errors).set(action.meta.fetchId, null),
       };
     case getType(fetchProvidersFailure):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.reportId, FetchStatus.complete),
-        errors: new Map(state.errors).set(action.meta.reportId, action.payload),
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        errors: new Map(state.errors).set(action.meta.fetchId, action.payload),
       };
     default:
       return state;

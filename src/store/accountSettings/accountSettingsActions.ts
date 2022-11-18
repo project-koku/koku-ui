@@ -3,10 +3,10 @@ import { fetchAccountSettings as apiGetAccountSettings } from 'api/accountSettin
 import type { AxiosError } from 'axios';
 import { createAction } from 'typesafe-actions';
 
-import { getReportId } from './accountSettingsCommon';
+import { getFetchId } from './accountSettingsCommon';
 
 interface AccountSettingsActionMeta {
-  reportId: string;
+  fetchId: string;
 }
 
 export const fetchAccountSettingsRequest = createAction('accountSettings/fetch/request')<AccountSettingsActionMeta>();
@@ -22,7 +22,7 @@ export const fetchAccountSettingsFailure = createAction('accountSettings/fetch/f
 export function fetchAccountSettings() {
   return dispatch => {
     const meta: AccountSettingsActionMeta = {
-      reportId: getReportId(),
+      fetchId: getFetchId(),
     };
 
     dispatch(fetchAccountSettingsRequest(meta));

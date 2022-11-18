@@ -7,13 +7,13 @@ import { FetchStatus } from 'store/common';
 import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
-import { getForecastId } from './forecastCommon';
+import { getFetchId } from './forecastCommon';
 import { selectForecast, selectForecastFetchStatus } from './forecastSelectors';
 
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
 interface ForecastActionMeta {
-  forecastId: string;
+  fetchId: string;
 }
 
 export const fetchForecastRequest = createAction('forecast/request')<ForecastActionMeta>();
@@ -23,19 +23,19 @@ export const fetchForecastFailure = createAction('forecast/failure')<AxiosError,
 export function fetchForecast(
   forecastPathsType: ForecastPathsType,
   forecastType: ForecastType,
-  query: string
+  forecastQueryString: string
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {
-    if (!isForecastExpired(getState(), forecastPathsType, forecastType, query)) {
+    if (!isForecastExpired(getState(), forecastPathsType, forecastType, forecastQueryString)) {
       return;
     }
 
     const meta: ForecastActionMeta = {
-      forecastId: getForecastId(forecastPathsType, forecastType, query),
+      fetchId: getFetchId(forecastPathsType, forecastType, forecastQueryString),
     };
 
     dispatch(fetchForecastRequest(meta));
-    runForecast(forecastPathsType, forecastType, query)
+    runForecast(forecastPathsType, forecastType, forecastQueryString)
       .then(res => {
         dispatch(fetchForecastSuccess(res.data, meta));
       })
@@ -49,10 +49,10 @@ function isForecastExpired(
   state: RootState,
   forecastPathsType: ForecastPathsType,
   forecastType: ForecastType,
-  query: string
+  forecastQueryString: string
 ) {
-  const forecast = selectForecast(state, forecastPathsType, forecastType, query);
-  const fetchStatus = selectForecastFetchStatus(state, forecastPathsType, forecastType, query);
+  const forecast = selectForecast(state, forecastPathsType, forecastType, forecastQueryString);
+  const fetchStatus = selectForecastFetchStatus(state, forecastPathsType, forecastType, forecastQueryString);
   if (fetchStatus === FetchStatus.inProgress) {
     return false;
   }

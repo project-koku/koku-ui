@@ -22,11 +22,11 @@ export const {
   AxiosError
 >();
 
-export const fetchSources = (query: string = '') => {
+export const fetchSources = (sourcesQueryString: string = '') => {
   return (dispatch: Dispatch) => {
     dispatch(fetchSourcesRequest());
 
-    return apiGetSources(query)
+    return apiGetSources(sourcesQueryString)
       .then(res => {
         dispatch(fetchSourcesSuccess(res));
       })

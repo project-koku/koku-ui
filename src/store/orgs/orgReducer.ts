@@ -36,25 +36,25 @@ export function orgReducer(state = defaultState, action: OrgAction): OrgState {
     case getType(fetchOrgRequest):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.payload.orgId, FetchStatus.inProgress),
+        fetchStatus: new Map(state.fetchStatus).set(action.payload.fetchId, FetchStatus.inProgress),
       };
 
     case getType(fetchOrgSuccess):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.orgId, FetchStatus.complete),
-        byId: new Map(state.byId).set(action.meta.orgId, {
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        byId: new Map(state.byId).set(action.meta.fetchId, {
           ...action.payload,
           timeRequested: Date.now(),
         }),
-        errors: new Map(state.errors).set(action.meta.orgId, null),
+        errors: new Map(state.errors).set(action.meta.fetchId, null),
       };
 
     case getType(fetchOrgFailure):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.orgId, FetchStatus.complete),
-        errors: new Map(state.errors).set(action.meta.orgId, action.payload),
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        errors: new Map(state.errors).set(action.meta.fetchId, action.payload),
       };
     default:
       return state;

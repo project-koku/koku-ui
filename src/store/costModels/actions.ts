@@ -44,11 +44,11 @@ export const {
   AxiosError
 >();
 
-export const fetchCostModels = (query: string = ''): any => {
+export const fetchCostModels = (queryString: string = ''): any => {
   return (dispatch: Dispatch) => {
     dispatch(fetchCostModelsRequest());
 
-    return apiGetCostModels(query)
+    return apiGetCostModels(queryString)
       .then(res => {
         dispatch(fetchCostModelsSuccess(res));
       })

@@ -36,25 +36,25 @@ export function forecastReducer(state = defaultState, action: ForecastAction): F
     case getType(fetchForecastRequest):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.payload.forecastId, FetchStatus.inProgress),
+        fetchStatus: new Map(state.fetchStatus).set(action.payload.fetchId, FetchStatus.inProgress),
       };
 
     case getType(fetchForecastSuccess):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.forecastId, FetchStatus.complete),
-        byId: new Map(state.byId).set(action.meta.forecastId, {
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        byId: new Map(state.byId).set(action.meta.fetchId, {
           ...action.payload,
           timeRequested: Date.now(),
         }),
-        errors: new Map(state.errors).set(action.meta.forecastId, null),
+        errors: new Map(state.errors).set(action.meta.fetchId, null),
       };
 
     case getType(fetchForecastFailure):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.forecastId, FetchStatus.complete),
-        errors: new Map(state.errors).set(action.meta.forecastId, action.payload),
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        errors: new Map(state.errors).set(action.meta.fetchId, action.payload),
       };
     default:
       return state;

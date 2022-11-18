@@ -2,7 +2,6 @@ import type { UserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccessType } from 'api/userAccess';
 
 export const stateKey = 'userAccess';
-export const userAccessKey = 'user-access';
 
 export const awsUserAccessQuery: UserAccessQuery = {
   type: 'AWS',
@@ -32,6 +31,6 @@ export const ibmUserAccessQuery: UserAccessQuery = {
 // Omitting the type param returns all user access
 export const userAccessQuery: UserAccessQuery = {};
 
-export function getReportId(type: UserAccessType, query: string) {
-  return `${type}--${query}`;
+export function getFetchId(userAccessType: UserAccessType, userAccessQueryString: string) {
+  return `${userAccessType}--${userAccessQueryString}`;
 }

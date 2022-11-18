@@ -26,9 +26,9 @@ const mockReport: Report = {
   },
 } as any;
 
-const query = 'query';
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.aws;
+const reportQueryString = 'reportQueryString';
 
 runReportMock.mockResolvedValue({ data: mockReport });
 global.Date.now = jest.fn(() => 12345);
@@ -43,47 +43,47 @@ test('default state', () => {
 
 test('fetch report success', async () => {
   const store = createReportsStore();
-  store.dispatch(actions.fetchReport(reportPathsType, reportType, query));
+  store.dispatch(actions.fetchReport(reportPathsType, reportType, reportQueryString));
   expect(runReportMock).toBeCalled();
-  expect(selectors.selectReportFetchStatus(store.getState(), reportPathsType, reportType, query)).toBe(
+  expect(selectors.selectReportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.inProgress
   );
   await waitFor(() => expect(selectors.selectReportFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectReportFetchStatus(finishedState, reportPathsType, reportType, query)).toBe(
+  expect(selectors.selectReportFetchStatus(finishedState, reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.complete
   );
-  expect(selectors.selectReportError(finishedState, reportPathsType, reportType, query)).toBe(null);
+  expect(selectors.selectReportError(finishedState, reportPathsType, reportType, reportQueryString)).toBe(null);
 });
 
 test('fetch report failure', async () => {
   const store = createReportsStore();
   const error = Symbol('report error');
   runReportMock.mockRejectedValueOnce(error);
-  store.dispatch(actions.fetchReport(reportPathsType, reportType, query));
+  store.dispatch(actions.fetchReport(reportPathsType, reportType, reportQueryString));
   expect(runReport).toBeCalled();
-  expect(selectors.selectReportFetchStatus(store.getState(), reportPathsType, reportType, query)).toBe(
+  expect(selectors.selectReportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.inProgress
   );
   await waitFor(() => expect(selectors.selectReportFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectReportFetchStatus(finishedState, reportPathsType, reportType, query)).toBe(
+  expect(selectors.selectReportFetchStatus(finishedState, reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.complete
   );
-  expect(selectors.selectReportError(finishedState, reportPathsType, reportType, query)).toBe(error);
+  expect(selectors.selectReportError(finishedState, reportPathsType, reportType, reportQueryString)).toBe(error);
 });
 
 test('does not fetch report if the request is in progress', () => {
   const store = createReportsStore();
-  store.dispatch(actions.fetchReport(reportPathsType, reportType, query));
-  store.dispatch(actions.fetchReport(reportPathsType, reportType, query));
+  store.dispatch(actions.fetchReport(reportPathsType, reportType, reportQueryString));
+  store.dispatch(actions.fetchReport(reportPathsType, reportType, reportQueryString));
   expect(runReport).toHaveBeenCalledTimes(1);
 });
 
 test('report is not refetched if it has not expired', async () => {
   const store = createReportsStore();
-  store.dispatch(actions.fetchReport(reportPathsType, reportType, query));
+  store.dispatch(actions.fetchReport(reportPathsType, reportType, reportQueryString));
   await waitFor(() => expect(actions.fetchReport).toHaveBeenCalled());
-  store.dispatch(actions.fetchReport(reportPathsType, reportType, query));
+  store.dispatch(actions.fetchReport(reportPathsType, reportType, reportQueryString));
   expect(runReport).toHaveBeenCalledTimes(1);
 });

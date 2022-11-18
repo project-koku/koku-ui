@@ -10,7 +10,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
-import { getExportId } from 'store/export/exportCommon';
+import { getFetchId } from 'store/export/exportCommon';
 import { selectExport, selectExportFetchStatus } from 'store/export/exportSelectors';
 import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
@@ -18,7 +18,7 @@ import { createAction } from 'typesafe-actions';
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
 interface ExportActionMeta {
-  exportId: string;
+  fetchId: string;
 }
 
 export const fetchExportRequest = createAction('report/request')<ExportActionMeta>();
@@ -30,20 +30,20 @@ const exportSuccessID = 'cost_management_export_success';
 export function fetchExport(
   reportPathsType: ReportPathsType,
   reportType: ReportType,
-  query: string,
-  isExportsFeatureEnabled: boolean
+  reportQueryString: string,
+  isExportsFeatureEnabled: boolean = false
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {
-    if (!isExportExpired(getState(), reportPathsType, reportType, query)) {
+    if (!isExportExpired(getState(), reportPathsType, reportType, reportQueryString)) {
       return;
     }
 
     const meta: ExportActionMeta = {
-      exportId: getExportId(reportPathsType, reportType, query),
+      fetchId: getFetchId(reportPathsType, reportType, reportQueryString),
     };
 
     dispatch(fetchExportRequest(meta));
-    runExport(reportPathsType, reportType, query)
+    runExport(reportPathsType, reportType, reportQueryString)
       .then(res => {
         dispatch(fetchExportSuccess(res.data, meta));
 
@@ -81,9 +81,14 @@ export function fetchExport(
   };
 }
 
-function isExportExpired(state: RootState, reportPathsType: ReportPathsType, reportType: ReportType, query: string) {
-  const report = selectExport(state, reportPathsType, reportType, query);
-  const fetchStatus = selectExportFetchStatus(state, reportPathsType, reportType, query);
+function isExportExpired(
+  state: RootState,
+  reportPathsType: ReportPathsType,
+  reportType: ReportType,
+  reportQueryString: string
+) {
+  const report = selectExport(state, reportPathsType, reportType, reportQueryString);
+  const fetchStatus = selectExportFetchStatus(state, reportPathsType, reportType, reportQueryString);
   if (fetchStatus === FetchStatus.inProgress) {
     return false;
   }

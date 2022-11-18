@@ -26,9 +26,9 @@ const mockResource: Resource = {
   },
 } as any;
 
-const query = 'query';
 const resourceType = ResourceType.account;
 const resourcePathsType = ResourcePathsType.aws;
+const resourceQueryString = 'resourceQueryString';
 
 runResourceMock.mockResolvedValue({ data: mockResource });
 global.Date.now = jest.fn(() => 12345);
@@ -43,47 +43,49 @@ test('default state', () => {
 
 test('fetch resource success', async () => {
   const store = createResourcesStore();
-  store.dispatch(actions.fetchResource(resourcePathsType, resourceType, query));
+  store.dispatch(actions.fetchResource(resourcePathsType, resourceType, resourceQueryString));
   expect(runResourceMock).toBeCalled();
-  expect(selectors.selectResourceFetchStatus(store.getState(), resourcePathsType, resourceType, query)).toBe(
-    FetchStatus.inProgress
-  );
+  expect(
+    selectors.selectResourceFetchStatus(store.getState(), resourcePathsType, resourceType, resourceQueryString)
+  ).toBe(FetchStatus.inProgress);
   await waitFor(() => expect(selectors.selectResourceFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectResourceFetchStatus(finishedState, resourcePathsType, resourceType, query)).toBe(
+  expect(selectors.selectResourceFetchStatus(finishedState, resourcePathsType, resourceType, resourceQueryString)).toBe(
     FetchStatus.complete
   );
-  expect(selectors.selectResourceError(finishedState, resourcePathsType, resourceType, query)).toBe(null);
+  expect(selectors.selectResourceError(finishedState, resourcePathsType, resourceType, resourceQueryString)).toBe(null);
 });
 
 test('fetch resource failure', async () => {
   const store = createResourcesStore();
   const error = Symbol('resource error');
   runResourceMock.mockRejectedValueOnce(error);
-  store.dispatch(actions.fetchResource(resourcePathsType, resourceType, query));
+  store.dispatch(actions.fetchResource(resourcePathsType, resourceType, resourceQueryString));
   expect(runResource).toBeCalled();
-  expect(selectors.selectResourceFetchStatus(store.getState(), resourcePathsType, resourceType, query)).toBe(
-    FetchStatus.inProgress
-  );
+  expect(
+    selectors.selectResourceFetchStatus(store.getState(), resourcePathsType, resourceType, resourceQueryString)
+  ).toBe(FetchStatus.inProgress);
   await waitFor(() => expect(selectors.selectResourceFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectResourceFetchStatus(finishedState, resourcePathsType, resourceType, query)).toBe(
+  expect(selectors.selectResourceFetchStatus(finishedState, resourcePathsType, resourceType, resourceQueryString)).toBe(
     FetchStatus.complete
   );
-  expect(selectors.selectResourceError(finishedState, resourcePathsType, resourceType, query)).toBe(error);
+  expect(selectors.selectResourceError(finishedState, resourcePathsType, resourceType, resourceQueryString)).toBe(
+    error
+  );
 });
 
 test('does not fetch resource if the request is in progress', () => {
   const store = createResourcesStore();
-  store.dispatch(actions.fetchResource(resourcePathsType, resourceType, query));
-  store.dispatch(actions.fetchResource(resourcePathsType, resourceType, query));
+  store.dispatch(actions.fetchResource(resourcePathsType, resourceType, resourceQueryString));
+  store.dispatch(actions.fetchResource(resourcePathsType, resourceType, resourceQueryString));
   expect(runResource).toHaveBeenCalledTimes(1);
 });
 
 test('resource is not refetched if it has not expired', async () => {
   const store = createResourcesStore();
-  store.dispatch(actions.fetchResource(resourcePathsType, resourceType, query));
+  store.dispatch(actions.fetchResource(resourcePathsType, resourceType, resourceQueryString));
   await waitFor(() => expect(actions.fetchResource).toHaveBeenCalled());
-  store.dispatch(actions.fetchResource(resourcePathsType, resourceType, query));
+  store.dispatch(actions.fetchResource(resourcePathsType, resourceType, resourceQueryString));
   expect(runResource).toHaveBeenCalledTimes(1);
 });
