@@ -50,7 +50,6 @@ export const memoryUsageWidget: OcpCostOverviewWidget = {
 export const projectSummaryWidget: OcpCostOverviewWidget = {
   id: getId(),
   reportSummary: {
-    categoryGroupBy: ['kube-', 'openshift-'],
     reportGroupBy: 'project',
     showWidgetOnCategory: ['platform'],
     showWidgetOnGroupBy: ['cluster'],

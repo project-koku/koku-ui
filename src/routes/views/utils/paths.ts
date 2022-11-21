@@ -5,14 +5,16 @@ import { parseQuery } from 'api/queries/query';
 
 export const getBreakdownPath = ({
   basePath,
-  label,
   description,
   groupBy,
+  isPlatformCosts,
+  label,
 }: {
   basePath: string;
-  label: string;
   description: string;
   groupBy: string | number;
+  isPlatformCosts?: boolean;
+  label: string;
 }) => {
   const queryFromRoute = parseQuery<Query>(location.search);
   const newQuery = {
@@ -21,6 +23,11 @@ export const getBreakdownPath = ({
     group_by: {
       [groupBy]: label,
     },
+    ...(isPlatformCosts && {
+      group_by: {
+        [groupBy]: ['kube-', 'openshift-'],
+      },
+    }),
   };
   return `${basePath}?${getQueryRoute(newQuery)}`;
 };

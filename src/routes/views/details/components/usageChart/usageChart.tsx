@@ -396,11 +396,6 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
 
     const reportQueryString = getQuery({
       ...query,
-      ...(queryFromRoute.category === 'platform' && {
-        group_by: {
-          project: ['kube-', 'openshift-'],
-        },
-      }),
     });
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(

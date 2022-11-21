@@ -21,7 +21,6 @@ export interface CostOverviewWidget {
     showCapacityOnGroupBy?: string[]; // Show capacity when group_by is matched
   };
   reportSummary?: {
-    categoryGroupBy?: string[];
     reportGroupBy: string; // Report group_by
     showWidgetOnCategory?: string[];
     showWidgetOnGroupBy?: string[]; // Show widget when group_by is matched

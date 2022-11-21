@@ -156,17 +156,19 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
     const { category, costType, currency, groupBy, query } = this.props;
 
     let showWidget = false;
-    for (const groupById of widget.reportSummary.showWidgetOnGroupBy) {
-      if (
-        groupById === groupBy ||
-        (query && query.group_by && query.group_by[orgUnitIdKey]) ||
-        (groupById === tagPrefix && groupBy && groupBy.indexOf(tagPrefix) !== -1)
-      ) {
-        showWidget = true;
-        break;
+    if (widget.reportSummary.showWidgetOnGroupBy) {
+      for (const groupById of widget.reportSummary.showWidgetOnGroupBy) {
+        if (
+          groupById === groupBy ||
+          (query && query.group_by && query.group_by[orgUnitIdKey]) ||
+          (groupById === tagPrefix && groupBy && groupBy.indexOf(tagPrefix) !== -1)
+        ) {
+          showWidget = true;
+          break;
+        }
       }
     }
-    if (!showWidget) {
+    if (!showWidget && widget.reportSummary.showWidgetOnCategory) {
       for (const categoryId of widget.reportSummary.showWidgetOnCategory) {
         if (categoryId === category) {
           showWidget = true;
@@ -178,7 +180,6 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
       return (
         <SummaryCard
           category={category}
-          categoryGroupBy={widget.reportSummary.categoryGroupBy}
           costType={costType}
           currency={currency}
           reportGroupBy={widget.reportSummary.reportGroupBy}

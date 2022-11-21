@@ -22,6 +22,7 @@ interface TagModalOwnProps {
 }
 
 interface TagModalStateProps {
+  category?: string;
   groupBy: string;
   groupByValue: string | number;
   query?: Query;
@@ -80,7 +81,7 @@ class TagModalBase extends React.Component<TagModalProps> {
   };
 
   public render() {
-    const { groupBy, isOpen, query, tagReport, intl } = this.props;
+    const { category, groupBy, isOpen, query, tagReport, intl } = this.props;
 
     // Match page header description
     const groupByValue = query && query.filter && query.filter.account ? query.filter.account : this.props.groupByValue;
@@ -92,7 +93,7 @@ class TagModalBase extends React.Component<TagModalProps> {
         title={intl.formatMessage(messages.tagHeadingTitle, { value: this.getTagValueCount() })}
         width={'50%'}
       >
-        <TagContent groupBy={groupBy} groupByValue={groupByValue} tagReport={tagReport} />
+        <TagContent category={category} groupBy={groupBy} groupByValue={groupByValue} tagReport={tagReport} />
       </Modal>
     );
   }
@@ -138,6 +139,7 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
   );
 
   return {
+    category: queryFromRoute.category,
     groupBy,
     groupByValue,
     query,

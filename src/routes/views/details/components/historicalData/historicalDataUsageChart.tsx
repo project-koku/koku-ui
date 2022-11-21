@@ -159,14 +159,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         time_scope_value: -1,
       },
     };
-    const currentQueryString = getQuery({
-      ...currentQuery,
-      ...(queryFromRoute.category === 'platform' && {
-        group_by: {
-          project: ['kube-', 'openshift-'],
-        },
-      }),
-    });
+    const currentQueryString = getQuery(currentQuery);
     const currentReport = reportSelectors.selectReport(state, reportPathsType, reportType, currentQueryString);
     const currentReportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,
@@ -184,14 +177,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         time_scope_value: -2,
       },
     };
-    const previousQueryString = getQuery({
-      ...previousQuery,
-      ...(queryFromRoute.category === 'platform' && {
-        group_by: {
-          project: ['kube-', 'openshift-'],
-        },
-      }),
-    });
+    const previousQueryString = getQuery(previousQuery);
     const previousReport = reportSelectors.selectReport(state, reportPathsType, reportType, previousQueryString);
     const previousReportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,
