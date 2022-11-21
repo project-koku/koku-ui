@@ -31,7 +31,6 @@ import { styles } from './summaryCard.styles';
 
 interface SummaryOwnProps {
   category?: string;
-  categoryGroupBy?: string[];
   costType?: string;
   currency?: string;
   reportGroupBy?: string;
@@ -191,7 +190,7 @@ class SummaryBase extends React.Component<SummaryProps> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps>(
-  (state, { categoryGroupBy, costType, currency, reportGroupBy, reportPathsType, reportType }) => {
+  (state, { costType, currency, reportGroupBy, reportPathsType, reportType }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
@@ -211,23 +210,18 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
           queryFromRoute.filter &&
           queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
         ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
-        ...(groupBy && { [groupBy]: groupByValue }), // group bys must appear in filter to show costs by regions, accounts, etc
+        ...(groupBy && { [groupBy]: groupByValue }), // group bys must appear in filter to show costs by region, account, etc
       },
       exclude: {
         ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
       },
       group_by: {
-        ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
+        ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by all accounts, regions, etc.
       },
     };
 
     const reportQueryString = getQuery({
       ...query,
-      ...(categoryGroupBy && {
-        group_by: {
-          project: categoryGroupBy,
-        },
-      }),
       cost_type: costType,
       currency,
     });

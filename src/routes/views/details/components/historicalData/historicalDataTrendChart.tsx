@@ -190,11 +190,6 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
     };
     const currentQueryString = getQuery({
       ...currentQuery,
-      ...(queryFromRoute.category === 'platform' && {
-        group_by: {
-          project: ['kube-', 'openshift-'],
-        },
-      }),
       cost_type: costType,
       currency,
     });
@@ -208,11 +203,6 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
     };
     const previousQueryString = getQuery({
       ...previousQuery,
-      ...(queryFromRoute.category === 'platform' && {
-        group_by: {
-          project: ['kube-', 'openshift-'],
-        },
-      }),
       cost_type: costType,
       currency,
     });

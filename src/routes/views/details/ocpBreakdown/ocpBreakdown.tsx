@@ -79,11 +79,6 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
 
   const reportQueryString = getQuery({
     ...query,
-    ...(queryFromRoute.category === 'platform' && {
-      group_by: {
-        project: ['kube-', 'openshift-'],
-      },
-    }),
     currency,
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
@@ -125,7 +120,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
     reportPathsType,
     reportQueryString,
     tagReportPathsType: TagPathsType.ocp,
-    title: groupByValue,
+    title: queryFromRoute.category ? queryFromRoute.category : groupByValue,
   };
 });
 
