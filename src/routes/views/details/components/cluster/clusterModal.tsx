@@ -11,6 +11,7 @@ import { ClusterContent } from './clusterContent';
 import { styles } from './clusterModal.styles';
 
 interface ClusterModalOwnProps {
+  category?: string;
   groupBy: string;
   isOpen: boolean;
   item: ComputedReportItem;
@@ -35,7 +36,7 @@ class ClusterModalBase extends React.Component<ClusterModalProps> {
   };
 
   public render() {
-    const { groupBy, isOpen, item, intl } = this.props;
+    const { category, groupBy, isOpen, item, intl } = this.props;
 
     return (
       <Modal
@@ -43,7 +44,10 @@ class ClusterModalBase extends React.Component<ClusterModalProps> {
         style={styles.modal}
         isOpen={isOpen}
         onClose={this.handleClose}
-        title={intl.formatMessage(messages.detailsClustersModalTitle, { groupBy, name: item.label })}
+        title={intl.formatMessage(messages.detailsClustersModalTitle, {
+          groupBy,
+          name: category ? category : item.label,
+        })}
         width={'50%'}
       >
         <ClusterContent item={item} />

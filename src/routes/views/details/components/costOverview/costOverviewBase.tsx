@@ -27,6 +27,7 @@ import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/cos
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 
 interface CostOverviewOwnProps {
+  category?: string;
   costType?: string;
   currency?: string;
   groupBy: string;
@@ -46,7 +47,7 @@ const PLACEHOLDER = 'placeholder';
 class CostOverviewsBase extends React.Component<CostOverviewProps> {
   // Returns cluster chart
   private getClusterChart = (widget: CostOverviewWidget) => {
-    const { groupBy, report, intl } = this.props;
+    const { category, groupBy, report, intl } = this.props;
 
     let showWidget = false;
     for (const groupById of widget.cluster.showWidgetOnGroupBy) {
@@ -64,7 +65,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
             </Title>
           </CardTitle>
           <CardBody>
-            <Cluster groupBy={widget.cluster.reportGroupBy} report={report} />
+            <Cluster category={category} groupBy={widget.cluster.reportGroupBy} report={report} />
           </CardBody>
         </Card>
       );

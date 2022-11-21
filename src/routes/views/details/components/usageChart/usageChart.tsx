@@ -375,7 +375,7 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
 
-    const newQuery: Query = {
+    const query: Query = {
       filter: {
         time_scope_units: 'month',
         time_scope_value: -1,
@@ -394,7 +394,14 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
       },
     };
 
-    const reportQueryString = getQuery(newQuery);
+    const reportQueryString = getQuery({
+      ...query,
+      ...(queryFromRoute.category === 'platform' && {
+        group_by: {
+          project: ['kube-', 'openshift-'],
+        },
+      }),
+    });
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,
