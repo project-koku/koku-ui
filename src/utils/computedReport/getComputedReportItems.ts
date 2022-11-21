@@ -77,7 +77,7 @@ function getClusters(val, item?: any) {
   const clusters = val.clusters ? val.clusters : [];
   if (item && item.clusters) {
     item.clusters.forEach(cluster => {
-      if (!clusters.contains(cluster)) {
+      if (!clusters.includes(cluster)) {
         clusters.push(cluster);
       }
     });

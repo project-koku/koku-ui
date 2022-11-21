@@ -11312,6 +11312,14 @@
               }
             ]
           },
+          "platform": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Top 3 costliest platform costs related projects"
+              }
+            ]
+          },
           "product_service": {
             "value": [
               {
