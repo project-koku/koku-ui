@@ -153,7 +153,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
 
   // Returns summary card widget
   private getSummaryCard = (widget: CostOverviewWidget) => {
-    const { costType, currency, groupBy, query } = this.props;
+    const { category, costType, currency, groupBy, query } = this.props;
 
     let showWidget = false;
     for (const groupById of widget.reportSummary.showWidgetOnGroupBy) {
@@ -166,9 +166,19 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
         break;
       }
     }
+    if (!showWidget) {
+      for (const categoryId of widget.reportSummary.showWidgetOnCategory) {
+        if (categoryId === category) {
+          showWidget = true;
+          break;
+        }
+      }
+    }
     if (showWidget) {
       return (
         <SummaryCard
+          category={category}
+          categoryGroupBy={widget.reportSummary.categoryGroupBy}
           costType={costType}
           currency={currency}
           reportGroupBy={widget.reportSummary.reportGroupBy}

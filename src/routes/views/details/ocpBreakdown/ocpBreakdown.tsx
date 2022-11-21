@@ -74,7 +74,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
     },
-    category: queryFromRoute.category,
+    category: queryFromRoute.category, // Needed to restore details page state
   };
 
   const reportQueryString = getQuery({

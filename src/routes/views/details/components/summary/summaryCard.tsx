@@ -30,6 +30,8 @@ import { skeletonWidth } from 'utils/skeleton';
 import { styles } from './summaryCard.styles';
 
 interface SummaryOwnProps {
+  category?: string;
+  categoryGroupBy?: string[];
   costType?: string;
   currency?: string;
   reportGroupBy?: string;
@@ -161,13 +163,13 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   public render() {
-    const { reportGroupBy, reportFetchStatus, intl } = this.props;
+    const { category, reportGroupBy, reportFetchStatus, intl } = this.props;
 
     return (
       <Card style={styles.card}>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.breakdownSummaryTitle, { value: reportGroupBy })}
+            {intl.formatMessage(messages.breakdownSummaryTitle, { value: category ? category : reportGroupBy })}
           </Title>
         </CardTitle>
         <CardBody>
@@ -189,7 +191,7 @@ class SummaryBase extends React.Component<SummaryProps> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps>(
-  (state, { costType, currency, reportGroupBy, reportPathsType, reportType }) => {
+  (state, { categoryGroupBy, costType, currency, reportGroupBy, reportPathsType, reportType }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
@@ -221,6 +223,11 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
 
     const reportQueryString = getQuery({
       ...query,
+      ...(categoryGroupBy && {
+        group_by: {
+          project: categoryGroupBy,
+        },
+      }),
       cost_type: costType,
       currency,
     });
