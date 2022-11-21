@@ -72,6 +72,27 @@ export function getComputedReportItems<R extends Report, T extends ReportItem>({
   );
 }
 
+// For multiple group_by's ('kube-' and 'openshift-' for platform costs), all clusters are listed in the breakdown page
+function getClusters(val, item?: any) {
+  const clusters = val.clusters ? val.clusters : [];
+  if (item && item.clusters) {
+    item.clusters.forEach(cluster => {
+      if (!clusters.contains(cluster)) {
+        clusters.push(cluster);
+      }
+    });
+  }
+  return clusters.sort((a, b) => {
+    if (a < b) {
+      return -1;
+    }
+    if (a > b) {
+      return 1;
+    }
+    return 0;
+  });
+}
+
 function getCostData(val, key, item?: any) {
   return {
     markup: {
@@ -153,7 +174,6 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
         const classification = val.classification;
         const cluster_alias = val.clusters && val.clusters.length > 0 ? val.clusters[0] : undefined;
         const cluster = cluster_alias || val.cluster;
-        const clusters = val.clusters ? val.clusters : [];
         const date = val.date;
         const default_project = val.default_project && val.default_project.toLowerCase() === 'true';
         const delta_percent = val.delta_percent ? val.delta_percent : 0;
@@ -187,7 +207,7 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
             ...getUsageData(val), // capacity, limit, request, & usage
             classification,
             cluster,
-            clusters,
+            clusters: getClusters(val),
             cost: getCostData(val, 'cost'),
             date,
             default_project,
@@ -218,7 +238,7 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
               ...getUsageData(val, item), // capacity, limit, request, & usage
               classification,
               cluster,
-              clusters,
+              clusters: getClusters(val, item),
               date,
               default_project,
               delta_percent,
@@ -236,7 +256,7 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
               ...getUsageData(val), // capacity, limit, request, & usage
               classification,
               cluster,
-              clusters,
+              clusters: getClusters(val),
               cost: getCostData(val, 'cost'),
               date,
               default_project,

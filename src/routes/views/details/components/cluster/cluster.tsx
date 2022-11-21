@@ -9,6 +9,7 @@ import { styles } from './cluster.styles';
 import { ClusterModal } from './clusterModal';
 
 interface ClusterOwnProps {
+  category?: string;
   groupBy: string;
   report: Report;
 }
@@ -44,7 +45,7 @@ class ClusterBase extends React.Component<ClusterProps> {
   };
 
   public render() {
-    const { groupBy, report, intl } = this.props;
+    const { category, groupBy, report, intl } = this.props;
     const { isOpen, showAll } = this.state;
 
     let charCount = 0;
@@ -91,7 +92,7 @@ class ClusterBase extends React.Component<ClusterProps> {
             {intl.formatMessage(messages.detailsMoreClusters, { value: allClusters.length - someClusters.length })}
           </a>
         )}
-        <ClusterModal groupBy={groupBy} isOpen={isOpen} item={item} onClose={this.handleClose} />
+        <ClusterModal category={category} groupBy={groupBy} isOpen={isOpen} item={item} onClose={this.handleClose} />
       </div>
     );
   }
