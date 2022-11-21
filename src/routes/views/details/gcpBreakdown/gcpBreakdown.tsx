@@ -57,12 +57,12 @@ const reportPathsType = ReportPathsType.gcp;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdownStateProps>((state, props) => {
-  const query = parseQuery<GcpQuery>(location.search);
-  const groupBy = getGroupById(query);
-  const groupByValue = getGroupByValue(query);
+  const queryFromRoute = parseQuery<GcpQuery>(location.search);
+  const groupBy = getGroupById(queryFromRoute);
+  const groupByValue = getGroupByValue(queryFromRoute);
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
 
-  const newQuery: Query = {
+  const query: Query = {
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -70,11 +70,11 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(query && query.filter_by && query.filter_by),
+      ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
       ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
     },
     exclude: {
-      ...(query && query.exclude && query.exclude),
+      ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
     },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
@@ -82,7 +82,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
   };
 
   const reportQueryString = getQuery({
-    ...newQuery,
+    ...query,
     currency,
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
@@ -106,7 +106,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
   return {
     costOverviewComponent: <CostOverview currency={currency} groupBy={groupBy} query={query} report={report} />,
     currency,
-    description: query[breakdownDescKey],
+    description: queryFromRoute[breakdownDescKey],
     detailsURL,
     emptyStateTitle: props.intl.formatMessage(messages.gcpDetailsTitle),
     groupBy,
@@ -124,7 +124,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
     reportPathsType,
     reportQueryString,
     tagReportPathsType: TagPathsType.gcp,
-    title: query[breakdownTitleKey] ? query[breakdownTitleKey] : groupByValue,
+    title: queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue,
   };
 });
 

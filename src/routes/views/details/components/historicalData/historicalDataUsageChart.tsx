@@ -123,10 +123,10 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
 
 const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, HistoricalDataUsageChartStateProps>(
   (state, { reportPathsType, reportType }) => {
-    const query = parseQuery<Query>(location.search);
-    const groupByOrgValue = getGroupByOrgValue(query);
-    const groupBy = getGroupById(query);
-    const groupByValue = getGroupByValue(query);
+    const queryFromRoute = parseQuery<Query>(location.search);
+    const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
+    const groupBy = getGroupById(queryFromRoute);
+    const groupByValue = getGroupByValue(queryFromRoute);
 
     // instance-types and storage APIs must filter org units
     const useFilter = reportType === ReportType.instanceType || reportType === ReportType.storage;
@@ -134,13 +134,15 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
     const baseQuery: Query = {
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(query && query.filter_by && query.filter_by),
-        ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
+        ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
+        ...(queryFromRoute &&
+          queryFromRoute.filter &&
+          queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
         ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
         ...(groupByOrgValue && useFilter && { [orgUnitIdKey]: groupByOrgValue }),
       },
       exclude: {
-        ...(query && query.exclude && query.exclude),
+        ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
       },
       group_by: {
         ...(groupByOrgValue && !useFilter && { [orgUnitIdKey]: groupByOrgValue }),

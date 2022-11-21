@@ -176,11 +176,11 @@ class TagValueBase extends React.Component<TagValueProps> {
 
 const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStateProps>(
   (state, { tagKey, tagReportPathsType }) => {
-    const query = parseQuery<Query>(location.search);
+    const queryFromRoute = parseQuery<Query>(location.search);
 
-    const groupByOrgValue = getGroupByOrgValue(query);
-    const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
-    const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
+    const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
+    const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
+    const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
 
     // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
     const tagQueryString = getQuery({

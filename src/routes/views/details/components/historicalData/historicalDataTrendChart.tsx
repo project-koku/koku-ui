@@ -159,20 +159,22 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 
 const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, HistoricalDataTrendChartStateProps>(
   (state, { costType, currency, reportPathsType, reportType }) => {
-    const query = parseQuery<Query>(location.search);
-    const groupByOrgValue = getGroupByOrgValue(query);
-    const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
-    const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
+    const queryFromRoute = parseQuery<Query>(location.search);
+    const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
+    const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
+    const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
 
     const baseQuery: Query = {
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(query && query.filter_by && query.filter_by),
-        ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
+        ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
+        ...(queryFromRoute &&
+          queryFromRoute.filter &&
+          queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
         ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
       },
       exclude: {
-        ...(query && query.exclude && query.exclude),
+        ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
       },
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),
