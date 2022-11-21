@@ -371,9 +371,9 @@ class UsageChartBase extends React.Component<UsageChartProps> {
 
 const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStateProps>(
   (state, { reportPathsType, reportType }) => {
-    const query = parseQuery<OcpQuery>(location.search);
-    const groupBy = getGroupById(query);
-    const groupByValue = getGroupByValue(query);
+    const queryFromRoute = parseQuery<OcpQuery>(location.search);
+    const groupBy = getGroupById(queryFromRoute);
+    const groupByValue = getGroupByValue(queryFromRoute);
 
     const newQuery: Query = {
       filter: {
@@ -383,11 +383,11 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
       },
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(query && query.filter_by && query.filter_by),
+        ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
         ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
       },
       exclude: {
-        ...(query && query.exclude && query.exclude),
+        ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
       },
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),

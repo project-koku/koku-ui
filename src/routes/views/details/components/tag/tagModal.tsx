@@ -99,20 +99,20 @@ class TagModalBase extends React.Component<TagModalProps> {
 }
 
 const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStateProps>((state, { tagReportPathsType }) => {
-  const query = parseQuery<Query>(location.search);
-  const groupByOrgValue = getGroupByOrgValue(query);
-  const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
-  const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
+  const queryFromRoute = parseQuery<Query>(location.search);
+  const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
+  const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
+  const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
 
   // Prune unsupported tag params from filter_by
-  const filterByParams = query && query.filter_by ? query.filter_by : {};
+  const filterByParams = queryFromRoute && queryFromRoute.filter_by ? queryFromRoute.filter_by : {};
   for (const key of Object.keys(filterByParams)) {
     if (key.indexOf(tagPrefix) !== -1) {
       filterByParams[key] = undefined;
     }
   }
 
-  const newQuery: Query = {
+  const query: Query = {
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -121,12 +121,14 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
     filter_by: {
       // Add filters here to apply logical OR/AND
       ...filterByParams,
-      ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
+      ...(queryFromRoute &&
+        queryFromRoute.filter &&
+        queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
       ...(groupBy && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
     },
   };
 
-  const tagQueryString = getQuery(newQuery);
+  const tagQueryString = getQuery(query);
   const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
   const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
     state,

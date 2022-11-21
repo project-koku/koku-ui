@@ -1,6 +1,5 @@
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
-import type { OcpQuery } from 'api/queries/ocpQuery';
 import { getQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
@@ -57,12 +56,12 @@ const reportPathsType = ReportPathsType.azure;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateProps>((state, props) => {
-  const query = parseQuery<OcpQuery>(location.search);
-  const groupBy = getGroupById(query);
-  const groupByValue = getGroupByValue(query);
+  const queryFromRoute = parseQuery<Query>(location.search);
+  const groupBy = getGroupById(queryFromRoute);
+  const groupByValue = getGroupByValue(queryFromRoute);
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
 
-  const newQuery: Query = {
+  const query: Query = {
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -70,11 +69,11 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(query && query.filter_by && query.filter_by),
+      ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
       ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
     },
     exclude: {
-      ...(query && query.exclude && query.exclude),
+      ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
     },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
@@ -82,7 +81,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
   };
 
   const reportQueryString = getQuery({
-    ...newQuery,
+    ...query,
     currency,
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
@@ -106,7 +105,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
   return {
     costOverviewComponent: <CostOverview currency={currency} groupBy={groupBy} report={report} />,
     currency,
-    description: query[breakdownDescKey],
+    description: queryFromRoute[breakdownDescKey],
     detailsURL,
     emptyStateTitle: props.intl.formatMessage(messages.azureDetailsTitle),
     groupBy,

@@ -2,13 +2,11 @@ import type { ToolbarChipGroup } from '@patternfly/react-core';
 import type { Org } from 'api/orgs/org';
 import { OrgPathsType, OrgType } from 'api/orgs/org';
 import type { AwsQuery } from 'api/queries/awsQuery';
-import { getQuery } from 'api/queries/awsQuery';
-import { orgUnitIdKey, tagKey } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, tagKey } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
 import type { Tag } from 'api/tags/tag';
 import { TagPathsType, TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
-import { cloneDeep } from 'lodash';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -198,7 +196,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
   // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
   // However, for better server-side performance, we chose to use key_only here.
-  const tagQueryString = getQuery({
+  const baseQuery = {
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -206,6 +204,10 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
     },
     key_only: true,
     limit: 1000,
+  };
+
+  const tagQueryString = getQuery({
+    ...baseQuery,
   });
   const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
   const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
@@ -214,7 +216,10 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
     tagReportType,
     tagQueryString
   );
-  const orgQueryString = cloneDeep(tagQueryString);
+
+  const orgQueryString = getQuery({
+    ...baseQuery,
+  });
   const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, orgQueryString);
   const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(
     state,

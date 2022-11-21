@@ -7,7 +7,6 @@ import { getQuery, orgUnitIdKey, parseQuery, tagKey, tagPrefix } from 'api/queri
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
-import { cloneDeep } from 'lodash';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -322,10 +321,14 @@ const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps
 
     // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
     // However, for better server-side performance, we chose to use key_only here.
-    const tagQueryString = getQuery({
+    const baseQuery = {
       ...tagFilter,
       key_only: true,
       limit: 1000,
+    };
+
+    const tagQueryString = getQuery({
+      ...baseQuery,
     });
     const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
     const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
@@ -335,7 +338,9 @@ const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps
       tagQueryString
     );
 
-    const orgQueryString = cloneDeep(tagQueryString);
+    const orgQueryString = getQuery({
+      ...baseQuery,
+    });
     const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, orgQueryString);
     const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(
       state,

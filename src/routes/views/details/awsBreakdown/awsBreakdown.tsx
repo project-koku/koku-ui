@@ -1,6 +1,5 @@
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
-import type { AwsQuery } from 'api/queries/awsQuery';
 import { getQuery, parseQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
@@ -57,14 +56,14 @@ const reportPathsType = ReportPathsType.aws;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdownStateProps>((state, props) => {
-  const query = parseQuery<AwsQuery>(location.search);
-  const groupByOrgValue = getGroupByOrgValue(query);
-  const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
-  const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
+  const queryFromRoute = parseQuery<Query>(location.search);
+  const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
+  const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
+  const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
   const costType = getCostType();
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
 
-  const newQuery: Query = {
+  const query: Query = {
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -72,12 +71,14 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(query && query.filter_by && query.filter_by),
+      ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
       ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
-      ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
+      ...(queryFromRoute &&
+        queryFromRoute.filter &&
+        queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
     },
     exclude: {
-      ...(query && query.exclude && query.exclude),
+      ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
     },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
@@ -85,7 +86,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
   };
 
   const reportQueryString = getQuery({
-    ...newQuery,
+    ...query,
     cost_type: costType,
     currency,
   });
@@ -113,7 +114,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     ),
     costType,
     currency,
-    description: query[breakdownDescKey],
+    description: queryFromRoute[breakdownDescKey],
     detailsURL,
     emptyStateTitle: props.intl.formatMessage(messages.awsDetailsTitle),
     groupBy,
@@ -132,7 +133,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     reportQueryString,
     showCostType: true,
     tagReportPathsType: TagPathsType.aws,
-    title: query[breakdownTitleKey] ? query[breakdownTitleKey] : groupByValue,
+    title: queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue,
   };
 });
 
