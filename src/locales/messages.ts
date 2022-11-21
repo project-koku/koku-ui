@@ -165,7 +165,7 @@ export default defineMessages({
       'node {Cost by Node} ' +
       'org_unit_id {Cost by organizational units} ' +
       'payer_tenant_id {Cost by accounts} ' +
-      'platform {Top 3 costliest platform costs related projects} ' +
+      'platform {Cost by default projects} ' +
       'product_service {Cost by services} ' +
       'project {Cost by projects} ' +
       'region {Cost by regions} ' +

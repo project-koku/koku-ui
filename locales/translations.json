@@ -27,7 +27,7 @@
   "breakdownCostChartTooltip": "{name}: {value}",
   "breakdownCostOverviewTitle": "Cost overview",
   "breakdownHistoricalDataTitle": "Historical data",
-  "breakdownSummaryTitle": "{value, select, account {Cost by accounts} cluster {Cost by clusters} gcp_project {Cost by GCP projects} node {Cost by Node} org_unit_id {Cost by organizational units} payer_tenant_id {Cost by accounts} platform {Top 3 costliest platform costs related projects} product_service {Cost by services} project {Cost by projects} region {Cost by regions} resource_location {Cost by regions} service {Cost by services} service_name {Cost by services} subscription_guid {Cost by accounts} tag {Cost by tags} other {}}",
+  "breakdownSummaryTitle": "{value, select, account {Cost by accounts} cluster {Cost by clusters} gcp_project {Cost by GCP projects} node {Cost by Node} org_unit_id {Cost by organizational units} payer_tenant_id {Cost by accounts} platform {Cost by default projects} product_service {Cost by services} project {Cost by projects} region {Cost by regions} resource_location {Cost by regions} service {Cost by services} service_name {Cost by services} subscription_guid {Cost by accounts} tag {Cost by tags} other {}}",
   "breakdownTitle": "{value}",
   "breakdownTotalCostDate": "{value} total cost ({dateRange})",
   "calculationType": "Calculation type",
