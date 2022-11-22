@@ -69,6 +69,8 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
           </CardBody>
         </Card>
       );
+    } else {
+      return PLACEHOLDER;
     }
     return null;
   };
