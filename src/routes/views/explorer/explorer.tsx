@@ -239,12 +239,15 @@ class Explorer extends React.Component<ExplorerProps> {
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
+    const groupByOrg = getGroupByOrgValue(query);
 
     return (
       <ExplorerTable
         computedReportItemType={getComputedReportItemType(perspective)}
         computedReportItemValueType={getComputedReportItemValueType(perspective)}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        groupByTagKey={groupByTagKey}
+        groupByOrg={groupByOrg}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
@@ -329,7 +332,7 @@ class Explorer extends React.Component<ExplorerProps> {
       order_by: undefined, // Clear sort
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {
-      history.replace(getRouteForQuery(history, newQuery));
+      history.replace(getRouteForQuery(history, newQuery, true));
     });
   };
 

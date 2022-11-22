@@ -14,7 +14,7 @@ import {
   Tr,
 } from '@patternfly/react-table';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery } from 'api/queries/query';
+import { parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import { format } from 'date-fns';
 import messages from 'locales/messages';
@@ -25,9 +25,7 @@ import { connect } from 'react-redux';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { ComputedReportItemType, ComputedReportItemValueType } from 'routes/views/components/charts/common/chartDatum';
 import { getDateRangeFromQuery } from 'routes/views/utils/dateRange';
-import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatCurrency } from 'utils/format';
@@ -39,6 +37,8 @@ interface ExplorerTableOwnProps {
   computedReportItemType?: ComputedReportItemType;
   computedReportItemValueType?: ComputedReportItemValueType;
   groupBy: string;
+  groupByOrg?: string;
+  groupByTagKey?: string;
   isAllSelected?: boolean;
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
@@ -83,15 +83,11 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
   }
 
   public componentDidUpdate(prevProps: ExplorerTableProps) {
-    const { query, report, selectedItems } = this.props;
+    const { report, selectedItems } = this.props;
     const currentReport = report && report.data ? JSON.stringify(report.data) : '';
     const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
 
-    if (
-      getQuery(prevProps.query) !== getQuery(query) ||
-      previousReport !== currentReport ||
-      prevProps.selectedItems !== selectedItems
-    ) {
+    if (previousReport !== currentReport || prevProps.selectedItems !== selectedItems) {
       this.initDatum();
     }
   }
@@ -101,27 +97,26 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       computedReportItemType = ComputedReportItemType.cost,
       computedReportItemValueType = ComputedReportItemValueType.total,
       end_date,
+      groupBy,
+      groupByOrg,
+      groupByTagKey,
       isAllSelected,
       perspective,
-      query,
       report,
       selectedItems,
       start_date,
       intl,
     } = this.props;
-    if (!query || !report) {
+    if (!report) {
       return;
     }
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByOrg = getGroupByOrgValue(query);
-    const groupByTagKey = getGroupByTagKey(query);
     const rows = [];
 
     const computedItems = getUnsortedComputedReportItems({
       report,
-      idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
       isDateMap: true,
+      idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupBy,
     });
 
     // Add first two column headings (i.e., select and name)
@@ -143,8 +138,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
             },
             {
               date: undefined,
-              name: intl.formatMessage(messages.groupByValueNames, { groupBy: groupById }),
-              orderBy: groupById === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupById,
+              name: intl.formatMessage(messages.groupByValueNames, { groupBy }),
+              orderBy: groupBy === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupBy,
               ...(computedItems.length && { isSortable: true }),
             },
           ];
@@ -238,7 +233,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 
       rows.push({
         cells,
-        disableSelection: selectItem.label === `no-${groupById}` || selectItem.label === `no-${groupByTagKey}`,
+        selectionDisabled: selectItem.label === `no-${groupBy}` || selectItem.label === `no-${groupByTagKey}`,
         item: selectItem,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === selectItem.id) !== undefined),
       });
