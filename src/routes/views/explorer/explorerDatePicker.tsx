@@ -55,7 +55,7 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps> {
     if (prevState.startDate !== startDate) {
       // Don't adjust unless an end date has already been selected
       if (endDate && !this.isEndDateValid(startDate, endDate)) {
-        this.setState({ endDate: this.getMaxEndDate() });
+        this.setState({ endDate: undefined });
       }
     }
   }
