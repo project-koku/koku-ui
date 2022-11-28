@@ -14,12 +14,13 @@ export const formatStartEndDate = (startDate, endDate, isFormatted = true) => {
   };
 };
 
-export const getToday = (hrs: number = 0, min: number = 0, sec: number = 0) => {
+export const getToday = (hrs: number = 0, min: number = 0, sec: number = 0, ms: number = 0) => {
   const today = new Date();
 
   today.setHours(hrs);
   today.setMinutes(min);
   today.setSeconds(sec);
+  today.setMilliseconds(ms);
 
   return today;
 };
