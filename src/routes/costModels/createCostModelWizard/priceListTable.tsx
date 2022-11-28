@@ -233,11 +233,12 @@ class PriceListTable extends React.Component<Props, State> {
                             />
                           }
                         />
-                        {res.length === 0 && (this.state.metrics.length !== 0 || this.state.measurements.length !== 0) && (
-                          <Bullseye>
-                            <EmptyFilterState />
-                          </Bullseye>
-                        )}
+                        {res.length === 0 &&
+                          (this.state.metrics.length !== 0 || this.state.measurements.length !== 0) && (
+                            <Bullseye>
+                              <EmptyFilterState />
+                            </Bullseye>
+                          )}
                         {res.length === 0 &&
                           this.state.metrics.length === 0 &&
                           this.state.measurements.length === 0 && <NoTiersEmptyState />}
