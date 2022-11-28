@@ -1,11 +1,11 @@
 import { FeatureFlags } from 'components/featureFlags';
 import React from 'react';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { Maintenance } from 'routes/state/maintenance';
 import { createMapStateToProps } from 'store/common';
+import type { RouteComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { Routes, routes } from './routes';
 
