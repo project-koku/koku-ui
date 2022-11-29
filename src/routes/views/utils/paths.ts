@@ -2,6 +2,7 @@ import type { Query } from 'api/queries/query';
 import { getQueryRoute, platformCategory } from 'api/queries/query';
 import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
+import type { RouteComponentProps } from 'utils/router';
 
 export const getBreakdownPath = ({
   basePath,
@@ -9,14 +10,16 @@ export const getBreakdownPath = ({
   groupBy,
   isPlatformCosts,
   label,
+  router,
 }: {
   basePath: string;
   description: string;
   groupBy: string | number;
   isPlatformCosts?: boolean;
   label: string;
+  router: RouteComponentProps;
 }) => {
-  const queryFromRoute = parseQuery<Query>(location.search);
+  const queryFromRoute = parseQuery<Query>(router.location.search);
   const newQuery = {
     ...queryFromRoute,
     ...(description && description !== label && { [breakdownDescKey]: description }),
@@ -40,6 +43,7 @@ export const getOrgBreakdownPath = ({
   groupBy,
   groupByOrg,
   id,
+  router,
   title,
   type,
 }: {
@@ -48,10 +52,11 @@ export const getOrgBreakdownPath = ({
   groupBy: string | number;
   groupByOrg: string | number; // Used for group_by[org_unit_id]=<groupByOrg> param in the breakdown page
   id: string | number; // group_by[account]=<id> param in the breakdown page
+  router: RouteComponentProps;
   title: string | number; // Used to display a title in the breakdown header
   type: string; // account or organizational_unit
 }) => {
-  const queryFromRoute = parseQuery<Query>(location.search);
+  const queryFromRoute = parseQuery<Query>(router.location.search);
   const newQuery = {
     ...queryFromRoute,
     ...(description && description !== title && { [breakdownDescKey]: description }),

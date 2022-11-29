@@ -8,10 +8,12 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { DateRangeType, getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import { formatDate, getLast90DaysDate, getToday } from 'utils/dates';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { styles } from './explorerDatePicker.styles';
 
-interface ExplorerDatePickerOwnProps {
+interface ExplorerDatePickerOwnProps extends RouterComponentProps, WrappedComponentProps {
   onSelected(startDate: Date, endDate: Date);
 }
 
@@ -20,7 +22,7 @@ interface ExplorerDatePickerState {
   startDate?: Date;
 }
 
-type ExplorerDatePickerProps = ExplorerDatePickerOwnProps & WrappedComponentProps;
+type ExplorerDatePickerProps = ExplorerDatePickerOwnProps;
 
 const MAX_DAYS = 65; // Max date range allowed for cost API
 
@@ -34,7 +36,8 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps> {
   private endDateRef = React.createRef<DatePickerRef>();
 
   public componentDidMount() {
-    const queryFromRoute = parseQuery<Query>(location.search);
+    const { router } = this.props;
+    const queryFromRoute = parseQuery<Query>(router.location.search);
     const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
     const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
@@ -177,6 +180,6 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps> {
   }
 }
 
-const ExplorerDatePicker = injectIntl(ExplorerDatePickerBase);
+const ExplorerDatePicker = injectIntl(withRouter(ExplorerDatePickerBase));
 
 export { ExplorerDatePicker };

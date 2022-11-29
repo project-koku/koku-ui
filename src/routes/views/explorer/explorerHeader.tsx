@@ -55,7 +55,7 @@ import {
   PerspectiveType,
 } from './explorerUtils';
 
-interface ExplorerHeaderOwnProps {
+interface ExplorerHeaderOwnProps extends RouterComponentProps, WrappedComponentProps {
   costType?: CostTypes;
   currency?: string;
   groupBy?: string;
@@ -96,10 +96,7 @@ interface ExplorerHeaderState {
   currentPerspective?: PerspectiveType;
 }
 
-type ExplorerHeaderProps = ExplorerHeaderOwnProps &
-  ExplorerHeaderStateProps &
-  RouterComponentProps &
-  WrappedComponentProps;
+type ExplorerHeaderProps = ExplorerHeaderOwnProps & ExplorerHeaderStateProps;
 
 class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   protected defaultState: ExplorerHeaderState = {
@@ -321,8 +318,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHeaderStateProps>(
-  (state, { perspective }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
+  (state, { perspective, router }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
     const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
     const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 

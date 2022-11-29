@@ -19,8 +19,10 @@ import { exportActions, exportSelectors } from 'store/export';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getToday } from 'utils/dates';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
-export interface ExportSubmitOwnProps {
+export interface ExportSubmitOwnProps extends RouterComponentProps, WrappedComponentProps {
   disabled?: boolean;
   formatType: 'csv' | 'json';
   groupBy?: string;
@@ -53,10 +55,7 @@ interface ExportSubmitState {
   fetchExportClicked: boolean;
 }
 
-type ExportSubmitProps = ExportSubmitOwnProps &
-  ExportSubmitDispatchProps &
-  ExportSubmitStateProps &
-  WrappedComponentProps;
+type ExportSubmitProps = ExportSubmitOwnProps & ExportSubmitDispatchProps & ExportSubmitStateProps;
 
 const reportType = ReportType.cost;
 
@@ -149,9 +148,9 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
 }
 
 const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
-  const { groupBy, isAllItems, items, reportPathsType, reportQueryString, resolution, timeScope } = props;
+  const { groupBy, isAllItems, items, reportPathsType, reportQueryString, resolution, router, timeScope } = props;
 
-  const queryFromRoute = parseQuery<Query>(location.search);
+  const queryFromRoute = parseQuery<Query>(router.location.search);
   const getStartEndDate = () => {
     if (queryFromRoute.dateRangeType) {
       return getDateRangeFromQuery(queryFromRoute);
@@ -253,7 +252,7 @@ const mapDispatchToProps: ExportSubmitDispatchProps = {
 };
 
 const ExportSubmitConnect = connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase);
-const ExportSubmit = injectIntl(ExportSubmitConnect);
+const ExportSubmit = injectIntl(withRouter(ExportSubmitConnect));
 
 export { ExportSubmit };
 export type { ExportSubmitProps };

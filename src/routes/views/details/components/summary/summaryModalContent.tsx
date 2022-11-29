@@ -14,10 +14,12 @@ import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatCurrency } from 'utils/format';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { styles } from './summaryModal.styles';
 
-interface SummaryModalContentOwnProps {
+interface SummaryModalContentOwnProps extends RouterComponentProps, WrappedComponentProps {
   costType?: string;
   currency?: string;
   reportGroupBy?: string;
@@ -36,8 +38,7 @@ interface SummaryModalContentDispatchProps {
 
 type SummaryModalContentProps = SummaryModalContentOwnProps &
   SummaryModalContentStateProps &
-  SummaryModalContentDispatchProps &
-  WrappedComponentProps;
+  SummaryModalContentDispatchProps;
 
 const reportType = ReportType.cost;
 
@@ -96,8 +97,8 @@ class SummaryModalContentBase extends React.Component<SummaryModalContentProps> 
 }
 
 const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, SummaryModalContentStateProps>(
-  (state, { costType, currency, reportGroupBy, reportPathsType }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
+  (state, { costType, currency, reportGroupBy, reportPathsType, router }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
@@ -153,7 +154,9 @@ const mapDispatchToProps: SummaryModalContentDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryModalContent = injectIntl(connect(mapStateToProps, mapDispatchToProps)(SummaryModalContentBase));
+const SummaryModalContent = injectIntl(
+  withRouter(connect(mapStateToProps, mapDispatchToProps)(SummaryModalContentBase))
+);
 
 export { SummaryModalContent };
 export type { SummaryModalContentProps };

@@ -16,12 +16,14 @@ import { getDateRangeFromQuery } from 'routes/views/utils/dateRange';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { styles } from './groupBy.styles';
 import { GroupByOrg } from './groupByOrg';
 import { GroupByTag } from './groupByTag';
 
-interface GroupByOwnProps extends WrappedComponentProps {
+interface GroupByOwnProps extends RouterComponentProps, WrappedComponentProps {
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
   isDisabled?: boolean;
@@ -157,10 +159,10 @@ class GroupByBase extends React.Component<GroupByProps> {
   }
 
   private getCurrentGroupBy = () => {
-    const { getIdKeyForGroupBy } = this.props;
+    const { getIdKeyForGroupBy, router } = this.props;
     const { defaultItem } = this.state;
 
-    const queryFromRoute = parseQuery<Query>(location.search);
+    const queryFromRoute = parseQuery<Query>(router.location.search);
     if (!(queryFromRoute && queryFromRoute.group_by)) {
       return defaultItem;
     }
@@ -297,8 +299,8 @@ class GroupByBase extends React.Component<GroupByProps> {
 }
 
 const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>(
-  (state, { orgReportPathsType, tagReportPathsType }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
+  (state, { orgReportPathsType, router, tagReportPathsType }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
 
     // Default to current month filter for details pages
     let tagFilter: any = {
@@ -366,6 +368,6 @@ const mapDispatchToProps: GroupByDispatchProps = {
 };
 
 const GroupByConnect = connect(mapStateToProps, mapDispatchToProps)(GroupByBase);
-const GroupBy = injectIntl(GroupByConnect);
+const GroupBy = injectIntl(withRouter(GroupByConnect));
 
 export default GroupBy;

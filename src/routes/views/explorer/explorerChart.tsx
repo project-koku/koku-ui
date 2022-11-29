@@ -252,8 +252,8 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerChartStateProps>(
-  (state, { costType, currency, perspective }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
+  (state, { costType, currency, perspective, router }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
     const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
     // Ensure group_by key is not undefined

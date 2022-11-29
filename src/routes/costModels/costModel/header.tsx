@@ -65,7 +65,7 @@ const Header: React.FC<Props> = ({
   tabIndex,
 }) => {
   const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
-  const baseName = window.location ? getBaseName(window.location.pathname) : '';
+  const baseName = getBaseName(window.location.pathname);
 
   return (
     <>

@@ -394,8 +394,8 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<AzureDetailsOwnProps, AzureDetailsStateProps>((state, props) => {
-  const queryFromRoute = parseQuery<AzureQuery>(location.search);
+const mapStateToProps = createMapStateToProps<AzureDetailsOwnProps, AzureDetailsStateProps>((state, { router }) => {
+  const queryFromRoute = parseQuery<AzureQuery>(router.location.search);
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
   const query = {
     delta: 'cost',

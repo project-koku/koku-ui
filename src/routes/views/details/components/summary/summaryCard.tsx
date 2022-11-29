@@ -25,11 +25,13 @@ import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { styles } from './summaryCard.styles';
 
-interface SummaryOwnProps {
+interface SummaryOwnProps extends RouterComponentProps, WrappedComponentProps {
   costType?: string;
   currency?: string;
   isPlatformCosts?: boolean;
@@ -55,7 +57,7 @@ interface SummaryDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type SummaryProps = SummaryOwnProps & SummaryStateProps & SummaryDispatchProps & WrappedComponentProps;
+type SummaryProps = SummaryOwnProps & SummaryStateProps & SummaryDispatchProps;
 
 class SummaryBase extends React.Component<SummaryProps> {
   public state: SummaryState = {
@@ -192,8 +194,8 @@ class SummaryBase extends React.Component<SummaryProps> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps>(
-  (state, { costType, currency, reportGroupBy, reportPathsType, reportType }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
+  (state, { costType, currency, reportGroupBy, reportPathsType, reportType, router }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
@@ -255,6 +257,6 @@ const mapDispatchToProps: SummaryDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryCard = injectIntl(connect(mapStateToProps, mapDispatchToProps)(SummaryBase));
+const SummaryCard = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(SummaryBase)));
 
 export default SummaryCard;

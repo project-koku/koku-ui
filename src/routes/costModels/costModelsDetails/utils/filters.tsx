@@ -338,12 +338,20 @@ const toolbarMapStateToProps = (state: RootState) => {
   return { query };
 };
 
+// const toolbarMapStateToProps = createMapStateToProps<RouterComponentProps, any>((state, { router }) => {
+//   const query: Partial<CostModelsQuery> = costModelsSelectors.query(state);
+//   return {
+//     query,
+//     router,
+//   };
+// });
+
 const toolbarMergeProps = (
   stateProps: ReturnType<typeof toolbarMapStateToProps>,
   _dispatchProps: unknown,
   ownProps: RouterComponentProps & { children: React.ReactNode }
 ) => {
-  const { router } = ownProps;
+  const { children, router } = ownProps;
   const { query } = stateProps;
   return {
     id: 'cost-models-toolbar',
@@ -351,7 +359,7 @@ const toolbarMergeProps = (
       router.navigate(
         stringifySearch({ ...initialCostModelsQuery, ...query, description: null, source_type: null, name: null })
       ),
-    children: ownProps.children,
+    children,
   } as ToolbarProps;
 };
 

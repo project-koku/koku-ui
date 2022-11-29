@@ -17,8 +17,10 @@ import type { ComputedReportItem } from 'utils/computedReport/getComputedReportI
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dates';
 import { formatCurrency, formatPercentage } from 'utils/format';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
-interface DetailsTableOwnProps {
+interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   isAllSelected?: boolean;
   groupBy: string;
   groupByTagKey?: string;
@@ -35,7 +37,7 @@ interface DetailsTableState {
   rows?: any[];
 }
 
-type DetailsTableProps = DetailsTableOwnProps & WrappedComponentProps;
+type DetailsTableProps = DetailsTableOwnProps;
 
 const reportPathsType = ReportPathsType.azure;
 
@@ -60,7 +62,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   private initDatum = () => {
-    const { groupBy, groupByTagKey, isAllSelected, report, selectedItems, intl } = this.props;
+    const { groupBy, groupByTagKey, intl, isAllSelected, report, selectedItems, router } = this.props;
     if (!report) {
       return;
     }
@@ -132,6 +134,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             label: label.toString(),
             description: item.id,
             groupBy,
+            router,
           })}
         >
           {label}
@@ -263,7 +266,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 }
 
-const DetailsTable = injectIntl(DetailsTableBase);
+const DetailsTable = injectIntl(withRouter(DetailsTableBase));
 
 export { DetailsTable };
 export type { DetailsTableProps };

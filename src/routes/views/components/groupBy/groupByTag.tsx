@@ -7,10 +7,12 @@ import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { styles } from './groupBy.styles';
 
-interface GroupByTagOwnProps {
+interface GroupByTagOwnProps extends RouterComponentProps, WrappedComponentProps {
   groupBy?: string;
   isDisabled?: boolean;
   onSelected(value: string);
@@ -26,7 +28,7 @@ interface GroupByTagState {
   isGroupByOpen: boolean;
 }
 
-type GroupByTagProps = GroupByTagOwnProps & WrappedComponentProps;
+type GroupByTagProps = GroupByTagOwnProps;
 
 class GroupByTagBase extends React.Component<GroupByTagProps> {
   protected defaultState: GroupByTagState = {
@@ -89,7 +91,8 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
   };
 
   private getCurrentGroupBy = () => {
-    const queryFromRoute = parseQuery<Query>(location.search);
+    const { router } = this.props;
+    const queryFromRoute = parseQuery<Query>(router.location.search);
     const groupByKeys = queryFromRoute && queryFromRoute.group_by ? Object.keys(queryFromRoute.group_by) : [];
 
     let groupBy: string;
@@ -149,7 +152,7 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
   }
 }
 
-const GroupByTag = injectIntl(GroupByTagBase);
+const GroupByTag = injectIntl(withRouter(GroupByTagBase));
 
 export { GroupByTag };
 export type { GroupByTagProps };

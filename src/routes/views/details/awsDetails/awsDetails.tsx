@@ -416,8 +416,8 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStateProps>((state, props) => {
-  const queryFromRoute = parseQuery<AwsQuery>(location.search);
+const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStateProps>((state, { router }) => {
+  const queryFromRoute = parseQuery<AwsQuery>(router.location.search);
   const costType = getCostType();
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
   const query = {

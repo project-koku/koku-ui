@@ -14,11 +14,13 @@ import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUnits } from 'utils/format';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './historicalChart.styles';
 
-interface HistoricalDataCostChartOwnProps {
+interface HistoricalDataCostChartOwnProps extends RouterComponentProps, WrappedComponentProps {
   chartName?: string;
   costType?: string;
   currency?: string;
@@ -43,8 +45,7 @@ interface HistoricalDataCostChartDispatchProps {
 
 type HistoricalDataCostChartProps = HistoricalDataCostChartOwnProps &
   HistoricalDataCostChartStateProps &
-  HistoricalDataCostChartDispatchProps &
-  WrappedComponentProps;
+  HistoricalDataCostChartDispatchProps;
 
 class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChartProps> {
   public componentDidMount() {
@@ -143,8 +144,8 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, HistoricalDataCostChartStateProps>(
-  (state, { costType, currency, reportPathsType, reportType }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
+  (state, { costType, currency, reportPathsType, reportType, router }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
 
@@ -224,6 +225,8 @@ const mapDispatchToProps: HistoricalDataCostChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const HistoricalDataCostChart = injectIntl(connect(mapStateToProps, mapDispatchToProps)(HistoricalDataCostChartBase));
+const HistoricalDataCostChart = injectIntl(
+  withRouter(connect(mapStateToProps, mapDispatchToProps)(HistoricalDataCostChartBase))
+);
 
 export { HistoricalDataCostChart };

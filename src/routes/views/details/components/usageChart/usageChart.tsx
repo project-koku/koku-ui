@@ -19,6 +19,8 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPercentage, formatUnits, unitsLookupKey } from 'utils/format';
 import { noop } from 'utils/noop';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { styles } from './usageChart.styles';
@@ -29,7 +31,7 @@ export interface ChartDatum {
   usage: any[];
 }
 
-interface UsageChartOwnProps {
+interface UsageChartOwnProps extends RouterComponentProps, WrappedComponentProps {
   name?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType; // cpu or memory
@@ -50,7 +52,7 @@ interface State {
   width: number;
 }
 
-type UsageChartProps = UsageChartOwnProps & UsageChartStateProps & UsageChartDispatchProps & WrappedComponentProps;
+type UsageChartProps = UsageChartOwnProps & UsageChartStateProps & UsageChartDispatchProps;
 
 class UsageChartBase extends React.Component<UsageChartProps> {
   private containerRef = React.createRef<HTMLDivElement>();
@@ -370,8 +372,8 @@ class UsageChartBase extends React.Component<UsageChartProps> {
 }
 
 const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStateProps>(
-  (state, { reportPathsType, reportType }) => {
-    const queryFromRoute = parseQuery<OcpQuery>(location.search);
+  (state, { reportPathsType, reportType, router }) => {
+    const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
 
@@ -419,6 +421,6 @@ const mapDispatchToProps: UsageChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const UsageChart = injectIntl(connect(mapStateToProps, mapDispatchToProps)(UsageChartBase));
+const UsageChart = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(UsageChartBase)));
 
 export default UsageChart;

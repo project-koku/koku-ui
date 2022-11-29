@@ -24,11 +24,13 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCurrency } from 'utils/localStorage';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type OciCostOwnProps = WrappedComponentProps;
+type OciCostOwnProps = RouterComponentProps & WrappedComponentProps;
 
 interface OciCostStateProps {
   CostOverview?: React.ReactNode;
@@ -56,8 +58,8 @@ const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.oci;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<OciCostOwnProps, OciCostStateProps>((state, props) => {
-  const queryFromRoute = parseQuery<OcpQuery>(location.search);
+const mapStateToProps = createMapStateToProps<OciCostOwnProps, OciCostStateProps>((state, { intl, router }) => {
+  const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
@@ -108,7 +110,7 @@ const mapStateToProps = createMapStateToProps<OciCostOwnProps, OciCostStateProps
     currency,
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
-    emptyStateTitle: props.intl.formatMessage(messages.ociDetailsTitle),
+    emptyStateTitle: intl.formatMessage(messages.ociDetailsTitle),
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData currency={currency} />,
@@ -132,6 +134,6 @@ const mapDispatchToProps: OciCostDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const OciCost = injectIntl(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
+const OciCost = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
 
 export default OciCost;

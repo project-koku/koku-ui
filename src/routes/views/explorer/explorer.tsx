@@ -516,7 +516,7 @@ class Explorer extends React.Component<ExplorerProps> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStateProps>((state, { router }) => {
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
   const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
@@ -543,7 +543,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   );
 
   // Cost Report
-  const queryFromRoute = parseQuery<Query>(location.search);
+  const queryFromRoute = parseQuery<Query>(router.location.search);
   const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
   const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
