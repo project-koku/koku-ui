@@ -57,7 +57,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
   const groupByValue = getGroupByValue(queryFromRoute);
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
 
-  const query: Query = {
+  const newQuery: Query = {
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -78,7 +78,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
   };
 
   const reportQueryString = getQuery({
-    ...query,
+    ...newQuery,
     currency,
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
@@ -112,7 +112,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     providerType: ProviderType.ocp,
-    query,
+    query: queryFromRoute,
     report,
     reportError,
     reportFetchStatus,
