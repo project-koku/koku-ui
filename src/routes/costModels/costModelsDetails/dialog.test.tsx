@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import messages from 'locales/messages';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { createStore } from 'redux';
 import { FetchStatus } from 'store/common';
 import type { RootState } from 'store/rootReducer';
@@ -13,11 +13,23 @@ import DeleteDialog from './dialog';
 
 const renderUI = (state: Partial<RootState>) => {
   const store = createStore(rootReducer, state);
+  const router = createMemoryRouter(
+    [
+      {
+        path: '/',
+        element: <DeleteDialog />,
+      },
+    ],
+    {
+      // Set for where you want to start in the routes. Remember, KISS (Keep it simple, stupid) the routes.
+      initialEntries: ['/'],
+      // We don't need to explicitly set this, but it's nice to have.
+      initialIndex: 0,
+    }
+  );
   return render(
     <Provider store={store}>
-      <Router>
-        <DeleteDialog />
-      </Router>
+      <RouterProvider router={router} />
     </Provider>
   );
 };
