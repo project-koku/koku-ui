@@ -61,7 +61,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
   const groupByValue = getGroupByValue(queryFromRoute);
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
 
-  const query: Query = {
+  const newQuery: Query = {
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -81,7 +81,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
   };
 
   const reportQueryString = getQuery({
-    ...query,
+    ...newQuery,
     currency,
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
@@ -115,7 +115,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
     providersError,
     providersFetchStatus,
     providerType: ProviderType.azure,
-    query,
+    query: queryFromRoute,
     report,
     reportError,
     reportFetchStatus,

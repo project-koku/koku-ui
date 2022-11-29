@@ -62,7 +62,7 @@ const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, IbmBreakdown
   const groupByValue = getGroupByValue(queryFromRoute);
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
 
-  const query: Query = {
+  const newQuery: Query = {
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -82,7 +82,7 @@ const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, IbmBreakdown
   };
 
   const reportQueryString = getQuery({
-    ...query,
+    ...newQuery,
     currency,
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
@@ -104,7 +104,7 @@ const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, IbmBreakdown
   );
 
   return {
-    costOverviewComponent: <CostOverview currency={currency} groupBy={groupBy} query={query} report={report} />,
+    costOverviewComponent: <CostOverview currency={currency} groupBy={groupBy} report={report} />,
     currency,
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
@@ -116,7 +116,7 @@ const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, IbmBreakdown
     providersError,
     providersFetchStatus,
     providerType: ProviderType.ibm,
-    query,
+    query: queryFromRoute,
     report,
     reportError,
     reportFetchStatus,

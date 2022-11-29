@@ -63,7 +63,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
   const costType = getCostType();
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
 
-  const query: Query = {
+  const newQuery: Query = {
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -86,7 +86,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
   };
 
   const reportQueryString = getQuery({
-    ...query,
+    ...newQuery,
     cost_type: costType,
     currency,
   });
@@ -110,7 +110,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
 
   return {
     costOverviewComponent: (
-      <CostOverview costType={costType} currency={currency} groupBy={groupBy} query={query} report={report} />
+      <CostOverview costType={costType} currency={currency} groupBy={groupBy} query={queryFromRoute} report={report} />
     ),
     costType,
     currency,
@@ -124,7 +124,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     providersError,
     providersFetchStatus,
     providerType: ProviderType.aws,
-    query,
+    query: queryFromRoute,
     report,
     reportError,
     reportFetchStatus,
