@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createMemoryHistory } from 'history';
 import messages from 'locales/messages';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -14,10 +13,9 @@ import DeleteDialog from './dialog';
 
 const renderUI = (state: Partial<RootState>) => {
   const store = createStore(rootReducer, state);
-  const history = createMemoryHistory();
   return render(
     <Provider store={store}>
-      <Router history={history}>
+      <Router>
         <DeleteDialog />
       </Router>
     </Provider>

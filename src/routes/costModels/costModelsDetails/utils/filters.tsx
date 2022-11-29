@@ -16,14 +16,14 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import type { RootState } from 'store';
 import { costModelsSelectors } from 'store/costModels';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import type { CostModelsQuery } from './query';
 import { initialCostModelsQuery, stringifySearch } from './query';
-import type { HistoryPush, Inputer, Opener } from './types';
+import type { Inputer, Opener } from './types';
 
 interface FilterInputProps {
   value: string;
@@ -55,11 +55,10 @@ const FilterInput: React.FC<FilterInputProps> = ({ placeholder = '', value, onCh
 };
 
 export const onKeyPress =
-  (push: HistoryPush, key: string, query: CostModelsQuery, inputer: Inputer) =>
-  (event: React.KeyboardEvent<HTMLInputElement>) => {
+  (router, key: string, query: CostModelsQuery, inputer: Inputer) => (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && inputer.value !== '') {
       const currentValue = inputer.value;
-      push(
+      router.navigate(
         stringifySearch({
           ...query,
           [key]: query[key] ? `${query[key]},${currentValue}` : currentValue,
@@ -69,10 +68,10 @@ export const onKeyPress =
     }
   };
 
-export const onDeleteChip = (push: HistoryPush, key, query: CostModelsQuery) => {
+export const onDeleteChip = (router, key, query: CostModelsQuery) => {
   return (_filterName: string, chipName: string) => {
     const newState = query[key] ? query[key].split(',').filter(qval => qval !== chipName) : null;
-    push(
+    router.navigate(
       stringifySearch({
         ...query,
         [key]: newState === null || newState.length === 0 ? null : (newState.join(',') as string),
@@ -81,9 +80,9 @@ export const onDeleteChip = (push: HistoryPush, key, query: CostModelsQuery) => 
   };
 };
 
-export const onDeleteChipGroup = (push: HistoryPush, query: CostModelsQuery, key: string) => {
+export const onDeleteChipGroup = (router, query: CostModelsQuery, key: string) => {
   return () => {
-    push(stringifySearch({ ...query, [key]: null }));
+    router.navigate(stringifySearch({ ...query, [key]: null }));
   };
 };
 
@@ -96,7 +95,7 @@ interface DescriptionFilterOwnProps {
   query?: any;
 }
 
-type DescriptionFilterProps = DescriptionFilterOwnProps & WrappedComponentProps & RouteComponentProps;
+type DescriptionFilterProps = DescriptionFilterOwnProps & WrappedComponentProps & RouterComponentProps;
 
 const descriptionMapStateToProps = (state: RootState) => {
   const filterType = costModelsSelectors.currentFilterType(state);
@@ -107,11 +106,11 @@ const descriptionMapStateToProps = (state: RootState) => {
 const descriptionMergeProps = (
   stateProps: ReturnType<typeof descriptionMapStateToProps>,
   dispatchProps,
-  ownProps: WrappedComponentProps & RouteComponentProps
+  ownProps: WrappedComponentProps & RouterComponentProps
 ) => {
   const {
     intl = defaultIntl, // Default required for testing
-    history,
+    router,
   } = ownProps;
   const { filterType, query } = stateProps;
 
@@ -119,12 +118,12 @@ const descriptionMergeProps = (
   return {
     categoryName: intl.formatMessage(messages.description),
     chips,
-    deleteChip: onDeleteChip(history.push, 'description', { ...initialCostModelsQuery, ...query }),
-    deleteChipGroup: onDeleteChipGroup(history.push, { ...initialCostModelsQuery, ...query }, 'description'),
+    deleteChip: onDeleteChip(router, 'description', { ...initialCostModelsQuery, ...query }),
+    deleteChipGroup: onDeleteChipGroup(router, { ...initialCostModelsQuery, ...query }, 'description'),
     filterType,
-    history,
     intl,
     query,
+    router,
   };
 };
 
@@ -132,11 +131,11 @@ const DescriptionFilterBase: React.FC<DescriptionFilterProps> = ({
   deleteChip,
   deleteChipGroup,
   filterType,
-  history,
   intl,
   chips,
   categoryName,
   query,
+  router,
 }) => {
   const [value, setValue] = React.useState('');
   const children =
@@ -145,12 +144,7 @@ const DescriptionFilterBase: React.FC<DescriptionFilterProps> = ({
         placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: filterType })}
         value={value}
         onChange={(text: string) => setValue(text)}
-        onKeyPress={onKeyPress(
-          history.push,
-          'description',
-          { ...initialCostModelsQuery, ...query },
-          { value, setValue }
-        )}
+        onKeyPress={onKeyPress(router, 'description', { ...initialCostModelsQuery, ...query }, { value, setValue })}
       />
     ) : null;
   return (
@@ -175,7 +169,7 @@ interface NameFilterOwnProps {
   query?: any;
 }
 
-type NameFilterProps = NameFilterOwnProps & WrappedComponentProps & RouteComponentProps;
+type NameFilterProps = NameFilterOwnProps & WrappedComponentProps & RouterComponentProps;
 
 const nameFilterMapStateToProps = (state: RootState) => {
   const filterType = costModelsSelectors.currentFilterType(state);
@@ -186,25 +180,25 @@ const nameFilterMapStateToProps = (state: RootState) => {
 const nameFilterMergeProps = (
   stateProps: ReturnType<typeof nameFilterMapStateToProps>,
   dispatchProps,
-  ownProps: WrappedComponentProps & RouteComponentProps
+  ownProps: WrappedComponentProps & RouterComponentProps
 ) => {
   const {
     intl = defaultIntl, // Default required for testing
-    history,
+    router,
   } = ownProps;
 
   const { filterType, query } = stateProps;
   const chips = query.name ? query.name.split(',') : [];
 
   return {
-    deleteChip: onDeleteChip(history.push, 'name', { ...initialCostModelsQuery, ...query }),
-    deleteChipGroup: onDeleteChipGroup(history.push, { ...initialCostModelsQuery, ...query }, 'name'),
+    deleteChip: onDeleteChip(router, 'name', { ...initialCostModelsQuery, ...query }),
+    deleteChipGroup: onDeleteChipGroup(router, { ...initialCostModelsQuery, ...query }, 'name'),
     filterType,
     chips,
     categoryName: intl.formatMessage(messages.names, { count: 1 }),
-    history,
     intl,
     query,
+    router,
   };
 };
 
@@ -212,11 +206,11 @@ const NameFilterBase: React.FC<NameFilterProps> = ({
   deleteChip,
   deleteChipGroup,
   filterType,
-  history,
   intl,
   chips,
   categoryName,
   query,
+  router,
 }) => {
   const [value, setValue] = React.useState('');
   const children =
@@ -225,7 +219,7 @@ const NameFilterBase: React.FC<NameFilterProps> = ({
         placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: filterType })}
         value={value}
         onChange={(text: string) => setValue(text)}
-        onKeyPress={onKeyPress(history.push, 'name', { ...initialCostModelsQuery, ...query }, { value, setValue })}
+        onKeyPress={onKeyPress(router, 'name', { ...initialCostModelsQuery, ...query }, { value, setValue })}
       />
     ) : null;
   return (
@@ -254,7 +248,7 @@ interface SourceTypeFilterOwnProps {
   query?: any;
 }
 
-type SourceTypeFilterProps = SourceTypeFilterOwnProps & WrappedComponentProps & RouteComponentProps;
+type SourceTypeFilterProps = SourceTypeFilterOwnProps & WrappedComponentProps & RouterComponentProps;
 
 const sourceTypeFilterMapStateToProps = (state: RootState) => {
   const filterType = costModelsSelectors.currentFilterType(state);
@@ -265,11 +259,11 @@ const sourceTypeFilterMapStateToProps = (state: RootState) => {
 const sourceTypeFilterMergeProps = (
   stateProps: ReturnType<typeof sourceTypeFilterMapStateToProps>,
   _dispatchProps,
-  ownProps: WrappedComponentProps & RouteComponentProps
+  ownProps: WrappedComponentProps & RouterComponentProps
 ) => {
   const {
     intl = defaultIntl, // Default required for testing
-    history,
+    router,
   } = ownProps;
   const { filterType, query } = stateProps;
 
@@ -277,9 +271,8 @@ const sourceTypeFilterMergeProps = (
   return {
     chips,
     categoryName: intl.formatMessage(messages.costModelsSourceType),
-    deleteChip: onDeleteChipGroup(history.push, { ...initialCostModelsQuery, ...query }, 'source_type'),
+    deleteChip: onDeleteChipGroup(router, { ...initialCostModelsQuery, ...query }, 'source_type'),
     filterType,
-    history,
     intl,
     query,
   };
@@ -289,16 +282,16 @@ const SourceTypeFilterBase: React.FC<SourceTypeFilterProps> = ({
   deleteChip,
   deleteChipGroup,
   filterType,
-  history,
   intl,
   chips,
   categoryName,
   query,
+  router,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const id = 'source-type-filter';
   const onFilter = (source: string) =>
-    history.push(stringifySearch({ ...initialCostModelsQuery, ...query, source_type: source }));
+    router.navigate(stringifySearch({ ...initialCostModelsQuery, ...query, source_type: source }));
   const children =
     filterType === 'sourceType' ? (
       <Dropdown
@@ -348,16 +341,16 @@ const toolbarMapStateToProps = (state: RootState) => {
 const toolbarMergeProps = (
   stateProps: ReturnType<typeof toolbarMapStateToProps>,
   _dispatchProps: unknown,
-  ownProps: RouteComponentProps & { children: React.ReactNode }
+  ownProps: RouterComponentProps & { children: React.ReactNode }
 ) => {
-  const {
-    history: { push },
-  } = ownProps;
+  const { router } = ownProps;
   const { query } = stateProps;
   return {
     id: 'cost-models-toolbar',
     clearAllFilters: () =>
-      push(stringifySearch({ ...initialCostModelsQuery, ...query, description: null, source_type: null, name: null })),
+      router.navigate(
+        stringifySearch({ ...initialCostModelsQuery, ...query, description: null, source_type: null, name: null })
+      ),
     children: ownProps.children,
   } as ToolbarProps;
 };

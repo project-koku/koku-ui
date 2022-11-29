@@ -1,12 +1,13 @@
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
 import React from 'react';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
 import type { Dispatch } from 'redux';
 import type { RootState } from 'store';
 import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
 import { rbacActions } from 'store/rbac';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { CostModelsBottomPagination } from './bottomPagination';
 import { CreateCostModelWizard } from './createCostModelButton';
@@ -61,12 +62,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   };
 };
 
-const mapStateToProps = (state: RootState, ownProps: RouteComponentProps<any>) => {
+const mapStateToProps = (state: RootState, ownProps: RouterComponentProps) => {
   return {
-    search: ownProps.location.search,
+    search: ownProps.router.location.search,
   };
 };
 
-const Page = connect(mapStateToProps, mapDispatchToProps)(PageBase);
+const Page = withRouter(connect(mapStateToProps, mapDispatchToProps)(PageBase));
 
 export default Page;

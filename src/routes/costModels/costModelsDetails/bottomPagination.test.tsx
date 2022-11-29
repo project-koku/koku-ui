@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { emptyPage, page1 } from 'api/costModels.data';
-import { createMemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
@@ -14,10 +13,9 @@ import { initialCostModelsQuery } from './utils/query';
 
 const renderUI = (state: Partial<RootState>) => {
   const store = createStore(rootReducer, state);
-  const history = createMemoryHistory();
   return render(
     <Provider store={store}>
-      <Router history={history}>
+      <Router>
         <CostModelsBottomPagination />
       </Router>
     </Provider>

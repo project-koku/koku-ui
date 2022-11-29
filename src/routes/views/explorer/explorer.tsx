@@ -15,7 +15,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
 import { Loading } from 'routes/state/loading';
 import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
@@ -24,6 +23,7 @@ import { ExportModal } from 'routes/views/components/export';
 import { DateRangeType } from 'routes/views/utils/dateRange';
 import { getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
+import { filterProviders, hasData } from 'routes/views/utils/providers';
 import {
   getRouteForQuery,
   handleCostTypeSelected,
@@ -33,8 +33,7 @@ import {
   handlePerPageSelect,
   handleSetPage,
   handleSort,
-} from 'routes/views/utils/history';
-import { filterProviders, hasData } from 'routes/views/utils/providers';
+} from 'routes/views/utils/queryUpdate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
@@ -46,6 +45,8 @@ import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputed
 import type { CostTypes } from 'utils/costType';
 import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/localStorage';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 import {
   isAwsAvailable,
   isAzureAvailable,
@@ -111,7 +112,7 @@ interface ExplorerState {
   startDate?: Date;
 }
 
-type ExplorerOwnProps = RouteComponentProps<void> & WrappedComponentProps;
+type ExplorerOwnProps = RouterComponentProps & WrappedComponentProps;
 
 type ExplorerProps = ExplorerStateProps & ExplorerOwnProps & ExplorerDispatchProps;
 
@@ -139,13 +140,13 @@ class Explorer extends React.Component<ExplorerProps> {
   }
 
   public componentDidUpdate(prevProps: ExplorerProps, prevState: ExplorerState) {
-    const { location, perspective, report, reportError, reportQueryString } = this.props;
+    const { perspective, report, reportError, reportQueryString, router } = this.props;
     const { selectedItems } = this.state;
 
     const newPerspective = prevProps.perspective !== perspective;
     const newQuery = prevProps.reportQueryString !== reportQueryString;
     const noReport = !report && !reportError;
-    const noLocation = !location.search;
+    const noLocation = !router.location.search;
     const newItems = prevState.selectedItems !== selectedItems;
 
     if (newPerspective || newQuery || noReport || noLocation || newItems) {
@@ -200,7 +201,7 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private getPagination = (isBottom: boolean = false) => {
-    const { history, intl, query, report } = this.props;
+    const { intl, query, report, router } = this.props;
 
     const count = report && report.meta ? report.meta.count : 0;
     const limit =
@@ -217,8 +218,8 @@ class Explorer extends React.Component<ExplorerProps> {
       <Pagination
         isCompact={!isBottom}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => handlePerPageSelect(history, query, perPage)}
-        onSetPage={(event, pageNumber) => handleSetPage(history, query, report, pageNumber)}
+        onPerPageSelect={(event, perPage) => handlePerPageSelect(query, router, perPage)}
+        onSetPage={(event, pageNumber) => handleSetPage(query, router, report, pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -234,7 +235,7 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private getTable = () => {
-    const { history, perspective, query, report, reportFetchStatus } = this.props;
+    const { perspective, query, report, reportFetchStatus, router } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -251,9 +252,7 @@ class Explorer extends React.Component<ExplorerProps> {
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
-        onSort={(sortType, isSortAscending, date: string) =>
-          handleSort(history, query, sortType, isSortAscending, date)
-        }
+        onSort={(sortType, isSortAscending, date: string) => handleSort(query, router, sortType, isSortAscending, date)}
         perspective={perspective}
         query={query}
         report={report}
@@ -311,7 +310,7 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private handleGroupBySelected = groupBy => {
-    const { history, query } = this.props;
+    const { query, router } = this.props;
 
     let groupByKey = groupBy;
     let value = '*';
@@ -332,7 +331,7 @@ class Explorer extends React.Component<ExplorerProps> {
       order_by: undefined, // Clear sort
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {
-      history.replace(getRouteForQuery(history, newQuery, true));
+      router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
     });
   };
 
@@ -387,16 +386,22 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private updateReport = () => {
-    const { dateRangeType, fetchReport, history, location, perspective, query, reportQueryString } = this.props;
-    if (!location.search) {
-      history.replace(
-        getRouteForQuery(history, {
-          exclude: query ? query.exclude : undefined,
-          filter_by: query ? query.filter_by : undefined,
-          group_by: query ? query.group_by : undefined,
-          order_by: query ? query.order_by : undefined,
-          dateRangeType, // Preserve date range type
-        })
+    const { dateRangeType, fetchReport, perspective, query, reportQueryString, router } = this.props;
+    if (!router.location.search) {
+      router.navigate(
+        getRouteForQuery(
+          {
+            exclude: query ? query.exclude : undefined,
+            filter_by: query ? query.filter_by : undefined,
+            group_by: query ? query.group_by : undefined,
+            order_by: query ? query.order_by : undefined,
+            dateRangeType, // Preserve date range type
+          },
+          router.location
+        ),
+        {
+          replace: true,
+        }
       );
     } else if (perspective) {
       fetchReport(getReportPathsType(perspective), getReportType(perspective), reportQueryString);
@@ -412,7 +417,6 @@ class Explorer extends React.Component<ExplorerProps> {
       currency,
       gcpProviders,
       ibmProviders,
-      history,
       intl,
       ocpProviders,
       providersFetchStatus,
@@ -422,6 +426,7 @@ class Explorer extends React.Component<ExplorerProps> {
       report,
       reportError,
       reportFetchStatus,
+      router,
     } = this.props;
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
@@ -469,11 +474,11 @@ class Explorer extends React.Component<ExplorerProps> {
           costType={costType}
           currency={currency}
           groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
-          onCostTypeSelected={value => handleCostTypeSelected(history, query, value)}
-          onCurrencySelected={value => handleCurrencySelected(history, query, value)}
+          onCostTypeSelected={value => handleCostTypeSelected(query, router, value)}
+          onCurrencySelected={value => handleCurrencySelected(query, router, value)}
           onDatePickerSelected={this.handleDatePickerSelected}
-          onFilterAdded={filter => handleFilterAdded(history, query, filter)}
-          onFilterRemoved={filter => handleFilterRemoved(history, query, filter)}
+          onFilterAdded={filter => handleFilterAdded(query, router, filter)}
+          onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
           onGroupBySelected={this.handleGroupBySelected}
           onPerspectiveClicked={this.handlePerspectiveClick}
           perspective={perspective}
@@ -637,4 +642,4 @@ const mapDispatchToProps: ExplorerDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Explorer));
+export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(Explorer)));

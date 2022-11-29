@@ -13,10 +13,10 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import type { RootState } from 'store';
 import { costModelsSelectors } from 'store/costModels';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import type { CostModelsQuery } from './utils/query';
 import { initialCostModelsQuery, limitTransform, offsetTransform, stringifySearch } from './utils/query';
@@ -68,10 +68,8 @@ const mapStateToProps = (state: RootState) => {
   };
 };
 
-const mergeProps = (stateProps: ReturnType<typeof mapStateToProps>, dispatchProps, ownProps: RouteComponentProps) => {
-  const {
-    history: { push },
-  } = ownProps;
+const mergeProps = (stateProps: ReturnType<typeof mapStateToProps>, dispatchProps, ownProps: RouterComponentProps) => {
+  const { router } = ownProps;
   const { count, page, perPage, query } = stateProps;
   return {
     itemCount: count,
@@ -79,7 +77,7 @@ const mergeProps = (stateProps: ReturnType<typeof mapStateToProps>, dispatchProp
     perPage,
     variant: PaginationVariant.bottom,
     onSetPage: (_evt: React.MouseEvent | React.KeyboardEvent | MouseEvent, newPage: number, newPerPage: number) => {
-      push(
+      router.navigate(
         stringifySearch({
           ...initialCostModelsQuery,
           ...query,
@@ -88,7 +86,7 @@ const mergeProps = (stateProps: ReturnType<typeof mapStateToProps>, dispatchProp
       );
     },
     onPerPageSelect: (_evt: React.MouseEvent | React.KeyboardEvent | MouseEvent, newPerPage: number) => {
-      push(
+      router.navigate(
         stringifySearch({
           ...initialCostModelsQuery,
           ...query,

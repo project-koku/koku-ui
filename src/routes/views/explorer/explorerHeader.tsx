@@ -14,22 +14,22 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import { Currency } from 'routes/components/currency';
 import { CostType } from 'routes/views/components/costType';
 import { GroupBy } from 'routes/views/components/groupBy';
 import { Perspective } from 'routes/views/components/perspective';
 import { DateRangeType, getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import type { Filter } from 'routes/views/utils/filter';
-import { getRouteForQuery } from 'routes/views/utils/history';
 import { filterProviders, hasCloudProvider } from 'routes/views/utils/providers';
+import { getRouteForQuery } from 'routes/views/utils/queryUpdate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import type { CostTypes } from 'utils/costType';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -98,7 +98,7 @@ interface ExplorerHeaderState {
 
 type ExplorerHeaderProps = ExplorerHeaderOwnProps &
   ExplorerHeaderStateProps &
-  RouteComponentProps<void> &
+  RouterComponentProps &
   WrappedComponentProps;
 
 class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
@@ -162,7 +162,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   };
 
   private handlePerspectiveSelected = (value: string) => {
-    const { history, onPerspectiveClicked, query } = this.props;
+    const { onPerspectiveClicked, query, router } = this.props;
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
@@ -176,7 +176,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       if (onPerspectiveClicked) {
         onPerspectiveClicked(value);
       }
-      history.replace(getRouteForQuery(history, newQuery));
+      router.navigate(getRouteForQuery(newQuery, router.location), { replace: true });
     });
   };
 

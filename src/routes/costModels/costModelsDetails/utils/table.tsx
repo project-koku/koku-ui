@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { LoadingState } from 'routes/components/state/loadingState';
 import NoCostModels from 'routes/costModels/costModelsDetails/noCostModels';
+import type { RouteComponentProps } from 'utils/router';
 
 import type { CostModelsQuery } from './query';
 import { stringifySearch } from './query';
@@ -68,17 +69,17 @@ export function getRowsByStateName(stateName: string, data: any) {
   });
 }
 
-export function createOnSort(cells: ICell[], query: CostModelsQuery, push: (path: string) => void) {
+export function createOnSort(cells: ICell[], query: CostModelsQuery, router: RouteComponentProps) {
   return function (_event, index: number, direction: SortByDirection) {
     const name = cells[index] && cells[index].data ? cells[index].data.orderName : null;
     if (name === null) {
       return;
     }
     if (direction === SortByDirection.asc) {
-      push(stringifySearch({ ...query, ordering: name }));
+      router.navigate(stringifySearch({ ...query, ordering: name }));
       return;
     }
-    push(stringifySearch({ ...query, ordering: `-${name}` }));
+    router.navigate(stringifySearch({ ...query, ordering: `-${name}` }));
   };
 }
 

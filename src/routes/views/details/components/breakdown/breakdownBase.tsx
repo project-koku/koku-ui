@@ -10,16 +10,17 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import type { RouteComponentProps } from 'react-router-dom';
 import { Loading } from 'routes/state/loading';
 import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
-import { handleCostTypeSelected, handleCurrencySelected } from 'routes/views/utils/history';
 import { hasCurrentMonthData } from 'routes/views/utils/providers';
+import { handleCostTypeSelected, handleCurrencySelected } from 'routes/views/utils/queryUpdate';
 import { FetchStatus } from 'store/common';
 import type { reportActions } from 'store/reports';
 import type { CostTypes } from 'utils/costType';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { styles } from './breakdown.styles';
 import BreakdownHeader from './breakdownHeader';
@@ -77,7 +78,7 @@ interface AvailableTab {
   tab: BreakdownTab;
 }
 
-type BreakdownOwnProps = RouteComponentProps<void> & WrappedComponentProps;
+type BreakdownOwnProps = RouterComponentProps & WrappedComponentProps;
 
 type BreakdownProps = BreakdownOwnProps & BreakdownStateProps & BreakdownDispatchProps;
 
@@ -92,11 +93,11 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   }
 
   public componentDidUpdate(prevProps: BreakdownProps) {
-    const { location, report, reportError, reportQueryString } = this.props;
+    const { report, reportError, reportQueryString, router } = this.props;
 
     const newQuery = prevProps.reportQueryString !== reportQueryString;
     const noReport = !report && !reportError;
-    const noLocation = !location.search;
+    const noLocation = !router.location.search;
 
     if (newQuery || noReport || noLocation) {
       this.updateReport();
@@ -192,8 +193,8 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   };
 
   private updateReport = () => {
-    const { location, fetchReport, reportPathsType, reportType, reportQueryString } = this.props;
-    if (location.search) {
+    const { fetchReport, reportPathsType, reportType, reportQueryString, router } = this.props;
+    if (router.location.search) {
       fetchReport(reportPathsType, reportType, reportQueryString);
     }
   };
@@ -206,7 +207,6 @@ class BreakdownBase extends React.Component<BreakdownProps> {
       detailsURL,
       emptyStateTitle,
       groupBy,
-      history,
       providers,
       providersFetchStatus,
       providerType,
@@ -214,6 +214,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
       report,
       reportError,
       reportFetchStatus,
+      router,
       showCostType,
       tagReportPathsType,
       title,
@@ -245,8 +246,8 @@ class BreakdownBase extends React.Component<BreakdownProps> {
           description={description}
           detailsURL={detailsURL}
           groupBy={groupBy}
-          onCostTypeSelected={value => handleCostTypeSelected(history, query, value)}
-          onCurrencySelected={value => handleCurrencySelected(history, query, value)}
+          onCostTypeSelected={value => handleCostTypeSelected(query, router, value)}
+          onCurrencySelected={value => handleCurrencySelected(query, router, value)}
           query={query}
           report={report}
           showCostType={showCostType}
@@ -260,4 +261,4 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   }
 }
 
-export default injectIntl(BreakdownBase);
+export default injectIntl(withRouter(BreakdownBase));

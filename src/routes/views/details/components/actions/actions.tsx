@@ -7,14 +7,14 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import { ExportModal } from 'routes/views/components/export';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
-interface DetailsActionsOwnProps extends WrappedComponentProps, RouteComponentProps<void> {
+interface DetailsActionsOwnProps extends WrappedComponentProps, RouterComponentProps {
   groupBy: string;
   isDisabled?: boolean;
   item: ComputedReportItem;
@@ -96,9 +96,9 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
       isDisabled,
       showPriceListOption,
       intl,
-      redirectToCostModel,
-      history,
       item: { source_uuid },
+      redirectToCostModel,
+      router,
     } = this.props;
 
     // tslint:disable:jsx-wrap-multiline
@@ -114,7 +114,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
           component="button"
           key="price-list-action"
           isDisabled={isDisabled || groupBy.includes(tagPrefix) || source_uuid.length === 0}
-          onClick={() => redirectToCostModel(source_uuid[0], history)}
+          onClick={() => redirectToCostModel(source_uuid[0], router)}
         >
           {intl.formatMessage(messages.detailsActionsPriceList)}
         </DropdownItem>

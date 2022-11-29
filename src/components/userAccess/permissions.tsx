@@ -4,8 +4,7 @@ import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { paths, routes } from 'routes';
 import { Loading } from 'routes/state/loading';
 import { NotAuthorized } from 'routes/state/notAuthorized';
@@ -23,7 +22,7 @@ import {
   hasOcpAccess,
 } from 'utils/userAccess';
 
-interface PermissionsOwnProps extends RouteComponentProps<void> {
+interface PermissionsOwnProps {
   children?: React.ReactNode;
 }
 
@@ -42,15 +41,15 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
   children = null,
   isIbmFeatureEnabled,
   isOciFeatureEnabled,
-  location,
   userAccess,
   userAccessError,
   userAccessFetchStatus,
 }) => {
   const getRoutePath = () => {
+    const location = useLocation();
+
     // cost models may include UUID in path
-    const _pathname =
-      location.pathname && location.pathname.startsWith(paths.costModels) ? paths.costModels : location.pathname;
+    const _pathname = location.pathname.startsWith(paths.costModels) ? paths.costModels : location.pathname;
     const currRoute = routes.find(({ path }) => path === _pathname);
 
     return currRoute ? currRoute.path : undefined;
@@ -133,6 +132,6 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
   };
 });
 
-const Permissions = withRouter(connect(mapStateToProps, undefined)(PermissionsBase));
+const Permissions = connect(mapStateToProps, undefined)(PermissionsBase);
 
 export default Permissions;

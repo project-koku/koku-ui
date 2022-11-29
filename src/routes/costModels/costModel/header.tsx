@@ -20,7 +20,6 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import type { CostModel } from 'api/costModels';
-import type * as H from 'history';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -35,9 +34,10 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 import { getBaseName } from 'utils/paths';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
-interface Props extends WrappedComponentProps {
-  historyObject: H.History;
+interface Props extends RouterComponentProps, WrappedComponentProps {
   tabRefs: any[];
   tabIndex: number;
   onSelectTab: (index: number) => void;
@@ -51,21 +51,21 @@ interface Props extends WrappedComponentProps {
 }
 
 const Header: React.FC<Props> = ({
+  current,
+  deleteCostModel,
+  deleteError,
   intl,
+  isDeleteProcessing,
+  isDialogOpen,
+  isWritePermission,
+  onSelectTab,
+  router,
+  setDialogOpen,
   tabRefs,
   tabIndex,
-  onSelectTab,
-  setDialogOpen,
-  isDialogOpen,
-  deleteError,
-  isDeleteProcessing,
-  deleteCostModel,
-  current,
-  isWritePermission,
-  historyObject,
 }) => {
   const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
-  const baseName = getBaseName(window.location.pathname);
+  const baseName = window.location ? getBaseName(window.location.pathname) : '';
 
   return (
     <>
@@ -78,7 +78,7 @@ const Header: React.FC<Props> = ({
         error={deleteError}
         isProcessing={isDeleteProcessing}
         onProceed={() => {
-          deleteCostModel(current.uuid, 'deleteCostModel', historyObject);
+          deleteCostModel(current.uuid, 'deleteCostModel', router);
         }}
         body={
           <>
@@ -209,16 +209,18 @@ const Header: React.FC<Props> = ({
 };
 
 export default injectIntl(
-  connect(
-    createMapStateToProps(state => ({
-      isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
-      isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
-      deleteError: costModelsSelectors.deleteError(state),
-      isWritePermission: rbacSelectors.isCostModelWritePermission(state),
-    })),
-    {
-      setDialogOpen: costModelsActions.setCostModelDialog,
-      deleteCostModel: costModelsActions.deleteCostModel,
-    }
-  )(Header)
+  withRouter(
+    connect(
+      createMapStateToProps(state => ({
+        isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
+        isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
+        deleteError: costModelsSelectors.deleteError(state),
+        isWritePermission: rbacSelectors.isCostModelWritePermission(state),
+      })),
+      {
+        setDialogOpen: costModelsActions.setCostModelDialog,
+        deleteCostModel: costModelsActions.deleteCostModel,
+      }
+    )(Header)
+  )
 );

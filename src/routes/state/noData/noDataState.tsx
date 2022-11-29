@@ -4,14 +4,12 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 
 interface NoDataStateOwnProps {
   showReload?: boolean;
 }
 
-type NoDataStateProps = NoDataStateOwnProps & RouteComponentProps<void> & WrappedComponentProps;
+type NoDataStateProps = NoDataStateOwnProps & WrappedComponentProps;
 
 class NoDataStateBase extends React.Component<NoDataStateProps> {
   public render() {
@@ -34,6 +32,6 @@ class NoDataStateBase extends React.Component<NoDataStateProps> {
   }
 }
 
-const NoDataState = injectIntl(withRouter(NoDataStateBase));
+const NoDataState = injectIntl(NoDataStateBase);
 
 export { NoDataState };

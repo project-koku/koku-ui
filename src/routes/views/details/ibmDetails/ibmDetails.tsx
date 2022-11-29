@@ -13,13 +13,14 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
 import { Loading } from 'routes/state/loading';
 import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
+import { hasCurrentMonthData } from 'routes/views/utils/providers';
+import { filterProviders } from 'routes/views/utils/providers';
 import {
   getRouteForQuery,
   handleCurrencySelected,
@@ -28,9 +29,7 @@ import {
   handlePerPageSelect,
   handleSetPage,
   handleSort,
-} from 'routes/views/utils/history';
-import { hasCurrentMonthData } from 'routes/views/utils/providers';
-import { filterProviders } from 'routes/views/utils/providers';
+} from 'routes/views/utils/queryUpdate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
@@ -39,6 +38,8 @@ import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedIbmReportIte
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getCurrency } from 'utils/localStorage';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -69,7 +70,7 @@ interface IbmDetailsState {
   selectedItems: ComputedReportItem[];
 }
 
-type IbmDetailsOwnProps = RouteComponentProps<void> & WrappedComponentProps;
+type IbmDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
 
 type IbmDetailsProps = IbmDetailsStateProps & IbmDetailsOwnProps & IbmDetailsDispatchProps;
 
@@ -118,12 +119,12 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
   }
 
   public componentDidUpdate(prevProps: IbmDetailsProps, prevState: IbmDetailsState) {
-    const { location, report, reportError, reportQueryString } = this.props;
+    const { report, reportError, reportQueryString, router } = this.props;
     const { selectedItems } = this.state;
 
     const newQuery = prevProps.reportQueryString !== reportQueryString;
     const noReport = !report && !reportError;
-    const noLocation = !location.search;
+    const noLocation = !router.location.search;
     const newItems = prevState.selectedItems !== selectedItems;
 
     if (newQuery || noReport || noLocation || newItems) {
@@ -173,7 +174,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
   };
 
   private getPagination = (isBottom: boolean = false) => {
-    const { history, intl, query, report } = this.props;
+    const { intl, query, router, report } = this.props;
 
     const count = report && report.meta ? report.meta.count : 0;
     const limit =
@@ -190,8 +191,8 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
       <Pagination
         isCompact={!isBottom}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => handlePerPageSelect(history, query, perPage)}
-        onSetPage={(event, pageNumber) => handleSetPage(history, query, report, pageNumber)}
+        onPerPageSelect={(event, perPage) => handlePerPageSelect(query, router, perPage)}
+        onSetPage={(event, pageNumber) => handleSetPage(query, router, report, pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -207,7 +208,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
   };
 
   private getTable = () => {
-    const { history, query, report, reportFetchStatus, reportQueryString } = this.props;
+    const { query, report, reportFetchStatus, reportQueryString, router } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -220,7 +221,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
-        onSort={(sortType, isSortAscending) => handleSort(history, query, sortType, isSortAscending)}
+        onSort={(sortType, isSortAscending) => handleSort(query, router, sortType, isSortAscending)}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
@@ -229,7 +230,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
   };
 
   private getToolbar = (computedItems: ComputedReportItem[]) => {
-    const { history, query, report } = this.props;
+    const { query, router, report } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -245,8 +246,8 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}
-        onFilterAdded={filter => handleFilterAdded(history, query, filter)}
-        onFilterRemoved={filter => handleFilterRemoved(history, query, filter)}
+        onFilterAdded={filter => handleFilterAdded(query, router, filter)}
+        onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
         pagination={this.getPagination()}
         query={query}
         selectedItems={selectedItems}
@@ -278,7 +279,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
   };
 
   private handleGroupBySelected = groupBy => {
-    const { history, query } = this.props;
+    const { query, router } = this.props;
     const groupByKey: keyof IbmQuery['group_by'] = groupBy as any;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
@@ -289,7 +290,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
       order_by: { cost: 'desc' },
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {
-      history.replace(getRouteForQuery(history, newQuery, true));
+      router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
     });
   };
 
@@ -310,15 +311,21 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
   };
 
   private updateReport = () => {
-    const { fetchReport, history, location, query, reportQueryString } = this.props;
-    if (!location.search) {
-      history.replace(
-        getRouteForQuery(history, {
-          exclude: query ? query.exclude : undefined,
-          filter_by: query ? query.filter_by : undefined,
-          group_by: query ? query.group_by : undefined,
-          order_by: { cost: 'desc' },
-        })
+    const { fetchReport, query, reportQueryString, router } = this.props;
+    if (!router.location.search) {
+      router.navigate(
+        getRouteForQuery(
+          {
+            exclude: query ? query.exclude : undefined,
+            filter_by: query ? query.filter_by : undefined,
+            group_by: query ? query.group_by : undefined,
+            order_by: { cost: 'desc' },
+          },
+          router.location
+        ),
+        {
+          replace: true,
+        }
       );
     } else {
       fetchReport(reportPathsType, reportType, reportQueryString);
@@ -326,7 +333,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
   };
 
   public render() {
-    const { currency, history, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } =
+    const { currency, intl, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, router } =
       this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -354,7 +361,7 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
-          onCurrencySelected={value => handleCurrencySelected(history, query, value)}
+          onCurrencySelected={value => handleCurrencySelected(query, router, value)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />
@@ -446,4 +453,4 @@ const mapDispatchToProps: IbmDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(IbmDetails));
+export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(IbmDetails)));

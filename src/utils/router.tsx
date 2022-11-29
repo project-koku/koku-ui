@@ -6,6 +6,11 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 export interface RouteComponentProps {
   location: Location;
   navigate: NavigateFunction;
+  params: any;
+}
+
+export interface RouterComponentProps {
+  router: RouteComponentProps;
 }
 
 export const withRouter = Component => {

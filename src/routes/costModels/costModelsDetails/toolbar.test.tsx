@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { filterByAll } from 'api/costModels.data';
-import { createMemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
@@ -13,12 +12,11 @@ import { rootReducer } from 'store/rootReducer';
 import CostModelsToolbar from './toolbar';
 import { initialCostModelsQuery } from './utils/query';
 
-const history = createMemoryHistory();
 const renderUI = (state: Partial<RootState>) => {
   const store = createStore(rootReducer, state);
   return render(
     <Provider store={store}>
-      <Router history={history}>
+      <Router>
         <CostModelsToolbar />
       </Router>
     </Provider>

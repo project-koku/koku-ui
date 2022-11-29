@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Maintenance } from 'routes/state/maintenance';
 import { createMapStateToProps } from 'store/common';
-import type { RouteComponentProps } from 'utils/router';
+import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import { Routes, routes } from './routes';
@@ -15,15 +15,11 @@ export interface AppOwnProps {
 
 interface AppStateProps {}
 
-interface AppDispatchProps {
-  history: any;
-}
-
 interface AppState {
   maintenanceMode: boolean;
 }
 
-type AppProps = AppOwnProps & AppStateProps & AppDispatchProps & RouteComponentProps<void>;
+type AppProps = AppOwnProps & AppStateProps & RouterComponentProps;
 
 export class App extends React.Component<AppProps, AppState> {
   public appNav: any;
@@ -33,7 +29,7 @@ export class App extends React.Component<AppProps, AppState> {
   public state: AppState = { maintenanceMode: false };
 
   public componentDidMount() {
-    const { history, location } = this.props;
+    const { router } = this.props;
 
     insights.chrome.init();
     insights.chrome.identifyApp('cost-management');
@@ -54,15 +50,15 @@ export class App extends React.Component<AppProps, AppState> {
       }
 
       if (event.domEvent && currRoute) {
-        history.push(currRoute.path);
+        router.navigate(currRoute.path);
       }
     });
   }
 
   public componentDidUpdate(prevProps: AppProps) {
-    const { location } = this.props;
+    const { router } = this.props;
 
-    if (location && location.pathname !== prevProps.location.pathname) {
+    if (router.location.pathname !== prevProps.router.location.pathname) {
       window.scrollTo(0, 0);
       insights.chrome.appAction(location.pathname);
     }
@@ -86,11 +82,6 @@ const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>((state
   return {};
 });
 
-const mapDispatchToProps: AppDispatchProps = { history };
-
-const ComposedApp = compose<React.ComponentType<AppOwnProps>>(
-  withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
-)(App);
+const ComposedApp = compose<React.ComponentType<AppOwnProps>>(withRouter, connect(mapStateToProps, undefined))(App);
 
 export default ComposedApp;

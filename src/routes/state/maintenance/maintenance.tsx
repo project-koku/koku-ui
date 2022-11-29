@@ -1,6 +1,5 @@
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 
 import { MaintenanceState } from './maintenanceState';
 
@@ -12,4 +11,4 @@ const Maintenance = () => {
   );
 };
 
-export default withRouter(Maintenance);
+export default Maintenance;
