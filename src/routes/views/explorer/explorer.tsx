@@ -23,9 +23,7 @@ import { ExportModal } from 'routes/views/components/export';
 import { DateRangeType } from 'routes/views/utils/dateRange';
 import { getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
-import { filterProviders, hasData } from 'routes/views/utils/providers';
 import {
-  getRouteForQuery,
   handleCostTypeSelected,
   handleCurrencySelected,
   handleFilterAdded,
@@ -33,7 +31,9 @@ import {
   handlePerPageSelect,
   handleSetPage,
   handleSort,
-} from 'routes/views/utils/queryUpdate';
+} from 'routes/views/utils/handles';
+import { filterProviders, hasData } from 'routes/views/utils/providers';
+import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';

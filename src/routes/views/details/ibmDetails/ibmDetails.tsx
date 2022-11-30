@@ -19,17 +19,17 @@ import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
-import { hasCurrentMonthData } from 'routes/views/utils/providers';
-import { filterProviders } from 'routes/views/utils/providers';
 import {
-  getRouteForQuery,
   handleCurrencySelected,
   handleFilterAdded,
   handleFilterRemoved,
   handlePerPageSelect,
   handleSetPage,
   handleSort,
-} from 'routes/views/utils/queryUpdate';
+} from 'routes/views/utils/handles';
+import { hasCurrentMonthData } from 'routes/views/utils/providers';
+import { filterProviders } from 'routes/views/utils/providers';
+import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';

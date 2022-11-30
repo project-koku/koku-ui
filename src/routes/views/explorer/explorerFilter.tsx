@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { DataToolbar } from 'routes/views/components/dataToolbar';
 import { DateRangeType, getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import type { Filter } from 'routes/views/utils/filter';
-import { getRouteForQuery } from 'routes/views/utils/queryUpdate';
+import { getRouteForQuery } from 'routes/views/utils/query';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';

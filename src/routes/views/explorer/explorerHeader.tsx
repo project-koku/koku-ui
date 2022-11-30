@@ -21,7 +21,7 @@ import { Perspective } from 'routes/views/components/perspective';
 import { DateRangeType, getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import type { Filter } from 'routes/views/utils/filter';
 import { filterProviders, hasCloudProvider } from 'routes/views/utils/providers';
-import { getRouteForQuery } from 'routes/views/utils/queryUpdate';
+import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
