@@ -1,6 +1,6 @@
 import { Modal } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, tagPrefix } from 'api/queries/query';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, platformCategory, tagPrefix } from 'api/queries/query';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -9,6 +9,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
+import { isPlatformCosts } from 'routes/views/utils/paths';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
@@ -22,9 +23,9 @@ interface TagModalOwnProps {
 }
 
 interface TagModalStateProps {
-  category?: string;
   groupBy: string;
   groupByValue: string | number;
+  isPlatformCosts?: boolean;
   query?: Query;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
@@ -81,7 +82,7 @@ class TagModalBase extends React.Component<TagModalProps> {
   };
 
   public render() {
-    const { category, groupBy, isOpen, query, tagReport, intl } = this.props;
+    const { groupBy, intl, isOpen, query, tagReport } = this.props;
 
     // Match page header description
     const groupByValue = query && query.filter && query.filter.account ? query.filter.account : this.props.groupByValue;
@@ -93,7 +94,11 @@ class TagModalBase extends React.Component<TagModalProps> {
         title={intl.formatMessage(messages.tagHeadingTitle, { value: this.getTagValueCount() })}
         width={'50%'}
       >
-        <TagContent category={category} groupBy={groupBy} groupByValue={groupByValue} tagReport={tagReport} />
+        <TagContent
+          groupBy={groupBy}
+          groupByValue={this.props.isPlatformCosts ? platformCategory : groupByValue}
+          tagReport={tagReport}
+        />
       </Modal>
     );
   }
@@ -139,9 +144,9 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
   );
 
   return {
-    category: queryFromRoute.category,
     groupBy,
     groupByValue,
+    isPlatformCosts: isPlatformCosts(queryFromRoute),
     query,
     tagReport,
     tagReportFetchStatus,

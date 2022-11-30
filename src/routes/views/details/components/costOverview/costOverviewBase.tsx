@@ -12,7 +12,7 @@ import {
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
 import type { Query } from 'api/queries/query';
-import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
+import { orgUnitIdKey, platformCategory, tagPrefix } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
@@ -27,10 +27,10 @@ import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/cos
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 
 interface CostOverviewOwnProps {
-  category?: string;
   costType?: string;
   currency?: string;
   groupBy: string;
+  isPlatformCosts?: boolean;
   query?: Query;
   report: Report;
 }
@@ -47,7 +47,7 @@ const PLACEHOLDER = 'placeholder';
 class CostOverviewsBase extends React.Component<CostOverviewProps> {
   // Returns cluster chart
   private getClusterChart = (widget: CostOverviewWidget) => {
-    const { category, groupBy, report, intl } = this.props;
+    const { groupBy, intl, isPlatformCosts, report } = this.props;
 
     let showWidget = false;
     for (const groupById of widget.cluster.showWidgetOnGroupBy) {
@@ -65,7 +65,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
             </Title>
           </CardTitle>
           <CardBody>
-            <Cluster category={category} groupBy={widget.cluster.reportGroupBy} report={report} />
+            <Cluster groupBy={widget.cluster.reportGroupBy} isPlatformCosts={isPlatformCosts} report={report} />
           </CardBody>
         </Card>
       );
@@ -155,7 +155,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
 
   // Returns summary card widget
   private getSummaryCard = (widget: CostOverviewWidget) => {
-    const { category, costType, currency, groupBy, query } = this.props;
+    const { costType, currency, groupBy, isPlatformCosts, query } = this.props;
 
     let showWidget = false;
     if (widget.reportSummary.showWidgetOnGroupBy) {
@@ -172,7 +172,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
     }
     if (!showWidget && widget.reportSummary.showWidgetOnCategory) {
       for (const categoryId of widget.reportSummary.showWidgetOnCategory) {
-        if (categoryId === category) {
+        if (isPlatformCosts && categoryId === platformCategory) {
           showWidget = true;
           break;
         }
@@ -181,9 +181,9 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
     if (showWidget) {
       return (
         <SummaryCard
-          category={category}
           costType={costType}
           currency={currency}
+          isPlatformCosts={isPlatformCosts}
           reportGroupBy={widget.reportSummary.reportGroupBy}
           reportPathsType={widget.reportPathsType}
           reportType={widget.reportType}

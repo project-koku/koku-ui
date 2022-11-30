@@ -1,3 +1,4 @@
+import { platformCategory } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
@@ -9,8 +10,8 @@ import { styles } from './cluster.styles';
 import { ClusterModal } from './clusterModal';
 
 interface ClusterOwnProps {
-  category?: string;
   groupBy: string;
+  isPlatformCosts?: boolean;
   report: Report;
 }
 
@@ -45,7 +46,7 @@ class ClusterBase extends React.Component<ClusterProps> {
   };
 
   public render() {
-    const { category, groupBy, report, intl } = this.props;
+    const { groupBy, intl, isPlatformCosts, report } = this.props;
     const { isOpen, showAll } = this.state;
 
     let charCount = 0;
@@ -61,6 +62,9 @@ class ClusterBase extends React.Component<ClusterProps> {
     const item = computedItems && computedItems.length ? computedItems[0] : undefined;
     if (!item) {
       return null;
+    }
+    if (isPlatformCosts) {
+      item.label = platformCategory;
     }
 
     for (const cluster of item.clusters) {
@@ -92,7 +96,7 @@ class ClusterBase extends React.Component<ClusterProps> {
             {intl.formatMessage(messages.detailsMoreClusters, { value: allClusters.length - someClusters.length })}
           </a>
         )}
-        <ClusterModal category={category} groupBy={groupBy} isOpen={isOpen} item={item} onClose={this.handleClose} />
+        <ClusterModal groupBy={groupBy} isOpen={isOpen} item={item} onClose={this.handleClose} />
       </div>
     );
   }

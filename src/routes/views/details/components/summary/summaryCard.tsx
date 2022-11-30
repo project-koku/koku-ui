@@ -11,7 +11,7 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery } from 'api/queries/query';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, platformCategory } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -30,9 +30,9 @@ import { skeletonWidth } from 'utils/skeleton';
 import { styles } from './summaryCard.styles';
 
 interface SummaryOwnProps {
-  category?: string;
   costType?: string;
   currency?: string;
+  isPlatformCosts?: boolean;
   reportGroupBy?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
@@ -109,7 +109,7 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   private getViewAll = () => {
-    const { costType, currency, groupBy, query, reportGroupBy, reportPathsType, intl } = this.props;
+    const { costType, currency, groupBy, intl, isPlatformCosts, query, reportGroupBy, reportPathsType } = this.props;
     const { isBulletChartModalOpen } = this.state;
 
     const computedItems = this.getItems();
@@ -138,7 +138,7 @@ class SummaryBase extends React.Component<SummaryProps> {
             costType={costType}
             currency={currency}
             groupBy={groupBy}
-            groupByValue={groupByValue}
+            groupByValue={isPlatformCosts ? platformCategory : groupByValue}
             isOpen={isBulletChartModalOpen}
             onClose={this.handleBulletChartModalClose}
             query={query}
@@ -162,13 +162,15 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   public render() {
-    const { category, reportGroupBy, reportFetchStatus, intl } = this.props;
+    const { intl, isPlatformCosts, reportGroupBy, reportFetchStatus } = this.props;
 
     return (
       <Card style={styles.card}>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.breakdownSummaryTitle, { value: category ? category : reportGroupBy })}
+            {intl.formatMessage(messages.breakdownSummaryTitle, {
+              value: isPlatformCosts ? platformCategory : reportGroupBy,
+            })}
           </Title>
         </CardTitle>
         <CardBody>

@@ -1,5 +1,5 @@
 import type { Query } from 'api/queries/query';
-import { getQueryRoute } from 'api/queries/query';
+import { getQueryRoute, platformCategory } from 'api/queries/query';
 import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
 
@@ -20,6 +20,7 @@ export const getBreakdownPath = ({
   const newQuery = {
     ...queryFromRoute,
     ...(description && description !== label && { [breakdownDescKey]: description }),
+    ...(isPlatformCosts && { [breakdownTitleKey]: label }),
     group_by: {
       [groupBy]: label,
     },
@@ -73,4 +74,8 @@ export const getOrgBreakdownPath = ({
     };
   }
   return `${basePath}?${getQueryRoute(newQuery)}`;
+};
+
+export const isPlatformCosts = (queryFromRoute: Query) => {
+  return queryFromRoute.category === platformCategory && queryFromRoute.breakdown_title === platformCategory;
 };
