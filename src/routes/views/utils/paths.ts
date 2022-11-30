@@ -77,5 +77,13 @@ export const getOrgBreakdownPath = ({
 };
 
 export const isPlatformCosts = (queryFromRoute: Query) => {
-  return queryFromRoute.category === platformCategory && queryFromRoute.breakdown_title === platformCategory;
+  let result = false;
+
+  // Note that "kube-" and "openshift-" are provided only when users select the 'platform' project.
+  // The category below is mainly used to restore state for the previous page
+  if (Array.isArray(queryFromRoute.group_by.project)) {
+    result =
+      queryFromRoute.group_by.project.includes('kube-') && queryFromRoute.group_by.project.includes('openshift-');
+  }
+  return result && queryFromRoute.category === platformCategory;
 };
