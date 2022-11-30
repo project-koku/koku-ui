@@ -73,7 +73,7 @@
   "devDependencies": {
     "@formatjs/cli": "^5.1.3",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^1.2.6",
-    "@redhat-cloud-services/frontend-components-config": "^4.6.33",
+    "@redhat-cloud-services/frontend-components-config": "^4.6.34",
     "@testing-library/react": "^12.1.5",
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^29.2.3",
