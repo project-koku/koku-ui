@@ -338,14 +338,6 @@ const toolbarMapStateToProps = (state: RootState) => {
   return { query };
 };
 
-// const toolbarMapStateToProps = createMapStateToProps<RouterComponentProps, any>((state, { router }) => {
-//   const query: Partial<CostModelsQuery> = costModelsSelectors.query(state);
-//   return {
-//     query,
-//     router,
-//   };
-// });
-
 const toolbarMergeProps = (
   stateProps: ReturnType<typeof toolbarMapStateToProps>,
   _dispatchProps: unknown,
