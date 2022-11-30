@@ -77,7 +77,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
     if (prevProps.exportReport !== exportReport && fetchExportClicked) {
       this.getExport();
     }
-    if (reportError) {
+    if (exportError) {
       this.props.onError(exportError);
     }
   }
