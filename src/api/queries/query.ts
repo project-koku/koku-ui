@@ -11,6 +11,8 @@ export const orgUnitIdKey = 'org_unit_id'; // Org unit ID for group_by
 export const orgUnitNameKey = 'org_unit_name'; // Org unit name for group_by
 export const platformCategory = 'platform'; // Used to display platform costs
 export const tagKey = 'tag'; // Tag key for group_by
+export const unallocatedPlatformCapacity = 'Platform Unallocated Capacity'; // Unallocated platform costs
+export const unallocatedWorkersCapacity = 'Workers Unallocated Capacity'; // Unallocated workers costs
 
 export interface Filters {
   limit?: number;

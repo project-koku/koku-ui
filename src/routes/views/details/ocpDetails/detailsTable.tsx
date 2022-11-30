@@ -2,6 +2,7 @@ import 'routes/views/details/components/dataTable/dataTable.scss';
 
 import { Label } from '@patternfly/react-core';
 import { ProviderType } from 'api/providers';
+import { platformCategory, unallocatedPlatformCapacity, unallocatedWorkersCapacity } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -176,9 +177,12 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const supplementaryCost = this.getSupplementaryCost(item, index);
       const InfrastructureCost = this.getInfrastructureCost(item, index);
-      const isDisabled = label === `no-${groupBy}` || label === `no-${groupByTagKey}`;
-      const isPlatformCosts = item.classification === 'category';
+      const isPlatformCosts = item.classification === 'category' && item.label === platformCategory;
+      const isUnallocatedCosts =
+        item.classification === 'project' &&
+        (item.label === unallocatedPlatformCapacity || item.label === unallocatedWorkersCapacity);
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
+      const isDisabled = label === `no-${groupBy}` || label === `no-${groupByTagKey}` || isUnallocatedCosts;
       const actions = this.getActions(item, isDisabled || isPlatformCosts);
 
       const name = isDisabled ? (
