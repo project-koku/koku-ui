@@ -118,7 +118,7 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps> {
 
     const today = getToday();
     const end_date = startDate ? new Date(startDate.getTime()) : today;
-    end_date.setDate(end_date.getDate() + MAX_DAYS);
+    end_date.setDate(end_date.getDate() + MAX_DAYS - 1); // 65 days including start date
 
     if (end_date > today) {
       end_date.setTime(today.getTime());
@@ -130,7 +130,7 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps> {
     const minDate = startDate;
     const maxDate = startDate ? new Date(startDate.getTime()) : undefined;
     if (maxDate) {
-      maxDate.setDate(maxDate.getDate() + MAX_DAYS);
+      maxDate.setDate(maxDate.getDate() + MAX_DAYS - 1); // 65 days including start date
     }
     return endDate >= minDate && endDate <= maxDate;
   };
