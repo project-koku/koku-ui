@@ -13,6 +13,8 @@ export interface RouterComponentProps {
   router: RouteComponentProps;
 }
 
+// See https://reactrouter.com/en/v6.3.0/faq#what-happened-to-withrouter-i-need-it
+// And http://front-end-docs-insights.apps.ocp4.prod.psi.redhat.com/blog/router-v6
 export const withRouter = Component => {
   function ComponentWithRouterProp(props) {
     const location = useLocation();
