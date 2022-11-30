@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { filterByAll } from 'api/costModels.data';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createMemoryRouter, RouterProvider, useLocation } from 'react-router-dom';
+import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { createStore } from 'redux';
 import { FetchStatus } from 'store/common';
 import type { RootState } from 'store/rootReducer';
