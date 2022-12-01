@@ -15,6 +15,7 @@ export const unallocatedPlatformCapacity = 'Platform Unallocated Capacity'; // U
 export const unallocatedWorkersCapacity = 'Workers Unallocated Capacity'; // Unallocated workers costs
 
 export interface Filters {
+  category?: string;
   limit?: number;
   offset?: number;
   resolution?: 'daily' | 'monthly';

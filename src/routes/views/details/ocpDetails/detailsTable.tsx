@@ -182,7 +182,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         item.label === unallocatedPlatformCapacity || item.label === unallocatedWorkersCapacity;
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
       const isDisabled = label === `no-${groupBy}` || label === `no-${groupByTagKey}` || isUnallocatedCosts;
-      const actions = this.getActions(item, isDisabled || isPlatformCosts);
+      const actions = this.getActions(item, isDisabled);
 
       const name = isDisabled ? (
         (label as any)
@@ -231,7 +231,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ],
         item,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),
-        selectionDisabled: isDisabled || isPlatformCosts,
+        selectionDisabled: isDisabled,
       });
     });
 

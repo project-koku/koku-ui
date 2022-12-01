@@ -131,6 +131,8 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
       ...(queryFromRoute &&
         queryFromRoute.filter &&
         queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+      // Todo: enable when tags API is ready
+      // ...(queryFromRoute && queryFromRoute.filter && queryFromRoute.filter.category &&  { category: queryFromRoute.filter.category }),
       ...(groupBy && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
     },
   };
