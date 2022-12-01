@@ -2,7 +2,7 @@ import { ProviderType } from 'api/providers';
 import { getQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
-import { breakdownDescKey } from 'api/queries/query';
+import { breakdownDescKey, breakdownTitleKey } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { paths } from 'routes';
 import { BreakdownBase } from 'routes/views/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
+import { isPlatformCosts } from 'routes/views/utils/paths';
 import { filterProviders } from 'routes/views/utils/providers';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -100,7 +101,12 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
 
   return {
     costOverviewComponent: (
-      <CostOverview category={queryFromRoute.category} currency={currency} groupBy={groupBy} report={report} />
+      <CostOverview
+        currency={currency}
+        groupBy={groupBy}
+        isPlatformCosts={isPlatformCosts(queryFromRoute)}
+        report={report}
+      />
     ),
     currency,
     description: queryFromRoute[breakdownDescKey],
@@ -120,7 +126,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
     reportPathsType,
     reportQueryString,
     tagReportPathsType: TagPathsType.ocp,
-    title: queryFromRoute.category ? queryFromRoute.category : groupByValue,
+    title: queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue,
   };
 });
 

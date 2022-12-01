@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import { styles } from './tag.styles';
 
 interface TagContentOwnProps {
-  category?: string;
   groupBy: string;
   groupByValue: string | number;
   tagReport?: Tag;
@@ -47,7 +46,7 @@ class TagContentBase extends React.Component<TagContentProps> {
   };
 
   public render() {
-    const { category, groupBy, groupByValue, intl } = this.props;
+    const { groupBy, groupByValue, intl } = this.props;
     const dataListItems = this.getDataListItems();
 
     return (
@@ -58,7 +57,7 @@ class TagContentBase extends React.Component<TagContentProps> {
           </span>
         </div>
         <div style={styles.groupByHeading}>
-          <span>{category ? category : groupByValue}</span>
+          <span>{groupByValue}</span>
         </div>
         <DataList aria-label={intl.formatMessage(messages.tagNames)} isCompact>
           <DataListItem aria-labelledby="heading1">

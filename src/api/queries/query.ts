@@ -9,6 +9,7 @@ export const breakdownGroupByKey = 'breakdown_group_by'; // Used to display a br
 export const breakdownTitleKey = 'breakdown_title'; // Used to display a title in the breakdown header
 export const orgUnitIdKey = 'org_unit_id'; // Org unit ID for group_by
 export const orgUnitNameKey = 'org_unit_name'; // Org unit name for group_by
+export const platformCategory = 'platform'; // Used to display platform costs
 export const tagKey = 'tag'; // Tag key for group_by
 
 export interface Filters {
@@ -22,6 +23,7 @@ export interface Filters {
 }
 
 export interface Query {
+  breakdown_title?: string | number;
   category?: string;
   cost_type?: any;
   currency?: any;

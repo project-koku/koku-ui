@@ -1,5 +1,5 @@
 import type { Query } from 'api/queries/query';
-import { getQueryRoute } from 'api/queries/query';
+import { getQueryRoute, platformCategory } from 'api/queries/query';
 import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
 
@@ -20,6 +20,7 @@ export const getBreakdownPath = ({
   const newQuery = {
     ...queryFromRoute,
     ...(description && description !== label && { [breakdownDescKey]: description }),
+    ...(isPlatformCosts && { [breakdownTitleKey]: label }),
     group_by: {
       [groupBy]: label,
     },
@@ -73,4 +74,16 @@ export const getOrgBreakdownPath = ({
     };
   }
   return `${basePath}?${getQueryRoute(newQuery)}`;
+};
+
+export const isPlatformCosts = (queryFromRoute: Query) => {
+  let result = false;
+
+  // Note that "kube-" and "openshift-" are provided only when users select the 'platform' project.
+  // The category below is mainly used to restore state for the previous page
+  if (Array.isArray(queryFromRoute.group_by.project)) {
+    result =
+      queryFromRoute.group_by.project.includes('kube-') && queryFromRoute.group_by.project.includes('openshift-');
+  }
+  return result && queryFromRoute.category === platformCategory;
 };
