@@ -78,5 +78,5 @@ export const getOrgBreakdownPath = ({
 };
 
 export const isPlatformCosts = (queryFromRoute: Query) => {
-  return queryFromRoute.filter.category === platformCategory;
+  return queryFromRoute && queryFromRoute.filter && queryFromRoute.filter.category === platformCategory;
 };
