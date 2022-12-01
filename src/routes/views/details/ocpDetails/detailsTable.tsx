@@ -179,8 +179,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const InfrastructureCost = this.getInfrastructureCost(item, index);
       const isPlatformCosts = item.classification === 'category' && item.label === platformCategory;
       const isUnallocatedCosts =
-        item.classification === 'project' &&
-        (item.label === unallocatedPlatformCapacity || item.label === unallocatedWorkersCapacity);
+        item.label === unallocatedPlatformCapacity || item.label === unallocatedWorkersCapacity;
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
       const isDisabled = label === `no-${groupBy}` || label === `no-${groupByTagKey}` || isUnallocatedCosts;
       const actions = this.getActions(item, isDisabled || isPlatformCosts);
