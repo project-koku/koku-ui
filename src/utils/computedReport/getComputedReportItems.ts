@@ -72,7 +72,7 @@ export function getComputedReportItems<R extends Report, T extends ReportItem>({
   );
 }
 
-// For multiple group_by's (platform costs; 'kube-' and 'openshift-'), all clusters are listed in the breakdown page
+// For filter[categpry]=platform, all clusters are listed in the breakdown page
 function getClusters(val, item?: any) {
   const clusters = val.clusters ? val.clusters : [];
   if (item && item.clusters) {
