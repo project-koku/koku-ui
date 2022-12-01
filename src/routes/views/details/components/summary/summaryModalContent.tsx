@@ -114,6 +114,9 @@ const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, Summa
         ...(queryFromRoute &&
           queryFromRoute.filter &&
           queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+        ...(queryFromRoute &&
+          queryFromRoute.filter &&
+          queryFromRoute.filter.category && { category: queryFromRoute.filter.category }),
         ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
         ...(groupBy && { [groupBy]: groupByValue }), // group bys must appear in filter to show costs by regions, accounts, etc
       },

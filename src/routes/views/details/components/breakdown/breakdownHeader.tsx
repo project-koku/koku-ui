@@ -72,6 +72,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps> {
     // Don't want these params when returning to the details page
     if (newQuery.filter) {
       newQuery.filter.account = undefined;
+      newQuery.filter.category = undefined;
       newQuery[breakdownDescKey] = undefined;
       newQuery[orgUnitIdKey] = undefined;
       newQuery[breakdownTitleKey] = undefined;

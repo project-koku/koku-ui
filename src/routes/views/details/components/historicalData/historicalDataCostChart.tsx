@@ -152,6 +152,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
       filter_by: {
         // Add filters here to apply logical OR/AND
         ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
+        ...(queryFromRoute && queryFromRoute.filter && { category: queryFromRoute.filter.category }),
         ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
       },
       exclude: {

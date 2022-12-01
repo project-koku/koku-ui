@@ -22,14 +22,15 @@ export const getBreakdownPath = ({
     ...(description && description !== label && { [breakdownDescKey]: description }),
     ...(isPlatformCosts && { [breakdownTitleKey]: label }),
     group_by: {
-      [groupBy]: label,
+      [groupBy]: isPlatformCosts ? '*' : label,
     },
-    ...(isPlatformCosts && {
-      group_by: {
-        [groupBy]: ['kube-', 'openshift-'],
-      },
-    }),
   };
+  if (isPlatformCosts) {
+    if (!newQuery.filter) {
+      newQuery.filter = {};
+    }
+    newQuery.filter.category = platformCategory;
+  }
   return `${basePath}?${getQueryRoute(newQuery)}`;
 };
 
@@ -77,13 +78,5 @@ export const getOrgBreakdownPath = ({
 };
 
 export const isPlatformCosts = (queryFromRoute: Query) => {
-  let result = false;
-
-  // Note that "kube-" and "openshift-" are provided only when users select the 'platform' project.
-  // The category below is mainly used to restore state for the previous page
-  if (Array.isArray(queryFromRoute.group_by.project)) {
-    result =
-      queryFromRoute.group_by.project.includes('kube-') && queryFromRoute.group_by.project.includes('openshift-');
-  }
-  return result && queryFromRoute.category === platformCategory;
+  return queryFromRoute.filter.category === platformCategory;
 };
