@@ -125,6 +125,7 @@ interface OverviewStateProps {
   ibmProviders?: Providers;
   isCostTypeFeatureEnabled?: boolean;
   isCurrencyFeatureEnabled?: boolean;
+  isFINsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
   isOciFeatureEnabled?: boolean;
   ociProviders?: Providers;
@@ -733,6 +734,7 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     ibmProviders: filterProviders(providers, ProviderType.ibm),
     isCostTypeFeatureEnabled,
     isCurrencyFeatureEnabled,
+    isFINsightsFeatureEnabled: featureFlagsSelectors.selectIsFINsightsFeatureEnabled(state),
     isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
     isOciFeatureEnabled: featureFlagsSelectors.selectIsOciFeatureEnabled(state),
     ociProviders: filterProviders(providers, ProviderType.oci),
