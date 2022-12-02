@@ -5,6 +5,7 @@ export interface FeatureFlagsActionMeta {
   isCostTypeFeatureEnabled?: boolean;
   isCurrencyFeatureEnabled?: boolean;
   isExportsFeatureEnabled?: boolean;
+  isFINsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
   isNegativeFilteringFeatureEnabled?: boolean;
   isOciFeatureEnabled?: boolean;
