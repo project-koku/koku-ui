@@ -14,22 +14,22 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import { Currency } from 'routes/components/currency';
 import { CostType } from 'routes/views/components/costType';
 import { GroupBy } from 'routes/views/components/groupBy';
 import { Perspective } from 'routes/views/components/perspective';
 import { DateRangeType, getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import type { Filter } from 'routes/views/utils/filter';
-import { getRouteForQuery } from 'routes/views/utils/history';
 import { filterProviders, hasCloudProvider } from 'routes/views/utils/providers';
+import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import type { CostTypes } from 'utils/costType';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -55,7 +55,7 @@ import {
   PerspectiveType,
 } from './explorerUtils';
 
-interface ExplorerHeaderOwnProps {
+interface ExplorerHeaderOwnProps extends RouterComponentProps, WrappedComponentProps {
   costType?: CostTypes;
   currency?: string;
   groupBy?: string;
@@ -96,10 +96,7 @@ interface ExplorerHeaderState {
   currentPerspective?: PerspectiveType;
 }
 
-type ExplorerHeaderProps = ExplorerHeaderOwnProps &
-  ExplorerHeaderStateProps &
-  RouteComponentProps<void> &
-  WrappedComponentProps;
+type ExplorerHeaderProps = ExplorerHeaderOwnProps & ExplorerHeaderStateProps;
 
 class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   protected defaultState: ExplorerHeaderState = {
@@ -162,7 +159,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   };
 
   private handlePerspectiveSelected = (value: string) => {
-    const { history, onPerspectiveClicked, query } = this.props;
+    const { onPerspectiveClicked, query, router } = this.props;
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
@@ -176,7 +173,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       if (onPerspectiveClicked) {
         onPerspectiveClicked(value);
       }
-      history.replace(getRouteForQuery(history, newQuery));
+      router.navigate(getRouteForQuery(newQuery, router.location), { replace: true });
     });
   };
 
@@ -321,8 +318,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHeaderStateProps>(
-  (state, { perspective }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
+  (state, { perspective, router }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
     const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
     const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 

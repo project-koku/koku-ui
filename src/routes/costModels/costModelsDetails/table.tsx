@@ -8,12 +8,12 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import type { Dispatch } from 'redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import type { CostModelsQuery } from './utils/query';
 import { parseOrdering } from './utils/query';
@@ -21,7 +21,6 @@ import { createActions, createOnSort, getRowsByStateName } from './utils/table';
 
 interface CostModelsTableOwnProps {
   actionResolver?: any;
-  history: any;
   openDeleteDialog?: any;
 }
 
@@ -34,7 +33,7 @@ interface CostModelsTableStateProps {
 
 type CostModelsTableProps = CostModelsTableOwnProps &
   CostModelsTableStateProps &
-  RouteComponentProps<void> &
+  RouterComponentProps &
   WrappedComponentProps;
 
 class CostModelsTableBase extends React.Component<CostModelsTableProps> {
@@ -45,9 +44,9 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
       intl = defaultIntl, // Default required for testing
       canWrite,
       costData,
-      history: { push },
       openDeleteDialog,
       query,
+      router,
       stateName,
     } = this.props;
 
@@ -77,7 +76,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
     ] as ICell[];
 
     const sortBy = parseOrdering(query, cells);
-    const onSort = createOnSort(cells, query, push);
+    const onSort = createOnSort(cells, query, router);
     const actions = createActions(stateName, canWrite, [
       {
         title: intl.formatMessage(messages.delete),

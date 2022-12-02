@@ -1,8 +1,6 @@
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import PageHeader, { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import React from 'react';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 
 import { NoDataState } from './noDataState';
 
@@ -11,7 +9,7 @@ interface NoDataOwnProps {
   title?: string;
 }
 
-type NoDataProps = NoDataOwnProps & RouteComponentProps<void>;
+type NoDataProps = NoDataOwnProps;
 
 const NoData = ({ showReload, title }: NoDataProps) => {
   return (
@@ -28,4 +26,4 @@ const NoData = ({ showReload, title }: NoDataProps) => {
   );
 };
 
-export default withRouter(NoData);
+export default NoData;

@@ -26,7 +26,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
 import { Currency } from 'routes/components/currency';
 import { Loading } from 'routes/state/loading';
 import NoData from 'routes/state/noData/noData';
@@ -59,6 +58,8 @@ import type { CostTypes } from 'utils/costType';
 import { getCostType } from 'utils/costType';
 import { getSinceDateRangeString } from 'utils/dates';
 import { getCurrency } from 'utils/localStorage';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -109,7 +110,7 @@ export const getIdKeyForTab = (tab: OverviewTab) => {
   }
 };
 
-type OverviewOwnProps = RouteComponentProps<void> & WrappedComponentProps;
+type OverviewOwnProps = RouterComponentProps & WrappedComponentProps;
 
 interface OverviewDispatchProps {
   // TBD...
@@ -352,9 +353,9 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getRouteForQuery = (query: OverviewQuery) => {
-    const { history } = this.props;
+    const { router } = this.props;
 
-    return `${history.location.pathname}?${getQueryRoute(query)}`;
+    return `${router.location.pathname}?${getQueryRoute(query)}`;
   };
 
   private getTab = (tab: OverviewTab, contentRef, index: number) => {
@@ -469,25 +470,25 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private handleCostTypeSelected = () => {
-    const { history, query } = this.props;
+    const { query, router } = this.props;
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
     };
-    history.replace(this.getRouteForQuery(newQuery));
+    router.navigate(this.getRouteForQuery(newQuery), { replace: true });
   };
 
   private handleCurrencySelected = () => {
-    const { history, query } = this.props;
+    const { router, query } = this.props;
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
     };
-    history.replace(this.getRouteForQuery(newQuery));
+    router.navigate(this.getRouteForQuery(newQuery), { replace: true });
   };
 
   private handlePerspectiveSelected = (value: string) => {
-    const { history, query } = this.props;
+    const { query, router } = this.props;
     const currentTab = this.getCurrentTab();
 
     this.setState(
@@ -502,13 +503,13 @@ class OverviewBase extends React.Component<OverviewProps> {
           ...JSON.parse(JSON.stringify(query)),
           perspective: value,
         };
-        history.replace(this.getRouteForQuery(newQuery));
+        router.navigate(this.getRouteForQuery(newQuery), { replace: true });
       }
     );
   };
 
   private handleTabClick = (event, tabIndex) => {
-    const { history, query } = this.props;
+    const { query, router } = this.props;
     const { activeTabKey } = this.state;
 
     if (activeTabKey !== tabIndex) {
@@ -521,7 +522,7 @@ class OverviewBase extends React.Component<OverviewProps> {
             ...JSON.parse(JSON.stringify(query)),
             tabKey: tabIndex,
           };
-          history.replace(this.getRouteForQuery(newQuery));
+          router.navigate(this.getRouteForQuery(newQuery), { replace: true });
         }
       );
     }
@@ -687,8 +688,8 @@ class OverviewBase extends React.Component<OverviewProps> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStateProps>((state, props) => {
-  const queryFromRoute = parseQuery<OverviewQuery>(location.search);
+const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStateProps>((state, { router }) => {
+  const queryFromRoute = parseQuery<OverviewQuery>(router.location.search);
   const tabKey = queryFromRoute.tabKey && !Number.isNaN(queryFromRoute.tabKey) ? Number(queryFromRoute.tabKey) : 0;
   const perspective = queryFromRoute.perspective;
 
@@ -755,6 +756,6 @@ const mapDispatchToProps: OverviewDispatchProps = {
   // TBD...
 };
 
-const Overview = injectIntl(connect(mapStateToProps, mapDispatchToProps)(OverviewBase));
+const Overview = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(OverviewBase)));
 
 export default Overview;

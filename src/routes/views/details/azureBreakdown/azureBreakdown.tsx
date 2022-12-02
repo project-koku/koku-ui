@@ -23,11 +23,13 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCurrency } from 'utils/localStorage';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type AzureCostOwnProps = WrappedComponentProps;
+type AzureCostOwnProps = RouterComponentProps & WrappedComponentProps;
 
 interface AzureCostStateProps {
   CostOverview?: React.ReactNode;
@@ -55,8 +57,8 @@ const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.azure;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateProps>((state, props) => {
-  const queryFromRoute = parseQuery<Query>(location.search);
+const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateProps>((state, { intl, router }) => {
+  const queryFromRoute = parseQuery<Query>(router.location.search);
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
@@ -107,7 +109,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
     currency,
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
-    emptyStateTitle: props.intl.formatMessage(messages.azureDetailsTitle),
+    emptyStateTitle: intl.formatMessage(messages.azureDetailsTitle),
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData currency={currency} />,
@@ -131,6 +133,6 @@ const mapDispatchToProps: AzureCostDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const AzureCost = injectIntl(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
+const AzureCost = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
 
 export default AzureCost;

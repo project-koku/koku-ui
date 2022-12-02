@@ -13,7 +13,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
 import { Loading } from 'routes/state/loading';
 import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
@@ -21,15 +20,15 @@ import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
-  getRouteForQuery,
   handleCurrencySelected,
   handleFilterAdded,
   handleFilterRemoved,
   handlePerPageSelect,
   handleSetPage,
   handleSort,
-} from 'routes/views/utils/history';
+} from 'routes/views/utils/handles';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
+import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
@@ -38,6 +37,8 @@ import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedGcpReportIte
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getCurrency } from 'utils/localStorage';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -68,7 +69,7 @@ interface GcpDetailsState {
   selectedItems: ComputedReportItem[];
 }
 
-type GcpDetailsOwnProps = RouteComponentProps<void> & WrappedComponentProps;
+type GcpDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
 
 type GcpDetailsProps = GcpDetailsStateProps & GcpDetailsOwnProps & GcpDetailsDispatchProps;
 
@@ -117,12 +118,12 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   }
 
   public componentDidUpdate(prevProps: GcpDetailsProps, prevState: GcpDetailsState) {
-    const { location, report, reportError, reportQueryString } = this.props;
+    const { report, reportError, reportQueryString, router } = this.props;
     const { selectedItems } = this.state;
 
     const newQuery = prevProps.reportQueryString !== reportQueryString;
     const noReport = !report && !reportError;
-    const noLocation = !location.search;
+    const noLocation = !router.location.search;
     const newItems = prevState.selectedItems !== selectedItems;
 
     if (newQuery || noReport || noLocation || newItems) {
@@ -172,7 +173,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   };
 
   private getPagination = (isBottom: boolean = false) => {
-    const { history, intl, query, report } = this.props;
+    const { intl, query, router, report } = this.props;
 
     const count = report && report.meta ? report.meta.count : 0;
     const limit =
@@ -189,8 +190,8 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
       <Pagination
         isCompact={!isBottom}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => handlePerPageSelect(history, query, perPage)}
-        onSetPage={(event, pageNumber) => handleSetPage(history, query, report, pageNumber)}
+        onPerPageSelect={(event, perPage) => handlePerPageSelect(query, router, perPage)}
+        onSetPage={(event, pageNumber) => handleSetPage(query, router, report, pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -206,7 +207,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   };
 
   private getTable = () => {
-    const { history, query, report, reportFetchStatus, reportQueryString } = this.props;
+    const { query, report, reportFetchStatus, reportQueryString, router } = this.props;
     const { isAllSelected, selectedItems } = this.state;
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
@@ -218,7 +219,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
-        onSort={(sortType, isSortAscending) => handleSort(history, query, sortType, isSortAscending)}
+        onSort={(sortType, isSortAscending) => handleSort(query, router, sortType, isSortAscending)}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
@@ -227,7 +228,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   };
 
   private getToolbar = (computedItems: ComputedReportItem[]) => {
-    const { history, query, report } = this.props;
+    const { query, router, report } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -243,8 +244,8 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}
-        onFilterAdded={filter => handleFilterAdded(history, query, filter)}
-        onFilterRemoved={filter => handleFilterRemoved(history, query, filter)}
+        onFilterAdded={filter => handleFilterAdded(query, router, filter)}
+        onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
         pagination={this.getPagination()}
         query={query}
         selectedItems={selectedItems}
@@ -276,7 +277,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   };
 
   private handleGroupBySelected = groupBy => {
-    const { history, query } = this.props;
+    const { query, router } = this.props;
     const groupByKey: keyof GcpQuery['group_by'] = groupBy as any;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
@@ -287,7 +288,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
       order_by: { cost: 'desc' },
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {
-      history.replace(getRouteForQuery(history, newQuery, true));
+      router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
     });
   };
 
@@ -308,15 +309,21 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   };
 
   private updateReport = () => {
-    const { fetchReport, history, location, query, reportQueryString } = this.props;
-    if (!location.search) {
-      history.replace(
-        getRouteForQuery(history, {
-          exclude: query ? query.exclude : undefined,
-          filter_by: query ? query.filter_by : undefined,
-          group_by: query ? query.group_by : undefined,
-          order_by: { cost: 'desc' },
-        })
+    const { fetchReport, query, reportQueryString, router } = this.props;
+    if (!router.location.search) {
+      router.navigate(
+        getRouteForQuery(
+          {
+            exclude: query ? query.exclude : undefined,
+            filter_by: query ? query.filter_by : undefined,
+            group_by: query ? query.group_by : undefined,
+            order_by: { cost: 'desc' },
+          },
+          router.location
+        ),
+        {
+          replace: true,
+        }
       );
     } else {
       fetchReport(reportPathsType, reportType, reportQueryString);
@@ -324,7 +331,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   };
 
   public render() {
-    const { currency, history, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } =
+    const { currency, intl, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, router } =
       this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -352,7 +359,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
-          onCurrencySelected={value => handleCurrencySelected(history, query, value)}
+          onCurrencySelected={value => handleCurrencySelected(query, router, value)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />
@@ -376,8 +383,8 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStateProps>((state, props) => {
-  const queryFromRoute = parseQuery<GcpQuery>(location.search);
+const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStateProps>((state, { router }) => {
+  const queryFromRoute = parseQuery<GcpQuery>(router.location.search);
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
   const query = {
     delta: 'cost',
@@ -444,4 +451,4 @@ const mapDispatchToProps: GcpDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(GcpDetails));
+export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(GcpDetails)));

@@ -18,7 +18,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
 import DistributionCard from 'routes/costModels/costModel/distribution';
 import MarkupCard from 'routes/costModels/costModel/markup';
 import PriceListTable from 'routes/costModels/costModel/priceListTable';
@@ -30,6 +29,8 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsActions, metricsSelectors } from 'store/metrics';
 import { rbacActions, rbacSelectors } from 'store/rbac';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { styles } from './costModelInfo.styles';
 import Header from './header';
@@ -49,7 +50,7 @@ interface OwnProps {
   fetchCostModels: typeof costModelsActions.fetchCostModels;
 }
 
-type Props = OwnProps & RouteComponentProps<{ uuid: string }> & WrappedComponentProps;
+type Props = OwnProps & RouterComponentProps & WrappedComponentProps;
 
 interface State {
   tabIndex: number;
@@ -65,7 +66,7 @@ class CostModelInformation extends React.Component<Props, State> {
   public componentDidMount() {
     this.props.fetchRbac();
     this.props.fetchMetrics();
-    this.props.fetchCostModels(`uuid=${this.props.match.params.uuid}`);
+    this.props.fetchCostModels(`uuid=${this.props.router.params.uuid}`);
   }
 
   public render() {
@@ -98,7 +99,7 @@ class CostModelInformation extends React.Component<Props, State> {
                   </Title>
                   <EmptyStateBody>
                     {intl.formatMessage(messages.costModelsUUIDEmptyStateDesc, {
-                      uuid: this.props.match.params.uuid,
+                      uuid: this.props.router.params.uuid,
                     })}
                   </EmptyStateBody>
                 </EmptyState>
@@ -115,7 +116,6 @@ class CostModelInformation extends React.Component<Props, State> {
     return (
       <div>
         <Header
-          historyObject={this.props.history}
           current={current}
           tabRefs={this.tabRefs}
           tabIndex={this.state.tabIndex}
@@ -173,25 +173,27 @@ class CostModelInformation extends React.Component<Props, State> {
 }
 
 export default injectIntl(
-  connect(
-    createMapStateToProps(store => {
-      return {
-        costModels: costModelsSelectors.costModels(store),
-        costModelError: costModelsSelectors.error(store),
-        costModelStatus: costModelsSelectors.status(store),
-        metricsHash: metricsSelectors.metrics(store),
-        maxRate: metricsSelectors.maxRate(store),
-        costTypes: metricsSelectors.costTypes(store),
-        metricsError: metricsSelectors.metricsState(store).error,
-        metricsStatus: metricsSelectors.status(store),
-        rbacError: rbacSelectors.selectRbacState(store).error,
-        rbacStatus: rbacSelectors.selectRbacState(store).status,
-      };
-    }),
-    {
-      fetchMetrics: metricsActions.fetchMetrics,
-      fetchRbac: rbacActions.fetchRbac,
-      fetchCostModels: costModelsActions.fetchCostModels,
-    }
-  )(CostModelInformation)
+  withRouter(
+    connect(
+      createMapStateToProps(store => {
+        return {
+          costModels: costModelsSelectors.costModels(store),
+          costModelError: costModelsSelectors.error(store),
+          costModelStatus: costModelsSelectors.status(store),
+          metricsHash: metricsSelectors.metrics(store),
+          maxRate: metricsSelectors.maxRate(store),
+          costTypes: metricsSelectors.costTypes(store),
+          metricsError: metricsSelectors.metricsState(store).error,
+          metricsStatus: metricsSelectors.status(store),
+          rbacError: rbacSelectors.selectRbacState(store).error,
+          rbacStatus: rbacSelectors.selectRbacState(store).status,
+        };
+      }),
+      {
+        fetchMetrics: metricsActions.fetchMetrics,
+        fetchRbac: rbacActions.fetchRbac,
+        fetchCostModels: costModelsActions.fetchCostModels,
+      }
+    )(CostModelInformation)
+  )
 );

@@ -9,11 +9,11 @@ import {
 import type { AxiosResponse } from 'axios';
 import type { AxiosError } from 'axios';
 import { intl } from 'components/i18n';
-import type * as H from 'history';
 import messages from 'locales/messages';
 import type { Dispatch } from 'redux';
 import type { ThunkAction } from 'store/common';
 import { createAction, createAsyncAction } from 'typesafe-actions';
+import type { RouteComponentProps } from 'utils/router';
 
 interface FilterQuery {
   currentFilterType?: string;
@@ -96,7 +96,7 @@ export const {
   AxiosError
 >();
 
-export const deleteCostModel = (uuid: string, dialog: string = '', history: H.History = null): any => {
+export const deleteCostModel = (uuid: string, dialog: string = '', router: RouteComponentProps = null): any => {
   return (dispatch: Dispatch) => {
     dispatch(deleteCostModelsRequest());
 
@@ -106,8 +106,8 @@ export const deleteCostModel = (uuid: string, dialog: string = '', history: H.Hi
         dispatch(resetCostModel());
         fetchCostModels()(dispatch);
         if (dialog !== null) {
-          if (dialog === 'deleteCostModel' && history) {
-            history.push('/cost-models');
+          if (dialog === 'deleteCostModel' && router) {
+            router.navigate('/cost-models');
           }
           dispatch(setCostModelDialog({ name: dialog, isOpen: false }));
         }
@@ -118,12 +118,12 @@ export const deleteCostModel = (uuid: string, dialog: string = '', history: H.Hi
   };
 };
 
-export const redirectToCostModelFromSourceUuid = (source_uuid: string, history: H.History): ThunkAction => {
+export const redirectToCostModelFromSourceUuid = (source_uuid: string, router: RouteComponentProps): ThunkAction => {
   return (dispatch: Dispatch) => {
     return apiGetCostModels(`source_uuid=${source_uuid}`)
       .then(res => {
         const uuid = res.data.data[0].uuid;
-        history.push(`/cost-models/${uuid}`);
+        router.navigate(`/cost-models/${uuid}`);
       })
       .catch(() => {
         dispatch(

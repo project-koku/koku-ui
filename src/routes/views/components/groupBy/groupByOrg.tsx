@@ -7,10 +7,12 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { styles } from './groupBy.styles';
 
-interface GroupByOrgOwnProps {
+interface GroupByOrgOwnProps extends RouterComponentProps, WrappedComponentProps {
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
   isDisabled?: boolean;
@@ -32,7 +34,7 @@ interface GroupByOrgOption extends SelectOptionObject {
   id?: string;
 }
 
-type GroupByOrgProps = GroupByOrgOwnProps & WrappedComponentProps;
+type GroupByOrgProps = GroupByOrgOwnProps;
 
 class GroupByOrgBase extends React.Component<GroupByOrgProps> {
   protected defaultState: GroupByOrgState = {
@@ -62,9 +64,9 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
   }
 
   private getCurrentGroupBy = () => {
-    const { getIdKeyForGroupBy } = this.props;
+    const { getIdKeyForGroupBy, router } = this.props;
 
-    const queryFromRoute = parseQuery<Query>(location.search);
+    const queryFromRoute = parseQuery<Query>(router.location.search);
     const groupByKeys = queryFromRoute && queryFromRoute.group_by ? Object.keys(queryFromRoute.group_by) : [];
 
     let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);
@@ -162,7 +164,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
   }
 }
 
-const GroupByOrg = injectIntl(GroupByOrgBase);
+const GroupByOrg = injectIntl(withRouter(GroupByOrgBase));
 
 export { GroupByOrg };
 export type { GroupByOrgProps };

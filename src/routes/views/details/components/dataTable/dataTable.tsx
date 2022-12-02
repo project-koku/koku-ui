@@ -10,6 +10,8 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { styles } from './dataTable.styles';
 
@@ -22,7 +24,7 @@ interface DataTableOwnProps {
   selectedItems?: ComputedReportItem[];
 }
 
-type DataTableProps = DataTableOwnProps & WrappedComponentProps;
+type DataTableProps = DataTableOwnProps & RouterComponentProps & WrappedComponentProps;
 
 class DataTable extends React.Component<DataTableProps> {
   constructor(props: DataTableProps) {
@@ -32,9 +34,9 @@ class DataTable extends React.Component<DataTableProps> {
   }
 
   private getEmptyState = () => {
-    const { intl } = this.props;
+    const { intl, router } = this.props;
 
-    const queryFromRoute = parseQuery<OcpQuery>(location.search);
+    const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
     if (queryFromRoute.filter_by) {
       for (const val of Object.values(queryFromRoute.filter_by)) {
         if (val !== '*') {
@@ -51,10 +53,10 @@ class DataTable extends React.Component<DataTableProps> {
   };
 
   private getSortBy = index => {
-    const { columns } = this.props;
+    const { columns, router } = this.props;
 
     const orderBy = columns[index].orderBy;
-    const queryFromRoute = parseQuery<OcpQuery>(location.search);
+    const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
     const direction = queryFromRoute && queryFromRoute.order_by && queryFromRoute.order_by[orderBy];
 
     return direction
@@ -174,4 +176,4 @@ class DataTable extends React.Component<DataTableProps> {
   }
 }
 
-export default injectIntl(DataTable);
+export default injectIntl(withRouter(DataTable));

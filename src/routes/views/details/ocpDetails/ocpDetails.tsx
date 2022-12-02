@@ -14,7 +14,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
 import { Loading } from 'routes/state/loading';
 import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
@@ -24,15 +23,15 @@ import type { ColumnManagementModalOption } from 'routes/views/details/component
 import { ColumnManagementModal, initHiddenColumns } from 'routes/views/details/components/columnManagement';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
-  getRouteForQuery,
   handleCurrencySelected,
   handleFilterAdded,
   handleFilterRemoved,
   handlePerPageSelect,
   handleSetPage,
   handleSort,
-} from 'routes/views/utils/history';
+} from 'routes/views/utils/handles';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
+import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
@@ -41,6 +40,8 @@ import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportIte
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getCurrency } from 'utils/localStorage';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable, DetailsTableColumnIds } from './detailsTable';
@@ -72,7 +73,7 @@ interface OcpDetailsState {
   selectedItems: ComputedReportItem[];
 }
 
-type OcpDetailsOwnProps = RouteComponentProps<void> & WrappedComponentProps;
+type OcpDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
 
 type OcpDetailsProps = OcpDetailsStateProps & OcpDetailsOwnProps & OcpDetailsDispatchProps;
 
@@ -143,12 +144,12 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   }
 
   public componentDidUpdate(prevProps: OcpDetailsProps, prevState: OcpDetailsState) {
-    const { location, report, reportError, reportQueryString } = this.props;
+    const { report, reportError, reportQueryString, router } = this.props;
     const { selectedItems } = this.state;
 
     const newQuery = prevProps.reportQueryString !== reportQueryString;
     const noReport = !report && !reportError;
-    const noLocation = !location.search;
+    const noLocation = !router.location.search;
     const newItems = prevState.selectedItems !== selectedItems;
 
     if (newQuery || noReport || noLocation || newItems) {
@@ -216,7 +217,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   private getPagination = (isBottom: boolean = false) => {
-    const { history, intl, query, report } = this.props;
+    const { intl, query, report, router } = this.props;
 
     const count = report && report.meta ? report.meta.count : 0;
     const limit =
@@ -233,8 +234,8 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       <Pagination
         isCompact={!isBottom}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => handlePerPageSelect(history, query, perPage)}
-        onSetPage={(event, pageNumber) => handleSetPage(history, query, report, pageNumber)}
+        onPerPageSelect={(event, perPage) => handlePerPageSelect(query, router, perPage)}
+        onSetPage={(event, pageNumber) => handleSetPage(query, router, report, pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -250,7 +251,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   private getTable = () => {
-    const { history, query, report, reportFetchStatus, reportQueryString } = this.props;
+    const { query, report, reportFetchStatus, reportQueryString, router } = this.props;
     const { hiddenColumns, isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -264,7 +265,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
-        onSort={(sortType, isSortAscending) => handleSort(history, query, sortType, isSortAscending)}
+        onSort={(sortType, isSortAscending) => handleSort(query, router, sortType, isSortAscending)}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
@@ -273,7 +274,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   private getToolbar = (computedItems: ComputedReportItem[]) => {
-    const { history, query, report } = this.props;
+    const { query, report, router } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -290,8 +291,8 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         onBulkSelected={this.handleBulkSelected}
         onColumnManagementClicked={this.handleColumnManagementModalOpen}
         onExportClicked={this.handleExportModalOpen}
-        onFilterAdded={filter => handleFilterAdded(history, query, filter)}
-        onFilterRemoved={filter => handleFilterRemoved(history, query, filter)}
+        onFilterAdded={filter => handleFilterAdded(query, router, filter)}
+        onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
         onPlatformCostsChanged={this.handlePlatformCostsChanged}
         pagination={this.getPagination()}
         query={query}
@@ -336,7 +337,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   private handleGroupBySelected = groupBy => {
-    const { history, query } = this.props;
+    const { query, router } = this.props;
     const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
@@ -348,18 +349,18 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       category: undefined, // Only applies to projects
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {
-      history.replace(getRouteForQuery(history, newQuery, true));
+      router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
     });
   };
 
   private handlePlatformCostsChanged = (checked: boolean) => {
-    const { history, query } = this.props;
+    const { query, router } = this.props;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
       category: checked ? 'platform' : undefined,
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {
-      history.replace(getRouteForQuery(history, newQuery, true));
+      router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
     });
   };
 
@@ -380,15 +381,21 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   private updateReport = () => {
-    const { fetchReport, history, location, query, reportQueryString } = this.props;
-    if (!location.search) {
-      history.replace(
-        getRouteForQuery(history, {
-          exclude: query ? query.exclude : undefined,
-          filter_by: query ? query.filter_by : undefined,
-          group_by: query ? query.group_by : undefined,
-          order_by: { cost: 'desc' },
-        })
+    const { fetchReport, query, reportQueryString, router } = this.props;
+    if (!router.location.search) {
+      router.navigate(
+        getRouteForQuery(
+          {
+            exclude: query ? query.exclude : undefined,
+            filter_by: query ? query.filter_by : undefined,
+            group_by: query ? query.group_by : undefined,
+            order_by: { cost: 'desc' },
+          },
+          router.location
+        ),
+        {
+          replace: true,
+        }
       );
     } else {
       fetchReport(reportPathsType, reportType, reportQueryString);
@@ -396,7 +403,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   public render() {
-    const { currency, history, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, intl } =
+    const { currency, intl, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, router } =
       this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -424,7 +431,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
-          onCurrencySelected={value => handleCurrencySelected(history, query, value)}
+          onCurrencySelected={value => handleCurrencySelected(query, router, value)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />
@@ -449,8 +456,8 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStateProps>((state, props) => {
-  const queryFromRoute = parseQuery<OcpQuery>(location.search);
+const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStateProps>((state, { router }) => {
+  const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
   const query = {
     delta: 'cost',
@@ -501,4 +508,4 @@ const mapDispatchToProps: OcpDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(OcpDetails));
+export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(OcpDetails)));

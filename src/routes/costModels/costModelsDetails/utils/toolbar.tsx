@@ -7,11 +7,11 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import type { Dispatch } from 'redux';
 import type { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import type { CostModelsQuery } from './query';
 import { initialCostModelsQuery, limitTransform, offsetTransform, stringifySearch } from './query';
@@ -21,7 +21,7 @@ interface CostModelsFilterSelectorOwnProps {
   updateFilterType?: any;
 }
 
-type CostModelsFilterSelectorProps = CostModelsFilterSelectorOwnProps & WrappedComponentProps & RouteComponentProps;
+type CostModelsFilterSelectorProps = CostModelsFilterSelectorOwnProps & WrappedComponentProps & RouterComponentProps;
 
 const costModelsFilterSelectorMapStateToProps = (state: RootState) => {
   return {
@@ -104,11 +104,9 @@ const topPaginationMapStateToProps = (state: RootState) => {
 const topPaginationMergeProps = (
   stateProps: ReturnType<typeof topPaginationMapStateToProps>,
   dispatchProps,
-  ownProps: RouteComponentProps
+  ownProps: RouterComponentProps
 ) => {
-  const {
-    history: { push },
-  } = ownProps;
+  const { router } = ownProps;
   const { count, page, perPage, query } = stateProps;
   return {
     isCompact: true,
@@ -117,7 +115,7 @@ const topPaginationMergeProps = (
     perPage,
     variant: PaginationVariant.top,
     onSetPage: (_evt: React.MouseEvent | React.KeyboardEvent | MouseEvent, newPage: number, newPerPage: number) => {
-      push(
+      router.navigate(
         stringifySearch({
           ...initialCostModelsQuery,
           ...query,
@@ -126,7 +124,7 @@ const topPaginationMergeProps = (
       );
     },
     onPerPageSelect: (_evt: React.MouseEvent | React.KeyboardEvent | MouseEvent, newPerPage: number) => {
-      push(
+      router.navigate(
         stringifySearch({
           ...initialCostModelsQuery,
           ...query,

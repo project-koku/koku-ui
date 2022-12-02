@@ -14,11 +14,13 @@ import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUnits, unitsLookupKey } from 'utils/format';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './historicalChart.styles';
 
-interface HistoricalDataTrendChartOwnProps {
+interface HistoricalDataTrendChartOwnProps extends RouterComponentProps, WrappedComponentProps {
   chartName?: string;
   costType?: string;
   currency?: string;
@@ -43,8 +45,7 @@ interface HistoricalDataTrendChartDispatchProps {
 
 type HistoricalDataTrendChartProps = HistoricalDataTrendChartOwnProps &
   HistoricalDataTrendChartStateProps &
-  HistoricalDataTrendChartDispatchProps &
-  WrappedComponentProps;
+  HistoricalDataTrendChartDispatchProps;
 
 class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendChartProps> {
   public componentDidMount() {
@@ -158,8 +159,8 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, HistoricalDataTrendChartStateProps>(
-  (state, { costType, currency, reportPathsType, reportType }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
+  (state, { costType, currency, reportPathsType, reportType, router }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
@@ -245,6 +246,8 @@ const mapDispatchToProps: HistoricalDataTrendChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const HistoricalDataTrendChart = injectIntl(connect(mapStateToProps, mapDispatchToProps)(HistoricalDataTrendChartBase));
+const HistoricalDataTrendChart = injectIntl(
+  withRouter(connect(mapStateToProps, mapDispatchToProps)(HistoricalDataTrendChartBase))
+);
 
 export { HistoricalDataTrendChart };

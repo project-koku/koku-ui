@@ -11,18 +11,18 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import { DataToolbar } from 'routes/views/components/dataToolbar';
 import { DateRangeType, getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import type { Filter } from 'routes/views/utils/filter';
-import { getRouteForQuery } from 'routes/views/utils/history';
+import { getRouteForQuery } from 'routes/views/utils/query';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
 import { formatStartEndDate } from 'utils/dates';
 import { isEqual } from 'utils/equal';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { ExplorerDatePicker } from './explorerDatePicker';
 import { ExplorerDateRange } from './explorerDateRange';
@@ -30,7 +30,7 @@ import { styles } from './explorerFilter.styles';
 import type { PerspectiveType } from './explorerUtils';
 import { dateRangeOptions, getGroupByOptions, getOrgReportPathsType, getTagReportPathsType } from './explorerUtils';
 
-interface ExplorerFilterOwnProps {
+interface ExplorerFilterOwnProps extends RouterComponentProps, WrappedComponentProps {
   groupBy: string;
   isDisabled?: boolean;
   onFilterAdded(filter: Filter);
@@ -64,11 +64,7 @@ interface ExplorerFilterState {
   showDatePicker?: boolean;
 }
 
-type ExplorerFilterProps = ExplorerFilterOwnProps &
-  ExplorerFilterStateProps &
-  ExplorerFilterDispatchProps &
-  RouteComponentProps<void> &
-  WrappedComponentProps;
+type ExplorerFilterProps = ExplorerFilterOwnProps & ExplorerFilterStateProps & ExplorerFilterDispatchProps;
 
 const orgReportType = OrgType.org;
 const tagReportType = TagType.tag;
@@ -180,7 +176,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
   };
 
   private handleDatePickerSelected = (startDate: Date, endDate: Date) => {
-    const { history, query } = this.props;
+    const { query, router } = this.props;
 
     const { start_date, end_date } = formatStartEndDate(startDate, endDate);
 
@@ -190,11 +186,11 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
       start_date,
       end_date,
     };
-    history.replace(getRouteForQuery(history, newQuery));
+    router.navigate(getRouteForQuery(newQuery, router.location), { replace: true });
   };
 
   private handleDateRangeSelected = (value: string) => {
-    const { history, query } = this.props;
+    const { query, router } = this.props;
 
     const showDatePicker = value === DateRangeType.custom;
     this.setState({ currentDateRangeType: value, showDatePicker }, () => {
@@ -205,7 +201,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
           start_date: undefined,
           end_date: undefined,
         };
-        history.replace(getRouteForQuery(history, newQuery));
+        router.navigate(getRouteForQuery(newQuery, router.location), { replace: true });
       }
     });
   };
@@ -247,8 +243,8 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFilterStateProps>(
-  (state, { perspective }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
+  (state, { perspective, router }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
     const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
     const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 

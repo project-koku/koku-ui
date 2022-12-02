@@ -1,30 +1,27 @@
-import { asyncComponent } from 'components/async';
+import { Bullseye, Spinner } from '@patternfly/react-core';
 import { userAccess } from 'components/userAccess';
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { Route, Routes as Switch } from 'react-router-dom';
 
-const NotFound = asyncComponent(() => import(/* webpackChunkName: "notFound" */ 'routes/state/notFound'));
-const AwsBreakdown = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'routes/views/details/awsBreakdown'));
-const AwsDetails = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'routes/views/details/awsDetails'));
-const AzureBreakdown = asyncComponent(
-  () => import(/* webpackChunkName: "azure" */ 'routes/views/details/azureBreakdown')
+const NotFound = lazy(() => import(/* webpackChunkName: "notFound" */ 'routes/state/notFound'));
+const AwsBreakdown = lazy(() => import(/* webpackChunkName: "awsBreakdown" */ 'routes/views/details/awsBreakdown'));
+const AwsDetails = lazy(() => import(/* webpackChunkName: "awsDetails" */ 'routes/views/details/awsDetails'));
+const AzureBreakdown = lazy(
+  () => import(/* webpackChunkName: "azureBreakdown" */ 'routes/views/details/azureBreakdown')
 );
-const OciBreakdown = asyncComponent(() => import(/* webpackChunkName: "oci" */ 'routes/views/details/ociBreakdown'));
-const AzureDetails = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'routes/views/details/azureDetails'));
-const OciDetails = asyncComponent(() => import(/* webpackChunkName: "oci" */ 'routes/views/details/ociDetails'));
-const Explorer = asyncComponent(() => import(/* webpackChunkName: "explorer" */ 'routes/views/explorer'));
-const GcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'routes/views/details/gcpBreakdown'));
-const GcpDetails = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'routes/views/details/gcpDetails'));
-const IbmBreakdown = asyncComponent(() => import(/* webpackChunkName: "ibm" */ 'routes/views/details/ibmBreakdown'));
-const IbmDetails = asyncComponent(() => import(/* webpackChunkName: "ibm" */ 'routes/views/details/ibmDetails'));
-const OcpDetails = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'routes/views/details/ocpDetails'));
-const OcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'routes/views/details/ocpBreakdown'));
-const Overview = asyncComponent(() => import(/* webpackChunkName: "overview" */ 'routes/views/overview'));
-const CostModelsDetails = asyncComponent(
-  () => import(/* webpackChunkName: "costModels" */ 'routes/costModels/costModelsDetails')
-);
-// import(/* webpackChunkName: "costModels" */ './routes/costModels/costModelList')
-const CostModel = asyncComponent(() => import(/* webpackChunkName: "costModel" */ 'routes/costModels/costModel'));
+const AzureDetails = lazy(() => import(/* webpackChunkName: "azureDetails" */ 'routes/views/details/azureDetails'));
+const OciBreakdown = lazy(() => import(/* webpackChunkName: "ociBreakdown" */ 'routes/views/details/ociBreakdown'));
+const OciDetails = lazy(() => import(/* webpackChunkName: "ociDetails" */ 'routes/views/details/ociDetails'));
+const Explorer = lazy(() => import(/* webpackChunkName: "explorer" */ 'routes/views/explorer'));
+const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'routes/views/details/gcpBreakdown'));
+const GcpDetails = lazy(() => import(/* webpackChunkName: "gcpDetails" */ 'routes/views/details/gcpDetails'));
+const IbmBreakdown = lazy(() => import(/* webpackChunkName: "ibmBreakdown" */ 'routes/views/details/ibmBreakdown'));
+const IbmDetails = lazy(() => import(/* webpackChunkName: "ibmDetails" */ 'routes/views/details/ibmDetails'));
+const OcpDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/ocpDetails'));
+const OcpBreakdown = lazy(() => import(/* webpackChunkName: "ocpBreakdown" */ 'routes/views/details/ocpBreakdown'));
+const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/views/overview'));
+const CostModelsDetails = lazy(() => import(/* lazy: "costModelsDetails" */ 'routes/costModels/costModelsDetails'));
+const CostModel = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/costModels/costModel'));
 
 // For syncing with permissions
 const paths = {
@@ -47,110 +44,87 @@ const paths = {
 
 const routes = [
   {
+    element: userAccess(Overview),
     path: paths.overview,
-    labelKey: 'cost_management_overview',
-    component: userAccess(Overview),
-    exact: true,
   },
   {
+    element: userAccess(CostModelsDetails),
     path: paths.costModels,
-    labelKey: 'navigation.cost_models',
-    component: userAccess(CostModelsDetails),
-    exact: true,
   },
   {
+    element: userAccess(CostModel),
     path: `${paths.costModels}/:uuid`,
-    labelKey: 'navigation.cost_models',
-    component: userAccess(CostModel),
-    exact: true,
   },
   {
+    element: userAccess(AwsDetails),
     path: paths.awsDetails,
-    labelKey: 'navigation.aws_details',
-    component: userAccess(AwsDetails),
-    exact: true,
   },
   {
+    element: userAccess(AwsBreakdown),
     path: paths.awsDetailsBreakdown,
-    labelKey: 'navigation.aws_details_breakdown',
-    component: userAccess(AwsBreakdown),
-    exact: true,
   },
   {
+    element: userAccess(AzureDetails),
     path: paths.azureDetails,
-    labelKey: 'navigation.azure_details',
-    component: userAccess(AzureDetails),
-    exact: true,
   },
   {
+    element: userAccess(AzureBreakdown),
     path: paths.azureDetailsBreakdown,
-    labelKey: 'navigation.azure_details_breakdown',
-    component: userAccess(AzureBreakdown),
-    exact: true,
   },
   {
+    element: userAccess(OciDetails),
     path: paths.ociDetails,
-    labelKey: 'navigation.oci_details',
-    component: userAccess(OciDetails),
-    exact: true,
   },
   {
+    element: userAccess(OciBreakdown),
     path: paths.ociDetailsBreakdown,
-    labelKey: 'navigation.oci_details_breakdown',
-    component: userAccess(OciBreakdown),
-    exact: true,
   },
   {
+    element: userAccess(Explorer),
     path: paths.explorer,
-    labelKey: 'navigation.explorer',
-    component: userAccess(Explorer),
-    exact: true,
   },
   {
+    element: userAccess(GcpDetails),
     path: paths.gcpDetails,
-    labelKey: 'navigation.gcp_details',
-    component: userAccess(GcpDetails),
-    exact: true,
   },
   {
+    element: userAccess(GcpBreakdown),
     path: paths.gcpDetailsBreakdown,
-    labelKey: 'navigation.gcp_details_breakdown',
-    component: userAccess(GcpBreakdown),
-    exact: true,
   },
   {
+    element: userAccess(IbmDetails),
     path: paths.ibmDetails,
-    labelKey: 'navigation.ibm_details',
-    component: userAccess(IbmDetails),
-    exact: true,
   },
   {
+    element: userAccess(IbmBreakdown),
     path: paths.ibmDetailsBreakdown,
-    labelKey: 'navigation.ibm_details_breakdown',
-    component: userAccess(IbmBreakdown),
-    exact: true,
   },
   {
+    element: userAccess(OcpDetails),
     path: paths.ocpDetails,
-    labelKey: 'navigation.ocp_details',
-    component: userAccess(OcpDetails),
-    exact: true,
   },
   {
+    element: userAccess(OcpBreakdown),
     path: paths.ocpDetailsBreakdown,
-    labelKey: 'navigation.ocp_details_breakdown',
-    component: userAccess(OcpBreakdown),
-    exact: true,
   },
 ];
 
 const Routes = () => (
-  <Switch>
-    {routes.map(route => (
-      <Route key={route.path as any} {...route} />
-    ))}
-    <Route component={NotFound} />
-  </Switch>
+  <Suspense
+    fallback={
+      <Bullseye>
+        <Spinner size="lg" />
+      </Bullseye>
+    }
+  >
+    <Switch>
+      {routes.map(route => (
+        <Route key={route.path} path={route.path} element={<route.element />} />
+      ))}
+      {/* Finally, catch all unmatched routes */}
+      <Route path="*" element={<NotFound />} />
+    </Switch>
+  </Suspense>
 );
 
 export { paths, Routes, routes };

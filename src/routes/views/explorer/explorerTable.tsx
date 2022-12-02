@@ -29,11 +29,13 @@ import { createMapStateToProps } from 'store/common';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatCurrency } from 'utils/format';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { styles } from './explorerTable.styles';
 import { PerspectiveType } from './explorerUtils';
 
-interface ExplorerTableOwnProps {
+interface ExplorerTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   computedReportItemType?: ComputedReportItemType;
   computedReportItemValueType?: ComputedReportItemValueType;
   groupBy: string;
@@ -64,7 +66,7 @@ interface ExplorerTableState {
   rows?: any[];
 }
 
-type ExplorerTableProps = ExplorerTableOwnProps & ExplorerTableStateProps & WrappedComponentProps;
+type ExplorerTableProps = ExplorerTableOwnProps & ExplorerTableStateProps;
 
 class ExplorerTableBase extends React.Component<ExplorerTableProps> {
   public state: ExplorerTableState = {
@@ -401,8 +403,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTableStateProps>(
-  (state, { perspective }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
+  (state, { perspective, router }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
     const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
     return {
@@ -416,7 +418,7 @@ const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTab
 const mapDispatchToProps: ExplorerTableDispatchProps = {};
 
 const ExplorerTableConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerTableBase);
-const ExplorerTable = injectIntl(ExplorerTableConnect);
+const ExplorerTable = injectIntl(withRouter(ExplorerTableConnect));
 
 export { ExplorerTable };
 export type { ExplorerTableProps };

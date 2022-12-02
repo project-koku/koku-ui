@@ -13,10 +13,12 @@ import { isPlatformCosts } from 'routes/views/utils/paths';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { TagContent } from './tagContent';
 
-interface TagModalOwnProps {
+interface TagModalOwnProps extends RouterComponentProps, WrappedComponentProps {
   isOpen: boolean;
   onClose(isOpen: boolean);
   tagReportPathsType: TagPathsType;
@@ -36,7 +38,7 @@ interface TagModalDispatchProps {
   fetchTag?: typeof tagActions.fetchTag;
 }
 
-type TagModalProps = TagModalOwnProps & TagModalStateProps & TagModalDispatchProps & WrappedComponentProps;
+type TagModalProps = TagModalOwnProps & TagModalStateProps & TagModalDispatchProps;
 
 const tagReportType = TagType.tag;
 
@@ -104,62 +106,64 @@ class TagModalBase extends React.Component<TagModalProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStateProps>((state, { tagReportPathsType }) => {
-  const queryFromRoute = parseQuery<Query>(location.search);
-  const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
-  const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
-  const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
+const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStateProps>(
+  (state, { router, tagReportPathsType }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
+    const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
+    const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
+    const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
 
-  // Prune unsupported tag params from filter_by
-  const filterByParams = queryFromRoute && queryFromRoute.filter_by ? queryFromRoute.filter_by : {};
-  for (const key of Object.keys(filterByParams)) {
-    if (key.indexOf(tagPrefix) !== -1) {
-      filterByParams[key] = undefined;
+    // Prune unsupported tag params from filter_by
+    const filterByParams = queryFromRoute && queryFromRoute.filter_by ? queryFromRoute.filter_by : {};
+    for (const key of Object.keys(filterByParams)) {
+      if (key.indexOf(tagPrefix) !== -1) {
+        filterByParams[key] = undefined;
+      }
     }
+
+    const query: Query = {
+      filter: {
+        resolution: 'monthly',
+        time_scope_units: 'month',
+        time_scope_value: -1,
+      },
+      filter_by: {
+        // Add filters here to apply logical OR/AND
+        ...filterByParams,
+        ...(queryFromRoute &&
+          queryFromRoute.filter &&
+          queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+        // Todo: enable when tags API is ready
+        // ...(queryFromRoute && queryFromRoute.filter && queryFromRoute.filter.category &&  { category: queryFromRoute.filter.category }),
+        ...(groupBy && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
+      },
+    };
+
+    const tagQueryString = getQuery(query);
+    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
+    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
+      state,
+      tagReportPathsType,
+      tagReportType,
+      tagQueryString
+    );
+
+    return {
+      groupBy,
+      groupByValue,
+      isPlatformCosts: isPlatformCosts(queryFromRoute),
+      query,
+      tagReport,
+      tagReportFetchStatus,
+      tagQueryString,
+    };
   }
-
-  const query: Query = {
-    filter: {
-      resolution: 'monthly',
-      time_scope_units: 'month',
-      time_scope_value: -1,
-    },
-    filter_by: {
-      // Add filters here to apply logical OR/AND
-      ...filterByParams,
-      ...(queryFromRoute &&
-        queryFromRoute.filter &&
-        queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
-      // Todo: enable when tags API is ready
-      // ...(queryFromRoute && queryFromRoute.filter && queryFromRoute.filter.category &&  { category: queryFromRoute.filter.category }),
-      ...(groupBy && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
-    },
-  };
-
-  const tagQueryString = getQuery(query);
-  const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
-  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
-    state,
-    tagReportPathsType,
-    tagReportType,
-    tagQueryString
-  );
-
-  return {
-    groupBy,
-    groupByValue,
-    isPlatformCosts: isPlatformCosts(queryFromRoute),
-    query,
-    tagReport,
-    tagReportFetchStatus,
-    tagQueryString,
-  };
-});
+);
 
 const mapDispatchToProps: TagModalDispatchProps = {
   fetchTag: tagActions.fetchTag,
 };
 
-const TagModal = injectIntl(connect(mapStateToProps, mapDispatchToProps)(TagModalBase));
+const TagModal = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(TagModalBase)));
 
 export { TagModal };

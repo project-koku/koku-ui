@@ -1,7 +1,5 @@
 import messages from 'locales/messages';
 import React from 'react';
-import type { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router';
 import { PerspectiveSelect } from 'routes/views/components/perspective/perspectiveSelect';
 
 // Infrastructure AWS options
@@ -37,7 +35,7 @@ const infrastructureOcpCloudOptions = [{ label: messages.perspectiveValues, valu
 // Ocp options
 const ocpOptions = [{ label: messages.perspectiveValues, value: 'ocp' }];
 
-interface OverviewPerspectiveProps extends RouteComponentProps<void> {
+interface PerspectiveProps {
   currentItem?: string;
   hasAws?: boolean;
   hasAwsOcp?: boolean;
@@ -102,7 +100,7 @@ const getInfrastructureOptions = ({
   return options;
 };
 
-const OverviewPerspectiveBase: React.FC<OverviewPerspectiveProps> = ({
+const Perspective: React.FC<PerspectiveProps> = ({
   currentItem,
   hasAws,
   hasAwsOcp,
@@ -180,7 +178,5 @@ const OverviewPerspectiveBase: React.FC<OverviewPerspectiveProps> = ({
     />
   );
 };
-
-const Perspective = withRouter(OverviewPerspectiveBase);
 
 export default Perspective;

@@ -9,8 +9,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import type { ChartDatum } from 'routes/views/components/charts/common/chartDatum';
 import {
   ComputedReportItemType,
@@ -28,13 +26,15 @@ import type { ComputedReportItem } from 'utils/computedReport/getComputedReportI
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import type { CostTypes } from 'utils/costType';
 import { formatUnits } from 'utils/format';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './explorerChart.styles';
 import type { PerspectiveType } from './explorerUtils';
 import { baseQuery, getGroupByDefault, getReportPathsType, getReportType } from './explorerUtils';
 
-interface ExplorerChartOwnProps extends RouteComponentProps<void>, WrappedComponentProps {
+interface ExplorerChartOwnProps extends RouterComponentProps, WrappedComponentProps {
   costType?: CostTypes;
   currency?: string;
   computedReportItemType?: ComputedReportItemType;
@@ -252,8 +252,8 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerChartStateProps>(
-  (state, { costType, currency, perspective }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
+  (state, { costType, currency, perspective, router }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
     const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
     // Ensure group_by key is not undefined

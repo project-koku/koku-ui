@@ -2,18 +2,18 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import type { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { paths, routes } from 'routes';
 
 interface PageTitleOwnProps {
   children?: React.ReactNode;
 }
 
-type PageTitleProps = PageTitleOwnProps & RouteComponentProps<void> & WrappedComponentProps;
+type PageTitleProps = PageTitleOwnProps & WrappedComponentProps;
 
-const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl, location }) => {
+const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl }) => {
   const getPath = () => {
+    const location = useLocation();
     const currRoute = routes.find(({ path }) => path === location.pathname);
     return currRoute ? currRoute.path : undefined;
   };
@@ -35,5 +35,6 @@ const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl, locati
   return <>{children}</>;
 };
 
-const PageTitle = withRouter(PageTitleBase);
-export default injectIntl(PageTitle);
+const PageTitle = injectIntl(PageTitleBase);
+
+export default PageTitle;

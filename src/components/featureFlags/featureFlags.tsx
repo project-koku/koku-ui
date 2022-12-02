@@ -1,15 +1,13 @@
 import { useUnleashClient, useUnleashContext } from '@unleash/proxy-client-react';
 import React, { useLayoutEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import { featureFlagsActions } from 'store/featureFlags';
 
 interface FeatureFlagsOwnProps {
   children?: React.ReactNode;
 }
 
-type FeatureFlagsProps = FeatureFlagsOwnProps & RouteComponentProps<void>;
+type FeatureFlagsProps = FeatureFlagsOwnProps;
 
 // eslint-disable-next-line no-shadow
 export const enum FeatureToggle {
@@ -33,7 +31,7 @@ if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.
 }
 
 // The FeatureFlags component saves feature flags in store for places where Unleash hooks not available
-const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
+const FeatureFlags: React.FC<FeatureFlagsProps> = ({ children = null }) => {
   const updateContext = useUnleashContext();
   const client = useUnleashClient();
   const dispatch = useDispatch();
@@ -81,7 +79,5 @@ const FeatureFlagsBase: React.FC<FeatureFlagsProps> = ({ children = null }) => {
 
   return <>{children}</>;
 };
-
-const FeatureFlags = withRouter(FeatureFlagsBase);
 
 export default FeatureFlags;

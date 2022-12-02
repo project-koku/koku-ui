@@ -14,11 +14,13 @@ import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUnits, unitsLookupKey } from 'utils/format';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './historicalChart.styles';
 
-interface HistoricalDataUsageChartOwnProps {
+interface HistoricalDataUsageChartOwnProps extends RouterComponentProps, WrappedComponentProps {
   chartName?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
@@ -41,8 +43,7 @@ interface HistoricalDataUsageChartDispatchProps {
 
 type HistoricalDataUsageChartProps = HistoricalDataUsageChartOwnProps &
   HistoricalDataUsageChartStateProps &
-  HistoricalDataUsageChartDispatchProps &
-  WrappedComponentProps;
+  HistoricalDataUsageChartDispatchProps;
 
 class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageChartProps> {
   public componentDidMount() {
@@ -122,8 +123,8 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, HistoricalDataUsageChartStateProps>(
-  (state, { reportPathsType, reportType }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
+  (state, { reportPathsType, reportType, router }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
@@ -206,6 +207,8 @@ const mapDispatchToProps: HistoricalDataUsageChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const HistoricalDataUsageChart = injectIntl(connect(mapStateToProps, mapDispatchToProps)(HistoricalDataUsageChartBase));
+const HistoricalDataUsageChart = injectIntl(
+  withRouter(connect(mapStateToProps, mapDispatchToProps)(HistoricalDataUsageChartBase))
+);
 
 export { HistoricalDataUsageChart };

@@ -2,8 +2,6 @@ import Main from '@redhat-cloud-services/frontend-components/Main';
 import PageHeader, { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import type { ProviderType } from 'api/providers';
 import React from 'react';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 
 import { NoProvidersState } from './noProvidersState';
 
@@ -12,7 +10,7 @@ interface NoProvidersOwnProps {
   title?: string;
 }
 
-type NoProvidersProps = NoProvidersOwnProps & RouteComponentProps<void>;
+type NoProvidersProps = NoProvidersOwnProps;
 
 const NoProviders = ({ providerType, title }: NoProvidersProps) => {
   return (
@@ -29,4 +27,4 @@ const NoProviders = ({ providerType, title }: NoProvidersProps) => {
   );
 };
 
-export default withRouter(NoProviders);
+export default NoProviders;

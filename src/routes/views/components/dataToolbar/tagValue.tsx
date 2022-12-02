@@ -22,8 +22,10 @@ import { connect } from 'react-redux';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
-interface TagValueOwnProps extends WrappedComponentProps {
+interface TagValueOwnProps extends RouterComponentProps, WrappedComponentProps {
   isDisabled?: boolean;
   onTagValueSelect(event, selection);
   onTagValueInput(event);
@@ -175,8 +177,8 @@ class TagValueBase extends React.Component<TagValueProps> {
 }
 
 const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStateProps>(
-  (state, { tagKey, tagReportPathsType }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
+  (state, { router, tagKey, tagReportPathsType }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
@@ -211,7 +213,7 @@ const mapDispatchToProps: TagValueDispatchProps = {
 };
 
 const TagValueConnect = connect(mapStateToProps, mapDispatchToProps)(TagValueBase);
-const TagValue = injectIntl(TagValueConnect);
+const TagValue = injectIntl(withRouter(TagValueConnect));
 
 export { TagValue };
 export type { TagValueProps };

@@ -7,8 +7,6 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import type { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import { CostIcon } from 'routes/components/icons/costIcon';
 import { getReleasePath } from 'utils/paths';
 
@@ -18,7 +16,7 @@ interface NoProvidersStateOwnProps {
   providerType?: ProviderType;
 }
 
-type NoProvidersStateProps = NoProvidersStateOwnProps & WrappedComponentProps & RouteComponentProps<void>;
+type NoProvidersStateProps = NoProvidersStateOwnProps & WrappedComponentProps;
 
 class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
   private getDocLink = (textKey: MessageDescriptor, urlKey: MessageDescriptor) => {
@@ -94,6 +92,6 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
   }
 }
 
-const NoProvidersState = injectIntl(withRouter(NoProvidersStateBase));
+const NoProvidersState = injectIntl(NoProvidersStateBase);
 
 export { NoProvidersState };
