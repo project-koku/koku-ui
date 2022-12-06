@@ -177,8 +177,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               currentCategory: this.getDefaultCategory(),
               currentOrgUnit: '',
               currentTagKey: '',
-              tagKeyValueInput: '',
               filters,
+              isPlatformCostsChecked: false,
+              tagKeyValueInput: '',
             }
           : {
               filters,
