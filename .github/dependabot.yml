@@ -12,6 +12,3 @@ updates:
       - "dependency-bot"
     commit-message:
       prefix: "(chore)"
-    reviewers:
-      - "gitdallas"
-      - "dlabrecq"
