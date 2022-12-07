@@ -7,6 +7,7 @@ import { createMapStateToProps } from 'store/common';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
+import pkg from '../package.json';
 import { Routes, routes } from './routes';
 
 export interface AppOwnProps {
@@ -32,7 +33,7 @@ export class App extends React.Component<AppProps, AppState> {
     const { router } = this.props;
 
     insights.chrome.init();
-    insights.chrome.identifyApp('cost-management');
+    insights.chrome.identifyApp(pkg.insights.appname);
 
     if (location && location.pathname) {
       insights.chrome.appAction(location.pathname);
