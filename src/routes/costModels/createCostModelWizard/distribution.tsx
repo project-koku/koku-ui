@@ -3,14 +3,27 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
 import { Form } from 'routes/costModels/components/forms/form';
+import { createMapStateToProps } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 
 import { CostModelContext } from './context';
 import { styles } from './wizard.styles';
 
-class Distribution extends React.Component<WrappedComponentProps> {
+interface DistributionOwnProps extends WrappedComponentProps {
+  // TBD...
+}
+
+interface DistributionStateProps {
+  isCostDistributionFeatureEnabled?: boolean;
+}
+
+type DistributionProps = DistributionOwnProps & DistributionStateProps;
+
+class DistributionBase extends React.Component<DistributionProps> {
   public render() {
-    const { intl } = this.props;
+    const { intl, isCostDistributionFeatureEnabled } = this.props;
 
     return (
       <CostModelContext.Consumer>
@@ -28,10 +41,12 @@ class Distribution extends React.Component<WrappedComponentProps> {
                 <Title headingLevel="h2" size="xl" style={styles.titleWithLearnMore}>
                   {intl.formatMessage(messages.costDistribution)}
                 </Title>
-                {/* TODO: show when we get the new doc urls */}
-                {/* <a href={intl.formatMessage(messages.docsCostModelsDistribution)} rel="noreferrer" target="_blank">
-                  {intl.formatMessage(messages.learnMore)}
-                </a> */}
+                {/* Todo: Update when we get the new doc urls */}
+                {isCostDistributionFeatureEnabled && (
+                  <a href={intl.formatMessage(messages.docsCostModelsDistribution)} rel="noreferrer" target="_blank">
+                    {intl.formatMessage(messages.learnMore)}
+                  </a>
+                )}
               </StackItem>
               <StackItem>
                 <Title headingLevel="h3" size="md">
@@ -65,8 +80,7 @@ class Distribution extends React.Component<WrappedComponentProps> {
                   </FormGroup>
                 </Form>
               </StackItem>
-              {/* TODO: unhide after api implemented */}
-              {false && (
+              {isCostDistributionFeatureEnabled && (
                 <>
                   <StackItem>
                     <Title headingLevel="h3" size="md">
@@ -146,4 +160,12 @@ class Distribution extends React.Component<WrappedComponentProps> {
   }
 }
 
-export default injectIntl(Distribution);
+const mapStateToProps = createMapStateToProps<undefined, DistributionStateProps>((state, props) => {
+  return {
+    isCostDistributionFeatureEnabled: featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state),
+  };
+});
+
+const Distribution = injectIntl(connect(mapStateToProps, {})(DistributionBase));
+
+export default Distribution;

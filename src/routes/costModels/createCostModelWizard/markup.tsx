@@ -20,16 +20,29 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
 import { Form } from 'routes/costModels/components/forms/form';
 import { styles as costCalcStyles } from 'routes/costModels/costModel/costCalc.styles';
+import { createMapStateToProps } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { countDecimals, isPercentageFormatValid } from 'utils/format';
 
 import { CostModelContext } from './context';
 import { styles } from './wizard.styles';
 
-class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
+interface MarkupWithDistributionOwnProps extends WrappedComponentProps {
+  // TBD...
+}
+
+interface MarkupWithDistributionStateProps {
+  isCostDistributionFeatureEnabled?: boolean;
+}
+
+type MarkupWithDistributionProps = MarkupWithDistributionOwnProps & MarkupWithDistributionStateProps;
+
+class MarkupWithDistributionBase extends React.Component<MarkupWithDistributionProps> {
   public render() {
-    const { intl } = this.props;
+    const { intl, isCostDistributionFeatureEnabled } = this.props;
 
     const handleOnKeyDown = event => {
       // Prevent 'enter', '+', and '-'
@@ -62,10 +75,12 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
                 <Title headingLevel="h2" size={TitleSizes.xl} style={styles.titleWithLearnMore}>
                   {intl.formatMessage(messages.costCalculationsOptional)}
                 </Title>
-                {/* TODO: show when we get the new doc urls */}
-                {/* <a href={intl.formatMessage(messages.docsCostModelsMarkup)} rel="noreferrer" target="_blank">
-                  {intl.formatMessage(messages.learnMore)}
-                </a> */}
+                {/* Todo: Update when we get the new doc urls */}
+                {isCostDistributionFeatureEnabled && (
+                  <a href={intl.formatMessage(messages.docsCostModelsMarkup)} rel="noreferrer" target="_blank">
+                    {intl.formatMessage(messages.learnMore)}
+                  </a>
+                )}
               </StackItem>
               <StackItem>
                 <Title headingLevel="h3" size="md">
@@ -156,4 +171,12 @@ class MarkupWithDistribution extends React.Component<WrappedComponentProps> {
   }
 }
 
-export default injectIntl(MarkupWithDistribution);
+const mapStateToProps = createMapStateToProps<undefined, MarkupWithDistributionStateProps>((state, props) => {
+  return {
+    isCostDistributionFeatureEnabled: featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state),
+  };
+});
+
+const MarkupWithDistribution = injectIntl(connect(mapStateToProps, {})(MarkupWithDistributionBase));
+
+export default MarkupWithDistribution;
