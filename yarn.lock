@@ -941,13 +941,13 @@
     mkdirp "^1.0.4"
     react-content-loader "^6.2.0"
 
-"@redhat-cloud-services/frontend-components@^3.9.25":
-  version "3.9.25"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.25.tgz#3085a154c3b1487e15d2b1ae717b3f4e42cf8222"
-  integrity sha512-ynppJJrMtkgzt5/uUF9rR51HeE5WkC5kCkNzIBqAFHHMsGueGazc9y5g1nzPkl7jgBajsTg7tePCLCvKP/HEnw==
+"@redhat-cloud-services/frontend-components@^3.9.27":
+  version "3.9.27"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.27.tgz#610d0dee01bbb5b08e24430eac6ab28f2d0e1366"
+  integrity sha512-3d2cnFiWbMsBQM92tXujoXvH45YKMROB1/IVQjgNG1c1hZZTJJwEjsqG/zKAuXVrjMmF1VQ0znHRsxJsCXAncQ==
   dependencies:
     "@redhat-cloud-services/frontend-components-utilities" "^3.2.25"
-    "@redhat-cloud-services/types" "^0.0.15"
+    "@redhat-cloud-services/types" "^0.0.17"
     "@scalprum/core" "^0.2.3"
     "@scalprum/react-core" "^0.2.4"
     sanitize-html "^2.7.2"
@@ -958,11 +958,6 @@
   integrity sha512-4ueL+Mb+AuETg6rd48itpA2BovqklCFSbL2vUCpnQ7vj+zH2K/9c9akWRBp/ezVPRTWeMA2bff4kdGXeA/QyJA==
   dependencies:
     axios "^0.21.1"
-
-"@redhat-cloud-services/types@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/types/-/types-0.0.15.tgz#c4792a0f7291523e321fd4925d5d37c762f5e0c0"
-  integrity sha512-1aqJcgQZq4uih+LxRpVJQblt2x4o/hlrqSZMYFhWyTLgnVNhJ8Y7B5pwoVjpA5PCE1fBNahrydVwugEKMsDDtg==
 
 "@redhat-cloud-services/types@^0.0.17":
   version "0.0.17"
