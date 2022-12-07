@@ -22,8 +22,11 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
 import { RateTable } from 'routes/costModels/components/rateTable';
 import { WarningIcon } from 'routes/costModels/components/warningIcon';
+import { createMapStateToProps } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 
 import { CostModelContext } from './context';
 
@@ -50,7 +53,17 @@ const ReviewSuccessBase: React.FC<WrappedComponentProps> = ({ intl }) => (
 
 const ReviewSuccess = injectIntl(ReviewSuccessBase);
 
-const ReviewDetailsBase: React.FC<WrappedComponentProps> = ({ intl }) => (
+interface ReviewDetailsOwnProps extends WrappedComponentProps {
+  // TBD...
+}
+
+interface ReviewDetailsStateProps {
+  isCostDistributionFeatureEnabled?: boolean;
+}
+
+type ReviewDetailsProps = ReviewDetailsOwnProps & ReviewDetailsStateProps;
+
+const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl, isCostDistributionFeatureEnabled }) => (
   <CostModelContext.Consumer>
     {({
       checked,
@@ -133,8 +146,8 @@ const ReviewDetailsBase: React.FC<WrappedComponentProps> = ({ intl }) => (
                       <TextListItem component={TextListItemVariants.dd}>
                         {intl.formatMessage(messages.distributionTypeDescription, { type: distribution })}
                       </TextListItem>
-                      {/* TODO: add back after backend done for distribute unallocated */}
-                      {false && (
+                      {/* Todo: add back after backend done for distribute unallocated */}
+                      {isCostDistributionFeatureEnabled && (
                         <>
                           <TextListItem component={TextListItemVariants.dd}>
                             {intl.formatMessage(messages.distributeCosts, {
@@ -171,7 +184,13 @@ const ReviewDetailsBase: React.FC<WrappedComponentProps> = ({ intl }) => (
   </CostModelContext.Consumer>
 );
 
-const ReviewDetails = injectIntl(ReviewDetailsBase);
+const mapStateToProps = createMapStateToProps<undefined, ReviewDetailsStateProps>((state, props) => {
+  return {
+    isCostDistributionFeatureEnabled: featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state),
+  };
+});
+
+const ReviewDetails = injectIntl(connect(mapStateToProps, {})(ReviewDetailsBase));
 
 const ReviewWithDistribution = () => {
   return (
