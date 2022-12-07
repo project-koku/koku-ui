@@ -928,10 +928,23 @@
   optionalDependencies:
     "@redhat-cloud-services/frontend-components-utilities" "^3.2.25"
 
-"@redhat-cloud-services/frontend-components-utilities@*", "@redhat-cloud-services/frontend-components-utilities@^3.2.25", "@redhat-cloud-services/frontend-components-utilities@^3.3.10":
+"@redhat-cloud-services/frontend-components-utilities@*", "@redhat-cloud-services/frontend-components-utilities@^3.2.25":
   version "3.3.10"
   resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.3.10.tgz#c8d8a76d88bf9398693be88c7e59674cada39ae4"
   integrity sha512-aHRAvl34g9f0UuhF3eJescb1UvA5vKhrIREHR6Zsz6CBk9uRMqFenN4KoRjRB7cOWUvgRuRZ5jx0/aVTkjV7eA==
+  dependencies:
+    "@redhat-cloud-services/types" "^0.0.17"
+    "@sentry/browser" "^5.30.0"
+    awesome-debounce-promise "^2.1.0"
+    axios "^0.27.2"
+    commander "^2.20.3"
+    mkdirp "^1.0.4"
+    react-content-loader "^6.2.0"
+
+"@redhat-cloud-services/frontend-components-utilities@^3.3.11":
+  version "3.3.11"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.3.11.tgz#1f7c3090cfd524b8469198f29efdc59c31a7dd44"
+  integrity sha512-0YiD0q3plgTte0m5V9UBUI+y5uabz2eDCem69FLUZU0oatauWWN6fIXwY3lrd7i3mh2GT021uFiYgKR16zGADQ==
   dependencies:
     "@redhat-cloud-services/types" "^0.0.17"
     "@sentry/browser" "^5.30.0"
