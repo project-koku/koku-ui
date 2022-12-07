@@ -941,13 +941,13 @@
     mkdirp "^1.0.4"
     react-content-loader "^6.2.0"
 
-"@redhat-cloud-services/frontend-components@^3.9.25":
-  version "3.9.25"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.25.tgz#3085a154c3b1487e15d2b1ae717b3f4e42cf8222"
-  integrity sha512-ynppJJrMtkgzt5/uUF9rR51HeE5WkC5kCkNzIBqAFHHMsGueGazc9y5g1nzPkl7jgBajsTg7tePCLCvKP/HEnw==
+"@redhat-cloud-services/frontend-components@^3.9.26":
+  version "3.9.26"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.26.tgz#5b4fb8ff378cab4f85a6b1619c2f396574209829"
+  integrity sha512-YUfwBZ/XKxqIrtPQ2d+GQ6dp1dL13gPEkI7tT6gEwyOvOF2vBqzOhi7tT1jyxsU6Ps+pWn3Qs633sSzM7FslYQ==
   dependencies:
     "@redhat-cloud-services/frontend-components-utilities" "^3.2.25"
-    "@redhat-cloud-services/types" "^0.0.15"
+    "@redhat-cloud-services/types" "^0.0.17"
     "@scalprum/core" "^0.2.3"
     "@scalprum/react-core" "^0.2.4"
     sanitize-html "^2.7.2"
@@ -963,6 +963,11 @@
   version "0.0.15"
   resolved "https://registry.yarnpkg.com/@redhat-cloud-services/types/-/types-0.0.15.tgz#c4792a0f7291523e321fd4925d5d37c762f5e0c0"
   integrity sha512-1aqJcgQZq4uih+LxRpVJQblt2x4o/hlrqSZMYFhWyTLgnVNhJ8Y7B5pwoVjpA5PCE1fBNahrydVwugEKMsDDtg==
+
+"@redhat-cloud-services/types@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/types/-/types-0.0.17.tgz#00d4642ffb3885e7ca6790d626f5ca5909e73af9"
+  integrity sha512-3V9mmarS3jD5fBksMwh+XCEAMUIzqSOxDkH6OcIVu6w/gaBBOWHh34Jwn4CxKlu+WStxVV/rxm3oFGpsWqljvg==
 
 "@remix-run/router@1.0.3":
   version "1.0.3"
