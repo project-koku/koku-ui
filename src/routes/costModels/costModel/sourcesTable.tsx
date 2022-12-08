@@ -1,5 +1,6 @@
-import type { IAction, ICell, IRow } from '@patternfly/react-table';
-import { Table, TableBody, TableGridBreakpoint, TableHeader } from '@patternfly/react-table';
+import type { IAction, IRow } from '@patternfly/react-table';
+import { ActionsColumn, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { TableGridBreakpoint } from '@patternfly/react-table';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -41,20 +42,37 @@ const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl,
   };
 
   const actions = getActions();
-  const cells = [intl.formatMessage(messages.names, { count: 1 })] as (string | ICell)[];
   const rows: (IRow | string[])[] = costModels.length > 0 ? costModels[0].sources.map(source => [source.name]) : [];
 
   return (
-    <Table
-      actions={actions}
+    <TableComposable
       aria-label={intl.formatMessage(messages.costModelsSourceTableAriaLabel)}
-      cells={cells}
       gridBreakPoint={TableGridBreakpoint.grid2xl}
-      rows={rows}
     >
-      <TableHeader />
-      <TableBody />
-    </Table>
+      <Thead>
+        <Tr>
+          <Th>{intl.formatMessage(messages.names, { count: 1 })}</Th>
+          <Th></Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        {rows.map((r, rowIndex) => (
+          <Tr key={rowIndex}>
+            <Td>{r}</Td>
+            <Td isActionCell>
+              <ActionsColumn
+                items={actions.map(a => {
+                  return {
+                    ...a,
+                    onClick: () => a.onClick(null, rowIndex, r, null),
+                  };
+                })}
+              ></ActionsColumn>
+            </Td>
+          </Tr>
+        ))}
+      </Tbody>
+    </TableComposable>
   );
 };
 
