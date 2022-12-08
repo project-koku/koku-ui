@@ -1,5 +1,5 @@
 import { Pagination, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
-import { Table, TableBody, TableHeader } from '@patternfly/react-table';
+import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import type { CostModel } from 'api/costModels';
 import type { Provider } from 'api/providers';
 import messages from 'locales/messages';
@@ -172,18 +172,37 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
           }}
         />
         {sources.length > 0 && (
-          <Table
-            aria-label={intl.formatMessage(messages.costModelsAssignSources, { count: 1 })}
-            cells={[
-              intl.formatMessage(messages.names, { count: 1 }),
-              intl.formatMessage(messages.costModelsWizardSourceTableCostModel),
-            ]}
-            rows={sources}
-            onSelect={onSelect}
-          >
-            <TableHeader />
-            <TableBody />
-          </Table>
+          <TableComposable aria-label={intl.formatMessage(messages.costModelsAssignSources, { count: 1 })}>
+            <Thead>
+              <Tr>
+                <Th
+                  select={{
+                    onSelect: (_evt, isSelecting) => onSelect(_evt, isSelecting, -1),
+                    isSelected: sources.filter(s => s.disableSelection || s.selected).length === sources.length,
+                  }}
+                ></Th>
+                <Th>{intl.formatMessage(messages.names, { count: 1 })}</Th>
+                <Th>{intl.formatMessage(messages.costModelsWizardSourceTableCostModel)}</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {sources.map((s, rowIndex) => (
+                <Tr key={rowIndex}>
+                  <Td
+                    select={{
+                      disable: s.disableSelection,
+                      onSelect: _evt => onSelect(_evt, !s.selected, rowIndex),
+                      isSelected: s.selected,
+                      rowIndex,
+                    }}
+                  ></Td>
+                  {s.cells.map((c, cellIndex) => (
+                    <Td key={cellIndex}>{c}</Td>
+                  ))}
+                </Tr>
+              ))}
+            </Tbody>
+          </TableComposable>
         )}
         {sources.length === 0 && (
           <EmptyFilterState filter={this.props.filter} subTitle={messages.emptyFilterSourceStateSubtitle} />
