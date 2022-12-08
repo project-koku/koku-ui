@@ -41,6 +41,7 @@ import { GcpOcpDashboard } from 'routes/views/overview/gcpOcpDashboard';
 import { IbmDashboard } from 'routes/views/overview/ibmDashboard';
 import { OcpCloudDashboard } from 'routes/views/overview/ocpCloudDashboard';
 import { OcpDashboard } from 'routes/views/overview/ocpDashboard';
+import { RhelDashboard } from 'routes/views/overview/rhelDashboard';
 import {
   filterProviders,
   hasCloudCurrentMonthData,
@@ -71,6 +72,7 @@ import {
   isIbmAvailable,
   isOciAvailable,
   isOcpAvailable,
+  isRhelAvailable,
 } from 'utils/userAccess';
 
 import { OciDashboard } from './ociDashboard';
@@ -99,6 +101,12 @@ const enum OcpPerspective {
 const enum OverviewTab {
   infrastructure = 'infrastructure',
   ocp = 'ocp',
+  rhel = 'rhel',
+}
+
+// eslint-disable-next-line no-shadow
+const enum RhelPerspective {
+  rhel = 'rhel',
 }
 
 export const getIdKeyForTab = (tab: OverviewTab) => {
@@ -107,6 +115,8 @@ export const getIdKeyForTab = (tab: OverviewTab) => {
       return 'infrastructure';
     case OverviewTab.ocp:
       return 'ocp';
+    case OverviewTab.rhel:
+      return 'rhel';
   }
 };
 
@@ -134,6 +144,7 @@ interface OverviewStateProps {
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   perspective?: string;
+  rhelProviders?: Providers;
   query: OverviewQuery;
   tabKey?: number;
   userAccess: UserAccess;
@@ -151,6 +162,7 @@ interface OverviewState {
   activeTabKey: number;
   currentInfrastructurePerspective?: string;
   currentOcpPerspective?: string;
+  currentRhelPerspective?: string;
 }
 
 type OverviewProps = OverviewOwnProps & OverviewStateProps & OverviewDispatchProps;
@@ -168,6 +180,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       activeTabKey: tabKey,
       currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
       currentOcpPerspective: this.getDefaultOcpPerspective(),
+      currentRhelPerspective: this.getDefaultRhelPerspective(),
     });
   }
 
@@ -180,32 +193,67 @@ class OverviewBase extends React.Component<OverviewProps> {
         activeTabKey: tabKey,
         currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
         currentOcpPerspective: this.getDefaultOcpPerspective(),
+        currentRhelPerspective: this.getDefaultRhelPerspective(),
       });
     }
   }
 
   private getAvailableTabs = () => {
+    const { isFINsightsFeatureEnabled } = this.props;
     const availableTabs = [];
 
-    if (this.isOcpAvailable()) {
-      availableTabs.push({
-        contentRef: React.createRef(),
-        tab: OverviewTab.ocp,
-      });
-    }
-    if (
+    const infrastructureTabs =
       this.isAwsAvailable() ||
       this.isAzureAvailable() ||
       this.isGcpAvailable() ||
       this.isIbmAvailable() ||
       this.isOciAvailable() ||
       this.isOcpCloudAvailable()
-    ) {
-      availableTabs.push({
-        contentRef: React.createRef(),
-        tab: OverviewTab.infrastructure,
-      });
+        ? [
+            {
+              contentRef: React.createRef(),
+              tab: OverviewTab.infrastructure,
+            },
+          ]
+        : undefined;
+
+    const ocpTabs = this.isOcpAvailable()
+      ? [
+          {
+            contentRef: React.createRef(),
+            tab: OverviewTab.ocp,
+          },
+        ]
+      : undefined;
+
+    const rhelTabs = this.isRhelAvailable()
+      ? [
+          {
+            contentRef: React.createRef(),
+            tab: OverviewTab.rhel,
+          },
+        ]
+      : undefined;
+
+    if (isFINsightsFeatureEnabled) {
+      if (infrastructureTabs) {
+        availableTabs.push(...infrastructureTabs);
+      }
+      if (rhelTabs) {
+        availableTabs.push(...rhelTabs);
+      }
+      if (ocpTabs) {
+        availableTabs.push(...ocpTabs);
+      }
+    } else {
+      if (ocpTabs) {
+        availableTabs.push(...ocpTabs);
+      }
+      if (infrastructureTabs) {
+        availableTabs.push(...infrastructureTabs);
+      }
     }
+
     return availableTabs;
   };
 
@@ -236,6 +284,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getCurrentTab = () => {
+    const { isFINsightsFeatureEnabled } = this.props;
     const { activeTabKey } = this.state;
 
     const hasAws = this.isAwsAvailable();
@@ -245,16 +294,36 @@ class OverviewBase extends React.Component<OverviewProps> {
     const hasIbm = this.isIbmAvailable();
     const hasOcp = this.isOcpAvailable();
     const hasOcpCloud = this.isOcpCloudAvailable();
+    const hasRhel = this.isRhelAvailable();
 
-    const showOcpOnly = hasOcp && !(hasAws || hasAzure || hasOci || hasGcp || hasIbm || hasOcpCloud);
-    const showInfrastructureOnly = !hasOcp && (hasAws || hasAzure || hasOci || hasGcp || hasIbm || hasOcpCloud);
+    const hasInfrastructure = hasAws || hasAzure || hasOci || hasGcp || hasIbm || hasOcpCloud;
+    const showInfrastructureOnly = hasInfrastructure && !hasOcp && !hasRhel;
+    const showOcpOnly = hasOcp && !hasInfrastructure && !hasRhel;
+    const showRhelOnly = hasRhel && !hasInfrastructure && !hasOcp;
 
     if (showOcpOnly) {
       return OverviewTab.ocp;
     } else if (showInfrastructureOnly) {
       return OverviewTab.infrastructure;
+    } else if (showRhelOnly) {
+      return OverviewTab.rhel;
     } else {
-      return activeTabKey === 0 ? OverviewTab.ocp : OverviewTab.infrastructure;
+      if (isFINsightsFeatureEnabled) {
+        switch (activeTabKey) {
+          case 0:
+            return OverviewTab.infrastructure;
+          case 1:
+            return OverviewTab.rhel;
+          case 2:
+            return OverviewTab.ocp;
+        }
+      }
+      switch (activeTabKey) {
+        case 0:
+          return OverviewTab.ocp;
+        case 1:
+          return OverviewTab.infrastructure;
+      }
     }
   };
 
@@ -305,16 +374,29 @@ class OverviewBase extends React.Component<OverviewProps> {
       case OcpPerspective.ocp:
         return perspective;
     }
-
     if (isOcpAvailable(userAccess, ocpProviders)) {
       return OcpPerspective.ocp;
     }
     return undefined;
   };
 
+  private getDefaultRhelPerspective = () => {
+    const { perspective, rhelProviders, userAccess } = this.props;
+
+    // Upon page refresh, perspective param takes precedence
+    switch (perspective) {
+      case RhelPerspective.rhel:
+        return perspective;
+    }
+    if (isRhelAvailable(userAccess, rhelProviders)) {
+      return RhelPerspective.rhel;
+    }
+    return undefined;
+  };
+
   private getPerspective = () => {
     const { isIbmFeatureEnabled, isOciFeatureEnabled } = this.props;
-    const { currentInfrastructurePerspective, currentOcpPerspective } = this.state;
+    const { currentInfrastructurePerspective, currentOcpPerspective, currentRhelPerspective } = this.state;
 
     const hasAws = this.isAwsAvailable();
     const hasAzure = this.isAzureAvailable();
@@ -322,14 +404,26 @@ class OverviewBase extends React.Component<OverviewProps> {
     const hasIbm = this.isIbmAvailable();
     const hasOci = this.isOciAvailable();
     const hasOcp = this.isOcpAvailable();
+    const hasRhel = this.isRhelAvailable();
 
-    // Note: No need to test OCP on cloud here, since that requires at least one provider
-    if (!(hasAws || hasAzure || hasGcp || hasIbm || hasOci || hasOcp)) {
+    // Note: No need to test "OCP on cloud" here, since that requires at least one of the providers below
+    if (!(hasAws || hasAzure || hasGcp || hasIbm || hasOci || hasOcp || hasRhel)) {
       return null;
     }
 
-    const currentItem =
-      this.getCurrentTab() === OverviewTab.infrastructure ? currentInfrastructurePerspective : currentOcpPerspective;
+    let currentItem;
+    const currentTab = this.getCurrentTab();
+    switch (currentTab) {
+      case OverviewTab.infrastructure:
+        currentItem = currentInfrastructurePerspective;
+        break;
+      case OverviewTab.ocp:
+        currentItem = currentOcpPerspective;
+        break;
+      case OverviewTab.rhel:
+        currentItem = currentRhelPerspective;
+        break;
+    }
 
     return (
       <Perspective
@@ -345,9 +439,11 @@ class OverviewBase extends React.Component<OverviewProps> {
         hasOci={hasOci}
         hasOcp={hasOcp}
         hasOcpCloud={this.isOcpCloudAvailable()}
+        hasRhel={hasRhel}
         isIbmFeatureEnabled={isIbmFeatureEnabled}
-        isInfrastructureTab={this.getCurrentTab() === OverviewTab.infrastructure}
+        isInfrastructureTab={OverviewTab.infrastructure === currentTab}
         isOciFeatureEnabled={isOciFeatureEnabled}
+        isRhelTab={OverviewTab.rhel === currentTab}
         onSelected={this.handlePerspectiveSelected}
       />
     );
@@ -387,9 +483,19 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getTabItem = (tab: OverviewTab, index: number) => {
-    const { awsProviders, azureProviders, ociProviders, costType, currency, gcpProviders, ibmProviders, ocpProviders } =
-      this.props;
-    const { activeTabKey, currentInfrastructurePerspective, currentOcpPerspective } = this.state;
+    const {
+      awsProviders,
+      azureProviders,
+      ociProviders,
+      costType,
+      currency,
+      gcpProviders,
+      ibmProviders,
+      ocpProviders,
+      rhelProviders,
+    } = this.props;
+    const { activeTabKey, currentInfrastructurePerspective, currentOcpPerspective, currentRhelPerspective } =
+      this.state;
 
     const emptyTab = <></>; // Lazily load tabs
     const noData = <NoData showReload={false} />;
@@ -445,6 +551,13 @@ class OverviewBase extends React.Component<OverviewProps> {
       } else {
         return noData;
       }
+    } else if (currentTab === OverviewTab.rhel) {
+      const hasData = hasCurrentMonthData(rhelProviders) || hasPreviousMonthData(rhelProviders);
+      if (currentRhelPerspective === RhelPerspective.rhel) {
+        return hasData ? <RhelDashboard currency={currency} /> : noData;
+      } else {
+        return noData;
+      }
     } else {
       return emptyTab;
     }
@@ -461,12 +574,17 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getTabTitle = (tab: OverviewTab) => {
-    const { intl } = this.props;
+    const { intl, isFINsightsFeatureEnabled } = this.props;
 
     if (tab === OverviewTab.infrastructure) {
+      if (isFINsightsFeatureEnabled) {
+        return intl.formatMessage(messages.summary);
+      }
       return intl.formatMessage(messages.infrastructure);
     } else if (tab === OverviewTab.ocp) {
       return intl.formatMessage(messages.openShift);
+    } else if (tab === OverviewTab.rhel) {
+      return intl.formatMessage(messages.rhel);
     }
   };
 
@@ -588,11 +706,17 @@ class OverviewBase extends React.Component<OverviewProps> {
     return hasAwsOcp || hasAzureOcp || hasGcpOcp || hasIbmOcp;
   };
 
+  private isRhelAvailable = () => {
+    const { isFINsightsFeatureEnabled, rhelProviders, userAccess } = this.props;
+    return isFINsightsFeatureEnabled && isRhelAvailable(userAccess, rhelProviders);
+  };
+
   public render() {
     const {
       providersFetchStatus,
       intl,
       isCurrencyFeatureEnabled,
+      isFINsightsFeatureEnabled,
       isIbmFeatureEnabled,
       isOciFeatureEnabled,
       userAccessFetchStatus,
@@ -606,7 +730,8 @@ class OverviewBase extends React.Component<OverviewProps> {
       !this.isGcpAvailable() &&
       !this.isIbmAvailable() &&
       !this.isOciAvailable() &&
-      !this.isOcpAvailable();
+      !this.isOcpAvailable() &&
+      !this.isRhelAvailable();
 
     const isLoading =
       providersFetchStatus === FetchStatus.inProgress || userAccessFetchStatus === FetchStatus.inProgress;
@@ -637,6 +762,13 @@ class OverviewBase extends React.Component<OverviewProps> {
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.openShift)}</p>
                       <p>{intl.formatMessage(messages.openShiftDesc)}</p>
                       <br />
+                      {isFINsightsFeatureEnabled && (
+                        <>
+                          <p style={styles.infoTitle}>{intl.formatMessage(messages.rhel)}</p>
+                          <p>{intl.formatMessage(messages.rhelDesc)}</p>
+                          <br />
+                        </>
+                      )}
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.aws)}</p>
                       <p>{intl.formatMessage(messages.awsDesc)}</p>
                       <br />
@@ -730,6 +862,8 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
   return {
     awsProviders: filterProviders(providers, ProviderType.aws),
     azureProviders: filterProviders(providers, ProviderType.azure),
+    costType,
+    currency,
     gcpProviders: filterProviders(providers, ProviderType.gcp),
     ibmProviders: filterProviders(providers, ProviderType.ibm),
     isCostTypeFeatureEnabled,
@@ -739,13 +873,12 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     isOciFeatureEnabled: featureFlagsSelectors.selectIsOciFeatureEnabled(state),
     ociProviders: filterProviders(providers, ProviderType.oci),
     ocpProviders: filterProviders(providers, ProviderType.ocp),
-    costType,
-    currency,
     providers,
     providersError,
     providersFetchStatus,
     perspective,
     query,
+    rhelProviders: filterProviders(providers, ProviderType.rhel),
     tabKey,
     userAccess,
     userAccessError,

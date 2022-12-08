@@ -7,6 +7,7 @@ import { runResource as runGcpResource } from './gcpResource';
 import { runResource as runIbmResource } from './ibmResource';
 import { runResource as runOcpResource } from './ocpResource';
 import { ResourcePathsType, ResourceType } from './resource';
+import { runResource as runRhelResource } from './rhelResource';
 
 // Temporary check until typeahead is implemented for all filters
 export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resourceType: ResourceType) {
@@ -21,8 +22,12 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
     resourcePathsType === ResourcePathsType.gcpOcp ||
     resourcePathsType === ResourcePathsType.ibm ||
     resourcePathsType === ResourcePathsType.ibmOcp ||
+    // Todo: add type-ahead support when API is available
+    // resourcePathsType === ResourcePathsType.oci ||
     resourcePathsType === ResourcePathsType.ocp ||
     resourcePathsType === ResourcePathsType.ocpCloud
+    // Todo: add type-ahead support when API is available
+    // resourcePathsType === ResourcePathsType.rhel
   ) {
     switch (resourceType) {
       case ResourceType.account:
@@ -43,33 +48,36 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
 }
 
 export function runResource(resourcePathsType: ResourcePathsType, resourceType: ResourceType, query: string) {
-  let forecast;
+  let result;
   switch (resourcePathsType) {
     case ResourcePathsType.aws:
-      forecast = runAwsResource(resourceType, query);
+      result = runAwsResource(resourceType, query);
       break;
     case ResourcePathsType.awsOcp:
-      forecast = runAwsOcpResource(resourceType, query);
+      result = runAwsOcpResource(resourceType, query);
       break;
     case ResourcePathsType.azure:
-      forecast = runAzureResource(resourceType, query);
+      result = runAzureResource(resourceType, query);
       break;
     case ResourcePathsType.azureOcp:
-      forecast = runAzureOcpResource(resourceType, query);
+      result = runAzureOcpResource(resourceType, query);
       break;
     case ResourcePathsType.gcp:
-      forecast = runGcpResource(resourceType, query);
+      result = runGcpResource(resourceType, query);
       break;
     case ResourcePathsType.gcpOcp:
-      forecast = runGcpOcpResource(resourceType, query);
+      result = runGcpOcpResource(resourceType, query);
       break;
     case ResourcePathsType.ibm:
-      forecast = runIbmResource(resourceType, query);
+      result = runIbmResource(resourceType, query);
       break;
     case ResourcePathsType.ocp:
     case ResourcePathsType.ocpCloud:
-      forecast = runOcpResource(resourceType, query);
+      result = runOcpResource(resourceType, query);
+      break;
+    case ResourcePathsType.rhel:
+      result = runRhelResource(resourceType, query);
       break;
   }
-  return forecast;
+  return result;
 }

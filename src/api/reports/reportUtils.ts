@@ -8,46 +8,46 @@ import { runReport as runIbmReport } from './ibmReports';
 import { runReport as runOciReport } from './ociReports';
 import { runReport as runOcpCloudReport } from './ocpCloudReports';
 import { runReport as runOcpReport } from './ocpReports';
-import { runReport as runOcpUsageReport } from './ocpUsageReports';
 import type { ReportType } from './report';
 import { ReportPathsType } from './report';
+import { runReport as runRhelReport } from './rhelReports';
 
 export function runReport(reportPathsType: ReportPathsType, reportType: ReportType, query: string) {
-  let report;
+  let result;
   switch (reportPathsType) {
     case ReportPathsType.aws:
-      report = runAwsReport(reportType, query);
+      result = runAwsReport(reportType, query);
       break;
     case ReportPathsType.awsOcp:
-      report = runAwsOcpReport(reportType, query);
+      result = runAwsOcpReport(reportType, query);
       break;
     case ReportPathsType.azure:
-      report = runAzureReport(reportType, query);
+      result = runAzureReport(reportType, query);
       break;
     case ReportPathsType.azureOcp:
-      report = runAzureOcpReport(reportType, query);
+      result = runAzureOcpReport(reportType, query);
       break;
     case ReportPathsType.gcp:
-      report = runGcpReport(reportType, query);
+      result = runGcpReport(reportType, query);
       break;
     case ReportPathsType.gcpOcp:
-      report = runGcpOcpReport(reportType, query);
+      result = runGcpOcpReport(reportType, query);
       break;
     case ReportPathsType.ibm:
-      report = runIbmReport(reportType, query);
+      result = runIbmReport(reportType, query);
       break;
     case ReportPathsType.oci:
-      report = runOciReport(reportType, query);
+      result = runOciReport(reportType, query);
       break;
     case ReportPathsType.ocp:
-      report = runOcpReport(reportType, query);
+      result = runOcpReport(reportType, query);
       break;
     case ReportPathsType.ocpCloud:
-      report = runOcpCloudReport(reportType, query);
+      result = runOcpCloudReport(reportType, query);
       break;
-    case ReportPathsType.ocpUsage:
-      report = runOcpUsageReport(reportType, query);
+    case ReportPathsType.rhel:
+      result = runRhelReport(reportType, query);
       break;
   }
-  return report;
+  return result;
 }

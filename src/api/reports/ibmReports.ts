@@ -47,7 +47,7 @@ export interface IbmReport extends Report {
   data: IbmReportData[];
 }
 
-// Todo: update to use ibm backend apis when they become available
+// Todo: update to use ibm when APIs are available
 export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.cost]: 'reports/gcp/costs/',
   [ReportType.database]: 'reports/gcp/costs/',

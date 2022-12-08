@@ -171,7 +171,7 @@ class MarkupWithDistributionBase extends React.Component<MarkupWithDistributionP
   }
 }
 
-const mapStateToProps = createMapStateToProps<undefined, MarkupWithDistributionStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<undefined, MarkupWithDistributionStateProps>(state => {
   return {
     isCostDistributionFeatureEnabled: featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state),
   };

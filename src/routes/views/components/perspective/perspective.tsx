@@ -35,6 +35,9 @@ const infrastructureOcpCloudOptions = [{ label: messages.perspectiveValues, valu
 // Ocp options
 const ocpOptions = [{ label: messages.perspectiveValues, value: 'ocp' }];
 
+// RHEL options
+const rhelOptions = [{ label: messages.perspectiveValues, value: 'rhel' }];
+
 interface PerspectiveProps {
   currentItem?: string;
   hasAws?: boolean;
@@ -48,10 +51,12 @@ interface PerspectiveProps {
   hasOci?: boolean;
   hasOcp?: boolean;
   hasOcpCloud?: boolean;
+  hasRhel?: boolean;
   isDisabled?: boolean;
   isIbmFeatureEnabled?: boolean;
   isOciFeatureEnabled?: boolean;
   isInfrastructureTab?: boolean; // Used by the overview page
+  isRhelTab?: boolean; // Used by the overview page,
   onSelected?: (value: string) => void;
 }
 
@@ -113,16 +118,19 @@ const Perspective: React.FC<PerspectiveProps> = ({
   hasOci,
   hasOcp,
   hasOcpCloud,
+  hasRhel,
   isDisabled,
   isIbmFeatureEnabled,
   isInfrastructureTab,
   isOciFeatureEnabled,
+  isRhelTab,
   onSelected,
 }): any => {
   // Dynamically show options if providers are available
   const options = [];
 
-  if (isInfrastructureTab !== undefined) {
+  // Note isInfrastructureTab and isRhelTab will be undefined for cost explorer
+  if (isInfrastructureTab !== undefined || isRhelTab !== undefined) {
     if (isInfrastructureTab) {
       if (hasOcpCloud) {
         options.push(...infrastructureOcpCloudOptions);
@@ -142,6 +150,10 @@ const Perspective: React.FC<PerspectiveProps> = ({
           isOciFeatureEnabled,
         })
       );
+    } else if (isRhelTab) {
+      if (hasRhel) {
+        options.push(...rhelOptions);
+      }
     } else if (hasOcp) {
       options.push(...ocpOptions);
     }
@@ -151,6 +163,9 @@ const Perspective: React.FC<PerspectiveProps> = ({
     }
     if (hasOcpCloud) {
       options.push(...infrastructureOcpCloudOptions);
+    }
+    if (hasRhel) {
+      options.push(...rhelOptions);
     }
     options.push(
       ...getInfrastructureOptions({

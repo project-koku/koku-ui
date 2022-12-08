@@ -8,42 +8,46 @@ import { runTag as runIbmTag } from './ibmTags';
 import { runTag as runOciTag } from './ociTags';
 import { runTag as runOcpCloudTag } from './ocpCloudTags';
 import { runTag as runOcpTag } from './ocpTags';
+import { runTag as runRhelTag } from './rhelTags';
 import type { TagType } from './tag';
 import { TagPathsType } from './tag';
 
 export function runTag(tagPathsType: TagPathsType, tagType: TagType, query: string) {
-  let tagReport;
+  let result;
   switch (tagPathsType) {
     case TagPathsType.aws:
-      tagReport = runAwsTag(tagType, query);
+      result = runAwsTag(tagType, query);
       break;
     case TagPathsType.awsOcp:
-      tagReport = runAwsOcpTag(tagType, query);
+      result = runAwsOcpTag(tagType, query);
       break;
     case TagPathsType.azure:
-      tagReport = runAzureTag(tagType, query);
+      result = runAzureTag(tagType, query);
       break;
     case TagPathsType.oci:
-      tagReport = runOciTag(tagType, query);
+      result = runOciTag(tagType, query);
       break;
     case TagPathsType.azureOcp:
-      tagReport = runAzureOcpTag(tagType, query);
+      result = runAzureOcpTag(tagType, query);
       break;
     case TagPathsType.gcp:
-      tagReport = runGcpTag(tagType, query);
+      result = runGcpTag(tagType, query);
       break;
     case TagPathsType.gcpOcp:
-      tagReport = runGcpOcpTag(tagType, query);
+      result = runGcpOcpTag(tagType, query);
       break;
     case TagPathsType.ibm:
-      tagReport = runIbmTag(tagType, query);
+      result = runIbmTag(tagType, query);
       break;
     case TagPathsType.ocp:
-      tagReport = runOcpTag(tagType, query);
+      result = runOcpTag(tagType, query);
       break;
     case TagPathsType.ocpCloud:
-      tagReport = runOcpCloudTag(tagType, query);
+      result = runOcpCloudTag(tagType, query);
+      break;
+    case TagPathsType.rhel:
+      result = runRhelTag(tagType, query);
       break;
   }
-  return tagReport;
+  return result;
 }

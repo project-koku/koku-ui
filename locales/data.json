@@ -9673,12 +9673,6 @@
         "value": ")"
       }
     ],
-    "ocpDashboardCPUUsageAndRequests": [
-      {
-        "type": 0,
-        "value": "OpenShift CPU usage and requests"
-      }
-    ],
     "ocpDashboardCostTitle": [
       {
         "type": 0,
@@ -9697,6 +9691,12 @@
       {
         "type": 0,
         "value": ")"
+      }
+    ],
+    "ocpDashboardCpuUsageAndRequests": [
+      {
+        "type": 0,
+        "value": "OpenShift CPU usage and requests"
       }
     ],
     "ocpDashboardDailyCostTitle": [
@@ -9835,12 +9835,6 @@
         "value": "OpenShift usage cost"
       }
     ],
-    "ocpUsageDashboardCPUTitle": [
-      {
-        "type": 0,
-        "value": "OpenShift CPU usage and requests"
-      }
-    ],
     "ocpUsageDashboardCostTrendTitle": [
       {
         "type": 0,
@@ -9853,6 +9847,12 @@
       {
         "type": 0,
         "value": ")"
+      }
+    ],
+    "ocpUsageDashboardCpuTitle": [
+      {
+        "type": 0,
+        "value": "OpenShift CPU usage and requests"
       }
     ],
     "ocpVolumeUsageAndRequests": [
@@ -10158,6 +10158,14 @@
           },
           "other": {
             "value": []
+          },
+          "rhel": {
+            "value": [
+              {
+                "type": 0,
+                "value": "All RHEL"
+              }
+            ]
           }
         },
         "type": 5,
@@ -10326,6 +10334,226 @@
         "value": "Requests"
       }
     ],
+    "rhel": [
+      {
+        "type": 0,
+        "value": "RHEL"
+      }
+    ],
+    "rhelCpuUsageAndRequests": [
+      {
+        "type": 0,
+        "value": "CPU usage and requests"
+      }
+    ],
+    "rhelDailyUsageAndRequestComparison": [
+      {
+        "type": 0,
+        "value": "Daily usage and requests comparison ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "rhelDashboardCostTitle": [
+      {
+        "type": 0,
+        "value": "All RHEL cost"
+      }
+    ],
+    "rhelDashboardCostTrendTitle": [
+      {
+        "type": 0,
+        "value": "All RHEL cumulative cost comparison ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "rhelDashboardCpuUsageAndRequests": [
+      {
+        "type": 0,
+        "value": "RHEL CPU usage and requests"
+      }
+    ],
+    "rhelDashboardDailyCostTitle": [
+      {
+        "type": 0,
+        "value": "All RHEL daily cost comparison ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "rhelDashboardMemoryUsageAndRequests": [
+      {
+        "type": 0,
+        "value": "RHEL Memory usage and requests"
+      }
+    ],
+    "rhelDesc": [
+      {
+        "type": 0,
+        "value": "Total cost for Red Hat Enterprise Linux, comprising the infrastructure cost and cost calculated from metrics."
+      }
+    ],
+    "rhelDetailsInfrastructureCost": [
+      {
+        "type": 0,
+        "value": "Infrastructure cost"
+      }
+    ],
+    "rhelDetailsInfrastructureCostDesc": [
+      {
+        "type": 0,
+        "value": "The cost based on raw usage data from the underlying infrastructure."
+      }
+    ],
+    "rhelDetailsSupplementaryCost": [
+      {
+        "type": 0,
+        "value": "Supplementary cost"
+      }
+    ],
+    "rhelDetailsSupplementaryCostDesc": [
+      {
+        "type": 0,
+        "value": "All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to RHEL cluster metrics."
+      }
+    ],
+    "rhelDetailsTitle": [
+      {
+        "type": 0,
+        "value": "RHEL details"
+      }
+    ],
+    "rhelInfrastructureCostTitle": [
+      {
+        "type": 0,
+        "value": "RHEL infrastructure cost"
+      }
+    ],
+    "rhelInfrastructureCostTrendTitle": [
+      {
+        "type": 0,
+        "value": "RHEL cumulative infrastructure cost comparison ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "rhelInfrastructureDailyCostTrendTitle": [
+      {
+        "type": 0,
+        "value": "RHEL daily infrastructure cost comparison ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "rhelMemoryUsageAndRequests": [
+      {
+        "type": 0,
+        "value": "Memory usage and requests"
+      }
+    ],
+    "rhelSupplementaryCostTitle": [
+      {
+        "type": 0,
+        "value": "RHEL supplementary cost"
+      }
+    ],
+    "rhelSupplementaryCostTrendTitle": [
+      {
+        "type": 0,
+        "value": "RHEL cumulative supplementary cost comparison ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "rhelSupplementaryDailyCostTrendTitle": [
+      {
+        "type": 0,
+        "value": "RHEL daily supplementary cost comparison ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "rhelUsageAndRequests": [
+      {
+        "type": 0,
+        "value": "RHEL Volume usage and requests"
+      }
+    ],
+    "rhelUsageCostTitle": [
+      {
+        "type": 0,
+        "value": "RHEL usage cost"
+      }
+    ],
+    "rhelUsageDashboardCostTrendTitle": [
+      {
+        "type": 0,
+        "value": "Metering cumulative cost comparison ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "rhelUsageDashboardCpuTitle": [
+      {
+        "type": 0,
+        "value": "RHEL CPU usage and requests"
+      }
+    ],
+    "rhelVolumeUsageAndRequests": [
+      {
+        "type": 0,
+        "value": "Volume usage and requests"
+      }
+    ],
     "save": [
       {
         "type": 0,
@@ -10433,6 +10661,12 @@
       {
         "type": 0,
         "value": "Sum platform costs"
+      }
+    ],
+    "summary": [
+      {
+        "type": 0,
+        "value": "Summary"
       }
     ],
     "supplementary": [

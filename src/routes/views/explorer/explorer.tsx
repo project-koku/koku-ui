@@ -54,6 +54,7 @@ import {
   isIbmAvailable,
   isOciAvailable,
   isOcpAvailable,
+  isRhelAvailable,
 } from 'utils/userAccess';
 
 import { styles } from './explorer.styles';
@@ -81,6 +82,7 @@ interface ExplorerStateProps {
   dateRangeType: DateRangeType;
   gcpProviders: Providers;
   ibmProviders: Providers;
+  isFINsightsFeatureEnabled?: boolean;
   ocpProviders: Providers;
   perspective: PerspectiveType;
   providers: Providers;
@@ -92,6 +94,7 @@ interface ExplorerStateProps {
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
+  rhelProviders: Providers;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -385,6 +388,11 @@ class Explorer extends React.Component<ExplorerProps> {
     return isOcpAvailable(userAccess, ocpProviders);
   };
 
+  private isRhelAvailable = () => {
+    const { isFINsightsFeatureEnabled, rhelProviders, userAccess } = this.props;
+    return isFINsightsFeatureEnabled && isRhelAvailable(userAccess, rhelProviders);
+  };
+
   private updateReport = () => {
     const { dateRangeType, fetchReport, perspective, query, reportQueryString, router } = this.props;
     if (!router.location.search) {
@@ -436,8 +444,15 @@ class Explorer extends React.Component<ExplorerProps> {
     const noIbmProviders = !this.isIbmAvailable() && providersFetchStatus === FetchStatus.complete;
     const noOcpProviders = !this.isOcpAvailable() && providersFetchStatus === FetchStatus.complete;
     const noOciProviders = !this.isOciAvailable() && providersFetchStatus === FetchStatus.complete;
+    const noRhelProviders = !this.isRhelAvailable() && providersFetchStatus === FetchStatus.complete;
     const noProviders =
-      noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders && noOciProviders;
+      noAwsProviders &&
+      noAzureProviders &&
+      noGcpProviders &&
+      noIbmProviders &&
+      noOciProviders &&
+      noOcpProviders &&
+      noRhelProviders;
 
     const isLoading =
       providersFetchStatus === FetchStatus.inProgress || userAccessFetchStatus === FetchStatus.inProgress;
@@ -532,6 +547,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   const gcpProviders = filterProviders(providers, ProviderType.gcp);
   const ibmProviders = filterProviders(providers, ProviderType.ibm);
   const ocpProviders = filterProviders(providers, ProviderType.ocp);
+  const rhelProviders = filterProviders(providers, ProviderType.rhel);
 
   const userAccessQueryString = getUserAccessQuery(userAccessQuery);
   const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
@@ -555,6 +571,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     ibmProviders,
     ocpProviders,
     queryFromRoute,
+    rhelProviders,
     userAccess,
   });
 
@@ -619,6 +636,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     dateRangeType,
     gcpProviders,
     ibmProviders,
+    isFINsightsFeatureEnabled: featureFlagsSelectors.selectIsFINsightsFeatureEnabled(state),
     ociProviders,
     ocpProviders,
     perspective,
@@ -631,6 +649,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     reportError,
     reportFetchStatus,
     reportQueryString,
+    rhelProviders,
     userAccess,
     userAccessError,
     userAccessFetchStatus,

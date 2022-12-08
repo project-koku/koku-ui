@@ -125,8 +125,8 @@ export const enum ReportPathsType {
   azureOcp = 'azure_ocp',
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp',
-  ibm = 'gcp',
+  ibm = 'ibm',
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud',
-  ocpUsage = 'ocp_usage',
+  rhel = 'rhel',
 }

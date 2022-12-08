@@ -26,6 +26,7 @@ import {
   isIbmAvailable,
   isOciAvailable,
   isOcpAvailable,
+  isRhelAvailable,
 } from 'utils/userAccess';
 
 // eslint-disable-next-line no-shadow
@@ -41,6 +42,7 @@ export const enum PerspectiveType {
   oci = 'oci',
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
+  rhel = 'rhel',
 }
 
 export const baseQuery: Query = {
@@ -134,8 +136,14 @@ export const groupByOcpOptions: {
   { label: 'project', value: 'project' },
 ];
 
-// Ocp options
-export const ocpOptions = [{ label: messages.perspectiveValues, value: 'ocp' }];
+export const groupByRhelOptions: {
+  label: string;
+  value: ComputedOcpReportItemsParams['idKey'];
+}[] = [
+  { label: 'cluster', value: 'cluster' },
+  { label: 'node', value: 'node' },
+  { label: 'project', value: 'project' },
+];
 
 export const getComputedReportItemType = (perspective: string) => {
   let result;
@@ -167,6 +175,7 @@ export const getPerspectiveDefault = ({
   ibmProviders,
   ocpProviders,
   queryFromRoute,
+  rhelProviders,
   userAccess,
 }: {
   awsProviders: Providers;
@@ -176,6 +185,7 @@ export const getPerspectiveDefault = ({
   ibmProviders: Providers;
   ocpProviders: Providers;
   queryFromRoute: Query;
+  rhelProviders: Providers;
   userAccess: UserAccess;
 }) => {
   const perspective = queryFromRoute.perspective;
@@ -192,11 +202,15 @@ export const getPerspectiveDefault = ({
     case PerspectiveType.ibmOcp:
     case PerspectiveType.oci:
     case PerspectiveType.ocpCloud:
+    case PerspectiveType.rhel:
       return perspective;
   }
 
   if (isOcpAvailable(userAccess, ocpProviders)) {
     return PerspectiveType.ocp;
+  }
+  if (isRhelAvailable(userAccess, rhelProviders)) {
+    return PerspectiveType.rhel;
   }
 
   const hasAwsCloud = hasAwsAccess(userAccess) && hasCloudProvider(awsProviders, ocpProviders);
@@ -239,12 +253,13 @@ export const getGroupByDefault = (perspective: string) => {
     case PerspectiveType.azureOcp:
       result = 'subscription_guid';
       break;
-    case PerspectiveType.ocp:
-    case PerspectiveType.ocpCloud:
-      result = 'project';
-      break;
     case PerspectiveType.oci:
       result = 'payer_tenant_id';
+      break;
+    case PerspectiveType.ocp:
+    case PerspectiveType.ocpCloud:
+    case PerspectiveType.rhel:
+      result = 'project';
       break;
     default:
       result = undefined;
@@ -279,6 +294,9 @@ export const getGroupByOptions = (perspective: string) => {
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
       result = groupByOcpOptions;
+      break;
+    case PerspectiveType.rhel:
+      result = groupByRhelOptions;
       break;
     default:
       result = undefined;
@@ -343,6 +361,9 @@ export const getReportPathsType = (perspective: string) => {
     case PerspectiveType.ocpCloud:
       result = ReportPathsType.ocpCloud;
       break;
+    case PerspectiveType.rhel:
+      result = ReportPathsType.rhel;
+      break;
     default:
       result = undefined;
       break;
@@ -372,11 +393,17 @@ export const getResourcePathsType = (perspective: string) => {
     case PerspectiveType.ibm:
       return ResourcePathsType.ibm;
       break;
+    case PerspectiveType.oci:
+      return ResourcePathsType.oci;
+      break;
     case PerspectiveType.ocp:
       return ResourcePathsType.ocp;
       break;
     case PerspectiveType.ocpCloud:
       return ResourcePathsType.ocpCloud;
+      break;
+    case PerspectiveType.rhel:
+      return ResourcePathsType.rhel;
       break;
     default:
       result = undefined;
@@ -409,11 +436,17 @@ export const getTagReportPathsType = (perspective: string) => {
     case PerspectiveType.ibm:
       return TagPathsType.ibm;
       break;
+    case PerspectiveType.oci:
+      return TagPathsType.oci;
+      break;
     case PerspectiveType.ocp:
       return TagPathsType.ocp;
       break;
     case PerspectiveType.ocpCloud:
       return TagPathsType.ocpCloud;
+      break;
+    case PerspectiveType.rhel:
+      return TagPathsType.rhel;
       break;
     default:
       result = undefined;
