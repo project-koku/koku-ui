@@ -30,11 +30,12 @@ export const enum TagPathsType {
   aws = 'aws',
   awsOcp = 'aws_ocp',
   azure = 'azure',
-  oci = 'oci',
   azureOcp = 'azure_ocp',
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp',
-  ibm = 'gcp', // Todo: update to use ibm backend apis when they become available
+  ibm = 'ibm',
+  oci = 'oci',
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud',
+  rhel = 'rhel',
 }

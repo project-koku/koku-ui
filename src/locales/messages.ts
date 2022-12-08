@@ -2407,11 +2407,6 @@ export default defineMessages({
     description: 'Daily usage and requests comparison',
     id: 'ocpDailyUsageAndRequestComparison',
   },
-  ocpDashboardCPUUsageAndRequests: {
-    defaultMessage: 'OpenShift CPU usage and requests',
-    description: 'OpenShift CPU usage and requests',
-    id: 'ocpDashboardCPUUsageAndRequests',
-  },
   ocpDashboardCostTitle: {
     defaultMessage: 'All OpenShift cost',
     description: 'All OpenShift cost',
@@ -2421,6 +2416,11 @@ export default defineMessages({
     defaultMessage: 'All OpenShift cumulative cost comparison ({units})',
     description: 'All OpenShift cumulative cost comparison in units',
     id: 'ocpDashboardCostTrendTitle',
+  },
+  ocpDashboardCpuUsageAndRequests: {
+    defaultMessage: 'OpenShift CPU usage and requests',
+    description: 'OpenShift CPU usage and requests',
+    id: 'ocpDashboardCpuUsageAndRequests',
   },
   ocpDashboardDailyCostTitle: {
     defaultMessage: 'All OpenShift daily cost comparison ({units})',
@@ -2504,15 +2504,15 @@ export default defineMessages({
     description: 'OpenShift usage cost',
     id: 'ocpUsageCostTitle',
   },
-  ocpUsageDashboardCPUTitle: {
-    defaultMessage: 'OpenShift CPU usage and requests',
-    description: 'OpenShift CPU usage and requests',
-    id: 'ocpUsageDashboardCPUTitle',
-  },
   ocpUsageDashboardCostTrendTitle: {
     defaultMessage: 'Metering cumulative cost comparison ({units})',
     description: 'Metering cumulative cost comparison with units',
     id: 'ocpUsageDashboardCostTrendTitle',
+  },
+  ocpUsageDashboardCpuTitle: {
+    defaultMessage: 'OpenShift CPU usage and requests',
+    description: 'OpenShift CPU usage and requests',
+    id: 'ocpUsageDashboardCpuTitle',
   },
   ocpVolumeUsageAndRequests: {
     defaultMessage: 'Volume usage and requests',
@@ -2656,6 +2656,7 @@ export default defineMessages({
       'ibm_ocp {IBM filtered by OpenShift} ' +
       'ocp {All OpenShift} ' +
       'ocp_cloud {All cloud filtered by OpenShift} ' +
+      'rhel {All RHEL} ' +
       'other {}}',
     description: 'Perspective values',
     id: 'perspectiveValues',
@@ -2757,6 +2758,140 @@ export default defineMessages({
     description: 'Requests',
     id: 'requests',
   },
+  rhel: {
+    defaultMessage: 'RHEL',
+    description: 'RHEL',
+    id: 'rhel',
+  },
+  rhelCpuUsageAndRequests: {
+    defaultMessage: 'CPU usage and requests',
+    description: 'CPU usage and requests',
+    id: 'rhelCpuUsageAndRequests',
+  },
+  rhelDailyUsageAndRequestComparison: {
+    defaultMessage: 'Daily usage and requests comparison ({units})',
+    description: 'Daily usage and requests comparison',
+    id: 'rhelDailyUsageAndRequestComparison',
+  },
+  rhelDashboardCostTitle: {
+    defaultMessage: 'All RHEL cost',
+    description: 'All RHEL cost',
+    id: 'rhelDashboardCostTitle',
+  },
+  rhelDashboardCostTrendTitle: {
+    defaultMessage: 'All RHEL cumulative cost comparison ({units})',
+    description: 'All RHEL cumulative cost comparison in units',
+    id: 'rhelDashboardCostTrendTitle',
+  },
+  rhelDashboardCpuUsageAndRequests: {
+    defaultMessage: 'RHEL CPU usage and requests',
+    description: 'RHEL CPU usage and requests',
+    id: 'rhelDashboardCpuUsageAndRequests',
+  },
+  rhelDashboardDailyCostTitle: {
+    defaultMessage: 'All RHEL daily cost comparison ({units})',
+    description: 'All RHEL daily cost comparison in units',
+    id: 'rhelDashboardDailyCostTitle',
+  },
+  rhelDashboardMemoryUsageAndRequests: {
+    defaultMessage: 'RHEL Memory usage and requests',
+    description: 'RHEL Memory usage and requests',
+    id: 'rhelDashboardMemoryUsageAndRequests',
+  },
+  rhelDashboardVolumeUsageAndRequests: {
+    defaultMessage: 'RHEL Volume usage and requests',
+    description: 'RHEL Volume usage and requests',
+    id: 'rhelUsageAndRequests',
+  },
+  rhelDesc: {
+    defaultMessage:
+      'Total cost for Red Hat Enterprise Linux, comprising the infrastructure cost and cost calculated from metrics.',
+    description:
+      'Total cost for Red Hat Enterprise Linux, comprising the infrastructure cost and cost calculated from metrics.',
+    id: 'rhelDesc',
+  },
+  rhelDetailsInfrastructureCost: {
+    defaultMessage: 'Infrastructure cost',
+    description: 'Infrastructure cost',
+    id: 'rhelDetailsInfrastructureCost',
+  },
+  rhelDetailsInfrastructureCostDesc: {
+    defaultMessage: 'The cost based on raw usage data from the underlying infrastructure.',
+    description: 'The cost based on raw usage data from the underlying infrastructure.',
+    id: 'rhelDetailsInfrastructureCostDesc',
+  },
+  rhelDetailsSupplementaryCost: {
+    defaultMessage: 'Supplementary cost',
+    description: 'Supplementary cost',
+    id: 'rhelDetailsSupplementaryCost',
+  },
+  rhelDetailsSupplementaryCostDesc: {
+    defaultMessage:
+      'All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to RHEL cluster metrics.',
+    description:
+      'All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to RHEL cluster metrics.',
+    id: 'rhelDetailsSupplementaryCostDesc',
+  },
+  rhelDetailsTitle: {
+    defaultMessage: 'RHEL details',
+    description: 'RHEL details title',
+    id: 'rhelDetailsTitle',
+  },
+  rhelInfrastructureCostTitle: {
+    defaultMessage: 'RHEL infrastructure cost',
+    description: 'RHEL infrastructure cost',
+    id: 'rhelInfrastructureCostTitle',
+  },
+  rhelInfrastructureCostTrendTitle: {
+    defaultMessage: 'RHEL cumulative infrastructure cost comparison ({units})',
+    description: 'RHEL cumulative infrastructure cost comparison with units',
+    id: 'rhelInfrastructureCostTrendTitle',
+  },
+  rhelInfrastructureDailyCostTrendTitle: {
+    defaultMessage: 'RHEL daily infrastructure cost comparison ({units})',
+    description: 'RHEL daily infrastructure cost comparison with units',
+    id: 'rhelInfrastructureDailyCostTrendTitle',
+  },
+  rhelMemoryUsageAndRequests: {
+    defaultMessage: 'Memory usage and requests',
+    description: 'Memory usage and requests',
+    id: 'rhelMemoryUsageAndRequests',
+  },
+  rhelSupplementaryCostTitle: {
+    defaultMessage: 'RHEL supplementary cost',
+    description: 'RHEL supplementary cost',
+    id: 'rhelSupplementaryCostTitle',
+  },
+  rhelSupplementaryCostTrendTitle: {
+    defaultMessage: 'RHEL cumulative supplementary cost comparison ({units})',
+    description: 'RHEL cumulative supplementary cost comparison with units',
+    id: 'rhelSupplementaryCostTrendTitle',
+  },
+  rhelSupplementaryDailyCostTrendTitle: {
+    defaultMessage: 'RHEL daily supplementary cost comparison ({units})',
+    description: 'RHEL daily supplementary cost comparison with units',
+    id: 'rhelSupplementaryDailyCostTrendTitle',
+  },
+  rhelUsageCostTitle: {
+    defaultMessage: 'RHEL usage cost',
+    description: 'RHEL usage cost',
+    id: 'rhelUsageCostTitle',
+  },
+  rhelUsageDashboardCostTrendTitle: {
+    defaultMessage: 'Metering cumulative cost comparison ({units})',
+    description: 'Metering cumulative cost comparison with units',
+    id: 'rhelUsageDashboardCostTrendTitle',
+  },
+  rhelUsageDashboardCpuTitle: {
+    defaultMessage: 'RHEL CPU usage and requests',
+    description: 'RHEL CPU usage and requests',
+    id: 'rhelUsageDashboardCpuTitle',
+  },
+  rhelVolumeUsageAndRequests: {
+    defaultMessage: 'Volume usage and requests',
+    description: 'Volume usage and requests',
+    id: 'rhelVolumeUsageAndRequests',
+  },
   save: {
     defaultMessage: 'Save',
     description: 'Save',
@@ -2816,6 +2951,11 @@ export default defineMessages({
     defaultMessage: 'Sum platform costs',
     description: 'Sum platform costs',
     id: 'sumPlatformCosts',
+  },
+  summary: {
+    defaultMessage: 'Summary',
+    description: 'Summary',
+    id: 'summary',
   },
   supplementary: {
     defaultMessage: 'Supplementary',

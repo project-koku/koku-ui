@@ -20,6 +20,7 @@ import {
   hasIbmAccess,
   hasOciAccess,
   hasOcpAccess,
+  hasRhelAccess,
 } from 'utils/userAccess';
 
 interface PermissionsOwnProps {
@@ -27,6 +28,7 @@ interface PermissionsOwnProps {
 }
 
 interface PermissionsStateProps {
+  isFINsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
   isOciFeatureEnabled?: boolean;
   userAccess: UserAccess;
@@ -39,6 +41,7 @@ type PermissionsProps = PermissionsOwnProps & PermissionsStateProps;
 
 const PermissionsBase: React.FC<PermissionsProps> = ({
   children = null,
+  isFINsightsFeatureEnabled,
   isIbmFeatureEnabled,
   isOciFeatureEnabled,
   userAccess,
@@ -62,11 +65,12 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
 
     const aws = hasAwsAccess(userAccess);
     const azure = hasAzureAccess(userAccess);
-    const oci = hasOciAccess(userAccess) && isOciFeatureEnabled;
+    const oci = isOciFeatureEnabled && hasOciAccess(userAccess);
     const costModel = hasCostModelAccess(userAccess);
     const gcp = hasGcpAccess(userAccess);
-    const ibm = hasIbmAccess(userAccess) && isIbmFeatureEnabled;
+    const ibm = isIbmFeatureEnabled && hasIbmAccess(userAccess);
     const ocp = hasOcpAccess(userAccess);
+    const rhel = isFINsightsFeatureEnabled && hasRhelAccess(userAccess);
     const path = getRoutePath();
 
     switch (path) {
@@ -93,6 +97,9 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
       case paths.ocpDetails:
       case paths.ocpDetailsBreakdown:
         return ocp;
+      case paths.rhelDetails:
+      case paths.rhelDetailsBreakdown:
+        return rhel;
       default:
         return false;
     }
@@ -125,6 +132,7 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
   return {
     isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
     isOciFeatureEnabled: featureFlagsSelectors.selectIsOciFeatureEnabled(state),
+    isFINsightsFeatureEnabled: featureFlagsSelectors.selectIsFINsightsFeatureEnabled(state),
     userAccess,
     userAccessError,
     userAccessFetchStatus,

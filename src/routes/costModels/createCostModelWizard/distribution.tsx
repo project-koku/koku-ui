@@ -160,7 +160,7 @@ class DistributionBase extends React.Component<DistributionProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<undefined, DistributionStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<undefined, DistributionStateProps>(state => {
   return {
     isCostDistributionFeatureEnabled: featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state),
   };

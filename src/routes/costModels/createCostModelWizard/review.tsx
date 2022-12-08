@@ -184,7 +184,7 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl, isCostDistribut
   </CostModelContext.Consumer>
 );
 
-const mapStateToProps = createMapStateToProps<undefined, ReviewDetailsStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<undefined, ReviewDetailsStateProps>(state => {
   return {
     isCostDistributionFeatureEnabled: featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state),
   };

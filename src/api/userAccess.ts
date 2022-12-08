@@ -24,6 +24,7 @@ export const enum UserAccessType {
   ibm = 'ibm',
   oci = 'oci',
   ocp = 'ocp',
+  rhel = 'ocp', // Todo: update to use rhel when APIs are available
 }
 
 // If the user-access API is called without a query parameter, all types are returned in the response

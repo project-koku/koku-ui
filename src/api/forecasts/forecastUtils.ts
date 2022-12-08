@@ -10,40 +10,44 @@ import { runForecast as runIbmForecast } from './ibmForecast';
 import { runForecast as runOciForecast } from './ociForecast';
 import { runForecast as runOcpCloudForecast } from './ocpCloudForecast';
 import { runForecast as runOcpForecast } from './ocpForecast';
+import { runForecast as runRhelForecast } from './rhelForecast';
 
 export function runForecast(forecastPathsType: ForecastPathsType, forecastType: ForecastType, query: string) {
-  let forecast;
+  let result;
   switch (forecastPathsType) {
     case ForecastPathsType.aws:
-      forecast = runAwsForecast(forecastType, query);
+      result = runAwsForecast(forecastType, query);
       break;
     case ForecastPathsType.awsOcp:
-      forecast = runAwsOcpForecast(forecastType, query);
+      result = runAwsOcpForecast(forecastType, query);
       break;
     case ForecastPathsType.azure:
-      forecast = runAzureForecast(forecastType, query);
+      result = runAzureForecast(forecastType, query);
       break;
     case ForecastPathsType.azureOcp:
-      forecast = runAzureOcpForecast(forecastType, query);
+      result = runAzureOcpForecast(forecastType, query);
       break;
     case ForecastPathsType.gcp:
-      forecast = runGcpForecast(forecastType, query);
+      result = runGcpForecast(forecastType, query);
       break;
     case ForecastPathsType.gcpOcp:
-      forecast = runGcpOcpForecast(forecastType, query);
+      result = runGcpOcpForecast(forecastType, query);
       break;
     case ForecastPathsType.ibm:
-      forecast = runIbmForecast(forecastType, query);
+      result = runIbmForecast(forecastType, query);
       break;
     case ForecastPathsType.oci:
-      forecast = runOciForecast(forecastType, query);
+      result = runOciForecast(forecastType, query);
       break;
     case ForecastPathsType.ocp:
-      forecast = runOcpForecast(forecastType, query);
+      result = runOcpForecast(forecastType, query);
       break;
     case ForecastPathsType.ocpCloud:
-      forecast = runOcpCloudForecast(forecastType, query);
+      result = runOcpCloudForecast(forecastType, query);
+      break;
+    case ForecastPathsType.rhel:
+      result = runRhelForecast(forecastType, query);
       break;
   }
-  return forecast;
+  return result;
 }

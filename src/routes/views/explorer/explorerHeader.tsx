@@ -41,6 +41,7 @@ import {
   isIbmAvailable,
   isOciAvailable,
   isOcpAvailable,
+  isRhelAvailable,
 } from 'utils/userAccess';
 
 import { ExplorerFilter } from './explorerFilter';
@@ -77,6 +78,7 @@ interface ExplorerHeaderStateProps {
   isCostTypeFeatureEnabled?: boolean;
   isCurrencyFeatureEnabled?: boolean;
   isExportsFeatureEnabled?: boolean;
+  isFINsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
   isOciFeatureEnabled?: boolean;
   ociProviders?: Providers;
@@ -86,6 +88,7 @@ interface ExplorerHeaderStateProps {
   providersFetchStatus: FetchStatus;
   providersQueryString: string;
   query: Query;
+  rhelProviders?: Providers;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -130,9 +133,10 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     const hasGcp = this.isGcpAvailable();
     const hasIbm = this.isIbmAvailable();
     const hasOcp = this.isOcpAvailable();
+    const hasRhel = this.isRhelAvailable();
 
-    // Note: No need to test OCP on cloud here, since that requires at least one provider
-    if (!(hasAws || hasAzure || hasOci || hasGcp || hasIbm || hasOcp)) {
+    // Note: No need to test "OCP on cloud" here, since that requires at least one of the providers below
+    if (!(hasAws || hasAzure || hasOci || hasGcp || hasIbm || hasOcp || hasRhel)) {
       return null;
     }
 
@@ -150,6 +154,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
         hasOci={hasOci}
         hasOcp={hasOcp}
         hasOcpCloud={this.isOcpCloudAvailable()}
+        hasRhel={hasRhel}
         isDisabled={isDisabled}
         isIbmFeatureEnabled={isIbmFeatureEnabled}
         isOciFeatureEnabled={isOciFeatureEnabled}
@@ -236,6 +241,11 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     return hasAwsOcp || hasAzureOcp || hasGcpOcp || hasIbmOcp;
   };
 
+  private isRhelAvailable = () => {
+    const { isFINsightsFeatureEnabled, rhelProviders, userAccess } = this.props;
+    return isFINsightsFeatureEnabled && isRhelAvailable(userAccess, rhelProviders);
+  };
+
   public render() {
     const {
       costType,
@@ -261,7 +271,9 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     const noGcpProviders = !this.isGcpAvailable() && providersFetchStatus === FetchStatus.complete;
     const noIbmProviders = !this.isIbmAvailable() && providersFetchStatus === FetchStatus.complete;
     const noOcpProviders = !this.isOcpAvailable() && providersFetchStatus === FetchStatus.complete;
-    const noProviders = noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders;
+    const noRhelProviders = !this.isRhelAvailable() && providersFetchStatus === FetchStatus.complete;
+    const noProviders =
+      noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders && noRhelProviders;
 
     const groupByOptions = getGroupByOptions(perspective);
     const orgReportPathsType = getOrgReportPathsType(perspective);
@@ -372,6 +384,7 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       isCostTypeFeatureEnabled: featureFlagsSelectors.selectIsCostTypeFeatureEnabled(state),
       isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
       isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
+      isFINsightsFeatureEnabled: featureFlagsSelectors.selectIsFINsightsFeatureEnabled(state),
       isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
       isOciFeatureEnabled: featureFlagsSelectors.selectIsOciFeatureEnabled(state),
       ociProviders: filterProviders(providers, ProviderType.oci),
@@ -381,6 +394,7 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       providersFetchStatus,
       providersQueryString,
       query,
+      rhelProviders: filterProviders(providers, ProviderType.rhel),
       userAccess,
       userAccessError,
       userAccessFetchStatus,

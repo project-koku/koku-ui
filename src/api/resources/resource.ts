@@ -37,4 +37,5 @@ export const enum ResourcePathsType {
   oci = 'oci',
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud',
+  rhel = 'rhel',
 }

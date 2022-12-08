@@ -3,11 +3,11 @@ import type { OrgType } from './org';
 import { OrgPathsType } from './org';
 
 export function runOrg(orgPathsType: OrgPathsType, orgType: OrgType, query: string) {
-  let orgReport;
+  let result;
   switch (orgPathsType) {
     case OrgPathsType.aws:
-      orgReport = runAwsOrg(orgType, query);
+      result = runAwsOrg(orgType, query);
       break;
   }
-  return orgReport;
+  return result;
 }

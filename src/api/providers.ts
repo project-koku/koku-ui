@@ -62,8 +62,9 @@ export const enum ProviderType {
   azure = 'azure',
   gcp = 'gcp',
   ibm = 'ibm',
-  ocp = 'ocp',
   oci = 'oci',
+  ocp = 'ocp',
+  rhel = 'ocp', // Todo: Update to use rhel when APIs are available
 }
 
 export function fetchProviders(query: string) {
