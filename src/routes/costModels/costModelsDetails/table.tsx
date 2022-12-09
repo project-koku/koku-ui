@@ -1,6 +1,7 @@
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
-import type { ICell, IRowData } from '@patternfly/react-table';
-import { sortable, Table, TableBody, TableGridBreakpoint, TableHeader } from '@patternfly/react-table';
+import type { ICell, IRowData, ThProps } from '@patternfly/react-table';
+import { ActionsColumn, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { sortable, TableGridBreakpoint } from '@patternfly/react-table';
 import type { CostModel } from 'api/costModels';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
@@ -16,7 +17,6 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import type { CostModelsQuery } from './utils/query';
-import { parseOrdering } from './utils/query';
 import { createActions, createOnSort, getRowsByStateName } from './utils/table';
 
 interface CostModelsTableOwnProps {
@@ -37,10 +37,13 @@ type CostModelsTableProps = CostModelsTableOwnProps &
   WrappedComponentProps;
 
 class CostModelsTableBase extends React.Component<CostModelsTableProps> {
-  public state = { dialogSource: null };
+  public state = {
+    dialogSource: null,
+    activeSortDirection: 'asc',
+    activeSortIndex: 0,
+  };
   public render() {
     const {
-      actionResolver,
       intl = defaultIntl, // Default required for testing
       canWrite,
       costData,
@@ -75,8 +78,6 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
       },
     ] as ICell[];
 
-    const sortBy = parseOrdering(query, cells);
-    const onSort = createOnSort(cells, query, router);
     const actions = createActions(stateName, canWrite, [
       {
         title: intl.formatMessage(messages.delete),
@@ -87,21 +88,60 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
       },
     ]);
 
+    const onSort = createOnSort(cells, query, router);
+    const getSortParams = (columnIndex: number): ThProps['sort'] => ({
+      sortBy: {
+        index: this.state.activeSortIndex,
+        direction: this.state.activeSortDirection as 'asc' | 'desc',
+        defaultDirection: 'asc',
+      },
+      onSort: (_evt, index, direction) => {
+        this.setState({
+          ...this.state,
+          activeSortDirection: direction,
+          activeSortIndex: index,
+        });
+        onSort(_evt, index, direction);
+      },
+      columnIndex,
+    });
+
     return (
       <PageSection variant={PageSectionVariants.light}>
-        <Table
-          gridBreakPoint={TableGridBreakpoint.grid2xl}
-          actions={actions}
-          actionResolver={actionResolver}
-          rows={rows}
-          cells={cells}
-          onSort={onSort}
-          sortBy={sortBy}
+        <TableComposable
           aria-label={intl.formatMessage(messages.costModelsTableAriaLabel)}
+          gridBreakPoint={TableGridBreakpoint.grid2xl}
         >
-          <TableHeader />
-          <TableBody />
-        </Table>
+          <Thead>
+            <Tr>
+              {cells.map((c, cellIndex) => (
+                <Th key={cellIndex} sort={c.transforms ? getSortParams(cellIndex) : undefined}>
+                  {c.title}
+                </Th>
+              ))}
+              <Th></Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {rows.map((r, rowIndex) => (
+              <Tr key={rowIndex}>
+                {r.cells.map((c, cellIndex) => (
+                  <Td key={cellIndex}>{c.title ? c.title : c}</Td>
+                ))}
+                <Td isActionCell>
+                  <ActionsColumn
+                    items={actions.map(a => {
+                      return {
+                        ...a,
+                        onClick: _evt => a.onClick(_evt, rowIndex, r, null),
+                      };
+                    })}
+                  />
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </TableComposable>
       </PageSection>
     );
   }
