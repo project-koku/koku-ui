@@ -12,20 +12,18 @@ const AzureBreakdown = lazy(
 const AzureDetails = lazy(() => import(/* webpackChunkName: "azureDetails" */ 'routes/views/details/azureDetails'));
 const CostModelsDetails = lazy(() => import(/* lazy: "costModelsDetails" */ 'routes/costModels/costModelsDetails'));
 const CostModel = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/costModels/costModel'));
-const OciBreakdown = lazy(() => import(/* webpackChunkName: "ociBreakdown" */ 'routes/views/details/ociBreakdown'));
-const OciDetails = lazy(() => import(/* webpackChunkName: "ociDetails" */ 'routes/views/details/ociDetails'));
 const Explorer = lazy(() => import(/* webpackChunkName: "explorer" */ 'routes/views/explorer'));
 const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'routes/views/details/gcpBreakdown'));
 const GcpDetails = lazy(() => import(/* webpackChunkName: "gcpDetails" */ 'routes/views/details/gcpDetails'));
 const IbmBreakdown = lazy(() => import(/* webpackChunkName: "ibmBreakdown" */ 'routes/views/details/ibmBreakdown'));
 const IbmDetails = lazy(() => import(/* webpackChunkName: "ibmDetails" */ 'routes/views/details/ibmDetails'));
+const OciBreakdown = lazy(() => import(/* webpackChunkName: "ociBreakdown" */ 'routes/views/details/ociBreakdown'));
+const OciDetails = lazy(() => import(/* webpackChunkName: "ociDetails" */ 'routes/views/details/ociDetails'));
 const OcpBreakdown = lazy(() => import(/* webpackChunkName: "ocpBreakdown" */ 'routes/views/details/ocpBreakdown'));
 const OcpDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/ocpDetails'));
 const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/views/overview'));
-const RhelBreakdown = lazy(
-  () => import(/* webpackChunkName: "rhelBreakdown" */ 'routes/views/details/rhelBreakdown/rhelBreakdown')
-);
-const RhelDetails = lazy(() => import(/* webpackChunkName: "rhelDetails" */ 'routes/views/details/rhelDetails'));
+const RhelDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/rhelDetails'));
+const RhelBreakdown = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/rhelBreakdown'));
 
 // For syncing with permissions
 const paths = {
@@ -54,20 +52,20 @@ const routes = [
     path: paths.overview,
   },
   {
-    element: userAccess(AwsBreakdown),
-    path: paths.awsDetailsBreakdown,
-  },
-  {
     element: userAccess(AwsDetails),
     path: paths.awsDetails,
   },
   {
-    element: userAccess(AzureBreakdown),
-    path: paths.azureDetailsBreakdown,
+    element: userAccess(AwsBreakdown),
+    path: paths.awsDetailsBreakdown,
   },
   {
     element: userAccess(AzureDetails),
     path: paths.azureDetails,
+  },
+  {
+    element: userAccess(AzureBreakdown),
+    path: paths.azureDetailsBreakdown,
   },
   {
     element: userAccess(CostModel),
@@ -82,44 +80,44 @@ const routes = [
     path: paths.explorer,
   },
   {
-    element: userAccess(GcpBreakdown),
-    path: paths.gcpDetailsBreakdown,
-  },
-  {
     element: userAccess(GcpDetails),
     path: paths.gcpDetails,
   },
   {
-    element: userAccess(IbmBreakdown),
-    path: paths.ibmDetailsBreakdown,
+    element: userAccess(GcpBreakdown),
+    path: paths.gcpDetailsBreakdown,
   },
   {
     element: userAccess(IbmDetails),
     path: paths.ibmDetails,
   },
   {
-    element: userAccess(OciBreakdown),
-    path: paths.ociDetailsBreakdown,
+    element: userAccess(IbmBreakdown),
+    path: paths.ibmDetailsBreakdown,
   },
   {
     element: userAccess(OciDetails),
     path: paths.ociDetails,
   },
   {
-    element: userAccess(OcpBreakdown),
-    path: paths.ocpDetailsBreakdown,
+    element: userAccess(OciBreakdown),
+    path: paths.ociDetailsBreakdown,
   },
   {
     element: userAccess(OcpDetails),
     path: paths.ocpDetails,
   },
   {
-    element: userAccess(RhelBreakdown),
-    path: paths.rhelDetailsBreakdown,
+    element: userAccess(OcpBreakdown),
+    path: paths.ocpDetailsBreakdown,
   },
   {
     element: userAccess(RhelDetails),
     path: paths.rhelDetails,
+  },
+  {
+    element: userAccess(RhelBreakdown),
+    path: paths.rhelDetailsBreakdown,
   },
 ];
 
