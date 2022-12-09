@@ -255,7 +255,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                       isValid={option.value !== undefined}
                       label={intl.formatMessage(option.label, { value: option.value })}
                       value={option.value}
-                      checked={resolution === option.value}
+                      isChecked={resolution === option.value}
                       name="resolution"
                       onChange={this.handleResolutionChange}
                       aria-label={intl.formatMessage(option.label, { value: option.value })}
@@ -277,7 +277,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                         value: option.value,
                       })}
                       value={option.value}
-                      checked={timeScope === option.value}
+                      isChecked={timeScope === option.value}
                       name="timeScope"
                       onChange={this.handleMonthChange}
                       aria-label={intl.formatMessage(option.label, {
@@ -299,7 +299,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                       isValid={option.value !== undefined}
                       label={intl.formatMessage(option.label, { value: option.value })}
                       value={option.value}
-                      checked={formatType === option.value}
+                      isChecked={formatType === option.value}
                       name="formatType"
                       onChange={this.handleTypeChange}
                       aria-label={intl.formatMessage(option.label, { value: option.value })}
