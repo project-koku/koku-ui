@@ -21,7 +21,7 @@ export const enum AwsDashboardTab {
 }
 
 export interface AwsDashboardWidget extends DashboardWidget<AwsDashboardTab> {
-  savingsPlan?: boolean;
+  // TBD...
 }
 
 export function getGroupByForTab(widget: AwsDashboardWidget): AwsQuery['group_by'] {
