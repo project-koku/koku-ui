@@ -2753,6 +2753,11 @@ export default defineMessages({
     description: 'Red Hat status url for cloud services',
     id: 'redHatStatusUrl',
   },
+  remove: {
+    defaultMessage: 'Remove',
+    description: 'Remove',
+    id: 'remove',
+  },
   requests: {
     defaultMessage: 'Requests',
     description: 'Requests',
