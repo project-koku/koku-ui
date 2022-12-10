@@ -64,7 +64,6 @@ export const costSummaryWidget: AwsDashboardWidget = {
     showHorizontal: true,
     viewAllPath: paths.awsDetails,
   },
-  savingsPlan: true,
   tabsFilter: {
     limit: 3,
   },
@@ -93,7 +92,6 @@ export const databaseWidget: AwsDashboardWidget = {
   filter: {
     service: 'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
   },
-  savingsPlan: true,
   tabsFilter: {
     service: 'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
   },
@@ -120,7 +118,6 @@ export const networkWidget: AwsDashboardWidget = {
   filter: {
     service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
   },
-  savingsPlan: true,
   tabsFilter: {
     service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
   },

@@ -21,7 +21,7 @@ export const enum AwsOcpDashboardTab {
 }
 
 export interface AwsOcpDashboardWidget extends DashboardWidget<AwsOcpDashboardTab> {
-  savingsPlan?: boolean;
+  // TBD...
 }
 
 export function getGroupByForTab(widget: AwsOcpDashboardWidget): AwsQuery['group_by'] {

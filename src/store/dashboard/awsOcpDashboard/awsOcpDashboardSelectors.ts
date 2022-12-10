@@ -31,9 +31,8 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
     ...(widget.tabsFilter ? widget.tabsFilter : {}),
   };
   const props = {
+    ...(featureFlagsSelectors.selectIsCostTypeFeatureEnabled(state) && { cost_type: getCostType() }),
     ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
-    ...(featureFlagsSelectors.selectIsCostTypeFeatureEnabled(state) &&
-      widget.savingsPlan && { cost_type: getCostType() }),
   };
 
   return {
