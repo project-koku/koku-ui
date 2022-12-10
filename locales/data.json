@@ -10328,6 +10328,12 @@
         "value": "https://status.redhat.com"
       }
     ],
+    "remove": [
+      {
+        "type": 0,
+        "value": "Remove"
+      }
+    ],
     "requests": [
       {
         "type": 0,

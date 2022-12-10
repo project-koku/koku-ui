@@ -246,7 +246,7 @@ class PriceListTable extends React.Component<Props, State> {
                           <RateTable
                             actions={[
                               {
-                                title: 'Remove',
+                                title: intl.formatMessage(messages.remove),
                                 onClick: (_evt, _rowId, rowData) => {
                                   deleteRateAction(rowData.data.index + from);
                                 },

@@ -25,8 +25,7 @@ const PriceList = () => {
           const items = [...tiers.slice(0, index), ...tiers.slice(index + 1)];
           submitTiers(items);
           if (items.length === 0) {
-            setState('form');
-            goToAddPL(false);
+            goToAddPL(true);
           }
         }}
         addRateAction={() => {
