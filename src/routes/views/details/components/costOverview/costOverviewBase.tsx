@@ -12,7 +12,7 @@ import {
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
 import type { Query } from 'api/queries/query';
-import { orgUnitIdKey, platformCategory, tagPrefix } from 'api/queries/query';
+import { orgUnitIdKey, platformCategoryKey, tagPrefix } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
@@ -172,7 +172,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
     }
     if (!showWidget && widget.reportSummary.showWidgetOnCategory) {
       for (const categoryId of widget.reportSummary.showWidgetOnCategory) {
-        if (isPlatformCosts && categoryId === platformCategory) {
+        if (isPlatformCosts && categoryId === platformCategoryKey) {
           showWidget = true;
           break;
         }

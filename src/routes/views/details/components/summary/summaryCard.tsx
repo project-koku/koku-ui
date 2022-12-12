@@ -11,7 +11,7 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, platformCategory } from 'api/queries/query';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, platformCategoryKey } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -140,7 +140,7 @@ class SummaryBase extends React.Component<SummaryProps> {
             costType={costType}
             currency={currency}
             groupBy={groupBy}
-            groupByValue={isPlatformCosts ? platformCategory : groupByValue}
+            groupByValue={isPlatformCosts ? platformCategoryKey : groupByValue}
             isOpen={isBulletChartModalOpen}
             onClose={this.handleBulletChartModalClose}
             query={query}
@@ -171,7 +171,7 @@ class SummaryBase extends React.Component<SummaryProps> {
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
             {intl.formatMessage(messages.breakdownSummaryTitle, {
-              value: isPlatformCosts ? platformCategory : reportGroupBy,
+              value: isPlatformCosts ? platformCategoryKey : reportGroupBy,
             })}
           </Title>
         </CardTitle>

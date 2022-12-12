@@ -4,7 +4,7 @@ import { ProviderType } from 'api/providers';
 import type { GcpQuery } from 'api/queries/gcpQuery';
 import { getQuery, parseQuery } from 'api/queries/gcpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { tagPrefix } from 'api/queries/query';
+import { noPrefix, tagPrefix } from 'api/queries/query';
 import type { GcpReport } from 'api/reports/gcpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -154,7 +154,12 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
     // Omit items labeled 'no-project'
     const items = [];
     selectedItems.map(item => {
-      if (!(item.label === `no-${groupById}` || item.label === `no-${groupByTagKey}`)) {
+      if (
+        !(
+          item.label?.toLowerCase() === `${noPrefix}${groupById}` ||
+          item.label?.toLowerCase() === `${noPrefix}${groupByTagKey}`
+        )
+      ) {
         items.push(item);
       }
     });

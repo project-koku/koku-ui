@@ -4,7 +4,7 @@ import { ProviderType } from 'api/providers';
 import type { IbmQuery } from 'api/queries/ibmQuery';
 import { getQuery, parseQuery } from 'api/queries/ibmQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { tagPrefix } from 'api/queries/query';
+import { noPrefix, tagPrefix } from 'api/queries/query';
 import type { IbmReport } from 'api/reports/ibmReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -155,7 +155,12 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
     // Omit items labeled 'no-project'
     const items = [];
     selectedItems.map(item => {
-      if (!(item.label === `no-${groupById}` || item.label === `no-${groupByTagKey}`)) {
+      if (
+        !(
+          item.label?.toLowerCase() === `${noPrefix}${groupById}` ||
+          item.label?.toLowerCase() === `${noPrefix}${groupByTagKey}`
+        )
+      ) {
         items.push(item);
       }
     });
