@@ -14,7 +14,7 @@ import {
   Tr,
 } from '@patternfly/react-table';
 import type { Query } from 'api/queries/query';
-import { parseQuery } from 'api/queries/query';
+import { noPrefix, parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import { format } from 'date-fns';
 import messages from 'locales/messages';
@@ -235,7 +235,9 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 
       rows.push({
         cells,
-        selectionDisabled: selectItem.label === `no-${groupBy}` || selectItem.label === `no-${groupByTagKey}`,
+        selectionDisabled:
+          selectItem.label?.toLowerCase() === `${noPrefix}${groupBy}` ||
+          selectItem.label?.toLowerCase() === `${noPrefix}${groupByTagKey}`,
         item: selectItem,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === selectItem.id) !== undefined),
       });

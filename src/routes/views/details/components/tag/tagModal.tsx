@@ -1,6 +1,13 @@
 import { Modal } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, platformCategory, tagPrefix } from 'api/queries/query';
+import {
+  getQuery,
+  logicalAndPrefix,
+  orgUnitIdKey,
+  parseQuery,
+  platformCategoryKey,
+  tagPrefix,
+} from 'api/queries/query';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -98,7 +105,7 @@ class TagModalBase extends React.Component<TagModalProps> {
       >
         <TagContent
           groupBy={groupBy}
-          groupByValue={this.props.isPlatformCosts ? platformCategory : groupByValue}
+          groupByValue={this.props.isPlatformCosts ? platformCategoryKey : groupByValue}
           tagReport={tagReport}
         />
       </Modal>

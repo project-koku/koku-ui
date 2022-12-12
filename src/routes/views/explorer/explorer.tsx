@@ -3,7 +3,7 @@ import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery } from 'api/queries/query';
+import { getQuery, noPrefix, parseQuery } from 'api/queries/query';
 import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { Report } from 'api/reports/report';
@@ -183,7 +183,12 @@ class Explorer extends React.Component<ExplorerProps> {
     // Omit items labeled 'no-project'
     const items = [];
     selectedItems.map(item => {
-      if (!(item.label === `no-${groupById}` || item.label === `no-${groupByTagKey}`)) {
+      if (
+        !(
+          item.label?.toLowerCase() === `${noPrefix}${groupById}` ||
+          item.label?.toLowerCase() === `${noPrefix}${groupByTagKey}`
+        )
+      ) {
         items.push(item);
       }
     });

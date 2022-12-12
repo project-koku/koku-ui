@@ -1,5 +1,6 @@
 import 'routes/views/details/components/dataTable/dataTable.scss';
 
+import { noPrefix } from 'api/queries/query';
 import type { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -125,7 +126,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const cost = this.getTotalCost(item, index);
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const label = item && item.label && item.label !== null ? item.label : '';
-      const isDisabled = label === `no-${groupBy}` || label === `no-${groupByTagKey}`;
+      const isDisabled =
+        label?.toLowerCase() === `${noPrefix}${groupBy}` || label?.toLowerCase() === `${noPrefix}${groupByTagKey}`;
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
       const actions = this.getActions(item, isDisabled);
 

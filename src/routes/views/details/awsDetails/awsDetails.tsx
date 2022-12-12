@@ -6,7 +6,7 @@ import { ProviderType } from 'api/providers';
 import type { AwsQuery } from 'api/queries/awsQuery';
 import { getQuery, parseQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
+import { noPrefix, orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import type { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -162,7 +162,12 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     // Omit items labeled 'no-project'
     const items = [];
     selectedItems.map(item => {
-      if (!(item.label === `no-${groupById}` || item.label === `no-${groupByTagKey}`)) {
+      if (
+        !(
+          item.label?.toLowerCase() === `${noPrefix}${groupById}` ||
+          item.label?.toLowerCase() === `${noPrefix}${groupByTagKey}`
+        )
+      ) {
         items.push(item);
       }
     });

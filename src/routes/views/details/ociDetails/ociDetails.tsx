@@ -4,7 +4,7 @@ import { ProviderType } from 'api/providers';
 import type { OciQuery } from 'api/queries/ociQuery';
 import { getQuery, parseQuery } from 'api/queries/ociQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { tagPrefix } from 'api/queries/query';
+import { noPrefix, tagPrefix } from 'api/queries/query';
 import type { OciReport } from 'api/reports/ociReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -154,7 +154,12 @@ class OciDetails extends React.Component<OciDetailsProps> {
     // Omit items labeled 'no-project'
     const items = [];
     selectedItems.map(item => {
-      if (!(item.label === `no-${groupById}` || item.label === `no-${groupByTagKey}`)) {
+      if (
+        !(
+          item.label?.toLowerCase() === `${noPrefix}${groupById}` ||
+          item.label?.toLowerCase() === `${noPrefix}${groupByTagKey}`
+        )
+      ) {
         items.push(item);
       }
     });

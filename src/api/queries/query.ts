@@ -2,17 +2,17 @@ import { parse, stringify } from 'qs';
 
 export const logicalOrPrefix = 'or:'; // logical OR prefix for group_by
 export const logicalAndPrefix = 'and:'; // logical AND prefix for group_by
+export const noPrefix = 'no-'; // no-project, no-region, no-<tag>
 export const tagPrefix = 'tag:'; // Tag prefix for group_by
 
 export const breakdownDescKey = 'breakdown_desc'; // Used to display a description in the breakdown header
-export const breakdownGroupByKey = 'breakdown_group_by'; // Used to display a breadcrumb in the breakdown header
 export const breakdownTitleKey = 'breakdown_title'; // Used to display a title in the breakdown header
 export const orgUnitIdKey = 'org_unit_id'; // Org unit ID for group_by
 export const orgUnitNameKey = 'org_unit_name'; // Org unit name for group_by
-export const platformCategory = 'platform'; // Used to display platform costs
+export const platformCategoryKey = 'platform'; // Used to display platform costs
 export const tagKey = 'tag'; // Tag key for group_by
-export const unallocatedPlatformCapacity = 'Platform Unallocated Capacity'; // Unallocated platform costs
-export const unallocatedWorkersCapacity = 'Workers Unallocated Capacity'; // Unallocated workers costs
+export const unallocatedPlatformCapacityKey = 'platform unallocated'; // Unallocated platform costs
+export const unallocatedWorkersCapacityKey = 'workers unallocated'; // Unallocated workers costs
 
 export interface Filters {
   category?: string;

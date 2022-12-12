@@ -1,4 +1,4 @@
-import { platformCategory } from 'api/queries/query';
+import { platformCategoryKey } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
@@ -64,7 +64,7 @@ class ClusterBase extends React.Component<ClusterProps> {
       return null;
     }
     if (isPlatformCosts) {
-      item.label = platformCategory;
+      item.label = platformCategoryKey;
     }
 
     for (const cluster of item.clusters) {
