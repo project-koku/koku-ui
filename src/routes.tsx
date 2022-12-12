@@ -68,12 +68,14 @@ const routes = [
     path: paths.azureDetailsBreakdown,
   },
   {
-    element: userAccess(CostModel),
-    path: `${paths.costModels}/:uuid`,
-  },
-  {
+    // Note: Path order matters here (i.e., dynamic segment must be defined last)
     element: userAccess(CostModelsDetails),
     path: paths.costModels,
+  },
+  {
+    // Note: Path order matters here (i.e., dynamic segment must be defined last)
+    element: userAccess(CostModel),
+    path: `${paths.costModels}/:uuid`,
   },
   {
     element: userAccess(Explorer),
