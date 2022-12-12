@@ -553,9 +553,11 @@ class CostModelWizardBase extends React.Component<Props, State> {
   }
 }
 
-export const CostModelWizard = connect(
+const CostModelWizard = connect(
   createMapStateToProps(state => ({
     metricsHash: metricsSelectors.metrics(state),
   })),
   { fetch: costModelsActions.fetchCostModels }
 )(injectIntl(CostModelWizardBase));
+
+export default CostModelWizard;

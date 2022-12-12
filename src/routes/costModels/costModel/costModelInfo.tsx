@@ -22,7 +22,7 @@ import DistributionCard from 'routes/costModels/costModel/distribution';
 import MarkupCard from 'routes/costModels/costModel/markup';
 import PriceListTable from 'routes/costModels/costModel/priceListTable';
 import SourceTable from 'routes/costModels/costModel/sourceTable';
-import { parseApiError } from 'routes/costModels/createCostModelWizard/parseError';
+import { parseApiError } from 'routes/costModels/costModelWizard/parseError';
 import { Loading } from 'routes/state/loading';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -35,7 +35,7 @@ import { withRouter } from 'utils/router';
 import { styles } from './costModelInfo.styles';
 import Header from './header';
 
-interface OwnProps {
+interface CostModelInfoOwnProps {
   costModels: CostModel[];
   costModelStatus: FetchStatus;
   costModelError: AxiosError;
@@ -50,13 +50,13 @@ interface OwnProps {
   fetchCostModels: typeof costModelsActions.fetchCostModels;
 }
 
-type Props = OwnProps & RouterComponentProps & WrappedComponentProps;
+type CostModelInfoProps = CostModelInfoOwnProps & RouterComponentProps & WrappedComponentProps;
 
-interface State {
+interface CostModelInfoState {
   tabIndex: number;
 }
 
-class CostModelInformation extends React.Component<Props, State> {
+class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoState> {
   public tabRefs = [React.createRef<HTMLElement>(), React.createRef<HTMLElement>(), React.createRef<HTMLElement>()];
   constructor(props) {
     super(props);
@@ -194,6 +194,6 @@ export default injectIntl(
         fetchRbac: rbacActions.fetchRbac,
         fetchCostModels: costModelsActions.fetchCostModels,
       }
-    )(CostModelInformation)
+    )(CostModelInfo)
   )
 );

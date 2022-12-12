@@ -19,7 +19,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import type { RateFormData } from 'routes/costModels/components/rateForm';
 import { canSubmit as isReadyForSubmit, RateForm, useRateData } from 'routes/costModels/components/rateForm';
-import { CostModelContext } from 'routes/costModels/createCostModelWizard/context';
+import { CostModelContext } from 'routes/costModels/costModelWizard/context';
 
 interface AddPriceListOwnProps {
   cancel: () => void;

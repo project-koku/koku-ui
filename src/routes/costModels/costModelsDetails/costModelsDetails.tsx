@@ -16,22 +16,26 @@ import Header from './header';
 import CostModelsTable from './table';
 import CostModelsToolbar from './toolbar';
 
-interface PageProps {
+interface CostModelsDetailsProps {
   search: string;
   getCostModelsData: (query: string) => Promise<void>;
   getRbacData: () => Promise<void>;
   getMetricsData: () => Promise<void>;
 }
 
-class PageBase extends React.Component<PageProps> {
+class CostModelsDetailsBase extends React.Component<CostModelsDetailsProps> {
   componentDidMount() {
+    // eslint-disable-next-line no-console
+    console.log(`1 this.props.search:`, this.props.search);
     this.props.getCostModelsData(this.props.search.slice(1));
     this.props.getRbacData();
     this.props.getMetricsData();
   }
 
-  componentDidUpdate(prevProps: PageProps) {
+  componentDidUpdate(prevProps: CostModelsDetailsProps) {
     if (prevProps.search !== this.props.search) {
+      // eslint-disable-next-line no-console
+      console.log(`2 this.props.search:`, this.props.search);
       this.props.getCostModelsData(this.props.search.slice(1));
     }
   }
@@ -68,6 +72,6 @@ const mapStateToProps = (state: RootState, ownProps: RouterComponentProps) => {
   };
 };
 
-const Page = withRouter(connect(mapStateToProps, mapDispatchToProps)(PageBase));
+const CostModelsDetails = withRouter(connect(mapStateToProps, mapDispatchToProps)(CostModelsDetailsBase));
 
-export default Page;
+export default CostModelsDetails;
