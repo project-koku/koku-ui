@@ -7,7 +7,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
 import { ReadOnlyTooltip } from 'routes/costModels/components/readOnlyTooltip';
-import { CostModelWizard } from 'routes/costModels/createCostModelWizard';
+import { CostModelWizard } from 'routes/costModels/costModelWizard';
 import type { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';

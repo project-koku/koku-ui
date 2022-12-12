@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import type { Rate } from 'api/rates';
 import messages from 'locales/messages';
 import React from 'react';
-import { CostModelContext, defaultCostModelContext } from 'routes/costModels/createCostModelWizard/context';
+import { CostModelContext, defaultCostModelContext } from 'routes/costModels/costModelWizard/context';
 
 import AddPriceList from './addPriceList';
 

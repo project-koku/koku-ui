@@ -17,7 +17,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { parseApiError } from 'routes/costModels/createCostModelWizard/parseError';
+import { parseApiError } from 'routes/costModels/costModelWizard/parseError';
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { costModelsSelectors } from 'store/costModels';
