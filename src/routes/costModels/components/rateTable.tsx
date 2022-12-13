@@ -75,7 +75,6 @@ const RateTableBase: React.FC<RateTableProps> = ({
     { title: intl.formatMessage(messages.measurement), sortable: true, sortIndex: 2 },
     { title: intl.formatMessage(messages.calculationType) },
     { title: intl.formatMessage(messages.rate) },
-    { title: '' },
   ];
   const tagColumns = [
     intl.formatMessage(messages.costModelsTagRateTableKey),
@@ -111,6 +110,8 @@ const RateTableBase: React.FC<RateTableProps> = ({
     columnIndex: 4,
   });
 
+  console.log({rows});
+
   const sortedRows =
     activeSortIndex === null
       ? rows
@@ -135,6 +136,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
               {col.title}
             </Th>
           ))}
+          {!!actions.length && (<Th></Th>)}
         </Tr>
       </Thead>
       {sortedRows.map((row, rowIndex) => {
@@ -152,7 +154,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
                   {cell.title ? cell.title : cell}
                 </Td>
               ))}
-              <Td key={row.cells.length} isActionCell>
+              {!!actions.length && (<Td key={row.cells.length} isActionCell>
                 <ActionsColumn
                   items={actions.map(a => {
                     return {
@@ -161,7 +163,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
                     };
                   })}
                 />
-              </Td>
+              </Td>)}
             </Tr>
             {row.data.hasChildren && isExpanded && (
               <Tr>
