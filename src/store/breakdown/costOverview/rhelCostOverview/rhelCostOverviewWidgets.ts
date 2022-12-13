@@ -1,3 +1,4 @@
+import { platformCategoryKey } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 
@@ -51,7 +52,7 @@ export const projectSummaryWidget: RhelCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'project',
-    showWidgetOnCategory: ['platform'],
+    showWidgetOnCategory: [platformCategoryKey],
     showWidgetOnGroupBy: ['cluster'],
     usePlaceholder: true,
   },

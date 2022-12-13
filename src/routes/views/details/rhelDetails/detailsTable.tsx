@@ -6,7 +6,7 @@ import {
   noPrefix,
   platformCategoryKey,
   unallocatedPlatformCapacityKey,
-  unallocatedWorkersCapacityKey,
+  unallocatedWorkerCapacityKey,
 } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import type { RhelReport } from 'api/reports/rhelReports';
@@ -186,13 +186,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const InfrastructureCost = this.getInfrastructureCost(item, index);
       const isPlatformCosts = item.classification === 'category' && item.label === platformCategoryKey;
       const isUnallocatedCosts =
-        item.label?.toLowerCase() === unallocatedPlatformCapacityKey ||
-        item.label?.toLowerCase() === unallocatedWorkersCapacityKey;
+        item.label === unallocatedPlatformCapacityKey || item.label === unallocatedWorkerCapacityKey;
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
       const isDisabled =
-        label?.toLowerCase() === `${noPrefix}${groupBy}` ||
-        label?.toLowerCase() === `${noPrefix}${groupByTagKey}` ||
-        isUnallocatedCosts;
+        label === `${noPrefix}${groupBy}` || label === `${noPrefix}${groupByTagKey}` || isUnallocatedCosts;
       const actions = this.getActions(item, isDisabled);
 
       const name = isDisabled ? (

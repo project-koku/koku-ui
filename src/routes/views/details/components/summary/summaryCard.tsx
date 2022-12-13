@@ -165,14 +165,14 @@ class SummaryBase extends React.Component<SummaryProps> {
 
   public render() {
     const { intl, isPlatformCosts, reportGroupBy, reportFetchStatus } = this.props;
-
+    const title = intl.formatMessage(messages.breakdownSummaryTitle, {
+      value: isPlatformCosts ? platformCategoryKey.toLowerCase() : reportGroupBy,
+    });
     return (
       <Card style={styles.card}>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.breakdownSummaryTitle, {
-              value: isPlatformCosts ? platformCategoryKey : reportGroupBy,
-            })}
+            {title}
           </Title>
         </CardTitle>
         <CardBody>
