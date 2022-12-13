@@ -275,6 +275,7 @@ const sourceTypeFilterMergeProps = (
     filterType,
     intl,
     query,
+    router,
   };
 };
 
