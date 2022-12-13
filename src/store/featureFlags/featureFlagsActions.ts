@@ -10,7 +10,6 @@ export interface FeatureFlagsActionMeta {
   isNegativeFilteringFeatureEnabled?: boolean;
   isOciFeatureEnabled?: boolean;
   isPlatformCostsFeatureEnabled?: boolean;
-  isUnallocatedCostsFeatureEnabled?: boolean;
 }
 
 export const setFeatureFlags = createAction('feature/init_feature_flags')<FeatureFlagsActionMeta>();

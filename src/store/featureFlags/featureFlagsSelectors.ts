@@ -22,5 +22,3 @@ export const selectIsNegativeFilteringFeatureEnabled = (state: RootState) =>
 export const selectIsOciFeatureEnabled = (state: RootState) => selectFeatureFlagsState(state).isOciFeatureEnabled;
 export const selectIsPlatformCostsFeatureEnabled = (state: RootState) =>
   selectFeatureFlagsState(state).isPlatformCostsFeatureEnabled;
-export const selectIsUnallocatedCostsFeatureEnabled = (state: RootState) =>
-  selectFeatureFlagsState(state).isUnallocatedCostsFeatureEnabled;

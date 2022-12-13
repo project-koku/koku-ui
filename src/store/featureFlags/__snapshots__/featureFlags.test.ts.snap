@@ -12,6 +12,5 @@ exports[`default state 1`] = `
   "isNegativeFilteringFeatureEnabled": false,
   "isOciFeatureEnabled": false,
   "isPlatformCostsFeatureEnabled": false,
-  "isUnallocatedCostsFeatureEnabled": false,
 }
 `;

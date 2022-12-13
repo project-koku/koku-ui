@@ -153,7 +153,6 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         showColumnManagement
         showExport
         showFilter
-        showPlatformCosts={groupBy === 'project'}
         tagReport={tagReport}
         tagReportPathsType={tagReportPathsType}
       />

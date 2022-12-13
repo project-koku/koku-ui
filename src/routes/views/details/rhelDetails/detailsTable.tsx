@@ -2,12 +2,7 @@ import 'routes/views/details/components/dataTable/dataTable.scss';
 
 import { Label } from '@patternfly/react-core';
 import { ProviderType } from 'api/providers';
-import {
-  noPrefix,
-  platformCategoryKey,
-  unallocatedPlatformCapacityKey,
-  unallocatedWorkerCapacityKey,
-} from 'api/queries/query';
+import { noPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import type { RhelReport } from 'api/reports/rhelReports';
 import messages from 'locales/messages';
@@ -184,12 +179,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const supplementaryCost = this.getSupplementaryCost(item, index);
       const InfrastructureCost = this.getInfrastructureCost(item, index);
-      const isPlatformCosts = item.classification === 'category' && item.label === platformCategoryKey;
-      const isUnallocatedCosts =
-        item.label === unallocatedPlatformCapacityKey || item.label === unallocatedWorkerCapacityKey;
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
-      const isDisabled =
-        label === `${noPrefix}${groupBy}` || label === `${noPrefix}${groupByTagKey}` || isUnallocatedCosts;
+      const isDisabled = label === `${noPrefix}${groupBy}` || label === `${noPrefix}${groupByTagKey}`;
       const actions = this.getActions(item, isDisabled);
 
       const name = isDisabled ? (
@@ -200,7 +191,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             basePath: paths.rhelDetailsBreakdown,
             label: label.toString(),
             description: item.id,
-            isPlatformCosts,
             groupBy,
             router,
           })}

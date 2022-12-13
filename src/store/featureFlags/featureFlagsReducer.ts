@@ -17,7 +17,6 @@ export type FeatureFlagsState = Readonly<{
   isNegativeFilteringFeatureEnabled: boolean;
   isOciFeatureEnabled: boolean;
   isPlatformCostsFeatureEnabled: boolean;
-  isUnallocatedCostsFeatureEnabled: boolean;
 }>;
 
 export const defaultState: FeatureFlagsState = {
@@ -31,7 +30,6 @@ export const defaultState: FeatureFlagsState = {
   isNegativeFilteringFeatureEnabled: false,
   isOciFeatureEnabled: false,
   isPlatformCostsFeatureEnabled: false,
-  isUnallocatedCostsFeatureEnabled: false,
 };
 
 export const stateKey = 'featureFlags';
@@ -51,7 +49,6 @@ export function featureFlagsReducer(state = defaultState, action: FeatureFlagsAc
         isNegativeFilteringFeatureEnabled: action.payload.isNegativeFilteringFeatureEnabled,
         isOciFeatureEnabled: action.payload.isOciFeatureEnabled,
         isPlatformCostsFeatureEnabled: action.payload.isPlatformCostsFeatureEnabled,
-        isUnallocatedCostsFeatureEnabled: action.payload.isUnallocatedCostsFeatureEnabled,
       };
 
     default:
