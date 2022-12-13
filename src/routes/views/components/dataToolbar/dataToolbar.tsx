@@ -27,7 +27,7 @@ import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import type { Org } from 'api/orgs/org';
 import type { Query } from 'api/queries/query';
-import { orgUnitIdKey, orgUnitNameKey, tagKey, tagPrefix } from 'api/queries/query';
+import { orgUnitIdKey, orgUnitNameKey, platformCategoryKey, tagKey, tagPrefix } from 'api/queries/query';
 import type { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import { isResourceTypeValid } from 'api/resources/resourceUtils';
 import type { Tag } from 'api/tags/tag';
@@ -144,7 +144,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     isCategorySelectOpen: false,
     isExcludeSelectOpen: false,
     isOrgUnitSelectExpanded: false,
-    isPlatformCostsChecked: this.props.query ? this.props.query.category === 'platform' : false,
+    isPlatformCostsChecked: this.props.query ? this.props.query.category === platformCategoryKey : false,
     isTagValueDropdownOpen: false,
     isTagKeySelectExpanded: false,
     isTagValueSelectExpanded: false,
@@ -178,8 +178,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               currentOrgUnit: '',
               currentTagKey: '',
               filters,
-              isPlatformCostsChecked: false,
               tagKeyValueInput: '',
+              ...(prevProps.groupBy !== groupBy && { isPlatformCostsChecked: false }),
             }
           : {
               filters,
@@ -1146,7 +1146,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>(state => {
+const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>((state, props) => {
   return {
     isNegativeFilteringFeatureEnabled: featureFlagsSelectors.selectIsNegativeFilteringFeatureEnabled(state),
     isPlatformCostsFeatureEnabled: featureFlagsSelectors.selectIsPlatformCostsFeatureEnabled(state),

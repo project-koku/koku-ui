@@ -126,8 +126,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const cost = this.getTotalCost(item, index);
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const label = item && item.label && item.label !== null ? item.label : '';
-      const isDisabled =
-        label?.toLowerCase() === `${noPrefix}${groupBy}` || label?.toLowerCase() === `${noPrefix}${groupByTagKey}`;
+      const isDisabled = label === `${noPrefix}${groupBy}` || label === `${noPrefix}${groupByTagKey}`;
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
       const actions = this.getActions(item, isDisabled);
 

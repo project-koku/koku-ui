@@ -154,12 +154,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     // Omit items labeled 'no-project'
     const items = [];
     selectedItems.map(item => {
-      if (
-        !(
-          item.label?.toLowerCase() === `${noPrefix}${groupById}` ||
-          item.label?.toLowerCase() === `${noPrefix}${groupByTagKey}`
-        )
-      ) {
+      if (!(item.label === `${noPrefix}${groupById}` || item.label === `${noPrefix}${groupByTagKey}`)) {
         items.push(item);
       }
     });

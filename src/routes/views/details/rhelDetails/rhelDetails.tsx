@@ -4,7 +4,7 @@ import { ProviderType } from 'api/providers';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { getQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { noPrefix, tagPrefix } from 'api/queries/query';
+import { noPrefix, platformCategoryKey, tagPrefix } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -198,12 +198,7 @@ class RhelDetails extends React.Component<OcpDetailsProps> {
     // Omit items labeled 'no-project'
     const items = [];
     selectedItems.map(item => {
-      if (
-        !(
-          item.label?.toLowerCase() === `${noPrefix}${groupById}` ||
-          item.label?.toLowerCase() === `${noPrefix}${groupByTagKey}`
-        )
-      ) {
+      if (!(item.label === `${noPrefix}${groupById}` || item.label === `${noPrefix}${groupByTagKey}`)) {
         items.push(item);
       }
     });
@@ -362,7 +357,7 @@ class RhelDetails extends React.Component<OcpDetailsProps> {
     const { query, router } = this.props;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
-      category: checked ? 'platform' : undefined,
+      category: checked ? platformCategoryKey : undefined,
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {
       router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });

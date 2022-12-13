@@ -13,7 +13,7 @@ export interface ReportItemValue {
 }
 
 export interface ReportItem {
-  classification?: string; // 'platform', 'project', etc.
+  classification?: string; // Platform.
   cost?: ReportItemValue;
   date?: string;
   default_project?: string; // 'True' or 'False'

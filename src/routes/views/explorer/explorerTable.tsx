@@ -236,8 +236,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       rows.push({
         cells,
         selectionDisabled:
-          selectItem.label?.toLowerCase() === `${noPrefix}${groupBy}` ||
-          selectItem.label?.toLowerCase() === `${noPrefix}${groupByTagKey}`,
+          selectItem.label === `${noPrefix}${groupBy}` || selectItem.label === `${noPrefix}${groupByTagKey}`,
         item: selectItem,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === selectItem.id) !== undefined),
       });
