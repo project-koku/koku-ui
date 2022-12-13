@@ -67,9 +67,3 @@ test('platform costs feature is enabled', async () => {
   store.dispatch(actions.setFeatureFlags({ isPlatformCostsFeatureEnabled: true }));
   expect(featureFlagsSelectors.selectIsPlatformCostsFeatureEnabled(store.getState())).toBe(true);
 });
-
-test('unallocated costs feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureFlags({ isUnallocatedCostsFeatureEnabled: true }));
-  expect(featureFlagsSelectors.selectIsUnallocatedCostsFeatureEnabled(store.getState())).toBe(true);
-});

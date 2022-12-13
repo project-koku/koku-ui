@@ -20,7 +20,6 @@ export const enum FeatureToggle {
   negativeFiltering = 'cost-management.ui.negative-filtering', // Negative (aka exclude) filtering https://issues.redhat.com/browse/COST-2773
   oci = 'cost-management.ui.oci', // Oracle Cloud Infrastructure https://issues.redhat.com/browse/COST-2358
   platformCosts = 'cost-management.ui.platform-costs', // OCP platform costs https://issues.redhat.com/browse/COST-2774
-  unallocatedCosts = 'cost-management.ui.unallocated-costs', // Unallocated (aka idle) costs https://issues.redhat.com/browse/COST-3248
 }
 
 let userId;
@@ -69,7 +68,6 @@ const FeatureFlags: React.FC<FeatureFlagsProps> = ({ children = null }) => {
             isIbmFeatureEnabled: client.isEnabled(FeatureToggle.ibm),
             isOciFeatureEnabled: client.isEnabled(FeatureToggle.oci),
             isPlatformCostsFeatureEnabled: client.isEnabled(FeatureToggle.platformCosts),
-            isUnallocatedCostsFeatureEnabled: client.isEnabled(FeatureToggle.unallocatedCosts),
           })
         );
       });
