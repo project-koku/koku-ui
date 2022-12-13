@@ -378,4 +378,3 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 const DetailsTable = injectIntl(withRouter(DetailsTableBase));
 
 export { DetailsTable };
-export type { DetailsTableProps };
