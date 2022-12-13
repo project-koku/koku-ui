@@ -1146,7 +1146,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>(state => {
   return {
     isNegativeFilteringFeatureEnabled: featureFlagsSelectors.selectIsNegativeFilteringFeatureEnabled(state),
     isPlatformCostsFeatureEnabled: featureFlagsSelectors.selectIsPlatformCostsFeatureEnabled(state),
