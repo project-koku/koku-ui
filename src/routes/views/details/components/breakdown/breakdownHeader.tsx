@@ -3,7 +3,7 @@ import './breakdownHeader.scss';
 import { Title, TitleSizes } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left-icon';
 import type { Query } from 'api/queries/query';
-import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey } from 'api/queries/query';
+import { getQueryRoute } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import type { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -21,6 +21,7 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import type { CostTypes } from 'utils/costType';
 import { getTotalCostDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
+import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey } from 'utils/props';
 
 import { styles } from './breakdownHeader.styles';
 

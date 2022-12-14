@@ -4,7 +4,6 @@ import { ProviderType } from 'api/providers';
 import type { IbmQuery } from 'api/queries/ibmQuery';
 import { getQuery, parseQuery } from 'api/queries/ibmQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { noPrefix, tagPrefix } from 'api/queries/query';
 import type { IbmReport } from 'api/reports/ibmReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -38,6 +37,7 @@ import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedIbmReportIte
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getCurrency } from 'utils/localStorage';
+import { noPrefix, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

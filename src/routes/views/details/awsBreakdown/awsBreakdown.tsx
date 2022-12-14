@@ -3,7 +3,6 @@ import { ProviderType } from 'api/providers';
 import { getQuery, parseQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
-import { breakdownDescKey, breakdownTitleKey, logicalAndPrefix, orgUnitIdKey } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
@@ -24,6 +23,7 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/localStorage';
+import { breakdownDescKey, breakdownTitleKey, logicalAndPrefix, orgUnitIdKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

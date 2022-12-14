@@ -6,7 +6,6 @@ import { ProviderType } from 'api/providers';
 import type { AwsQuery } from 'api/queries/awsQuery';
 import { getQuery, parseQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { noPrefix, orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import type { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -42,6 +41,7 @@ import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputed
 import type { CostTypes } from 'utils/costType';
 import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/localStorage';
+import { noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

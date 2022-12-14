@@ -2,11 +2,12 @@ import type { SelectOptionObject } from '@patternfly/react-core';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import type { Org } from 'api/orgs/org';
 import type { Query } from 'api/queries/query';
-import { orgUnitIdKey, orgUnitNameKey, parseQuery } from 'api/queries/query';
+import { parseQuery } from 'api/queries/query';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { orgUnitIdKey, orgUnitNameKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

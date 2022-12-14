@@ -2,7 +2,6 @@ import 'routes/views/details/components/dataTable/dataTable.scss';
 
 import { Label } from '@patternfly/react-core';
 import { ProviderType } from 'api/providers';
-import { noPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import type { RhelReport } from 'api/reports/rhelReports';
 import messages from 'locales/messages';
@@ -20,6 +19,7 @@ import type { ComputedReportItem } from 'utils/computedReport/getComputedReportI
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dates';
 import { formatCurrency, formatPercentage } from 'utils/format';
+import { noPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

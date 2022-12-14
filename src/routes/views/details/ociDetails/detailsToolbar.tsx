@@ -1,7 +1,6 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
 import type { OciQuery } from 'api/queries/ociQuery';
 import { getQuery } from 'api/queries/ociQuery';
-import { tagKey } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
 import type { OciTag } from 'api/tags/ociTags';
 import { TagPathsType, TagType } from 'api/tags/tag';
@@ -16,6 +15,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
+import { tagKey } from 'utils/props';
 
 interface DetailsToolbarOwnProps {
   isAllSelected?: boolean;

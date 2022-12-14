@@ -1,13 +1,6 @@
 import { Modal } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import {
-  getQuery,
-  logicalAndPrefix,
-  orgUnitIdKey,
-  parseQuery,
-  platformCategoryKey,
-  tagPrefix,
-} from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -20,6 +13,7 @@ import { isPlatformCosts } from 'routes/views/utils/paths';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
+import { logicalAndPrefix, orgUnitIdKey, platformCategoryKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

@@ -14,7 +14,7 @@ import {
   Tr,
 } from '@patternfly/react-table';
 import type { Query } from 'api/queries/query';
-import { noPrefix, parseQuery } from 'api/queries/query';
+import { parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import { format } from 'date-fns';
 import messages from 'locales/messages';
@@ -29,6 +29,7 @@ import { createMapStateToProps } from 'store/common';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatCurrency } from 'utils/format';
+import { noPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

@@ -1,7 +1,7 @@
 import type { Query } from 'api/queries/query';
-import { getQueryRoute, platformCategoryKey } from 'api/queries/query';
-import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey } from 'api/queries/query';
+import { getQueryRoute } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
+import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey, platformCategoryKey } from 'utils/props';
 import type { RouteComponentProps } from 'utils/router';
 
 export const getBreakdownPath = ({

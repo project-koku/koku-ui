@@ -1,10 +1,10 @@
-import { platformCategoryKey } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { platformCategoryKey } from 'utils/props';
 
 import { styles } from './cluster.styles';
 import { ClusterModal } from './clusterModal';

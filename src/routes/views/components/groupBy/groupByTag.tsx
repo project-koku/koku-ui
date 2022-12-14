@@ -1,12 +1,13 @@
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { parseQuery, tagPrefix } from 'api/queries/query';
+import { parseQuery } from 'api/queries/query';
 import type { Tag } from 'api/tags/tag';
 import messages from 'locales/messages';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

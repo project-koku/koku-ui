@@ -11,7 +11,7 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, platformCategoryKey } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -25,6 +25,7 @@ import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { logicalAndPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { skeletonWidth } from 'utils/skeleton';

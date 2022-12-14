@@ -1,5 +1,5 @@
 import type { Query } from 'api/queries/query';
-import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
+import { orgUnitIdKey, tagPrefix } from 'utils/props';
 
 export const getGroupById = (query: Query) => {
   const groupBys = query && query.group_by ? Object.keys(query.group_by) : [];
