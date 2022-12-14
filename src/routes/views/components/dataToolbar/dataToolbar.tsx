@@ -27,7 +27,6 @@ import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import type { Org } from 'api/orgs/org';
 import type { Query } from 'api/queries/query';
-import { orgUnitIdKey, orgUnitNameKey, platformCategoryKey, tagKey, tagPrefix } from 'api/queries/query';
 import type { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import { isResourceTypeValid } from 'api/resources/resourceUtils';
 import type { Tag } from 'api/tags/tag';
@@ -45,6 +44,7 @@ import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
+import { orgUnitIdKey, orgUnitNameKey, platformCategoryKey, tagKey, tagPrefix } from 'utils/props';
 
 import { DataKebab } from './dataKebab';
 import { styles } from './dataToolbar.styles';

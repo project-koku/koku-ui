@@ -2,7 +2,7 @@ import type { ToolbarChipGroup } from '@patternfly/react-core';
 import type { Org } from 'api/orgs/org';
 import { OrgPathsType, OrgType } from 'api/orgs/org';
 import type { AwsQuery } from 'api/queries/awsQuery';
-import { getQuery, orgUnitIdKey, tagKey } from 'api/queries/query';
+import { getQuery } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
 import type { Tag } from 'api/tags/tag';
 import { TagPathsType, TagType } from 'api/tags/tag';
@@ -18,6 +18,7 @@ import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
+import { orgUnitIdKey, tagKey } from 'utils/props';
 
 interface DetailsToolbarOwnProps {
   isAllSelected?: boolean;

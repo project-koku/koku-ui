@@ -2,12 +2,6 @@ import 'routes/views/details/components/dataTable/dataTable.scss';
 
 import { Label } from '@patternfly/react-core';
 import { ProviderType } from 'api/providers';
-import {
-  noPrefix,
-  platformCategoryKey,
-  unallocatedPlatformCapacityKey,
-  unallocatedWorkerCapacityKey,
-} from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -25,6 +19,7 @@ import type { ComputedReportItem } from 'utils/computedReport/getComputedReportI
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dates';
 import { formatCurrency, formatPercentage } from 'utils/format';
+import { classificationDefault, classificationPlatform, classificationUnallocated, noPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -184,9 +179,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const supplementaryCost = this.getSupplementaryCost(item, index);
       const InfrastructureCost = this.getInfrastructureCost(item, index);
-      const isPlatformCosts = item.classification === 'category' && item.label === platformCategoryKey;
-      const isUnallocatedCosts =
-        item.label === unallocatedPlatformCapacityKey || item.label === unallocatedWorkerCapacityKey;
+      const isPlatformCosts = item.classification === classificationPlatform;
+      const isUnallocatedCosts = item.classification === classificationUnallocated;
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
       const isDisabled =
         label === `${noPrefix}${groupBy}` || label === `${noPrefix}${groupByTagKey}` || isUnallocatedCosts;
@@ -222,15 +216,16 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           },
           {
             hidden: !showDefaultProject,
-            value: item.default_project ? (
-              <div>
-                <Label variant="outline" color="green">
-                  {intl.formatMessage(messages.default)}
-                </Label>
-              </div>
-            ) : (
-              <div style={styles.defaultLabel} />
-            ),
+            value:
+              item.classification === classificationDefault ? (
+                <div>
+                  <Label variant="outline" color="green">
+                    {intl.formatMessage(messages.default)}
+                  </Label>
+                </div>
+              ) : (
+                <div style={styles.defaultLabel} />
+              ),
           },
           { value: <div>{monthOverMonth}</div>, id: DetailsTableColumnIds.monthOverMonth },
           { value: <div>{InfrastructureCost}</div>, id: DetailsTableColumnIds.infrastructure },

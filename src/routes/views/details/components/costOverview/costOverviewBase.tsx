@@ -12,7 +12,6 @@ import {
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
 import type { Query } from 'api/queries/query';
-import { orgUnitIdKey, platformCategoryKey, tagPrefix } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
@@ -25,6 +24,7 @@ import { UsageChart } from 'routes/views/details/components/usageChart';
 import { styles } from 'routes/views/details/ocpDetails/detailsHeader.styles';
 import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
+import { orgUnitIdKey, platformCategoryKey, tagPrefix } from 'utils/props';
 
 interface CostOverviewOwnProps {
   costType?: string;

@@ -4,7 +4,6 @@ import { ProviderType } from 'api/providers';
 import type { GcpQuery } from 'api/queries/gcpQuery';
 import { getQuery, parseQuery } from 'api/queries/gcpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { noPrefix, tagPrefix } from 'api/queries/query';
 import type { GcpReport } from 'api/reports/gcpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -37,6 +36,7 @@ import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedGcpReportIte
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getCurrency } from 'utils/localStorage';
+import { noPrefix, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

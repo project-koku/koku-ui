@@ -2,7 +2,7 @@ import { Button, ButtonVariant } from '@patternfly/react-core';
 import type { Export } from 'api/export/export';
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
-import { getQuery, orgUnitIdKey, tagPrefix } from 'api/queries/query';
+import { getQuery } from 'api/queries/query';
 import type { ReportPathsType } from 'api/reports/report';
 import { ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -19,6 +19,7 @@ import { exportActions, exportSelectors } from 'store/export';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getToday } from 'utils/dates';
+import { orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

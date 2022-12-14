@@ -1,7 +1,6 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
 import type { AzureQuery } from 'api/queries/azureQuery';
 import { getQuery } from 'api/queries/azureQuery';
-import { tagKey } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
 import type { AzureTag } from 'api/tags/azureTags';
 import { TagPathsType, TagType } from 'api/tags/tag';
@@ -16,6 +15,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
+import { tagKey } from 'utils/props';
 
 interface DetailsToolbarOwnProps {
   isAllSelected?: boolean;

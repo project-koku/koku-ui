@@ -3,8 +3,7 @@ import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
-import { getQuery, noPrefix, parseQuery } from 'api/queries/query';
-import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { Report } from 'api/reports/report';
 import type { UserAccess } from 'api/userAccess';
@@ -45,6 +44,7 @@ import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputed
 import type { CostTypes } from 'utils/costType';
 import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/localStorage';
+import { noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import {

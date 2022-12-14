@@ -1,6 +1,6 @@
-import { platformCategoryKey } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
+import { platformCategoryKey } from 'utils/props';
 
 import type { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
 

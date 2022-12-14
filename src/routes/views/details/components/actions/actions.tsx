@@ -1,6 +1,5 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
 import type { ProviderType } from 'api/providers';
-import { tagPrefix } from 'api/queries/query';
 import type { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
@@ -11,6 +10,7 @@ import { ExportModal } from 'routes/views/components/export';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

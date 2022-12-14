@@ -1,4 +1,4 @@
-import { tagPrefix } from 'api/queries/query';
+import { tagPrefix } from 'utils/props';
 
 export interface GetItemLabelParams {
   idKey: any;

@@ -1,6 +1,5 @@
 import 'routes/views/details/components/dataTable/dataTable.scss';
 
-import { noPrefix } from 'api/queries/query';
 import type { IbmReport } from 'api/reports/ibmReports';
 import { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -18,6 +17,7 @@ import type { ComputedReportItem } from 'utils/computedReport/getComputedReportI
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dates';
 import { formatCurrency, formatPercentage } from 'utils/format';
+import { noPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

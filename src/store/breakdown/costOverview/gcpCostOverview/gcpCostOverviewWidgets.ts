@@ -1,6 +1,6 @@
-import { tagPrefix } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
+import { tagPrefix } from 'utils/props';
 
 import type { GcpCostOverviewWidget } from './gcpCostOverviewCommon';
 

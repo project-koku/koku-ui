@@ -2,7 +2,7 @@ import type { ToolbarChipGroup } from '@patternfly/react-core';
 import type { Org, OrgPathsType } from 'api/orgs/org';
 import { OrgType } from 'api/orgs/org';
 import type { Query } from 'api/queries/query';
-import { getQuery, orgUnitIdKey, parseQuery, tagKey } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { ResourcePathsType } from 'api/resources/resource';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
@@ -21,6 +21,7 @@ import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
 import { formatStartEndDate } from 'utils/dates';
 import { isEqual } from 'utils/equal';
+import { orgUnitIdKey, tagKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

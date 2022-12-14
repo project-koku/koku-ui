@@ -11,7 +11,6 @@ import {
   Radio,
   TextInput,
 } from '@patternfly/react-core';
-import { tagPrefix } from 'api/queries/query';
 import type { ReportPathsType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
 import { format } from 'date-fns';
@@ -24,6 +23,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { tagPrefix } from 'utils/props';
 
 import { styles } from './exportModal.styles';
 import { ExportSubmit } from './exportSubmit';
