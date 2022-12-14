@@ -110,8 +110,6 @@ const RateTableBase: React.FC<RateTableProps> = ({
     columnIndex: 4,
   });
 
-  console.log({rows});
-
   const sortedRows =
     activeSortIndex === null
       ? rows
@@ -136,7 +134,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
               {col.title}
             </Th>
           ))}
-          {!!actions.length && (<Th></Th>)}
+          {!!actions.length && <Th></Th>}
         </Tr>
       </Thead>
       {sortedRows.map((row, rowIndex) => {
@@ -154,16 +152,18 @@ const RateTableBase: React.FC<RateTableProps> = ({
                   {cell.title ? cell.title : cell}
                 </Td>
               ))}
-              {!!actions.length && (<Td key={row.cells.length} isActionCell>
-                <ActionsColumn
-                  items={actions.map(a => {
-                    return {
-                      ...a,
-                      onClick: () => a.onClick(null, rowIndex, row, null),
-                    };
-                  })}
-                />
-              </Td>)}
+              {!!actions.length && (
+                <Td key={row.cells.length} isActionCell>
+                  <ActionsColumn
+                    items={actions.map(a => {
+                      return {
+                        ...a,
+                        onClick: () => a.onClick(null, rowIndex, row, null),
+                      };
+                    })}
+                  />
+                </Td>
+              )}
             </Tr>
             {row.data.hasChildren && isExpanded && (
               <Tr>
