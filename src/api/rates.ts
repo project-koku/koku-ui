@@ -25,6 +25,7 @@ export interface TagRates {
 }
 
 export interface Rate {
+  stateIndex?: any;
   description?: string;
   metric: Metric;
   tiered_rates?: TieredRate[];

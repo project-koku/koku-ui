@@ -53,7 +53,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
     return [
       ...acc,
       {
-        data: { index: ix, hasChildren: isTagRates, tag_rates: tier.tag_rates },
+        data: { index: ix, hasChildren: isTagRates, tag_rates: tier.tag_rates, stateIndex: tier.stateIndex },
         cells: [
           tier.description || '',
           getMetric(tier.metric.label_metric),
@@ -158,7 +158,9 @@ const RateTableBase: React.FC<RateTableProps> = ({
                     items={actions.map(a => {
                       return {
                         ...a,
-                        onClick: () => a.onClick(null, rowIndex, row, null),
+                        onClick: () => {
+                          a.onClick(null, rowIndex, row, null);
+                        },
                       };
                     })}
                   />

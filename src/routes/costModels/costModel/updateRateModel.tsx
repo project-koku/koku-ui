@@ -93,7 +93,6 @@ const UpdateRateModalBase: React.FC<UpdateRateModalBaseProps> = ({
       )
     );
   }, [isOpen]);
-
   return (
     <Modal
       title={intl.formatMessage(messages.priceListEditRate)}
