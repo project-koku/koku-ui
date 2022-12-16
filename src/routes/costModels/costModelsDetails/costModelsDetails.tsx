@@ -25,8 +25,6 @@ interface CostModelsDetailsProps {
 
 class CostModelsDetailsBase extends React.Component<CostModelsDetailsProps> {
   componentDidMount() {
-    // eslint-disable-next-line no-console
-    console.log(`1 this.props.search:`, this.props.search);
     this.props.getCostModelsData(this.props.search.slice(1));
     this.props.getRbacData();
     this.props.getMetricsData();
@@ -34,8 +32,6 @@ class CostModelsDetailsBase extends React.Component<CostModelsDetailsProps> {
 
   componentDidUpdate(prevProps: CostModelsDetailsProps) {
     if (prevProps.search !== this.props.search) {
-      // eslint-disable-next-line no-console
-      console.log(`2 this.props.search:`, this.props.search);
       this.props.getCostModelsData(this.props.search.slice(1));
     }
   }
