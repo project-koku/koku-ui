@@ -1690,10 +1690,10 @@
     "@typescript-eslint/types" "5.46.1"
     eslint-visitor-keys "^3.3.0"
 
-"@unleash/proxy-client-react@^3.4.1":
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/@unleash/proxy-client-react/-/proxy-client-react-3.4.1.tgz#8f11ee805b3d8a432e87d20d318b9383d5a320d0"
-  integrity sha512-X7OXsR3k2KpH9FZ/4QYy+SeUoL1g+w5IIiv//fVH4IyGp0M7CCLsF+8eYdfC7xHGk0w7/xbcIyVINmGsXfb04w==
+"@unleash/proxy-client-react@^3.5.0":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@unleash/proxy-client-react/-/proxy-client-react-3.5.0.tgz#1009da19179ba70a2c243e54a1d38ee7bb991177"
+  integrity sha512-ucBQM7XIilePpbRZJQJc4G4QMtvCrzxTZtUAheEsHZy//U8Cr7zPMotQztopK/IyStaNHaLtD7h7l4cXNvFuqQ==
 
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
