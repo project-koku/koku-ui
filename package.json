@@ -88,7 +88,7 @@
     "@yarnpkg/lockfile": "^1.1.0",
     "aphrodite": "^2.4.0",
     "copy-webpack-plugin": "^11.0.0",
-    "eslint": "^8.29.0",
+    "eslint": "^8.30.0",
     "eslint-plugin-formatjs": "^4.3.8",
     "eslint-plugin-jest-dom": "^4.0.3",
     "eslint-plugin-jsdoc": "^39.6.4",
