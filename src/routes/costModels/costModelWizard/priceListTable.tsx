@@ -147,6 +147,12 @@ class PriceListTable extends React.Component<Props, State> {
                     const from = (priceListPagination.page - 1) * priceListPagination.perPage;
                     const to = priceListPagination.page * priceListPagination.perPage;
                     const filtered = items
+                      .map((item, index) => {
+                        return {
+                          ...item,
+                          stateIndex: index,
+                        };
+                      })
                       .filter(rate => search.metrics.length === 0 || search.metrics.includes(rate.metric.label_metric))
                       .filter(
                         rate =>
@@ -248,7 +254,7 @@ class PriceListTable extends React.Component<Props, State> {
                               {
                                 title: intl.formatMessage(messages.remove),
                                 onClick: (_evt, _rowId, rowData) => {
-                                  deleteRateAction(rowData.data.index + from);
+                                  deleteRateAction(rowData.data.stateIndex);
                                 },
                               },
                             ]}
