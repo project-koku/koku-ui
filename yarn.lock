@@ -350,10 +350,10 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@formatjs/cli@^5.1.10":
-  version "5.1.10"
-  resolved "https://registry.yarnpkg.com/@formatjs/cli/-/cli-5.1.10.tgz#9e26c55c59e60cfccbab5b52628b138ef7a4a213"
-  integrity sha512-KvBfdc+2ARFVNq6bJq7jdHmXKXDDlWLXf3y3fK28JYhvxvQngl7PPkgoDHuFjXZ2dR1nV6bIDEyRBxfia6nINg==
+"@formatjs/cli@^5.1.11":
+  version "5.1.11"
+  resolved "https://registry.yarnpkg.com/@formatjs/cli/-/cli-5.1.11.tgz#7fe39e383d5e89fd563f6689c6fc67dc4cb680d7"
+  integrity sha512-ziG5nFSKwpODdySYoPsXaYHcBG+JIuPXYW9CEELhbbJudE8MdatKA3fxcb8Y+q4A+IPun8JZCW9BtMNYSa3LAw==
 
 "@formatjs/ecma402-abstract@1.14.3":
   version "1.14.3"
