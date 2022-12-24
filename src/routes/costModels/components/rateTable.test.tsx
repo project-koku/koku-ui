@@ -6,7 +6,8 @@ import React from 'react';
 import { RateTable } from './rateTable';
 
 describe('rate-table', () => {
-  test('smoke-test', () => {
+  test('smoke-test', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const tiers: Rate[] = [
       {
         description: 'rate 1',
@@ -66,6 +67,8 @@ describe('rate-table', () => {
     render(<RateTable tiers={tiers} />);
     expect(screen.getByText('rate 1')).toBeTruthy();
     expect(screen.getByText('rate 2')).toBeTruthy();
+    expect(screen.queryByText('grafana')).toBeNull();
+    await user.click(screen.getByRole('button', { name: 'Various' }));
     expect(screen.getByText('grafana')).toBeTruthy();
   });
   test('sort by metric & measurement', () => {

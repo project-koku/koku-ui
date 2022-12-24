@@ -1,5 +1,5 @@
 import { Checkbox, Stack, StackItem, Text, TextContent, TextVariants, Title, TitleSizes } from '@patternfly/react-core';
-import { Table, TableBody, TableHeader } from '@patternfly/react-table';
+import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -81,48 +81,49 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
               {loading ? (
                 <LoadingState />
               ) : (
-                <Table
-                  aria-label={intl.formatMessage(messages.costModelsWizardSourceTableAriaLabel)}
-                  cells={[
-                    '',
-                    intl.formatMessage(messages.names, { count: 1 }),
-                    intl.formatMessage(messages.costModelsWizardSourceTableCostModel),
-                  ]}
-                  rows={sources.map((r, ix) => {
-                    return {
-                      cells: [
-                        <>
+                <TableComposable aria-label={intl.formatMessage(messages.costModelsWizardSourceTableAriaLabel)}>
+                  <Thead>
+                    <Tr>
+                      {[
+                        '',
+                        intl.formatMessage(messages.names, { count: 1 }),
+                        intl.formatMessage(messages.costModelsWizardSourceTableCostModel),
+                      ].map((c, i) => (
+                        <Th key={i}>{c}</Th>
+                      ))}
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {sources.map((row, rowIndex) => (
+                      <Tr key={rowIndex}>
+                        <Td>
                           <Checkbox
                             onChange={isChecked => {
-                              onSourceSelect(ix, isChecked);
+                              onSourceSelect(rowIndex, isChecked);
                             }}
-                            id={r.name}
-                            key={r.name}
-                            aria-label={intl.formatMessage(messages.selectRow, { value: ix })}
-                            isChecked={checked[r.uuid] && checked[r.uuid].selected}
-                            isDisabled={Boolean(r.costmodel)}
+                            id={row.name}
+                            key={row.name}
+                            aria-label={intl.formatMessage(messages.selectRow, { value: rowIndex })}
+                            isChecked={checked[row.uuid] && checked[row.uuid].selected}
+                            isDisabled={Boolean(row.costmodel)}
                           />
-                        </>,
-                        <>
-                          {r.name}{' '}
-                          {Boolean(r.costmodel) && (
+                        </Td>
+                        <Td>
+                          {row.name}{' '}
+                          {Boolean(row.costmodel) && (
                             <WarningIcon
-                              key={`wrng-${r.name}`}
+                              key={`wrng-${row.name}`}
                               text={intl.formatMessage(messages.costModelsWizardSourceWarning, {
-                                costModel: r.costmodel,
+                                costModel: row.costmodel,
                               })}
                             />
                           )}
-                        </>,
-                        r.costmodel ? r.costmodel : '',
-                      ],
-                      selected: checked[r.uuid] && checked[r.uuid].selected,
-                    };
-                  })}
-                >
-                  <TableHeader />
-                  <TableBody />
-                </Table>
+                        </Td>
+                        <Td>{row.costmodel ? row.costmodel : ''}</Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </TableComposable>
               )}
               <PaginationToolbarTemplate
                 itemCount={itemCount}

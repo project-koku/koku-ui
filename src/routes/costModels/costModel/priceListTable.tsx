@@ -120,7 +120,6 @@ class PriceListTable extends React.Component<Props, State> {
     const metric = this.state.deleteRate
       ? `${this.state.deleteRate.metric.label_metric}-${this.state.deleteRate.metric.label_measurement} (${this.state.deleteRate.metric.label_measurement_unit})`
       : '';
-
     return (
       <>
         <AddRateModal />
@@ -178,6 +177,9 @@ class PriceListTable extends React.Component<Props, State> {
             const to = this.state.pagination.page * this.state.pagination.perPage;
 
             const res = this.props.current.rates
+              .map((r, i) => {
+                return { ...r, stateIndex: i };
+              })
               .filter(rate => search.metrics.length === 0 || search.metrics.includes(rate.metric.label_metric))
               .filter(
                 rate => search.measurements.length === 0 || search.measurements.includes(rate.metric.label_measurement)
@@ -312,7 +314,7 @@ class PriceListTable extends React.Component<Props, State> {
                           onClick: (_evt, _rowIndex, rowData) => {
                             this.setState({
                               deleteRate: null,
-                              index: rowData.data.index + from,
+                              index: rowData.data.stateIndex,
                             });
                             this.props.setDialogOpen({
                               name: 'updateRate',
@@ -329,7 +331,7 @@ class PriceListTable extends React.Component<Props, State> {
                             <div>{intl.formatMessage(messages.costModelsReadOnly)}</div>
                           ) : undefined,
                           onClick: (_evt, _rowIndex, rowData) => {
-                            const rowIndex = rowData.data.index;
+                            const rowIndex = rowData.data.stateIndex;
                             this.setState({
                               deleteRate: filtered[rowIndex],
                               index: rowIndex + from,
