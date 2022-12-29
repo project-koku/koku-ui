@@ -703,7 +703,7 @@ exports[`reports are formatted to datums 1`] = `
                 shape-rendering="auto"
                 style="fill: none;"
                 vector-effect="non-scaling-stroke"
-                width="349.96874999999994"
+                width="533.6312499999999"
                 x="0"
                 y="94.905"
               />
@@ -718,10 +718,10 @@ exports[`reports are formatted to datums 1`] = `
                 style="fill: #8bc1f7;"
               />
               <path
-                d="M 182.82437499999997, 111.061
-      h12.319999999999993
+                d="M 274.65562499999993, 111.061
+      h12.32000000000005
       v-4.312
-      h-12.319999999999993
+      h-12.32000000000005
       z"
                 role="presentation"
                 shape-rendering="auto"
@@ -741,14 +741,14 @@ exports[`reports are formatted to datums 1`] = `
                   text-anchor="start"
                   x="30.8"
                 >
-                  Cost ({dateRange}){}
+                  Cost ({dateRange}){"dateRange":""}
                 </tspan>
               </text>
               <text
                 direction="inherit"
                 dx="0"
                 id="exampleCostChart-legend-ChartLabel-1"
-                x="205.78437499999998"
+                x="297.61562499999997"
                 y="113.875"
               >
                 <tspan
@@ -756,9 +756,9 @@ exports[`reports are formatted to datums 1`] = `
                   dy="0"
                   style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
                   text-anchor="start"
-                  x="205.78437499999998"
+                  x="297.61562499999997"
                 >
-                  Cost ({dateRange}){}
+                  Cost ({dateRange}){"dateRange":""}
                 </tspan>
               </text>
             </g>

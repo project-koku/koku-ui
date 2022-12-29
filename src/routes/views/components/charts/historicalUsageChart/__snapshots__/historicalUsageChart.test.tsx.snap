@@ -405,7 +405,7 @@ exports[`reports are formatted to datums 1`] = `
               shape-rendering="auto"
               style="fill: none;"
               vector-effect="non-scaling-stroke"
-              width="407.2374999999999"
+              width="590.8999999999999"
               x="0"
               y="78"
             />
@@ -420,10 +420,10 @@ exports[`reports are formatted to datums 1`] = `
               style="fill: #8bc1f7;"
             />
             <path
-              d="M 211.45874999999995, 94.156
-      h12.319999999999993
+              d="M 303.2899999999999, 94.156
+      h12.32000000000005
       v-4.312
-      h-12.319999999999993
+      h-12.32000000000005
       z"
               role="presentation"
               shape-rendering="auto"
@@ -450,20 +450,20 @@ exports[`reports are formatted to datums 1`] = `
               style="fill: #519de9;"
             />
             <path
-              d="M 211.45874999999995, 125.061
-      h3.695999999999998
+              d="M 303.2899999999999, 125.061
+      h3.696000000000015
       v-4.312
-      h-3.695999999999998
+      h-3.696000000000015
       z
-      M 216.38674999999995, 125.061
-      h3.695999999999998
+      M 308.21799999999996, 125.061
+      h3.696000000000015
       v-4.312
-      h-3.695999999999998
+      h-3.696000000000015
       z
-      M 221.31474999999995, 125.061
-      h3.695999999999998
+      M 313.14599999999996, 125.061
+      h3.696000000000015
       v-4.312
-      h-3.695999999999998
+      h-3.696000000000015
       z"
               role="presentation"
               shape-rendering="auto"
@@ -480,10 +480,10 @@ exports[`reports are formatted to datums 1`] = `
               style="fill: #06c;"
             />
             <path
-              d="M 211.45874999999995, 155.966
-      h12.319999999999993
+              d="M 303.2899999999999, 155.966
+      h12.32000000000005
       v-4.312
-      h-12.319999999999993
+      h-12.32000000000005
       z"
               role="presentation"
               shape-rendering="auto"
@@ -503,14 +503,14 @@ exports[`reports are formatted to datums 1`] = `
                 text-anchor="start"
                 x="30.8"
               >
-                Usage ({dateRange}){}
+                Usage ({dateRange}){"dateRange":""}
               </tspan>
             </text>
             <text
               direction="inherit"
               dx="0"
               id="exampleUsageChart-legend-ChartLabel-1"
-              x="234.41874999999996"
+              x="326.24999999999994"
               y="96.97"
             >
               <tspan
@@ -518,9 +518,9 @@ exports[`reports are formatted to datums 1`] = `
                 dy="0"
                 style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
                 text-anchor="start"
-                x="234.41874999999996"
+                x="326.24999999999994"
               >
-                Usage ({dateRange}){}
+                Usage ({dateRange}){"dateRange":""}
               </tspan>
             </text>
             <text
@@ -537,14 +537,14 @@ exports[`reports are formatted to datums 1`] = `
                 text-anchor="start"
                 x="30.8"
               >
-                Requests ({dateRange}){}
+                Requests ({dateRange}){"dateRange":""}
               </tspan>
             </text>
             <text
               direction="inherit"
               dx="0"
               id="exampleUsageChart-legend-ChartLabel-3"
-              x="234.41874999999996"
+              x="326.24999999999994"
               y="127.875"
             >
               <tspan
@@ -552,9 +552,9 @@ exports[`reports are formatted to datums 1`] = `
                 dy="0"
                 style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
                 text-anchor="start"
-                x="234.41874999999996"
+                x="326.24999999999994"
               >
-                Requests ({dateRange}){}
+                Requests ({dateRange}){"dateRange":""}
               </tspan>
             </text>
             <text
@@ -578,7 +578,7 @@ exports[`reports are formatted to datums 1`] = `
               direction="inherit"
               dx="0"
               id="exampleUsageChart-legend-ChartLabel-5"
-              x="234.41874999999996"
+              x="326.24999999999994"
               y="158.78"
             >
               <tspan
@@ -586,7 +586,7 @@ exports[`reports are formatted to datums 1`] = `
                 dy="0"
                 style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
                 text-anchor="start"
-                x="234.41874999999996"
+                x="326.24999999999994"
               >
                 Limit (no data)
               </tspan>

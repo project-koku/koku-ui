@@ -332,7 +332,7 @@ exports[`reports are formatted to datums 1`] = `
           shape-rendering="auto"
           style="fill: none;"
           vector-effect="non-scaling-stroke"
-          width="203.61874999999995"
+          width="295.44999999999993"
           x="0"
           y="57"
         />
@@ -410,7 +410,7 @@ exports[`reports are formatted to datums 1`] = `
             text-anchor="start"
             x="30.8"
           >
-            Usage ({dateRange}){}
+            Usage ({dateRange}){"dateRange":""}
           </tspan>
         </text>
         <text
@@ -427,7 +427,7 @@ exports[`reports are formatted to datums 1`] = `
             text-anchor="start"
             x="30.8"
           >
-            Usage ({dateRange}){}
+            Usage ({dateRange}){"dateRange":""}
           </tspan>
         </text>
         <text
@@ -444,7 +444,7 @@ exports[`reports are formatted to datums 1`] = `
             text-anchor="start"
             x="30.8"
           >
-            Requests ({dateRange}){}
+            Requests ({dateRange}){"dateRange":""}
           </tspan>
         </text>
         <text
@@ -461,7 +461,7 @@ exports[`reports are formatted to datums 1`] = `
             text-anchor="start"
             x="30.8"
           >
-            Requests ({dateRange}){}
+            Requests ({dateRange}){"dateRange":""}
           </tspan>
         </text>
       </g>
