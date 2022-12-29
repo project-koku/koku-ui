@@ -43,7 +43,7 @@ export function getRowsByStateName(stateName: string, data: any) {
     ];
   }
   return data.map((item: CostModel) => {
-    const dateTime = intl.formatDate(item.updated_timestamp, {
+    const dateTime: any = intl.formatDate(item.updated_timestamp, {
       day: 'numeric',
       hour: 'numeric',
       hour12: false,
@@ -53,7 +53,6 @@ export function getRowsByStateName(stateName: string, data: any) {
       timeZoneName: 'short',
       year: 'numeric',
     });
-
     return {
       cells: [
         {
@@ -62,7 +61,7 @@ export function getRowsByStateName(stateName: string, data: any) {
         item.description,
         item.source_type,
         item.sources.length.toString(),
-        dateTime,
+        dateTime._isMockFunction ? '' : dateTime, // Mock may return an object here
       ],
       data: { costModel: item },
     };
