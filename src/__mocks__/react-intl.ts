@@ -1,8 +1,8 @@
 const mockedReactIntl = jest.genMockFromModule('react-intl') as any;
 
 const intl = {
-  formatDate: () => jest.fn(v => v),
-  formatDateTimeRange: () => jest.fn(v => v),
+  formatDate: () => jest.fn(v => v), // using Func here because build generates different date values
+  formatDateTimeRange: () => jest.fn(v => v), // using Func here because build generates different date values
   formatMessage: ({ defaultMessage }, params?) => {
     if (!params) {
       return defaultMessage;
