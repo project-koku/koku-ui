@@ -61,7 +61,7 @@ export function getRowsByStateName(stateName: string, data: any) {
         item.description,
         item.source_type,
         item.sources.length.toString(),
-        dateTime._isMockFunction ? '' : dateTime, // Mock may return an object here
+        dateTime,
       ],
       data: { costModel: item },
     };

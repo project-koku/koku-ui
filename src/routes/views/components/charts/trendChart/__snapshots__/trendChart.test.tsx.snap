@@ -281,7 +281,7 @@ exports[`reports are formatted to datums 1`] = `
               shape-rendering="auto"
               style="fill: none;"
               vector-effect="non-scaling-stroke"
-              width="174.98437499999997"
+              width="266.81562499999995"
               x="0"
               y="82"
             />
@@ -319,7 +319,7 @@ exports[`reports are formatted to datums 1`] = `
                 text-anchor="start"
                 x="30.8"
               >
-                Cost ({dateRange}){}
+                Cost ({dateRange}){"dateRange":""}
               </tspan>
             </text>
             <text
@@ -336,7 +336,7 @@ exports[`reports are formatted to datums 1`] = `
                 text-anchor="start"
                 x="30.8"
               >
-                Cost ({dateRange}){}
+                Cost ({dateRange}){"dateRange":""}
               </tspan>
             </text>
           </g>
