@@ -1,5 +1,5 @@
 import { authInterceptor as insightsAuthInterceptor } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
-import type { AxiosRequestConfig } from 'axios';
+import type { AxiosRequestConfig, RawAxiosRequestHeaders } from 'axios';
 import axios from 'axios';
 
 export interface PagedMetaData {
@@ -30,6 +30,6 @@ export function authInterceptor(reqConfig: AxiosRequestConfig): AxiosRequestConf
     ...reqConfig,
     headers: {
       ...reqConfig.headers,
-    },
+    } as RawAxiosRequestHeaders,
   };
 }

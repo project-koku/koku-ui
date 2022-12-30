@@ -1,8 +1,8 @@
 const mockedReactIntl = jest.genMockFromModule('react-intl') as any;
 
 const intl = {
-  formatDate: jest.fn(v => ''), // Dates won't match snapshots during PR builds
-  formatDateTimeRange: jest.fn(v => ''), // Dates won't match snapshots during PR builds
+  formatDate: jest.fn(() => ''), // Dates won't match snapshots during PR builds
+  formatDateTimeRange: jest.fn(() => ''), // Dates won't match snapshots during PR builds
   formatMessage: ({ defaultMessage }, params?) => {
     if (!params) {
       return defaultMessage;
