@@ -80,7 +80,7 @@
     "@types/qs": "^6.9.7",
     "@types/react": "^17.0.35",
     "@types/react-dom": "^17.0.9",
-    "@types/react-redux": "^7.1.24",
+    "@types/react-redux": "^7.1.25",
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
