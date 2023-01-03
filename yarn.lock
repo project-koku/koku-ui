@@ -965,12 +965,12 @@
     "@scalprum/react-core" "^0.2.4"
     sanitize-html "^2.7.2"
 
-"@redhat-cloud-services/rbac-client@^1.0.118":
-  version "1.0.118"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/rbac-client/-/rbac-client-1.0.118.tgz#4e41cd48acf11f86f5622a0e9d3607f9138e9ddf"
-  integrity sha512-clwnpSDbteeOJsvvZuOG6hr62/wiTEqp4PPMctFwov2aqC5Bi5sJ4hlWOUxhEarvS9pLfhJRIygT218hUoSqJg==
+"@redhat-cloud-services/rbac-client@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/rbac-client/-/rbac-client-1.2.0.tgz#2c74180c953bebf9ba6cac49194292a0166f6895"
+  integrity sha512-JQnXuzYGmiq1NhCblcvBb1bnRrVEi3kk5GcJbEKT8rkLXpmPXPbXE32dF7rvejPY+nOEoqSnYaAb9pbfGX5ciQ==
   dependencies:
-    axios "^0.21.1"
+    axios "^0.27.2"
 
 "@redhat-cloud-services/types@^0.0.17":
   version "0.0.17"
@@ -2209,13 +2209,6 @@ axe-core@^4.4.3:
   version "4.4.3"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.4.3.tgz#11c74d23d5013c0fa5d183796729bc3482bd2f6f"
   integrity sha512-32+ub6kkdhhWick/UjvEwRchgoetXqTK14INLqbGm5U2TzBkBNF3nQtLYm8ovxSkQWArjEQvftCKryjZaATu3w==
-
-axios@^0.21.1:
-  version "0.21.4"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
-  integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
-  dependencies:
-    follow-redirects "^1.14.0"
 
 axios@^0.27.2:
   version "0.27.2"
@@ -4062,7 +4055,7 @@ focus-trap@6.9.2:
   dependencies:
     tabbable "^5.3.2"
 
-follow-redirects@^1.0.0, follow-redirects@^1.14.0, follow-redirects@^1.14.9, follow-redirects@^1.15.0:
+follow-redirects@^1.0.0, follow-redirects@^1.14.9, follow-redirects@^1.15.0:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
