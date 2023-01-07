@@ -12,11 +12,11 @@ interface CostOverviewOwnProps {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<CostOverviewOwnProps, CostOverviewStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<CostOverviewOwnProps, CostOverviewStateProps>((state, { title }) => {
   return {
     selectWidgets: rhelCostOverviewSelectors.selectWidgets(state),
     widgets: rhelCostOverviewSelectors.selectCurrentWidgets(state),
-    title: props.title,
+    title,
   };
 });
 

@@ -121,7 +121,6 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
           groupBy={groupBy}
           query={queryFromRoute}
           report={report}
-          title={title}
         />
       ),
       costType,
