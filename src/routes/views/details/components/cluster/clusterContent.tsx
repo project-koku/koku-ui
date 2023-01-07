@@ -1,22 +1,21 @@
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface ClusterContentOwnProps {
-  item: ComputedReportItem;
+  clusters: string[];
 }
 
 type ClusterContentProps = ClusterContentOwnProps & WrappedComponentProps;
 
 class ClusterContentBase extends React.Component<ClusterContentProps> {
   public render() {
-    const { item } = this.props;
+    const { clusters = [] } = this.props;
 
-    if (!item.clusters) {
+    if (clusters.length === 0) {
       return null;
     }
-    return item.clusters.map((cluster, index) => <div key={`cluster-${index}`}>{cluster}</div>);
+    return clusters.map((cluster, index) => <div key={`cluster-${index}`}>{cluster}</div>);
   }
 }
 

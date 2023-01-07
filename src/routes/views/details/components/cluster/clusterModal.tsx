@@ -5,16 +5,16 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 import { ClusterContent } from './clusterContent';
 import { styles } from './clusterModal.styles';
 
 interface ClusterModalOwnProps {
+  clusters: string[];
   groupBy: string;
   isOpen: boolean;
-  item: ComputedReportItem;
   onClose(isOpen: boolean);
+  title?: string;
 }
 
 type ClusterModalProps = ClusterModalOwnProps & WrappedComponentProps;
@@ -26,8 +26,8 @@ class ClusterModalBase extends React.Component<ClusterModalProps> {
   }
 
   public shouldComponentUpdate(nextProps: ClusterModalProps) {
-    const { isOpen, item } = this.props;
-    return nextProps.item !== item || nextProps.isOpen !== isOpen;
+    const { clusters, isOpen } = this.props;
+    return nextProps.clusters !== clusters || nextProps.isOpen !== isOpen;
   }
 
   private handleClose = () => {
@@ -35,7 +35,7 @@ class ClusterModalBase extends React.Component<ClusterModalProps> {
   };
 
   public render() {
-    const { groupBy, intl, isOpen, item } = this.props;
+    const { clusters, groupBy, intl, isOpen, title } = this.props;
 
     return (
       <Modal
@@ -45,11 +45,11 @@ class ClusterModalBase extends React.Component<ClusterModalProps> {
         onClose={this.handleClose}
         title={intl.formatMessage(messages.detailsClustersModalTitle, {
           groupBy,
-          name: item.label,
+          name: title,
         })}
         width={'50%'}
       >
-        <ClusterContent item={item} />
+        <ClusterContent clusters={clusters} />
       </Modal>
     );
   }

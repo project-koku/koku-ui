@@ -111,6 +111,8 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
       providersQueryString
     );
 
+    const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
+
     return {
       costOverviewComponent: (
         <CostOverview
@@ -119,6 +121,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
           groupBy={groupBy}
           query={queryFromRoute}
           report={report}
+          title={title}
         />
       ),
       costType,
@@ -142,7 +145,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
       reportQueryString,
       showCostType: true,
       tagReportPathsType: TagPathsType.aws,
-      title: queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue,
+      title,
     };
   }
 );
