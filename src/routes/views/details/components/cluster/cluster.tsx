@@ -4,15 +4,14 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { platformCategoryKey } from 'utils/props';
 
 import { styles } from './cluster.styles';
 import { ClusterModal } from './clusterModal';
 
 interface ClusterOwnProps {
   groupBy: string;
-  isPlatformCosts?: boolean;
   report: Report;
+  title?: string;
 }
 
 interface ClusterState {
@@ -46,7 +45,7 @@ class ClusterBase extends React.Component<ClusterProps> {
   };
 
   public render() {
-    const { groupBy, intl, isPlatformCosts, report } = this.props;
+    const { groupBy, intl, report, title } = this.props;
     const { isOpen, showAll } = this.state;
 
     let charCount = 0;
@@ -59,15 +58,33 @@ class ClusterBase extends React.Component<ClusterProps> {
       idKey: groupBy as any,
     });
 
-    const item = computedItems && computedItems.length ? computedItems[0] : undefined;
-    if (!item) {
+    // Get clusters from all projects -- see https://issues.redhat.com/browse/COST-3371
+    const clusters = [];
+    computedItems.map(item => {
+      if (item.clusters) {
+        item.clusters.map(cluster => {
+          if (!clusters.includes(cluster)) {
+            clusters.push(cluster);
+          }
+        });
+      }
+    });
+    if (clusters.length === 0) {
       return null;
     }
-    if (isPlatformCosts) {
-      item.label = platformCategoryKey;
-    }
 
-    for (const cluster of item.clusters) {
+    // Sort clusters from multiple projects
+    clusters.sort((a, b) => {
+      if (a < b) {
+        return -1;
+      }
+      if (a > b) {
+        return 1;
+      }
+      return 0;
+    });
+
+    for (const cluster of clusters) {
       const prefix = someClusters.length > 0 ? ', ' : '';
       const clusterString = `${prefix}${cluster}`;
       if (showAll) {
@@ -96,7 +113,7 @@ class ClusterBase extends React.Component<ClusterProps> {
             {intl.formatMessage(messages.detailsMoreClusters, { value: allClusters.length - someClusters.length })}
           </a>
         )}
-        <ClusterModal groupBy={groupBy} isOpen={isOpen} item={item} onClose={this.handleClose} />
+        <ClusterModal clusters={clusters} groupBy={groupBy} isOpen={isOpen} onClose={this.handleClose} title={title} />
       </div>
     );
   }

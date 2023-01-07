@@ -37,6 +37,7 @@ interface CostOverviewOwnProps {
 
 interface CostOverviewStateProps {
   selectWidgets?: () => void;
+  title?: string;
   widgets: number[];
 }
 
@@ -47,7 +48,7 @@ const PLACEHOLDER = 'placeholder';
 class CostOverviewsBase extends React.Component<CostOverviewProps> {
   // Returns cluster chart
   private getClusterChart = (widget: CostOverviewWidget) => {
-    const { groupBy, intl, isPlatformCosts, report } = this.props;
+    const { groupBy, intl, report, title } = this.props;
 
     let showWidget = false;
     for (const groupById of widget.cluster.showWidgetOnGroupBy) {
@@ -65,7 +66,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps> {
             </Title>
           </CardTitle>
           <CardBody>
-            <Cluster groupBy={widget.cluster.reportGroupBy} isPlatformCosts={isPlatformCosts} report={report} />
+            <Cluster groupBy={widget.cluster.reportGroupBy} report={report} title={title} />
           </CardBody>
         </Card>
       );

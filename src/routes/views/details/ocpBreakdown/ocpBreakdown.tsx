@@ -104,6 +104,8 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
       providersQueryString
     );
 
+    const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
+
     return {
       costOverviewComponent: (
         <CostOverview
@@ -111,6 +113,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
           groupBy={groupBy}
           isPlatformCosts={isPlatformCosts(queryFromRoute)}
           report={report}
+          title={title}
         />
       ),
       currency,
@@ -131,7 +134,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
       reportPathsType,
       reportQueryString,
       tagReportPathsType: TagPathsType.ocp,
-      title: queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue,
+      title,
     };
   }
 );

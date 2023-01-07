@@ -75,8 +75,8 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps> {
       newQuery.filter.account = undefined;
       newQuery.filter.category = undefined;
       newQuery[breakdownDescKey] = undefined;
-      newQuery[orgUnitIdKey] = undefined;
       newQuery[breakdownTitleKey] = undefined;
+      newQuery[orgUnitIdKey] = undefined;
     }
     return `${detailsURL}?${getQueryRoute(newQuery)}`;
   };

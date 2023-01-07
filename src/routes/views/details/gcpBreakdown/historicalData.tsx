@@ -1,5 +1,3 @@
-import type { WrappedComponentProps } from 'react-intl';
-import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { HistoricalDataBase } from 'routes/views/details/components/historicalData';
 import { gcpHistoricalDataSelectors } from 'store/breakdown/historicalData/gcpHistoricalData';
@@ -9,7 +7,9 @@ interface HistoricalDataStateProps {
   widgets: number[];
 }
 
-type HistoricalDataOwnProps = WrappedComponentProps;
+interface HistoricalDataOwnProps {
+  // TBD...
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<HistoricalDataOwnProps, HistoricalDataStateProps>((state, props) => {
@@ -19,6 +19,6 @@ const mapStateToProps = createMapStateToProps<HistoricalDataOwnProps, Historical
   };
 });
 
-const HistoricalData = injectIntl(connect(mapStateToProps, {})(HistoricalDataBase));
+const HistoricalData = connect(mapStateToProps, {})(HistoricalDataBase);
 
 export { HistoricalData };
