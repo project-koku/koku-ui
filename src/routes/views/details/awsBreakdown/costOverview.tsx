@@ -8,7 +8,7 @@ interface CostOverviewStateProps {
 }
 
 interface CostOverviewOwnProps {
-  title?: string;
+  // TBD...
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -16,7 +16,6 @@ const mapStateToProps = createMapStateToProps<CostOverviewOwnProps, CostOverview
   return {
     selectWidgets: awsCostOverviewSelectors.selectWidgets(state),
     widgets: awsCostOverviewSelectors.selectCurrentWidgets(state),
-    title: props.title,
   };
 });
 
