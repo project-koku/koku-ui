@@ -1,5 +1,3 @@
-import type { WrappedComponentProps } from 'react-intl';
-import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { CostOverviewBase } from 'routes/views/details/components/costOverview';
 import { ibmCostOverviewSelectors } from 'store/breakdown/costOverview/ibmCostOverview';
@@ -9,7 +7,9 @@ interface CostOverviewStateProps {
   widgets: number[];
 }
 
-type CostOverviewOwnProps = WrappedComponentProps;
+interface CostOverviewOwnProps {
+  // TBD...
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<CostOverviewOwnProps, CostOverviewStateProps>((state, props) => {
@@ -19,6 +19,6 @@ const mapStateToProps = createMapStateToProps<CostOverviewOwnProps, CostOverview
   };
 });
 
-const CostOverview = injectIntl(connect(mapStateToProps, {})(CostOverviewBase));
+const CostOverview = connect(mapStateToProps, {})(CostOverviewBase);
 
 export { CostOverview };
