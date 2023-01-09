@@ -55,9 +55,9 @@ export const initialRateFormData = {
 };
 
 export type RateFormData = typeof initialRateFormData;
-export type RateFormTagValue = typeof initialRateFormData['taggingRates']['tagValues'][0];
-export type taggingRates = typeof initialRateFormData['taggingRates'];
-export type RateFormErrors = typeof initialRateFormData['errors'];
+export type RateFormTagValue = (typeof initialRateFormData)['taggingRates']['tagValues'][0];
+export type taggingRates = (typeof initialRateFormData)['taggingRates'];
+export type RateFormErrors = (typeof initialRateFormData)['errors'];
 
 export const checkRateOnChange = (inputValue: string) => {
   if (inputValue.length === 0) {
