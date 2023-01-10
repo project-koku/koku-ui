@@ -66,7 +66,6 @@ interface DataToolbarOwnProps {
   itemsPerPage?: number;
   itemsTotal?: number;
   onBulkSelected?: (action: string) => void;
-  onClearAll?: (type: string) => void;
   onColumnManagementClicked?: () => void;
   onExportClicked?: () => void;
   onFilterAdded?: (filter: Filter) => void;
