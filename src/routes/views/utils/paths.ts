@@ -25,7 +25,7 @@ export const getBreakdownPath = ({
     ...(description && description !== label && { [breakdownDescKey]: description }),
     ...(isPlatformCosts && { [breakdownTitleKey]: label }),
     group_by: {
-      [groupBy]: isPlatformCosts ? '*' : label,
+      [groupBy]: isPlatformCosts ? '*' : description,
     },
   };
   if (isPlatformCosts) {
