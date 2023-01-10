@@ -192,6 +192,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             label: label.toString(),
             description: item.id,
             groupBy,
+            id: item.id,
             router,
           })}
         >
