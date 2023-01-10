@@ -43,8 +43,6 @@ interface ResourceInputStateProps {
 }
 
 interface ResourceInputState {
-  createdOptions: any[];
-  isSelectExpanded?: boolean;
   menuIsOpen?: boolean;
 }
 
@@ -63,8 +61,6 @@ class ResourceInputBase extends React.Component<ResourceInputProps> {
   private searchTimeout: any = noop;
 
   protected defaultState: ResourceInputState = {
-    createdOptions: [],
-    isSelectExpanded: false,
     menuIsOpen: false,
   };
   public state: ResourceInputState = { ...this.defaultState };
@@ -165,7 +161,6 @@ class ResourceInputBase extends React.Component<ResourceInputProps> {
 
   private getOptions = (): ToolbarChipGroup[] => {
     const { resource, resourceFetchStatus, search } = this.props;
-    const { createdOptions } = this.state;
     let options = [];
     if (resource && resource.data && resource.data.length > 0 && resourceFetchStatus !== FetchStatus.inProgress) {
       options = resource.data.map(item => {
@@ -175,15 +170,6 @@ class ResourceInputBase extends React.Component<ResourceInputProps> {
           name: value,
         };
       });
-    }
-    if (createdOptions && createdOptions.length) {
-      const moreOptions = createdOptions.map(val => {
-        return {
-          key: val,
-          name: val,
-        };
-      });
-      options = [...options, ...moreOptions];
     }
     return options;
   };
