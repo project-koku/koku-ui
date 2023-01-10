@@ -194,6 +194,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             basePath: paths.ocpDetailsBreakdown,
             label: label.toString(),
             description: item.id,
+            id: item.id,
             isPlatformCosts,
             groupBy,
             router,
