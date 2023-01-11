@@ -155,14 +155,15 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     ) {
       const mapId = format(currentDate, 'yyyy-MM-dd');
 
-      let isSortable = computedItems.length > 0;
+      let isSortable = false;
       computedItems.map(rowItem => {
         const item = rowItem.get(mapId);
         if (!item) {
-          isSortable = false;
           rowItem.set(mapId, {
             date: mapId,
           });
+        } else {
+          isSortable = true; // At least one row must be available
         }
       });
 
@@ -173,11 +174,9 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
           day: 'numeric',
           month: 'short',
         }),
-        ...(isSortable && {
-          date: mapId,
-          orderBy: 'cost',
-          isSortable: true,
-        }),
+        date: mapId,
+        isSortable,
+        orderBy: 'cost',
       });
     }
 
