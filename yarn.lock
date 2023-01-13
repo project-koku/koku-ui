@@ -941,10 +941,10 @@
     mkdirp "^1.0.4"
     react-content-loader "^6.2.0"
 
-"@redhat-cloud-services/frontend-components@^3.9.28":
-  version "3.9.28"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.28.tgz#e1131e3ad68fe4c6a9aea795a6f7cef07effb592"
-  integrity sha512-OahYuURswLt4Lw2syrpc3m1zmLoczDIcVVnutb2+FoadD4dEksEykpcDeaA2Xc+umQlsuzBBiedqf2H2Wqsr5Q==
+"@redhat-cloud-services/frontend-components@^3.9.29":
+  version "3.9.29"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.9.29.tgz#79d0bd1b712eb57777b345d867149ab03952d001"
+  integrity sha512-Jb7OC+b26aA5UhK3aPZmOmOIt504KZVCLBT+e5bNseGvmQZkldGVukpet5+F1Ueq47nCxOpgm5sRuEz/TidYUg==
   dependencies:
     "@redhat-cloud-services/frontend-components-utilities" "^3.2.25"
     "@redhat-cloud-services/types" "^0.0.17"
