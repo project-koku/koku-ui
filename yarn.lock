@@ -5148,10 +5148,10 @@ jest-message-util@^29.3.1:
     slash "^3.0.0"
     stack-utils "^2.0.3"
 
-jest-mock-axios@^4.7.0-beta3:
-  version "4.7.0-beta3"
-  resolved "https://registry.yarnpkg.com/jest-mock-axios/-/jest-mock-axios-4.7.0-beta3.tgz#051a2c9b7a672279c64f852435a207698ca1b2e3"
-  integrity sha512-HyPvtQXB4FtLWCJSlge1FSTZoxKBq+pVvi4CwzklDeo/3DeOhkeg1ZA4nwMYoQFnsAWUTYk/acujsQ8sWFFq8g==
+jest-mock-axios@^4.7.0-beta4:
+  version "4.7.0-beta4"
+  resolved "https://registry.yarnpkg.com/jest-mock-axios/-/jest-mock-axios-4.7.0-beta4.tgz#3890893321a05b9a29b3e402f6daa96cd7854af6"
+  integrity sha512-lW2lZ2LgmKK+ja49uL/r3IQXjvG7sCGHs3kAguke9zLo6P3sQe9QJYymVbzZhWKir6RH4ckCqJ+5aZy5M9fecg==
   dependencies:
     "@jest/globals" "^29.3.1"
     jest "~29.3.1"
