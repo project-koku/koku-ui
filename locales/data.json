@@ -131,7 +131,7 @@
     "azureDetailsTitle": [
       {
         "type": 0,
-        "value": "Microsoft Azure details"
+        "value": "Microsoft Azure Details"
       }
     ],
     "azureOcpDashboardCostTitle": [
@@ -481,7 +481,7 @@
     "breakdownCostOverviewTitle": [
       {
         "type": 0,
-        "value": "Cost overview"
+        "value": "Cost Overview"
       }
     ],
     "breakdownHistoricalDataTitle": [
@@ -9610,7 +9610,7 @@
     "ociDetailsTitle": [
       {
         "type": 0,
-        "value": "Oracle Cloud Infrastructure details"
+        "value": "Oracle Cloud Infrastructure Details"
       }
     ],
     "ocpCloudDashboardComputeTitle": [
@@ -9746,7 +9746,7 @@
     "ocpDetailsTitle": [
       {
         "type": 0,
-        "value": "OpenShift details"
+        "value": "OpenShift Details"
       }
     ],
     "ocpInfrastructureCostTitle": [
@@ -10445,7 +10445,7 @@
     "rhelDetailsTitle": [
       {
         "type": 0,
-        "value": "RHEL details"
+        "value": "RHEL Details"
       }
     ],
     "rhelInfrastructureCostTitle": [
