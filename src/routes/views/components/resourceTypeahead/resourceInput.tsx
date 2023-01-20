@@ -18,6 +18,7 @@ import { getQuery } from 'api/queries/query';
 import type { Resource } from 'api/resources/resource';
 import type { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import messages from 'locales/messages';
+import type { FormEvent } from 'react';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -29,7 +30,7 @@ import { noop } from 'utils/noop';
 interface ResourceInputOwnProps {
   isDisabled?: boolean;
   onClear?: () => void;
-  onSearchChanged?: (value: string) => void;
+  onSearchChanged?: (evt: FormEvent, value: string) => void;
   onSelect?: (value: string) => void;
   resource?: Resource;
   resourcePathsType: ResourcePathsType;
