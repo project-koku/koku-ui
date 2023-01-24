@@ -91,7 +91,7 @@
     "eslint": "^8.32.0",
     "eslint-plugin-formatjs": "^4.3.9",
     "eslint-plugin-jest-dom": "^4.0.3",
-    "eslint-plugin-jsdoc": "^39.6.7",
+    "eslint-plugin-jsdoc": "^39.6.8",
     "eslint-plugin-markdown": "^3.0.0",
     "eslint-plugin-patternfly-react": "^4.80.4",
     "eslint-plugin-prettier": "^4.2.1",
