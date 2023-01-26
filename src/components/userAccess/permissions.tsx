@@ -58,7 +58,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     return currRoute ? currRoute.path : undefined;
   };
 
-  const hasPermissions = () => {
+  const hasPermissions = path => {
     if (!(userAccess && userAccessFetchStatus === FetchStatus.complete)) {
       return false;
     }
@@ -71,7 +71,6 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const ibm = isIbmFeatureEnabled && hasIbmAccess(userAccess);
     const ocp = hasOcpAccess(userAccess);
     const rhel = isFINsightsFeatureEnabled && hasRhelAccess(userAccess);
-    const path = getRoutePath();
 
     switch (path) {
       case paths.explorer:
@@ -106,13 +105,14 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
   };
 
   // Page access denied because user doesn't have RBAC permissions and is not an org admin
-  let result = <NotAuthorized pathname={location.pathname} />;
+  const path = getRoutePath();
+  let result = <NotAuthorized pathname={path} />;
 
   if (userAccessFetchStatus === FetchStatus.inProgress) {
     result = <Loading />;
   } else if (userAccessError) {
     result = <NotAvailable />;
-  } else if (hasPermissions()) {
+  } else if (hasPermissions(path)) {
     result = <>{children}</>;
   }
   return result;
