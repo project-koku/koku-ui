@@ -45,6 +45,10 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps> {
       case paths.ocpDetailsBreakdown:
         msg = messages.notAuthorizedStateOcp;
         break;
+      case paths.rhelDetails:
+      case paths.rhelDetailsBreakdown:
+        msg = messages.notAuthorizedStateRhel;
+        break;
       case paths.explorer:
       default:
         msg = messages.costManagement;

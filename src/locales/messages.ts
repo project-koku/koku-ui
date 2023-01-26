@@ -2342,6 +2342,11 @@ export default defineMessages({
     description: 'OpenShift in Cost Management',
     id: 'notAuthorizedStateOcp',
   },
+  notAuthorizedStateRhel: {
+    defaultMessage: 'RHEL in Cost Management',
+    description: 'RHEL in Cost Management',
+    id: 'notAuthorizedStateRhel',
+  },
   oci: {
     defaultMessage: 'Oracle Cloud Infrastructure',
     description: 'Oracle Cloud Infrastructure',

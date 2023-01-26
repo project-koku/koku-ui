@@ -9555,6 +9555,12 @@
         "value": "OpenShift in Cost Management"
       }
     ],
+    "notAuthorizedStateRhel": [
+      {
+        "type": 0,
+        "value": "RHEL in Cost Management"
+      }
+    ],
     "oci": [
       {
         "type": 0,

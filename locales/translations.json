@@ -369,6 +369,7 @@
   "notAuthorizedStateIbm": "IBM Cloud in Cost Management",
   "notAuthorizedStateOci": "Oracle Cloud Infrastructure in Cost Management",
   "notAuthorizedStateOcp": "OpenShift in Cost Management",
+  "notAuthorizedStateRhel": "RHEL in Cost Management",
   "oci": "Oracle Cloud Infrastructure",
   "ociComputeTitle": "Virtual machines usage",
   "ociCostTrendTitle": "Oracle Cloud Infrastructure cumulative cost comparison ({units})",
