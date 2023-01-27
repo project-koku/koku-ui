@@ -908,20 +908,20 @@
     eslint-plugin-rulesdir "^0.2.1"
     prettier "^2.7.1"
 
-"@redhat-cloud-services/frontend-components-config-utilities@^1.5.27":
-  version "1.5.27"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config-utilities/-/frontend-components-config-utilities-1.5.27.tgz#582db03de833b45998da14537904a0881e5daacd"
-  integrity sha512-D/ls5TPsIiOE2qkBr6vCSs2WgFyNF/JvLm0gdcLKpoaoI571puymwGhzRVx4RMaisp2J518LcB3zRGfqq3XWWA==
+"@redhat-cloud-services/frontend-components-config-utilities@^1.5.28":
+  version "1.5.28"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config-utilities/-/frontend-components-config-utilities-1.5.28.tgz#9b8bccc1b24e2862a141d2fa62926f11808c95c7"
+  integrity sha512-5gvXdcdpBKaOKFwgYJTdf4epEx95IM3TmON4HMe2TylE2mFecB6Da0vmSXtJhIAaA2HUJl8DEjFBlKQiYhlzDw==
   dependencies:
     node-fetch "2.6.7"
 
-"@redhat-cloud-services/frontend-components-config@^4.6.39":
-  version "4.6.39"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-4.6.39.tgz#dac9848834acc16182151b266992208908e4e711"
-  integrity sha512-szGbJTnY/KYUETIQpKBhbdrFi9hWURd9p2eSrKIdrzJ5Yz/J8Fwjz140ZkwVfMmrUPDCVjSel9mLUfCD0ZJbsw==
+"@redhat-cloud-services/frontend-components-config@^4.6.40":
+  version "4.6.40"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-4.6.40.tgz#9c05a956b27e4c92930a254bef6ef8f312dea674"
+  integrity sha512-485Xdu/CCHGo4GieG6rJfYL45HAREUA0q6X6lp27sYrOovftn8eqPatRkaDXMJnUZ0ESXZyVQsO5B7/k9AgXDA==
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin" "^0.5.8"
-    "@redhat-cloud-services/frontend-components-config-utilities" "^1.5.27"
+    "@redhat-cloud-services/frontend-components-config-utilities" "^1.5.28"
     assert "^2.0.0"
     axios "^0.27.2"
     babel-loader "^8.2.5"
