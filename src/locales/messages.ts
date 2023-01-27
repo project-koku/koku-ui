@@ -147,8 +147,8 @@ export default defineMessages({
     id: 'breakdownCostChartTooltip',
   },
   breakdownCostOverviewTitle: {
-    defaultMessage: 'Cost Overview',
-    description: 'Cost Overview',
+    defaultMessage: 'Cost overview',
+    description: 'Cost overview',
     id: 'breakdownCostOverviewTitle',
   },
   breakdownHistoricalDataTitle: {
