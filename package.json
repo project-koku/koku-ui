@@ -71,7 +71,7 @@
     "xstate": "^4.35.2"
   },
   "devDependencies": {
-    "@formatjs/cli": "^5.1.12",
+    "@formatjs/cli": "^5.1.13",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^1.2.6",
     "@redhat-cloud-services/frontend-components-config": "^4.6.40",
     "@testing-library/react": "^12.1.5",
