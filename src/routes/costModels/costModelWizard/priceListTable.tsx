@@ -98,10 +98,6 @@ class PriceListTable extends React.Component<Props, State> {
           </Title>
           <EmptyStateBody>
             {intl.formatMessage(messages.costModelsWizardEmptyStateSkipStep, {
-              value: <strong>{intl.formatMessage(messages.createRate)}</strong>,
-            })}
-            <br />
-            {intl.formatMessage(messages.costModelsWizardEmptyStateSkipStep, {
               value: <strong>{intl.formatMessage(messages.next)}</strong>,
             })}
             <br />
