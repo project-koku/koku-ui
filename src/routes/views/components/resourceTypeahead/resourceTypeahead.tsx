@@ -1,4 +1,5 @@
 import type { ResourcePathsType, ResourceType } from 'api/resources/resource';
+import type { FormEvent } from 'react';
 import React from 'react';
 
 import { ResourceInput } from './resourceInput';
@@ -38,7 +39,7 @@ class ResourceTypeahead extends React.Component<ResourceTypeaheadProps> {
     });
   };
 
-  private handleOnSearch = (value: string) => {
+  private handleOnSearch = (evt: FormEvent, value: string) => {
     this.setState({
       search: value,
     });

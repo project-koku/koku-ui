@@ -3,6 +3,7 @@ import { DatePicker } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
 import messages from 'locales/messages';
+import type { FormEvent } from 'react';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -145,7 +146,7 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps> {
     return startDate >= minDate && startDate <= maxDate;
   };
 
-  private handleEndDateOnChange = (value: string, date?: Date) => {
+  private handleEndDateOnChange = (evt: FormEvent, value: string, date?: Date) => {
     const { onSelected } = this.props;
     const { startDate } = this.state;
 
@@ -158,7 +159,7 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps> {
     }
   };
 
-  private handleStartDateOnChange = (value: string, date?: Date) => {
+  private handleStartDateOnChange = (evt: FormEvent, value: string, date?: Date) => {
     if (date && this.isStartDateValid(date)) {
       this.setState({ startDate: date }, () => {
         if (this.endDateRef && this.endDateRef.current) {
