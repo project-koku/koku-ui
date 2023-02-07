@@ -34,8 +34,8 @@ test('cost type feature is enabled', async () => {
 
 test('FINsights feature is enabled', async () => {
   const store = createUIStore();
-  store.dispatch(actions.setFeatureFlags({ isFINsightsFeatureEnabled: true }));
-  expect(featureFlagsSelectors.selectIsFINsightsFeatureEnabled(store.getState())).toBe(true);
+  store.dispatch(actions.setFeatureFlags({ isFinsightsFeatureEnabled: true }));
+  expect(featureFlagsSelectors.selectIsFinsightsFeatureEnabled(store.getState())).toBe(true);
 });
 
 test('exports feature is enabled', async () => {
@@ -66,4 +66,10 @@ test('platform costs feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureFlags({ isPlatformCostsFeatureEnabled: true }));
   expect(featureFlagsSelectors.selectIsPlatformCostsFeatureEnabled(store.getState())).toBe(true);
+});
+
+test('ROS feature is enabled', async () => {
+  const store = createUIStore();
+  store.dispatch(actions.setFeatureFlags({ isRosFeatureEnabled: true }));
+  expect(featureFlagsSelectors.selectIsRosFeatureEnabled(store.getState())).toBe(true);
 });

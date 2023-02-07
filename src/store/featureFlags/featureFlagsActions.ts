@@ -5,11 +5,12 @@ export interface FeatureFlagsActionMeta {
   isCostTypeFeatureEnabled?: boolean;
   isCurrencyFeatureEnabled?: boolean;
   isExportsFeatureEnabled?: boolean;
-  isFINsightsFeatureEnabled?: boolean;
+  isFinsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
   isNegativeFilteringFeatureEnabled?: boolean;
   isOciFeatureEnabled?: boolean;
   isPlatformCostsFeatureEnabled?: boolean;
+  isRosFeatureEnabled?: boolean;
 }
 
 export const setFeatureFlags = createAction('feature/init_feature_flags')<FeatureFlagsActionMeta>();

@@ -14,11 +14,12 @@ export const selectIsCostTypeFeatureEnabled = (state: RootState) =>
   selectFeatureFlagsState(state).isCostTypeFeatureEnabled;
 export const selectIsExportsFeatureEnabled = (state: RootState) =>
   selectFeatureFlagsState(state).isExportsFeatureEnabled;
-export const selectIsFINsightsFeatureEnabled = (state: RootState) =>
-  selectFeatureFlagsState(state).isFINsightsFeatureEnabled;
+export const selectIsFinsightsFeatureEnabled = (state: RootState) =>
+  selectFeatureFlagsState(state).isFinsightsFeatureEnabled;
 export const selectIsIbmFeatureEnabled = (state: RootState) => selectFeatureFlagsState(state).isIbmFeatureEnabled;
 export const selectIsNegativeFilteringFeatureEnabled = (state: RootState) =>
   selectFeatureFlagsState(state).isNegativeFilteringFeatureEnabled;
 export const selectIsOciFeatureEnabled = (state: RootState) => selectFeatureFlagsState(state).isOciFeatureEnabled;
 export const selectIsPlatformCostsFeatureEnabled = (state: RootState) =>
   selectFeatureFlagsState(state).isPlatformCostsFeatureEnabled;
+export const selectIsRosFeatureEnabled = (state: RootState) => selectFeatureFlagsState(state).isRosFeatureEnabled;

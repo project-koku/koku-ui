@@ -82,7 +82,7 @@ interface ExplorerStateProps {
   dateRangeType: DateRangeType;
   gcpProviders: Providers;
   ibmProviders: Providers;
-  isFINsightsFeatureEnabled?: boolean;
+  isFinsightsFeatureEnabled?: boolean;
   ocpProviders: Providers;
   perspective: PerspectiveType;
   providers: Providers;
@@ -389,8 +389,8 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private isRhelAvailable = () => {
-    const { isFINsightsFeatureEnabled, rhelProviders, userAccess } = this.props;
-    return isFINsightsFeatureEnabled && isRhelAvailable(userAccess, rhelProviders);
+    const { isFinsightsFeatureEnabled, rhelProviders, userAccess } = this.props;
+    return isFinsightsFeatureEnabled && isRhelAvailable(userAccess, rhelProviders);
   };
 
   private updateReport = () => {
@@ -636,7 +636,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     dateRangeType,
     gcpProviders,
     ibmProviders,
-    isFINsightsFeatureEnabled: featureFlagsSelectors.selectIsFINsightsFeatureEnabled(state),
+    isFinsightsFeatureEnabled: featureFlagsSelectors.selectIsFinsightsFeatureEnabled(state),
     ociProviders,
     ocpProviders,
     perspective,

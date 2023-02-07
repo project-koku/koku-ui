@@ -9555,6 +9555,12 @@
         "value": "OpenShift in Cost Management"
       }
     ],
+    "notAuthorizedStateRecommendations": [
+      {
+        "type": 0,
+        "value": "Recommendations in Cost Management"
+      }
+    ],
     "notAuthorizedStateRhel": [
       {
         "type": 0,
