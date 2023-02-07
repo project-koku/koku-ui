@@ -135,7 +135,7 @@ interface OverviewStateProps {
   ibmProviders?: Providers;
   isCostTypeFeatureEnabled?: boolean;
   isCurrencyFeatureEnabled?: boolean;
-  isFINsightsFeatureEnabled?: boolean;
+  isFinsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
   isOciFeatureEnabled?: boolean;
   ociProviders?: Providers;
@@ -199,7 +199,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   }
 
   private getAvailableTabs = () => {
-    const { isFINsightsFeatureEnabled } = this.props;
+    const { isFinsightsFeatureEnabled } = this.props;
     const availableTabs = [];
 
     const infrastructureTabs =
@@ -235,7 +235,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         ]
       : undefined;
 
-    if (isFINsightsFeatureEnabled) {
+    if (isFinsightsFeatureEnabled) {
       if (infrastructureTabs) {
         availableTabs.push(...infrastructureTabs);
       }
@@ -284,7 +284,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getCurrentTab = () => {
-    const { isFINsightsFeatureEnabled } = this.props;
+    const { isFinsightsFeatureEnabled } = this.props;
     const { activeTabKey } = this.state;
 
     const hasAws = this.isAwsAvailable();
@@ -308,7 +308,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     } else if (showRhelOnly) {
       return OverviewTab.rhel;
     } else {
-      if (isFINsightsFeatureEnabled) {
+      if (isFinsightsFeatureEnabled) {
         switch (activeTabKey) {
           case 0:
             return OverviewTab.infrastructure;
@@ -574,10 +574,10 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getTabTitle = (tab: OverviewTab) => {
-    const { intl, isFINsightsFeatureEnabled } = this.props;
+    const { intl, isFinsightsFeatureEnabled } = this.props;
 
     if (tab === OverviewTab.infrastructure) {
-      if (isFINsightsFeatureEnabled) {
+      if (isFinsightsFeatureEnabled) {
         return intl.formatMessage(messages.summary);
       }
       return intl.formatMessage(messages.infrastructure);
@@ -707,8 +707,8 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isRhelAvailable = () => {
-    const { isFINsightsFeatureEnabled, rhelProviders, userAccess } = this.props;
-    return isFINsightsFeatureEnabled && isRhelAvailable(userAccess, rhelProviders);
+    const { isFinsightsFeatureEnabled, rhelProviders, userAccess } = this.props;
+    return isFinsightsFeatureEnabled && isRhelAvailable(userAccess, rhelProviders);
   };
 
   public render() {
@@ -716,7 +716,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       providersFetchStatus,
       intl,
       isCurrencyFeatureEnabled,
-      isFINsightsFeatureEnabled,
+      isFinsightsFeatureEnabled,
       isIbmFeatureEnabled,
       isOciFeatureEnabled,
       userAccessFetchStatus,
@@ -762,7 +762,7 @@ class OverviewBase extends React.Component<OverviewProps> {
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.openShift)}</p>
                       <p>{intl.formatMessage(messages.openShiftDesc)}</p>
                       <br />
-                      {isFINsightsFeatureEnabled && (
+                      {isFinsightsFeatureEnabled && (
                         <>
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.rhel)}</p>
                           <p>{intl.formatMessage(messages.rhelDesc)}</p>
@@ -868,7 +868,7 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     ibmProviders: filterProviders(providers, ProviderType.ibm),
     isCostTypeFeatureEnabled,
     isCurrencyFeatureEnabled,
-    isFINsightsFeatureEnabled: featureFlagsSelectors.selectIsFINsightsFeatureEnabled(state),
+    isFinsightsFeatureEnabled: featureFlagsSelectors.selectIsFinsightsFeatureEnabled(state),
     isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
     isOciFeatureEnabled: featureFlagsSelectors.selectIsOciFeatureEnabled(state),
     ociProviders: filterProviders(providers, ProviderType.oci),

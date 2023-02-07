@@ -78,7 +78,7 @@ interface ExplorerHeaderStateProps {
   isCostTypeFeatureEnabled?: boolean;
   isCurrencyFeatureEnabled?: boolean;
   isExportsFeatureEnabled?: boolean;
-  isFINsightsFeatureEnabled?: boolean;
+  isFinsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
   isOciFeatureEnabled?: boolean;
   ociProviders?: Providers;
@@ -242,8 +242,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   };
 
   private isRhelAvailable = () => {
-    const { isFINsightsFeatureEnabled, rhelProviders, userAccess } = this.props;
-    return isFINsightsFeatureEnabled && isRhelAvailable(userAccess, rhelProviders);
+    const { isFinsightsFeatureEnabled, rhelProviders, userAccess } = this.props;
+    return isFinsightsFeatureEnabled && isRhelAvailable(userAccess, rhelProviders);
   };
 
   public render() {
@@ -384,7 +384,7 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       isCostTypeFeatureEnabled: featureFlagsSelectors.selectIsCostTypeFeatureEnabled(state),
       isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
       isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
-      isFINsightsFeatureEnabled: featureFlagsSelectors.selectIsFINsightsFeatureEnabled(state),
+      isFinsightsFeatureEnabled: featureFlagsSelectors.selectIsFinsightsFeatureEnabled(state),
       isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
       isOciFeatureEnabled: featureFlagsSelectors.selectIsOciFeatureEnabled(state),
       ociProviders: filterProviders(providers, ProviderType.oci),

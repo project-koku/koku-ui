@@ -21,6 +21,7 @@ import {
   hasOciAccess,
   hasOcpAccess,
   hasRhelAccess,
+  hasRosAccess,
 } from 'utils/userAccess';
 
 interface PermissionsOwnProps {
@@ -28,9 +29,10 @@ interface PermissionsOwnProps {
 }
 
 interface PermissionsStateProps {
-  isFINsightsFeatureEnabled?: boolean;
+  isFinsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
   isOciFeatureEnabled?: boolean;
+  isRosFeatureEnabled?: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -41,9 +43,10 @@ type PermissionsProps = PermissionsOwnProps & PermissionsStateProps;
 
 const PermissionsBase: React.FC<PermissionsProps> = ({
   children = null,
-  isFINsightsFeatureEnabled,
+  isFinsightsFeatureEnabled,
   isIbmFeatureEnabled,
   isOciFeatureEnabled,
+  isRosFeatureEnabled,
   userAccess,
   userAccessError,
   userAccessFetchStatus,
@@ -65,12 +68,13 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
 
     const aws = hasAwsAccess(userAccess);
     const azure = hasAzureAccess(userAccess);
-    const oci = isOciFeatureEnabled && hasOciAccess(userAccess);
     const costModel = hasCostModelAccess(userAccess);
     const gcp = hasGcpAccess(userAccess);
     const ibm = isIbmFeatureEnabled && hasIbmAccess(userAccess);
+    const oci = isOciFeatureEnabled && hasOciAccess(userAccess);
     const ocp = hasOcpAccess(userAccess);
-    const rhel = isFINsightsFeatureEnabled && hasRhelAccess(userAccess);
+    const rhel = isFinsightsFeatureEnabled && hasRhelAccess(userAccess);
+    const ros = isRosFeatureEnabled && hasRosAccess(userAccess);
 
     switch (path) {
       case paths.explorer:
@@ -96,6 +100,9 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
       case paths.ocpDetails:
       case paths.ocpDetailsBreakdown:
         return ocp;
+      case paths.recommendations:
+      case paths.recommendationsBreakdown:
+        return ros;
       case paths.rhelDetails:
       case paths.rhelDetailsBreakdown:
         return rhel;
@@ -130,9 +137,10 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
   );
 
   return {
+    isFinsightsFeatureEnabled: featureFlagsSelectors.selectIsFinsightsFeatureEnabled(state),
     isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
     isOciFeatureEnabled: featureFlagsSelectors.selectIsOciFeatureEnabled(state),
-    isFINsightsFeatureEnabled: featureFlagsSelectors.selectIsFINsightsFeatureEnabled(state),
+    isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
     userAccess,
     userAccessError,
     userAccessFetchStatus,

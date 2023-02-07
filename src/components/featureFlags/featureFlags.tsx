@@ -20,6 +20,7 @@ export const enum FeatureToggle {
   negativeFiltering = 'cost-management.ui.negative-filtering', // Negative (aka exclude) filtering https://issues.redhat.com/browse/COST-2773
   oci = 'cost-management.ui.oci', // Oracle Cloud Infrastructure https://issues.redhat.com/browse/COST-2358
   platformCosts = 'cost-management.ui.platform-costs', // OCP platform costs https://issues.redhat.com/browse/COST-2774
+  ros = 'cost-management.ui.ros', // ROS support https://issues.redhat.com/browse/COST-3477
 }
 
 let userId;
@@ -63,11 +64,12 @@ const FeatureFlags: React.FC<FeatureFlagsProps> = ({ children = null }) => {
             isCostDistributionFeatureEnabled: client.isEnabled(FeatureToggle.costDistribution),
             isCostTypeFeatureEnabled: client.isEnabled(FeatureToggle.costType),
             isExportsFeatureEnabled: client.isEnabled(FeatureToggle.exports),
-            isFINsightsFeatureEnabled: client.isEnabled(FeatureToggle.finsights),
+            isFinsightsFeatureEnabled: client.isEnabled(FeatureToggle.finsights),
             isNegativeFilteringFeatureEnabled: client.isEnabled(FeatureToggle.negativeFiltering),
             isIbmFeatureEnabled: client.isEnabled(FeatureToggle.ibm),
             isOciFeatureEnabled: client.isEnabled(FeatureToggle.oci),
             isPlatformCostsFeatureEnabled: client.isEnabled(FeatureToggle.platformCosts),
+            isRosFeatureEnabled: client.isEnabled(FeatureToggle.ros),
           })
         );
       });

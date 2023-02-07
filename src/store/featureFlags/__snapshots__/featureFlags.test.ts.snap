@@ -7,10 +7,11 @@ exports[`default state 1`] = `
   "isCostTypeFeatureEnabled": false,
   "isCurrencyFeatureEnabled": false,
   "isExportsFeatureEnabled": false,
-  "isFINsightsFeatureEnabled": false,
+  "isFinsightsFeatureEnabled": false,
   "isIbmFeatureEnabled": false,
   "isNegativeFilteringFeatureEnabled": false,
   "isOciFeatureEnabled": false,
   "isPlatformCostsFeatureEnabled": false,
+  "isRosFeatureEnabled": false,
 }
 `;

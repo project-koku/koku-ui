@@ -91,7 +91,7 @@ export const isOcpAvailable = (userAccess: UserAccess, ocpProviders: Providers) 
   return hasOcpAccess(userAccess) && hasProviders(ocpProviders);
 };
 
-// Returns true if user has access to OCP
+// Returns true if user has access to RHEL
 export const hasRhelAccess = (userAccess: UserAccess) => {
   return hasAccess(userAccess, UserAccessType.rhel);
 };
@@ -99,4 +99,14 @@ export const hasRhelAccess = (userAccess: UserAccess) => {
 // Returns true if user has access to RHEL and at least one source provider
 export const isRhelAvailable = (userAccess: UserAccess, rhelProviders: Providers) => {
   return hasRhelAccess(userAccess) && hasProviders(rhelProviders);
+};
+
+// Returns true if user has access to ROS
+export const hasRosAccess = (userAccess: UserAccess) => {
+  return hasAccess(userAccess, UserAccessType.ros);
+};
+
+// Returns true if user has access to RHEL and at least one source provider
+export const isRosAvailable = (userAccess: UserAccess, rosProviders: Providers) => {
+  return hasRosAccess(userAccess) && hasProviders(rosProviders);
 };

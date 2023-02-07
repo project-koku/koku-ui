@@ -2342,6 +2342,11 @@ export default defineMessages({
     description: 'OpenShift in Cost Management',
     id: 'notAuthorizedStateOcp',
   },
+  notAuthorizedStateRecommendations: {
+    defaultMessage: 'Recommendations in Cost Management',
+    description: 'Recommendations in Cost Management',
+    id: 'notAuthorizedStateRecommendations',
+  },
   notAuthorizedStateRhel: {
     defaultMessage: 'RHEL in Cost Management',
     description: 'RHEL in Cost Management',

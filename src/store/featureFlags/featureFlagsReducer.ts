@@ -12,11 +12,12 @@ export type FeatureFlagsState = Readonly<{
   isCostTypeFeatureEnabled: boolean;
   isCurrencyFeatureEnabled: boolean;
   isExportsFeatureEnabled: boolean;
-  isFINsightsFeatureEnabled: boolean;
+  isFinsightsFeatureEnabled: boolean;
   isIbmFeatureEnabled: boolean;
   isNegativeFilteringFeatureEnabled: boolean;
   isOciFeatureEnabled: boolean;
   isPlatformCostsFeatureEnabled: boolean;
+  isRosFeatureEnabled: boolean;
 }>;
 
 export const defaultState: FeatureFlagsState = {
@@ -25,11 +26,12 @@ export const defaultState: FeatureFlagsState = {
   isCostTypeFeatureEnabled: false,
   isCurrencyFeatureEnabled: false,
   isExportsFeatureEnabled: false,
-  isFINsightsFeatureEnabled: false,
+  isFinsightsFeatureEnabled: false,
   isIbmFeatureEnabled: false,
   isNegativeFilteringFeatureEnabled: false,
   isOciFeatureEnabled: false,
   isPlatformCostsFeatureEnabled: false,
+  isRosFeatureEnabled: false,
 };
 
 export const stateKey = 'featureFlags';
@@ -44,11 +46,12 @@ export function featureFlagsReducer(state = defaultState, action: FeatureFlagsAc
         isCostTypeFeatureEnabled: action.payload.isCostTypeFeatureEnabled,
         isCurrencyFeatureEnabled: action.payload.isCurrencyFeatureEnabled,
         isExportsFeatureEnabled: action.payload.isExportsFeatureEnabled,
-        isFINsightsFeatureEnabled: action.payload.isFINsightsFeatureEnabled,
+        isFinsightsFeatureEnabled: action.payload.isFinsightsFeatureEnabled,
         isIbmFeatureEnabled: action.payload.isIbmFeatureEnabled,
         isNegativeFilteringFeatureEnabled: action.payload.isNegativeFilteringFeatureEnabled,
         isOciFeatureEnabled: action.payload.isOciFeatureEnabled,
         isPlatformCostsFeatureEnabled: action.payload.isPlatformCostsFeatureEnabled,
+        isRosFeatureEnabled: action.payload.isRosFeatureEnabled,
       };
 
     default:
