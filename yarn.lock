@@ -974,10 +974,10 @@
   optionalDependencies:
     "@redhat-cloud-services/frontend-components-utilities" "^3.2.25"
 
-"@redhat-cloud-services/frontend-components-utilities@*", "@redhat-cloud-services/frontend-components-utilities@^3.2.25", "@redhat-cloud-services/frontend-components-utilities@^3.3.12":
-  version "3.3.12"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.3.12.tgz#cca7add6a58ccebc648539babc953563122fa042"
-  integrity sha512-kq1xQDbkBG5d71MdSz4ebSyJN3fsyl+D7JkASyFY55cqVO/9M/kISN8102jt1J/KLYITq0ZhTa38YQLZ2V2xIw==
+"@redhat-cloud-services/frontend-components-utilities@*", "@redhat-cloud-services/frontend-components-utilities@^3.2.25", "@redhat-cloud-services/frontend-components-utilities@^3.3.13":
+  version "3.3.13"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.3.13.tgz#baa48dc20cbf5f8c34a5c6dbead0434e85bddc20"
+  integrity sha512-3SdXwzXP1XMLN+hvlGZwX5Va3VwKW9xzRx9lgKGx2XU2nU3GF233hTeId5Cs58NZqBpf8NpRFYaBWnPBaXCWlQ==
   dependencies:
     "@redhat-cloud-services/types" "^0.0.17"
     "@sentry/browser" "^5.30.0"
