@@ -10572,6 +10572,12 @@
         "value": "Volume usage and requests"
       }
     ],
+    "rosRecommendationsTitle": [
+      {
+        "type": 0,
+        "value": "Recommendations"
+      }
+    ],
     "save": [
       {
         "type": 0,

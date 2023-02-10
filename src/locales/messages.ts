@@ -2907,6 +2907,11 @@ export default defineMessages({
     description: 'Volume usage and requests',
     id: 'rhelVolumeUsageAndRequests',
   },
+  rosRecommendationsTitle: {
+    defaultMessage: 'Recommendations',
+    description: 'Recommendations',
+    id: 'rosRecommendationsTitle',
+  },
   save: {
     defaultMessage: 'Save',
     description: 'Save',

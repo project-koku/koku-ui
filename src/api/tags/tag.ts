@@ -38,4 +38,5 @@ export const enum TagPathsType {
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud',
   rhel = 'rhel',
+  ros = 'ocp', // Todo: Remove when APIs are available
 }

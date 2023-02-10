@@ -3,7 +3,7 @@ import axios from 'axios';
 import type { Ros, RosData, RosItem, RosItemValue, RosMeta, RosValue } from './ros';
 import { RosType } from './ros';
 
-export interface RosRosItem extends RosItem {
+export interface RecommendationItem extends RosItem {
   capacity?: RosValue;
   cluster?: string;
   clusters?: string[];
@@ -13,11 +13,11 @@ export interface RosRosItem extends RosItem {
   request?: RosValue;
 }
 
-export interface RosRosData extends RosData {
+export interface RecommendationData extends RosData {
   // TBD...
 }
 
-export interface RosRosMeta extends RosMeta {
+export interface RecommendationMeta extends RosMeta {
   total?: {
     capacity?: RosValue;
     cost?: RosItemValue;
@@ -29,9 +29,9 @@ export interface RosRosMeta extends RosMeta {
   };
 }
 
-export interface RosRos extends Ros {
-  meta: RosRosMeta;
-  data: RosRosData[];
+export interface Recommendation extends Ros {
+  meta: RecommendationMeta;
+  data: RecommendationData[];
 }
 
 export const RosTypePaths: Partial<Record<RosType, string>> = {
@@ -40,5 +40,5 @@ export const RosTypePaths: Partial<Record<RosType, string>> = {
 
 export function runRos(reportType: RosType, query: string) {
   const path = RosTypePaths[reportType];
-  return axios.get<RosRos>(`${path}?${query}`);
+  return axios.get<Recommendation>(`${path}?${query}`);
 }

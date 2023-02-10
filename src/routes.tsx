@@ -22,10 +22,7 @@ const OciDetails = lazy(() => import(/* webpackChunkName: "ociDetails" */ 'route
 const OcpBreakdown = lazy(() => import(/* webpackChunkName: "ocpBreakdown" */ 'routes/views/details/ocpBreakdown'));
 const OcpDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/ocpDetails'));
 const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/views/overview'));
-const Recommendations = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/rhelDetails')); // Todo: Add page
-const RecommendationsBreakdown = lazy(
-  () => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/rhelBreakdown')
-); // Todo: Add page
+const Recommendations = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/ros/recommendations'));
 const RhelDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/rhelDetails'));
 const RhelBreakdown = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/rhelBreakdown'));
 
@@ -47,7 +44,6 @@ const paths = {
   ocpDetailsBreakdown: '/ocp/breakdown',
   overview: '/',
   recommendations: '/recommendations',
-  recommendationsBreakdown: '/recommendations/breakdown',
   rhelDetails: '/rhel',
   rhelDetailsBreakdown: '/rhel/breakdown',
 };
@@ -122,10 +118,6 @@ const routes = [
   {
     element: userAccess(Recommendations),
     path: paths.recommendations,
-  },
-  {
-    element: userAccess(RecommendationsBreakdown),
-    path: paths.recommendationsBreakdown,
   },
   {
     element: userAccess(RhelDetails),
