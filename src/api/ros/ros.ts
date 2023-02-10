@@ -15,6 +15,7 @@ export interface RosItemValue {
 export interface RosItem {
   alias?: string;
   classification?: string; // Platform.
+  cluster?: string;
   cost?: RosItemValue;
   date?: string;
   default_project?: string; // 'True' or 'False'
@@ -22,6 +23,8 @@ export interface RosItem {
   delta_value?: number;
   id?: string;
   infrastructure?: RosItemValue;
+  node?: string;
+  project?: string;
   source_uuid?: string;
   supplementary?: RosItemValue;
 }

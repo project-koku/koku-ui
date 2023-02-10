@@ -50,7 +50,6 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps> {
         msg = messages.notAuthorizedStateRhel;
         break;
       case paths.recommendations:
-      case paths.recommendationsBreakdown:
         msg = messages.notAuthorizedStateRecommendations;
         break;
       case paths.explorer:

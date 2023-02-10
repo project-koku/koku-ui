@@ -65,6 +65,7 @@ export const enum ProviderType {
   oci = 'oci',
   ocp = 'ocp',
   rhel = 'ocp', // Todo: Update to use rhel when APIs are available
+  ros = 'ocp', // Todo: Update to use rhel when APIs are available
 }
 
 export function fetchProviders(query: string) {

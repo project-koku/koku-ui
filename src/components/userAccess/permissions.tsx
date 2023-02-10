@@ -101,7 +101,6 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
       case paths.ocpDetailsBreakdown:
         return ocp;
       case paths.recommendations:
-      case paths.recommendationsBreakdown:
         return ros;
       case paths.rhelDetails:
       case paths.rhelDetailsBreakdown:
