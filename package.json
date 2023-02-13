@@ -68,7 +68,7 @@
     "typesafe-actions": "^5.1.0",
     "unleash-proxy-client": "^2.4.2",
     "victory-core": "36.6.7",
-    "xstate": "^4.35.4"
+    "xstate": "^4.36.0"
   },
   "devDependencies": {
     "@formatjs/cli": "^6.0.1",
