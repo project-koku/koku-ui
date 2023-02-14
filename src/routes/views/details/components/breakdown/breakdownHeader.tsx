@@ -117,8 +117,9 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps> {
     const showTags =
       filterByAccount ||
       groupBy === 'account' ||
-      groupBy === 'project' ||
       groupBy === 'gcp_project' ||
+      groupBy === 'payer_tenant_id' ||
+      groupBy === 'project' ||
       groupBy === 'subscription_guid';
 
     // i18n groupBy key
