@@ -1,5 +1,3 @@
-import { getTokenCookie } from 'utils/cookie';
-
 const accountCurrencyID = 'cost_management_account_currency';
 const costTypeID = 'cost_management_cost_type';
 const currencyID = 'cost_management_currency';
@@ -7,8 +5,9 @@ const inactiveSourcesID = 'cost_management_inactive_sources';
 const sessionTokenID = 'cost_management_session';
 
 // Returns a subset of the token cookie
-export const getPartialTokenCookie = () => {
-  const token = getTokenCookie();
+export const getPartialToken = async () => {
+  const insights = (window as any).insights;
+  const token = await insights.chrome.auth.getToken();
   return token.substring(token.length - 40, token.length);
 };
 
@@ -41,13 +40,15 @@ export const invalidateSession = (force = false) => {
 };
 
 // Returns true if session is valid
-export const isSessionValid = () => {
-  return getSessionToken() === getPartialTokenCookie();
+export const isSessionValid = async () => {
+  const partialToken = await getPartialToken();
+  return getSessionToken() === partialToken;
 };
 
 // Save partial session token
-export const saveSessionToken = () => {
-  localStorage.setItem(sessionTokenID, getPartialTokenCookie());
+export const saveSessionToken = async () => {
+  const partialToken = await getPartialToken();
+  localStorage.setItem(sessionTokenID, partialToken);
 };
 
 /**
