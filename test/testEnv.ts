@@ -6,10 +6,11 @@ export interface Global {
   insights: any;
 }
 
-declare var global: Global;
+declare let global: Global;
 
 global.insights = {
   chrome: {
+    auth: { getToken: () => '' },
     identifyApp: jest.fn(),
     init: jest.fn(),
     isBeta: jest.fn(),
