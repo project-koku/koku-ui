@@ -1,13 +1,7 @@
 import { useUnleashClient, useUnleashContext } from '@unleash/proxy-client-react';
-import React, { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { featureFlagsActions } from 'store/featureFlags';
-
-interface FeatureFlagsOwnProps {
-  children?: React.ReactNode;
-}
-
-type FeatureFlagsProps = FeatureFlagsOwnProps;
 
 // eslint-disable-next-line no-shadow
 export const enum FeatureToggle {
@@ -24,7 +18,7 @@ export const enum FeatureToggle {
 }
 
 // The FeatureFlags component saves feature flags in store for places where Unleash hooks not available
-const FeatureFlags: React.FC<FeatureFlagsProps> = ({ children = null }) => {
+const useFeatureFlags = () => {
   const updateContext = useUnleashContext();
   const client = useUnleashClient();
   const dispatch = useDispatch();
@@ -83,8 +77,6 @@ const FeatureFlags: React.FC<FeatureFlagsProps> = ({ children = null }) => {
       }
     });
   });
-
-  return <>{children}</>;
 };
 
-export default FeatureFlags;
+export default useFeatureFlags;

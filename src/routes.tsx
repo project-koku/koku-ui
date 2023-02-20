@@ -1,7 +1,7 @@
 import { Bullseye, Spinner } from '@patternfly/react-core';
 import { userAccess } from 'components/userAccess';
 import React, { lazy, Suspense } from 'react';
-import { Route, Routes as Switch } from 'react-router-dom';
+import { Route, Routes as RouterRoutes } from 'react-router-dom';
 
 const NotFound = lazy(() => import(/* webpackChunkName: "notFound" */ 'routes/state/notFound'));
 const AwsBreakdown = lazy(() => import(/* webpackChunkName: "awsBreakdown" */ 'routes/views/details/awsBreakdown'));
@@ -137,13 +137,13 @@ const Routes = () => (
       </Bullseye>
     }
   >
-    <Switch>
+    <RouterRoutes>
       {routes.map(route => (
         <Route key={route.path} path={route.path} element={<route.element />} />
       ))}
       {/* Finally, catch all unmatched routes */}
       <Route path="*" element={<NotFound />} />
-    </Switch>
+    </RouterRoutes>
   </Suspense>
 );
 
