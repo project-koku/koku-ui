@@ -427,12 +427,12 @@
     intl-messageformat "10.3.1"
     tslib "^2.4.0"
 
-"@formatjs/ts-transformer@3.11.6":
-  version "3.11.6"
-  resolved "https://registry.yarnpkg.com/@formatjs/ts-transformer/-/ts-transformer-3.11.6.tgz#2431e0428d63bd47a5b0e9d0edd9c22752dadc8e"
-  integrity sha512-JYlf+WT+Fxy+jWVXGhZcj3lvVqMp2LPmHoA0UXs7MvMz2gLdb+Gl6q6GI6Bw/veIt6qYwRP+hnJkRcZuXlCvbA==
+"@formatjs/ts-transformer@3.12.0":
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/@formatjs/ts-transformer/-/ts-transformer-3.12.0.tgz#7d6340c164db38202ece328ca37d1e9a0d5e62ed"
+  integrity sha512-/jEpXcqA6y/vdijgkxSoKGfkGR5VcClJeI8hnpJ2PBCHfrc4ywFMyoZqRAakKW3IJVttaDo7mGvBAIDxV1F4Qg==
   dependencies:
-    "@formatjs/icu-messageformat-parser" "2.2.0"
+    "@formatjs/icu-messageformat-parser" "2.3.0"
     "@types/json-stable-stringify" "^1.0.32"
     "@types/node" "14 || 16 || 17"
     chalk "^4.0.0"
@@ -755,7 +755,7 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@jridgewell/sourcemap-codec@1.4.14", "@jridgewell/sourcemap-codec@^1.4.10":
+"@jridgewell/sourcemap-codec@1.4.14", "@jridgewell/sourcemap-codec@^1.4.10", "@jridgewell/sourcemap-codec@^1.4.13":
   version "1.4.14"
   resolved "https://registry.yarnpkg.com/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.4.14.tgz#add4c98d341472a289190b424efbdb096991bb24"
   integrity sha512-XPSJHWmi394fuUuzDnGz1wiKqWfo1yXecHQMRf2l6hztTO+nPru658AyDngaBe7isIxEkRsPR3FZh+s7iVa4Uw==
@@ -3596,17 +3596,18 @@ eslint-module-utils@^2.7.4:
   dependencies:
     debug "^3.2.7"
 
-eslint-plugin-formatjs@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-formatjs/-/eslint-plugin-formatjs-4.6.0.tgz#ebf6bef6179fd347078500fcdeee765382112883"
-  integrity sha512-FmtJQUrKeAudrpaIyiVW1Gc5Pf0esKewdlgew1ccDmphcfsm8eCgC4tREl4MGeGXSlqd5bcdxK6ZAUYNZpK2oA==
+eslint-plugin-formatjs@^4.7.2:
+  version "4.7.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-formatjs/-/eslint-plugin-formatjs-4.7.2.tgz#c79627e34fb7818be38d847791e2abdc78ee082f"
+  integrity sha512-9ueSUAsCJ9eXpLeVpBo5XUA4mnwlDXtyB9mo0tvwFe17MpHRrY3C8WK8AMHz0G5IQ6twSXHDNpDfLKjaTOcIJg==
   dependencies:
-    "@formatjs/icu-messageformat-parser" "2.2.0"
-    "@formatjs/ts-transformer" "3.11.6"
+    "@formatjs/icu-messageformat-parser" "2.3.0"
+    "@formatjs/ts-transformer" "3.12.0"
     "@types/eslint" "7 || 8"
     "@types/picomatch" "^2.3.0"
     "@typescript-eslint/typescript-estree" "5.45.0"
     emoji-regex "^10.2.1"
+    magic-string "^0.29.0"
     picomatch "^2.3.1"
     tslib "2.4.0"
     typescript "^4.7"
@@ -5975,6 +5976,13 @@ lz-string@^1.4.4:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.4.4.tgz#c0d8eaf36059f705796e1e344811cf4c498d3a26"
   integrity sha512-0ckx7ZHRPqb0oUm8zNr+90mtf9DQB60H1wMCjBtfi62Kl3a7JbHob6gA2bC+xRvZoOL+1hzUK8jeuEIQE8svEQ==
+
+magic-string@^0.29.0:
+  version "0.29.0"
+  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.29.0.tgz#f034f79f8c43dba4ae1730ffb5e8c4e084b16cf3"
+  integrity sha512-WcfidHrDjMY+eLjlU+8OvwREqHwpgCeKVBUpQ3OhYYuvfaYCUgcbuBzappNzZvg/v8onU3oQj+BYpkOJe9Iw4Q==
+  dependencies:
+    "@jridgewell/sourcemap-codec" "^1.4.13"
 
 make-dir@^3.0.0, make-dir@^3.0.2, make-dir@^3.1.0:
   version "3.1.0"
