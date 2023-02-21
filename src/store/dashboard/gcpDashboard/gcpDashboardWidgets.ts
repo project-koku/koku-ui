@@ -1,7 +1,7 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
-import { paths } from 'routes';
+import { routes } from 'routes';
 import {
   ComputedForecastItemType,
   ComputedReportItemType,
@@ -63,7 +63,7 @@ export const costSummaryWidget: GcpDashboardWidget = {
     adjustContainerHeight: true,
     costKey: messages.cost,
     showHorizontal: true,
-    viewAllPath: paths.gcpDetails,
+    viewAllPath: routes.gcpDetails.pathname,
   },
   tabsFilter: {
     limit: 3,

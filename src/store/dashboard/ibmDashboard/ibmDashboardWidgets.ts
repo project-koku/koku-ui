@@ -1,7 +1,7 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
-import { paths } from 'routes';
+import { routes } from 'routes';
 import {
   ComputedForecastItemType,
   ComputedReportItemType,
@@ -63,7 +63,7 @@ export const costSummaryWidget: IbmDashboardWidget = {
     adjustContainerHeight: true,
     costKey: messages.cost,
     showHorizontal: true,
-    viewAllPath: paths.ibmDetails,
+    viewAllPath: routes.ibmDetails.pathname,
   },
   tabsFilter: {
     limit: 3,

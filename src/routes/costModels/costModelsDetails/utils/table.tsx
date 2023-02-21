@@ -6,6 +6,7 @@ import type { CostModel } from 'api/costModels';
 import { intl } from 'components/i18n';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { routes } from 'routes';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { LoadingState } from 'routes/components/state/loadingState';
 import NoCostModels from 'routes/costModels/costModelsDetails/noCostModels';
@@ -56,7 +57,7 @@ export function getRowsByStateName(stateName: string, data: any) {
     return {
       cells: [
         {
-          title: <Link to={`/cost-models/${item.uuid}`}>{item.name}</Link>,
+          title: <Link to={`${routes.costModels.pathname}/${item.uuid}`}>{item.name}</Link>,
         },
         item.description,
         item.source_type,

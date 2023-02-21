@@ -9,7 +9,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { paths } from 'routes';
+import { routes } from 'routes';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { Actions } from 'routes/views/details/components/actions';
 import { DataTable } from 'routes/views/details/components/dataTable';
@@ -191,7 +191,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       ) : (
         <Link
           to={getBreakdownPath({
-            basePath: paths.ocpDetailsBreakdown,
+            basePath: routes.ocpDetailsBreakdown.pathname,
             description: item.id,
             id: item.id,
             isPlatformCosts,

@@ -12,7 +12,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { paths } from 'routes';
+import { routes } from 'routes';
 import { BreakdownBase } from 'routes/views/details/components/breakdown';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import { filterProviders } from 'routes/views/utils/providers';
@@ -52,7 +52,7 @@ interface BreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = paths.awsDetails;
+const detailsURL = routes.awsDetails.pathname;
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.aws;
 

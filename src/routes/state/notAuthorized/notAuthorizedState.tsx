@@ -1,9 +1,9 @@
-import _NotAuthorized from '@redhat-cloud-services/frontend-components/NotAuthorized';
+import { NotAuthorized as UnAuthorized } from '@redhat-cloud-services/frontend-components/NotAuthorized';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { paths } from 'routes';
+import { routes } from 'routes';
 
 interface NotAuthorizedStateOwnProps {
   pathname?: string;
@@ -18,46 +18,46 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps> {
     let msg;
 
     switch (pathname) {
-      case paths.awsDetails:
-      case paths.awsDetailsBreakdown:
+      case routes.awsDetails.pathname:
+      case routes.awsDetailsBreakdown.pathname:
         msg = messages.notAuthorizedStateAws;
         break;
-      case paths.azureDetails:
-      case paths.azureDetailsBreakdown:
+      case routes.azureDetails.pathname:
+      case routes.azureDetailsBreakdown.pathname:
         msg = messages.notAuthorizedStateAzure;
         break;
-      case paths.costModels:
+      case routes.costModelsDetails.pathname:
         msg = messages.notAuthorizedStateCostModels;
         break;
-      case paths.gcpDetails:
-      case paths.gcpDetailsBreakdown:
+      case routes.gcpDetails.pathname:
+      case routes.gcpDetailsBreakdown.pathname:
         msg = messages.notAuthorizedStateGcp;
         break;
-      case paths.ibmDetails:
-      case paths.ibmDetailsBreakdown:
+      case routes.ibmDetails.pathname:
+      case routes.ibmDetailsBreakdown.pathname:
         msg = messages.notAuthorizedStateIbm;
         break;
-      case paths.ociDetails:
-      case paths.ociDetailsBreakdown:
+      case routes.ociDetails.pathname:
+      case routes.ociDetailsBreakdown.pathname:
         msg = messages.notAuthorizedStateOci;
         break;
-      case paths.ocpDetails:
-      case paths.ocpDetailsBreakdown:
+      case routes.ocpDetails.pathname:
+      case routes.ocpDetailsBreakdown.pathname:
         msg = messages.notAuthorizedStateOcp;
         break;
-      case paths.rhelDetails:
-      case paths.rhelDetailsBreakdown:
+      case routes.rhelDetails.pathname:
+      case routes.rhelDetailsBreakdown.pathname:
         msg = messages.notAuthorizedStateRhel;
         break;
-      case paths.recommendations:
+      case routes.recommendations.pathname:
         msg = messages.notAuthorizedStateRecommendations;
         break;
-      case paths.explorer:
+      case routes.explorer.pathname:
       default:
         msg = messages.costManagement;
         break;
     }
-    return <_NotAuthorized serviceName={intl.formatMessage(msg)} />;
+    return <UnAuthorized serviceName={intl.formatMessage(msg)} />;
   }
 }
 

@@ -1,4 +1,4 @@
-import './App.scss';
+import './app.scss';
 
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';

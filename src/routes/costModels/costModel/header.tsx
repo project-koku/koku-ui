@@ -25,7 +25,8 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { paths } from 'routes';
+import { Link } from 'react-router-dom';
+import { routes } from 'routes';
 import { ReadOnlyTooltip } from 'routes/costModels/components/readOnlyTooltip';
 import { styles } from 'routes/costModels/costModel/costModelsDetails.styles';
 import Dialog from 'routes/costModels/costModel/dialog';
@@ -33,10 +34,8 @@ import UpdateCostModelModal from 'routes/costModels/costModel/updateCostModel';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
-import { getBaseName } from 'utils/paths';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
-
 interface Props extends RouterComponentProps, WrappedComponentProps {
   tabRefs: any[];
   tabIndex: number;
@@ -65,7 +64,6 @@ const Header: React.FC<Props> = ({
   tabIndex,
 }) => {
   const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
-  const baseName = getBaseName(window.location.pathname);
 
   return (
     <>
@@ -107,9 +105,11 @@ const Header: React.FC<Props> = ({
       <header style={styles.headerCostModel}>
         <div style={styles.headerContent}>
           <Breadcrumb style={styles.breadcrumb}>
-            <BreadcrumbItem to={`${baseName}${paths.costModels}`}>
-              {intl.formatMessage(messages.costModels)}
-            </BreadcrumbItem>
+            <BreadcrumbItem
+              render={() => (
+                <Link to={`${routes.costModelsDetails.pathname}`}>{intl.formatMessage(messages.costModels)}</Link>
+              )}
+            />
             <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>
           </Breadcrumb>
         </div>

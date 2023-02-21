@@ -4,14 +4,14 @@ import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { paths, routes } from 'routes';
+import { routes } from 'routes';
 import { Loading } from 'routes/state/loading';
 import { NotAuthorized } from 'routes/state/notAuthorized';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { usePathname } from 'utils/paths';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -51,17 +51,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
   userAccessError,
   userAccessFetchStatus,
 }) => {
-  const getRoutePath = () => {
-    const location = useLocation();
-
-    // cost models may include UUID in path
-    const _pathname = location.pathname.startsWith(paths.costModels) ? paths.costModels : location.pathname;
-    const currRoute = routes.find(({ path }) => path === _pathname);
-
-    return currRoute ? currRoute.path : undefined;
-  };
-
-  const hasPermissions = path => {
+  const hasPermissions = pathname => {
     if (!(userAccess && userAccessFetchStatus === FetchStatus.complete)) {
       return false;
     }
@@ -76,34 +66,34 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const rhel = isFinsightsFeatureEnabled && hasRhelAccess(userAccess);
     const ros = isRosFeatureEnabled && hasRosAccess(userAccess);
 
-    switch (path) {
-      case paths.explorer:
-      case paths.overview:
+    switch (pathname) {
+      case routes.explorer.pathname:
+      case routes.overview.pathname:
         return aws || azure || costModel || gcp || ibm || ocp || oci;
-      case paths.awsDetails:
-      case paths.awsDetailsBreakdown:
+      case routes.awsDetails.pathname:
+      case routes.awsDetailsBreakdown.pathname:
         return aws;
-      case paths.azureDetails:
-      case paths.azureDetailsBreakdown:
+      case routes.azureDetails.pathname:
+      case routes.azureDetailsBreakdown.pathname:
         return azure;
-      case paths.costModels:
+      case routes.costModelsDetails.pathname:
         return costModel;
-      case paths.gcpDetails:
-      case paths.gcpDetailsBreakdown:
+      case routes.gcpDetails.pathname:
+      case routes.gcpDetailsBreakdown.pathname:
         return gcp;
-      case paths.ociDetails:
-      case paths.ociDetailsBreakdown:
+      case routes.ociDetails.pathname:
+      case routes.ociDetailsBreakdown.pathname:
         return oci;
-      case paths.ibmDetails:
-      case paths.ibmDetailsBreakdown:
+      case routes.ibmDetails.pathname:
+      case routes.ibmDetailsBreakdown.pathname:
         return ibm;
-      case paths.ocpDetails:
-      case paths.ocpDetailsBreakdown:
+      case routes.ocpDetails.pathname:
+      case routes.ocpDetailsBreakdown.pathname:
         return ocp;
-      case paths.recommendations:
+      case routes.recommendations.pathname:
         return ros;
-      case paths.rhelDetails:
-      case paths.rhelDetailsBreakdown:
+      case routes.rhelDetails.pathname:
+      case routes.rhelDetailsBreakdown.pathname:
         return rhel;
       default:
         return false;
@@ -111,14 +101,14 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
   };
 
   // Page access denied because user doesn't have RBAC permissions and is not an org admin
-  const path = getRoutePath();
-  let result = <NotAuthorized pathname={path} />;
+  const pathname = usePathname();
+  let result = <NotAuthorized pathname={pathname} />;
 
   if (userAccessFetchStatus === FetchStatus.inProgress) {
     result = <Loading />;
   } else if (userAccessError) {
     result = <NotAvailable />;
-  } else if (hasPermissions(path)) {
+  } else if (hasPermissions(pathname)) {
     result = <>{children}</>;
   }
   return result;
