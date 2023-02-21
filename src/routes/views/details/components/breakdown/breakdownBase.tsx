@@ -193,10 +193,8 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   };
 
   private updateReport = () => {
-    const { fetchReport, reportPathsType, reportType, reportQueryString, router } = this.props;
-    if (router.location.search) {
-      fetchReport(reportPathsType, reportType, reportQueryString);
-    }
+    const { fetchReport, reportPathsType, reportType, reportQueryString } = this.props;
+    fetchReport(reportPathsType, reportType, reportQueryString);
   };
 
   public render() {

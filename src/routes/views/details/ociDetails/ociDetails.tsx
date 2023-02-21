@@ -310,25 +310,8 @@ class OciDetails extends React.Component<OciDetailsProps> {
   };
 
   private updateReport = () => {
-    const { fetchReport, query, reportQueryString, router } = this.props;
-    if (!router.location.search) {
-      router.navigate(
-        getRouteForQuery(
-          {
-            exclude: query ? query.exclude : undefined,
-            filter_by: query ? query.filter_by : undefined,
-            group_by: query ? query.group_by : undefined,
-            order_by: { cost: 'desc' },
-          },
-          router.location
-        ),
-        {
-          replace: true,
-        }
-      );
-    } else {
-      fetchReport(reportPathsType, reportType, reportQueryString);
-    }
+    const { fetchReport, reportQueryString } = this.props;
+    fetchReport(reportPathsType, reportType, reportQueryString);
   };
 
   public render() {
