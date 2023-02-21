@@ -343,10 +343,10 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@formatjs/cli@^6.0.2":
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/@formatjs/cli/-/cli-6.0.2.tgz#6bf26b5cc89f1efacd70a06472fe70adafb43857"
-  integrity sha512-TOXUSjalx5N0L+1odBcWwj/1FaROH2f0BYp4Y0nFg1fp6x346x0g+E33Qyq+Isn3zJQdpUZSSbztCcrQ45nrYA==
+"@formatjs/cli@^6.0.3":
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/@formatjs/cli/-/cli-6.0.3.tgz#6bb4780db3026566f0ce7d4b2ea357b9e422c159"
+  integrity sha512-YPhDUw5zQwufAZRUlk054Z/J9jeZWH4LEbAVnQFrfJ8NNgOziDqn9SSTEfRB4W0w8JBGgte4x1SwwJjH/HGoRA==
 
 "@formatjs/ecma402-abstract@1.14.3":
   version "1.14.3"
