@@ -19,6 +19,7 @@ import type { ComputedReportItem } from 'utils/computedReport/getComputedReportI
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dates';
 import { formatCurrency, formatPercentage } from 'utils/format';
+import { formatPath } from 'utils/paths';
 import { classificationDefault, classificationPlatform, classificationUnallocated, noPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -191,7 +192,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       ) : (
         <Link
           to={getBreakdownPath({
-            basePath: routes.ocpDetailsBreakdown.pathname,
+            basePath: formatPath(routes.ocpDetailsBreakdown.path),
             description: item.id,
             id: item.id,
             isPlatformCosts,

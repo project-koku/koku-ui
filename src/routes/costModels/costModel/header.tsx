@@ -34,6 +34,7 @@ import UpdateCostModelModal from 'routes/costModels/costModel/updateCostModel';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
+import { formatPath } from 'utils/paths';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 interface Props extends RouterComponentProps, WrappedComponentProps {
@@ -107,7 +108,9 @@ const Header: React.FC<Props> = ({
           <Breadcrumb style={styles.breadcrumb}>
             <BreadcrumbItem
               render={() => (
-                <Link to={`${routes.costModelsDetails.pathname}`}>{intl.formatMessage(messages.costModels)}</Link>
+                <Link to={`${formatPath(routes.costModelsDetails.path)}`}>
+                  {intl.formatMessage(messages.costModels)}
+                </Link>
               )}
             />
             <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>

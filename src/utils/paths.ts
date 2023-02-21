@@ -1,10 +1,15 @@
 import { useLocation } from 'react-router-dom';
+import { routes } from 'routes';
 
-import { routes } from '../routes';
+// Prefixes the given path with a basename
+//
+// Note the basename does not include a release prefix (/beta, /preview, etc.), unlike the getBaseName function from
+// @redhat-cloud-services/frontend-components-utilities/helpers
+export const formatPath = path => {
+  const basename = '/openshift/cost-management';
+  return path === routes.overview.path ? basename : `${basename}${path}`;
+};
 
-//
-// The getBaseName function from @redhat-cloud-services/frontend-components-utilities/helpers returns the same value
-//
 // export const getBaseName = pathname => {
 //   let release = '/';
 //   const pathName = pathname.split('/');
@@ -40,7 +45,6 @@ export const usePathname = () => {
   const location = useLocation();
 
   // cost models may include UUID in path
-  return location.pathname.startsWith(routes.costModelsDetails.pathname)
-    ? routes.costModelsDetails.pathname
-    : location.pathname;
+  const costModelsPath = formatPath(routes.costModelsDetails.path);
+  return location.pathname.startsWith(costModelsPath) ? costModelsPath : location.pathname.replace(/\/$/, '');
 };

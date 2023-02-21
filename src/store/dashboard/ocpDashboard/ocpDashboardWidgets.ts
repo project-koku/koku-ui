@@ -10,6 +10,7 @@ import {
 } from 'routes/views/components/charts/common/chartDatum';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
+import { formatPath } from 'utils/paths';
 
 import type { OcpDashboardWidget } from './ocpDashboardCommon';
 import { OcpDashboardTab } from './ocpDashboardCommon';
@@ -34,7 +35,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
     costKey: messages.cost,
     showHorizontal: true,
     showTooltip: true,
-    viewAllPath: routes.ocpDetails.pathname,
+    viewAllPath: formatPath(routes.ocpDetails.path),
   },
   trend: {
     computedForecastItem: ComputedForecastItemType.cost,

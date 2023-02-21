@@ -10,6 +10,7 @@ import {
 } from 'routes/views/components/charts/common/chartDatum';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatUnits } from 'utils/format';
+import { formatPath } from 'utils/paths';
 
 import type { AzureDashboardWidget } from './azureDashboardCommon';
 import { AzureDashboardTab } from './azureDashboardCommon';
@@ -36,7 +37,7 @@ export const costSummaryWidget: AzureDashboardWidget = {
     adjustContainerHeight: true,
     costKey: messages.cost,
     showHorizontal: true,
-    viewAllPath: routes.azureDetails.pathname,
+    viewAllPath: formatPath(routes.azureDetails.path),
   },
   tabsFilter: {
     limit: 3,

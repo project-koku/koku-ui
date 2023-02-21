@@ -10,6 +10,7 @@ import {
 } from 'routes/views/components/charts/common/chartDatum';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
+import { formatPath } from 'utils/paths';
 
 import type { AwsDashboardWidget } from './awsDashboardCommon';
 import { AwsDashboardTab } from './awsDashboardCommon';
@@ -62,7 +63,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
     adjustContainerHeight: true,
     costKey: messages.cost,
     showHorizontal: true,
-    viewAllPath: routes.awsDetails.pathname,
+    viewAllPath: formatPath(routes.awsDetails.path),
   },
   tabsFilter: {
     limit: 3,
