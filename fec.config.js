@@ -55,12 +55,13 @@ module.exports = {
      * Same issue was encountered in application services
      * Package can be re-enabled for sharing once chrome starts providing global routing package to all applications
      */
-    exclude: ['react-router-dom'],
+    // exclude: ['react-router-dom'],
     exposes: {
       './RootApp': path.resolve(__dirname, './src/appEntry.tsx'),
     },
     shared: [
       { 'react-redux': { requiredVersion: dependencies['react-redux'] } },
+      { 'react-router-dom': { import: false, requiredVersion: '*', singleton: true } },
       { '@unleash/proxy-client-react': { requiredVersion: '*', singleton: true } },
     ],
   },

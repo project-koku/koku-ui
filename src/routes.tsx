@@ -1,7 +1,7 @@
 import { Bullseye, Spinner } from '@patternfly/react-core';
 import { userAccess } from 'components/userAccess';
 import React, { lazy, Suspense } from 'react';
-import { Route, Routes as Switch } from 'react-router-dom';
+import { Route, Routes as RouterRoutes } from 'react-router-dom';
 
 const NotFound = lazy(() => import(/* webpackChunkName: "notFound" */ 'routes/state/notFound'));
 const AwsBreakdown = lazy(() => import(/* webpackChunkName: "awsBreakdown" */ 'routes/views/details/awsBreakdown'));
@@ -26,108 +26,106 @@ const Recommendations = lazy(() => import(/* webpackChunkName: "ocpDetails" */ '
 const RhelDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/rhelDetails'));
 const RhelBreakdown = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/rhelBreakdown'));
 
-// For syncing with permissions
-const paths = {
-  awsDetails: '/aws',
-  awsDetailsBreakdown: '/aws/breakdown',
-  azureDetails: '/azure',
-  azureDetailsBreakdown: '/azure/breakdown',
-  costModels: '/cost-models',
-  explorer: '/explorer',
-  gcpDetails: '/gcp',
-  gcpDetailsBreakdown: '/gcp/breakdown',
-  ibmDetails: '/ibm',
-  ibmDetailsBreakdown: '/ibm/breakdown',
-  ociDetails: '/oci',
-  ociDetailsBreakdown: '/oci/breakdown',
-  ocpDetails: '/ocp',
-  ocpDetailsBreakdown: '/ocp/breakdown',
-  overview: '/',
-  recommendations: '/recommendations',
-  rhelDetails: '/rhel',
-  rhelDetailsBreakdown: '/rhel/breakdown',
-};
+const basename = '/openshift/cost-management';
 
-const routes = [
-  {
-    element: userAccess(Overview),
-    path: paths.overview,
-  },
-  {
+const routes = {
+  awsDetails: {
     element: userAccess(AwsDetails),
-    path: paths.awsDetails,
+    pathname: `${basename}/aws`,
+    path: '/aws',
   },
-  {
+  awsDetailsBreakdown: {
     element: userAccess(AwsBreakdown),
-    path: paths.awsDetailsBreakdown,
+    pathname: `${basename}/aws/breakdown`,
+    path: '/aws/breakdown',
   },
-  {
+  azureDetails: {
     element: userAccess(AzureDetails),
-    path: paths.azureDetails,
+    pathname: `${basename}/azure`,
+    path: '/azure',
   },
-  {
+  azureDetailsBreakdown: {
     element: userAccess(AzureBreakdown),
-    path: paths.azureDetailsBreakdown,
+    pathname: `${basename}/azure/breakdown`,
+    path: '/azure/breakdown',
   },
-  {
-    // Note: Path order matters here (i.e., dynamic segment must be defined last)
+  costModelsDetails: {
     element: userAccess(CostModelsDetails),
-    path: paths.costModels,
+    pathname: `${basename}/cost-models`,
+    path: '/cost-models',
   },
-  {
-    // Note: Path order matters here (i.e., dynamic segment must be defined last)
+  costModels: {
+    // Note: Path order matters here (i.e., dynamic segment must be defined after costModelsDetails)
     element: userAccess(CostModel),
-    path: `${paths.costModels}/:uuid`,
+    pathname: `${basename}/cost-models`,
+    path: `/cost-models/:uuid`,
   },
-  {
+  explorer: {
     element: userAccess(Explorer),
-    path: paths.explorer,
+    pathname: `${basename}/explorer`,
+    path: '/explorer',
   },
-  {
+  gcpDetails: {
     element: userAccess(GcpDetails),
-    path: paths.gcpDetails,
+    pathname: `${basename}/gcp`,
+    path: '/gcp',
   },
-  {
+  gcpDetailsBreakdown: {
     element: userAccess(GcpBreakdown),
-    path: paths.gcpDetailsBreakdown,
+    pathname: `${basename}/gcp/breakdown`,
+    path: '/gcp/breakdown',
   },
-  {
+  ibmDetails: {
     element: userAccess(IbmDetails),
-    path: paths.ibmDetails,
+    pathname: `${basename}/ibm`,
+    path: '/ibm',
   },
-  {
+  ibmDetailsBreakdown: {
     element: userAccess(IbmBreakdown),
-    path: paths.ibmDetailsBreakdown,
+    pathname: `${basename}/ibm/breakdown`,
+    path: '/ibm/breakdown',
   },
-  {
+  ociDetails: {
     element: userAccess(OciDetails),
-    path: paths.ociDetails,
+    pathname: `${basename}/oci`,
+    path: '/oci',
   },
-  {
+  ociDetailsBreakdown: {
     element: userAccess(OciBreakdown),
-    path: paths.ociDetailsBreakdown,
+    pathname: `${basename}/oci/breakdown`,
+    path: '/oci/breakdown',
   },
-  {
+  ocpDetails: {
     element: userAccess(OcpDetails),
-    path: paths.ocpDetails,
+    pathname: `${basename}/ocp`,
+    path: '/ocp',
   },
-  {
+  ocpDetailsBreakdown: {
     element: userAccess(OcpBreakdown),
-    path: paths.ocpDetailsBreakdown,
+    pathname: `${basename}/ocp/breakdown`,
+    path: '/ocp/breakdown',
   },
-  {
+  overview: {
+    element: userAccess(Overview),
+    pathname: `${basename}`,
+    path: '/',
+  },
+  recommendations: {
     element: userAccess(Recommendations),
-    path: paths.recommendations,
+    pathname: `${basename}/recommendations`,
+    path: '/recommendations',
   },
-  {
+  rhelDetails: {
     element: userAccess(RhelDetails),
-    path: paths.rhelDetails,
+    pathname: `${basename}/rhel`,
+    path: '/rhel',
   },
-  {
+  rhelDetailsBreakdown: {
     element: userAccess(RhelBreakdown),
-    path: paths.rhelDetailsBreakdown,
+    pathname: `${basename}/rhel/breakdown`,
+    path: '/rhel/breakdown',
   },
-];
+};
 
 const Routes = () => (
   <Suspense
@@ -137,14 +135,15 @@ const Routes = () => (
       </Bullseye>
     }
   >
-    <Switch>
-      {routes.map(route => (
-        <Route key={route.path} path={route.path} element={<route.element />} />
-      ))}
+    <RouterRoutes>
+      {Object.keys(routes).map(key => {
+        const route = routes[key];
+        return <Route key={route.path} path={route.path} element={<route.element />} />;
+      })}
       {/* Finally, catch all unmatched routes */}
       <Route path="*" element={<NotFound />} />
-    </Switch>
+    </RouterRoutes>
   </Suspense>
 );
 
-export { paths, Routes, routes };
+export { Routes, routes };

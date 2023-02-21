@@ -394,26 +394,8 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private updateReport = () => {
-    const { dateRangeType, fetchReport, perspective, query, reportQueryString, router } = this.props;
-    if (!router.location.search) {
-      router.navigate(
-        getRouteForQuery(
-          {
-            exclude: query ? query.exclude : undefined,
-            filter_by: query ? query.filter_by : undefined,
-            group_by: query ? query.group_by : undefined,
-            order_by: query ? query.order_by : undefined,
-            dateRangeType, // Preserve date range type
-          },
-          router.location
-        ),
-        {
-          replace: true,
-        }
-      );
-    } else if (perspective) {
-      fetchReport(getReportPathsType(perspective), getReportType(perspective), reportQueryString);
-    }
+    const { fetchReport, perspective, reportQueryString } = this.props;
+    fetchReport(getReportPathsType(perspective), getReportType(perspective), reportQueryString);
   };
 
   public render() {

@@ -54,10 +54,10 @@ interface RecommendationsStateProps {
   providers: Providers;
   providersFetchStatus: FetchStatus;
   query: RosQuery;
-  recomendation: Ros;
-  recomendationError: AxiosError;
-  recomendationFetchStatus: FetchStatus;
-  recomendationQueryString: string;
+  recommendation: Ros;
+  recommendationError: AxiosError;
+  recommendationFetchStatus: FetchStatus;
+  recommendationQueryString: string;
 }
 
 interface RecommendationsDispatchProps {
@@ -113,8 +113,8 @@ const defaultColumnOptions: ColumnManagementModalOption[] = [
   },
 ];
 
-const recomendationType = RosType.cost as any;
-const recomendationPathsType = RosPathsType.recommendation as any;
+const recommendationType = RosType.cost as any;
+const recommendationPathsType = RosPathsType.recommendation as any;
 
 class Recommendations extends React.Component<RecommendationsProps> {
   protected defaultState: RecommendationsState = {
@@ -141,20 +141,20 @@ class Recommendations extends React.Component<RecommendationsProps> {
   }
 
   public componentDidMount() {
-    this.updateRecomendation();
+    this.updateRecommendation();
   }
 
   public componentDidUpdate(prevProps: RecommendationsProps, prevState: RecommendationsState) {
-    const { recomendation, recomendationError, recomendationQueryString, router } = this.props;
+    const { recommendation, recommendationError, recommendationQueryString, router } = this.props;
     const { selectedItems } = this.state;
 
-    const newQuery = prevProps.recomendationQueryString !== recomendationQueryString;
-    const noRecomendation = !recomendation && !recomendationError;
+    const newQuery = prevProps.recommendationQueryString !== recommendationQueryString;
+    const noRecommendation = !recommendation && !recommendationError;
     const noLocation = !router.location.search;
     const newItems = prevState.selectedItems !== selectedItems;
 
-    if (newQuery || noRecomendation || noLocation || newItems) {
-      this.updateRecomendation();
+    if (newQuery || noRecommendation || noLocation || newItems) {
+      this.updateRecommendation();
     }
   }
 
@@ -177,24 +177,24 @@ class Recommendations extends React.Component<RecommendationsProps> {
   };
 
   private getComputedItems = () => {
-    const { query, recomendation } = this.props;
+    const { query, recommendation } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
 
     return getUnsortedComputedReportItems({
-      report: recomendation,
+      report: recommendation,
       idKey: (groupByTagKey as any) || groupById,
     });
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
-    const { query, recomendation, recomendationQueryString } = this.props;
+    const { query, recommendation, recommendationQueryString } = this.props;
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
-    const itemsTotal = recomendation && recomendation.meta ? recomendation.meta.count : 0;
+    const itemsTotal = recommendation && recommendation.meta ? recommendation.meta.count : 0;
 
     // Omit items labeled 'no-project'
     const items = [];
@@ -211,23 +211,23 @@ class Recommendations extends React.Component<RecommendationsProps> {
         isOpen={isExportModalOpen}
         items={items}
         onClose={this.handleExportModalClose}
-        reportPathsType={recomendationPathsType}
-        reportQueryString={recomendationQueryString}
+        reportPathsType={recommendationPathsType}
+        reportQueryString={recommendationQueryString}
       />
     );
   };
 
   private getPagination = (isBottom: boolean = false) => {
-    const { intl, query, recomendation, router } = this.props;
+    const { intl, query, recommendation, router } = this.props;
 
-    const count = recomendation && recomendation.meta ? recomendation.meta.count : 0;
+    const count = recommendation && recommendation.meta ? recommendation.meta.count : 0;
     const limit =
-      recomendation && recomendation.meta && recomendation.meta.filter && recomendation.meta.filter.limit
-        ? recomendation.meta.filter.limit
+      recommendation && recommendation.meta && recommendation.meta.filter && recommendation.meta.filter.limit
+        ? recommendation.meta.filter.limit
         : baseQuery.filter.limit;
     const offset =
-      recomendation && recomendation.meta && recomendation.meta.filter && recomendation.meta.filter.offset
-        ? recomendation.meta.filter.offset
+      recommendation && recommendation.meta && recommendation.meta.filter && recommendation.meta.filter.offset
+        ? recommendation.meta.filter.offset
         : baseQuery.filter.offset;
     const page = offset / limit + 1;
 
@@ -236,7 +236,7 @@ class Recommendations extends React.Component<RecommendationsProps> {
         isCompact={!isBottom}
         itemCount={count}
         onPerPageSelect={(event, perPage) => handlePerPageSelect(query, router, perPage)}
-        onSetPage={(event, pageNumber) => handleSetPage(query, router, recomendation, pageNumber)}
+        onSetPage={(event, pageNumber) => handleSetPage(query, router, recommendation, pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -252,7 +252,7 @@ class Recommendations extends React.Component<RecommendationsProps> {
   };
 
   private getTable = () => {
-    const { query, recomendation, recomendationFetchStatus, recomendationQueryString, router } = this.props;
+    const { query, recommendation, recommendationFetchStatus, recommendationQueryString, router } = this.props;
     const { hiddenColumns, isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -264,23 +264,23 @@ class Recommendations extends React.Component<RecommendationsProps> {
         groupByTagKey={groupByTagKey}
         hiddenColumns={hiddenColumns}
         isAllSelected={isAllSelected}
-        isLoading={recomendationFetchStatus === FetchStatus.inProgress}
+        isLoading={recommendationFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={(sortType, isSortAscending) => handleSort(query, router, sortType, isSortAscending)}
-        report={recomendation}
-        reportQueryString={recomendationQueryString}
+        report={recommendation}
+        reportQueryString={recommendationQueryString}
         selectedItems={selectedItems}
       />
     );
   };
 
   private getToolbar = (computedItems: ComputedReportItem[]) => {
-    const { query, recomendation, router } = this.props;
+    const { query, recommendation, router } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
-    const itemsTotal = recomendation && recomendation.meta ? recomendation.meta.count : 0;
+    const itemsTotal = recommendation && recommendation.meta ? recommendation.meta.count : 0;
 
     return (
       <RosToolbar
@@ -381,26 +381,9 @@ class Recommendations extends React.Component<RecommendationsProps> {
     this.setState({ isAllSelected: false, selectedItems: newItems });
   };
 
-  private updateRecomendation = () => {
-    const { fetchRos, query, recomendationQueryString, router } = this.props;
-    if (!router.location.search) {
-      router.navigate(
-        getRouteForQuery(
-          {
-            exclude: query ? query.exclude : undefined,
-            filter_by: query ? query.filter_by : undefined,
-            group_by: query ? query.group_by : undefined,
-            order_by: { cost: 'desc' },
-          },
-          router.location
-        ),
-        {
-          replace: true,
-        }
-      );
-    } else {
-      fetchRos(recomendationPathsType, recomendationType, recomendationQueryString);
-    }
+  private updateRecommendation = () => {
+    const { fetchRos, recommendationQueryString } = this.props;
+    fetchRos(recommendationPathsType, recommendationType, recommendationQueryString);
   };
 
   public render() {
@@ -410,9 +393,9 @@ class Recommendations extends React.Component<RecommendationsProps> {
       providers,
       providersFetchStatus,
       query,
-      recomendation,
-      recomendationError,
-      recomendationFetchStatus,
+      recommendation,
+      recommendationError,
+      recommendationFetchStatus,
       router,
     } = this.props;
 
@@ -421,7 +404,7 @@ class Recommendations extends React.Component<RecommendationsProps> {
     const title = intl.formatMessage(messages.ocpDetailsTitle);
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
-    if (recomendationError) {
+    if (recommendationError) {
       return <NotAvailable title={title} />;
     } else if (providersFetchStatus === FetchStatus.inProgress) {
       return <Loading title={title} />;
@@ -443,13 +426,13 @@ class Recommendations extends React.Component<RecommendationsProps> {
           groupBy={groupById}
           onCurrencySelected={value => handleCurrencySelected(query, router, value)}
           onGroupBySelected={this.handleGroupBySelected}
-          report={recomendation}
+          report={recommendation}
         />
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}
           {this.getColumnManagementModal()}
-          {recomendationFetchStatus === FetchStatus.inProgress ? (
+          {recommendationFetchStatus === FetchStatus.inProgress ? (
             <Loading />
           ) : (
             <>
@@ -482,27 +465,27 @@ const mapStateToProps = createMapStateToProps<RecommendationsOwnProps, Recommend
       order_by: queryFromRoute.order_by || baseQuery.order_by,
       category: queryFromRoute.category,
     };
-    const recomendationQueryString = getQuery({
+    const recommendationQueryString = getQuery({
       ...query,
       currency,
     });
-    const recomendation = rosSelectors.selectRos(
+    const recommendation = rosSelectors.selectRos(
       state,
-      recomendationPathsType,
-      recomendationType,
-      recomendationQueryString
+      recommendationPathsType,
+      recommendationType,
+      recommendationQueryString
     );
-    const recomendationError = rosSelectors.selectRosError(
+    const recommendationError = rosSelectors.selectRosError(
       state,
-      recomendationPathsType,
-      recomendationType,
-      recomendationQueryString
+      recommendationPathsType,
+      recommendationType,
+      recommendationQueryString
     );
-    const recomendationFetchStatus = rosSelectors.selectRosFetchStatus(
+    const recommendationFetchStatus = rosSelectors.selectRosFetchStatus(
       state,
-      recomendationPathsType,
-      recomendationType,
-      recomendationQueryString
+      recommendationPathsType,
+      recommendationType,
+      recommendationQueryString
     );
 
     const providersQueryString = getProvidersQuery(providersQuery);
@@ -518,10 +501,10 @@ const mapStateToProps = createMapStateToProps<RecommendationsOwnProps, Recommend
       providers: filterProviders(providers, ProviderType.ocp),
       providersFetchStatus,
       query,
-      recomendation,
-      recomendationError,
-      recomendationFetchStatus,
-      recomendationQueryString,
+      recommendation,
+      recommendationError,
+      recommendationFetchStatus,
+      recommendationQueryString,
     } as any;
   }
 );

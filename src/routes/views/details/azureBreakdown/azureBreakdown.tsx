@@ -12,7 +12,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { paths } from 'routes';
+import { routes } from 'routes';
 import { BreakdownBase } from 'routes/views/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { filterProviders } from 'routes/views/utils/providers';
@@ -52,7 +52,7 @@ interface AzureCostDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = paths.azureDetails;
+const detailsURL = routes.azureDetails.pathname;
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.azure;
 

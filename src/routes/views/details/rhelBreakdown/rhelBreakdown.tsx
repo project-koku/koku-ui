@@ -11,7 +11,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { paths } from 'routes';
+import { routes } from 'routes';
 import { BreakdownBase } from 'routes/views/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { isPlatformCosts } from 'routes/views/utils/paths';
@@ -49,7 +49,7 @@ interface BreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = paths.rhelDetails;
+const detailsURL = routes.rhelDetails.pathname;
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.rhel;
 
