@@ -1,5 +1,5 @@
 import { Stack, StackItem } from '@patternfly/react-core';
-import Maintenance from '@redhat-cloud-services/frontend-components/Maintenance';
+import { Maintenance } from '@redhat-cloud-services/frontend-components/Maintenance';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';

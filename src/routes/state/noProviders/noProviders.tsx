@@ -1,5 +1,5 @@
-import Main from '@redhat-cloud-services/frontend-components/Main';
-import PageHeader, { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
+import { Main } from '@redhat-cloud-services/frontend-components/Main';
+import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import type { ProviderType } from 'api/providers';
 import React from 'react';
 

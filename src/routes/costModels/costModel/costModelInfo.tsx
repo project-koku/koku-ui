@@ -9,8 +9,8 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/esm/icons/error-circle-o-icon';
-import Main from '@redhat-cloud-services/frontend-components/Main';
-import PageHeader, { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
+import { Main } from '@redhat-cloud-services/frontend-components/Main';
+import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import type { CostModel } from 'api/costModels';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
