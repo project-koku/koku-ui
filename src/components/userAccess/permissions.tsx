@@ -11,7 +11,7 @@ import { NotAvailable } from 'routes/state/notAvailable';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
-import { usePathname } from 'utils/paths';
+import { formatPath, usePathname } from 'utils/paths';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -67,33 +67,33 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const ros = isRosFeatureEnabled && hasRosAccess(userAccess);
 
     switch (pathname) {
-      case routes.explorer.pathname:
-      case routes.overview.pathname:
+      case formatPath(routes.explorer.path):
+      case formatPath(routes.overview.path):
         return aws || azure || costModel || gcp || ibm || ocp || oci;
-      case routes.awsDetails.pathname:
-      case routes.awsDetailsBreakdown.pathname:
+      case formatPath(routes.awsDetails.path):
+      case formatPath(routes.awsDetailsBreakdown.path):
         return aws;
-      case routes.azureDetails.pathname:
-      case routes.azureDetailsBreakdown.pathname:
+      case formatPath(routes.azureDetails.path):
+      case formatPath(routes.azureDetailsBreakdown.path):
         return azure;
-      case routes.costModelsDetails.pathname:
+      case formatPath(routes.costModelsDetails.path):
         return costModel;
-      case routes.gcpDetails.pathname:
-      case routes.gcpDetailsBreakdown.pathname:
+      case formatPath(routes.gcpDetails.path):
+      case formatPath(routes.gcpDetailsBreakdown.path):
         return gcp;
-      case routes.ociDetails.pathname:
-      case routes.ociDetailsBreakdown.pathname:
+      case formatPath(routes.ociDetails.path):
+      case formatPath(routes.ociDetailsBreakdown.path):
         return oci;
-      case routes.ibmDetails.pathname:
-      case routes.ibmDetailsBreakdown.pathname:
+      case formatPath(routes.ibmDetails.path):
+      case formatPath(routes.ibmDetailsBreakdown.path):
         return ibm;
-      case routes.ocpDetails.pathname:
-      case routes.ocpDetailsBreakdown.pathname:
+      case formatPath(routes.ocpDetails.path):
+      case formatPath(routes.ocpDetailsBreakdown.path):
         return ocp;
-      case routes.recommendations.pathname:
+      case formatPath(routes.recommendations.path):
         return ros;
-      case routes.rhelDetails.pathname:
-      case routes.rhelDetailsBreakdown.pathname:
+      case formatPath(routes.rhelDetails.path):
+      case formatPath(routes.rhelDetailsBreakdown.path):
         return rhel;
       default:
         return false;

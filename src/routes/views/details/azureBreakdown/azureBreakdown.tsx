@@ -22,6 +22,7 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCurrency } from 'utils/localStorage';
+import { formatPath } from 'utils/paths';
 import { breakdownDescKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -52,7 +53,7 @@ interface AzureCostDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = routes.azureDetails.pathname;
+const detailsURL = formatPath(routes.azureDetails.path);
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.azure;
 

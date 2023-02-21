@@ -3,7 +3,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { routes } from 'routes';
-import { usePathname } from 'utils/paths';
+import { formatPath, usePathname } from 'utils/paths';
 
 interface PageTitleOwnProps {
   children?: React.ReactNode;
@@ -15,9 +15,9 @@ const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl }) => {
   const getPageTitle = () => {
     const pathname = usePathname();
     switch (pathname) {
-      case routes.explorer.pathname:
+      case formatPath(routes.explorer.path):
         return messages.pageTitleExplorer;
-      case routes.overview.pathname:
+      case formatPath(routes.overview.path):
         return messages.pageTitleOverview;
       default:
         return messages.pageTitleDefault;

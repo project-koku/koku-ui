@@ -10,6 +10,7 @@ import {
 } from 'routes/views/components/charts/common/chartDatum';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
+import { formatPath } from 'utils/paths';
 
 import type { IbmDashboardWidget } from './ibmDashboardCommon';
 import { IbmDashboardTab } from './ibmDashboardCommon';
@@ -63,7 +64,7 @@ export const costSummaryWidget: IbmDashboardWidget = {
     adjustContainerHeight: true,
     costKey: messages.cost,
     showHorizontal: true,
-    viewAllPath: routes.ibmDetails.pathname,
+    viewAllPath: formatPath(routes.ibmDetails.path),
   },
   tabsFilter: {
     limit: 3,

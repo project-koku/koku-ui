@@ -23,6 +23,7 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/localStorage';
+import { formatPath } from 'utils/paths';
 import { breakdownDescKey, breakdownTitleKey, logicalAndPrefix, orgUnitIdKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -52,7 +53,7 @@ interface BreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = routes.awsDetails.pathname;
+const detailsURL = formatPath(routes.awsDetails.path);
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.aws;
 

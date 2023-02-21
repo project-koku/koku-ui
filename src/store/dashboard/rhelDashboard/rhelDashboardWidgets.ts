@@ -10,6 +10,7 @@ import {
 } from 'routes/views/components/charts/common/chartDatum';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
+import { formatPath } from 'utils/paths';
 
 import type { RhelDashboardWidget } from './rhelDashboardCommon';
 import { RhelDashboardTab } from './rhelDashboardCommon';
@@ -34,7 +35,7 @@ export const costSummaryWidget: RhelDashboardWidget = {
     costKey: messages.cost,
     showHorizontal: true,
     showTooltip: true,
-    viewAllPath: routes.rhelDetails.pathname,
+    viewAllPath: formatPath(routes.rhelDetails.path),
   },
   trend: {
     computedForecastItem: ComputedForecastItemType.cost,

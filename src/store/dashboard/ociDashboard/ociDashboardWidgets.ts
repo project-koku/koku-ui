@@ -10,6 +10,7 @@ import {
 } from 'routes/views/components/charts/common/chartDatum';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatUnits } from 'utils/format';
+import { formatPath } from 'utils/paths';
 
 import type { OciDashboardWidget } from './ociDashboardCommon';
 import { OciDashboardTab } from './ociDashboardCommon';
@@ -32,7 +33,7 @@ export const costSummaryWidget: OciDashboardWidget = {
     adjustContainerHeight: true,
     costKey: messages.cost,
     showHorizontal: true,
-    viewAllPath: routes.ociDetails.pathname,
+    viewAllPath: formatPath(routes.ociDetails.path),
   },
   tabsFilter: {
     limit: 3,

@@ -22,6 +22,7 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCurrency } from 'utils/localStorage';
+import { formatPath } from 'utils/paths';
 import { breakdownDescKey, breakdownTitleKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -49,7 +50,7 @@ interface BreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = routes.ocpDetails.pathname;
+const detailsURL = formatPath(routes.ocpDetails.path);
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.ocp;
 

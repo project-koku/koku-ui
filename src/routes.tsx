@@ -26,103 +26,82 @@ const Recommendations = lazy(() => import(/* webpackChunkName: "ocpDetails" */ '
 const RhelDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/rhelDetails'));
 const RhelBreakdown = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/rhelBreakdown'));
 
-const basename = '/openshift/cost-management';
-
 const routes = {
   awsDetails: {
     element: userAccess(AwsDetails),
-    pathname: `${basename}/aws`,
     path: '/aws',
   },
   awsDetailsBreakdown: {
     element: userAccess(AwsBreakdown),
-    pathname: `${basename}/aws/breakdown`,
     path: '/aws/breakdown',
   },
   azureDetails: {
     element: userAccess(AzureDetails),
-    pathname: `${basename}/azure`,
     path: '/azure',
   },
   azureDetailsBreakdown: {
     element: userAccess(AzureBreakdown),
-    pathname: `${basename}/azure/breakdown`,
     path: '/azure/breakdown',
   },
   costModelsDetails: {
     element: userAccess(CostModelsDetails),
-    pathname: `${basename}/cost-models`,
     path: '/cost-models',
   },
   costModels: {
-    // Note: Path order matters here (i.e., dynamic segment must be defined after costModelsDetails)
+    // Note: Order matters here (i.e., dynamic segment must be defined after costModelsDetails)
     element: userAccess(CostModel),
-    pathname: `${basename}/cost-models`,
     path: `/cost-models/:uuid`,
   },
   explorer: {
     element: userAccess(Explorer),
-    pathname: `${basename}/explorer`,
     path: '/explorer',
   },
   gcpDetails: {
     element: userAccess(GcpDetails),
-    pathname: `${basename}/gcp`,
     path: '/gcp',
   },
   gcpDetailsBreakdown: {
     element: userAccess(GcpBreakdown),
-    pathname: `${basename}/gcp/breakdown`,
     path: '/gcp/breakdown',
   },
   ibmDetails: {
     element: userAccess(IbmDetails),
-    pathname: `${basename}/ibm`,
     path: '/ibm',
   },
   ibmDetailsBreakdown: {
     element: userAccess(IbmBreakdown),
-    pathname: `${basename}/ibm/breakdown`,
     path: '/ibm/breakdown',
   },
   ociDetails: {
     element: userAccess(OciDetails),
-    pathname: `${basename}/oci`,
     path: '/oci',
   },
   ociDetailsBreakdown: {
     element: userAccess(OciBreakdown),
-    pathname: `${basename}/oci/breakdown`,
     path: '/oci/breakdown',
   },
   ocpDetails: {
     element: userAccess(OcpDetails),
-    pathname: `${basename}/ocp`,
     path: '/ocp',
   },
   ocpDetailsBreakdown: {
     element: userAccess(OcpBreakdown),
-    pathname: `${basename}/ocp/breakdown`,
     path: '/ocp/breakdown',
   },
   overview: {
     element: userAccess(Overview),
-    pathname: `${basename}`,
     path: '/',
   },
   recommendations: {
     element: userAccess(Recommendations),
-    pathname: `${basename}/recommendations`,
     path: '/recommendations',
   },
   rhelDetails: {
     element: userAccess(RhelDetails),
-    pathname: `${basename}/rhel`,
     path: '/rhel',
   },
   rhelDetailsBreakdown: {
     element: userAccess(RhelBreakdown),
-    pathname: `${basename}/rhel/breakdown`,
     path: '/rhel/breakdown',
   },
 };
@@ -146,4 +125,4 @@ const Routes = () => (
   </Suspense>
 );
 
-export { Routes, routes };
+export { routes, Routes };

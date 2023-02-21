@@ -10,6 +10,7 @@ import {
 } from 'routes/views/components/charts/common/chartDatum';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
+import { formatPath } from 'utils/paths';
 
 import type { GcpDashboardWidget } from './gcpDashboardCommon';
 import { GcpDashboardTab } from './gcpDashboardCommon';
@@ -63,7 +64,7 @@ export const costSummaryWidget: GcpDashboardWidget = {
     adjustContainerHeight: true,
     costKey: messages.cost,
     showHorizontal: true,
-    viewAllPath: routes.gcpDetails.pathname,
+    viewAllPath: formatPath(routes.gcpDetails.path),
   },
   tabsFilter: {
     limit: 3,

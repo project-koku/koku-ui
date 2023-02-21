@@ -10,6 +10,7 @@ import { routes } from 'routes';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { LoadingState } from 'routes/components/state/loadingState';
 import NoCostModels from 'routes/costModels/costModelsDetails/noCostModels';
+import { formatPath } from 'utils/paths';
 import type { RouteComponentProps } from 'utils/router';
 
 import type { CostModelsQuery } from './query';
@@ -57,7 +58,7 @@ export function getRowsByStateName(stateName: string, data: any) {
     return {
       cells: [
         {
-          title: <Link to={`${routes.costModels.pathname}/${item.uuid}`}>{item.name}</Link>,
+          title: <Link to={`${formatPath(routes.costModelsDetails.path)}/${item.uuid}`}>{item.name}</Link>,
         },
         item.description,
         item.source_type,
