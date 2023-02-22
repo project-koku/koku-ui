@@ -11,8 +11,10 @@ import type { AxiosError } from 'axios';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import type { Dispatch } from 'redux';
+import { routes } from 'routes';
 import type { ThunkAction } from 'store/common';
 import { createAction, createAsyncAction } from 'typesafe-actions';
+import { formatPath } from 'utils/paths';
 import type { RouteComponentProps } from 'utils/router';
 
 interface FilterQuery {
@@ -123,7 +125,7 @@ export const redirectToCostModelFromSourceUuid = (source_uuid: string, router: R
     return apiGetCostModels(`source_uuid=${source_uuid}`)
       .then(res => {
         const uuid = res.data.data[0].uuid;
-        router.navigate(`/cost-models/${uuid}`);
+        router.navigate(`${formatPath(routes.costModelsDetails.path)}/${uuid}`);
       })
       .catch(() => {
         dispatch(
