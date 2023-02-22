@@ -1,3 +1,4 @@
+import { Tooltip } from '@patternfly/react-core';
 import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
@@ -48,8 +49,8 @@ class ClusterBase extends React.Component<ClusterProps> {
     const { groupBy, intl, report, title } = this.props;
     const { isOpen, showAll } = this.state;
 
-    let charCount = 0;
-    const maxChars = 50;
+    const maxCharsPerName = 45; // Max (non-whitespace) characters that fit without overlapping card
+    const maxItems = 2; // Max items to show before adding "more" link
     const someClusters = [];
     const allClusters = [];
 
@@ -85,23 +86,21 @@ class ClusterBase extends React.Component<ClusterProps> {
     });
 
     for (const cluster of clusters) {
-      const prefix = someClusters.length > 0 ? ', ' : '';
-      const clusterString = `${prefix}${cluster}`;
+      let clusterString = someClusters.length > 0 ? `, ${cluster}` : cluster;
       if (showAll) {
         someClusters.push(clusterString);
-      } else if (charCount <= maxChars) {
-        if (charCount + clusterString.length > maxChars) {
+      } else if (someClusters.length < maxItems) {
+        if (clusterString.length > maxCharsPerName) {
+          clusterString = clusterString.slice(0, maxCharsPerName).trim().concat('...');
           someClusters.push(
-            clusterString
-              .slice(0, maxChars - charCount)
-              .trim()
-              .concat('...')
+            <Tooltip content={cluster} enableFlip>
+              <span>{clusterString}</span>
+            </Tooltip>
           );
         } else {
           someClusters.push(clusterString);
         }
       }
-      charCount += clusterString.length;
       allClusters.push(cluster);
     }
 
