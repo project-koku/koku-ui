@@ -5,10 +5,12 @@ import React from 'react';
 import { ResourceInput } from './resourceInput';
 
 interface ResourceTypeaheadOwnProps {
+  ariaLabel?: string;
   isDisabled?: boolean;
   onSelect?: (value: string) => void;
   resourcePathsType: ResourcePathsType;
   resourceType: ResourceType;
+  placeholder?: string;
 }
 
 interface ResourceTypeaheadState {
@@ -61,15 +63,17 @@ class ResourceTypeahead extends React.Component<ResourceTypeaheadProps> {
   };
 
   public render() {
-    const { isDisabled, resourcePathsType, resourceType } = this.props;
+    const { ariaLabel, isDisabled, placeholder, resourcePathsType, resourceType } = this.props;
     const { search } = this.state;
 
     return (
       <ResourceInput
+        ariaLabel={ariaLabel}
         isDisabled={isDisabled}
         onClear={this.handleOnClear}
         onSearchChanged={this.handleOnSearch}
         onSelect={this.handleOnSelect}
+        placeholder={placeholder}
         resourcePathsType={resourcePathsType}
         resourceType={resourceType}
         search={search}
