@@ -28,10 +28,12 @@ import { resourceActions, resourceSelectors } from 'store/resources';
 import { noop } from 'utils/noop';
 
 interface ResourceInputOwnProps {
+  ariaLabel?: string;
   isDisabled?: boolean;
   onClear?: () => void;
   onSearchChanged?: (evt: FormEvent, value: string) => void;
   onSelect?: (value: string) => void;
+  placeholder?: string;
   resource?: Resource;
   resourcePathsType: ResourcePathsType;
   resourceType: ResourceType;
@@ -96,17 +98,19 @@ class ResourceInputBase extends React.Component<ResourceInputProps> {
   };
 
   private getInputGroup = () => {
-    const { isDisabled, search = '', onSearchChanged } = this.props;
+    const { ariaLabel, isDisabled, search = '', onSearchChanged, placeholder } = this.props;
 
     return (
       <div ref={this.textInputGroupRef}>
         <TextInputGroup isDisabled={isDisabled}>
           <TextInputGroupMain
+            aria-label={ariaLabel}
             icon={<SearchIcon />}
             value={search}
             onChange={onSearchChanged}
             onFocus={this.openMenu}
             onKeyDown={this.handleTextInputKeyDown}
+            placeholder={placeholder}
           />
           {search && search.length && (
             <TextInputGroupUtilities>

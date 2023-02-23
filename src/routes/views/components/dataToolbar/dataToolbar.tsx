@@ -474,8 +474,10 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         <InputGroup>
           {isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
             <ResourceTypeahead
+              ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: categoryOption.key })}
               isDisabled={isDisabled}
               onSelect={value => this.onCategoryInputSelect(value, categoryOption.key)}
+              placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: categoryOption.key })}
               resourcePathsType={resourcePathsType}
               resourceType={categoryOption.key as ResourceType}
             />
