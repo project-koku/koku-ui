@@ -19,6 +19,7 @@ import { tagKey } from 'utils/props';
 
 interface RosToolbarOwnProps {
   isAllSelected?: boolean;
+  isDisabled?: boolean;
   isExportDisabled: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
@@ -112,6 +113,7 @@ export class RosToolbarBase extends React.Component<RosToolbarProps> {
     const {
       groupBy,
       isAllSelected,
+      isDisabled,
       isExportDisabled,
       itemsPerPage,
       itemsTotal,
@@ -133,6 +135,7 @@ export class RosToolbarBase extends React.Component<RosToolbarProps> {
         categoryOptions={categoryOptions}
         groupBy={groupBy}
         isAllSelected={isAllSelected}
+        isDisabled={isDisabled}
         isExportDisabled={isExportDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}

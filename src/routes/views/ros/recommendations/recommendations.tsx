@@ -217,7 +217,7 @@ class Recommendations extends React.Component<RecommendationsProps> {
     );
   };
 
-  private getPagination = (isBottom: boolean = false) => {
+  private getPagination = (isDisabled = false, isBottom = false) => {
     const { intl, query, recommendation, router } = this.props;
 
     const count = recommendation && recommendation.meta ? recommendation.meta.count : 0;
@@ -234,6 +234,7 @@ class Recommendations extends React.Component<RecommendationsProps> {
     return (
       <Pagination
         isCompact={!isBottom}
+        isDisabled={isDisabled}
         itemCount={count}
         onPerPageSelect={(event, perPage) => handlePerPageSelect(query, router, perPage)}
         onSetPage={(event, pageNumber) => handleSetPage(query, router, recommendation, pageNumber)}
@@ -280,13 +281,15 @@ class Recommendations extends React.Component<RecommendationsProps> {
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
+    const isDisabled = computedItems.length === 0;
     const itemsTotal = recommendation && recommendation.meta ? recommendation.meta.count : 0;
 
     return (
       <RosToolbar
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isAllSelected={isAllSelected}
-        isExportDisabled={computedItems.length === 0 || (!isAllSelected && selectedItems.length === 0)}
+        isDisabled={isDisabled}
+        isExportDisabled={isDisabled || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
@@ -295,7 +298,7 @@ class Recommendations extends React.Component<RecommendationsProps> {
         onFilterAdded={filter => handleFilterAdded(query, router, filter)}
         onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
         onPlatformCostsChanged={this.handlePlatformCostsChanged}
-        pagination={this.getPagination()}
+        pagination={this.getPagination(isDisabled)}
         query={query}
         selectedItems={selectedItems}
       />
@@ -399,8 +402,9 @@ class Recommendations extends React.Component<RecommendationsProps> {
       router,
     } = this.props;
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const isDisabled = computedItems.length === 0;
     const title = intl.formatMessage(messages.ocpDetailsTitle);
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
@@ -438,7 +442,7 @@ class Recommendations extends React.Component<RecommendationsProps> {
             <>
               <div style={styles.tableContainer}>{this.getTable()}</div>
               <div style={styles.paginationContainer}>
-                <div style={styles.pagination}>{this.getPagination(true)}</div>
+                <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
               </div>
             </>
           )}
