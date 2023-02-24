@@ -13,6 +13,7 @@ import { getTagReportPathsType } from './explorerUtils';
 interface ExplorerToolbarOwnProps {
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
+  isDisabled?: boolean;
   isExportDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
@@ -48,6 +49,7 @@ export class ExplorerToolbarBase extends React.Component<ExplorerToolbarProps> {
     const {
       isAllSelected,
       isBulkSelectDisabled,
+      isDisabled,
       isExportDisabled,
       itemsPerPage,
       itemsTotal,
@@ -64,6 +66,7 @@ export class ExplorerToolbarBase extends React.Component<ExplorerToolbarProps> {
       <DataToolbar
         isAllSelected={isAllSelected}
         isBulkSelectDisabled={isBulkSelectDisabled}
+        isDisabled={isDisabled}
         isExportDisabled={isExportDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}

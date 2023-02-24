@@ -20,6 +20,7 @@ import { tagKey } from 'utils/props';
 interface DetailsToolbarOwnProps {
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
+  isDisabled?: boolean;
   isExportDisabled?: boolean;
   items?: ComputedReportItem[];
   itemsPerPage?: number;
@@ -115,6 +116,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       groupBy,
       isAllSelected,
       isBulkSelectDisabled,
+      isDisabled,
       isExportDisabled,
       itemsPerPage,
       itemsTotal,
@@ -135,6 +137,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         groupBy={groupBy}
         isAllSelected={isAllSelected}
         isBulkSelectDisabled={isBulkSelectDisabled}
+        isDisabled={isDisabled}
         isExportDisabled={isExportDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}

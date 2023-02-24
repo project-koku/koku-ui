@@ -203,7 +203,7 @@ class Explorer extends React.Component<ExplorerProps> {
     );
   };
 
-  private getPagination = (isBottom: boolean = false) => {
+  private getPagination = (isDisabled = false, isBottom = false) => {
     const { intl, query, report, router } = this.props;
 
     const count = report && report.meta ? report.meta.count : 0;
@@ -220,6 +220,7 @@ class Explorer extends React.Component<ExplorerProps> {
     return (
       <Pagination
         isCompact={!isBottom}
+        isDisabled={isDisabled}
         itemCount={count}
         onPerPageSelect={(event, perPage) => handlePerPageSelect(query, router, perPage)}
         onSetPage={(event, pageNumber) => handleSetPage(query, router, report, pageNumber)}
@@ -268,17 +269,19 @@ class Explorer extends React.Component<ExplorerProps> {
     const { perspective, report } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
+    const isDisabled = computedItems.length === 0;
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
       <ExplorerToolbar
         isAllSelected={isAllSelected}
-        isExportDisabled={computedItems.length === 0 || (!isAllSelected && selectedItems.length === 0)}
+        isDisabled={isDisabled}
+        isExportDisabled={isDisabled || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}
-        pagination={this.getPagination()}
+        pagination={this.getPagination(isDisabled)}
         perspective={perspective}
         selectedItems={selectedItems}
       />
@@ -439,10 +442,11 @@ class Explorer extends React.Component<ExplorerProps> {
     const isLoading =
       providersFetchStatus === FetchStatus.inProgress || userAccessFetchStatus === FetchStatus.inProgress;
 
+    const computedItems = this.getComputedItems();
+    const isDisabled = computedItems.length === 0;
+    const itemsTotal = report && report.meta ? report.meta.count : 0;
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
-    const computedItems = this.getComputedItems();
-    const itemsTotal = report && report.meta ? report.meta.count : 0;
     const title = intl.formatMessage(messages.explorerTitle);
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
@@ -502,7 +506,7 @@ class Explorer extends React.Component<ExplorerProps> {
             <>
               <div style={styles.tableContainer}>{this.getTable()}</div>
               <div style={styles.paginationContainer}>
-                <div style={styles.pagination}>{this.getPagination(true)}</div>
+                <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
               </div>
             </>
           )}

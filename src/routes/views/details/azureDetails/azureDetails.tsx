@@ -172,7 +172,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     );
   };
 
-  private getPagination = (isBottom: boolean = false) => {
+  private getPagination = (isDisabled = false, isBottom = false) => {
     const { intl, query, router, report } = this.props;
 
     const count = report && report.meta ? report.meta.count : 0;
@@ -189,6 +189,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     return (
       <Pagination
         isCompact={!isBottom}
+        isDisabled={isDisabled}
         itemCount={count}
         onPerPageSelect={(event, perPage) => handlePerPageSelect(query, router, perPage)}
         onSetPage={(event, pageNumber) => handleSetPage(query, router, report, pageNumber)}
@@ -234,20 +235,22 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
+    const isDisabled = computedItems.length === 0;
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
       <DetailsToolbar
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isAllSelected={isAllSelected}
-        isExportDisabled={computedItems.length === 0 || (!isAllSelected && selectedItems.length === 0)}
+        isDisabled={isDisabled}
+        isExportDisabled={isDisabled || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={filter => handleFilterAdded(query, router, filter)}
         onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
-        pagination={this.getPagination()}
+        pagination={this.getPagination(isDisabled)}
         query={query}
         selectedItems={selectedItems}
       />
@@ -328,8 +331,9 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
       router,
     } = this.props;
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const isDisabled = computedItems.length === 0;
     const title = intl.formatMessage(messages.azureDetailsTitle);
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
@@ -366,7 +370,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
             <>
               <div style={styles.tableContainer}>{this.getTable()}</div>
               <div style={styles.paginationContainer}>
-                <div style={styles.pagination}>{this.getPagination(true)}</div>
+                <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
               </div>
             </>
           )}

@@ -318,6 +318,25 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     }
   };
 
+  private hasFilters = () => {
+    const { filters } = this.state;
+
+    if (filters) {
+      for (const filterKey of Object.keys(filters)) {
+        if (filterKey === tagKey) {
+          for (const tagFilterKey of Object.keys(filters[filterKey])) {
+            if (filters[filterKey][tagFilterKey]) {
+              return true;
+            }
+          }
+        } else {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
   // Bulk select
 
   public getBulkSelect = () => {
@@ -398,7 +417,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
   // Category select
 
-  public getCategorySelect() {
+  public getCategorySelect(hasFilters: boolean) {
     const { categoryOptions, isDisabled } = this.props;
     const { currentCategory, isCategorySelectOpen } = this.state;
 
@@ -413,7 +432,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       <ToolbarItem>
         <Select
           id="category-select"
-          isDisabled={isDisabled}
+          isDisabled={isDisabled && !hasFilters}
           isOpen={isCategorySelectOpen}
           onSelect={this.handleOnCategorySelect}
           onToggle={this.handleOnCategoryToggle}
@@ -459,7 +478,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   // Category input
-  public getCategoryInput = (categoryOption: ToolbarChipGroup) => {
+  public getCategoryInput = (categoryOption: ToolbarChipGroup, hasFilters: boolean) => {
     const { intl, isDisabled, resourcePathsType } = this.props;
     const { currentCategory, filters, categoryInput } = this.state;
 
@@ -475,7 +494,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           {isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
             <ResourceTypeahead
               ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: categoryOption.key })}
-              isDisabled={isDisabled}
+              isDisabled={isDisabled && !hasFilters}
               onSelect={value => this.onCategoryInputSelect(value, categoryOption.key)}
               placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: categoryOption.key })}
               resourcePathsType={resourcePathsType}
@@ -484,7 +503,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           ) : (
             <>
               <TextInput
-                isDisabled={isDisabled}
+                isDisabled={isDisabled && !hasFilters}
                 name={`category-input-${categoryOption.key}`}
                 id={`category-input-${categoryOption.key}`}
                 type="search"
@@ -495,7 +514,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                 onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
               />
               <Button
-                isDisabled={isDisabled}
+                isDisabled={isDisabled && !hasFilters}
                 variant={ButtonVariant.control}
                 aria-label={intl.formatMessage(messages.filterByButtonAriaLabel, { value: categoryOption.key })}
                 onClick={evt => this.onCategoryInput(evt, categoryOption.key)}
@@ -540,7 +559,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                 : prevItems
                 ? [...prevItems, filter]
                 : [filter],
-            categoryInput: '',
           },
         };
       },
@@ -567,7 +585,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                 : prevItems
                 ? [...prevItems, filter]
                 : [filter],
-            categoryInput: '',
           },
         };
       },
@@ -579,7 +596,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
   // Exclude select
 
-  public getExcludeSelect() {
+  public getExcludeSelect(hasFilters: boolean) {
     const { isDisabled } = this.props;
     const { currentExclude, isExcludeSelectOpen } = this.state;
 
@@ -590,7 +607,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       <ToolbarItem>
         <Select
           id="exclude-select"
-          isDisabled={isDisabled}
+          isDisabled={isDisabled && !hasFilters}
           isOpen={isExcludeSelectOpen}
           onSelect={this.handleOnExcludeSelect}
           onToggle={this.handleOnExcludeToggle}
@@ -637,7 +654,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   // Org unit select
-  public getOrgUnitSelect = () => {
+  public getOrgUnitSelect = (hasFilters: boolean) => {
     const { intl, isDisabled } = this.props;
     const { currentCategory, filters, isOrgUnitSelectExpanded } = this.state;
 
@@ -679,7 +696,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         showToolbarItem={currentCategory === orgUnitIdKey}
       >
         <Select
-          isDisabled={isDisabled}
+          isDisabled={isDisabled && !hasFilters}
           className="selectOverride"
           variant={SelectVariant.checkbox}
           aria-label={intl.formatMessage(messages.filterByOrgUnitAriaLabel)}
@@ -779,7 +796,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
   // Tag key select
 
-  public getTagKeySelect = () => {
+  public getTagKeySelect = (hasFilters: boolean) => {
     const { intl, isDisabled } = this.props;
     const { currentCategory, currentTagKey, isTagKeySelectExpanded } = this.state;
 
@@ -794,7 +811,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return (
       <ToolbarItem>
         <Select
-          isDisabled={isDisabled}
+          isDisabled={isDisabled && !hasFilters}
           variant={SelectVariant.typeahead}
           typeAheadAriaLabel={intl.formatMessage(messages.filterByTagKeyAriaLabel)}
           onClear={this.handleOnTagKeyClear}
@@ -874,8 +891,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
   // Tag value select
 
-  public getTagValueSelect = (tagKeyOption: ToolbarChipGroup) => {
-    const { tagReportPathsType } = this.props;
+  public getTagValueSelect = (tagKeyOption: ToolbarChipGroup, hasFilters: boolean) => {
+    const { isDisabled, tagReportPathsType } = this.props;
     const { currentCategory, currentTagKey, filters, tagKeyValueInput } = this.state;
 
     // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
@@ -893,6 +910,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         showToolbarItem={currentCategory === tagKey && currentTagKey === tagKeyOption.key}
       >
         <TagValue
+          isDisabled={isDisabled && this.hasFilters}
           onTagValueSelect={this.onTagValueSelect}
           onTagValueInput={this.onTagValueInput}
           onTagValueInputChange={this.onTagValueInputChange}
@@ -985,10 +1003,10 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Column management
 
   public getColumnManagement = () => {
-    const { intl } = this.props;
+    const { intl, isDisabled } = this.props;
     return (
       <ToolbarItem visibility={{ default: 'hidden', '2xl': 'visible', xl: 'visible', lg: 'hidden' }}>
-        <Button onClick={this.handleColumnManagementClicked} variant={ButtonVariant.link}>
+        <Button isDisabled={isDisabled} onClick={this.handleColumnManagementClicked} variant={ButtonVariant.link}>
           {intl.formatMessage(messages.detailsColumnManagementTitle)}
         </Button>
       </ToolbarItem>
@@ -1021,7 +1039,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Platform costs
 
   public getPlatformCosts = () => {
-    const { intl } = this.props;
+    const { intl, isDisabled } = this.props;
     const { isPlatformCostsChecked } = this.state;
     return (
       <ToolbarItem visibility={{ default: 'hidden', '2xl': 'visible', xl: 'visible', lg: 'hidden' }}>
@@ -1029,6 +1047,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           id="platform-costs"
           label={intl.formatMessage(messages.sumPlatformCosts)}
           isChecked={isPlatformCostsChecked}
+          isDisabled={isDisabled}
           onChange={this.handlePlatformCostsChanged}
         />
       </ToolbarItem>
@@ -1101,6 +1120,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       style,
     } = this.props;
     const options = categoryOptions ? categoryOptions : this.getDefaultCategoryOptions();
+    const hasFilters = this.hasFilters();
 
     // Todo: clearAllFilters workaround https://github.com/patternfly/patternfly-react/issues/4222
     return (
@@ -1111,15 +1131,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
             {showFilter && (
               <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
                 <ToolbarGroup variant="filter-group">
-                  {this.getCategorySelect()}
-                  {isNegativeFilteringFeatureEnabled && this.getExcludeSelect()}
-                  {this.getTagKeySelect()}
-                  {this.getTagKeyOptions().map(option => this.getTagValueSelect(option))}
-                  {this.getOrgUnitSelect()}
+                  {this.getCategorySelect(hasFilters)}
+                  {isNegativeFilteringFeatureEnabled && this.getExcludeSelect(hasFilters)}
+                  {this.getTagKeySelect(hasFilters)}
+                  {this.getTagKeyOptions().map(option => this.getTagValueSelect(option, hasFilters))}
+                  {this.getOrgUnitSelect(hasFilters)}
                   {options &&
                     options
                       .filter(option => option.key !== tagKey && option.key !== orgUnitIdKey)
-                      .map(option => this.getCategoryInput(option))}
+                      .map(option => this.getCategoryInput(option, hasFilters))}
                 </ToolbarGroup>
               </ToolbarToggleGroup>
             )}
