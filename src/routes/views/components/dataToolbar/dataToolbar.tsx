@@ -910,7 +910,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         showToolbarItem={currentCategory === tagKey && currentTagKey === tagKeyOption.key}
       >
         <TagValue
-          isDisabled={isDisabled && this.hasFilters}
+          isDisabled={isDisabled && !hasFilters}
           onTagValueSelect={this.onTagValueSelect}
           onTagValueInput={this.onTagValueInput}
           onTagValueInputChange={this.onTagValueInputChange}
