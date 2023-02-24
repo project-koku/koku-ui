@@ -18,7 +18,8 @@
         "@redhat-cloud-services/eslint-config-redhat-cloud-services",
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "plugin:react-hooks/recommended"
     ],
     "parserOptions": {
         // "project": ["./tsconfig.json"],
@@ -128,6 +129,7 @@
             "error",
             "as-needed"
         ],
+        "react-hooks/exhaustive-deps": 0, // "warn",
         "react/display-name": 0,
         "react/no-unescaped-entities": ["error", { "forbid": [">", "}"]}],
         "react/no-unknown-property": ["error", { "ignore": ["key"]}],

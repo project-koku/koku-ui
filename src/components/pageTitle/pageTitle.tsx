@@ -12,7 +12,7 @@ interface PageTitleOwnProps {
 type PageTitleProps = PageTitleOwnProps & WrappedComponentProps;
 
 const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl }) => {
-  const getPageTitle = () => {
+  const usePageTitle = () => {
     const pathname = usePathname();
     switch (pathname) {
       case formatPath(routes.explorer.path):
@@ -25,7 +25,7 @@ const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl }) => {
   };
 
   // Set page title
-  document.title = intl.formatMessage(getPageTitle());
+  document.title = intl.formatMessage(usePageTitle());
 
   return <>{children}</>;
 };
