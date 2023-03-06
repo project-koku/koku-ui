@@ -1,12 +1,12 @@
+import { PageSection } from '@patternfly/react-core';
 import { InvalidObject } from '@redhat-cloud-services/frontend-components/InvalidObject';
-import { Main } from '@redhat-cloud-services/frontend-components/Main';
 import React from 'react';
 
 const NotFound = () => {
   return (
-    <Main>
+    <PageSection>
       <InvalidObject />
-    </Main>
+    </PageSection>
   );
 };
 

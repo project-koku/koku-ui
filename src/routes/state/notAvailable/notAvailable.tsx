@@ -1,4 +1,4 @@
-import { Main } from '@redhat-cloud-services/frontend-components/Main';
+import { PageSection } from '@patternfly/react-core';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
 import React from 'react';
@@ -17,9 +17,9 @@ const NotAvailable = ({ title }: NotAvailableProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <Main>
+      <PageSection>
         <Unavailable />
-      </Main>
+      </PageSection>
     </>
   );
 };

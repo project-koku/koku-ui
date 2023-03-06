@@ -1,4 +1,4 @@
-import { Main } from '@redhat-cloud-services/frontend-components/Main';
+import { PageSection } from '@patternfly/react-core';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import React from 'react';
 import { LoadingState } from 'routes/components/state/loadingState';
@@ -17,9 +17,9 @@ const Loading = ({ title }: LoadingProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <Main>
+      <PageSection>
         <LoadingState />
-      </Main>
+      </PageSection>
     </>
   );
 };

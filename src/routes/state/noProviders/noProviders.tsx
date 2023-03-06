@@ -1,4 +1,4 @@
-import { Main } from '@redhat-cloud-services/frontend-components/Main';
+import { PageSection } from '@patternfly/react-core';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import type { ProviderType } from 'api/providers';
 import React from 'react';
@@ -20,9 +20,9 @@ const NoProviders = ({ providerType, title }: NoProvidersProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <Main>
+      <PageSection>
         <NoProvidersState providerType={providerType} />
-      </Main>
+      </PageSection>
     </>
   );
 };
