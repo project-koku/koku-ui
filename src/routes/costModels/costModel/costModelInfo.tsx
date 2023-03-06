@@ -4,12 +4,12 @@ import {
   EmptyStateIcon,
   Grid,
   GridItem,
+  PageSection,
   TabContent,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/esm/icons/error-circle-o-icon';
-import { Main } from '@redhat-cloud-services/frontend-components/Main';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import type { CostModel } from 'api/costModels';
 import type { AxiosError } from 'axios';
@@ -91,7 +91,7 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
               <PageHeader>
                 <PageHeaderTitle title={intl.formatMessage(messages.costModels)} />
               </PageHeader>
-              <Main>
+              <PageSection>
                 <EmptyState>
                   <EmptyStateIcon icon={ErrorCircleOIcon} />
                   <Title headingLevel="h2" size={TitleSizes.lg}>
@@ -103,7 +103,7 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
                     })}
                   </EmptyStateBody>
                 </EmptyState>
-              </Main>
+              </PageSection>
             </>
           );
         }

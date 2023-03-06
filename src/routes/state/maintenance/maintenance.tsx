@@ -1,13 +1,13 @@
-import { Main } from '@redhat-cloud-services/frontend-components/Main';
+import { PageSection } from '@patternfly/react-core';
 import React from 'react';
 
 import { MaintenanceState } from './maintenanceState';
 
 const Maintenance = () => {
   return (
-    <Main>
+    <PageSection>
       <MaintenanceState />
-    </Main>
+    </PageSection>
   );
 };
 
