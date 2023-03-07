@@ -101,6 +101,9 @@ export const rosWidget: OcpDashboardWidget = {
   titleKey: messages.rosDashboardTitle,
   rosPathsType: RosPathsType.recommendation,
   rosType: RosType.cost,
+  details: {
+    showRos: true,
+  },
 };
 
 export const volumeWidget: OcpDashboardWidget = {
