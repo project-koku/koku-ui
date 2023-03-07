@@ -43,6 +43,7 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
     ),
     current: getQueryForWidget(defaultFilter, props),
     forecast: getQueryForWidget({}, { limit: 31, ...props }),
+    ros: getQueryForWidget({}),
     tabs: getQueryForWidgetTabs(
       widget,
       {

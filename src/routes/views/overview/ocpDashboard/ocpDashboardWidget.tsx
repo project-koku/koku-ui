@@ -7,6 +7,7 @@ import { ocpDashboardActions, ocpDashboardSelectors, OcpDashboardTab } from 'sto
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
+import { rosSelectors } from 'store/ros';
 import type { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import { getCurrency } from 'utils/localStorage';
 
@@ -15,6 +16,7 @@ import { chartStyles } from './ocpDashboardWidget.styles';
 interface OcpDashboardWidgetDispatchProps {
   fetchForecasts: typeof ocpDashboardActions.fetchWidgetForecasts;
   fetchReports: typeof ocpDashboardActions.fetchWidgetReports;
+  fetchRos: typeof ocpDashboardActions.fetchWidgetRos;
   updateTab: typeof ocpDashboardActions.changeWidgetTab;
 }
 
@@ -33,13 +35,27 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
   (state, { widgetId }) => {
     const widget = ocpDashboardSelectors.selectWidget(state, widgetId);
     const queries = ocpDashboardSelectors.selectWidgetQueries(state, widgetId);
+
+    const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
+    const showRos = widget.rosPathsType && widget.rosType;
+
+    if (showRos) {
+      return {
+        ...widget,
+        currency,
+        isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
+        ros: rosSelectors.selectRos(state, widget.rosPathsType, widget.rosType, queries.ros),
+        rosFetchStatus: rosSelectors.selectRosFetchStatus(state, widget.rosPathsType, widget.rosType, queries.ros),
+        showRos,
+      };
+    }
     return {
       ...widget,
-      ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
       getIdKeyForTab,
       chartAltHeight: chartStyles.chartAltHeight,
       containerAltHeight: chartStyles.containerAltHeight,
       currentQuery: queries.current,
+      currency,
       forecastQuery: queries.forecast,
       previousQuery: queries.previous,
       tabsQuery: queries.tabs,
@@ -71,6 +87,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
 const mapDispatchToProps: OcpDashboardWidgetDispatchProps = {
   fetchForecasts: ocpDashboardActions.fetchWidgetForecasts,
   fetchReports: ocpDashboardActions.fetchWidgetReports,
+  fetchRos: ocpDashboardActions.fetchWidgetRos,
   updateTab: ocpDashboardActions.changeWidgetTab,
 };
 

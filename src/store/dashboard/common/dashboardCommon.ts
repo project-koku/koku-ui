@@ -1,6 +1,7 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import type { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
+import type { RosPathsType, RosType } from 'api/ros/ros';
 import type { FormatOptions, Formatter } from 'utils/format';
 
 // eslint-disable-next-line no-shadow
@@ -15,10 +16,10 @@ export const enum DashboardChartType {
 export interface DashboardWidget<T> {
   availableTabs?: T[];
   chartFormatter?: Formatter;
-  chartName: string; // Will be the prefix for ids within the chart
+  chartName?: string; // Will be the prefix for ids within the chart
   chartType?: DashboardChartType;
   currentTab?: T;
-  details: {
+  details?: {
     adjustContainerHeight?: boolean; // Adjust chart container height for responsiveness
     costKey?: MessageDescriptor; // i18n key
     formatOptions?: FormatOptions;
@@ -45,8 +46,10 @@ export interface DashboardWidget<T> {
   forecastPathsType?: ForecastPathsType;
   forecastType?: ForecastType;
   id: number;
-  reportPathsType: ReportPathsType;
-  reportType: ReportType;
+  reportPathsType?: ReportPathsType; // Cost report
+  reportType?: ReportType; // Cost report
+  rosPathsType?: RosPathsType; // Resource optimization
+  rosType?: RosType; // Resource optimization
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey: MessageDescriptor;
   tabsFilter?: {
@@ -57,7 +60,7 @@ export interface DashboardWidget<T> {
     service?: string;
     service_name?: string;
   };
-  trend: {
+  trend?: {
     computedForecastItem?: string; // The computed forecast item to use in charts.
     computedForecastInfrastructureItem?: string; // The computed forecast infrastructure item to use in charts.
     computedReportItem: string; // The computed report item to use in charts, summary, etc.

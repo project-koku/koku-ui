@@ -10572,6 +10572,42 @@
         "value": "Volume usage and requests"
       }
     ],
+    "rosDashboardTitle": [
+      {
+        "type": 0,
+        "value": "Resource optimization"
+      }
+    ],
+    "rosRecommendationsDetails": [
+      {
+        "offset": 0,
+        "options": {
+          "=0": {
+            "value": [
+              {
+                "type": 0,
+                "value": "No recommendations"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " recommendations"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
+      }
+    ],
     "rosRecommendationsTitle": [
       {
         "type": 0,
