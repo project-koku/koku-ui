@@ -1,5 +1,6 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import { RosPathsType, RosType } from 'api/ros/ros';
 import messages from 'locales/messages';
 import { routes } from 'routes';
 import {
@@ -93,6 +94,13 @@ export const memoryWidget: OcpDashboardWidget = {
     datumType: DatumType.rolling,
     titleKey: messages.ocpDailyUsageAndRequestComparison,
   },
+};
+
+export const rosWidget: OcpDashboardWidget = {
+  id: getId(),
+  titleKey: messages.rosDashboardTitle,
+  rosPathsType: RosPathsType.recommendation,
+  rosType: RosType.cost,
 };
 
 export const volumeWidget: OcpDashboardWidget = {

@@ -3,6 +3,7 @@ import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import type { Forecast } from 'api/forecasts/forecast';
 import { getQuery } from 'api/queries/awsQuery';
 import type { Report } from 'api/reports/report';
+import type { Ros } from 'api/ros/ros';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
@@ -27,6 +28,7 @@ import {
   ReportSummaryTrend,
   ReportSummaryUsage,
 } from 'routes/views/components/reports/reportSummary';
+import { RosSummary } from 'routes/views/overview/components/rosSummary/rosSummary';
 import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
@@ -46,24 +48,30 @@ export interface DashboardWidgetOwnProps {
   costType?: string;
   currency?: string;
   getIdKeyForTab: <T extends DashboardWidget<any>>(tab: T) => string;
+  isRosFeatureEnabled?: boolean;
+  showRos?: boolean;
   widgetId: number;
 }
 
 export interface DashboardWidgetStateProps extends DashboardWidget<any> {
-  currentQuery: string;
-  currentReport: Report;
-  currentReportFetchStatus: number;
+  currentQuery?: string;
+  currentReport?: Report;
+  currentReportFetchStatus?: number;
   forecast?: Forecast;
-  previousQuery: string;
-  previousReport: Report;
-  tabsQuery: string;
-  tabsReport: Report;
-  tabsReportFetchStatus: number;
+  previousQuery?: string;
+  previousReport?: Report;
+  rosQuery?: string;
+  ros?: Ros;
+  rosFetchStatus?: number;
+  tabsQuery?: string;
+  tabsReport?: Report;
+  tabsReportFetchStatus?: number;
 }
 
 interface DashboardWidgetDispatchProps {
   fetchForecasts: (widgetId) => void;
   fetchReports: (widgetId) => void;
+  fetchRos: (widgetId) => void;
   updateTab: (id, availableTabs) => void;
 }
 
@@ -79,16 +87,30 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   public componentDidMount() {
-    const { availableTabs, fetchForecasts, fetchReports, id, trend, updateTab, widgetId } = this.props;
+    const {
+      availableTabs,
+      fetchForecasts,
+      fetchReports,
+      fetchRos,
+      id,
+      isRosFeatureEnabled,
+      showRos,
+      trend,
+      updateTab,
+      widgetId,
+    } = this.props;
 
     if (availableTabs) {
       updateTab(id, availableTabs[0]);
     }
-    if (fetchReports) {
+    if (trend && trend.computedForecastItem !== undefined) {
+      fetchForecasts(widgetId);
+    }
+    if (!showRos && fetchReports) {
       fetchReports(widgetId);
     }
-    if (trend.computedForecastItem !== undefined) {
-      fetchForecasts(widgetId);
+    if (showRos && fetchRos && isRosFeatureEnabled) {
+      fetchRos(widgetId);
     }
   }
 
@@ -530,6 +552,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
+  private getRosSummary = () => {
+    const { ros, rosFetchStatus, titleKey } = this.props;
+
+    return <RosSummary status={rosFetchStatus} ros={ros} title={titleKey} />;
+  };
+
   private getTab = <T extends DashboardWidget<any>>(tab: T, index: number) => {
     const { getIdKeyForTab, tabsReport, tabsReportFetchStatus } = this.props;
     const currentTab: any = getIdKeyForTab(tab);
@@ -669,7 +697,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   public render() {
-    const { details } = this.props;
+    const { details, isRosFeatureEnabled, showRos } = this.props;
+    if (showRos) {
+      return isRosFeatureEnabled ? this.getRosSummary() : null;
+    }
     return details.showHorizontal ? this.getHorizontalLayout() : this.getVerticalLayout();
   }
 }

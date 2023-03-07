@@ -2907,6 +2907,16 @@ export default defineMessages({
     description: 'Volume usage and requests',
     id: 'rhelVolumeUsageAndRequests',
   },
+  rosDashboardTitle: {
+    defaultMessage: 'Resource optimization',
+    description: 'Resource optimization',
+    id: 'rosDashboardTitle',
+  },
+  rosRecommendationsDetails: {
+    defaultMessage: '{count, plural, =0 {No recommendations} other {{count} recommendations}}',
+    description: 'Recommendations',
+    id: 'rosRecommendationsDetails',
+  },
   rosRecommendationsTitle: {
     defaultMessage: 'Recommendations',
     description: 'Recommendations',

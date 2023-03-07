@@ -22,7 +22,7 @@ const DashboardBase: React.FC<DashboardProps> = ({ costType, currency, Dashboard
     <Grid hasGutter>
       {widgets.map(widgetId => {
         const widget = selectWidgets[widgetId];
-        return widget.details.showHorizontal ? (
+        return widget.details && widget.details.showHorizontal ? (
           <GridItem sm={12} key={widgetId}>
             <DashboardWidget widgetId={widgetId} {...(costType && { costType })} {...(currency && { currency })} />
           </GridItem>

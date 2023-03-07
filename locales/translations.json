@@ -476,6 +476,8 @@
   "rhelUsageDashboardCostTrendTitle": "Metering cumulative cost comparison ({units})",
   "rhelUsageDashboardCpuTitle": "RHEL CPU usage and requests",
   "rhelVolumeUsageAndRequests": "Volume usage and requests",
+  "rosDashboardTitle": "Resource optimization",
+  "rosRecommendationsDetails": "{count, plural, =0 {No recommendations} other {{count} recommendations}}",
   "rosRecommendationsTitle": "Recommendations",
   "save": "Save",
   "select": "Select...",
