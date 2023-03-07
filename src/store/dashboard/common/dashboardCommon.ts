@@ -26,6 +26,7 @@ export interface DashboardWidget<T> {
     requestFormatOptions?: FormatOptions;
     requestKey?: MessageDescriptor;
     showHorizontal?: boolean; // Show horizontal layout
+    showRos?: boolean; // Show Recommendations
     showTooltip?: boolean; // Show cost tooltip
     showUnits?: boolean; // Show units
     showUsageFirst?: boolean; // Show usage before cost

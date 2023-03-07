@@ -35,51 +35,71 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
   (state, { widgetId }) => {
     const widget = ocpDashboardSelectors.selectWidget(state, widgetId);
     const queries = ocpDashboardSelectors.selectWidgetQueries(state, widgetId);
-
-    const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
-    const showRos = widget.rosPathsType && widget.rosType;
-
-    if (showRos) {
-      return {
-        ...widget,
-        currency,
-        isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
-        ros: rosSelectors.selectRos(state, widget.rosPathsType, widget.rosType, queries.ros),
-        rosFetchStatus: rosSelectors.selectRosFetchStatus(state, widget.rosPathsType, widget.rosType, queries.ros),
-        showRos,
-      };
-    }
     return {
       ...widget,
+      ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
       getIdKeyForTab,
       chartAltHeight: chartStyles.chartAltHeight,
       containerAltHeight: chartStyles.containerAltHeight,
       currentQuery: queries.current,
-      currency,
       forecastQuery: queries.forecast,
       previousQuery: queries.previous,
       tabsQuery: queries.tabs,
-      currentReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.current),
-      currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
-        state,
-        widget.reportPathsType,
-        widget.reportType,
-        queries.current
-      ),
-      forecast: forecastSelectors.selectForecast(
-        state,
-        widget.forecastPathsType,
-        widget.forecastType,
-        queries.forecast
-      ),
-      previousReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.previous),
-      tabsReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.tabs),
-      tabsReportFetchStatus: reportSelectors.selectReportFetchStatus(
-        state,
-        widget.reportPathsType,
-        widget.reportType,
-        queries.tabs
-      ),
+      ...(widget.forecastPathsType &&
+        widget.forecastType && {
+          forecast: forecastSelectors.selectForecast(
+            state,
+            widget.forecastPathsType,
+            widget.forecastType,
+            queries.forecast
+          ),
+          forecastFetchStatus: forecastSelectors.selectForecastFetchStatus(
+            state,
+            widget.forecastPathsType,
+            widget.forecastType,
+            queries.forecast
+          ),
+        }),
+      ...(widget.reportPathsType &&
+        widget.reportType && {
+          currentReport: reportSelectors.selectReport(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.current
+          ),
+          currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.current
+          ),
+          previousReport: reportSelectors.selectReport(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.previous
+          ),
+          previousReportFetchStatus: reportSelectors.selectReportFetchStatus(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.previous
+          ),
+          tabsReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.tabs),
+          tabsReportFetchStatus: reportSelectors.selectReportFetchStatus(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.tabs
+          ),
+        }),
+      ...(widget.rosPathsType &&
+        widget.rosType && {
+          isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
+          ros: rosSelectors.selectRos(state, widget.rosPathsType, widget.rosType, queries.ros),
+          rosFetchStatus: rosSelectors.selectRosFetchStatus(state, widget.rosPathsType, widget.rosType, queries.ros),
+        }),
     };
   }
 );

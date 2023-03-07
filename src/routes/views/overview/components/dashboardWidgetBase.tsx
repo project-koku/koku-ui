@@ -49,7 +49,6 @@ export interface DashboardWidgetOwnProps {
   currency?: string;
   getIdKeyForTab: <T extends DashboardWidget<any>>(tab: T) => string;
   isRosFeatureEnabled?: boolean;
-  showRos?: boolean;
   widgetId: number;
 }
 
@@ -58,6 +57,7 @@ export interface DashboardWidgetStateProps extends DashboardWidget<any> {
   currentReport?: Report;
   currentReportFetchStatus?: number;
   forecast?: Forecast;
+  forecastFetchStatus?: number;
   previousQuery?: string;
   previousReport?: Report;
   rosQuery?: string;
@@ -89,12 +89,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   public componentDidMount() {
     const {
       availableTabs,
+      details,
       fetchForecasts,
       fetchReports,
       fetchRos,
       id,
       isRosFeatureEnabled,
-      showRos,
       trend,
       updateTab,
       widgetId,
@@ -106,10 +106,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     if (trend && trend.computedForecastItem !== undefined) {
       fetchForecasts(widgetId);
     }
-    if (!showRos && fetchReports) {
+    if (!details.showRos && fetchReports) {
       fetchReports(widgetId);
     }
-    if (showRos && fetchRos && isRosFeatureEnabled) {
+    if (details.showRos && fetchRos && isRosFeatureEnabled) {
       fetchRos(widgetId);
     }
   }
@@ -697,8 +697,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   public render() {
-    const { details, isRosFeatureEnabled, showRos } = this.props;
-    if (showRos) {
+    const { details, isRosFeatureEnabled } = this.props;
+    if (details.showRos) {
       return isRosFeatureEnabled ? this.getRosSummary() : null;
     }
     return details.showHorizontal ? this.getHorizontalLayout() : this.getVerticalLayout();
