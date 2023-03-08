@@ -106,12 +106,12 @@ class RosTableBase extends React.Component<RosTableProps> {
           {
             id: RosTableColumnIds.infrastructure,
             name: intl.formatMessage(messages.rhelDetailsInfrastructureCost),
-            style: styles.costColumn,
+            style: styles.managedColumn,
           },
           {
             id: RosTableColumnIds.supplementary,
             name: intl.formatMessage(messages.rhelDetailsSupplementaryCost),
-            style: styles.costColumn,
+            style: styles.managedColumn,
           },
           {
             orderBy: 'cost',
@@ -145,7 +145,7 @@ class RosTableBase extends React.Component<RosTableProps> {
             id: RosTableColumnIds.infrastructure,
             orderBy: 'infrastructure_cost',
             name: intl.formatMessage(messages.rhelDetailsInfrastructureCost),
-            style: styles.costColumn,
+            style: styles.managedColumn,
 
             // Sort by infrastructure_cost is not supported -- https://github.com/project-koku/koku/issues/796
             // ...(computedItems.length && { isSortable: true }),
@@ -154,7 +154,7 @@ class RosTableBase extends React.Component<RosTableProps> {
             id: RosTableColumnIds.supplementary,
             orderBy: 'supplementary_cost',
             name: intl.formatMessage(messages.rhelDetailsSupplementaryCost),
-            style: styles.costColumn,
+            style: styles.managedColumn,
 
             // Sort by supplementary_cost is not supported -- https://github.com/project-koku/koku/issues/796
             // ...(computedItems.length && { isSortable: true }),
@@ -204,9 +204,9 @@ class RosTableBase extends React.Component<RosTableProps> {
             ),
           },
           { value: <div>{monthOverMonth}</div>, id: RosTableColumnIds.monthOverMonth },
-          { value: <div>{InfrastructureCost}</div>, id: RosTableColumnIds.infrastructure },
-          { value: <div>{supplementaryCost}</div>, id: RosTableColumnIds.supplementary },
-          { value: <div>{cost}</div> },
+          { value: <div>{InfrastructureCost}</div>, id: RosTableColumnIds.infrastructure, style: styles.managedColumn },
+          { value: <div>{supplementaryCost}</div>, id: RosTableColumnIds.supplementary, style: styles.managedColumn },
+          { value: <div>{cost}</div>, style: styles.managedColumn },
           { value: <div>{actions}</div> },
         ],
         item,
