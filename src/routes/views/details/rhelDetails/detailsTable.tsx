@@ -110,12 +110,12 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           {
             id: DetailsTableColumnIds.infrastructure,
             name: intl.formatMessage(messages.rhelDetailsInfrastructureCost),
-            style: styles.costColumn,
+            style: styles.managedColumn,
           },
           {
             id: DetailsTableColumnIds.supplementary,
             name: intl.formatMessage(messages.rhelDetailsSupplementaryCost),
-            style: styles.costColumn,
+            style: styles.managedColumn,
           },
           {
             orderBy: 'cost',
@@ -149,7 +149,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             id: DetailsTableColumnIds.infrastructure,
             orderBy: 'infrastructure_cost',
             name: intl.formatMessage(messages.rhelDetailsInfrastructureCost),
-            style: styles.costColumn,
+            style: styles.managedColumn,
 
             // Sort by infrastructure_cost is not supported -- https://github.com/project-koku/koku/issues/796
             // ...(computedItems.length && { isSortable: true }),
@@ -158,7 +158,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             id: DetailsTableColumnIds.supplementary,
             orderBy: 'supplementary_cost',
             name: intl.formatMessage(messages.rhelDetailsSupplementaryCost),
-            style: styles.costColumn,
+            style: styles.managedColumn,
 
             // Sort by supplementary_cost is not supported -- https://github.com/project-koku/koku/issues/796
             // ...(computedItems.length && { isSortable: true }),
@@ -225,9 +225,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             ),
           },
           { value: <div>{monthOverMonth}</div>, id: DetailsTableColumnIds.monthOverMonth },
-          { value: <div>{InfrastructureCost}</div>, id: DetailsTableColumnIds.infrastructure },
-          { value: <div>{supplementaryCost}</div>, id: DetailsTableColumnIds.supplementary },
-          { value: <div>{cost}</div> },
+          {
+            value: <div>{InfrastructureCost}</div>,
+            id: DetailsTableColumnIds.infrastructure,
+            style: styles.managedColumn,
+          },
+          {
+            value: <div>{supplementaryCost}</div>,
+            id: DetailsTableColumnIds.supplementary,
+            style: styles.managedColumn,
+          },
+          { value: <div>{cost}</div>, style: styles.managedColumn },
           { value: <div>{actions}</div> },
         ],
         item,

@@ -8,6 +8,9 @@ import type React from 'react';
 export const styles = {
   costColumn: {
     textAlign: 'right',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    paddingRight: 0,
   },
   defaultLabel: {
     minWidth: '63px',
@@ -29,6 +32,9 @@ export const styles = {
   infoDescription: {
     color: global_disabled_color_100.value,
     fontSize: global_FontSize_xs.value,
+  },
+  managedColumn: {
+    textAlign: 'right',
   },
   nameColumn: {
     width: '1%',

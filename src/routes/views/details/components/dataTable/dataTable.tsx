@@ -153,6 +153,7 @@ class DataTable extends React.Component<DataTableProps> {
                           onSelect: (_event, isSelected) => this.handleOnSelect(_event, isSelected, rowIndex),
                           rowIndex,
                         }}
+                        style={item.style}
                       />
                     ) : (
                       <Td
@@ -160,6 +161,7 @@ class DataTable extends React.Component<DataTableProps> {
                         key={`cell-${rowIndex}-${cellIndex}`}
                         modifier="nowrap"
                         isActionCell={cellIndex === row.cells.length - 1}
+                        style={item.style}
                       >
                         {item.value}
                       </Td>

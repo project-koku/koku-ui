@@ -156,7 +156,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             ),
           },
           { value: <div>{monthOverMonth}</div> },
-          { value: <div>{cost}</div> },
+          { value: <div>{cost}</div>, style: styles.managedColumn },
           { value: <div>{actions}</div> },
         ],
         isOpen: false,
