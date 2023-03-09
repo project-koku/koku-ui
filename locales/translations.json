@@ -447,6 +447,7 @@
   "rawCostTitle": "Raw cost",
   "rbacErrorDescription": "There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.",
   "rbacErrorTitle": "Failed to get RBAC information",
+  "recommendations": "Recommendations",
   "redHatStatusUrl": "https://status.redhat.com",
   "remove": "Remove",
   "requests": "Requests",

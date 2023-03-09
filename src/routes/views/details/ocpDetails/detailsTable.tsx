@@ -30,6 +30,7 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   hiddenColumns: Set<string>;
   isAllSelected?: boolean;
   isLoading?: boolean;
+  isRosFeatureEnabled?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   report: OcpReport;
@@ -77,7 +78,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   private initDatum = () => {
-    const { groupBy, groupByTagKey, hiddenColumns, intl, isAllSelected, report, router, selectedItems } = this.props;
+    const {
+      groupBy,
+      groupByTagKey,
+      hiddenColumns,
+      intl,
+      isAllSelected,
+      isRosFeatureEnabled,
+      report,
+      router,
+      selectedItems,
+    } = this.props;
     if (!report) {
       return;
     }
@@ -103,6 +114,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           {
             hidden: !showDefaultProject,
             name: '', // Default column
+          },
+          {
+            hidden: !isRosFeatureEnabled,
+            name: intl.formatMessage(messages.recommendations),
           },
           {
             name: intl.formatMessage(messages.monthOverMonthChange),
@@ -140,6 +155,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           {
             hidden: !showDefaultProject,
             name: '', // Default column
+          },
+          {
+            hidden: !isRosFeatureEnabled,
+            name: intl.formatMessage(messages.recommendations),
           },
           {
             id: DetailsTableColumnIds.monthOverMonth,
@@ -228,6 +247,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
               ) : (
                 <div style={styles.defaultLabel} />
               ),
+          },
+          {
+            hidden: !isRosFeatureEnabled,
+            value: <div>N/A</div>,
           },
           { value: <div>{monthOverMonth}</div>, id: DetailsTableColumnIds.monthOverMonth },
           {

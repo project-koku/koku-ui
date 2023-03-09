@@ -2758,6 +2758,11 @@ export default defineMessages({
     description: 'RBAC error title',
     id: 'rbacErrorTitle',
   },
+  recommendations: {
+    defaultMessage: 'Recommendations',
+    description: 'Recommendations',
+    id: 'recommendations',
+  },
   redHatStatusUrl: {
     defaultMessage: 'https://status.redhat.com',
     description: 'Red Hat status url for cloud services',
@@ -2914,7 +2919,7 @@ export default defineMessages({
   },
   rosRecommendationsDetails: {
     defaultMessage: '{count, plural, =0 {No recommendations} other {{count} recommendations}}',
-    description: 'Recommendations',
+    description: 'Recommendation details',
     id: 'rosRecommendationsDetails',
   },
   rosRecommendationsTitle: {
