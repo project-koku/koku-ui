@@ -119,7 +119,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     if (prevProps.costType !== costType || prevProps.currency !== currency) {
       fetchReports(widgetId);
-      if (trend.computedForecastItem !== undefined) {
+      if (trend && trend.computedForecastItem !== undefined) {
         fetchForecasts(widgetId);
       }
     }

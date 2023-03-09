@@ -24,19 +24,26 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
     const state = getState();
     const widget = selectWidget(state, id);
     const { previous, current, tabs } = selectWidgetQueries(state, id);
-    dispatch(reportActions.fetchReport(widget.reportPathsType, widget.reportType, current));
-    dispatch(reportActions.fetchReport(widget.reportPathsType, widget.reportType, previous));
-    if (widget.availableTabs) {
-      dispatch(reportActions.fetchReport(widget.reportPathsType, widget.reportType, tabs));
+
+    if (widget.reportPathsType && widget.reportType) {
+      dispatch(reportActions.fetchReport(widget.reportPathsType, widget.reportType, current));
+      dispatch(reportActions.fetchReport(widget.reportPathsType, widget.reportType, previous));
+      if (widget.availableTabs) {
+        dispatch(reportActions.fetchReport(widget.reportPathsType, widget.reportType, tabs));
+      }
     }
   };
 };
+
 export const fetchWidgetRos = (id: number): ThunkAction => {
   return (dispatch, getState) => {
     const state = getState();
     const widget = selectWidget(state, id);
     const { ros } = selectWidgetQueries(state, id);
-    dispatch(rosActions.fetchRos(widget.rosPathsType, widget.rosType, ros));
+
+    if (widget.rosPathsType && widget.rosType) {
+      dispatch(rosActions.fetchRos(widget.rosPathsType, widget.rosType, ros));
+    }
   };
 };
 
