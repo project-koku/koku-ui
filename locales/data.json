@@ -10334,6 +10334,12 @@
         "value": "Failed to get RBAC information"
       }
     ],
+    "recommendations": [
+      {
+        "type": 0,
+        "value": "Recommendations"
+      }
+    ],
     "redHatStatusUrl": [
       {
         "type": 0,

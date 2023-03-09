@@ -50,6 +50,7 @@ import { styles } from './ocpDetails.styles';
 
 interface OcpDetailsStateProps {
   currency?: string;
+  isRosFeatureEnabled?: boolean;
   providers: Providers;
   providersFetchStatus: FetchStatus;
   query: OcpQuery;
@@ -252,7 +253,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   private getTable = () => {
-    const { query, report, reportFetchStatus, reportQueryString, router } = this.props;
+    const { isRosFeatureEnabled, query, report, reportFetchStatus, reportQueryString, router } = this.props;
     const { hiddenColumns, isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -265,6 +266,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         hiddenColumns={hiddenColumns}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
+        isRosFeatureEnabled={isRosFeatureEnabled}
         onSelected={this.handleSelected}
         onSort={(sortType, isSortAscending) => handleSort(query, router, sortType, isSortAscending)}
         report={report}
@@ -481,6 +483,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
 
   return {
     currency,
+    isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     query,
