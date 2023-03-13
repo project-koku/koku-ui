@@ -18,6 +18,7 @@ import { styles } from './dataTable.styles';
 interface DataTableOwnProps {
   columns?: any[];
   isLoading?: boolean;
+  isRos?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   rows?: any[];
@@ -108,7 +109,7 @@ class DataTable extends React.Component<DataTableProps> {
   };
 
   public render() {
-    const { columns, intl, isLoading, rows } = this.props;
+    const { columns, intl, isLoading, isRos, rows } = this.props;
 
     return (
       <>
@@ -142,7 +143,7 @@ class DataTable extends React.Component<DataTableProps> {
               rows.map((row, rowIndex) => (
                 <Tr key={`row-${rowIndex}`}>
                   {row.cells.map((item, cellIndex) =>
-                    cellIndex === 0 ? (
+                    !isRos && cellIndex === 0 ? (
                       <Td
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${cellIndex}-${rowIndex}`}
@@ -160,7 +161,7 @@ class DataTable extends React.Component<DataTableProps> {
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${rowIndex}-${cellIndex}`}
                         modifier="nowrap"
-                        isActionCell={cellIndex === row.cells.length - 1}
+                        isActionCell={!isRos && cellIndex === row.cells.length - 1}
                         style={item.style}
                       >
                         {item.value}

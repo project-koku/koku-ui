@@ -8,7 +8,6 @@ import type { Ros } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import { cloneDeep } from 'lodash';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -17,12 +16,8 @@ import { Loading } from 'routes/state/loading';
 import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
-import { ExportModal } from 'routes/views/components/export';
-import type { ColumnManagementModalOption } from 'routes/views/details/components/columnManagement';
-import { ColumnManagementModal, initHiddenColumns } from 'routes/views/details/components/columnManagement';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
-  handleCurrencySelected,
   handleFilterAdded,
   handleFilterRemoved,
   handlePerPageSelect,
@@ -30,7 +25,6 @@ import {
   handleSort,
 } from 'routes/views/utils/handles';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
-import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
@@ -40,17 +34,15 @@ import type { ComputedReportItem } from 'utils/computedReport/getComputedReportI
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedRosItems';
 import { getCurrency } from 'utils/localStorage';
-import { noPrefix, platformCategoryKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import { styles } from './recommendations.styles';
 import { RosHeader } from './rosHeader';
-import { RosTable, RosTableColumnIds } from './rosTable';
+import { RosTable } from './rosTable';
 import { RosToolbar } from './rosToolbar';
 
 interface RecommendationsStateProps {
-  currency?: string;
   providers: Providers;
   providersFetchStatus: FetchStatus;
   query: RosQuery;
@@ -66,12 +58,7 @@ interface RecommendationsDispatchProps {
 
 interface RecommendationsState {
   columns: any[];
-  hiddenColumns: Set<string>;
-  isAllSelected: boolean;
-  isColumnManagementModalOpen: boolean;
-  isExportModalOpen: boolean;
   rows: any[];
-  selectedItems: ComputedReportItem[];
 }
 
 type RecommendationsOwnProps = RouterComponentProps & WrappedComponentProps;
@@ -97,48 +84,15 @@ const baseQuery: RosQuery = {
   },
 };
 
-const defaultColumnOptions: ColumnManagementModalOption[] = [
-  { label: messages.monthOverMonthChange, value: RosTableColumnIds.monthOverMonth },
-  {
-    description: messages.ocpDetailsInfrastructureCostDesc,
-    label: messages.ocpDetailsInfrastructureCost,
-    value: RosTableColumnIds.infrastructure,
-    hidden: true,
-  },
-  {
-    description: messages.ocpDetailsSupplementaryCostDesc,
-    label: messages.ocpDetailsSupplementaryCost,
-    value: RosTableColumnIds.supplementary,
-    hidden: true,
-  },
-];
-
 const recommendationType = RosType.cost as any;
 const recommendationPathsType = RosPathsType.recommendation as any;
 
 class Recommendations extends React.Component<RecommendationsProps> {
   protected defaultState: RecommendationsState = {
     columns: [],
-    hiddenColumns: initHiddenColumns(defaultColumnOptions),
-    isAllSelected: false,
-    isColumnManagementModalOpen: false,
-    isExportModalOpen: false,
     rows: [],
-    selectedItems: [],
   };
   public state: RecommendationsState = { ...this.defaultState };
-
-  constructor(stateProps, dispatchProps) {
-    super(stateProps, dispatchProps);
-    this.handleBulkSelected = this.handleBulkSelected.bind(this);
-    this.handleColumnManagementModalClose = this.handleColumnManagementModalClose.bind(this);
-    this.handleColumnManagementModalOpen = this.handleColumnManagementModalOpen.bind(this);
-    this.handleColumnManagementModalSave = this.handleColumnManagementModalSave.bind(this);
-    this.handleExportModalClose = this.handleExportModalClose.bind(this);
-    this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
-    this.handlePlatformCostsChanged = this.handlePlatformCostsChanged.bind(this);
-    this.handleSelected = this.handleSelected.bind(this);
-  }
 
   public componentDidMount() {
     this.updateRecommendation();
@@ -146,35 +100,15 @@ class Recommendations extends React.Component<RecommendationsProps> {
 
   public componentDidUpdate(prevProps: RecommendationsProps, prevState: RecommendationsState) {
     const { recommendation, recommendationError, recommendationQueryString, router } = this.props;
-    const { selectedItems } = this.state;
 
     const newQuery = prevProps.recommendationQueryString !== recommendationQueryString;
     const noRecommendation = !recommendation && !recommendationError;
     const noLocation = !router.location.search;
-    const newItems = prevState.selectedItems !== selectedItems;
 
-    if (newQuery || noRecommendation || noLocation || newItems) {
+    if (newQuery || noRecommendation || noLocation) {
       this.updateRecommendation();
     }
   }
-
-  private getColumnManagementModal = () => {
-    const { hiddenColumns, isColumnManagementModalOpen } = this.state;
-
-    const options = cloneDeep(defaultColumnOptions);
-    options.map(option => {
-      option.hidden = hiddenColumns.has(option.value);
-    });
-
-    return (
-      <ColumnManagementModal
-        isOpen={isColumnManagementModalOpen}
-        options={options}
-        onClose={this.handleColumnManagementModalClose}
-        onSave={this.handleColumnManagementModalSave}
-      />
-    );
-  };
 
   private getComputedItems = () => {
     const { query, recommendation } = this.props;
@@ -186,35 +120,6 @@ class Recommendations extends React.Component<RecommendationsProps> {
       report: recommendation,
       idKey: (groupByTagKey as any) || groupById,
     });
-  };
-
-  private getExportModal = (computedItems: ComputedReportItem[]) => {
-    const { query, recommendation, recommendationQueryString } = this.props;
-    const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
-
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = getGroupByTagKey(query);
-    const itemsTotal = recommendation && recommendation.meta ? recommendation.meta.count : 0;
-
-    // Omit items labeled 'no-project'
-    const items = [];
-    selectedItems.map(item => {
-      if (!(item.label === `${noPrefix}${groupById}` || item.label === `${noPrefix}${groupByTagKey}`)) {
-        items.push(item);
-      }
-    });
-    return (
-      <ExportModal
-        count={isAllSelected ? itemsTotal : items.length}
-        isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
-        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
-        isOpen={isExportModalOpen}
-        items={items}
-        onClose={this.handleExportModalClose}
-        reportPathsType={recommendationPathsType}
-        reportQueryString={recommendationQueryString}
-      />
-    );
   };
 
   private getPagination = (isDisabled = false, isBottom = false) => {
@@ -254,70 +159,34 @@ class Recommendations extends React.Component<RecommendationsProps> {
 
   private getTable = () => {
     const { query, recommendation, recommendationFetchStatus, recommendationQueryString, router } = this.props;
-    const { hiddenColumns, isAllSelected, selectedItems } = this.state;
-
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = getGroupByTagKey(query);
 
     return (
       <RosTable
-        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
-        groupByTagKey={groupByTagKey}
-        hiddenColumns={hiddenColumns}
-        isAllSelected={isAllSelected}
         isLoading={recommendationFetchStatus === FetchStatus.inProgress}
-        onSelected={this.handleSelected}
         onSort={(sortType, isSortAscending) => handleSort(query, router, sortType, isSortAscending)}
         report={recommendation}
         reportQueryString={recommendationQueryString}
-        selectedItems={selectedItems}
       />
     );
   };
 
   private getToolbar = (computedItems: ComputedReportItem[]) => {
     const { query, recommendation, router } = this.props;
-    const { isAllSelected, selectedItems } = this.state;
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = getGroupByTagKey(query);
     const isDisabled = computedItems.length === 0;
     const itemsTotal = recommendation && recommendation.meta ? recommendation.meta.count : 0;
 
     return (
       <RosToolbar
-        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
-        isAllSelected={isAllSelected}
         isDisabled={isDisabled}
-        isExportDisabled={isDisabled || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
-        onBulkSelected={this.handleBulkSelected}
-        onColumnManagementClicked={this.handleColumnManagementModalOpen}
-        onExportClicked={this.handleExportModalOpen}
         onFilterAdded={filter => handleFilterAdded(query, router, filter)}
         onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
-        onPlatformCostsChanged={this.handlePlatformCostsChanged}
         pagination={this.getPagination(isDisabled)}
         query={query}
-        selectedItems={selectedItems}
       />
     );
-  };
-
-  private handleBulkSelected = (action: string) => {
-    const { isAllSelected } = this.state;
-
-    if (action === 'none') {
-      this.setState({ isAllSelected: false, selectedItems: [] });
-    } else if (action === 'page') {
-      this.setState({
-        isAllSelected: false,
-        selectedItems: this.getComputedItems(),
-      });
-    } else if (action === 'all') {
-      this.setState({ isAllSelected: !isAllSelected, selectedItems: [] });
-    }
   };
 
   public handleColumnManagementModalClose = (isOpen: boolean) => {
@@ -340,70 +209,15 @@ class Recommendations extends React.Component<RecommendationsProps> {
     this.setState({ isExportModalOpen: true });
   };
 
-  private handleGroupBySelected = groupBy => {
-    const { query, router } = this.props;
-    const groupByKey: keyof RosQuery['group_by'] = groupBy as any;
-    const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      // filter_by: undefined, // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
-      group_by: {
-        [groupByKey]: '*',
-      },
-      order_by: { cost: 'desc' },
-      category: undefined, // Only applies to projects
-    };
-    this.setState({ isAllSelected: false, selectedItems: [] }, () => {
-      router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
-    });
-  };
-
-  private handlePlatformCostsChanged = (checked: boolean) => {
-    const { query, router } = this.props;
-    const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      category: checked ? platformCategoryKey : undefined,
-    };
-    this.setState({ isAllSelected: false, selectedItems: [] }, () => {
-      router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
-    });
-  };
-
-  private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
-    const { isAllSelected, selectedItems } = this.state;
-
-    let newItems = [...(isAllSelected ? this.getComputedItems() : selectedItems)];
-    if (items && items.length > 0) {
-      if (isSelected) {
-        items.map(item => newItems.push(item));
-      } else {
-        items.map(item => {
-          newItems = newItems.filter(val => val.id !== item.id);
-        });
-      }
-    }
-    this.setState({ isAllSelected: false, selectedItems: newItems });
-  };
-
   private updateRecommendation = () => {
     const { fetchRos, recommendationQueryString } = this.props;
     fetchRos(recommendationPathsType, recommendationType, recommendationQueryString);
   };
 
   public render() {
-    const {
-      currency,
-      intl,
-      providers,
-      providersFetchStatus,
-      query,
-      recommendation,
-      recommendationError,
-      recommendationFetchStatus,
-      router,
-    } = this.props;
+    const { intl, providers, providersFetchStatus, recommendationError, recommendationFetchStatus } = this.props;
 
     const computedItems = this.getComputedItems();
-    const groupById = getIdKeyForGroupBy(query.group_by);
     const isDisabled = computedItems.length === 0;
     const title = intl.formatMessage(messages.ocpDetailsTitle);
 
@@ -425,17 +239,9 @@ class Recommendations extends React.Component<RecommendationsProps> {
     }
     return (
       <div style={styles.rosDetails}>
-        <RosHeader
-          currency={currency}
-          groupBy={groupById}
-          onCurrencySelected={value => handleCurrencySelected(query, router, value)}
-          onGroupBySelected={this.handleGroupBySelected}
-          report={recommendation}
-        />
+        <RosHeader />
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
-          {this.getExportModal(computedItems)}
-          {this.getColumnManagementModal()}
           {recommendationFetchStatus === FetchStatus.inProgress ? (
             <Loading />
           ) : (

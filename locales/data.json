@@ -967,8 +967,34 @@
     ],
     "clusters": [
       {
+        "offset": 0,
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cluster"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Clusters"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
+      }
+    ],
+    "container": [
+      {
         "type": 0,
-        "value": "Clusters"
+        "value": "Container"
       }
     ],
     "cost": [
@@ -6788,6 +6814,14 @@
               }
             ]
           },
+          "container": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Container"
+              }
+            ]
+          },
           "gcp_project": {
             "value": [
               {
@@ -6892,6 +6926,22 @@
               {
                 "type": 0,
                 "value": "Tag"
+              }
+            ]
+          },
+          "workload": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload"
+              }
+            ]
+          },
+          "workload_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload type"
               }
             ]
           }
@@ -8917,6 +8967,12 @@
         "value": "Infrastructure"
       }
     ],
+    "lastReported": [
+      {
+        "type": 0,
+        "value": "Last reported"
+      }
+    ],
     "learnMore": [
       {
         "type": 0,
@@ -10304,6 +10360,12 @@
         "value": "Rate must be a positive number"
       }
     ],
+    "project": [
+      {
+        "type": 0,
+        "value": "Project"
+      }
+    ],
     "rate": [
       {
         "type": 0,
@@ -11130,6 +11192,18 @@
       {
         "type": 0,
         "value": "Distribute unused and non-reserved resource costs to projects"
+      }
+    ],
+    "workload": [
+      {
+        "type": 0,
+        "value": "Workload"
+      }
+    ],
+    "workloadType": [
+      {
+        "type": 0,
+        "value": "Workload type"
       }
     ],
     "yes": [
