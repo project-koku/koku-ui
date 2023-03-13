@@ -329,9 +329,14 @@ export default defineMessages({
     id: 'close',
   },
   clusters: {
-    defaultMessage: 'Clusters',
-    description: 'Clusters',
+    defaultMessage: '{count, plural, one {Cluster} other {Clusters}}',
+    description: 'Cluster plural or singular',
     id: 'clusters',
+  },
+  container: {
+    defaultMessage: 'Container',
+    description: 'Container',
+    id: 'container',
   },
   cost: {
     defaultMessage: 'Cost',
@@ -1755,6 +1760,7 @@ export default defineMessages({
       '{value, select, ' +
       'account {Account} ' +
       'cluster {Cluster} ' +
+      'container {Container} ' +
       'gcp_project {GCP project} ' +
       'name {Name} ' +
       'node {Node} ' +
@@ -1768,6 +1774,8 @@ export default defineMessages({
       'service_name {Service} ' +
       'subscription_guid {Account} ' +
       'tag {Tag} ' +
+      'workload {Workload} ' +
+      'workload_type {Workload type} ' +
       'other {}}',
     description: 'Filter by values',
     id: 'filterByValues',
@@ -2005,6 +2013,11 @@ export default defineMessages({
     defaultMessage: 'Infrastructure',
     description: 'Infrastructure',
     id: 'infrastructure',
+  },
+  lastReported: {
+    defaultMessage: 'Last reported',
+    description: 'Last reported',
+    id: 'lastReported',
   },
   learnMore: {
     defaultMessage: 'Learn more',
@@ -2732,6 +2745,11 @@ export default defineMessages({
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
   },
+  project: {
+    defaultMessage: 'Project',
+    description: 'Project',
+    id: 'project',
+  },
   rate: {
     defaultMessage: 'Rate',
     description: 'Rate',
@@ -3132,6 +3150,16 @@ export default defineMessages({
     defaultMessage: 'Distribute unused and non-reserved resource costs to projects',
     description: 'Workers unallocated capacity description',
     id: 'workersUnallocatedCapacityDescription',
+  },
+  workload: {
+    defaultMessage: 'Workload',
+    description: 'Workload',
+    id: 'workload',
+  },
+  workloadType: {
+    defaultMessage: 'Workload type',
+    description: 'Workload type',
+    id: 'workloadType',
   },
   yes: {
     defaultMessage: 'Yes',
