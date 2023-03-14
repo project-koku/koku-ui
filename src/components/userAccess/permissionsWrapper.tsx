@@ -9,6 +9,7 @@ import type { AxiosError } from 'axios';
 import { asyncComponent } from 'components/async';
 import { ExportsDrawer } from 'components/exports';
 import { PageTitle } from 'components/pageTitle';
+import RecommendationsDrawer from 'components/ros/recommendationsDrawer';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -92,8 +93,10 @@ class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps> {
           <Permissions>
             {providersFetchStatus === FetchStatus.complete && (
               <ExportsDrawer>
-                <InactiveSources />
-                {accountSettingsFetchStatus === FetchStatus.complete && children}
+                <RecommendationsDrawer>
+                  <InactiveSources />
+                  {accountSettingsFetchStatus === FetchStatus.complete && children}
+                </RecommendationsDrawer>
               </ExportsDrawer>
             )}
           </Permissions>

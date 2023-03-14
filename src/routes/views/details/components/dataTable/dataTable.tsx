@@ -21,6 +21,7 @@ interface DataTableOwnProps {
   isRos?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
+  onRowClick(event: React.KeyboardEvent | React.MouseEvent, rowIndex: number);
   rows?: any[];
   selectedItems?: ComputedReportItem[];
 }
@@ -108,12 +109,29 @@ class DataTable extends React.Component<DataTableProps> {
     }
   };
 
+  private handleOnRowClick = (event, rowIndex) => {
+    const { onRowClick, rows } = this.props;
+
+    rows.map(row => (row.selected = false));
+    rows[rowIndex].selected = true;
+
+    this.setState({ rows }, () => {
+      if (onRowClick) {
+        onRowClick(event, rowIndex);
+      }
+    });
+  };
+
   public render() {
     const { columns, intl, isLoading, isRos, rows } = this.props;
 
     return (
       <>
-        <TableComposable aria-label={intl.formatMessage(messages.dataTableAriaLabel)} gridBreakPoint="grid-2xl">
+        <TableComposable
+          aria-label={intl.formatMessage(messages.dataTableAriaLabel)}
+          gridBreakPoint="grid-2xl"
+          hasSelectableRowCaption={isRos}
+        >
           <Thead>
             <Tr>
               {columns.map((col, index) => (
@@ -141,9 +159,15 @@ class DataTable extends React.Component<DataTableProps> {
               </Tr>
             ) : (
               rows.map((row, rowIndex) => (
-                <Tr key={`row-${rowIndex}`}>
+                <Tr
+                  isSelectable={isRos}
+                  isHoverable={isRos}
+                  isRowSelected={isRos && row.selected}
+                  onRowClick={_event => this.handleOnRowClick(_event, rowIndex)}
+                  key={`row-${rowIndex}`}
+                >
                   {row.cells.map((item, cellIndex) =>
-                    !isRos && cellIndex === 0 ? (
+                    cellIndex === 0 && !isRos ? (
                       <Td
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${cellIndex}-${rowIndex}`}

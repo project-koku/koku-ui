@@ -198,6 +198,11 @@ export default defineMessages({
     description: 'Cancel',
     id: 'cancel',
   },
+  change: {
+    defaultMessage: 'Change',
+    description: 'Change',
+    id: 'change',
+  },
   chartCostForecastConeLegendLabel: {
     defaultMessage: 'Cost confidence ({dateRange})',
     description: 'Cost confidence (Jan 1-31)',
@@ -329,8 +334,8 @@ export default defineMessages({
     id: 'close',
   },
   clusters: {
-    defaultMessage: '{count, plural, one {Cluster} other {Clusters}}',
-    description: 'Cluster plural or singular',
+    defaultMessage: 'Clusters',
+    description: 'Clusters',
     id: 'clusters',
   },
   container: {
@@ -900,6 +905,16 @@ export default defineMessages({
     description: 'CPU',
     id: 'cpuTitle',
   },
+  cpuUnits: {
+    defaultMessage: 'CPU (mCores)',
+    description: 'CPU (mCores)',
+    id: 'cpuUnits',
+  },
+  cpuUtilizationUnits: {
+    defaultMessage: 'CPU utilization (mCores)',
+    description: 'CPU utilization (mCores)',
+    id: 'recommendationsCpuUtilization',
+  },
   create: {
     defaultMessage: 'Create',
     description: 'Create',
@@ -1004,6 +1019,11 @@ export default defineMessages({
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
     id: 'currencyUnits',
+  },
+  current: {
+    defaultMessage: 'Current',
+    description: 'Current',
+    id: 'current',
   },
   dashboardCumulativeCostComparison: {
     defaultMessage: 'Cumulative cost comparison ({units})',
@@ -2024,6 +2044,11 @@ export default defineMessages({
     description: 'Learn more',
     id: 'learnMore',
   },
+  limits: {
+    defaultMessage: 'Limits',
+    description: 'Limits',
+    id: 'limits',
+  },
   loadingStateDesc: {
     defaultMessage: 'Searching for your sources. Do not refresh the browser',
     description: 'Searching for your sources. Do not refresh the browser',
@@ -2151,6 +2176,16 @@ export default defineMessages({
     defaultMessage: 'Memory',
     description: 'Memory',
     id: 'memoryTitle',
+  },
+  memoryUnits: {
+    defaultMessage: 'Memory (MB)',
+    description: 'Memory (MB)',
+    id: 'memoryUnits',
+  },
+  memoryUtilizationUnits: {
+    defaultMessage: 'Memory utilization (MB)',
+    description: 'Memory utilization (MB)',
+    id: 'memoryUtilization',
   },
   metric: {
     defaultMessage: 'Metric',
@@ -2781,6 +2816,72 @@ export default defineMessages({
     description: 'Recommendations',
     id: 'recommendations',
   },
+  recommendationsDetails: {
+    defaultMessage: '{count, plural, =0 {No recommendations} other {{count} recommendations}}',
+    description: 'Recommendation details',
+    id: 'recommendationsDetails',
+  },
+  recommendationsLast15Days: {
+    defaultMessage: 'Last 15 days',
+    description: 'Last 15 days',
+    id: 'recommendationsLast15Days',
+  },
+  recommendationsLast24hrs: {
+    defaultMessage: 'Last 24 hrs',
+    description: 'Last 24 hrs',
+    id: 'recommendationsLast24hrs',
+  },
+  recommendationsLast7Days: {
+    defaultMessage: 'Last 7 days',
+    description: 'Last 7 days',
+    id: 'recommendationsLast7Days',
+  },
+  recommendationsNames: {
+    defaultMessage:
+      '{value, select, ' +
+      'cluster {Cluster names} ' +
+      'container {Container names} ' +
+      'last_reported {Last reported} ' +
+      'project {Project names} ' +
+      'workload {Workload names} ' +
+      'workload_type {Workload types} ' +
+      'other {}}',
+    description: 'Selected items for export',
+    id: 'groupByValueNames',
+  },
+  recommendationsPerspective: {
+    defaultMessage: 'View recommendation based on',
+    description: 'View recommendation based on',
+    id: 'recommendationsPerspective',
+  },
+  recommendationsTableAriaLabel: {
+    defaultMessage: 'Recommendations table',
+    description: 'Recommendations table',
+    id: 'recommendationsTableAriaLabel',
+  },
+  recommendationsValues: {
+    defaultMessage:
+      '{value, select, ' +
+      'cluster {Cluster name} ' +
+      'container {Container name} ' +
+      'last_reported {Last reported} ' +
+      'project {Project name} ' +
+      'workload {Workload name} ' +
+      'workload_type {Workload type} ' +
+      'other {}}',
+    description: 'Selected items for export',
+    id: 'groupByValueNames',
+  },
+  recommendationsViewAll: {
+    defaultMessage: 'View all recommendations for this project',
+    description: 'View all recommendations for this project',
+    id: 'recommendationsViewAll',
+  },
+  recommended: {
+    defaultMessage: 'Recommended',
+    description: 'Recommended',
+    id: 'recommended',
+  },
   redHatStatusUrl: {
     defaultMessage: 'https://status.redhat.com',
     description: 'Red Hat status url for cloud services',
@@ -2795,6 +2896,11 @@ export default defineMessages({
     defaultMessage: 'Requests',
     description: 'Requests',
     id: 'requests',
+  },
+  resourceOptimization: {
+    defaultMessage: 'Resource optimization',
+    description: 'Resource optimization',
+    id: 'resourceOptimization',
   },
   rhel: {
     defaultMessage: 'RHEL',
@@ -2929,21 +3035,6 @@ export default defineMessages({
     defaultMessage: 'Volume usage and requests',
     description: 'Volume usage and requests',
     id: 'rhelVolumeUsageAndRequests',
-  },
-  rosDashboardTitle: {
-    defaultMessage: 'Resource optimization',
-    description: 'Resource optimization',
-    id: 'rosDashboardTitle',
-  },
-  rosRecommendationsDetails: {
-    defaultMessage: '{count, plural, =0 {No recommendations} other {{count} recommendations}}',
-    description: 'Recommendation details',
-    id: 'rosRecommendationsDetails',
-  },
-  rosRecommendationsTitle: {
-    defaultMessage: 'Recommendations',
-    description: 'Recommendations',
-    id: 'rosRecommendationsTitle',
   },
   save: {
     defaultMessage: 'Save',

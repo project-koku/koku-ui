@@ -31,7 +31,7 @@ class RosHeaderBase extends React.Component<RosHeaderProps> {
       <header style={styles.header}>
         <div style={styles.headerContent}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {intl.formatMessage(messages.rosRecommendationsTitle)}
+            {intl.formatMessage(messages.recommendations)}
           </Title>
         </div>
       </header>

@@ -21,7 +21,7 @@ export interface RosSummaryProps extends WrappedComponentProps {
 
 const RosSummaryBase: React.FC<RosSummaryProps> = ({ intl, title, status }) => {
   const count = 3;
-  const description = intl.formatMessage(messages.rosRecommendationsDetails, { count });
+  const description = intl.formatMessage(messages.recommendationsDetails, { count });
   return (
     <Card className="summary">
       <CardTitle>

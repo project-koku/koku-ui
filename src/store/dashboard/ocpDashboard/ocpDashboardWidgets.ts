@@ -98,7 +98,7 @@ export const memoryWidget: OcpDashboardWidget = {
 
 export const rosWidget: OcpDashboardWidget = {
   id: getId(),
-  titleKey: messages.rosDashboardTitle,
+  titleKey: messages.resourceOptimization,
   rosPathsType: RosPathsType.recommendation,
   rosType: RosType.cost,
   details: {
