@@ -1,13 +1,8 @@
-import './recommendations.scss';
-
 import {
-  Drawer,
   DrawerActions,
   DrawerCloseButton,
-  DrawerContent,
   DrawerContentBody,
   DrawerHead,
-  DrawerPanelContent,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
@@ -41,24 +36,17 @@ type RecommendationsDrawerProps = RecommendationsDrawerOwnProps &
 class RecommendationsDrawerBase extends React.Component<RecommendationsDrawerProps> {
   private drawerRef = React.createRef();
 
-  constructor(props: RecommendationsDrawerProps) {
-    super(props);
-    this.handleClose = this.handleClose.bind(this);
-  }
+  private handleClose = () => {
+    const { closeRecommendationsDrawer } = this.props;
 
-  public componentDidMount() {
-    // TBD...
-  }
+    closeRecommendationsDrawer();
+  };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public componentDidUpdate(prevProps: RecommendationsDrawerProps) {
-    // TBD...
-  }
-
-  private getPanelContent = () => {
+  public render() {
     const { isOpen, payload } = this.props;
+
     return (
-      <DrawerPanelContent id="RecommendationsDrawer" minSize="750px">
+      <>
         <DrawerHead>
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
           /* @ts-ignore */}
@@ -74,29 +62,7 @@ class RecommendationsDrawerBase extends React.Component<RecommendationsDrawerPro
         <DrawerContentBody>
           <RecommendationsContent onClose={this.handleClose} />
         </DrawerContentBody>
-      </DrawerPanelContent>
-    );
-  };
-
-  private handleClose = () => {
-    const { closeRecommendationsDrawer } = this.props;
-
-    closeRecommendationsDrawer();
-  };
-
-  private handleExpand = () => {
-    this.drawerRef.current && (this.drawerRef.current as any).focus();
-  };
-
-  public render() {
-    const { children, isOpen } = this.props;
-
-    return (
-      <Drawer className="drawerOverride" isExpanded={isOpen} onExpand={this.handleExpand}>
-        <DrawerContent panelContent={this.getPanelContent()}>
-          <DrawerContentBody>{children}</DrawerContentBody>
-        </DrawerContent>
-      </Drawer>
+      </>
     );
   }
 }

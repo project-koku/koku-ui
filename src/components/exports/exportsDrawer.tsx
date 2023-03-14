@@ -1,13 +1,8 @@
-import './exports.scss';
-
 import {
-  Drawer,
   DrawerActions,
   DrawerCloseButton,
-  DrawerContent,
   DrawerContentBody,
   DrawerHead,
-  DrawerPanelContent,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
@@ -41,25 +36,17 @@ type ExportsDrawerProps = ExportsDrawerOwnProps &
 class ExportsDrawerBase extends React.Component<ExportsDrawerProps> {
   private drawerRef = React.createRef();
 
-  constructor(props: ExportsDrawerProps) {
-    super(props);
-    this.handleClose = this.handleClose.bind(this);
-  }
+  private handleClose = () => {
+    const { closeExportsDrawer } = this.props;
 
-  public componentDidMount() {
-    // TBD...
-  }
+    closeExportsDrawer();
+  };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public componentDidUpdate(prevProps: ExportsDrawerProps) {
-    // TBD...
-  }
-
-  private getPanelContent = () => {
+  public render() {
     const { intl, isOpen } = this.props;
 
     return (
-      <DrawerPanelContent id="ExportsDrawer" minSize="1000px">
+      <>
         <DrawerHead>
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
           /* @ts-ignore */}
@@ -75,38 +62,14 @@ class ExportsDrawerBase extends React.Component<ExportsDrawerProps> {
         <DrawerContentBody>
           <ExportsContent onClose={this.handleClose} />
         </DrawerContentBody>
-      </DrawerPanelContent>
-    );
-  };
-
-  private handleClose = () => {
-    const { closeExportsDrawer } = this.props;
-
-    closeExportsDrawer();
-  };
-
-  private handleExpand = () => {
-    this.drawerRef.current && (this.drawerRef.current as any).focus();
-  };
-
-  public render() {
-    const { children, isOpen } = this.props;
-
-    return (
-      <Drawer className="drawerOverride" isExpanded={isOpen} onExpand={this.handleExpand}>
-        <DrawerContent panelContent={this.getPanelContent()}>
-          <DrawerContentBody>{children}</DrawerContentBody>
-        </DrawerContent>
-      </Drawer>
+      </>
     );
   }
 }
 
 const mapStateToProps = createMapStateToProps<ExportsDrawerOwnProps, ExportsDrawerStateProps>(state => {
-  const isOpen = uiSelectors.selectIsExportsDrawerOpen(state);
-
   return {
-    isOpen,
+    isOpen: uiSelectors.selectIsExportsDrawerOpen(state),
   };
 });
 

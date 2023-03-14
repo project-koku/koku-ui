@@ -7,9 +7,8 @@ import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import { asyncComponent } from 'components/async';
-import { ExportsDrawer } from 'components/exports';
+import { CommonDrawer } from 'components/drawer';
 import { PageTitle } from 'components/pageTitle';
-import RecommendationsDrawer from 'components/ros/recommendationsDrawer';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -92,12 +91,10 @@ class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps> {
         {userAccessFetchStatus === FetchStatus.complete && (
           <Permissions>
             {providersFetchStatus === FetchStatus.complete && (
-              <ExportsDrawer>
-                <RecommendationsDrawer>
-                  <InactiveSources />
-                  {accountSettingsFetchStatus === FetchStatus.complete && children}
-                </RecommendationsDrawer>
-              </ExportsDrawer>
+              <CommonDrawer>
+                <InactiveSources />
+                {accountSettingsFetchStatus === FetchStatus.complete && children}
+              </CommonDrawer>
             )}
           </Permissions>
         )}
