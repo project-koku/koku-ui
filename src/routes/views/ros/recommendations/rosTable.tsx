@@ -5,13 +5,14 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
 import { DataTable } from 'routes/views/details/components/dataTable';
 import { styles } from 'routes/views/details/components/dataTable/dataTable.styles';
+import { createMapStateToProps } from 'store/common';
+import { uiActions, uiSelectors } from 'store/ui';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import type { RouterComponentProps } from 'utils/router';
-import { withRouter } from 'utils/router';
 
-interface RosTableOwnProps extends RouterComponentProps, WrappedComponentProps {
+interface RosTableOwnProps extends WrappedComponentProps {
   isLoading?: boolean;
   onSort(value: string, isSortAscending: boolean);
   report: RhelReport;
@@ -23,7 +24,16 @@ interface RosTableState {
   rows?: any[];
 }
 
-type RosTableProps = RosTableOwnProps;
+interface RosTableStateProps {
+  isOpen?: boolean;
+}
+
+interface RosTableDispatchProps {
+  closeRecommendationsDrawer: typeof uiActions.closeRecommendationsDrawer;
+  openRecommendationsDrawer: typeof uiActions.openRecommendationsDrawer;
+}
+
+type RosTableProps = RosTableOwnProps & RosTableStateProps & RosTableDispatchProps;
 
 class RosTableBase extends React.Component<RosTableProps> {
   public state: RosTableState = {
@@ -60,50 +70,62 @@ class RosTableBase extends React.Component<RosTableProps> {
     const columns = [
       {
         ...(computedItems.length && { isSortable: true }),
-        name: intl.formatMessage(messages.clusters, { count: 1 }),
+        name: intl.formatMessage(messages.recommendationsNames, { value: 'cluster' }),
         orderBy: 'cluster',
       },
       {
         ...(computedItems.length && { isSortable: true }),
-        name: intl.formatMessage(messages.project),
+        name: intl.formatMessage(messages.recommendationsNames, { value: 'project' }),
         orderBy: 'project',
       },
       {
         ...(computedItems.length && { isSortable: true }),
-        name: intl.formatMessage(messages.workloadType),
+        name: intl.formatMessage(messages.recommendationsNames, { value: 'workload_type' }),
         orderBy: 'workload_type',
       },
       {
         ...(computedItems.length && { isSortable: true }),
-        name: intl.formatMessage(messages.workload),
+        name: intl.formatMessage(messages.recommendationsNames, { value: 'workload' }),
         orderBy: 'workload',
       },
       {
         ...(computedItems.length && { isSortable: true }),
-        name: intl.formatMessage(messages.container),
+        name: intl.formatMessage(messages.recommendationsNames, { value: 'container' }),
         orderBy: 'container',
       },
       {
         ...(computedItems.length && { isSortable: true }),
-        name: intl.formatMessage(messages.lastReported),
+        name: intl.formatMessage(messages.recommendationsNames, { value: 'last_reported' }),
         orderBy: 'last_reported',
         style: styles.lastReportedColumn,
       },
     ];
 
     computedItems.map((item, index) => {
-      const label = item && item.label !== null ? item.label : '';
+      const cluster = item && item.clusters !== null ? item.clusters[0] : '';
+      const container = `Container${index}`;
+      const lastReported = `6 hours ago`;
+      const project = item && item.label !== null ? item.label : '';
+      const workload = `Workload${index}`;
+      const workloadType = `Workload type${index}`;
 
       rows.push({
         cells: [
-          { value: <div>{`Cluster${index}`}</div> },
-          { value: <div>{label}</div> },
-          { value: <div>{`Workload type${index}`}</div> },
-          { value: <div>{`Workload${index}`}</div> },
-          { value: <div>{`Container${index}`}</div> },
-          { value: <div>{`6 hours ago`}</div>, style: styles.lastReportedCell },
+          { value: <div>{cluster}</div> },
+          { value: <div>{project}</div> },
+          { value: <div>{workloadType}</div> },
+          { value: <div>{workload}</div> },
+          { value: <div>{container}</div> },
+          { value: <div>{lastReported}</div>, style: styles.lastReported },
         ],
-        item,
+        item: {
+          cluster,
+          container,
+          lastReported,
+          project,
+          workload,
+          workloadType,
+        },
       });
     });
 
@@ -113,15 +135,42 @@ class RosTableBase extends React.Component<RosTableProps> {
     });
   };
 
+  private handleOnRowClick = (event: React.KeyboardEvent | React.MouseEvent, rowIndex: number) => {
+    const { openRecommendationsDrawer } = this.props;
+    const { rows } = this.state;
+
+    openRecommendationsDrawer(rows[rowIndex].item);
+  };
+
   public render() {
     const { isLoading, onSort } = this.props;
     const { columns, rows } = this.state;
 
-    return <DataTable columns={columns} isLoading={isLoading} isRos onSort={onSort} rows={rows} />;
+    return (
+      <DataTable
+        columns={columns}
+        isLoading={isLoading}
+        isRos
+        onSort={onSort}
+        rows={rows}
+        onRowClick={this.handleOnRowClick}
+      />
+    );
   }
 }
 
-const RosTable = injectIntl(withRouter(RosTableBase));
+const mapStateToProps = createMapStateToProps<RosTableOwnProps, RosTableStateProps>(state => {
+  return {
+    isOpen: uiSelectors.selectIsRecommendationsDrawerOpen(state),
+  };
+});
+
+const mapDispatchToProps: RosTableDispatchProps = {
+  closeRecommendationsDrawer: uiActions.closeRecommendationsDrawer,
+  openRecommendationsDrawer: uiActions.openRecommendationsDrawer,
+  // authRequest: (...args) => dispatch(authRequest(...args)),
+};
+
+const RosTable = injectIntl(connect(mapStateToProps, mapDispatchToProps)(RosTableBase));
 
 export { RosTable };
-export type { RosTableProps };

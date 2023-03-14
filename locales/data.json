@@ -657,6 +657,12 @@
         "value": "Cancel"
       }
     ],
+    "change": [
+      {
+        "type": 0,
+        "value": "Change"
+      }
+    ],
     "chartCostForecastConeLegendLabel": [
       {
         "type": 0,
@@ -967,28 +973,8 @@
     ],
     "clusters": [
       {
-        "offset": 0,
-        "options": {
-          "one": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cluster"
-              }
-            ]
-          },
-          "other": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Clusters"
-              }
-            ]
-          }
-        },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
+        "type": 0,
+        "value": "Clusters"
       }
     ],
     "container": [
@@ -1820,6 +1806,12 @@
         "value": "CPU"
       }
     ],
+    "cpuUnits": [
+      {
+        "type": 0,
+        "value": "CPU (mCores)"
+      }
+    ],
     "create": [
       {
         "type": 0,
@@ -2205,6 +2197,12 @@
         },
         "type": 5,
         "value": "units"
+      }
+    ],
+    "current": [
+      {
+        "type": 0,
+        "value": "Current"
       }
     ],
     "dashboardCumulativeCostComparison": [
@@ -7837,124 +7835,60 @@
     "groupByValueNames": [
       {
         "options": {
-          "account": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Account names"
-              }
-            ]
-          },
           "cluster": {
             "value": [
               {
                 "type": 0,
-                "value": "Cluster names"
+                "value": "Cluster name"
               }
             ]
           },
-          "gcp_project": {
+          "container": {
             "value": [
               {
                 "type": 0,
-                "value": "GCP project names"
+                "value": "Container name"
               }
             ]
           },
-          "node": {
+          "last_reported": {
             "value": [
               {
                 "type": 0,
-                "value": "Node names"
-              }
-            ]
-          },
-          "org_unit_id": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Organizational unit names"
+                "value": "Last reported"
               }
             ]
           },
           "other": {
             "value": []
           },
-          "payer_tenant_id": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Account names"
-              }
-            ]
-          },
-          "product_service": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Service names"
-              }
-            ]
-          },
           "project": {
             "value": [
               {
                 "type": 0,
-                "value": "Project names"
+                "value": "Project name"
               }
             ]
           },
-          "region": {
+          "workload": {
             "value": [
               {
                 "type": 0,
-                "value": "Region names"
+                "value": "Workload name"
               }
             ]
           },
-          "resource_location": {
+          "workload_type": {
             "value": [
               {
                 "type": 0,
-                "value": "Region names"
-              }
-            ]
-          },
-          "service": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Service names"
-              }
-            ]
-          },
-          "service_name": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Service names"
-              }
-            ]
-          },
-          "subscription_guid": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Account names"
-              }
-            ]
-          },
-          "tag": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Tag names"
+                "value": "Workload type"
               }
             ]
           }
         },
         "type": 5,
-        "value": "groupBy"
+        "value": "value"
       }
     ],
     "groupByValues": [
@@ -8979,6 +8913,12 @@
         "value": "Learn more"
       }
     ],
+    "limits": [
+      {
+        "type": 0,
+        "value": "Limits"
+      }
+    ],
     "loadingStateDesc": [
       {
         "type": 0,
@@ -9322,6 +9262,18 @@
       {
         "type": 0,
         "value": "Memory"
+      }
+    ],
+    "memoryUnits": [
+      {
+        "type": 0,
+        "value": "Memory (MB)"
+      }
+    ],
+    "memoryUtilization": [
+      {
+        "type": 0,
+        "value": "Memory utilization (MB)"
       }
     ],
     "metric": [
@@ -10402,6 +10354,84 @@
         "value": "Recommendations"
       }
     ],
+    "recommendationsCpuUtilization": [
+      {
+        "type": 0,
+        "value": "CPU utilization (mCores)"
+      }
+    ],
+    "recommendationsDetails": [
+      {
+        "offset": 0,
+        "options": {
+          "=0": {
+            "value": [
+              {
+                "type": 0,
+                "value": "No recommendations"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " recommendations"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
+      }
+    ],
+    "recommendationsLast15Days": [
+      {
+        "type": 0,
+        "value": "Last 15 days"
+      }
+    ],
+    "recommendationsLast24hrs": [
+      {
+        "type": 0,
+        "value": "Last 24 hrs"
+      }
+    ],
+    "recommendationsLast7Days": [
+      {
+        "type": 0,
+        "value": "Last 7 days"
+      }
+    ],
+    "recommendationsPerspective": [
+      {
+        "type": 0,
+        "value": "View recommendation based on"
+      }
+    ],
+    "recommendationsTableAriaLabel": [
+      {
+        "type": 0,
+        "value": "Recommendations table"
+      }
+    ],
+    "recommendationsViewAll": [
+      {
+        "type": 0,
+        "value": "View all recommendations for this project"
+      }
+    ],
+    "recommended": [
+      {
+        "type": 0,
+        "value": "Recommended"
+      }
+    ],
     "redHatStatusUrl": [
       {
         "type": 0,
@@ -10418,6 +10448,12 @@
       {
         "type": 0,
         "value": "Requests"
+      }
+    ],
+    "resourceOptimization": [
+      {
+        "type": 0,
+        "value": "Resource optimization"
       }
     ],
     "rhel": [
@@ -10638,48 +10674,6 @@
       {
         "type": 0,
         "value": "Volume usage and requests"
-      }
-    ],
-    "rosDashboardTitle": [
-      {
-        "type": 0,
-        "value": "Resource optimization"
-      }
-    ],
-    "rosRecommendationsDetails": [
-      {
-        "offset": 0,
-        "options": {
-          "=0": {
-            "value": [
-              {
-                "type": 0,
-                "value": "No recommendations"
-              }
-            ]
-          },
-          "other": {
-            "value": [
-              {
-                "type": 1,
-                "value": "count"
-              },
-              {
-                "type": 0,
-                "value": " recommendations"
-              }
-            ]
-          }
-        },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
-      }
-    ],
-    "rosRecommendationsTitle": [
-      {
-        "type": 0,
-        "value": "Recommendations"
       }
     ],
     "save": [

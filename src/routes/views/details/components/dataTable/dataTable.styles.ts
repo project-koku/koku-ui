@@ -33,14 +33,14 @@ export const styles = {
     color: global_disabled_color_100.value,
     fontSize: global_FontSize_xs.value,
   },
+  lastReported: {
+    textAlign: 'right',
+    paddingRight: '40px',
+  },
   lastReportedColumn: {
     textAlign: 'right',
     display: 'flex',
     justifyContent: 'flex-end',
-  },
-  lastReportedCell: {
-    textAlign: 'right',
-    paddingRight: '40px',
   },
   managedColumn: {
     textAlign: 'right',

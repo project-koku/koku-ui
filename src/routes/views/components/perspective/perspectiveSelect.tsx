@@ -16,6 +16,7 @@ interface PerspectiveSelectOwnProps {
     label: MessageDescriptor;
     value: string;
   }[];
+  title?: MessageDescriptor;
 }
 
 interface PerspectiveSelectState {
@@ -97,12 +98,12 @@ class PerspectiveSelectBase extends React.Component<PerspectiveSelectProps> {
   };
 
   public render() {
-    const { intl } = this.props;
+    const { intl, title } = this.props;
 
     return (
       <div style={styles.perspectiveSelector}>
         <Title headingLevel="h3" size="md" style={styles.perspectiveLabel}>
-          {intl.formatMessage(messages.perspective)}
+          {intl.formatMessage(title || messages.perspective)}
         </Title>
         {this.getSelect()}
       </div>

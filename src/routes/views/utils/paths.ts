@@ -14,7 +14,7 @@ export const getBreakdownPath = ({
   title,
 }: {
   basePath: string;
-  description: string; // Used to display a description in the breakdown header
+  description?: string; // Used to display a description in the breakdown header
   groupBy: string | number;
   id: string | number; // group_by[account]=<id> param in the breakdown page
   isPlatformCosts?: boolean;

@@ -3,5 +3,7 @@
 exports[`default state 1`] = `
 {
   "isExportsDrawerOpen": false,
+  "isRecommendationsDrawerOpen": false,
+  "payload": undefined,
 }
 `;
