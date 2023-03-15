@@ -97,8 +97,13 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
       ...(widget.rosPathsType &&
         widget.rosType && {
           isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
-          rosReport: rosSelectors.selectRos(state, widget.rosPathsType, widget.rosType, queries.ros),
-          rosFetchStatus: rosSelectors.selectRosFetchStatus(state, widget.rosPathsType, widget.rosType, queries.ros),
+          rosReport: rosSelectors.selectRos(state, widget.rosPathsType, widget.rosType, queries.recommendations),
+          rosFetchStatus: rosSelectors.selectRosFetchStatus(
+            state,
+            widget.rosPathsType,
+            widget.rosType,
+            queries.recommendations
+          ),
         }),
     };
   }

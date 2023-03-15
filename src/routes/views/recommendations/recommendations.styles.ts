@@ -8,6 +8,14 @@ export const styles = {
     paddingBottom: global_spacer_lg.value,
     paddingTop: global_spacer_lg.value,
   },
+  header: {
+    backgroundColor: global_BackgroundColor_light_100.var,
+    padding: global_spacer_lg.var,
+  },
+  headerContent: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
   paginationContainer: {
     marginLeft: global_spacer_lg.value,
     marginRight: global_spacer_lg.value,
