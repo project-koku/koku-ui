@@ -387,6 +387,12 @@
         "value": "Back to details"
       }
     ],
+    "breakdownBackToRecommendations": [
+      {
+        "type": 0,
+        "value": "Back to recommendations"
+      }
+    ],
     "breakdownBackToTitles": [
       {
         "options": {

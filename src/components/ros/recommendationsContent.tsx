@@ -3,7 +3,7 @@ import 'routes/views/details/components/dataTable/dataTable.scss';
 import { TextContent, TextList, TextListItem, TextListItemVariants, TextListVariants } from '@patternfly/react-core';
 import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import type { Query } from 'api/queries/query';
-import { getQuery } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import { routes } from 'routes';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { Loading } from 'routes/state/loading';
+import { getGroupById } from 'routes/views/utils/groupBy';
 import { getBreakdownPath } from 'routes/views/utils/paths';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -32,6 +33,7 @@ interface RecommendationsContentOwnProps extends RouterComponentProps {
 }
 
 interface RecommendationsContentStateProps {
+  groupBy?: string;
   payload: any;
   report: Report;
   reportError: AxiosError;
@@ -233,14 +235,18 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
   };
 
   private getViewAllLink = () => {
-    const { intl, payload, router } = this.props;
+    const { groupBy, intl, payload, router } = this.props;
 
+    if (groupBy !== undefined) {
+      return null;
+    }
     return (
       <Link
         to={getBreakdownPath({
           basePath: formatPath(routes.ocpDetailsBreakdown.path),
           groupBy: 'project',
           id: payload.project,
+          isRecommendations: true,
           router,
           title: payload.project,
         })}
@@ -275,7 +281,10 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
 }
 
 const mapStateToProps = createMapStateToProps<RecommendationsContentOwnProps, RecommendationsContentStateProps>(
-  state => {
+  (state, { router }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
+    const groupBy = getGroupById(queryFromRoute);
+
     const query = {
       filter: {
         ...baseQuery.filter,
@@ -351,6 +360,7 @@ const mapStateToProps = createMapStateToProps<RecommendationsContentOwnProps, Re
     } as any;
 
     return {
+      groupBy,
       payload: uiSelectors.selectRecommendationsDrawerPayload(state),
       report,
       reportError,

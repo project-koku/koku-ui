@@ -10,6 +10,7 @@ export const getBreakdownPath = ({
   groupBy,
   id,
   isPlatformCosts,
+  isRecommendations,
   router,
   title,
 }: {
@@ -18,6 +19,7 @@ export const getBreakdownPath = ({
   groupBy: string | number;
   id: string | number; // group_by[account]=<id> param in the breakdown page
   isPlatformCosts?: boolean;
+  isRecommendations?: boolean;
   router: RouteComponentProps;
   title: string | number; // Used to display a title in the breakdown header
 }) => {
@@ -26,6 +28,7 @@ export const getBreakdownPath = ({
     ...queryFromRoute,
     ...(description && description !== title && { [breakdownDescKey]: description }),
     ...(title && { [breakdownTitleKey]: title }),
+    ...(isRecommendations && { recommendations: true }),
     group_by: {
       [groupBy]: isPlatformCosts ? '*' : id, // Use ID here -- see https://github.com/project-koku/koku-ui/pull/2821
     },

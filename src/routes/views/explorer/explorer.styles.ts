@@ -34,4 +34,8 @@ export const styles = {
     paddingBottom: global_spacer_lg.value,
     paddingTop: global_spacer_lg.value,
   },
+  toolbarContainer: {
+    marginLeft: global_spacer_lg.value,
+    marginRight: global_spacer_lg.value,
+  },
 } as { [className: string]: React.CSSProperties };

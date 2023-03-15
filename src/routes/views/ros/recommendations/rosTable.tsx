@@ -1,5 +1,7 @@
 import 'routes/views/details/components/dataTable/dataTable.scss';
 
+import type { Query } from 'api/queries/query';
+import { parseQuery } from 'api/queries/query';
 import type { RhelReport } from 'api/reports/rhelReports';
 import messages from 'locales/messages';
 import React from 'react';
@@ -8,11 +10,14 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { DataTable } from 'routes/views/details/components/dataTable';
 import { styles } from 'routes/views/details/components/dataTable/dataTable.styles';
+import { getGroupById } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
 import { uiActions, uiSelectors } from 'store/ui';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
-interface RosTableOwnProps extends WrappedComponentProps {
+interface RosTableOwnProps extends RouterComponentProps {
   isLoading?: boolean;
   onSort(value: string, isSortAscending: boolean);
   report: RhelReport;
@@ -25,6 +30,7 @@ interface RosTableState {
 }
 
 interface RosTableStateProps {
+  groupBy?: string;
   isOpen?: boolean;
 }
 
@@ -33,7 +39,7 @@ interface RosTableDispatchProps {
   openRecommendationsDrawer: typeof uiActions.openRecommendationsDrawer;
 }
 
-type RosTableProps = RosTableOwnProps & RosTableStateProps & RosTableDispatchProps;
+type RosTableProps = RosTableOwnProps & RosTableStateProps & RosTableDispatchProps & WrappedComponentProps;
 
 class RosTableBase extends React.Component<RosTableProps> {
   public state: RosTableState = {
@@ -56,7 +62,7 @@ class RosTableBase extends React.Component<RosTableProps> {
   }
 
   private initDatum = () => {
-    const { intl, report } = this.props;
+    const { groupBy, intl, report } = this.props;
     if (!report) {
       return;
     }
@@ -69,35 +75,37 @@ class RosTableBase extends React.Component<RosTableProps> {
 
     const columns = [
       {
-        ...(computedItems.length && { isSortable: true }),
-        name: intl.formatMessage(messages.recommendationsNames, { value: 'cluster' }),
-        orderBy: 'cluster',
-      },
-      {
-        ...(computedItems.length && { isSortable: true }),
-        name: intl.formatMessage(messages.recommendationsNames, { value: 'project' }),
-        orderBy: 'project',
-      },
-      {
-        ...(computedItems.length && { isSortable: true }),
-        name: intl.formatMessage(messages.recommendationsNames, { value: 'workload_type' }),
-        orderBy: 'workload_type',
-      },
-      {
-        ...(computedItems.length && { isSortable: true }),
-        name: intl.formatMessage(messages.recommendationsNames, { value: 'workload' }),
-        orderBy: 'workload',
-      },
-      {
-        ...(computedItems.length && { isSortable: true }),
         name: intl.formatMessage(messages.recommendationsNames, { value: 'container' }),
         orderBy: 'container',
+        ...(computedItems.length && { isSortable: true }),
       },
       {
+        hidden: groupBy === 'project',
+        name: intl.formatMessage(messages.recommendationsNames, { value: 'project' }),
+        orderBy: 'project',
         ...(computedItems.length && { isSortable: true }),
+      },
+      {
+        name: intl.formatMessage(messages.recommendationsNames, { value: 'workload' }),
+        orderBy: 'workload',
+        ...(computedItems.length && { isSortable: true }),
+      },
+      {
+        name: intl.formatMessage(messages.recommendationsNames, { value: 'workload_type' }),
+        orderBy: 'workload_type',
+        ...(computedItems.length && { isSortable: true }),
+      },
+      {
+        hidden: groupBy === 'cluster',
+        name: intl.formatMessage(messages.recommendationsNames, { value: 'cluster' }),
+        orderBy: 'cluster',
+        ...(computedItems.length && { isSortable: true }),
+      },
+      {
         name: intl.formatMessage(messages.recommendationsNames, { value: 'last_reported' }),
         orderBy: 'last_reported',
         style: styles.lastReportedColumn,
+        ...(computedItems.length && { isSortable: true }),
       },
     ];
 
@@ -111,11 +119,11 @@ class RosTableBase extends React.Component<RosTableProps> {
 
       rows.push({
         cells: [
-          { value: <div>{cluster}</div> },
-          { value: <div>{project}</div> },
-          { value: <div>{workloadType}</div> },
-          { value: <div>{workload}</div> },
           { value: <div>{container}</div> },
+          { value: <div>{project}</div>, hidden: groupBy === 'project' },
+          { value: <div>{workload}</div> },
+          { value: <div>{workloadType}</div> },
+          { value: <div>{cluster}</div>, hidden: groupBy === 'cluster' },
           { value: <div>{lastReported}</div>, style: styles.lastReported },
         ],
         item: {
@@ -129,9 +137,15 @@ class RosTableBase extends React.Component<RosTableProps> {
       });
     });
 
+    const filteredColumns = (columns as any[]).filter(column => !column.hidden);
+    const filteredRows = rows.map(({ ...row }) => {
+      row.cells = row.cells.filter(cell => !cell.hidden);
+      return row;
+    });
+
     this.setState({
-      columns,
-      rows,
+      columns: filteredColumns,
+      rows: filteredRows,
     });
   };
 
@@ -159,8 +173,11 @@ class RosTableBase extends React.Component<RosTableProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<RosTableOwnProps, RosTableStateProps>(state => {
+const mapStateToProps = createMapStateToProps<RosTableOwnProps, RosTableStateProps>((state, { router }) => {
+  const queryFromRoute = parseQuery<Query>(router.location.search);
+
   return {
+    groupBy: getGroupById(queryFromRoute),
     isOpen: uiSelectors.selectIsRecommendationsDrawerOpen(state),
   };
 });
@@ -171,6 +188,6 @@ const mapDispatchToProps: RosTableDispatchProps = {
   // authRequest: (...args) => dispatch(authRequest(...args)),
 };
 
-const RosTable = injectIntl(connect(mapStateToProps, mapDispatchToProps)(RosTableBase));
+const RosTable = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(RosTableBase)));
 
 export { RosTable };

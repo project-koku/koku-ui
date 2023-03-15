@@ -20,6 +20,7 @@
   "back": "Back",
   "breakdownBackToDetails": "{groupBy, select, account {Back to {value} account details} cluster {Back to {value} cluster details} gcp_project {Back to {value} GCP project details} node {Back to {value} node details} org_unit_id {Back to {value} organizational unit details} payer_tenant_id {Back to {value} account details} product_service {Back to {value} service details} project {Back to {value} project details} region {Back to {value} region details} resource_location {Back to {value} region details} service {Back to {value} service details} service_name {Back to {value} service details} subscription_guid {Back to {value} account details} tag {Back to {value} tag details} other {}}",
   "breakdownBackToDetailsAriaLabel": "Back to details",
+  "breakdownBackToRecommendations": "Back to recommendations",
   "breakdownBackToTitles": "{value, select, aws {Amazon Web Services} azure {Microsoft Azure} oci {Oracle Cloud Infrastructure} gcp {Google Cloud Platform} ibm {IBM Cloud - Top 5 Costliest} ocp {OpenShift} other {}}",
   "breakdownCostBreakdownAriaLabel": "A description of markup, raw cost and usage cost",
   "breakdownCostBreakdownTitle": "Cost breakdown",

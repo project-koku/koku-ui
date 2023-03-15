@@ -16,7 +16,7 @@ import { Loading } from 'routes/state/loading';
 import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
-import { getGroupByTagKey } from 'routes/views/utils/groupBy';
+import { getGroupById, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleFilterAdded,
   handleFilterRemoved,
@@ -43,6 +43,7 @@ import { RosTable } from './rosTable';
 import { RosToolbar } from './rosToolbar';
 
 interface RecommendationsStateProps {
+  groupBy?: string;
   providers: Providers;
   providersFetchStatus: FetchStatus;
   query: RosQuery;
@@ -215,10 +216,12 @@ class Recommendations extends React.Component<RecommendationsProps> {
   };
 
   public render() {
-    const { intl, providers, providersFetchStatus, recommendationError, recommendationFetchStatus } = this.props;
+    const { groupBy, intl, providers, providersFetchStatus, recommendationError, recommendationFetchStatus } =
+      this.props;
 
     const computedItems = this.getComputedItems();
     const isDisabled = computedItems.length === 0;
+    const isStandalone = groupBy === undefined;
     const title = intl.formatMessage(messages.ocpDetailsTitle);
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
@@ -239,15 +242,15 @@ class Recommendations extends React.Component<RecommendationsProps> {
     }
     return (
       <div style={styles.rosDetails}>
-        <RosHeader />
-        <div style={styles.content}>
-          {this.getToolbar(computedItems)}
+        {isStandalone && <RosHeader />}
+        <div style={isStandalone ? styles.content : undefined}>
+          <div style={isStandalone ? styles.toolbarContainer : undefined}>{this.getToolbar(computedItems)}</div>
           {recommendationFetchStatus === FetchStatus.inProgress ? (
             <Loading />
           ) : (
             <>
-              <div style={styles.tableContainer}>{this.getTable()}</div>
-              <div style={styles.paginationContainer}>
+              <div style={isStandalone ? styles.tableContainer : undefined}>{this.getTable()}</div>
+              <div style={isStandalone ? styles.paginationContainer : undefined}>
                 <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
               </div>
             </>
@@ -262,6 +265,7 @@ class Recommendations extends React.Component<RecommendationsProps> {
 const mapStateToProps = createMapStateToProps<RecommendationsOwnProps, RecommendationsStateProps>(
   (state, { router }) => {
     const queryFromRoute = parseQuery<RosQuery>(router.location.search);
+    const groupBy = getGroupById(queryFromRoute);
     const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
     const query = {
       delta: 'cost',
@@ -308,6 +312,7 @@ const mapStateToProps = createMapStateToProps<RecommendationsOwnProps, Recommend
 
     return {
       currency,
+      groupBy,
       providers: filterProviders(providers, ProviderType.ocp),
       providersFetchStatus,
       query,

@@ -498,7 +498,7 @@ class Explorer extends React.Component<ExplorerProps> {
           </div>
         )}
         <div style={styles.tableContent}>
-          {this.getToolbar(computedItems)}
+          <div style={styles.toolbarContainer}>{this.getToolbar(computedItems)}</div>
           {this.getExportModal(computedItems)}
           {reportFetchStatus === FetchStatus.inProgress ? (
             <Loading />

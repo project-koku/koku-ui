@@ -113,6 +113,11 @@ export default defineMessages({
     description: 'Back to details',
     id: 'breakdownBackToDetailsAriaLabel',
   },
+  breakdownBackToRecommendations: {
+    defaultMessage: 'Back to recommendations',
+    description: 'Back to recommendations',
+    id: 'breakdownBackToRecommendations',
+  },
   breakdownBackToTitles: {
     defaultMessage:
       '{value, select, ' +
