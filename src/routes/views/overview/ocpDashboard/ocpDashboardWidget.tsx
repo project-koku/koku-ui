@@ -16,7 +16,7 @@ import { chartStyles } from './ocpDashboardWidget.styles';
 interface OcpDashboardWidgetDispatchProps {
   fetchForecasts: typeof ocpDashboardActions.fetchWidgetForecasts;
   fetchReports: typeof ocpDashboardActions.fetchWidgetReports;
-  fetchRos: typeof ocpDashboardActions.fetchWidgetRos;
+  fetchRosReport: typeof ocpDashboardActions.fetchWidgetRosReport;
   updateTab: typeof ocpDashboardActions.changeWidgetTab;
 }
 
@@ -97,8 +97,13 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
       ...(widget.rosPathsType &&
         widget.rosType && {
           isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
-          ros: rosSelectors.selectRos(state, widget.rosPathsType, widget.rosType, queries.ros),
-          rosFetchStatus: rosSelectors.selectRosFetchStatus(state, widget.rosPathsType, widget.rosType, queries.ros),
+          rosReport: rosSelectors.selectRos(state, widget.rosPathsType, widget.rosType, queries.recommendations),
+          rosFetchStatus: rosSelectors.selectRosFetchStatus(
+            state,
+            widget.rosPathsType,
+            widget.rosType,
+            queries.recommendations
+          ),
         }),
     };
   }
@@ -107,7 +112,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
 const mapDispatchToProps: OcpDashboardWidgetDispatchProps = {
   fetchForecasts: ocpDashboardActions.fetchWidgetForecasts,
   fetchReports: ocpDashboardActions.fetchWidgetReports,
-  fetchRos: ocpDashboardActions.fetchWidgetRos,
+  fetchRosReport: ocpDashboardActions.fetchWidgetRosReport,
   updateTab: ocpDashboardActions.changeWidgetTab,
 };
 

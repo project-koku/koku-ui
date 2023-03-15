@@ -64,7 +64,7 @@ export interface RosMeta extends PagedMetaData {
   };
 }
 
-export interface Ros extends PagedResponse<RosData, RosMeta> {}
+export interface RosReport extends PagedResponse<RosData, RosMeta> {}
 
 // eslint-disable-next-line no-shadow
 export const enum RosType {

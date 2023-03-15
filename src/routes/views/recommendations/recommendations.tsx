@@ -4,7 +4,7 @@ import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { RosQuery } from 'api/queries/rosQuery';
 import { getQuery, parseQuery } from 'api/queries/rosQuery';
-import type { Ros } from 'api/ros/ros';
+import type { Recommendation } from 'api/ros/recommendations';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
@@ -38,23 +38,23 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import { styles } from './recommendations.styles';
-import { RosHeader } from './rosHeader';
-import { RosTable } from './rosTable';
-import { RosToolbar } from './rosToolbar';
+import { RecommendationsHeader } from './recommendationsHeader';
+import { RecommendationsTable } from './recommendationsTable';
+import { RecommendationsToolbar } from './recommendationsToolbar';
 
 interface RecommendationsStateProps {
   groupBy?: string;
   providers: Providers;
   providersFetchStatus: FetchStatus;
   query: RosQuery;
-  recommendation: Ros;
+  recommendation: Recommendation;
   recommendationError: AxiosError;
   recommendationFetchStatus: FetchStatus;
   recommendationQueryString: string;
 }
 
 interface RecommendationsDispatchProps {
-  fetchRos: typeof rosActions.fetchRos;
+  fetchRosReport: typeof rosActions.fetchRosReport;
 }
 
 interface RecommendationsState {
@@ -162,7 +162,7 @@ class Recommendations extends React.Component<RecommendationsProps> {
     const { query, recommendation, recommendationFetchStatus, recommendationQueryString, router } = this.props;
 
     return (
-      <RosTable
+      <RecommendationsTable
         isLoading={recommendationFetchStatus === FetchStatus.inProgress}
         onSort={(sortType, isSortAscending) => handleSort(query, router, sortType, isSortAscending)}
         report={recommendation}
@@ -178,7 +178,7 @@ class Recommendations extends React.Component<RecommendationsProps> {
     const itemsTotal = recommendation && recommendation.meta ? recommendation.meta.count : 0;
 
     return (
-      <RosToolbar
+      <RecommendationsToolbar
         isDisabled={isDisabled}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
@@ -211,8 +211,8 @@ class Recommendations extends React.Component<RecommendationsProps> {
   };
 
   private updateRecommendation = () => {
-    const { fetchRos, recommendationQueryString } = this.props;
-    fetchRos(recommendationPathsType, recommendationType, recommendationQueryString);
+    const { fetchRosReport, recommendationQueryString } = this.props;
+    fetchRosReport(recommendationPathsType, recommendationType, recommendationQueryString);
   };
 
   public render() {
@@ -241,8 +241,8 @@ class Recommendations extends React.Component<RecommendationsProps> {
       }
     }
     return (
-      <div style={styles.rosDetails}>
-        {isStandalone && <RosHeader />}
+      <div style={styles.recommendationsContainer}>
+        {isStandalone && <RecommendationsHeader />}
         <div style={isStandalone ? styles.content : undefined}>
           <div style={isStandalone ? styles.toolbarContainer : undefined}>{this.getToolbar(computedItems)}</div>
           {recommendationFetchStatus === FetchStatus.inProgress ? (
@@ -325,7 +325,7 @@ const mapStateToProps = createMapStateToProps<RecommendationsOwnProps, Recommend
 );
 
 const mapDispatchToProps: RecommendationsDispatchProps = {
-  fetchRos: rosActions.fetchRos,
+  fetchRosReport: rosActions.fetchRosReport,
 };
 
 export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(Recommendations)));

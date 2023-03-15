@@ -1,7 +1,7 @@
-import './rosSummary.scss';
+import './recommendationsSummary.scss';
 
 import { Card, CardBody, CardTitle, Skeleton, Title, TitleSizes } from '@patternfly/react-core';
-import type { Ros } from 'api/ros/ros';
+import type { RosReport } from 'api/ros/ros';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -13,13 +13,13 @@ import { FetchStatus } from 'store/common';
 import { formatPath } from 'utils/paths';
 import { skeletonWidth } from 'utils/skeleton';
 
-export interface RosSummaryProps extends WrappedComponentProps {
-  ros: Ros;
+export interface RecommendationsSummaryProps extends WrappedComponentProps {
+  rosReport: RosReport;
   status: number;
   title: MessageDescriptor;
 }
 
-const RosSummaryBase: React.FC<RosSummaryProps> = ({ intl, title, status }) => {
+const RecommendationsSummaryBase: React.FC<RecommendationsSummaryProps> = ({ intl, title, status }) => {
   const count = 3;
   const description = intl.formatMessage(messages.recommendationsDetails, { count });
   return (
@@ -45,6 +45,6 @@ const RosSummaryBase: React.FC<RosSummaryProps> = ({ intl, title, status }) => {
   );
 };
 
-const RosSummary = injectIntl(RosSummaryBase);
+const RecommendationsSummary = injectIntl(RecommendationsSummaryBase);
 
-export { RosSummary };
+export default RecommendationsSummary;

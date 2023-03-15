@@ -17,32 +17,35 @@ import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputed
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-interface RosTableOwnProps extends RouterComponentProps {
+interface RecommendationsTableOwnProps extends RouterComponentProps {
   isLoading?: boolean;
   onSort(value: string, isSortAscending: boolean);
   report: RhelReport;
   reportQueryString: string;
 }
 
-interface RosTableState {
+interface RecommendationsTableState {
   columns?: any[];
   rows?: any[];
 }
 
-interface RosTableStateProps {
+interface RecommendationsTableStateProps {
   groupBy?: string;
   isOpen?: boolean;
 }
 
-interface RosTableDispatchProps {
+interface RecommendationsTableDispatchProps {
   closeRecommendationsDrawer: typeof uiActions.closeRecommendationsDrawer;
   openRecommendationsDrawer: typeof uiActions.openRecommendationsDrawer;
 }
 
-type RosTableProps = RosTableOwnProps & RosTableStateProps & RosTableDispatchProps & WrappedComponentProps;
+type RecommendationsTableProps = RecommendationsTableOwnProps &
+  RecommendationsTableStateProps &
+  RecommendationsTableDispatchProps &
+  WrappedComponentProps;
 
-class RosTableBase extends React.Component<RosTableProps> {
-  public state: RosTableState = {
+class RecommendationsTableBase extends React.Component<RecommendationsTableProps> {
+  public state: RecommendationsTableState = {
     columns: [],
     rows: [],
   };
@@ -51,7 +54,7 @@ class RosTableBase extends React.Component<RosTableProps> {
     this.initDatum();
   }
 
-  public componentDidUpdate(prevProps: RosTableProps) {
+  public componentDidUpdate(prevProps: RecommendationsTableProps) {
     const { report } = this.props;
     const currentReport = report && report.data ? JSON.stringify(report.data) : '';
     const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
@@ -164,7 +167,7 @@ class RosTableBase extends React.Component<RosTableProps> {
       <DataTable
         columns={columns}
         isLoading={isLoading}
-        isRos
+        isRecommendations
         onSort={onSort}
         rows={rows}
         onRowClick={this.handleOnRowClick}
@@ -173,21 +176,25 @@ class RosTableBase extends React.Component<RosTableProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<RosTableOwnProps, RosTableStateProps>((state, { router }) => {
-  const queryFromRoute = parseQuery<Query>(router.location.search);
+const mapStateToProps = createMapStateToProps<RecommendationsTableOwnProps, RecommendationsTableStateProps>(
+  (state, { router }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
 
-  return {
-    groupBy: getGroupById(queryFromRoute),
-    isOpen: uiSelectors.selectIsRecommendationsDrawerOpen(state),
-  };
-});
+    return {
+      groupBy: getGroupById(queryFromRoute),
+      isOpen: uiSelectors.selectIsRecommendationsDrawerOpen(state),
+    };
+  }
+);
 
-const mapDispatchToProps: RosTableDispatchProps = {
+const mapDispatchToProps: RecommendationsTableDispatchProps = {
   closeRecommendationsDrawer: uiActions.closeRecommendationsDrawer,
   openRecommendationsDrawer: uiActions.openRecommendationsDrawer,
   // authRequest: (...args) => dispatch(authRequest(...args)),
 };
 
-const RosTable = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(RosTableBase)));
+const RecommendationsTable = injectIntl(
+  withRouter(connect(mapStateToProps, mapDispatchToProps)(RecommendationsTableBase))
+);
 
-export { RosTable };
+export { RecommendationsTable };

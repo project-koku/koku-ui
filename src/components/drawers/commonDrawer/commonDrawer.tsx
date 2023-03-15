@@ -1,8 +1,8 @@
 import './commonDrawer.scss';
 
 import { Drawer, DrawerContent, DrawerContentBody, DrawerPanelContent } from '@patternfly/react-core';
-import ExportsDrawer from 'components/exports/exportsDrawer';
-import { RecommendationsDrawer } from 'components/ros';
+import { ExportsDrawer } from 'components/drawers';
+import { RecommendationsDrawer } from 'components/drawers';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';

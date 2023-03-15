@@ -3,7 +3,7 @@ import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import type { Forecast } from 'api/forecasts/forecast';
 import { getQuery } from 'api/queries/awsQuery';
 import type { Report } from 'api/reports/report';
-import type { Ros } from 'api/ros/ros';
+import type { RosReport } from 'api/ros/ros';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
@@ -28,7 +28,7 @@ import {
   ReportSummaryTrend,
   ReportSummaryUsage,
 } from 'routes/views/components/reports/reportSummary';
-import { RosSummary } from 'routes/views/overview/components/rosSummary/rosSummary';
+import { RecommendationsSummary } from 'routes/views/overview/components/recommendationsSummary';
 import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
@@ -61,7 +61,7 @@ export interface DashboardWidgetStateProps extends DashboardWidget<any> {
   previousQuery?: string;
   previousReport?: Report;
   rosQuery?: string;
-  ros?: Ros;
+  rosReport?: RosReport;
   rosFetchStatus?: number;
   tabsQuery?: string;
   tabsReport?: Report;
@@ -71,7 +71,7 @@ export interface DashboardWidgetStateProps extends DashboardWidget<any> {
 interface DashboardWidgetDispatchProps {
   fetchForecasts: (widgetId) => void;
   fetchReports: (widgetId) => void;
-  fetchRos: (widgetId) => void;
+  fetchRosReport: (widgetId) => void;
   updateTab: (id, availableTabs) => void;
 }
 
@@ -92,7 +92,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       details,
       fetchForecasts,
       fetchReports,
-      fetchRos,
+      fetchRosReport,
       id,
       isRosFeatureEnabled,
       trend,
@@ -106,11 +106,11 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     if (trend && trend.computedForecastItem !== undefined) {
       fetchForecasts(widgetId);
     }
-    if (!details.showRos && fetchReports) {
+    if (!details.showRecommendations && fetchReports) {
       fetchReports(widgetId);
     }
-    if (details.showRos && fetchRos && isRosFeatureEnabled) {
-      fetchRos(widgetId);
+    if (details.showRecommendations && fetchRosReport && isRosFeatureEnabled) {
+      fetchRosReport(widgetId);
     }
   }
 
@@ -552,10 +552,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  private getRosSummary = () => {
-    const { ros, rosFetchStatus, titleKey } = this.props;
+  private getRecommendationsSummary = () => {
+    const { rosFetchStatus, rosReport, titleKey } = this.props;
 
-    return <RosSummary status={rosFetchStatus} ros={ros} title={titleKey} />;
+    return <RecommendationsSummary status={rosFetchStatus} rosReport={rosReport} title={titleKey} />;
   };
 
   private getTab = <T extends DashboardWidget<any>>(tab: T, index: number) => {
@@ -698,8 +698,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   public render() {
     const { details, isRosFeatureEnabled } = this.props;
-    if (details.showRos) {
-      return isRosFeatureEnabled ? this.getRosSummary() : null;
+    if (details.showRecommendations) {
+      return isRosFeatureEnabled ? this.getRecommendationsSummary() : null;
     }
     return details.showHorizontal ? this.getHorizontalLayout() : this.getVerticalLayout();
   }

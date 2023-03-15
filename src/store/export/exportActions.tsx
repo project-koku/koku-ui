@@ -4,7 +4,7 @@ import type { Export } from 'api/export/export';
 import { runExport } from 'api/export/exportUtils';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
-import { ExportsLink } from 'components/exports';
+import { ExportsLink } from 'components/drawers';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
