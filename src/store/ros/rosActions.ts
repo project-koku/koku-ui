@@ -1,6 +1,6 @@
-import type { Ros } from 'api/ros/ros';
 import type { RosPathsType, RosType } from 'api/ros/ros';
-import { runRos } from 'api/ros/rosUtils';
+import type { RosReport } from 'api/ros/ros';
+import { runRosReport } from 'api/ros/rosUtils';
 import type { AxiosError } from 'axios';
 import type { ThunkAction } from 'store/common';
 import { FetchStatus } from 'store/common';
@@ -17,10 +17,10 @@ interface RosActionMeta {
 }
 
 export const fetchRosRequest = createAction('ros/request')<RosActionMeta>();
-export const fetchRosSuccess = createAction('ros/success')<Ros, RosActionMeta>();
+export const fetchRosSuccess = createAction('ros/success')<RosReport, RosActionMeta>();
 export const fetchRosFailure = createAction('ros/failure')<AxiosError, RosActionMeta>();
 
-export function fetchRos(rosPathsType: RosPathsType, rosType: RosType, rosQueryString: string): ThunkAction {
+export function fetchRosReport(rosPathsType: RosPathsType, rosType: RosType, rosQueryString: string): ThunkAction {
   return (dispatch, getState) => {
     if (!isRosExpired(getState(), rosPathsType, rosType, rosQueryString)) {
       return;
@@ -31,7 +31,7 @@ export function fetchRos(rosPathsType: RosPathsType, rosType: RosType, rosQueryS
     };
 
     dispatch(fetchRosRequest(meta));
-    runRos(rosPathsType, rosType, rosQueryString)
+    runRosReport(rosPathsType, rosType, rosQueryString)
       .then(res => {
         // See https://github.com/project-koku/koku-ui/pull/580
         // const repsonseData = dropCurrentMonthData(res, query);

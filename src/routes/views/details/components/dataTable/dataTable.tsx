@@ -18,7 +18,7 @@ import { styles } from './dataTable.styles';
 interface DataTableOwnProps {
   columns?: any[];
   isLoading?: boolean;
-  isRos?: boolean;
+  isRecommendations?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   onRowClick(event: React.KeyboardEvent | React.MouseEvent, rowIndex: number);
@@ -123,14 +123,14 @@ class DataTable extends React.Component<DataTableProps> {
   };
 
   public render() {
-    const { columns, intl, isLoading, isRos, rows } = this.props;
+    const { columns, intl, isLoading, isRecommendations, rows } = this.props;
 
     return (
       <>
         <TableComposable
           aria-label={intl.formatMessage(messages.dataTableAriaLabel)}
           gridBreakPoint="grid-2xl"
-          hasSelectableRowCaption={isRos}
+          hasSelectableRowCaption={isRecommendations}
         >
           <Thead>
             <Tr>
@@ -160,14 +160,14 @@ class DataTable extends React.Component<DataTableProps> {
             ) : (
               rows.map((row, rowIndex) => (
                 <Tr
-                  isSelectable={isRos}
-                  isHoverable={isRos}
-                  isRowSelected={isRos && row.selected}
+                  isSelectable={isRecommendations}
+                  isHoverable={isRecommendations}
+                  isRowSelected={isRecommendations && row.selected}
                   onRowClick={_event => this.handleOnRowClick(_event, rowIndex)}
                   key={`row-${rowIndex}`}
                 >
                   {row.cells.map((item, cellIndex) =>
-                    cellIndex === 0 && !isRos ? (
+                    cellIndex === 0 && !isRecommendations ? (
                       <Td
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${cellIndex}-${rowIndex}`}
@@ -185,7 +185,7 @@ class DataTable extends React.Component<DataTableProps> {
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${rowIndex}-${cellIndex}`}
                         modifier="nowrap"
-                        isActionCell={!isRos && cellIndex === row.cells.length - 1}
+                        isActionCell={!isRecommendations && cellIndex === row.cells.length - 1}
                         style={item.style}
                       >
                         {item.value}

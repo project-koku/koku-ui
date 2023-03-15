@@ -1,4 +1,4 @@
-import type { Ros } from 'api/ros/ros';
+import type { RosReport } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
@@ -7,7 +7,7 @@ import { getType } from 'typesafe-actions';
 
 import { fetchRosFailure, fetchRosRequest, fetchRosSuccess } from './rosActions';
 
-export interface CachedRos extends Ros {
+export interface CachedRos extends RosReport {
   timeRequested: number;
 }
 

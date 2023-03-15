@@ -10,7 +10,7 @@ import { DataToolbar } from 'routes/views/components/dataToolbar';
 import type { Filter } from 'routes/views/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
-interface RosToolbarOwnProps {
+interface RecommendationsToolbarOwnProps {
   isDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
@@ -20,23 +20,26 @@ interface RosToolbarOwnProps {
   query?: OcpQuery;
 }
 
-interface RosToolbarStateProps {
+interface RecommendationsToolbarStateProps {
   // TBD...
 }
 
-interface RosToolbarDispatchProps {
+interface RecommendationsToolbarDispatchProps {
   // TBD...
 }
 
-interface RosToolbarState {
+interface RecommendationsToolbarState {
   categoryOptions?: ToolbarChipGroup[];
 }
 
-type RosToolbarProps = RosToolbarOwnProps & RosToolbarStateProps & RosToolbarDispatchProps & WrappedComponentProps;
+type RecommendationsToolbarProps = RecommendationsToolbarOwnProps &
+  RecommendationsToolbarStateProps &
+  RecommendationsToolbarDispatchProps &
+  WrappedComponentProps;
 
-export class RosToolbarBase extends React.Component<RosToolbarProps> {
-  protected defaultState: RosToolbarState = {};
-  public state: RosToolbarState = { ...this.defaultState };
+export class RecommendationsToolbarBase extends React.Component<RecommendationsToolbarProps> {
+  protected defaultState: RecommendationsToolbarState = {};
+  public state: RecommendationsToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
     this.setState({
@@ -44,7 +47,7 @@ export class RosToolbarBase extends React.Component<RosToolbarProps> {
     });
   }
 
-  public componentDidUpdate(prevProps: RosToolbarProps) {
+  public componentDidUpdate(prevProps: RecommendationsToolbarProps) {
     // TBD...
   }
 
@@ -83,18 +86,20 @@ export class RosToolbarBase extends React.Component<RosToolbarProps> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<RosToolbarOwnProps, RosToolbarStateProps>((state, props) => {
-  return {
-    // TBD...
-  };
-});
+const mapStateToProps = createMapStateToProps<RecommendationsToolbarOwnProps, RecommendationsToolbarStateProps>(
+  (state, props) => {
+    return {
+      // TBD...
+    };
+  }
+);
 
-const mapDispatchToProps: RosToolbarDispatchProps = {
+const mapDispatchToProps: RecommendationsToolbarDispatchProps = {
   // TBD...
 };
 
-const RosToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(RosToolbarBase);
-const RosToolbar = injectIntl(RosToolbarConnect);
+const RecommendationsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(RecommendationsToolbarBase);
+const RecommendationsToolbar = injectIntl(RecommendationsToolbarConnect);
 
-export { RosToolbar };
-export type { RosToolbarProps };
+export { RecommendationsToolbar };
+export type { RecommendationsToolbarProps };

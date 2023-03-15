@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import type { Ros, RosData, RosItem, RosItemValue, RosMeta, RosValue } from './ros';
+import type { RosData, RosItem, RosItemValue, RosMeta, RosReport, RosValue } from './ros';
 import { RosType } from './ros';
 
 export interface RecommendationItem extends RosItem {
@@ -29,7 +29,7 @@ export interface RecommendationMeta extends RosMeta {
   };
 }
 
-export interface Recommendation extends Ros {
+export interface Recommendation extends RosReport {
   meta: RecommendationMeta;
   data: RecommendationData[];
 }
@@ -38,7 +38,7 @@ export const RosTypePaths: Partial<Record<RosType, string>> = {
   [RosType.cost]: 'reports/openshift/costs/',
 };
 
-export function runRos(reportType: RosType, query: string) {
+export function runRosReport(reportType: RosType, query: string) {
   const path = RosTypePaths[reportType];
   return axios.get<Recommendation>(`${path}?${query}`);
 }

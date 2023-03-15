@@ -8,9 +8,6 @@ export const styles = {
     paddingBottom: global_spacer_lg.value,
     paddingTop: global_spacer_lg.value,
   },
-  rosDetails: {
-    minHeight: '100%',
-  },
   paginationContainer: {
     marginLeft: global_spacer_lg.value,
     marginRight: global_spacer_lg.value,
@@ -19,6 +16,9 @@ export const styles = {
     backgroundColor: global_BackgroundColor_light_100.value,
     paddingBottom: global_spacer_md.value,
     paddingTop: global_spacer_md.value,
+  },
+  recommendationsContainer: {
+    minHeight: '100%',
   },
   tableContainer: {
     marginLeft: global_spacer_lg.value,

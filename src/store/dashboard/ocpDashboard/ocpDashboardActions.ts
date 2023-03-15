@@ -35,14 +35,14 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
   };
 };
 
-export const fetchWidgetRos = (id: number): ThunkAction => {
+export const fetchWidgetRosReport = (id: number): ThunkAction => {
   return (dispatch, getState) => {
     const state = getState();
     const widget = selectWidget(state, id);
-    const { ros } = selectWidgetQueries(state, id);
+    const { recommendations } = selectWidgetQueries(state, id);
 
     if (widget.rosPathsType && widget.rosType) {
-      dispatch(rosActions.fetchRos(widget.rosPathsType, widget.rosType, ros));
+      dispatch(rosActions.fetchRosReport(widget.rosPathsType, widget.rosType, recommendations));
     }
   };
 };

@@ -13,7 +13,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { routes } from 'routes';
 import { BreakdownBase } from 'routes/views/details/components/breakdown';
-import Recommendations from 'routes/views/ros/recommendations';
+import Recommendations from 'routes/views/recommendations/recommendations';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { isPlatformCosts } from 'routes/views/utils/paths';
 import { filterProviders } from 'routes/views/utils/providers';
