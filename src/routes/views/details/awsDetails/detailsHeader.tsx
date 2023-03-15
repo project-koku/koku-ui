@@ -6,7 +6,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { AwsReport } from 'api/reports/awsReports';
 import { TagPathsType } from 'api/tags/tag';
 import type { AxiosError } from 'axios';
-import { ExportsLink } from 'components/exports';
+import { ExportsLink } from 'components/drawers';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';

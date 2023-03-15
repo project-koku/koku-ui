@@ -7,7 +7,7 @@ import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import { asyncComponent } from 'components/async';
-import { CommonDrawer } from 'components/drawer';
+import { CommonDrawer } from 'components/drawers';
 import { PageTitle } from 'components/pageTitle';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
