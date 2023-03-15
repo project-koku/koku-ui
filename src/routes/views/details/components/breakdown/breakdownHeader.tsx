@@ -3,7 +3,7 @@ import './breakdownHeader.scss';
 import { Title, TitleSizes } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left-icon';
 import type { Query } from 'api/queries/query';
-import { getQueryRoute } from 'api/queries/query';
+import { getQueryRoute, parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import type { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -12,6 +12,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { routes } from 'routes';
 import { Currency } from 'routes/components/currency';
 import { CostType } from 'routes/views/components/costType';
 import { TagLink } from 'routes/views/details/components/tag';
@@ -21,11 +22,14 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import type { CostTypes } from 'utils/costType';
 import { getTotalCostDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
+import { formatPath } from 'utils/paths';
 import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey } from 'utils/props';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { styles } from './breakdownHeader.styles';
 
-interface BreakdownHeaderOwnProps {
+interface BreakdownHeaderOwnProps extends RouterComponentProps {
   costType?: CostTypes;
   currency?: string;
   detailsURL?: string;
@@ -42,6 +46,7 @@ interface BreakdownHeaderOwnProps {
 }
 
 interface BreakdownHeaderStateProps {
+  isRecommendations?: boolean;
   isCurrencyFeatureEnabled?: boolean;
 }
 
@@ -52,8 +57,8 @@ interface BreakdownHeaderDispatchProps {
 type BreakdownHeaderProps = BreakdownHeaderOwnProps & BreakdownHeaderStateProps & WrappedComponentProps;
 
 class BreakdownHeader extends React.Component<BreakdownHeaderProps> {
-  private buildDetailsLink = () => {
-    const { detailsURL, groupBy, query } = this.props;
+  private buildDetailsLink = url => {
+    const { groupBy, isRecommendations, query } = this.props;
 
     let groupByKey = groupBy;
     let value = '*';
@@ -78,7 +83,32 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps> {
       newQuery[breakdownTitleKey] = undefined;
       newQuery[orgUnitIdKey] = undefined;
     }
-    return `${detailsURL}?${getQueryRoute(newQuery)}`;
+    if (isRecommendations) {
+      newQuery[breakdownTitleKey] = undefined;
+      newQuery.group_by = undefined;
+      newQuery.recommendations = undefined;
+    }
+    return `${url}?${getQueryRoute(newQuery)}`;
+  };
+
+  private getBackToLink = groupByKey => {
+    const { detailsURL, intl, isRecommendations, tagReportPathsType } = this.props;
+
+    if (isRecommendations) {
+      return (
+        <Link to={this.buildDetailsLink(formatPath(routes.recommendations.path))}>
+          {intl.formatMessage(messages.breakdownBackToRecommendations)}
+        </Link>
+      );
+    }
+    return (
+      <Link to={this.buildDetailsLink(detailsURL)}>
+        {intl.formatMessage(messages.breakdownBackToDetails, {
+          value: intl.formatMessage(messages.breakdownBackToTitles, { value: tagReportPathsType }),
+          groupBy: groupByKey,
+        })}
+      </Link>
+    );
   };
 
   private getTotalCost = () => {
@@ -134,12 +164,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps> {
                 <span className="pf-c-breadcrumb__item-divider">
                   <AngleLeftIcon />
                 </span>
-                <Link to={this.buildDetailsLink()}>
-                  {intl.formatMessage(messages.breakdownBackToDetails, {
-                    value: intl.formatMessage(messages.breakdownBackToTitles, { value: tagReportPathsType }),
-                    groupBy: groupByKey,
-                  })}
-                </Link>
+                {this.getBackToLink(groupByKey)}
               </li>
             </ol>
           </nav>
@@ -185,14 +210,19 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, BreakdownHeaderStateProps>(state => {
-  return {
-    isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
-  };
-});
+const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, BreakdownHeaderStateProps>(
+  (state, { router }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
+
+    return {
+      isRecommendations: queryFromRoute.recommendations !== undefined,
+      isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
+    };
+  }
+);
 
 const mapDispatchToProps: BreakdownHeaderDispatchProps = {
   // TDB
 };
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(BreakdownHeader));
+export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownHeader)));

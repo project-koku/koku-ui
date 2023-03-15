@@ -384,7 +384,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
           report={report}
         />
         <div style={styles.content}>
-          {this.getToolbar(computedItems)}
+          <div style={styles.toolbarContainer}>{this.getToolbar(computedItems)}</div>
           {this.getExportModal(computedItems)}
           {reportFetchStatus === FetchStatus.inProgress ? (
             <Loading />

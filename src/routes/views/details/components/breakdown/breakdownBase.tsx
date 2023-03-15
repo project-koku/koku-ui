@@ -29,6 +29,7 @@ import BreakdownHeader from './breakdownHeader';
 const enum BreakdownTab {
   costOverview = 'cost-overview',
   historicalData = 'historical-data',
+  recommendations = 'recommendations',
 }
 
 export const getIdKeyForTab = (tab: BreakdownTab) => {
@@ -37,8 +38,14 @@ export const getIdKeyForTab = (tab: BreakdownTab) => {
       return 'cost-overview';
     case BreakdownTab.historicalData:
       return 'historical-data';
+    case BreakdownTab.recommendations:
+      return 'recommendations';
   }
 };
+
+interface BreakdownOwnProps extends RouterComponentProps {
+  // TBD...
+}
 
 interface BreakdownStateProps {
   costOverviewComponent?: React.ReactNode;
@@ -49,11 +56,14 @@ interface BreakdownStateProps {
   emptyStateTitle?: string;
   groupBy?: string;
   historicalDataComponent?: React.ReactNode;
+  isRecommendations?: boolean;
+  isRosFeatureEnabled?: boolean;
   providers?: Providers;
   providersError?: AxiosError;
   providersFetchStatus?: FetchStatus;
   providerType?: ProviderType;
   query: Query;
+  recommendationsComponent?: React.ReactNode;
   report: Report;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
@@ -78,13 +88,11 @@ interface AvailableTab {
   tab: BreakdownTab;
 }
 
-type BreakdownOwnProps = RouterComponentProps & WrappedComponentProps;
-
-type BreakdownProps = BreakdownOwnProps & BreakdownStateProps & BreakdownDispatchProps;
+type BreakdownProps = BreakdownOwnProps & BreakdownStateProps & BreakdownDispatchProps & WrappedComponentProps;
 
 class BreakdownBase extends React.Component<BreakdownProps> {
   protected defaultState: BreakdownState = {
-    activeTabKey: 0,
+    activeTabKey: this.props.isRecommendations ? 2 : 0,
   };
   public state: BreakdownState = { ...this.defaultState };
 
@@ -105,16 +113,28 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   }
 
   private getAvailableTabs = () => {
-    const availableTabs = [
-      {
+    const { costOverviewComponent, historicalDataComponent, isRosFeatureEnabled, recommendationsComponent } =
+      this.props;
+
+    const availableTabs = [];
+    if (costOverviewComponent) {
+      availableTabs.push({
         contentRef: React.createRef(),
         tab: BreakdownTab.costOverview,
-      },
-      {
+      });
+    }
+    if (historicalDataComponent) {
+      availableTabs.push({
         contentRef: React.createRef(),
         tab: BreakdownTab.historicalData,
-      },
-    ];
+      });
+    }
+    if (recommendationsComponent && isRosFeatureEnabled) {
+      availableTabs.push({
+        contentRef: React.createRef(),
+        tab: BreakdownTab.recommendations,
+      });
+    }
     return availableTabs;
   };
 
@@ -146,7 +166,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   };
 
   private getTabItem = (tab: BreakdownTab, index: number) => {
-    const { costOverviewComponent, historicalDataComponent } = this.props;
+    const { costOverviewComponent, historicalDataComponent, recommendationsComponent } = this.props;
     const { activeTabKey } = this.state;
     const emptyTab = <></>; // Lazily load tabs
 
@@ -158,6 +178,8 @@ class BreakdownBase extends React.Component<BreakdownProps> {
       return costOverviewComponent;
     } else if (currentTab === BreakdownTab.historicalData) {
       return historicalDataComponent;
+    } else if (currentTab === BreakdownTab.recommendations) {
+      return recommendationsComponent;
     } else {
       return emptyTab;
     }
@@ -180,6 +202,8 @@ class BreakdownBase extends React.Component<BreakdownProps> {
       return intl.formatMessage(messages.breakdownCostOverviewTitle);
     } else if (tab === BreakdownTab.historicalData) {
       return intl.formatMessage(messages.breakdownHistoricalDataTitle);
+    } else if (tab === BreakdownTab.recommendations) {
+      return intl.formatMessage(messages.recommendations);
     }
   };
 
@@ -259,4 +283,6 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   }
 }
 
-export default injectIntl(withRouter(BreakdownBase));
+const Breakdown = injectIntl(withRouter(BreakdownBase));
+
+export default Breakdown;

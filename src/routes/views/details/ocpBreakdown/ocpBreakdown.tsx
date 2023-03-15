@@ -13,6 +13,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { routes } from 'routes';
 import { BreakdownBase } from 'routes/views/details/components/breakdown';
+import Recommendations from 'routes/views/ros/recommendations';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { isPlatformCosts } from 'routes/views/utils/paths';
 import { filterProviders } from 'routes/views/utils/providers';
@@ -124,10 +125,13 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
       groupBy,
       groupByValue,
       historicalDataComponent: <HistoricalData currency={currency} />,
+      isRecommendations: queryFromRoute.recommendations !== undefined,
+      isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
       providers: filterProviders(providers, ProviderType.ocp),
       providersFetchStatus,
       providerType: ProviderType.ocp,
       query: queryFromRoute,
+      recommendationsComponent: groupBy === 'project' ? <Recommendations /> : undefined,
       report,
       reportError,
       reportFetchStatus,
