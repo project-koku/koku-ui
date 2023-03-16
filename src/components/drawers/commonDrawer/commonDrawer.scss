@@ -1,12 +1,9 @@
 .drawerOverride {
+  &.pf-c-drawer.pf-m-expanded {
+    inset: 0;
+    position: absolute;
+  }
   .pf-c-drawer__content {
     background-color: unset;
-    // overflow-x: hidden;
-    // overflow-y: auto;
   }
-  //.pf-c-drawer__panel {
-  //  position: -webkit-sticky; // Safari
-  //  position: sticky;
-  //  top: 0;
-  //}
 }
