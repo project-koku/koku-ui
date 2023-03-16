@@ -31,14 +31,12 @@ const AppEntry = () => {
   const locale = getLocale();
 
   return (
-    <div className="cost-management">
-      <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale]} onError={console.log}>
-        <Provider store={store as any}>
-          <NotificationsPortal />
-          <App />
-        </Provider>
-      </IntlProvider>
-    </div>
+    <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale]} onError={console.log}>
+      <Provider store={store as any}>
+        <NotificationsPortal />
+        <App />
+      </Provider>
+    </IntlProvider>
   );
 };
 

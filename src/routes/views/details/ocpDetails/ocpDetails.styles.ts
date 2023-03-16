@@ -9,7 +9,7 @@ export const styles = {
     paddingTop: global_spacer_lg.value,
   },
   ocpDetails: {
-    minHeight: '100%',
+    minHeight: '100vh',
   },
   paginationContainer: {
     marginLeft: global_spacer_lg.value,
