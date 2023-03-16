@@ -26,7 +26,7 @@ export const styles = {
     paddingTop: global_spacer_md.value,
   },
   recommendationsContainer: {
-    minHeight: '100%',
+    minHeight: '100vh',
   },
   tableContainer: {
     marginLeft: global_spacer_lg.value,

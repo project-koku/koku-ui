@@ -275,12 +275,11 @@ const mapStateToProps = createMapStateToProps<RecommendationsOwnProps, Recommend
       },
       filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
       exclude: queryFromRoute.exclude || baseQuery.exclude,
-      group_by: queryFromRoute.group_by || baseQuery.group_by,
       order_by: queryFromRoute.order_by || baseQuery.order_by,
-      category: queryFromRoute.category,
     };
     const recommendationQueryString = getQuery({
       ...query,
+      group_by: queryFromRoute.group_by || baseQuery.group_by,
       currency,
     });
     const recommendation = rosSelectors.selectRos(
