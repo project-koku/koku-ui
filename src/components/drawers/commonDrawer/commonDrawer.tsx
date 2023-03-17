@@ -51,7 +51,9 @@ class CommonDrawerBase extends React.Component<CommonDrawerProps> {
 
     const isExpanded = isExportsDrawerOpen || isRecommendationsDrawerOpen;
 
-    // Set DrawerContentBody className to make drawer sticky, after adding 'overflow:auto' to the 'main' tag
+    // Sticky drawer is based on RHOSAK app, see:
+    // https://github.com/redhat-developer/rhosak-ui/blob/main/apps/consoledot-rhosak/src/AppEntry.tsx#L30-L37
+    // https://github.com/redhat-developer/rhosak-ui/blob/main/packages/ui/src/components/KafkaInstanceDrawer/KafkaInstanceDrawer.tsx#L69-L78
     return (
       <Drawer className="drawerOverride" isExpanded={isExpanded} onExpand={this.handleExpand}>
         <DrawerContent panelContent={this.getPanelContent()}>
