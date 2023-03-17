@@ -4,7 +4,7 @@ import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome'
 import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/Registry';
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Reducer } from 'redux';
 
@@ -31,11 +31,19 @@ const App = () => {
 
   useFeatureFlags();
 
+  useLayoutEffect(() => {
+    const el = document.querySelector<HTMLDivElement>('.chr-scope__default-layout');
+    if (el) {
+      el.className = 'chr-scope__default-layout cost-management';
+      el.style.overflow = 'auto';
+    }
+  }, []);
+
   return (
-    <div className="cost-management">
+    <>
       <NotificationsPortal />
       <Routes />
-    </div>
+    </>
   );
 };
 

@@ -93,7 +93,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       return;
     }
 
-    const showDefaultProject = groupBy === 'project';
+    const isGroupByProject = groupBy === 'project';
 
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({
@@ -112,11 +112,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             style: groupBy === 'project' ? styles.nameColumn : undefined,
           },
           {
-            hidden: !showDefaultProject,
+            hidden: !isGroupByProject,
             name: '', // Default column
           },
           {
-            hidden: !isRosFeatureEnabled,
+            hidden: !(isGroupByProject && isRosFeatureEnabled),
             name: intl.formatMessage(messages.recommendations),
           },
           {
@@ -153,11 +153,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             style: groupBy === 'project' ? styles.nameColumn : undefined,
           },
           {
-            hidden: !showDefaultProject,
+            hidden: !isGroupByProject,
             name: '', // Default column
           },
           {
-            hidden: !isRosFeatureEnabled,
+            hidden: !(isGroupByProject && isRosFeatureEnabled),
             name: intl.formatMessage(messages.recommendations),
           },
           {
@@ -236,7 +236,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             ),
           },
           {
-            hidden: !showDefaultProject,
+            hidden: !isGroupByProject,
             value:
               item.classification === classificationDefault ? (
                 <div>
@@ -249,7 +249,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
               ),
           },
           {
-            hidden: !isRosFeatureEnabled,
+            hidden: !(isGroupByProject && isRosFeatureEnabled),
             value: <div>N/A</div>,
           },
           { value: <div>{monthOverMonth}</div>, id: DetailsTableColumnIds.monthOverMonth },
