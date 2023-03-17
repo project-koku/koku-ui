@@ -10,8 +10,6 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { uiSelectors } from 'store/ui';
 
-import { styles } from './commonDrawer.styles';
-
 interface CommonDrawerOwnProps {
   children?: React.ReactNode;
 }
@@ -53,14 +51,7 @@ class CommonDrawerBase extends React.Component<CommonDrawerProps> {
 
     const isExpanded = isExportsDrawerOpen || isRecommendationsDrawerOpen;
 
-    // Override to make drawer sticky
-    const collection = document.getElementsByClassName('cost-management');
-    if (collection) {
-      const element = collection[0] as any;
-      element.style.position = isExpanded ? styles.drawerContainer.position : undefined;
-      element.style.height = isExpanded ? styles.drawerContainer.height : undefined;
-      element.style.width = isExpanded ? styles.drawerContainer.width : undefined;
-    }
+    // Set DrawerContentBody className to make drawer sticky, after adding 'overflow:auto' to the 'main' tag
     return (
       <Drawer className="drawerOverride" isExpanded={isExpanded} onExpand={this.handleExpand}>
         <DrawerContent panelContent={this.getPanelContent()}>

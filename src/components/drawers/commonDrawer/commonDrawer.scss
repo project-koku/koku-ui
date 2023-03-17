@@ -1,8 +1,4 @@
 .drawerOverride {
-  &.pf-c-drawer.pf-m-expanded {
-    inset: 0;
-    position: absolute;
-  }
   .pf-c-drawer__content {
     background-color: unset;
   }
