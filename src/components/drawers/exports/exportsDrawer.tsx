@@ -3,6 +3,7 @@ import {
   DrawerCloseButton,
   DrawerContentBody,
   DrawerHead,
+  DrawerPanelContent,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
@@ -46,7 +47,7 @@ class ExportsDrawerBase extends React.Component<ExportsDrawerProps> {
     const { intl, isOpen } = this.props;
 
     return (
-      <>
+      <DrawerPanelContent id="exportsDrawer" minSize={'1000px'}>
         <DrawerHead>
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
           /* @ts-ignore */}
@@ -62,7 +63,7 @@ class ExportsDrawerBase extends React.Component<ExportsDrawerProps> {
         <DrawerContentBody>
           <ExportsContent onClose={this.handleClose} />
         </DrawerContentBody>
-      </>
+      </DrawerPanelContent>
     );
   }
 }

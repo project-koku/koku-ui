@@ -1,6 +1,6 @@
 import './commonDrawer.scss';
 
-import { Drawer, DrawerContent, DrawerPanelContent } from '@patternfly/react-core';
+import { Drawer, DrawerContent, DrawerContentBody } from '@patternfly/react-core';
 import { ExportsDrawer } from 'components/drawers';
 import { RecommendationsDrawer } from 'components/drawers';
 import React from 'react';
@@ -37,17 +37,9 @@ class CommonDrawerBase extends React.Component<CommonDrawerProps> {
     const { isExportsDrawerOpen, isRecommendationsDrawerOpen } = this.props;
 
     if (isExportsDrawerOpen) {
-      return (
-        <DrawerPanelContent id="exportsDrawer" minSize="1000px">
-          <ExportsDrawer />
-        </DrawerPanelContent>
-      );
+      return <ExportsDrawer />;
     } else if (isRecommendationsDrawerOpen) {
-      return (
-        <DrawerPanelContent id="recommendationsDrawer" minSize={'750px'}>
-          <RecommendationsDrawer />
-        </DrawerPanelContent>
-      );
+      return <RecommendationsDrawer />;
     }
     return null;
   };
@@ -71,7 +63,9 @@ class CommonDrawerBase extends React.Component<CommonDrawerProps> {
     }
     return (
       <Drawer className="drawerOverride" isExpanded={isExpanded} onExpand={this.handleExpand}>
-        <DrawerContent panelContent={this.getPanelContent()}>{children}</DrawerContent>
+        <DrawerContent panelContent={this.getPanelContent()}>
+          <DrawerContentBody className="pf-u-display-flex pf-u-flex-direction-column">{children}</DrawerContentBody>
+        </DrawerContent>
       </Drawer>
     );
   }

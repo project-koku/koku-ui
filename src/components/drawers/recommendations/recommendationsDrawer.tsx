@@ -1,8 +1,9 @@
 import {
   DrawerActions,
   DrawerCloseButton,
-  DrawerContentBody,
   DrawerHead,
+  DrawerPanelBody,
+  DrawerPanelContent,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
@@ -46,7 +47,7 @@ class RecommendationsDrawerBase extends React.Component<RecommendationsDrawerPro
     const { isOpen, payload } = this.props;
 
     return (
-      <>
+      <DrawerPanelContent id="recommendationsDrawer" minSize={'750px'}>
         <DrawerHead>
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
           /* @ts-ignore */}
@@ -59,10 +60,10 @@ class RecommendationsDrawerBase extends React.Component<RecommendationsDrawerPro
             <DrawerCloseButton onClick={this.handleClose} />
           </DrawerActions>
         </DrawerHead>
-        <DrawerContentBody>
+        <DrawerPanelBody>
           <RecommendationsContent onClose={this.handleClose} />
-        </DrawerContentBody>
-      </>
+        </DrawerPanelBody>
+      </DrawerPanelContent>
     );
   }
 }
