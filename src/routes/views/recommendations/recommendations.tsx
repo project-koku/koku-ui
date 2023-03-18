@@ -99,7 +99,7 @@ class Recommendations extends React.Component<RecommendationsProps> {
     this.updateRecommendation();
   }
 
-  public componentDidUpdate(prevProps: RecommendationsProps, prevState: RecommendationsState) {
+  public componentDidUpdate(prevProps: RecommendationsProps) {
     const { recommendation, recommendationError, recommendationQueryString, router } = this.props;
 
     const newQuery = prevProps.recommendationQueryString !== recommendationQueryString;

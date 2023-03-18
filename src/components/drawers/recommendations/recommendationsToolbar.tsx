@@ -79,11 +79,9 @@ export class RecommendationsToolbarBase extends React.Component<RecommendationsT
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<RecommendationsToolbarOwnProps, RecommendationsToolbarStateProps>(
-  (state, props) => {
-    return {};
-  }
-);
+const mapStateToProps = createMapStateToProps<RecommendationsToolbarOwnProps, RecommendationsToolbarStateProps>(() => {
+  return {};
+});
 
 const mapDispatchToProps: RecommendationsToolbarDispatchProps = {};
 
