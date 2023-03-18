@@ -3265,37 +3265,37 @@
     "docsAddOcpSources": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/adding_an_openshift_container_platform_source_to_cost_management"
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/adding_an_openshift_container_platform_source_to_cost_management"
       }
     ],
     "docsConfigCostModels": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index#assembly-setting-up-cost-models"
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index#assembly-setting-up-cost-models"
       }
     ],
     "docsCostModelTerminology": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index#cost-model-terminology"
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index#cost-model-terminology"
       }
     ],
     "docsCostModelsDistribution": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2022/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
       }
     ],
     "docsCostModelsMarkup": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2022/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
       }
     ],
     "docsUsingCostModels": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2022/html-single/using_cost_models/index"
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index"
       }
     ],
     "download": [
