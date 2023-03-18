@@ -34,7 +34,6 @@ const App = () => {
   useLayoutEffect(() => {
     const el = document.querySelector<HTMLDivElement>('.chr-scope__default-layout');
     if (el) {
-      el.className = 'chr-scope__default-layout cost-management';
       el.style.overflow = 'auto';
     }
   }, []);

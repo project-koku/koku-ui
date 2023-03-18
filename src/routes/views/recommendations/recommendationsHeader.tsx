@@ -42,13 +42,11 @@ class RecommendationsHeaderBase extends React.Component<RecommendationsHeaderPro
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<RecommendationsHeaderOwnProps, RecommendationsHeaderStateProps>(
-  (state, props) => {
-    return {
-      // TBD...
-    };
-  }
-);
+const mapStateToProps = createMapStateToProps<RecommendationsHeaderOwnProps, RecommendationsHeaderStateProps>(() => {
+  return {
+    // TBD...
+  };
+});
 
 const RecommendationsHeader = injectIntl(connect(mapStateToProps, {})(RecommendationsHeaderBase));
 

@@ -47,10 +47,6 @@ export class RecommendationsToolbarBase extends React.Component<RecommendationsT
     });
   }
 
-  public componentDidUpdate(prevProps: RecommendationsToolbarProps) {
-    // TBD...
-  }
-
   private getCategoryOptions = (): ToolbarChipGroup[] => {
     const { intl } = this.props;
 
@@ -86,13 +82,11 @@ export class RecommendationsToolbarBase extends React.Component<RecommendationsT
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<RecommendationsToolbarOwnProps, RecommendationsToolbarStateProps>(
-  (state, props) => {
-    return {
-      // TBD...
-    };
-  }
-);
+const mapStateToProps = createMapStateToProps<RecommendationsToolbarOwnProps, RecommendationsToolbarStateProps>(() => {
+  return {
+    // TBD...
+  };
+});
 
 const mapDispatchToProps: RecommendationsToolbarDispatchProps = {
   // TBD...
