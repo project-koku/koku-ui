@@ -21,7 +21,7 @@ class WatchRunPlugin {
     compiler.hooks.watchRun.tap('WatchRun', comp => {
       if (comp.modifiedFiles) {
         const changedFiles = Array.from(comp.modifiedFiles, file => `\n  ${file}`).join('');
-        const logger = compiler.getInfrastructureLogger('cost-management');
+        const logger = compiler.getInfrastructureLogger(insights.appname);
         logger.info(' ');
         logger.info('===============================');
         logger.info('FILES CHANGED:', changedFiles);
@@ -36,6 +36,7 @@ module.exports = {
   debug: true,
   interceptChromeConfig: false, // Change to false after your app is registered in configuration files
   proxyVerbose: true,
+  sassPrefix: `.${moduleName}`,
   stats,
   standalone: process.env.LOCAL_API_PORT ? true : false,
   useCache: true,
