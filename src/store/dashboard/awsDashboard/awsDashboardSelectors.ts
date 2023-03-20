@@ -39,7 +39,7 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
     previous: getQueryForWidget(
       widget,
       {
-        ...filter,
+        ...(filter as any),
         time_scope_value: -2,
       },
       props
@@ -49,7 +49,7 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
     tabs: getQueryForWidgetTabs(
       widget,
       {
-        ...tabsFilter,
+        ...(tabsFilter as any),
         resolution: 'monthly',
       },
       props

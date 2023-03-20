@@ -37,7 +37,10 @@ type RecommendationsToolbarProps = RecommendationsToolbarOwnProps &
   RecommendationsToolbarDispatchProps &
   WrappedComponentProps;
 
-export class RecommendationsToolbarBase extends React.Component<RecommendationsToolbarProps> {
+export class RecommendationsToolbarBase extends React.Component<
+  RecommendationsToolbarProps,
+  RecommendationsToolbarState
+> {
   protected defaultState: RecommendationsToolbarState = {};
   public state: RecommendationsToolbarState = { ...this.defaultState };
 

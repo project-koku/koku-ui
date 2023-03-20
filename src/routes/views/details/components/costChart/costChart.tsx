@@ -28,7 +28,7 @@ interface CostChartDispatchProps {
 
 type CostChartProps = CostChartOwnProps & CostChartStateProps & CostChartDispatchProps & WrappedComponentProps;
 
-class CostChartBase extends React.Component<CostChartProps> {
+class CostChartBase extends React.Component<CostChartProps, any> {
   // Override legend layout
   private getLegendLabel = () => {
     return ({ values, ...props }) => (

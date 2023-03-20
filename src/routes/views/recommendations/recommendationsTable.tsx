@@ -44,7 +44,7 @@ type RecommendationsTableProps = RecommendationsTableOwnProps &
   RecommendationsTableDispatchProps &
   WrappedComponentProps;
 
-class RecommendationsTableBase extends React.Component<RecommendationsTableProps> {
+class RecommendationsTableBase extends React.Component<RecommendationsTableProps, RecommendationsTableState> {
   public state: RecommendationsTableState = {
     columns: [],
     rows: [],

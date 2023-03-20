@@ -21,7 +21,7 @@ interface DistributionStateProps {
 
 type DistributionProps = DistributionOwnProps & DistributionStateProps;
 
-class DistributionBase extends React.Component<DistributionProps> {
+class DistributionBase extends React.Component<DistributionProps, DistributionStateProps> {
   public render() {
     const { intl, isCostDistributionFeatureEnabled } = this.props;
 

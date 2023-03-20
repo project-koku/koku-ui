@@ -21,7 +21,7 @@ export const enum GcpDashboardTab {
   services = 'services',
 }
 
-export interface GcpDashboardWidget extends DashboardWidget<GcpDashboardTab> {}
+export interface GcpDashboardWidget extends DashboardWidget {}
 
 export function getGroupByForTab(widget: GcpDashboardWidget): GcpQuery['group_by'] {
   switch (widget.currentTab) {

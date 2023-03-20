@@ -26,7 +26,7 @@ interface ExplorerDateRangeOption extends SelectOptionObject {
 
 type ExplorerDateRangeProps = ExplorerDateRangeOwnProps & WrappedComponentProps;
 
-class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps> {
+class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, ExplorerDateRangeState> {
   protected defaultState: ExplorerDateRangeState = {
     isSelectOpen: false,
   };

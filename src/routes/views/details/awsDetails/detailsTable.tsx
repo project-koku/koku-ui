@@ -44,7 +44,7 @@ type DetailsTableProps = DetailsTableOwnProps;
 
 const reportPathsType = ReportPathsType.aws;
 
-class DetailsTableBase extends React.Component<DetailsTableProps> {
+class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableState> {
   public state: DetailsTableState = {
     columns: [],
     rows: [],
@@ -73,7 +73,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({
       report,
-      idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupBy,
+      idKey: (groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupBy) as any,
     });
 
     const columns =

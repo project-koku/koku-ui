@@ -20,7 +20,7 @@ export const enum AzureOcpDashboardTab {
   resource_locations = 'resource_locations',
 }
 
-export interface AzureOcpDashboardWidget extends DashboardWidget<AzureOcpDashboardTab> {}
+export interface AzureOcpDashboardWidget extends DashboardWidget {}
 
 export function getGroupByForTab(widget: AzureOcpDashboardWidget): AzureQuery['group_by'] {
   switch (widget.currentTab) {

@@ -88,7 +88,7 @@ const baseQuery: RosQuery = {
 const recommendationType = RosType.cost as any;
 const recommendationPathsType = RosPathsType.recommendation as any;
 
-class Recommendations extends React.Component<RecommendationsProps> {
+class Recommendations extends React.Component<RecommendationsProps, RecommendationsState> {
   protected defaultState: RecommendationsState = {
     columns: [],
     rows: [],
@@ -188,26 +188,6 @@ class Recommendations extends React.Component<RecommendationsProps> {
         query={query}
       />
     );
-  };
-
-  public handleColumnManagementModalClose = (isOpen: boolean) => {
-    this.setState({ isColumnManagementModalOpen: isOpen });
-  };
-
-  public handleColumnManagementModalOpen = () => {
-    this.setState({ isColumnManagementModalOpen: true });
-  };
-
-  public handleColumnManagementModalSave = (hiddenColumns: Set<string>) => {
-    this.setState({ hiddenColumns });
-  };
-
-  public handleExportModalClose = (isOpen: boolean) => {
-    this.setState({ isExportModalOpen: isOpen });
-  };
-
-  public handleExportModalOpen = () => {
-    this.setState({ isExportModalOpen: true });
   };
 
   private updateRecommendation = () => {

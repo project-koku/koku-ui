@@ -21,7 +21,7 @@ export const enum IbmDashboardTab {
   regions = 'regions',
 }
 
-export interface IbmDashboardWidget extends DashboardWidget<IbmDashboardTab> {}
+export interface IbmDashboardWidget extends DashboardWidget {}
 
 export function getGroupByForTab(widget: IbmDashboardWidget): IbmQuery['group_by'] {
   switch (widget.currentTab) {

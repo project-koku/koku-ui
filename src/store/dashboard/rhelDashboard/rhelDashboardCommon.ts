@@ -20,7 +20,7 @@ export const enum RhelDashboardTab {
   projects = 'projects',
 }
 
-export interface RhelDashboardWidget extends DashboardWidget<RhelDashboardTab> {}
+export interface RhelDashboardWidget extends DashboardWidget {}
 
 // Todo: cluster, project, node
 export function getGroupByForTab(tab: RhelDashboardTab): RhelQuery['group_by'] {

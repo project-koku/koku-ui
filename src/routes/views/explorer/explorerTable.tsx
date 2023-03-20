@@ -69,7 +69,7 @@ interface ExplorerTableState {
 
 type ExplorerTableProps = ExplorerTableOwnProps & ExplorerTableStateProps;
 
-class ExplorerTableBase extends React.Component<ExplorerTableProps> {
+class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTableState> {
   public state: ExplorerTableState = {
     columns: [],
     rows: [],
@@ -116,7 +116,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 
     const rows = [];
 
-    const computedItems = getUnsortedComputedReportItems({
+    const computedItems = getUnsortedComputedReportItems<any, any>({
       report,
       isDateMap: true,
       idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupBy,
@@ -403,18 +403,15 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTableStateProps>(
-  (state, { perspective, router }) => {
-    const queryFromRoute = parseQuery<Query>(router.location.search);
-    const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
+const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTableStateProps>((state, { router }) => {
+  const queryFromRoute = parseQuery<Query>(router.location.search);
+  const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
-    return {
-      end_date,
-      perspective,
-      start_date,
-    };
-  }
-);
+  return {
+    end_date,
+    start_date,
+  };
+});
 
 const mapDispatchToProps: ExplorerTableDispatchProps = {};
 

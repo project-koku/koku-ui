@@ -26,12 +26,12 @@ interface GroupByTagOwnProps extends RouterComponentProps, WrappedComponentProps
 
 interface GroupByTagState {
   currentItem?: string;
-  isGroupByOpen: boolean;
+  isGroupByOpen?: boolean;
 }
 
 type GroupByTagProps = GroupByTagOwnProps;
 
-class GroupByTagBase extends React.Component<GroupByTagProps> {
+class GroupByTagBase extends React.Component<GroupByTagProps, GroupByTagState> {
   protected defaultState: GroupByTagState = {
     isGroupByOpen: false,
   };

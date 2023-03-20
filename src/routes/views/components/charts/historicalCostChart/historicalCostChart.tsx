@@ -54,9 +54,9 @@ interface HistoricalCostChartOwnProps {
 
 interface State {
   cursorVoronoiContainer?: any;
-  hiddenSeries: Set<number>;
+  hiddenSeries?: Set<number>;
   series?: ChartSeries[];
-  width: number;
+  width?: number;
 }
 
 export type HistoricalCostChartProps = HistoricalCostChartOwnProps & WrappedComponentProps;
@@ -274,7 +274,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
               title={datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })}
             />
           ),
-        })
+        } as any)
       : undefined;
     return (
       <div className="chartOverride" ref={this.containerRef}>

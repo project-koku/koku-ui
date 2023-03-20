@@ -18,7 +18,7 @@ interface NoProvidersStateOwnProps {
 
 type NoProvidersStateProps = NoProvidersStateOwnProps & WrappedComponentProps;
 
-class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
+class NoProvidersStateBase extends React.Component<NoProvidersStateProps, any> {
   private getDocLink = (textKey: MessageDescriptor, urlKey: MessageDescriptor) => {
     const { intl } = this.props;
 

@@ -53,7 +53,7 @@ const baseQuery: Query = {
   },
 };
 
-class ExportsContentBase extends React.Component<ExportsContentProps> {
+class ExportsContentBase extends React.Component<ExportsContentProps, ExportsContentState> {
   protected defaultState: ExportsContentState = {
     query: baseQuery,
   };

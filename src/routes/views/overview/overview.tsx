@@ -159,7 +159,7 @@ interface AvailableTab {
 }
 
 interface OverviewState {
-  activeTabKey: number;
+  activeTabKey?: number;
   currentInfrastructurePerspective?: string;
   currentOcpPerspective?: string;
   currentRhelPerspective?: string;
@@ -167,7 +167,7 @@ interface OverviewState {
 
 type OverviewProps = OverviewOwnProps & OverviewStateProps & OverviewDispatchProps;
 
-class OverviewBase extends React.Component<OverviewProps> {
+class OverviewBase extends React.Component<OverviewProps, OverviewState> {
   protected defaultState: OverviewState = {
     activeTabKey: 0,
   };

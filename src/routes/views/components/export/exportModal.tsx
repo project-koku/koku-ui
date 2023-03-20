@@ -49,10 +49,10 @@ interface ExportModalStateProps {
 
 interface ExportModalState {
   error?: AxiosError;
-  formatType: 'csv' | 'json';
+  formatType?: 'csv' | 'json';
   name?: string;
-  timeScope: 'current' | 'previous';
-  resolution: string;
+  timeScope?: 'current' | 'previous';
+  resolution?: string;
 }
 
 type ExportModalProps = ExportModalOwnProps & ExportModalStateProps & WrappedComponentProps;

@@ -34,13 +34,13 @@ interface TagValueOwnProps extends RouterComponentProps, WrappedComponentProps {
   selections?: SelectOptionObject[];
   tagKey: string;
   tagKeyValue: string;
-  tagQueryString?: string;
   tagReportPathsType: TagPathsType;
 }
 
 interface TagValueStateProps {
-  groupBy: string;
-  groupByValue: string | number;
+  groupBy?: string;
+  groupByValue?: string | number;
+  tagQueryString?: string;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
 }
@@ -50,7 +50,8 @@ interface TagValueDispatchProps {
 }
 
 interface TagValueState {
-  isTagValueExpanded: boolean;
+  isTagValueExpanded?: boolean;
+  tagKeyValueInput?: string;
 }
 
 type TagValueProps = TagValueOwnProps & TagValueStateProps & TagValueDispatchProps;
@@ -61,7 +62,7 @@ const tagReportType = TagType.tag;
 // See https://github.com/project-koku/koku/pull/2069
 const tagKeyValueLimit = 50;
 
-class TagValueBase extends React.Component<TagValueProps> {
+class TagValueBase extends React.Component<TagValueProps, TagValueState> {
   protected defaultState: TagValueState = {
     isTagValueExpanded: false,
   };
@@ -111,7 +112,7 @@ class TagValueBase extends React.Component<TagValueProps> {
     return options;
   }
 
-  private onTagValueChange = value => {
+  private onTagValueChange = (value: string) => {
     const { onTagValueInputChange } = this.props;
 
     this.setState({ tagKeyValueInput: value }, () => {

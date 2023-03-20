@@ -52,7 +52,7 @@ export const ExportsTableColumnIds = {
   status: 'status',
 };
 
-class ExportsTableBase extends React.Component<ExportsTableProps> {
+class ExportsTableBase extends React.Component<ExportsTableProps, ExportsTableState> {
   public state: ExportsTableState = {
     columns: [],
     rows: [],

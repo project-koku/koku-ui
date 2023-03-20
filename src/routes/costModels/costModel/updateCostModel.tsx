@@ -8,21 +8,30 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
-interface Props extends WrappedComponentProps {
+interface UpdateCostModelOwnProps extends WrappedComponentProps {
+  // TBD...
+}
+
+interface UpdateCostModelStateProps {
   costModel?: CostModel[];
-  isProcessing?: boolean;
-  onProceed?: () => void;
   updateError?: string;
+  isProcessing?: boolean;
+}
+
+interface UpdateCostModelDispatchProps {
+  onProceed?: () => void;
   setDialogOpen?: typeof costModelsActions.setCostModelDialog;
   updateCostModel?: typeof costModelsActions.updateCostModel;
 }
 
-interface State {
-  name: string;
-  description: string;
+interface UpdateCostModelState {
+  name?: string;
+  description?: string;
 }
 
-class UpdateCostModelBase extends React.Component<Props, State> {
+type UpdateCostModelProps = UpdateCostModelOwnProps & UpdateCostModelStateProps & UpdateCostModelDispatchProps;
+
+class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCostModelState> {
   constructor(props) {
     super(props);
     const current = this.props.costModel[0];
@@ -54,7 +63,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
                   name: this.state.name,
                   description: this.state.description,
                   source_type: current.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
-                },
+                } as any,
                 'updateCostModel'
               );
             }}
@@ -103,18 +112,19 @@ class UpdateCostModelBase extends React.Component<Props, State> {
   }
 }
 
-const UpdateCostModelModal = injectIntl(
-  connect(
-    createMapStateToProps(state => ({
-      costModel: costModelsSelectors.costModels(state),
-      isProcessing: costModelsSelectors.updateProcessing(state),
-      updateError: costModelsSelectors.updateError(state),
-    })),
-    {
-      setDialogOpen: costModelsActions.setCostModelDialog,
-      updateCostModel: costModelsActions.updateCostModel,
-    }
-  )(UpdateCostModelBase)
-);
+const mapStateToProps = createMapStateToProps<UpdateCostModelOwnProps, UpdateCostModelStateProps>(state => {
+  return {
+    costModel: costModelsSelectors.costModels(state),
+    isProcessing: costModelsSelectors.updateProcessing(state),
+    updateError: costModelsSelectors.updateError(state),
+  };
+});
 
-export default UpdateCostModelModal;
+const mapDispatchToProps: UpdateCostModelDispatchProps = {
+  setDialogOpen: costModelsActions.setCostModelDialog,
+  updateCostModel: costModelsActions.updateCostModel,
+};
+
+const UpdateCostModel = injectIntl(connect(mapStateToProps, mapDispatchToProps)(UpdateCostModelBase));
+
+export default UpdateCostModel;

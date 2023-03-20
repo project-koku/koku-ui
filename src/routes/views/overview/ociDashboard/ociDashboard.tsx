@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { DashboardBase } from 'routes/views/overview/components';
+import type { DashboardStateProps } from 'routes/views/overview/components/dashboardBase';
 import { createMapStateToProps } from 'store/common';
 import { ociDashboardSelectors } from 'store/dashboard/ociDashboard';
 
@@ -7,13 +8,8 @@ import { OciDashboardWidget } from './ociDashboardWidget';
 
 type OciDashboardOwnProps = any;
 
-interface OciDashboardStateProps {
-  DashboardWidget: typeof OciDashboardWidget;
-  widgets: number[];
-}
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<OciDashboardOwnProps, OciDashboardStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<OciDashboardOwnProps, DashboardStateProps>((state, props) => {
   return {
     DashboardWidget: OciDashboardWidget,
     selectWidgets: ociDashboardSelectors.selectWidgets(state),

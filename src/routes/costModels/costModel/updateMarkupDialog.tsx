@@ -31,20 +31,28 @@ import { countDecimals, formatPercentageMarkup, isPercentageFormatValid, unForma
 
 import { styles } from './costCalc.styles';
 
-interface Props extends WrappedComponentProps {
-  isLoading?: boolean;
-  onClose?: typeof costModelsActions.setCostModelDialog;
-  updateCostModel?: typeof costModelsActions.updateCostModel;
-  error?: string;
+interface UpdateMarkupDialogOwnProps extends WrappedComponentProps {
   current?: CostModel;
 }
 
-interface State {
-  markup: string;
-  isDiscount: boolean;
+interface UpdateMarkupDialogStateProps {
+  error?: string;
+  isLoading?: boolean;
 }
 
-class UpdateMarkupModelBase extends React.Component<Props, State> {
+interface UpdateRateModalDispatchProps {
+  onClose?: typeof costModelsActions.setCostModelDialog;
+  updateCostModel?: typeof costModelsActions.updateCostModel;
+}
+
+interface UpdateMarkupDialogState {
+  isDiscount?: boolean;
+  markup?: string;
+}
+
+type UpdateMarkupDialogProps = UpdateMarkupDialogOwnProps & UpdateMarkupDialogStateProps & UpdateRateModalDispatchProps;
+
+class UpdateMarkupDialogBase extends React.Component<UpdateMarkupDialogProps, UpdateMarkupDialogState> {
   constructor(props) {
     super(props);
     const initialMarkup = Number(this.props.current.markup.value || 0); // Drop trailing zeros from API value
@@ -232,18 +240,18 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
   }
 }
 
-export default injectIntl(
-  connect(
-    createMapStateToProps(state => {
-      return {
-        isLoading: costModelsSelectors.updateProcessing(state),
-        error: costModelsSelectors.updateError(state),
-      };
-    }),
-    {
-      onClose: costModelsActions.setCostModelDialog,
-      updateCostModel: costModelsActions.updateCostModel,
-    },
-    undefined
-  )(UpdateMarkupModelBase)
-);
+const mapStateToProps = createMapStateToProps<UpdateMarkupDialogOwnProps, UpdateMarkupDialogStateProps>(state => {
+  return {
+    isLoading: costModelsSelectors.updateProcessing(state),
+    error: costModelsSelectors.updateError(state),
+  };
+});
+
+const mapDispatchToProps: UpdateRateModalDispatchProps = {
+  onClose: costModelsActions.setCostModelDialog,
+  updateCostModel: costModelsActions.updateCostModel,
+};
+
+const UpdateMarkupDialog = injectIntl(connect(mapStateToProps, mapDispatchToProps)(UpdateMarkupDialogBase));
+
+export default UpdateMarkupDialog;

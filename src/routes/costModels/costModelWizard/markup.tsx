@@ -40,7 +40,7 @@ interface MarkupWithDistributionStateProps {
 
 type MarkupWithDistributionProps = MarkupWithDistributionOwnProps & MarkupWithDistributionStateProps;
 
-class MarkupWithDistributionBase extends React.Component<MarkupWithDistributionProps> {
+class MarkupWithDistributionBase extends React.Component<MarkupWithDistributionProps, any> {
   public render() {
     const { intl, isCostDistributionFeatureEnabled } = this.props;
 

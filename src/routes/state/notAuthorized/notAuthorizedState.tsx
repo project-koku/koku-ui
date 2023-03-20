@@ -12,7 +12,7 @@ interface NotAuthorizedStateOwnProps {
 
 type NotAuthorizedStateProps = NotAuthorizedStateOwnProps & WrappedComponentProps;
 
-class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps> {
+class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps, any> {
   public render() {
     const { intl, pathname } = this.props;
 

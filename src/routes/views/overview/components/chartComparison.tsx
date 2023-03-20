@@ -25,7 +25,7 @@ interface ComparisonOption extends SelectOptionObject {
 
 type ChartComparisonProps = ChartComparisonOwnProps;
 
-class ChartComparisonBase extends React.Component<ChartComparisonProps> {
+class ChartComparisonBase extends React.Component<ChartComparisonProps, ChartComparisonState> {
   protected defaultState: ChartComparisonState = {
     currentItem: this.props.options ? this.props.options.find(option => option.default).value : undefined,
     isSelectOpen: false,

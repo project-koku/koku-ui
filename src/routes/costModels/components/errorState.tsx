@@ -17,8 +17,8 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { RootState } from 'store/rootReducer';
-import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
+import { createMapStateToProps } from 'store/common';
+import { sourcesSelectors } from 'store/sourceSettings';
 
 interface OwnProps {
   actionButton: React.ReactNode;
@@ -80,7 +80,24 @@ export const SourceStepErrorStateBase: React.FC<SourcesErrorStateProps> = ({ int
 const SourceStepErrorState = injectIntl(SourceStepErrorStateBase);
 export { SourceStepErrorState };
 
-export const SourcesModalErrorStateBase: React.FC<SourcesErrorStateProps> = ({ intl, onRefresh }) => {
+interface SourcesModalErrorOwnProps {
+  // TBD...
+}
+
+interface SourcesModalErrorStateProps {
+  query: any;
+}
+
+interface SourcesModalErrorDispatchProps {
+  onRefresh: () => void;
+}
+
+type SourcesModalErrorProps = SourcesModalErrorOwnProps &
+  SourcesModalErrorStateProps &
+  SourcesModalErrorDispatchProps &
+  WrappedComponentProps;
+
+export const SourcesModalErrorStateBase: React.FC<SourcesModalErrorProps> = ({ intl, onRefresh }) => {
   const title = intl.formatMessage(messages.costModelsAssignSourcesErrorTitle);
   const description = intl.formatMessage(messages.costModelsAssignSourcesErrorDescription, {
     url: (
@@ -95,30 +112,30 @@ export const SourcesModalErrorStateBase: React.FC<SourcesErrorStateProps> = ({ i
   );
 };
 
-export const SourcesModalErrorState = injectIntl(
-  connect(
-    (state: RootState) => ({
-      query: sourcesSelectors.query(state),
-    }),
-    dispatch => ({
-      fetch: (query: string) => sourcesActions.fetchSources(query)(dispatch),
-    }),
-    (stateProps, dispatchProps) => {
-      const { query } = stateProps;
-      const { fetch } = dispatchProps;
-      const searchTerm = Object.keys(query).reduce((acc, curr) => {
-        if (query[curr] === null) {
-          return acc;
-        }
-        if (acc === '') {
-          return `${curr}=${query[curr]}`;
-        }
-        return `${acc}&${curr}=${query[curr]}`;
-      }, '');
+const mapStateToProps = createMapStateToProps<SourcesModalErrorOwnProps, SourcesModalErrorStateProps>(state => {
+  return {
+    query: sourcesSelectors.query(state),
+  };
+});
 
-      return {
-        onRefresh: () => fetch(searchTerm),
-      };
+const mapDispatchToProps = (stateProps, dispatchProps): SourcesModalErrorDispatchProps => {
+  const { query } = stateProps;
+  const { fetch } = dispatchProps;
+  const searchTerm = Object.keys(query).reduce((acc, curr) => {
+    if (query[curr] === null) {
+      return acc;
     }
-  )(SourcesModalErrorStateBase)
+    if (acc === '') {
+      return `${curr}=${query[curr]}`;
+    }
+    return `${acc}&${curr}=${query[curr]}`;
+  }, '');
+
+  return {
+    onRefresh: () => fetch(searchTerm),
+  };
+};
+
+export const SourcesModalErrorState = injectIntl(
+  connect(mapStateToProps, mapDispatchToProps)(SourcesModalErrorStateBase)
 );

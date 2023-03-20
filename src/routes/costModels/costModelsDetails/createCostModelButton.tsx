@@ -51,7 +51,7 @@ export const CreateCostModelButton = injectIntl(
 
 const wizardMapStateProps = (state: RootState) => {
   return {
-    isOpen: costModelsSelectors.isDialogOpen(state)('costmodel').createWizard,
+    isOpen: (costModelsSelectors.isDialogOpen(state)('costmodel') as any).createWizard,
   };
 };
 

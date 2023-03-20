@@ -38,7 +38,7 @@ const AddPriceList: React.FC<AddPriceListProps> = ({
   submitRate,
 }) => {
   const { tiers } = React.useContext(CostModelContext);
-  const rateFormData = useRateData(metricsHash, undefined, tiers);
+  const rateFormData: any = useRateData(metricsHash, undefined, tiers);
   const canSubmit = React.useMemo(() => isReadyForSubmit(rateFormData), [rateFormData.errors, rateFormData.rateKind]);
   return (
     <Stack hasGutter>

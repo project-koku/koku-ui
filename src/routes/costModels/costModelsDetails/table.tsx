@@ -24,6 +24,12 @@ interface CostModelsTableOwnProps {
   openDeleteDialog?: any;
 }
 
+interface CostModelsTableState {
+  dialogSource: string;
+  activeSortDirection: string;
+  activeSortIndex: number;
+}
+
 interface CostModelsTableStateProps {
   canWrite: boolean;
   costData: any;
@@ -36,12 +42,14 @@ type CostModelsTableProps = CostModelsTableOwnProps &
   RouterComponentProps &
   WrappedComponentProps;
 
-class CostModelsTableBase extends React.Component<CostModelsTableProps> {
-  public state = {
+class CostModelsTableBase extends React.Component<CostModelsTableProps, CostModelsTableState> {
+  protected defaultState: CostModelsTableState = {
     dialogSource: null,
     activeSortDirection: 'asc',
     activeSortIndex: 0,
   };
+  public state: CostModelsTableState = { ...this.defaultState };
+
   public render() {
     const {
       intl = defaultIntl, // Default required for testing
@@ -85,7 +93,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps> {
         onClick: (_evt: React.MouseEvent, _rowIx: number, rowData: IRowData) => {
           openDeleteDialog(rowData.data);
         },
-      },
+      } as any,
     ]);
 
     const onSort = createOnSort(cells, query, router);

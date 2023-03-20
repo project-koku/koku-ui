@@ -4,18 +4,15 @@ import type { WrappedComponentProps } from 'react-intl';
 
 type DashboardOwnProps = WrappedComponentProps;
 
-interface DashboardStateProps {
+export interface DashboardStateProps {
   costType?: string;
   currency?: string;
-  DashboardWidget: any;
-  widgets: number[];
+  DashboardWidget?: any;
+  selectWidgets?: Record<number, any>;
+  widgets?: number[];
 }
 
-interface DashboardDispatchProps {
-  selectWidgets?: () => void;
-}
-
-type DashboardProps = DashboardOwnProps & DashboardStateProps & DashboardDispatchProps;
+type DashboardProps = DashboardOwnProps & DashboardStateProps;
 
 const DashboardBase: React.FC<DashboardProps> = ({ costType, currency, DashboardWidget, selectWidgets, widgets }) => (
   <div>

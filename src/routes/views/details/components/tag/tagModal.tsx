@@ -43,7 +43,7 @@ type TagModalProps = TagModalOwnProps & TagModalStateProps & TagModalDispatchPro
 
 const tagReportType = TagType.tag;
 
-class TagModalBase extends React.Component<TagModalProps> {
+class TagModalBase extends React.Component<TagModalProps, any> {
   constructor(props: TagModalProps) {
     super(props);
     this.handleClose = this.handleClose.bind(this);

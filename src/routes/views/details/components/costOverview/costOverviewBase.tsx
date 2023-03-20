@@ -35,8 +35,8 @@ interface CostOverviewOwnProps {
   report: Report;
 }
 
-interface CostOverviewStateProps {
-  selectWidgets?: () => void;
+export interface CostOverviewStateProps {
+  selectWidgets?: Record<number, any>;
   title?: string;
   widgets: number[];
 }
@@ -45,7 +45,7 @@ type CostOverviewProps = CostOverviewOwnProps & CostOverviewStateProps & Wrapped
 
 const PLACEHOLDER = 'placeholder';
 
-class CostOverviewsBase extends React.Component<CostOverviewProps> {
+class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
   // Returns cluster chart
   private getClusterChart = (widget: CostOverviewWidget) => {
     const { groupBy, intl, report, title } = this.props;

@@ -63,11 +63,11 @@ interface IbmDetailsDispatchProps {
 }
 
 interface IbmDetailsState {
-  columns: any[];
-  isAllSelected: boolean;
-  isExportModalOpen: boolean;
-  rows: any[];
-  selectedItems: ComputedReportItem[];
+  columns?: any[];
+  isAllSelected?: boolean;
+  isExportModalOpen?: boolean;
+  rows?: any[];
+  selectedItems?: ComputedReportItem[];
 }
 
 type IbmDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
@@ -96,7 +96,7 @@ const baseQuery: IbmQuery = {
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.ibm;
 
-class IbmDetails extends React.Component<IbmDetailsProps> {
+class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
   protected defaultState: IbmDetailsState = {
     columns: [],
     isAllSelected: false,

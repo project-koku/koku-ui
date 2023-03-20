@@ -56,7 +56,7 @@ interface BreakdownHeaderDispatchProps {
 
 type BreakdownHeaderProps = BreakdownHeaderOwnProps & BreakdownHeaderStateProps & WrappedComponentProps;
 
-class BreakdownHeader extends React.Component<BreakdownHeaderProps> {
+class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   private buildDetailsLink = url => {
     const { groupBy, isRecommendations, query } = this.props;
 

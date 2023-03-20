@@ -1,5 +1,6 @@
 import { Alert, Button, ButtonVariant, Form, Modal } from '@patternfly/react-core';
 import type { CostModelRequest } from 'api/costModels';
+import type { CostModel } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
 import messages from 'locales/messages';
 import React from 'react';
@@ -17,22 +18,26 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
 
-interface AddRateModalBaseOwnProps {
+interface AddRateModalOwnProps extends WrappedComponentProps {
+  // TBD...
+}
+
+interface AddRateModalStateProps {
+  costModel?: CostModel;
   isOpen?: boolean;
   isProcessing?: boolean;
   metricsHash?: MetricHash;
-  onClose?: () => void;
   updateError?: string;
 }
 
-interface AddRateModalBaseStateProps {
-  costModel?: any;
+interface AddRateModalDispatchProps {
+  onClose?: () => void;
   updateCostModel?: (uuid: string, request: CostModelRequest) => void;
 }
 
-type AddRateModalBaseProps = AddRateModalBaseOwnProps & AddRateModalBaseStateProps & WrappedComponentProps;
+type AddRateModalProps = AddRateModalOwnProps & AddRateModalStateProps & AddRateModalDispatchProps;
 
-export const AddRateModalBase: React.FC<AddRateModalBaseProps> = ({
+export const AddRateModalBase: React.FC<AddRateModalProps> = ({
   costModel,
   intl,
   isOpen,
@@ -42,7 +47,7 @@ export const AddRateModalBase: React.FC<AddRateModalBaseProps> = ({
   updateCostModel,
   updateError,
 }) => {
-  const rateFormData = useRateData(metricsHash);
+  const rateFormData: any = useRateData(metricsHash);
   const canSubmit = React.useMemo(() => isReadyForSubmit(rateFormData), [rateFormData.errors, rateFormData.rateKind]);
   const onProceed = () => {
     const costModelReq = mergeToRequest(metricsHash, costModel, rateFormData);
@@ -81,35 +86,56 @@ export const AddRateModalBase: React.FC<AddRateModalBaseProps> = ({
   );
 };
 
-export default injectIntl(
-  connect(
-    createMapStateToProps<AddRateModalBaseOwnProps, AddRateModalBaseStateProps>(state => {
-      const costModels = costModelsSelectors.costModels(state);
-      let costModel = null;
-      if (costModels.length > 0) {
-        costModel = costModels[0];
-      }
-      return {
-        costModel,
-        isOpen: costModelsSelectors.isDialogOpen(state)('rate').addRate,
-        updateError: costModelsSelectors.updateError(state),
-        isProcessing: costModelsSelectors.updateProcessing(state),
-        metricsHash: metricsSelectors.metrics(state),
-      };
-    }),
-    dispatch => {
-      return {
-        onClose: () => {
-          dispatch(
-            costModelsActions.setCostModelDialog({
-              name: 'addRate',
-              isOpen: false,
-            })
-          );
-        },
-        updateCostModel: (uuid: string, request: CostModelRequest) =>
-          costModelsActions.updateCostModel(uuid, request, 'addRate')(dispatch),
-      };
-    }
-  )(AddRateModalBase)
-);
+// export default injectIntl(
+//   connect(
+//     createMapStateToProps<AddRateModalBaseOwnProps, AddRateModalBaseStateProps>(state => {}),
+//     dispatch => {
+//       return {
+//         onClose: () => {
+//           dispatch(
+//             costModelsActions.setCostModelDialog({
+//               name: 'addRate',
+//               isOpen: false,
+//             })
+//           );
+//         },
+//         updateCostModel: (uuid: string, request: CostModelRequest) =>
+//           costModelsActions.updateCostModel(uuid, request, 'addRate')(dispatch),
+//       };
+//     }
+//   )(AddRateModalBase)
+// );
+
+const mapStateToProps = createMapStateToProps<AddRateModalOwnProps, AddRateModalStateProps>(state => {
+  const costModels = costModelsSelectors.costModels(state);
+  let costModel = null;
+  if (costModels.length > 0) {
+    costModel = costModels[0];
+  }
+  return {
+    costModel,
+    isOpen: (costModelsSelectors.isDialogOpen(state)('rate') as any).addRate,
+    updateError: costModelsSelectors.updateError(state),
+    isProcessing: costModelsSelectors.updateProcessing(state),
+    metricsHash: metricsSelectors.metrics(state),
+  };
+});
+
+const mapDispatchToProps = (dispatch): AddRateModalDispatchProps => {
+  return {
+    onClose: () => {
+      dispatch(
+        costModelsActions.setCostModelDialog({
+          name: 'addRate',
+          isOpen: false,
+        })
+      );
+    },
+    updateCostModel: (uuid: string, request: CostModelRequest) =>
+      costModelsActions.updateCostModel(uuid, request, 'addRate')(dispatch),
+  };
+};
+
+const AddRateModal = injectIntl(connect(mapStateToProps, mapDispatchToProps)(AddRateModalBase));
+
+export default AddRateModal;

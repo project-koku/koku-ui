@@ -20,7 +20,7 @@ export const enum AzureDashboardTab {
   resource_locations = 'resource_locations',
 }
 
-export interface AzureDashboardWidget extends DashboardWidget<AzureDashboardTab> {}
+export interface AzureDashboardWidget extends DashboardWidget {}
 
 export function getGroupByForTab(widget: AzureDashboardWidget): AzureQuery['group_by'] {
   switch (widget.currentTab) {

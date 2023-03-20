@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { DashboardBase } from 'routes/views/overview/components';
+import type { DashboardStateProps } from 'routes/views/overview/components/dashboardBase';
 import { createMapStateToProps } from 'store/common';
 import { ocpCloudDashboardSelectors } from 'store/dashboard/ocpCloudDashboard';
 
@@ -7,12 +8,7 @@ import { OcpCloudDashboardWidget } from './ocpCloudDashboardWidget';
 
 type OcpCloudDashboardOwnProps = any;
 
-interface OcpCloudDashboardStateProps {
-  DashboardWidget: typeof OcpCloudDashboardWidget;
-  widgets: number[];
-}
-
-const mapStateToProps = createMapStateToProps<OcpCloudDashboardOwnProps, OcpCloudDashboardStateProps>(
+const mapStateToProps = createMapStateToProps<OcpCloudDashboardOwnProps, DashboardStateProps>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (state, props) => {
     return {

@@ -23,7 +23,7 @@ interface CostModelsDetailsProps {
   getMetricsData: () => Promise<void>;
 }
 
-class CostModelsDetailsBase extends React.Component<CostModelsDetailsProps> {
+class CostModelsDetailsBase extends React.Component<CostModelsDetailsProps, any> {
   componentDidMount() {
     this.props.getCostModelsData(this.props.search.slice(1));
     this.props.getRbacData();

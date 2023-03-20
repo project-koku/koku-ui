@@ -56,9 +56,9 @@ interface CostChartOwnProps {
 
 interface State {
   cursorVoronoiContainer?: any;
-  hiddenSeries: Set<number>;
+  hiddenSeries?: Set<number>;
   series?: ChartSeries[];
-  width: number;
+  width?: number;
 }
 
 export type CostChartProps = CostChartOwnProps & WrappedComponentProps;
@@ -347,7 +347,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
               title={datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })}
             />
           ),
-        })
+        } as any)
       : undefined;
 
     return (

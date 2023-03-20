@@ -17,25 +17,37 @@ import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 
 import { AssignSourcesToolbar } from './assignSourcesModalToolbar';
 
-interface AddSourcesStepProps extends WrappedComponentProps {
-  providers: Provider[];
-  isLoadingSources: boolean;
+interface AddSourcesStepOwnProps extends WrappedComponentProps {
+  checked: { [uuid: string]: { selected: boolean; meta: Provider } };
+  costModel: CostModel;
+  fetch: typeof sourcesActions.fetchSources;
   fetchingSourcesError: string;
-  query: { name: string; type: string; offset: string; limit: string };
+  isLoadingSources: boolean;
+  providers: Provider[];
   pagination: { page: number; perPage: number; count: number };
-  updateFilter: typeof sourcesActions.updateFilterToolbar;
+  query: { name: string; type: string; offset: string; limit: string };
+  setState: (newState: { [uuid: string]: { selected: boolean; meta: Provider } }) => void;
+}
+
+interface AddSourcesStepStateProps {
   currentFilter: {
     name: string;
     value: string;
   };
   filter: string;
-  setState: (newState: { [uuid: string]: { selected: boolean; meta: Provider } }) => void;
-  checked: { [uuid: string]: { selected: boolean; meta: Provider } };
-  costModel: CostModel;
-  fetch: typeof sourcesActions.fetchSources;
 }
 
-class AddSourcesStep extends React.Component<AddSourcesStepProps> {
+interface AddSourcesStepDispatchProps {
+  updateFilter: typeof sourcesActions.updateFilterToolbar;
+}
+
+interface AddSourcesStepState {
+  // TBD...
+}
+
+type AddSourcesStepProps = AddSourcesStepOwnProps & AddSourcesStepStateProps & AddSourcesStepDispatchProps;
+
+class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSourcesStepState> {
   public render() {
     const { costModel, intl } = this.props;
 
@@ -242,19 +254,20 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
   }
 }
 
-export default injectIntl(
-  connect(
-    createMapStateToProps(state => {
-      return {
-        currentFilter: {
-          name: sourcesSelectors.currentFilterType(state),
-          value: sourcesSelectors.currentFilterValue(state),
-        },
-        filter: sourcesSelectors.filter(state),
-      };
-    }),
-    {
-      updateFilter: sourcesActions.updateFilterToolbar,
-    }
-  )(AddSourcesStep)
-);
+const mapStateToProps = createMapStateToProps<AddSourcesStepOwnProps, AddSourcesStepStateProps>(state => {
+  return {
+    currentFilter: {
+      name: sourcesSelectors.currentFilterType(state),
+      value: sourcesSelectors.currentFilterValue(state),
+    },
+    filter: sourcesSelectors.filter(state),
+  };
+});
+
+const mapDispatchToProps: AddSourcesStepDispatchProps = {
+  updateFilter: sourcesActions.updateFilterToolbar,
+};
+
+const AddSourcesStep = injectIntl(connect(mapStateToProps, mapDispatchToProps)(AddSourcesStepBase));
+
+export default AddSourcesStep;

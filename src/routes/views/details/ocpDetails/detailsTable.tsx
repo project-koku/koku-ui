@@ -2,7 +2,7 @@ import 'routes/views/details/components/dataTable/dataTable.scss';
 
 import { Label } from '@patternfly/react-core';
 import { ProviderType } from 'api/providers';
-import type { OcpReport } from 'api/reports/ocpReports';
+import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
 import { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
@@ -53,7 +53,7 @@ export const DetailsTableColumnIds = {
 
 const reportPathsType = ReportPathsType.ocp;
 
-class DetailsTableBase extends React.Component<DetailsTableProps> {
+class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableState> {
   public state: DetailsTableState = {
     columns: [],
     rows: [],
@@ -96,9 +96,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const isGroupByProject = groupBy === 'project';
 
     const rows = [];
-    const computedItems = getUnsortedComputedReportItems({
+    const computedItems = getUnsortedComputedReportItems<OcpReport, OcpReportItem>({
       report,
-      idKey: groupByTagKey ? groupByTagKey : groupBy,
+      idKey: (groupByTagKey ? groupByTagKey : groupBy) as any,
     });
 
     const columns = groupByTagKey

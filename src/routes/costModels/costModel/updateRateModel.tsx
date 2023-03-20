@@ -20,23 +20,29 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
 
-interface UpdateRateModaBaseOwnProps {
+interface UpdateRateModalOwnProps {
   index: number;
+}
+
+interface UpdateRateModalStateProps {
+  costModel?: any;
   isOpen?: boolean;
   isProcessing?: boolean;
   metricsHash?: MetricHash;
-  onClose?: () => void;
   updateError?: string;
 }
 
-interface UpdateRateModaBaseStateProps {
-  costModel?: any;
+interface UpdateRateModalDispatchProps {
+  onClose?: () => void;
   updateCostModel?: (uuid: string, request: CostModelRequest) => void;
 }
 
-type UpdateRateModalBaseProps = UpdateRateModaBaseOwnProps & UpdateRateModaBaseStateProps & WrappedComponentProps;
+type UpdateRateModalProps = UpdateRateModalOwnProps &
+  UpdateRateModalStateProps &
+  UpdateRateModalDispatchProps &
+  WrappedComponentProps;
 
-const UpdateRateModalBase: React.FC<UpdateRateModalBaseProps> = ({
+const UpdateRateModalBase: React.FC<UpdateRateModalProps> = ({
   costModel,
   index,
   intl = defaultIntl, // Default required for testing
@@ -48,7 +54,7 @@ const UpdateRateModalBase: React.FC<UpdateRateModalBaseProps> = ({
   updateError,
 }) => {
   const rate = costModel && costModel.rates && costModel.rates[index] ? costModel.rates[index] : null;
-  const rateFormData = useRateData(metricsHash, rate, costModel.rates);
+  const rateFormData: any = useRateData(metricsHash, rate, costModel.rates);
   const canSubmit = React.useMemo(() => isReadyForSubmit(rateFormData), [rateFormData]);
   const gotDiffs = React.useMemo(() => hasDiff(rate, rateFormData), [rateFormData]);
 
@@ -129,35 +135,36 @@ const UpdateRateModalBase: React.FC<UpdateRateModalBaseProps> = ({
   );
 };
 
-export default injectIntl(
-  connect(
-    createMapStateToProps<UpdateRateModaBaseOwnProps, UpdateRateModaBaseStateProps>(state => {
-      const costModels = costModelsSelectors.costModels(state);
-      let costModel = null;
-      if (costModels.length > 0) {
-        costModel = costModels[0];
-      }
-      return {
-        costModel,
-        isOpen: costModelsSelectors.isDialogOpen(state)('rate').updateRate,
-        updateError: costModelsSelectors.updateError(state),
-        isProcessing: costModelsSelectors.updateProcessing(state),
-        metricsHash: metricsSelectors.metrics(state),
-      };
-    }),
-    dispatch => {
-      return {
-        onClose: () => {
-          dispatch(
-            costModelsActions.setCostModelDialog({
-              name: 'updateRate',
-              isOpen: false,
-            })
-          );
-        },
-        updateCostModel: (uuid: string, request: CostModelRequest) =>
-          costModelsActions.updateCostModel(uuid, request, 'updateRate')(dispatch),
-      };
-    }
-  )(UpdateRateModalBase)
-);
+const mapStateToProps = createMapStateToProps<UpdateRateModalOwnProps, UpdateRateModalStateProps>(state => {
+  const costModels = costModelsSelectors.costModels(state);
+  let costModel = null;
+  if (costModels.length > 0) {
+    costModel = costModels[0];
+  }
+  return {
+    costModel,
+    isOpen: (costModelsSelectors.isDialogOpen(state)('rate') as any).updateRate,
+    updateError: costModelsSelectors.updateError(state),
+    isProcessing: costModelsSelectors.updateProcessing(state),
+    metricsHash: metricsSelectors.metrics(state),
+  };
+});
+
+const mapDispatchToProps = (dispatch): UpdateRateModalDispatchProps => {
+  return {
+    onClose: () => {
+      dispatch(
+        costModelsActions.setCostModelDialog({
+          name: 'updateRate',
+          isOpen: false,
+        })
+      );
+    },
+    updateCostModel: (uuid: string, request: CostModelRequest) =>
+      costModelsActions.updateCostModel(uuid, request, 'updateRate')(dispatch),
+  };
+};
+
+const UpdateRateModal = injectIntl(connect(mapStateToProps, mapDispatchToProps)(UpdateRateModalBase));
+
+export default UpdateRateModal;

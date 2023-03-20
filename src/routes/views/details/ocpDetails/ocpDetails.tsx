@@ -65,13 +65,13 @@ interface OcpDetailsDispatchProps {
 }
 
 interface OcpDetailsState {
-  columns: any[];
-  hiddenColumns: Set<string>;
-  isAllSelected: boolean;
-  isColumnManagementModalOpen: boolean;
-  isExportModalOpen: boolean;
-  rows: any[];
-  selectedItems: ComputedReportItem[];
+  columns?: any[];
+  hiddenColumns?: Set<string>;
+  isAllSelected?: boolean;
+  isColumnManagementModalOpen?: boolean;
+  isExportModalOpen?: boolean;
+  rows?: any[];
+  selectedItems?: ComputedReportItem[];
 }
 
 type OcpDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
@@ -116,7 +116,7 @@ const defaultColumnOptions: ColumnManagementModalOption[] = [
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.ocp;
 
-class OcpDetails extends React.Component<OcpDetailsProps> {
+class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
   protected defaultState: OcpDetailsState = {
     columns: [],
     hiddenColumns: initHiddenColumns(defaultColumnOptions),

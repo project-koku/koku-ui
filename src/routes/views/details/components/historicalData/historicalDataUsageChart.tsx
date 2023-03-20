@@ -46,7 +46,7 @@ type HistoricalDataUsageChartProps = HistoricalDataUsageChartOwnProps &
   HistoricalDataUsageChartStateProps &
   HistoricalDataUsageChartDispatchProps;
 
-class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageChartProps> {
+class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageChartProps, any> {
   public componentDidMount() {
     const { fetchReport, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
 

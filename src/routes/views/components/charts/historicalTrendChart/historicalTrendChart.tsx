@@ -56,9 +56,9 @@ interface HistoricalTrendChartOwnProps {
 
 interface State {
   cursorVoronoiContainer?: any;
-  hiddenSeries: Set<number>;
+  hiddenSeries?: Set<number>;
   series?: ChartSeries[];
-  width: number;
+  width?: number;
 }
 
 export type HistoricalTrendChartProps = HistoricalTrendChartOwnProps & WrappedComponentProps;
@@ -258,7 +258,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
               title={datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })}
             />
           ),
-        })
+        } as any)
       : undefined;
 
     return (

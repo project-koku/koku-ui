@@ -27,7 +27,7 @@ interface ExportsLinkDispatchProps {
 
 type ExportsLinkProps = ExportsLinkOwnProps & ExportsLinkStateProps & ExportsLinkDispatchProps & WrappedComponentProps;
 
-class ExportsLinkBase extends React.Component<ExportsLinkProps> {
+class ExportsLinkBase extends React.Component<ExportsLinkProps, any> {
   private handleToggle = event => {
     const { closeExportDrawer, isOpen, onClick, openExportDrawer } = this.props;
 

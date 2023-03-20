@@ -13,12 +13,12 @@ export const enum DashboardChartType {
   usage = 'usage', // This displays daily usage and requests
 }
 
-export interface DashboardWidget<T> {
-  availableTabs?: T[];
+export interface DashboardWidget {
+  availableTabs?: string[];
   chartFormatter?: Formatter;
   chartName?: string; // Will be the prefix for ids within the chart
   chartType?: DashboardChartType;
-  currentTab?: T;
+  currentTab?: any;
   details?: {
     adjustContainerHeight?: boolean; // Adjust chart container height for responsiveness
     costKey?: MessageDescriptor; // i18n key
@@ -46,13 +46,13 @@ export interface DashboardWidget<T> {
   };
   forecastPathsType?: ForecastPathsType;
   forecastType?: ForecastType;
-  id: number;
+  id?: number;
   reportPathsType?: ReportPathsType; // Cost report
   reportType?: ReportType; // Cost report
   rosPathsType?: RosPathsType; // Resource optimization
   rosType?: RosType; // Resource optimization
   /** i18n key for the title. passed { startDate, endDate, month, time } */
-  titleKey: MessageDescriptor;
+  titleKey?: MessageDescriptor;
   tabsFilter?: {
     database_services?: string;
     limit?: number;
@@ -64,13 +64,13 @@ export interface DashboardWidget<T> {
   trend?: {
     computedForecastItem?: string; // The computed forecast item to use in charts.
     computedForecastInfrastructureItem?: string; // The computed forecast infrastructure item to use in charts.
-    computedReportItem: string; // The computed report item to use in charts, summary, etc.
-    computedReportItemValue: string; // The computed report value (e.g., raw, markup, total, or usage)
+    computedReportItem?: string; // The computed report item to use in charts, summary, etc.
+    computedReportItemValue?: string; // The computed report value (e.g., raw, markup, total, or usage)
     dailyTitleKey?: MessageDescriptor;
     datumType: number;
     formatOptions?: FormatOptions;
     showSupplementaryLabel?: boolean; // Trend chart legend items show "Supplementary cost" instead of "cost"
-    titleKey: MessageDescriptor;
+    titleKey?: MessageDescriptor;
   };
   topItems?: {
     formatOptions?: FormatOptions;

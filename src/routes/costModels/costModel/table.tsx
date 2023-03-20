@@ -15,7 +15,7 @@ import { rbacSelectors } from 'store/rbac';
 import { SourcesToolbar } from './sourcesToolbar';
 import { styles } from './table.styles';
 
-interface Props extends WrappedComponentProps {
+interface TableBaseProps extends WrappedComponentProps {
   isWritePermission: boolean;
   rows: string[];
   onDelete: (item: any) => void;
@@ -29,20 +29,22 @@ interface PaginationQuery {
   perPage: number;
 }
 
-interface State {
+interface TableBaseState {
   query: { name: string[] };
   currentFilter: string;
   filter: string;
   pagination: PaginationQuery;
 }
 
-class TableBase extends React.Component<Props, State> {
-  public state = {
+class TableBase extends React.Component<TableBaseProps, TableBaseState> {
+  protected defaultState: TableBaseState = {
     query: { name: [] },
     currentFilter: '',
     filter: '',
     pagination: { page: 1, perPage: 10 },
   };
+  public state: TableBaseState = { ...this.defaultState };
+
   public render() {
     const {
       pagination: { page, perPage },

@@ -45,20 +45,7 @@ import AddRateModal from './addRateModal';
 import Dialog from './dialog';
 import UpdateRateModal from './updateRateModel';
 
-interface State {
-  deleteRate: any;
-  index: number;
-  sortBy: {
-    index: number;
-    direction: SortByDirection;
-  };
-  pagination: {
-    perPage: number;
-    page: number;
-  };
-}
-
-interface Props extends WrappedComponentProps {
+interface PriceListTableProps extends WrappedComponentProps {
   assignees?: string[];
   costModel?: string;
   current: CostModel;
@@ -74,8 +61,21 @@ interface Props extends WrappedComponentProps {
   setDialogOpen: typeof costModelsActions.setCostModelDialog;
 }
 
-class PriceListTable extends React.Component<Props, State> {
-  public state = {
+interface PriceListTableState {
+  deleteRate: any;
+  index: number;
+  sortBy: {
+    index: number;
+    direction: SortByDirection;
+  };
+  pagination: {
+    perPage: number;
+    page: number;
+  };
+}
+
+class PriceListTable extends React.Component<PriceListTableProps, PriceListTableState> {
+  protected defaultState: PriceListTableState = {
     deleteRate: null,
     index: -1,
     sortBy: {
@@ -87,6 +87,8 @@ class PriceListTable extends React.Component<Props, State> {
       page: 1,
     },
   };
+  public state: PriceListTableState = { ...this.defaultState };
+
   public render() {
     const { fetchStatus, fetchError, intl, isDialogOpen, isWritePermission, metricsHash } = this.props;
 

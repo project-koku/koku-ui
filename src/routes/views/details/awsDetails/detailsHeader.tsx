@@ -61,7 +61,7 @@ const groupByOptions: {
 const orgReportPathsType = OrgPathsType.aws;
 const tagReportPathsType = TagPathsType.aws;
 
-class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
+class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
   private handleCostTypeSelected = (value: string) => {
     const { onCostTypeSelected } = this.props;
 

@@ -47,7 +47,7 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
     tabs: getQueryForWidgetTabs(
       widget,
       {
-        ...tabsFilter,
+        ...(tabsFilter as any),
         resolution: 'monthly',
       },
       props

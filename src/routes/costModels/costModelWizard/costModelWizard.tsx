@@ -144,87 +144,7 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
 
 const InternalWizard = injectIntl(InternalWizardBase);
 
-const defaultState = {
-  apiError: null,
-  checked: {},
-  createError: null,
-  createProcess: false,
-  createSuccess: false,
-  currencyUnits: getAccountCurrency(),
-  dataFetched: false,
-  description: '',
-  distribution: 'cpu',
-  distributePlatformUnallocated: true,
-  distributeWorkersUnallocated: true,
-  dirtyName: false,
-  error: null,
-  filterName: '',
-  isDialogOpen: false,
-  isDiscount: false,
-  loading: false,
-  markup: '0',
-  name: '',
-  page: 1,
-  perPage: 10,
-  priceListCurrent: {
-    metric: '',
-    measurement: '',
-    rate: '',
-    justSaved: true,
-  },
-  priceListPagination: {
-    page: 1,
-    perPage: 10,
-  },
-  query: {},
-  sources: [],
-  step: 1,
-  tiers: [] as Rate[],
-  total: 0,
-  type: '',
-};
-
-interface State {
-  apiError: any;
-  checked: any;
-  createError: any;
-  createProcess: boolean;
-  createSuccess: boolean;
-  currencyUnits: string;
-  dataFetched: boolean;
-  description: string;
-  dirtyName: boolean;
-  distribution: string;
-  distributePlatformUnallocated: boolean;
-  distributeWorkersUnallocated: boolean;
-  error: any;
-  filterName: string;
-  isDialogOpen: boolean;
-  isDiscount: boolean;
-  loading: boolean;
-  markup: string;
-  name: string;
-  page: number;
-  perPage: number;
-  priceListCurrent: {
-    metric: string;
-    measurement: string;
-    rate: string;
-    justSaved: boolean;
-  };
-  priceListPagination: {
-    page: number;
-    perPage: number;
-  };
-  query: { name?: string[] };
-  step: number;
-  sources: any[];
-  tiers: Rate[];
-  total: number;
-  type: string;
-}
-
-interface Props extends WrappedComponentProps {
+interface CostModelWizardProps extends WrappedComponentProps {
   isOpen: boolean;
   closeWizard: () => void;
   openWizard: () => void;
@@ -232,8 +152,88 @@ interface Props extends WrappedComponentProps {
   metricsHash: MetricHash;
 }
 
-class CostModelWizardBase extends React.Component<Props, State> {
-  public state = defaultState;
+interface CostModelWizardState {
+  apiError?: any;
+  checked?: any;
+  createError?: any;
+  createProcess?: boolean;
+  createSuccess?: boolean;
+  currencyUnits?: string;
+  dataFetched?: boolean;
+  description?: string;
+  dirtyName?: boolean;
+  distribution?: string;
+  distributePlatformUnallocated?: boolean;
+  distributeWorkersUnallocated?: boolean;
+  error?: any;
+  filterName?: string;
+  isDialogOpen?: boolean;
+  isDiscount?: boolean;
+  loading?: boolean;
+  markup?: string;
+  name?: string;
+  page?: number;
+  perPage?: number;
+  priceListCurrent?: {
+    metric?: string;
+    measurement?: string;
+    rate?: string;
+    justSaved?: boolean;
+  };
+  priceListPagination?: {
+    page?: number;
+    perPage?: number;
+  };
+  query?: { name?: string[] };
+  step?: number;
+  sources?: any[];
+  tiers?: Rate[];
+  total?: number;
+  type?: string;
+}
+
+class CostModelWizardBase extends React.Component<CostModelWizardProps, CostModelWizardState> {
+  protected defaultState: CostModelWizardState = {
+    apiError: null,
+    checked: {},
+    createError: null,
+    createProcess: false,
+    createSuccess: false,
+    currencyUnits: getAccountCurrency(),
+    dataFetched: false,
+    dirtyName: false,
+    description: '',
+    distribution: 'cpu',
+    distributePlatformUnallocated: true,
+    distributeWorkersUnallocated: true,
+    error: null,
+    filterName: '',
+    isDialogOpen: false,
+    isDiscount: false,
+    loading: false,
+    markup: '0',
+    name: '',
+    page: 1,
+    perPage: 10,
+    priceListCurrent: {
+      metric: '',
+      measurement: '',
+      rate: '',
+      justSaved: true,
+    },
+    priceListPagination: {
+      page: 1,
+      perPage: 10,
+    },
+    query: {},
+    sources: [],
+    step: 1,
+    tiers: [] as Rate[],
+    total: 0,
+    type: '',
+  };
+  public state: CostModelWizardState = { ...this.defaultState };
+
   public render() {
     const { metricsHash, intl } = this.props;
     /*
@@ -356,147 +356,149 @@ class CostModelWizardBase extends React.Component<Props, State> {
       </Button>
     );
     const OkButton = (
-      <Button key="ok" variant="primary" onClick={() => this.setState({ ...defaultState })}>
+      <Button key="ok" variant="primary" onClick={() => this.setState({ ...this.defaultState })}>
         {intl.formatMessage(messages.createCostModelExitYes)}
       </Button>
     );
 
     return (
       <CostModelContext.Provider
-        value={{
-          apiError: this.state.apiError,
-          checked: this.state.checked,
-          clearQuery: () => this.setState({ query: {} }),
-          createError: this.state.createError,
-          createProcess: this.state.createProcess,
-          createSuccess: this.state.createSuccess,
-          currencyUnits: this.state.currencyUnits,
-          description: this.state.description,
-          dataFetched: this.state.dataFetched,
-          dirtyName: this.state.dirtyName,
-          distribution: this.state.distribution,
-          distributePlatformUnallocated: this.state.distributePlatformUnallocated,
-          distributeWorkersUnallocated: this.state.distributeWorkersUnallocated,
-          error: this.state.error,
-          filterName: this.state.filterName,
-          fetchSources: (type, query, page, perPage) => {
-            this.setState({ loading: true, apiError: null, filterName: '' }, () =>
-              apiSources({ type, query, page, perPage })
-                .then(resp =>
-                  this.setState({
-                    sources: resp,
-                    query,
-                    page,
-                    perPage,
-                    loading: false,
-                    dataFetched: true,
-                    filterName: '',
-                  })
-                )
-                .catch(err =>
-                  this.setState({
-                    apiError: err,
-                    loading: false,
-                    dataFetched: true,
-                    filterName: '',
-                  })
-                )
-            );
-          },
-          goToAddPL: (value?: boolean) =>
-            this.setState({
-              priceListCurrent: {
-                ...this.state.priceListCurrent,
-                justSaved: value ? value : false,
-              },
-            }),
-          handleDistributionChange: (_, event) => {
-            const { value } = event.currentTarget;
-            this.setState({ distribution: value });
-          },
-          handleDistributePlatformUnallocatedChange: (_, event) => {
-            const { value } = event.currentTarget;
-            this.setState({ distributePlatformUnallocated: value === 'true' });
-          },
-          handleDistributeWorkersUnallocatedChange: (_, event) => {
-            const { value } = event.currentTarget;
-            this.setState({ distributeWorkersUnallocated: value === 'true' });
-          },
-          handleMarkupDiscountChange: (_, event) => {
-            const { value } = event.currentTarget;
-            this.setState({ markup: value });
-          },
-          handleSignChange: (_, event) => {
-            const { value } = event.currentTarget;
-            this.setState({ isDiscount: value === 'true' });
-          },
-          isDiscount: this.state.isDiscount,
-          loading: this.state.loading,
-          metricsHash,
-          onClose: () => this.setState({ ...defaultState }, this.props.closeWizard),
-          onCurrencyChange: value =>
-            this.setState({ currencyUnits: value, tiers: updateTiersCurrency(this.state.tiers, value) }),
-          onDescChange: value => this.setState({ description: value }),
-          onFilterChange: value => this.setState({ filterName: value }),
-          onNameChange: value => this.setState({ name: value, dirtyName: true }),
-          onPageChange: (_evt, page) => this.setState({ page }),
-          onPerPageChange: (_evt, perPage) => this.setState({ page: 1, perPage }),
-          onSourceSelect: (rowId, isSelected) => {
-            if (rowId === -1) {
-              const pageSelections = this.state.sources.map(s => ({
-                [s.uuid]: { selected: isSelected, meta: s },
-              }));
+        value={
+          {
+            apiError: this.state.apiError,
+            checked: this.state.checked,
+            clearQuery: () => this.setState({ query: {} }),
+            createError: this.state.createError,
+            createProcess: this.state.createProcess,
+            createSuccess: this.state.createSuccess,
+            currencyUnits: this.state.currencyUnits,
+            description: this.state.description,
+            dataFetched: this.state.dataFetched,
+            dirtyName: this.state.dirtyName,
+            distribution: this.state.distribution,
+            distributePlatformUnallocated: this.state.distributePlatformUnallocated,
+            distributeWorkersUnallocated: this.state.distributeWorkersUnallocated,
+            error: this.state.error,
+            filterName: this.state.filterName,
+            fetchSources: (type, query, page, perPage) => {
+              this.setState({ loading: true, apiError: null, filterName: '' }, () =>
+                apiSources({ type, query, page, perPage })
+                  .then((resp: any) =>
+                    this.setState({
+                      sources: resp,
+                      query,
+                      page,
+                      perPage,
+                      loading: false,
+                      dataFetched: true,
+                      filterName: '',
+                    })
+                  )
+                  .catch(err =>
+                    this.setState({
+                      apiError: err,
+                      loading: false,
+                      dataFetched: true,
+                      filterName: '',
+                    })
+                  )
+              );
+            },
+            goToAddPL: (value?: boolean) =>
+              this.setState({
+                priceListCurrent: {
+                  ...this.state.priceListCurrent,
+                  justSaved: value ? value : false,
+                },
+              }),
+            handleDistributionChange: (_, event) => {
+              const { value } = event.currentTarget;
+              this.setState({ distribution: value });
+            },
+            handleDistributePlatformUnallocatedChange: (_, event) => {
+              const { value } = event.currentTarget;
+              this.setState({ distributePlatformUnallocated: value === 'true' });
+            },
+            handleDistributeWorkersUnallocatedChange: (_, event) => {
+              const { value } = event.currentTarget;
+              this.setState({ distributeWorkersUnallocated: value === 'true' });
+            },
+            handleMarkupDiscountChange: (_, event) => {
+              const { value } = event.currentTarget;
+              this.setState({ markup: value });
+            },
+            handleSignChange: (_, event) => {
+              const { value } = event.currentTarget;
+              this.setState({ isDiscount: value === 'true' });
+            },
+            isDiscount: this.state.isDiscount,
+            loading: this.state.loading,
+            metricsHash,
+            onClose: () => this.setState({ ...this.defaultState }, this.props.closeWizard),
+            onCurrencyChange: value =>
+              this.setState({ currencyUnits: value, tiers: updateTiersCurrency(this.state.tiers, value) }),
+            onDescChange: value => this.setState({ description: value }),
+            onFilterChange: value => this.setState({ filterName: value }),
+            onNameChange: value => this.setState({ name: value, dirtyName: true }),
+            onPageChange: (_evt, page) => this.setState({ page }),
+            onPerPageChange: (_evt, perPage) => this.setState({ page: 1, perPage }),
+            onSourceSelect: (rowId, isSelected) => {
+              if (rowId === -1) {
+                const pageSelections = this.state.sources.map(s => ({
+                  [s.uuid]: { selected: isSelected, meta: s },
+                }));
+                const newState = {
+                  ...this.state.checked,
+                  ...pageSelections,
+                };
+                return this.setState({ checked: newState });
+              }
               const newState = {
                 ...this.state.checked,
-                ...pageSelections,
+                [this.state.sources[rowId].uuid]: {
+                  selected: isSelected,
+                  meta: this.state.sources[rowId],
+                },
               };
               return this.setState({ checked: newState });
-            }
-            const newState = {
-              ...this.state.checked,
-              [this.state.sources[rowId].uuid]: {
-                selected: isSelected,
-                meta: this.state.sources[rowId],
-              },
-            };
-            return this.setState({ checked: newState });
-          },
-          onTypeChange: value => this.setState({ type: value, dataFetched: false, loading: false }),
-          page: this.state.page,
-          priceListPagination: {
-            page: this.state.priceListPagination.page,
-            perPage: this.state.priceListPagination.perPage,
-            onPageSet: (_evt, page) =>
+            },
+            onTypeChange: value => this.setState({ type: value, dataFetched: false, loading: false }),
+            page: this.state.page,
+            priceListPagination: {
+              page: this.state.priceListPagination.page,
+              perPage: this.state.priceListPagination.perPage,
+              onPageSet: (_evt, page) =>
+                this.setState({
+                  priceListPagination: {
+                    ...this.state.priceListPagination,
+                    page,
+                  },
+                }),
+              onPerPageSet: (_evt, perPage) =>
+                this.setState({
+                  priceListPagination: {
+                    page: 1,
+                    perPage,
+                  },
+                }),
+            },
+            markup: this.state.markup,
+            name: this.state.name,
+            perPage: this.state.perPage,
+            query: this.state.query,
+            setSources: sources => this.setState({ sources, dataFetched: true, loading: false }),
+            sources: this.state.sources,
+            step: this.state.step,
+            submitTiers: (tiers: Rate[]) => {
               this.setState({
-                priceListPagination: {
-                  ...this.state.priceListPagination,
-                  page,
-                },
-              }),
-            onPerPageSet: (_evt, perPage) =>
-              this.setState({
-                priceListPagination: {
-                  page: 1,
-                  perPage,
-                },
-              }),
-          },
-          markup: this.state.markup,
-          name: this.state.name,
-          perPage: this.state.perPage,
-          query: this.state.query,
-          setSources: sources => this.setState({ sources, dataFetched: true, loading: false }),
-          sources: this.state.sources,
-          step: this.state.step,
-          submitTiers: (tiers: Rate[]) => {
-            this.setState({
-              tiers,
-            });
-          },
-          tiers: this.state.tiers,
-          total: this.state.total,
-          type: this.state.type,
-        }}
+                tiers,
+              });
+            },
+            tiers: this.state.tiers,
+            total: this.state.total,
+            type: this.state.type,
+          } as any
+        }
       >
         <InternalWizard
           metricsHash={metricsHash}
@@ -509,7 +511,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
             ) {
               this.setState({ isDialogOpen: true }, this.props.closeWizard);
             } else {
-              this.setState({ ...defaultState }, this.props.closeWizard);
+              this.setState({ ...this.defaultState }, this.props.closeWizard);
             }
           }}
           isOpen={this.props.isOpen}

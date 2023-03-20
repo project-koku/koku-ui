@@ -60,7 +60,7 @@ type ExportSubmitProps = ExportSubmitOwnProps & ExportSubmitDispatchProps & Expo
 
 const reportType = ReportType.cost;
 
-export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
+export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportSubmitState> {
   protected defaultState: ExportSubmitState = {
     fetchExportClicked: false,
   };

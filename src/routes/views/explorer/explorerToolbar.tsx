@@ -41,7 +41,7 @@ type ExplorerToolbarProps = ExplorerToolbarOwnProps &
   ExplorerToolbarDispatchProps &
   WrappedComponentProps;
 
-export class ExplorerToolbarBase extends React.Component<ExplorerToolbarProps> {
+export class ExplorerToolbarBase extends React.Component<ExplorerToolbarProps, ExplorerToolbarState> {
   protected defaultState: ExplorerToolbarState = {};
   public state: ExplorerToolbarState = { ...this.defaultState };
 

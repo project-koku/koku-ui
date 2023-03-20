@@ -8,7 +8,7 @@ interface ClusterContentOwnProps {
 
 type ClusterContentProps = ClusterContentOwnProps & WrappedComponentProps;
 
-class ClusterContentBase extends React.Component<ClusterContentProps> {
+class ClusterContentBase extends React.Component<ClusterContentProps, any> {
   public render() {
     const { clusters = [] } = this.props;
 

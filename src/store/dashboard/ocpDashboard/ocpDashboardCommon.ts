@@ -20,7 +20,7 @@ export const enum OcpDashboardTab {
   projects = 'projects',
 }
 
-export interface OcpDashboardWidget extends DashboardWidget<OcpDashboardTab> {}
+export interface OcpDashboardWidget extends DashboardWidget {}
 
 // Todo: cluster, project, node
 export function getGroupByForTab(tab: OcpDashboardTab): OcpQuery['group_by'] {

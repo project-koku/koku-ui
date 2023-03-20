@@ -59,7 +59,7 @@ export const currencyOptions: {
   { label: messages.currencyOptions, value: 'ZAR' },
 ];
 
-class CurrencyBase extends React.Component<CurrencyProps> {
+class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
   protected defaultState: CurrencyState = {
     isSelectOpen: false,
   };

@@ -56,10 +56,10 @@ interface GroupByDispatchProps {
 
 interface GroupByState {
   currentItem?: string;
-  defaultItem: string;
-  isGroupByOpen: boolean;
-  isGroupByOrgVisible: boolean;
-  isGroupByTagVisible: boolean;
+  defaultItem?: string;
+  isGroupByOpen?: boolean;
+  isGroupByOrgVisible?: boolean;
+  isGroupByTagVisible?: boolean;
 }
 
 interface GroupByOption extends SelectOptionObject {
@@ -82,7 +82,7 @@ const groupByTagOptions: {
 const orgReportType = OrgType.org;
 const tagReportType = TagType.tag;
 
-class GroupByBase extends React.Component<GroupByProps> {
+class GroupByBase extends React.Component<GroupByProps, GroupByState> {
   protected defaultState: GroupByState = {
     defaultItem: this.props.groupBy || this.props.options[0].value,
     isGroupByOpen: false,

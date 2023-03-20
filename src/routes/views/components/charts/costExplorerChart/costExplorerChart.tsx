@@ -53,10 +53,10 @@ interface CostExplorerChartOwnProps {
 
 interface State {
   cursorVoronoiContainer?: any;
-  hiddenSeries: Set<number>;
+  hiddenSeries?: Set<number>;
   series?: ChartSeries[];
   tickValues?: number[];
-  width: number;
+  width?: number;
   units?: string;
 }
 
@@ -449,7 +449,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
               title={datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })}
             />
           ),
-        })
+        } as any)
       : undefined;
 
     const barWidth = this.getBarWidth();

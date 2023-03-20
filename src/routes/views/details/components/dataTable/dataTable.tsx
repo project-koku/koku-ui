@@ -28,7 +28,7 @@ interface DataTableOwnProps {
 
 type DataTableProps = DataTableOwnProps & RouterComponentProps & WrappedComponentProps;
 
-class DataTable extends React.Component<DataTableProps> {
+class DataTable extends React.Component<DataTableProps, any> {
   constructor(props: DataTableProps) {
     super(props);
     this.handleOnSelect = this.handleOnSelect.bind(this);

@@ -43,7 +43,7 @@ type DetailsTableProps = DetailsTableOwnProps;
 
 const reportPathsType = ReportPathsType.ibm;
 
-class DetailsTableBase extends React.Component<DetailsTableProps> {
+class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableState> {
   public state: DetailsTableState = {
     columns: [],
     rows: [],
@@ -72,7 +72,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({
       report,
-      idKey: groupByTagKey ? groupByTagKey : groupBy,
+      idKey: (groupByTagKey ? groupByTagKey : groupBy) as any,
     });
 
     const columns = groupByTagKey

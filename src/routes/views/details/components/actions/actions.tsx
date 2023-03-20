@@ -33,13 +33,13 @@ interface DetailsActionsDispatchProps {
 }
 
 interface DetailsActionsState {
-  isDropdownOpen: boolean;
-  isExportModalOpen: boolean;
+  isDropdownOpen?: boolean;
+  isExportModalOpen?: boolean;
 }
 
 type DetailsActionsProps = DetailsActionsOwnProps & DetailsActionsStateProps & DetailsActionsDispatchProps;
 
-class DetailsActionsBase extends React.Component<DetailsActionsProps> {
+class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsActionsState> {
   protected defaultState: DetailsActionsState = {
     isDropdownOpen: false,
     isExportModalOpen: false,
