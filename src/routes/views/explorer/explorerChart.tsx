@@ -63,7 +63,7 @@ interface ExplorerChartState {
 
 type ExplorerChartProps = ExplorerChartStateProps & ExplorerChartOwnProps & ExplorerChartDispatchProps;
 
-class ExplorerChartBase extends React.Component<ExplorerChartProps> {
+class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChartState> {
   protected defaultState: ExplorerChartState = {};
   public state: ExplorerChartState = { ...this.defaultState };
 
@@ -141,7 +141,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
 
       if (computedItem instanceof Map) {
         const items = Array.from(computedItem.values());
-        items.map(i => {
+        items.map((i: any) => {
           const val = i[reportItem][reportItemValue] ? i[reportItem][reportItemValue].value : i[reportItem].value;
           datums.push(this.createReportDatum(val, i, reportItem, reportItemValue));
         });

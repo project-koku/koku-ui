@@ -16,7 +16,7 @@ interface TagContentOwnProps {
 
 type TagContentProps = TagContentOwnProps & WrappedComponentProps;
 
-class TagContentBase extends React.Component<TagContentProps> {
+class TagContentBase extends React.Component<TagContentProps, any> {
   private getDataListItems = () => {
     const { tagReport } = this.props;
     const result = [];

@@ -48,7 +48,7 @@ type HistoricalDataTrendChartProps = HistoricalDataTrendChartOwnProps &
   HistoricalDataTrendChartStateProps &
   HistoricalDataTrendChartDispatchProps;
 
-class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendChartProps> {
+class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendChartProps, any> {
   public componentDidMount() {
     const { fetchReport, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
 

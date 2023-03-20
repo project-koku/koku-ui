@@ -32,7 +32,7 @@ interface InactiveSourcesStateProps {
 
 type InactiveSourcesProps = InactiveSourcesOwnProps & InactiveSourcesStateProps & WrappedComponentProps;
 
-class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
+class InactiveSourcesBase extends React.Component<InactiveSourcesProps, any> {
   private getInactiveSourceNames = () => {
     const { providers } = this.props;
 

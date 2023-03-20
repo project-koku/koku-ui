@@ -19,7 +19,7 @@ interface ClusterModalOwnProps {
 
 type ClusterModalProps = ClusterModalOwnProps & WrappedComponentProps;
 
-class ClusterModalBase extends React.Component<ClusterModalProps> {
+class ClusterModalBase extends React.Component<ClusterModalProps, any> {
   constructor(props: ClusterModalProps) {
     super(props);
     this.handleClose = this.handleClose.bind(this);

@@ -20,7 +20,7 @@ export const enum AwsOcpDashboardTab {
   regions = 'regions',
 }
 
-export interface AwsOcpDashboardWidget extends DashboardWidget<AwsOcpDashboardTab> {
+export interface AwsOcpDashboardWidget extends DashboardWidget {
   // TBD...
 }
 

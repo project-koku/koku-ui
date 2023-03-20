@@ -16,13 +16,13 @@ interface ClusterOwnProps {
 }
 
 interface ClusterState {
-  isOpen: boolean;
-  showAll: boolean;
+  isOpen?: boolean;
+  showAll?: boolean;
 }
 
 type ClusterProps = ClusterOwnProps & WrappedComponentProps;
 
-class ClusterBase extends React.Component<ClusterProps> {
+class ClusterBase extends React.Component<ClusterProps, ClusterState> {
   protected defaultState: ClusterState = {
     isOpen: false,
     showAll: false,

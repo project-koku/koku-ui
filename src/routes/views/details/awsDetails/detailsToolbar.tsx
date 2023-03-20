@@ -66,7 +66,7 @@ const orgReportType = OrgType.org;
 const tagReportPathsType = TagPathsType.aws;
 const tagReportType = TagType.tag;
 
-export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
+export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, DetailsToolbarState> {
   protected defaultState: DetailsToolbarState = {};
   public state: DetailsToolbarState = { ...this.defaultState };
 

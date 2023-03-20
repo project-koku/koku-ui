@@ -1,11 +1,11 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
-import type { OcpQuery } from 'api/queries/ocpQuery';
-import { getQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import type { OcpReport } from 'api/reports/ocpReports';
+import type { RhelQuery } from 'api/queries/rhelQuery';
+import { getQuery, parseQuery } from 'api/queries/rhelQuery';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { RhelReport } from 'api/reports/rhelReports';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
@@ -35,9 +35,9 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedRhelReportItems';
 import { getCurrency } from 'utils/localStorage';
 import { noPrefix, platformCategoryKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -48,36 +48,36 @@ import { DetailsTable, DetailsTableColumnIds } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
 import { styles } from './rhelDetails.styles';
 
-interface OcpDetailsStateProps {
+interface RhelDetailsStateProps {
   currency?: string;
   providers: Providers;
   providersFetchStatus: FetchStatus;
-  query: OcpQuery;
-  report: OcpReport;
+  query: RhelQuery;
+  report: RhelReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
 }
 
-interface OcpDetailsDispatchProps {
+interface RhelDetailsDispatchProps {
   fetchReport: typeof reportActions.fetchReport;
 }
 
-interface OcpDetailsState {
-  columns: any[];
-  hiddenColumns: Set<string>;
-  isAllSelected: boolean;
-  isColumnManagementModalOpen: boolean;
-  isExportModalOpen: boolean;
-  rows: any[];
-  selectedItems: ComputedReportItem[];
+interface RhelDetailsState {
+  columns?: any[];
+  hiddenColumns?: Set<string>;
+  isAllSelected?: boolean;
+  isColumnManagementModalOpen?: boolean;
+  isExportModalOpen?: boolean;
+  rows?: any[];
+  selectedItems?: ComputedReportItem[];
 }
 
-type OcpDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
+type RhelDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
 
-type OcpDetailsProps = OcpDetailsStateProps & OcpDetailsOwnProps & OcpDetailsDispatchProps;
+type RhelDetailsProps = RhelDetailsStateProps & RhelDetailsOwnProps & RhelDetailsDispatchProps;
 
-const baseQuery: OcpQuery = {
+const baseQuery: RhelQuery = {
   delta: 'cost',
   filter: {
     limit: 10,
@@ -115,8 +115,8 @@ const defaultColumnOptions: ColumnManagementModalOption[] = [
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.ocp;
 
-class RhelDetails extends React.Component<OcpDetailsProps> {
-  protected defaultState: OcpDetailsState = {
+class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
+  protected defaultState: RhelDetailsState = {
     columns: [],
     hiddenColumns: initHiddenColumns(defaultColumnOptions),
     isAllSelected: false,
@@ -125,7 +125,7 @@ class RhelDetails extends React.Component<OcpDetailsProps> {
     rows: [],
     selectedItems: [],
   };
-  public state: OcpDetailsState = { ...this.defaultState };
+  public state: RhelDetailsState = { ...this.defaultState };
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
@@ -143,7 +143,7 @@ class RhelDetails extends React.Component<OcpDetailsProps> {
     this.updateReport();
   }
 
-  public componentDidUpdate(prevProps: OcpDetailsProps, prevState: OcpDetailsState) {
+  public componentDidUpdate(prevProps: RhelDetailsProps, prevState: RhelDetailsState) {
     const { report, reportError, reportQueryString, router } = this.props;
     const { selectedItems } = this.state;
 
@@ -341,7 +341,7 @@ class RhelDetails extends React.Component<OcpDetailsProps> {
 
   private handleGroupBySelected = groupBy => {
     const { query, router } = this.props;
-    const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
+    const groupByKey: keyof RhelQuery['group_by'] = groupBy as any;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
       // filter_by: undefined, // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
@@ -443,8 +443,8 @@ class RhelDetails extends React.Component<OcpDetailsProps> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStateProps>((state, { router }) => {
-  const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
+const mapStateToProps = createMapStateToProps<RhelDetailsOwnProps, RhelDetailsStateProps>((state, { router }) => {
+  const queryFromRoute = parseQuery<RhelQuery>(router.location.search);
   const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
   const query = {
     delta: 'cost',
@@ -491,7 +491,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   };
 });
 
-const mapDispatchToProps: OcpDetailsDispatchProps = {
+const mapDispatchToProps: RhelDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 

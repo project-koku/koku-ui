@@ -27,7 +27,7 @@ type ExplorerDatePickerProps = ExplorerDatePickerOwnProps;
 
 const MAX_DAYS = 65; // Max date range allowed for cost API
 
-class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps> {
+class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, ExplorerDatePickerState> {
   protected defaultState: ExplorerDatePickerState = {
     // TBD
   };

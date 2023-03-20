@@ -106,12 +106,12 @@ interface ExplorerDispatchProps {
 }
 
 interface ExplorerState {
-  columns: any[];
+  columns?: any[];
   endDate?: Date;
-  isAllSelected: boolean;
-  isExportModalOpen: boolean;
-  rows: any[];
-  selectedItems: ComputedReportItem[];
+  isAllSelected?: boolean;
+  isExportModalOpen?: boolean;
+  rows?: any[];
+  selectedItems?: ComputedReportItem[];
   startDate?: Date;
 }
 
@@ -119,7 +119,7 @@ type ExplorerOwnProps = RouterComponentProps & WrappedComponentProps;
 
 type ExplorerProps = ExplorerStateProps & ExplorerOwnProps & ExplorerDispatchProps;
 
-class Explorer extends React.Component<ExplorerProps> {
+class Explorer extends React.Component<ExplorerProps, ExplorerState> {
   protected defaultState: ExplorerState = {
     columns: [],
     isAllSelected: false,

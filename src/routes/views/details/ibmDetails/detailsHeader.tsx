@@ -56,7 +56,7 @@ const groupByOptions: {
 
 const tagReportPathsType = TagPathsType.ibm;
 
-class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
+class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
   public render() {
     const {
       currency,

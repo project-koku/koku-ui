@@ -34,13 +34,13 @@ interface ResourceInputOwnProps {
   onSearchChanged?: (evt: FormEvent, value: string) => void;
   onSelect?: (value: string) => void;
   placeholder?: string;
-  resource?: Resource;
   resourcePathsType: ResourcePathsType;
   resourceType: ResourceType;
   search?: string;
 }
 
 interface ResourceInputStateProps {
+  resource?: Resource;
   resourceFetchStatus?: FetchStatus;
   resourceQueryString?: string;
 }
@@ -58,7 +58,7 @@ type ResourceInputProps = ResourceInputOwnProps &
   ResourceInputDispatchProps &
   WrappedComponentProps;
 
-class ResourceInputBase extends React.Component<ResourceInputProps> {
+class ResourceInputBase extends React.Component<ResourceInputProps, ResourceInputState> {
   private menuRef = React.createRef<HTMLDivElement>();
   private textInputGroupRef = React.createRef<HTMLDivElement>();
   private searchTimeout: any = noop;

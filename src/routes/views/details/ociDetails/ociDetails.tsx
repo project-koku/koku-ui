@@ -62,11 +62,11 @@ interface OciDetailsDispatchProps {
 }
 
 interface OciDetailsState {
-  columns: any[];
-  isAllSelected: boolean;
-  isExportModalOpen: boolean;
-  rows: any[];
-  selectedItems: ComputedReportItem[];
+  columns?: any[];
+  isAllSelected?: boolean;
+  isExportModalOpen?: boolean;
+  rows?: any[];
+  selectedItems?: ComputedReportItem[];
 }
 
 type OciDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
@@ -95,7 +95,7 @@ const baseQuery: OciQuery = {
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.oci;
 
-class OciDetails extends React.Component<OciDetailsProps> {
+class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
   protected defaultState: OciDetailsState = {
     columns: [],
     isAllSelected: false,

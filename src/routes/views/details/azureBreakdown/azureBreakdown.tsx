@@ -1,22 +1,19 @@
-import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
-import type { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
-import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { routes } from 'routes';
+import type { BreakdownStateProps } from 'routes/views/details/components/breakdown';
 import { BreakdownBase } from 'routes/views/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { filterProviders } from 'routes/views/utils/providers';
-import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
@@ -32,23 +29,6 @@ import { HistoricalData } from './historicalData';
 
 type AzureCostOwnProps = RouterComponentProps & WrappedComponentProps;
 
-interface AzureCostStateProps {
-  CostOverview?: React.ReactNode;
-  currency?: string;
-  detailsURL: string;
-  HistoricalData?: React.ReactNode;
-  providers: Providers;
-  providersError: AxiosError;
-  providersFetchStatus: FetchStatus;
-  query: Query;
-  report: Report;
-  reportError: AxiosError;
-  reportFetchStatus: FetchStatus;
-  reportType: ReportType;
-  reportPathsType: ReportPathsType;
-  reportQueryString: string;
-}
-
 interface AzureCostDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
@@ -58,7 +38,7 @@ const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.azure;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateProps>((state, { intl, router }) => {
+const mapStateToProps = createMapStateToProps<AzureCostOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);

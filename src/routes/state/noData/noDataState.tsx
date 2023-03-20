@@ -11,7 +11,7 @@ interface NoDataStateOwnProps {
 
 type NoDataStateProps = NoDataStateOwnProps & WrappedComponentProps;
 
-class NoDataStateBase extends React.Component<NoDataStateProps> {
+class NoDataStateBase extends React.Component<NoDataStateProps, any> {
   public render() {
     const { intl, showReload = true } = this.props;
 

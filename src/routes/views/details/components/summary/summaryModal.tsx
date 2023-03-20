@@ -24,7 +24,7 @@ interface SummaryModalOwnProps {
 
 type SummaryModalProps = SummaryModalOwnProps & WrappedComponentProps;
 
-class SummaryModalBase extends React.Component<SummaryModalProps> {
+class SummaryModalBase extends React.Component<SummaryModalProps, any> {
   constructor(props: SummaryModalProps) {
     super(props);
     this.handleClose = this.handleClose.bind(this);

@@ -43,7 +43,7 @@ type SummaryModalContentProps = SummaryModalContentOwnProps &
 
 const reportType = ReportType.cost;
 
-class SummaryModalContentBase extends React.Component<SummaryModalContentProps> {
+class SummaryModalContentBase extends React.Component<SummaryModalContentProps, any> {
   constructor(props: SummaryModalContentProps) {
     super(props);
   }

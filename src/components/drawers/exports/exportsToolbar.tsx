@@ -31,7 +31,7 @@ type ExportsToolbarProps = ExportsToolbarOwnProps &
   ExportsToolbarDispatchProps &
   WrappedComponentProps;
 
-export class ExportsToolbarBase extends React.Component<ExportsToolbarProps> {
+export class ExportsToolbarBase extends React.Component<ExportsToolbarProps, any> {
   private getCategoryOptions = (): ToolbarChipGroup[] => {
     const { intl } = this.props;
 

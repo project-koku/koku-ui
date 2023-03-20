@@ -44,7 +44,7 @@ type TagLinkProps = TagLinkOwnProps & TagLinkStateProps & TagLinkDispatchProps;
 
 const tagReportType = TagType.tag;
 
-class TagLinkBase extends React.Component<TagLinkProps> {
+class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
   protected defaultState: TagLinkState = {
     isOpen: false,
   };

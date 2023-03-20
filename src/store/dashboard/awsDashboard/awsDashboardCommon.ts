@@ -20,7 +20,7 @@ export const enum AwsDashboardTab {
   regions = 'regions',
 }
 
-export interface AwsDashboardWidget extends DashboardWidget<AwsDashboardTab> {
+export interface AwsDashboardWidget extends DashboardWidget {
   // TBD...
 }
 

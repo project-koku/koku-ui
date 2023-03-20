@@ -21,7 +21,7 @@ interface ReportSummaryItemsOwnProps extends ComputedReportItemsParams<Report, R
 
 export type ReportSummaryItemsProps = ReportSummaryItemsOwnProps & WrappedComponentProps;
 
-class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
+class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps, any> {
   public shouldComponentUpdate(nextProps: ReportSummaryItemsProps) {
     return nextProps.report !== this.props.report;
   }

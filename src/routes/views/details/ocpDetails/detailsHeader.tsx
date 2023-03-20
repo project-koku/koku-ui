@@ -58,7 +58,7 @@ const groupByOptions: {
 
 const tagReportPathsType = TagPathsType.ocp;
 
-class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
+class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeaderState> {
   protected defaultState: DetailsHeaderState = {};
   public state: DetailsHeaderState = { ...this.defaultState };
 

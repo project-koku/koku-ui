@@ -34,7 +34,7 @@ type ExportsDrawerProps = ExportsDrawerOwnProps &
   ExportsDrawerDispatchProps &
   WrappedComponentProps;
 
-class ExportsDrawerBase extends React.Component<ExportsDrawerProps> {
+class ExportsDrawerBase extends React.Component<ExportsDrawerProps, any> {
   private drawerRef = React.createRef();
 
   private handleClose = () => {

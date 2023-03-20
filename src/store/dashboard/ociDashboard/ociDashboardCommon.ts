@@ -20,7 +20,7 @@ export const enum OciDashboardTab {
   regions = 'regions',
 }
 
-export interface OciDashboardWidget extends DashboardWidget<OciDashboardTab> {}
+export interface OciDashboardWidget extends DashboardWidget {}
 
 export function getGroupByForTab(widget: OciDashboardWidget): OciQuery['group_by'] {
   switch (widget.currentTab) {

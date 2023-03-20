@@ -92,15 +92,15 @@ interface DataToolbarState {
   currentOrgUnit?: string;
   currentTagKey?: string;
   currentExclude?: string;
-  filters: Filters;
-  isBulkSelectOpen: boolean;
-  isCategorySelectOpen: boolean;
-  isExcludeSelectOpen: boolean;
-  isOrgUnitSelectExpanded: boolean;
-  isPlatformCostsChecked: boolean;
-  isTagValueDropdownOpen: boolean;
-  isTagKeySelectExpanded: boolean;
-  isTagValueSelectExpanded: boolean;
+  filters?: Filters;
+  isBulkSelectOpen?: boolean;
+  isCategorySelectOpen?: boolean;
+  isExcludeSelectOpen?: boolean;
+  isOrgUnitSelectExpanded?: boolean;
+  isPlatformCostsChecked?: boolean;
+  isTagValueDropdownOpen?: boolean;
+  isTagKeySelectExpanded?: boolean;
+  isTagValueSelectExpanded?: boolean;
   tagKeyValueInput?: string;
 }
 
@@ -135,7 +135,7 @@ const enum ExcludeType {
   include = 'include',
 }
 
-export class DataToolbarBase extends React.Component<DataToolbarProps> {
+export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolbarState> {
   protected defaultState: DataToolbarState = {
     categoryInput: '',
     filters: cloneDeep(defaultFilters),

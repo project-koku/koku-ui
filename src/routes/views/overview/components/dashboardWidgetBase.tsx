@@ -1,7 +1,7 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import type { Forecast } from 'api/forecasts/forecast';
-import { getQuery } from 'api/queries/awsQuery';
+import { getQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import type { RosReport } from 'api/ros/ros';
 import messages from 'locales/messages';
@@ -43,29 +43,36 @@ const enum Comparison {
 }
 
 export interface DashboardWidgetOwnProps {
+  widgetId?: number;
+}
+
+export interface DashboardWidgetStateProps extends DashboardWidget {
   chartAltHeight?: number;
   containerAltHeight?: number;
   costType?: string;
   currency?: string;
-  getIdKeyForTab: <T extends DashboardWidget<any>>(tab: T) => string;
-  isRosFeatureEnabled?: boolean;
-  widgetId: number;
-}
-
-export interface DashboardWidgetStateProps extends DashboardWidget<any> {
   currentQuery?: string;
   currentReport?: Report;
   currentReportFetchStatus?: number;
   forecast?: Forecast;
+  forecastQuery?: string;
   forecastFetchStatus?: number;
+  getIdKeyForTab?: (tab: string) => string;
+  isRosFeatureEnabled?: boolean;
   previousQuery?: string;
   previousReport?: Report;
+  previousReportFetchStatus?: number;
   rosQuery?: string;
   rosReport?: RosReport;
   rosFetchStatus?: number;
   tabsQuery?: string;
   tabsReport?: Report;
   tabsReportFetchStatus?: number;
+}
+
+export interface DashboardWidgetState {
+  activeTabKey?: number;
+  currentComparison?: string;
 }
 
 interface DashboardWidgetDispatchProps {
@@ -75,16 +82,17 @@ interface DashboardWidgetDispatchProps {
   updateTab: (id, availableTabs) => void;
 }
 
-type DashboardWidgetProps = DashboardWidgetOwnProps &
+export type DashboardWidgetProps = DashboardWidgetOwnProps &
   DashboardWidgetStateProps &
   DashboardWidgetDispatchProps &
   WrappedComponentProps;
 
-class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
-  public state = {
+class DashboardWidgetBase extends React.Component<DashboardWidgetProps, DashboardWidgetState> {
+  protected defaultState: DashboardWidgetState = {
     activeTabKey: 0,
     currentComparison: Comparison.cumulative,
   };
+  public state: DashboardWidgetState = { ...this.defaultState };
 
   public componentDidMount() {
     const {
@@ -125,7 +133,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     }
   }
 
-  private buildDetailsLink = <T extends DashboardWidget<any>>(tab: T) => {
+  private buildDetailsLink = (tab: string) => {
     const { details, getIdKeyForTab } = this.props;
     const currentTab = getIdKeyForTab(tab);
     return `${details.viewAllPath}?${getQuery({
@@ -512,7 +520,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     return null;
   };
 
-  private getDetailsLinkTitle = <T extends DashboardWidget<any>>(tab: T) => {
+  private getDetailsLinkTitle = (tab: string) => {
     const { getIdKeyForTab, intl } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
@@ -558,7 +566,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     return <RecommendationsSummary status={rosFetchStatus} rosReport={rosReport} title={titleKey} />;
   };
 
-  private getTab = <T extends DashboardWidget<any>>(tab: T, index: number) => {
+  private getTab = (tab: string, index: number) => {
     const { getIdKeyForTab, tabsReport, tabsReportFetchStatus } = this.props;
     const currentTab: any = getIdKeyForTab(tab);
 
@@ -582,7 +590,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  private getTabItem = <T extends DashboardWidget<any>>(tab: T, reportItem) => {
+  private getTabItem = (tab: string, reportItem) => {
     const { availableTabs, getIdKeyForTab, tabsReport, topItems, trend } = this.props;
     const { activeTabKey } = this.state;
 
@@ -632,7 +640,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  private getTabTitle = <T extends DashboardWidget<any>>(tab: T) => {
+  private getTabTitle = (tab: string) => {
     const { getIdKeyForTab, intl } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
@@ -686,14 +694,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     this.setState({ currentComparison: value });
   };
 
-  private handleTabClick = (event, tabIndex) => {
+  private handleTabClick = (event, tabIndex: number) => {
     const { availableTabs, id, updateTab } = this.props;
     const tab = availableTabs[tabIndex];
 
     updateTab(id, tab);
-    this.setState({
-      activeTabKey: tabIndex,
-    });
+    this.setState({ activeTabKey: tabIndex });
   };
 
   public render() {

@@ -22,7 +22,7 @@ type RecommendationsHeaderProps = RecommendationsHeaderOwnProps &
   RecommendationsHeaderStateProps &
   WrappedComponentProps;
 
-class RecommendationsHeaderBase extends React.Component<RecommendationsHeaderProps> {
+class RecommendationsHeaderBase extends React.Component<RecommendationsHeaderProps, RecommendationsHeaderState> {
   protected defaultState: RecommendationsHeaderState = {};
   public state: RecommendationsHeaderState = { ...this.defaultState };
 

@@ -68,11 +68,11 @@ interface AwsDetailsDispatchProps {
 }
 
 interface AwsDetailsState {
-  columns: any[];
-  isAllSelected: boolean;
-  isExportModalOpen: boolean;
-  rows: any[];
-  selectedItems: ComputedReportItem[];
+  columns?: any[];
+  isAllSelected?: boolean;
+  isExportModalOpen?: boolean;
+  rows?: any[];
+  selectedItems?: ComputedReportItem[];
 }
 
 type AwsDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
@@ -101,7 +101,7 @@ const baseQuery: AwsQuery = {
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.aws;
 
-class AwsDetails extends React.Component<AwsDetailsProps> {
+class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
   protected defaultState: AwsDetailsState = {
     columns: [],
     isAllSelected: false,

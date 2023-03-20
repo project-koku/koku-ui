@@ -48,16 +48,16 @@ interface UsageChartDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-interface State {
+interface UsageChartState {
   width: number;
 }
 
 type UsageChartProps = UsageChartOwnProps & UsageChartStateProps & UsageChartDispatchProps;
 
-class UsageChartBase extends React.Component<UsageChartProps> {
+class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
   private containerRef = React.createRef<HTMLDivElement>();
   private observer: any = noop;
-  public state: State = {
+  public state: UsageChartState = {
     width: 0,
   };
 

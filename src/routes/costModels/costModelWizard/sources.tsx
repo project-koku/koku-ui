@@ -5,8 +5,8 @@ import { SourceStepErrorState } from 'routes/costModels/components/errorState';
 import { CostModelContext } from './context';
 import SourcesTable from './table';
 
-class Sources extends React.Component {
-  fetchData = () => null;
+class Sources extends React.Component<any, any> {
+  fetchData: () => void = () => null;
   constructor(props) {
     super(props);
     this.fetchData = () => {

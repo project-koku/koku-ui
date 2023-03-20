@@ -1,1 +1,1 @@
-export { default as InactiveSources } from './inactiveSources';
+export { default } from './inactiveSources';

@@ -18,7 +18,6 @@ import { costModelsSelectors } from 'store/costModels';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-import type { CostModelsQuery } from './utils/query';
 import { initialCostModelsQuery, limitTransform, offsetTransform, stringifySearch } from './utils/query';
 
 type BottomPaginationBaseProps = Omit<PaginationProps, 'ref'> & WrappedComponentProps;
@@ -59,7 +58,7 @@ const BottomPaginationBase: React.FC<BottomPaginationBaseProps> = props => {
 
 const mapStateToProps = (state: RootState) => {
   const { count, page, perPage } = costModelsSelectors.pagination(state);
-  const query: Partial<CostModelsQuery> = costModelsSelectors.query(state);
+  const query: { [p: string]: string } = costModelsSelectors.query(state);
   return {
     query,
     count,

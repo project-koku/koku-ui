@@ -59,9 +59,9 @@ interface TrendChartOwnProps {
 
 interface State {
   cursorVoronoiContainer?: any;
-  hiddenSeries: Set<number>;
+  hiddenSeries?: Set<number>;
   series?: ChartSeries[];
-  width: number;
+  width?: number;
 }
 
 export type TrendChartProps = TrendChartOwnProps & WrappedComponentProps;
@@ -368,7 +368,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
               title={datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })}
             />
           ),
-        })
+        } as any)
       : undefined;
     return (
       <>

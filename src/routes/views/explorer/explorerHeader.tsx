@@ -96,12 +96,12 @@ interface ExplorerHeaderStateProps {
 }
 
 interface ExplorerHeaderState {
-  currentPerspective?: PerspectiveType;
+  currentPerspective?: string;
 }
 
 type ExplorerHeaderProps = ExplorerHeaderOwnProps & ExplorerHeaderStateProps;
 
-class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
+class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHeaderState> {
   protected defaultState: ExplorerHeaderState = {
     // TBD...
   };

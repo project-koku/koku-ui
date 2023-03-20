@@ -62,11 +62,11 @@ interface GcpDetailsDispatchProps {
 }
 
 interface GcpDetailsState {
-  columns: any[];
-  isAllSelected: boolean;
-  isExportModalOpen: boolean;
-  rows: any[];
-  selectedItems: ComputedReportItem[];
+  columns?: any[];
+  isAllSelected?: boolean;
+  isExportModalOpen?: boolean;
+  rows?: any[];
+  selectedItems?: ComputedReportItem[];
 }
 
 type GcpDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
@@ -95,7 +95,7 @@ const baseQuery: GcpQuery = {
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.gcp;
 
-class GcpDetails extends React.Component<GcpDetailsProps> {
+class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
   protected defaultState: GcpDetailsState = {
     columns: [],
     isAllSelected: false,

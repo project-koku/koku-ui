@@ -40,7 +40,7 @@ type GeneralInformationProps = GeneralInformationOwnProps &
   GeneralInformationDispatchProps &
   WrappedComponentProps;
 
-class GeneralInformation extends React.Component<GeneralInformationProps> {
+class GeneralInformation extends React.Component<GeneralInformationProps, any> {
   public render() {
     const getValueLabel = (valStr: string, options) => {
       const val = options.find(o => o.value === valStr);

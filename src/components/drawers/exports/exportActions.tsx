@@ -15,7 +15,7 @@ interface ExportsActionsState {
 
 type ExportsActionsProps = ExportsActionsOwnProps;
 
-class ExportsActionsBase extends React.Component<ExportsActionsProps> {
+class ExportsActionsBase extends React.Component<ExportsActionsProps, ExportsActionsState> {
   protected defaultState: ExportsActionsState = {
     isDropdownOpen: false,
   };

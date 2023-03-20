@@ -47,14 +47,15 @@ interface BreakdownOwnProps extends RouterComponentProps {
   // TBD...
 }
 
-interface BreakdownStateProps {
+export interface BreakdownStateProps {
   costOverviewComponent?: React.ReactNode;
   costType?: CostTypes;
   currency?: string;
   description?: string;
-  detailsURL: string;
+  detailsURL?: string;
   emptyStateTitle?: string;
   groupBy?: string;
+  groupByValue?: string;
   historicalDataComponent?: React.ReactNode;
   isRecommendations?: boolean;
   isRosFeatureEnabled?: boolean;
@@ -62,14 +63,14 @@ interface BreakdownStateProps {
   providersError?: AxiosError;
   providersFetchStatus?: FetchStatus;
   providerType?: ProviderType;
-  query: Query;
+  query?: Query;
   recommendationsComponent?: React.ReactNode;
-  report: Report;
-  reportError: AxiosError;
-  reportFetchStatus: FetchStatus;
-  reportPathsType: ReportPathsType;
-  reportType: ReportType;
-  reportQueryString: string;
+  report?: Report;
+  reportError?: AxiosError;
+  reportFetchStatus?: FetchStatus;
+  reportPathsType?: ReportPathsType;
+  reportType?: ReportType;
+  reportQueryString?: string;
   showCostType?: boolean;
   tagReportPathsType?: TagPathsType;
   title?: string;
@@ -90,7 +91,7 @@ interface AvailableTab {
 
 type BreakdownProps = BreakdownOwnProps & BreakdownStateProps & BreakdownDispatchProps & WrappedComponentProps;
 
-class BreakdownBase extends React.Component<BreakdownProps> {
+class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   protected defaultState: BreakdownState = {
     activeTabKey: this.props.isRecommendations ? 2 : 0,
   };

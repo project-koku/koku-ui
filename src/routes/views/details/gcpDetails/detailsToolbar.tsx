@@ -57,7 +57,7 @@ type DetailsToolbarProps = DetailsToolbarOwnProps &
 const tagReportType = TagType.tag;
 const tagReportPathsType = TagPathsType.gcp;
 
-export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
+export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, DetailsToolbarState> {
   protected defaultState: DetailsToolbarState = {};
   public state: DetailsToolbarState = { ...this.defaultState };
 

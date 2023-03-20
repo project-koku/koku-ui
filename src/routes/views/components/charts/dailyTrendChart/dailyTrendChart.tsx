@@ -62,9 +62,9 @@ interface DailyTrendChartOwnProps {
 
 interface State {
   cursorVoronoiContainer?: any;
-  hiddenSeries: Set<number>;
+  hiddenSeries?: Set<number>;
   series?: ChartSeries[];
-  width: number;
+  width?: number;
 }
 
 export type DailyTrendChartProps = DailyTrendChartOwnProps & WrappedComponentProps;
@@ -422,7 +422,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
               title={datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })}
             />
           ),
-        })
+        } as any)
       : undefined;
 
     // Note: For tooltip values to match properly, chart groups must be rendered in the order given as legend data

@@ -7,7 +7,7 @@ import { injectIntl } from 'react-intl';
 
 type MaintenanceStateBaseOwnProps = WrappedComponentProps;
 
-class MaintenanceStateBase extends React.Component<MaintenanceStateBaseOwnProps> {
+class MaintenanceStateBase extends React.Component<MaintenanceStateBaseOwnProps, any> {
   public render() {
     const { intl } = this.props;
 

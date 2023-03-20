@@ -76,7 +76,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
       if (state.step === 'initial') {
         return state;
       }
-      let step = state.step;
+      let step: string = state.step;
       if (step === 'set_metric') {
         step = 'set_rate';
       }

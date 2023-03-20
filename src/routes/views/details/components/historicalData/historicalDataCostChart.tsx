@@ -47,7 +47,7 @@ type HistoricalDataCostChartProps = HistoricalDataCostChartOwnProps &
   HistoricalDataCostChartStateProps &
   HistoricalDataCostChartDispatchProps;
 
-class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChartProps> {
+class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChartProps, any> {
   public componentDidMount() {
     const { fetchReport, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
 

@@ -55,9 +55,9 @@ interface UsageChartOwnProps {
 
 interface State {
   cursorVoronoiContainer?: any;
-  hiddenSeries: Set<number>;
+  hiddenSeries?: Set<number>;
   series?: ChartSeries[];
-  width: number;
+  width?: number;
 }
 
 export type UsageChartProps = UsageChartOwnProps & WrappedComponentProps;
@@ -311,7 +311,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
               title={datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })}
             />
           ),
-        })
+        } as any)
       : undefined;
 
     return (

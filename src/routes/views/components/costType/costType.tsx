@@ -50,7 +50,7 @@ const costTypeOptions: {
   { desc: messages.costTypeUnblendedDesc, label: messages.costTypeUnblended, value: CostTypes.unblended },
 ];
 
-class CostTypeBase extends React.Component<CostTypeProps> {
+class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
   protected defaultState: CostTypeState = {
     isSelectOpen: false,
   };

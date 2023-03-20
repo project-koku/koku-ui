@@ -20,7 +20,7 @@ export const enum OcpCloudDashboardTab {
   services = 'services',
 }
 
-export interface OcpCloudDashboardWidget extends DashboardWidget<OcpCloudDashboardTab> {}
+export interface OcpCloudDashboardWidget extends DashboardWidget {}
 
 // Todo: cluster, project, node
 export function getGroupByForTab(widget: OcpCloudDashboardWidget): OcpCloudQuery['group_by'] {

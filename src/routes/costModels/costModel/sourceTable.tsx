@@ -11,7 +11,7 @@ import AddSourceWizard from './addSourceWizard';
 import Dialog from './dialog';
 import Table from './table';
 
-interface Props extends WrappedComponentProps {
+interface SourceTableProps extends WrappedComponentProps {
   updateCostModel: typeof costModelsActions.updateCostModel;
   costModel: CostModel;
   sources: CostModelProvider[];
@@ -20,12 +20,16 @@ interface Props extends WrappedComponentProps {
   isDialogOpen: { deleteSource: boolean; addSource: boolean };
 }
 
-interface State {
+interface SourceTableState {
   dialogSource: string;
 }
 
-class SourceTableBase extends React.Component<Props, State> {
-  public state = { dialogSource: null };
+class SourceTableBase extends React.Component<SourceTableProps, SourceTableState> {
+  protected defaultState: SourceTableState = {
+    dialogSource: null,
+  };
+  public state: SourceTableState = { ...this.defaultState };
+
   public render() {
     const { intl, isDialogOpen, isLoading, setDialogOpen, sources, costModel } = this.props;
 

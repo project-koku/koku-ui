@@ -22,28 +22,41 @@ import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { costModelsSelectors } from 'store/costModels';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import AddSourceStep from './addSourceStep';
 
-interface AddSourcesStepState {
-  checked: { [uuid: string]: { selected: boolean; meta: Provider } };
+interface AddSourceWizardOwnProps extends RouterComponentProps {
+  assigned?: Provider[];
+  costModel?: CostModel;
+  isOpen?: boolean;
+  onClose?: () => void;
+  onSave?: (sources_uuid: string[]) => void;
 }
 
-interface Props extends WrappedComponentProps {
-  assigned?: Provider[];
-  onClose: () => void;
-  onSave: (sources_uuid: string[]) => void;
-  isOpen: boolean;
-  costModel: CostModel;
-  fetch: typeof sourcesActions.fetchSources;
-  providers: Provider[];
-  isLoadingSources: boolean;
-  isUpdateInProgress: boolean;
-  fetchingSourcesError: string;
-  query: { name: string; type: string; offset: string; limit: string };
-  pagination: { page: number; perPage: number; count: number };
-  updateApiError: string;
+interface AddSourceWizardStateProps {
+  fetchingSourcesError?: string;
+  pagination?: { page: number; perPage: number; count: number };
+  isLoadingSources?: boolean;
+  isUpdateInProgress?: boolean;
+  providers?: Provider[];
+  query?: any;
+  updateApiError?: string;
 }
+
+interface AddSourceWizardDispatchProps {
+  fetch: typeof sourcesActions.fetchSources;
+}
+
+interface AddSourcesStepState {
+  checked: { [uuid: string]: { disabled?: boolean; selected: boolean; meta: Provider } };
+}
+
+type AddSourceWizardProps = AddSourceWizardOwnProps &
+  AddSourceWizardStateProps &
+  AddSourceWizardDispatchProps &
+  WrappedComponentProps;
 
 const sourceTypeMap = {
   'OpenShift Container Platform': 'OCP',
@@ -51,8 +64,11 @@ const sourceTypeMap = {
   'Amazon Web Services': 'AWS',
 };
 
-class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
-  public state = { checked: {} };
+class AddSourceWizardBase extends React.Component<AddSourceWizardProps, AddSourcesStepState> {
+  protected defaultState: AddSourcesStepState = {
+    checked: {},
+  };
+  public state: AddSourcesStepState = { ...this.defaultState };
 
   public componentDidMount() {
     const { assigned } = this.props;
@@ -160,21 +176,23 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
   }
 }
 
-export default injectIntl(
-  connect(
-    createMapStateToProps(state => {
-      return {
-        pagination: sourcesSelectors.pagination(state),
-        query: sourcesSelectors.query(state),
-        providers: sourcesSelectors.sources(state),
-        isLoadingSources: sourcesSelectors.status(state) === FetchStatus.inProgress,
-        isUpdateInProgress: costModelsSelectors.updateProcessing(state),
-        updateApiError: costModelsSelectors.updateError(state),
-        fetchingSourcesError: sourcesSelectors.error(state) ? parseApiError(sourcesSelectors.error(state)) : null,
-      };
-    }),
-    {
-      fetch: sourcesActions.fetchSources,
-    }
-  )(AddSourceWizardBase)
-);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<AddSourceWizardProps, AddSourceWizardStateProps>(state => {
+  return {
+    fetchingSourcesError: sourcesSelectors.error(state) ? parseApiError(sourcesSelectors.error(state)) : null,
+    isLoadingSources: sourcesSelectors.status(state) === FetchStatus.inProgress,
+    isUpdateInProgress: costModelsSelectors.updateProcessing(state),
+    pagination: sourcesSelectors.pagination(state),
+    providers: sourcesSelectors.sources(state),
+    query: sourcesSelectors.query(state),
+    updateApiError: costModelsSelectors.updateError(state),
+  };
+});
+
+const mapDispatchToProps: AddSourceWizardDispatchProps = {
+  fetch: sourcesActions.fetchSources,
+};
+
+const AddSourceWizard = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(AddSourceWizardBase)));
+
+export default AddSourceWizard;

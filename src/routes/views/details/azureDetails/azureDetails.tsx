@@ -62,11 +62,11 @@ interface AzureDetailsDispatchProps {
 }
 
 interface AzureDetailsState {
-  columns: any[];
-  isAllSelected: boolean;
-  isExportModalOpen: boolean;
-  rows: any[];
-  selectedItems: ComputedReportItem[];
+  columns?: any[];
+  isAllSelected?: boolean;
+  isExportModalOpen?: boolean;
+  rows?: any[];
+  selectedItems?: ComputedReportItem[];
 }
 
 type AzureDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
@@ -95,7 +95,7 @@ const baseQuery: AzureQuery = {
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.azure;
 
-class AzureDetails extends React.Component<AzureDetailsProps> {
+class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState> {
   protected defaultState: AzureDetailsState = {
     columns: [],
     isAllSelected: false,

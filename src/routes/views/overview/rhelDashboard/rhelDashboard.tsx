@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { DashboardBase } from 'routes/views/overview/components';
+import type { DashboardStateProps } from 'routes/views/overview/components/dashboardBase';
 import { createMapStateToProps } from 'store/common';
 import { rhelDashboardSelectors } from 'store/dashboard/rhelDashboard';
 
@@ -7,13 +8,8 @@ import { RhelDashboardWidget } from './rhelDashboardWidget';
 
 type RhelDashboardOwnProps = any;
 
-interface RhelDashboardStateProps {
-  DashboardWidget: typeof RhelDashboardWidget;
-  widgets: number[];
-}
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<RhelDashboardOwnProps, RhelDashboardStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<RhelDashboardOwnProps, DashboardStateProps>((state, props) => {
   return {
     DashboardWidget: RhelDashboardWidget,
     selectWidgets: rhelDashboardSelectors.selectWidgets(state),

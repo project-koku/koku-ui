@@ -27,8 +27,8 @@ interface GroupByOrgOwnProps extends RouterComponentProps, WrappedComponentProps
 
 interface GroupByOrgState {
   currentItem?: string;
-  defaultItem: string;
-  isGroupByOpen: boolean;
+  defaultItem?: string;
+  isGroupByOpen?: boolean;
 }
 
 interface GroupByOrgOption extends SelectOptionObject {
@@ -37,7 +37,7 @@ interface GroupByOrgOption extends SelectOptionObject {
 
 type GroupByOrgProps = GroupByOrgOwnProps;
 
-class GroupByOrgBase extends React.Component<GroupByOrgProps> {
+class GroupByOrgBase extends React.Component<GroupByOrgProps, GroupByOrgState> {
   protected defaultState: GroupByOrgState = {
     defaultItem: this.props.groupBy || this.props.options[0].value,
     isGroupByOpen: false,

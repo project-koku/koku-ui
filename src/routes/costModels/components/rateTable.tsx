@@ -129,7 +129,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
     >
       <Thead>
         <Tr>
-          {columns.map((col, i) => (
+          {columns.map((col: { title?: string; sortable?: boolean }, i) => (
             <Th key={i} sort={col.sortable ? getSortParams(i) : undefined}>
               {col.title}
             </Th>

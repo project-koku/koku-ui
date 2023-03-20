@@ -42,8 +42,8 @@ interface SummaryOwnProps extends RouterComponentProps, WrappedComponentProps {
 }
 
 interface SummaryStateProps {
-  groupBy: string;
-  groupByValue: string | number;
+  groupBy?: string;
+  groupByValue?: string | number;
   query?: Query;
   report?: OcpReport;
   reportFetchStatus?: FetchStatus;
@@ -60,7 +60,7 @@ interface SummaryDispatchProps {
 
 type SummaryProps = SummaryOwnProps & SummaryStateProps & SummaryDispatchProps;
 
-class SummaryBase extends React.Component<SummaryProps> {
+class SummaryBase extends React.Component<SummaryProps, SummaryState> {
   public state: SummaryState = {
     isBulletChartModalOpen: false,
   };
@@ -247,8 +247,6 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
       query,
       report,
       reportFetchStatus,
-      reportPathsType,
-      reportType,
       reportQueryString,
     };
   }

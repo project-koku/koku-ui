@@ -22,19 +22,32 @@ import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
 import { styles } from './costCalc.styles';
 
-interface Props extends WrappedComponentProps {
-  isLoading?: boolean;
-  onClose?: typeof costModelsActions.setCostModelDialog;
-  updateCostModel?: typeof costModelsActions.updateCostModel;
-  error?: string;
+interface UpdateDistributionDialogOwnProps extends WrappedComponentProps {
   current?: CostModel;
 }
 
-interface State {
-  distribution: string;
+interface UpdateDistributionDialogStateProps {
+  error?: string;
+  isLoading?: boolean;
 }
 
-class UpdateDistributionModelBase extends React.Component<Props, State> {
+interface UpdateDistributionDialogDispatchProps {
+  onClose?: typeof costModelsActions.setCostModelDialog;
+  updateCostModel?: typeof costModelsActions.updateCostModel;
+}
+
+interface UpdateDistributionDialogState {
+  distribution?: string;
+}
+
+type UpdateDistributionDialogProps = UpdateDistributionDialogOwnProps &
+  UpdateDistributionDialogStateProps &
+  UpdateDistributionDialogDispatchProps;
+
+class UpdateDistributionDialogBase extends React.Component<
+  UpdateDistributionDialogProps,
+  UpdateDistributionDialogState
+> {
   constructor(props) {
     super(props);
     this.state = {
@@ -119,18 +132,20 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
   }
 }
 
-export default injectIntl(
-  connect(
-    createMapStateToProps(state => {
-      return {
-        isLoading: costModelsSelectors.updateProcessing(state),
-        error: costModelsSelectors.updateError(state),
-      };
-    }),
-    {
-      onClose: costModelsActions.setCostModelDialog,
-      updateCostModel: costModelsActions.updateCostModel,
-    },
-    undefined
-  )(UpdateDistributionModelBase)
+const mapStateToProps = createMapStateToProps<UpdateDistributionDialogOwnProps, UpdateDistributionDialogStateProps>(
+  state => {
+    return {
+      isLoading: costModelsSelectors.updateProcessing(state),
+      error: costModelsSelectors.updateError(state),
+    };
+  }
 );
+
+const mapDispatchToProps: UpdateDistributionDialogDispatchProps = {
+  onClose: costModelsActions.setCostModelDialog,
+  updateCostModel: costModelsActions.updateCostModel,
+};
+
+const UpdateDistributionDialog = injectIntl(connect(mapStateToProps, mapDispatchToProps)(UpdateDistributionDialogBase));
+
+export default UpdateDistributionDialog;

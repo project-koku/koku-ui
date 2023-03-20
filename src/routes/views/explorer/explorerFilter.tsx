@@ -36,19 +36,19 @@ interface ExplorerFilterOwnProps extends RouterComponentProps, WrappedComponentP
   isDisabled?: boolean;
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
-  orgQueryString?: string;
-  pagination?: React.ReactNode;
   perspective: PerspectiveType;
+  pagination?: React.ReactNode;
   query?: Query;
   resourcePathsType?: ResourcePathsType;
-  tagQueryString?: string;
 }
 
 interface ExplorerFilterStateProps {
   dateRangeType: DateRangeType;
+  orgQueryString?: string;
   orgReport?: Org;
   orgReportFetchStatus?: FetchStatus;
   orgReportPathsType?: OrgPathsType;
+  tagQueryString?: string;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
   tagReportPathsType?: TagPathsType;
@@ -61,7 +61,7 @@ interface ExplorerFilterDispatchProps {
 
 interface ExplorerFilterState {
   categoryOptions?: ToolbarChipGroup[];
-  currentDateRangeType?: DateRangeType;
+  currentDateRangeType?: string;
   showDatePicker?: boolean;
 }
 
@@ -70,7 +70,7 @@ type ExplorerFilterProps = ExplorerFilterOwnProps & ExplorerFilterStateProps & E
 const orgReportType = OrgType.org;
 const tagReportType = TagType.tag;
 
-export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
+export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, ExplorerFilterState> {
   protected defaultState: ExplorerFilterState = {
     showDatePicker: false,
   };
@@ -296,7 +296,6 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
       orgReport,
       orgReportFetchStatus,
       orgReportPathsType,
-      perspective,
       tagQueryString,
       tagReport,
       tagReportFetchStatus,

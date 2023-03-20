@@ -18,7 +18,7 @@ interface DataKebabState {
 
 type DataKebabProps = DataKebabOwnProps & WrappedComponentProps;
 
-class DataKebabBase extends React.Component<DataKebabProps> {
+class DataKebabBase extends React.Component<DataKebabProps, DataKebabState> {
   protected defaultState: DataKebabState = {
     isKebabOpen: false,
   };

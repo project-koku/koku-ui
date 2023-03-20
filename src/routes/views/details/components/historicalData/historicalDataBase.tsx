@@ -16,14 +16,14 @@ interface HistoricalDataOwnProps {
   currency?: string;
 }
 
-interface HistoricalDataStateProps {
-  selectWidgets?: () => void;
+export interface HistoricalDataStateProps {
+  selectWidgets?: Record<number, any>;
   widgets: number[];
 }
 
 type HistoricalDataProps = HistoricalDataOwnProps & HistoricalDataStateProps & WrappedComponentProps;
 
-class HistoricalDatasBase extends React.Component<HistoricalDataProps> {
+class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
   private getTitleKey = (reportPathsType, reportType) => {
     if (reportPathsType === ReportPathsType.azure) {
       return reportType === ReportType.instanceType ? 'virtual_machine' : reportType;

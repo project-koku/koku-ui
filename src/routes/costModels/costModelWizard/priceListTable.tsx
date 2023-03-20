@@ -36,14 +36,14 @@ import { unitsLookupKey } from 'utils/format';
 
 import { CostModelContext } from './context';
 
-interface Props extends WrappedComponentProps {
+interface PriceListTableProps extends WrappedComponentProps {
   addRateAction: () => void;
   deleteRateAction: (data: any) => void;
   items: any[];
   metricsHash: MetricHash;
 }
 
-interface State {
+interface PriceListTableState {
   metrics: string[];
   measurements: string[];
   sortBy: {
@@ -52,8 +52,8 @@ interface State {
   };
 }
 
-class PriceListTable extends React.Component<Props, State> {
-  public state = {
+class PriceListTable extends React.Component<PriceListTableProps, PriceListTableState> {
+  protected defaultState: PriceListTableState = {
     metrics: [],
     measurements: [],
     sortBy: {
@@ -61,6 +61,8 @@ class PriceListTable extends React.Component<Props, State> {
       direction: SortByDirection.asc,
     },
   };
+  public state: PriceListTableState = { ...this.defaultState };
+
   public render() {
     const { addRateAction, deleteRateAction, intl, items, metricsHash } = this.props;
 
@@ -252,7 +254,7 @@ class PriceListTable extends React.Component<Props, State> {
                                 onClick: (_evt, _rowId, rowData) => {
                                   deleteRateAction(rowData.data.stateIndex);
                                 },
-                              },
+                              } as any,
                             ]}
                             isCompact
                             tiers={res}

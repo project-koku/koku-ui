@@ -23,11 +23,11 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
 
   const defaultFilter = {
     ...rhelDashboardDefaultFilters,
-    ...(widget.filter ? widget.filter : {}),
+    ...(widget.filter ? widget.filter : ({} as any)),
   };
   const tabsFilter = {
     ...rhelDashboardTabFilters,
-    ...(widget.tabsFilter ? widget.tabsFilter : {}),
+    ...(widget.tabsFilter ? widget.tabsFilter : ({} as any)),
   };
   const props = {
     ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
@@ -46,7 +46,7 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
     tabs: getQueryForWidgetTabs(
       widget,
       {
-        ...tabsFilter,
+        ...(tabsFilter as any),
         resolution: 'monthly',
       },
       props

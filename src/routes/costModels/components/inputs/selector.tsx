@@ -58,7 +58,7 @@ const SelectorBase: React.FC<SelectorProps> = ({
   style,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selection, setSelection] = useState(null);
+  const [selection, setSelection] = useState<SelectorOption>(null);
 
   useEffect(() => {
     if (!value) {
