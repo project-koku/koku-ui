@@ -86,26 +86,6 @@ export const AddRateModalBase: React.FC<AddRateModalProps> = ({
   );
 };
 
-// export default injectIntl(
-//   connect(
-//     createMapStateToProps<AddRateModalBaseOwnProps, AddRateModalBaseStateProps>(state => {}),
-//     dispatch => {
-//       return {
-//         onClose: () => {
-//           dispatch(
-//             costModelsActions.setCostModelDialog({
-//               name: 'addRate',
-//               isOpen: false,
-//             })
-//           );
-//         },
-//         updateCostModel: (uuid: string, request: CostModelRequest) =>
-//           costModelsActions.updateCostModel(uuid, request, 'addRate')(dispatch),
-//       };
-//     }
-//   )(AddRateModalBase)
-// );
-
 const mapStateToProps = createMapStateToProps<AddRateModalOwnProps, AddRateModalStateProps>(state => {
   const costModels = costModelsSelectors.costModels(state);
   let costModel = null;

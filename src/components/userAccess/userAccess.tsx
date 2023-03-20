@@ -2,7 +2,7 @@ import { asyncComponent } from 'components/async';
 import React from 'react';
 
 const PermissionsWrapper = asyncComponent(
-  () => import(/* webpackChunkName: "permissionsWrapper" */ './permissionsWrapper')
+  () => import(/* webpackChunkName: "permissionsWrapper" */ 'components/permissions')
 );
 
 // Permissions component wrapper

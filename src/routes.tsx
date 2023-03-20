@@ -22,11 +22,9 @@ const OciDetails = lazy(() => import(/* webpackChunkName: "ociDetails" */ 'route
 const OcpBreakdown = lazy(() => import(/* webpackChunkName: "ocpBreakdown" */ 'routes/views/details/ocpBreakdown'));
 const OcpDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/ocpDetails'));
 const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/views/overview'));
-const Recommendations = lazy(
-  () => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/recommendations/recommendations')
-);
-const RhelDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/rhelDetails'));
-const RhelBreakdown = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/rhelBreakdown'));
+const Recommendations = lazy(() => import(/* webpackChunkName: "recommendations" */ 'routes/views/recommendations'));
+const RhelDetails = lazy(() => import(/* webpackChunkName: "rhelDetails" */ 'routes/views/details/rhelDetails'));
+const RhelBreakdown = lazy(() => import(/* webpackChunkName: "rhelBreakdown" */ 'routes/views/details/rhelBreakdown'));
 
 const routes = {
   awsDetails: {

@@ -20,9 +20,9 @@ import { uiActions } from 'store/ui';
 import { userAccessActions, userAccessQuery, userAccessSelectors } from 'store/userAccess';
 
 const InactiveSources = asyncComponent(
-  () => import(/* webpackChunkName: "notFound" */ 'components/inactiveSources/inactiveSources')
+  () => import(/* webpackChunkName: "InactiveSources" */ 'components/inactiveSources')
 );
-const Permissions = asyncComponent(() => import(/* webpackChunkName: "notFound" */ './permissions'));
+const Permissions = asyncComponent(() => import(/* webpackChunkName: "permissions" */ './permissions') as any);
 
 interface PermissionsWrapperOwnProps {
   children?: React.ReactNode;
@@ -54,7 +54,7 @@ type PermissionsWrapperProps = PermissionsWrapperOwnProps &
   PermissionsWrapperStateProps &
   WrappedComponentProps;
 
-class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps> {
+class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps, any> {
   public componentDidMount() {
     const {
       accountSettingsFetchStatus,
@@ -148,7 +148,6 @@ const mapDispatchToProps: PermissionsWrapperDispatchProps = {
   resetState: uiActions.resetState,
 };
 
-const PermissionsWrapperConnect = connect(mapStateToProps, mapDispatchToProps)(PermissionsWrapperBase);
-const PermissionsWrapper = injectIntl(PermissionsWrapperConnect);
+const PermissionsWrapper = injectIntl(connect(mapStateToProps, mapDispatchToProps)(PermissionsWrapperBase));
 
 export default PermissionsWrapper;
