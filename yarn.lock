@@ -380,13 +380,6 @@
     "@formatjs/intl-localematcher" "0.2.32"
     tslib "^2.4.0"
 
-"@formatjs/fast-memoize@1.2.8":
-  version "1.2.8"
-  resolved "https://registry.yarnpkg.com/@formatjs/fast-memoize/-/fast-memoize-1.2.8.tgz#425a69f783005f69e11f9e38a7f87f8822d330c6"
-  integrity sha512-PemNUObyoIZcqdQ1ixTPugzAzhEj7j6AHIyrq/qR6x5BFTvOQeXHYsVZUqBEFduAIscUaDfou+U+xTqOiunJ3Q==
-  dependencies:
-    tslib "^2.4.0"
-
 "@formatjs/fast-memoize@2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@formatjs/fast-memoize/-/fast-memoize-2.0.0.tgz#e9655d2d2bba87c14b277f5bfc8caf4ba8114223"
@@ -434,19 +427,6 @@
   resolved "https://registry.yarnpkg.com/@formatjs/intl-localematcher/-/intl-localematcher-0.2.32.tgz#00d4d307cd7d514b298e15a11a369b86c8933ec1"
   integrity sha512-k/MEBstff4sttohyEpXxCmC3MqbUn9VvHGlZ8fauLzkbwXmVrEeyzS+4uhrvAk9DWU9/7otYWxyDox4nT/KVLQ==
   dependencies:
-    tslib "^2.4.0"
-
-"@formatjs/intl@2.6.7":
-  version "2.6.7"
-  resolved "https://registry.yarnpkg.com/@formatjs/intl/-/intl-2.6.7.tgz#a64cf37d01c3d09ce18cf9390982534655cae14b"
-  integrity sha512-9FvEJfUMzlmP5ZBK3EE0928kVsZmD5aeWXg+faP8+mKIvG3c0hkLEXQ2MiUrXQt4rsEzOPbYVtBdthzSM0e2fw==
-  dependencies:
-    "@formatjs/ecma402-abstract" "1.14.3"
-    "@formatjs/fast-memoize" "1.2.8"
-    "@formatjs/icu-messageformat-parser" "2.3.0"
-    "@formatjs/intl-displaynames" "6.2.6"
-    "@formatjs/intl-listformat" "7.1.9"
-    intl-messageformat "10.3.1"
     tslib "^2.4.0"
 
 "@formatjs/intl@2.6.8":
@@ -4796,16 +4776,6 @@ interpret@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-2.2.0.tgz#1a78a0b5965c40a5416d007ad6f50ad27c417df9"
   integrity sha512-Ju0Bz/cEia55xDwUWEa8+olFpCiQoypjnQySseKtmjNrnps3P+xfpUmGr90T7yjlVJmOtybRvPXhKMbHr+fWnw==
-
-intl-messageformat@10.3.1:
-  version "10.3.1"
-  resolved "https://registry.yarnpkg.com/intl-messageformat/-/intl-messageformat-10.3.1.tgz#99b280b706e4eeb232458dcb1b5758e80abf919c"
-  integrity sha512-mqHc6arhbogrdImIsEscdjWnJcg2bvg3MiyGXDsTSGmPbbM2KtRUe7oNgDUbkM3HMn4KbyOct2JyJScmwRgGSQ==
-  dependencies:
-    "@formatjs/ecma402-abstract" "1.14.3"
-    "@formatjs/fast-memoize" "1.2.8"
-    "@formatjs/icu-messageformat-parser" "2.3.0"
-    tslib "^2.4.0"
 
 intl-messageformat@10.3.2:
   version "10.3.2"
