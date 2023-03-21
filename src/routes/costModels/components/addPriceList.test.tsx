@@ -310,7 +310,7 @@ describe('add-a-new-rate', () => {
 
     await render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
-    await act(async () => (user.click(screen.getByLabelText('Select Metric')));
+    await act(async () => user.click(screen.getByLabelText('Select Metric')));
     options = await screen.findAllByRole('option');
     await user.click(options[2]);
 
