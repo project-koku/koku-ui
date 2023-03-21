@@ -7841,60 +7841,124 @@
     "groupByValueNames": [
       {
         "options": {
+          "account": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Account names"
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
                 "type": 0,
-                "value": "Cluster name"
+                "value": "Cluster names"
               }
             ]
           },
-          "container": {
+          "gcp_project": {
             "value": [
               {
                 "type": 0,
-                "value": "Container name"
+                "value": "GCP project names"
               }
             ]
           },
-          "last_reported": {
+          "node": {
             "value": [
               {
                 "type": 0,
-                "value": "Last reported"
+                "value": "Node names"
+              }
+            ]
+          },
+          "org_unit_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Organizational unit names"
               }
             ]
           },
           "other": {
             "value": []
           },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Account names"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Service names"
+              }
+            ]
+          },
           "project": {
             "value": [
               {
                 "type": 0,
-                "value": "Project name"
+                "value": "Project names"
               }
             ]
           },
-          "workload": {
+          "region": {
             "value": [
               {
                 "type": 0,
-                "value": "Workload name"
+                "value": "Region names"
               }
             ]
           },
-          "workload_type": {
+          "resource_location": {
             "value": [
               {
                 "type": 0,
-                "value": "Workload type"
+                "value": "Region names"
+              }
+            ]
+          },
+          "service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Service names"
+              }
+            ]
+          },
+          "service_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Service names"
+              }
+            ]
+          },
+          "subscription_guid": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Account names"
+              }
+            ]
+          },
+          "tag": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Tag names"
               }
             ]
           }
         },
         "type": 5,
-        "value": "value"
+        "value": "groupBy"
       }
     ],
     "groupByValues": [
@@ -10414,6 +10478,65 @@
         "value": "Last 7 days"
       }
     ],
+    "recommendationsNames": [
+      {
+        "options": {
+          "cluster": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cluster names"
+              }
+            ]
+          },
+          "container": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Container names"
+              }
+            ]
+          },
+          "last_reported": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Last reported"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Project names"
+              }
+            ]
+          },
+          "workload": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload names"
+              }
+            ]
+          },
+          "workload_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload types"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
     "recommendationsPerspective": [
       {
         "type": 0,
@@ -10424,6 +10547,65 @@
       {
         "type": 0,
         "value": "Recommendations table"
+      }
+    ],
+    "recommendationsValues": [
+      {
+        "options": {
+          "cluster": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cluster name"
+              }
+            ]
+          },
+          "container": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Container name"
+              }
+            ]
+          },
+          "last_reported": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Last reported"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Project name"
+              }
+            ]
+          },
+          "workload": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload name"
+              }
+            ]
+          },
+          "workload_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload type"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
       }
     ],
     "recommendationsViewAll": [

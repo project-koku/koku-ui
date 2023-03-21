@@ -2852,7 +2852,7 @@ export default defineMessages({
       'workload_type {Workload types} ' +
       'other {}}',
     description: 'Selected items for export',
-    id: 'groupByValueNames',
+    id: 'recommendationsNames',
   },
   recommendationsPerspective: {
     defaultMessage: 'View recommendation based on',
@@ -2875,7 +2875,7 @@ export default defineMessages({
       'workload_type {Workload type} ' +
       'other {}}',
     description: 'Selected items for export',
-    id: 'groupByValueNames',
+    id: 'recommendationsValues',
   },
   recommendationsViewAll: {
     defaultMessage: 'View all recommendations for this project',
