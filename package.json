@@ -1,21 +1,26 @@
 {
   "name": "koku-ui",
   "version": "0.0.1",
-  "description": "User Interface for Koku Application",
+  "description": "User Interface for Cost Management",
   "main": "index.js",
   "repository": "https://github.com/project-koku/koku-ui.git",
   "author": "Red Hat",
   "license": "GNU AGPLv3",
-  "private": true,
+  "private": false,
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
-    "build": "yarn build:prod",
+    "build": "npm run build:prod",
     "build:prod": "fec build",
     "check:updates": "npx npm-check-updates",
     "check:milestone": "npx npm-check-updates -t newest -f '/^(@patternfly|@redhat-cloud-services)/'",
     "check:milestone:update": "npx npm-check-updates -t newest -f '/^(@patternfly|@redhat-cloud-services)/' -u",
     "clean": "rimraf dist .cache",
-    "install:pkgs": "yarn install",
-    "lint": "yarn lint:ts",
+    "deploy": "npm-run-all build lint test",
+    "install:pkgs": "npm install",
+    "lint": "npm-run-all lint:*",
     "lint:ts": "eslint src",
     "lint:ts:fix": "eslint src --fix",
     "patch:hosts": "fec patch-etc-hosts",
@@ -24,19 +29,19 @@
     "start:csc": "CLOUD_SERVICES_CONFIG_PORT=8889 npm start",
     "start:ephemeral": "EPHEMERAL_PORT=8000 npm start",
     "start:local:api": "LOCAL_API_PORT=8000 LOCAL_API_HOST=localhost KEYCLOAK_PORT=4020 npm start",
-    "stats": "yarn build:prod --profile --json > stats.json",
+    "stats": "npm run build:prod --profile --json > stats.json",
     "test": "jest --no-cache",
     "test:clean": "jest --clearCache",
-    "test:update": "yarn test:clean && jest --updateSnapshot",
-    "translations": "yarn translations:extract && yarn translations:compile && yarn translations:compile:ast && yarn translations:datafile",
-    "translations:test": "yarn translations:extract && yarn translations:compile && yarn translations:compile:ast && yarn translations:syncTranslations --locale fr && yarn translations:syncTranslations --locale de && yarn translations:datafile",
+    "test:update": "npm run test:clean && jest --updateSnapshot",
+    "translations": "npm-run-all translations:extract translations:compile translations:compile:ast translations:datafile",
+    "translations:test": "npm-run-all translations:extract translations:compile translations:compile:ast 'translations:syncTranslations --locale fr' 'translations:syncTranslations --locale de' translations:datafile",
     "translations:clean": "rm -f `/bin/ls -1 locales/*.json | /usr/bin/egrep -v 'data|translations'.json`",
     "translations:extract": "npx formatjs extract src/locales/*.ts --out-file build/messages/src/Messages.json",
     "translations:compile": "npx formatjs compile build/messages/src/Messages.json --out-file locales/translations.json",
     "translations:compile:ast": "npx formatjs compile build/messages/src/Messages.json --out-file locales/en.json --ast",
     "translations:datafile": "node scripts/createDataJson.js",
     "translations:syncTranslations": "node scripts/syncTranslations.js",
-    "verify": "yarn lint && yarn test && yarn build"
+    "verify": "npm-run-all build lint test"
   },
   "dependencies": {
     "@patternfly/patternfly": "4.224.2",
@@ -85,7 +90,6 @@
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
     "@xstate/test": "^0.5.1",
-    "@yarnpkg/lockfile": "^1.1.0",
     "aphrodite": "^2.4.0",
     "copy-webpack-plugin": "^11.0.0",
     "eslint": "^8.36.0",
@@ -104,16 +108,18 @@
     "jest-environment-jsdom": "^29.5.0",
     "jest-mock-axios": "^4.7.1",
     "jws": "^4.0.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.8.5",
     "rimraf": "^4.4.0",
     "typescript": "^5.0.2",
     "user-event": "^4.0.0",
     "webpack-bundle-analyzer": "^4.8.0"
   },
-  "resolutions": {
-    "@types/react": "^17.0.35",
-    "@types/react-dom": "^17.0.9",
-    "eslint-plugin-rulesdir": "^0.2.1"
+  "overrides": {
+    "eslint": "^8.36.0",
+    "eslint-plugin-rulesdir": "^0.2.1",
+    "react-intl": "^6.3.1",
+    "typescript": "^5.0.2"
   },
   "insights": {
     "appname": "cost-management"

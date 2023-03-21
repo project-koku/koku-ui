@@ -1,16 +1,19 @@
 language: node_js
-sudo: false
+sudo: required
+notifications:
+  email: false
 node_js:
-  - "16"
-cache: yarn
-before_script: yarn global add codecov @yarnpkg/lockfile
-script:
-  - yarn lint
-  - yarn test --coverage --maxWorkers=4
-  - yarn build
-after_success:
-  - codecov
-  - curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
+  - '16'
+install:
+  - npm ci
+jobs:
+  include:
+    - stage: Lint
+      script: npm run lint
+    - stage: Test
+      script: npm run test && npx codecov
+    - stage: Deploy
+      script: npm run deploy && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
 env:
     global:
     - REPO="git@github.com:RedHatInsights/cost-management-build"

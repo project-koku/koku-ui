@@ -1,5 +1,5 @@
 jest.mock('api/costModels');
-import { configure, render, screen } from '@testing-library/react';
+import { act, configure, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { updateCostModel } from 'api/costModels';
 import messages from 'locales/messages';
@@ -279,33 +279,33 @@ describe('update-rate', () => {
     await user.type(descInput, 'openshift-aws-node');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 
     expect(saveButton.getAttribute('disabled')).toBeNull();
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await user.click(screen.getByLabelText('Select Metric'));
+    await act(async () => user.click(screen.getByLabelText('Select Metric')));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
     expect(saveButton.getAttribute('disabled')).toBeNull();
 
-    await user.click(screen.getByLabelText('Select Metric'));
+    await act(async () => user.click(screen.getByLabelText('Select Metric')));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
@@ -373,7 +373,7 @@ describe('update-rate', () => {
     let options = null;
     render(<RenderFormDataUI index={0} />);
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 

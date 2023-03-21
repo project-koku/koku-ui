@@ -9,7 +9,7 @@ To submit an issue, please visit https://issues.redhat.com/projects/COST/
 
 ## Requirements
 * [NodeJS v16+][nodejs]
-* [yarn 1.22+][yarn]
+* [npm 8.0.0+][npm]
 
 ## Setup /etc/hosts entries (do this once)
 
@@ -28,16 +28,16 @@ sudo bash scripts/patch-etc-hosts.sh
 1. Install requirements listed above.
 2. Setup /etc/hosts entries listed above. 
 3. Clone the repository, and open a terminal in the base of this project.
-4. Run the command `yarn install` to install all the dependencies.
+4. Run the command `npm install` to install all the dependencies.
 
 ## Building
 ```
-yarn build
+npm build
 ```
 
 ## Testing
 ```
-yarn test
+npm test
 ```
 
 ## Running Koku UI against a hosted Koku API, using webpack proxy
@@ -45,7 +45,7 @@ Note that this approach currently supports the Insights stage-beta, stage-stable
 
 1. Start development server
 ```
-yarn start
+npm start
 ```
 
 Follow the prompts that follow.
@@ -64,7 +64,7 @@ https://stage.foo.redhat.com:1337/beta/openshift/cost-management
 
 1. Start development server (Answer `yes` to run against local APIs)
 ```
-yarn start
+npm start
 ```
 
 Follow the prompts that follow.
@@ -206,4 +206,4 @@ This [RELEASE][release-doc] doc describes how to release the UI to each staging 
 [pf-logo]: https://www.patternfly.org/v4/images/logo.4189e7eb1a0741ea2b3b51b80d33c4cb.svg
 [patternfly]: https://www.patternfly.org/
 [release-doc]: https://github.com/project-koku/koku-ui/blob/main/RELEASE.md
-[yarn]: https://yarnpkg.com/en/
+[npm]: https://https://www.npmjs.com/
