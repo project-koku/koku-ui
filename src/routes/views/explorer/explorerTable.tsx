@@ -341,16 +341,31 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
         >
           <Thead>
             <Tr>
-              {columns.map((col, index) => (
-                <Th
-                  key={`col-${index}-${col.value}`}
-                  modifier="nowrap"
-                  sort={col.isSortable ? this.getSortParams(index) : undefined}
-                  style={col.style}
-                >
-                  {col.name}
-                </Th>
-              ))}
+              {columns.map((col, index) =>
+                index === 0 ? (
+                  <Th isStickyColumn key={`col-${index}-${col.value}`} stickyMinWidth="53px" />
+                ) : index === 1 ? (
+                  <Th
+                    hasRightBorder
+                    isStickyColumn
+                    key={`col-${index}-${col.value}`}
+                    modifier="nowrap"
+                    sort={col.isSortable ? this.getSortParams(index) : undefined}
+                    stickyMinWidth="100px"
+                    stickyLeftOffset="53px"
+                  >
+                    {col.name}
+                  </Th>
+                ) : (
+                  <Th
+                    key={`col-${index}-${col.value}`}
+                    modifier="nowrap"
+                    sort={col.isSortable ? this.getSortParams(index) : undefined}
+                  >
+                    {col.name}
+                  </Th>
+                )
+              )}
             </Tr>
           </Thead>
           <Tbody>
@@ -371,22 +386,30 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                     cellIndex === 0 ? (
                       <Td
                         dataLabel={columns[cellIndex].name}
+                        isStickyColumn
                         key={`cell-${cellIndex}-${rowIndex}`}
-                        modifier="nowrap"
                         select={{
                           disable: row.selectionDisabled, // Disable select for "no-project"
                           isSelected: row.selected,
                           onSelect: (_event, isSelected) => this.handleOnSelect(_event, isSelected, rowIndex),
                           rowIndex,
                         }}
+                        stickyMinWidth="53px"
                       />
-                    ) : (
+                    ) : cellIndex === 1 ? (
                       <Td
                         dataLabel={columns[cellIndex].name}
+                        hasRightBorder
+                        isStickyColumn
                         key={`cell-${rowIndex}-${cellIndex}`}
                         modifier="nowrap"
-                        isActionCell={cellIndex === row.cells.length - 1}
+                        stickyMinWidth="100px"
+                        stickyLeftOffset="53px"
                       >
+                        {item.value}
+                      </Td>
+                    ) : (
+                      <Td dataLabel={columns[cellIndex].name} key={`cell-${rowIndex}-${cellIndex}`} modifier="nowrap">
                         {item.value}
                       </Td>
                     )

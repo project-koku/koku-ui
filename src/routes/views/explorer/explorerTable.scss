@@ -33,28 +33,8 @@
 
 .explorerTableOverride {
   &.pf-c-table {
-    thead th + th + th {
-      min-width: 125px;
-    }
-    thead th:first-child, tbody td:first-child {
-      background-clip: padding-box;
-      background-color: var(--pf-global--BackgroundColor--light-100);
-      left: 0px;
-      position: sticky;
-      z-index: 199;
-    }
-    thead th:nth-child(2), tbody td:nth-child(2) {
-      background-clip: padding-box;
-      background-color: var(--pf-global--BackgroundColor--light-100);
-      left: 45px;
-      min-width: 200px;
-      position: sticky;
-      z-index: 199;
-    }
-    @media (min-width: 1200px) {
-      thead th:nth-child(2), tbody td:nth-child(2) {
-        left: 53px;
-      }
+    .pf-c-table__sticky-column {
+      z-index: 99;
     }
   }
 }
