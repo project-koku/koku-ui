@@ -112,7 +112,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="axis-axisLabel-0"
+                id="exampleCostChart-ChartAxis-2-ChartLabel"
                 x="0"
                 y="31.97"
               >
@@ -206,7 +206,7 @@ exports[`null previous and current reports are handled 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="axis-axisLabel-0"
+                id="exampleCostChart-ChartAxis-3-ChartLabel"
                 transform="rotate(-90,-7,-6)"
                 x="-7"
                 y="-8.030000000000001"
@@ -523,7 +523,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="axis-axisLabel-0"
+                id="exampleCostChart-ChartAxis-2-ChartLabel"
                 x="0"
                 y="31.97"
               >
@@ -617,7 +617,7 @@ exports[`reports are formatted to datums 1`] = `
               <text
                 direction="inherit"
                 dx="0"
-                id="axis-axisLabel-0"
+                id="exampleCostChart-ChartAxis-3-ChartLabel"
                 transform="rotate(-90,-7,-6)"
                 x="-7"
                 y="-8.030000000000001"
