@@ -1125,7 +1125,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     // Todo: clearAllFilters workaround https://github.com/patternfly/patternfly-react/issues/4222
     return (
       <div style={style ? style : styles.toolbarContainer}>
-        <Toolbar clearAllFilters={this.onDelete as any} collapseListedFiltersBreakpoint="xl">
+        <Toolbar
+          className="toolbarOverride"
+          clearAllFilters={this.onDelete as any}
+          collapseListedFiltersBreakpoint="xl"
+        >
           <ToolbarContent>
             {showBulkSelect && <ToolbarItem variant="bulk-select">{this.getBulkSelect()}</ToolbarItem>}
             {showFilter && (
