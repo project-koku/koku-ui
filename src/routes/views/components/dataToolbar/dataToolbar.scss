@@ -7,3 +7,7 @@
     min-width: 250px;
   }
 }
+
+.toolbarOverride {
+  --pf-c-toolbar--ZIndex: auto; z-index: 301;
+}
