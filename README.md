@@ -8,8 +8,8 @@ User interface is based on Patternfly [![Patternfly][pf-logo]][patternfly]
 To submit an issue, please visit https://issues.redhat.com/projects/COST/
 
 ## Requirements
-* [NodeJS v16+][nodejs]
-* [npm 8.0.0+][npm]
+* [NodeJS v18.15+][nodejs]
+* [npm v9.5+][npm]
 
 ## Setup /etc/hosts entries (do this once)
 
