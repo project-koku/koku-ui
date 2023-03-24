@@ -2,11 +2,11 @@ import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import {
-  ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
   DatumType,
 } from 'routes/views/components/charts/common/chartDatum';
+import { ComputedForecastItemType } from 'routes/views/components/charts/common/chartDatumForecast';
 import { azureDashboardWidgets } from 'store/dashboard/azureDashboard';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatUnits } from 'utils/format';

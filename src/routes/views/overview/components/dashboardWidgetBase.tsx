@@ -9,13 +9,8 @@ import { cloneDeep } from 'lodash';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
-import {
-  ComputedReportItemType,
-  DatumType,
-  transformForecast,
-  transformForecastCone,
-  transformReport,
-} from 'routes/views/components/charts/common/chartDatum';
+import { ComputedReportItemType, DatumType, transformReport } from 'routes/views/components/charts/common/chartDatum';
+import { transformForecast, transformForecastCone } from 'routes/views/components/charts/common/chartDatumForecast';
 import {
   ReportSummary,
   ReportSummaryAlt,
