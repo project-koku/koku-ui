@@ -5,12 +5,15 @@ import { getQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import type { RosReport } from 'api/ros/ros';
 import messages from 'locales/messages';
-import { cloneDeep } from 'lodash';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { ComputedReportItemType, DatumType, transformReport } from 'routes/views/components/charts/common/chartDatum';
-import { transformForecast, transformForecastCone } from 'routes/views/components/charts/common/chartDatumForecast';
+import {
+  getComputedForecast,
+  transformForecast,
+  transformForecastCone,
+} from 'routes/views/components/charts/common/chartDatumForecast';
 import {
   ReportSummary,
   ReportSummaryAlt,
@@ -272,122 +275,14 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
 
     // Todo: Add cumulative / daily prop
     const daily = currentComparison === Comparison.daily;
-    const type = daily ? DatumType.rolling : trend.datumType;
+    const datumType = daily ? DatumType.rolling : trend.datumType;
 
-    let forecastData;
-    let forecastConeData;
+    const computedForecast = getComputedForecast(forecast, report, computedForecastItem, datumType);
 
-    if (computedForecastItem) {
-      const newForecast = cloneDeep(forecast);
-      if (newForecast) {
-        newForecast.data = [];
-      }
-      if (forecast && report && report.data) {
-        const total =
-          report.meta && report.meta.total && report.meta.total[computedForecastItem]
-            ? report.meta.total[computedForecastItem].total.value
-            : 0;
-        const units =
-          report.meta && report.meta.total && report.meta.total[computedForecastItem]
-            ? report.meta.total[computedForecastItem].total.units
-            : 'USD';
+    const forecastData = transformForecast(computedForecast, datumType, computedForecastItem);
+    const forecastConeData = transformForecastCone(computedForecast, datumType, computedForecastItem);
 
-        // Find last currentData date with values
-        const reportedValues = report.data.filter(val => val.values.length);
-        const lastReported = reportedValues[reportedValues.length - 1]
-          ? reportedValues[reportedValues.length - 1].date
-          : undefined;
-
-        // Remove overlapping forecast dates, if any
-        if (forecast && forecast.data && forecast.data.length > 0) {
-          const lastReportedDate = new Date(lastReported);
-          const lastReportedMonth = lastReportedDate.getMonth() + 1;
-          for (const item of forecast.data) {
-            const forecastDate = new Date(item.date);
-            const forecastMonth = forecastDate.getMonth() + 1;
-
-            // Ensure month match. AWS forecast may begin with "2020-12-04", but ends on "2021-01-01"
-            if (forecastDate > lastReportedDate && lastReportedMonth === forecastMonth) {
-              newForecast.data.push(item);
-            }
-          }
-
-          // For cumulative data, forecast values should begin at last reported total with zero confidence values
-          if (type === DatumType.cumulative) {
-            const firstReported =
-              forecast.data[0].values && forecast.data[0].values.length > 0
-                ? forecast.data[0].values[0].date
-                : undefined;
-
-            const date = this.getNumberOfDays(lastReported, firstReported) === 1 ? lastReported : firstReported;
-
-            newForecast.data.unshift({
-              date,
-              values: [
-                {
-                  date,
-                  cost: {
-                    confidence_max: {
-                      value: 0,
-                    },
-                    confidence_min: {
-                      value: 0,
-                    },
-                    total: {
-                      value: total,
-                      units,
-                    },
-                  },
-                  infrastructure: {
-                    confidence_max: {
-                      value: 0,
-                    },
-                    confidence_min: {
-                      value: 0,
-                    },
-                    total: {
-                      value: total,
-                      units,
-                    },
-                  },
-                  supplementary: {
-                    confidence_max: {
-                      value: 0,
-                    },
-                    confidence_min: {
-                      value: 0,
-                    },
-                    total: {
-                      value: total,
-                      units,
-                    },
-                  },
-                },
-              ],
-            });
-          }
-        }
-      }
-      forecastData = transformForecast(newForecast, type, computedForecastItem);
-      forecastConeData = transformForecastCone(newForecast, type, computedForecastItem);
-    }
     return { forecastData, forecastConeData };
-  };
-
-  private getNumberOfDays = (start: string, end: string) => {
-    const date1 = new Date(start);
-    const date2 = new Date(end);
-
-    // One day in milliseconds
-    const oneDay = 1000 * 60 * 60 * 24;
-
-    // Calculating the time difference between two dates
-    const diffInTime = date2.getTime() - date1.getTime();
-
-    // Calculating the no. of days between two dates
-    const diffInDays = Math.round(diffInTime / oneDay);
-
-    return diffInDays;
   };
 
   // This chart displays cumulative cost only
