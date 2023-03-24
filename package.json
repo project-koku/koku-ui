@@ -8,8 +8,8 @@
   "license": "GNU AGPLv3",
   "private": false,
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=8.0.0"
+    "node": ">=18.15.0",
+    "npm": ">=9.5.0"
   },
   "scripts": {
     "build": "npm run build:prod",
