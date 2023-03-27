@@ -48,7 +48,7 @@ import { DetailsTable, DetailsTableColumnIds } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
 import { styles } from './ocpDetails.styles';
 
-interface OcpDetailsStateProps {
+export interface OcpDetailsStateProps {
   currency?: string;
   isRosFeatureEnabled?: boolean;
   providers: Providers;

@@ -1,0 +1,9 @@
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+.explorerTableOverride {
+  &.pf-c-table {
+    .pf-c-table__sticky-column {
+      z-index: 99;
+    }
+  }
+}
