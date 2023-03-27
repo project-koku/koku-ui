@@ -534,8 +534,20 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     return [{ name: intl.formatMessage(messages.names, { count: 1 }), key: 'name' }];
   };
 
+  // Remove trailing commas -- see https://issues.redhat.com/browse/COST-3641
+  private cleanInput = (value: string) => {
+    const val = value.replace(/,\s*$/, '').replace(/&\s*$/, '');
+    if (val.length === 0) {
+      return undefined;
+    }
+    return val;
+  };
+
   private handleOnCategoryInputChange = (value: string) => {
-    this.setState({ categoryInput: value });
+    const val = this.cleanInput(value);
+    if (val) {
+      this.setState({ categoryInput: val });
+    }
   };
 
   private onCategoryInput = (event, key) => {
@@ -571,8 +583,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   private onCategoryInputSelect = (value, key) => {
     const { currentCategory, currentExclude } = this.state;
 
+    const val = this.cleanInput(value);
+    if (!val) {
+      return;
+    }
+
     const isExcludes = currentExclude === ExcludeType.exclude;
-    const filter = this.getFilter(currentCategory, value, isExcludes);
+    const filter = this.getFilter(currentCategory, val, isExcludes);
     this.setState(
       (prevState: any) => {
         const prevItems = prevState.filters[key] ? prevState.filters[key] : [];
@@ -580,7 +597,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
           filters: {
             ...prevState.filters,
             [currentCategory]:
-              prevItems && prevItems.find(item => item.value === value)
+              prevItems && prevItems.find(item => item.value === val)
                 ? prevItems
                 : prevItems
                 ? [...prevItems, filter]
