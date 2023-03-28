@@ -112,7 +112,6 @@
     "prettier": "^2.8.7",
     "rimraf": "^4.4.1",
     "typescript": "^5.0.2",
-    "user-event": "^4.0.0",
     "webpack-bundle-analyzer": "^4.8.0"
   },
   "overrides": {
