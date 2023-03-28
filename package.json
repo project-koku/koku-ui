@@ -51,7 +51,7 @@
     "@patternfly/react-styles": "4.92.6",
     "@patternfly/react-table": "4.113.0",
     "@patternfly/react-tokens": "4.94.6",
-    "@redhat-cloud-services/frontend-components": "^3.9.33",
+    "@redhat-cloud-services/frontend-components": "^3.9.34",
     "@redhat-cloud-services/frontend-components-notifications": "^3.2.14",
     "@redhat-cloud-services/frontend-components-translations": "^3.2.6",
     "@redhat-cloud-services/frontend-components-utilities": "^3.3.14",
