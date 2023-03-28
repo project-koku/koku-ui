@@ -20,6 +20,7 @@ import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { uiActions } from 'store/ui';
 import { getCurrency } from 'utils/localStorage';
 import { formatPath } from 'utils/paths';
 import { breakdownDescKey, breakdownTitleKey } from 'utils/props';
@@ -30,6 +31,7 @@ import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
 interface BreakdownDispatchProps {
+  closeRecommendationsDrawer?: typeof uiActions.closeRecommendationsDrawer;
   fetchReport?: typeof reportActions.fetchReport;
 }
 
@@ -128,6 +130,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
 });
 
 const mapDispatchToProps: BreakdownDispatchProps = {
+  closeRecommendationsDrawer: uiActions.closeRecommendationsDrawer,
   fetchReport: reportActions.fetchReport,
 };
 

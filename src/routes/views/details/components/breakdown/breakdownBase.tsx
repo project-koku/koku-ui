@@ -18,6 +18,7 @@ import { handleCostTypeSelected, handleCurrencySelected } from 'routes/views/uti
 import { hasCurrentMonthData } from 'routes/views/utils/providers';
 import { FetchStatus } from 'store/common';
 import type { reportActions } from 'store/reports';
+import type { uiActions } from 'store/ui';
 import type { CostTypes } from 'utils/costType';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -77,6 +78,7 @@ export interface BreakdownStateProps {
 }
 
 interface BreakdownDispatchProps {
+  closeRecommendationsDrawer?: typeof uiActions.closeRecommendationsDrawer;
   fetchReport?: typeof reportActions.fetchReport;
 }
 
@@ -209,11 +211,20 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   };
 
   private handleTabClick = (event, tabIndex) => {
+    const { closeRecommendationsDrawer } = this.props;
     const { activeTabKey } = this.state;
+
     if (activeTabKey !== tabIndex) {
-      this.setState({
-        activeTabKey: tabIndex,
-      });
+      this.setState(
+        {
+          activeTabKey: tabIndex,
+        },
+        () => {
+          if (closeRecommendationsDrawer) {
+            closeRecommendationsDrawer();
+          }
+        }
+      );
     }
   };
 
