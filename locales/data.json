@@ -1815,7 +1815,15 @@
     "cpuUnits": [
       {
         "type": 0,
-        "value": "CPU (mCores)"
+        "value": "CPU ("
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": ")"
       }
     ],
     "create": [
@@ -9337,13 +9345,15 @@
     "memoryUnits": [
       {
         "type": 0,
-        "value": "Memory (MB)"
-      }
-    ],
-    "memoryUtilization": [
+        "value": "Memory ("
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
       {
         "type": 0,
-        "value": "Memory utilization (MB)"
+        "value": ")"
       }
     ],
     "metric": [
@@ -10424,12 +10434,6 @@
         "value": "Recommendations"
       }
     ],
-    "recommendationsCpuUtilization": [
-      {
-        "type": 0,
-        "value": "CPU utilization (mCores)"
-      }
-    ],
     "recommendationsDetails": [
       {
         "offset": 0,
@@ -10460,19 +10464,13 @@
         "value": "count"
       }
     ],
-    "recommendationsLast15Days": [
+    "recommendationsLongTerm": [
       {
         "type": 0,
         "value": "Last 15 days"
       }
     ],
-    "recommendationsLast24hrs": [
-      {
-        "type": 0,
-        "value": "Last 24 hrs"
-      }
-    ],
-    "recommendationsLast7Days": [
+    "recommendationsMediumTerm": [
       {
         "type": 0,
         "value": "Last 7 days"
@@ -10541,6 +10539,12 @@
       {
         "type": 0,
         "value": "View recommendation based on"
+      }
+    ],
+    "recommendationsShortTerm": [
+      {
+        "type": 0,
+        "value": "Last 24 hrs"
       }
     ],
     "recommendationsTableAriaLabel": [

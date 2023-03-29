@@ -1,5 +1,5 @@
-import type { RosPathsType, RosType } from 'api/ros/ros';
-import type { RosReport } from 'api/ros/ros';
+import type { RosReport, RosType } from 'api/ros/ros';
+import { RosPathsType } from 'api/ros/ros';
 import { runRosReport } from 'api/ros/rosUtils';
 import type { AxiosError } from 'axios';
 import type { ThunkAction } from 'store/common';
@@ -33,12 +33,187 @@ export function fetchRosReport(rosPathsType: RosPathsType, rosType: RosType, ros
     dispatch(fetchRosRequest(meta));
     runRosReport(rosPathsType, rosType, rosQueryString)
       .then(res => {
-        // See https://github.com/project-koku/koku-ui/pull/580
-        // const repsonseData = dropCurrentMonthData(res, query);
         dispatch(fetchRosSuccess(res.data, meta));
       })
       .catch(err => {
-        dispatch(fetchRosFailure(err, meta));
+        // Todo: Remove when API is available
+        // dispatch(fetchRosFailure(err, meta));
+
+        const res: any = {
+          id: 1,
+          cluster_uuid: 'f0501829-e2bc-4ef0-9b4d-2875344c5ac8',
+          cluster_alias: '6678',
+          project: 'proj_rxu',
+          workload: 'deployment_proj_rxu',
+          workload_type: 'replicaset',
+          container: 'postgres',
+          last_reported: '2023-03-29T10:54:45+05:30',
+          recommendations: {
+            short_term: {
+              monitoring_start_time: '2022-01-22T18:25:43.511Z',
+              monitoring_end_time: '2022-01-23T18:25:43.511Z',
+              duration_in_hours: '24',
+              confidence_level: 0.0,
+              config: {
+                limits: {
+                  memory: {
+                    amount: 128.8,
+                    format: 'MiB',
+                  },
+                  cpu: {
+                    amount: 8.0,
+                    format: 'cores',
+                  },
+                },
+                requests: {
+                  memory: {
+                    amount: 100.0,
+                    format: 'MiB',
+                  },
+                  cpu: {
+                    amount: 4.0,
+                    format: 'cores',
+                  },
+                },
+              },
+              variation: {
+                limits: {
+                  memory: {
+                    amount: 21.2,
+                    format: 'MiB',
+                  },
+                  cpu: {
+                    amount: 0,
+                    format: 'cores',
+                  },
+                },
+                requests: {
+                  memory: {
+                    amount: -15.1,
+                    format: 'MiB',
+                  },
+                  cpu: {
+                    amount: -3.2,
+                    format: 'cores',
+                  },
+                },
+              },
+            },
+            medium_term: {
+              monitoring_start_time: '2022-01-16T18:25:43.511Z',
+              monitoring_end_time: '2022-01-23T18:25:43.511Z',
+              duration_in_hours: '168',
+              confidence_level: 0.0,
+              config: {
+                limits: {
+                  memory: {
+                    amount: 18.0,
+                    format: 'MiB',
+                  },
+                  cpu: {
+                    amount: 1.0,
+                    format: 'cores',
+                  },
+                },
+                requests: {
+                  memory: {
+                    amount: 60.0,
+                    format: 'MiB',
+                  },
+                  cpu: {
+                    amount: 3.0,
+                    format: 'cores',
+                  },
+                },
+              },
+              variation: {
+                limits: {
+                  memory: {
+                    amount: -2.2,
+                    format: 'MiB',
+                  },
+                  cpu: {
+                    amount: -1.1,
+                    format: 'cores',
+                  },
+                },
+                requests: {
+                  memory: {
+                    amount: -2.4,
+                    format: 'MiB',
+                  },
+                  cpu: {
+                    amount: -3.3,
+                    format: 'cores',
+                  },
+                },
+              },
+            },
+            long_term: {
+              monitoring_start_time: '2022-01-8T18:25:43.511Z',
+              monitoring_end_time: '2022-01-23T18:25:43.511Z',
+              duration_in_hours: '360',
+              confidence_level: 0.0,
+              config: {
+                limits: {
+                  memory: {
+                    amount: 28.8,
+                    format: 'MiB',
+                  },
+                  cpu: {
+                    amount: 6.0,
+                    format: 'cores',
+                  },
+                },
+                requests: {
+                  memory: {
+                    amount: 80.0,
+                    format: 'MiB',
+                  },
+                  cpu: {
+                    amount: 2.0,
+                    format: 'cores',
+                  },
+                },
+              },
+              variation: {
+                limits: {
+                  memory: {
+                    amount: -1.2,
+                    format: 'MiB',
+                  },
+                  cpu: {
+                    amount: -12.2,
+                    format: 'cores',
+                  },
+                },
+                requests: {
+                  memory: {
+                    amount: -1.2,
+                    format: 'MiB',
+                  },
+                  cpu: {
+                    amount: -1.2,
+                    format: 'cores',
+                  },
+                },
+              },
+            },
+          },
+        };
+        const resList: any = {
+          data: [{ ...res }],
+          meta: {
+            count: 1,
+            limit: 10,
+            offset: 0,
+          },
+          links: {
+            first: 'string',
+            last: 'string',
+          },
+        };
+        dispatch(fetchRosSuccess(rosPathsType === RosPathsType.recommendationList ? resList : res, meta));
       });
   };
 }

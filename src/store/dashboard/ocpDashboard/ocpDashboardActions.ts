@@ -35,7 +35,7 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
   };
 };
 
-export const fetchWidgetRosReport = (id: number): ThunkAction => {
+export const fetchWidgetRosReports = (id: number): ThunkAction => {
   return (dispatch, getState) => {
     const state = getState();
     const widget = selectWidget(state, id);

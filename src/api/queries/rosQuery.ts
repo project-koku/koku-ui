@@ -24,6 +24,8 @@ export interface RosQuery extends utils.Query {
   delta?: string;
   filter?: RosFilters;
   group_by?: RosGroupBys;
+  limit?: number;
+  offset?: number;
   order_by?: RosOrderBys;
 }
 

@@ -13,6 +13,7 @@ interface PerspectiveSelectOwnProps {
   isDisabled?: boolean;
   onSelected(value: string);
   options?: {
+    isDisabled?: boolean;
     label: MessageDescriptor;
     value: string;
   }[];
@@ -24,6 +25,7 @@ interface PerspectiveSelectState {
 }
 
 interface PerspectiveOption extends SelectOptionObject {
+  isDisabled?: boolean;
   toString(): string; // label
   value?: string;
 }
@@ -43,6 +45,7 @@ class PerspectiveSelectBase extends React.Component<PerspectiveSelectProps, Pers
 
     options.map(option => {
       selections.push({
+        isDisabled: option.isDisabled,
         toString: () => intl.formatMessage(option.label, { value: option.value }),
         value: option.value,
       });
@@ -76,7 +79,7 @@ class PerspectiveSelectBase extends React.Component<PerspectiveSelectProps, Pers
         variant={SelectVariant.single}
       >
         {selectOptions.map(option => (
-          <SelectOption key={option.value} value={option} />
+          <SelectOption isDisabled={option.isDisabled} key={option.value} value={option} />
         ))}
       </Select>
     );

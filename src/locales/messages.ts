@@ -911,14 +911,9 @@ export default defineMessages({
     id: 'cpuTitle',
   },
   cpuUnits: {
-    defaultMessage: 'CPU (mCores)',
+    defaultMessage: 'CPU ({value})',
     description: 'CPU (mCores)',
     id: 'cpuUnits',
-  },
-  cpuUtilizationUnits: {
-    defaultMessage: 'CPU utilization (mCores)',
-    description: 'CPU utilization (mCores)',
-    id: 'recommendationsCpuUtilization',
   },
   create: {
     defaultMessage: 'Create',
@@ -2183,14 +2178,9 @@ export default defineMessages({
     id: 'memoryTitle',
   },
   memoryUnits: {
-    defaultMessage: 'Memory (MB)',
+    defaultMessage: 'Memory ({value})',
     description: 'Memory (MB)',
     id: 'memoryUnits',
-  },
-  memoryUtilizationUnits: {
-    defaultMessage: 'Memory utilization (MB)',
-    description: 'Memory utilization (MB)',
-    id: 'memoryUtilization',
   },
   metric: {
     defaultMessage: 'Metric',
@@ -2826,20 +2816,15 @@ export default defineMessages({
     description: 'Recommendation details',
     id: 'recommendationsDetails',
   },
-  recommendationsLast15Days: {
+  recommendationsLongTerm: {
     defaultMessage: 'Last 15 days',
     description: 'Last 15 days',
-    id: 'recommendationsLast15Days',
+    id: 'recommendationsLongTerm',
   },
-  recommendationsLast24hrs: {
-    defaultMessage: 'Last 24 hrs',
-    description: 'Last 24 hrs',
-    id: 'recommendationsLast24hrs',
-  },
-  recommendationsLast7Days: {
+  recommendationsMediumTerm: {
     defaultMessage: 'Last 7 days',
     description: 'Last 7 days',
-    id: 'recommendationsLast7Days',
+    id: 'recommendationsMediumTerm',
   },
   recommendationsNames: {
     defaultMessage:
@@ -2858,6 +2843,11 @@ export default defineMessages({
     defaultMessage: 'View recommendation based on',
     description: 'View recommendation based on',
     id: 'recommendationsPerspective',
+  },
+  recommendationsShortTerm: {
+    defaultMessage: 'Last 24 hrs',
+    description: 'Last 24 hrs',
+    id: 'recommendationsShortTerm',
   },
   recommendationsTableAriaLabel: {
     defaultMessage: 'Recommendations table',

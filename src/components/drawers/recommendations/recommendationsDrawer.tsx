@@ -34,7 +34,7 @@ type RecommendationsDrawerProps = RecommendationsDrawerOwnProps &
   RecommendationsDrawerDispatchProps &
   WrappedComponentProps;
 
-class RecommendationsDrawerBase extends React.Component<RecommendationsDrawerProps> {
+class RecommendationsDrawerBase extends React.Component<RecommendationsDrawerProps, any> {
   private drawerRef = React.createRef();
 
   private handleClose = () => {
@@ -53,7 +53,7 @@ class RecommendationsDrawerBase extends React.Component<RecommendationsDrawerPro
           /* @ts-ignore */}
           <span tabIndex={isOpen ? 0 : -1} ref={this.drawerRef}>
             <Title headingLevel="h1" size={TitleSizes.xl}>
-              {payload ? payload.container : undefined}
+              {payload ? payload.container : null}
             </Title>
           </span>
           <DrawerActions>

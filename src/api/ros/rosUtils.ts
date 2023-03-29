@@ -6,6 +6,7 @@ export function runRosReport(rosPathsType: RosPathsType, rosType: RosType, query
   let result;
   switch (rosPathsType) {
     case RosPathsType.recommendation:
+    case RosPathsType.recommendationList:
       result = runRecommendation(rosType, query);
       break;
   }

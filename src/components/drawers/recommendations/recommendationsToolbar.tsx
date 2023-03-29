@@ -1,4 +1,5 @@
 import type { Query } from 'api/queries/query';
+import type { RecommendationItems } from 'api/ros/recommendations';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -7,10 +8,14 @@ import { connect } from 'react-redux';
 import { PerspectiveSelect } from 'routes/views/components/perspective/perspectiveSelect';
 import { createMapStateToProps } from 'store/common';
 
+import { RecommendationTerm } from './recommendationsContent';
+
 interface RecommendationsToolbarOwnProps {
+  currentItem?: string;
   isDisabled?: boolean;
-  onSelected?: () => void;
+  onSelected?: (value: string) => void;
   query?: Query;
+  recommendations?: RecommendationItems;
 }
 
 interface RecommendationsToolbarStateProps {
@@ -21,48 +26,43 @@ interface RecommendationsToolbarDispatchProps {
   // TDB...
 }
 
-interface RecommendationsToolbarState {
-  currentItem?: RecommendationsType;
-}
+interface RecommendationsToolbarState {}
 
 type RecommendationsToolbarProps = RecommendationsToolbarOwnProps &
   RecommendationsToolbarStateProps &
   RecommendationsToolbarDispatchProps &
   WrappedComponentProps;
 
-// eslint-disable-next-line no-shadow
-const enum RecommendationsType {
-  last_24_hrs = 'last_24_hrs',
-  last_7_days = 'last_7_days',
-  last_15_days = 'last_15_days',
-}
-
-export class RecommendationsToolbarBase extends React.Component<RecommendationsToolbarProps> {
+export class RecommendationsToolbarBase extends React.Component<RecommendationsToolbarProps, any> {
   protected defaultState: RecommendationsToolbarState = {
-    currentItem: undefined,
+    // TBD...
   };
   public state: RecommendationsToolbarState = { ...this.defaultState };
 
   private getOptions = () => {
+    const { recommendations } = this.props;
+
     return [
       {
-        label: messages.recommendationsLast24hrs,
-        value: RecommendationsType.last_24_hrs,
+        isDisabled: !(recommendations && recommendations.short_term),
+        label: messages.recommendationsShortTerm,
+        value: RecommendationTerm.short_term,
       },
       {
-        label: messages.recommendationsLast7Days,
-        value: RecommendationsType.last_7_days,
+        isDisabled: !(recommendations && recommendations.medium_term),
+        label: messages.recommendationsMediumTerm,
+        value: RecommendationTerm.medium_term,
       },
       {
-        label: messages.recommendationsLast15Days,
-        value: RecommendationsType.last_15_days,
+        isDisabled: !(recommendations && recommendations.long_term),
+        label: messages.recommendationsLongTerm,
+        value: RecommendationTerm.long_term,
       },
     ];
   };
 
   public render() {
-    const { isDisabled, onSelected } = this.props;
-    const { currentItem } = this.state;
+    const { currentItem, isDisabled, onSelected } = this.props;
 
     const options = this.getOptions();
 
