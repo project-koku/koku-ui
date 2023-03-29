@@ -911,7 +911,7 @@ export default defineMessages({
     id: 'cpuTitle',
   },
   cpuUnits: {
-    defaultMessage: 'CPU ({value})',
+    defaultMessage: 'CPU ({units})',
     description: 'CPU (mCores)',
     id: 'cpuUnits',
   },
@@ -2178,7 +2178,7 @@ export default defineMessages({
     id: 'memoryTitle',
   },
   memoryUnits: {
-    defaultMessage: 'Memory ({value})',
+    defaultMessage: 'Memory ({units})',
     description: 'Memory (MB)',
     id: 'memoryUnits',
   },

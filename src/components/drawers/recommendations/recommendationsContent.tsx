@@ -179,6 +179,12 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
     const { intl } = this.props;
 
     const recommendations = this.getRecommendations();
+    const cpuConfig = recommendations.config.limits.cpu.amount;
+    const cpuConfigUnits = recommendations.config.limits.cpu.format;
+    const cpuVariation = recommendations.variation.limits.cpu.amount;
+    const memConfig = recommendations.config.limits.memory.amount;
+    const memConfigUnits = recommendations.config.limits.memory.format;
+    const memVariation = recommendations.variation.limits.memory.amount;
 
     return (
       <TableComposable
@@ -197,24 +203,24 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
         </Thead>
         <Tbody>
           <Tr>
-            <Td style={styles.firstColumn}>
-              {intl.formatMessage(messages.cpuUnits, { value: recommendations.config.limits.cpu.format })}
-            </Td>
-            <Td>N/A</Td>
-            <Td hasRightBorder>{recommendations.config.limits.cpu.amount}</Td>
-            <Td>{this.getChangeValue(recommendations.variation.limits.cpu.amount)}</Td>
+            <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuUnits, { units: cpuConfigUnits })}</Td>
+            <Td>{this.getOriginalValue(cpuConfig, cpuVariation)}</Td>
+            <Td hasRightBorder>{cpuConfig.toFixed(1)}</Td>
+            <Td>{this.getChangeValue(cpuVariation)}</Td>
           </Tr>
           <Tr>
-            <Td style={styles.firstColumn}>
-              {intl.formatMessage(messages.memoryUnits, { value: recommendations.config.limits.memory.format })}
-            </Td>
-            <Td>N/A</Td>
-            <Td hasRightBorder>{recommendations.config.limits.memory.amount}</Td>
-            <Td>{this.getChangeValue(recommendations.variation.limits.memory.amount)}</Td>
+            <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryUnits, { units: memConfigUnits })}</Td>
+            <Td>{this.getOriginalValue(memConfig, memVariation)}</Td>
+            <Td hasRightBorder>{memConfig.toFixed(1)}</Td>
+            <Td>{this.getChangeValue(memVariation)}</Td>
           </Tr>
         </Tbody>
       </TableComposable>
     );
+  };
+
+  private getOriginalValue = (amount, variation) => {
+    return (amount - variation).toFixed(1);
   };
 
   private getRecommendations = (): RecommendationItem => {
@@ -240,6 +246,12 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
     const { intl } = this.props;
 
     const recommendations = this.getRecommendations();
+    const cpuConfig = recommendations.config.requests.cpu.amount;
+    const cpuConfigUnits = recommendations.config.requests.cpu.format;
+    const cpuVariation = recommendations.variation.requests.cpu.amount;
+    const memConfig = recommendations.config.requests.memory.amount;
+    const memConfigUnits = recommendations.config.requests.memory.format;
+    const memVariation = recommendations.variation.requests.memory.amount;
 
     return (
       <TableComposable
@@ -258,20 +270,16 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
         </Thead>
         <Tbody>
           <Tr>
-            <Td style={styles.firstColumn}>
-              {intl.formatMessage(messages.cpuUnits, { value: recommendations.config.requests.cpu.format })}
-            </Td>
-            <Td>N/A</Td>
-            <Td hasRightBorder>{recommendations.config.requests.cpu.amount}</Td>
-            <Td>{this.getChangeValue(recommendations.variation.requests.cpu.amount)}</Td>
+            <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuUnits, { units: cpuConfigUnits })}</Td>
+            <Td>{this.getOriginalValue(cpuConfig, cpuVariation)}</Td>
+            <Td hasRightBorder>{cpuConfig.toFixed(1)}</Td>
+            <Td>{this.getChangeValue(cpuVariation)}</Td>
           </Tr>
           <Tr>
-            <Td style={styles.firstColumn}>
-              {intl.formatMessage(messages.memoryUnits, { value: recommendations.config.requests.memory.format })}
-            </Td>
-            <Td>N/A</Td>
-            <Td hasRightBorder>{recommendations.config.requests.memory.amount}</Td>
-            <Td>{this.getChangeValue(recommendations.variation.requests.memory.amount)}</Td>
+            <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryUnits, { units: memConfigUnits })}</Td>
+            <Td>{this.getOriginalValue(memConfig, memVariation)}</Td>
+            <Td hasRightBorder>{memConfig.toFixed(1)}</Td>
+            <Td>{this.getChangeValue(memVariation)}</Td>
           </Tr>
         </Tbody>
       </TableComposable>
