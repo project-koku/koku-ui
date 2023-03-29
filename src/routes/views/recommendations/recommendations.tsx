@@ -24,6 +24,7 @@ import { rosSelectors } from 'store/ros';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
+import { getGroupById, getGroupByValue } from '../utils/groupBy';
 import { styles } from './recommendations.styles';
 import { RecommendationsHeader } from './recommendationsHeader';
 import { RecommendationsTable } from './recommendationsTable';
@@ -208,6 +209,8 @@ class Recommendations extends React.Component<RecommendationsProps, Recommendati
 const mapStateToProps = createMapStateToProps<RecommendationsOwnProps, RecommendationsStateProps>(
   (state, { router }) => {
     const queryFromRoute = parseQuery<RosQuery>(router.location.search);
+    const groupBy = getGroupById(queryFromRoute);
+    const groupByValue = getGroupByValue(queryFromRoute);
 
     const query = {
       // Todo: remove when API is available
@@ -215,6 +218,9 @@ const mapStateToProps = createMapStateToProps<RecommendationsOwnProps, Recommend
       //   ...baseQuery.filter,
       //   ...queryFromRoute.filter,
       // },
+      ...(groupBy && {
+        [groupBy]: groupByValue, // project filter
+      }),
       // exclude: queryFromRoute.exclude || baseQuery.exclude,
       filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
       limit: queryFromRoute.limit || baseQuery.limit,
