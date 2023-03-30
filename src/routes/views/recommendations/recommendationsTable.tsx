@@ -110,7 +110,7 @@ class RecommendationsTableBase extends React.Component<RecommendationsTableProps
     ];
 
     hasData &&
-      report.data.map((item, index) => {
+      report.data.map(item => {
         const cluster = item.cluster_alias ? item.cluster_alias : item.cluster_uuid ? item.cluster_uuid : '';
         const container = item.container ? item.container : '';
         const lastReported = getTimeFromNow(item.last_reported);

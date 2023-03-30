@@ -11,6 +11,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Loading } from 'routes/state/loading';
 import { NotAvailable } from 'routes/state/notAvailable';
+import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import {
   handleFilterAdded,
   handleFilterRemoved,
@@ -24,7 +25,6 @@ import { rosSelectors } from 'store/ros';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-import { getGroupById, getGroupByValue } from '../utils/groupBy';
 import { styles } from './recommendations.styles';
 import { RecommendationsHeader } from './recommendationsHeader';
 import { RecommendationsTable } from './recommendationsTable';
