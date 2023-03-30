@@ -95,11 +95,9 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
     }
     if (item.recommendations.short_term) {
       result = RecommendationTerm.short_term;
-    }
-    if (item.recommendations.medium_term) {
+    } else if (item.recommendations.medium_term) {
       result = RecommendationTerm.medium_term;
-    }
-    if (item.recommendations.long_term) {
+    } else if (item.recommendations.long_term) {
       result = RecommendationTerm.long_term;
     }
     return result;
