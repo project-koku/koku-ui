@@ -30,8 +30,8 @@ export const getBreakdownPath = ({
     ...queryFromRoute,
     ...(description && description !== title && { [breakdownDescKey]: description }),
     ...(title && { [breakdownTitleKey]: title }),
-    ...(isRecommendationsPath && { recommendationsPath: true }),
-    ...(isRecommendationsTab && { recommendationsTab: true }),
+    recommendationsPath: isRecommendationsPath ? true : undefined,
+    recommendationsTab: isRecommendationsTab ? true : undefined, // Clear query params
     group_by: {
       [groupBy]: isPlatformCosts ? '*' : id, // Use ID here -- see https://github.com/project-koku/koku-ui/pull/2821
     },
