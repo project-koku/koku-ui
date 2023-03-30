@@ -166,7 +166,7 @@ class DataTable extends React.Component<DataTableProps, any> {
                   isSelectable={isRecommendations}
                   isHoverable={isRecommendations}
                   isRowSelected={isRecommendations && row.selected}
-                  onRowClick={_event => this.handleOnRowClick(_event, rowIndex)}
+                  onRowClick={isRecommendations ? _event => this.handleOnRowClick(_event, rowIndex) : undefined}
                   key={`row-${rowIndex}`}
                 >
                   {row.cells.map((item, cellIndex) =>

@@ -213,7 +213,7 @@ export function fetchRosReport(rosPathsType: RosPathsType, rosType: RosType, ros
             last: 'string',
           },
         };
-        dispatch(fetchRosSuccess(rosPathsType === RosPathsType.recommendationList ? resList : res, meta));
+        dispatch(fetchRosSuccess(rosPathsType === RosPathsType.recommendation ? resList : res, meta));
       });
   };
 }

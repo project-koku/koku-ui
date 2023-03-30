@@ -112,7 +112,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData currency={currency} />,
-    isRecommendations: queryFromRoute.recommendations !== undefined,
+    isRecommendationsTab: queryFromRoute.recommendationsTab !== undefined,
     isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
     optimizationsBadgeComponent: <OptimizationsBadge project={groupByValue} />,
     providers: filterProviders(providers, ProviderType.ocp),

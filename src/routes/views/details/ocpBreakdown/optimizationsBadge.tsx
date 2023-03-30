@@ -36,7 +36,7 @@ type OptimizationsBadgeProps = OptimizationsBadgeOwnProps &
   OptimizationsBadgeDispatchProps &
   WrappedComponentProps;
 
-const reportPathsType = RosPathsType.recommendationList;
+const reportPathsType = RosPathsType.recommendation;
 const reportType = RosType.ros;
 
 class OptimizationsBadge extends React.Component<OptimizationsBadgeProps, OptimizationsBadgeState> {

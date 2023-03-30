@@ -296,7 +296,8 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
           basePath: formatPath(routes.ocpDetailsBreakdown.path),
           groupBy: 'project',
           id: payload.project,
-          isRecommendations: true,
+          isRecommendationsPath: true,
+          isRecommendationsTab: true,
           router,
           title: payload.project,
         })}

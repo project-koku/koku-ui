@@ -28,7 +28,8 @@ export interface Query {
   order_by?: any;
   perspective?: any;
   project?: any;
-  recommendations?: any;
+  recommendationsPath?: any;
+  recommendationsTab?: any;
   search?: any;
   start_date?: any;
 }

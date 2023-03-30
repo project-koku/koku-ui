@@ -64,7 +64,7 @@ const baseQuery: RosQuery = {
 };
 
 const reportType = RosType.ros as any;
-const reportPathsType = RosPathsType.recommendationList as any;
+const reportPathsType = RosPathsType.recommendation as any;
 
 class Recommendations extends React.Component<RecommendationsProps, RecommendationsState> {
   protected defaultState: RecommendationsState = {

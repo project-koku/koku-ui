@@ -27,5 +27,4 @@ export const enum RosType {
 // eslint-disable-next-line no-shadow
 export const enum RosPathsType {
   recommendation = 'recommendation',
-  recommendationList = 'recommendationList',
 }

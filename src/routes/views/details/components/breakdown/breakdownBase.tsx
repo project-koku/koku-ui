@@ -58,7 +58,7 @@ export interface BreakdownStateProps {
   groupBy?: string;
   groupByValue?: string;
   historicalDataComponent?: React.ReactNode;
-  isRecommendations?: boolean;
+  isRecommendationsTab?: boolean;
   isRosFeatureEnabled?: boolean;
   optimizationsBadgeComponent?: React.ReactNode;
   providers?: Providers;
@@ -97,7 +97,7 @@ type BreakdownProps = BreakdownOwnProps & BreakdownStateProps & BreakdownDispatc
 
 class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   protected defaultState: BreakdownState = {
-    activeTabKey: this.props.isRecommendations ? 2 : 0,
+    activeTabKey: this.props.isRecommendationsTab ? 2 : 0,
   };
   public state: BreakdownState = { ...this.defaultState };
 
