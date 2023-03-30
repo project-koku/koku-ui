@@ -1,4 +1,4 @@
-import 'routes/views/details/components/dataTable/dataTable.scss';
+import './recommendations.scss';
 
 import { TextContent, TextList, TextListItem, TextListItemVariants, TextListVariants } from '@patternfly/react-core';
 import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
@@ -6,6 +6,8 @@ import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { RecommendationReportData } from 'api/ros/recommendations';
+import type { RecommendationItem } from 'api/ros/recommendations';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
@@ -21,6 +23,7 @@ import { getBreakdownPath } from 'routes/views/utils/paths';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { uiSelectors } from 'store/ui';
+import { getTimeFromNow } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -34,7 +37,7 @@ interface RecommendationsContentOwnProps extends RouterComponentProps {
 
 interface RecommendationsContentStateProps {
   groupBy?: string;
-  payload: any;
+  payload: RecommendationReportData;
   report: Report;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
@@ -46,6 +49,7 @@ interface RecommendationsContentDispatchProps {
 }
 
 interface RecommendationsContentState {
+  currentTerm: string;
   query?: Query;
 }
 
@@ -53,6 +57,13 @@ type RecommendationsContentProps = RecommendationsContentOwnProps &
   RecommendationsContentStateProps &
   RecommendationsContentDispatchProps &
   WrappedComponentProps;
+
+// eslint-disable-next-line no-shadow
+export const enum RecommendationTerm {
+  short_term = 'short_term', // last 24 hrs
+  medium_term = 'medium_term', // last 7 days
+  long_term = 'long_term', // last 15 days
+}
 
 const baseQuery: Query = {
   filter: {
@@ -64,14 +75,44 @@ const baseQuery: Query = {
   },
 };
 
-class RecommendationsContentBase extends React.Component<RecommendationsContentProps> {
+class RecommendationsContentBase extends React.Component<RecommendationsContentProps, any> {
   protected defaultState: RecommendationsContentState = {
+    currentTerm: RecommendationTerm.short_term,
     query: baseQuery,
   };
   public state: RecommendationsContentState = { ...this.defaultState };
 
+  public componentDidMount() {
+    this.setState({ currentTerm: this.getDefaultTerm() });
+  }
+
+  private getDefaultTerm = () => {
+    const { payload: item } = this.props;
+
+    let result = RecommendationTerm.short_term;
+    if (!(item && item.recommendations)) {
+      return result;
+    }
+    if (item.recommendations.short_term) {
+      result = RecommendationTerm.short_term;
+    }
+    if (item.recommendations.medium_term) {
+      result = RecommendationTerm.medium_term;
+    }
+    if (item.recommendations.long_term) {
+      result = RecommendationTerm.long_term;
+    }
+    return result;
+  };
+
   private getDescription = () => {
-    const { intl, payload } = this.props;
+    const { intl, payload: item } = this.props;
+
+    const cluster = item.cluster_alias ? item.cluster_alias : item.cluster_uuid ? item.cluster_uuid : '';
+    const lastReported = getTimeFromNow(item.last_reported);
+    const project = item.project ? item.project : '';
+    const workload = item.workload ? item.workload : '';
+    const workloadType = item.workload_type ? item.workload_type : '';
 
     return (
       <TextContent>
@@ -79,23 +120,23 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
           <TextListItem component={TextListItemVariants.dt}>
             {intl.formatMessage(messages.recommendationsValues, { value: 'last_reported' })}
           </TextListItem>
-          <TextListItem component={TextListItemVariants.dd}>{payload.lastReported}</TextListItem>
+          <TextListItem component={TextListItemVariants.dd}>{lastReported}</TextListItem>
           <TextListItem component={TextListItemVariants.dt}>
             {intl.formatMessage(messages.recommendationsValues, { value: 'cluster' })}
           </TextListItem>
-          <TextListItem component={TextListItemVariants.dd}>{payload.cluster}</TextListItem>
+          <TextListItem component={TextListItemVariants.dd}>{cluster}</TextListItem>
           <TextListItem component={TextListItemVariants.dt}>
             {intl.formatMessage(messages.recommendationsValues, { value: 'project' })}
           </TextListItem>
-          <TextListItem component={TextListItemVariants.dd}>{payload.project}</TextListItem>
+          <TextListItem component={TextListItemVariants.dd}>{project}</TextListItem>
           <TextListItem component={TextListItemVariants.dt}>
             {intl.formatMessage(messages.recommendationsValues, { value: 'workload_type' })}
           </TextListItem>
-          <TextListItem component={TextListItemVariants.dd}>{payload.workloadType}</TextListItem>
+          <TextListItem component={TextListItemVariants.dd}>{workload}</TextListItem>
           <TextListItem component={TextListItemVariants.dt}>
             {intl.formatMessage(messages.recommendationsValues, { value: 'workload' })}
           </TextListItem>
-          <TextListItem component={TextListItemVariants.dd}>{payload.workload}</TextListItem>
+          <TextListItem component={TextListItemVariants.dd}>{workloadType}</TextListItem>
         </TextList>
       </TextContent>
     );
@@ -114,17 +155,17 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
       iconOverride += ' increase';
     }
     return (
-      <div className="monthOverMonthOverride">
+      <div className="recommendationsOverride">
         <div className={iconOverride}>
           {value < 0 ? (
             <>
               {value}
-              <span className="fa fa-sort-down" style={styles.infoArrow} />
+              <span className="fa fa-sort-down" />
             </>
           ) : (
             <>
               {value}
-              <span className="fa fa-sort-up" style={{ ...styles.infoArrow, ...styles.infoArrowDesc }} />
+              <span className="fa fa-sort-up" />
             </>
           )}
         </div>
@@ -134,6 +175,14 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
 
   private getLimitsTable = () => {
     const { intl } = this.props;
+
+    const recommendations = this.getRecommendations();
+    const cpuConfig = recommendations.config.limits.cpu.amount;
+    const cpuConfigUnits = recommendations.config.limits.cpu.format;
+    const cpuVariation = recommendations.variation.limits.cpu.amount;
+    const memConfig = recommendations.config.limits.memory.amount;
+    const memConfigUnits = recommendations.config.limits.memory.format;
+    const memVariation = recommendations.variation.limits.memory.amount;
 
     return (
       <TableComposable
@@ -152,24 +201,55 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
         </Thead>
         <Tbody>
           <Tr>
-            <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuUnits)}</Td>
-            <Td>500</Td>
-            <Td hasRightBorder>500</Td>
-            <Td>{this.getChangeValue(0)}</Td>
+            <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuUnits, { units: cpuConfigUnits })}</Td>
+            <Td>{this.getOriginalValue(cpuConfig, cpuVariation)}</Td>
+            <Td hasRightBorder>{cpuConfig.toFixed(1)}</Td>
+            <Td>{this.getChangeValue(cpuVariation)}</Td>
           </Tr>
           <Tr>
-            <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryUnits)}</Td>
-            <Td>1000</Td>
-            <Td hasRightBorder>1100</Td>
-            <Td>{this.getChangeValue(100)}</Td>
+            <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryUnits, { units: memConfigUnits })}</Td>
+            <Td>{this.getOriginalValue(memConfig, memVariation)}</Td>
+            <Td hasRightBorder>{memConfig.toFixed(1)}</Td>
+            <Td>{this.getChangeValue(memVariation)}</Td>
           </Tr>
         </Tbody>
       </TableComposable>
     );
   };
 
+  private getOriginalValue = (amount, variation) => {
+    return (amount - variation).toFixed(1);
+  };
+
+  private getRecommendations = (): RecommendationItem => {
+    const { payload: item } = this.props;
+    const { currentTerm } = this.state;
+
+    let result;
+    switch (currentTerm) {
+      case RecommendationTerm.short_term:
+        result = item.recommendations.short_term;
+        break;
+      case RecommendationTerm.medium_term:
+        result = item.recommendations.medium_term;
+        break;
+      case RecommendationTerm.long_term:
+        result = item.recommendations.long_term;
+        break;
+    }
+    return result;
+  };
+
   private getRequestsTable = () => {
     const { intl } = this.props;
+
+    const recommendations = this.getRecommendations();
+    const cpuConfig = recommendations.config.requests.cpu.amount;
+    const cpuConfigUnits = recommendations.config.requests.cpu.format;
+    const cpuVariation = recommendations.variation.requests.cpu.amount;
+    const memConfig = recommendations.config.requests.memory.amount;
+    const memConfigUnits = recommendations.config.requests.memory.format;
+    const memVariation = recommendations.variation.requests.memory.amount;
 
     return (
       <TableComposable
@@ -188,46 +268,16 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
         </Thead>
         <Tbody>
           <Tr>
-            <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuUnits)}</Td>
-            <Td>300</Td>
-            <Td hasRightBorder>400</Td>
-            <Td>{this.getChangeValue(100)}</Td>
+            <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuUnits, { units: cpuConfigUnits })}</Td>
+            <Td>{this.getOriginalValue(cpuConfig, cpuVariation)}</Td>
+            <Td hasRightBorder>{cpuConfig.toFixed(1)}</Td>
+            <Td>{this.getChangeValue(cpuVariation)}</Td>
           </Tr>
           <Tr>
-            <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryUnits)}</Td>
-            <Td>100</Td>
-            <Td hasRightBorder>110</Td>
-            <Td>{this.getChangeValue(10)}</Td>
-          </Tr>
-        </Tbody>
-      </TableComposable>
-    );
-  };
-
-  private getUsageTable = () => {
-    const { intl } = this.props;
-
-    return (
-      <TableComposable
-        aria-label={intl.formatMessage(messages.recommendationsTableAriaLabel)}
-        borders={false}
-        hasSelectableRowCaption
-        variant={TableVariant.compact}
-      >
-        <Thead>
-          <Tr>
-            <Th>{intl.formatMessage(messages.usage)}</Th>
-            <Th>{intl.formatMessage(messages.current)}</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr>
-            <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuUtilizationUnits)}</Td>
-            <Td style={styles.alignLeft}>300</Td>
-          </Tr>
-          <Tr>
-            <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryUtilizationUnits)}</Td>
-            <Td>100</Td>
+            <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryUnits, { units: memConfigUnits })}</Td>
+            <Td>{this.getOriginalValue(memConfig, memVariation)}</Td>
+            <Td hasRightBorder>{memConfig.toFixed(1)}</Td>
+            <Td>{this.getChangeValue(memVariation)}</Td>
           </Tr>
         </Tbody>
       </TableComposable>
@@ -246,7 +296,8 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
           basePath: formatPath(routes.ocpDetailsBreakdown.path),
           groupBy: 'project',
           id: payload.project,
-          isRecommendations: true,
+          isRecommendationsPath: true,
+          isRecommendationsTab: true,
           router,
           title: payload.project,
         })}
@@ -256,20 +307,28 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
     );
   };
 
+  private handleOnSelected = (value: string) => {
+    this.setState({ currentTerm: value });
+  };
+
   public render() {
-    const { reportFetchStatus } = this.props;
+    const { payload: item, reportFetchStatus } = this.props;
+    const { currentTerm } = this.state;
 
     return (
       <div style={styles.content}>
         <div>{this.getDescription()}</div>
         <div style={styles.toolbarContainer}>
-          <RecommendationsToolbar />
+          <RecommendationsToolbar
+            currentItem={currentTerm}
+            recommendations={item.recommendations}
+            onSelected={this.handleOnSelected}
+          />
         </div>
         {reportFetchStatus === FetchStatus.inProgress ? (
           <Loading />
         ) : (
           <>
-            <div>{this.getUsageTable()}</div>
             <div style={styles.tableContainer}>{this.getRequestsTable()}</div>
             <div style={styles.tableContainer}>{this.getLimitsTable()}</div>
           </>

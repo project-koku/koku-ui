@@ -46,7 +46,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
 }
 
 interface BreakdownHeaderStateProps {
-  isRecommendations?: boolean;
+  isRecommendationsPath?: boolean;
   isCurrencyFeatureEnabled?: boolean;
 }
 
@@ -58,7 +58,7 @@ type BreakdownHeaderProps = BreakdownHeaderOwnProps & BreakdownHeaderStateProps 
 
 class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   private buildDetailsLink = url => {
-    const { groupBy, isRecommendations, query } = this.props;
+    const { groupBy, isRecommendationsPath, query } = this.props;
 
     let groupByKey = groupBy;
     let value = '*';
@@ -83,7 +83,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       newQuery[breakdownTitleKey] = undefined;
       newQuery[orgUnitIdKey] = undefined;
     }
-    if (isRecommendations) {
+    if (isRecommendationsPath) {
       newQuery[breakdownTitleKey] = undefined;
       newQuery.group_by = undefined;
       newQuery.recommendations = undefined;
@@ -92,9 +92,9 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   };
 
   private getBackToLink = groupByKey => {
-    const { detailsURL, intl, isRecommendations, tagReportPathsType } = this.props;
+    const { detailsURL, intl, isRecommendationsPath, tagReportPathsType } = this.props;
 
-    if (isRecommendations) {
+    if (isRecommendationsPath) {
       return (
         <Link to={this.buildDetailsLink(formatPath(routes.recommendations.path))}>
           {intl.formatMessage(messages.breakdownBackToRecommendations)}
@@ -215,7 +215,7 @@ const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, Breakdown
     const queryFromRoute = parseQuery<Query>(router.location.search);
 
     return {
-      isRecommendations: queryFromRoute.recommendations !== undefined,
+      isRecommendationsPath: queryFromRoute.recommendationsPath !== undefined,
       isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
     };
   }

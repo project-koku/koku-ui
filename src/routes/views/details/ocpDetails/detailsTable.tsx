@@ -24,6 +24,8 @@ import { classificationDefault, classificationPlatform, classificationUnallocate
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
+import DetailsOptimization from './detailsOptimization';
+
 interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   groupBy: string;
   groupByTagKey: string;
@@ -250,7 +252,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           },
           {
             hidden: !(isGroupByProject && isRosFeatureEnabled),
-            value: <div>N/A</div>,
+            value: !isPlatformCosts && !isDisabled && (
+              <div>
+                <DetailsOptimization project={label} />
+              </div>
+            ),
           },
           { value: <div>{monthOverMonth}</div>, id: DetailsTableColumnIds.monthOverMonth },
           {

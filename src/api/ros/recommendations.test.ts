@@ -5,6 +5,6 @@ import { runRosReport } from './recommendations';
 
 test('api run reports calls axios get', () => {
   const query = 'filter[resolution]=daily';
-  runRosReport(RosType.cost, query);
-  expect(axios.get).toBeCalledWith(`reports/openshift/costs/?${query}`);
+  runRosReport(RosType.ros, query);
+  expect(axios.get).toBeCalledWith(`recommendations/openshift/?${query}`);
 });

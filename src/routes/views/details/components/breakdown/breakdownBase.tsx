@@ -58,8 +58,9 @@ export interface BreakdownStateProps {
   groupBy?: string;
   groupByValue?: string;
   historicalDataComponent?: React.ReactNode;
-  isRecommendations?: boolean;
+  isRecommendationsTab?: boolean;
   isRosFeatureEnabled?: boolean;
+  optimizationsBadgeComponent?: React.ReactNode;
   providers?: Providers;
   providersError?: AxiosError;
   providersFetchStatus?: FetchStatus;
@@ -87,6 +88,7 @@ interface BreakdownState {
 }
 
 interface AvailableTab {
+  badge?: React.ReactNode;
   contentRef: React.ReactNode;
   tab: BreakdownTab;
 }
@@ -95,7 +97,7 @@ type BreakdownProps = BreakdownOwnProps & BreakdownStateProps & BreakdownDispatc
 
 class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   protected defaultState: BreakdownState = {
-    activeTabKey: this.props.isRecommendations ? 2 : 0,
+    activeTabKey: this.props.isRecommendationsTab ? 2 : 0,
   };
   public state: BreakdownState = { ...this.defaultState };
 
@@ -116,8 +118,13 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   }
 
   private getAvailableTabs = () => {
-    const { costOverviewComponent, historicalDataComponent, isRosFeatureEnabled, recommendationsComponent } =
-      this.props;
+    const {
+      costOverviewComponent,
+      historicalDataComponent,
+      isRosFeatureEnabled,
+      optimizationsBadgeComponent,
+      recommendationsComponent,
+    } = this.props;
 
     const availableTabs = [];
     if (costOverviewComponent) {
@@ -134,6 +141,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
     }
     if (recommendationsComponent && isRosFeatureEnabled) {
       availableTabs.push({
+        badge: optimizationsBadgeComponent,
         contentRef: React.createRef(),
         tab: BreakdownTab.recommendations,
       });
@@ -141,14 +149,19 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
     return availableTabs;
   };
 
-  private getTab = (tab: BreakdownTab, contentRef, index: number) => {
+  private getTab = (tab: BreakdownTab, contentRef, badge: React.ReactNode, index: number) => {
     return (
       <Tab
         eventKey={index}
         key={`${getIdKeyForTab(tab)}-tab`}
         tabContentId={`tab-${index}`}
         tabContentRef={contentRef}
-        title={<TabTitleText>{this.getTabTitle(tab)}</TabTitleText>}
+        title={
+          <>
+            <TabTitleText>{this.getTabTitle(tab)}</TabTitleText>
+            {badge && <span>{badge}</span>}
+          </>
+        }
       />
     );
   };
@@ -193,7 +206,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
 
     return (
       <Tabs activeKey={activeTabKey} onSelect={this.handleTabClick}>
-        {availableTabs.map((val, index) => this.getTab(val.tab, val.contentRef, index))}
+        {availableTabs.map((val, index) => this.getTab(val.tab, val.contentRef, val.badge, index))}
       </Tabs>
     );
   };
@@ -210,6 +223,8 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   private handleTabClick = (event, tabIndex) => {
     const { closeRecommendationsDrawer } = this.props;
     const { activeTabKey } = this.state;

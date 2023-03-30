@@ -1,10 +1,7 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
-import type { Providers } from 'api/providers';
-import { ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { RosQuery } from 'api/queries/rosQuery';
 import { getQuery, parseQuery } from 'api/queries/rosQuery';
-import type { Recommendation } from 'api/ros/recommendations';
+import type { RecommendationReport } from 'api/ros/recommendations';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
@@ -13,10 +10,8 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Loading } from 'routes/state/loading';
-import { NoData } from 'routes/state/noData';
-import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
-import { getGroupById, getGroupByTagKey } from 'routes/views/utils/groupBy';
+import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import {
   handleFilterAdded,
   handleFilterRemoved,
@@ -24,16 +19,9 @@ import {
   handleSetPage,
   handleSort,
 } from 'routes/views/utils/handles';
-import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
-import { providersQuery, providersSelectors } from 'store/providers';
 import { rosActions } from 'store/ros';
 import { rosSelectors } from 'store/ros';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedRosItems';
-import { getCurrency } from 'utils/localStorage';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -44,13 +32,11 @@ import { RecommendationsToolbar } from './recommendationsToolbar';
 
 interface RecommendationsStateProps {
   groupBy?: string;
-  providers: Providers;
-  providersFetchStatus: FetchStatus;
   query: RosQuery;
-  recommendation: Recommendation;
-  recommendationError: AxiosError;
-  recommendationFetchStatus: FetchStatus;
-  recommendationQueryString: string;
+  report: RecommendationReport;
+  reportError: AxiosError;
+  reportFetchStatus: FetchStatus;
+  reportQueryString: string;
 }
 
 interface RecommendationsDispatchProps {
@@ -67,26 +53,18 @@ type RecommendationsOwnProps = RouterComponentProps & WrappedComponentProps;
 type RecommendationsProps = RecommendationsStateProps & RecommendationsOwnProps & RecommendationsDispatchProps;
 
 const baseQuery: RosQuery = {
-  delta: 'cost',
-  filter: {
-    limit: 10,
-    offset: 0,
-    resolution: 'monthly',
-    time_scope_units: 'month',
-    time_scope_value: -1,
-  },
   exclude: {},
+  filter: {},
   filter_by: {},
-  group_by: {
-    project: '*',
-  },
+  limit: 10,
+  offset: 0,
   order_by: {
     cost: 'desc',
   },
 };
 
-const recommendationType = RosType.cost as any;
-const recommendationPathsType = RosPathsType.recommendation as any;
+const reportType = RosType.ros as any;
+const reportPathsType = RosPathsType.recommendation as any;
 
 class Recommendations extends React.Component<RecommendationsProps, RecommendationsState> {
   protected defaultState: RecommendationsState = {
@@ -96,45 +74,27 @@ class Recommendations extends React.Component<RecommendationsProps, Recommendati
   public state: RecommendationsState = { ...this.defaultState };
 
   public componentDidMount() {
-    this.updateRecommendation();
+    this.updateReport();
   }
 
   public componentDidUpdate(prevProps: RecommendationsProps) {
-    const { recommendation, recommendationError, recommendationQueryString, router } = this.props;
+    const { report, reportError, reportQueryString, router } = this.props;
 
-    const newQuery = prevProps.recommendationQueryString !== recommendationQueryString;
-    const noRecommendation = !recommendation && !recommendationError;
+    const newQuery = prevProps.reportQueryString !== reportQueryString;
+    const noReport = !report && !reportError;
     const noLocation = !router.location.search;
 
-    if (newQuery || noRecommendation || noLocation) {
-      this.updateRecommendation();
+    if (newQuery || noReport || noLocation) {
+      this.updateReport();
     }
   }
 
-  private getComputedItems = () => {
-    const { query, recommendation } = this.props;
-
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = getGroupByTagKey(query);
-
-    return getUnsortedComputedReportItems({
-      report: recommendation,
-      idKey: (groupByTagKey as any) || groupById,
-    });
-  };
-
   private getPagination = (isDisabled = false, isBottom = false) => {
-    const { intl, query, recommendation, router } = this.props;
+    const { intl, query, report, router } = this.props;
 
-    const count = recommendation && recommendation.meta ? recommendation.meta.count : 0;
-    const limit =
-      recommendation && recommendation.meta && recommendation.meta.filter && recommendation.meta.filter.limit
-        ? recommendation.meta.filter.limit
-        : baseQuery.filter.limit;
-    const offset =
-      recommendation && recommendation.meta && recommendation.meta.filter && recommendation.meta.filter.offset
-        ? recommendation.meta.filter.offset
-        : baseQuery.filter.offset;
+    const count = report && report.meta ? report.meta.count : 0;
+    const limit = report && report.meta ? report.meta.limit : baseQuery.limit;
+    const offset = report && report.meta ? report.meta.offset : baseQuery.offset;
     const page = offset / limit + 1;
 
     return (
@@ -143,7 +103,7 @@ class Recommendations extends React.Component<RecommendationsProps, Recommendati
         isDisabled={isDisabled}
         itemCount={count}
         onPerPageSelect={(event, perPage) => handlePerPageSelect(query, router, perPage)}
-        onSetPage={(event, pageNumber) => handleSetPage(query, router, recommendation, pageNumber)}
+        onSetPage={(event, pageNumber) => handleSetPage(query, router, report, pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -159,28 +119,29 @@ class Recommendations extends React.Component<RecommendationsProps, Recommendati
   };
 
   private getTable = () => {
-    const { query, recommendation, recommendationFetchStatus, recommendationQueryString, router } = this.props;
+    const { query, report, reportFetchStatus, reportQueryString, router } = this.props;
 
     return (
       <RecommendationsTable
-        isLoading={recommendationFetchStatus === FetchStatus.inProgress}
+        isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSort={(sortType, isSortAscending) => handleSort(query, router, sortType, isSortAscending)}
-        report={recommendation}
-        reportQueryString={recommendationQueryString}
+        report={report}
+        reportQueryString={reportQueryString}
       />
     );
   };
 
-  private getToolbar = (computedItems: ComputedReportItem[]) => {
-    const { query, recommendation, router } = this.props;
+  private getToolbar = () => {
+    const { query, report, router } = this.props;
 
-    const isDisabled = computedItems.length === 0;
-    const itemsTotal = recommendation && recommendation.meta ? recommendation.meta.count : 0;
+    const itemsPerPage = report && report.meta ? report.meta.limit : 0;
+    const itemsTotal = report && report.meta ? report.meta.count : 0;
+    const isDisabled = itemsTotal === 0;
 
     return (
       <RecommendationsToolbar
         isDisabled={isDisabled}
-        itemsPerPage={computedItems.length}
+        itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onFilterAdded={filter => handleFilterAdded(query, router, filter)}
         onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
@@ -190,52 +151,55 @@ class Recommendations extends React.Component<RecommendationsProps, Recommendati
     );
   };
 
-  private updateRecommendation = () => {
-    const { fetchRosReport, recommendationQueryString } = this.props;
-    fetchRosReport(recommendationPathsType, recommendationType, recommendationQueryString);
+  private updateReport = () => {
+    const { fetchRosReport, reportQueryString } = this.props;
+    fetchRosReport(reportPathsType, reportType, reportQueryString);
   };
 
   public render() {
-    const { groupBy, intl, providers, providersFetchStatus, recommendationError, recommendationFetchStatus } =
-      this.props;
+    const { groupBy, intl, report, reportError, reportFetchStatus } = this.props;
 
-    const computedItems = this.getComputedItems();
-    const isDisabled = computedItems.length === 0;
+    const itemsTotal = report && report.meta ? report.meta.count : 0;
+    const isDisabled = itemsTotal === 0;
     const isStandalone = groupBy === undefined;
     const title = intl.formatMessage(messages.ocpDetailsTitle);
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
-    if (recommendationError) {
+    if (reportError) {
       return <NotAvailable title={title} />;
-    } else if (providersFetchStatus === FetchStatus.inProgress) {
-      return <Loading title={title} />;
-    } else if (providersFetchStatus === FetchStatus.complete) {
-      // API returns empy data array for no sources
-      const noProviders = providers && providers.meta && providers.meta.count === 0;
-
-      if (noProviders) {
-        return <NoProviders providerType={ProviderType.ros} title={title} />;
-      }
-      if (!hasCurrentMonthData(providers)) {
-        return <NoData title={title} />;
-      }
     }
     return (
       <div style={styles.recommendationsContainer}>
-        {isStandalone && <RecommendationsHeader />}
-        <div style={isStandalone ? styles.content : undefined}>
-          <div style={isStandalone ? styles.toolbarContainer : undefined}>{this.getToolbar(computedItems)}</div>
-          {recommendationFetchStatus === FetchStatus.inProgress ? (
-            <Loading />
-          ) : (
-            <>
-              <div style={isStandalone ? styles.tableContainer : undefined}>{this.getTable()}</div>
-              <div style={isStandalone ? styles.paginationContainer : undefined}>
+        {isStandalone ? (
+          <>
+            <RecommendationsHeader />
+            <div style={styles.content}>
+              <div style={styles.toolbarContainer}>{this.getToolbar()}</div>
+              {reportFetchStatus === FetchStatus.inProgress ? (
+                <Loading />
+              ) : (
+                <>
+                  <div style={styles.tableContainer}>{this.getTable()}</div>
+                  <div style={styles.paginationContainer}>
+                    <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
+                  </div>
+                </>
+              )}
+            </div>
+          </>
+        ) : (
+          <>
+            {this.getToolbar()}
+            {reportFetchStatus === FetchStatus.inProgress ? (
+              <Loading />
+            ) : (
+              <>
+                {this.getTable()}
                 <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
-              </div>
-            </>
-          )}
-        </div>
+              </>
+            )}
+          </>
+        )}
       </div>
     );
   }
@@ -246,59 +210,37 @@ const mapStateToProps = createMapStateToProps<RecommendationsOwnProps, Recommend
   (state, { router }) => {
     const queryFromRoute = parseQuery<RosQuery>(router.location.search);
     const groupBy = getGroupById(queryFromRoute);
-    const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
-    const query = {
-      delta: 'cost',
-      filter: {
-        ...baseQuery.filter,
-        ...queryFromRoute.filter,
-      },
-      filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-      exclude: queryFromRoute.exclude || baseQuery.exclude,
-      order_by: queryFromRoute.order_by || baseQuery.order_by,
-    };
-    const recommendationQueryString = getQuery({
-      ...query,
-      group_by: queryFromRoute.group_by || baseQuery.group_by,
-      currency,
-    });
-    const recommendation = rosSelectors.selectRos(
-      state,
-      recommendationPathsType,
-      recommendationType,
-      recommendationQueryString
-    );
-    const recommendationError = rosSelectors.selectRosError(
-      state,
-      recommendationPathsType,
-      recommendationType,
-      recommendationQueryString
-    );
-    const recommendationFetchStatus = rosSelectors.selectRosFetchStatus(
-      state,
-      recommendationPathsType,
-      recommendationType,
-      recommendationQueryString
-    );
+    const groupByValue = getGroupByValue(queryFromRoute);
 
-    const providersQueryString = getProvidersQuery(providersQuery);
-    const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
-    const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-      state,
-      ProviderType.all,
-      providersQueryString
-    );
+    const query = {
+      // Todo: remove when API is available
+      // filter: {
+      //   ...baseQuery.filter,
+      //   ...queryFromRoute.filter,
+      // },
+      ...(groupBy && {
+        [groupBy]: groupByValue, // project filter
+      }),
+      // exclude: queryFromRoute.exclude || baseQuery.exclude,
+      filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
+      limit: queryFromRoute.limit || baseQuery.limit,
+      offset: queryFromRoute.offset || baseQuery.offset,
+      // order_by: queryFromRoute.order_by || baseQuery.order_by,
+    };
+    const reportQueryString = getQuery({
+      ...query,
+    });
+    const report = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
+    const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
+    const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);
 
     return {
-      currency,
-      groupBy,
-      providers: filterProviders(providers, ProviderType.ocp),
-      providersFetchStatus,
+      groupBy: queryFromRoute.group_by,
       query,
-      recommendation,
-      recommendationError,
-      recommendationFetchStatus,
-      recommendationQueryString,
+      report,
+      reportError,
+      reportFetchStatus,
+      reportQueryString,
     } as any;
   }
 );

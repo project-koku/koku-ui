@@ -2,7 +2,7 @@ import 'routes/views/details/components/dataTable/dataTable.scss';
 
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
-import type { RhelReport } from 'api/reports/rhelReports';
+import type { RecommendationReport } from 'api/ros/recommendations';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -13,14 +13,14 @@ import { styles } from 'routes/views/details/components/dataTable/dataTable.styl
 import { getGroupById } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
 import { uiActions, uiSelectors } from 'store/ui';
-import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getTimeFromNow } from 'utils/dates';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 interface RecommendationsTableOwnProps extends RouterComponentProps {
   isLoading?: boolean;
   onSort(value: string, isSortAscending: boolean);
-  report: RhelReport;
+  report: RecommendationReport;
   reportQueryString: string;
 }
 
@@ -70,75 +70,66 @@ class RecommendationsTableBase extends React.Component<RecommendationsTableProps
       return;
     }
 
-    const rows = [];
-    const computedItems = getUnsortedComputedReportItems({
-      report,
-      idKey: 'project' as any, // Todo: getUnsortedComputedReportItems required for fake data.
-    });
+    const hasData = report && report.data && report.data.length > 0;
 
+    const rows = [];
     const columns = [
       {
         name: intl.formatMessage(messages.recommendationsNames, { value: 'container' }),
         orderBy: 'container',
-        ...(computedItems.length && { isSortable: true }),
+        ...(hasData && { isSortable: true }),
       },
       {
         hidden: groupBy === 'project',
         name: intl.formatMessage(messages.recommendationsNames, { value: 'project' }),
         orderBy: 'project',
-        ...(computedItems.length && { isSortable: true }),
+        ...(hasData && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.recommendationsNames, { value: 'workload' }),
         orderBy: 'workload',
-        ...(computedItems.length && { isSortable: true }),
+        ...(hasData && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.recommendationsNames, { value: 'workload_type' }),
         orderBy: 'workload_type',
-        ...(computedItems.length && { isSortable: true }),
+        ...(hasData && { isSortable: true }),
       },
       {
         hidden: groupBy === 'cluster',
         name: intl.formatMessage(messages.recommendationsNames, { value: 'cluster' }),
         orderBy: 'cluster',
-        ...(computedItems.length && { isSortable: true }),
+        ...(hasData && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.recommendationsNames, { value: 'last_reported' }),
         orderBy: 'last_reported',
         style: styles.lastReportedColumn,
-        ...(computedItems.length && { isSortable: true }),
+        ...(hasData && { isSortable: true }),
       },
     ];
 
-    computedItems.map((item, index) => {
-      const cluster = item && item.clusters !== null ? item.clusters[0] : '';
-      const container = `Container${index}`;
-      const lastReported = `6 hours ago`;
-      const project = item && item.label !== null ? item.label : '';
-      const workload = `Workload${index}`;
-      const workloadType = `Workload type${index}`;
+    hasData &&
+      report.data.map(item => {
+        const cluster = item.cluster_alias ? item.cluster_alias : item.cluster_uuid ? item.cluster_uuid : '';
+        const container = item.container ? item.container : '';
+        const lastReported = getTimeFromNow(item.last_reported);
+        const project = item.project ? item.project : '';
+        const workload = item.workload ? item.workload : '';
+        const workloadType = item.workload_type ? item.workload_type : '';
 
-      rows.push({
-        cells: [
-          { value: <div>{container}</div> },
-          { value: <div>{project}</div>, hidden: groupBy === 'project' },
-          { value: <div>{workload}</div> },
-          { value: <div>{workloadType}</div> },
-          { value: <div>{cluster}</div>, hidden: groupBy === 'cluster' },
-          { value: <div>{lastReported}</div>, style: styles.lastReported },
-        ],
-        item: {
-          cluster,
-          container,
-          lastReported,
-          project,
-          workload,
-          workloadType,
-        },
+        rows.push({
+          cells: [
+            { value: <div>{container}</div> },
+            { value: <div>{project}</div>, hidden: groupBy === 'project' },
+            { value: <div>{workload}</div> },
+            { value: <div>{workloadType}</div> },
+            { value: <div>{cluster}</div>, hidden: groupBy === 'cluster' },
+            { value: <div>{lastReported}</div>, style: styles.lastReported },
+          ],
+          item,
+        });
       });
-    });
 
     const filteredColumns = (columns as any[]).filter(column => !column.hidden);
     const filteredRows = rows.map(({ ...row }) => {
@@ -190,7 +181,6 @@ const mapStateToProps = createMapStateToProps<RecommendationsTableOwnProps, Reco
 const mapDispatchToProps: RecommendationsTableDispatchProps = {
   closeRecommendationsDrawer: uiActions.closeRecommendationsDrawer,
   openRecommendationsDrawer: uiActions.openRecommendationsDrawer,
-  // authRequest: (...args) => dispatch(authRequest(...args)),
 };
 
 const RecommendationsTable = injectIntl(

@@ -29,6 +29,7 @@ import { withRouter } from 'utils/router';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
+import OptimizationsBadge from './optimizationsBadge';
 
 interface BreakdownDispatchProps {
   closeRecommendationsDrawer?: typeof uiActions.closeRecommendationsDrawer;
@@ -111,13 +112,14 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData currency={currency} />,
-    isRecommendations: queryFromRoute.recommendations !== undefined,
+    isRecommendationsTab: queryFromRoute.recommendationsTab !== undefined,
     isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
+    optimizationsBadgeComponent: <OptimizationsBadge project={groupByValue} />,
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     providerType: ProviderType.ocp,
     query: queryFromRoute,
-    recommendationsComponent: groupBy === 'project' ? <Recommendations /> : undefined,
+    recommendationsComponent: groupBy === 'project' && groupByValue !== '*' ? <Recommendations /> : undefined,
     report,
     reportError,
     reportFetchStatus,

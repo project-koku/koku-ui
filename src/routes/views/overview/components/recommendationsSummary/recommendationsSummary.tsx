@@ -1,7 +1,7 @@
 import './recommendationsSummary.scss';
 
 import { Card, CardBody, CardTitle, Skeleton, Title, TitleSizes } from '@patternfly/react-core';
-import type { RosReport } from 'api/ros/ros';
+import type { RecommendationReport } from 'api/ros/recommendations';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -14,13 +14,13 @@ import { formatPath } from 'utils/paths';
 import { skeletonWidth } from 'utils/skeleton';
 
 export interface RecommendationsSummaryProps extends WrappedComponentProps {
-  rosReport: RosReport;
+  report: RecommendationReport;
   status: number;
   title: MessageDescriptor;
 }
 
-const RecommendationsSummaryBase: React.FC<RecommendationsSummaryProps> = ({ intl, title, status }) => {
-  const count = 3;
+const RecommendationsSummaryBase: React.FC<RecommendationsSummaryProps> = ({ intl, report, status, title }) => {
+  const count = report && report.meta ? report.meta.count : 0;
   const description = intl.formatMessage(messages.recommendationsDetails, { count });
   return (
     <Card className="summary">

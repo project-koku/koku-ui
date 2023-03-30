@@ -3,7 +3,7 @@ import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import type { Forecast } from 'api/forecasts/forecast';
 import { getQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
-import type { RosReport } from 'api/ros/ros';
+import type { RecommendationReport } from 'api/ros/recommendations';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -60,9 +60,9 @@ export interface DashboardWidgetStateProps extends DashboardWidget {
   previousQuery?: string;
   previousReport?: Report;
   previousReportFetchStatus?: number;
-  rosQuery?: string;
-  rosReport?: RosReport;
-  rosFetchStatus?: number;
+  recommendationQuery?: string;
+  recommendationReport?: RecommendationReport;
+  recommendationReportFetchStatus?: number;
   tabsQuery?: string;
   tabsReport?: Report;
   tabsReportFetchStatus?: number;
@@ -75,8 +75,8 @@ export interface DashboardWidgetState {
 
 interface DashboardWidgetDispatchProps {
   fetchForecasts: (widgetId) => void;
+  fetchRecommendationReports: (widgetId) => void;
   fetchReports: (widgetId) => void;
-  fetchRosReport: (widgetId) => void;
   updateTab: (id, availableTabs) => void;
 }
 
@@ -97,8 +97,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
       availableTabs,
       details,
       fetchForecasts,
+      fetchRecommendationReports,
       fetchReports,
-      fetchRosReport,
       id,
       isRosFeatureEnabled,
       trend,
@@ -115,8 +115,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
     if (!details.showRecommendations && fetchReports) {
       fetchReports(widgetId);
     }
-    if (details.showRecommendations && fetchRosReport && isRosFeatureEnabled) {
-      fetchRosReport(widgetId);
+    if (details.showRecommendations && fetchRecommendationReports && isRosFeatureEnabled) {
+      fetchRecommendationReports(widgetId);
     }
   }
 
@@ -451,9 +451,11 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
   };
 
   private getRecommendationsSummary = () => {
-    const { rosFetchStatus, rosReport, titleKey } = this.props;
+    const { recommendationReportFetchStatus, recommendationReport, titleKey } = this.props;
 
-    return <RecommendationsSummary status={rosFetchStatus} rosReport={rosReport} title={titleKey} />;
+    return (
+      <RecommendationsSummary status={recommendationReportFetchStatus} report={recommendationReport} title={titleKey} />
+    );
   };
 
   private getTab = (tab: string, index: number) => {

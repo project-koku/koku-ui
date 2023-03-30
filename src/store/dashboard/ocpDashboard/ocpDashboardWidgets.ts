@@ -100,7 +100,7 @@ export const recomendationsWidget: OcpDashboardWidget = {
   id: getId(),
   titleKey: messages.resourceOptimization,
   rosPathsType: RosPathsType.recommendation,
-  rosType: RosType.cost,
+  rosType: RosType.ros,
   details: {
     showRecommendations: true,
   },
