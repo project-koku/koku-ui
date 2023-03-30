@@ -27,6 +27,7 @@ export interface Query {
   limit?: number;
   order_by?: any;
   perspective?: any;
+  project?: any;
   recommendations?: any;
   search?: any;
   start_date?: any;

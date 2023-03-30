@@ -82,9 +82,7 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
   };
   public state: RecommendationsContentState = { ...this.defaultState };
 
-  constructor(stateProps, dispatchProps) {
-    super(stateProps, dispatchProps);
-
+  public componentDidMount() {
     this.setState({ currentTerm: this.getDefaultTerm() });
   }
 
