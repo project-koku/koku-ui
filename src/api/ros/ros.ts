@@ -22,9 +22,6 @@ export interface RosReport extends PagedResponse<RosData, RosMeta> {}
 // eslint-disable-next-line no-shadow
 export const enum RosType {
   ros = 'ros',
-
-  // Todo: Remove below when API is available
-  cost = 'cost',
 }
 
 // eslint-disable-next-line no-shadow

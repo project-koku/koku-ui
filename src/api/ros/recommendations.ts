@@ -55,7 +55,6 @@ export interface RecommendationReport extends RosReport {
 }
 
 export const RosTypePaths: Partial<Record<RosType, string>> = {
-  [RosType.cost]: 'reports/openshift/costs/',
   [RosType.ros]: 'recommendations/openshift/',
 };
 
