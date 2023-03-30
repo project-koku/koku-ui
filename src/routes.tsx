@@ -21,8 +21,8 @@ const OciBreakdown = lazy(() => import(/* webpackChunkName: "ociBreakdown" */ 'r
 const OciDetails = lazy(() => import(/* webpackChunkName: "ociDetails" */ 'routes/views/details/ociDetails'));
 const OcpBreakdown = lazy(() => import(/* webpackChunkName: "ocpBreakdown" */ 'routes/views/details/ocpBreakdown'));
 const OcpDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/ocpDetails'));
+const Optimizations = lazy(() => import(/* webpackChunkName: "recommendations" */ 'routes/views/optimizations'));
 const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/views/overview'));
-const Recommendations = lazy(() => import(/* webpackChunkName: "recommendations" */ 'routes/views/recommendations'));
 const RhelDetails = lazy(() => import(/* webpackChunkName: "rhelDetails" */ 'routes/views/details/rhelDetails'));
 const RhelBreakdown = lazy(() => import(/* webpackChunkName: "rhelBreakdown" */ 'routes/views/details/rhelBreakdown'));
 
@@ -88,13 +88,13 @@ const routes = {
     element: userAccess(OcpBreakdown),
     path: '/ocp/breakdown',
   },
+  optimizations: {
+    element: userAccess(Optimizations),
+    path: '/optimizations',
+  },
   overview: {
     element: userAccess(Overview),
     path: '/',
-  },
-  recommendations: {
-    element: userAccess(Recommendations),
-    path: '/recommendations',
   },
   rhelDetails: {
     element: userAccess(RhelDetails),

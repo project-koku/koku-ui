@@ -50,8 +50,8 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps, an
       case formatPath(routes.rhelDetailsBreakdown.path):
         msg = messages.notAuthorizedStateRhel;
         break;
-      case formatPath(routes.recommendations.path):
-        msg = messages.notAuthorizedStateRecommendations;
+      case formatPath(routes.optimizations.path):
+        msg = messages.notAuthorizedStateOptimizations;
         break;
       case formatPath(routes.explorer.path):
       default:

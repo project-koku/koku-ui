@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { routes } from 'routes';
 import type { BreakdownStateProps } from 'routes/views/details/components/breakdown';
 import { BreakdownBase } from 'routes/views/details/components/breakdown';
-import Recommendations from 'routes/views/recommendations/recommendations';
+import Optimizations from 'routes/views/optimizations/optimizations';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { isPlatformCosts } from 'routes/views/utils/paths';
 import { filterProviders } from 'routes/views/utils/providers';
@@ -32,7 +32,7 @@ import { HistoricalData } from './historicalData';
 import OptimizationsBadge from './optimizationsBadge';
 
 interface BreakdownDispatchProps {
-  closeRecommendationsDrawer?: typeof uiActions.closeRecommendationsDrawer;
+  closeOptimizationsDrawer?: typeof uiActions.closeOptimizationsDrawer;
   fetchReport?: typeof reportActions.fetchReport;
 }
 
@@ -117,14 +117,14 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData currency={currency} />,
-    isRecommendationsTab: queryFromRoute.recommendationsTab !== undefined,
+    isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
     isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
-    optimizationsBadgeComponent: <OptimizationsBadge project={groupByValue} />,
+    optimizationsBadgeComponent: <OptimizationsBadge />,
+    optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <Optimizations /> : undefined,
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     providerType: ProviderType.ocp,
     query: queryFromRoute,
-    recommendationsComponent: groupBy === 'project' && groupByValue !== '*' ? <Recommendations /> : undefined,
     report,
     reportError,
     reportFetchStatus,
@@ -137,7 +137,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
 });
 
 const mapDispatchToProps: BreakdownDispatchProps = {
-  closeRecommendationsDrawer: uiActions.closeRecommendationsDrawer,
+  closeOptimizationsDrawer: uiActions.closeOptimizationsDrawer,
   fetchReport: reportActions.fetchReport,
 };
 

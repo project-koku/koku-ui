@@ -46,7 +46,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
 }
 
 interface BreakdownHeaderStateProps {
-  isRecommendationsPath?: boolean;
+  isOptimizationsPath?: boolean;
   isCurrencyFeatureEnabled?: boolean;
 }
 
@@ -58,7 +58,7 @@ type BreakdownHeaderProps = BreakdownHeaderOwnProps & BreakdownHeaderStateProps 
 
 class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   private buildDetailsLink = url => {
-    const { groupBy, isRecommendationsPath, query } = this.props;
+    const { groupBy, isOptimizationsPath, query } = this.props;
 
     let groupByKey = groupBy;
     let value = '*';
@@ -83,7 +83,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       newQuery[breakdownTitleKey] = undefined;
       newQuery[orgUnitIdKey] = undefined;
     }
-    if (isRecommendationsPath) {
+    if (isOptimizationsPath) {
       newQuery[breakdownTitleKey] = undefined;
       newQuery.group_by = undefined;
       newQuery.recommendations = undefined;
@@ -92,12 +92,12 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   };
 
   private getBackToLink = groupByKey => {
-    const { detailsURL, intl, isRecommendationsPath, tagReportPathsType } = this.props;
+    const { detailsURL, intl, isOptimizationsPath, tagReportPathsType } = this.props;
 
-    if (isRecommendationsPath) {
+    if (isOptimizationsPath) {
       return (
-        <Link to={this.buildDetailsLink(formatPath(routes.recommendations.path))}>
-          {intl.formatMessage(messages.breakdownBackToRecommendations)}
+        <Link to={this.buildDetailsLink(formatPath(routes.optimizations.path))}>
+          {intl.formatMessage(messages.breakdownBackToOptimizations)}
         </Link>
       );
     }
@@ -215,7 +215,7 @@ const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, Breakdown
     const queryFromRoute = parseQuery<Query>(router.location.search);
 
     return {
-      isRecommendationsPath: queryFromRoute.recommendationsPath !== undefined,
+      isOptimizationsPath: queryFromRoute.optimizationsPath !== undefined,
       isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
     };
   }

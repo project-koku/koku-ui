@@ -30,7 +30,7 @@ import BreakdownHeader from './breakdownHeader';
 const enum BreakdownTab {
   costOverview = 'cost-overview',
   historicalData = 'historical-data',
-  recommendations = 'recommendations',
+  optimizations = 'optimizations',
 }
 
 export const getIdKeyForTab = (tab: BreakdownTab) => {
@@ -39,8 +39,8 @@ export const getIdKeyForTab = (tab: BreakdownTab) => {
       return 'cost-overview';
     case BreakdownTab.historicalData:
       return 'historical-data';
-    case BreakdownTab.recommendations:
-      return 'recommendations';
+    case BreakdownTab.optimizations:
+      return 'optimizations';
   }
 };
 
@@ -58,15 +58,15 @@ export interface BreakdownStateProps {
   groupBy?: string;
   groupByValue?: string;
   historicalDataComponent?: React.ReactNode;
-  isRecommendationsTab?: boolean;
+  isOptimizationsTab?: boolean;
   isRosFeatureEnabled?: boolean;
   optimizationsBadgeComponent?: React.ReactNode;
+  optimizationsComponent?: React.ReactNode;
   providers?: Providers;
   providersError?: AxiosError;
   providersFetchStatus?: FetchStatus;
   providerType?: ProviderType;
   query?: Query;
-  recommendationsComponent?: React.ReactNode;
   report?: Report;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
@@ -79,7 +79,7 @@ export interface BreakdownStateProps {
 }
 
 interface BreakdownDispatchProps {
-  closeRecommendationsDrawer?: typeof uiActions.closeRecommendationsDrawer;
+  closeOptimizationsDrawer?: typeof uiActions.closeOptimizationsDrawer;
   fetchReport?: typeof reportActions.fetchReport;
 }
 
@@ -97,7 +97,7 @@ type BreakdownProps = BreakdownOwnProps & BreakdownStateProps & BreakdownDispatc
 
 class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   protected defaultState: BreakdownState = {
-    activeTabKey: this.props.isRecommendationsTab ? 2 : 0,
+    activeTabKey: this.props.isOptimizationsTab ? 2 : 0,
   };
   public state: BreakdownState = { ...this.defaultState };
 
@@ -123,7 +123,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       historicalDataComponent,
       isRosFeatureEnabled,
       optimizationsBadgeComponent,
-      recommendationsComponent,
+      optimizationsComponent,
     } = this.props;
 
     const availableTabs = [];
@@ -139,11 +139,11 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
         tab: BreakdownTab.historicalData,
       });
     }
-    if (recommendationsComponent && isRosFeatureEnabled) {
+    if (optimizationsComponent && isRosFeatureEnabled) {
       availableTabs.push({
         badge: optimizationsBadgeComponent,
         contentRef: React.createRef(),
-        tab: BreakdownTab.recommendations,
+        tab: BreakdownTab.optimizations,
       });
     }
     return availableTabs;
@@ -182,7 +182,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   };
 
   private getTabItem = (tab: BreakdownTab, index: number) => {
-    const { costOverviewComponent, historicalDataComponent, recommendationsComponent } = this.props;
+    const { costOverviewComponent, historicalDataComponent, optimizationsComponent } = this.props;
     const { activeTabKey } = this.state;
     const emptyTab = <></>; // Lazily load tabs
 
@@ -194,8 +194,8 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       return costOverviewComponent;
     } else if (currentTab === BreakdownTab.historicalData) {
       return historicalDataComponent;
-    } else if (currentTab === BreakdownTab.recommendations) {
-      return recommendationsComponent;
+    } else if (currentTab === BreakdownTab.optimizations) {
+      return optimizationsComponent;
     } else {
       return emptyTab;
     }
@@ -218,15 +218,15 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       return intl.formatMessage(messages.breakdownCostOverviewTitle);
     } else if (tab === BreakdownTab.historicalData) {
       return intl.formatMessage(messages.breakdownHistoricalDataTitle);
-    } else if (tab === BreakdownTab.recommendations) {
-      return intl.formatMessage(messages.recommendations);
+    } else if (tab === BreakdownTab.optimizations) {
+      return intl.formatMessage(messages.optimizations);
     }
   };
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   private handleTabClick = (event, tabIndex) => {
-    const { closeRecommendationsDrawer } = this.props;
+    const { closeOptimizationsDrawer } = this.props;
     const { activeTabKey } = this.state;
 
     if (activeTabKey !== tabIndex) {
@@ -235,8 +235,8 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
           activeTabKey: tabIndex,
         },
         () => {
-          if (closeRecommendationsDrawer) {
-            closeRecommendationsDrawer();
+          if (closeOptimizationsDrawer) {
+            closeOptimizationsDrawer();
           }
         }
       );

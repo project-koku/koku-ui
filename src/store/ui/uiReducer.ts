@@ -3,29 +3,29 @@ import { getType } from 'typesafe-actions';
 
 import {
   closeExportsDrawer,
-  closeRecommendationsDrawer,
+  closeOptimizationsDrawer,
   openExportsDrawer,
-  openRecommendationsDrawer,
+  openOptimizationsDrawer,
   resetState,
 } from './uiActions';
 
 export type UIAction = ActionType<
   | typeof closeExportsDrawer
-  | typeof closeRecommendationsDrawer
+  | typeof closeOptimizationsDrawer
   | typeof openExportsDrawer
-  | typeof openRecommendationsDrawer
+  | typeof openOptimizationsDrawer
   | typeof resetState
 >;
 
 export type UIState = Readonly<{
   isExportsDrawerOpen: boolean;
-  isRecommendationsDrawerOpen: boolean;
+  isOptimizationsDrawerOpen: boolean;
   payload: any;
 }>;
 
 export const defaultState: UIState = {
   isExportsDrawerOpen: false,
-  isRecommendationsDrawerOpen: false,
+  isOptimizationsDrawerOpen: false,
   payload: undefined,
 };
 
@@ -43,10 +43,10 @@ export function uiReducer(state = defaultState, action: UIAction): UIState {
         isExportsDrawerOpen: false,
       };
 
-    case getType(closeRecommendationsDrawer):
+    case getType(closeOptimizationsDrawer):
       return {
         ...state,
-        isRecommendationsDrawerOpen: false,
+        isOptimizationsDrawerOpen: false,
       };
 
     case getType(openExportsDrawer):
@@ -55,10 +55,10 @@ export function uiReducer(state = defaultState, action: UIAction): UIState {
         isExportsDrawerOpen: true,
       };
 
-    case getType(openRecommendationsDrawer):
+    case getType(openOptimizationsDrawer):
       return {
         ...state,
-        isRecommendationsDrawerOpen: true,
+        isOptimizationsDrawerOpen: true,
         payload: {
           ...(action as any).payload,
         },

@@ -27,7 +27,7 @@ const mockRos: RosReport = {
 } as any;
 
 const rosType = RosType.cost;
-const rosPathsType = RosPathsType.recommendation;
+const rosPathsType = RosPathsType.recommendations;
 const rosQueryString = 'rosQueryString';
 
 runRosMock.mockResolvedValue({ data: mockRos });

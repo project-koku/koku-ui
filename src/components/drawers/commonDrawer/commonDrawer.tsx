@@ -2,7 +2,7 @@ import './commonDrawer.scss';
 
 import { Drawer, DrawerContent, DrawerContentBody } from '@patternfly/react-core';
 import { ExportsDrawer } from 'components/drawers';
-import { RecommendationsDrawer } from 'components/drawers';
+import { OptimizationsDrawer } from 'components/drawers';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -16,7 +16,7 @@ interface CommonDrawerOwnProps {
 
 interface CommonDrawerStateProps {
   isExportsDrawerOpen: boolean;
-  isRecommendationsDrawerOpen: boolean;
+  isOptimizationsDrawerOpen: boolean;
 }
 
 interface CommonDrawerDispatchProps {
@@ -32,12 +32,12 @@ class CommonDrawerBase extends React.Component<CommonDrawerProps> {
   private drawerRef = React.createRef();
 
   private getPanelContent = () => {
-    const { isExportsDrawerOpen, isRecommendationsDrawerOpen } = this.props;
+    const { isExportsDrawerOpen, isOptimizationsDrawerOpen } = this.props;
 
     if (isExportsDrawerOpen) {
       return <ExportsDrawer />;
-    } else if (isRecommendationsDrawerOpen) {
-      return <RecommendationsDrawer />;
+    } else if (isOptimizationsDrawerOpen) {
+      return <OptimizationsDrawer />;
     }
     return null;
   };
@@ -47,9 +47,9 @@ class CommonDrawerBase extends React.Component<CommonDrawerProps> {
   };
 
   public render() {
-    const { children, isExportsDrawerOpen, isRecommendationsDrawerOpen } = this.props;
+    const { children, isExportsDrawerOpen, isOptimizationsDrawerOpen } = this.props;
 
-    const isExpanded = isExportsDrawerOpen || isRecommendationsDrawerOpen;
+    const isExpanded = isExportsDrawerOpen || isOptimizationsDrawerOpen;
 
     // Sticky drawer is based on RHOSAK app, see:
     // https://github.com/redhat-developer/rhosak-ui/blob/main/apps/consoledot-rhosak/src/AppEntry.tsx#L30-L37
@@ -67,7 +67,7 @@ class CommonDrawerBase extends React.Component<CommonDrawerProps> {
 const mapStateToProps = createMapStateToProps<CommonDrawerOwnProps, CommonDrawerStateProps>(state => {
   return {
     isExportsDrawerOpen: uiSelectors.selectIsExportsDrawerOpen(state),
-    isRecommendationsDrawerOpen: uiSelectors.selectIsRecommendationsDrawerOpen(state),
+    isOptimizationsDrawerOpen: uiSelectors.selectIsOptimizationsDrawerOpen(state),
   };
 });
 

@@ -387,10 +387,10 @@
         "value": "Back to details"
       }
     ],
-    "breakdownBackToRecommendations": [
+    "breakdownBackToOptimizations": [
       {
         "type": 0,
-        "value": "Back to recommendations"
+        "value": "Back to optimizations"
       }
     ],
     "breakdownBackToTitles": [
@@ -9643,10 +9643,10 @@
         "value": "OpenShift in Cost Management"
       }
     ],
-    "notAuthorizedStateRecommendations": [
+    "notAuthorizedStateOptimizations": [
       {
         "type": 0,
-        "value": "Recommendations in Cost Management"
+        "value": "Optimizations in Cost Management"
       }
     ],
     "notAuthorizedStateRhel": [
@@ -9983,6 +9983,172 @@
       {
         "type": 0,
         "value": "Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics."
+      }
+    ],
+    "optimizations": [
+      {
+        "type": 0,
+        "value": "Optimizations"
+      }
+    ],
+    "optimizationsDetails": [
+      {
+        "offset": 0,
+        "options": {
+          "=0": {
+            "value": [
+              {
+                "type": 0,
+                "value": "No optimizations"
+              }
+            ]
+          },
+          "=1": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " optimization"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " optimizations"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
+      }
+    ],
+    "optimizationsNames": [
+      {
+        "options": {
+          "cluster": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cluster names"
+              }
+            ]
+          },
+          "container": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Container names"
+              }
+            ]
+          },
+          "last_reported": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Last reported"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Project names"
+              }
+            ]
+          },
+          "workload": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload names"
+              }
+            ]
+          },
+          "workload_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload types"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "optimizationsValues": [
+      {
+        "options": {
+          "cluster": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cluster name"
+              }
+            ]
+          },
+          "container": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Container name"
+              }
+            ]
+          },
+          "last_reported": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Last reported"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Project name"
+              }
+            ]
+          },
+          "workload": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload name"
+              }
+            ]
+          },
+          "workload_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload type"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
       }
     ],
     "overviewInfoArialLabel": [
@@ -10428,42 +10594,6 @@
         "value": "Failed to get RBAC information"
       }
     ],
-    "recommendations": [
-      {
-        "type": 0,
-        "value": "Recommendations"
-      }
-    ],
-    "recommendationsDetails": [
-      {
-        "offset": 0,
-        "options": {
-          "=0": {
-            "value": [
-              {
-                "type": 0,
-                "value": "No recommendations"
-              }
-            ]
-          },
-          "other": {
-            "value": [
-              {
-                "type": 1,
-                "value": "count"
-              },
-              {
-                "type": 0,
-                "value": " recommendations"
-              }
-            ]
-          }
-        },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
-      }
-    ],
     "recommendationsLongTerm": [
       {
         "type": 0,
@@ -10474,65 +10604,6 @@
       {
         "type": 0,
         "value": "Last 7 days"
-      }
-    ],
-    "recommendationsNames": [
-      {
-        "options": {
-          "cluster": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cluster names"
-              }
-            ]
-          },
-          "container": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Container names"
-              }
-            ]
-          },
-          "last_reported": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Last reported"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          },
-          "project": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Project names"
-              }
-            ]
-          },
-          "workload": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Workload names"
-              }
-            ]
-          },
-          "workload_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Workload types"
-              }
-            ]
-          }
-        },
-        "type": 5,
-        "value": "value"
       }
     ],
     "recommendationsPerspective": [
@@ -10551,65 +10622,6 @@
       {
         "type": 0,
         "value": "Recommendations table"
-      }
-    ],
-    "recommendationsValues": [
-      {
-        "options": {
-          "cluster": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cluster name"
-              }
-            ]
-          },
-          "container": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Container name"
-              }
-            ]
-          },
-          "last_reported": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Last reported"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          },
-          "project": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Project name"
-              }
-            ]
-          },
-          "workload": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Workload name"
-              }
-            ]
-          },
-          "workload_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Workload type"
-              }
-            ]
-          }
-        },
-        "type": 5,
-        "value": "value"
       }
     ],
     "recommendationsViewAll": [
@@ -10640,12 +10652,6 @@
       {
         "type": 0,
         "value": "Requests"
-      }
-    ],
-    "resourceOptimization": [
-      {
-        "type": 0,
-        "value": "Resource optimization"
       }
     ],
     "rhel": [

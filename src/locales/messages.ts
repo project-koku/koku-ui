@@ -113,10 +113,10 @@ export default defineMessages({
     description: 'Back to details',
     id: 'breakdownBackToDetailsAriaLabel',
   },
-  breakdownBackToRecommendations: {
-    defaultMessage: 'Back to recommendations',
-    description: 'Back to recommendations',
-    id: 'breakdownBackToRecommendations',
+  breakdownBackToOptimizations: {
+    defaultMessage: 'Back to optimizations',
+    description: 'Back to optimizations',
+    id: 'breakdownBackToOptimizations',
   },
   breakdownBackToTitles: {
     defaultMessage:
@@ -2385,10 +2385,10 @@ export default defineMessages({
     description: 'OpenShift in Cost Management',
     id: 'notAuthorizedStateOcp',
   },
-  notAuthorizedStateRecommendations: {
-    defaultMessage: 'Recommendations in Cost Management',
-    description: 'Recommendations in Cost Management',
-    id: 'notAuthorizedStateRecommendations',
+  notAuthorizedStateOptimizations: {
+    defaultMessage: 'Optimizations in Cost Management',
+    description: 'Optimizations in Cost Management',
+    id: 'notAuthorizedStateOptimizations',
   },
   notAuthorizedStateRhel: {
     defaultMessage: 'RHEL in Cost Management',
@@ -2595,6 +2595,42 @@ export default defineMessages({
     description:
       'Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.',
     id: 'openShiftDesc',
+  },
+  optimizations: {
+    defaultMessage: 'Optimizations',
+    description: 'Optimizations',
+    id: 'optimizations',
+  },
+  optimizationsDetails: {
+    defaultMessage: '{count, plural, =0 {No optimizations} =1 {{count} optimization} other {{count} optimizations}}',
+    description: 'Recommendation details',
+    id: 'optimizationsDetails',
+  },
+  optimizationsNames: {
+    defaultMessage:
+      '{value, select, ' +
+      'cluster {Cluster names} ' +
+      'container {Container names} ' +
+      'last_reported {Last reported} ' +
+      'project {Project names} ' +
+      'workload {Workload names} ' +
+      'workload_type {Workload types} ' +
+      'other {}}',
+    description: 'Selected items for export',
+    id: 'optimizationsNames',
+  },
+  optimizationsValues: {
+    defaultMessage:
+      '{value, select, ' +
+      'cluster {Cluster name} ' +
+      'container {Container name} ' +
+      'last_reported {Last reported} ' +
+      'project {Project name} ' +
+      'workload {Workload name} ' +
+      'workload_type {Workload type} ' +
+      'other {}}',
+    description: 'Selected items for export',
+    id: 'optimizationsValues',
   },
   overviewInfoArialLabel: {
     defaultMessage: 'A description of perspectives',
@@ -2806,16 +2842,6 @@ export default defineMessages({
     description: 'RBAC error title',
     id: 'rbacErrorTitle',
   },
-  recommendations: {
-    defaultMessage: 'Recommendations',
-    description: 'Recommendations',
-    id: 'recommendations',
-  },
-  recommendationsDetails: {
-    defaultMessage: '{count, plural, =0 {No recommendations} other {{count} recommendations}}',
-    description: 'Recommendation details',
-    id: 'recommendationsDetails',
-  },
   recommendationsLongTerm: {
     defaultMessage: 'Last 15 days',
     description: 'Last 15 days',
@@ -2825,19 +2851,6 @@ export default defineMessages({
     defaultMessage: 'Last 7 days',
     description: 'Last 7 days',
     id: 'recommendationsMediumTerm',
-  },
-  recommendationsNames: {
-    defaultMessage:
-      '{value, select, ' +
-      'cluster {Cluster names} ' +
-      'container {Container names} ' +
-      'last_reported {Last reported} ' +
-      'project {Project names} ' +
-      'workload {Workload names} ' +
-      'workload_type {Workload types} ' +
-      'other {}}',
-    description: 'Selected items for export',
-    id: 'recommendationsNames',
   },
   recommendationsPerspective: {
     defaultMessage: 'View recommendation based on',
@@ -2853,19 +2866,6 @@ export default defineMessages({
     defaultMessage: 'Recommendations table',
     description: 'Recommendations table',
     id: 'recommendationsTableAriaLabel',
-  },
-  recommendationsValues: {
-    defaultMessage:
-      '{value, select, ' +
-      'cluster {Cluster name} ' +
-      'container {Container name} ' +
-      'last_reported {Last reported} ' +
-      'project {Project name} ' +
-      'workload {Workload name} ' +
-      'workload_type {Workload type} ' +
-      'other {}}',
-    description: 'Selected items for export',
-    id: 'recommendationsValues',
   },
   recommendationsViewAll: {
     defaultMessage: 'View all recommendations for this project',
@@ -2891,11 +2891,6 @@ export default defineMessages({
     defaultMessage: 'Requests',
     description: 'Requests',
     id: 'requests',
-  },
-  resourceOptimization: {
-    defaultMessage: 'Resource optimization',
-    description: 'Resource optimization',
-    id: 'resourceOptimization',
   },
   rhel: {
     defaultMessage: 'RHEL',

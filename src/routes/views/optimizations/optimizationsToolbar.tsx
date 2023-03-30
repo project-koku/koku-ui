@@ -10,7 +10,7 @@ import { DataToolbar } from 'routes/views/components/dataToolbar';
 import type { Filter } from 'routes/views/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
-interface RecommendationsToolbarOwnProps {
+interface OptimizationsToolbarOwnProps {
   isDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
@@ -20,29 +20,26 @@ interface RecommendationsToolbarOwnProps {
   query?: OcpQuery;
 }
 
-interface RecommendationsToolbarStateProps {
+interface OptimizationsToolbarStateProps {
   // TBD...
 }
 
-interface RecommendationsToolbarDispatchProps {
+interface OptimizationsToolbarDispatchProps {
   // TBD...
 }
 
-interface RecommendationsToolbarState {
+interface OptimizationsToolbarState {
   categoryOptions?: ToolbarChipGroup[];
 }
 
-type RecommendationsToolbarProps = RecommendationsToolbarOwnProps &
-  RecommendationsToolbarStateProps &
-  RecommendationsToolbarDispatchProps &
+type OptimizationsToolbarProps = OptimizationsToolbarOwnProps &
+  OptimizationsToolbarStateProps &
+  OptimizationsToolbarDispatchProps &
   WrappedComponentProps;
 
-export class RecommendationsToolbarBase extends React.Component<
-  RecommendationsToolbarProps,
-  RecommendationsToolbarState
-> {
-  protected defaultState: RecommendationsToolbarState = {};
-  public state: RecommendationsToolbarState = { ...this.defaultState };
+export class OptimizationsToolbarBase extends React.Component<OptimizationsToolbarProps, OptimizationsToolbarState> {
+  protected defaultState: OptimizationsToolbarState = {};
+  public state: OptimizationsToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
     this.setState({
@@ -85,18 +82,18 @@ export class RecommendationsToolbarBase extends React.Component<
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<RecommendationsToolbarOwnProps, RecommendationsToolbarStateProps>(() => {
+const mapStateToProps = createMapStateToProps<OptimizationsToolbarOwnProps, OptimizationsToolbarStateProps>(() => {
   return {
     // TBD...
   };
 });
 
-const mapDispatchToProps: RecommendationsToolbarDispatchProps = {
+const mapDispatchToProps: OptimizationsToolbarDispatchProps = {
   // TBD...
 };
 
-const RecommendationsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(RecommendationsToolbarBase);
-const RecommendationsToolbar = injectIntl(RecommendationsToolbarConnect);
+const OptimizationsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(OptimizationsToolbarBase);
+const OptimizationsToolbar = injectIntl(OptimizationsToolbarConnect);
 
-export { RecommendationsToolbar };
-export type { RecommendationsToolbarProps };
+export { OptimizationsToolbar };
+export type { OptimizationsToolbarProps };

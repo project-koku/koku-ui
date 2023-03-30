@@ -3,7 +3,7 @@ import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import type { Forecast } from 'api/forecasts/forecast';
 import { getQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
-import type { RecommendationReport } from 'api/ros/recommendations';
+import type { RosReport } from 'api/ros/ros';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -26,7 +26,7 @@ import {
   ReportSummaryTrend,
   ReportSummaryUsage,
 } from 'routes/views/components/reports/reportSummary';
-import { RecommendationsSummary } from 'routes/views/overview/components/recommendationsSummary';
+import { OptimizationsSummary } from 'routes/views/overview/components/optimizationsSummary';
 import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
@@ -49,21 +49,16 @@ export interface DashboardWidgetStateProps extends DashboardWidget {
   containerAltHeight?: number;
   costType?: string;
   currency?: string;
-  currentQuery?: string;
   currentReport?: Report;
   currentReportFetchStatus?: number;
   forecast?: Forecast;
-  forecastQuery?: string;
   forecastFetchStatus?: number;
   getIdKeyForTab?: (tab: string) => string;
   isRosFeatureEnabled?: boolean;
-  previousQuery?: string;
   previousReport?: Report;
   previousReportFetchStatus?: number;
-  recommendationQuery?: string;
-  recommendationReport?: RecommendationReport;
-  recommendationReportFetchStatus?: number;
-  tabsQuery?: string;
+  rosReport?: RosReport;
+  rosReportFetchStatus?: number;
   tabsReport?: Report;
   tabsReportFetchStatus?: number;
 }
@@ -75,8 +70,8 @@ export interface DashboardWidgetState {
 
 interface DashboardWidgetDispatchProps {
   fetchForecasts: (widgetId) => void;
-  fetchRecommendationReports: (widgetId) => void;
   fetchReports: (widgetId) => void;
+  fetchRosReports: (widgetId) => void;
   updateTab: (id, availableTabs) => void;
 }
 
@@ -97,8 +92,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
       availableTabs,
       details,
       fetchForecasts,
-      fetchRecommendationReports,
       fetchReports,
+      fetchRosReports,
       id,
       isRosFeatureEnabled,
       trend,
@@ -112,11 +107,11 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
     if (trend && trend.computedForecastItem !== undefined) {
       fetchForecasts(widgetId);
     }
-    if (!details.showRecommendations && fetchReports) {
+    if (!details.showOptimizations && fetchReports) {
       fetchReports(widgetId);
     }
-    if (details.showRecommendations && fetchRecommendationReports && isRosFeatureEnabled) {
-      fetchRecommendationReports(widgetId);
+    if (details.showOptimizations && fetchRosReports && isRosFeatureEnabled) {
+      fetchRosReports(widgetId);
     }
   }
 
@@ -450,12 +445,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
     );
   };
 
-  private getRecommendationsSummary = () => {
-    const { recommendationReportFetchStatus, recommendationReport, titleKey } = this.props;
+  private getOptimizationsSummary = () => {
+    const { rosReportFetchStatus, rosReport, titleKey } = this.props;
 
-    return (
-      <RecommendationsSummary status={recommendationReportFetchStatus} report={recommendationReport} title={titleKey} />
-    );
+    return <OptimizationsSummary status={rosReportFetchStatus} report={rosReport} title={titleKey} />;
   };
 
   private getTab = (tab: string, index: number) => {
@@ -596,8 +589,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
 
   public render() {
     const { details, isRosFeatureEnabled } = this.props;
-    if (details.showRecommendations) {
-      return isRosFeatureEnabled ? this.getRecommendationsSummary() : null;
+    if (details.showOptimizations) {
+      return isRosFeatureEnabled ? this.getOptimizationsSummary() : null;
     }
     return details.showHorizontal ? this.getHorizontalLayout() : this.getVerticalLayout();
   }

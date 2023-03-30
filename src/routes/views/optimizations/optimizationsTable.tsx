@@ -2,7 +2,7 @@ import 'routes/views/details/components/dataTable/dataTable.scss';
 
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
-import type { RecommendationReport } from 'api/ros/recommendations';
+import type { RosReport } from 'api/ros/ros';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -17,35 +17,35 @@ import { getTimeFromNow } from 'utils/dates';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-interface RecommendationsTableOwnProps extends RouterComponentProps {
+interface OptimizationsTableOwnProps extends RouterComponentProps {
   isLoading?: boolean;
   onSort(value: string, isSortAscending: boolean);
-  report: RecommendationReport;
+  report: RosReport;
   reportQueryString: string;
 }
 
-interface RecommendationsTableState {
+interface OptimizationsTableState {
   columns?: any[];
   rows?: any[];
 }
 
-interface RecommendationsTableStateProps {
+interface OptimizationsTableStateProps {
   groupBy?: string;
   isOpen?: boolean;
 }
 
-interface RecommendationsTableDispatchProps {
-  closeRecommendationsDrawer: typeof uiActions.closeRecommendationsDrawer;
-  openRecommendationsDrawer: typeof uiActions.openRecommendationsDrawer;
+interface OptimizationsTableDispatchProps {
+  closeOptimizationsDrawer: typeof uiActions.closeOptimizationsDrawer;
+  openOptimizationsDrawer: typeof uiActions.openOptimizationsDrawer;
 }
 
-type RecommendationsTableProps = RecommendationsTableOwnProps &
-  RecommendationsTableStateProps &
-  RecommendationsTableDispatchProps &
+type OptimizationsTableProps = OptimizationsTableOwnProps &
+  OptimizationsTableStateProps &
+  OptimizationsTableDispatchProps &
   WrappedComponentProps;
 
-class RecommendationsTableBase extends React.Component<RecommendationsTableProps, RecommendationsTableState> {
-  public state: RecommendationsTableState = {
+class OptimizationsTableBase extends React.Component<OptimizationsTableProps, OptimizationsTableState> {
+  public state: OptimizationsTableState = {
     columns: [],
     rows: [],
   };
@@ -54,7 +54,7 @@ class RecommendationsTableBase extends React.Component<RecommendationsTableProps
     this.initDatum();
   }
 
-  public componentDidUpdate(prevProps: RecommendationsTableProps) {
+  public componentDidUpdate(prevProps: OptimizationsTableProps) {
     const { report } = this.props;
     const currentReport = report && report.data ? JSON.stringify(report.data) : '';
     const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
@@ -75,34 +75,34 @@ class RecommendationsTableBase extends React.Component<RecommendationsTableProps
     const rows = [];
     const columns = [
       {
-        name: intl.formatMessage(messages.recommendationsNames, { value: 'container' }),
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'container' }),
         orderBy: 'container',
         ...(hasData && { isSortable: true }),
       },
       {
         hidden: groupBy === 'project',
-        name: intl.formatMessage(messages.recommendationsNames, { value: 'project' }),
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'project' }),
         orderBy: 'project',
         ...(hasData && { isSortable: true }),
       },
       {
-        name: intl.formatMessage(messages.recommendationsNames, { value: 'workload' }),
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'workload' }),
         orderBy: 'workload',
         ...(hasData && { isSortable: true }),
       },
       {
-        name: intl.formatMessage(messages.recommendationsNames, { value: 'workload_type' }),
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'workload_type' }),
         orderBy: 'workload_type',
         ...(hasData && { isSortable: true }),
       },
       {
         hidden: groupBy === 'cluster',
-        name: intl.formatMessage(messages.recommendationsNames, { value: 'cluster' }),
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'cluster' }),
         orderBy: 'cluster',
         ...(hasData && { isSortable: true }),
       },
       {
-        name: intl.formatMessage(messages.recommendationsNames, { value: 'last_reported' }),
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'last_reported' }),
         orderBy: 'last_reported',
         style: styles.lastReportedColumn,
         ...(hasData && { isSortable: true }),
@@ -127,7 +127,9 @@ class RecommendationsTableBase extends React.Component<RecommendationsTableProps
             { value: <div>{cluster}</div>, hidden: groupBy === 'cluster' },
             { value: <div>{lastReported}</div>, style: styles.lastReported },
           ],
-          item,
+          optimization: {
+            id: item.id,
+          },
         });
       });
 
@@ -144,10 +146,10 @@ class RecommendationsTableBase extends React.Component<RecommendationsTableProps
   };
 
   private handleOnRowClick = (event: React.KeyboardEvent | React.MouseEvent, rowIndex: number) => {
-    const { openRecommendationsDrawer } = this.props;
+    const { openOptimizationsDrawer } = this.props;
     const { rows } = this.state;
 
-    openRecommendationsDrawer(rows[rowIndex].item);
+    openOptimizationsDrawer(rows[rowIndex].optimization);
   };
 
   public render() {
@@ -158,7 +160,7 @@ class RecommendationsTableBase extends React.Component<RecommendationsTableProps
       <DataTable
         columns={columns}
         isLoading={isLoading}
-        isRecommendations
+        isOptimizations
         onSort={onSort}
         rows={rows}
         onRowClick={this.handleOnRowClick}
@@ -167,24 +169,22 @@ class RecommendationsTableBase extends React.Component<RecommendationsTableProps
   }
 }
 
-const mapStateToProps = createMapStateToProps<RecommendationsTableOwnProps, RecommendationsTableStateProps>(
+const mapStateToProps = createMapStateToProps<OptimizationsTableOwnProps, OptimizationsTableStateProps>(
   (state, { router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
 
     return {
       groupBy: getGroupById(queryFromRoute),
-      isOpen: uiSelectors.selectIsRecommendationsDrawerOpen(state),
+      isOpen: uiSelectors.selectIsOptimizationsDrawerOpen(state),
     };
   }
 );
 
-const mapDispatchToProps: RecommendationsTableDispatchProps = {
-  closeRecommendationsDrawer: uiActions.closeRecommendationsDrawer,
-  openRecommendationsDrawer: uiActions.openRecommendationsDrawer,
+const mapDispatchToProps: OptimizationsTableDispatchProps = {
+  closeOptimizationsDrawer: uiActions.closeOptimizationsDrawer,
+  openOptimizationsDrawer: uiActions.openOptimizationsDrawer,
 };
 
-const RecommendationsTable = injectIntl(
-  withRouter(connect(mapStateToProps, mapDispatchToProps)(RecommendationsTableBase))
-);
+const OptimizationsTable = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(OptimizationsTableBase)));
 
-export { RecommendationsTable };
+export { OptimizationsTable };

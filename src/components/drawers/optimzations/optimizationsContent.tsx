@@ -1,13 +1,17 @@
-import './recommendations.scss';
+import './optimizations.scss';
 
-import { TextContent, TextList, TextListItem, TextListItemVariants, TextListVariants } from '@patternfly/react-core';
+import {
+  Bullseye,
+  Spinner,
+  TextContent,
+  TextList,
+  TextListItem,
+  TextListItemVariants,
+  TextListVariants,
+} from '@patternfly/react-core';
 import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
-import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery } from 'api/queries/query';
-import type { Report } from 'api/reports/report';
-import { ReportPathsType, ReportType } from 'api/reports/report';
-import type { RecommendationReportData } from 'api/ros/recommendations';
-import type { RecommendationItem } from 'api/ros/recommendations';
+import type { RecommendationItem, RecommendationReportData } from 'api/ros/recommendations';
+import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
@@ -17,122 +21,115 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
-import { Loading } from 'routes/state/loading';
-import { getGroupById } from 'routes/views/utils/groupBy';
 import { getBreakdownPath } from 'routes/views/utils/paths';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { reportActions, reportSelectors } from 'store/reports';
+import { rosActions, rosSelectors } from 'store/ros';
 import { uiSelectors } from 'store/ui';
 import { getTimeFromNow } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-import { styles } from './recommendations.styles';
-import { RecommendationsToolbar } from './recommendationsToolbar';
+import { styles } from './optimizations.styles';
+import { OptimizationsToolbar } from './optimizationsToolbar';
 
-interface RecommendationsContentOwnProps extends RouterComponentProps {
+interface OptimizationsContentOwnProps extends RouterComponentProps {
   onClose();
 }
 
-interface RecommendationsContentStateProps {
-  groupBy?: string;
-  payload: RecommendationReportData;
-  report: Report;
-  reportError: AxiosError;
-  reportFetchStatus: FetchStatus;
-  reportQueryString: string;
+interface OptimizationsContentStateProps {
+  report?: RecommendationReportData;
+  reportError?: AxiosError;
+  reportFetchStatus?: FetchStatus;
+  reportQueryString?: string;
 }
 
-interface RecommendationsContentDispatchProps {
-  // TBD...
+interface OptimizationsContentDispatchProps {
+  fetchRosReport: typeof rosActions.fetchRosReport;
 }
 
-interface RecommendationsContentState {
-  currentTerm: string;
-  query?: Query;
+interface OptimizationsContentState {
+  currentInterval: string;
 }
 
-type RecommendationsContentProps = RecommendationsContentOwnProps &
-  RecommendationsContentStateProps &
-  RecommendationsContentDispatchProps &
+type OptimizationsContentProps = OptimizationsContentOwnProps &
+  OptimizationsContentStateProps &
+  OptimizationsContentDispatchProps &
   WrappedComponentProps;
 
 // eslint-disable-next-line no-shadow
-export const enum RecommendationTerm {
+export const enum Interval {
   short_term = 'short_term', // last 24 hrs
   medium_term = 'medium_term', // last 7 days
   long_term = 'long_term', // last 15 days
 }
 
-const baseQuery: Query = {
-  filter: {
-    limit: 10,
-    offset: 0,
-  },
-  order_by: {
-    name: 'desc',
-  },
-};
+const reportType = RosType.ros as any;
+const reportPathsType = RosPathsType.recommendation as any;
 
-class RecommendationsContentBase extends React.Component<RecommendationsContentProps, any> {
-  protected defaultState: RecommendationsContentState = {
-    currentTerm: RecommendationTerm.short_term,
-    query: baseQuery,
+class OptimizationsContentBase extends React.Component<OptimizationsContentProps, any> {
+  protected defaultState: OptimizationsContentState = {
+    currentInterval: Interval.short_term,
   };
-  public state: RecommendationsContentState = { ...this.defaultState };
+  public state: OptimizationsContentState = { ...this.defaultState };
 
   public componentDidMount() {
-    this.setState({ currentTerm: this.getDefaultTerm() });
+    const { fetchRosReport, reportQueryString } = this.props;
+
+    fetchRosReport(reportPathsType, reportType, reportQueryString);
+    this.setState({ currentInterval: this.getDefaultTerm() });
   }
 
   private getDefaultTerm = () => {
-    const { payload: item } = this.props;
+    const { report } = this.props;
 
-    let result = RecommendationTerm.short_term;
-    if (!(item && item.recommendations)) {
+    let result = Interval.short_term;
+    if (!(report && report.recommendations)) {
       return result;
     }
-    if (item.recommendations.short_term) {
-      result = RecommendationTerm.short_term;
-    } else if (item.recommendations.medium_term) {
-      result = RecommendationTerm.medium_term;
-    } else if (item.recommendations.long_term) {
-      result = RecommendationTerm.long_term;
+    if (report.recommendations.short_term) {
+      result = Interval.short_term;
+    } else if (report.recommendations.medium_term) {
+      result = Interval.medium_term;
+    } else if (report.recommendations.long_term) {
+      result = Interval.long_term;
     }
     return result;
   };
 
   private getDescription = () => {
-    const { intl, payload: item } = this.props;
+    const { intl, report } = this.props;
 
-    const cluster = item.cluster_alias ? item.cluster_alias : item.cluster_uuid ? item.cluster_uuid : '';
-    const lastReported = getTimeFromNow(item.last_reported);
-    const project = item.project ? item.project : '';
-    const workload = item.workload ? item.workload : '';
-    const workloadType = item.workload_type ? item.workload_type : '';
+    const clusterAlias = report && report.cluster_alias ? report.cluster_alias : undefined;
+    const clusterUuid = report && report.cluster_uuid ? report.cluster_uuid : '';
+    const cluster = clusterAlias ? clusterAlias : clusterUuid;
+
+    const lastReported = report ? getTimeFromNow(report.last_reported) : '';
+    const project = report && report.project ? report.project : '';
+    const workload = report && report.workload ? report.workload : '';
+    const workloadType = report && report.workload_type ? report.workload_type : '';
 
     return (
       <TextContent>
         <TextList component={TextListVariants.dl}>
           <TextListItem component={TextListItemVariants.dt}>
-            {intl.formatMessage(messages.recommendationsValues, { value: 'last_reported' })}
+            {intl.formatMessage(messages.optimizationsValues, { value: 'last_reported' })}
           </TextListItem>
           <TextListItem component={TextListItemVariants.dd}>{lastReported}</TextListItem>
           <TextListItem component={TextListItemVariants.dt}>
-            {intl.formatMessage(messages.recommendationsValues, { value: 'cluster' })}
+            {intl.formatMessage(messages.optimizationsValues, { value: 'cluster' })}
           </TextListItem>
           <TextListItem component={TextListItemVariants.dd}>{cluster}</TextListItem>
           <TextListItem component={TextListItemVariants.dt}>
-            {intl.formatMessage(messages.recommendationsValues, { value: 'project' })}
+            {intl.formatMessage(messages.optimizationsValues, { value: 'project' })}
           </TextListItem>
           <TextListItem component={TextListItemVariants.dd}>{project}</TextListItem>
           <TextListItem component={TextListItemVariants.dt}>
-            {intl.formatMessage(messages.recommendationsValues, { value: 'workload_type' })}
+            {intl.formatMessage(messages.optimizationsValues, { value: 'workload_type' })}
           </TextListItem>
           <TextListItem component={TextListItemVariants.dd}>{workload}</TextListItem>
           <TextListItem component={TextListItemVariants.dt}>
-            {intl.formatMessage(messages.recommendationsValues, { value: 'workload' })}
+            {intl.formatMessage(messages.optimizationsValues, { value: 'workload' })}
           </TextListItem>
           <TextListItem component={TextListItemVariants.dd}>{workloadType}</TextListItem>
         </TextList>
@@ -153,7 +150,7 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
       iconOverride += ' increase';
     }
     return (
-      <div className="recommendationsOverride">
+      <div className="optimizationsOverride">
         <div className={iconOverride}>
           {value < 0 ? (
             <>
@@ -172,8 +169,11 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
   };
 
   private getLimitsTable = () => {
-    const { intl } = this.props;
+    const { intl, report } = this.props;
 
+    if (!report) {
+      return null;
+    }
     const recommendations = this.getRecommendations();
     const cpuConfig = recommendations.config.limits.cpu.amount;
     const cpuConfigUnits = recommendations.config.limits.cpu.format;
@@ -220,27 +220,34 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
   };
 
   private getRecommendations = (): RecommendationItem => {
-    const { payload: item } = this.props;
-    const { currentTerm } = this.state;
+    const { report } = this.props;
+    const { currentInterval } = this.state;
+
+    if (!report) {
+      return undefined;
+    }
 
     let result;
-    switch (currentTerm) {
-      case RecommendationTerm.short_term:
-        result = item.recommendations.short_term;
+    switch (currentInterval) {
+      case Interval.short_term:
+        result = report.recommendations.short_term;
         break;
-      case RecommendationTerm.medium_term:
-        result = item.recommendations.medium_term;
+      case Interval.medium_term:
+        result = report.recommendations.medium_term;
         break;
-      case RecommendationTerm.long_term:
-        result = item.recommendations.long_term;
+      case Interval.long_term:
+        result = report.recommendations.long_term;
         break;
     }
     return result;
   };
 
   private getRequestsTable = () => {
-    const { intl } = this.props;
+    const { intl, report } = this.props;
 
+    if (!report) {
+      return null;
+    }
     const recommendations = this.getRecommendations();
     const cpuConfig = recommendations.config.requests.cpu.amount;
     const cpuConfigUnits = recommendations.config.requests.cpu.format;
@@ -283,9 +290,9 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
   };
 
   private getViewAllLink = () => {
-    const { groupBy, intl, payload, router } = this.props;
+    const { intl, report, router } = this.props;
 
-    if (groupBy !== undefined) {
+    if (!report) {
       return null;
     }
     return (
@@ -293,11 +300,11 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
         to={getBreakdownPath({
           basePath: formatPath(routes.ocpDetailsBreakdown.path),
           groupBy: 'project',
-          id: payload.project,
-          isRecommendationsPath: true,
-          isRecommendationsTab: true,
+          id: report.project,
+          isOptimizationsPath: true,
+          isOptimizationsTab: true,
           router,
-          title: payload.project,
+          title: report.project,
         })}
       >
         {intl.formatMessage(messages.recommendationsViewAll)}
@@ -306,133 +313,64 @@ class RecommendationsContentBase extends React.Component<RecommendationsContentP
   };
 
   private handleOnSelected = (value: string) => {
-    this.setState({ currentTerm: value });
+    this.setState({ currentInterval: value });
   };
 
   public render() {
-    const { payload: item, reportFetchStatus } = this.props;
-    const { currentTerm } = this.state;
+    const { report, reportFetchStatus } = this.props;
+    const { currentInterval } = this.state;
+
+    const isLoading = reportFetchStatus === FetchStatus.inProgress;
 
     return (
       <div style={styles.content}>
         <div>{this.getDescription()}</div>
         <div style={styles.toolbarContainer}>
-          <RecommendationsToolbar
-            currentItem={currentTerm}
-            recommendations={item.recommendations}
+          <OptimizationsToolbar
+            currentInterval={currentInterval}
+            isDisabled={isLoading}
+            recommendations={report ? report.recommendations : undefined}
             onSelected={this.handleOnSelected}
           />
         </div>
-        {reportFetchStatus === FetchStatus.inProgress ? (
-          <Loading />
+        {isLoading ? (
+          <Bullseye style={styles.bullseye}>
+            <Spinner size="lg" />
+          </Bullseye>
         ) : (
           <>
             <div style={styles.tableContainer}>{this.getRequestsTable()}</div>
             <div style={styles.tableContainer}>{this.getLimitsTable()}</div>
+            <div style={styles.viewAllContainer}>{this.getViewAllLink()}</div>
           </>
         )}
-        <div style={styles.viewAllContainer}>{this.getViewAllLink()}</div>
       </div>
     );
   }
 }
 
-const mapStateToProps = createMapStateToProps<RecommendationsContentOwnProps, RecommendationsContentStateProps>(
-  (state, { router }) => {
-    const queryFromRoute = parseQuery<Query>(router.location.search);
-    const groupBy = getGroupById(queryFromRoute);
+const mapStateToProps = createMapStateToProps<OptimizationsContentOwnProps, OptimizationsContentStateProps>(state => {
+  const payload = uiSelectors.selectOptimizationsDrawerPayload(state);
 
-    const query = {
-      filter: {
-        ...baseQuery.filter,
-      },
-      filter_by: baseQuery.filter_by,
-      order_by: baseQuery.order_by,
-    };
+  const reportQueryString = payload ? payload.id : '';
+  const report: any = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
+  const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
+  const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);
 
-    // Todo: Temp report until APIs are available
-    const reportType = ReportType.cost;
-    const reportPathsType = ReportPathsType.ocp;
+  return {
+    report,
+    reportError,
+    reportFetchStatus,
+    reportQueryString,
+  };
+});
 
-    const reportQueryString = getQuery(query);
-    // const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
-    const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
-    const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-      state,
-      reportPathsType,
-      reportType,
-      reportQueryString
-    );
-
-    // Todo: For testing
-    const report = {
-      meta: {
-        count: 11,
-        filter: {
-          limit: 10,
-          offset: 0,
-        },
-        order_by: {
-          cost_total: 'desc',
-        },
-      },
-      data: [
-        {
-          name: 'OpenShift grouped by Project',
-          created: '2022-01-17 13:25:07',
-          expires: '2022-01-24',
-          status: 'pending',
-        },
-        {
-          name: 'Amazon Web Services grouped by Account',
-          created: '2022-01-17 13:24:23',
-          expires: '2022-01-24',
-          status: 'running',
-        },
-        {
-          name: 'OpenShift grouped by Cluster',
-          created: '2022-01-16 13:23:08',
-          expires: '2022-01-23',
-          status: 'completed',
-        },
-        {
-          name: 'Microsoft Azure grouped by Account',
-          created: '2022-01-16 13:18:22',
-          expires: '2022-01-23',
-          status: 'failed',
-        },
-        {
-          name: 'Google Cloud Platform grouped by Service',
-          created: '2022-01-14 09:05:23',
-          expires: '2022-01-23',
-          status: 'completed',
-        },
-        {
-          name: 'Explorer - OpenShift grouped by Cluster',
-          created: '2022-01-14 08:38:42',
-          expires: '2022-01-23',
-          status: 'completed',
-        },
-      ],
-    } as any;
-
-    return {
-      groupBy,
-      payload: uiSelectors.selectRecommendationsDrawerPayload(state),
-      report,
-      reportError,
-      reportFetchStatus,
-      reportQueryString,
-    };
-  }
-);
-
-const mapDispatchToProps: RecommendationsContentDispatchProps = {
-  fetchReport: reportActions.fetchReport,
+const mapDispatchToProps: OptimizationsContentDispatchProps = {
+  fetchRosReport: rosActions.fetchRosReport,
 };
 
-const RecommendationsContent = injectIntl(
-  withRouter(connect(mapStateToProps, mapDispatchToProps)(RecommendationsContentBase))
+const OptimizationsContent = injectIntl(
+  withRouter(connect(mapStateToProps, mapDispatchToProps)(OptimizationsContentBase))
 );
 
-export { RecommendationsContent };
+export { OptimizationsContent };

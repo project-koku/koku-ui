@@ -119,7 +119,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           },
           {
             hidden: !(isGroupByProject && isRosFeatureEnabled),
-            name: intl.formatMessage(messages.recommendations),
+            name: intl.formatMessage(messages.optimizations),
           },
           {
             name: intl.formatMessage(messages.monthOverMonthChange),
@@ -160,7 +160,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           },
           {
             hidden: !(isGroupByProject && isRosFeatureEnabled),
-            name: intl.formatMessage(messages.recommendations),
+            name: intl.formatMessage(messages.optimizations),
           },
           {
             id: DetailsTableColumnIds.monthOverMonth,
