@@ -1,7 +1,7 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { RosQuery } from 'api/queries/rosQuery';
 import { getQuery, parseQuery } from 'api/queries/rosQuery';
-import type { RecommendationReport } from 'api/ros/recommendations';
+import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
@@ -20,42 +20,40 @@ import {
   handleSort,
 } from 'routes/views/utils/handles';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { rosActions } from 'store/ros';
-import { rosSelectors } from 'store/ros';
+import { rosActions, rosSelectors } from 'store/ros';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-import { styles } from './recommendations.styles';
-import { RecommendationsHeader } from './recommendationsHeader';
-import { RecommendationsTable } from './recommendationsTable';
-import { RecommendationsToolbar } from './recommendationsToolbar';
+import { styles } from './optimizations.styles';
+import { OptimizationsHeader } from './optimizationsHeader';
+import { OptimizationsTable } from './optimizationsTable';
+import { OptimizationsToolbar } from './optimizationsToolbar';
 
-interface RecommendationsStateProps {
+export interface OptimizationsOwnProps extends RouterComponentProps, WrappedComponentProps {
+  // TBD...
+}
+
+interface OptimizationsStateProps {
   groupBy?: string;
   query: RosQuery;
-  report: RecommendationReport;
+  report: RosReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
 }
 
-interface RecommendationsDispatchProps {
+interface OptimizationsDispatchProps {
   fetchRosReport: typeof rosActions.fetchRosReport;
 }
 
-interface RecommendationsState {
+interface OptimizationsState {
   columns: any[];
   rows: any[];
 }
 
-type RecommendationsOwnProps = RouterComponentProps & WrappedComponentProps;
-
-type RecommendationsProps = RecommendationsStateProps & RecommendationsOwnProps & RecommendationsDispatchProps;
+type OptimizationsProps = OptimizationsStateProps & OptimizationsOwnProps & OptimizationsDispatchProps;
 
 const baseQuery: RosQuery = {
-  exclude: {},
-  filter: {},
-  filter_by: {},
   limit: 10,
   offset: 0,
   order_by: {
@@ -64,20 +62,20 @@ const baseQuery: RosQuery = {
 };
 
 const reportType = RosType.ros as any;
-const reportPathsType = RosPathsType.recommendation as any;
+const reportPathsType = RosPathsType.recommendations as any;
 
-class Recommendations extends React.Component<RecommendationsProps, RecommendationsState> {
-  protected defaultState: RecommendationsState = {
+class Optimizations extends React.Component<OptimizationsProps, OptimizationsState> {
+  protected defaultState: OptimizationsState = {
     columns: [],
     rows: [],
   };
-  public state: RecommendationsState = { ...this.defaultState };
+  public state: OptimizationsState = { ...this.defaultState };
 
   public componentDidMount() {
     this.updateReport();
   }
 
-  public componentDidUpdate(prevProps: RecommendationsProps) {
+  public componentDidUpdate(prevProps: OptimizationsProps) {
     const { report, reportError, reportQueryString, router } = this.props;
 
     const newQuery = prevProps.reportQueryString !== reportQueryString;
@@ -122,7 +120,7 @@ class Recommendations extends React.Component<RecommendationsProps, Recommendati
     const { query, report, reportFetchStatus, reportQueryString, router } = this.props;
 
     return (
-      <RecommendationsTable
+      <OptimizationsTable
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSort={(sortType, isSortAscending) => handleSort(query, router, sortType, isSortAscending)}
         report={report}
@@ -139,7 +137,7 @@ class Recommendations extends React.Component<RecommendationsProps, Recommendati
     const isDisabled = itemsTotal === 0;
 
     return (
-      <RecommendationsToolbar
+      <OptimizationsToolbar
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
@@ -152,8 +150,11 @@ class Recommendations extends React.Component<RecommendationsProps, Recommendati
   };
 
   private updateReport = () => {
-    const { fetchRosReport, reportQueryString } = this.props;
-    fetchRosReport(reportPathsType, reportType, reportQueryString);
+    const { fetchRosReport, reportFetchStatus, reportQueryString } = this.props;
+
+    if (reportFetchStatus !== FetchStatus.inProgress) {
+      fetchRosReport(reportPathsType, reportType, reportQueryString);
+    }
   };
 
   public render() {
@@ -164,15 +165,14 @@ class Recommendations extends React.Component<RecommendationsProps, Recommendati
     const isStandalone = groupBy === undefined;
     const title = intl.formatMessage(messages.ocpDetailsTitle);
 
-    // Note: Providers are fetched via the AccountSettings component used by all routes
     if (reportError) {
       return <NotAvailable title={title} />;
     }
     return (
-      <div style={styles.recommendationsContainer}>
+      <div style={styles.optimizationsContainer}>
         {isStandalone ? (
           <>
-            <RecommendationsHeader />
+            <OptimizationsHeader />
             <div style={styles.content}>
               <div style={styles.toolbarContainer}>{this.getToolbar()}</div>
               {reportFetchStatus === FetchStatus.inProgress ? (
@@ -206,47 +206,39 @@ class Recommendations extends React.Component<RecommendationsProps, Recommendati
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<RecommendationsOwnProps, RecommendationsStateProps>(
-  (state, { router }) => {
-    const queryFromRoute = parseQuery<RosQuery>(router.location.search);
-    const groupBy = getGroupById(queryFromRoute);
-    const groupByValue = getGroupByValue(queryFromRoute);
+const mapStateToProps = createMapStateToProps<OptimizationsOwnProps, OptimizationsStateProps>((state, { router }) => {
+  const queryFromRoute = parseQuery<RosQuery>(router.location.search);
+  const groupBy = getGroupById(queryFromRoute);
+  const groupByValue = getGroupByValue(queryFromRoute);
 
-    const query = {
-      // Todo: remove when API is available
-      // filter: {
-      //   ...baseQuery.filter,
-      //   ...queryFromRoute.filter,
-      // },
-      ...(groupBy && {
-        [groupBy]: groupByValue, // project filter
-      }),
-      // exclude: queryFromRoute.exclude || baseQuery.exclude,
-      filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-      limit: queryFromRoute.limit || baseQuery.limit,
-      offset: queryFromRoute.offset || baseQuery.offset,
-      // order_by: queryFromRoute.order_by || baseQuery.order_by,
-    };
-    const reportQueryString = getQuery({
-      ...query,
-    });
-    const report = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
-    const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
-    const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);
+  const query = {
+    ...(groupBy && {
+      [groupBy]: groupByValue, // project filter
+    }),
+    filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
+    limit: queryFromRoute.limit || baseQuery.limit,
+    offset: queryFromRoute.offset || baseQuery.offset,
+    // order_by: queryFromRoute.order_by || baseQuery.order_by,
+  };
+  const reportQueryString = getQuery({
+    ...query,
+  });
+  const report = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
+  const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
+  const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);
 
-    return {
-      groupBy: queryFromRoute.group_by,
-      query,
-      report,
-      reportError,
-      reportFetchStatus,
-      reportQueryString,
-    } as any;
-  }
-);
+  return {
+    groupBy: queryFromRoute.group_by,
+    query,
+    report,
+    reportError,
+    reportFetchStatus,
+    reportQueryString,
+  } as any;
+});
 
-const mapDispatchToProps: RecommendationsDispatchProps = {
+const mapDispatchToProps: OptimizationsDispatchProps = {
   fetchRosReport: rosActions.fetchRosReport,
 };
 
-export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(Recommendations)));
+export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(Optimizations)));

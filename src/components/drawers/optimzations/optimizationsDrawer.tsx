@@ -14,40 +14,40 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { uiActions, uiSelectors } from 'store/ui';
 
-import { RecommendationsContent } from './recommendationsContent';
+import { OptimizationsContent } from './optimizationsContent';
 
-interface RecommendationsDrawerOwnProps {
+interface OptimizationsDrawerOwnProps {
   children?: React.ReactNode;
 }
 
-interface RecommendationsDrawerStateProps {
+interface OptimizationsDrawerStateProps {
   isOpen: boolean;
   payload: any;
 }
 
-interface RecommendationsDrawerDispatchProps {
-  closeRecommendationsDrawer: typeof uiActions.closeRecommendationsDrawer;
+interface OptimizationsDrawerDispatchProps {
+  closeOptimizationsDrawer: typeof uiActions.closeOptimizationsDrawer;
 }
 
-type RecommendationsDrawerProps = RecommendationsDrawerOwnProps &
-  RecommendationsDrawerStateProps &
-  RecommendationsDrawerDispatchProps &
+type OptimizationsDrawerProps = OptimizationsDrawerOwnProps &
+  OptimizationsDrawerStateProps &
+  OptimizationsDrawerDispatchProps &
   WrappedComponentProps;
 
-class RecommendationsDrawerBase extends React.Component<RecommendationsDrawerProps, any> {
+class OptimizationsDrawerBase extends React.Component<OptimizationsDrawerProps, any> {
   private drawerRef = React.createRef();
 
   private handleClose = () => {
-    const { closeRecommendationsDrawer } = this.props;
+    const { closeOptimizationsDrawer } = this.props;
 
-    closeRecommendationsDrawer();
+    closeOptimizationsDrawer();
   };
 
   public render() {
     const { isOpen, payload } = this.props;
 
     return (
-      <DrawerPanelContent id="recommendationsDrawer" minSize={'750px'}>
+      <DrawerPanelContent id="optimizationsDrawer" minSize={'750px'}>
         <DrawerHead>
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
           /* @ts-ignore */}
@@ -61,24 +61,24 @@ class RecommendationsDrawerBase extends React.Component<RecommendationsDrawerPro
           </DrawerActions>
         </DrawerHead>
         <DrawerPanelBody>
-          <RecommendationsContent onClose={this.handleClose} />
+          <OptimizationsContent onClose={this.handleClose} />
         </DrawerPanelBody>
       </DrawerPanelContent>
     );
   }
 }
 
-const mapStateToProps = createMapStateToProps<RecommendationsDrawerOwnProps, RecommendationsDrawerStateProps>(state => {
+const mapStateToProps = createMapStateToProps<OptimizationsDrawerOwnProps, OptimizationsDrawerStateProps>(state => {
   return {
-    isOpen: uiSelectors.selectIsRecommendationsDrawerOpen(state),
-    payload: uiSelectors.selectRecommendationsDrawerPayload(state),
+    isOpen: uiSelectors.selectIsOptimizationsDrawerOpen(state),
+    payload: uiSelectors.selectOptimizationsDrawerPayload(state),
   };
 });
 
-const mapDispatchToProps: RecommendationsDrawerDispatchProps = {
-  closeRecommendationsDrawer: uiActions.closeRecommendationsDrawer,
+const mapDispatchToProps: OptimizationsDrawerDispatchProps = {
+  closeOptimizationsDrawer: uiActions.closeOptimizationsDrawer,
 };
 
-const RecommendationsDrawer = injectIntl(connect(mapStateToProps, mapDispatchToProps)(RecommendationsDrawerBase));
+const OptimizationsDrawer = injectIntl(connect(mapStateToProps, mapDispatchToProps)(OptimizationsDrawerBase));
 
-export default RecommendationsDrawer;
+export default OptimizationsDrawer;

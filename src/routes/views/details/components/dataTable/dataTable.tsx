@@ -20,7 +20,7 @@ import { styles } from './dataTable.styles';
 interface DataTableOwnProps {
   columns?: any[];
   isLoading?: boolean;
-  isRecommendations?: boolean;
+  isOptimizations?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   onRowClick(event: React.KeyboardEvent | React.MouseEvent, rowIndex: number);
@@ -125,7 +125,7 @@ class DataTable extends React.Component<DataTableProps, any> {
   };
 
   public render() {
-    const { columns, intl, isLoading, isRecommendations, rows } = this.props;
+    const { columns, intl, isLoading, isOptimizations, rows } = this.props;
 
     return (
       <>
@@ -133,7 +133,7 @@ class DataTable extends React.Component<DataTableProps, any> {
           aria-label={intl.formatMessage(messages.dataTableAriaLabel)}
           className="tableOverride"
           gridBreakPoint="grid-2xl"
-          hasSelectableRowCaption={isRecommendations}
+          hasSelectableRowCaption={isOptimizations}
         >
           <Thead>
             <Tr>
@@ -163,14 +163,14 @@ class DataTable extends React.Component<DataTableProps, any> {
             ) : (
               rows.map((row, rowIndex) => (
                 <Tr
-                  isSelectable={isRecommendations}
-                  isHoverable={isRecommendations}
-                  isRowSelected={isRecommendations && row.selected}
-                  onRowClick={isRecommendations ? _event => this.handleOnRowClick(_event, rowIndex) : undefined}
+                  isSelectable={isOptimizations}
+                  isHoverable={isOptimizations}
+                  isRowSelected={isOptimizations && row.selected}
+                  onRowClick={isOptimizations ? _event => this.handleOnRowClick(_event, rowIndex) : undefined}
                   key={`row-${rowIndex}`}
                 >
                   {row.cells.map((item, cellIndex) =>
-                    cellIndex === 0 && !isRecommendations ? (
+                    cellIndex === 0 && !isOptimizations ? (
                       <Td
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${cellIndex}-${rowIndex}`}
@@ -188,7 +188,7 @@ class DataTable extends React.Component<DataTableProps, any> {
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${rowIndex}-${cellIndex}`}
                         modifier="nowrap"
-                        isActionCell={!isRecommendations && cellIndex === row.cells.length - 1}
+                        isActionCell={!isOptimizations && cellIndex === row.cells.length - 1}
                         style={item.style}
                       >
                         {item.value}

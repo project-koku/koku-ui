@@ -1,6 +1,6 @@
 import { getQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
-import type { RecommendationReport } from 'api/ros/recommendations';
+import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
 import React from 'react';
@@ -21,7 +21,7 @@ export interface DetailsOptimizationOwnProps {
 
 export interface DetailsOptimizationStateProps {
   query?: RosQuery;
-  report?: RecommendationReport;
+  report?: RosReport;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
   reportQueryString?: string;
@@ -38,7 +38,7 @@ type DetailsOptimizationProps = DetailsOptimizationOwnProps &
   DetailsOptimizationDispatchProps &
   RouterComponentProps;
 
-const reportPathsType = RosPathsType.recommendation;
+const reportPathsType = RosPathsType.recommendations;
 const reportType = RosType.ros;
 
 class DetailsOptimization extends React.Component<DetailsOptimizationProps, DetailsOptimizationState> {
@@ -68,7 +68,7 @@ class DetailsOptimization extends React.Component<DetailsOptimizationProps, Deta
           basePath: formatPath(routes.ocpDetailsBreakdown.path),
           groupBy: 'project',
           id: project,
-          isRecommendationsTab: true,
+          isOptimizationsTab: true,
           router,
           title: project,
         })}

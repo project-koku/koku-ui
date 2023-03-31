@@ -9,7 +9,7 @@ import * as actions from './ocpDashboardActions';
 import { getGroupByForTab, getQueryForWidgetTabs, ocpDashboardStateKey, OcpDashboardTab } from './ocpDashboardCommon';
 import { ocpDashboardReducer } from './ocpDashboardReducer';
 import * as selectors from './ocpDashboardSelectors';
-import { costSummaryWidget, cpuWidget, memoryWidget, recomendationsWidget, volumeWidget } from './ocpDashboardWidgets';
+import { costSummaryWidget, cpuWidget, memoryWidget, optimizationsWidget, volumeWidget } from './ocpDashboardWidgets';
 
 const createOcpDashboardStore = createMockStoreCreator({
   [ocpDashboardStateKey]: ocpDashboardReducer,
@@ -29,7 +29,7 @@ test('default state', () => {
     cpuWidget.id,
     memoryWidget.id,
     volumeWidget.id,
-    recomendationsWidget.id,
+    optimizationsWidget.id,
   ]);
   expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(costSummaryWidget);
 });

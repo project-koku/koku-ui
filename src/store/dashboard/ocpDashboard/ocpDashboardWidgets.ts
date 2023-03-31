@@ -96,13 +96,13 @@ export const memoryWidget: OcpDashboardWidget = {
   },
 };
 
-export const recomendationsWidget: OcpDashboardWidget = {
+export const optimizationsWidget: OcpDashboardWidget = {
   id: getId(),
-  titleKey: messages.resourceOptimization,
-  rosPathsType: RosPathsType.recommendation,
+  titleKey: messages.optimizations,
+  rosPathsType: RosPathsType.recommendations,
   rosType: RosType.ros,
   details: {
-    showRecommendations: true,
+    showOptimizations: true,
   },
 };
 

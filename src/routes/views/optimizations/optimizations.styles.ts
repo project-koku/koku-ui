@@ -16,6 +16,9 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
   },
+  optimizationsContainer: {
+    minHeight: '100vh',
+  },
   paginationContainer: {
     marginLeft: global_spacer_lg.value,
     marginRight: global_spacer_lg.value,
@@ -24,9 +27,6 @@ export const styles = {
     backgroundColor: global_BackgroundColor_light_100.value,
     paddingBottom: global_spacer_md.value,
     paddingTop: global_spacer_md.value,
-  },
-  recommendationsContainer: {
-    minHeight: '100vh',
   },
   tableContainer: {
     marginLeft: global_spacer_lg.value,

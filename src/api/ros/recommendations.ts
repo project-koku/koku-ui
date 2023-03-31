@@ -58,7 +58,14 @@ export const RosTypePaths: Partial<Record<RosType, string>> = {
   [RosType.ros]: 'recommendations/openshift/',
 };
 
+// This fetches a recommendation by ID
 export function runRosReport(reportType: RosType, query: string) {
+  const path = RosTypePaths[reportType];
+  return axios.get<RecommendationReport>(query ? `${path}${query}` : query);
+}
+
+// This fetches a recommendations list
+export function runRosReports(reportType: RosType, query: string) {
   const path = RosTypePaths[reportType];
   return axios.get<RecommendationReport>(query ? `${path}?${query}` : path);
 }
