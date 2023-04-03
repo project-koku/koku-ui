@@ -14,22 +14,10 @@ test('default state', async () => {
   expect(selectors.selectFeatureFlagsState(store.getState())).toMatchSnapshot();
 });
 
-test('currency feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureFlags({ isCurrencyFeatureEnabled: true }));
-  expect(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(store.getState())).toBe(true);
-});
-
 test('cost distribution feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureFlags({ isCostDistributionFeatureEnabled: true }));
   expect(featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(store.getState())).toBe(true);
-});
-
-test('cost type feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureFlags({ isCostTypeFeatureEnabled: true }));
-  expect(featureFlagsSelectors.selectIsCostTypeFeatureEnabled(store.getState())).toBe(true);
 });
 
 test('FINsights feature is enabled', async () => {
@@ -48,24 +36,6 @@ test('IBM feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureFlags({ isIbmFeatureEnabled: true }));
   expect(featureFlagsSelectors.selectIsIbmFeatureEnabled(store.getState())).toBe(true);
-});
-
-test('negative filtering feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureFlags({ isNegativeFilteringFeatureEnabled: true }));
-  expect(featureFlagsSelectors.selectIsNegativeFilteringFeatureEnabled(store.getState())).toBe(true);
-});
-
-test('OCI feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureFlags({ isOciFeatureEnabled: true }));
-  expect(featureFlagsSelectors.selectIsOciFeatureEnabled(store.getState())).toBe(true);
-});
-
-test('platform costs feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureFlags({ isPlatformCostsFeatureEnabled: true }));
-  expect(featureFlagsSelectors.selectIsPlatformCostsFeatureEnabled(store.getState())).toBe(true);
 });
 
 test('ROS feature is enabled', async () => {

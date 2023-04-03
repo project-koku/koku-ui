@@ -31,7 +31,6 @@ interface PermissionsOwnProps {
 interface PermissionsStateProps {
   isFinsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
-  isOciFeatureEnabled?: boolean;
   isRosFeatureEnabled?: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
@@ -45,7 +44,6 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
   children = null,
   isFinsightsFeatureEnabled,
   isIbmFeatureEnabled,
-  isOciFeatureEnabled,
   isRosFeatureEnabled,
   userAccess,
   userAccessError,
@@ -61,7 +59,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const costModel = hasCostModelAccess(userAccess);
     const gcp = hasGcpAccess(userAccess);
     const ibm = isIbmFeatureEnabled && hasIbmAccess(userAccess);
-    const oci = isOciFeatureEnabled && hasOciAccess(userAccess);
+    const oci = hasOciAccess(userAccess);
     const ocp = hasOcpAccess(userAccess);
     const rhel = isFinsightsFeatureEnabled && hasRhelAccess(userAccess);
     const ros = isRosFeatureEnabled && hasRosAccess(userAccess);
@@ -128,7 +126,6 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
   return {
     isFinsightsFeatureEnabled: featureFlagsSelectors.selectIsFinsightsFeatureEnabled(state),
     isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
-    isOciFeatureEnabled: featureFlagsSelectors.selectIsOciFeatureEnabled(state),
     isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
     userAccess,
     userAccessError,

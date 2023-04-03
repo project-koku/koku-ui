@@ -29,7 +29,6 @@ import {
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOciReportItems';
@@ -383,7 +382,7 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OciDetailsOwnProps, OciDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<OciQuery>(router.location.search);
-  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
+  const currency = getCurrency();
   const query = {
     delta: 'cost',
     filter: {
@@ -427,21 +426,6 @@ const mapStateToProps = createMapStateToProps<OciDetailsOwnProps, OciDetailsStat
     reportError,
     reportFetchStatus,
     reportQueryString,
-
-    // Testing...
-    //
-    // providers: {
-    //   meta: {
-    //     count: 0,
-    //   },
-    // } as any,
-    // providersError: {
-    //   response: {
-    //     // status: 401
-    //     status: 500
-    //   }
-    // } as any,
-    // providersFetchStatus: FetchStatus.inProgress,
   };
 });
 

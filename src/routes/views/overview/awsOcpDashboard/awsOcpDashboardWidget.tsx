@@ -4,7 +4,6 @@ import type { DashboardWidgetOwnProps, DashboardWidgetStateProps } from 'routes/
 import { DashboardWidgetBase } from 'routes/views/overview/components';
 import { createMapStateToProps } from 'store/common';
 import { awsOcpDashboardActions, awsOcpDashboardSelectors, AwsOcpDashboardTab } from 'store/dashboard/awsOcpDashboard';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import type { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
@@ -34,13 +33,9 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
     const queries = awsOcpDashboardSelectors.selectWidgetQueries(state, widgetId);
     return {
       ...widget,
-      ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
-      ...(featureFlagsSelectors.selectIsCostTypeFeatureEnabled(state) && { costType: getCostType() }),
+      currency: getCurrency(),
+      costType: getCostType(),
       getIdKeyForTab,
-      currentQuery: queries.current,
-      forecastQuery: queries.forecast,
-      previousQuery: queries.previous,
-      tabsQuery: queries.tabs,
       currentReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.current),
       currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
         state,

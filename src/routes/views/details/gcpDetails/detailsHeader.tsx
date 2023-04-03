@@ -34,7 +34,6 @@ interface DetailsHeaderOwnProps {
 }
 
 interface DetailsHeaderStateProps {
-  isCurrencyFeatureEnabled?: boolean;
   isExportsFeatureEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
@@ -61,7 +60,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
     const {
       currency,
       groupBy,
-      isCurrencyFeatureEnabled,
       isExportsFeatureEnabled,
       onCurrencySelected,
       onGroupBySelected,
@@ -82,7 +80,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
             {intl.formatMessage(messages.gcpDetailsTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            {isCurrencyFeatureEnabled && <Currency currency={currency} onSelect={onCurrencySelected} />}
+            <Currency currency={currency} onSelect={onCurrencySelected} />
             {isExportsFeatureEnabled && <ExportsLink />}
           </div>
         </div>
@@ -127,7 +125,6 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   );
 
   return {
-    isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
     isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
     providers: filterProviders(providers, ProviderType.gcp),
     providersError,

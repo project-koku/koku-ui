@@ -75,12 +75,9 @@ interface ExplorerHeaderStateProps {
   azureProviders?: Providers;
   gcpProviders?: Providers;
   ibmProviders?: Providers;
-  isCostTypeFeatureEnabled?: boolean;
-  isCurrencyFeatureEnabled?: boolean;
   isExportsFeatureEnabled?: boolean;
   isFinsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
-  isOciFeatureEnabled?: boolean;
   ociProviders?: Providers;
   ocpProviders?: Providers;
   providers: Providers;
@@ -124,7 +121,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
   }
 
   private getPerspective = (isDisabled: boolean) => {
-    const { isIbmFeatureEnabled, isOciFeatureEnabled } = this.props;
+    const { isIbmFeatureEnabled } = this.props;
     const { currentPerspective } = this.state;
 
     const hasAws = this.isAwsAvailable();
@@ -157,7 +154,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
         hasRhel={hasRhel}
         isDisabled={isDisabled}
         isIbmFeatureEnabled={isIbmFeatureEnabled}
-        isOciFeatureEnabled={isOciFeatureEnabled}
         onSelected={this.handlePerspectiveSelected}
       />
     );
@@ -252,8 +248,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       currency,
       groupBy,
       intl,
-      isCostTypeFeatureEnabled,
-      isCurrencyFeatureEnabled,
       isExportsFeatureEnabled,
       onCostTypeSelected,
       onCurrencySelected,
@@ -287,7 +281,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
             {intl.formatMessage(messages.explorerTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            {isCurrencyFeatureEnabled && <Currency currency={currency} onSelect={onCurrencySelected} />}
+            <Currency currency={currency} onSelect={onCurrencySelected} />
             {isExportsFeatureEnabled && <ExportsLink />}
           </div>
         </div>
@@ -307,8 +301,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
               tagReportPathsType={tagReportPathsType}
             />
           </div>
-          {(perspective === PerspectiveType.aws ||
-            (perspective === PerspectiveType.awsOcp && isCostTypeFeatureEnabled)) && (
+          {(perspective === PerspectiveType.aws || perspective === PerspectiveType.awsOcp) && (
             <div style={styles.costType}>
               <CostType costType={costType} onSelect={onCostTypeSelected} />
             </div>
@@ -381,12 +374,9 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       azureProviders: filterProviders(providers, ProviderType.azure),
       gcpProviders: filterProviders(providers, ProviderType.gcp),
       ibmProviders: filterProviders(providers, ProviderType.ibm),
-      isCostTypeFeatureEnabled: featureFlagsSelectors.selectIsCostTypeFeatureEnabled(state),
-      isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
       isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
       isFinsightsFeatureEnabled: featureFlagsSelectors.selectIsFinsightsFeatureEnabled(state),
       isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
-      isOciFeatureEnabled: featureFlagsSelectors.selectIsOciFeatureEnabled(state),
       ociProviders: filterProviders(providers, ProviderType.oci),
       ocpProviders: filterProviders(providers, ProviderType.ocp),
       providers,
