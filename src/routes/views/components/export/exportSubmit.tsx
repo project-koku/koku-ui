@@ -152,7 +152,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   const { groupBy, isAllItems, items, reportPathsType, reportQueryString, resolution, router, timeScope } = props;
 
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const getStartEndDate = () => {
+  const getDateRange = () => {
     if (queryFromRoute.dateRangeType) {
       return getDateRangeFromQuery(queryFromRoute);
     } else {
@@ -160,6 +160,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
       const today = getToday();
 
       if (isPrevious) {
+        today.setDate(1); // Workaround to decrement month properly
         today.setMonth(today.getMonth() - 1);
       }
       return {
@@ -168,7 +169,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
       };
     }
   };
-  const { end_date, start_date } = getStartEndDate();
+  const { end_date, start_date } = getDateRange();
 
   const getQueryString = () => {
     const reportQuery = parseQuery(reportQueryString);
