@@ -18,7 +18,6 @@ import { CostType } from 'routes/views/components/costType';
 import { TagLink } from 'routes/views/details/components/tag';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import type { CostTypes } from 'utils/costType';
 import { getTotalCostDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
@@ -47,7 +46,6 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
 
 interface BreakdownHeaderStateProps {
   isOptimizationsPath?: boolean;
-  isCurrencyFeatureEnabled?: boolean;
 }
 
 interface BreakdownHeaderDispatchProps {
@@ -131,7 +129,6 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       description,
       groupBy,
       intl,
-      isCurrencyFeatureEnabled,
       onCostTypeSelected,
       onCurrencySelected,
       query,
@@ -169,7 +166,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
             </ol>
           </nav>
           <div style={styles.headerContentRight}>
-            {isCurrencyFeatureEnabled && <Currency currency={currency} onSelect={onCurrencySelected} />}
+            <Currency currency={currency} onSelect={onCurrencySelected} />
           </div>
         </div>
         <div style={styles.headerContent}>
@@ -216,7 +213,6 @@ const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, Breakdown
 
     return {
       isOptimizationsPath: queryFromRoute.optimizationsPath !== undefined,
-      isCurrencyFeatureEnabled: featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state),
     };
   }
 );

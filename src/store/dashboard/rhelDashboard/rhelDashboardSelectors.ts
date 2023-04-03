@@ -1,4 +1,3 @@
-import { featureFlagsSelectors } from 'store/featureFlags';
 import type { RootState } from 'store/rootReducer';
 import { getCurrency } from 'utils/localStorage';
 
@@ -30,7 +29,7 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
     ...(widget.tabsFilter ? widget.tabsFilter : ({} as any)),
   };
   const props = {
-    ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
+    currency: getCurrency(),
   };
 
   return {

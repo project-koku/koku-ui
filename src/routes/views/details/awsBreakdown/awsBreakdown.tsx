@@ -15,7 +15,6 @@ import { BreakdownBase } from 'routes/views/details/components/breakdown';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import { filterProviders } from 'routes/views/utils/providers';
 import { createMapStateToProps } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCostType } from 'utils/costType';
@@ -45,7 +44,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
   const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
   const costType = getCostType();
-  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
+  const currency = getCurrency();
 
   const newQuery: Query = {
     filter: {

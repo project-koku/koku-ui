@@ -30,7 +30,6 @@ import { hasCurrentMonthData } from 'routes/views/utils/providers';
 import { filterProviders } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedIbmReportItems';
@@ -374,7 +373,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<IbmQuery>(router.location.search);
-  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
+  const currency = getCurrency();
   const query = {
     delta: 'cost',
     filter: {

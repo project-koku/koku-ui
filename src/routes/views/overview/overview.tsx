@@ -133,24 +133,21 @@ interface OverviewStateProps {
   currency?: string;
   gcpProviders?: Providers;
   ibmProviders?: Providers;
-  isCostTypeFeatureEnabled?: boolean;
-  isCurrencyFeatureEnabled?: boolean;
   isFinsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
-  isOciFeatureEnabled?: boolean;
   ociProviders?: Providers;
   ocpProviders?: Providers;
-  providers: Providers;
-  providersError: AxiosError;
-  providersFetchStatus: FetchStatus;
+  providers?: Providers;
+  providersError?: AxiosError;
+  providersFetchStatus?: FetchStatus;
   perspective?: string;
   rhelProviders?: Providers;
   query: OverviewQuery;
   tabKey?: number;
-  userAccess: UserAccess;
-  userAccessError: AxiosError;
-  userAccessFetchStatus: FetchStatus;
-  userAccessQueryString: string;
+  userAccess?: UserAccess;
+  userAccessError?: AxiosError;
+  userAccessFetchStatus?: FetchStatus;
+  userAccessQueryString?: string;
 }
 
 interface AvailableTab {
@@ -258,16 +255,13 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
   };
 
   private getCostType = () => {
-    const { costType, isCostTypeFeatureEnabled } = this.props;
+    const { costType } = this.props;
     const { currentInfrastructurePerspective, currentOcpPerspective } = this.state;
 
     const currentItem =
       this.getCurrentTab() === OverviewTab.infrastructure ? currentInfrastructurePerspective : currentOcpPerspective;
 
-    if (
-      currentItem === InfrastructurePerspective.aws ||
-      (currentItem === InfrastructurePerspective.awsOcp && isCostTypeFeatureEnabled)
-    ) {
+    if (currentItem === InfrastructurePerspective.aws || currentItem === InfrastructurePerspective.awsOcp) {
       return (
         <div style={styles.costType}>
           <CostType costType={costType} onSelect={this.handleCostTypeSelected} />
@@ -395,7 +389,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
   };
 
   private getPerspective = () => {
-    const { isIbmFeatureEnabled, isOciFeatureEnabled } = this.props;
+    const { isIbmFeatureEnabled } = this.props;
     const { currentInfrastructurePerspective, currentOcpPerspective, currentRhelPerspective } = this.state;
 
     const hasAws = this.isAwsAvailable();
@@ -442,7 +436,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
         hasRhel={hasRhel}
         isIbmFeatureEnabled={isIbmFeatureEnabled}
         isInfrastructureTab={OverviewTab.infrastructure === currentTab}
-        isOciFeatureEnabled={isOciFeatureEnabled}
         isRhelTab={OverviewTab.rhel === currentTab}
         onSelected={this.handlePerspectiveSelected}
       />
@@ -712,15 +705,8 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
   };
 
   public render() {
-    const {
-      providersFetchStatus,
-      intl,
-      isCurrencyFeatureEnabled,
-      isFinsightsFeatureEnabled,
-      isIbmFeatureEnabled,
-      isOciFeatureEnabled,
-      userAccessFetchStatus,
-    } = this.props;
+    const { providersFetchStatus, intl, isFinsightsFeatureEnabled, isIbmFeatureEnabled, userAccessFetchStatus } =
+      this.props;
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
     const noProviders =
@@ -784,13 +770,9 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
                       <br />
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.azure)}</p>
                       <p>{intl.formatMessage(messages.azureDesc)}</p>
-                      {isOciFeatureEnabled && (
-                        <>
-                          <br />
-                          <p style={styles.infoTitle}>{intl.formatMessage(messages.oci)}</p>
-                          <p>{intl.formatMessage(messages.ociDesc)}</p>
-                        </>
-                      )}
+                      <br />
+                      <p style={styles.infoTitle}>{intl.formatMessage(messages.oci)}</p>
+                      <p>{intl.formatMessage(messages.ociDesc)}</p>
                     </>
                   }
                 >
@@ -803,7 +785,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
                 </Popover>
               </span>
             </Title>
-            <div style={styles.headerContentRight}>{isCurrencyFeatureEnabled && this.getCurrency()}</div>
+            <div style={styles.headerContentRight}>{this.getCurrency()}</div>
           </div>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
           <div style={styles.headerContent}>
@@ -825,14 +807,9 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
   const queryFromRoute = parseQuery<OverviewQuery>(router.location.search);
   const tabKey = queryFromRoute.tabKey && !Number.isNaN(queryFromRoute.tabKey) ? Number(queryFromRoute.tabKey) : 0;
   const perspective = queryFromRoute.perspective;
-
-  const isCurrencyFeatureEnabled = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state);
-  const currency = isCurrencyFeatureEnabled ? getCurrency() : undefined;
-
-  const isCostTypeFeatureEnabled = featureFlagsSelectors.selectIsCostTypeFeatureEnabled(state);
+  const currency = getCurrency();
   const costType =
-    perspective === InfrastructurePerspective.aws ||
-    (perspective === InfrastructurePerspective.awsOcp && isCostTypeFeatureEnabled)
+    perspective === InfrastructurePerspective.aws || perspective === InfrastructurePerspective.awsOcp
       ? getCostType()
       : undefined;
 
@@ -866,11 +843,8 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     currency,
     gcpProviders: filterProviders(providers, ProviderType.gcp),
     ibmProviders: filterProviders(providers, ProviderType.ibm),
-    isCostTypeFeatureEnabled,
-    isCurrencyFeatureEnabled,
     isFinsightsFeatureEnabled: featureFlagsSelectors.selectIsFinsightsFeatureEnabled(state),
     isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
-    isOciFeatureEnabled: featureFlagsSelectors.selectIsOciFeatureEnabled(state),
     ociProviders: filterProviders(providers, ProviderType.oci),
     ocpProviders: filterProviders(providers, ProviderType.ocp),
     providers,

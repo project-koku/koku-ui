@@ -41,7 +41,6 @@ import { connect } from 'react-redux';
 import { ResourceTypeahead } from 'routes/views/components/resourceTypeahead';
 import type { Filter } from 'routes/views/utils/filter';
 import { createMapStateToProps } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
 import { orgUnitIdKey, orgUnitNameKey, platformCategoryKey, tagKey, tagPrefix } from 'utils/props';
@@ -105,8 +104,7 @@ interface DataToolbarState {
 }
 
 interface DataToolbarStateProps {
-  isNegativeFilteringFeatureEnabled?: boolean;
-  isPlatformCostsFeatureEnabled?: boolean;
+  // TBD...
 }
 
 interface GroupByOrgOption extends SelectOptionObject {
@@ -1126,8 +1124,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       categoryOptions,
       dateRange,
       datePicker,
-      isNegativeFilteringFeatureEnabled,
-      isPlatformCostsFeatureEnabled,
       pagination,
       showBulkSelect,
       showColumnManagement,
@@ -1153,7 +1149,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
               <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
                 <ToolbarGroup variant="filter-group">
                   {this.getCategorySelect(hasFilters)}
-                  {isNegativeFilteringFeatureEnabled && this.getExcludeSelect(hasFilters)}
+                  {this.getExcludeSelect(hasFilters)}
                   {this.getTagKeySelect(hasFilters)}
                   {this.getTagKeyOptions().map(option => this.getTagValueSelect(option, hasFilters))}
                   {this.getOrgUnitSelect(hasFilters)}
@@ -1167,7 +1163,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
             {(showExport || showColumnManagement) && (
               <ToolbarGroup>
                 {showColumnManagement && this.getColumnManagement()}
-                {showPlatformCosts && isPlatformCostsFeatureEnabled && this.getPlatformCosts()}
+                {showPlatformCosts && this.getPlatformCosts()}
                 {showExport && this.getExportButton()}
                 {(showColumnManagement || showPlatformCosts) && this.getKebab()}
               </ToolbarGroup>
@@ -1190,8 +1186,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
 const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>(state => {
   return {
-    isNegativeFilteringFeatureEnabled: featureFlagsSelectors.selectIsNegativeFilteringFeatureEnabled(state),
-    isPlatformCostsFeatureEnabled: featureFlagsSelectors.selectIsPlatformCostsFeatureEnabled(state),
+    // TBD...
   };
 });
 

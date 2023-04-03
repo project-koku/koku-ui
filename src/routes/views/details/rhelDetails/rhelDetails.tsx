@@ -32,7 +32,6 @@ import {
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
@@ -445,7 +444,7 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<RhelDetailsOwnProps, RhelDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<RhelQuery>(router.location.search);
-  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
+  const currency = getCurrency();
   const query = {
     delta: 'cost',
     filter: {

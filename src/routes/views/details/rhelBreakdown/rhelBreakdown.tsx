@@ -16,7 +16,6 @@ import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { isPlatformCosts } from 'routes/views/utils/paths';
 import { filterProviders } from 'routes/views/utils/providers';
 import { createMapStateToProps } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCurrency } from 'utils/localStorage';
@@ -43,7 +42,7 @@ const mapStateToProps = createMapStateToProps<RhelBreakdownOwnProps, BreakdownSt
   const queryFromRoute = parseQuery<Query>(router.location.search);
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
-  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
+  const currency = getCurrency();
 
   const newQuery: Query = {
     filter: {

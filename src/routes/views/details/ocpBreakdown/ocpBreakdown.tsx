@@ -47,7 +47,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
   const queryFromRoute = parseQuery<Query>(router.location.search);
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
-  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
+  const currency = getCurrency();
 
   const newQuery: Query = {
     filter: {

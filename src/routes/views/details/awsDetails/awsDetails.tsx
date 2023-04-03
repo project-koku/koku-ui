@@ -32,7 +32,6 @@ import {
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
@@ -406,7 +405,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
 const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<AwsQuery>(router.location.search);
   const costType = getCostType();
-  const currency = featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) ? getCurrency() : undefined;
+  const currency = getCurrency();
   const query = {
     delta: 'cost',
     filter: {
@@ -452,21 +451,6 @@ const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStat
     reportError,
     reportFetchStatus,
     reportQueryString,
-
-    // Testing...
-    //
-    // providers: {
-    //   meta: {
-    //     count: 0,
-    //   },
-    // } as any,
-    // providersError: {
-    //   response: {
-    //     // status: 401
-    //     status: 500
-    //   }
-    // } as any,
-    // providersFetchStatus: FetchStatus.inProgress,
   };
 });
 

@@ -71,7 +71,6 @@ const getInfrastructureOptions = ({
   hasIbmOcp,
   hasOci,
   isIbmFeatureEnabled,
-  isOciFeatureEnabled,
 }) => {
   const options = [];
 
@@ -99,7 +98,7 @@ const getInfrastructureOptions = ({
   if (hasAzureOcp) {
     options.push(...infrastructureAzureOcpOptions);
   }
-  if (hasOci && isOciFeatureEnabled) {
+  if (hasOci) {
     options.push(...infrastructureOciOptions);
   }
   return options;
@@ -122,7 +121,6 @@ const Perspective: React.FC<PerspectiveProps> = ({
   isDisabled,
   isIbmFeatureEnabled,
   isInfrastructureTab,
-  isOciFeatureEnabled,
   isRhelTab,
   onSelected,
 }): any => {
@@ -147,7 +145,6 @@ const Perspective: React.FC<PerspectiveProps> = ({
           hasIbmOcp,
           hasOci,
           isIbmFeatureEnabled,
-          isOciFeatureEnabled,
         })
       );
     } else if (isRhelTab) {
@@ -179,7 +176,6 @@ const Perspective: React.FC<PerspectiveProps> = ({
         hasIbmOcp,
         hasOci,
         isIbmFeatureEnabled,
-        isOciFeatureEnabled,
       })
     );
   }

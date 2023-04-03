@@ -8,7 +8,6 @@ import {
   azureOcpDashboardSelectors,
   AzureOcpDashboardTab,
 } from 'store/dashboard/azureOcpDashboard';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import type { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
@@ -37,7 +36,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
     const queries = azureOcpDashboardSelectors.selectWidgetQueries(state, widgetId);
     return {
       ...widget,
-      ...(featureFlagsSelectors.selectIsCurrencyFeatureEnabled(state) && { currency: getCurrency() }),
+      currency: getCurrency(),
       getIdKeyForTab,
       currentQuery: queries.current,
       forecastQuery: queries.forecast,
