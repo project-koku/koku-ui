@@ -40,21 +40,56 @@ export interface CostModelRequest {
 export type CostModels = PagedResponse<CostModel>;
 
 export function fetchCostModels(query = '') {
-  return axios.get<CostModels>(`cost-models/${query && '?'}${query}`);
+  const fetch = () => axios.get<CostModels>(`cost-models/${query && '?'}${query}`);
+
+  const insights = (window as any).insights;
+  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
+    return insights.chrome.auth.getUser().then(() => fetch());
+  } else {
+    return fetch();
+  }
 }
 
 export function fetchCostModel(uuid: string) {
-  return axios.get<CostModel>(`cost-models/${uuid}/`);
+  const fetch = () => axios.get<CostModels>(`cost-models/${uuid}/`);
+
+  const insights = (window as any).insights;
+  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
+    return insights.chrome.auth.getUser().then(() => fetch());
+  } else {
+    return fetch();
+  }
 }
 
 export function addCostModel(request: CostModelRequest) {
-  return axios.post('cost-models/', request);
+  const fetch = () => axios.post(`cost-models/`, request);
+
+  const insights = (window as any).insights;
+  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
+    return insights.chrome.auth.getUser().then(() => fetch());
+  } else {
+    return fetch();
+  }
 }
 
 export function updateCostModel(uuid: string, request: CostModelRequest) {
-  return axios.put(`cost-models/${uuid}/`, request);
+  const fetch = () => axios.put(`cost-models/${uuid}/`, request);
+
+  const insights = (window as any).insights;
+  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
+    return insights.chrome.auth.getUser().then(() => fetch());
+  } else {
+    return fetch();
+  }
 }
 
 export function deleteCostModel(uuid: string) {
-  return axios.delete(`cost-models/${uuid}/`);
+  const fetch = () => axios.delete(`cost-models/${uuid}/`);
+
+  const insights = (window as any).insights;
+  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
+    return insights.chrome.auth.getUser().then(() => fetch());
+  } else {
+    return fetch();
+  }
 }

@@ -11,5 +11,12 @@ export const TagTypePaths: Partial<Record<TagType, string>> = {
 
 export function runTag(tagType: TagType, query: string) {
   const path = TagTypePaths[tagType];
-  return axios.get<OciTag>(`${path}?${query}`);
+  const fetch = () => axios.get<OciTag>(`${path}?${query}`);
+
+  const insights = (window as any).insights;
+  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
+    return insights.chrome.auth.getUser().then(() => fetch());
+  } else {
+    return fetch();
+  }
 }
