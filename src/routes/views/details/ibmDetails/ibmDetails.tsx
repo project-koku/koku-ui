@@ -417,21 +417,6 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
     reportError,
     reportFetchStatus,
     reportQueryString,
-
-    // Testing...
-    //
-    // providers: {
-    //   meta: {
-    //     count: 0,
-    //   },
-    // } as any,
-    // providersError: {
-    //   response: {
-    //     // status: 401
-    //     status: 500
-    //   }
-    // } as any,
-    // providersFetchStatus: FetchStatus.inProgress,
   };
 });
 
