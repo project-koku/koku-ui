@@ -1,4 +1,3 @@
-import { authInterceptor as insightsAuthInterceptor } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
 import type { AxiosRequestConfig } from 'axios';
 import axios from 'axios';
 
