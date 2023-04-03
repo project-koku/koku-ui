@@ -5,17 +5,17 @@ exports[`fetch widget reports 1`] = `
   [
     "gcp",
     "cost",
-    "filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily",
+    "filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&currency=USD",
   ],
   [
     "gcp",
     "cost",
-    "filter[time_scope_units]=month&filter[time_scope_value]=-2&filter[resolution]=daily",
+    "filter[time_scope_units]=month&filter[time_scope_value]=-2&filter[resolution]=daily&currency=USD",
   ],
   [
     "gcp",
     "cost",
-    "filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=monthly&filter[limit]=3&group_by[service]=*",
+    "filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=monthly&filter[limit]=3&group_by[service]=*&currency=USD",
   ],
 ]
 `;
