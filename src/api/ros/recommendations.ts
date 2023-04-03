@@ -67,5 +67,12 @@ export function runRosReport(reportType: RosType, query: string) {
 // This fetches a recommendations list
 export function runRosReports(reportType: RosType, query: string) {
   const path = RosTypePaths[reportType];
-  return axios.get<RecommendationReport>(query ? `${path}?${query}` : path);
+  const fetch = () => axios.get<RecommendationReport>(`${path}?${query}`);
+
+  const insights = (window as any).insights;
+  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
+    return insights.chrome.auth.getUser().then(() => fetch());
+  } else {
+    return fetch();
+  }
 }
