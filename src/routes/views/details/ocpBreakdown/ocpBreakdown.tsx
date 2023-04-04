@@ -73,13 +73,13 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
 
   const reportQueryString = getQuery({
     ...newQuery,
+    category: undefined,
+    currency,
     filter_by: {
       ...newQuery.filter_by,
       // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
       ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
     },
-    category: undefined,
-    currency,
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);

@@ -138,10 +138,16 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
         ...(queryFromRoute &&
           queryFromRoute.filter &&
           queryFromRoute.filter.category && { category: queryFromRoute.filter.category }),
-        ...(groupBy && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
       },
     };
-    const tagQueryString = getQuery(query);
+    const tagQueryString = getQuery({
+      ...query,
+      filter_by: {
+        ...query.filter_by,
+        // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        ...(groupBy && groupByValue !== '*' && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
+      },
+    });
     const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
     const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
       state,
