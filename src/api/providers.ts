@@ -70,12 +70,5 @@ export const enum ProviderType {
 
 export function fetchProviders(query: string) {
   const queryString = query ? `?${query}` : '';
-  const fetch = () => axios.get<Providers>(`sources/${queryString}`);
-
-  const insights = (window as any).insights;
-  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
-    return insights.chrome.auth.getUser().then(() => fetch());
-  } else {
-    return fetch();
-  }
+  return axios.get<Providers>(`sources/${queryString}`);
 }

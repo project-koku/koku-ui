@@ -245,7 +245,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
   // If bar width exceeds max and domainPadding is true, extra width is returned to help center bars horizontally
   private getBarWidth = (domainPadding: boolean = false) => {
     const { hiddenSeries, series, width } = this.state;
-    const maxWidth = 200;
+    const maxWidth = 20;
     let maxValue = -1;
 
     if (series) {
