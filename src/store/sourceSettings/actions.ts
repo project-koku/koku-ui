@@ -3,6 +3,7 @@ import { fetchProviders as apiGetSources } from 'api/providers';
 import type { AxiosResponse } from 'axios';
 import type { AxiosError } from 'axios';
 import type { Dispatch } from 'redux';
+import type { ThunkAction } from 'store/common';
 import { createAction, createAsyncAction } from 'typesafe-actions';
 
 interface FilterQuery {
@@ -22,7 +23,7 @@ export const {
   AxiosError
 >();
 
-export const fetchSources = (sourcesQueryString: string = '') => {
+export const fetchSources = (sourcesQueryString: string = ''): ThunkAction => {
   return (dispatch: Dispatch) => {
     dispatch(fetchSourcesRequest());
 

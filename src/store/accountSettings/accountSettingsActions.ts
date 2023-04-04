@@ -1,6 +1,7 @@
 import type { AccountSettings } from 'api/accountSettings';
 import { fetchAccountSettings as apiGetAccountSettings } from 'api/accountSettings';
 import type { AxiosError } from 'axios';
+import type { ThunkAction } from 'store/common';
 import { createAction } from 'typesafe-actions';
 
 import { getFetchId } from './accountSettingsCommon';
@@ -19,7 +20,7 @@ export const fetchAccountSettingsFailure = createAction('accountSettings/fetch/f
   AccountSettingsActionMeta
 >();
 
-export function fetchAccountSettings() {
+export function fetchAccountSettings(): ThunkAction {
   return dispatch => {
     const meta: AccountSettingsActionMeta = {
       fetchId: getFetchId(),

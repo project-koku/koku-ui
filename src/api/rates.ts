@@ -47,12 +47,5 @@ export type Rates = PagedResponse<Rate>;
 
 export function fetchRate(uuid = null) {
   const query = uuid ? `?source_uuid=${uuid}` : '';
-  const fetch = () => axios.get<Rates>(`cost-models/${query}`);
-
-  const insights = (window as any).insights;
-  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
-    return insights.chrome.auth.getUser().then(() => fetch());
-  } else {
-    return fetch();
-  }
+  return axios.get<Rates>(`cost-models/${query}`);
 }

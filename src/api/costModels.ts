@@ -40,56 +40,21 @@ export interface CostModelRequest {
 export type CostModels = PagedResponse<CostModel>;
 
 export function fetchCostModels(query = '') {
-  const fetch = () => axios.get<CostModels>(`cost-models/${query && '?'}${query}`);
-
-  const insights = (window as any).insights;
-  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
-    return insights.chrome.auth.getUser().then(() => fetch());
-  } else {
-    return fetch();
-  }
+  return axios.get<CostModels>(`cost-models/${query && '?'}${query}`);
 }
 
 export function fetchCostModel(uuid: string) {
-  const fetch = () => axios.get<CostModels>(`cost-models/${uuid}/`);
-
-  const insights = (window as any).insights;
-  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
-    return insights.chrome.auth.getUser().then(() => fetch());
-  } else {
-    return fetch();
-  }
+  return axios.get<CostModels>(`cost-models/${uuid}/`);
 }
 
 export function addCostModel(request: CostModelRequest) {
-  const fetch = () => axios.post(`cost-models/`, request);
-
-  const insights = (window as any).insights;
-  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
-    return insights.chrome.auth.getUser().then(() => fetch());
-  } else {
-    return fetch();
-  }
+  return axios.post(`cost-models/`, request);
 }
 
 export function updateCostModel(uuid: string, request: CostModelRequest) {
-  const fetch = () => axios.put(`cost-models/${uuid}/`, request);
-
-  const insights = (window as any).insights;
-  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
-    return insights.chrome.auth.getUser().then(() => fetch());
-  } else {
-    return fetch();
-  }
+  return axios.put(`cost-models/${uuid}/`, request);
 }
 
 export function deleteCostModel(uuid: string) {
-  const fetch = () => axios.delete(`cost-models/${uuid}/`);
-
-  const insights = (window as any).insights;
-  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
-    return insights.chrome.auth.getUser().then(() => fetch());
-  } else {
-    return fetch();
-  }
+  return axios.delete(`cost-models/${uuid}/`);
 }

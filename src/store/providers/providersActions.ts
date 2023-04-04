@@ -2,6 +2,7 @@ import type { Providers } from 'api/providers';
 import type { ProviderType } from 'api/providers';
 import { fetchProviders as apiGetProviders } from 'api/providers';
 import type { AxiosError } from 'axios';
+import type { ThunkAction } from 'store/common';
 import { createAction } from 'typesafe-actions';
 
 import { getFetchId } from './providersCommon';
@@ -14,7 +15,7 @@ export const fetchProvidersRequest = createAction('providers/fetch/request')<Pro
 export const fetchProvidersSuccess = createAction('providers/fetch/success')<Providers, ProvidersActionMeta>();
 export const fetchProvidersFailure = createAction('providers/fetch/failure')<AxiosError, ProvidersActionMeta>();
 
-export function fetchProviders(reportType: ProviderType, reportQueryString: string) {
+export function fetchProviders(reportType: ProviderType, reportQueryString: string): ThunkAction {
   return dispatch => {
     const meta: ProvidersActionMeta = {
       fetchId: getFetchId(reportType, reportQueryString),

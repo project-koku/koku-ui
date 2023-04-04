@@ -25,18 +25,11 @@ export const enum UserAccessType {
   oci = 'oci',
   ocp = 'ocp',
   rhel = 'ocp', // Todo: update to use RHEL when APIs are available
-  ros = 'ocp', // Todo: update to use ROS when APIs are available
+  ros = 'ocp',
 }
 
 // If the user-access API is called without a query parameter, all types are returned in the response
 export function fetchUserAccess(query: string) {
   const queryString = query ? `?${query}` : '';
-  const fetch = () => axios.get<UserAccess>(`user-access/${queryString}`);
-
-  const insights = (window as any).insights;
-  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
-    return insights.chrome.auth.getUser().then(() => fetch());
-  } else {
-    return fetch();
-  }
+  return axios.get<UserAccess>(`user-access/${queryString}`);
 }
