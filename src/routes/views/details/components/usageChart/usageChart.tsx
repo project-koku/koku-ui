@@ -387,7 +387,6 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
         // Add filters here to apply logical OR/AND
         ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
         ...(queryFromRoute && queryFromRoute.filter && { category: queryFromRoute.filter.category }),
-        ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
       },
       exclude: {
         ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
@@ -399,6 +398,11 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
 
     const reportQueryString = getQuery({
       ...query,
+      filter_by: {
+        ...query.filter_by,
+        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+      },
     });
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(

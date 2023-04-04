@@ -53,7 +53,6 @@ const mapStateToProps = createMapStateToProps<OciCostOwnProps, BreakdownStatePro
     filter_by: {
       // Add filters here to apply logical OR/AND
       ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
-      ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
     },
     exclude: {
       ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
@@ -66,6 +65,11 @@ const mapStateToProps = createMapStateToProps<OciCostOwnProps, BreakdownStatePro
   const reportQueryString = getQuery({
     ...newQuery,
     currency,
+    filter_by: {
+      ...newQuery.filter_by,
+      // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+      ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+    },
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);

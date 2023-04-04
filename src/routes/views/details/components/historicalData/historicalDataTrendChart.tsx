@@ -176,7 +176,6 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
         ...(queryFromRoute &&
           queryFromRoute.filter &&
           queryFromRoute.filter.category && { category: queryFromRoute.filter.category }),
-        ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
       },
       exclude: {
         ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
@@ -197,6 +196,11 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
       ...currentQuery,
       cost_type: costType,
       currency,
+      filter_by: {
+        ...currentQuery.filter_by,
+        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+      },
     });
     const previousQuery: Query = {
       ...baseQuery,
@@ -210,6 +214,11 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
       ...previousQuery,
       cost_type: costType,
       currency,
+      filter_by: {
+        ...previousQuery.filter_by,
+        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+      },
     });
 
     // Current report

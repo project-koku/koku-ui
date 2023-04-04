@@ -217,8 +217,6 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
         ...(queryFromRoute &&
           queryFromRoute.filter &&
           queryFromRoute.filter.category && { category: queryFromRoute.filter.category }),
-        ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
-        ...(groupBy && { [groupBy]: groupByValue }), // group bys must appear in filter to show costs by region, account, etc
       },
       exclude: {
         ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
@@ -232,6 +230,11 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
       ...query,
       cost_type: costType,
       currency,
+      filter_by: {
+        ...query.filter_by,
+        // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: groupByValue }), // group bys must appear in filter to show costs by region, account, etc
+      },
     });
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(

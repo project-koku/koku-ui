@@ -154,7 +154,6 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
         // Add filters here to apply logical OR/AND
         ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
         ...(queryFromRoute && queryFromRoute.filter && { category: queryFromRoute.filter.category }),
-        ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
       },
       exclude: {
         ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
@@ -175,6 +174,11 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
       ...currentQuery,
       cost_type: costType,
       currency,
+      filter_by: {
+        ...currentQuery.filter_by,
+        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+      },
     });
     const previousQuery: Query = {
       ...baseQuery,
@@ -188,6 +192,11 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
       ...previousQuery,
       cost_type: costType,
       currency,
+      filter_by: {
+        ...previousQuery.filter_by,
+        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+      },
     });
 
     // Current report

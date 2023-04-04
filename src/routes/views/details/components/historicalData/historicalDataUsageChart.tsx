@@ -143,7 +143,6 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         ...(queryFromRoute &&
           queryFromRoute.filter &&
           queryFromRoute.filter.category && { category: queryFromRoute.filter.category }),
-        ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
         ...(groupByOrgValue && useFilter && { [orgUnitIdKey]: groupByOrgValue }),
       },
       exclude: {
@@ -164,7 +163,14 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         time_scope_value: -1,
       },
     };
-    const currentQueryString = getQuery(currentQuery);
+    const currentQueryString = getQuery({
+      ...currentQuery,
+      filter_by: {
+        ...currentQuery.filter_by,
+        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+      },
+    });
     const currentReport = reportSelectors.selectReport(state, reportPathsType, reportType, currentQueryString);
     const currentReportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,
@@ -182,7 +188,14 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         time_scope_value: -2,
       },
     };
-    const previousQueryString = getQuery(previousQuery);
+    const previousQueryString = getQuery({
+      ...previousQuery,
+      filter_by: {
+        ...previousQuery.filter_by,
+        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+      },
+    });
     const previousReport = reportSelectors.selectReport(state, reportPathsType, reportType, previousQueryString);
     const previousReportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,
