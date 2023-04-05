@@ -41,10 +41,6 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
       getIdKeyForTab,
       chartAltHeight: chartStyles.chartAltHeight,
       containerAltHeight: chartStyles.containerAltHeight,
-      currentQuery: queries.current,
-      forecastQuery: queries.forecast,
-      previousQuery: queries.previous,
-      tabsQuery: queries.tabs,
       ...(widget.forecastPathsType &&
         widget.forecastType && {
           forecast: forecastSelectors.selectForecast(

@@ -46,6 +46,9 @@ class OptimizationsDrawerBase extends React.Component<OptimizationsDrawerProps, 
   public render() {
     const { isOpen, payload } = this.props;
 
+    const title = payload ? payload.container : null;
+    const id = payload ? payload.id : undefined;
+
     return (
       <DrawerPanelContent id="optimizationsDrawer" minSize={'750px'}>
         <DrawerHead>
@@ -53,7 +56,7 @@ class OptimizationsDrawerBase extends React.Component<OptimizationsDrawerProps, 
           /* @ts-ignore */}
           <span tabIndex={isOpen ? 0 : -1} ref={this.drawerRef}>
             <Title headingLevel="h1" size={TitleSizes.xl}>
-              {payload ? payload.container : null}
+              {title}
             </Title>
           </span>
           <DrawerActions>
@@ -61,7 +64,7 @@ class OptimizationsDrawerBase extends React.Component<OptimizationsDrawerProps, 
           </DrawerActions>
         </DrawerHead>
         <DrawerPanelBody>
-          <OptimizationsContent onClose={this.handleClose} />
+          <OptimizationsContent id={id} onClose={this.handleClose} />
         </DrawerPanelBody>
       </DrawerPanelContent>
     );

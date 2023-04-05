@@ -10,6 +10,8 @@ import {
   TextListVariants,
 } from '@patternfly/react-core';
 import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import type { RosQuery } from 'api/queries/rosQuery';
+import { parseQuery } from 'api/queries/rosQuery';
 import type { RecommendationItem, RecommendationReportData } from 'api/ros/recommendations';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
@@ -21,10 +23,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
+import { getGroupById } from 'routes/views/utils/groupBy';
 import { getBreakdownPath } from 'routes/views/utils/paths';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
-import { uiSelectors } from 'store/ui';
 import { getTimeFromNow } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 import type { RouterComponentProps } from 'utils/router';
@@ -34,10 +36,12 @@ import { styles } from './optimizations.styles';
 import { OptimizationsToolbar } from './optimizationsToolbar';
 
 interface OptimizationsContentOwnProps extends RouterComponentProps {
+  id?: string;
   onClose();
 }
 
 interface OptimizationsContentStateProps {
+  groupBy?: string;
   report?: RecommendationReportData;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
@@ -74,10 +78,20 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
   public state: OptimizationsContentState = { ...this.defaultState };
 
   public componentDidMount() {
+    this.updateReport();
+    this.setState({ currentInterval: this.getDefaultTerm() });
+  }
+
+  public componentDidUpdate(prevProps: OptimizationsContentProps) {
+    if (prevProps.id !== this.props.id) {
+      this.updateReport();
+    }
+  }
+
+  private updateReport() {
     const { fetchRosReport, reportQueryString } = this.props;
 
     fetchRosReport(reportPathsType, reportType, reportQueryString);
-    this.setState({ currentInterval: this.getDefaultTerm() });
   }
 
   private getDefaultTerm = () => {
@@ -306,9 +320,10 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
   };
 
   private getViewAllLink = () => {
-    const { intl, report, router } = this.props;
+    const { groupBy, intl, report, router } = this.props;
+    const isStandalone = groupBy === undefined;
 
-    if (!report) {
+    if (!isStandalone || !report) {
       return null;
     }
     return (
@@ -365,21 +380,25 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
   }
 }
 
-const mapStateToProps = createMapStateToProps<OptimizationsContentOwnProps, OptimizationsContentStateProps>(state => {
-  const payload = uiSelectors.selectOptimizationsDrawerPayload(state);
+const mapStateToProps = createMapStateToProps<OptimizationsContentOwnProps, OptimizationsContentStateProps>(
+  (state, { id, router }) => {
+    const queryFromRoute = parseQuery<RosQuery>(router.location.search);
+    const groupBy = getGroupById(queryFromRoute);
 
-  const reportQueryString = payload ? payload.id : '';
-  const report: any = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
-  const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
-  const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);
+    const reportQueryString = id ? id : '';
+    const report: any = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
+    const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
+    const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);
 
-  return {
-    report,
-    reportError,
-    reportFetchStatus,
-    reportQueryString,
-  };
-});
+    return {
+      groupBy,
+      report,
+      reportError,
+      reportFetchStatus,
+      reportQueryString,
+    };
+  }
+);
 
 const mapDispatchToProps: OptimizationsContentDispatchProps = {
   fetchRosReport: rosActions.fetchRosReport,

@@ -128,6 +128,7 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
             { value: <div>{lastReported}</div>, style: styles.lastReported },
           ],
           optimization: {
+            container: item.container,
             id: item.id,
           },
         });
