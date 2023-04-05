@@ -9,10 +9,7 @@ export interface RecommendationValue {
 }
 
 export interface RecommendationItem {
-  monitoring_start_time?: string;
-  monitoring_end_time?: string;
-  duration_in_hours?: string;
-  confidence_level?: number;
+  // confidence_level?: number;
   config: {
     limits: {
       memory?: RecommendationValue;
@@ -33,6 +30,13 @@ export interface RecommendationItem {
       cpu?: RecommendationValue;
     };
   };
+  duration_in_hours?: string;
+  monitoring_start_time?: string;
+  monitoring_end_time?: string;
+  notifications?: {
+    type?: string;
+    message?: string;
+  };
 }
 
 export interface RecommendationItems {
@@ -42,7 +46,9 @@ export interface RecommendationItems {
 }
 
 export interface RecommendationReportData extends RosData {
-  recommendations?: RecommendationItems;
+  recommendations?: {
+    duration_based?: RecommendationItems;
+  };
 }
 
 export interface RecommendationReportMeta extends RosMeta {
@@ -55,17 +61,19 @@ export interface RecommendationReport extends RosReport {
 }
 
 export const RosTypePaths: Partial<Record<RosType, string>> = {
-  [RosType.ros]: 'recommendations/openshift/',
+  [RosType.ros]: 'recommendations/openshift',
 };
 
 // This fetches a recommendation by ID
 export function runRosReport(reportType: RosType, query: string) {
   const path = RosTypePaths[reportType];
-  return axios.get<RecommendationReport>(query ? `${path}${query}` : query);
+  const queryString = query ? `/${query}` : '';
+  return axios.get<RecommendationReport>(`${path}${queryString}`);
 }
 
 // This fetches a recommendations list
 export function runRosReports(reportType: RosType, query: string) {
   const path = RosTypePaths[reportType];
-  return axios.get<RecommendationReport>(`${path}?${query}`);
+  const queryString = query ? `?${query}` : '';
+  return axios.get<RecommendationReport>(`${path}${queryString}`);
 }

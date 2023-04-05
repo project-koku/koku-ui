@@ -41,17 +41,17 @@ export class OptimizationsToolbarBase extends React.Component<OptimizationsToolb
 
     return [
       {
-        isDisabled: !(recommendations && recommendations.short_term),
+        isDisabled: !(recommendations && recommendations.short_term && !recommendations.short_term.notifications),
         label: messages.recommendationsShortTerm,
         value: Interval.short_term,
       },
       {
-        isDisabled: !(recommendations && recommendations.medium_term),
+        isDisabled: !(recommendations && recommendations.medium_term && !recommendations.medium_term.notifications),
         label: messages.recommendationsMediumTerm,
         value: Interval.medium_term,
       },
       {
-        isDisabled: !(recommendations && recommendations.long_term),
+        isDisabled: !(recommendations && recommendations.long_term && !recommendations.long_term.notifications),
         label: messages.recommendationsLongTerm,
         value: Interval.long_term,
       },

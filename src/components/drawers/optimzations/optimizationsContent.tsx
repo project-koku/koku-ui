@@ -10,6 +10,8 @@ import {
   TextListVariants,
 } from '@patternfly/react-core';
 import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import type { RosQuery } from 'api/queries/rosQuery';
+import { parseQuery } from 'api/queries/rosQuery';
 import type { RecommendationItem, RecommendationReportData } from 'api/ros/recommendations';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
@@ -21,10 +23,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
+import { getGroupById } from 'routes/views/utils/groupBy';
 import { getBreakdownPath } from 'routes/views/utils/paths';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
-import { uiSelectors } from 'store/ui';
 import { getTimeFromNow } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 import type { RouterComponentProps } from 'utils/router';
@@ -34,10 +36,12 @@ import { styles } from './optimizations.styles';
 import { OptimizationsToolbar } from './optimizationsToolbar';
 
 interface OptimizationsContentOwnProps extends RouterComponentProps {
+  id?: string;
   onClose();
 }
 
 interface OptimizationsContentStateProps {
+  groupBy?: string;
   report?: RecommendationReportData;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
@@ -74,24 +78,36 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
   public state: OptimizationsContentState = { ...this.defaultState };
 
   public componentDidMount() {
+    this.updateReport();
+    this.setState({ currentInterval: this.getDefaultTerm() });
+  }
+
+  public componentDidUpdate(prevProps: OptimizationsContentProps) {
+    if (prevProps.id !== this.props.id) {
+      this.updateReport();
+    }
+  }
+
+  private updateReport() {
     const { fetchRosReport, reportQueryString } = this.props;
 
     fetchRosReport(reportPathsType, reportType, reportQueryString);
-    this.setState({ currentInterval: this.getDefaultTerm() });
   }
 
   private getDefaultTerm = () => {
     const { report } = this.props;
 
     let result = Interval.short_term;
-    if (!(report && report.recommendations)) {
+    if (!(report && report.recommendations && report.recommendations.duration_based)) {
       return result;
     }
-    if (report.recommendations.short_term) {
+
+    const recommendation = report.recommendations.duration_based;
+    if (recommendation.short_term && !recommendation.short_term.notifications) {
       result = Interval.short_term;
-    } else if (report.recommendations.medium_term) {
+    } else if (recommendation.medium_term && !recommendation.medium_term.notifications) {
       result = Interval.medium_term;
-    } else if (report.recommendations.long_term) {
+    } else if (recommendation.long_term && !recommendation.long_term.notifications) {
       result = Interval.long_term;
     }
     return result;
@@ -175,12 +191,19 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
       return null;
     }
     const recommendations = this.getRecommendations();
-    const cpuConfig = recommendations.config.limits.cpu.amount;
-    const cpuConfigUnits = recommendations.config.limits.cpu.format;
-    const cpuVariation = recommendations.variation.limits.cpu.amount;
-    const memConfig = recommendations.config.limits.memory.amount;
-    const memConfigUnits = recommendations.config.limits.memory.format;
-    const memVariation = recommendations.variation.limits.memory.amount;
+    const hasConfig = recommendations && recommendations.config !== undefined;
+    const hasVariation = recommendations && recommendations.variation !== undefined;
+    const hasCpuConfig = hasConfig && recommendations.config.limits.cpu !== undefined;
+    const hasCpuVariation = hasVariation && recommendations.variation.limits.cpu !== undefined;
+    const hasMemConfig = hasConfig && recommendations.config.limits.memory !== undefined;
+    const hasMemVariation = hasVariation && recommendations.variation.limits.memory !== undefined;
+
+    const cpuConfig = hasCpuConfig ? recommendations.config.limits.cpu.amount : 0;
+    const cpuConfigUnits = hasCpuConfig ? recommendations.config.limits.cpu.format : undefined;
+    const cpuVariation = hasCpuVariation ? recommendations.variation.limits.cpu.amount : 0;
+    const memConfig = hasMemConfig ? recommendations.config.limits.memory.amount : 0;
+    const memConfigUnits = hasMemConfig ? recommendations.config.limits.memory.format : undefined;
+    const memVariation = hasMemVariation ? recommendations.variation.limits.memory.amount : 0;
 
     return (
       <TableComposable
@@ -230,13 +253,13 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     let result;
     switch (currentInterval) {
       case Interval.short_term:
-        result = report.recommendations.short_term;
+        result = report.recommendations.duration_based.short_term;
         break;
       case Interval.medium_term:
-        result = report.recommendations.medium_term;
+        result = report.recommendations.duration_based.medium_term;
         break;
       case Interval.long_term:
-        result = report.recommendations.long_term;
+        result = report.recommendations.duration_based.long_term;
         break;
     }
     return result;
@@ -249,12 +272,19 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
       return null;
     }
     const recommendations = this.getRecommendations();
-    const cpuConfig = recommendations.config.requests.cpu.amount;
-    const cpuConfigUnits = recommendations.config.requests.cpu.format;
-    const cpuVariation = recommendations.variation.requests.cpu.amount;
-    const memConfig = recommendations.config.requests.memory.amount;
-    const memConfigUnits = recommendations.config.requests.memory.format;
-    const memVariation = recommendations.variation.requests.memory.amount;
+    const hasConfig = recommendations && recommendations.config !== undefined;
+    const hasVariation = recommendations && recommendations.variation !== undefined;
+    const hasCpuConfig = hasConfig && recommendations.config.requests.cpu !== undefined;
+    const hasCpuVariation = hasVariation && recommendations.variation.requests.cpu !== undefined;
+    const hasMemConfig = hasConfig && recommendations.config.requests.memory !== undefined;
+    const hasMemVariation = hasVariation && recommendations.variation.requests.memory !== undefined;
+
+    const cpuConfig = hasCpuConfig ? recommendations.config.requests.cpu.amount : 0;
+    const cpuConfigUnits = hasCpuConfig ? recommendations.config.requests.cpu.format : undefined;
+    const cpuVariation = hasCpuVariation ? recommendations.variation.requests.cpu.amount : 0;
+    const memConfig = hasMemConfig ? recommendations.config.requests.memory.amount : 0;
+    const memConfigUnits = hasMemConfig ? recommendations.config.requests.memory.format : undefined;
+    const memVariation = hasMemVariation ? recommendations.variation.requests.memory.amount : 0;
 
     return (
       <TableComposable
@@ -290,9 +320,10 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
   };
 
   private getViewAllLink = () => {
-    const { intl, report, router } = this.props;
+    const { groupBy, intl, report, router } = this.props;
+    const isStandalone = groupBy === undefined;
 
-    if (!report) {
+    if (!isStandalone || !report) {
       return null;
     }
     return (
@@ -329,7 +360,7 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
           <OptimizationsToolbar
             currentInterval={currentInterval}
             isDisabled={isLoading}
-            recommendations={report ? report.recommendations : undefined}
+            recommendations={report ? report.recommendations.duration_based : undefined}
             onSelected={this.handleOnSelected}
           />
         </div>
@@ -349,21 +380,25 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
   }
 }
 
-const mapStateToProps = createMapStateToProps<OptimizationsContentOwnProps, OptimizationsContentStateProps>(state => {
-  const payload = uiSelectors.selectOptimizationsDrawerPayload(state);
+const mapStateToProps = createMapStateToProps<OptimizationsContentOwnProps, OptimizationsContentStateProps>(
+  (state, { id, router }) => {
+    const queryFromRoute = parseQuery<RosQuery>(router.location.search);
+    const groupBy = getGroupById(queryFromRoute);
 
-  const reportQueryString = payload ? payload.id : '';
-  const report: any = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
-  const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
-  const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);
+    const reportQueryString = id ? id : '';
+    const report: any = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
+    const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
+    const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);
 
-  return {
-    report,
-    reportError,
-    reportFetchStatus,
-    reportQueryString,
-  };
-});
+    return {
+      groupBy,
+      report,
+      reportError,
+      reportFetchStatus,
+      reportQueryString,
+    };
+  }
+);
 
 const mapDispatchToProps: OptimizationsContentDispatchProps = {
   fetchRosReport: rosActions.fetchRosReport,
