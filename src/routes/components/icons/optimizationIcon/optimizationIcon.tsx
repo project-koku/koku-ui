@@ -9,13 +9,13 @@ interface OptimizationIconProps extends WrappedComponentProps {
   className?: string;
 }
 
-const icon = require('./Icon-Red_Hat-IT_Optimization-A-Gray-RGB.svg');
+const icon = require('./Red_Hat-IT_Optimization-Gray.svg');
 
 const OptimizationIcon: React.FC<OptimizationIconProps> = ({ className, intl }) => {
   return (
     <img
       className={`optimization-icon ${className}`}
-      src={icon as any}
+      src={icon}
       alt={intl.formatMessage(messages.optimizations)}
       aria-hidden="true"
     />
