@@ -9505,6 +9505,18 @@
         "value": "Still processing the data"
       }
     ],
+    "noOptimizationsDesc": [
+      {
+        "type": 0,
+        "value": "There is not enough data available to generate an optimization."
+      }
+    ],
+    "noOptimizationsTitle": [
+      {
+        "type": 0,
+        "value": "No optimizations available"
+      }
+    ],
     "noProvidersStateAwsDesc": [
       {
         "type": 0,
@@ -10031,6 +10043,12 @@
         "pluralType": "cardinal",
         "type": 6,
         "value": "count"
+      }
+    ],
+    "optimizationsEmptyState": [
+      {
+        "type": 0,
+        "value": "There is not enough data available to generate a recommendation."
       }
     ],
     "optimizationsNames": [

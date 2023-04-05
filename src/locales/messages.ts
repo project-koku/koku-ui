@@ -2251,6 +2251,16 @@ export default defineMessages({
     description: 'There are no export files available',
     id: 'NoExportsStateTitle',
   },
+  noOptimizationsDesc: {
+    defaultMessage: 'There is not enough data available to generate an optimization.',
+    description: 'There is not enough data available to generate an optimization.',
+    id: 'noOptimizationsDesc',
+  },
+  noOptimizationsTitle: {
+    defaultMessage: 'No optimizations available',
+    description: 'No optimizations available',
+    id: 'noOptimizationsTitle',
+  },
   noProvidersStateAwsDesc: {
     defaultMessage:
       'Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.',
@@ -2605,6 +2615,11 @@ export default defineMessages({
     defaultMessage: '{count, plural, =0 {No optimizations} =1 {{count} optimization} other {{count} optimizations}}',
     description: 'Recommendation details',
     id: 'optimizationsDetails',
+  },
+  optimizationsEmptyState: {
+    defaultMessage: 'There is not enough data available to generate a recommendation.',
+    description: 'There is not enough data available to generate a recommendation.',
+    id: 'optimizationsEmptyState',
   },
   optimizationsNames: {
     defaultMessage:
