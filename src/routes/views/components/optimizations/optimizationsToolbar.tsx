@@ -1,6 +1,5 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
-import { ResourcePathsType } from 'api/resources/resource';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -74,7 +73,6 @@ export class OptimizationsToolbarBase extends React.Component<OptimizationsToolb
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
-        resourcePathsType={ResourcePathsType.ocp}
         showFilter
       />
     );

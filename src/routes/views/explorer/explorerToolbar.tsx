@@ -75,6 +75,7 @@ export class ExplorerToolbarBase extends React.Component<ExplorerToolbarProps, E
         pagination={pagination}
         selectedItems={selectedItems}
         showBulkSelect
+        showExcludes
         showExport
         tagReportPathsType={tagReportPathsType}
       />

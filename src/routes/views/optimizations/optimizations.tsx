@@ -13,14 +13,9 @@ import { Loading } from 'routes/state/loading';
 import { NoOptimizations } from 'routes/state/noOptimizations';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { OptimizationsTable, OptimizationsToolbar } from 'routes/views/components/optimizations';
-import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
-import {
-  handleFilterAdded,
-  handleFilterRemoved,
-  handlePerPageSelect,
-  handleSetPage,
-  handleSort,
-} from 'routes/views/utils/handles';
+import type { Filter } from 'routes/views/utils/filter';
+import { handleFilterRemoved, handleSort } from 'routes/views/utils/handles';
+import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import type { RouterComponentProps } from 'utils/router';
@@ -56,9 +51,9 @@ type OptimizationsProps = OptimizationsStateProps & OptimizationsOwnProps & Opti
 const baseQuery: RosQuery = {
   limit: 10,
   offset: 0,
-  order_by: {
-    cost: 'desc',
-  },
+  // order_by: {
+  //   cost: 'desc',
+  // },
 };
 
 const reportType = RosType.ros as any;
@@ -88,7 +83,7 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
   }
 
   private getPagination = (isDisabled = false, isBottom = false) => {
-    const { intl, query, report, router } = this.props;
+    const { intl, report } = this.props;
 
     const count = report && report.meta ? report.meta.count : 0;
     const limit = report && report.meta ? report.meta.limit : baseQuery.limit;
@@ -100,8 +95,8 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
         isCompact={!isBottom}
         isDisabled={isDisabled}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => handlePerPageSelect(query, router, perPage)}
-        onSetPage={(event, pageNumber) => handleSetPage(query, router, report, pageNumber)}
+        onPerPageSelect={(event, perPage) => this.handlePerPageSelect(perPage)}
+        onSetPage={(event, pageNumber) => this.handleSetPage(pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -141,12 +136,51 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
-        onFilterAdded={filter => handleFilterAdded(query, router, filter)}
+        onFilterAdded={filter => this.handleFilterAdded(filter)}
         onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
         pagination={this.getPagination(isDisabled)}
         query={query}
       />
     );
+  };
+
+  private handleFilterAdded = (filter: Filter) => {
+    const { query, router } = this.props;
+
+    // Only supports one filter at a time
+    const filteredQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      filter_by: {
+        [filter.type]: filter.value,
+      },
+    };
+    router.navigate(getRouteForQuery(filteredQuery, router.location, true), { replace: true });
+  };
+
+  private handlePerPageSelect = (perPage: number) => {
+    const { query, router } = this.props;
+
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      limit: perPage,
+    };
+    const filteredQuery = getRouteForQuery(newQuery, router.location, true);
+    router.navigate(filteredQuery, { replace: true });
+  };
+
+  private handleSetPage = (pageNumber: number) => {
+    const { query, report, router } = this.props;
+
+    const limit = report && report.meta && report.meta.limit ? report.meta.limit : baseQuery.limit;
+    const offset = pageNumber * limit - 1;
+
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      limit,
+      offset,
+    };
+    const filteredQuery = getRouteForQuery(newQuery, router.location);
+    router.navigate(filteredQuery, { replace: true });
   };
 
   private updateReport = () => {
@@ -158,7 +192,7 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
   };
 
   public render() {
-    const { intl, report, reportError, reportFetchStatus } = this.props;
+    const { intl, query, report, reportError, reportFetchStatus } = this.props;
 
     const itemsTotal = report && report.meta ? report.meta.count : 0;
     const isDisabled = itemsTotal === 0;
@@ -168,7 +202,7 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
     if (reportError) {
       return <NotAvailable title={title} />;
     }
-    if (!hasOptimizations && reportFetchStatus === FetchStatus.complete) {
+    if (!query.filter_by && !hasOptimizations && reportFetchStatus === FetchStatus.complete) {
       return <NoOptimizations title={title} />;
     }
     return (
@@ -195,13 +229,8 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OptimizationsOwnProps, OptimizationsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<RosQuery>(router.location.search);
-  const groupBy = getGroupById(queryFromRoute);
-  const groupByValue = getGroupByValue(queryFromRoute);
 
   const query = {
-    ...(groupBy && {
-      [groupBy]: groupByValue, // project filter
-    }),
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
     limit: queryFromRoute.limit || baseQuery.limit,
     offset: queryFromRoute.offset || baseQuery.offset,
@@ -209,6 +238,8 @@ const mapStateToProps = createMapStateToProps<OptimizationsOwnProps, Optimizatio
   };
   const reportQueryString = getQuery({
     ...query,
+    filter_by: undefined, // API needs filters flattened
+    ...query.filter_by,
   });
   const report = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
   const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);

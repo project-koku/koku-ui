@@ -77,6 +77,7 @@ interface DataToolbarOwnProps {
   selectedItems?: ComputedReportItem[];
   showBulkSelect?: boolean; // Show bulk select
   showColumnManagement?: boolean; // Show column management
+  showExcludes?: boolean; // Show negative filtering
   showExport?: boolean; // Show export icon
   showFilter?: boolean; // Show export icon
   showPlatformCosts?: boolean; // Show platform costs switch
@@ -535,17 +536,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   // Remove trailing commas -- see https://issues.redhat.com/browse/COST-3641
   private cleanInput = (value: string) => {
     const val = value.replace(/,\s*$/, '').replace(/&\s*$/, '');
-    if (val.length === 0) {
-      return undefined;
-    }
     return val;
   };
 
   private handleOnCategoryInputChange = (value: string) => {
     const val = this.cleanInput(value);
-    if (val) {
-      this.setState({ categoryInput: val });
-    }
+    this.setState({ categoryInput: val });
   };
 
   private onCategoryInput = (event, key) => {
@@ -570,6 +566,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
                 ? [...prevItems, filter]
                 : [filter],
           },
+          categoryInput: '',
         };
       },
       () => {
@@ -582,7 +579,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     const { currentCategory, currentExclude } = this.state;
 
     const val = this.cleanInput(value);
-    if (!val) {
+    if (val.trim() === '') {
       return;
     }
 
@@ -1127,6 +1124,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       pagination,
       showBulkSelect,
       showColumnManagement,
+      showExcludes,
       showExport,
       showFilter,
       showPlatformCosts,
@@ -1149,7 +1147,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
               <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
                 <ToolbarGroup variant="filter-group">
                   {this.getCategorySelect(hasFilters)}
-                  {this.getExcludeSelect(hasFilters)}
+                  {showExcludes && this.getExcludeSelect(hasFilters)}
                   {this.getTagKeySelect(hasFilters)}
                   {this.getTagKeyOptions().map(option => this.getTagValueSelect(option, hasFilters))}
                   {this.getOrgUnitSelect(hasFilters)}

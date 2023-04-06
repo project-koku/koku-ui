@@ -154,6 +154,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         selectedItems={selectedItems}
         showBulkSelect
         showColumnManagement
+        showExcludes
         showExport
         showFilter
         tagReport={tagReport}
