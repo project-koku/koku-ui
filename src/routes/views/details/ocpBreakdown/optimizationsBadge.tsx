@@ -47,7 +47,7 @@ const baseQuery: RosQuery = {
 const reportPathsType = RosPathsType.recommendations;
 const reportType = RosType.ros;
 
-class OptimizationsBadge extends React.Component<OptimizationsBadgeProps, OptimizationsBadgeState> {
+class OptimizationsBadgeBase extends React.Component<OptimizationsBadgeProps, OptimizationsBadgeState> {
   protected defaultState: OptimizationsBadgeState = {
     // TBD...
   };
@@ -108,4 +108,6 @@ const mapDispatchToProps: OptimizationsBadgeDispatchProps = {
   fetchReport: rosActions.fetchRosReport,
 };
 
-export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(OptimizationsBadge)));
+const OptimizationsBadge = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(OptimizationsBadgeBase)));
+
+export { OptimizationsBadge };

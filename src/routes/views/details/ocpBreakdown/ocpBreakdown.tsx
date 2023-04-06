@@ -12,7 +12,6 @@ import { connect } from 'react-redux';
 import { routes } from 'routes';
 import type { BreakdownStateProps } from 'routes/views/details/components/breakdown';
 import { BreakdownBase } from 'routes/views/details/components/breakdown';
-import Optimizations from 'routes/views/optimizations/optimizations';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { isPlatformCosts } from 'routes/views/utils/paths';
 import { filterProviders } from 'routes/views/utils/providers';
@@ -29,7 +28,8 @@ import { withRouter } from 'utils/router';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
-import OptimizationsBadge from './optimizationsBadge';
+import { OptimizationsBadge } from './optimizationsBadge';
+import { OptimizationsBreakdown } from './optimizationsBreakdown';
 
 interface BreakdownDispatchProps {
   closeOptimizationsDrawer?: typeof uiActions.closeOptimizationsDrawer;
@@ -120,7 +120,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
     isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
     optimizationsBadgeComponent: <OptimizationsBadge />,
-    optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <Optimizations /> : undefined,
+    optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <OptimizationsBreakdown /> : undefined,
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     providerType: ProviderType.ocp,

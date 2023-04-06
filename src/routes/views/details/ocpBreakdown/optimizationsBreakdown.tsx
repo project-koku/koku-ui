@@ -13,6 +13,7 @@ import { Loading } from 'routes/state/loading';
 import { NoOptimizations } from 'routes/state/noOptimizations';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { OptimizationsTable, OptimizationsToolbar } from 'routes/views/components/optimizations';
+import { styles } from 'routes/views/optimizations/optimizations.styles';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import {
   handleFilterAdded,
@@ -26,14 +27,11 @@ import { rosActions, rosSelectors } from 'store/ros';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-import { styles } from './optimizations.styles';
-import { OptimizationsHeader } from './optimizationsHeader';
-
-export interface OptimizationsOwnProps extends RouterComponentProps, WrappedComponentProps {
+export interface OptimizationsBreakdownOwnProps extends RouterComponentProps, WrappedComponentProps {
   // TBD...
 }
 
-interface OptimizationsStateProps {
+interface OptimizationsBreakdownStateProps {
   groupBy?: string;
   query: RosQuery;
   report: RosReport;
@@ -42,16 +40,18 @@ interface OptimizationsStateProps {
   reportQueryString: string;
 }
 
-interface OptimizationsDispatchProps {
+interface OptimizationsBreakdownDispatchProps {
   fetchRosReport: typeof rosActions.fetchRosReport;
 }
 
-interface OptimizationsState {
+interface OptimizationsBreakdownState {
   columns: any[];
   rows: any[];
 }
 
-type OptimizationsProps = OptimizationsStateProps & OptimizationsOwnProps & OptimizationsDispatchProps;
+type OptimizationsBreakdownProps = OptimizationsBreakdownStateProps &
+  OptimizationsBreakdownOwnProps &
+  OptimizationsBreakdownDispatchProps;
 
 const baseQuery: RosQuery = {
   limit: 10,
@@ -64,18 +64,18 @@ const baseQuery: RosQuery = {
 const reportType = RosType.ros as any;
 const reportPathsType = RosPathsType.recommendations as any;
 
-class Optimizations extends React.Component<OptimizationsProps, OptimizationsState> {
-  protected defaultState: OptimizationsState = {
+class OptimizationsBreakdownBase extends React.Component<OptimizationsBreakdownProps, OptimizationsBreakdownState> {
+  protected defaultState: OptimizationsBreakdownState = {
     columns: [],
     rows: [],
   };
-  public state: OptimizationsState = { ...this.defaultState };
+  public state: OptimizationsBreakdownState = { ...this.defaultState };
 
   public componentDidMount() {
     this.updateReport();
   }
 
-  public componentDidUpdate(prevProps: OptimizationsProps) {
+  public componentDidUpdate(prevProps: OptimizationsBreakdownProps) {
     const { report, reportError, reportQueryString, router } = this.props;
 
     const newQuery = prevProps.reportQueryString !== reportQueryString;
@@ -169,63 +169,64 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
       return <NotAvailable title={title} />;
     }
     if (!hasOptimizations && reportFetchStatus === FetchStatus.complete) {
-      return <NoOptimizations title={title} />;
+      return <NoOptimizations />;
     }
     return (
       <div style={styles.optimizationsContainer}>
-        <OptimizationsHeader />
-        <div style={styles.content}>
-          <div style={styles.toolbarContainer}>{this.getToolbar()}</div>
-          {reportFetchStatus === FetchStatus.inProgress ? (
-            <Loading />
-          ) : (
-            <>
-              <div style={styles.tableContainer}>{this.getTable()}</div>
-              <div style={styles.paginationContainer}>
-                <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
-              </div>
-            </>
-          )}
-        </div>
+        {this.getToolbar()}
+        {reportFetchStatus === FetchStatus.inProgress ? (
+          <Loading />
+        ) : (
+          <>
+            {this.getTable()}
+            <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
+          </>
+        )}
       </div>
     );
   }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<OptimizationsOwnProps, OptimizationsStateProps>((state, { router }) => {
-  const queryFromRoute = parseQuery<RosQuery>(router.location.search);
-  const groupBy = getGroupById(queryFromRoute);
-  const groupByValue = getGroupByValue(queryFromRoute);
+const mapStateToProps = createMapStateToProps<OptimizationsBreakdownOwnProps, OptimizationsBreakdownStateProps>(
+  (state, { router }) => {
+    const queryFromRoute = parseQuery<RosQuery>(router.location.search);
+    const groupBy = getGroupById(queryFromRoute);
+    const groupByValue = getGroupByValue(queryFromRoute);
 
-  const query = {
-    ...(groupBy && {
-      [groupBy]: groupByValue, // project filter
-    }),
-    filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-    limit: queryFromRoute.limit || baseQuery.limit,
-    offset: queryFromRoute.offset || baseQuery.offset,
-    // order_by: queryFromRoute.order_by || baseQuery.order_by,
-  };
-  const reportQueryString = getQuery({
-    ...query,
-  });
-  const report = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
-  const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
-  const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);
+    const query = {
+      ...(groupBy && {
+        [groupBy]: groupByValue, // project filter
+      }),
+      filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
+      limit: queryFromRoute.limit || baseQuery.limit,
+      offset: queryFromRoute.offset || baseQuery.offset,
+      // order_by: queryFromRoute.order_by || baseQuery.order_by,
+    };
+    const reportQueryString = getQuery({
+      ...query,
+    });
+    const report = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
+    const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
+    const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);
 
-  return {
-    groupBy: queryFromRoute.group_by,
-    query,
-    report,
-    reportError,
-    reportFetchStatus,
-    reportQueryString,
-  } as any;
-});
+    return {
+      groupBy: queryFromRoute.group_by,
+      query,
+      report,
+      reportError,
+      reportFetchStatus,
+      reportQueryString,
+    } as any;
+  }
+);
 
-const mapDispatchToProps: OptimizationsDispatchProps = {
+const mapDispatchToProps: OptimizationsBreakdownDispatchProps = {
   fetchRosReport: rosActions.fetchRosReport,
 };
 
-export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(Optimizations)));
+const OptimizationsBreakdown = injectIntl(
+  withRouter(connect(mapStateToProps, mapDispatchToProps)(OptimizationsBreakdownBase))
+);
+
+export { OptimizationsBreakdown };
