@@ -1,5 +1,4 @@
 import { EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
-// import { CubesIcon } from '@patternfly/react-icons/dist/esm/icons/cubes-icon';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
