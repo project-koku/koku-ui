@@ -10190,61 +10190,61 @@
     "pageTitleAws": [
       {
         "type": 0,
-        "value": "Amazon Web Services - Cost Management | Red Hat OpenShift Cluster Manager"
+        "value": "Amazon Web Services - Cost Management | OpenShift"
       }
     ],
     "pageTitleAzure": [
       {
         "type": 0,
-        "value": "Microsoft Azure - Cost Management | Red Hat OpenShift Cluster Manager"
+        "value": "Microsoft Azure - Cost Management | OpenShift"
       }
     ],
     "pageTitleCostModels": [
       {
         "type": 0,
-        "value": "Cost Models - Cost Management | Red Hat OpenShift Cluster Manager"
+        "value": "Cost Models - Cost Management | OpenShift"
       }
     ],
     "pageTitleDefault": [
       {
         "type": 0,
-        "value": "Cost Management | Red Hat OpenShift Cluster Manager"
+        "value": "Cost Management | OpenShift"
       }
     ],
     "pageTitleExplorer": [
       {
         "type": 0,
-        "value": "Cost Explorer - Cost Management | Red Hat OpenShift Cluster Manager"
+        "value": "Cost Explorer - Cost Management | OpenShift"
       }
     ],
     "pageTitleGcp": [
       {
         "type": 0,
-        "value": "Google Cloud Platform - Cost Management | Red Hat OpenShift Cluster Manager"
+        "value": "Google Cloud Platform - Cost Management | OpenShift"
       }
     ],
     "pageTitleIbm": [
       {
         "type": 0,
-        "value": "IBM Cloud - Cost Management | Red Hat OpenShift Cluster Manager"
+        "value": "IBM Cloud - Cost Management | OpenShift"
       }
     ],
     "pageTitleOci": [
       {
         "type": 0,
-        "value": "Oracle Cloud Infrastructure - Cost Management | Red Hat OpenShift Cluster Manager"
+        "value": "Oracle Cloud Infrastructure - Cost Management | OpenShift"
       }
     ],
     "pageTitleOcp": [
       {
         "type": 0,
-        "value": "OpenShift - Cost Management | Red Hat OpenShift Cluster Manager"
+        "value": "OpenShift - Cost Management | OpenShift"
       }
     ],
     "pageTitleOverview": [
       {
         "type": 0,
-        "value": "Overview - Cost Management | Red Hat OpenShift Cluster Manager"
+        "value": "Overview - Cost Management | OpenShift"
       }
     ],
     "paginationTitle": [
