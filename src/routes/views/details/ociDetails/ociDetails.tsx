@@ -73,7 +73,6 @@ type OciDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
 type OciDetailsProps = OciDetailsStateProps & OciDetailsOwnProps & OciDetailsDispatchProps;
 
 const baseQuery: OciQuery = {
-  delta: 'cost',
   filter: {
     limit: 10,
     offset: 0,
@@ -384,7 +383,6 @@ const mapStateToProps = createMapStateToProps<OciDetailsOwnProps, OciDetailsStat
   const queryFromRoute = parseQuery<OciQuery>(router.location.search);
   const currency = getCurrency();
   const query = {
-    delta: 'cost',
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
@@ -397,6 +395,7 @@ const mapStateToProps = createMapStateToProps<OciDetailsOwnProps, OciDetailsStat
   const reportQueryString = getQuery({
     ...query,
     currency,
+    delta: 'cost',
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);

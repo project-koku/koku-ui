@@ -26,8 +26,8 @@ export const getBreakdownPath = ({
   title: string | number; // Used to display a title in the breakdown header
 }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const newQuery = {
-    ...queryFromRoute,
+  const state = JSON.stringify(queryFromRoute); // Ignores query prefix
+  const newQuery: any = {
     ...(description && description !== title && { [breakdownDescKey]: description }),
     ...(title && { [breakdownTitleKey]: title }),
     optimizationsPath: isOptimizationsPath ? true : undefined,
@@ -35,6 +35,7 @@ export const getBreakdownPath = ({
     group_by: {
       [groupBy]: isPlatformCosts ? '*' : id, // Use ID here -- see https://github.com/project-koku/koku-ui/pull/2821
     },
+    state: window.btoa(state),
   };
   if (isPlatformCosts) {
     if (!newQuery.filter) {
@@ -65,14 +66,15 @@ export const getOrgBreakdownPath = ({
   type: string; // account or organizational_unit
 }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const newQuery = {
-    ...queryFromRoute,
+  const state = JSON.stringify(queryFromRoute); // Ignores query prefix
+  const newQuery: any = {
     ...(description && description !== title && { [breakdownDescKey]: description }),
     ...(title && { [breakdownTitleKey]: title }),
     ...(groupByOrg && { [orgUnitIdKey]: groupByOrg }),
     group_by: {
       [groupBy]: id, // This may be overridden below
     },
+    state: window.btoa(state),
   };
   if (type === 'account') {
     if (!newQuery.filter) {

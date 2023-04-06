@@ -77,7 +77,6 @@ type RhelDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
 type RhelDetailsProps = RhelDetailsStateProps & RhelDetailsOwnProps & RhelDetailsDispatchProps;
 
 const baseQuery: RhelQuery = {
-  delta: 'cost',
   filter: {
     limit: 10,
     offset: 0,
@@ -446,7 +445,6 @@ const mapStateToProps = createMapStateToProps<RhelDetailsOwnProps, RhelDetailsSt
   const queryFromRoute = parseQuery<RhelQuery>(router.location.search);
   const currency = getCurrency();
   const query = {
-    delta: 'cost',
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
@@ -460,6 +458,7 @@ const mapStateToProps = createMapStateToProps<RhelDetailsOwnProps, RhelDetailsSt
   const reportQueryString = getQuery({
     ...query,
     currency,
+    delta: 'cost',
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);

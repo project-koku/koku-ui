@@ -74,7 +74,6 @@ type IbmDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
 type IbmDetailsProps = IbmDetailsStateProps & IbmDetailsOwnProps & IbmDetailsDispatchProps;
 
 const baseQuery: IbmQuery = {
-  delta: 'cost',
   filter: {
     limit: 10,
     offset: 0,
@@ -375,7 +374,6 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
   const queryFromRoute = parseQuery<IbmQuery>(router.location.search);
   const currency = getCurrency();
   const query = {
-    delta: 'cost',
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
@@ -388,6 +386,7 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
   const reportQueryString = getQuery({
     ...query,
     currency,
+    delta: 'cost',
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);

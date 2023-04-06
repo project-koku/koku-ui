@@ -53,8 +53,8 @@ const EmptyFilterStateBase: React.FC<EmptyFilterStateProps> = ({
 
   const getItem = () => {
     const trim = (val: string) => val.replace(/\s+/g, '').toLowerCase();
-    const isFilter1 = (val: string) => trim(val) === atob('cmVkaGF0');
-    const isFilter2 = (val: string) => trim(val) === atob('a29rdQ==');
+    const isFilter1 = (val: string) => trim(val) === window.atob('cmVkaGF0');
+    const isFilter2 = (val: string) => trim(val) === window.atob('a29rdQ==');
     let showEmptyState1 = false;
     let showEmptyState2 = false;
 

@@ -67,11 +67,14 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       value = query[orgUnitIdKey];
     }
 
+    const state = query.state ? window.atob(query.state) : undefined;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
+      ...(state && JSON.parse(state)),
       group_by: {
         [groupByKey]: value,
       },
+      state: undefined,
     };
     // Don't want these params when returning to the details page
     if (newQuery.filter) {

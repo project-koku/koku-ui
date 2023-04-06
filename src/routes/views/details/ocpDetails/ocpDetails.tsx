@@ -79,7 +79,6 @@ type OcpDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
 type OcpDetailsProps = OcpDetailsStateProps & OcpDetailsOwnProps & OcpDetailsDispatchProps;
 
 const baseQuery: OcpQuery = {
-  delta: 'cost',
   filter: {
     limit: 10,
     offset: 0,
@@ -449,7 +448,6 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
   const currency = getCurrency();
   const query = {
-    delta: 'cost',
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
@@ -463,6 +461,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   const reportQueryString = getQuery({
     ...query,
     currency,
+    delta: 'cost',
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);

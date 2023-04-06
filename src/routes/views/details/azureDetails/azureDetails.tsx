@@ -73,7 +73,6 @@ type AzureDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
 type AzureDetailsProps = AzureDetailsStateProps & AzureDetailsOwnProps & AzureDetailsDispatchProps;
 
 const baseQuery: AzureQuery = {
-  delta: 'cost',
   filter: {
     limit: 10,
     offset: 0,
@@ -384,7 +383,6 @@ const mapStateToProps = createMapStateToProps<AzureDetailsOwnProps, AzureDetails
   const queryFromRoute = parseQuery<AzureQuery>(router.location.search);
   const currency = getCurrency();
   const query = {
-    delta: 'cost',
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
@@ -397,6 +395,7 @@ const mapStateToProps = createMapStateToProps<AzureDetailsOwnProps, AzureDetails
   const reportQueryString = getQuery({
     ...query,
     currency,
+    delta: 'cost',
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
