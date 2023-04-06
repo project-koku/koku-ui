@@ -12,13 +12,6 @@ interface RosGroupBys {
   project?: RosGroupByValue;
 }
 
-interface RosOrderBys {
-  cost?: string;
-  cluster?: string;
-  node?: string;
-  project?: string;
-}
-
 export interface RosQuery extends utils.Query {
   category?: string;
   delta?: string;
@@ -26,7 +19,8 @@ export interface RosQuery extends utils.Query {
   group_by?: RosGroupBys;
   limit?: number;
   offset?: number;
-  order_by?: RosOrderBys;
+  order_by?: string;
+  order_how?: string;
 }
 
 // filter_by props are converted and returned with logical OR/AND prefix

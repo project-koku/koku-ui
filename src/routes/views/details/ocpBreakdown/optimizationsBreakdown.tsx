@@ -56,9 +56,8 @@ type OptimizationsBreakdownProps = OptimizationsBreakdownStateProps &
 const baseQuery: RosQuery = {
   limit: 10,
   offset: 0,
-  order_by: {
-    cost: 'desc',
-  },
+  order_by: 'last_reported',
+  order_how: 'desc',
 };
 
 const reportType = RosType.ros as any;
@@ -205,6 +204,8 @@ const mapStateToProps = createMapStateToProps<OptimizationsBreakdownOwnProps, Op
     };
     const reportQueryString = getQuery({
       ...query,
+      limit: undefined, // Todo: Use limit and offset for breakdown table
+      offset: undefined,
     });
     const report = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
     const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);

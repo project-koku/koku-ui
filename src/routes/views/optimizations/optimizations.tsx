@@ -13,8 +13,8 @@ import { Loading } from 'routes/state/loading';
 import { NoOptimizations } from 'routes/state/noOptimizations';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { OptimizationsTable, OptimizationsToolbar } from 'routes/views/components/optimizations';
-import type { Filter } from 'routes/views/utils/filter';
-import { handleFilterRemoved, handleSort } from 'routes/views/utils/handles';
+import { handleFilterAdded, handleFilterRemoved, handleSort } from 'routes/views/utils/handles';
+import { getOrderById, getOrderByValue } from 'routes/views/utils/orderBy';
 import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
@@ -51,9 +51,8 @@ type OptimizationsProps = OptimizationsStateProps & OptimizationsOwnProps & Opti
 const baseQuery: RosQuery = {
   limit: 10,
   offset: 0,
-  // order_by: {
-  //   cost: 'desc',
-  // },
+  order_by: 'last_reported',
+  order_how: 'desc',
 };
 
 const reportType = RosType.ros as any;
@@ -136,25 +135,12 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
-        onFilterAdded={filter => this.handleFilterAdded(filter)}
+        onFilterAdded={filter => handleFilterAdded(query, router, filter)}
         onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
         pagination={this.getPagination(isDisabled)}
         query={query}
       />
     );
-  };
-
-  private handleFilterAdded = (filter: Filter) => {
-    const { query, router } = this.props;
-
-    // Only supports one filter at a time
-    const filteredQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      filter_by: {
-        [filter.type]: filter.value,
-      },
-    };
-    router.navigate(getRouteForQuery(filteredQuery, router.location, true), { replace: true });
   };
 
   private handlePerPageSelect = (perPage: number) => {
@@ -229,17 +215,23 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OptimizationsOwnProps, OptimizationsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<RosQuery>(router.location.search);
+  const order_by = getOrderById(queryFromRoute) || baseQuery.order_by;
+  const order_how = getOrderByValue(queryFromRoute) || baseQuery.order_how;
 
   const query = {
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
     limit: queryFromRoute.limit || baseQuery.limit,
     offset: queryFromRoute.offset || baseQuery.offset,
-    // order_by: queryFromRoute.order_by || baseQuery.order_by,
+    order_by: {
+      [baseQuery.order_by]: baseQuery.order_how,
+    },
   };
   const reportQueryString = getQuery({
     ...query,
     filter_by: undefined, // API needs filters flattened
     ...query.filter_by,
+    order_by,
+    order_how, // API needs separate order by and how
   });
   const report = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
   const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
