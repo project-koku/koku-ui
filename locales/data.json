@@ -10241,10 +10241,22 @@
         "value": "OpenShift - Cost Management | OpenShift"
       }
     ],
+    "pageTitleOptimizations": [
+      {
+        "type": 0,
+        "value": "Optimizations - Cost Management | OpenShift"
+      }
+    ],
     "pageTitleOverview": [
       {
         "type": 0,
         "value": "Overview - Cost Management | OpenShift"
+      }
+    ],
+    "pageTitleRhel": [
+      {
+        "type": 0,
+        "value": "RHEL - Cost Management | OpenShift"
       }
     ],
     "paginationTitle": [

@@ -2707,10 +2707,20 @@ export default defineMessages({
     description: 'OpenShift - Cost Management | OpenShift',
     id: 'pageTitleOcp',
   },
+  pageTitleOptimizations: {
+    defaultMessage: 'Optimizations - Cost Management | OpenShift',
+    description: 'Optimizations - Cost Management | OpenShift',
+    id: 'pageTitleOptimizations',
+  },
   pageTitleOverview: {
     defaultMessage: 'Overview - Cost Management | OpenShift',
     description: 'Overview - Cost Management | OpenShift',
     id: 'pageTitleOverview',
+  },
+  pageTitleRhel: {
+    defaultMessage: 'RHEL - Cost Management | OpenShift',
+    description: 'RHEL - Cost Management | OpenShift',
+    id: 'pageTitleRhel',
   },
   paginationTitle: {
     defaultMessage:
