@@ -10,6 +10,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Loading } from 'routes/state/loading';
+import { NoOptimizations } from 'routes/state/noOptimizations';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import {
@@ -163,10 +164,14 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
     const itemsTotal = report && report.meta ? report.meta.count : 0;
     const isDisabled = itemsTotal === 0;
     const isStandalone = groupBy === undefined;
-    const title = intl.formatMessage(messages.ocpDetailsTitle);
+    const title = intl.formatMessage(messages.optimizations);
+    const hasOptimizations = report && report.meta && report.meta.count > 0;
 
     if (reportError) {
       return <NotAvailable title={title} />;
+    }
+    if (!hasOptimizations && reportFetchStatus === FetchStatus.complete) {
+      return <NoOptimizations title={isStandalone ? title : undefined} />;
     }
     return (
       <div style={styles.optimizationsContainer}>
