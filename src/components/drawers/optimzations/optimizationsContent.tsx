@@ -154,10 +154,6 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
   };
 
   private getChangeValue = value => {
-    if (value === 0) {
-      return <EmptyValueState />;
-    }
-
     // Show icon opposite of month over month
     let iconOverride = 'iconOverride';
     if (value !== null && value < 0) {
@@ -170,14 +166,21 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
         <div className={iconOverride}>
           {value < 0 ? (
             <>
-              {value}
+              <span style={styles.value}>{value}</span>
               <span className="fa fa-sort-down" />
             </>
-          ) : (
+          ) : value > 0 ? (
             <>
-              {value}
+              <span style={styles.value}>{value}</span>
               <span className="fa fa-sort-up" />
             </>
+          ) : value === 0 ? (
+            <>
+              <span style={styles.value}>{value}</span>
+              <span className="fa fa-equals" />
+            </>
+          ) : (
+            <EmptyValueState />
           )}
         </div>
       </div>

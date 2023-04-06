@@ -1,5 +1,5 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
-import type { OcpQuery } from 'api/queries/ocpQuery';
+import type { RosQuery } from 'api/queries/rosQuery';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -16,7 +16,7 @@ interface OptimizationsToolbarOwnProps {
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
-  query?: OcpQuery;
+  query?: RosQuery;
 }
 
 interface OptimizationsToolbarStateProps {
