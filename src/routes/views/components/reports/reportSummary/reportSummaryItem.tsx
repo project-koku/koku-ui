@@ -38,7 +38,7 @@ const ReportSummaryItemBase: React.FC<ReportSummaryItemProps> = ({
 
   return (
     <li className="reportSummaryItem">
-      <Progress label={percentLabel} value={Number(percentVal)} title={label} size={ProgressSize.sm} />
+      <Progress label={percentLabel} value={Number(percent)} title={label} size={ProgressSize.sm} />
     </li>
   );
 };
