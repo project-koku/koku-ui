@@ -2624,6 +2624,21 @@ export default defineMessages({
     description: 'There is not enough data available to generate a recommendation.',
     id: 'optimizationsEmptyState',
   },
+  optimizationsInfo: {
+    defaultMessage: 'Assess and monitor your usage so you can optimize your OpenShift resources.',
+    description: 'Assess and monitor your usage so you can optimize your OpenShift resources.',
+    id: 'optimizationsInfo',
+  },
+  optimizationsInfoArialLabel: {
+    defaultMessage: 'A description of optimizations',
+    description: 'A description of optimizations',
+    id: 'optimizationsInfoArialLabel',
+  },
+  optimizationsInfoButtonArialLabel: {
+    defaultMessage: 'A dialog with a description of optimizations',
+    description: 'A dialog with a description of optimizations',
+    id: 'optimizationsInfoButtonArialLabel',
+  },
   optimizationsNames: {
     defaultMessage:
       '{value, select, ' +
