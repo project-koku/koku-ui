@@ -40,6 +40,8 @@ const reportPathsType = ReportPathsType.gcp;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<GcpQuery>(router.location.search);
+  const detailsPageState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
   const currency = getCurrency();
@@ -52,10 +54,10 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, BreakdownSta
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
+      ...(detailsPageState && detailsPageState.filter_by && detailsPageState.filter_by),
     },
     exclude: {
-      ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
+      ...(detailsPageState && detailsPageState.exclude && detailsPageState.exclude),
     },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),

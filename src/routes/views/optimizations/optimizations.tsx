@@ -87,7 +87,7 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
     const count = report && report.meta ? report.meta.count : 0;
     const limit = report && report.meta ? report.meta.limit : baseQuery.limit;
     const offset = report && report.meta ? report.meta.offset : baseQuery.offset;
-    const page = offset / limit + 1;
+    const page = Math.trunc(offset / limit + 1);
 
     return (
       <Pagination

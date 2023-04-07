@@ -11,7 +11,7 @@ import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
-import { logicalAndPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
+import { logicalAndPrefix, orgUnitIdKey, platformCategoryKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -111,12 +111,14 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
 const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps>(
   (state, { router, tagReportPathsType }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
+    const detailsPageState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
 
     // Prune unsupported tag params from filter_by
-    const filterByParams = queryFromRoute && queryFromRoute.filter_by ? queryFromRoute.filter_by : {};
+    const filterByParams = detailsPageState && detailsPageState.filter_by ? detailsPageState.filter_by : {};
     for (const key of Object.keys(filterByParams)) {
       if (key.indexOf(tagPrefix) !== -1) {
         filterByParams[key] = undefined;
@@ -132,12 +134,10 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
       filter_by: {
         // Add filters here to apply logical OR/AND
         ...filterByParams,
+        ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
         ...(queryFromRoute &&
           queryFromRoute.filter &&
           queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
-        ...(queryFromRoute &&
-          queryFromRoute.filter &&
-          queryFromRoute.filter.category && { category: queryFromRoute.filter.category }),
       },
     };
     const tagQueryString = getQuery({

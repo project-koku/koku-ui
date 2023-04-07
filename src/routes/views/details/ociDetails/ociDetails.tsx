@@ -73,13 +73,9 @@ type OciDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
 type OciDetailsProps = OciDetailsStateProps & OciDetailsOwnProps & OciDetailsDispatchProps;
 
 const baseQuery: OciQuery = {
-  delta: 'cost',
   filter: {
     limit: 10,
     offset: 0,
-    resolution: 'monthly',
-    time_scope_units: 'month',
-    time_scope_value: -1,
   },
   exclude: {},
   filter_by: {},
@@ -183,7 +179,7 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
       report && report.meta && report.meta.filter && report.meta.filter.offset
         ? report.meta.filter.offset
         : baseQuery.filter.offset;
-    const page = offset / limit + 1;
+    const page = Math.trunc(offset / limit + 1);
 
     return (
       <Pagination
@@ -384,7 +380,6 @@ const mapStateToProps = createMapStateToProps<OciDetailsOwnProps, OciDetailsStat
   const queryFromRoute = parseQuery<OciQuery>(router.location.search);
   const currency = getCurrency();
   const query = {
-    delta: 'cost',
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
@@ -396,6 +391,12 @@ const mapStateToProps = createMapStateToProps<OciDetailsOwnProps, OciDetailsStat
   };
   const reportQueryString = getQuery({
     ...query,
+    filter: {
+      ...query.filter,
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: -1,
+    },
     currency,
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);

@@ -15,13 +15,9 @@ import { NotAvailable } from 'routes/state/notAvailable';
 import { OptimizationsTable, OptimizationsToolbar } from 'routes/views/components/optimizations';
 import { styles } from 'routes/views/optimizations/optimizations.styles';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
-import {
-  handleFilterAdded,
-  handleFilterRemoved,
-  handlePerPageSelect,
-  handleSetPage,
-  handleSort,
-} from 'routes/views/utils/handles';
+import { handleFilterAdded, handleFilterRemoved, handleSort } from 'routes/views/utils/handles';
+import { getOrderById, getOrderByValue } from 'routes/views/utils/orderBy';
+import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import type { RouterComponentProps } from 'utils/router';
@@ -87,20 +83,20 @@ class OptimizationsBreakdownBase extends React.Component<OptimizationsBreakdownP
   }
 
   private getPagination = (isDisabled = false, isBottom = false) => {
-    const { intl, query, report, router } = this.props;
+    const { intl, report } = this.props;
 
     const count = report && report.meta ? report.meta.count : 0;
     const limit = report && report.meta ? report.meta.limit : baseQuery.limit;
     const offset = report && report.meta ? report.meta.offset : baseQuery.offset;
-    const page = offset / limit + 1;
+    const page = Math.trunc(offset / limit + 1);
 
     return (
       <Pagination
         isCompact={!isBottom}
         isDisabled={isDisabled}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => handlePerPageSelect(query, router, perPage)}
-        onSetPage={(event, pageNumber) => handleSetPage(query, router, report, pageNumber)}
+        onPerPageSelect={(event, perPage) => this.handlePerPageSelect(perPage)}
+        onSetPage={(event, pageNumber) => this.handleSetPage(pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -148,6 +144,32 @@ class OptimizationsBreakdownBase extends React.Component<OptimizationsBreakdownP
     );
   };
 
+  private handlePerPageSelect = (perPage: number) => {
+    const { query, router } = this.props;
+
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      limit: perPage,
+    };
+    const filteredQuery = getRouteForQuery(newQuery, router.location, true);
+    router.navigate(filteredQuery, { replace: true });
+  };
+
+  private handleSetPage = (pageNumber: number) => {
+    const { query, report, router } = this.props;
+
+    const limit = report && report.meta && report.meta.limit ? report.meta.limit : baseQuery.limit;
+    const offset = pageNumber * limit - 1;
+
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      limit,
+      offset,
+    };
+    const filteredQuery = getRouteForQuery(newQuery, router.location);
+    router.navigate(filteredQuery, { replace: true });
+  };
+
   private updateReport = () => {
     const { fetchRosReport, reportFetchStatus, reportQueryString } = this.props;
 
@@ -190,22 +212,30 @@ class OptimizationsBreakdownBase extends React.Component<OptimizationsBreakdownP
 const mapStateToProps = createMapStateToProps<OptimizationsBreakdownOwnProps, OptimizationsBreakdownStateProps>(
   (state, { router }) => {
     const queryFromRoute = parseQuery<RosQuery>(router.location.search);
+
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
+    const order_by = getOrderById(queryFromRoute) || baseQuery.order_by;
+    const order_how = getOrderByValue(queryFromRoute) || baseQuery.order_how;
 
     const query = {
-      ...(groupBy && {
-        [groupBy]: groupByValue, // project filter
-      }),
+      ...queryFromRoute,
       filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
       limit: queryFromRoute.limit || baseQuery.limit,
       offset: queryFromRoute.offset || baseQuery.offset,
-      // order_by: queryFromRoute.order_by || baseQuery.order_by,
+      order_by: {
+        [baseQuery.order_by]: baseQuery.order_how,
+      },
     };
     const reportQueryString = getQuery({
-      ...query,
-      limit: undefined, // Todo: Use limit and offset for breakdown table
-      offset: undefined,
+      ...(groupBy && {
+        [groupBy]: groupByValue, // Flattened project filter
+      }),
+      ...query.filter_by, // Flattened filter by
+      limit: query.limit,
+      offset: query.offset,
+      order_by, // Flattened order by
+      order_how, // Flattened order how
     });
     const report = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
     const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);

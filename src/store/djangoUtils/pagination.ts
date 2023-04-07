@@ -23,7 +23,7 @@ export const getPagination = <T extends PageResults>(payload: T) => {
     const limit = Number(urlParams.get('limit'));
     const offset = Number(urlParams.get('offset')) - limit;
     return {
-      page: offset / limit + 1,
+      page: Math.trunc(offset / limit + 1),
       perPage: limit,
       count: payload.meta.count,
     };
@@ -34,7 +34,7 @@ export const getPagination = <T extends PageResults>(payload: T) => {
     const limit = Number(urlParams.get('limit'));
     const offset = Number(urlParams.get('offset')) + limit;
     return {
-      page: offset / limit + 1,
+      page: Math.trunc(offset / limit + 1),
       perPage: limit,
       count: payload.meta.count,
     };

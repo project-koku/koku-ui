@@ -38,7 +38,7 @@ import type { ComputedReportItem } from 'utils/computedReport/getComputedReportI
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedRhelReportItems';
 import { getCurrency } from 'utils/localStorage';
-import { noPrefix, platformCategoryKey, tagPrefix } from 'utils/props';
+import { noPrefix, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -77,13 +77,9 @@ type RhelDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
 type RhelDetailsProps = RhelDetailsStateProps & RhelDetailsOwnProps & RhelDetailsDispatchProps;
 
 const baseQuery: RhelQuery = {
-  delta: 'cost',
   filter: {
     limit: 10,
     offset: 0,
-    resolution: 'monthly',
-    time_scope_units: 'month',
-    time_scope_value: -1,
   },
   exclude: {},
   filter_by: {},
@@ -134,7 +130,6 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
     this.handleColumnManagementModalSave = this.handleColumnManagementModalSave.bind(this);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
-    this.handlePlatformCostsChanged = this.handlePlatformCostsChanged.bind(this);
     this.handleSelected = this.handleSelected.bind(this);
   }
 
@@ -227,7 +222,7 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
       report && report.meta && report.meta.filter && report.meta.filter.offset
         ? report.meta.filter.offset
         : baseQuery.filter.offset;
-    const page = offset / limit + 1;
+    const page = Math.trunc(offset / limit + 1);
 
     return (
       <Pagination
@@ -295,7 +290,6 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={filter => handleFilterAdded(query, router, filter)}
         onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
-        onPlatformCostsChanged={this.handlePlatformCostsChanged}
         pagination={this.getPagination()}
         query={query}
         selectedItems={selectedItems}
@@ -349,17 +343,6 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
       },
       order_by: { cost: 'desc' },
       category: undefined, // Only applies to projects
-    };
-    this.setState({ isAllSelected: false, selectedItems: [] }, () => {
-      router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
-    });
-  };
-
-  private handlePlatformCostsChanged = (checked: boolean) => {
-    const { query, router } = this.props;
-    const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      category: checked ? platformCategoryKey : undefined,
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {
       router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
@@ -446,7 +429,6 @@ const mapStateToProps = createMapStateToProps<RhelDetailsOwnProps, RhelDetailsSt
   const queryFromRoute = parseQuery<RhelQuery>(router.location.search);
   const currency = getCurrency();
   const query = {
-    delta: 'cost',
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
@@ -459,7 +441,14 @@ const mapStateToProps = createMapStateToProps<RhelDetailsOwnProps, RhelDetailsSt
   };
   const reportQueryString = getQuery({
     ...query,
+    filter: {
+      ...query.filter,
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: -1,
+    },
     currency,
+    delta: 'cost',
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);

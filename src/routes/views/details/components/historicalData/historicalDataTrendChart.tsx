@@ -14,7 +14,7 @@ import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUnits, unitsLookupKey } from 'utils/format';
-import { logicalAndPrefix, orgUnitIdKey } from 'utils/props';
+import { logicalAndPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { skeletonWidth } from 'utils/skeleton';
@@ -162,6 +162,8 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, HistoricalDataTrendChartStateProps>(
   (state, { costType, currency, reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
+    const detailsPageState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
@@ -169,16 +171,14 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
     const baseQuery: Query = {
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
+        ...(detailsPageState && detailsPageState.filter_by && detailsPageState.filter_by),
+        ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
         ...(queryFromRoute &&
           queryFromRoute.filter &&
           queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
-        ...(queryFromRoute &&
-          queryFromRoute.filter &&
-          queryFromRoute.filter.category && { category: queryFromRoute.filter.category }),
       },
       exclude: {
-        ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
+        ...(detailsPageState && detailsPageState.exclude && detailsPageState.exclude),
       },
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),

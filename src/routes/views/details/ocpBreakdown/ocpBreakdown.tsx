@@ -13,7 +13,6 @@ import { routes } from 'routes';
 import type { BreakdownStateProps } from 'routes/views/details/components/breakdown';
 import { BreakdownBase } from 'routes/views/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
-import { isPlatformCosts } from 'routes/views/utils/paths';
 import { filterProviders } from 'routes/views/utils/providers';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
@@ -22,7 +21,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { uiActions } from 'store/ui';
 import { getCurrency } from 'utils/localStorage';
 import { formatPath } from 'utils/paths';
-import { breakdownDescKey, breakdownTitleKey } from 'utils/props';
+import { breakdownDescKey, breakdownTitleKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -45,6 +44,8 @@ const reportPathsType = ReportPathsType.ocp;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
+  const detailsPageState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
   const currency = getCurrency();
@@ -57,13 +58,13 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
-      ...(queryFromRoute &&
-        queryFromRoute.filter &&
-        queryFromRoute.filter.category && { category: queryFromRoute.filter.category }),
+      ...(detailsPageState && detailsPageState.filter_by && detailsPageState.filter_by),
+      ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
+      // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+      ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
     },
     exclude: {
-      ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
+      ...(detailsPageState && detailsPageState.exclude && detailsPageState.exclude),
     },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
@@ -75,11 +76,6 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     ...newQuery,
     category: undefined,
     currency,
-    filter_by: {
-      ...newQuery.filter_by,
-      // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-      ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
-    },
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
@@ -105,7 +101,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
       <CostOverview
         currency={currency}
         groupBy={groupBy}
-        isPlatformCosts={isPlatformCosts(queryFromRoute)}
+        isPlatformCosts={queryFromRoute && queryFromRoute.isPlatformCosts}
         report={report}
         title={title}
       />

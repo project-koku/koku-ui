@@ -22,7 +22,7 @@ import type { CostTypes } from 'utils/costType';
 import { getTotalCostDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 import { formatPath } from 'utils/paths';
-import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey } from 'utils/props';
+import { orgUnitIdKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -56,7 +56,7 @@ type BreakdownHeaderProps = BreakdownHeaderOwnProps & BreakdownHeaderStateProps 
 
 class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   private buildDetailsLink = url => {
-    const { groupBy, isOptimizationsPath, query } = this.props;
+    const { groupBy, query } = this.props;
 
     let groupByKey = groupBy;
     let value = '*';
@@ -67,25 +67,13 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       value = query[orgUnitIdKey];
     }
 
+    const state = query.state ? window.atob(query.state) : undefined;
     const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
+      ...(state && JSON.parse(state)),
       group_by: {
         [groupByKey]: value,
       },
     };
-    // Don't want these params when returning to the details page
-    if (newQuery.filter) {
-      newQuery.filter.account = undefined;
-      newQuery.filter.category = undefined;
-      newQuery[breakdownDescKey] = undefined;
-      newQuery[breakdownTitleKey] = undefined;
-      newQuery[orgUnitIdKey] = undefined;
-    }
-    if (isOptimizationsPath) {
-      newQuery[breakdownTitleKey] = undefined;
-      newQuery.group_by = undefined;
-      newQuery.recommendations = undefined;
-    }
     return `${url}?${getQueryRoute(newQuery)}`;
   };
 

@@ -1726,6 +1726,7 @@ export default defineMessages({
       '{value, select, ' +
       'account {Filter by account} ' +
       'cluster {Filter by cluster} ' +
+      'container {Filter by container} ' +
       'description {Filter by description} ' +
       'gcp_project {Filter by GCP project} ' +
       'name {Filter by name} ' +
@@ -1740,6 +1741,8 @@ export default defineMessages({
       'service_name {Filter by service} ' +
       'source_type {Filter by source type} ' +
       'subscription_guid {Filter by account} ' +
+      'workload {Filter by workload} ' +
+      'workload_type {Filter by workload type} ' +
       'tag {Filter by tag} ' +
       'other {}}',
     description: 'Filter by "value"',
