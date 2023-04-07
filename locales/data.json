@@ -10075,6 +10075,24 @@
         "value": "There is not enough data available to generate a recommendation."
       }
     ],
+    "optimizationsInfo": [
+      {
+        "type": 0,
+        "value": "Assess and monitor your usage so you can optimize your OpenShift resources."
+      }
+    ],
+    "optimizationsInfoArialLabel": [
+      {
+        "type": 0,
+        "value": "A description of optimizations"
+      }
+    ],
+    "optimizationsInfoButtonArialLabel": [
+      {
+        "type": 0,
+        "value": "A dialog with a description of optimizations"
+      }
+    ],
     "optimizationsNames": [
       {
         "options": {

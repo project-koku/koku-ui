@@ -1,6 +1,17 @@
 import './optimizationsSummary.scss';
 
-import { Card, CardBody, CardTitle, Skeleton, Title, TitleSizes } from '@patternfly/react-core';
+import {
+  Button,
+  ButtonVariant,
+  Card,
+  CardBody,
+  CardTitle,
+  Popover,
+  Skeleton,
+  Title,
+  TitleSizes,
+} from '@patternfly/react-core';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
 import type { RosReport } from 'api/ros/ros';
 import messages from 'locales/messages';
 import React from 'react';
@@ -12,6 +23,8 @@ import { routes } from 'routes';
 import { FetchStatus } from 'store/common';
 import { formatPath } from 'utils/paths';
 import { skeletonWidth } from 'utils/skeleton';
+
+import { styles } from './optimizations.styles';
 
 export interface OptimizationsSummaryProps extends WrappedComponentProps {
   report: RosReport;
@@ -27,6 +40,20 @@ const OptimizationsSummaryBase: React.FC<OptimizationsSummaryProps> = ({ intl, r
       <CardTitle>
         <Title headingLevel="h2" size={TitleSizes.lg}>
           {intl.formatMessage(title)}
+          <span style={styles.infoIcon}>
+            <Popover
+              aria-label={intl.formatMessage(messages.optimizationsInfoArialLabel)}
+              enableFlip
+              bodyContent={<p style={styles.infoTitle}>{intl.formatMessage(messages.optimizationsInfo)}</p>}
+            >
+              <Button
+                aria-label={intl.formatMessage(messages.optimizationsInfoButtonArialLabel)}
+                variant={ButtonVariant.plain}
+              >
+                <OutlinedQuestionCircleIcon />
+              </Button>
+            </Popover>
+          </span>
         </Title>
       </CardTitle>
       <CardBody>
