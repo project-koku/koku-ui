@@ -13,7 +13,6 @@ import { routes } from 'routes';
 import type { BreakdownStateProps } from 'routes/views/details/components/breakdown';
 import { BreakdownBase } from 'routes/views/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
-import { isPlatformCosts } from 'routes/views/utils/paths';
 import { filterProviders } from 'routes/views/utils/providers';
 import { createMapStateToProps } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
@@ -40,6 +39,8 @@ const reportPathsType = ReportPathsType.rhel;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<RhelBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
+  const detailsPageState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
   const currency = getCurrency();
@@ -52,16 +53,14 @@ const mapStateToProps = createMapStateToProps<RhelBreakdownOwnProps, BreakdownSt
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
-      ...(queryFromRoute && queryFromRoute.filter && { category: queryFromRoute.filter.category }),
+      ...(detailsPageState && detailsPageState.filter_by && detailsPageState.filter_by),
     },
     exclude: {
-      ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
+      ...(detailsPageState && detailsPageState.exclude && detailsPageState.exclude),
     },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
     },
-    category: queryFromRoute.category, // Needed to restore details page state
   };
 
   const reportQueryString = getQuery({
@@ -94,15 +93,7 @@ const mapStateToProps = createMapStateToProps<RhelBreakdownOwnProps, BreakdownSt
   const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
 
   return {
-    costOverviewComponent: (
-      <CostOverview
-        currency={currency}
-        groupBy={groupBy}
-        isPlatformCosts={isPlatformCosts(queryFromRoute)}
-        report={report}
-        title={title}
-      />
-    ),
+    costOverviewComponent: <CostOverview currency={currency} groupBy={groupBy} report={report} title={title} />,
     currency,
     description: queryFromRoute[breakdownDescKey],
     detailsURL,

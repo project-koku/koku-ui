@@ -107,7 +107,7 @@ test('getQueryForWidget', () => {
   [
     [
       undefined,
-      'filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&group_by[subscription_guid]=*',
+      'filter[resolution]=daily&filter[time_scope_units]=month&filter[time_scope_value]=-1&group_by[subscription_guid]=*',
     ],
     [{}, 'group_by[subscription_guid]=*'],
     [{ limit: 3 }, 'filter[limit]=3&group_by[subscription_guid]=*'],

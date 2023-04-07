@@ -215,7 +215,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
       report && report.meta && report.meta.filter && report.meta.filter.offset
         ? report.meta.filter.offset
         : baseQuery.filter.offset;
-    const page = offset / limit + 1;
+    const page = Math.trunc(offset / limit + 1);
 
     return (
       <Pagination

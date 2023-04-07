@@ -92,7 +92,7 @@ test('getQueryForWidget', () => {
   [
     [
       undefined,
-      'filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&group_by[project]=*',
+      'filter[resolution]=daily&filter[time_scope_units]=month&filter[time_scope_value]=-1&group_by[project]=*',
     ],
     [{}, 'group_by[project]=*'],
     [{ limit: 3 }, 'filter[limit]=3&group_by[project]=*'],

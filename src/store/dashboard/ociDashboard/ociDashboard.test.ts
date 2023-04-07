@@ -102,7 +102,7 @@ test('getQueryForWidget', () => {
   [
     [
       undefined,
-      'filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&group_by[payer_tenant_id]=*',
+      'filter[resolution]=daily&filter[time_scope_units]=month&filter[time_scope_value]=-1&group_by[payer_tenant_id]=*',
     ],
     [{}, 'group_by[payer_tenant_id]=*'],
     [{ limit: 3 }, 'filter[limit]=3&group_by[payer_tenant_id]=*'],

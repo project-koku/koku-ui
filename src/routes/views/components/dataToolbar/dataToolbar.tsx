@@ -511,6 +511,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
                 value={categoryInput}
                 placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: categoryOption.key })}
                 onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
+                size={intl.formatMessage(messages.filterByPlaceholder, { value: categoryOption.key }).length}
               />
               <Button
                 isDisabled={isDisabled && !hasFilters}
@@ -1182,7 +1183,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   }
 }
 
-const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>(state => {
+const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>(() => {
   return {
     // TBD...
   };

@@ -76,9 +76,6 @@ const baseQuery: GcpQuery = {
   filter: {
     limit: 10,
     offset: 0,
-    resolution: 'monthly',
-    time_scope_units: 'month',
-    time_scope_value: -1,
   },
   exclude: {},
   filter_by: {},
@@ -182,7 +179,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
       report && report.meta && report.meta.filter && report.meta.filter.offset
         ? report.meta.filter.offset
         : baseQuery.filter.offset;
-    const page = offset / limit + 1;
+    const page = Math.trunc(offset / limit + 1);
 
     return (
       <Pagination
@@ -383,8 +380,13 @@ const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStat
   };
   const reportQueryString = getQuery({
     ...query,
+    filter: {
+      ...query.filter,
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: -1,
+    },
     currency,
-    delta: 'cost',
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);

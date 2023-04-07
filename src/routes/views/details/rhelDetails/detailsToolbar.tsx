@@ -29,7 +29,6 @@ interface DetailsToolbarOwnProps {
   onExportClicked();
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
-  onPlatformCostsChanged(checked: boolean);
   pagination?: React.ReactNode;
   query?: OcpQuery;
   selectedItems?: ComputedReportItem[];
@@ -125,7 +124,6 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       onExportClicked,
       onFilterAdded,
       onFilterRemoved,
-      onPlatformCostsChanged,
       pagination,
       query,
       selectedItems,
@@ -147,7 +145,6 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         onExportClicked={onExportClicked}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
-        onPlatformCostsChanged={onPlatformCostsChanged}
         pagination={pagination}
         query={query}
         resourcePathsType={ResourcePathsType.ocp}

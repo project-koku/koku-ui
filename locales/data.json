@@ -6643,6 +6643,14 @@
               }
             ]
           },
+          "container": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by container"
+              }
+            ]
+          },
           "description": {
             "value": [
               {
@@ -6763,6 +6771,22 @@
               {
                 "type": 0,
                 "value": "Filter by tag"
+              }
+            ]
+          },
+          "workload": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by workload"
+              }
+            ]
+          },
+          "workload_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by workload type"
               }
             ]
           }

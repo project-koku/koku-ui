@@ -197,6 +197,8 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
 const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps>(
   (state, { costType, currency, reportGroupBy, reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
+    const detailsPageState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
@@ -210,16 +212,14 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
       },
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
+        ...(detailsPageState && detailsPageState.filter_by && detailsPageState.filter_by),
+        ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
         ...(queryFromRoute &&
           queryFromRoute.filter &&
           queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
-        ...(queryFromRoute &&
-          queryFromRoute.filter &&
-          queryFromRoute.filter.category && { category: queryFromRoute.filter.category }),
       },
       exclude: {
-        ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
+        ...(detailsPageState && detailsPageState.exclude && detailsPageState.exclude),
       },
       group_by: {
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by all accounts, regions, etc.

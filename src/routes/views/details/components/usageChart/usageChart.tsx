@@ -19,6 +19,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPercentage, formatUnits, unitsLookupKey } from 'utils/format';
 import { noop } from 'utils/noop';
+import { platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { skeletonWidth } from 'utils/skeleton';
@@ -374,6 +375,8 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
 const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStateProps>(
   (state, { reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
+    const detailsPageState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
 
@@ -385,11 +388,11 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
       },
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
-        ...(queryFromRoute && queryFromRoute.filter && { category: queryFromRoute.filter.category }),
+        ...(detailsPageState && detailsPageState.filter_by && detailsPageState.filter_by),
+        ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
       },
       exclude: {
-        ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
+        ...(detailsPageState && detailsPageState.exclude && detailsPageState.exclude),
       },
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),

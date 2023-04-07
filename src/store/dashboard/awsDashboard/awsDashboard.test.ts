@@ -87,7 +87,7 @@ test('getQueryForWidget', () => {
   [
     [
       undefined,
-      'filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&group_by[account]=*',
+      'filter[resolution]=daily&filter[time_scope_units]=month&filter[time_scope_value]=-1&group_by[account]=*',
     ],
     [{}, 'group_by[account]=*'],
     [{ limit: 3 }, 'filter[limit]=3&group_by[account]=*'],

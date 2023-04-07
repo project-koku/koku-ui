@@ -162,7 +162,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<GeneralInformationOwnProps, GeneralInformationStateProps>(state => {
+const mapStateToProps = createMapStateToProps<GeneralInformationOwnProps, GeneralInformationStateProps>(() => {
   return {
     // TBD...
   };

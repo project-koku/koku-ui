@@ -40,6 +40,8 @@ const reportPathsType = ReportPathsType.aws;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
+  const detailsPageState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+
   const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
   const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
@@ -54,13 +56,13 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
+      ...(detailsPageState && detailsPageState.filter_by && detailsPageState.filter_by),
       ...(queryFromRoute &&
         queryFromRoute.filter &&
         queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
     },
     exclude: {
-      ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
+      ...(detailsPageState && detailsPageState.exclude && detailsPageState.exclude),
     },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
@@ -74,7 +76,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
     filter_by: {
       ...newQuery.filter_by,
       // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-      ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+      ...(groupBy && groupBy !== orgUnitIdKey && groupByValue !== '*' && { [groupBy]: undefined }),
     },
   });
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
