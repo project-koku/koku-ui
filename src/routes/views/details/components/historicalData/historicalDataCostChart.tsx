@@ -147,7 +147,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
 const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, HistoricalDataCostChartStateProps>(
   (state, { costType, currency, reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const detailsPageState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+    const queryState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
@@ -155,54 +155,35 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
     const baseQuery: Query = {
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(detailsPageState && detailsPageState.filter_by && detailsPageState.filter_by),
+        ...(queryState && queryState.filter_by && queryState.filter_by),
         ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
       },
       exclude: {
-        ...(detailsPageState && detailsPageState.exclude && detailsPageState.exclude),
+        ...(queryState && queryState.exclude && queryState.exclude),
       },
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),
       },
     };
+
+    // Current report
     const currentQuery: Query = {
       ...baseQuery,
+      cost_type: costType,
+      currency,
       filter: {
         resolution: 'daily',
         time_scope_units: 'month',
         time_scope_value: -1,
       },
-    };
-    const currentQueryString = getQuery({
-      ...currentQuery,
-      cost_type: costType,
-      currency,
       filter_by: {
-        ...currentQuery.filter_by,
+        ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
         ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
       },
-    });
-    const previousQuery: Query = {
-      ...baseQuery,
-      filter: {
-        resolution: 'daily',
-        time_scope_units: 'month',
-        time_scope_value: -2,
-      },
     };
-    const previousQueryString = getQuery({
-      ...previousQuery,
-      cost_type: costType,
-      currency,
-      filter_by: {
-        ...previousQuery.filter_by,
-        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
-      },
-    });
 
-    // Current report
+    const currentQueryString = getQuery(currentQuery);
     const currentReport = reportSelectors.selectReport(state, reportPathsType, reportType, currentQueryString);
     const currentReportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,
@@ -212,6 +193,23 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
     );
 
     // Previous report
+    const previousQuery: Query = {
+      ...baseQuery,
+      cost_type: costType,
+      currency,
+      filter: {
+        resolution: 'daily',
+        time_scope_units: 'month',
+        time_scope_value: -2,
+      },
+      filter_by: {
+        ...baseQuery.filter_by,
+        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+      },
+    };
+
+    const previousQueryString = getQuery(previousQuery);
     const previousReport = reportSelectors.selectReport(state, reportPathsType, reportType, previousQueryString);
     const previousReportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,

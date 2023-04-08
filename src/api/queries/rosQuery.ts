@@ -19,8 +19,7 @@ export interface RosQuery extends utils.Query {
   group_by?: RosGroupBys;
   limit?: number;
   offset?: number;
-  order_by?: string;
-  order_how?: string;
+  order_by?: any;
 }
 
 // filter_by props are converted and returned with logical OR/AND prefix

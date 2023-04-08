@@ -38,10 +38,6 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
       getIdKeyForTab,
       chartAltHeight: chartStyles.chartAltHeight,
       containerAltHeight: chartStyles.containerAltHeight,
-      currentQuery: queries.current,
-      forecastQuery: queries.forecast,
-      previousQuery: queries.previous,
-      tabsQuery: queries.tabs,
       currentReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.current),
       currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
         state,

@@ -104,11 +104,13 @@ const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, Summa
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
 
-    const newQuery: Query = {
+    const reportQuery: Query = {
+      cost_type: costType,
+      currency,
       filter: {
-        resolution: 'monthly',
         time_scope_units: 'month',
         time_scope_value: -1,
+        resolution: 'monthly',
       },
       filter_by: {
         // Add filters here to apply logical OR/AND
@@ -120,6 +122,8 @@ const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, Summa
           queryFromRoute.filter &&
           queryFromRoute.filter.category && { category: queryFromRoute.filter.category }),
         ...(groupBy && { [groupBy]: groupByValue }), // group bys must appear in filter to show costs by regions, accounts, etc
+        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
       },
       exclude: {
         ...(queryFromRoute && queryFromRoute.exclude && queryFromRoute.exclude),
@@ -129,16 +133,7 @@ const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, Summa
       },
     };
 
-    const reportQueryString = getQuery({
-      ...newQuery,
-      cost_type: costType,
-      currency,
-      filter_by: {
-        ...newQuery.filter_by,
-        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
-      },
-    });
+    const reportQueryString = getQuery(reportQuery);
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,

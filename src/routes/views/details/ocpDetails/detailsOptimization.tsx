@@ -1,5 +1,4 @@
 import { getQuery } from 'api/queries/query';
-import type { RosQuery } from 'api/queries/rosQuery';
 import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
@@ -20,7 +19,6 @@ export interface DetailsOptimizationOwnProps {
 }
 
 export interface DetailsOptimizationStateProps {
-  query?: RosQuery;
   report?: RosReport;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
@@ -91,18 +89,15 @@ class DetailsOptimization extends React.Component<DetailsOptimizationProps, Deta
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<DetailsOptimizationOwnProps, DetailsOptimizationStateProps>(
   (state, { project }) => {
-    const query = {
+    const reportQuery = {
       project, // project filter
     };
-    const reportQueryString = getQuery({
-      ...query,
-    });
+    const reportQueryString = getQuery(reportQuery);
     const report = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
     const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
     const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);
 
     return {
-      query,
       report,
       reportError,
       reportFetchStatus,

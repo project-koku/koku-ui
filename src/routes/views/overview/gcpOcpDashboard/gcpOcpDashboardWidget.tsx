@@ -34,9 +34,6 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
       ...widget,
       currency: getCurrency(),
       getIdKeyForTab,
-      currentQuery: queries.current,
-      previousQuery: queries.previous,
-      tabsQuery: queries.tabs,
       currentReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.current),
       currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
         state,

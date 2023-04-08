@@ -126,7 +126,7 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
 const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, HistoricalDataUsageChartStateProps>(
   (state, { reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const detailsPageState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+    const queryState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = getGroupById(queryFromRoute);
@@ -138,7 +138,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
     const baseQuery: Query = {
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(detailsPageState && detailsPageState.filter_by && detailsPageState.filter_by),
+        ...(queryState && queryState.filter_by && queryState.filter_by),
         ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
         ...(queryFromRoute &&
           queryFromRoute.filter &&
@@ -146,7 +146,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         ...(groupByOrgValue && useFilter && { [orgUnitIdKey]: groupByOrgValue }),
       },
       exclude: {
-        ...(detailsPageState && detailsPageState.exclude && detailsPageState.exclude),
+        ...(queryState && queryState.exclude && queryState.exclude),
       },
       group_by: {
         ...(groupByOrgValue && !useFilter && { [orgUnitIdKey]: groupByOrgValue }),
@@ -162,15 +162,14 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         time_scope_units: 'month',
         time_scope_value: -1,
       },
-    };
-    const currentQueryString = getQuery({
-      ...currentQuery,
       filter_by: {
-        ...currentQuery.filter_by,
+        ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
         ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
       },
-    });
+    };
+
+    const currentQueryString = getQuery(currentQuery);
     const currentReport = reportSelectors.selectReport(state, reportPathsType, reportType, currentQueryString);
     const currentReportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,
@@ -187,15 +186,14 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         time_scope_units: 'month',
         time_scope_value: -2,
       },
-    };
-    const previousQueryString = getQuery({
-      ...previousQuery,
       filter_by: {
-        ...previousQuery.filter_by,
+        ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
         ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
       },
-    });
+    };
+
+    const previousQueryString = getQuery(previousQuery);
     const previousReport = reportSelectors.selectReport(state, reportPathsType, reportType, previousQueryString);
     const previousReportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,

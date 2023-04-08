@@ -814,8 +814,7 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
       : undefined;
 
   const query = {
-    tabKey,
-    ...(perspective && { perspective }),
+    ...queryFromRoute,
   };
 
   const providersQueryString = getProvidersQuery(providersQuery);

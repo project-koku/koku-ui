@@ -56,7 +56,7 @@ type BreakdownHeaderProps = BreakdownHeaderOwnProps & BreakdownHeaderStateProps 
 
 class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   private buildDetailsLink = url => {
-    const { groupBy, query } = this.props;
+    const { groupBy, isOptimizationsPath, query } = this.props;
 
     let groupByKey = groupBy;
     let value = '*';
@@ -70,9 +70,11 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
     const state = query.state ? window.atob(query.state) : undefined;
     const newQuery = {
       ...(state && JSON.parse(state)),
-      group_by: {
-        [groupByKey]: value,
-      },
+      ...(!isOptimizationsPath && {
+        group_by: {
+          [groupByKey]: value,
+        },
+      }),
     };
     return `${url}?${getQueryRoute(newQuery)}`;
   };

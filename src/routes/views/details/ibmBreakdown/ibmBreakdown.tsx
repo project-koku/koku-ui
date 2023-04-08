@@ -1,8 +1,7 @@
 import { ProviderType } from 'api/providers';
-import type { IbmQuery } from 'api/queries/ibmQuery';
-import { getQuery, parseQuery } from 'api/queries/ibmQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -39,14 +38,16 @@ const reportPathsType = ReportPathsType.ibm;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
-  const queryFromRoute = parseQuery<IbmQuery>(router.location.search);
-  const detailsPageState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+  const queryFromRoute = parseQuery<Query>(router.location.search);
+  const queryState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
   const currency = getCurrency();
 
-  const newQuery: Query = {
+  const query = { ...queryFromRoute };
+  const reportQuery = {
+    currency,
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -54,25 +55,19 @@ const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, BreakdownSta
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(detailsPageState && detailsPageState.filter_by && detailsPageState.filter_by),
+      ...(queryState && queryState.filter_by && queryState.filter_by),
+      // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+      ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
     },
     exclude: {
-      ...(detailsPageState && detailsPageState.exclude && detailsPageState.exclude),
+      ...(queryState && queryState.exclude && queryState.exclude),
     },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
     },
   };
 
-  const reportQueryString = getQuery({
-    ...newQuery,
-    currency,
-    filter_by: {
-      ...newQuery.filter_by,
-      // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-      ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
-    },
-  });
+  const reportQueryString = getQuery(reportQuery);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(
@@ -104,7 +99,7 @@ const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, BreakdownSta
     providersError,
     providersFetchStatus,
     providerType: ProviderType.ibm,
-    query: queryFromRoute,
+    query,
     report,
     reportError,
     reportFetchStatus,

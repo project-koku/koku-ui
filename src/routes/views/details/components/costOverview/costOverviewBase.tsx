@@ -22,9 +22,10 @@ import { CostChart } from 'routes/views/details/components/costChart';
 import { SummaryCard } from 'routes/views/details/components/summary';
 import { UsageChart } from 'routes/views/details/components/usageChart';
 import { styles } from 'routes/views/details/ocpDetails/detailsHeader.styles';
+import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
-import { orgUnitIdKey, platformCategoryKey, tagPrefix } from 'utils/props';
+import { platformCategoryKey, tagPrefix } from 'utils/props';
 
 interface CostOverviewOwnProps {
   costType?: string;
@@ -52,7 +53,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
     let showWidget = false;
     for (const groupById of widget.cluster.showWidgetOnGroupBy) {
-      if (groupById === groupBy || (groupById === tagPrefix && groupBy.indexOf(tagPrefix) !== -1)) {
+      if (groupById === groupBy || (groupById === tagPrefix && groupBy && groupBy.indexOf(tagPrefix) !== -1)) {
         showWidget = true;
         break;
       }
@@ -158,14 +159,13 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
   private getSummaryCard = (widget: CostOverviewWidget) => {
     const { costType, currency, groupBy, isPlatformCosts, query } = this.props;
 
+    const groupByOrg = getGroupByOrgValue(query);
+    const groupByTag = getGroupByTagKey(query);
     let showWidget = false;
+
     if (widget.reportSummary.showWidgetOnGroupBy) {
       for (const groupById of widget.reportSummary.showWidgetOnGroupBy) {
-        if (
-          groupById === groupBy ||
-          (query && query.group_by && query.group_by[orgUnitIdKey]) ||
-          (groupById === tagPrefix && groupBy && groupBy.indexOf(tagPrefix) !== -1)
-        ) {
+        if (groupById === groupBy || groupByOrg || groupByTag) {
           showWidget = true;
           break;
         }

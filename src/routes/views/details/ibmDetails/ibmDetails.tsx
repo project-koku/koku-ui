@@ -370,26 +370,27 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
 const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<IbmQuery>(router.location.search);
   const currency = getCurrency();
-  const query = {
-    filter: {
-      ...baseQuery.filter,
-      ...queryFromRoute.filter,
-    },
-    filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-    exclude: queryFromRoute.exclude || baseQuery.exclude,
-    group_by: queryFromRoute.group_by || baseQuery.group_by,
-    order_by: queryFromRoute.order_by || baseQuery.order_by,
+
+  const query: any = {
+    ...baseQuery,
+    ...queryFromRoute,
   };
-  const reportQueryString = getQuery({
-    ...query,
+  const reportQuery = {
+    currency,
+    delta: 'cost',
+    exclude: query.exclude,
     filter: {
       ...query.filter,
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: -1,
     },
-    currency,
-  });
+    filter_by: query.filter_by,
+    group_by: query.group_by,
+    order_by: query.order_by,
+  };
+
+  const reportQueryString = getQuery(reportQuery);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(
@@ -398,7 +399,6 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
     reportType,
     reportQueryString
   );
-
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
   const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);

@@ -40,6 +40,7 @@ interface UsageChartOwnProps extends RouterComponentProps, WrappedComponentProps
 
 interface UsageChartStateProps {
   groupBy?: string;
+  query?: Query;
   report?: Report;
   reportFetchStatus?: FetchStatus;
   reportQueryString?: string;
@@ -375,12 +376,13 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
 const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStateProps>(
   (state, { reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
-    const detailsPageState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+    const queryState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
 
-    const query: Query = {
+    const query = { ...queryFromRoute };
+    const reportQuery: Query = {
       filter: {
         time_scope_units: 'month',
         time_scope_value: -1,
@@ -388,25 +390,20 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
       },
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(detailsPageState && detailsPageState.filter_by && detailsPageState.filter_by),
+        ...(queryState && queryState.filter_by && queryState.filter_by),
         ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
+        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
       },
       exclude: {
-        ...(detailsPageState && detailsPageState.exclude && detailsPageState.exclude),
+        ...(queryState && queryState.exclude && queryState.exclude),
       },
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),
       },
     };
 
-    const reportQueryString = getQuery({
-      ...query,
-      filter_by: {
-        ...query.filter_by,
-        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
-      },
-    });
+    const reportQueryString = getQuery(reportQuery);
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,
@@ -417,6 +414,7 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
 
     return {
       groupBy,
+      query,
       report,
       reportFetchStatus,
       reportQueryString,

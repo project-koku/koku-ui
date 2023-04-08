@@ -292,7 +292,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
     let value = '*';
 
     // Check for org units
-    const index = groupBy.indexOf(orgUnitIdKey);
+    const index = groupBy && groupBy.indexOf(orgUnitIdKey);
     if (index !== -1) {
       groupByKey = orgUnitIdKey.substring(0, orgUnitIdKey.length);
       value = groupBy.slice(orgUnitIdKey.length);
@@ -402,27 +402,28 @@ const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStat
   const queryFromRoute = parseQuery<AwsQuery>(router.location.search);
   const costType = getCostType();
   const currency = getCurrency();
-  const query = {
-    filter: {
-      ...baseQuery.filter,
-      ...queryFromRoute.filter,
-    },
-    filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-    exclude: queryFromRoute.exclude || baseQuery.exclude,
-    group_by: queryFromRoute.group_by || baseQuery.group_by,
-    order_by: queryFromRoute.order_by || baseQuery.order_by,
+
+  const query: any = {
+    ...baseQuery,
+    ...queryFromRoute,
   };
-  const reportQueryString = getQuery({
-    ...query,
+  const reportQuery = {
+    cost_type: costType,
+    currency,
+    delta: 'cost',
+    exclude: query.exclude,
     filter: {
       ...query.filter,
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: -1,
     },
-    cost_type: costType,
-    currency,
-  });
+    filter_by: query.filter_by,
+    group_by: query.group_by,
+    order_by: query.order_by,
+  };
+
+  const reportQueryString = getQuery(reportQuery);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(

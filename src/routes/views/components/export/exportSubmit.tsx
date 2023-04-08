@@ -98,7 +98,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
     const fileName = intl.formatMessage(messages.exportFileName, {
       endDate,
       provider: reportPathsType,
-      groupBy: groupBy.indexOf(tagPrefix) !== -1 ? 'tag' : groupBy,
+      groupBy: groupBy && groupBy.indexOf(tagPrefix) !== -1 ? 'tag' : groupBy,
       resolution,
       startDate,
     });
