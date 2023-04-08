@@ -10,8 +10,8 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { OptimizationIcon } from 'routes/components/icons/optimizationIcon';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
+import { NoOptimizationsState } from 'routes/state/noOptimizations/noOptimizationsState';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -49,12 +49,13 @@ class DataTable extends React.Component<DataTableProps, any> {
         }
       }
     }
+    if (isOptimizations) {
+      return <NoOptimizationsState />;
+    }
     return (
       <EmptyState>
-        <EmptyStateIcon icon={isOptimizations ? (OptimizationIcon as any) : CalculatorIcon} />
-        <EmptyStateBody>
-          {intl.formatMessage(isOptimizations ? messages.optimizationsEmptyState : messages.detailsEmptyState)}
-        </EmptyStateBody>
+        <EmptyStateIcon icon={CalculatorIcon} />
+        <EmptyStateBody>{intl.formatMessage(messages.detailsEmptyState)}</EmptyStateBody>
       </EmptyState>
     );
   };
