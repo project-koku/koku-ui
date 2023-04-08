@@ -10,6 +10,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { routes } from 'routes';
+import { NoData } from 'routes/state/noData';
 import type { BreakdownStateProps } from 'routes/views/details/components/breakdown';
 import { BreakdownBase } from 'routes/views/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
@@ -91,10 +92,22 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     providersQueryString
   );
 
+  // Show empty state when report cannot fetch optimization project
+  let hasData = false;
+  if (report && report.data) {
+    for (const item of report.data as any) {
+      const projects = item.projects;
+      if (projects.length > 0) {
+        hasData = true;
+        break;
+      }
+    }
+  }
+
   const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
 
   return {
-    costOverviewComponent: (
+    costOverviewComponent: hasData ? (
       <CostOverview
         currency={currency}
         groupBy={groupBy}
@@ -102,6 +115,8 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
         report={report}
         title={title}
       />
+    ) : (
+      <NoData />
     ),
     currency,
     description: queryFromRoute[breakdownDescKey],
@@ -109,7 +124,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     emptyStateTitle: intl.formatMessage(messages.ocpDetailsTitle),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData currency={currency} />,
+    historicalDataComponent: hasData ? <HistoricalData currency={currency} /> : <NoData />,
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
     isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
     optimizationsBadgeComponent: <OptimizationsBadge />,
