@@ -19,7 +19,7 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
-import { DateRangeType } from 'routes/views/utils/dateRange';
+import type { DateRangeType } from 'routes/views/utils/dateRange';
 import { getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
@@ -322,7 +322,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     let value = '*';
 
     // Check for org units
-    const index = groupBy.indexOf(orgUnitIdKey);
+    const index = groupBy && groupBy.indexOf(orgUnitIdKey);
     if (index !== -1) {
       groupByKey = orgUnitIdKey.substring(0, orgUnitIdKey.length);
       value = groupBy.slice(orgUnitIdKey.length);
@@ -518,6 +518,9 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStateProps>((state, { router }) => {
+  const queryFromRoute = parseQuery<Query>(router.location.search);
+
+  // Get roviders first
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
   const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
@@ -545,7 +548,6 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   );
 
   // Cost Report
-  const queryFromRoute = parseQuery<Query>(router.location.search);
   const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
   const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
@@ -562,46 +564,36 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   });
 
   // Ensure group_by key is not undefined
-  let groupBy = queryFromRoute.group_by;
-  if (!groupBy && perspective) {
-    groupBy = { [getGroupByDefault(perspective)]: '*' };
+  let group_by = queryFromRoute.group_by;
+  if (!group_by && perspective) {
+    group_by = { [getGroupByDefault(perspective)]: '*' };
   }
 
   const costType =
     perspective === PerspectiveType.aws || perspective === PerspectiveType.awsOcp ? getCostType() : undefined;
   const currency = getCurrency();
 
-  const query = {
-    filter: {
-      ...baseQuery.filter,
-      ...queryFromRoute.filter,
-    },
-    filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-    exclude: queryFromRoute.exclude || baseQuery.exclude,
-    group_by: groupBy,
-    order_by: queryFromRoute.order_by,
-    perspective,
-    dateRangeType,
-    ...(dateRangeType === DateRangeType.custom && {
-      end_date,
-      start_date,
-    }),
+  const query: any = {
+    ...baseQuery,
+    ...queryFromRoute,
+    group_by,
   };
-  const reportQueryString = getQuery({
-    ...query,
+  const reportQuery = {
     cost_type: costType,
     currency,
-    ...(dateRangeType !== DateRangeType.custom && {
-      end_date,
-      start_date,
-    }),
-    dateRangeType: undefined,
-    perspective: undefined,
-  });
+    end_date,
+    exclude: query.exclude,
+    filter: query.filter,
+    filter_by: query.filter_by,
+    group_by,
+    order_by: query.order_by,
+    start_date,
+  };
 
   const reportPathsType = getReportPathsType(perspective);
   const reportType = getReportType(perspective);
 
+  const reportQueryString = getQuery(reportQuery);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(

@@ -29,7 +29,6 @@ export interface OptimizationsOwnProps extends RouterComponentProps, WrappedComp
 }
 
 interface OptimizationsStateProps {
-  groupBy?: string;
   query: RosQuery;
   report: RosReport;
   reportError: AxiosError;
@@ -51,8 +50,9 @@ type OptimizationsProps = OptimizationsStateProps & OptimizationsOwnProps & Opti
 const baseQuery: RosQuery = {
   limit: 10,
   offset: 0,
-  order_by: 'last_reported',
-  order_how: 'desc',
+  order_by: {
+    last_reported: 'desc',
+  },
 };
 
 const reportType = RosType.ros as any;
@@ -215,30 +215,25 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OptimizationsOwnProps, OptimizationsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<RosQuery>(router.location.search);
-  const order_by = getOrderById(queryFromRoute) || baseQuery.order_by;
-  const order_how = getOrderByValue(queryFromRoute) || baseQuery.order_how;
+  const order_by = getOrderById(queryFromRoute) || getOrderById(baseQuery);
+  const order_how = getOrderByValue(queryFromRoute) || getOrderByValue(baseQuery);
 
-  const query = {
-    filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-    limit: queryFromRoute.limit || baseQuery.limit,
-    offset: queryFromRoute.offset || baseQuery.offset,
-    order_by: {
-      [baseQuery.order_by]: baseQuery.order_how,
-    },
+  const query: any = {
+    ...baseQuery,
+    ...queryFromRoute,
   };
-  const reportQueryString = getQuery({
-    ...query,
-    filter_by: undefined, // API needs filters flattened
-    ...query.filter_by,
-    order_by,
-    order_how, // API needs separate order by and how
-  });
+  const reportQuery = {
+    ...query.filter_by, // Flattened filter by
+    order_by, // Flattened order by
+    order_how, // Flattened order how
+  };
+
+  const reportQueryString = getQuery(reportQuery);
   const report = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
   const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
   const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);
 
   return {
-    groupBy: queryFromRoute.group_by,
     query,
     report,
     reportError,

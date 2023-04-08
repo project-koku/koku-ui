@@ -18,7 +18,6 @@ import { Currency } from 'routes/components/currency';
 import { CostType } from 'routes/views/components/costType';
 import { GroupBy } from 'routes/views/components/groupBy';
 import { Perspective } from 'routes/views/components/perspective';
-import { DateRangeType, getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import type { Filter } from 'routes/views/utils/filter';
 import { filterProviders, hasCloudProvider } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
@@ -325,8 +324,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
 const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHeaderStateProps>(
   (state, { perspective, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
-    const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
     const providersQueryString = getProvidersQuery(providersQuery);
     const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
@@ -347,26 +344,15 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
     );
 
     // Ensure group_by key is not undefined
-    let groupBy = queryFromRoute.group_by;
-    if (!groupBy && perspective) {
-      groupBy = { [getGroupByDefault(perspective)]: '*' };
+    let group_by = queryFromRoute.group_by;
+    if (!group_by && perspective) {
+      group_by = { [getGroupByDefault(perspective)]: '*' };
     }
 
-    const query = {
-      filter: {
-        ...baseQuery.filter,
-        ...queryFromRoute.filter,
-      },
-      exclude: queryFromRoute.exclude || baseQuery.exclude,
-      filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-      group_by: groupBy,
-      order_by: queryFromRoute.order_by,
-      perspective,
-      dateRangeType,
-      ...(dateRangeType === DateRangeType.custom && {
-        end_date,
-        start_date,
-      }),
+    const query: any = {
+      ...baseQuery,
+      ...queryFromRoute,
+      group_by,
     };
 
     return {

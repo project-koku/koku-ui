@@ -27,6 +27,7 @@ export interface Query {
   key_only?: boolean;
   limit?: number;
   order_by?: any;
+  order_how?: any;
   perspective?: any;
   project?: any;
   optimizationsPath?: any;

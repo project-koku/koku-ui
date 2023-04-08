@@ -1,7 +1,7 @@
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery } from 'api/queries/rhelQuery';
+import { getQuery, parseQuery } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -19,7 +19,7 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCurrency } from 'utils/localStorage';
 import { formatPath } from 'utils/paths';
-import { breakdownDescKey, breakdownTitleKey } from 'utils/props';
+import { breakdownDescKey, breakdownTitleKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -39,13 +39,15 @@ const reportPathsType = ReportPathsType.rhel;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<RhelBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const detailsPageState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+  const queryState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
   const currency = getCurrency();
 
-  const newQuery: Query = {
+  const query = { ...queryFromRoute };
+  const reportQuery = {
+    currency,
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -53,26 +55,20 @@ const mapStateToProps = createMapStateToProps<RhelBreakdownOwnProps, BreakdownSt
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(detailsPageState && detailsPageState.filter_by && detailsPageState.filter_by),
+      ...(queryState && queryState.filter_by && queryState.filter_by),
+      ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
+      // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+      ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
     },
     exclude: {
-      ...(detailsPageState && detailsPageState.exclude && detailsPageState.exclude),
+      ...(queryState && queryState.exclude && queryState.exclude),
     },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
     },
   };
 
-  const reportQueryString = getQuery({
-    ...newQuery,
-    category: undefined,
-    currency,
-    filter_by: {
-      ...newQuery.filter_by,
-      // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-      ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
-    },
-  });
+  const reportQueryString = getQuery(reportQuery);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(
@@ -104,7 +100,7 @@ const mapStateToProps = createMapStateToProps<RhelBreakdownOwnProps, BreakdownSt
     providers: filterProviders(providers, ProviderType.rhel),
     providersFetchStatus,
     providerType: ProviderType.rhel,
-    query: queryFromRoute,
+    query,
     report,
     reportError,
     reportFetchStatus,

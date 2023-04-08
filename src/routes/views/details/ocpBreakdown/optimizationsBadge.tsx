@@ -22,7 +22,6 @@ export interface OptimizationsBadgeOwnProps extends RouterComponentProps, Wrappe
 }
 
 export interface OptimizationsBadgeStateProps {
-  query?: RosQuery;
   report?: RosReport;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
@@ -81,7 +80,7 @@ const mapStateToProps = createMapStateToProps<OptimizationsBadgeOwnProps, Optimi
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
 
-    const query = {
+    const reportQuery = {
       ...(groupBy && {
         [groupBy]: groupByValue, // project filter
       }),
@@ -89,13 +88,12 @@ const mapStateToProps = createMapStateToProps<OptimizationsBadgeOwnProps, Optimi
       offset: queryFromRoute.offset || baseQuery.offset,
     };
 
-    const reportQueryString = getQuery(query);
+    const reportQueryString = getQuery(reportQuery);
     const report = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
     const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
     const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);
 
     return {
-      query,
       report,
       reportError,
       reportFetchStatus,

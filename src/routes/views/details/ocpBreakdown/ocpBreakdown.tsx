@@ -1,7 +1,7 @@
 import { ProviderType } from 'api/providers';
-import { getQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -44,13 +44,15 @@ const reportPathsType = ReportPathsType.ocp;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const detailsPageState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+  const queryState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
   const currency = getCurrency();
 
-  const newQuery: Query = {
+  const query = { ...queryFromRoute };
+  const reportQuery = {
+    currency,
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -58,25 +60,20 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(detailsPageState && detailsPageState.filter_by && detailsPageState.filter_by),
+      ...(queryState && queryState.filter_by && queryState.filter_by),
       ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
       // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
       ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
     },
     exclude: {
-      ...(detailsPageState && detailsPageState.exclude && detailsPageState.exclude),
+      ...(queryState && queryState.exclude && queryState.exclude),
     },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
     },
-    category: queryFromRoute.category, // Needed to restore details page state
   };
 
-  const reportQueryString = getQuery({
-    ...newQuery,
-    category: undefined,
-    currency,
-  });
+  const reportQueryString = getQuery(reportQuery);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(
@@ -120,7 +117,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     providerType: ProviderType.ocp,
-    query: queryFromRoute,
+    query,
     report,
     reportError,
     reportFetchStatus,

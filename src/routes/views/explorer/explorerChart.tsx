@@ -32,7 +32,7 @@ import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './explorerChart.styles';
 import type { PerspectiveType } from './explorerUtils';
-import { baseQuery, getGroupByDefault, getReportPathsType, getReportType } from './explorerUtils';
+import { getGroupByDefault, getReportPathsType, getReportType } from './explorerUtils';
 
 interface ExplorerChartOwnProps extends RouterComponentProps, WrappedComponentProps {
   costType?: CostTypes;
@@ -257,31 +257,30 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
     const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
     // Ensure group_by key is not undefined
-    let groupBy = queryFromRoute.group_by;
-    if (!groupBy && perspective) {
-      groupBy = { [getGroupByDefault(perspective)]: '*' };
+    let group_by = queryFromRoute.group_by;
+    if (!group_by && perspective) {
+      group_by = { [getGroupByDefault(perspective)]: '*' };
     }
 
-    const query = {
-      filter: {
-        ...baseQuery.filter,
-        ...queryFromRoute.filter,
-        limit: 5,
-        offset: undefined,
-      },
-      filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-      exclude: queryFromRoute.exclude || baseQuery.exclude,
-      group_by: groupBy,
+    const query: any = {
+      ...queryFromRoute,
+      group_by,
+    };
+    const reportQuery = {
       cost_type: costType,
       currency,
-      start_date,
       end_date,
+      exclude: query.exclude,
+      filter: { limit: 5 },
+      filter_by: query.filter_by,
+      group_by,
+      start_date,
     };
 
     const reportPathsType = getReportPathsType(perspective);
     const reportType = getReportType(perspective);
 
-    const reportQueryString = getQuery(query);
+    const reportQueryString = getQuery(reportQuery);
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
     const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(

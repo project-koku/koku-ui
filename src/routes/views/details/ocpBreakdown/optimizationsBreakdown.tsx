@@ -1,6 +1,6 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
-import { getQuery, parseQuery } from 'api/queries/rosQuery';
 import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
@@ -52,8 +52,9 @@ type OptimizationsBreakdownProps = OptimizationsBreakdownStateProps &
 const baseQuery: RosQuery = {
   limit: 10,
   offset: 0,
-  order_by: 'last_reported',
-  order_how: 'desc',
+  order_by: {
+    last_reported: 'desc',
+  },
 };
 
 const reportType = RosType.ros as any;
@@ -215,19 +216,14 @@ const mapStateToProps = createMapStateToProps<OptimizationsBreakdownOwnProps, Op
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
-    const order_by = getOrderById(queryFromRoute) || baseQuery.order_by;
-    const order_how = getOrderByValue(queryFromRoute) || baseQuery.order_how;
+    const order_by = getOrderById(queryFromRoute) || getOrderById(baseQuery);
+    const order_how = getOrderByValue(queryFromRoute) || getOrderByValue(baseQuery);
 
-    const query = {
+    const query: any = {
+      ...baseQuery,
       ...queryFromRoute,
-      filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-      limit: queryFromRoute.limit || baseQuery.limit,
-      offset: queryFromRoute.offset || baseQuery.offset,
-      order_by: {
-        [baseQuery.order_by]: baseQuery.order_how,
-      },
     };
-    const reportQueryString = getQuery({
+    const reportQuery = {
       ...(groupBy && {
         [groupBy]: groupByValue, // Flattened project filter
       }),
@@ -236,7 +232,8 @@ const mapStateToProps = createMapStateToProps<OptimizationsBreakdownOwnProps, Op
       offset: query.offset,
       order_by, // Flattened order by
       order_how, // Flattened order how
-    });
+    };
+    const reportQueryString = getQuery(reportQuery);
     const report = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
     const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
     const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);

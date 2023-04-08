@@ -1,7 +1,7 @@
 import { ProviderType } from 'api/providers';
-import { getQuery, parseQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -40,7 +40,7 @@ const reportPathsType = ReportPathsType.aws;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const detailsPageState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+  const queryState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
 
   const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
@@ -48,7 +48,10 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
   const costType = getCostType();
   const currency = getCurrency();
 
-  const newQuery: Query = {
+  const query = { ...queryFromRoute };
+  const reportQuery = {
+    cost_type: costType,
+    currency,
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
@@ -56,29 +59,22 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(detailsPageState && detailsPageState.filter_by && detailsPageState.filter_by),
+      ...(queryState && queryState.filter_by && queryState.filter_by),
       ...(queryFromRoute &&
         queryFromRoute.filter &&
         queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+      // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+      ...(groupBy && groupBy !== orgUnitIdKey && groupByValue !== '*' && { [groupBy]: undefined }),
     },
     exclude: {
-      ...(detailsPageState && detailsPageState.exclude && detailsPageState.exclude),
+      ...(queryState && queryState.exclude && queryState.exclude),
     },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
     },
   };
 
-  const reportQueryString = getQuery({
-    ...newQuery,
-    cost_type: costType,
-    currency,
-    filter_by: {
-      ...newQuery.filter_by,
-      // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-      ...(groupBy && groupBy !== orgUnitIdKey && groupByValue !== '*' && { [groupBy]: undefined }),
-    },
-  });
+  const reportQueryString = getQuery(reportQuery);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(
@@ -115,7 +111,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
     providersError,
     providersFetchStatus,
     providerType: ProviderType.aws,
-    query: queryFromRoute,
+    query,
     report,
     reportError,
     reportFetchStatus,
