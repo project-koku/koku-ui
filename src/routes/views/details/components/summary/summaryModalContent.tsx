@@ -14,7 +14,7 @@ import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatCurrency } from 'utils/format';
-import { logicalAndPrefix, orgUnitIdKey } from 'utils/props';
+import { logicalAndPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -115,12 +115,10 @@ const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, Summa
       filter_by: {
         // Add filters here to apply logical OR/AND
         ...(queryFromRoute && queryFromRoute.filter_by && queryFromRoute.filter_by),
+        ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
         ...(queryFromRoute &&
           queryFromRoute.filter &&
           queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
-        ...(queryFromRoute &&
-          queryFromRoute.filter &&
-          queryFromRoute.filter.category && { category: queryFromRoute.filter.category }),
         ...(groupBy && { [groupBy]: groupByValue }), // group bys must appear in filter to show costs by regions, accounts, etc
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
         ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
