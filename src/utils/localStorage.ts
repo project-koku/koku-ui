@@ -74,6 +74,10 @@ export const isCostTypeAvailable = () => {
 
 // Set cost type
 export const setCostType = (value: string) => {
+  // Don't store undefined https://issues.redhat.com/browse/COST-3683
+  if (!value) {
+    return;
+  }
   localStorage.setItem(costTypeID, value);
   saveSessionToken();
 };
@@ -112,12 +116,20 @@ export const isCurrencyAvailable = () => {
 
 // Set account currency
 export const setAccountCurrency = (value: string) => {
+  // Don't store undefined https://issues.redhat.com/browse/COST-3683
+  if (!value) {
+    return;
+  }
   localStorage.setItem(accountCurrencyID, value);
   saveSessionToken();
 };
 
 // Set currency
 export const setCurrency = (value: string) => {
+  // Don't store undefined https://issues.redhat.com/browse/COST-3683
+  if (!value) {
+    return;
+  }
   localStorage.setItem(currencyID, value);
   saveSessionToken();
 };
@@ -151,6 +163,10 @@ export const isInactiveSourcesValid = () => {
 
 // Set inactive sources
 export const setInactiveSources = (value: string) => {
+  // Don't store undefined https://issues.redhat.com/browse/COST-3683
+  if (!value) {
+    return;
+  }
   localStorage.setItem(inactiveSourcesID, value);
   saveSessionToken();
 };
