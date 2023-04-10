@@ -40,7 +40,7 @@ import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputed
 import type { CostTypes } from 'utils/costType';
 import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/localStorage';
-import { noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
+import { logicalOrPrefix, noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -418,7 +418,15 @@ const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStat
       time_scope_units: 'month',
       time_scope_value: -1,
     },
-    filter_by: query.filter_by,
+    filter_by: {
+      ...query.filter_by,
+      // Workaround for https://issues.redhat.com/browse/COST-1189
+      ...(query.filter_by &&
+        query.filter_by[orgUnitIdKey] && {
+          [`${logicalOrPrefix}${orgUnitIdKey}`]: query.filter_by[orgUnitIdKey],
+          [orgUnitIdKey]: undefined,
+        }),
+    },
     group_by: query.group_by,
     order_by: query.order_by,
   };
