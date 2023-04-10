@@ -14,7 +14,7 @@ import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUnits, unitsLookupKey } from 'utils/format';
-import { logicalAndPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
+import { logicalAndPrefix, logicalOrPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { skeletonWidth } from 'utils/skeleton';
@@ -176,6 +176,13 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
         ...(queryFromRoute &&
           queryFromRoute.filter &&
           queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+        // Workaround for https://issues.redhat.com/browse/COST-1189
+        ...(queryState &&
+          queryState.filter_by &&
+          queryState.filter_by[orgUnitIdKey] && {
+            [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
+            [orgUnitIdKey]: undefined,
+          }),
       },
       exclude: {
         ...(queryState && queryState.exclude && queryState.exclude),

@@ -20,7 +20,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/localStorage';
 import { formatPath } from 'utils/paths';
-import { breakdownDescKey, breakdownTitleKey, logicalAndPrefix, orgUnitIdKey } from 'utils/props';
+import { breakdownDescKey, breakdownTitleKey, logicalAndPrefix, logicalOrPrefix, orgUnitIdKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -65,6 +65,13 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
         queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
       // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
       ...(groupBy && groupBy !== orgUnitIdKey && groupByValue !== '*' && { [groupBy]: undefined }),
+      // Workaround for https://issues.redhat.com/browse/COST-1189
+      ...(queryState &&
+        queryState.filter_by &&
+        queryState.filter_by[orgUnitIdKey] && {
+          [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
+          [orgUnitIdKey]: undefined,
+        }),
     },
     exclude: {
       ...(queryState && queryState.exclude && queryState.exclude),

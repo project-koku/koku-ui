@@ -25,7 +25,7 @@ import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { logicalAndPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
+import { logicalAndPrefix, logicalOrPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { skeletonWidth } from 'utils/skeleton';
@@ -222,6 +222,13 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
           queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
         // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
         ...(groupBy && groupByValue !== '*' && { [groupBy]: groupByValue }), // group bys must appear in filter to show costs by region, account, etc
+        // Workaround for https://issues.redhat.com/browse/COST-1189
+        ...(queryState &&
+          queryState.filter_by &&
+          queryState.filter_by[orgUnitIdKey] && {
+            [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
+            [orgUnitIdKey]: undefined,
+          }),
       },
       exclude: {
         ...(queryState && queryState.exclude && queryState.exclude),

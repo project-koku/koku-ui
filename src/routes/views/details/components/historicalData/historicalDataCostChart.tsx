@@ -14,7 +14,7 @@ import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUnits } from 'utils/format';
-import { platformCategoryKey } from 'utils/props';
+import { logicalOrPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { skeletonWidth } from 'utils/skeleton';
@@ -157,6 +157,13 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
         // Add filters here to apply logical OR/AND
         ...(queryState && queryState.filter_by && queryState.filter_by),
         ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
+        // Workaround for https://issues.redhat.com/browse/COST-1189
+        ...(queryState &&
+          queryState.filter_by &&
+          queryState.filter_by[orgUnitIdKey] && {
+            [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
+            [orgUnitIdKey]: undefined,
+          }),
       },
       exclude: {
         ...(queryState && queryState.exclude && queryState.exclude),
