@@ -1,6 +1,6 @@
 import { Skeleton } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery } from 'api/queries/query';
+import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
 import type { Report, ReportPathsType } from 'api/reports/report';
 import { ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -126,7 +126,7 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
 const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, HistoricalDataUsageChartStateProps>(
   (state, { reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+    const queryState = parseQueryState<Query>(queryFromRoute);
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = getGroupById(queryFromRoute);

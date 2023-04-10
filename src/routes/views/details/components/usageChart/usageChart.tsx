@@ -5,7 +5,7 @@ import { Grid, GridItem, Skeleton } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { parseQuery } from 'api/queries/ocpQuery';
 import type { Query } from 'api/queries/query';
-import { getQuery } from 'api/queries/query';
+import { getQuery, parseQueryState } from 'api/queries/query';
 import type { Report, ReportPathsType } from 'api/reports/report';
 import { ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -376,7 +376,7 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
 const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStateProps>(
   (state, { reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
-    const queryState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+    const queryState = parseQueryState<Query>(queryFromRoute);
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);

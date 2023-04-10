@@ -127,3 +127,7 @@ export function parseQuery<T = any>(query: string): T {
   const newQuery: any = parse(query, { ignoreQueryPrefix: true });
   return parseFilterByPrefix(parseGroupByPrefix(newQuery));
 }
+
+export function parseQueryState<T = any>(query: Query): T {
+  return query && query.state ? JSON.parse(window.atob(query.state)) : undefined;
+}

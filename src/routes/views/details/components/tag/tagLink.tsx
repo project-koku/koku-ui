@@ -1,6 +1,6 @@
 import { TagIcon } from '@patternfly/react-icons/dist/esm/icons/tag-icon';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery } from 'api/queries/query';
+import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
 import React from 'react';
@@ -111,7 +111,7 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
 const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps>(
   (state, { router, tagReportPathsType }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = queryFromRoute.state ? JSON.parse(window.atob(queryFromRoute.state)) : undefined;
+    const queryState = parseQueryState<Query>(queryFromRoute);
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
