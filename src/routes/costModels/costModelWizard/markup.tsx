@@ -86,7 +86,9 @@ class MarkupWithDistributionBase extends React.Component<MarkupWithDistributionP
                 <Title headingLevel="h3" size="md">
                   {intl.formatMessage(messages.markupOrDiscount)}
                 </Title>
-                {intl.formatMessage(messages.markupOrDiscountModalDesc)}
+                <TextContent>
+                  <Text>{intl.formatMessage(messages.markupOrDiscountModalDesc)}</Text>
+                </TextContent>
               </StackItem>
               <StackItem>
                 <Flex style={costCalcStyles.markupRadioContainer}>

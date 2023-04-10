@@ -9,7 +9,6 @@ import {
   StackItem,
   Text,
   TextContent,
-  TextVariants,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
@@ -121,7 +120,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
               </StackItem>
               <StackItem>
                 <TextContent>
-                  <Text component={TextVariants.h3}>{intl.formatMessage(messages.costModelsWizardSubTitleTable)}</Text>
+                  <Text>{intl.formatMessage(messages.costModelsWizardSubTitleTable)}</Text>
                 </TextContent>
               </StackItem>
               <StackItem>

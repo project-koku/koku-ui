@@ -84,12 +84,10 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                 <>
                   <StackItem>
                     <Title headingLevel="h3" size="md">
-                      {intl.formatMessage(messages.platformUnallocatedCapacity)}
+                      {intl.formatMessage(messages.platform)}
                     </Title>
                     <TextContent>
-                      <Text style={styles.cardDescription}>
-                        {intl.formatMessage(messages.platformUnallocatedCapacityDescription)}
-                      </Text>
+                      <Text style={styles.cardDescription}>{intl.formatMessage(messages.platformDescription)}</Text>
                     </TextContent>
                   </StackItem>
                   <StackItem isFilled>
@@ -118,11 +116,11 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                   </StackItem>
                   <StackItem>
                     <Title headingLevel="h3" size="md">
-                      {intl.formatMessage(messages.workersUnallocatedCapacity)}
+                      {intl.formatMessage(messages.workersUnallocated)}
                     </Title>
                     <TextContent>
                       <Text style={styles.cardDescription}>
-                        {intl.formatMessage(messages.workersUnallocatedCapacityDescription)}
+                        {intl.formatMessage(messages.workersUnallocatedDescription)}
                       </Text>
                     </TextContent>
                   </StackItem>

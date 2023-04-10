@@ -13,7 +13,6 @@ import {
   TextListItem,
   TextListItemVariants,
   TextListVariants,
-  TextVariants,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
@@ -93,7 +92,7 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl, isCostDistribut
             </StackItem>
             <StackItem>
               <TextContent>
-                <Text component={TextVariants.h3}>
+                <Text>
                   {intl.formatMessage(messages.costModelsWizardReviewStatusSubDetails, {
                     create: <strong>{intl.formatMessage(messages.create)}</strong>,
                     back: <strong>{intl.formatMessage(messages.back)}</strong>,

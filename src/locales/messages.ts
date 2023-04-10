@@ -1258,8 +1258,8 @@ export default defineMessages({
   distributeCosts: {
     defaultMessage:
       '{value, select, ' +
-      'true {Distribute {type, select, platform {platform} workers {workers} other {}} costs}' +
-      'false {Do not distribute {type, select, platform {platform} workers {workers} other {}} costs}' +
+      'true {Distribute {type, select, platform {platform} workers {workers} other {}} unallocated capacity}' +
+      'false {Do not distribute {type, select, platform {platform} workers {workers} other {}} unallocated capacity}' +
       'other {}}',
     description: 'distribute costs',
     id: 'distributeCosts',
@@ -1277,7 +1277,11 @@ export default defineMessages({
     id: 'distributionType',
   },
   distributionTypeDescription: {
-    defaultMessage: 'Distribute costs based on {type} usage',
+    defaultMessage:
+      '{type, select, ' +
+      'cpu {Distribute costs based on CPU usage}' +
+      'memory {Distribute costs based on memory usage}' +
+      'other {}}',
     description: 'Distribution type description',
     id: 'distributionTypeDescription',
   },
@@ -2793,15 +2797,15 @@ export default defineMessages({
     description: 'Perspective values',
     id: 'perspectiveValues',
   },
-  platformUnallocatedCapacity: {
-    defaultMessage: 'Platform unallocated capacity',
-    description: 'Platform unallocated capacity',
-    id: 'platformUnallocatedCapacity',
+  platform: {
+    defaultMessage: 'Platform',
+    description: 'Platform',
+    id: 'platform',
   },
-  platformUnallocatedCapacityDescription: {
+  platformDescription: {
     defaultMessage: 'Distribute the cost of running the OpenShift services to projects',
-    description: 'Platform unallocated capacity description',
-    id: 'platformUnallocatedCapacityDescription',
+    description: 'Distribute the cost of running the OpenShift services to projects',
+    id: 'platformDescription',
   },
   priceList: {
     defaultMessage: 'Price list',
@@ -3265,15 +3269,15 @@ export default defineMessages({
     description: 'Volume',
     id: 'volumeTitle',
   },
-  workersUnallocatedCapacity: {
-    defaultMessage: 'Workers unallocated capacity',
-    description: 'Workers unallocated capcity',
-    id: 'workersUnallocatedCapacity',
+  workersUnallocated: {
+    defaultMessage: 'Workers unallocated',
+    description: 'Workers unallocated',
+    id: 'workersUnallocated',
   },
-  workersUnallocatedCapacityDescription: {
+  workersUnallocatedDescription: {
     defaultMessage: 'Distribute unused and non-reserved resource costs to projects',
-    description: 'Workers unallocated capacity description',
-    id: 'workersUnallocatedCapacityDescription',
+    description: 'Distribute unused and non-reserved resource costs to projects',
+    id: 'workersUnallocatedDescription',
   },
   workload: {
     defaultMessage: 'Workload',
