@@ -26,12 +26,12 @@ export interface Query {
   isPlatformCosts?: boolean;
   key_only?: boolean;
   limit?: number;
+  optimizationsPath?: any;
+  optimizationsTab?: any;
   order_by?: any;
   order_how?: any;
   perspective?: any;
   project?: any;
-  optimizationsPath?: any;
-  optimizationsTab?: any;
   search?: any;
   start_date?: any;
   state?: any;
