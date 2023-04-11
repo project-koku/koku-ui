@@ -80,7 +80,7 @@ class UpdateDistributionDialogBase extends React.Component<
     return (
       <Modal
         title={intl.formatMessage(messages.costDistribution)}
-        help={
+        description={
           <a href={intl.formatMessage(messages.docsCostModelsDistribution)} rel="noreferrer" target="_blank">
             {intl.formatMessage(messages.learnMore)}
           </a>
