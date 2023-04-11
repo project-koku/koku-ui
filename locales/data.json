@@ -3238,6 +3238,33 @@
         "value": "value"
       }
     ],
+    "distributionBy": [
+      {
+        "options": {
+          "cpu": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Distribute by CPU"
+              }
+            ]
+          },
+          "memory": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Distribute by memory"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "type"
+      }
+    ],
     "distributionModelDesc": [
       {
         "type": 0,

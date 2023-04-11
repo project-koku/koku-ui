@@ -14,8 +14,7 @@ import {
 import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React from 'react';
-import type { WrappedComponentProps } from 'react-intl';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { ReadOnlyTooltip } from 'routes/costModels/components/readOnlyTooltip';
 import { createMapStateToProps } from 'store/common';
@@ -25,7 +24,7 @@ import { rbacSelectors } from 'store/rbac';
 import { styles } from './costCalc.styles';
 import UpdateDistributionDialog from './updateDistributionDialog';
 
-interface Props extends WrappedComponentProps {
+interface Props {
   isWritePermission: boolean;
   isUpdateDialogOpen: boolean;
   current: CostModel;
@@ -33,15 +32,13 @@ interface Props extends WrappedComponentProps {
 }
 
 const DistributionCardBase: React.FC<Props> = ({
-  intl,
   isWritePermission,
   setCostModelDialog,
   current,
   isUpdateDialogOpen,
 }) => {
+  const intl = useIntl();
   const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
-  const distributionLabel =
-    current.distribution === 'cpu' ? intl.formatMessage(messages.cpuTitle) : intl.formatMessage(messages.memoryTitle);
 
   return (
     <>
@@ -50,7 +47,7 @@ const DistributionCardBase: React.FC<Props> = ({
         <CardHeader>
           <CardHeaderMain>
             <Title headingLevel="h2" size={TitleSizes.md}>
-              {intl.formatMessage(messages.distributionType)}
+              {intl.formatMessage(messages.costDistribution)}
             </Title>
           </CardHeaderMain>
           <CardActions>
@@ -76,25 +73,38 @@ const DistributionCardBase: React.FC<Props> = ({
         </CardHeader>
         <CardBody style={styles.cardDescription}>{intl.formatMessage(messages.costModelsDistributionDesc)}</CardBody>
         <CardBody isFilled />
-        <CardBody style={styles.cardBody}>{distributionLabel}</CardBody>
-        <CardBody isFilled />
+        <CardBody style={styles.cardBody}>
+          <div>
+            {intl.formatMessage(messages.distributionBy, { type: current.distribution_info.distribution_type })}
+          </div>
+          <div>
+            {intl.formatMessage(messages.distributeCosts, {
+              value: current.distribution_info.platform_cost,
+              type: 'platform',
+            })}
+          </div>
+          <div>
+            {intl.formatMessage(messages.distributeCosts, {
+              value: current.distribution_info.worker_cost,
+              type: 'workers',
+            })}
+          </div>
+        </CardBody>
       </Card>
     </>
   );
 };
 
-export default injectIntl(
-  connect(
-    createMapStateToProps(state => {
-      const { updateDistribution } = costModelsSelectors.isDialogOpen(state)('distribution');
-      return {
-        isUpdateDialogOpen: updateDistribution,
-        costModelDialog: costModelsSelectors.isDialogOpen(state)('distribution'),
-        isWritePermission: rbacSelectors.isCostModelWritePermission(state),
-      };
-    }),
-    {
-      setCostModelDialog: costModelsActions.setCostModelDialog,
-    }
-  )(DistributionCardBase)
-);
+export default connect(
+  createMapStateToProps(state => {
+    const { updateDistribution } = costModelsSelectors.isDialogOpen(state)('distribution');
+    return {
+      isUpdateDialogOpen: updateDistribution,
+      costModelDialog: costModelsSelectors.isDialogOpen(state)('distribution'),
+      isWritePermission: rbacSelectors.isCostModelWritePermission(state),
+    };
+  }),
+  {
+    setCostModelDialog: costModelsActions.setCostModelDialog,
+  }
+)(DistributionCardBase);

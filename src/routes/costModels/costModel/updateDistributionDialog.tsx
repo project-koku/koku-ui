@@ -10,6 +10,7 @@ import {
   StackItem,
   Text,
   TextContent,
+  Title,
 } from '@patternfly/react-core';
 import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
@@ -38,6 +39,8 @@ interface UpdateDistributionDialogDispatchProps {
 
 interface UpdateDistributionDialogState {
   distribution?: string;
+  distributePlatformUnallocated?: boolean;
+  distributeWorkersUnallocated?: boolean;
 }
 
 type UpdateDistributionDialogProps = UpdateDistributionDialogOwnProps &
@@ -51,7 +54,9 @@ class UpdateDistributionDialogBase extends React.Component<
   constructor(props) {
     super(props);
     this.state = {
-      distribution: this.props.current.distribution,
+      distribution: this.props.current.distribution_info.distribution_type,
+      distributePlatformUnallocated: this.props.current.distribution_info.platform_cost === true,
+      distributeWorkersUnallocated: this.props.current.distribution_info.worker_cost === true,
     };
   }
 
@@ -60,14 +65,29 @@ class UpdateDistributionDialogBase extends React.Component<
     this.setState({ distribution: value });
   };
 
+  private handleDistributePlatformUnallocatedChange = (_, event) => {
+    const { value } = event.currentTarget;
+    this.setState({ distributePlatformUnallocated: value === 'true' });
+  };
+
+  private handleDistributeWorkersUnallocatedChange = (_, event) => {
+    const { value } = event.currentTarget;
+    this.setState({ distributeWorkersUnallocated: value === 'true' });
+  };
+
   public render() {
     const { error, current, intl, isLoading, onClose, updateCostModel } = this.props;
     return (
       <Modal
-        title={intl.formatMessage(messages.distributionType)}
+        title={intl.formatMessage(messages.costDistribution)}
+        help={
+          <a href={intl.formatMessage(messages.docsCostModelsDistribution)} rel="noreferrer" target="_blank">
+            {intl.formatMessage(messages.learnMore)}
+          </a>
+        }
         isOpen
         onClose={() => onClose({ name: 'updateDistribution', isOpen: false })}
-        variant={ModalVariant.small}
+        variant={ModalVariant.medium}
         actions={[
           <Button
             key="proceed"
@@ -78,7 +98,11 @@ class UpdateDistributionDialogBase extends React.Component<
                 source_uuids: current.sources.map(provider => provider.uuid),
                 // will always be OCP
                 source_type: 'OCP',
-                distribution: this.state.distribution,
+                distribution_info: {
+                  distribution_type: this.state.distribution,
+                  platform_cost: this.state.distributePlatformUnallocated,
+                  worker_cost: this.state.distributeWorkersUnallocated,
+                },
               };
               updateCostModel(current.uuid, newState, 'updateDistribution');
             }}
@@ -98,16 +122,19 @@ class UpdateDistributionDialogBase extends React.Component<
         <Stack hasGutter>
           <StackItem>{error && <Alert variant="danger" title={`${error}`} />}</StackItem>
           <StackItem>
+            <Title headingLevel="h3" size="md">
+              {intl.formatMessage(messages.distributionType)}
+            </Title>
             <TextContent>
               <Text style={styles.cardDescription}>{intl.formatMessage(messages.distributionModelDesc)}</Text>
             </TextContent>
           </StackItem>
-          <StackItem>
+          <StackItem isFilled>
             <Form>
-              <FormGroup isInline fieldId="cost-distribution" isRequired>
+              <FormGroup isInline fieldId="cost-distribution-type" isRequired>
                 <Radio
                   isChecked={this.state.distribution === 'cpu'}
-                  name="distribution"
+                  name="distributionType"
                   label={intl.formatMessage(messages.cpuTitle)}
                   aria-label={intl.formatMessage(messages.cpuTitle)}
                   id="cpuDistribution"
@@ -116,12 +143,76 @@ class UpdateDistributionDialogBase extends React.Component<
                 />
                 <Radio
                   isChecked={this.state.distribution === 'memory'}
-                  name="distribution"
+                  name="distributionType"
                   label={intl.formatMessage(messages.memoryTitle)}
                   aria-label={intl.formatMessage(messages.memoryTitle)}
                   id="memoryDistribution"
                   value="memory"
                   onChange={this.handleDistributionChange}
+                />
+              </FormGroup>
+            </Form>
+          </StackItem>
+          <StackItem>
+            <Title headingLevel="h3" size="md">
+              {intl.formatMessage(messages.platform)}
+            </Title>
+            <TextContent>
+              <Text style={styles.cardDescription}>{intl.formatMessage(messages.platformDescription)}</Text>
+            </TextContent>
+          </StackItem>
+          <StackItem isFilled>
+            <Form>
+              <FormGroup isInline fieldId="cost-distribution-platform-unallocated" isRequired>
+                <Radio
+                  isChecked={this.state.distributePlatformUnallocated}
+                  name="distributePlatformUnallocated"
+                  label={intl.formatMessage(messages.distribute)}
+                  aria-label={intl.formatMessage(messages.distribute)}
+                  id="distributePlatformTrue"
+                  value="true"
+                  onChange={this.handleDistributePlatformUnallocatedChange}
+                />
+                <Radio
+                  isChecked={!this.state.distributePlatformUnallocated}
+                  name="distributePlatformUnallocated"
+                  label={intl.formatMessage(messages.doNotDistribute)}
+                  aria-label={intl.formatMessage(messages.doNotDistribute)}
+                  id="distributePlatformFalse"
+                  value="false"
+                  onChange={this.handleDistributePlatformUnallocatedChange}
+                />
+              </FormGroup>
+            </Form>
+          </StackItem>
+          <StackItem>
+            <Title headingLevel="h3" size="md">
+              {intl.formatMessage(messages.workersUnallocated)}
+            </Title>
+            <TextContent>
+              <Text style={styles.cardDescription}>{intl.formatMessage(messages.workersUnallocatedDescription)}</Text>
+            </TextContent>
+          </StackItem>
+          <StackItem isFilled>
+            <Form>
+              <FormGroup isInline fieldId="cost-distribution-workers-unallocated" isRequired>
+                <Radio
+                  isChecked={this.state.distributeWorkersUnallocated}
+                  name="distributeWorkersUnallocated"
+                  label={intl.formatMessage(messages.distribute)}
+                  aria-label={intl.formatMessage(messages.distribute)}
+                  id="distributeWorkersTrue"
+                  value="true"
+                  onChange={this.handleDistributeWorkersUnallocatedChange}
+                />
+                <Radio
+                  isChecked={!this.state.distributeWorkersUnallocated}
+                  name="distributeWorkersUnallocated"
+                  label={intl.formatMessage(messages.doNotDistribute)}
+                  aria-label={intl.formatMessage(messages.doNotDistribute)}
+                  id="distributeWorkersFalse"
+                  value="false"
+                  onChange={this.handleDistributeWorkersUnallocatedChange}
                 />
               </FormGroup>
             </Form>

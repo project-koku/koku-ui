@@ -122,9 +122,11 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
           source_type: type,
           currency,
           description,
-          distribution,
-          distributePlatformUnallocated,
-          distributeWorkersUnallocated,
+          distribution_info: {
+            distribution_type: distribution,
+            platform_cost: distributePlatformUnallocated,
+            worker_cost: distributeWorkersUnallocated,
+          },
           rates: tiers,
           markup: {
             value: `${isDiscount ? '-' : ''}${unFormat(markup)}`,

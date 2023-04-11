@@ -12,9 +12,11 @@ export interface CostModel {
   created_timestamp?: Date;
   currency?: string;
   description: string;
-  distribution: string;
-  distributePlatformUnallocated: boolean;
-  distributeWorkersUnallocated: boolean;
+  distribution_info?: {
+    distribution_type?: string;
+    platform_cost?: boolean;
+    worker_cost?: boolean;
+  };
   markup: { value: string; unit: string };
   name: string;
   rates: Rate[];
@@ -27,9 +29,11 @@ export interface CostModel {
 export interface CostModelRequest {
   currency?: string;
   description: string;
-  distribution: string;
-  distributePlatformUnallocated: boolean;
-  distributeWorkersUnallocated: boolean;
+  distribution_info?: {
+    distribution_type?: string;
+    platform_cost?: boolean;
+    worker_cost?: boolean;
+  };
   markup: { value: string; unit: string };
   name: string;
   rates: RateRequest[];
