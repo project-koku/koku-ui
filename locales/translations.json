@@ -217,7 +217,6 @@
   "discountMinus": "Discount (-)",
   "distribute": "Distribute",
   "distributeCosts": "{value, select, true {Distribute {type, select, platform {platform} workers {workers} other {}} unallocated capacity}false {Do not distribute {type, select, platform {platform} workers {workers} other {}} unallocated capacity}other {}}",
-  "distributionBy": "{type, select, cpu {Distribute by CPU}memory {Distribute by memory}other {}}",
   "distributionModelDesc": "This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.",
   "distributionType": "Distribution type",
   "distributionTypeDescription": "{type, select, cpu {Distribute costs based on CPU usage}memory {Distribute costs based on memory usage}other {}}",

@@ -1264,11 +1264,6 @@ export default defineMessages({
     description: 'distribute costs',
     id: 'distributeCosts',
   },
-  distributionBy: {
-    defaultMessage: '{type, select, ' + 'cpu {Distribute by CPU}' + 'memory {Distribute by memory}' + 'other {}}',
-    description: 'Distribute by type',
-    id: 'distributionBy',
-  },
   distributionModelDesc: {
     defaultMessage:
       'This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.',
