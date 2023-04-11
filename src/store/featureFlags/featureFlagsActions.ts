@@ -1,7 +1,6 @@
 import { createAction } from 'typesafe-actions';
 
 export interface FeatureFlagsActionMeta {
-  isCostDistributionFeatureEnabled?: boolean;
   isExportsFeatureEnabled?: boolean;
   isFinsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;

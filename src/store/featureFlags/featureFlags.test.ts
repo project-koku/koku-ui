@@ -14,12 +14,6 @@ test('default state', async () => {
   expect(selectors.selectFeatureFlagsState(store.getState())).toMatchSnapshot();
 });
 
-test('cost distribution feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureFlags({ isCostDistributionFeatureEnabled: true }));
-  expect(featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(store.getState())).toBe(true);
-});
-
 test('FINsights feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureFlags({ isFinsightsFeatureEnabled: true }));

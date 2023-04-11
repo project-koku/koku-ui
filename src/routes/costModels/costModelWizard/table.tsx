@@ -39,7 +39,7 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
             </StackItem>
             <StackItem>
               <TextContent>
-                <Text component={TextVariants.h3}>{intl.formatMessage(messages.costModelsWizardSourceSubtitle)}</Text>
+                <Text>{intl.formatMessage(messages.costModelsWizardSourceSubtitle)}</Text>
               </TextContent>
             </StackItem>
             <StackItem>

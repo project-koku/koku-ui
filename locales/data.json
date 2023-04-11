@@ -3189,7 +3189,7 @@
               },
               {
                 "type": 0,
-                "value": " costs"
+                "value": " unallocated capacity"
               }
             ]
           },
@@ -3229,7 +3229,7 @@
               },
               {
                 "type": 0,
-                "value": " costs"
+                "value": " unallocated capacity"
               }
             ]
           }
@@ -3252,16 +3252,29 @@
     ],
     "distributionTypeDescription": [
       {
-        "type": 0,
-        "value": "Distribute costs based on "
-      },
-      {
-        "type": 1,
+        "options": {
+          "cpu": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Distribute costs based on CPU usage"
+              }
+            ]
+          },
+          "memory": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Distribute costs based on memory usage"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
         "value": "type"
-      },
-      {
-        "type": 0,
-        "value": " usage"
       }
     ],
     "doNotDistribute": [
@@ -10510,13 +10523,13 @@
         "value": "value"
       }
     ],
-    "platformUnallocatedCapacity": [
+    "platform": [
       {
         "type": 0,
-        "value": "Platform unallocated capacity"
+        "value": "Platform"
       }
     ],
-    "platformUnallocatedCapacityDescription": [
+    "platformDescription": [
       {
         "type": 0,
         "value": "Distribute the cost of running the OpenShift services to projects"
@@ -11446,13 +11459,13 @@
         "value": "Volume"
       }
     ],
-    "workersUnallocatedCapacity": [
+    "workersUnallocated": [
       {
         "type": 0,
-        "value": "Workers unallocated capacity"
+        "value": "Workers unallocated"
       }
     ],
-    "workersUnallocatedCapacityDescription": [
+    "workersUnallocatedDescription": [
       {
         "type": 0,
         "value": "Distribute unused and non-reserved resource costs to projects"

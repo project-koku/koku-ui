@@ -24,7 +24,6 @@ import { connect } from 'react-redux';
 import { Form } from 'routes/costModels/components/forms/form';
 import { styles as costCalcStyles } from 'routes/costModels/costModel/costCalc.styles';
 import { createMapStateToProps } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import { countDecimals, isPercentageFormatValid } from 'utils/format';
 
 import { CostModelContext } from './context';
@@ -35,14 +34,14 @@ interface MarkupWithDistributionOwnProps extends WrappedComponentProps {
 }
 
 interface MarkupWithDistributionStateProps {
-  isCostDistributionFeatureEnabled?: boolean;
+  // TBD...
 }
 
 type MarkupWithDistributionProps = MarkupWithDistributionOwnProps & MarkupWithDistributionStateProps;
 
 class MarkupWithDistributionBase extends React.Component<MarkupWithDistributionProps, any> {
   public render() {
-    const { intl, isCostDistributionFeatureEnabled } = this.props;
+    const { intl } = this.props;
 
     const handleOnKeyDown = event => {
       // Prevent 'enter', '+', and '-'
@@ -75,18 +74,17 @@ class MarkupWithDistributionBase extends React.Component<MarkupWithDistributionP
                 <Title headingLevel="h2" size={TitleSizes.xl} style={styles.titleWithLearnMore}>
                   {intl.formatMessage(messages.costCalculationsOptional)}
                 </Title>
-                {/* Todo: Update when we get the new doc urls */}
-                {isCostDistributionFeatureEnabled && (
-                  <a href={intl.formatMessage(messages.docsCostModelsMarkup)} rel="noreferrer" target="_blank">
-                    {intl.formatMessage(messages.learnMore)}
-                  </a>
-                )}
+                <a href={intl.formatMessage(messages.docsCostModelsMarkup)} rel="noreferrer" target="_blank">
+                  {intl.formatMessage(messages.learnMore)}
+                </a>
               </StackItem>
               <StackItem>
                 <Title headingLevel="h3" size="md">
                   {intl.formatMessage(messages.markupOrDiscount)}
                 </Title>
-                {intl.formatMessage(messages.markupOrDiscountModalDesc)}
+                <TextContent>
+                  <Text>{intl.formatMessage(messages.markupOrDiscountModalDesc)}</Text>
+                </TextContent>
               </StackItem>
               <StackItem>
                 <Flex style={costCalcStyles.markupRadioContainer}>
@@ -173,7 +171,7 @@ class MarkupWithDistributionBase extends React.Component<MarkupWithDistributionP
 
 const mapStateToProps = createMapStateToProps<undefined, MarkupWithDistributionStateProps>(state => {
   return {
-    isCostDistributionFeatureEnabled: featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state),
+    // TBD...
   };
 });
 
