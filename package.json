@@ -14,6 +14,7 @@
   "scripts": {
     "build": "npm run build:prod",
     "build:prod": "fec build",
+    "check:messages": "sh scripts/unused-messages.sh",
     "check:updates": "npx npm-check-updates",
     "check:milestone": "npx npm-check-updates -t newest -f '/^(@patternfly|@redhat-cloud-services)/'",
     "check:milestone:update": "npx npm-check-updates -t newest -f '/^(@patternfly|@redhat-cloud-services)/' -u",
