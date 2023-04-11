@@ -172,9 +172,9 @@ export const mergeToRequest = (
     source_type: 'OCP',
     description: costModel.description,
     distribution_info: {
-      distribution_type: costModel.distribution_info.distribution_type,
-      platform_cost: costModel.distribution_info.platform_cost,
-      worker_cost: costModel.distribution_info.worker_cost,
+      distribution_type: costModel.distribution_info ? costModel.distribution_info.distribution_type : undefined,
+      platform_cost: costModel.distribution_info ? costModel.distribution_info.platform_cost : undefined,
+      worker_cost: costModel.distribution_info ? costModel.distribution_info.worker_cost : undefined,
     },
     source_uuids: costModel.sources.map(src => src.uuid),
     markup: { value: costModel.markup.value, unit: 'percent' },

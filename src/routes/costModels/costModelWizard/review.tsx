@@ -57,12 +57,12 @@ interface ReviewDetailsOwnProps extends WrappedComponentProps {
 }
 
 interface ReviewDetailsStateProps {
-  isCostDistributionFeatureEnabled?: boolean;
+  // TBD...
 }
 
 type ReviewDetailsProps = ReviewDetailsOwnProps & ReviewDetailsStateProps;
 
-const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl, isCostDistributionFeatureEnabled }) => (
+const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl }) => (
   <CostModelContext.Consumer>
     {({
       checked,
@@ -145,23 +145,18 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl, isCostDistribut
                       <TextListItem component={TextListItemVariants.dd}>
                         {intl.formatMessage(messages.distributionTypeDescription, { type: distribution })}
                       </TextListItem>
-                      {/* Todo: add back after backend done for distribute unallocated */}
-                      {isCostDistributionFeatureEnabled && (
-                        <>
-                          <TextListItem component={TextListItemVariants.dd}>
-                            {intl.formatMessage(messages.distributeCosts, {
-                              value: distributePlatformUnallocated,
-                              type: 'platform',
-                            })}
-                          </TextListItem>
-                          <TextListItem component={TextListItemVariants.dd}>
-                            {intl.formatMessage(messages.distributeCosts, {
-                              value: distributeWorkersUnallocated,
-                              type: 'workers',
-                            })}
-                          </TextListItem>
-                        </>
-                      )}
+                      <TextListItem component={TextListItemVariants.dd}>
+                        {intl.formatMessage(messages.distributeCosts, {
+                          value: distributePlatformUnallocated,
+                          type: 'platform',
+                        })}
+                      </TextListItem>
+                      <TextListItem component={TextListItemVariants.dd}>
+                        {intl.formatMessage(messages.distributeCosts, {
+                          value: distributeWorkersUnallocated,
+                          type: 'workers',
+                        })}
+                      </TextListItem>
                     </>
                   )}
                   <TextListItem component={TextListItemVariants.dt}>
@@ -185,7 +180,7 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl, isCostDistribut
 
 const mapStateToProps = createMapStateToProps<undefined, ReviewDetailsStateProps>(state => {
   return {
-    isCostDistributionFeatureEnabled: featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state),
+    // TBD...
   };
 });
 
