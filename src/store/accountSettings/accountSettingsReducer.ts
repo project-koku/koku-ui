@@ -51,9 +51,14 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
         fetchStatus: new Map(state.fetchStatus).set(action.payload.fetchId, FetchStatus.inProgress),
       };
     case getType(fetchAccountSettingsSuccess):
-      initCostType(action.payload.data ? action.payload.data.cost_type : undefined);
-      initCurrency(action.payload.data ? action.payload.data.currency : undefined);
-
+      if (action.payload.data) {
+        if (action.payload.data.cost_type) {
+          initCostType(action.payload.data.cost_type);
+        }
+        if (action.payload.data.currency) {
+          initCurrency(action.payload.data.currency);
+        }
+      }
       return {
         ...state,
         fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
