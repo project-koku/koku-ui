@@ -25,7 +25,6 @@ import { connect } from 'react-redux';
 import { RateTable } from 'routes/costModels/components/rateTable';
 import { WarningIcon } from 'routes/costModels/components/warningIcon';
 import { createMapStateToProps } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
 
 import { CostModelContext } from './context';
 
