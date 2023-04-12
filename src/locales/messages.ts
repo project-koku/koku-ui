@@ -343,11 +343,6 @@ export default defineMessages({
     description: 'Clusters',
     id: 'clusters',
   },
-  container: {
-    defaultMessage: 'Container',
-    description: 'Container',
-    id: 'container',
-  },
   cost: {
     defaultMessage: 'Cost',
     description: 'Cost',
@@ -448,11 +443,6 @@ export default defineMessages({
     defaultMessage: 'Should not exceed 500 characters',
     description: 'Should not exceed 500 characters',
     id: 'costModelsDescTooLong',
-  },
-  costModelsDetailsAssignSourcesTitle: {
-    defaultMessage: 'Assign sources',
-    description: 'Assign sources',
-    id: 'costModelsDetailsAssignSourcesTitle',
   },
   costModelsDetailsTitle: {
     defaultMessage: 'Cost Model Details',
@@ -644,11 +634,6 @@ export default defineMessages({
     description: 'Sources table',
     id: 'costModelsSourcesTableAriaLabel',
   },
-  costModelsSourceTablePaginationAriaLabel: {
-    defaultMessage: 'Sources table pagination controls',
-    description: 'Sources table pagination controls',
-    id: 'costModelsSourceTablePaginationAriaLabel',
-  },
   costModelsSourceType: {
     defaultMessage: 'Source type',
     description: 'Source type',
@@ -659,20 +644,10 @@ export default defineMessages({
     description: 'Cost models table',
     id: 'costModelsTableAriaLabel',
   },
-  costModelsTagRateTableAriaLabel: {
-    defaultMessage: 'Tag rates',
-    description: 'Tag rates',
-    id: 'costModelsTagRateTableAriaLabel',
-  },
   costModelsTagRateTableKey: {
     defaultMessage: 'Tag key',
     description: 'Tag key',
     id: 'costModelsTagRateTableKey',
-  },
-  costModelsTagRateTableRate: {
-    defaultMessage: 'Rate',
-    description: 'Rate',
-    id: 'costModelsTagRateTableRate',
   },
   costModelsTagRateTableValue: {
     defaultMessage: 'Tag value',
@@ -708,11 +683,6 @@ export default defineMessages({
     defaultMessage: 'Select source type',
     description: 'Select source type',
     id: 'costModelsWizardEmptySourceTypeLabel',
-  },
-  costModelsWizardEmptyStateCreate: {
-    defaultMessage: 'To create a price list, begin by clicking the {value} button.',
-    description: 'To create a price list, begin by clicking the {Create rate} button.',
-    id: 'costModelsWizardEmptyStateCreate',
   },
   costModelsWizardEmptyStateOtherTime: {
     defaultMessage: 'You can create a price list or modify one at a later time.',
@@ -844,11 +814,6 @@ export default defineMessages({
     defaultMessage: 'Enter information',
     description: 'Enter information',
     id: 'costModelsWizardStepsGenInfo',
-  },
-  costModelsWizardStepsPriceList: {
-    defaultMessage: 'Price list',
-    description: 'Price list',
-    id: 'costModelsWizardStepsPriceList',
   },
   costModelsWizardStepsReview: {
     defaultMessage: 'Review details',
@@ -1457,11 +1422,6 @@ export default defineMessages({
     description: 'Date range based on {value}',
     id: 'explorerDateRange',
   },
-  explorerMonthDate: {
-    defaultMessage: '{month} {date}',
-    description: 'Cost {month} {date}',
-    id: 'explorerMonthDate',
-  },
   explorerTableAriaLabel: {
     defaultMessage: 'Cost Explorer table',
     description: 'Cost Explorer table',
@@ -2041,11 +2001,6 @@ export default defineMessages({
     description: 'Infrastructure',
     id: 'infrastructure',
   },
-  lastReported: {
-    defaultMessage: 'Last reported',
-    description: 'Last reported',
-    id: 'lastReported',
-  },
   learnMore: {
     defaultMessage: 'Learn more',
     description: 'Learn more',
@@ -2321,18 +2276,6 @@ export default defineMessages({
     description: 'Track your IBM Cloud spending!',
     id: 'noProvidersStateIbmTitle',
   },
-  noProvidersStateOciDesc: {
-    defaultMessage:
-      'Add an Oracle Cloud Infrastructure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
-    description:
-      'Add an Oracle Cloud Infrastructure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
-    id: 'noProvidersStateOciDesc',
-  },
-  noProvidersStateOciTitle: {
-    defaultMessage: 'Track your Oracle Cloud Infrastructure spending!',
-    description: 'Track your Oracle Cloud Infrastructure spending!',
-    id: 'noProvidersStateOciTitle',
-  },
   noProvidersStateOcpAddSources: {
     defaultMessage: 'Add an OpenShift cluster to Cost Management',
     description: 'Add an OpenShift cluster to Cost Management',
@@ -2487,25 +2430,10 @@ export default defineMessages({
     description: 'All OpenShift cumulative cost comparison in units',
     id: 'ocpDashboardCostTrendTitle',
   },
-  ocpDashboardCpuUsageAndRequests: {
-    defaultMessage: 'OpenShift CPU usage and requests',
-    description: 'OpenShift CPU usage and requests',
-    id: 'ocpDashboardCpuUsageAndRequests',
-  },
   ocpDashboardDailyCostTitle: {
     defaultMessage: 'All OpenShift daily cost comparison ({units})',
     description: 'All OpenShift daily cost comparison in units',
     id: 'ocpDashboardDailyCostTitle',
-  },
-  ocpDashboardMemoryUsageAndRequests: {
-    defaultMessage: 'OpenShift Memory usage and requests',
-    description: 'OpenShift Memory usage and requests',
-    id: 'ocpDashboardMemoryUsageAndRequests',
-  },
-  ocpDashboardVolumeUsageAndRequests: {
-    defaultMessage: 'OpenShift Volume usage and requests',
-    description: 'OpenShift Volume usage and requests',
-    id: 'ocpUsageAndRequests',
   },
   ocpDetailsInfrastructureCost: {
     defaultMessage: 'Infrastructure cost',
@@ -2534,55 +2462,10 @@ export default defineMessages({
     description: 'OpenShift Details',
     id: 'ocpDetailsTitle',
   },
-  ocpInfrastructureCostTitle: {
-    defaultMessage: 'OpenShift infrastructure cost',
-    description: 'OpenShift infrastructure cost',
-    id: 'ocpInfrastructureCostTitle',
-  },
-  ocpInfrastructureCostTrendTitle: {
-    defaultMessage: 'OpenShift cumulative infrastructure cost comparison ({units})',
-    description: 'OpenShift cumulative infrastructure cost comparison with units',
-    id: 'ocpInfrastructureCostTrendTitle',
-  },
-  ocpInfrastructureDailyCostTrendTitle: {
-    defaultMessage: 'OpenShift daily infrastructure cost comparison ({units})',
-    description: 'OpenShift daily infrastructure cost comparison with units',
-    id: 'ocpInfrastructureDailyCostTrendTitle',
-  },
   ocpMemoryUsageAndRequests: {
     defaultMessage: 'Memory usage and requests',
     description: 'Memory usage and requests',
     id: 'ocpMemoryUsageAndRequests',
-  },
-  ocpSupplementaryCostTitle: {
-    defaultMessage: 'OpenShift supplementary cost',
-    description: 'OpenShift supplementary cost',
-    id: 'ocpSupplementaryCostTitle',
-  },
-  ocpSupplementaryCostTrendTitle: {
-    defaultMessage: 'OpenShift cumulative supplementary cost comparison ({units})',
-    description: 'OpenShift cumulative supplementary cost comparison with units',
-    id: 'ocpSupplementaryCostTrendTitle',
-  },
-  ocpSupplementaryDailyCostTrendTitle: {
-    defaultMessage: 'OpenShift daily supplementary cost comparison ({units})',
-    description: 'OpenShift daily supplementary cost comparison with units',
-    id: 'ocpSupplementaryDailyCostTrendTitle',
-  },
-  ocpUsageCostTitle: {
-    defaultMessage: 'OpenShift usage cost',
-    description: 'OpenShift usage cost',
-    id: 'ocpUsageCostTitle',
-  },
-  ocpUsageDashboardCostTrendTitle: {
-    defaultMessage: 'Metering cumulative cost comparison ({units})',
-    description: 'Metering cumulative cost comparison with units',
-    id: 'ocpUsageDashboardCostTrendTitle',
-  },
-  ocpUsageDashboardCpuTitle: {
-    defaultMessage: 'OpenShift CPU usage and requests',
-    description: 'OpenShift CPU usage and requests',
-    id: 'ocpUsageDashboardCpuTitle',
   },
   ocpVolumeUsageAndRequests: {
     defaultMessage: 'Volume usage and requests',
@@ -2622,11 +2505,6 @@ export default defineMessages({
     defaultMessage: '{count, plural, =0 {No optimizations} =1 {{count} optimization} other {{count} optimizations}}',
     description: 'Recommendation details',
     id: 'optimizationsDetails',
-  },
-  optimizationsEmptyState: {
-    defaultMessage: 'There is not enough data available to generate a recommendation.',
-    description: 'There is not enough data available to generate a recommendation.',
-    id: 'optimizationsEmptyState',
   },
   optimizationsInfo: {
     defaultMessage: 'Assess and monitor your usage so you can optimize your OpenShift resources.',
@@ -2858,11 +2736,6 @@ export default defineMessages({
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
   },
-  project: {
-    defaultMessage: 'Project',
-    description: 'Project',
-    id: 'project',
-  },
   rate: {
     defaultMessage: 'Rate',
     description: 'Rate',
@@ -2964,25 +2837,10 @@ export default defineMessages({
     description: 'All RHEL cumulative cost comparison in units',
     id: 'rhelDashboardCostTrendTitle',
   },
-  rhelDashboardCpuUsageAndRequests: {
-    defaultMessage: 'RHEL CPU usage and requests',
-    description: 'RHEL CPU usage and requests',
-    id: 'rhelDashboardCpuUsageAndRequests',
-  },
   rhelDashboardDailyCostTitle: {
     defaultMessage: 'All RHEL daily cost comparison ({units})',
     description: 'All RHEL daily cost comparison in units',
     id: 'rhelDashboardDailyCostTitle',
-  },
-  rhelDashboardMemoryUsageAndRequests: {
-    defaultMessage: 'RHEL Memory usage and requests',
-    description: 'RHEL Memory usage and requests',
-    id: 'rhelDashboardMemoryUsageAndRequests',
-  },
-  rhelDashboardVolumeUsageAndRequests: {
-    defaultMessage: 'RHEL Volume usage and requests',
-    description: 'RHEL Volume usage and requests',
-    id: 'rhelUsageAndRequests',
   },
   rhelDesc: {
     defaultMessage:
@@ -2996,77 +2854,20 @@ export default defineMessages({
     description: 'Infrastructure cost',
     id: 'rhelDetailsInfrastructureCost',
   },
-  rhelDetailsInfrastructureCostDesc: {
-    defaultMessage: 'The cost based on raw usage data from the underlying infrastructure.',
-    description: 'The cost based on raw usage data from the underlying infrastructure.',
-    id: 'rhelDetailsInfrastructureCostDesc',
-  },
   rhelDetailsSupplementaryCost: {
     defaultMessage: 'Supplementary cost',
     description: 'Supplementary cost',
     id: 'rhelDetailsSupplementaryCost',
-  },
-  rhelDetailsSupplementaryCostDesc: {
-    defaultMessage:
-      'All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to RHEL cluster metrics.',
-    description:
-      'All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to RHEL cluster metrics.',
-    id: 'rhelDetailsSupplementaryCostDesc',
   },
   rhelDetailsTitle: {
     defaultMessage: 'RHEL Details',
     description: 'RHEL Details',
     id: 'rhelDetailsTitle',
   },
-  rhelInfrastructureCostTitle: {
-    defaultMessage: 'RHEL infrastructure cost',
-    description: 'RHEL infrastructure cost',
-    id: 'rhelInfrastructureCostTitle',
-  },
-  rhelInfrastructureCostTrendTitle: {
-    defaultMessage: 'RHEL cumulative infrastructure cost comparison ({units})',
-    description: 'RHEL cumulative infrastructure cost comparison with units',
-    id: 'rhelInfrastructureCostTrendTitle',
-  },
-  rhelInfrastructureDailyCostTrendTitle: {
-    defaultMessage: 'RHEL daily infrastructure cost comparison ({units})',
-    description: 'RHEL daily infrastructure cost comparison with units',
-    id: 'rhelInfrastructureDailyCostTrendTitle',
-  },
   rhelMemoryUsageAndRequests: {
     defaultMessage: 'Memory usage and requests',
     description: 'Memory usage and requests',
     id: 'rhelMemoryUsageAndRequests',
-  },
-  rhelSupplementaryCostTitle: {
-    defaultMessage: 'RHEL supplementary cost',
-    description: 'RHEL supplementary cost',
-    id: 'rhelSupplementaryCostTitle',
-  },
-  rhelSupplementaryCostTrendTitle: {
-    defaultMessage: 'RHEL cumulative supplementary cost comparison ({units})',
-    description: 'RHEL cumulative supplementary cost comparison with units',
-    id: 'rhelSupplementaryCostTrendTitle',
-  },
-  rhelSupplementaryDailyCostTrendTitle: {
-    defaultMessage: 'RHEL daily supplementary cost comparison ({units})',
-    description: 'RHEL daily supplementary cost comparison with units',
-    id: 'rhelSupplementaryDailyCostTrendTitle',
-  },
-  rhelUsageCostTitle: {
-    defaultMessage: 'RHEL usage cost',
-    description: 'RHEL usage cost',
-    id: 'rhelUsageCostTitle',
-  },
-  rhelUsageDashboardCostTrendTitle: {
-    defaultMessage: 'Metering cumulative cost comparison ({units})',
-    description: 'Metering cumulative cost comparison with units',
-    id: 'rhelUsageDashboardCostTrendTitle',
-  },
-  rhelUsageDashboardCpuTitle: {
-    defaultMessage: 'RHEL CPU usage and requests',
-    description: 'RHEL CPU usage and requests',
-    id: 'rhelUsageDashboardCpuTitle',
   },
   rhelVolumeUsageAndRequests: {
     defaultMessage: 'Volume usage and requests',
@@ -3278,16 +3079,6 @@ export default defineMessages({
     defaultMessage: 'Distribute unused and non-reserved resource costs to projects',
     description: 'Distribute unused and non-reserved resource costs to projects',
     id: 'workersUnallocatedDescription',
-  },
-  workload: {
-    defaultMessage: 'Workload',
-    description: 'Workload',
-    id: 'workload',
-  },
-  workloadType: {
-    defaultMessage: 'Workload type',
-    description: 'Workload type',
-    id: 'workloadType',
   },
   yes: {
     defaultMessage: 'Yes',
