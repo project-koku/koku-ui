@@ -103,12 +103,35 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     }
 
     const recommendation = report.recommendations.duration_based;
-    if (recommendation.short_term && !recommendation.short_term.notifications) {
+    if (this.hasRecommendation(recommendation.short_term)) {
       result = Interval.short_term;
-    } else if (recommendation.medium_term && !recommendation.medium_term.notifications) {
+    } else if (this.hasRecommendation(recommendation.medium_term)) {
       result = Interval.medium_term;
-    } else if (recommendation.long_term && !recommendation.long_term.notifications) {
+    } else if (this.hasRecommendation(recommendation.long_term)) {
       result = Interval.long_term;
+    }
+    return result;
+  };
+
+  private hasRecommendation = term => {
+    if (!term) {
+      return false;
+    }
+
+    const hasConfigLimitsCpu = this.hasValues(term, 'config', 'limits', 'cpu');
+    const hasConfigLimitsMemory = this.hasValues(term, 'config', 'limits', 'memory');
+    const hasConfigRequestsCpu = this.hasValues(term, 'config', 'requests', 'cpu');
+    const hasConfigRequestsMemory = this.hasValues(term, 'config', 'requests', 'memory');
+
+    return hasConfigLimitsCpu || hasConfigLimitsMemory || hasConfigRequestsCpu || hasConfigRequestsMemory;
+  };
+
+  // Helper to determine if config and variation are empty objects
+  // Example: key1 = config, key2 = limits, key3 = cpu
+  private hasValues = (term, key1: string, key2: string, key3: string) => {
+    let result = false;
+    if (term && term[key1] && term[key1][key2] && term[key1][key2][key3]) {
+      result = Object.keys(term[key1][key2][key3]).length > 0;
     }
     return result;
   };
@@ -193,20 +216,18 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     if (!report) {
       return null;
     }
-    const recommendations = this.getRecommendations();
-    const hasConfig = recommendations && recommendations.config !== undefined;
-    const hasVariation = recommendations && recommendations.variation !== undefined;
-    const hasCpuConfig = hasConfig && recommendations.config.limits.cpu !== undefined;
-    const hasCpuVariation = hasVariation && recommendations.variation.limits.cpu !== undefined;
-    const hasMemConfig = hasConfig && recommendations.config.limits.memory !== undefined;
-    const hasMemVariation = hasVariation && recommendations.variation.limits.memory !== undefined;
+    const term = this.getRecommendationTerm();
+    const hasConfigLimitsCpu = this.hasValues(term, 'config', 'limits', 'cpu');
+    const hasConfigLimitsMemory = this.hasValues(term, 'config', 'limits', 'memory');
+    const hasVariationLimitsCpu = this.hasValues(term, 'variation', 'limits', 'cpu');
+    const hasVariationLimitsMemory = this.hasValues(term, 'variation', 'limits', 'memory');
 
-    const cpuConfig = hasCpuConfig ? recommendations.config.limits.cpu.amount : 0;
-    const cpuConfigUnits = hasCpuConfig ? recommendations.config.limits.cpu.format : undefined;
-    const cpuVariation = hasCpuVariation ? recommendations.variation.limits.cpu.amount : 0;
-    const memConfig = hasMemConfig ? recommendations.config.limits.memory.amount : 0;
-    const memConfigUnits = hasMemConfig ? recommendations.config.limits.memory.format : undefined;
-    const memVariation = hasMemVariation ? recommendations.variation.limits.memory.amount : 0;
+    const cpuConfigAmount = hasConfigLimitsCpu ? term.config.limits.cpu.amount : undefined;
+    const cpuConfigUnits = hasConfigLimitsCpu ? term.config.limits.cpu.format : undefined;
+    const cpuVariation = hasVariationLimitsCpu ? term.variation.limits.cpu.amount : undefined;
+    const memConfigAmount = hasConfigLimitsMemory ? term.config.limits.memory.amount : undefined;
+    const memConfigUnits = hasConfigLimitsMemory ? term.config.limits.memory.format : undefined;
+    const memVariation = hasVariationLimitsMemory ? term.variation.limits.memory.amount : undefined;
 
     return (
       <TableComposable
@@ -226,14 +247,14 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
         <Tbody>
           <Tr>
             <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuUnits, { units: cpuConfigUnits })}</Td>
-            <Td>{this.getOriginalValue(cpuConfig, cpuVariation)}</Td>
-            <Td hasRightBorder>{cpuConfig.toFixed(1)}</Td>
+            <Td>{this.getOriginalValue(cpuConfigAmount, cpuVariation)}</Td>
+            <Td hasRightBorder>{this.getFormattedValue(cpuConfigAmount)}</Td>
             <Td>{this.getChangeValue(cpuVariation)}</Td>
           </Tr>
           <Tr>
             <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryUnits, { units: memConfigUnits })}</Td>
-            <Td>{this.getOriginalValue(memConfig, memVariation)}</Td>
-            <Td hasRightBorder>{memConfig.toFixed(1)}</Td>
+            <Td>{this.getOriginalValue(memConfigAmount, memVariation)}</Td>
+            <Td hasRightBorder>{this.getFormattedValue(memConfigAmount)}</Td>
             <Td>{this.getChangeValue(memVariation)}</Td>
           </Tr>
         </Tbody>
@@ -241,11 +262,15 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     );
   };
 
-  private getOriginalValue = (amount, variation) => {
-    return (amount - variation).toFixed(1);
+  private getFormattedValue = value => {
+    return value ? value.toFixed(1) : <EmptyValueState />;
   };
 
-  private getRecommendations = (): RecommendationItem => {
+  private getOriginalValue = (amount, variation) => {
+    return amount && variation ? (amount - variation).toFixed(1) : <EmptyValueState />;
+  };
+
+  private getRecommendationTerm = (): RecommendationItem => {
     const { report } = this.props;
     const { currentInterval } = this.state;
 
@@ -274,20 +299,18 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     if (!report) {
       return null;
     }
-    const recommendations = this.getRecommendations();
-    const hasConfig = recommendations && recommendations.config !== undefined;
-    const hasVariation = recommendations && recommendations.variation !== undefined;
-    const hasCpuConfig = hasConfig && recommendations.config.requests.cpu !== undefined;
-    const hasCpuVariation = hasVariation && recommendations.variation.requests.cpu !== undefined;
-    const hasMemConfig = hasConfig && recommendations.config.requests.memory !== undefined;
-    const hasMemVariation = hasVariation && recommendations.variation.requests.memory !== undefined;
+    const term = this.getRecommendationTerm();
+    const hasConfigRequestsCpu = this.hasValues(term, 'config', 'requests', 'cpu');
+    const hasConfigRequestsMemory = this.hasValues(term, 'config', 'requests', 'memory');
+    const hasVariationRequestsCpu = this.hasValues(term, 'variation', 'requests', 'cpu');
+    const hasVariationRequestsMemory = this.hasValues(term, 'variation', 'requests', 'memory');
 
-    const cpuConfig = hasCpuConfig ? recommendations.config.requests.cpu.amount : 0;
-    const cpuConfigUnits = hasCpuConfig ? recommendations.config.requests.cpu.format : undefined;
-    const cpuVariation = hasCpuVariation ? recommendations.variation.requests.cpu.amount : 0;
-    const memConfig = hasMemConfig ? recommendations.config.requests.memory.amount : 0;
-    const memConfigUnits = hasMemConfig ? recommendations.config.requests.memory.format : undefined;
-    const memVariation = hasMemVariation ? recommendations.variation.requests.memory.amount : 0;
+    const cpuConfigAmount = hasConfigRequestsCpu ? term.config.requests.cpu.amount : undefined;
+    const cpuConfigUnits = hasConfigRequestsCpu ? term.config.requests.cpu.format : undefined;
+    const cpuVariation = hasVariationRequestsCpu ? term.variation.requests.cpu.amount : undefined;
+    const memConfigAmount = hasConfigRequestsMemory ? term.config.requests.memory.amount : undefined;
+    const memConfigUnits = hasConfigRequestsMemory ? term.config.requests.memory.format : undefined;
+    const memVariation = hasVariationRequestsMemory ? term.variation.requests.memory.amount : undefined;
 
     return (
       <TableComposable
@@ -307,14 +330,14 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
         <Tbody>
           <Tr>
             <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuUnits, { units: cpuConfigUnits })}</Td>
-            <Td>{this.getOriginalValue(cpuConfig, cpuVariation)}</Td>
-            <Td hasRightBorder>{cpuConfig.toFixed(1)}</Td>
+            <Td>{this.getOriginalValue(cpuConfigAmount, cpuVariation)}</Td>
+            <Td hasRightBorder>{this.getFormattedValue(cpuConfigAmount)}</Td>
             <Td>{this.getChangeValue(cpuVariation)}</Td>
           </Tr>
           <Tr>
             <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryUnits, { units: memConfigUnits })}</Td>
-            <Td>{this.getOriginalValue(memConfig, memVariation)}</Td>
-            <Td hasRightBorder>{memConfig.toFixed(1)}</Td>
+            <Td>{this.getOriginalValue(memConfigAmount, memVariation)}</Td>
+            <Td hasRightBorder>{this.getFormattedValue(memConfigAmount)}</Td>
             <Td>{this.getChangeValue(memVariation)}</Td>
           </Tr>
         </Tbody>
