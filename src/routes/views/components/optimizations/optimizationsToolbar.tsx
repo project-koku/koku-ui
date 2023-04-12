@@ -52,8 +52,8 @@ export class OptimizationsToolbarBase extends React.Component<OptimizationsToolb
     const options = [
       { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' },
-      { name: intl.formatMessage(messages.filterByValues, { value: 'workload_type' }), key: 'workload_type' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'workload' }), key: 'workload' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'workload_type' }), key: 'workload_type' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'container' }), key: 'container' },
     ];
     return options;
