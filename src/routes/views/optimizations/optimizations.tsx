@@ -158,7 +158,7 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
     const { query, report, router } = this.props;
 
     const limit = report && report.meta && report.meta.limit ? report.meta.limit : baseQuery.limit;
-    const offset = pageNumber * limit - 1;
+    const offset = pageNumber * limit - limit;
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
