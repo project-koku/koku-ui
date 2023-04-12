@@ -1705,7 +1705,7 @@ export default defineMessages({
       'service_name {Filter by service} ' +
       'source_type {Filter by source type} ' +
       'subscription_guid {Filter by account} ' +
-      'workload {Filter by workload} ' +
+      'workload {Filter by workload name} ' +
       'workload_type {Filter by workload type} ' +
       'tag {Filter by tag} ' +
       'other {}}',
@@ -1761,7 +1761,7 @@ export default defineMessages({
       'service_name {Service} ' +
       'subscription_guid {Account} ' +
       'tag {Tag} ' +
-      'workload {Workload} ' +
+      'workload {Workload name} ' +
       'workload_type {Workload type} ' +
       'other {}}',
     description: 'Filter by values',
