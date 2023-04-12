@@ -224,6 +224,8 @@ const mapStateToProps = createMapStateToProps<OptimizationsOwnProps, Optimizatio
   };
   const reportQuery = {
     ...query.filter_by, // Flattened filter by
+    limit: query.limit,
+    offset: query.offset,
     order_by, // Flattened order by
     order_how, // Flattened order how
   };
