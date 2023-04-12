@@ -6727,7 +6727,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Filter by workload"
+                "value": "Filter by workload name"
               }
             ]
           },
@@ -6918,7 +6918,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Workload"
+                "value": "Workload name"
               }
             ]
           },
