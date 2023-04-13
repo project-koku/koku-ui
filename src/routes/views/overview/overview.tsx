@@ -42,6 +42,7 @@ import { IbmDashboard } from 'routes/views/overview/ibmDashboard';
 import { OcpCloudDashboard } from 'routes/views/overview/ocpCloudDashboard';
 import { OcpDashboard } from 'routes/views/overview/ocpDashboard';
 import { RhelDashboard } from 'routes/views/overview/rhelDashboard';
+import { getCostType } from 'routes/views/utils/costType';
 import {
   filterProviders,
   hasCloudCurrentMonthData,
@@ -55,8 +56,6 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
-import type { CostTypes } from 'utils/costType';
-import { getCostType } from 'utils/costType';
 import { getSinceDateRangeString } from 'utils/dates';
 import { getCurrency } from 'utils/localStorage';
 import type { RouterComponentProps } from 'utils/router';
@@ -129,7 +128,7 @@ interface OverviewDispatchProps {
 interface OverviewStateProps {
   awsProviders?: Providers;
   azureProviders?: Providers;
-  costType?: CostTypes;
+  costType?: string;
   currency?: string;
   gcpProviders?: Providers;
   ibmProviders?: Providers;

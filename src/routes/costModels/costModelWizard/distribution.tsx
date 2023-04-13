@@ -150,7 +150,7 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
   }
 }
 
-const mapStateToProps = createMapStateToProps<undefined, DistributionStateProps>(state => {
+const mapStateToProps = createMapStateToProps<undefined, DistributionStateProps>(() => {
   return {
     // TBD...
   };

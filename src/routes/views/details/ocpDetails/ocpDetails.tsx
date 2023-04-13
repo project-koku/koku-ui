@@ -22,6 +22,7 @@ import type { ColumnManagementModalOption } from 'routes/views/details/component
 import { ColumnManagementModal, initHiddenColumns } from 'routes/views/details/components/columnManagement';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
+  handleCostDistributionSelected,
   handleCurrencySelected,
   handleFilterAdded,
   handleFilterRemoved,
@@ -38,7 +39,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { getCurrency } from 'utils/localStorage';
+import { getCostDistribution, getCurrency } from 'utils/localStorage';
 import { noPrefix, platformCategoryKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -49,6 +50,7 @@ import { DetailsToolbar } from './detailsToolbar';
 import { styles } from './ocpDetails.styles';
 
 export interface OcpDetailsStateProps {
+  costDistribution?: string;
   currency?: string;
   isRosFeatureEnabled?: boolean;
   providers: Providers;
@@ -387,8 +389,18 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
   };
 
   public render() {
-    const { currency, intl, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, router } =
-      this.props;
+    const {
+      costDistribution,
+      currency,
+      intl,
+      providers,
+      providersFetchStatus,
+      query,
+      report,
+      reportError,
+      reportFetchStatus,
+      router,
+    } = this.props;
 
     const computedItems = this.getComputedItems();
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -414,8 +426,10 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
     return (
       <div style={styles.ocpDetails}>
         <DetailsHeader
+          costDistribution={costDistribution}
           currency={currency}
           groupBy={groupById}
+          onCostDistributionSelected={value => handleCostDistributionSelected(query, router, value)}
           onCurrencySelected={value => handleCurrencySelected(query, router, value)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
@@ -443,6 +457,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
+  const costDistribution = getCostDistribution();
   const currency = getCurrency();
 
   const query: any = {
@@ -484,6 +499,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   );
 
   return {
+    costDistribution,
     currency,
     isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
     providers: filterProviders(providers, ProviderType.ocp),

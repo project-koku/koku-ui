@@ -24,7 +24,6 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import type { CostTypes } from 'utils/costType';
 import { formatUnits } from 'utils/format';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -35,7 +34,7 @@ import type { PerspectiveType } from './explorerUtils';
 import { getGroupByDefault, getReportPathsType, getReportType } from './explorerUtils';
 
 interface ExplorerChartOwnProps extends RouterComponentProps, WrappedComponentProps {
-  costType?: CostTypes;
+  costType?: string;
   currency?: string;
   computedReportItemType?: ComputedReportItemType;
   computedReportItemValueType?: ComputedReportItemValueType;

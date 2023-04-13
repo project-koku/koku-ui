@@ -8,14 +8,14 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { CostTypes } from 'routes/views/utils/costType';
 import { createMapStateToProps } from 'store/common';
-import { CostTypes } from 'utils/costType';
 import { invalidateSession, setCostType } from 'utils/localStorage';
 
 import { styles } from './costType.styles';
 
 interface CostTypeOwnProps {
-  costType: CostTypes;
+  costType?: string;
   isDisabled?: boolean;
   onSelect?: (value: string) => void;
 }
@@ -57,7 +57,7 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
   public state: CostTypeState = { ...this.defaultState };
 
   private getSelect = () => {
-    const { costType, isDisabled } = this.props;
+    const { costType = CostTypes.unblended, isDisabled } = this.props;
     const { isSelectOpen } = this.state;
 
     const selectOptions = this.getSelectOptions();

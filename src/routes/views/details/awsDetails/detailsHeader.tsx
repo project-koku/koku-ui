@@ -22,7 +22,6 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import type { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
-import type { CostTypes } from 'utils/costType';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 
@@ -30,7 +29,7 @@ import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
   currency?: string;
-  costType?: CostTypes;
+  costType?: string;
   groupBy?: string;
   onCostTypeSelected(value: string);
   onCurrencySelected(value: string);

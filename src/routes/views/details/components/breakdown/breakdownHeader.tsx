@@ -14,11 +14,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
 import { Currency } from 'routes/components/currency';
+import { CostDistribution } from 'routes/views/components/costDistribution';
 import { CostType } from 'routes/views/components/costType';
 import { TagLink } from 'routes/views/details/components/tag';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
-import type { CostTypes } from 'utils/costType';
 import { getTotalCostDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 import { formatPath } from 'utils/paths';
@@ -29,15 +29,18 @@ import { withRouter } from 'utils/router';
 import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps extends RouterComponentProps {
-  costType?: CostTypes;
+  costDistribution?: string;
+  costType?: string;
   currency?: string;
   detailsURL?: string;
   description?: string;
   groupBy?: string;
+  onCostDistributionSelected(value: string);
   onCostTypeSelected(value: string);
   onCurrencySelected(value: string);
   query: Query;
   report: Report;
+  showCostDistribution?: boolean;
   showCostType?: boolean;
   tabs: React.ReactNode;
   tagReportPathsType: TagPathsType;
@@ -114,15 +117,18 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
 
   public render() {
     const {
+      costDistribution,
       costType,
       currency,
       description,
       groupBy,
       intl,
+      onCostDistributionSelected,
       onCostTypeSelected,
       onCurrencySelected,
       query,
-      showCostType = false,
+      showCostDistribution,
+      showCostType,
       tabs,
       tagReportPathsType,
       title,
@@ -165,6 +171,11 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
               {intl.formatMessage(messages.breakdownTitle, { value: title })}
               {description && <div style={styles.infoDescription}>{description}</div>}
             </Title>
+            {showCostDistribution && (
+              <div style={styles.costDistribution}>
+                <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelected} />
+              </div>
+            )}
             {showCostType && (
               <div style={styles.costType}>
                 <CostType onSelect={onCostTypeSelected} costType={costType} />

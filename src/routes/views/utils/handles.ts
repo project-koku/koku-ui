@@ -5,16 +5,20 @@ import type { Filter } from './filter';
 import { addFilterToQuery, removeFilterFromQuery } from './filter';
 import { getRouteForQuery } from './query';
 
+export const handleSelected = (query: Query, router: RouteComponentProps, value: string, reset: boolean = false) => {
+  const newQuery = {
+    ...JSON.parse(JSON.stringify(query)),
+  };
+  router.navigate(getRouteForQuery(newQuery, router.location, reset), { replace: true }); // Don't reset pagination
+};
+
 export const handleCurrencySelected = (
   query: Query,
   router: RouteComponentProps,
   value: string,
   reset: boolean = false
 ) => {
-  const newQuery = {
-    ...JSON.parse(JSON.stringify(query)),
-  };
-  router.navigate(getRouteForQuery(newQuery, router.location, reset), { replace: true });
+  handleSelected(query, router, value, reset);
 };
 
 export const handleCostTypeSelected = (
@@ -23,10 +27,16 @@ export const handleCostTypeSelected = (
   value: string,
   reset: boolean = false
 ) => {
-  const newQuery = {
-    ...JSON.parse(JSON.stringify(query)),
-  };
-  router.navigate(getRouteForQuery(newQuery, router.location, reset), { replace: true }); // Don't reset pagination
+  handleSelected(query, router, value, reset);
+};
+
+export const handleCostDistributionSelected = (
+  query: Query,
+  router: RouteComponentProps,
+  value: string,
+  reset: boolean = false
+) => {
+  handleSelected(query, router, value, reset);
 };
 
 export const handleFilterAdded = (query: Query, router: RouteComponentProps, filter: Filter) => {

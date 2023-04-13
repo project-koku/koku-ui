@@ -13,6 +13,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Currency } from 'routes/components/currency';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
+import { CostDistribution } from 'routes/views/components/costDistribution';
 import { GroupBy } from 'routes/views/components/groupBy';
 import { filterProviders } from 'routes/views/utils/providers';
 import type { FetchStatus } from 'store/common';
@@ -27,9 +28,11 @@ import { formatCurrency } from 'utils/format';
 import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
+  costDistribution?: string;
   currency?: string;
   groupBy?: string;
   onCurrencySelected(value: string);
+  onCostDistributionSelected(value: string);
   onGroupBySelected(value: string);
   report: OcpReport;
 }
@@ -63,9 +66,11 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
 
   public render() {
     const {
+      costDistribution,
       currency,
       groupBy,
       isExportsFeatureEnabled,
+      onCostDistributionSelected,
       onCurrencySelected,
       onGroupBySelected,
       providers,
@@ -119,6 +124,11 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
               showTags
               tagReportPathsType={tagReportPathsType}
             />
+            {groupBy === 'project' && (
+              <div style={styles.costDistribution}>
+                <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelected} />
+              </div>
+            )}
           </div>
           {Boolean(showContent) && (
             <div>

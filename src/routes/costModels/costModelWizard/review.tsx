@@ -177,7 +177,7 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl }) => (
   </CostModelContext.Consumer>
 );
 
-const mapStateToProps = createMapStateToProps<undefined, ReviewDetailsStateProps>(state => {
+const mapStateToProps = createMapStateToProps<undefined, ReviewDetailsStateProps>(() => {
   return {
     // TBD...
   };

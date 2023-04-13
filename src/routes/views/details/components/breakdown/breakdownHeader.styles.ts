@@ -11,6 +11,9 @@ export const styles = {
   cost: {
     marginTop: global_spacer_xl.var,
   },
+  costDistribution: {
+    marginTop: global_spacer_md.var,
+  },
   costLabel: {
     marginTop: global_spacer_xs.var,
   },

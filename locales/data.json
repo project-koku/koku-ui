@@ -1007,6 +1007,39 @@
         "value": "Cost distribution"
       }
     ],
+    "costDistributionLabel": [
+      {
+        "type": 0,
+        "value": "Overhead cost"
+      }
+    ],
+    "costDistributionType": [
+      {
+        "options": {
+          "distributed": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Distribute through cost models"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "total": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Don't distribute overhead costs"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
     "costManagement": [
       {
         "type": 0,

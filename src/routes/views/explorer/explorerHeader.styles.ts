@@ -12,6 +12,10 @@ export const styles = {
     display: 'flex',
     alignItems: 'center',
   },
+  costDistribution: {
+    display: 'flex',
+    marginLeft: global_spacer_lg.var,
+  },
   costLabel: {},
   costValue: {
     marginTop: 0,

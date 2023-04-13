@@ -65,6 +65,8 @@
   "costCalculations": "Cost calculations",
   "costCalculationsOptional": "Cost calculations (optional)",
   "costDistribution": "Cost distribution",
+  "costDistributionLabel": "Overhead cost",
+  "costDistributionType": "{value, select, distributed {Distribute through cost models} total {Don't distribute overhead costs} other {}}",
   "costManagement": "Cost Management",
   "costModels": "Cost Models",
   "costModelsActions": "Cost model actions",

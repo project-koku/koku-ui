@@ -19,6 +19,7 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
+import { getCostType } from 'routes/views/utils/costType';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleCostTypeSelected,
@@ -37,8 +38,6 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import type { CostTypes } from 'utils/costType';
-import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/localStorage';
 import { logicalOrPrefix, noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -50,7 +49,7 @@ import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
 
 interface AwsDetailsStateProps {
-  costType: CostTypes;
+  costType: string;
   currency?: string;
   providers: Providers;
   providersError: AxiosError;

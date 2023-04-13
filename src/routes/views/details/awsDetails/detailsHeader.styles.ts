@@ -7,10 +7,6 @@ import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm'
 import type React from 'react';
 
 export const styles = {
-  costValue: {
-    marginTop: global_spacer_lg.var,
-    marginBottom: 0,
-  },
   costLabelUnit: {
     fontSize: global_FontSize_sm.value,
     color: global_Color_100.var,
@@ -18,6 +14,10 @@ export const styles = {
   costType: {
     display: 'flex',
     marginLeft: global_spacer_md.var,
+  },
+  costValue: {
+    marginTop: global_spacer_lg.var,
+    marginBottom: 0,
   },
   dateTitle: {
     textAlign: 'end',
