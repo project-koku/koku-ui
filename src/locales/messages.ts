@@ -2547,6 +2547,16 @@ export default defineMessages({
     description: 'Selected items for export',
     id: 'optimizationsValues',
   },
+  overhead: {
+    defaultMessage: 'Overhead',
+    description: 'Overhead',
+    id: 'overhead',
+  },
+  overheadDesc: {
+    defaultMessage: 'Includes distributed costs',
+    description: 'Includes distributed costs',
+    id: 'overheadDesc',
+  },
   overviewInfoArialLabel: {
     defaultMessage: 'A description of perspectives',
     description: 'A description of perspectives',

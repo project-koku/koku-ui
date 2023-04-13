@@ -1,6 +1,6 @@
 import 'routes/views/details/components/dataTable/dataTable.scss';
 
-import { Label } from '@patternfly/react-core';
+import { Label, Tooltip } from '@patternfly/react-core';
 import { ProviderType } from 'api/providers';
 import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
 import { ReportPathsType } from 'api/reports/report';
@@ -115,7 +115,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           },
           {
             hidden: !isGroupByProject,
-            name: '', // Default column
+            name: '', // Default & Overhead column
           },
           {
             hidden: !(isGroupByProject && isRosFeatureEnabled),
@@ -156,7 +156,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           },
           {
             hidden: !isGroupByProject,
-            name: '', // Default column
+            name: '', // Default & Overhead column
           },
           {
             hidden: !(isGroupByProject && isRosFeatureEnabled),
@@ -201,6 +201,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const supplementaryCost = this.getSupplementaryCost(item, index);
       const InfrastructureCost = this.getInfrastructureCost(item, index);
+      const isOverheadCosts =
+        (item.cost.platformDistributed && item.cost.platformDistributed.value > 0) ||
+        (item.cost.workerUnallocatedDistributed && item.cost.workerUnallocatedDistributed.value > 0);
       const isPlatformCosts = item.classification === classificationPlatform;
       const isUnallocatedCosts = item.classification === classificationUnallocated;
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
@@ -246,6 +249,12 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
                     {intl.formatMessage(messages.default)}
                   </Label>
                 </div>
+              ) : isOverheadCosts ? (
+                <Tooltip content={intl.formatMessage(messages.overheadDesc)} enableFlip>
+                  <Label variant="outline" color="orange">
+                    {intl.formatMessage(messages.overhead)}
+                  </Label>
+                </Tooltip>
               ) : (
                 <div style={styles.defaultLabel} />
               ),

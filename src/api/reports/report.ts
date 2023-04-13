@@ -6,10 +6,13 @@ export interface ReportValue {
 }
 
 export interface ReportItemValue {
+  distributed?: ReportValue;
   markup?: ReportValue;
+  platform_distributed?: ReportValue;
   raw?: ReportValue;
   total?: ReportValue;
-  usage: ReportValue;
+  usage?: ReportValue;
+  worker_unallocated_distributed?: ReportValue;
 }
 
 export interface ReportItem {
