@@ -19,7 +19,6 @@ import { hasCurrentMonthData } from 'routes/views/utils/providers';
 import { FetchStatus } from 'store/common';
 import type { reportActions } from 'store/reports';
 import type { uiActions } from 'store/ui';
-import type { CostTypes } from 'utils/costType';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -49,8 +48,9 @@ interface BreakdownOwnProps extends RouterComponentProps {
 }
 
 export interface BreakdownStateProps {
+  costDistribution?: string;
   costOverviewComponent?: React.ReactNode;
-  costType?: CostTypes;
+  costType?: string;
   currency?: string;
   description?: string;
   detailsURL?: string;
@@ -73,6 +73,7 @@ export interface BreakdownStateProps {
   reportPathsType?: ReportPathsType;
   reportType?: ReportType;
   reportQueryString?: string;
+  showCostDistribution?: boolean;
   showCostType?: boolean;
   tagReportPathsType?: TagPathsType;
   title?: string;
@@ -250,6 +251,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
 
   public render() {
     const {
+      costDistribution,
       costType,
       currency,
       description,
@@ -264,6 +266,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       reportError,
       reportFetchStatus,
       router,
+      showCostDistribution,
       showCostType,
       tagReportPathsType,
       title,
@@ -290,6 +293,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
     return (
       <>
         <BreakdownHeader
+          costDistribution={costDistribution}
           costType={costType}
           currency={currency}
           description={description}
@@ -299,6 +303,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
           onCurrencySelected={value => handleCurrencySelected(query, router, value)}
           query={query}
           report={report}
+          showCostDistribution={showCostDistribution}
           showCostType={showCostType}
           tabs={this.getTabs(availableTabs)}
           tagReportPathsType={tagReportPathsType}

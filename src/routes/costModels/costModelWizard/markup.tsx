@@ -169,7 +169,7 @@ class MarkupWithDistributionBase extends React.Component<MarkupWithDistributionP
   }
 }
 
-const mapStateToProps = createMapStateToProps<undefined, MarkupWithDistributionStateProps>(state => {
+const mapStateToProps = createMapStateToProps<undefined, MarkupWithDistributionStateProps>(() => {
   return {
     // TBD...
   };

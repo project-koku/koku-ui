@@ -19,7 +19,7 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { uiActions } from 'store/ui';
-import { getCurrency } from 'utils/localStorage';
+import { getCostDistribution, getCurrency } from 'utils/localStorage';
 import { formatPath } from 'utils/paths';
 import { breakdownDescKey, breakdownTitleKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -48,6 +48,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
+  const costDistribution = getCostDistribution();
   const currency = getCurrency();
 
   const query = { ...queryFromRoute };
@@ -94,6 +95,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
   const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
 
   return {
+    costDistribution,
     costOverviewComponent: (
       <CostOverview
         currency={currency}
@@ -124,6 +126,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     reportType,
     reportPathsType,
     reportQueryString,
+    showCostDistribution: groupBy === 'project',
     tagReportPathsType: TagPathsType.ocp,
     title,
   };

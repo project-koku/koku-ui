@@ -15,6 +15,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Currency } from 'routes/components/currency';
+import { CostDistribution } from 'routes/views/components/costDistribution';
 import { CostType } from 'routes/views/components/costType';
 import { GroupBy } from 'routes/views/components/groupBy';
 import { Perspective } from 'routes/views/components/perspective';
@@ -26,7 +27,6 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
-import type { CostTypes } from 'utils/costType';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import {
@@ -56,9 +56,11 @@ import {
 } from './explorerUtils';
 
 interface ExplorerHeaderOwnProps extends RouterComponentProps, WrappedComponentProps {
-  costType?: CostTypes;
+  costDistribution?: string;
+  costType?: string;
   currency?: string;
   groupBy?: string;
+  onCostDistributionSelected(value: string);
   onCostTypeSelected(value: string);
   onCurrencySelected(value: string);
   onDatePickerSelected(startDate: Date, endDate: Date);
@@ -243,11 +245,13 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
 
   public render() {
     const {
+      costDistribution,
       costType,
       currency,
       groupBy,
       intl,
       isExportsFeatureEnabled,
+      onCostDistributionSelected,
       onCostTypeSelected,
       onCurrencySelected,
       onFilterAdded,
@@ -300,6 +304,11 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
               tagReportPathsType={tagReportPathsType}
             />
           </div>
+          {perspective === PerspectiveType.ocp && groupBy === 'project' && (
+            <div style={styles.costDistribution}>
+              <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelected} />
+            </div>
+          )}
           {(perspective === PerspectiveType.aws || perspective === PerspectiveType.awsOcp) && (
             <div style={styles.costType}>
               <CostType costType={costType} onSelect={onCostTypeSelected} />

@@ -7,6 +7,10 @@ import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm'
 import type React from 'react';
 
 export const styles = {
+  costDistribution: {
+    display: 'flex',
+    marginLeft: global_spacer_lg.var,
+  },
   costValue: {
     marginTop: global_spacer_lg.var,
     marginBottom: 0,

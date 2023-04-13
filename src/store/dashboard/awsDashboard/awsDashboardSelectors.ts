@@ -1,5 +1,5 @@
+import { getCostType } from 'routes/views/utils/costType';
 import type { RootState } from 'store/rootReducer';
-import { getCostType } from 'utils/costType';
 import { getCurrency } from 'utils/localStorage';
 
 import {

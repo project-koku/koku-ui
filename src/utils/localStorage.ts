@@ -1,4 +1,5 @@
 const accountCurrencyID = 'cost_management_account_currency';
+const costDistributionID = 'cost_management_cost_distribution';
 const costTypeID = 'cost_management_cost_type';
 const currencyID = 'cost_management_currency';
 const inactiveSourcesID = 'cost_management_inactive_sources';
@@ -49,6 +50,37 @@ export const isSessionValid = async () => {
 export const saveSessionToken = async () => {
   const partialToken = await getPartialToken();
   localStorage.setItem(sessionTokenID, partialToken);
+};
+
+/**
+ * Cost distribution
+ */
+
+// Delete cost distribution
+export const deleteCostDistribution = () => {
+  localStorage.removeItem(costDistributionID);
+};
+
+// Returns cost distribution
+export const getCostDistribution = () => {
+  const costDistribution = localStorage.getItem(costDistributionID);
+  return costDistribution && costDistribution !== null ? costDistribution : undefined;
+};
+
+// Returns true if cost distribution is available
+export const isCostDistributionAvailable = () => {
+  const costDistribution = localStorage.getItem(costDistributionID);
+  return costDistribution && costDistribution !== null;
+};
+
+// Set cost distribution
+export const setCostDistribution = (value: string) => {
+  // Don't store undefined https://issues.redhat.com/browse/COST-3683
+  if (!value) {
+    return;
+  }
+  localStorage.setItem(costDistributionID, value);
+  saveSessionToken();
 };
 
 /**

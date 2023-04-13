@@ -19,10 +19,12 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
+import { getCostType } from 'routes/views/utils/costType';
 import type { DateRangeType } from 'routes/views/utils/dateRange';
 import { getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
+  handleCostDistributionSelected,
   handleCostTypeSelected,
   handleCurrencySelected,
   handleFilterAdded,
@@ -41,9 +43,7 @@ import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import type { CostTypes } from 'utils/costType';
-import { getCostType } from 'utils/costType';
-import { getCurrency } from 'utils/localStorage';
+import { getCostDistribution, getCurrency } from 'utils/localStorage';
 import { noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -77,7 +77,8 @@ interface ExplorerStateProps {
   awsProviders: Providers;
   azureProviders: Providers;
   ociProviders: Providers;
-  costType?: CostTypes;
+  costDistribution?: string;
+  costType?: string;
   currency?: string;
   dateRangeType: DateRangeType;
   gcpProviders: Providers;
@@ -406,6 +407,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
       awsProviders,
       azureProviders,
       ociProviders,
+      costDistribution,
       costType,
       currency,
       gcpProviders,
@@ -472,9 +474,11 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     return (
       <div style={styles.explorer}>
         <ExplorerHeader
+          costDistribution={costDistribution}
           costType={costType}
           currency={currency}
           groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+          onCostDistributionSelected={value => handleCostDistributionSelected(query, router, value)}
           onCostTypeSelected={value => handleCostTypeSelected(query, router, value)}
           onCurrencySelected={value => handleCurrencySelected(query, router, value)}
           onDatePickerSelected={this.handleDatePickerSelected}
@@ -569,6 +573,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     group_by = { [getGroupByDefault(perspective)]: '*' };
   }
 
+  const costDistribution = perspective === PerspectiveType.ocp ? getCostDistribution() : undefined;
   const costType =
     perspective === PerspectiveType.aws || perspective === PerspectiveType.awsOcp ? getCostType() : undefined;
   const currency = getCurrency();
@@ -606,6 +611,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   return {
     awsProviders,
     azureProviders,
+    costDistribution,
     costType,
     currency,
     dateRangeType,

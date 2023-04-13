@@ -363,6 +363,20 @@ export default defineMessages({
     description: 'Cost distribution',
     id: 'costDistribution',
   },
+  costDistributionLabel: {
+    defaultMessage: 'Overhead cost',
+    description: 'Overhead cost',
+    id: 'costDistributionLabel',
+  },
+  costDistributionType: {
+    defaultMessage:
+      '{value, select, ' +
+      'distributed {Distribute through cost models} ' +
+      "total {Don't distribute overhead costs} " +
+      'other {}}',
+    description: 'Cost distribution type',
+    id: 'costDistributionType',
+  },
   costManagement: {
     defaultMessage: 'Cost Management',
     description: 'Cost Management',
