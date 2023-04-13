@@ -404,6 +404,8 @@
   "optimizationsInfoButtonArialLabel": "A dialog with a description of optimizations",
   "optimizationsNames": "{value, select, cluster {Cluster names} container {Container names} last_reported {Last reported} project {Project names} workload {Workload names} workload_type {Workload types} other {}}",
   "optimizationsValues": "{value, select, cluster {Cluster name} container {Container name} last_reported {Last reported} project {Project name} workload {Workload name} workload_type {Workload type} other {}}",
+  "overhead": "Overhead",
+  "overheadDesc": "Includes distributed costs",
   "overviewInfoArialLabel": "A description of perspectives",
   "overviewInfoButtonArialLabel": "A dialog with a description of perspectives",
   "overviewTitle": "Cost Management Overview",

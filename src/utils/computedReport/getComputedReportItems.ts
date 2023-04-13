@@ -11,10 +11,13 @@ export interface ComputedReportValue {
 }
 
 export interface ComputedReportItemValue {
+  distributed?: ReportValue;
   markup?: ReportValue;
+  platformDistributed?: ReportValue;
   raw?: ReportValue;
   total?: ReportValue;
   usage?: ReportValue;
+  workerUnallocatedDistributed?: ReportValue;
 }
 
 export interface ComputedReportOcpItem extends ReportItem {
@@ -95,11 +98,23 @@ function getClusters(val, item?: any) {
 
 function getCostData(val, key, item?: any) {
   return {
+    distributed: {
+      value:
+        (item && item[key] && item[key].distributed ? item[key].distributed.value : 0) +
+        (val[key] && val[key].distributed ? val[key].distributed.value : 0),
+      units: val && val[key] && val[key].distributed ? val[key].distributed.units : 'USD',
+    },
     markup: {
       value:
         (item && item[key] && item[key].markup ? item[key].markup.value : 0) +
         (val[key] && val[key].markup ? val[key].markup.value : 0),
       units: val && val[key] && val[key].markup ? val[key].markup.units : 'USD',
+    },
+    platformDistributed: {
+      value:
+        (item && item[key] && item[key].platform_distributed ? item[key].platform_distributed.value : 0) +
+        (val[key] && val[key].platform_distributed ? val[key].platform_distributed.value : 0),
+      units: val && val[key] && val[key].platform_distributed ? val[key].platform_distributed.units : 'USD',
     },
     raw: {
       value:
@@ -118,6 +133,19 @@ function getCostData(val, key, item?: any) {
         (item && item[key] && item[key].usage ? item[key].usage.value : 0) +
         (val[key] && val[key].usage ? Number(val[key].usage.value) : 0),
       units: val && val[key] && val[key].usage ? val[key].usage.units : null,
+    },
+    workerUnallocatedDistributed: {
+      value:
+        (item && item[key] && item[key].worker_unallocated_distributed
+          ? item[key].worker_unallocated_distributed.value
+          : 0) +
+        (val[key] && val[key].worker_unallocated_distributed
+          ? Number(val[key].worker_unallocated_distributed.value)
+          : 0),
+      units:
+        val && val[key] && val[key].worker_unallocated_distributed
+          ? val[key].worker_unallocated_distributed.units
+          : null,
     },
   };
 }
@@ -239,11 +267,11 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
               classification,
               cluster,
               clusters: getClusters(val, item),
+              cost: getCostData(val, 'cost', item),
               date,
               default_project,
               delta_percent,
               delta_value,
-              cost: getCostData(val, 'cost', item),
               id,
               infrastructure: getCostData(val, 'infrastructure', item),
               label,

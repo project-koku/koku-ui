@@ -10024,6 +10024,18 @@
         "value": "value"
       }
     ],
+    "overhead": [
+      {
+        "type": 0,
+        "value": "Overhead"
+      }
+    ],
+    "overheadDesc": [
+      {
+        "type": 0,
+        "value": "Includes distributed costs"
+      }
+    ],
     "overviewInfoArialLabel": [
       {
         "type": 0,
