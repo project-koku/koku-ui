@@ -12,6 +12,12 @@
         "value": "There are no export files available"
       }
     ],
+    "allOtherProjectCosts": [
+      {
+        "type": 0,
+        "value": "Project (All other costs)"
+      }
+    ],
     "aws": [
       {
         "type": 0,
@@ -449,38 +455,6 @@
           }
         },
         "type": 5,
-        "value": "value"
-      }
-    ],
-    "breakdownCostBreakdownAriaLabel": [
-      {
-        "type": 0,
-        "value": "A description of markup, raw cost and usage cost"
-      }
-    ],
-    "breakdownCostBreakdownTitle": [
-      {
-        "type": 0,
-        "value": "Cost breakdown"
-      }
-    ],
-    "breakdownCostChartAriaDesc": [
-      {
-        "type": 0,
-        "value": "Breakdown of markup, raw, and usage costs"
-      }
-    ],
-    "breakdownCostChartTooltip": [
-      {
-        "type": 1,
-        "value": "name"
-      },
-      {
-        "type": 0,
-        "value": ": "
-      },
-      {
-        "type": 1,
         "value": "value"
       }
     ],
@@ -989,6 +963,38 @@
         "value": "Cost"
       }
     ],
+    "costBreakdownAriaDesc": [
+      {
+        "type": 0,
+        "value": "Breakdown of markup, raw, and usage costs"
+      }
+    ],
+    "costBreakdownAriaLabel": [
+      {
+        "type": 0,
+        "value": "A description of markup, raw cost and usage cost"
+      }
+    ],
+    "costBreakdownTitle": [
+      {
+        "type": 0,
+        "value": "Cost breakdown"
+      }
+    ],
+    "costBreakdownTooltip": [
+      {
+        "type": 1,
+        "value": "name"
+      },
+      {
+        "type": 0,
+        "value": ": "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      }
+    ],
     "costCalculations": [
       {
         "type": 0,
@@ -1007,10 +1013,28 @@
         "value": "Cost distribution"
       }
     ],
+    "costDistributionAriaDesc": [
+      {
+        "type": 0,
+        "value": "Overhead cost breakdown of platform, worker unallocated, and total costs"
+      }
+    ],
+    "costDistributionAriaLabel": [
+      {
+        "type": 0,
+        "value": "A description of platform, worker unallocated, and total costs"
+      }
+    ],
     "costDistributionLabel": [
       {
         "type": 0,
         "value": "Overhead cost"
+      }
+    ],
+    "costDistributionTitle": [
+      {
+        "type": 0,
+        "value": "Overhead cost breakdown"
       }
     ],
     "costDistributionType": [
@@ -1090,7 +1114,7 @@
         "value": "count"
       }
     ],
-    "costModelsAssignSourcesErrorDescription": [
+    "costModelsAssignSourcesErrorDesc": [
       {
         "type": 0,
         "value": "You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our "
@@ -1224,7 +1248,7 @@
         "value": "Read about setting up a cost model"
       }
     ],
-    "costModelsEnterTagDescription": [
+    "costModelsEnterTagDesc": [
       {
         "type": 0,
         "value": "Enter a tag description"
@@ -1653,7 +1677,7 @@
         "value": "value"
       }
     ],
-    "costModelsWizardSourceErrorDescription": [
+    "costModelsWizardSourceErrorDesc": [
       {
         "type": 0,
         "value": "Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our "
@@ -3158,11 +3182,11 @@
                       }
                     ]
                   },
-                  "workers": {
+                  "worker": {
                     "value": [
                       {
                         "type": 0,
-                        "value": "workers"
+                        "value": "worker"
                       }
                     ]
                   }
@@ -3198,11 +3222,11 @@
                       }
                     ]
                   },
-                  "workers": {
+                  "worker": {
                     "value": [
                       {
                         "type": 0,
-                        "value": "workers"
+                        "value": "worker"
                       }
                     ]
                   }
@@ -3233,7 +3257,7 @@
         "value": "Distribution type"
       }
     ],
-    "distributionTypeDescription": [
+    "distributionTypeDesc": [
       {
         "options": {
           "cpu": {
@@ -9049,7 +9073,7 @@
         "value": "Manage columns"
       }
     ],
-    "markupDescription": [
+    "markupDesc": [
       {
         "type": 0,
         "value": "The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost management application"
@@ -10374,10 +10398,16 @@
         "value": "Platform"
       }
     ],
-    "platformDescription": [
+    "platformDesc": [
       {
         "type": 0,
         "value": "Distribute the cost of running the OpenShift services to projects"
+      }
+    ],
+    "platformDistributed": [
+      {
+        "type": 0,
+        "value": "Platform distributed"
       }
     ],
     "priceList": [
@@ -10494,7 +10524,7 @@
         "value": "Rate"
       }
     ],
-    "rawCostDescription": [
+    "rawCostDesc": [
       {
         "type": 0,
         "value": "The costs reported by a cloud provider without any cost model calculations applied."
@@ -10506,7 +10536,7 @@
         "value": "Raw cost"
       }
     ],
-    "rbacErrorDescription": [
+    "rbacErrorDesc": [
       {
         "type": 0,
         "value": "There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin."
@@ -11150,7 +11180,7 @@
         "value": "Usage"
       }
     ],
-    "usageCostDescription": [
+    "usageCostDesc": [
       {
         "type": 0,
         "value": "The portion of cost calculated by applying hourly and/or monthly price list rates to metrics."
@@ -11174,13 +11204,13 @@
         "value": "Volume"
       }
     ],
-    "workersUnallocated": [
+    "workerUnallocated": [
       {
         "type": 0,
-        "value": "Workers unallocated"
+        "value": "Worker unallocated"
       }
     ],
-    "workersUnallocatedDescription": [
+    "workerUnallocatedDesc": [
       {
         "type": 0,
         "value": "Distribute unused and non-reserved resource costs to projects"

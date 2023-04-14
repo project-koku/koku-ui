@@ -2,6 +2,11 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
+  allOtherProjectCosts: {
+    defaultMessage: 'Project (All other costs)',
+    description: 'Project (All other costs)',
+    id: 'allOtherProjectCosts',
+  },
   aws: {
     defaultMessage: 'Amazon Web Services',
     description: 'Amazon Web Services',
@@ -130,26 +135,6 @@ export default defineMessages({
       'other {}}',
     description: 'Breakdown back to page titles',
     id: 'breakdownBackToTitles',
-  },
-  breakdownCostBreakdownAriaLabel: {
-    defaultMessage: 'A description of markup, raw cost and usage cost',
-    description: 'A description of markup, raw cost and usage cost',
-    id: 'breakdownCostBreakdownAriaLabel',
-  },
-  breakdownCostBreakdownTitle: {
-    defaultMessage: 'Cost breakdown',
-    description: 'A description of markup, raw cost and usage cost',
-    id: 'breakdownCostBreakdownTitle',
-  },
-  breakdownCostChartAriaDesc: {
-    defaultMessage: 'Breakdown of markup, raw, and usage costs',
-    description: 'Breakdown of markup, raw, and usage costs',
-    id: 'breakdownCostChartAriaDesc',
-  },
-  breakdownCostChartTooltip: {
-    defaultMessage: '{name}: {value}',
-    description: '{name}: {value}',
-    id: 'breakdownCostChartTooltip',
   },
   breakdownCostOverviewTitle: {
     defaultMessage: 'Cost overview',
@@ -348,6 +333,26 @@ export default defineMessages({
     description: 'Cost',
     id: 'cost',
   },
+  costBreakdownAriaDesc: {
+    defaultMessage: 'Breakdown of markup, raw, and usage costs',
+    description: 'Breakdown of markup, raw, and usage costs',
+    id: 'costBreakdownAriaDesc',
+  },
+  costBreakdownAriaLabel: {
+    defaultMessage: 'A description of markup, raw cost and usage cost',
+    description: 'A description of markup, raw cost and usage cost',
+    id: 'costBreakdownAriaLabel',
+  },
+  costBreakdownTitle: {
+    defaultMessage: 'Cost breakdown',
+    description: 'A description of markup, raw cost and usage cost',
+    id: 'costBreakdownTitle',
+  },
+  costBreakdownTooltip: {
+    defaultMessage: '{name}: {value}',
+    description: '{name}: {value}',
+    id: 'costBreakdownTooltip',
+  },
   costCalculations: {
     defaultMessage: 'Cost calculations',
     description: 'Cost calculations',
@@ -363,10 +368,25 @@ export default defineMessages({
     description: 'Cost distribution',
     id: 'costDistribution',
   },
+  costDistributionAriaDesc: {
+    defaultMessage: 'Overhead cost breakdown of platform, worker unallocated, and total costs',
+    description: 'Overhead cost breakdown of platform, worker unallocated, and total costs',
+    id: 'costDistributionAriaDesc',
+  },
+  costDistributionAriaLabel: {
+    defaultMessage: 'A description of platform, worker unallocated, and total costs',
+    description: 'A description of platform, worker unallocated, and total costs',
+    id: 'costDistributionAriaLabel',
+  },
   costDistributionLabel: {
     defaultMessage: 'Overhead cost',
     description: 'Overhead cost',
     id: 'costDistributionLabel',
+  },
+  costDistributionTitle: {
+    defaultMessage: 'Overhead cost breakdown',
+    description: 'Overhead cost breakdown',
+    id: 'costDistributionTitle',
   },
   costDistributionType: {
     defaultMessage:
@@ -402,11 +422,11 @@ export default defineMessages({
     description: 'Assign sources -- plural or singular',
     id: 'costModelsAssignSources',
   },
-  costModelsAssignSourcesErrorDescription: {
+  costModelsAssignSourcesErrorDesc: {
     defaultMessage:
       'You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {url} for known outages.',
     description: 'You cannot assign a source at this time',
-    id: 'costModelsAssignSourcesErrorDescription',
+    id: 'costModelsAssignSourcesErrorDesc',
   },
   costModelsAssignSourcesErrorTitle: {
     defaultMessage: 'This action is temporarily unavailable',
@@ -492,10 +512,10 @@ export default defineMessages({
     description: 'Read about setting up a cost model',
     id: 'costModelsEmptyStateLearnMore',
   },
-  costModelsEnterTagDescription: {
+  costModelsEnterTagDesc: {
     defaultMessage: 'Enter a tag description',
     description: 'Enter a tag description',
-    id: 'costModelsEnterTagDescription',
+    id: 'costModelsEnterTagDesc',
   },
   costModelsEnterTagKey: {
     defaultMessage: 'Enter a tag key',
@@ -781,11 +801,11 @@ export default defineMessages({
     description: 'Select from the following {value} sources:',
     id: 'costModelsWizardSourceCaption',
   },
-  costModelsWizardSourceErrorDescription: {
+  costModelsWizardSourceErrorDesc: {
     defaultMessage:
       'Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {url} for known outages.',
     description: 'This step is temporarily unavailable',
-    id: 'costModelsWizardSourceErrorDescription',
+    id: 'costModelsWizardSourceErrorDesc',
   },
   costModelsWizardSourceErrorTitle: {
     defaultMessage: 'This step is temporarily unavailable',
@@ -1237,8 +1257,8 @@ export default defineMessages({
   distributeCosts: {
     defaultMessage:
       '{value, select, ' +
-      'true {Distribute {type, select, platform {platform} workers {workers} other {}} unallocated capacity}' +
-      'false {Do not distribute {type, select, platform {platform} workers {workers} other {}} unallocated capacity}' +
+      'true {Distribute {type, select, platform {platform} worker {worker} other {}} unallocated capacity}' +
+      'false {Do not distribute {type, select, platform {platform} worker {worker} other {}} unallocated capacity}' +
       'other {}}',
     description: 'distribute costs',
     id: 'distributeCosts',
@@ -1255,14 +1275,14 @@ export default defineMessages({
     description: 'Distribution type',
     id: 'distributionType',
   },
-  distributionTypeDescription: {
+  distributionTypeDesc: {
     defaultMessage:
       '{type, select, ' +
       'cpu {Distribute costs based on CPU usage}' +
       'memory {Distribute costs based on memory usage}' +
       'other {}}',
     description: 'Distribution type description',
-    id: 'distributionTypeDescription',
+    id: 'distributionTypeDesc',
   },
   doNotDistribute: {
     defaultMessage: 'Do not distribute',
@@ -2066,12 +2086,12 @@ export default defineMessages({
     description: 'Manage columns',
     id: 'manageColumnsTitle',
   },
-  markupDescription: {
+  markupDesc: {
     defaultMessage:
       'The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost management application',
     description:
       'The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost management application',
-    id: 'markupDescription',
+    id: 'markupDesc',
   },
   markupOrDiscount: {
     defaultMessage: 'Markup or Discount',
@@ -2704,10 +2724,15 @@ export default defineMessages({
     description: 'Platform',
     id: 'platform',
   },
-  platformDescription: {
+  platformDesc: {
     defaultMessage: 'Distribute the cost of running the OpenShift services to projects',
     description: 'Distribute the cost of running the OpenShift services to projects',
-    id: 'platformDescription',
+    id: 'platformDesc',
+  },
+  platformDistributed: {
+    defaultMessage: 'Platform distributed',
+    description: 'Platform distributed',
+    id: 'platformDistributed',
   },
   priceList: {
     defaultMessage: 'Price list',
@@ -2765,21 +2790,21 @@ export default defineMessages({
     description: 'Rate',
     id: 'rate',
   },
-  rawCostDescription: {
+  rawCostDesc: {
     defaultMessage: 'The costs reported by a cloud provider without any cost model calculations applied.',
     description: 'The costs reported by a cloud provider without any cost model calculations applied.',
-    id: 'rawCostDescription',
+    id: 'rawCostDesc',
   },
   rawCostTitle: {
     defaultMessage: 'Raw cost',
     description: 'Raw cost',
     id: 'rawCostTitle',
   },
-  rbacErrorDescription: {
+  rbacErrorDesc: {
     defaultMessage:
       'There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.',
     description: 'rbac error description',
-    id: 'rbacErrorDescription',
+    id: 'rbacErrorDesc',
   },
   rbacErrorTitle: {
     defaultMessage: 'Failed to get RBAC information',
@@ -3074,10 +3099,10 @@ export default defineMessages({
     description: 'Usage',
     id: 'usage',
   },
-  usageCostDescription: {
+  usageCostDesc: {
     defaultMessage: 'The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.',
     description: 'The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.',
-    id: 'usageCostDescription',
+    id: 'usageCostDesc',
   },
   usageCostTitle: {
     defaultMessage: 'Usage cost',
@@ -3094,15 +3119,15 @@ export default defineMessages({
     description: 'Volume',
     id: 'volumeTitle',
   },
-  workersUnallocated: {
-    defaultMessage: 'Workers unallocated',
-    description: 'Workers unallocated',
-    id: 'workersUnallocated',
+  workerUnallocated: {
+    defaultMessage: 'Worker unallocated',
+    description: 'Worker unallocated',
+    id: 'workerUnallocated',
   },
-  workersUnallocatedDescription: {
+  workerUnallocatedDesc: {
     defaultMessage: 'Distribute unused and non-reserved resource costs to projects',
     description: 'Distribute unused and non-reserved resource costs to projects',
-    id: 'workersUnallocatedDescription',
+    id: 'workerUnallocatedDesc',
   },
   yes: {
     defaultMessage: 'Yes',

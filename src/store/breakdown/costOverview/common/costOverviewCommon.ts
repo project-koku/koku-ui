@@ -4,6 +4,7 @@ import type { ReportPathsType, ReportType } from 'api/reports/report';
 export const enum CostOverviewWidgetType {
   cluster = 'cluster', // This type displays clusters associated with a project
   cost = 'cost', // This type displays a cost breakdown as a pie chart
+  costDistribution = 'costDistribution', // This type displays cost distribution as a pie chart
   cpuUsage = 'cpuUsage', // This type displays cpu usage as a bullet chart
   memoryUsage = 'memoryUsage', // This type displays memory usage as a bullet chart
   reportSummary = 'summary', // This type displays a cost report summary

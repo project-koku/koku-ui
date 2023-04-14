@@ -19,6 +19,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { Cluster } from 'routes/views/details/components/cluster';
 import { CostChart } from 'routes/views/details/components/costChart';
+import { CostDistributionChart } from 'routes/views/details/components/costDistributionChart';
 import { SummaryCard } from 'routes/views/details/components/summary';
 import { UsageChart } from 'routes/views/details/components/usageChart';
 import { styles } from 'routes/views/details/ocpDetails/detailsHeader.styles';
@@ -85,20 +86,20 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
       <Card>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.breakdownCostBreakdownTitle)}
+            {intl.formatMessage(messages.costBreakdownTitle)}
             <Popover
-              aria-label={intl.formatMessage(messages.breakdownCostBreakdownAriaLabel)}
+              aria-label={intl.formatMessage(messages.costBreakdownAriaLabel)}
               enableFlip
               bodyContent={
                 <>
                   <p style={styles.infoTitle}>{intl.formatMessage(messages.rawCostTitle)}</p>
-                  <p>{intl.formatMessage(messages.rawCostDescription)}</p>
+                  <p>{intl.formatMessage(messages.rawCostDesc)}</p>
                   <br />
                   <p style={styles.infoTitle}>{intl.formatMessage(messages.usageCostTitle)}</p>
-                  <p>{intl.formatMessage(messages.usageCostDescription)}</p>
+                  <p>{intl.formatMessage(messages.usageCostDesc)}</p>
                   <br />
                   <p style={styles.infoTitle}>{intl.formatMessage(messages.markupTitle)}</p>
-                  <p>{intl.formatMessage(messages.markupDescription)}</p>
+                  <p>{intl.formatMessage(messages.markupDesc)}</p>
                   <br />
                   <a href={intl.formatMessage(messages.docsCostModelTerminology)} rel="noreferrer" target="_blank">
                     {intl.formatMessage(messages.learnMore)}
@@ -114,6 +115,45 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
         </CardTitle>
         <CardBody>
           <CostChart name={widget.chartName} report={report} />
+        </CardBody>
+      </Card>
+    );
+  };
+
+  // Returns cost distribution chart
+  private getCostDistributionChart = (widget: CostOverviewWidget) => {
+    const { report, intl } = this.props;
+
+    return (
+      <Card>
+        <CardTitle>
+          <Title headingLevel="h2" size={TitleSizes.lg}>
+            {intl.formatMessage(messages.costDistributionTitle)}
+            <Popover
+              aria-label={intl.formatMessage(messages.costDistributionAriaLabel)}
+              enableFlip
+              bodyContent={
+                <>
+                  <p style={styles.infoTitle}>{intl.formatMessage(messages.platformDistributed)}</p>
+                  <p>{intl.formatMessage(messages.platformDesc)}</p>
+                  <br />
+                  <p style={styles.infoTitle}>{intl.formatMessage(messages.workerUnallocated)}</p>
+                  <p>{intl.formatMessage(messages.workerUnallocatedDesc)}</p>
+                  <br />
+                  <a href={intl.formatMessage(messages.docsCostModelTerminology)} rel="noreferrer" target="_blank">
+                    {intl.formatMessage(messages.learnMore)}
+                  </a>
+                </>
+              }
+            >
+              <Button variant={ButtonVariant.plain}>
+                <OutlinedQuestionCircleIcon style={styles.info} />
+              </Button>
+            </Popover>
+          </Title>
+        </CardTitle>
+        <CardBody>
+          <CostDistributionChart name={widget.chartName} report={report} />
         </CardBody>
       </Card>
     );
@@ -250,6 +290,8 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
         return this.getClusterChart(widget);
       case CostOverviewWidgetType.cost:
         return this.getCostChart(widget);
+      case CostOverviewWidgetType.costDistribution:
+        return this.getCostDistributionChart(widget);
       case CostOverviewWidgetType.cpuUsage:
         return this.getCpuUsageChart(widget);
       case CostOverviewWidgetType.memoryUsage:
@@ -269,14 +311,14 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
     return (
       <Grid hasGutter>
-        <GridItem lg={12} xl={6}>
+        <GridItem xl={12} xl2={6}>
           <Grid hasGutter>
             {leftColumnWidgets.map((widget, index) => {
               return <GridItem key={`widget-${index}`}>{widget}</GridItem>;
             })}
           </Grid>
         </GridItem>
-        <GridItem lg={12} xl={6}>
+        <GridItem xl={12} xl2={6}>
           <Grid hasGutter>
             {rightColumnWidgets.map((widget, index) => {
               return <GridItem key={`widget-${index}`}>{widget}</GridItem>;

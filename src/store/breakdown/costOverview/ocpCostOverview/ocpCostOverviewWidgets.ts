@@ -26,6 +26,14 @@ export const costWidget: OcpCostOverviewWidget = {
   type: CostOverviewWidgetType.cost,
 };
 
+export const costDistributionWidget: OcpCostOverviewWidget = {
+  chartName: 'ocpCostDistributionWidget',
+  id: getId(),
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.cost,
+  type: CostOverviewWidgetType.costDistribution,
+};
+
 export const cpuUsageWidget: OcpCostOverviewWidget = {
   chartName: 'ocpCpuWidget',
   id: getId(),

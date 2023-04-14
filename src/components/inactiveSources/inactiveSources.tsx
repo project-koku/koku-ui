@@ -14,7 +14,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import {
   deleteInactiveSources,
-  invalidateInactiveSources,
+  invalidateSession,
   isInactiveSourcesValid,
   setInactiveSources,
 } from 'utils/localStorage';
@@ -96,7 +96,7 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps, any> {
     }
 
     // Clear local storage value if current session is not valid
-    invalidateInactiveSources();
+    invalidateSession();
 
     return (
       <div className="alert">

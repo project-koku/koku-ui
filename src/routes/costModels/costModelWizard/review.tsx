@@ -70,7 +70,7 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl }) => (
       description,
       distribution,
       distributePlatformUnallocated,
-      distributeWorkersUnallocated,
+      distributeWorkerUnallocated,
       isDiscount,
       markup,
       name,
@@ -142,7 +142,7 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl }) => (
                         {intl.formatMessage(messages.costDistribution)}
                       </TextListItem>
                       <TextListItem component={TextListItemVariants.dd}>
-                        {intl.formatMessage(messages.distributionTypeDescription, { type: distribution })}
+                        {intl.formatMessage(messages.distributionTypeDesc, { type: distribution })}
                       </TextListItem>
                       <TextListItem component={TextListItemVariants.dd}>
                         {intl.formatMessage(messages.distributeCosts, {
@@ -152,8 +152,8 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl }) => (
                       </TextListItem>
                       <TextListItem component={TextListItemVariants.dd}>
                         {intl.formatMessage(messages.distributeCosts, {
-                          value: distributeWorkersUnallocated,
-                          type: 'workers',
+                          value: distributeWorkerUnallocated,
+                          type: 'worker',
                         })}
                       </TextListItem>
                     </>

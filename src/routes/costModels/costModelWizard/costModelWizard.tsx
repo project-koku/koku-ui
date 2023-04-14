@@ -109,7 +109,7 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
           description,
           distribution,
           distributePlatformUnallocated,
-          distributeWorkersUnallocated,
+          distributeWorkerUnallocated,
           isDiscount,
           markup,
           name,
@@ -125,7 +125,7 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
           distribution_info: {
             distribution_type: distribution,
             platform_cost: distributePlatformUnallocated,
-            worker_cost: distributeWorkersUnallocated,
+            worker_cost: distributeWorkerUnallocated,
           },
           rates: tiers,
           markup: {
@@ -166,7 +166,7 @@ interface CostModelWizardState {
   dirtyName?: boolean;
   distribution?: string;
   distributePlatformUnallocated?: boolean;
-  distributeWorkersUnallocated?: boolean;
+  distributeWorkerUnallocated?: boolean;
   error?: any;
   filterName?: string;
   isDialogOpen?: boolean;
@@ -207,7 +207,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
     description: '',
     distribution: 'cpu',
     distributePlatformUnallocated: true,
-    distributeWorkersUnallocated: true,
+    distributeWorkerUnallocated: true,
     error: null,
     filterName: '',
     isDialogOpen: false,
@@ -379,7 +379,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
             dirtyName: this.state.dirtyName,
             distribution: this.state.distribution,
             distributePlatformUnallocated: this.state.distributePlatformUnallocated,
-            distributeWorkersUnallocated: this.state.distributeWorkersUnallocated,
+            distributeWorkerUnallocated: this.state.distributeWorkerUnallocated,
             error: this.state.error,
             filterName: this.state.filterName,
             fetchSources: (type, query, page, perPage) => {
@@ -421,9 +421,9 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
               const { value } = event.currentTarget;
               this.setState({ distributePlatformUnallocated: value === 'true' });
             },
-            handleDistributeWorkersUnallocatedChange: (_, event) => {
+            handleDistributeWorkerUnallocatedChange: (_, event) => {
               const { value } = event.currentTarget;
-              this.setState({ distributeWorkersUnallocated: value === 'true' });
+              this.setState({ distributeWorkerUnallocated: value === 'true' });
             },
             handleMarkupDiscountChange: (_, event) => {
               const { value } = event.currentTarget;
@@ -531,7 +531,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
             description: this.state.description,
             distribution: this.state.distribution,
             distributePlatformUnallocated: this.state.distributePlatformUnallocated,
-            distributeWorkersUnallocated: this.state.distributeWorkersUnallocated,
+            distributeWorkerUnallocated: this.state.distributeWorkerUnallocated,
             markup: `${this.state.isDiscount ? '-' : ''}${this.state.markup}`,
             tiers: this.state.tiers,
             priceListCurrent: this.state.priceListCurrent,

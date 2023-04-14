@@ -40,7 +40,7 @@ interface UpdateDistributionDialogDispatchProps {
 interface UpdateDistributionDialogState {
   distribution?: string;
   distributePlatformUnallocated?: boolean;
-  distributeWorkersUnallocated?: boolean;
+  distributeWorkerUnallocated?: boolean;
 }
 
 type UpdateDistributionDialogProps = UpdateDistributionDialogOwnProps &
@@ -56,7 +56,7 @@ class UpdateDistributionDialogBase extends React.Component<
     this.state = {
       distribution: this.props.current.distribution_info.distribution_type,
       distributePlatformUnallocated: this.props.current.distribution_info.platform_cost === true,
-      distributeWorkersUnallocated: this.props.current.distribution_info.worker_cost === true,
+      distributeWorkerUnallocated: this.props.current.distribution_info.worker_cost === true,
     };
   }
 
@@ -70,9 +70,9 @@ class UpdateDistributionDialogBase extends React.Component<
     this.setState({ distributePlatformUnallocated: value === 'true' });
   };
 
-  private handleDistributeWorkersUnallocatedChange = (_, event) => {
+  private handleDistributeWorkerUnallocatedChange = (_, event) => {
     const { value } = event.currentTarget;
-    this.setState({ distributeWorkersUnallocated: value === 'true' });
+    this.setState({ distributeWorkerUnallocated: value === 'true' });
   };
 
   public render() {
@@ -101,7 +101,7 @@ class UpdateDistributionDialogBase extends React.Component<
                 distribution_info: {
                   distribution_type: this.state.distribution,
                   platform_cost: this.state.distributePlatformUnallocated,
-                  worker_cost: this.state.distributeWorkersUnallocated,
+                  worker_cost: this.state.distributeWorkerUnallocated,
                 },
               };
               updateCostModel(current.uuid, newState, 'updateDistribution');
@@ -158,7 +158,7 @@ class UpdateDistributionDialogBase extends React.Component<
               {intl.formatMessage(messages.platform)}
             </Title>
             <TextContent>
-              <Text style={styles.cardDescription}>{intl.formatMessage(messages.platformDescription)}</Text>
+              <Text style={styles.cardDescription}>{intl.formatMessage(messages.platformDesc)}</Text>
             </TextContent>
           </StackItem>
           <StackItem isFilled>
@@ -187,32 +187,32 @@ class UpdateDistributionDialogBase extends React.Component<
           </StackItem>
           <StackItem>
             <Title headingLevel="h3" size="md">
-              {intl.formatMessage(messages.workersUnallocated)}
+              {intl.formatMessage(messages.workerUnallocated)}
             </Title>
             <TextContent>
-              <Text style={styles.cardDescription}>{intl.formatMessage(messages.workersUnallocatedDescription)}</Text>
+              <Text style={styles.cardDescription}>{intl.formatMessage(messages.workerUnallocatedDesc)}</Text>
             </TextContent>
           </StackItem>
           <StackItem isFilled>
             <Form>
-              <FormGroup isInline fieldId="cost-distribution-workers-unallocated" isRequired>
+              <FormGroup isInline fieldId="cost-distribution-worker-unallocated" isRequired>
                 <Radio
-                  isChecked={this.state.distributeWorkersUnallocated}
-                  name="distributeWorkersUnallocated"
+                  isChecked={this.state.distributeWorkerUnallocated}
+                  name="distributeWorkerUnallocated"
                   label={intl.formatMessage(messages.distribute)}
                   aria-label={intl.formatMessage(messages.distribute)}
-                  id="distributeWorkersTrue"
+                  id="distributeWorkerTrue"
                   value="true"
-                  onChange={this.handleDistributeWorkersUnallocatedChange}
+                  onChange={this.handleDistributeWorkerUnallocatedChange}
                 />
                 <Radio
-                  isChecked={!this.state.distributeWorkersUnallocated}
-                  name="distributeWorkersUnallocated"
+                  isChecked={!this.state.distributeWorkerUnallocated}
+                  name="distributeWorkerUnallocated"
                   label={intl.formatMessage(messages.doNotDistribute)}
                   aria-label={intl.formatMessage(messages.doNotDistribute)}
-                  id="distributeWorkersFalse"
+                  id="distributeWorkerFalse"
                   value="false"
-                  onChange={this.handleDistributeWorkersUnallocatedChange}
+                  onChange={this.handleDistributeWorkerUnallocatedChange}
                 />
               </FormGroup>
             </Form>

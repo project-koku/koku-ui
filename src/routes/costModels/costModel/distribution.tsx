@@ -75,7 +75,7 @@ const DistributionCardBase: React.FC<Props> = ({
         <CardBody isFilled />
         <CardBody style={styles.cardBody}>
           <div>
-            {intl.formatMessage(messages.distributionTypeDescription, {
+            {intl.formatMessage(messages.distributionTypeDesc, {
               type: current.distribution_info.distribution_type,
             })}
           </div>
@@ -88,7 +88,7 @@ const DistributionCardBase: React.FC<Props> = ({
           <div>
             {intl.formatMessage(messages.distributeCosts, {
               value: current.distribution_info.worker_cost,
-              type: 'workers',
+              type: 'worker',
             })}
           </div>
         </CardBody>
