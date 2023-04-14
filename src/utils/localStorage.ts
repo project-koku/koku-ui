@@ -1,9 +1,10 @@
-const accountCurrencyID = 'cost_management_account_currency';
-const costDistributionID = 'cost_management_cost_distribution';
-const costTypeID = 'cost_management_cost_type';
-const currencyID = 'cost_management_currency';
-const inactiveSourcesID = 'cost_management_inactive_sources';
-const sessionTokenID = 'cost_management_session';
+const accountCurrencyID = 'account_currency';
+const costDistributionID = 'cost_distribution';
+const costManagementID = 'cost_management';
+const costTypeID = 'costType';
+const currencyID = 'currency';
+const inactiveSourcesID = 'inactive_sources';
+const sessionTokenID = 'session';
 
 // Returns a subset of the token cookie
 export const getPartialToken = async () => {
@@ -18,38 +19,78 @@ export const getPartialToken = async () => {
 
 // Deletes session token
 export const deleteSessionToken = () => {
-  localStorage.removeItem(sessionTokenID);
+  removeItem(sessionTokenID);
 };
 
 // Returns session token
 export const getSessionToken = () => {
-  return localStorage.getItem(sessionTokenID);
+  return getItem(sessionTokenID);
 };
 
 // Invalidates session if not valid and restores query param values
 export const invalidateSession = (force = false) => {
-  if (!isSessionValid() || force) {
-    deleteSessionToken();
-
-    // Delete cost type
-    deleteCostType();
-
-    // Delete currency
-    deleteAccountCurrency();
-    deleteCurrency();
+  if (force) {
+    localStorage.removeItem(costManagementID);
+    return;
   }
+  isSessionValid().then(valid => {
+    if (!valid) {
+      localStorage.removeItem(costManagementID);
+    }
+  });
 };
 
 // Returns true if session is valid
 export const isSessionValid = async () => {
-  const partialToken = await getPartialToken();
-  return getSessionToken() === partialToken;
+  const token = getSessionToken();
+  if (!token) {
+    return true; // Don't clear
+  }
+  return getPartialToken().then(partialToken => {
+    const test = token === partialToken;
+    return test;
+  });
 };
 
 // Save partial session token
 export const saveSessionToken = async () => {
   const partialToken = await getPartialToken();
-  localStorage.setItem(sessionTokenID, partialToken);
+  setItem(sessionTokenID, partialToken);
+};
+
+/**
+ * Common
+ */
+export const getStorage = () => {
+  const s = localStorage.getItem(costManagementID);
+  return s && s !== null ? JSON.parse(s) : undefined;
+};
+
+export const getItem = (id: string) => {
+  const s = getStorage();
+  return s ? s[id] : undefined;
+};
+
+export const removeItem = (id: string) => {
+  const s = getStorage();
+  if (s) {
+    s[id] = undefined;
+    localStorage.setItem(costManagementID, JSON.stringify(s));
+  }
+};
+
+export const setItem = (id: string, value: string) => {
+  // Don't store undefined https://issues.redhat.com/browse/COST-3683
+  if (!value) {
+    return;
+  }
+  let s = getStorage();
+  if (!s) {
+    s = {};
+  }
+  s[id] = value;
+
+  localStorage.setItem(costManagementID, JSON.stringify(s));
 };
 
 /**
@@ -58,18 +99,18 @@ export const saveSessionToken = async () => {
 
 // Delete cost distribution
 export const deleteCostDistribution = () => {
-  localStorage.removeItem(costDistributionID);
+  removeItem(costDistributionID);
 };
 
 // Returns cost distribution
 export const getCostDistribution = () => {
-  const costDistribution = localStorage.getItem(costDistributionID);
+  const costDistribution = getItem(costDistributionID);
   return costDistribution && costDistribution !== null ? costDistribution : undefined;
 };
 
 // Returns true if cost distribution is available
 export const isCostDistributionAvailable = () => {
-  const costDistribution = localStorage.getItem(costDistributionID);
+  const costDistribution = getItem(costDistributionID);
   return costDistribution && costDistribution !== null;
 };
 
@@ -79,7 +120,7 @@ export const setCostDistribution = (value: string) => {
   if (!value) {
     return;
   }
-  localStorage.setItem(costDistributionID, value);
+  setItem(costDistributionID, value);
   saveSessionToken();
 };
 
@@ -89,18 +130,18 @@ export const setCostDistribution = (value: string) => {
 
 // Delete cost type
 export const deleteCostType = () => {
-  localStorage.removeItem(costTypeID);
+  removeItem(costTypeID);
 };
 
 // Returns cost type
 export const getCostType = () => {
-  const costType = localStorage.getItem(costTypeID);
+  const costType = getItem(costTypeID);
   return costType && costType !== null ? costType : undefined;
 };
 
 // Returns true if cost type is available
 export const isCostTypeAvailable = () => {
-  const costType = localStorage.getItem(costTypeID);
+  const costType = getItem(costTypeID);
   return costType && costType !== null;
 };
 
@@ -110,7 +151,7 @@ export const setCostType = (value: string) => {
   if (!value) {
     return;
   }
-  localStorage.setItem(costTypeID, value);
+  setItem(costTypeID, value);
   saveSessionToken();
 };
 
@@ -120,49 +161,41 @@ export const setCostType = (value: string) => {
 
 // Deletes account currency
 export const deleteAccountCurrency = () => {
-  localStorage.removeItem(accountCurrencyID);
+  removeItem(accountCurrencyID);
 };
 
 // Deletes currency
 export const deleteCurrency = () => {
-  localStorage.removeItem(currencyID);
+  removeItem(currencyID);
 };
 
 // Returns account currency
 export const getAccountCurrency = () => {
-  const units = localStorage.getItem(accountCurrencyID);
+  const units = getItem(accountCurrencyID);
   return units ? units : 'USD';
 };
 
 // Returns currency
 export const getCurrency = () => {
-  const units = localStorage.getItem(currencyID);
+  const units = getItem(currencyID);
   return units ? units : 'USD';
 };
 
 // Returns true if currency is available
 export const isCurrencyAvailable = () => {
-  const currency = localStorage.getItem(currencyID);
+  const currency = getItem(currencyID);
   return currency && currency !== null;
 };
 
 // Set account currency
 export const setAccountCurrency = (value: string) => {
-  // Don't store undefined https://issues.redhat.com/browse/COST-3683
-  if (!value) {
-    return;
-  }
-  localStorage.setItem(accountCurrencyID, value);
+  setItem(accountCurrencyID, value);
   saveSessionToken();
 };
 
 // Set currency
 export const setCurrency = (value: string) => {
-  // Don't store undefined https://issues.redhat.com/browse/COST-3683
-  if (!value) {
-    return;
-  }
-  localStorage.setItem(currencyID, value);
+  setItem(currencyID, value);
   saveSessionToken();
 };
 
@@ -172,20 +205,12 @@ export const setCurrency = (value: string) => {
 
 // Deletes inactive sources
 export const deleteInactiveSources = () => {
-  localStorage.removeItem(inactiveSourcesID);
+  removeItem(inactiveSourcesID);
 };
 
 // Returns inactive sources
 export const getInactiveSources = () => {
-  return localStorage.getItem(inactiveSourcesID);
-};
-
-// Invalidates inactive sources if current session is not valid
-export const invalidateInactiveSources = () => {
-  if (!isSessionValid()) {
-    deleteSessionToken();
-    deleteInactiveSources();
-  }
+  return getItem(inactiveSourcesID);
 };
 
 // Returns true if inactive sources is valid for the current session
@@ -195,10 +220,6 @@ export const isInactiveSourcesValid = () => {
 
 // Set inactive sources
 export const setInactiveSources = (value: string) => {
-  // Don't store undefined https://issues.redhat.com/browse/COST-3683
-  if (!value) {
-    return;
-  }
-  localStorage.setItem(inactiveSourcesID, value);
+  setItem(inactiveSourcesID, value);
   saveSessionToken();
 };
