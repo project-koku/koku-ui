@@ -51,7 +51,7 @@ interface SourcesErrorStateProps extends WrappedComponentProps {
 
 export const SourceStepErrorStateBase: React.FC<SourcesErrorStateProps> = ({ intl, onRefresh }) => {
   const title = intl.formatMessage(messages.costModelsWizardSourceErrorTitle);
-  const description = intl.formatMessage(messages.costModelsWizardSourceErrorDescription, {
+  const description = intl.formatMessage(messages.costModelsWizardSourceErrorDesc, {
     url: (
       <a href={intl.formatMessage(messages.redHatStatusUrl)} rel="noreferrer" target="_blank">
         "Status Page"
@@ -99,7 +99,7 @@ type SourcesModalErrorProps = SourcesModalErrorOwnProps &
 
 export const SourcesModalErrorStateBase: React.FC<SourcesModalErrorProps> = ({ intl, onRefresh }) => {
   const title = intl.formatMessage(messages.costModelsAssignSourcesErrorTitle);
-  const description = intl.formatMessage(messages.costModelsAssignSourcesErrorDescription, {
+  const description = intl.formatMessage(messages.costModelsAssignSourcesErrorDesc, {
     url: (
       <a href={intl.formatMessage(messages.redHatStatusUrl)} rel="noreferrer" target="_blank">
         "Status Page"

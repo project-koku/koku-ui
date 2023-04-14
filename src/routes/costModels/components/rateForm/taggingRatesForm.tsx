@@ -75,7 +75,7 @@ const TaggingRatesFormBase: React.FC<TaggingRatesFormProps> = ({
                 id={`desc_${ix}`}
                 label={messages.description}
                 validated={errors.tagDescription[ix] ? 'error' : 'default'}
-                placeholder={intl.formatMessage(messages.costModelsEnterTagDescription)}
+                placeholder={intl.formatMessage(messages.costModelsEnterTagDesc)}
                 value={tag.description}
                 onChange={value => updateTag({ description: value }, ix)}
                 helperTextInvalid={errors.tagDescription[ix]}

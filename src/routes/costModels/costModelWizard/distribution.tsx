@@ -29,10 +29,10 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
         {({
           handleDistributionChange,
           handleDistributePlatformUnallocatedChange,
-          handleDistributeWorkersUnallocatedChange,
+          handleDistributeWorkerUnallocatedChange,
           distribution,
           distributePlatformUnallocated,
-          distributeWorkersUnallocated,
+          distributeWorkerUnallocated,
         }) => {
           return (
             <Stack hasGutter>
@@ -81,7 +81,7 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                   {intl.formatMessage(messages.platform)}
                 </Title>
                 <TextContent>
-                  <Text style={styles.cardDescription}>{intl.formatMessage(messages.platformDescription)}</Text>
+                  <Text style={styles.cardDescription}>{intl.formatMessage(messages.platformDesc)}</Text>
                 </TextContent>
               </StackItem>
               <StackItem isFilled>
@@ -110,34 +110,32 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
               </StackItem>
               <StackItem>
                 <Title headingLevel="h3" size="md">
-                  {intl.formatMessage(messages.workersUnallocated)}
+                  {intl.formatMessage(messages.workerUnallocated)}
                 </Title>
                 <TextContent>
-                  <Text style={styles.cardDescription}>
-                    {intl.formatMessage(messages.workersUnallocatedDescription)}
-                  </Text>
+                  <Text style={styles.cardDescription}>{intl.formatMessage(messages.workerUnallocatedDesc)}</Text>
                 </TextContent>
               </StackItem>
               <StackItem isFilled>
                 <Form>
-                  <FormGroup isInline fieldId="cost-distribution-workers-unallocated" isRequired>
+                  <FormGroup isInline fieldId="cost-distribution-worker-unallocated" isRequired>
                     <Radio
-                      isChecked={distributeWorkersUnallocated}
-                      name="distributeWorkersUnallocated"
+                      isChecked={distributeWorkerUnallocated}
+                      name="distributeWorkerUnallocated"
                       label={intl.formatMessage(messages.distribute)}
                       aria-label={intl.formatMessage(messages.distribute)}
-                      id="distributeWorkersTrue"
+                      id="distributeWorkerTrue"
                       value="true"
-                      onChange={handleDistributeWorkersUnallocatedChange}
+                      onChange={handleDistributeWorkerUnallocatedChange}
                     />
                     <Radio
-                      isChecked={!distributeWorkersUnallocated}
-                      name="distributeWorkersUnallocated"
+                      isChecked={!distributeWorkerUnallocated}
+                      name="distributeWorkerUnallocated"
                       label={intl.formatMessage(messages.doNotDistribute)}
                       aria-label={intl.formatMessage(messages.doNotDistribute)}
-                      id="distributeWorkersFalse"
+                      id="distributeWorkerFalse"
                       value="false"
-                      onChange={handleDistributeWorkersUnallocatedChange}
+                      onChange={handleDistributeWorkerUnallocatedChange}
                     />
                   </FormGroup>
                 </Form>
