@@ -1,6 +1,7 @@
 import type { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
 import {
   clusterWidget,
+  costDistributionWidget,
   costWidget,
   cpuUsageWidget,
   memoryUsageWidget,
@@ -16,6 +17,7 @@ export type OcpCostOverviewState = Readonly<{
 export const defaultState: OcpCostOverviewState = {
   currentWidgets: [
     costWidget.id,
+    costDistributionWidget.id,
     clusterWidget.id,
     projectSummaryWidget.id,
     cpuUsageWidget.id,
@@ -24,6 +26,7 @@ export const defaultState: OcpCostOverviewState = {
   ],
   widgets: {
     [costWidget.id]: costWidget,
+    [costDistributionWidget.id]: costDistributionWidget,
     [clusterWidget.id]: clusterWidget,
     [projectSummaryWidget.id]: projectSummaryWidget,
     [cpuUsageWidget.id]: cpuUsageWidget,

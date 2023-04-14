@@ -89,8 +89,8 @@ class CostChartBase extends React.Component<CostChartProps, any> {
           this.getSkeleton()
         ) : (
           <ChartPie
-            ariaDesc={intl.formatMessage(messages.breakdownCostChartAriaDesc)}
-            ariaTitle={intl.formatMessage(messages.breakdownCostBreakdownTitle)}
+            ariaDesc={intl.formatMessage(messages.costBreakdownAriaDesc)}
+            ariaTitle={intl.formatMessage(messages.costBreakdownTitle)}
             constrainToVisibleArea
             data={[
               { x: rawLabel, y: rawValue, units: rawUnits },
@@ -99,7 +99,7 @@ class CostChartBase extends React.Component<CostChartProps, any> {
             ]}
             height={chartStyles.chartHeight}
             labels={({ datum }) =>
-              intl.formatMessage(messages.breakdownCostChartTooltip, {
+              intl.formatMessage(messages.costBreakdownTooltip, {
                 name: datum.x,
                 value: formatCurrency(datum.y, datum.units),
               })
