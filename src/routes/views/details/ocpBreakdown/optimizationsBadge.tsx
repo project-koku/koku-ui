@@ -38,11 +38,6 @@ type OptimizationsBadgeProps = OptimizationsBadgeOwnProps &
   OptimizationsBadgeStateProps &
   OptimizationsBadgeDispatchProps;
 
-const baseQuery: RosQuery = {
-  limit: 10,
-  offset: 0,
-};
-
 const reportPathsType = RosPathsType.recommendations;
 const reportType = RosType.ros;
 
@@ -80,12 +75,11 @@ const mapStateToProps = createMapStateToProps<OptimizationsBadgeOwnProps, Optimi
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
 
-    const reportQuery = {
+    // Don't need pagination here
+    const reportQuery: any = {
       ...(groupBy && {
         [groupBy]: groupByValue, // project filter
       }),
-      limit: queryFromRoute.limit || baseQuery.limit,
-      offset: queryFromRoute.offset || baseQuery.offset,
     };
 
     const reportQueryString = getQuery(reportQuery);
