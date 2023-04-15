@@ -57,6 +57,7 @@ class CostDistributionChartBase extends React.Component<CostDistributionChartPro
     const hasCost = report && report.meta && report.meta.total && report.meta.total.cost;
     const hasPlatformDistributed = hasCost && report.meta.total.cost.platform_distributed;
     const hasWorkerUnallocated = hasCost && report.meta.total.cost.worker_unallocated_distributed;
+    const hasCostPlatformDistributed = hasCost && report.meta.total.cost.platform_distributed;
     const hasCostTotal = hasCost && report.meta.total.cost.total;
 
     const platformDistributedUnits = hasPlatformDistributed ? report.meta.total.cost.platform_distributed.units : 'USD';
@@ -69,7 +70,7 @@ class CostDistributionChartBase extends React.Component<CostDistributionChartPro
     const workerUnallocatedValue = hasWorkerUnallocated
       ? report.meta.total.cost.worker_unallocated_distributed.value
       : 0;
-    const totalCostValue = hasCostTotal ? report.meta.total.cost.total.value : 0;
+    const totalCostValue = hasCostPlatformDistributed ? report.meta.total.cost.total.value : 0;
 
     const platformDistributed = formatCurrency(
       hasPlatformDistributed ? report.meta.total.cost.platform_distributed.value : 0,
@@ -79,7 +80,7 @@ class CostDistributionChartBase extends React.Component<CostDistributionChartPro
       hasWorkerUnallocated ? report.meta.total.cost.worker_unallocated_distributed.value : 0,
       workerUnallocatedUnits
     );
-    const totalCost = formatCurrency(hasCostTotal ? report.meta.total.cost.total.value : 0, totalCostUnits);
+    const totalCost = formatCurrency(totalCostValue, totalCostUnits);
 
     const platformDistributedLabel = intl.formatMessage(messages.platformDistributed);
     const workerUnallocatedLabel = intl.formatMessage(messages.workerUnallocated);

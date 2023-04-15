@@ -25,6 +25,7 @@ import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportIte
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 
+import { CostDistributionType } from '../../utils/costDistribution';
 import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
@@ -66,7 +67,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
 
   public render() {
     const {
-      costDistribution,
+      costDistribution = CostDistributionType.total,
       currency,
       groupBy,
       isExportsFeatureEnabled,
@@ -85,12 +86,12 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
     let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
 
     if (report && report.meta && report.meta.total) {
-      const hasCost = report.meta.total.cost && report.meta.total.cost.total;
+      const hasCost = report.meta.total.cost && report.meta.total.cost[costDistribution];
       const hasSupplementaryCost = report.meta.total.supplementary && report.meta.total.supplementary.total;
       const hasInfrastructureCost = report.meta.total.infrastructure && report.meta.total.infrastructure.total;
       cost = formatCurrency(
-        hasCost ? report.meta.total.cost.total.value : 0,
-        hasCost ? report.meta.total.cost.total.units : 'USD'
+        hasCost ? report.meta.total.cost[costDistribution].value : 0,
+        hasCost ? report.meta.total.cost[costDistribution].units : 'USD'
       );
       supplementaryCost = formatCurrency(
         hasSupplementaryCost ? report.meta.total.supplementary.total.value : 0,

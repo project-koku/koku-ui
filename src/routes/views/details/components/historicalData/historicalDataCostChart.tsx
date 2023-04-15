@@ -10,6 +10,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { DatumType, transformReport } from 'routes/views/components/charts/common/chartDatum';
 import { HistoricalCostChart } from 'routes/views/components/charts/historicalCostChart';
+import { CostDistributionType } from 'routes/views/utils/costDistribution';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -23,6 +24,7 @@ import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalDataCostChartOwnProps extends RouterComponentProps, WrappedComponentProps {
   chartName?: string;
+  costDistribution: string;
   costType?: string;
   currency?: string;
   reportPathsType: ReportPathsType;
@@ -86,11 +88,18 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
   };
 
   public render() {
-    const { chartName, currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, intl } =
-      this.props;
+    const {
+      chartName,
+      costDistribution = CostDistributionType.total,
+      currentReport,
+      currentReportFetchStatus,
+      previousReport,
+      previousReportFetchStatus,
+      intl,
+    } = this.props;
 
     // Current data
-    const currentData = transformReport(currentReport, DatumType.cumulative, 'date', 'cost');
+    const currentData = transformReport(currentReport, DatumType.cumulative, 'date', 'cost', costDistribution);
     const currentInfrastructureCostData = transformReport(
       currentReport,
       DatumType.cumulative,
@@ -99,7 +108,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
     );
 
     // Previous data
-    const previousData = transformReport(previousReport, DatumType.cumulative, 'date', 'cost');
+    const previousData = transformReport(previousReport, DatumType.cumulative, 'date', 'cost', costDistribution);
     const previousInfrastructureCostData = transformReport(
       previousReport,
       DatumType.cumulative,
@@ -109,7 +118,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
 
     const costUnits =
       currentReport && currentReport.meta && currentReport.meta.total && currentReport.meta.total.cost
-        ? currentReport.meta.total.cost.total.units
+        ? currentReport.meta.total.cost[costDistribution].units
         : 'USD';
 
     const test = intl.formatMessage(messages.currencyUnits, { units: costUnits });

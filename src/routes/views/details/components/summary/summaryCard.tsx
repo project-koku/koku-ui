@@ -21,6 +21,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { ReportSummaryItem, ReportSummaryItems } from 'routes/views/components/reports/reportSummary';
 import { SummaryModal } from 'routes/views/details/components/summary/summaryModal';
+import { CostDistributionType } from 'routes/views/utils/costDistribution';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -33,6 +34,7 @@ import { skeletonWidth } from 'utils/skeleton';
 import { styles } from './summaryCard.styles';
 
 interface SummaryOwnProps extends RouterComponentProps, WrappedComponentProps {
+  costDistribution: string;
   costType?: string;
   currency?: string;
   isPlatformCosts?: boolean;
@@ -92,7 +94,7 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
   };
 
   private getSummary = () => {
-    const { report, reportGroupBy, reportFetchStatus } = this.props;
+    const { costDistribution = CostDistributionType.total, report, reportGroupBy, reportFetchStatus } = this.props;
     return (
       <ReportSummaryItems idKey={reportGroupBy as any} report={report} status={reportFetchStatus}>
         {({ items }) =>
@@ -101,9 +103,9 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
               formatOptions={{}}
               key={`${reportItem.id}-item`}
               label={reportItem.label ? reportItem.label.toString() : undefined}
-              totalValue={report.meta.total.cost.total.value}
-              units={report.meta.total.cost.total.units}
-              value={reportItem.cost.total.value}
+              totalValue={report.meta.total.cost[costDistribution].value}
+              units={report.meta.total.cost[costDistribution].units}
+              value={reportItem.cost[costDistribution].value}
             />
           ))
         }
@@ -112,7 +114,17 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
   };
 
   private getViewAll = () => {
-    const { costType, currency, groupBy, intl, isPlatformCosts, query, reportGroupBy, reportPathsType } = this.props;
+    const {
+      costDistribution,
+      costType,
+      currency,
+      groupBy,
+      intl,
+      isPlatformCosts,
+      query,
+      reportGroupBy,
+      reportPathsType,
+    } = this.props;
     const { isBulletChartModalOpen } = this.state;
 
     const computedItems = this.getItems();
@@ -138,6 +150,7 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
             {intl.formatMessage(messages.detailsViewAll, { value: reportGroupBy })}
           </Button>
           <SummaryModal
+            costDistribution={costDistribution}
             costType={costType}
             currency={currency}
             groupBy={groupBy}

@@ -14,7 +14,11 @@ import { Loading } from 'routes/state/loading';
 import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
-import { handleCostTypeSelected, handleCurrencySelected } from 'routes/views/utils/handles';
+import {
+  handleCostDistributionSelected,
+  handleCostTypeSelected,
+  handleCurrencySelected,
+} from 'routes/views/utils/handles';
 import { hasCurrentMonthData } from 'routes/views/utils/providers';
 import { FetchStatus } from 'store/common';
 import type { reportActions } from 'store/reports';
@@ -299,6 +303,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
           description={description}
           detailsURL={detailsURL}
           groupBy={groupBy}
+          onCostDistributionSelected={value => handleCostDistributionSelected(query, router, value)}
           onCostTypeSelected={value => handleCostTypeSelected(query, router, value)}
           onCurrencySelected={value => handleCurrencySelected(query, router, value)}
           query={query}

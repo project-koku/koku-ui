@@ -11,6 +11,7 @@ import { injectIntl } from 'react-intl';
 import { SummaryModalContent } from './summaryModalContent';
 
 interface SummaryModalOwnProps {
+  costDistribution?: string;
   costType?: string;
   currency?: string;
   groupBy: string;
@@ -40,7 +41,8 @@ class SummaryModalBase extends React.Component<SummaryModalProps, any> {
   };
 
   public render() {
-    const { costType, currency, groupByValue, intl, isOpen, reportGroupBy, reportPathsType } = this.props;
+    const { costDistribution, costType, currency, groupByValue, intl, isOpen, reportGroupBy, reportPathsType } =
+      this.props;
 
     return (
       <Modal
@@ -54,6 +56,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps, any> {
         variant="large"
       >
         <SummaryModalContent
+          costDistribution={costDistribution}
           costType={costType}
           currency={currency}
           reportGroupBy={reportGroupBy}
