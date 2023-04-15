@@ -1,6 +1,5 @@
-import { getCostType } from 'routes/views/utils/costType';
 import type { RootState } from 'store/rootReducer';
-import { getCurrency } from 'utils/localStorage';
+import { getCostType, getCurrency } from 'utils/localStorage';
 
 import {
   awsDashboardDefaultFilters,

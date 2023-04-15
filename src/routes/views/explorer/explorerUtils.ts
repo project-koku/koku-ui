@@ -156,10 +156,13 @@ export const getComputedReportItemType = (perspective: string) => {
   return result;
 };
 
-export const getComputedReportItemValueType = (perspective: string) => {
+export const getComputedReportItemValueType = (perspective: string, groupBy, costDistribution) => {
   let result;
   switch (perspective) {
     // Removed "OpenShift usage" perspective -- see https://issues.redhat.com/browse/COST-1722
+    case PerspectiveType.ocp:
+      result = groupBy === 'project' ? costDistribution : ComputedReportItemValueType.total;
+      break;
     default:
       result = ComputedReportItemValueType.total;
       break;

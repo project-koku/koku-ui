@@ -19,7 +19,6 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
-import { getCostType } from 'routes/views/utils/costType';
 import type { DateRangeType } from 'routes/views/utils/dateRange';
 import { getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
@@ -43,7 +42,7 @@ import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { getCostDistribution, getCurrency } from 'utils/localStorage';
+import { getCostDistribution, getCostType, getCurrency } from 'utils/localStorage';
 import { noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -240,7 +239,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
   };
 
   private getTable = () => {
-    const { perspective, query, report, reportFetchStatus, router } = this.props;
+    const { costDistribution, perspective, query, report, reportFetchStatus, router } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -250,7 +249,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     return (
       <ExplorerTable
         computedReportItemType={getComputedReportItemType(perspective)}
-        computedReportItemValueType={getComputedReportItemValueType(perspective)}
+        computedReportItemValueType={getComputedReportItemValueType(perspective, groupById, costDistribution)}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
         groupByOrg={groupByOrg}
@@ -495,7 +494,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
                 costType={costType}
                 currency={currency}
                 computedReportItemType={getComputedReportItemType(perspective)}
-                computedReportItemValueType={getComputedReportItemValueType(perspective)}
+                computedReportItemValueType={getComputedReportItemValueType(perspective, groupById, costDistribution)}
                 perspective={perspective}
               />
             </div>

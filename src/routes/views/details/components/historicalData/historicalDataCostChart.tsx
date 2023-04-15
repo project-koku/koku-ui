@@ -10,7 +10,6 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { DatumType, transformReport } from 'routes/views/components/charts/common/chartDatum';
 import { HistoricalCostChart } from 'routes/views/components/charts/historicalCostChart';
-import { CostDistributionType } from 'routes/views/utils/costDistribution';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -90,7 +89,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
   public render() {
     const {
       chartName,
-      costDistribution = CostDistributionType.total,
+      costDistribution,
       currentReport,
       currentReportFetchStatus,
       previousReport,

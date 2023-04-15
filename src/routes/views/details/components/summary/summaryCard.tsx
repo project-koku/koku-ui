@@ -21,7 +21,6 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { ReportSummaryItem, ReportSummaryItems } from 'routes/views/components/reports/reportSummary';
 import { SummaryModal } from 'routes/views/details/components/summary/summaryModal';
-import { CostDistributionType } from 'routes/views/utils/costDistribution';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -94,7 +93,7 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
   };
 
   private getSummary = () => {
-    const { costDistribution = CostDistributionType.total, report, reportGroupBy, reportFetchStatus } = this.props;
+    const { costDistribution, report, reportGroupBy, reportFetchStatus } = this.props;
     return (
       <ReportSummaryItems idKey={reportGroupBy as any} report={report} status={reportFetchStatus}>
         {({ items }) =>

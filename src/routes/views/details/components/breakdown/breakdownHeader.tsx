@@ -17,7 +17,6 @@ import { Currency } from 'routes/components/currency';
 import { CostDistribution } from 'routes/views/components/costDistribution';
 import { CostType } from 'routes/views/components/costType';
 import { TagLink } from 'routes/views/details/components/tag';
-import { CostDistributionType } from 'routes/views/utils/costDistribution';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
 import { getTotalCostDateRangeString } from 'utils/dates';
@@ -104,7 +103,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   };
 
   private getTotalCost = () => {
-    const { costDistribution = CostDistributionType.total, report } = this.props;
+    const { costDistribution, report } = this.props;
 
     const hasCost =
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[costDistribution];

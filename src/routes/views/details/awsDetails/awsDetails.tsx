@@ -19,7 +19,6 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
-import { getCostType } from 'routes/views/utils/costType';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleCostTypeSelected,
@@ -38,7 +37,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { getCurrency } from 'utils/localStorage';
+import { getCostType, getCurrency } from 'utils/localStorage';
 import { logicalOrPrefix, noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';

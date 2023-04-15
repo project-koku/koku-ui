@@ -8,7 +8,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { CostDistributionType } from 'routes/views/utils/costDistribution';
+import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { createMapStateToProps } from 'store/common';
 import { invalidateSession, setCostDistribution } from 'utils/localStorage';
 
@@ -47,8 +47,8 @@ const costDistributionOptions: {
   label: MessageDescriptor;
   value: string;
 }[] = [
-  { label: messages.costDistributionType, value: CostDistributionType.distributed },
-  { label: messages.costDistributionType, value: CostDistributionType.total },
+  { label: messages.costDistributionType, value: ComputedReportItemValueType.distributed },
+  { label: messages.costDistributionType, value: ComputedReportItemValueType.total },
 ];
 
 class CostDistributionBase extends React.Component<CostDistributionProps, CostDistributionState> {
@@ -58,7 +58,7 @@ class CostDistributionBase extends React.Component<CostDistributionProps, CostDi
   public state: CostDistributionState = { ...this.defaultState };
 
   private getSelect = () => {
-    const { costDistribution = CostDistributionType.total, isDisabled } = this.props;
+    const { costDistribution, isDisabled } = this.props;
     const { isSelectOpen } = this.state;
 
     const selectOptions = this.getSelectOptions();
