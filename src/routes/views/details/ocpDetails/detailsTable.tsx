@@ -14,6 +14,7 @@ import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { Actions } from 'routes/views/details/components/actions';
 import { DataTable } from 'routes/views/details/components/dataTable';
 import { styles } from 'routes/views/details/components/dataTable/dataTable.styles';
+import { CostDistributionType } from 'routes/views/utils/costDistribution';
 import { getBreakdownPath } from 'routes/views/utils/paths';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
@@ -27,9 +28,10 @@ import { withRouter } from 'utils/router';
 import DetailsOptimization from './detailsOptimization';
 
 interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
+  costDistribution?: string;
   groupBy: string;
   groupByTagKey: string;
-  hiddenColumns: Set<string>;
+  hiddenColumns?: Set<string>;
   isAllSelected?: boolean;
   isLoading?: boolean;
   isRosFeatureEnabled?: boolean;
@@ -66,12 +68,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   }
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
-    const { hiddenColumns, report, selectedItems } = this.props;
+    const { costDistribution, hiddenColumns, report, selectedItems } = this.props;
     const currentReport = report && report.data ? JSON.stringify(report.data) : '';
     const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
 
     if (
       previousReport !== currentReport ||
+      prevProps.costDistribution !== costDistribution ||
       prevProps.selectedItems !== selectedItems ||
       prevProps.hiddenColumns !== hiddenColumns
     ) {
@@ -316,10 +319,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   };
 
   private getSupplementaryCost = (item: ComputedReportItem, index: number) => {
-    const { report, intl } = this.props;
+    const { costDistribution = CostDistributionType.total, report, intl } = this.props;
     const cost =
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
-        ? report.meta.total.cost.total.value
+      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[costDistribution]
+        ? report.meta.total.cost[costDistribution].value
         : 0;
     const percentValue = cost === 0 ? cost.toFixed(2) : ((item.supplementary.total.value / cost) * 100).toFixed(2);
     return (
@@ -333,10 +336,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   };
 
   private getInfrastructureCost = (item: ComputedReportItem, index: number) => {
-    const { report, intl } = this.props;
+    const { costDistribution = CostDistributionType.total, report, intl } = this.props;
     const cost =
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
-        ? report.meta.total.cost.total.value
+      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[costDistribution]
+        ? report.meta.total.cost[costDistribution].value
         : 0;
     const percentValue = cost === 0 ? cost.toFixed(2) : ((item.infrastructure.total.value / cost) * 100).toFixed(2);
     return (
@@ -350,8 +353,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   };
 
   private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
-    const { intl } = this.props;
-    const value = formatCurrency(Math.abs(item.cost.total.value - item.delta_value), item.cost.total.units);
+    const { costDistribution = CostDistributionType.total, intl } = this.props;
+    const value = formatCurrency(
+      Math.abs(item.cost[costDistribution].value - item.delta_value),
+      item.cost[costDistribution].units
+    );
     const percentage = item.delta_percent !== null ? formatPercentage(Math.abs(item.delta_percent)) : 0;
 
     const showPercentage = !(percentage === 0 || percentage === '0.00');
@@ -395,15 +401,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   };
 
   private getTotalCost = (item: ComputedReportItem, index: number) => {
-    const { report, intl } = this.props;
+    const { costDistribution = CostDistributionType.total, report, intl } = this.props;
     const cost =
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
-        ? report.meta.total.cost.total.value
+      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[costDistribution]
+        ? report.meta.total.cost[costDistribution].value
         : 0;
-    const percentValue = cost === 0 ? cost.toFixed(2) : ((item.cost.total.value / cost) * 100).toFixed(2);
+    const percentValue = cost === 0 ? cost.toFixed(2) : ((item.cost[costDistribution].value / cost) * 100).toFixed(2);
     return (
       <>
-        {formatCurrency(item.cost.total.value, item.cost.total.units)}
+        {formatCurrency(item.cost[costDistribution].value, item.cost[costDistribution].units)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {intl.formatMessage(messages.percentOfCost, { value: percentValue })}
         </div>

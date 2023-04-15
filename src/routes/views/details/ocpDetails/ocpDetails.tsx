@@ -251,7 +251,8 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
   };
 
   private getTable = () => {
-    const { isRosFeatureEnabled, query, report, reportFetchStatus, reportQueryString, router } = this.props;
+    const { costDistribution, isRosFeatureEnabled, query, report, reportFetchStatus, reportQueryString, router } =
+      this.props;
     const { hiddenColumns, isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -259,6 +260,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
 
     return (
       <DetailsTable
+        costDistribution={costDistribution}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
         hiddenColumns={hiddenColumns}

@@ -29,6 +29,7 @@ import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/cost
 import { platformCategoryKey, tagPrefix } from 'utils/props';
 
 interface CostOverviewOwnProps {
+  costDistribution?: string;
   costType?: string;
   currency?: string;
   groupBy: string;
@@ -197,7 +198,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns summary card widget
   private getSummaryCard = (widget: CostOverviewWidget) => {
-    const { costType, currency, groupBy, isPlatformCosts, query } = this.props;
+    const { costDistribution, costType, currency, groupBy, isPlatformCosts, query } = this.props;
 
     const groupByOrg = getGroupByOrgValue(query);
     const groupByTag = getGroupByTagKey(query);
@@ -222,6 +223,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
     if (showWidget) {
       return (
         <SummaryCard
+          costDistribution={costDistribution}
           costType={costType}
           currency={currency}
           isPlatformCosts={isPlatformCosts}

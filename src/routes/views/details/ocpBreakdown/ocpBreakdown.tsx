@@ -98,6 +98,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     costDistribution,
     costOverviewComponent: (
       <CostOverview
+        costDistribution={costDistribution}
         currency={currency}
         groupBy={groupBy}
         isPlatformCosts={queryFromRoute && queryFromRoute.isPlatformCosts}
@@ -111,7 +112,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     emptyStateTitle: intl.formatMessage(messages.ocpDetailsTitle),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData currency={currency} />,
+    historicalDataComponent: <HistoricalData costDistribution={costDistribution} currency={currency} />,
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
     isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
     optimizationsBadgeComponent: <OptimizationsBadge />,

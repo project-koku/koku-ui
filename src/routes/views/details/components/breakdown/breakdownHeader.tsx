@@ -17,6 +17,7 @@ import { Currency } from 'routes/components/currency';
 import { CostDistribution } from 'routes/views/components/costDistribution';
 import { CostType } from 'routes/views/components/costType';
 import { TagLink } from 'routes/views/details/components/tag';
+import { CostDistributionType } from 'routes/views/utils/costDistribution';
 import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
 import { getTotalCostDateRangeString } from 'utils/dates';
@@ -103,13 +104,13 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   };
 
   private getTotalCost = () => {
-    const { report } = this.props;
+    const { costDistribution = CostDistributionType.total, report } = this.props;
 
     const hasCost =
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total;
+      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[costDistribution];
     const cost = formatCurrency(
-      hasCost ? report.meta.total.cost.total.value : 0,
-      hasCost ? report.meta.total.cost.total.units : 'USD'
+      hasCost ? report.meta.total.cost[costDistribution].value : 0,
+      hasCost ? report.meta.total.cost[costDistribution].units : 'USD'
     );
 
     return cost;

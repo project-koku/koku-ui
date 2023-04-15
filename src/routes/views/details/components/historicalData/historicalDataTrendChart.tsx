@@ -23,6 +23,7 @@ import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalDataTrendChartOwnProps extends RouterComponentProps, WrappedComponentProps {
   chartName?: string;
+  costDistribution: string;
   costType?: string;
   currency?: string;
   reportPathsType: ReportPathsType;
