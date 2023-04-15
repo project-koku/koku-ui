@@ -14,6 +14,7 @@ import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { Actions } from 'routes/views/details/components/actions';
 import { DataTable } from 'routes/views/details/components/dataTable';
 import { styles } from 'routes/views/details/components/dataTable/dataTable.styles';
+import { CostDistributionType } from 'routes/views/utils/costDistribution';
 import { getBreakdownPath } from 'routes/views/utils/paths';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
@@ -24,7 +25,6 @@ import { classificationDefault, classificationPlatform, classificationUnallocate
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-import { CostDistributionType } from '../../utils/costDistribution';
 import DetailsOptimization from './detailsOptimization';
 
 interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentProps {

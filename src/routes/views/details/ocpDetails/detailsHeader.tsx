@@ -15,6 +15,7 @@ import { Currency } from 'routes/components/currency';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { CostDistribution } from 'routes/views/components/costDistribution';
 import { GroupBy } from 'routes/views/components/groupBy';
+import { CostDistributionType } from 'routes/views/utils/costDistribution';
 import { filterProviders } from 'routes/views/utils/providers';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -25,7 +26,6 @@ import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportIte
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 
-import { CostDistributionType } from '../../utils/costDistribution';
 import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
