@@ -10,28 +10,28 @@ import type { reportActions } from 'store/reports';
 import { formatCurrency } from 'utils/format';
 import { skeletonWidth } from 'utils/skeleton';
 
-import { chartStyles, styles } from './costDistributionChart.styles';
+import { chartStyles, styles } from './overheadCostChart.styles';
 
-interface CostDistributionChartOwnProps {
+interface OverheadCostChartOwnProps {
   report: Report;
 }
 
-interface CostDistributionChartStateProps {
+interface OverheadCostChartStateProps {
   name?: string;
   report?: Report;
   reportFetchStatus?: FetchStatus;
 }
 
-interface CostDistributionChartDispatchProps {
+interface OverheadCostChartDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type CostDistributionChartProps = CostDistributionChartOwnProps &
-  CostDistributionChartStateProps &
-  CostDistributionChartDispatchProps &
+type OverheadCostChartProps = OverheadCostChartOwnProps &
+  OverheadCostChartStateProps &
+  OverheadCostChartDispatchProps &
   WrappedComponentProps;
 
-class CostDistributionChartBase extends React.Component<CostDistributionChartProps, any> {
+class OverheadCostChartBase extends React.Component<OverheadCostChartProps, any> {
   // Override legend layout
   private getLegendLabel = () => {
     return ({ values, ...props }) => (
@@ -57,7 +57,6 @@ class CostDistributionChartBase extends React.Component<CostDistributionChartPro
     const hasCost = report && report.meta && report.meta.total && report.meta.total.cost;
     const hasPlatformDistributed = hasCost && report.meta.total.cost.platform_distributed;
     const hasWorkerUnallocated = hasCost && report.meta.total.cost.worker_unallocated_distributed;
-    const hasCostPlatformDistributed = hasCost && report.meta.total.cost.platform_distributed;
     const hasCostTotal = hasCost && report.meta.total.cost.total;
 
     const platformDistributedUnits = hasPlatformDistributed ? report.meta.total.cost.platform_distributed.units : 'USD';
@@ -66,20 +65,18 @@ class CostDistributionChartBase extends React.Component<CostDistributionChartPro
       : 'USD';
     const totalCostUnits = hasCostTotal ? report.meta.total.cost.total.units : 'USD';
 
-    const platformDistributedValue = hasPlatformDistributed ? report.meta.total.cost.platform_distributed.value : 0;
-    const workerUnallocatedValue = hasWorkerUnallocated
-      ? report.meta.total.cost.worker_unallocated_distributed.value
-      : 0;
-    const totalCostValue = hasCostPlatformDistributed ? report.meta.total.cost.total.value : 0;
+    const platformDistributedValue =
+      hasPlatformDistributed && report.meta.total.cost.platform_distributed.value > 0
+        ? report.meta.total.cost.platform_distributed.value
+        : 0;
+    const workerUnallocatedValue =
+      hasWorkerUnallocated && report.meta.total.cost.worker_unallocated_distributed.value > 0
+        ? report.meta.total.cost.worker_unallocated_distributed.value
+        : 0;
+    const totalCostValue = hasCostTotal ? report.meta.total.cost.total.value : 0;
 
-    const platformDistributed = formatCurrency(
-      hasPlatformDistributed ? report.meta.total.cost.platform_distributed.value : 0,
-      platformDistributedUnits
-    );
-    const workerUnallocated = formatCurrency(
-      hasWorkerUnallocated ? report.meta.total.cost.worker_unallocated_distributed.value : 0,
-      workerUnallocatedUnits
-    );
+    const platformDistributed = formatCurrency(platformDistributedValue, platformDistributedUnits);
+    const workerUnallocated = formatCurrency(workerUnallocatedValue, workerUnallocatedUnits);
     const totalCost = formatCurrency(totalCostValue, totalCostUnits);
 
     const platformDistributedLabel = intl.formatMessage(messages.platformDistributed);
@@ -150,6 +147,6 @@ class CostDistributionChartBase extends React.Component<CostDistributionChartPro
   }
 }
 
-const CostDistributionChart = injectIntl(CostDistributionChartBase);
+const OverheadCostChart = injectIntl(OverheadCostChartBase);
 
-export default CostDistributionChart;
+export default OverheadCostChart;
