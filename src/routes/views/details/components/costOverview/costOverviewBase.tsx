@@ -19,7 +19,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { Cluster } from 'routes/views/details/components/cluster';
 import { CostChart } from 'routes/views/details/components/costChart';
-import { CostDistributionChart } from 'routes/views/details/components/costDistributionChart';
+import { OverheadCostChart } from 'routes/views/details/components/overheadCostChart';
 import { SummaryCard } from 'routes/views/details/components/summary';
 import { UsageChart } from 'routes/views/details/components/usageChart';
 import { styles } from 'routes/views/details/ocpDetails/detailsHeader.styles';
@@ -49,8 +49,8 @@ type CostOverviewProps = CostOverviewOwnProps & CostOverviewStateProps & Wrapped
 const PLACEHOLDER = 'placeholder';
 
 class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
-  // Returns cluster chart
-  private getClusterChart = (widget: CostOverviewWidget) => {
+  // Returns cluster card
+  private getClusterCard = (widget: CostOverviewWidget) => {
     const { groupBy, intl, report, title } = this.props;
 
     let showWidget = false;
@@ -122,6 +122,8 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
   };
 
   // Returns cost distribution chart
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   private getCostDistributionChart = (widget: CostOverviewWidget) => {
     const { report, intl } = this.props;
 
@@ -154,7 +156,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
           </Title>
         </CardTitle>
         <CardBody>
-          <CostDistributionChart name={widget.chartName} report={report} />
+          <OverheadCostChart name={widget.chartName} report={report} />
         </CardBody>
       </Card>
     );
@@ -289,7 +291,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
   private renderWidget(widget: CostOverviewWidget) {
     switch (widget.type) {
       case CostOverviewWidgetType.cluster:
-        return this.getClusterChart(widget);
+        return this.getClusterCard(widget);
       case CostOverviewWidgetType.cost:
         return this.getCostChart(widget);
       case CostOverviewWidgetType.costDistribution:
