@@ -37,8 +37,7 @@ import { styles } from './explorerTable.styles';
 import { PerspectiveType } from './explorerUtils';
 
 interface ExplorerTableOwnProps extends RouterComponentProps, WrappedComponentProps {
-  computedReportItemType?: ComputedReportItemType;
-  computedReportItemValueType?: ComputedReportItemValueType;
+  costDistribution?: string;
   groupBy: string;
   groupByOrg?: string;
   groupByTagKey?: string;
@@ -86,15 +85,14 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
   }
 
   public componentDidUpdate(prevProps: ExplorerTableProps) {
-    const { computedReportItemType, computedReportItemValueType, report, selectedItems } = this.props;
+    const { costDistribution, report, selectedItems } = this.props;
     const currentReport = report && report.data ? JSON.stringify(report.data) : '';
     const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
 
     if (
       previousReport !== currentReport ||
       prevProps.selectedItems !== selectedItems ||
-      prevProps.computedReportItemType !== computedReportItemType ||
-      prevProps.computedReportItemValueType !== computedReportItemValueType
+      prevProps.costDistribution !== costDistribution
     ) {
       this.initDatum();
     }
@@ -102,8 +100,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
 
   private initDatum = () => {
     const {
-      computedReportItemType = ComputedReportItemType.cost,
-      computedReportItemValueType = ComputedReportItemValueType.total,
+      costDistribution,
       end_date,
       groupBy,
       groupByOrg,
@@ -185,8 +182,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
       });
     }
 
-    const reportItem = computedReportItemType;
-    const reportItemValue = computedReportItemValueType;
+    const reportItem = ComputedReportItemType.cost;
+    const reportItemValue = groupBy === 'project' ? costDistribution : ComputedReportItemValueType.total;
 
     // Sort by date and fill in missing cells
     computedItems.map(rowItem => {

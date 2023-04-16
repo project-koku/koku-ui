@@ -34,10 +34,10 @@ import type { PerspectiveType } from './explorerUtils';
 import { getGroupByDefault, getReportPathsType, getReportType } from './explorerUtils';
 
 interface ExplorerChartOwnProps extends RouterComponentProps, WrappedComponentProps {
+  costDistribution?: string;
   costType?: string;
   currency?: string;
-  computedReportItemType?: ComputedReportItemType;
-  computedReportItemValueType?: ComputedReportItemValueType;
+  groupBy?: string;
   perspective: PerspectiveType;
 }
 
@@ -126,13 +126,10 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
   };
 
   private getChartDatums = (computedItems: ComputedReportItem[]) => {
-    const {
-      computedReportItemType = ComputedReportItemType.cost,
-      computedReportItemValueType = ComputedReportItemValueType.total,
-    } = this.props;
+    const { costDistribution, groupBy } = this.props;
 
-    const reportItem = computedReportItemType;
-    const reportItemValue = computedReportItemValueType;
+    const reportItem = ComputedReportItemType.cost;
+    const reportItemValue = groupBy === 'project' ? costDistribution : ComputedReportItemValueType.total;
     const chartDatums = [];
 
     computedItems.map(computedItem => {
