@@ -1,3 +1,6 @@
+import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
+import { CostTypes } from 'routes/views/components/costType/costType';
+
 const accountCurrencyID = 'account_currency';
 const costDistributionID = 'cost_distribution';
 const costManagementID = 'cost_management';
@@ -105,7 +108,7 @@ export const deleteCostDistribution = () => {
 // Returns cost distribution
 export const getCostDistribution = () => {
   const costDistribution = getItem(costDistributionID);
-  return costDistribution && costDistribution !== null ? costDistribution : undefined;
+  return costDistribution && costDistribution !== null ? costDistribution : ComputedReportItemValueType.total;
 };
 
 // Returns true if cost distribution is available
@@ -136,7 +139,7 @@ export const deleteCostType = () => {
 // Returns cost type
 export const getCostType = () => {
   const costType = getItem(costTypeID);
-  return costType && costType !== null ? costType : undefined;
+  return costType && costType !== null ? costType : CostTypes.unblended;
 };
 
 // Returns true if cost type is available

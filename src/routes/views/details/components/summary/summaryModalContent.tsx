@@ -9,7 +9,6 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { ReportSummaryItem, ReportSummaryItems } from 'routes/views/components/reports/reportSummary';
-import { CostDistributionType } from 'routes/views/utils/costDistribution';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -63,13 +62,7 @@ class SummaryModalContentBase extends React.Component<SummaryModalContentProps, 
   }
 
   public render() {
-    const {
-      costDistribution = CostDistributionType.total,
-      intl,
-      report,
-      reportGroupBy,
-      reportFetchStatus,
-    } = this.props;
+    const { costDistribution, intl, report, reportGroupBy, reportFetchStatus } = this.props;
 
     const hasTotal = report && report.meta && report.meta.total;
     const cost = formatCurrency(

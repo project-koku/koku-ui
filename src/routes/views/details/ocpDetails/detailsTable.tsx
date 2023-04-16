@@ -14,7 +14,6 @@ import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { Actions } from 'routes/views/details/components/actions';
 import { DataTable } from 'routes/views/details/components/dataTable';
 import { styles } from 'routes/views/details/components/dataTable/dataTable.styles';
-import { CostDistributionType } from 'routes/views/utils/costDistribution';
 import { getBreakdownPath } from 'routes/views/utils/paths';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
@@ -319,7 +318,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   };
 
   private getSupplementaryCost = (item: ComputedReportItem, index: number) => {
-    const { costDistribution = CostDistributionType.total, report, intl } = this.props;
+    const { costDistribution, report, intl } = this.props;
     const cost =
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[costDistribution]
         ? report.meta.total.cost[costDistribution].value
@@ -336,7 +335,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   };
 
   private getInfrastructureCost = (item: ComputedReportItem, index: number) => {
-    const { costDistribution = CostDistributionType.total, report, intl } = this.props;
+    const { costDistribution, report, intl } = this.props;
     const cost =
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[costDistribution]
         ? report.meta.total.cost[costDistribution].value
@@ -353,7 +352,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   };
 
   private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
-    const { costDistribution = CostDistributionType.total, intl } = this.props;
+    const { costDistribution, intl } = this.props;
     const value = formatCurrency(
       Math.abs(item.cost[costDistribution].value - item.delta_value),
       item.cost[costDistribution].units
@@ -401,7 +400,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   };
 
   private getTotalCost = (item: ComputedReportItem, index: number) => {
-    const { costDistribution = CostDistributionType.total, report, intl } = this.props;
+    const { costDistribution, report, intl } = this.props;
     const cost =
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[costDistribution]
         ? report.meta.total.cost[costDistribution].value

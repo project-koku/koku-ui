@@ -86,11 +86,16 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
   }
 
   public componentDidUpdate(prevProps: ExplorerTableProps) {
-    const { report, selectedItems } = this.props;
+    const { computedReportItemType, computedReportItemValueType, report, selectedItems } = this.props;
     const currentReport = report && report.data ? JSON.stringify(report.data) : '';
     const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
 
-    if (previousReport !== currentReport || prevProps.selectedItems !== selectedItems) {
+    if (
+      previousReport !== currentReport ||
+      prevProps.selectedItems !== selectedItems ||
+      prevProps.computedReportItemType !== computedReportItemType ||
+      prevProps.computedReportItemValueType !== computedReportItemValueType
+    ) {
       this.initDatum();
     }
   }
