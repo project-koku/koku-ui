@@ -7,7 +7,6 @@ import { ResourcePathsType } from 'api/resources/resource';
 import { TagPathsType } from 'api/tags/tag';
 import type { UserAccess } from 'api/userAccess';
 import messages from 'locales/messages';
-import { ComputedReportItemType, ComputedReportItemValueType } from 'routes/views/components/charts/common/chartDatum';
 import { hasCloudProvider } from 'routes/views/utils/providers';
 import type { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import type { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
@@ -144,31 +143,6 @@ export const groupByRhelOptions: {
   { label: 'node', value: 'node' },
   { label: 'project', value: 'project' },
 ];
-
-export const getComputedReportItemType = (perspective: string) => {
-  let result;
-  switch (perspective) {
-    // Removed "OpenShift supplementary & usage" perspectives -- see https://issues.redhat.com/browse/COST-1722
-    default:
-      result = ComputedReportItemType.cost;
-      break;
-  }
-  return result;
-};
-
-export const getComputedReportItemValueType = (perspective: string, groupBy, costDistribution) => {
-  let result;
-  switch (perspective) {
-    // Removed "OpenShift usage" perspective -- see https://issues.redhat.com/browse/COST-1722
-    case PerspectiveType.ocp:
-      result = groupBy === 'project' ? costDistribution : ComputedReportItemValueType.total;
-      break;
-    default:
-      result = ComputedReportItemValueType.total;
-      break;
-  }
-  return result;
-};
 
 export const getPerspectiveDefault = ({
   awsProviders,

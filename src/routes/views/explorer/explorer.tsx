@@ -63,8 +63,6 @@ import { ExplorerTable } from './explorerTable';
 import { ExplorerToolbar } from './explorerToolbar';
 import {
   baseQuery,
-  getComputedReportItemType,
-  getComputedReportItemValueType,
   getGroupByDefault,
   getPerspectiveDefault,
   getReportPathsType,
@@ -248,8 +246,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
 
     return (
       <ExplorerTable
-        computedReportItemType={getComputedReportItemType(perspective)}
-        computedReportItemValueType={getComputedReportItemValueType(perspective, groupById, costDistribution)}
+        costDistribution={costDistribution}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
         groupByOrg={groupByOrg}
@@ -491,10 +488,10 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
           <div style={styles.chartContent}>
             <div style={styles.chartContainer}>
               <ExplorerChart
+                costDistribution={costDistribution}
                 costType={costType}
                 currency={currency}
-                computedReportItemType={getComputedReportItemType(perspective)}
-                computedReportItemValueType={getComputedReportItemValueType(perspective, groupById, costDistribution)}
+                groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
                 perspective={perspective}
               />
             </div>
