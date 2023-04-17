@@ -9963,6 +9963,18 @@
         "value": "A dialog with a description of optimizations"
       }
     ],
+    "optimizationsLongTerm": [
+      {
+        "type": 0,
+        "value": "Last 15 days"
+      }
+    ],
+    "optimizationsMediumTerm": [
+      {
+        "type": 0,
+        "value": "Last 7 days"
+      }
+    ],
     "optimizationsNames": [
       {
         "options": {
@@ -10022,6 +10034,24 @@
         "value": "value"
       }
     ],
+    "optimizationsPerspective": [
+      {
+        "type": 0,
+        "value": "View optimizations based on"
+      }
+    ],
+    "optimizationsShortTerm": [
+      {
+        "type": 0,
+        "value": "Last 24 hrs"
+      }
+    ],
+    "optimizationsTableAriaLabel": [
+      {
+        "type": 0,
+        "value": "Optimizations table"
+      }
+    ],
     "optimizationsValues": [
       {
         "options": {
@@ -10079,6 +10109,12 @@
         },
         "type": 5,
         "value": "value"
+      }
+    ],
+    "optimizationsViewAll": [
+      {
+        "type": 0,
+        "value": "View all optimizations for this project"
       }
     ],
     "overhead": [
@@ -10546,42 +10582,6 @@
       {
         "type": 0,
         "value": "Failed to get RBAC information"
-      }
-    ],
-    "recommendationsLongTerm": [
-      {
-        "type": 0,
-        "value": "Last 15 days"
-      }
-    ],
-    "recommendationsMediumTerm": [
-      {
-        "type": 0,
-        "value": "Last 7 days"
-      }
-    ],
-    "recommendationsPerspective": [
-      {
-        "type": 0,
-        "value": "View recommendation based on"
-      }
-    ],
-    "recommendationsShortTerm": [
-      {
-        "type": 0,
-        "value": "Last 24 hrs"
-      }
-    ],
-    "recommendationsTableAriaLabel": [
-      {
-        "type": 0,
-        "value": "Recommendations table"
-      }
-    ],
-    "recommendationsViewAll": [
-      {
-        "type": 0,
-        "value": "View all recommendations for this project"
       }
     ],
     "recommended": [

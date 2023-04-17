@@ -42,17 +42,17 @@ export class OptimizationsToolbarBase extends React.Component<OptimizationsToolb
     return [
       {
         isDisabled: !(recommendations && recommendations.short_term && !recommendations.short_term.notifications),
-        label: messages.recommendationsShortTerm,
+        label: messages.optimizationsShortTerm,
         value: Interval.short_term,
       },
       {
         isDisabled: !(recommendations && recommendations.medium_term && !recommendations.medium_term.notifications),
-        label: messages.recommendationsMediumTerm,
+        label: messages.optimizationsMediumTerm,
         value: Interval.medium_term,
       },
       {
         isDisabled: !(recommendations && recommendations.long_term && !recommendations.long_term.notifications),
-        label: messages.recommendationsLongTerm,
+        label: messages.optimizationsLongTerm,
         value: Interval.long_term,
       },
     ];
@@ -69,7 +69,7 @@ export class OptimizationsToolbarBase extends React.Component<OptimizationsToolb
         isDisabled={isDisabled}
         onSelected={onSelected}
         options={options}
-        title={messages.recommendationsPerspective}
+        title={messages.optimizationsPerspective}
       />
     );
   }

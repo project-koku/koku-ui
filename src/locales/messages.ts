@@ -2555,6 +2555,16 @@ export default defineMessages({
     description: 'A dialog with a description of optimizations',
     id: 'optimizationsInfoButtonArialLabel',
   },
+  optimizationsLongTerm: {
+    defaultMessage: 'Last 15 days',
+    description: 'Last 15 days',
+    id: 'optimizationsLongTerm',
+  },
+  optimizationsMediumTerm: {
+    defaultMessage: 'Last 7 days',
+    description: 'Last 7 days',
+    id: 'optimizationsMediumTerm',
+  },
   optimizationsNames: {
     defaultMessage:
       '{value, select, ' +
@@ -2568,6 +2578,21 @@ export default defineMessages({
     description: 'Selected items for export',
     id: 'optimizationsNames',
   },
+  optimizationsPerspective: {
+    defaultMessage: 'View optimizations based on',
+    description: 'View optimizations based on',
+    id: 'optimizationsPerspective',
+  },
+  optimizationsShortTerm: {
+    defaultMessage: 'Last 24 hrs',
+    description: 'Last 24 hrs',
+    id: 'optimizationsShortTerm',
+  },
+  optimizationsTableAriaLabel: {
+    defaultMessage: 'Optimizations table',
+    description: 'Optimizations table',
+    id: 'optimizationsTableAriaLabel',
+  },
   optimizationsValues: {
     defaultMessage:
       '{value, select, ' +
@@ -2580,6 +2605,11 @@ export default defineMessages({
       'other {}}',
     description: 'Selected items for export',
     id: 'optimizationsValues',
+  },
+  optimizationsViewAll: {
+    defaultMessage: 'View all optimizations for this project',
+    description: 'View all optimizations for this project',
+    id: 'optimizationsViewAll',
   },
   overhead: {
     defaultMessage: 'Overhead',
@@ -2810,36 +2840,6 @@ export default defineMessages({
     defaultMessage: 'Failed to get RBAC information',
     description: 'RBAC error title',
     id: 'rbacErrorTitle',
-  },
-  recommendationsLongTerm: {
-    defaultMessage: 'Last 15 days',
-    description: 'Last 15 days',
-    id: 'recommendationsLongTerm',
-  },
-  recommendationsMediumTerm: {
-    defaultMessage: 'Last 7 days',
-    description: 'Last 7 days',
-    id: 'recommendationsMediumTerm',
-  },
-  recommendationsPerspective: {
-    defaultMessage: 'View recommendation based on',
-    description: 'View recommendation based on',
-    id: 'recommendationsPerspective',
-  },
-  recommendationsShortTerm: {
-    defaultMessage: 'Last 24 hrs',
-    description: 'Last 24 hrs',
-    id: 'recommendationsShortTerm',
-  },
-  recommendationsTableAriaLabel: {
-    defaultMessage: 'Recommendations table',
-    description: 'Recommendations table',
-    id: 'recommendationsTableAriaLabel',
-  },
-  recommendationsViewAll: {
-    defaultMessage: 'View all recommendations for this project',
-    description: 'View all recommendations for this project',
-    id: 'recommendationsViewAll',
   },
   recommended: {
     defaultMessage: 'Recommended',
