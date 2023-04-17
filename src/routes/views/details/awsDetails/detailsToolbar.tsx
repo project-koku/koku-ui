@@ -13,7 +13,8 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { DataToolbar } from 'routes/views/components/dataToolbar';
 import type { Filter } from 'routes/views/utils/filter';
-import { createMapStateToProps, FetchStatus } from 'store/common';
+import type { FetchStatus } from 'store/common';
+import { createMapStateToProps } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
@@ -71,36 +72,18 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
   public state: DetailsToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { fetchOrg, fetchTag, orgReportFetchStatus, orgQueryString, tagReportFetchStatus, tagQueryString } =
-      this.props;
-
     this.setState(
       {
         categoryOptions: this.getCategoryOptions(),
       },
       () => {
-        if (orgReportFetchStatus !== FetchStatus.inProgress) {
-          fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
-        }
-        if (tagReportFetchStatus !== FetchStatus.inProgress) {
-          fetchTag(tagReportPathsType, tagReportType, tagQueryString);
-        }
+        this.updateReport();
       }
     );
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const {
-      fetchOrg,
-      fetchTag,
-      orgReport,
-      orgReportFetchStatus,
-      query,
-      orgQueryString,
-      tagReport,
-      tagReportFetchStatus,
-      tagQueryString,
-    } = this.props;
+    const { orgReport, query, tagReport } = this.props;
 
     if (!isEqual(orgReport, prevProps.orgReport) || !isEqual(tagReport, prevProps.tagReport)) {
       this.setState(
@@ -108,21 +91,11 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
           categoryOptions: this.getCategoryOptions(),
         },
         () => {
-          if (orgReportFetchStatus !== FetchStatus.inProgress) {
-            fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
-          }
-          if (tagReportFetchStatus !== FetchStatus.inProgress) {
-            fetchTag(tagReportPathsType, tagReportType, tagQueryString);
-          }
+          this.updateReport();
         }
       );
     } else if (query && !isEqual(query, prevProps.query)) {
-      if (orgReportFetchStatus !== FetchStatus.inProgress) {
-        fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
-      }
-      if (tagReportFetchStatus !== FetchStatus.inProgress) {
-        fetchTag(tagReportPathsType, tagReportType, tagQueryString);
-      }
+      this.updateReport();
     }
   }
 
@@ -144,6 +117,12 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
       options.push({ name: intl.formatMessage(messages.filterByValues, { value: 'tag' }), key: tagKey });
     }
     return options;
+  };
+
+  private updateReport = () => {
+    const { fetchOrg, fetchTag, orgQueryString, tagQueryString } = this.props;
+    fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
+    fetchTag(tagReportPathsType, tagReportType, tagQueryString);
   };
 
   public render() {

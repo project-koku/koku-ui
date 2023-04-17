@@ -8,7 +8,7 @@ import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
 import { getFetchId } from './rosCommon';
-import { selectRos, selectRosFetchStatus } from './rosSelectors';
+import { selectRos, selectRosError, selectRosFetchStatus } from './rosSelectors';
 
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
@@ -43,8 +43,9 @@ export function fetchRosReport(rosPathsType: RosPathsType, rosType: RosType, ros
 
 function isRosExpired(state: RootState, rosPathsType: RosPathsType, rosType: RosType, rosQueryString: string) {
   const ros = selectRos(state, rosPathsType, rosType, rosQueryString);
+  const fetchError = selectRosError(state, rosPathsType, rosType, rosQueryString);
   const fetchStatus = selectRosFetchStatus(state, rosPathsType, rosType, rosQueryString);
-  if (fetchStatus === FetchStatus.inProgress) {
+  if (fetchError || fetchStatus === FetchStatus.inProgress) {
     return false;
   }
 

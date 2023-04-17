@@ -4,6 +4,7 @@ import type { Forecast } from 'api/forecasts/forecast';
 import { getQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import type { RosReport } from 'api/ros/ros';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -50,16 +51,21 @@ export interface DashboardWidgetStateProps extends DashboardWidget {
   costType?: string;
   currency?: string;
   currentReport?: Report;
+  currentReportError?: AxiosError;
   currentReportFetchStatus?: number;
   forecast?: Forecast;
+  forecastError?: AxiosError;
   forecastFetchStatus?: number;
   getIdKeyForTab?: (tab: string) => string;
   isRosFeatureEnabled?: boolean;
   previousReport?: Report;
+  previousReportError?: AxiosError;
   previousReportFetchStatus?: number;
   rosReport?: RosReport;
+  rosReportError?: AxiosError;
   rosReportFetchStatus?: number;
   tabsReport?: Report;
+  tabsReportError?: AxiosError;
   tabsReportFetchStatus?: number;
 }
 
@@ -88,40 +94,29 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
   public state: DashboardWidgetState = { ...this.defaultState };
 
   public componentDidMount() {
-    const {
-      availableTabs,
-      details,
-      fetchForecasts,
-      fetchReports,
-      fetchRosReports,
-      id,
-      isRosFeatureEnabled,
-      trend,
-      updateTab,
-      widgetId,
-    } = this.props;
+    const { availableTabs, details, id, trend, updateTab } = this.props;
 
     if (availableTabs) {
       updateTab(id, availableTabs[0]);
     }
     if (trend && trend.computedForecastItem !== undefined) {
-      fetchForecasts(widgetId);
+      this.updateForecasts();
     }
-    if (!details.showOptimizations && fetchReports) {
-      fetchReports(widgetId);
+    if (!details.showOptimizations) {
+      this.updateReports();
     }
-    if (details.showOptimizations && fetchRosReports && isRosFeatureEnabled) {
-      fetchRosReports(widgetId);
+    if (details.showOptimizations) {
+      this.updateRosReports();
     }
   }
 
   public componentDidUpdate(prevProps: DashboardWidgetProps) {
-    const { costType, currency, fetchReports, fetchForecasts, trend, widgetId } = this.props;
+    const { costType, currency, trend } = this.props;
 
     if (prevProps.costType !== costType || prevProps.currency !== currency) {
-      fetchReports(widgetId);
+      this.updateReports();
       if (trend && trend.computedForecastItem !== undefined) {
-        fetchForecasts(widgetId);
+        this.updateForecasts();
       }
     }
   }
@@ -585,6 +580,27 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
 
     updateTab(id, tab);
     this.setState({ activeTabKey: tabIndex });
+  };
+
+  private updateForecasts = () => {
+    const { fetchForecasts, widgetId } = this.props;
+    if (fetchForecasts) {
+      fetchForecasts(widgetId);
+    }
+  };
+
+  private updateReports = () => {
+    const { fetchReports, widgetId } = this.props;
+    if (fetchReports) {
+      fetchReports(widgetId);
+    }
+  };
+
+  private updateRosReports = () => {
+    const { fetchRosReports, isRosFeatureEnabled, widgetId } = this.props;
+    if (fetchRosReports && isRosFeatureEnabled) {
+      fetchRosReports(widgetId);
+    }
   };
 
   public render() {

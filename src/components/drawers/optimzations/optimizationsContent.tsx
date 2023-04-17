@@ -90,7 +90,6 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
 
   private updateReport() {
     const { fetchRosReport, reportQueryString } = this.props;
-
     fetchRosReport(reportPathsType, reportType, reportQueryString);
   }
 

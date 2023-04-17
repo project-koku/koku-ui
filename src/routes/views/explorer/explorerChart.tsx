@@ -71,7 +71,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
   }
 
   public componentDidMount() {
-    this.fetchReport();
+    this.updateReport();
   }
 
   public componentDidUpdate(prevProps: ExplorerChartProps) {
@@ -81,7 +81,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
     const noReport = !report && !reportError;
 
     if (newQuery || noReport) {
-      this.fetchReport();
+      this.updateReport();
     }
   }
 
@@ -114,7 +114,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
     };
   };
 
-  private fetchReport = () => {
+  private updateReport = () => {
     const { fetchReport, perspective, reportQueryString } = this.props;
 
     if (perspective) {

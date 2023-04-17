@@ -14,6 +14,7 @@ import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -48,6 +49,7 @@ interface SummaryStateProps {
   groupByValue?: string | number;
   query?: Query;
   report?: OcpReport;
+  reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
   reportQueryString?: string;
 }
@@ -68,18 +70,17 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
   };
 
   public componentDidMount() {
-    const { fetchReport, reportPathsType, reportType, reportQueryString } = this.props;
-    fetchReport(reportPathsType, reportType, reportQueryString);
+    this.updateReport();
   }
 
   public componentDidUpdate(prevProps: SummaryProps) {
-    const { costType, currency, fetchReport, reportPathsType, reportType, reportQueryString } = this.props;
+    const { costType, currency, reportQueryString } = this.props;
     if (
       prevProps.reportQueryString !== reportQueryString ||
       prevProps.costType !== costType ||
       prevProps.currency !== currency
     ) {
-      fetchReport(reportPathsType, reportType, reportQueryString);
+      this.updateReport();
     }
   }
 
@@ -182,6 +183,11 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
     event.preventDefault();
   };
 
+  private updateReport = () => {
+    const { fetchReport, reportPathsType, reportQueryString, reportType } = this.props;
+    fetchReport(reportPathsType, reportType, reportQueryString);
+  };
+
   public render() {
     const { intl, isPlatformCosts, reportGroupBy, reportFetchStatus } = this.props;
     const title = intl.formatMessage(messages.breakdownSummaryTitle, {
@@ -258,6 +264,7 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
 
     const reportQueryString = getQuery(reportQuery);
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
+    const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,
       reportPathsType,
@@ -270,6 +277,7 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
       groupByValue,
       query,
       report,
+      reportError,
       reportFetchStatus,
       reportQueryString,
     };

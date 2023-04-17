@@ -8,7 +8,7 @@ import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
 import { getFetchId } from './forecastCommon';
-import { selectForecast, selectForecastFetchStatus } from './forecastSelectors';
+import { selectForecast, selectForecastError, selectForecastFetchStatus } from './forecastSelectors';
 
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
@@ -52,8 +52,9 @@ function isForecastExpired(
   forecastQueryString: string
 ) {
   const forecast = selectForecast(state, forecastPathsType, forecastType, forecastQueryString);
+  const fetchError = selectForecastError(state, forecastPathsType, forecastType, forecastQueryString);
   const fetchStatus = selectForecastFetchStatus(state, forecastPathsType, forecastType, forecastQueryString);
-  if (fetchStatus === FetchStatus.inProgress) {
+  if (fetchError || fetchStatus === FetchStatus.inProgress) {
     return false;
   }
 

@@ -51,29 +51,26 @@ type HistoricalDataCostChartProps = HistoricalDataCostChartOwnProps &
 
 class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChartProps, any> {
   public componentDidMount() {
-    const { fetchReport, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
-
-    fetchReport(reportPathsType, reportType, currentQueryString);
-    fetchReport(reportPathsType, reportType, previousQueryString);
+    this.updateCurrentReport();
+    this.updatetPreviousReport();
   }
 
   public componentDidUpdate(prevProps: HistoricalDataCostChartProps) {
-    const { fetchReport, costType, currency, currentQueryString, previousQueryString, reportPathsType, reportType } =
-      this.props;
+    const { costType, currency, currentQueryString, previousQueryString } = this.props;
 
     if (
       prevProps.currentQueryString !== currentQueryString ||
       prevProps.costType !== costType ||
       prevProps.currency !== currency
     ) {
-      fetchReport(reportPathsType, reportType, currentQueryString);
+      this.updateCurrentReport();
     }
     if (
       prevProps.previousQueryString !== previousQueryString ||
       prevProps.costType !== costType ||
       prevProps.currency !== currency
     ) {
-      fetchReport(reportPathsType, reportType, previousQueryString);
+      this.updatetPreviousReport();
     }
   }
 
@@ -84,6 +81,16 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
         <Skeleton style={styles.legendSkeleton} width={skeletonWidth.xs} />
       </>
     );
+  };
+
+  private updateCurrentReport = () => {
+    const { fetchReport, currentQueryString, reportPathsType, reportType } = this.props;
+    fetchReport(reportPathsType, reportType, currentQueryString);
+  };
+
+  private updatetPreviousReport = () => {
+    const { fetchReport, previousQueryString, reportPathsType, reportType } = this.props;
+    fetchReport(reportPathsType, reportType, previousQueryString);
   };
 
   public render() {

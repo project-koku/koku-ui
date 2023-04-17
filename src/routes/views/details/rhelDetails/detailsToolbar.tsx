@@ -11,7 +11,8 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { DataToolbar } from 'routes/views/components/dataToolbar';
 import type { Filter } from 'routes/views/utils/filter';
-import { createMapStateToProps, FetchStatus } from 'store/common';
+import type { FetchStatus } from 'store/common';
+import { createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
@@ -61,35 +62,29 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public state: DetailsToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { fetchTag, tagReportFetchStatus, tagQueryString } = this.props;
-
     this.setState(
       {
         categoryOptions: this.getCategoryOptions(),
       },
       () => {
-        if (tagReportFetchStatus !== FetchStatus.inProgress) {
-          fetchTag(tagReportPathsType, tagReportType, tagQueryString);
-        }
+        this.updateReport();
       }
     );
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const { fetchTag, query, tagReport, tagReportFetchStatus, tagQueryString } = this.props;
+    const { query, tagReport } = this.props;
     if (!isEqual(tagReport, prevProps.tagReport)) {
       this.setState(
         {
           categoryOptions: this.getCategoryOptions(),
         },
         () => {
-          if (tagReportFetchStatus !== FetchStatus.inProgress) {
-            fetchTag(tagReportPathsType, tagReportType, tagQueryString);
-          }
+          this.updateReport();
         }
       );
-    } else if (query && !isEqual(query, prevProps.query) && tagReportFetchStatus !== FetchStatus.inProgress) {
-      fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+    } else if (query && !isEqual(query, prevProps.query)) {
+      this.updateReport();
     }
   }
 
@@ -109,6 +104,11 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       });
     }
     return options;
+  };
+
+  private updateReport = () => {
+    const { fetchTag, tagQueryString } = this.props;
+    fetchTag(tagReportPathsType, tagReportType, tagQueryString);
   };
 
   public render() {

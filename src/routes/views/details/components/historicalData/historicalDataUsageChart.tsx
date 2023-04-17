@@ -48,20 +48,18 @@ type HistoricalDataUsageChartProps = HistoricalDataUsageChartOwnProps &
 
 class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageChartProps, any> {
   public componentDidMount() {
-    const { fetchReport, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
-
-    fetchReport(reportPathsType, reportType, currentQueryString);
-    fetchReport(reportPathsType, reportType, previousQueryString);
+    this.updateCurrentReport();
+    this.updatetPreviousReport();
   }
 
   public componentDidUpdate(prevProps: HistoricalDataUsageChartProps) {
-    const { fetchReport, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
+    const { currentQueryString, previousQueryString } = this.props;
 
     if (prevProps.currentQueryString !== currentQueryString) {
-      fetchReport(reportPathsType, reportType, currentQueryString);
+      this.updateCurrentReport();
     }
     if (prevProps.previousQueryString !== previousQueryString) {
-      fetchReport(reportPathsType, reportType, previousQueryString);
+      this.updatetPreviousReport();
     }
   }
 
@@ -72,6 +70,16 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
         <Skeleton style={styles.legendSkeleton} width={skeletonWidth.xs} />
       </>
     );
+  };
+
+  private updateCurrentReport = () => {
+    const { fetchReport, currentQueryString, reportPathsType, reportType } = this.props;
+    fetchReport(reportPathsType, reportType, currentQueryString);
+  };
+
+  private updatetPreviousReport = () => {
+    const { fetchReport, previousQueryString, reportPathsType, reportType } = this.props;
+    fetchReport(reportPathsType, reportType, previousQueryString);
   };
 
   public render() {

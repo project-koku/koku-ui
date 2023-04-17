@@ -17,11 +17,11 @@ export const selectReportFetchStatus = (
   reportPathsType: ReportPathsType,
   reportType: ReportType,
   reportQueryString: string
-) => selectReportState(state).fetchStatus.get(getFetchId(reportPathsType, reportType, reportQueryString));
+) => selectReportState(state)?.fetchStatus.get(getFetchId(reportPathsType, reportType, reportQueryString));
 
 export const selectReportError = (
   state: RootState,
   reportPathsType: ReportPathsType,
   reportType: ReportType,
   reportQueryString: string
-) => selectReportState(state).errors.get(getFetchId(reportPathsType, reportType, reportQueryString));
+) => selectReportState(state)?.errors.get(getFetchId(reportPathsType, reportType, reportQueryString));

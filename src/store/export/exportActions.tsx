@@ -11,7 +11,7 @@ import React from 'react';
 import type { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
 import { getFetchId } from 'store/export/exportCommon';
-import { selectExport, selectExportFetchStatus } from 'store/export/exportSelectors';
+import { selectExport, selectExportError, selectExportFetchStatus } from 'store/export/exportSelectors';
 import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
@@ -88,8 +88,9 @@ function isExportExpired(
   reportQueryString: string
 ) {
   const report = selectExport(state, reportPathsType, reportType, reportQueryString);
+  const fetchError = selectExportError(state, reportPathsType, reportType, reportQueryString);
   const fetchStatus = selectExportFetchStatus(state, reportPathsType, reportType, reportQueryString);
-  if (fetchStatus === FetchStatus.inProgress) {
+  if (fetchError || fetchStatus === FetchStatus.inProgress) {
     return false;
   }
 

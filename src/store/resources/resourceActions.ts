@@ -8,7 +8,7 @@ import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
 import { getFetchId } from './resourceCommon';
-import { selectResource, selectResourceFetchStatus } from './resourceSelectors';
+import { selectResource, selectResourceError, selectResourceFetchStatus } from './resourceSelectors';
 
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
@@ -52,8 +52,9 @@ function isResourceExpired(
   resourceQueryString: string
 ) {
   const resource = selectResource(state, resourcePathsType, resourceType, resourceQueryString);
+  const fetchError = selectResourceError(state, resourcePathsType, resourceType, resourceQueryString);
   const fetchStatus = selectResourceFetchStatus(state, resourcePathsType, resourceType, resourceQueryString);
-  if (fetchStatus === FetchStatus.inProgress) {
+  if (fetchError || fetchStatus === FetchStatus.inProgress) {
     return false;
   }
 

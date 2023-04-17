@@ -8,7 +8,7 @@ import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
 import { getFetchId } from './tagCommon';
-import { selectTag, selectTagFetchStatus } from './tagSelectors';
+import { selectTag, selectTagError, selectTagFetchStatus } from './tagSelectors';
 
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
@@ -49,8 +49,9 @@ export function fetchTag(
 
 function isTagExpired(state: RootState, tagPathsType: TagPathsType, tagType: TagType, tagQueryString: string) {
   const tagReport = selectTag(state, tagPathsType, tagType, tagQueryString);
+  const fetchError = selectTagError(state, tagPathsType, tagType, tagQueryString);
   const fetchStatus = selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
-  if (fetchStatus === FetchStatus.inProgress) {
+  if (fetchError || fetchStatus === FetchStatus.inProgress) {
     return false;
   }
 

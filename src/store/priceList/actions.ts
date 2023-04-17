@@ -18,21 +18,6 @@ export const fetchPriceListSuccess = createAction('priceList/success')<Rates, Me
 
 export const fetchPriceListFailure = createAction('priceList/failure')<AxiosError, Meta>();
 
-function isExpired(state: RootState, meta: Meta) {
-  const cachedData = cachedRates(state, meta.providerUuid);
-  const reqStatus = status(state, meta.providerUuid);
-  if (reqStatus === FetchStatus.inProgress) {
-    return false;
-  }
-
-  if (!cachedData) {
-    return true;
-  }
-
-  const now = Date.now();
-  return now > cachedData.timeRequested + expirationMS;
-}
-
 export function fetchPriceList(providerUuid) {
   const meta = { providerUuid };
   return (dispatch: Dispatch, getState) => {
@@ -48,4 +33,19 @@ export function fetchPriceList(providerUuid) {
         dispatch(fetchPriceListFailure(err, meta));
       });
   };
+}
+
+function isExpired(state: RootState, meta: Meta) {
+  const cachedData = cachedRates(state, meta.providerUuid);
+  const reqStatus = status(state, meta.providerUuid);
+  if (reqStatus === FetchStatus.inProgress) {
+    return false;
+  }
+
+  if (!cachedData) {
+    return true;
+  }
+
+  const now = Date.now();
+  return now > cachedData.timeRequested + expirationMS;
 }
