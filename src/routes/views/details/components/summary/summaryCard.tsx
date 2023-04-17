@@ -19,6 +19,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { ReportSummaryItem, ReportSummaryItems } from 'routes/views/components/reports/reportSummary';
 import { SummaryModal } from 'routes/views/details/components/summary/summaryModal';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
@@ -93,7 +94,12 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
   };
 
   private getSummary = () => {
-    const { costDistribution, report, reportGroupBy, reportFetchStatus } = this.props;
+    const {
+      costDistribution = ComputedReportItemValueType.total,
+      report,
+      reportGroupBy,
+      reportFetchStatus,
+    } = this.props;
     return (
       <ReportSummaryItems idKey={reportGroupBy as any} report={report} status={reportFetchStatus}>
         {({ items }) =>
