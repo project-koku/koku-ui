@@ -416,7 +416,7 @@
   "optimizationsTableAriaLabel": "Optimizations table",
   "optimizationsValues": "{value, select, cluster {Cluster name} container {Container name} last_reported {Last reported} project {Project name} workload {Workload name} workload_type {Workload type} other {}}",
   "optimizationsViewAll": "View all optimizations for this project",
-  "optimizationsViewAllDisabled": "This project has not reported any data.",
+  "optimizationsViewAllDisabled": "This project has not reported data this month.",
   "overhead": "Overhead",
   "overheadDesc": "Includes distributed costs",
   "overviewInfoArialLabel": "A description of perspectives",
