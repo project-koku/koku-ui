@@ -231,7 +231,7 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
 
     return (
       <TableComposable
-        aria-label={intl.formatMessage(messages.recommendationsTableAriaLabel)}
+        aria-label={intl.formatMessage(messages.optimizationsTableAriaLabel)}
         borders={false}
         hasSelectableRowCaption
         variant={TableVariant.compact}
@@ -314,7 +314,7 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
 
     return (
       <TableComposable
-        aria-label={intl.formatMessage(messages.recommendationsTableAriaLabel)}
+        aria-label={intl.formatMessage(messages.optimizationsTableAriaLabel)}
         borders={false}
         hasSelectableRowCaption
         variant={TableVariant.compact}
@@ -364,7 +364,7 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
           title: report.project,
         })}
       >
-        {intl.formatMessage(messages.recommendationsViewAll)}
+        {intl.formatMessage(messages.optimizationsViewAll)}
       </Link>
     );
   };
