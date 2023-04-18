@@ -10117,6 +10117,12 @@
         "value": "View all optimizations for this project"
       }
     ],
+    "optimizationsViewAllDisabled": [
+      {
+        "type": 0,
+        "value": "This project has not reported any data."
+      }
+    ],
     "overhead": [
       {
         "type": 0,

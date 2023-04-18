@@ -2,12 +2,14 @@ import './optimizations.scss';
 
 import {
   Bullseye,
+  Button,
   Spinner,
   TextContent,
   TextList,
   TextListItem,
   TextListItemVariants,
   TextListVariants,
+  Tooltip,
 } from '@patternfly/react-core';
 import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import type { RosQuery } from 'api/queries/rosQuery';
@@ -28,6 +30,7 @@ import { getBreakdownPath } from 'routes/views/utils/paths';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import { getTimeFromNow } from 'utils/dates';
+import { getToday } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -351,21 +354,36 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     if (!isStandalone || !report) {
       return null;
     }
-    return (
-      <Link
-        to={getBreakdownPath({
-          basePath: formatPath(routes.ocpDetailsBreakdown.path),
-          groupBy: 'project',
-          id: report.project,
-          isOptimizationsPath: true,
-          isOptimizationsTab: true,
-          router,
-          title: report.project,
-        })}
+
+    const lastReported = report ? new Date(report.last_reported) : undefined;
+    const today = getToday();
+    const isDisabled = !(
+      today.getFullYear() === lastReported.getFullYear() && today.getMonth() === lastReported.getMonth()
+    );
+
+    const breakdownPath = getBreakdownPath({
+      basePath: formatPath(routes.ocpDetailsBreakdown.path),
+      groupBy: 'project',
+      id: report.project,
+      isOptimizationsPath: true,
+      isOptimizationsTab: true,
+      router,
+      title: report.project,
+    });
+
+    const buttonComponent = (
+      <Button
+        isAriaDisabled={isDisabled}
+        variant="link"
+        component={(props: any) => <Link {...props} to={breakdownPath} />}
       >
         {intl.formatMessage(messages.optimizationsViewAll)}
-      </Link>
+      </Button>
     );
+    if (isDisabled) {
+      return <Tooltip content={intl.formatMessage(messages.optimizationsViewAllDisabled)}>{buttonComponent}</Tooltip>;
+    }
+    return buttonComponent;
   };
 
   private handleOnSelected = (value: string) => {

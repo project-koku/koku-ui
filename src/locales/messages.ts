@@ -2611,6 +2611,11 @@ export default defineMessages({
     description: 'View all optimizations for this project',
     id: 'optimizationsViewAll',
   },
+  optimizationsViewAllDisabled: {
+    defaultMessage: 'This project has not reported any data.',
+    description: 'This project has not reported any data.',
+    id: 'optimizationsViewAllDisabled',
+  },
   overhead: {
     defaultMessage: 'Overhead',
     description: 'Overhead',
