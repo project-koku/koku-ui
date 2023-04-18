@@ -2612,8 +2612,8 @@ export default defineMessages({
     id: 'optimizationsViewAll',
   },
   optimizationsViewAllDisabled: {
-    defaultMessage: 'This project has not reported any data.',
-    description: 'This project has not reported any data.',
+    defaultMessage: 'This project has not reported data this month.',
+    description: 'This project has not reported data this month.',
     id: 'optimizationsViewAllDisabled',
   },
   overhead: {
