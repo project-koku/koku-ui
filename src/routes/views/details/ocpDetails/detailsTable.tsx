@@ -11,6 +11,7 @@ import { injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
+import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { Actions } from 'routes/views/details/components/actions';
 import { DataTable } from 'routes/views/details/components/dataTable';
 import { styles } from 'routes/views/details/components/dataTable/dataTable.styles';
@@ -83,6 +84,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
   private initDatum = () => {
     const {
+      costDistribution,
       groupBy,
       groupByTagKey,
       hiddenColumns,
@@ -137,7 +139,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             style: styles.managedColumn,
           },
           {
-            orderBy: 'cost',
+            orderBy: costDistribution === ComputedReportItemValueType.distributed ? 'distributed_cost' : 'cost',
             name: intl.formatMessage(messages.cost),
             style: styles.costColumn,
             ...(computedItems.length && { isSortable: false }),
@@ -187,7 +189,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             // ...(computedItems.length && { isSortable: true }),
           },
           {
-            orderBy: 'cost',
+            orderBy: costDistribution === ComputedReportItemValueType.distributed ? 'distributed_cost' : 'cost',
             name: intl.formatMessage(messages.cost),
             style: styles.costColumn,
             ...(computedItems.length && { isSortable: true }),

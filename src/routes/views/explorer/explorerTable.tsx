@@ -178,7 +178,12 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
         }),
         date: mapId,
         isSortable,
-        orderBy: 'cost',
+        orderBy:
+          perspective === PerspectiveType.ocp &&
+          groupBy === 'project' &&
+          costDistribution === ComputedReportItemValueType.distributed
+            ? 'distributed_cost'
+            : 'cost',
       });
     }
 
