@@ -35,27 +35,79 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
       currency: getCurrency(),
       costType: getCostType(),
       getIdKeyForTab,
-      currentReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.current),
-      currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
-        state,
-        widget.reportPathsType,
-        widget.reportType,
-        queries.current
-      ),
-      forecast: forecastSelectors.selectForecast(
-        state,
-        widget.forecastPathsType,
-        widget.forecastType,
-        queries.forecast
-      ),
-      previousReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.previous),
-      tabsReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.tabs),
-      tabsReportFetchStatus: reportSelectors.selectReportFetchStatus(
-        state,
-        widget.reportPathsType,
-        widget.reportType,
-        queries.tabs
-      ),
+      ...(widget.forecastPathsType &&
+        widget.forecastType && {
+          forecast: forecastSelectors.selectForecast(
+            state,
+            widget.forecastPathsType,
+            widget.forecastType,
+            queries.forecast
+          ),
+          forecastError: forecastSelectors.selectForecastError(
+            state,
+            widget.forecastPathsType,
+            widget.forecastType,
+            queries.forecast
+          ),
+          forecastFetchStatus: forecastSelectors.selectForecastFetchStatus(
+            state,
+            widget.forecastPathsType,
+            widget.forecastType,
+            queries.forecast
+          ),
+        }),
+      ...(widget.reportPathsType &&
+        widget.reportType && {
+          currentReport: reportSelectors.selectReport(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.current
+          ),
+          currentReportError: reportSelectors.selectReportError(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.current
+          ),
+          currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.current
+          ),
+          previousReport: reportSelectors.selectReport(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.previous
+          ),
+          previousReportError: reportSelectors.selectReportError(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.previous
+          ),
+          previousReportFetchStatus: reportSelectors.selectReportFetchStatus(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.previous
+          ),
+          tabsReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.tabs),
+          tabsReportError: reportSelectors.selectReportError(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.tabs
+          ),
+          tabsReportFetchStatus: reportSelectors.selectReportFetchStatus(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.tabs
+          ),
+        }),
     };
   }
 );

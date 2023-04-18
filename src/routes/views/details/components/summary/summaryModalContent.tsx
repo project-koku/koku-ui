@@ -3,6 +3,7 @@ import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
 import type { Report, ReportPathsType } from 'api/reports/report';
 import { ReportType } from 'api/reports/report';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -30,6 +31,7 @@ interface SummaryModalContentOwnProps extends RouterComponentProps, WrappedCompo
 
 interface SummaryModalContentStateProps {
   report?: Report;
+  reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
   reportQueryString?: string;
 }
@@ -50,16 +52,20 @@ class SummaryModalContentBase extends React.Component<SummaryModalContentProps, 
   }
 
   public componentDidMount() {
-    const { fetchReport, reportPathsType, reportQueryString } = this.props;
-    fetchReport(reportPathsType, reportType, reportQueryString);
+    this.updateReport();
   }
 
   public componentDidUpdate(prevProps: SummaryModalContentProps) {
-    const { fetchReport, reportPathsType, reportQueryString } = this.props;
+    const { reportQueryString } = this.props;
     if (prevProps.reportQueryString !== reportQueryString) {
-      fetchReport(reportPathsType, reportType, reportQueryString);
+      this.updateReport();
     }
   }
+
+  private updateReport = () => {
+    const { fetchReport, reportQueryString, reportPathsType } = this.props;
+    fetchReport(reportPathsType, reportType, reportQueryString);
+  };
 
   public render() {
     const { costDistribution, intl, report, reportGroupBy, reportFetchStatus } = this.props;
@@ -142,6 +148,7 @@ const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, Summa
 
     const reportQueryString = getQuery(reportQuery);
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
+    const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,
       reportPathsType,
@@ -151,6 +158,7 @@ const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, Summa
 
     return {
       report,
+      reportError,
       reportFetchStatus,
       reportQueryString,
     };

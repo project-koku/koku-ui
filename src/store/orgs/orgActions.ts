@@ -8,7 +8,7 @@ import type { RootState } from 'store/rootReducer';
 import { createAction } from 'typesafe-actions';
 
 import { getFetchId } from './orgCommon';
-import { selectOrg, selectOrgFetchStatus } from './orgSelectors';
+import { selectOrg, selectOrgError, selectOrgFetchStatus } from './orgSelectors';
 
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
@@ -49,8 +49,9 @@ export function fetchOrg(
 
 function isOrgExpired(state: RootState, orgPathsType: OrgPathsType, orgType: OrgType, orgQueryString: string) {
   const orgReport = selectOrg(state, orgPathsType, orgType, orgQueryString);
+  const fetchError = selectOrgError(state, orgPathsType, orgType, orgQueryString);
   const fetchStatus = selectOrgFetchStatus(state, orgPathsType, orgType, orgQueryString);
-  if (fetchStatus === FetchStatus.inProgress) {
+  if (fetchError || fetchStatus === FetchStatus.inProgress) {
     return false;
   }
 

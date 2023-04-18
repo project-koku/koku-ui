@@ -172,11 +172,8 @@ class OptimizationsBreakdownBase extends React.Component<OptimizationsBreakdownP
   };
 
   private updateReport = () => {
-    const { fetchRosReport, reportFetchStatus, reportQueryString } = this.props;
-
-    if (reportFetchStatus !== FetchStatus.inProgress) {
-      fetchRosReport(reportPathsType, reportType, reportQueryString);
-    }
+    const { fetchRosReport, reportQueryString } = this.props;
+    fetchRosReport(reportPathsType, reportType, reportQueryString);
   };
 
   public render() {

@@ -49,6 +49,12 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
             widget.forecastType,
             queries.forecast
           ),
+          forecastError: forecastSelectors.selectForecastError(
+            state,
+            widget.forecastPathsType,
+            widget.forecastType,
+            queries.forecast
+          ),
           forecastFetchStatus: forecastSelectors.selectForecastFetchStatus(
             state,
             widget.forecastPathsType,
@@ -59,6 +65,12 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
       ...(widget.reportPathsType &&
         widget.reportType && {
           currentReport: reportSelectors.selectReport(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.current
+          ),
+          currentReportError: reportSelectors.selectReportError(
             state,
             widget.reportPathsType,
             widget.reportType,
@@ -76,6 +88,12 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
             widget.reportType,
             queries.previous
           ),
+          previousReportError: reportSelectors.selectReportError(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.previous
+          ),
           previousReportFetchStatus: reportSelectors.selectReportFetchStatus(
             state,
             widget.reportPathsType,
@@ -83,6 +101,12 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
             queries.previous
           ),
           tabsReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.tabs),
+          tabsReportError: reportSelectors.selectReportError(
+            state,
+            widget.reportPathsType,
+            widget.reportType,
+            queries.tabs
+          ),
           tabsReportFetchStatus: reportSelectors.selectReportFetchStatus(
             state,
             widget.reportPathsType,
@@ -93,12 +117,18 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
       ...(widget.rosPathsType &&
         widget.rosType && {
           isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
-          rosReport: rosSelectors.selectRos(state, widget.rosPathsType, widget.rosType, queries.recommendations),
+          rosReport: rosSelectors.selectRos(state, widget.rosPathsType, widget.rosType, queries.optimizations),
+          rosReportError: rosSelectors.selectRosError(
+            state,
+            widget.rosPathsType,
+            widget.rosType,
+            queries.optimizations
+          ),
           rosReportFetchStatus: rosSelectors.selectRosFetchStatus(
             state,
             widget.rosPathsType,
             widget.rosType,
-            queries.recommendations
+            queries.optimizations
           ),
         }),
     };

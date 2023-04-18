@@ -11,7 +11,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
-import { FetchStatus } from 'store/common';
+import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import type { RouterComponentProps } from 'utils/router';
@@ -52,11 +52,8 @@ class OptimizationsBadgeBase extends React.Component<OptimizationsBadgeProps, Op
   }
 
   private updateReport = () => {
-    const { fetchReport, reportFetchStatus, reportQueryString } = this.props;
-
-    if (reportFetchStatus !== FetchStatus.inProgress) {
-      fetchReport(reportPathsType, reportType, reportQueryString);
-    }
+    const { fetchReport, reportQueryString } = this.props;
+    fetchReport(reportPathsType, reportType, reportQueryString);
   };
 
   public render() {

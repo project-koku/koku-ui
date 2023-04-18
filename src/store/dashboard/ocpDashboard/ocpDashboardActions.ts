@@ -39,10 +39,10 @@ export const fetchWidgetRosReports = (id: number): ThunkAction => {
   return (dispatch, getState) => {
     const state = getState();
     const widget = selectWidget(state, id);
-    const { recommendations } = selectWidgetQueries(state, id);
+    const { optimizations } = selectWidgetQueries(state, id);
 
     if (widget.rosPathsType && widget.rosType) {
-      dispatch(rosActions.fetchRosReport(widget.rosPathsType, widget.rosType, recommendations));
+      dispatch(rosActions.fetchRosReport(widget.rosPathsType, widget.rosType, optimizations));
     }
   };
 };

@@ -64,16 +64,14 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
   };
 
   public componentDidMount() {
-    const { fetchReport, reportPathsType, reportType, reportQueryString } = this.props;
-    fetchReport(reportPathsType, reportType, reportQueryString);
-
     this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
+    this.updateReport();
   }
 
   public componentDidUpdate(prevProps: UsageChartProps) {
-    const { fetchReport, reportPathsType, reportType, reportQueryString } = this.props;
-    if (prevProps.reportQueryString !== this.props.reportQueryString) {
-      fetchReport(reportPathsType, reportType, reportQueryString);
+    const { reportQueryString } = this.props;
+    if (prevProps.reportQueryString !== reportQueryString) {
+      this.updateReport();
     }
   }
 
@@ -362,6 +360,11 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
       }
     }
     return !(datum.limit.value || hasRange || hasUsage);
+  };
+
+  private updateReport = () => {
+    const { fetchReport, reportPathsType, reportType, reportQueryString } = this.props;
+    fetchReport(reportPathsType, reportType, reportQueryString);
   };
 
   public render() {
