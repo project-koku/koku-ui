@@ -17,6 +17,7 @@ import { Loading } from 'routes/state/loading';
 import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
+import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { ExportModal } from 'routes/views/components/export';
 import type { ColumnManagementModalOption } from 'routes/views/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/views/details/components/columnManagement';
@@ -469,7 +470,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   const reportQuery = {
     category: query.category,
     currency,
-    delta: 'cost',
+    delta: costDistribution === ComputedReportItemValueType.distributed ? 'distributed_cost' : 'cost',
     exclude: query.exclude,
     filter: {
       ...query.filter,
