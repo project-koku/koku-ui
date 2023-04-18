@@ -18,19 +18,20 @@ import {
 } from 'routes/views/components/charts/common/chartDatum';
 import { CostExplorerChart } from 'routes/views/components/charts/costExplorerChart';
 import { getDateRangeFromQuery } from 'routes/views/utils/dateRange';
-import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
+import { getGroupById, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatUnits } from 'utils/format';
+import { getCostDistribution } from 'utils/localStorage';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './explorerChart.styles';
-import type { PerspectiveType } from './explorerUtils';
+import { PerspectiveType } from './explorerUtils';
 import { getGroupByDefault, getReportPathsType, getReportType } from './explorerUtils';
 
 interface ExplorerChartOwnProps extends RouterComponentProps, WrappedComponentProps {
@@ -250,7 +251,10 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
 const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerChartStateProps>(
   (state, { costType, currency, perspective, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
+
     const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
+    const groupBy = getGroupById(queryFromRoute);
+    const costDistribution = getCostDistribution();
 
     // Ensure group_by key is not undefined
     let group_by = queryFromRoute.group_by;
@@ -260,7 +264,7 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
 
     const query: any = {
       ...queryFromRoute,
-      group_by,
+      group_by, // Note that this is not the group by ID
     };
     const reportQuery = {
       cost_type: costType,
@@ -271,6 +275,11 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
       filter_by: query.filter_by,
       group_by,
       start_date,
+      ...(perspective === PerspectiveType.ocp &&
+        groupBy === 'project' &&
+        costDistribution === ComputedReportItemValueType.distributed && {
+          order_by: { distributed_cost: 'asc' },
+        }),
     };
 
     const reportPathsType = getReportPathsType(perspective);
