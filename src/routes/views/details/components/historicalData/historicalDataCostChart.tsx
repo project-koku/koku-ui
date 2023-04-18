@@ -51,8 +51,7 @@ type HistoricalDataCostChartProps = HistoricalDataCostChartOwnProps &
 
 class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChartProps, any> {
   public componentDidMount() {
-    this.updateCurrentReport();
-    this.updatetPreviousReport();
+    this.updateReport();
   }
 
   public componentDidUpdate(prevProps: HistoricalDataCostChartProps) {
@@ -60,17 +59,11 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
 
     if (
       prevProps.currentQueryString !== currentQueryString ||
-      prevProps.costType !== costType ||
-      prevProps.currency !== currency
-    ) {
-      this.updateCurrentReport();
-    }
-    if (
       prevProps.previousQueryString !== previousQueryString ||
       prevProps.costType !== costType ||
       prevProps.currency !== currency
     ) {
-      this.updatetPreviousReport();
+      this.updateReport();
     }
   }
 
@@ -83,13 +76,9 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
     );
   };
 
-  private updateCurrentReport = () => {
-    const { fetchReport, currentQueryString, reportPathsType, reportType } = this.props;
+  private updateReport = () => {
+    const { fetchReport, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
     fetchReport(reportPathsType, reportType, currentQueryString);
-  };
-
-  private updatetPreviousReport = () => {
-    const { fetchReport, previousQueryString, reportPathsType, reportType } = this.props;
     fetchReport(reportPathsType, reportType, previousQueryString);
   };
 

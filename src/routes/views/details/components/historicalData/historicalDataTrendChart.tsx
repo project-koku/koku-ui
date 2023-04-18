@@ -51,8 +51,7 @@ type HistoricalDataTrendChartProps = HistoricalDataTrendChartOwnProps &
 
 class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendChartProps, any> {
   public componentDidMount() {
-    this.updateCurrentReport();
-    this.updatetPreviousReport();
+    this.updateReport();
   }
 
   public componentDidUpdate(prevProps: HistoricalDataTrendChartProps) {
@@ -60,17 +59,11 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 
     if (
       prevProps.currentQueryString !== currentQueryString ||
-      prevProps.costType !== costType ||
-      prevProps.currency !== currency
-    ) {
-      this.updateCurrentReport();
-    }
-    if (
       prevProps.previousQueryString !== previousQueryString ||
       prevProps.costType !== costType ||
       prevProps.currency !== currency
     ) {
-      this.updatetPreviousReport();
+      this.updateReport();
     }
   }
 
@@ -83,13 +76,9 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
     );
   };
 
-  private updateCurrentReport = () => {
-    const { fetchReport, currentQueryString, reportPathsType, reportType } = this.props;
+  private updateReport = () => {
+    const { fetchReport, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
     fetchReport(reportPathsType, reportType, currentQueryString);
-  };
-
-  private updatetPreviousReport = () => {
-    const { fetchReport, previousQueryString, reportPathsType, reportType } = this.props;
     fetchReport(reportPathsType, reportType, previousQueryString);
   };
 
