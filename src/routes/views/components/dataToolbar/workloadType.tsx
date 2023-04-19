@@ -30,6 +30,7 @@ class WorkloadTypeBase extends React.Component<WorkloadTypeProps, WorkloadTypeSt
 
   private getOptions = (): ToolbarChipGroup[] => {
     const options = [
+      { name: 'daemonset', key: 'daemonset' },
       { name: 'deployment', key: 'deployment' },
       { name: 'deploymentconfig', key: 'deploymentconfig' },
       { name: 'replicaset', key: 'replicaset' },
