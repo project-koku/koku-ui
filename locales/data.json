@@ -945,6 +945,12 @@
         "value": ")"
       }
     ],
+    "chooseValuePlaceholder": [
+      {
+        "type": 0,
+        "value": "Choose value"
+      }
+    ],
     "close": [
       {
         "type": 0,
@@ -6825,16 +6831,10 @@
         "value": "Filter button for tag value"
       }
     ],
-    "filterByTagValueInputPlaceholder": [
+    "filterByValueInputPlaceholder": [
       {
         "type": 0,
         "value": "Filter by value"
-      }
-    ],
-    "filterByTagValuePlaceholder": [
-      {
-        "type": 0,
-        "value": "Choose value"
       }
     ],
     "filterByValues": [
@@ -6990,6 +6990,12 @@
         },
         "type": 5,
         "value": "value"
+      }
+    ],
+    "filterByWorkloadTypeAriaLabel": [
+      {
+        "type": 0,
+        "value": "Workload types"
       }
     ],
     "forDate": [

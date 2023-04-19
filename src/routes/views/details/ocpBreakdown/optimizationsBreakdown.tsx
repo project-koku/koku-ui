@@ -28,7 +28,6 @@ export interface OptimizationsBreakdownOwnProps extends RouterComponentProps, Wr
 }
 
 interface OptimizationsBreakdownStateProps {
-  groupBy?: string;
   query: RosQuery;
   report: RosReport;
   reportError: AxiosError;
@@ -236,7 +235,6 @@ const mapStateToProps = createMapStateToProps<OptimizationsBreakdownOwnProps, Op
     const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);
 
     return {
-      groupBy: queryFromRoute.group_by,
       query,
       report,
       reportError,

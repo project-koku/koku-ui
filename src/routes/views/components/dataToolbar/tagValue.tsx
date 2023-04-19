@@ -13,7 +13,6 @@ import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
-import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -129,7 +128,7 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
   };
 
   public render() {
-    const { isDisabled, onTagValueInput, onTagValueSelect, selections, tagKeyValue } = this.props;
+    const { intl, isDisabled, onTagValueInput, onTagValueSelect, selections, tagKeyValue } = this.props;
     const { isTagValueExpanded } = this.state;
 
     const selectOptions = this.getTagValueOptions().map(selectOption => {
@@ -147,7 +146,7 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
             aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
             onChange={this.onTagValueChange}
             value={tagKeyValue}
-            placeholder={intl.formatMessage(messages.filterByTagValueInputPlaceholder)}
+            placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
             onKeyDown={evt => onTagValueInput(evt)}
           />
           <Button
@@ -170,7 +169,7 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
         onSelect={onTagValueSelect}
         selections={selections}
         isOpen={isTagValueExpanded}
-        placeholderText={intl.formatMessage(messages.filterByTagValuePlaceholder)}
+        placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}
       >
         {selectOptions}
       </Select>
@@ -218,4 +217,3 @@ const TagValueConnect = connect(mapStateToProps, mapDispatchToProps)(TagValueBas
 const TagValue = injectIntl(withRouter(TagValueConnect));
 
 export { TagValue };
-export type { TagValueProps };
