@@ -26,6 +26,7 @@ export interface Query {
   isPlatformCosts?: boolean;
   key_only?: boolean;
   limit?: number;
+  offset?: number;
   optimizationsPath?: any;
   optimizationsTab?: any;
   order_by?: any;
