@@ -11,6 +11,7 @@ import { createMapStateToProps } from 'store/common';
 
 interface OptimizationsToolbarOwnProps {
   isDisabled?: boolean;
+  isProject?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onFilterAdded(filter: Filter);
@@ -47,7 +48,7 @@ export class OptimizationsToolbarBase extends React.Component<OptimizationsToolb
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { intl } = this.props;
+    const { intl, isProject } = this.props;
 
     const options = [
       { name: intl.formatMessage(messages.filterByValues, { value: 'container' }), key: 'container' },
@@ -56,7 +57,7 @@ export class OptimizationsToolbarBase extends React.Component<OptimizationsToolb
       { name: intl.formatMessage(messages.filterByValues, { value: 'workload' }), key: 'workload' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'workload_type' }), key: 'workload_type' },
     ];
-    return options;
+    return isProject ? options : options.filter(option => option.key !== 'project');
   };
 
   public render() {

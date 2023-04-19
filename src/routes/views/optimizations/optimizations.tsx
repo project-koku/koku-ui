@@ -133,6 +133,7 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
     return (
       <OptimizationsToolbar
         isDisabled={isDisabled}
+        isProject
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onFilterAdded={filter => handleFilterAdded(query, router, filter)}
