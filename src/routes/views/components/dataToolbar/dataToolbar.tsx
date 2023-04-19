@@ -48,6 +48,7 @@ import { orgUnitIdKey, orgUnitNameKey, platformCategoryKey, tagKey, tagPrefix } 
 import { DataKebab } from './dataKebab';
 import { styles } from './dataToolbar.styles';
 import { TagValue } from './tagValue';
+import { WorkloadType } from './workloadType';
 
 interface Filters {
   [key: string]: Filter[] | { [key: string]: Filter[] };
@@ -89,9 +90,10 @@ interface DataToolbarOwnProps {
 interface DataToolbarState {
   categoryInput?: string;
   currentCategory?: string;
+  currentExclude?: string;
   currentOrgUnit?: string;
   currentTagKey?: string;
-  currentExclude?: string;
+  currentWorkloadType?: string;
   filters?: Filters;
   isBulkSelectOpen?: boolean;
   isCategorySelectOpen?: boolean;
@@ -175,6 +177,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
               currentCategory: this.getDefaultCategory(),
               currentOrgUnit: '',
               currentTagKey: '',
+              currentWorkloadType: '',
               filters,
               tagKeyValueInput: '',
               ...(prevProps.groupBy !== groupBy && { isPlatformCostsChecked: false }),
@@ -466,6 +469,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       categoryInput: '',
       currentCategory: selection.value,
       currentTagKey: undefined,
+      currentWorkloadType: undefined,
       isCategorySelectOpen: !this.state.isCategorySelectOpen,
     });
   };
@@ -479,7 +483,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   // Category input
   public getCategoryInput = (categoryOption: ToolbarChipGroup, hasFilters: boolean) => {
     const { intl, isDisabled, resourcePathsType } = this.props;
-    const { currentCategory, filters, categoryInput } = this.state;
+    const { categoryInput, currentCategory, filters } = this.state;
 
     return (
       <ToolbarFilter
@@ -490,7 +494,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
         showToolbarItem={currentCategory === categoryOption.key}
       >
         <InputGroup>
-          {isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
+          {categoryOption.key === 'workload_type' ? (
+            <WorkloadType
+              isDisabled={isDisabled && !hasFilters}
+              onSelect={this.handleOnWorkloadTypeSelect}
+              selections={
+                filters[categoryOption.key] ? (filters[categoryOption.key] as Filter[]).map(filter => filter.value) : []
+              }
+            />
+          ) : isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
             <ResourceTypeahead
               ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: categoryOption.key })}
               isDisabled={isDisabled && !hasFilters}
@@ -603,6 +615,34 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       },
       () => {
         this.props.onFilterAdded(filter);
+      }
+    );
+  };
+
+  // Workload type select
+
+  private handleOnWorkloadTypeSelect = (event, selection) => {
+    const { currentCategory } = this.state;
+
+    const checked = event.target.checked;
+    const filter = this.getFilter(currentCategory, selection);
+    this.setState(
+      (prevState: any) => {
+        const prevItems = prevState.filters[currentCategory] ? prevState.filters[currentCategory] : [];
+        const filters = {
+          ...prevState.filters,
+          [currentCategory]: checked ? [...prevItems, filter] : prevItems.filter(item => item.value !== filter.value),
+        };
+        return {
+          filters,
+        };
+      },
+      () => {
+        if (checked) {
+          this.props.onFilterAdded(filter);
+        } else {
+          this.props.onFilterRemoved(filter);
+        }
       }
     );
   };

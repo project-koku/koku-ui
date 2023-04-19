@@ -318,6 +318,11 @@ export default defineMessages({
     description: 'Usage (Jan)',
     id: 'chartUsageLegendTooltip',
   },
+  chooseValuePlaceholder: {
+    defaultMessage: 'Choose value',
+    description: 'Choose value',
+    id: 'chooseValuePlaceholder',
+  },
   close: {
     defaultMessage: 'Close',
     description: 'Close',
@@ -1766,15 +1771,10 @@ export default defineMessages({
     description: 'Filter button for tag value',
     id: 'filterByTagValueButtonAriaLabel',
   },
-  filterByTagValueInputPlaceholder: {
+  filterByValuePlaceholder: {
     defaultMessage: 'Filter by value',
     description: 'Filter by value',
-    id: 'filterByTagValueInputPlaceholder',
-  },
-  filterByTagValuePlaceholder: {
-    defaultMessage: 'Choose value',
-    description: 'Choose value',
-    id: 'filterByTagValuePlaceholder',
+    id: 'filterByValueInputPlaceholder',
   },
   filterByValues: {
     defaultMessage:
@@ -1800,6 +1800,11 @@ export default defineMessages({
       'other {}}',
     description: 'Filter by values',
     id: 'filterByValues',
+  },
+  filterByWorkloadTypeAriaLabel: {
+    defaultMessage: 'Workload types',
+    description: 'Workload types',
+    id: 'filterByWorkloadTypeAriaLabel',
   },
   forDate: {
     defaultMessage: '{value} for {dateRange}',
