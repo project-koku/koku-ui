@@ -1,17 +1,5 @@
 {
   "en": {
-    "ExamplesTitle": [
-      {
-        "type": 0,
-        "value": "Examples"
-      }
-    ],
-    "NoExportsStateTitle": [
-      {
-        "type": 0,
-        "value": "There are no export files available"
-      }
-    ],
     "allOtherProjectCosts": [
       {
         "type": 0,
@@ -877,7 +865,7 @@
         "value": "count"
       }
     ],
-    "chartRequestLegendLabel": [
+    "chartRequestsLegendLabel": [
       {
         "type": 0,
         "value": "Requests ("
@@ -891,7 +879,13 @@
         "value": ")"
       }
     ],
-    "chartRequestLegendTooltip": [
+    "chartRequestsLegendNoDataLabel": [
+      {
+        "type": 0,
+        "value": "Requests (no data)"
+      }
+    ],
+    "chartRequestsLegendTooltip": [
       {
         "type": 0,
         "value": "Requests ("
@@ -903,12 +897,6 @@
       {
         "type": 0,
         "value": ")"
-      }
-    ],
-    "chartRequestsLegendNoDataLabel": [
-      {
-        "type": 0,
-        "value": "Requests (no data)"
       }
     ],
     "chartUsageLegendLabel": [
@@ -1448,16 +1436,16 @@
         "value": "No sources are assigned"
       }
     ],
+    "costModelsSourceTableAriaLabel": [
+      {
+        "type": 0,
+        "value": "Sources table"
+      }
+    ],
     "costModelsSourceType": [
       {
         "type": 0,
         "value": "Source type"
-      }
-    ],
-    "costModelsSourcesTableAriaLabel": [
-      {
-        "type": 0,
-        "value": "Sources table"
       }
     ],
     "costModelsTableAriaLabel": [
@@ -2935,13 +2923,7 @@
         "value": "Unrequested capacity"
       }
     ],
-    "detailsUnusedUsageLabel": [
-      {
-        "type": 0,
-        "value": "Unused capacity"
-      }
-    ],
-    "detailsUnusedUsageUnits": [
+    "detailsUnusedUnits": [
       {
         "type": 1,
         "value": "units"
@@ -2957,6 +2939,12 @@
       {
         "type": 0,
         "value": "% of capacity)"
+      }
+    ],
+    "detailsUnusedUsageLabel": [
+      {
+        "type": 0,
+        "value": "Unused capacity"
       }
     ],
     "detailsUsageCapacity": [
@@ -3414,6 +3402,12 @@
       {
         "type": 0,
         "value": "Oops!"
+      }
+    ],
+    "examplesTitle": [
+      {
+        "type": 0,
+        "value": "Examples"
       }
     ],
     "excludeLabel": [
@@ -8987,7 +8981,13 @@
         "value": "IBM Cloud Details"
       }
     ],
-    "inactiveSourcesGoTitle": [
+    "inactiveSourcesGoTo": [
+      {
+        "type": 0,
+        "value": "Go to Sources for more information"
+      }
+    ],
+    "inactiveSourcesTitle": [
       {
         "type": 0,
         "value": "A problem was detected with "
@@ -8995,12 +8995,6 @@
       {
         "type": 1,
         "value": "value"
-      }
-    ],
-    "inactiveSourcesGoTo": [
-      {
-        "type": 0,
-        "value": "Go to Sources for more information"
       }
     ],
     "inactiveSourcesTitleMultiplier": [
@@ -9501,12 +9495,6 @@
         "value": "No"
       }
     ],
-    "noAuthorizedStateAws": [
-      {
-        "type": 0,
-        "value": "Amazon Web Services in Cost Management"
-      }
-    ],
     "noDataForDate": [
       {
         "type": 0,
@@ -9533,6 +9521,12 @@
       {
         "type": 0,
         "value": "Still processing the data"
+      }
+    ],
+    "noExportsStateTitle": [
+      {
+        "type": 0,
+        "value": "There are no export files available"
       }
     ],
     "noOptimizationsDesc": [
@@ -9635,6 +9629,12 @@
       {
         "type": 0,
         "value": "No results found"
+      }
+    ],
+    "notAuthorizedStateAws": [
+      {
+        "type": 0,
+        "value": "Amazon Web Services in Cost Management"
       }
     ],
     "notAuthorizedStateAzure": [
@@ -10476,7 +10476,7 @@
         "value": "Delete rate"
       }
     ],
-    "priceListDesc": [
+    "priceListDeleteRateDesc": [
       {
         "offset": 0,
         "options": {

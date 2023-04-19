@@ -291,7 +291,7 @@ export default defineMessages({
   chartRequestsLegendLabel: {
     defaultMessage: 'Requests ({dateRange})',
     description: 'Requests (Jan 1-31)',
-    id: 'chartRequestLegendLabel',
+    id: 'chartRequestsLegendLabel',
   },
   chartRequestsLegendNoDataLabel: {
     defaultMessage: 'Requests (no data)',
@@ -301,7 +301,7 @@ export default defineMessages({
   chartRequestsLegendTooltip: {
     defaultMessage: 'Requests ({month})',
     description: 'Requests (Jan)',
-    id: 'chartRequestLegendTooltip',
+    id: 'chartRequestsLegendTooltip',
   },
   chartUsageLegendLabel: {
     defaultMessage: 'Usage ({dateRange})',
@@ -671,7 +671,7 @@ export default defineMessages({
   costModelsSourceTableAriaLabel: {
     defaultMessage: 'Sources table',
     description: 'Sources table',
-    id: 'costModelsSourcesTableAriaLabel',
+    id: 'costModelsSourceTableAriaLabel',
   },
   costModelsSourceType: {
     defaultMessage: 'Source type',
@@ -1201,7 +1201,7 @@ export default defineMessages({
   detailsUnusedUnits: {
     defaultMessage: '{units} ({percentage}% of capacity)',
     description: '{units} ({percentage}% of capacity)',
-    id: 'detailsUnusedUsageUnits',
+    id: 'detailsUnusedUnits',
   },
   detailsUnusedUsageLabel: {
     defaultMessage: 'Unused capacity',
@@ -1407,7 +1407,7 @@ export default defineMessages({
   examplesTitle: {
     defaultMessage: 'Examples',
     description: 'Examples',
-    id: 'ExamplesTitle',
+    id: 'examplesTitle',
   },
   excludeLabel: {
     defaultMessage: 'Excludes: {value}',
@@ -2028,7 +2028,7 @@ export default defineMessages({
   inactiveSourcesTitle: {
     defaultMessage: 'A problem was detected with {value}',
     description: 'A problem was detected with {value}',
-    id: 'inactiveSourcesGoTitle',
+    id: 'inactiveSourcesTitle',
   },
   inactiveSourcesTitleMultiplier: {
     defaultMessage: 'A problem was detected with the following sources',
@@ -2250,7 +2250,7 @@ export default defineMessages({
   noExportsStateTitle: {
     defaultMessage: 'There are no export files available',
     description: 'There are no export files available',
-    id: 'NoExportsStateTitle',
+    id: 'noExportsStateTitle',
   },
   noOptimizationsDesc: {
     defaultMessage: 'There is not enough data available to generate an optimization.',
@@ -2352,7 +2352,7 @@ export default defineMessages({
   notAuthorizedStateAws: {
     defaultMessage: 'Amazon Web Services in Cost Management',
     description: 'Amazon Web Services in Cost Management',
-    id: 'noAuthorizedStateAws',
+    id: 'notAuthorizedStateAws',
   },
   notAuthorizedStateAzure: {
     defaultMessage: 'Microsoft Azure in Cost Management',
@@ -2793,7 +2793,7 @@ export default defineMessages({
     defaultMessage:
       '{count, plural, one {This action will remove {metric} rate from {costModel}} other {This action will remove {metric} rate from {costModel}, which is assigned to the following sources:}}',
     description: 'This action will remove {metric} rate from {costModel}, which is assigned to the following sources:',
-    id: 'priceListDesc',
+    id: 'priceListDeleteRateDesc',
   },
   priceListDuplicate: {
     defaultMessage: 'This tag key is already in use',

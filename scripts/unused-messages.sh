@@ -40,19 +40,16 @@ EEOOFF
     esac
   done
 
+  echo "The following MessageDescriptor IDs may be unused:"
+  echo ""
+
   FILES=`find $SRC_DIR -type f -name \*.ts -o -name \*.tsx`
 
-  for KEY in `grep ': {' $MSG_FILE | awk -F: '{print $1}'`
+  for KEY in `grep "id: '" $MSG_FILE | awk -F: '{print $2}' | sed "s|[',]||g"`
   do
-    if [ "$KEY" = "defaultMessage" -o "$KEY" = "description" ]; then
-      continue
-    fi
     JUNK=`grep "messages.$KEY" $FILES`
     if [ -z "$JUNK" ]; then
       echo "$KEY"
-      if [ "$KEY" = "defaultMessage" ]; then
-        exit 1
-      fi
     fi
   done
 
