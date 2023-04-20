@@ -60,7 +60,7 @@ export const projectSummaryWidget: OcpCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'project',
-    showWidgetOnCategory: [platformCategoryKey],
+    showWidgetOnPlatformCategory: [platformCategoryKey],
     showWidgetOnGroupBy: ['cluster'],
     usePlaceholder: true,
   },

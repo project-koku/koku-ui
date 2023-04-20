@@ -96,6 +96,7 @@ export default defineMessages({
     defaultMessage:
       '{groupBy, select, ' +
       'account {Back to {value} account details} ' +
+      'aws_category {Back to {value} cost category details} ' +
       'cluster {Back to {value} cluster details} ' +
       'gcp_project {Back to {value} GCP project details} ' +
       'node {Back to {value} node details} ' +
@@ -150,6 +151,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'account {Cost by accounts} ' +
+      'aws_category {Cost by category} ' +
       'cluster {Cost by clusters} ' +
       'gcp_project {Cost by GCP projects} ' +
       'node {Cost by Node} ' +
@@ -372,6 +374,11 @@ export default defineMessages({
     defaultMessage: 'Cost calculations (optional)',
     description: 'Cost calculations (optional)',
     id: 'costCalculationsOptional',
+  },
+  costCategoryNames: {
+    defaultMessage: 'Cost category names',
+    description: 'Cost category names',
+    id: 'costCategoryNames',
   },
   costDistribution: {
     defaultMessage: 'Cost distribution',
@@ -1119,6 +1126,7 @@ export default defineMessages({
     defaultMessage:
       '{groupBy, select, ' +
       'account {account {name} clusters} ' +
+      'aws_category {cost category {name} clusters} ' +
       'cluster {cluster {name} clusters} ' +
       'gcp_project {GCP project {name} clusters} ' +
       'node {node {name} clusters} ' +
@@ -1239,6 +1247,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'account {View all accounts} ' +
+      'aws_category {View all cost categories} ' +
       'cluster {View all clusters} ' +
       'gcp_project {View all GCP projects} ' +
       'node {View all nodes} ' +
@@ -1503,6 +1512,7 @@ export default defineMessages({
     defaultMessage:
       '{groupBy, select, ' +
       'account {{resolution, select, daily {{provider}_accounts_daily_{startDate}_{endDate}} monthly {{provider}_accounts_monthly_{startDate}_{endDate}} other {}}} ' +
+      'aws_category {{resolution, select, daily {{provider}_cost_category_daily_{startDate}_{endDate}} monthly {{provider}_cost_category_monthly_{startDate}_{endDate}} other {}}} ' +
       'cluster {{resolution, select, daily {{provider}_clusters_daily_{startDate}_{endDate}} monthly {{provider}_clusters_monthly_{startDate}_{endDate}} other {}}} ' +
       'gcp_project {{resolution, select, daily {{provider}_gcp-projects_daily_{startDate}_{endDate}} monthly {{provider}_gcp-projects_monthly_{startDate}_{endDate}} other {}}} ' +
       'node {{resolution, select, daily {{provider}_node_daily_{startDate}_{endDate}} monthly {{provider}_node_monthly_{startDate}_{endDate}} other {}}} ' +
@@ -1539,6 +1549,7 @@ export default defineMessages({
     defaultMessage:
       '{groupBy, select, ' +
       'account {Aggregates of the following accounts will be exported to a .csv file.} ' +
+      'aws_category {Aggregates of the following cost categories will be exported to a .csv file.} ' +
       'cluster {Aggregates of the following clusters will be exported to a .csv file.} ' +
       'gcp_project {Aggregates of the following GCP projects will be exported to a .csv file.} ' +
       'node {Aggregates of the following nodes will be exported to a .csv file.} ' +
@@ -1560,6 +1571,7 @@ export default defineMessages({
     defaultMessage:
       '{groupBy, select, ' +
       'account {{provider, select, aws {Amazon Web Services grouped by Account} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Account} azure {Microsoft Azure grouped by Account} oci {Oracle Cloud Infrastructure grouped by Account} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Account} gcp {Google Cloud Platform grouped by Account} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Account} ibm {IBM Cloud grouped by Account} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Account} ocp {OpenShift grouped by Account} ocp_cloud {All cloud filtered by OpenShift grouped by Account} other {}}} ' +
+      'aws_category {{provider, select, aws {Amazon Web Services grouped by Cost category} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Cost category} azure {Microsoft Azure grouped by Cost category} oci {Oracle Cloud Infrastructure grouped by Cost category} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Cost category} gcp {Google Cloud Platform grouped by Cost category} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Cost category} ibm {IBM Cloud grouped by Cost category} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Cost category} ocp {OpenShift grouped by Cost category} ocp_cloud {All cloud filtered by OpenShift grouped by Cost category} other {}}} ' +
       'cluster {{provider, select, aws {Amazon Web Services grouped by Cluster} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Cluster} azure {Microsoft Azure grouped by Cluster} oci {Oracle Cloud Infrastructure grouped by Cluster} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Cluster} gcp {Google Cloud Platform grouped by Cluster} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Cluster} ibm {IBM Cloud grouped by Cluster} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Cluster} ocp {OpenShift grouped by Cluster} ocp_cloud {All cloud filtered by OpenShift grouped by Cluster} other {}}} ' +
       'gcp_project {{provider, select, aws {Amazon Web Services grouped by GCP Project} aws_ocp {Amazon Web Services filtered by OpenShift grouped by GCP Project} azure {Microsoft Azure grouped by GCP Project} oci {Oracle Cloud Infrastructure grouped by GCP Project} azure_ocp {Microsoft Azure filtered by OpenShift grouped by GCP Project} gcp {Google Cloud Platform grouped by GCP Project} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by GCP Project} ibm {IBM Cloud grouped by GCP Project} ibm_ocp {IBM Cloud filtered by OpenShift grouped by GCP Project} ocp {OpenShift grouped by GCP Project} ocp_cloud {All cloud filtered by OpenShift grouped by GCP Project} other {}}} ' +
       'node {{provider, select, aws {Amazon Web Services grouped by Node} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Node} azure {Microsoft Azure grouped by Node} oci {Oracle Cloud Infrastructure grouped by Node} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Node} gcp {Google Cloud Platform grouped by Node} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Node} ibm {IBM Cloud grouped by Node} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Node} ocp {OpenShift grouped by Node} ocp_cloud {All cloud filtered by OpenShift grouped by Node} other {}}} ' +
@@ -1596,6 +1608,7 @@ export default defineMessages({
     defaultMessage:
       '{groupBy, select, ' +
       'account {Selected accounts ({count})} ' +
+      'aws_category {Selected cost categories ({count})} ' +
       'cluster {Selected clusters ({count})} ' +
       'gcp_project {Selected GCP projects ({count})} ' +
       'node {Selected nodes ({count})} ' +
@@ -1681,6 +1694,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'account {Filter button for account name} ' +
+      'aws_category {Filter button for cost category name} ' +
       'cluster {Filter button for cluster name} ' +
       'gcp_project {Filter button for GCP project name} ' +
       'name {Filter button for name name} ' +
@@ -1708,6 +1722,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'account {Input for account name} ' +
+      'aws_category {Input for cost category name} ' +
       'cluster {Input for cluster name} ' +
       'gcp_project {Input for GCP project name} ' +
       'name {Input for name name} ' +
@@ -1740,6 +1755,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'account {Filter by account} ' +
+      'aws_category {Filter by cost category} ' +
       'cluster {Filter by cluster} ' +
       'container {Filter by container} ' +
       'description {Filter by description} ' +
@@ -1858,6 +1874,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'account {{count, plural, one {All account} other {All accounts}}} ' +
+      'aws_category {{count, plural, one {All cost category} other {All cost categories}}} ' +
       'cluster {{count, plural, one {All cluster} other {All clusters}}} ' +
       'gcp_project {{count, plural, one {All GCP project} other {All GCP projects}}} ' +
       'node {{count, plural, one {All node} other {All nodes}}} ' +
@@ -1884,6 +1901,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'account {{count, plural, one {Top account} other {Top accounts}}} ' +
+      'aws_category {{count, plural, one {Top cost category} other {Top cost categories}}} ' +
       'cluster {{count, plural, one {Top cluster} other {Top clusters}}} ' +
       'gcp_project {{count, plural, one {Top GCP project} other {Top GCP projects}}} ' +
       'node {{count, plural, one {Top node} other {Top node}}} ' +

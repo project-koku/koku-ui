@@ -52,7 +52,7 @@ export const projectSummaryWidget: RhelCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'project',
-    showWidgetOnCategory: [platformCategoryKey],
+    showWidgetOnPlatformCategory: [platformCategoryKey],
     showWidgetOnGroupBy: ['cluster'],
     usePlaceholder: true,
   },

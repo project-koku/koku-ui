@@ -23,7 +23,7 @@ export interface CostOverviewWidget {
   };
   reportSummary?: {
     reportGroupBy: string; // Report group_by
-    showWidgetOnCategory?: string[];
+    showWidgetOnPlatformCategory?: string[];
     showWidgetOnGroupBy?: string[]; // Show widget when group_by is matched
     usePlaceholder?: boolean; // Use placeholder to keep card placement when widget is not shown
   };

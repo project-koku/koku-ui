@@ -19,7 +19,7 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
-import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
+import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleCostTypeSelected,
   handleCurrencySelected,
@@ -38,7 +38,7 @@ import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportIte
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getCostType, getCurrency } from 'utils/localStorage';
-import { logicalOrPrefix, noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
+import { awsCategoryPrefix, logicalOrPrefix, noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -213,12 +213,20 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByCostCategory = getGroupByCostCategory(query);
     const groupByTagKey = getGroupByTagKey(query);
     const groupByOrg = getGroupByOrgValue(query);
 
     return (
       <DetailsTable
-        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        groupBy={
+          groupByCostCategory
+            ? `${awsCategoryPrefix}${groupByCostCategory}`
+            : groupByTagKey
+            ? `${tagPrefix}${groupByTagKey}`
+            : groupById
+        }
+        groupByCostCategory={groupByCostCategory}
         groupByTagKey={groupByTagKey}
         groupByOrg={groupByOrg}
         isAllSelected={isAllSelected}

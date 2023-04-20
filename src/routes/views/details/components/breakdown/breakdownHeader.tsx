@@ -18,12 +18,12 @@ import { ComputedReportItemValueType } from 'routes/views/components/charts/comm
 import { CostDistribution } from 'routes/views/components/costDistribution';
 import { CostType } from 'routes/views/components/costType';
 import { TagLink } from 'routes/views/details/components/tag';
-import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
+import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
 import { getTotalCostDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 import { formatPath } from 'utils/paths';
-import { orgUnitIdKey } from 'utils/props';
+import { awsCategoryKey, orgUnitIdKey, tagKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -136,6 +136,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
     } = this.props;
 
     const filterByAccount = query && query.filter ? query.filter.account : undefined;
+    const groupByCostCategory = getGroupByCostCategory(query);
     const groupByOrg = getGroupByOrgValue(query);
     const groupByTag = getGroupByTagKey(query);
     const showTags =
@@ -147,7 +148,15 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       groupBy === 'subscription_guid';
 
     // i18n groupBy key
-    const groupByKey = filterByAccount ? 'account' : groupByTag ? 'tag' : groupByOrg ? orgUnitIdKey : groupBy;
+    const groupByKey = filterByAccount
+      ? 'account'
+      : groupByCostCategory
+      ? awsCategoryKey
+      : groupByTag
+      ? tagKey
+      : groupByOrg
+      ? orgUnitIdKey
+      : groupBy;
 
     return (
       <header style={styles.header}>

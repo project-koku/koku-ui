@@ -25,7 +25,7 @@ export const getGroupByOrgValue = (query: Query) => {
   return groupByOrg;
 };
 
-export const getGroupByCategoryKey = (query: Query) => {
+export const getGroupByCostCategory = (query: Query) => {
   let groupByCategoryKey;
 
   if (query && query.group_by) {

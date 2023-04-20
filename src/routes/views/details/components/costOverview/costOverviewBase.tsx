@@ -23,7 +23,7 @@ import { OverheadCostChart } from 'routes/views/details/components/overheadCostC
 import { SummaryCard } from 'routes/views/details/components/summary';
 import { UsageChart } from 'routes/views/details/components/usageChart';
 import { styles } from 'routes/views/details/ocpDetails/detailsHeader.styles';
-import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
+import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 import { platformCategoryKey, tagPrefix } from 'utils/props';
@@ -202,20 +202,21 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
   private getSummaryCard = (widget: CostOverviewWidget) => {
     const { costDistribution, costType, currency, groupBy, isPlatformCosts, query } = this.props;
 
+    const groupByCostCategory = getGroupByCostCategory(query);
     const groupByOrg = getGroupByOrgValue(query);
     const groupByTag = getGroupByTagKey(query);
     let showWidget = false;
 
     if (widget.reportSummary.showWidgetOnGroupBy) {
       for (const groupById of widget.reportSummary.showWidgetOnGroupBy) {
-        if (groupById === groupBy || groupByOrg || groupByTag) {
+        if (groupById === groupBy || groupByCostCategory || groupByOrg || groupByTag) {
           showWidget = true;
           break;
         }
       }
     }
-    if (!showWidget && widget.reportSummary.showWidgetOnCategory) {
-      for (const categoryId of widget.reportSummary.showWidgetOnCategory) {
+    if (!showWidget && widget.reportSummary.showWidgetOnPlatformCategory) {
+      for (const categoryId of widget.reportSummary.showWidgetOnPlatformCategory) {
         if (isPlatformCosts && categoryId === platformCategoryKey) {
           showWidget = true;
           break;
