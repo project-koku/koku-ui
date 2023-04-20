@@ -26,6 +26,7 @@ import { orgUnitIdKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
+import { ComputedReportItemValueType } from '../../../components/charts/common';
 import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps extends RouterComponentProps {
@@ -103,7 +104,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   };
 
   private getTotalCost = () => {
-    const { costDistribution, report } = this.props;
+    const { costDistribution = ComputedReportItemValueType.total, report } = this.props;
 
     const hasCost =
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[costDistribution];
