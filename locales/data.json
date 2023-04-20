@@ -2626,6 +2626,14 @@
               }
             ]
           },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost category names"
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
@@ -2750,6 +2758,18 @@
               {
                 "type": 0,
                 "value": " accounts"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "type": 1,
+                "value": "name"
+              },
+              {
+                "type": 0,
+                "value": " cost categories"
               }
             ]
           },
@@ -6842,6 +6862,14 @@
               }
             ]
           },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost category"
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
@@ -7887,6 +7915,14 @@
               }
             ]
           },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost category names"
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
@@ -8020,6 +8056,34 @@
                       {
                         "type": 0,
                         "value": "accounts"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "cost category"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "cost categories"
                       }
                     ]
                   }
@@ -8423,6 +8487,34 @@
                       {
                         "type": 0,
                         "value": "Accounts"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Cost category"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Cost categories"
                       }
                     ]
                   }

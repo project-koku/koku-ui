@@ -1,9 +1,10 @@
 import type { PagedMetaData, PagedResponse } from 'api/api';
 
 export interface ResourceData {
-  account_alias: string;
-  cluster_alias: string;
-  value?: string;
+  account_alias?: string;
+  cluster_alias?: string;
+  key?: string;
+  value?: string | string[];
 }
 
 export interface Resource extends PagedResponse<ResourceData, PagedMetaData> {}
@@ -11,6 +12,7 @@ export interface Resource extends PagedResponse<ResourceData, PagedMetaData> {}
 // eslint-disable-next-line no-shadow
 export const enum ResourceType {
   account = 'account',
+  category = 'category',
   cluster = 'cluster',
   gcpProject = 'gcp_project',
   node = 'node',

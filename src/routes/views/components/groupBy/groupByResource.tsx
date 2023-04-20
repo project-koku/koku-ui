@@ -1,19 +1,19 @@
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
-import type { Tag } from 'api/tags/tag';
+import type { Resource } from 'api/resources/resource';
 import messages from 'locales/messages';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { tagPrefix } from 'utils/props';
+import { awsCategoryPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import { styles } from './groupBy.styles';
 
-interface GroupByTagOwnProps extends RouterComponentProps, WrappedComponentProps {
+interface GroupByResourceOwnProps extends RouterComponentProps, WrappedComponentProps {
   groupBy?: string;
   isDisabled?: boolean;
   onSelected(value: string);
@@ -21,23 +21,23 @@ interface GroupByTagOwnProps extends RouterComponentProps, WrappedComponentProps
     label: string;
     value: string;
   }[];
-  tagReport: Tag;
+  resourceReport: Resource;
 }
 
-interface GroupByTagState {
+interface GroupByResourceState {
   currentItem?: string;
   isGroupByOpen?: boolean;
 }
 
-type GroupByTagProps = GroupByTagOwnProps;
+type GroupByResourceProps = GroupByResourceOwnProps;
 
-class GroupByTagBase extends React.Component<GroupByTagProps, GroupByTagState> {
-  protected defaultState: GroupByTagState = {
+class GroupByResourceBase extends React.Component<GroupByResourceProps, GroupByResourceState> {
+  protected defaultState: GroupByResourceState = {
     isGroupByOpen: false,
   };
-  public state: GroupByTagState = { ...this.defaultState };
+  public state: GroupByResourceState = { ...this.defaultState };
 
-  constructor(props: GroupByTagProps) {
+  constructor(props: GroupByResourceProps) {
     super(props);
     this.handleGroupByClear = this.handleGroupByClear.bind(this);
     this.handleGroupBySelected = this.handleGroupBySelected.bind(this);
@@ -50,7 +50,7 @@ class GroupByTagBase extends React.Component<GroupByTagProps, GroupByTagState> {
     });
   }
 
-  public componentDidUpdate(prevProps: GroupByTagProps) {
+  public componentDidUpdate(prevProps: GroupByResourceProps) {
     const { groupBy } = this.props;
     if (prevProps.groupBy !== groupBy) {
       this.setState({ currentItem: this.getCurrentGroupBy() });
@@ -59,15 +59,14 @@ class GroupByTagBase extends React.Component<GroupByTagProps, GroupByTagState> {
 
   private getCurrentGroupBy = () => {
     const { router } = this.props;
-
     const queryFromRoute = parseQuery<Query>(router.location.search);
     const groupByKeys = queryFromRoute && queryFromRoute.group_by ? Object.keys(queryFromRoute.group_by) : [];
 
     let groupBy: string;
     for (const key of groupByKeys) {
-      const index = key.indexOf(tagPrefix);
+      const index = key.indexOf(awsCategoryPrefix);
       if (index !== -1) {
-        groupBy = key.slice(tagPrefix.length);
+        groupBy = key.slice(awsCategoryPrefix.length);
         break;
       }
     }
@@ -75,15 +74,15 @@ class GroupByTagBase extends React.Component<GroupByTagProps, GroupByTagState> {
   };
 
   private getGroupByItems = () => {
-    const { tagReport } = this.props;
+    const { resourceReport } = this.props;
 
-    if (!(tagReport && tagReport.data)) {
+    if (!(resourceReport && resourceReport.data)) {
       return [];
     }
 
     // If the key_only param is used, we have an array of strings
     let hasTagKeys = false;
-    for (const item of tagReport.data) {
+    for (const item of resourceReport.data) {
       if (item.hasOwnProperty('key')) {
         hasTagKeys = true;
         break;
@@ -93,13 +92,13 @@ class GroupByTagBase extends React.Component<GroupByTagProps, GroupByTagState> {
     // Workaround for https://github.com/project-koku/koku/issues/1797
     let data = [];
     if (hasTagKeys) {
-      const keepData = tagReport.data.map(
+      const keepData = resourceReport.data.map(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ({ type, ...keepProps }: any) => keepProps
       );
       data = uniqBy(keepData, 'key');
     } else {
-      data = uniq(tagReport.data);
+      data = uniq(resourceReport.data);
     }
 
     return data.map((item, index) => {
@@ -122,7 +121,7 @@ class GroupByTagBase extends React.Component<GroupByTagProps, GroupByTagState> {
       isGroupByOpen: false,
     });
     if (onSelected) {
-      onSelected(`${tagPrefix}${selection}`);
+      onSelected(`${awsCategoryPrefix}${selection}`);
     }
   };
 
@@ -154,6 +153,6 @@ class GroupByTagBase extends React.Component<GroupByTagProps, GroupByTagState> {
   }
 }
 
-const GroupByTag = injectIntl(withRouter(GroupByTagBase));
+const GroupByResource = injectIntl(withRouter(GroupByResourceBase));
 
-export { GroupByTag };
+export { GroupByResource };

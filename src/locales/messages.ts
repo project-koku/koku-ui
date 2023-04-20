@@ -1155,6 +1155,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'account {Account names} ' +
+      'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
       'gcp_project {GCP project names} ' +
       'node {Node names} ' +
@@ -1176,6 +1177,7 @@ export default defineMessages({
     defaultMessage:
       '{groupBy, select, ' +
       'account {{name} accounts} ' +
+      'aws_category {{name} cost categories} ' +
       'cluster {{name} clusters} ' +
       'gcp_project {{name} GCP projects} ' +
       'node {{name} nodes} ' +
@@ -1780,6 +1782,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'account {Account} ' +
+      'aws_category {Cost category} ' +
       'cluster {Cluster} ' +
       'container {Container} ' +
       'gcp_project {GCP project} ' +
@@ -1897,6 +1900,7 @@ export default defineMessages({
     defaultMessage:
       '{groupBy, select, ' +
       'account {Account names} ' +
+      'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
       'gcp_project {GCP project names} ' +
       'node {Node names} ' +
@@ -1918,6 +1922,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'account {{count, plural, one {account} other {accounts}}} ' +
+      'aws_category {{count, plural, one {cost category} other {cost categories}}} ' +
       'cluster {{count, plural, one {cluster} other {clusters}}} ' +
       'gcp_project {{count, plural, one {GCP project} other {GCP projects}}} ' +
       'node {{count, plural, one {node} other {node}}} ' +
@@ -1939,6 +1944,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'account {{count, plural, one {Account} other {Accounts}}} ' +
+      'aws_category {{count, plural, one {Cost category} other {Cost categories}}} ' +
       'cluster {{count, plural, one {Cluster} other {Clusters}}} ' +
       'gcp_project {{count, plural, one {GCP project} other {GCP projects}}} ' +
       'node {{count, plural, one {Node} other {Node}}} ' +

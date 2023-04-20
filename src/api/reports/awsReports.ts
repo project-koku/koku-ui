@@ -6,6 +6,7 @@ import { ReportType } from './report';
 export interface AwsReportItem extends ReportItem {
   account?: string;
   account_alias?: string;
+  aws_category?: string;
   org_unit_id?: string;
   region?: string;
   service?: string;

@@ -4,6 +4,7 @@ import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { AwsReport } from 'api/reports/awsReports';
+import { ResourcePathsType } from 'api/resources/resource';
 import { TagPathsType } from 'api/tags/tag';
 import type { AxiosError } from 'axios';
 import { ExportsLink } from 'components/drawers';
@@ -57,6 +58,7 @@ const groupByOptions: {
 ];
 
 const orgReportPathsType = OrgPathsType.aws;
+const resourceReportPathsType = ResourcePathsType.aws;
 const tagReportPathsType = TagPathsType.aws;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
@@ -106,6 +108,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
               onSelected={onGroupBySelected}
               options={groupByOptions}
               orgReportPathsType={orgReportPathsType}
+              resourceReportPathsType={resourceReportPathsType}
+              showAwsCategories
               showOrgs
               showTags
               tagReportPathsType={tagReportPathsType}

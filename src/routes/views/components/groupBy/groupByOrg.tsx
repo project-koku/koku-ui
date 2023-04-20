@@ -168,4 +168,3 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps, GroupByOrgState> {
 const GroupByOrg = injectIntl(withRouter(GroupByOrgBase));
 
 export { GroupByOrg };
-export type { GroupByOrgProps };

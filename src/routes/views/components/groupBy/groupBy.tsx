@@ -4,6 +4,8 @@ import type { Org, OrgPathsType } from 'api/orgs/org';
 import { OrgType } from 'api/orgs/org';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
+import type { Resource, ResourcePathsType } from 'api/resources/resource';
+import { ResourceType } from 'api/resources/resource';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -13,15 +15,18 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { PerspectiveType } from 'routes/views/explorer/explorerUtils';
 import { getDateRangeFromQuery } from 'routes/views/utils/dateRange';
-import { createMapStateToProps, FetchStatus } from 'store/common';
+import type { FetchStatus } from 'store/common';
+import { createMapStateToProps } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
+import { resourceActions, resourceSelectors } from 'store/resources';
 import { tagActions, tagSelectors } from 'store/tags';
-import { orgUnitIdKey, tagKey, tagPrefix } from 'utils/props';
+import { awsCategoryKey, awsCategoryPrefix, orgUnitIdKey, tagKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import { styles } from './groupBy.styles';
 import { GroupByOrg } from './groupByOrg';
+import { GroupByResource } from './groupByResource';
 import { GroupByTag } from './groupByTag';
 
 interface GroupByOwnProps extends RouterComponentProps, WrappedComponentProps {
@@ -35,6 +40,8 @@ interface GroupByOwnProps extends RouterComponentProps, WrappedComponentProps {
   }[];
   orgReportPathsType?: OrgPathsType;
   perspective?: PerspectiveType;
+  resourceReportPathsType: ResourcePathsType;
+  showAwsCategories?: boolean;
   showOrgs?: boolean;
   showTags?: boolean;
   tagReportPathsType: TagPathsType;
@@ -44,12 +51,16 @@ interface GroupByStateProps {
   orgReport?: Org;
   orgReportFetchStatus?: FetchStatus;
   orgQueryString?: string;
+  resourceReport?: Resource;
+  resourceReportFetchStatus?: FetchStatus;
+  resourceQueryString?: string;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
   tagQueryString?: string;
 }
 
 interface GroupByDispatchProps {
+  fetchResource?: typeof resourceActions.fetchResource;
   fetchOrg?: typeof orgActions.fetchOrg;
   fetchTag?: typeof tagActions.fetchTag;
 }
@@ -59,6 +70,7 @@ interface GroupByState {
   defaultItem?: string;
   isGroupByOpen?: boolean;
   isGroupByOrgVisible?: boolean;
+  isGroupByResourceVisible?: boolean;
   isGroupByTagVisible?: boolean;
 }
 
@@ -74,12 +86,18 @@ const groupByOrgOptions: {
   value: string;
 }[] = [{ label: orgUnitIdKey, value: orgUnitIdKey }];
 
+const groupByResourceOptions: {
+  label: string;
+  value: string;
+}[] = [{ label: awsCategoryKey, value: awsCategoryKey }];
+
 const groupByTagOptions: {
   label: string;
   value: string;
 }[] = [{ label: tagKey, value: tagKey }];
 
 const orgReportType = OrgType.org;
+const resourceReportType = ResourceType.category;
 const tagReportType = TagType.tag;
 
 class GroupByBase extends React.Component<GroupByProps, GroupByState> {
@@ -87,6 +105,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
     defaultItem: this.props.groupBy || this.props.options[0].value,
     isGroupByOpen: false,
     isGroupByOrgVisible: false,
+    isGroupByResourceVisible: false,
     isGroupByTagVisible: false,
   };
   public state: GroupByState = { ...this.defaultState };
@@ -98,63 +117,29 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
   }
 
   public componentDidMount() {
-    const {
-      fetchOrg,
-      fetchTag,
-      orgReportFetchStatus,
-      orgReportPathsType,
-      orgQueryString,
-      showOrgs,
-      showTags,
-      tagReportFetchStatus,
-      tagReportPathsType,
-      tagQueryString,
-    } = this.props;
     this.setState(
       {
         currentItem: this.getCurrentGroupBy(),
       },
       () => {
-        if (showOrgs && orgReportFetchStatus !== FetchStatus.inProgress) {
-          fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
-        }
-        if (showTags && tagReportFetchStatus !== FetchStatus.inProgress) {
-          fetchTag(tagReportPathsType, tagReportType, tagQueryString);
-        }
+        this.updateReport();
       }
     );
   }
 
   public componentDidUpdate(prevProps: GroupByProps) {
-    const {
-      fetchOrg,
-      fetchTag,
-      groupBy,
-      orgReportFetchStatus,
-      orgReportPathsType,
-      orgQueryString,
-      perspective,
-      showOrgs,
-      showTags,
-      tagReportFetchStatus,
-      tagReportPathsType,
-      tagQueryString,
-    } = this.props;
+    const { groupBy, perspective } = this.props;
     if (prevProps.groupBy !== groupBy || prevProps.perspective !== perspective) {
       let options;
       if (prevProps.perspective !== perspective) {
         options = {
           isGroupByOrgVisible: false,
+          isGroupByResourceVisible: false,
           isGroupByTagVisible: false,
         };
       }
       this.setState({ currentItem: this.getCurrentGroupBy(), ...(options ? options : {}) }, () => {
-        if (showOrgs && orgReportFetchStatus !== FetchStatus.inProgress) {
-          fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
-        }
-        if (showTags && tagReportFetchStatus !== FetchStatus.inProgress) {
-          fetchTag(tagReportPathsType, tagReportType, tagQueryString);
-        }
+        this.updateReport();
       });
     }
   }
@@ -188,6 +173,14 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
         });
         break;
       }
+      index = key.indexOf(awsCategoryPrefix);
+      if (index !== -1) {
+        groupBy = awsCategoryKey;
+        this.setState({
+          isGroupByResourceVisible: true,
+        });
+        break;
+      }
     }
     return groupBy !== 'date' ? groupBy : defaultItem;
   };
@@ -217,7 +210,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
   };
 
   private getGroupByOptions = (): GroupByOption[] => {
-    const { options, orgReport, tagReport, intl } = this.props;
+    const { options, orgReport, resourceReport, tagReport, intl } = this.props;
 
     const allOptions = [...options];
     if (orgReport && orgReport.data && orgReport.data.length > 0) {
@@ -226,20 +219,34 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
     if (tagReport && tagReport.data && tagReport.data.length > 0) {
       allOptions.push(...groupByTagOptions);
     }
-    return allOptions.map(option => ({
-      toString: () => intl.formatMessage(messages.groupByValuesTitleCase, { value: option.label, count: 1 }),
-      value: option.value,
-    }));
+    if (resourceReport && resourceReport.data && resourceReport.data.length > 0) {
+      allOptions.push(...groupByResourceOptions);
+    }
+    return allOptions
+      .map(option => ({
+        toString: () => intl.formatMessage(messages.groupByValuesTitleCase, { value: option.label, count: 1 }),
+        value: option.value,
+      }))
+      .sort((a, b) => {
+        if (a.toString() < b.toString()) {
+          return -1;
+        }
+        if (a.toString() > b.toString()) {
+          return 1;
+        }
+        return 0;
+      });
   };
 
   private handleGroupBySelected = (event, selection: GroupByOption) => {
     const { onSelected } = this.props;
 
-    if (selection.value === orgUnitIdKey || selection.value === tagKey) {
+    if (selection.value === orgUnitIdKey || selection.value === awsCategoryKey || selection.value === tagKey) {
       this.setState({
         currentItem: selection.value,
         isGroupByOpen: false,
         isGroupByOrgVisible: selection.value === orgUnitIdKey,
+        isGroupByResourceVisible: selection.value === awsCategoryKey,
         isGroupByTagVisible: selection.value === tagKey,
       });
     } else {
@@ -248,6 +255,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
           currentItem: selection.value,
           isGroupByOpen: false,
           isGroupByOrgVisible: false,
+          isGroupByResourceVisible: false,
           isGroupByTagVisible: false,
         },
         () => {
@@ -265,9 +273,45 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
     });
   };
 
+  private updateReport = () => {
+    const {
+      fetchOrg,
+      fetchResource,
+      fetchTag,
+      orgReportPathsType,
+      orgQueryString,
+      showAwsCategories,
+      showOrgs,
+      showTags,
+      resourceReportPathsType,
+      resourceQueryString,
+      tagReportPathsType,
+      tagQueryString,
+    } = this.props;
+
+    if (showAwsCategories) {
+      fetchResource(resourceReportPathsType, resourceReportType, resourceQueryString);
+    }
+    if (showOrgs) {
+      fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
+    }
+    if (showTags) {
+      fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+    }
+  };
+
   public render() {
-    const { getIdKeyForGroupBy, groupBy, isDisabled = false, onSelected, orgReport, intl, tagReport } = this.props;
-    const { isGroupByOrgVisible, isGroupByTagVisible } = this.state;
+    const {
+      getIdKeyForGroupBy,
+      groupBy,
+      intl,
+      isDisabled = false,
+      onSelected,
+      orgReport,
+      resourceReport,
+      tagReport,
+    } = this.props;
+    const { isGroupByOrgVisible, isGroupByResourceVisible, isGroupByTagVisible } = this.state;
 
     return (
       <div style={styles.groupBySelector}>
@@ -294,13 +338,22 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
             tagReport={tagReport}
           />
         )}
+        {Boolean(isGroupByResourceVisible) && (
+          <GroupByResource
+            groupBy={groupBy}
+            isDisabled={isDisabled}
+            onSelected={onSelected}
+            options={groupByTagOptions}
+            resourceReport={resourceReport}
+          />
+        )}
       </div>
     );
   }
 }
 
 const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>(
-  (state, { orgReportPathsType, router, tagReportPathsType }) => {
+  (state, { orgReportPathsType, router, resourceReportPathsType, tagReportPathsType }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
 
     // Default to current month filter for details pages
@@ -330,6 +383,22 @@ const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps
       limit: 1000,
     };
 
+    const resourceQueryString = getQuery({
+      // ...baseQuery,
+    });
+    const resourceReport = resourceSelectors.selectResource(
+      state,
+      resourceReportPathsType,
+      resourceReportType,
+      resourceQueryString
+    );
+    const resourceReportFetchStatus = resourceSelectors.selectResourceFetchStatus(
+      state,
+      resourceReportPathsType,
+      resourceReportType,
+      resourceQueryString
+    );
+
     const tagQueryString = getQuery({
       ...baseQuery,
     });
@@ -356,6 +425,9 @@ const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps
       orgReport,
       orgReportFetchStatus,
       orgQueryString,
+      resourceReport,
+      resourceReportFetchStatus,
+      resourceQueryString,
       tagReport,
       tagReportFetchStatus,
       tagQueryString,
@@ -365,6 +437,7 @@ const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps
 
 const mapDispatchToProps: GroupByDispatchProps = {
   fetchOrg: orgActions.fetchOrg,
+  fetchResource: resourceActions.fetchResource,
   fetchTag: tagActions.fetchTag,
 };
 
