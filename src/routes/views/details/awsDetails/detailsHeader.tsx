@@ -57,9 +57,9 @@ const groupByOptions: {
   { label: 'region', value: 'region' },
 ];
 
-const orgReportPathsType = OrgPathsType.aws;
-const resourceReportPathsType = ResourcePathsType.aws;
-const tagReportPathsType = TagPathsType.aws;
+const orgPathsType = OrgPathsType.aws;
+const resourcePathsType = ResourcePathsType.aws;
+const tagPathsType = TagPathsType.aws;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
   private handleCostTypeSelected = (value: string) => {
@@ -107,12 +107,12 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
               isDisabled={!showContent}
               onSelected={onGroupBySelected}
               options={groupByOptions}
-              orgReportPathsType={orgReportPathsType}
-              resourceReportPathsType={resourceReportPathsType}
-              showAwsCategories
+              orgPathsType={orgPathsType}
+              resourcePathsType={resourcePathsType}
+              showCostCategories
               showOrgs
               showTags
-              tagReportPathsType={tagReportPathsType}
+              tagPathsType={tagPathsType}
             />
             <div style={styles.costType}>
               <CostType costType={costType} onSelect={this.handleCostTypeSelected} />

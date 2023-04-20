@@ -318,6 +318,11 @@ export default defineMessages({
     description: 'Usage (Jan)',
     id: 'chartUsageLegendTooltip',
   },
+  chooseKeyPlaceholder: {
+    defaultMessage: 'Choose key',
+    description: 'Choose key',
+    id: 'chooseKeyPlaceholder',
+  },
   chooseValuePlaceholder: {
     defaultMessage: 'Choose value',
     description: 'Choose value',
@@ -1694,6 +1699,11 @@ export default defineMessages({
     description: 'Filter button for "value" name',
     id: 'filterByButtonAriaLabel',
   },
+  filterByCostCategoryKeyAriaLabel: {
+    defaultMessage: 'Cost category keys',
+    description: 'Cost category keys',
+    id: 'filterByCostCategoryKeyAriaLabel',
+  },
   filterByInputAriaLabel: {
     defaultMessage:
       '{value, select, ' +
@@ -1757,11 +1767,6 @@ export default defineMessages({
     defaultMessage: 'Tag keys',
     description: 'Tag keys',
     id: 'filterByTagKeyAriaLabel',
-  },
-  filterByTagKeyPlaceholder: {
-    defaultMessage: 'Choose key',
-    description: 'Choose key',
-    id: 'filterByTagKeyPlaceholder',
   },
   filterByTagValueAriaLabel: {
     defaultMessage: 'Tag values',

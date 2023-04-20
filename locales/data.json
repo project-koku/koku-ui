@@ -933,6 +933,12 @@
         "value": ")"
       }
     ],
+    "chooseKeyPlaceholder": [
+      {
+        "type": 0,
+        "value": "Choose key"
+      }
+    ],
     "chooseValuePlaceholder": [
       {
         "type": 0,
@@ -6507,6 +6513,12 @@
         "value": "value"
       }
     ],
+    "filterByCostCategoryKeyAriaLabel": [
+      {
+        "type": 0,
+        "value": "Cost category keys"
+      }
+    ],
     "filterByInputAriaLabel": [
       {
         "options": {
@@ -6825,12 +6837,6 @@
       {
         "type": 0,
         "value": "Tag keys"
-      }
-    ],
-    "filterByTagKeyPlaceholder": [
-      {
-        "type": 0,
-        "value": "Choose key"
       }
     ],
     "filterByTagValueAriaLabel": [
