@@ -8,7 +8,11 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { DatumType, transformReport } from 'routes/views/components/charts/common/chartDatum';
+import {
+  ComputedReportItemValueType,
+  DatumType,
+  transformReport,
+} from 'routes/views/components/charts/common/chartDatum';
 import { HistoricalCostChart } from 'routes/views/components/charts/historicalCostChart';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -85,7 +89,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
   public render() {
     const {
       chartName,
-      costDistribution,
+      costDistribution = ComputedReportItemValueType.total,
       currentReport,
       currentReportFetchStatus,
       previousReport,

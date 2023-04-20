@@ -61,7 +61,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
 
   // Returns trend chart
   private getTrendChart = (widget: HistoricalDataWidget) => {
-    const { costDistribution, costType, currency, intl } = this.props;
+    const { costType, currency, intl } = this.props;
 
     return (
       <Card>
@@ -75,7 +75,6 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
         <CardBody>
           <HistoricalDataTrendChart
             chartName={widget.chartName}
-            costDistribution={costDistribution}
             costType={costType}
             currency={currency}
             reportPathsType={widget.reportPathsType}
