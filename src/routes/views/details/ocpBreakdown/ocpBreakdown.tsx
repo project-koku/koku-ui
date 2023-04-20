@@ -128,7 +128,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     reportPathsType,
     reportQueryString,
     showCostDistribution: groupBy === 'project',
-    tagReportPathsType: TagPathsType.ocp,
+    tagPathsType: TagPathsType.ocp,
     title,
   };
 });

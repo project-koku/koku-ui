@@ -44,7 +44,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
   showCostDistribution?: boolean;
   showCostType?: boolean;
   tabs: React.ReactNode;
-  tagReportPathsType: TagPathsType;
+  tagPathsType: TagPathsType;
   title: string;
 }
 
@@ -84,7 +84,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   };
 
   private getBackToLink = groupByKey => {
-    const { detailsURL, intl, isOptimizationsPath, tagReportPathsType } = this.props;
+    const { detailsURL, intl, isOptimizationsPath, tagPathsType } = this.props;
 
     if (isOptimizationsPath) {
       return (
@@ -96,7 +96,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
     return (
       <Link to={this.buildDetailsLink(detailsURL)}>
         {intl.formatMessage(messages.breakdownBackToDetails, {
-          value: intl.formatMessage(messages.breakdownBackToTitles, { value: tagReportPathsType }),
+          value: intl.formatMessage(messages.breakdownBackToTitles, { value: tagPathsType }),
           groupBy: groupByKey,
         })}
       </Link>
@@ -131,7 +131,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       showCostDistribution,
       showCostType,
       tabs,
-      tagReportPathsType,
+      tagPathsType,
       title,
     } = this.props;
 
@@ -199,9 +199,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
         <div>
           <div style={styles.tabs}>
             {tabs}
-            <div style={styles.tag}>
-              {Boolean(showTags) && <TagLink id="tags" tagReportPathsType={tagReportPathsType} />}
-            </div>
+            <div style={styles.tag}>{showTags && <TagLink id="tags" tagPathsType={tagPathsType} />}</div>
           </div>
         </div>
       </header>

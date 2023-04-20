@@ -42,7 +42,7 @@ const ReportSummaryAltBase: React.FC<ReportSummaryAltAltProps> = ({
             <Title headingLevel="h2" size={TitleSizes.lg}>
               {title}
             </Title>
-            {Boolean(subTitle) && <p className="subtitle">{subTitle}</p>}
+            {subTitle && <p className="subtitle">{subTitle}</p>}
           </CardTitle>
           <CardBody>
             {status === FetchStatus.inProgress ? (
@@ -62,8 +62,8 @@ const ReportSummaryAltBase: React.FC<ReportSummaryAltAltProps> = ({
         <div className="tops">
           {status !== FetchStatus.inProgress && (
             <>
-              {Boolean(tabs) && <CardBody>{tabs}</CardBody>}
-              {Boolean(detailsLink) && <CardFooter>{detailsLink}</CardFooter>}
+              {tabs && <CardBody>{tabs}</CardBody>}
+              {detailsLink && <CardFooter>{detailsLink}</CardFooter>}
             </>
           )}
         </div>

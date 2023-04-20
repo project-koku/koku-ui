@@ -118,7 +118,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
               <CostType costType={costType} onSelect={this.handleCostTypeSelected} />
             </div>
           </div>
-          {Boolean(showContent) && (
+          {showContent && (
             <div>
               <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
                 {formatCurrency(

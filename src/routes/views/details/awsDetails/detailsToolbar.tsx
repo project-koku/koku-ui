@@ -62,10 +62,10 @@ type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarDispatchProps &
   WrappedComponentProps;
 
-const orgReportPathsType = OrgPathsType.aws;
-const orgReportType = OrgType.org;
-const tagReportPathsType = TagPathsType.aws;
-const tagReportType = TagType.tag;
+const orgPathsType = OrgPathsType.aws;
+const orgType = OrgType.org;
+const tagPathsType = TagPathsType.aws;
+const tagType = TagType.tag;
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, DetailsToolbarState> {
   protected defaultState: DetailsToolbarState = {};
@@ -121,8 +121,8 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
 
   private updateReport = () => {
     const { fetchOrg, fetchTag, orgQueryString, tagQueryString } = this.props;
-    fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
-    fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+    fetchOrg(orgPathsType, orgType, orgQueryString);
+    fetchTag(tagPathsType, tagType, tagQueryString);
   };
 
   public render() {
@@ -170,7 +170,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
         showExport
         showFilter
         tagReport={tagReport}
-        tagReportPathsType={tagReportPathsType}
+        tagPathsType={tagPathsType}
       />
     );
   }
@@ -193,24 +193,14 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
   const tagQueryString = getQuery({
     ...baseQuery,
   });
-  const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
-  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
-    state,
-    tagReportPathsType,
-    tagReportType,
-    tagQueryString
-  );
+  const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
+  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
 
   const orgQueryString = getQuery({
     ...baseQuery,
   });
-  const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, orgQueryString);
-  const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(
-    state,
-    orgReportPathsType,
-    orgReportType,
-    orgQueryString
-  );
+  const orgReport = orgSelectors.selectOrg(state, orgPathsType, orgType, orgQueryString);
+  const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgPathsType, orgType, orgQueryString);
   return {
     orgReport,
     orgReportFetchStatus,

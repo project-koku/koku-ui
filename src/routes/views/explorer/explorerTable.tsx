@@ -426,7 +426,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
             )}
           </Tbody>
         </TableComposable>
-        {Boolean(rows.length === 0) && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
+        {rows.length === 0 && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
       </InnerScrollContainer>
     );
   }

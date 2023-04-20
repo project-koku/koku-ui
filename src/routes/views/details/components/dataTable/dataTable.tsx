@@ -204,7 +204,7 @@ class DataTable extends React.Component<DataTableProps, any> {
             )}
           </Tbody>
         </TableComposable>
-        {Boolean(rows.length === 0) && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
+        {rows.length === 0 && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
       </>
     );
   }

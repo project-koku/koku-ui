@@ -20,7 +20,7 @@ import { TagModal } from './tagModal';
 
 interface TagLinkOwnProps extends RouterComponentProps, WrappedComponentProps {
   id?: string;
-  tagReportPathsType: TagPathsType;
+  tagPathsType: TagPathsType;
 }
 
 interface TagLinkState {
@@ -42,7 +42,7 @@ interface TagLinkDispatchProps {
 
 type TagLinkProps = TagLinkOwnProps & TagLinkStateProps & TagLinkDispatchProps;
 
-const tagReportType = TagType.tag;
+const tagType = TagType.tag;
 
 class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
   protected defaultState: TagLinkState = {
@@ -57,14 +57,14 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
   }
 
   public componentDidMount() {
-    const { fetchTag, tagReportPathsType, tagQueryString } = this.props;
-    fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+    const { fetchTag, tagPathsType, tagQueryString } = this.props;
+    fetchTag(tagPathsType, tagType, tagQueryString);
   }
 
   public componentDidUpdate(prevProps: TagLinkProps) {
-    const { fetchTag, tagReportPathsType, tagQueryString } = this.props;
+    const { fetchTag, tagPathsType, tagQueryString } = this.props;
     if (prevProps.tagQueryString !== tagQueryString) {
-      fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+      fetchTag(tagPathsType, tagType, tagQueryString);
     }
   }
 
@@ -79,7 +79,7 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
   };
 
   public render() {
-    const { id, tagReport, tagReportPathsType } = this.props;
+    const { id, tagReport, tagPathsType } = this.props;
     const { isOpen } = this.state;
 
     let count = 0;
@@ -94,7 +94,7 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
 
     return (
       <div style={styles.tagsContainer} id={id}>
-        {Boolean(count > 0) && (
+        {count > 0 && (
           <>
             <TagIcon />
             <a data-testid="tag-lnk" href="#/" onClick={this.handleOpen} style={styles.tagLink}>
@@ -102,67 +102,60 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
             </a>
           </>
         )}
-        <TagModal isOpen={isOpen} onClose={this.handleClose} tagReportPathsType={tagReportPathsType} />
+        <TagModal isOpen={isOpen} onClose={this.handleClose} tagPathsType={tagPathsType} />
       </div>
     );
   }
 }
 
-const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps>(
-  (state, { router, tagReportPathsType }) => {
-    const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = parseQueryState<Query>(queryFromRoute);
+const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps>((state, { router, tagPathsType }) => {
+  const queryFromRoute = parseQuery<Query>(router.location.search);
+  const queryState = parseQueryState<Query>(queryFromRoute);
 
-    const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
-    const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
-    const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
+  const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
+  const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
+  const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
 
-    // Prune unsupported tag params from filter_by
-    const filterByParams = queryState && queryState.filter_by ? queryState.filter_by : {};
-    for (const key of Object.keys(filterByParams)) {
-      if (key.indexOf(tagPrefix) !== -1) {
-        filterByParams[key] = undefined;
-      }
+  // Prune unsupported tag params from filter_by
+  const filterByParams = queryState && queryState.filter_by ? queryState.filter_by : {};
+  for (const key of Object.keys(filterByParams)) {
+    if (key.indexOf(tagPrefix) !== -1) {
+      filterByParams[key] = undefined;
     }
-
-    const query = { ...queryFromRoute };
-    const tagQuery = {
-      filter: {
-        resolution: 'monthly',
-        time_scope_units: 'month',
-        time_scope_value: -1,
-      },
-      filter_by: {
-        // Add filters here to apply logical OR/AND
-        ...filterByParams,
-        ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
-        ...(queryFromRoute &&
-          queryFromRoute.filter &&
-          queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
-        // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
-      },
-    };
-
-    const tagQueryString = getQuery(tagQuery);
-    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
-    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
-      state,
-      tagReportPathsType,
-      tagReportType,
-      tagQueryString
-    );
-
-    return {
-      groupBy,
-      groupByValue,
-      query,
-      tagReport,
-      tagReportFetchStatus,
-      tagQueryString,
-    };
   }
-);
+
+  const query = { ...queryFromRoute };
+  const tagQuery = {
+    filter: {
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: -1,
+    },
+    filter_by: {
+      // Add filters here to apply logical OR/AND
+      ...filterByParams,
+      ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
+      ...(queryFromRoute &&
+        queryFromRoute.filter &&
+        queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+      // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+      ...(groupBy && groupByValue !== '*' && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
+    },
+  };
+
+  const tagQueryString = getQuery(tagQuery);
+  const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
+  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
+
+  return {
+    groupBy,
+    groupByValue,
+    query,
+    tagReport,
+    tagReportFetchStatus,
+    tagQueryString,
+  };
+});
 
 const mapDispatchToProps: TagLinkDispatchProps = {
   fetchTag: tagActions.fetchTag,

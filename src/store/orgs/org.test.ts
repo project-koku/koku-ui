@@ -26,8 +26,8 @@ const mockOrgReport: Org = {
   },
 } as any;
 
-const orgReportType = OrgType.org;
-const orgReportPathsType = OrgPathsType.aws;
+const orgType = OrgType.org;
+const orgPathsType = OrgPathsType.aws;
 const orgQueryString = 'orgQueryString';
 
 runOrgMock.mockResolvedValue({ data: mockOrgReport });
@@ -43,47 +43,47 @@ test('default state', () => {
 
 test('fetch org report success', async () => {
   const store = createOrgsStore();
-  store.dispatch(actions.fetchOrg(orgReportPathsType, orgReportType, orgQueryString));
+  store.dispatch(actions.fetchOrg(orgPathsType, orgType, orgQueryString));
   expect(runOrgMock).toBeCalled();
-  expect(selectors.selectOrgFetchStatus(store.getState(), orgReportPathsType, orgReportType, orgQueryString)).toBe(
+  expect(selectors.selectOrgFetchStatus(store.getState(), orgPathsType, orgType, orgQueryString)).toBe(
     FetchStatus.inProgress
   );
   await waitFor(() => expect(selectors.selectOrgFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectOrgFetchStatus(finishedState, orgReportPathsType, orgReportType, orgQueryString)).toBe(
+  expect(selectors.selectOrgFetchStatus(finishedState, orgPathsType, orgType, orgQueryString)).toBe(
     FetchStatus.complete
   );
-  expect(selectors.selectOrgError(finishedState, orgReportPathsType, orgReportType, orgQueryString)).toBe(null);
+  expect(selectors.selectOrgError(finishedState, orgPathsType, orgType, orgQueryString)).toBe(null);
 });
 
 test('fetch org report failure', async () => {
   const store = createOrgsStore();
   const error = Symbol('org error');
   runOrgMock.mockRejectedValueOnce(error);
-  store.dispatch(actions.fetchOrg(orgReportPathsType, orgReportType, orgQueryString));
+  store.dispatch(actions.fetchOrg(orgPathsType, orgType, orgQueryString));
   expect(runOrg).toBeCalled();
-  expect(selectors.selectOrgFetchStatus(store.getState(), orgReportPathsType, orgReportType, orgQueryString)).toBe(
+  expect(selectors.selectOrgFetchStatus(store.getState(), orgPathsType, orgType, orgQueryString)).toBe(
     FetchStatus.inProgress
   );
   await waitFor(() => expect(selectors.selectOrgFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectOrgFetchStatus(finishedState, orgReportPathsType, orgReportType, orgQueryString)).toBe(
+  expect(selectors.selectOrgFetchStatus(finishedState, orgPathsType, orgType, orgQueryString)).toBe(
     FetchStatus.complete
   );
-  expect(selectors.selectOrgError(finishedState, orgReportPathsType, orgReportType, orgQueryString)).toBe(error);
+  expect(selectors.selectOrgError(finishedState, orgPathsType, orgType, orgQueryString)).toBe(error);
 });
 
 test('does not fetch org report if the request is in progress', () => {
   const store = createOrgsStore();
-  store.dispatch(actions.fetchOrg(orgReportPathsType, orgReportType, orgQueryString));
-  store.dispatch(actions.fetchOrg(orgReportPathsType, orgReportType, orgQueryString));
+  store.dispatch(actions.fetchOrg(orgPathsType, orgType, orgQueryString));
+  store.dispatch(actions.fetchOrg(orgPathsType, orgType, orgQueryString));
   expect(runOrg).toHaveBeenCalledTimes(1);
 });
 
 test('org report is not refetched if it has not expired', async () => {
   const store = createOrgsStore();
-  store.dispatch(actions.fetchOrg(orgReportPathsType, orgReportType, orgQueryString));
+  store.dispatch(actions.fetchOrg(orgPathsType, orgType, orgQueryString));
   await waitFor(() => expect(actions.fetchOrg).toHaveBeenCalled());
-  store.dispatch(actions.fetchOrg(orgReportPathsType, orgReportType, orgQueryString));
+  store.dispatch(actions.fetchOrg(orgPathsType, orgType, orgQueryString));
   expect(runOrg).toHaveBeenCalledTimes(1);
 });

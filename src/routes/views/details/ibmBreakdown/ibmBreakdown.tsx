@@ -106,7 +106,7 @@ const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, BreakdownSta
     reportType,
     reportPathsType,
     reportQueryString,
-    tagReportPathsType: TagPathsType.ibm,
+    tagPathsType: TagPathsType.ibm,
     title: queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue,
   };
 });

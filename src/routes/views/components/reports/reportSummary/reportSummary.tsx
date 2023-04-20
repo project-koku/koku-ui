@@ -21,7 +21,7 @@ const ReportSummaryBase: React.FC<ReportSummaryProps> = ({ children, detailsLink
       <Title headingLevel="h2" size={TitleSizes.lg}>
         {title}
       </Title>
-      {Boolean(subTitle) && <p className="subtitle">{subTitle}</p>}
+      {subTitle && <p className="subtitle">{subTitle}</p>}
     </CardTitle>
     <CardBody>
       {status === FetchStatus.inProgress ? (
@@ -35,7 +35,7 @@ const ReportSummaryBase: React.FC<ReportSummaryProps> = ({ children, detailsLink
         children
       )}
     </CardBody>
-    {Boolean(detailsLink) && <CardFooter>{detailsLink}</CardFooter>}
+    {detailsLink && <CardFooter>{detailsLink}</CardFooter>}
   </Card>
 );
 

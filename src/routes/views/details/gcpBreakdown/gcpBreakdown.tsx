@@ -106,7 +106,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, BreakdownSta
     reportType,
     reportPathsType,
     reportQueryString,
-    tagReportPathsType: TagPathsType.gcp,
+    tagPathsType: TagPathsType.gcp,
     title: queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue,
   };
 });

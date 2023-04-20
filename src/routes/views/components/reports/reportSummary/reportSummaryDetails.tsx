@@ -150,7 +150,7 @@ const ReportSummaryDetailsBase: React.FC<ReportSummaryDetailsProps> = ({
     return (
       <div className="valueContainer">
         <span className="value">{request}</span>
-        {Boolean(showUnits && (units || (hasRequest && report.meta.total.request.value >= 0))) && (
+        {showUnits && (units || (hasRequest && report.meta.total.request.value >= 0)) && (
           <span className="units">{unitsLabel}</span>
         )}
         <div className="text">
@@ -172,7 +172,7 @@ const ReportSummaryDetailsBase: React.FC<ReportSummaryDetailsProps> = ({
     return (
       <div className="valueContainer">
         <span className="value">{usage}</span>
-        {Boolean(showUnits && (units || (hasUsage && report.meta.total.usage.value >= 0))) && (
+        {showUnits && (units || (hasUsage && report.meta.total.usage.value >= 0)) && (
           <span className="units">{unitsLabel}</span>
         )}
         <div className="text">

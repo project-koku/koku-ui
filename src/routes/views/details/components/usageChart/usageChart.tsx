@@ -193,7 +193,7 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
           this.getSkeleton()
         ) : (
           <>
-            {Boolean(groupBy === 'cluster') && this.getFreeSpace()}
+            {groupBy === 'cluster' && this.getFreeSpace()}
             <ChartBullet
               comparativeErrorMeasureData={
                 chartDatum.limit.value

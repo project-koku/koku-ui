@@ -130,7 +130,7 @@ class AddSourceWizardBase extends React.Component<AddSourceWizardProps, AddSourc
         ]}
       >
         <Stack>
-          <StackItem>{Boolean(updateApiError) && <Alert variant="danger" title={`${updateApiError}`} />}</StackItem>
+          <StackItem>{updateApiError && <Alert variant="danger" title={`${updateApiError}`} />}</StackItem>
           <StackItem>
             <Grid>
               <GridItem span={2}>

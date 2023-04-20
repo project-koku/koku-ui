@@ -298,7 +298,7 @@ class ExportsTableBase extends React.Component<ExportsTableProps, ExportsTableSt
           <TableHeader />
           <TableBody />
         </Table>
-        {Boolean(rows.length === 0) && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
+        {rows.length === 0 && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
       </>
     );
   }

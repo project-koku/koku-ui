@@ -84,7 +84,7 @@ interface DataToolbarOwnProps {
   showPlatformCosts?: boolean; // Show platform costs switch
   style?: React.CSSProperties;
   tagReport?: Tag; // Data containing tag key and value data
-  tagReportPathsType?: TagPathsType;
+  tagPathsType?: TagPathsType;
 }
 
 interface DataToolbarState {
@@ -871,7 +871,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
           onToggle={this.handleOnTagKeyToggle}
           onSelect={this.handleOnTagKeySelect}
           isOpen={isTagKeySelectExpanded}
-          placeholderText={intl.formatMessage(messages.filterByTagKeyPlaceholder)}
+          placeholderText={intl.formatMessage(messages.chooseKeyPlaceholder)}
           selections={currentTagKey}
         >
           {selectOptions}
@@ -945,7 +945,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   // Tag value select
 
   public getTagValueSelect = (tagKeyOption: ToolbarChipGroup, hasFilters: boolean) => {
-    const { isDisabled, tagReportPathsType } = this.props;
+    const { isDisabled, tagPathsType } = this.props;
     const { currentCategory, currentTagKey, filters, tagKeyValueInput } = this.state;
 
     // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
@@ -970,7 +970,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
           selections={filters.tag[tagKeyOption.key] ? filters.tag[tagKeyOption.key].map(filter => filter.value) : []}
           tagKey={currentTagKey}
           tagKeyValue={tagKeyValueInput}
-          tagReportPathsType={tagReportPathsType}
+          tagPathsType={tagPathsType}
         />
       </ToolbarFilter>
     );

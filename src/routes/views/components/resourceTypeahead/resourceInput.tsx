@@ -79,10 +79,9 @@ class ResourceInputBase extends React.Component<ResourceInputProps, ResourceInpu
   }
 
   public componentDidUpdate(prevProps: ResourceInputProps) {
-    const { fetchResource, resourceFetchStatus, resourcePathsType, resourceType, resourceQueryString, search } =
-      this.props;
+    const { fetchResource, resourcePathsType, resourceType, resourceQueryString, search } = this.props;
 
-    if (search && prevProps.search !== search && resourceFetchStatus !== FetchStatus.inProgress) {
+    if (search && prevProps.search !== search) {
       clearTimeout(this.searchTimeout);
 
       // Delay was 750ms, but reduced -- https://issues.redhat.com/browse/COST-1742

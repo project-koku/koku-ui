@@ -60,7 +60,7 @@ export class ExplorerToolbarBase extends React.Component<ExplorerToolbarProps, E
       selectedItems,
     } = this.props;
 
-    const tagReportPathsType = getTagReportPathsType(perspective);
+    const tagPathsType = getTagReportPathsType(perspective);
 
     return (
       <DataToolbar
@@ -77,7 +77,7 @@ export class ExplorerToolbarBase extends React.Component<ExplorerToolbarProps, E
         showBulkSelect
         showExcludes
         showExport
-        tagReportPathsType={tagReportPathsType}
+        tagPathsType={tagPathsType}
       />
     );
   }

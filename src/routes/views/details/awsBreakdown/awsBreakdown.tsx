@@ -125,7 +125,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
     reportPathsType,
     reportQueryString,
     showCostType: true,
-    tagReportPathsType: TagPathsType.aws,
+    tagPathsType: TagPathsType.aws,
     title,
   };
 });

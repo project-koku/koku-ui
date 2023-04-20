@@ -106,7 +106,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, BreakdownStateP
     reportType,
     reportPathsType,
     reportQueryString,
-    tagReportPathsType: TagPathsType.azure,
+    tagPathsType: TagPathsType.azure,
     title: groupByValue,
   };
 });

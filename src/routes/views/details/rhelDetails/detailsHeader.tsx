@@ -55,7 +55,7 @@ const groupByOptions: {
   { label: 'project', value: 'project' },
 ];
 
-const tagReportPathsType = TagPathsType.rhel;
+const tagPathsType = TagPathsType.rhel;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   protected defaultState: DetailsHeaderState = {};
@@ -117,10 +117,10 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
               onSelected={onGroupBySelected}
               options={groupByOptions}
               showTags
-              tagReportPathsType={tagReportPathsType}
+              tagPathsType={tagPathsType}
             />
           </div>
-          {Boolean(showContent) && (
+          {showContent && (
             <div>
               <Tooltip
                 content={intl.formatMessage(messages.dashboardTotalCostTooltip, {

@@ -79,7 +79,7 @@ export interface BreakdownStateProps {
   reportQueryString?: string;
   showCostDistribution?: boolean;
   showCostType?: boolean;
-  tagReportPathsType?: TagPathsType;
+  tagPathsType?: TagPathsType;
   title?: string;
 }
 
@@ -272,7 +272,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       router,
       showCostDistribution,
       showCostType,
-      tagReportPathsType,
+      tagPathsType,
       title,
     } = this.props;
     const availableTabs = this.getAvailableTabs();
@@ -311,7 +311,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
           showCostDistribution={showCostDistribution}
           showCostType={showCostType}
           tabs={this.getTabs(availableTabs)}
-          tagReportPathsType={tagReportPathsType}
+          tagPathsType={tagPathsType}
           title={title}
         />
         <div style={styles.content}>{this.getTabContent(availableTabs)}</div>

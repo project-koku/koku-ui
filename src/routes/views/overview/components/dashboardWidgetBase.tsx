@@ -565,7 +565,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
       <ReportSummary detailsLink={this.getDetailsLink()} status={currentReportFetchStatus} title={this.getTitle()}>
         {this.getDetails()}
         {this.getChart(chartStyles.containerTrendHeight, chartStyles.chartHeight, details.adjustContainerHeight)}
-        {Boolean(availableTabs) && <div style={styles.tabs}>{this.getTabs()}</div>}
+        {availableTabs && <div style={styles.tabs}>{this.getTabs()}</div>}
       </ReportSummary>
     );
   };
