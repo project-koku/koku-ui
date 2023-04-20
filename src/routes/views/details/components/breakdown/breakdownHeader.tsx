@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
 import { Currency } from 'routes/components/currency';
+import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { CostDistribution } from 'routes/views/components/costDistribution';
 import { CostType } from 'routes/views/components/costType';
 import { TagLink } from 'routes/views/details/components/tag';
@@ -26,7 +27,6 @@ import { orgUnitIdKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-import { ComputedReportItemValueType } from '../../../components/charts/common';
 import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps extends RouterComponentProps {
