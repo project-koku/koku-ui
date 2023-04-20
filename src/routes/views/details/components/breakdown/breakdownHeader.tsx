@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
 import { Currency } from 'routes/components/currency';
+import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { CostDistribution } from 'routes/views/components/costDistribution';
 import { CostType } from 'routes/views/components/costType';
 import { TagLink } from 'routes/views/details/components/tag';
@@ -103,7 +104,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   };
 
   private getTotalCost = () => {
-    const { costDistribution, report } = this.props;
+    const { costDistribution = ComputedReportItemValueType.total, report } = this.props;
 
     const hasCost =
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[costDistribution];
