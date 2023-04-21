@@ -51,7 +51,6 @@ import {
   platformCategoryKey,
   tagKey,
   tagPrefix,
-  workloadTypeKey,
 } from 'utils/props';
 
 import { CostCategoryValue } from './costCategoryValue';
