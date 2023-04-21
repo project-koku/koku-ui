@@ -31,7 +31,7 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
   ) {
     switch (resourceType) {
       case ResourceType.account:
-      case ResourceType.category:
+      case ResourceType.aws_category:
       case ResourceType.cluster:
       case ResourceType.gcpProject:
       case ResourceType.node:

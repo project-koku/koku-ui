@@ -139,8 +139,8 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
         <InputGroup>
           <TextInput
             isDisabled={isDisabled}
-            name="tagkeyvalue-input"
-            id="tagkeyvalue-input"
+            name="tag-key-value-input"
+            id="tag-key-value-input"
             type="search"
             aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
             onChange={this.onTagValueChange}

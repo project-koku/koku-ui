@@ -1718,6 +1718,16 @@ export default defineMessages({
     description: 'Cost category keys',
     id: 'filterByCostCategoryKeyAriaLabel',
   },
+  filterByCostCategoryValueAriaLabel: {
+    defaultMessage: 'Cost category values',
+    description: 'Cost category values',
+    id: 'filterByCostCategoryValueAriaLabel',
+  },
+  filterByCostCategoryValueButtonAriaLabel: {
+    defaultMessage: 'Filter button for cost category value',
+    description: 'Filter button for cost category value',
+    id: 'filterByCostCategoryValueButtonAriaLabel',
+  },
   filterByInputAriaLabel: {
     defaultMessage:
       '{value, select, ' +

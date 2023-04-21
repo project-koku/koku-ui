@@ -12,7 +12,7 @@ export interface Resource extends PagedResponse<ResourceData, PagedMetaData> {}
 // eslint-disable-next-line no-shadow
 export const enum ResourceType {
   account = 'account',
-  category = 'category',
+  aws_category = 'aws_category',
   cluster = 'cluster',
   gcpProject = 'gcp_project',
   node = 'node',

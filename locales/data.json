@@ -6767,6 +6767,18 @@
         "value": "Cost category keys"
       }
     ],
+    "filterByCostCategoryValueAriaLabel": [
+      {
+        "type": 0,
+        "value": "Cost category values"
+      }
+    ],
+    "filterByCostCategoryValueButtonAriaLabel": [
+      {
+        "type": 0,
+        "value": "Filter button for cost category value"
+      }
+    ],
     "filterByInputAriaLabel": [
       {
         "options": {

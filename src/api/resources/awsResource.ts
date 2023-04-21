@@ -5,7 +5,7 @@ import { ResourceType } from './resource';
 
 export const ResourceTypePaths: Partial<Record<ResourceType, string>> = {
   [ResourceType.account]: 'resource-types/aws-accounts/',
-  [ResourceType.category]: 'resource-types/aws-categories',
+  [ResourceType.aws_category]: 'resource-types/aws-categories',
   [ResourceType.region]: 'resource-types/aws-regions/',
   [ResourceType.service]: 'resource-types/aws-services/',
 };

@@ -59,8 +59,8 @@ interface GroupByStateProps {
 }
 
 interface GroupByDispatchProps {
-  fetchResource?: typeof resourceActions.fetchResource;
   fetchOrg?: typeof orgActions.fetchOrg;
+  fetchResource?: typeof resourceActions.fetchResource;
   fetchTag?: typeof tagActions.fetchTag;
 }
 
@@ -96,7 +96,7 @@ const groupByTagOptions: {
 }[] = [{ label: tagKey, value: tagKey }];
 
 const orgType = OrgType.org;
-const resourceType = ResourceType.category;
+const resourceType = ResourceType.aws_category;
 const tagType = TagType.tag;
 
 class GroupByBase extends React.Component<GroupByProps, GroupByState> {
