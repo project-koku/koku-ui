@@ -134,44 +134,44 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
       return <SelectOption key={selectOption.key} value={selectOption.key} />;
     });
 
-    if (selectOptions.length > tagKeyValueLimit) {
+    if (selectOptions.length > 0 && selectOptions.length < tagKeyValueLimit) {
       return (
-        <InputGroup>
-          <TextInput
-            isDisabled={isDisabled}
-            name="tag-key-value-input"
-            id="tag-key-value-input"
-            type="search"
-            aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
-            onChange={this.onTagValueChange}
-            value={tagKeyValue}
-            placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
-            onKeyDown={evt => onTagValueInput(evt)}
-          />
-          <Button
-            isDisabled={isDisabled}
-            variant={ButtonVariant.control}
-            aria-label={intl.formatMessage(messages.filterByTagValueButtonAriaLabel)}
-            onClick={evt => onTagValueInput(evt)}
-          >
-            <SearchIcon />
-          </Button>
-        </InputGroup>
+        <Select
+          isDisabled={isDisabled}
+          variant={SelectVariant.checkbox}
+          aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
+          onToggle={this.onTagValueToggle}
+          onSelect={onTagValueSelect}
+          selections={selections}
+          isOpen={isTagValueExpanded}
+          placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}
+        >
+          {selectOptions}
+        </Select>
       );
     }
     return (
-      <Select
-        isDisabled={isDisabled}
-        variant={SelectVariant.checkbox}
-        aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
-        onToggle={this.onTagValueToggle}
-        onSelect={onTagValueSelect}
-        selections={selections}
-        isOpen={isTagValueExpanded}
-        placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}
-      >
-        {selectOptions}
-      </Select>
+      <InputGroup>
+        <TextInput
+          isDisabled={isDisabled}
+          name="tag-key-value-input"
+          id="tag-key-value-input"
+          type="search"
+          aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
+          onChange={this.onTagValueChange}
+          value={tagKeyValue}
+          placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
+          onKeyDown={evt => onTagValueInput(evt)}
+        />
+        <Button
+          isDisabled={isDisabled}
+          variant={ButtonVariant.control}
+          aria-label={intl.formatMessage(messages.filterByTagValueButtonAriaLabel)}
+          onClick={evt => onTagValueInput(evt)}
+        >
+          <SearchIcon />
+        </Button>
+      </InputGroup>
     );
   }
 }

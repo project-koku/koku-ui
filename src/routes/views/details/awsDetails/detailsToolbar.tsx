@@ -207,8 +207,8 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
-  // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
-  // However, for better server-side performance, we chose to use key_only here.
+  // Note: Omitting key_only would help to share a single, cached request. Only the toolbar requires key values;
+  // however, for better server-side performance, we chose to use key_only here.
   const baseQuery = {
     filter: {
       resolution: 'monthly',

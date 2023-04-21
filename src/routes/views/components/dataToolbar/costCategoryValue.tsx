@@ -135,44 +135,44 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
       return <SelectOption key={selectOption.key} value={selectOption.key} />;
     });
 
-    if (selectOptions.length > costCategoryKeyValueLimit) {
+    if (selectOptions.length > 0 && selectOptions.length < costCategoryKeyValueLimit) {
       return (
-        <InputGroup>
-          <TextInput
-            isDisabled={isDisabled}
-            name="tag-key-value-input"
-            id="tag-key-value-input"
-            type="search"
-            aria-label={intl.formatMessage(messages.filterByCostCategoryValueAriaLabel)}
-            onChange={this.onCostCategoryValueChange}
-            value={costCategoryKeyValue}
-            placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
-            onKeyDown={evt => onCostCategoryValueInput(evt)}
-          />
-          <Button
-            isDisabled={isDisabled}
-            variant={ButtonVariant.control}
-            aria-label={intl.formatMessage(messages.filterByCostCategoryValueButtonAriaLabel)}
-            onClick={evt => onCostCategoryValueInput(evt)}
-          >
-            <SearchIcon />
-          </Button>
-        </InputGroup>
+        <Select
+          isDisabled={isDisabled}
+          variant={SelectVariant.checkbox}
+          aria-label={intl.formatMessage(messages.filterByCostCategoryValueAriaLabel)}
+          onToggle={this.onCostCategoryValueToggle}
+          onSelect={onCostCategoryValueSelect}
+          selections={selections}
+          isOpen={isCostCategoryValueExpanded}
+          placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}
+        >
+          {selectOptions}
+        </Select>
       );
     }
     return (
-      <Select
-        isDisabled={isDisabled}
-        variant={SelectVariant.checkbox}
-        aria-label={intl.formatMessage(messages.filterByCostCategoryValueAriaLabel)}
-        onToggle={this.onCostCategoryValueToggle}
-        onSelect={onCostCategoryValueSelect}
-        selections={selections}
-        isOpen={isCostCategoryValueExpanded}
-        placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}
-      >
-        {selectOptions}
-      </Select>
+      <InputGroup>
+        <TextInput
+          isDisabled={isDisabled}
+          name="tag-key-value-input"
+          id="tag-key-value-input"
+          type="search"
+          aria-label={intl.formatMessage(messages.filterByCostCategoryValueAriaLabel)}
+          onChange={this.onCostCategoryValueChange}
+          value={costCategoryKeyValue}
+          placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
+          onKeyDown={evt => onCostCategoryValueInput(evt)}
+        />
+        <Button
+          isDisabled={isDisabled}
+          variant={ButtonVariant.control}
+          aria-label={intl.formatMessage(messages.filterByCostCategoryValueButtonAriaLabel)}
+          onClick={evt => onCostCategoryValueInput(evt)}
+        >
+          <SearchIcon />
+        </Button>
+      </InputGroup>
     );
   }
 }
@@ -187,9 +187,7 @@ const mapStateToProps = createMapStateToProps<CostCategoryValueOwnProps, CostCat
 
     // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
     const resourceQueryString = getQuery({
-      filter: {
-        key: costCategoryKey,
-      },
+      key: costCategoryKey,
     });
     const resourceReport = resourceSelectors.selectResource(
       state,
