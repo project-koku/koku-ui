@@ -132,8 +132,8 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
       let options;
       if (prevProps.perspective !== perspective) {
         options = {
+          isGroupByCostCategoryVisible: false,
           isGroupByOrgVisible: false,
-          isGroupByResourceVisible: false,
           isGroupByTagVisible: false,
         };
       }
@@ -384,7 +384,7 @@ const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps
     };
 
     const resourceQueryString = getQuery({
-      // ...baseQuery,
+      key_only: true,
     });
     const resourceReport = resourceSelectors.selectResource(
       state,

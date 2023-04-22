@@ -299,6 +299,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
               options={groupByOptions}
               orgPathsType={orgPathsType}
               perspective={perspective}
+              resourcePathsType={resourcePathsType}
+              showCostCategories={resourcePathsType}
               showOrgs={orgPathsType}
               showTags={tagPathsType}
               tagPathsType={tagPathsType}
@@ -322,7 +324,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
           onFilterRemoved={onFilterRemoved}
           perspective={perspective}
           query={query}
-          resourcePathsType={resourcePathsType}
         />
       </header>
     );

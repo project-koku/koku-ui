@@ -3,7 +3,8 @@ import type { Org, OrgPathsType } from 'api/orgs/org';
 import { OrgType } from 'api/orgs/org';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
-import type { ResourcePathsType } from 'api/resources/resource';
+import type { Resource, ResourcePathsType } from 'api/resources/resource';
+import { ResourceType } from 'api/resources/resource';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -18,18 +19,25 @@ import { getRouteForQuery } from 'routes/views/utils/query';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
+import { resourceActions, resourceSelectors } from 'store/resources';
 import { tagActions, tagSelectors } from 'store/tags';
 import { formatStartEndDate } from 'utils/dates';
 import { isEqual } from 'utils/equal';
-import { orgUnitIdKey, tagKey } from 'utils/props';
+import { awsCategoryKey, orgUnitIdKey, tagKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import { ExplorerDatePicker } from './explorerDatePicker';
 import { ExplorerDateRange } from './explorerDateRange';
 import { styles } from './explorerFilter.styles';
-import type { PerspectiveType } from './explorerUtils';
-import { dateRangeOptions, getGroupByOptions, getOrgReportPathsType, getTagReportPathsType } from './explorerUtils';
+import {
+  dateRangeOptions,
+  getGroupByOptions,
+  getOrgReportPathsType,
+  getResourcePathsType,
+  getTagReportPathsType,
+  PerspectiveType,
+} from './explorerUtils';
 
 interface ExplorerFilterOwnProps extends RouterComponentProps, WrappedComponentProps {
   groupBy: string;
@@ -39,23 +47,27 @@ interface ExplorerFilterOwnProps extends RouterComponentProps, WrappedComponentP
   perspective: PerspectiveType;
   pagination?: React.ReactNode;
   query?: Query;
-  resourcePathsType?: ResourcePathsType;
 }
 
 interface ExplorerFilterStateProps {
   dateRangeType: DateRangeType;
+  orgPathsType?: OrgPathsType;
   orgQueryString?: string;
   orgReport?: Org;
   orgReportFetchStatus?: FetchStatus;
-  orgPathsType?: OrgPathsType;
+  resourcePathsType?: ResourcePathsType;
+  resourceQueryString?: string;
+  resourceReport?: Resource;
+  resourceReportFetchStatus?: FetchStatus;
+  tagPathsType?: TagPathsType;
   tagQueryString?: string;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
-  tagPathsType?: TagPathsType;
 }
 
 interface ExplorerFilterDispatchProps {
   fetchOrg?: typeof orgActions.fetchOrg;
+  fetchResource?: typeof resourceActions.fetchResource;
   fetchTag?: typeof tagActions.fetchTag;
 }
 
@@ -68,6 +80,7 @@ interface ExplorerFilterState {
 type ExplorerFilterProps = ExplorerFilterOwnProps & ExplorerFilterStateProps & ExplorerFilterDispatchProps;
 
 const orgType = OrgType.org;
+const resourceType = ResourceType.aws_category;
 const tagType = TagType.tag;
 
 export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, ExplorerFilterState> {
@@ -77,15 +90,9 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   public state: ExplorerFilterState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { dateRangeType, fetchOrg, fetchTag, orgQueryString, orgPathsType, tagQueryString, tagPathsType } =
-      this.props;
+    const { dateRangeType } = this.props;
 
-    if (orgPathsType) {
-      fetchOrg(orgPathsType, orgType, orgQueryString);
-    }
-    if (tagPathsType) {
-      fetchTag(tagPathsType, tagType, tagQueryString);
-    }
+    this.updateReport();
     this.setState({
       categoryOptions: this.getCategoryOptions(),
       currentDateRangeType: dateRangeType,
@@ -94,26 +101,10 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   }
 
   public componentDidUpdate(prevProps: ExplorerFilterProps) {
-    const {
-      fetchOrg,
-      fetchTag,
-      orgQueryString,
-      orgReport,
-      orgPathsType,
-      perspective,
-      query,
-      tagQueryString,
-      tagReport,
-      tagPathsType,
-    } = this.props;
+    const { orgReport, perspective, query, tagReport } = this.props;
 
     if (query && !isEqual(query, prevProps.query)) {
-      if (orgPathsType) {
-        fetchOrg(orgPathsType, orgType, orgQueryString);
-      }
-      if (tagPathsType) {
-        fetchTag(tagPathsType, tagType, tagQueryString);
-      }
+      this.updateReport();
     }
     if (!isEqual(orgReport, prevProps.orgReport) || !isEqual(tagReport, prevProps.tagReport)) {
       this.setState({
@@ -127,7 +118,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { orgReport, perspective, intl, tagReport } = this.props;
+    const { orgReport, perspective, intl, resourceReport, tagReport } = this.props;
 
     const options = [];
     const groupByOptions = getGroupByOptions(perspective);
@@ -143,10 +134,24 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
         key: orgUnitIdKey,
       });
     }
-    if (tagReport && tagReport.data && tagReport.data.length > 0) {
-      options.push({ name: intl.formatMessage(messages.filterByValues, { value: 'tag' }), key: tagKey });
+    if (resourceReport && resourceReport.data && resourceReport.data.length > 0) {
+      options.push({
+        name: intl.formatMessage(messages.filterByValues, { value: awsCategoryKey }),
+        key: awsCategoryKey,
+      });
     }
-    return options;
+    if (tagReport && tagReport.data && tagReport.data.length > 0) {
+      options.push({ name: intl.formatMessage(messages.filterByValues, { value: tagKey }), key: tagKey });
+    }
+    return options.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
   };
 
   private getDateRangeComponent = () => {
@@ -200,6 +205,31 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
     });
   };
 
+  private updateReport = () => {
+    const {
+      fetchOrg,
+      fetchResource,
+      fetchTag,
+      orgQueryString,
+      orgPathsType,
+      perspective,
+      resourcePathsType,
+      resourceQueryString,
+      tagQueryString,
+      tagPathsType,
+    } = this.props;
+
+    if (orgPathsType) {
+      fetchOrg(orgPathsType, orgType, orgQueryString);
+    }
+    if (resourcePathsType && (perspective === PerspectiveType.aws || perspective === PerspectiveType.awsOcp)) {
+      fetchResource(resourcePathsType, resourceType, resourceQueryString);
+    }
+    if (tagPathsType) {
+      fetchTag(tagPathsType, tagType, tagQueryString);
+    }
+  };
+
   public render() {
     const {
       groupBy,
@@ -209,8 +239,9 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
       orgReport,
       query,
       resourcePathsType,
-      tagReport,
+      resourceReport,
       tagPathsType,
+      tagReport,
     } = this.props;
     const { categoryOptions } = this.state;
 
@@ -225,6 +256,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
         onFilterRemoved={onFilterRemoved}
         orgReport={orgReport}
         query={query}
+        resourceReport={resourceReport}
         resourcePathsType={resourcePathsType}
         style={styles.toolbarContainer}
         showFilter
@@ -257,6 +289,22 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
       orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgPathsType, orgType, orgQueryString);
     }
 
+    const resourceQueryString = getQuery({
+      key_only: true,
+    });
+    let resourceReport;
+    let resourceReportFetchStatus;
+    const resourcePathsType = getResourcePathsType(perspective);
+    if (resourcePathsType) {
+      resourceReport = resourceSelectors.selectResource(state, resourcePathsType, resourceType, resourceQueryString);
+      resourceReportFetchStatus = resourceSelectors.selectResourceFetchStatus(
+        state,
+        resourcePathsType,
+        resourceType,
+        resourceQueryString
+      );
+    }
+
     // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
     // However, for better server-side performance, we chose to use key_only here.
     const tagQueryString = getQuery({
@@ -275,20 +323,25 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
 
     return {
       dateRangeType,
+      orgPathsType,
       orgQueryString,
       orgReport,
       orgReportFetchStatus,
-      orgPathsType,
+      resourcePathsType,
+      resourceQueryString,
+      resourceReport,
+      resourceReportFetchStatus,
+      tagPathsType,
       tagQueryString,
       tagReport,
       tagReportFetchStatus,
-      tagPathsType,
     };
   }
 );
 
 const mapDispatchToProps: ExplorerFilterDispatchProps = {
   fetchOrg: orgActions.fetchOrg,
+  fetchResource: resourceActions.fetchResource,
   fetchTag: tagActions.fetchTag,
 };
 

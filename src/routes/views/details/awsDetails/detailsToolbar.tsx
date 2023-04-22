@@ -220,7 +220,7 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
   };
 
   const resourceQueryString = getQuery({
-    // ...baseQuery,
+    key_only: true,
   });
   const resourceReport = resourceSelectors.selectResource(state, resourcePathsType, resourceType, resourceQueryString);
   const resourceReportFetchStatus = resourceSelectors.selectResourceFetchStatus(
