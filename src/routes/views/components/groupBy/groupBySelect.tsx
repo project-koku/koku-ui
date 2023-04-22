@@ -1,6 +1,7 @@
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
+import type { Resource } from 'api/resources/resource';
 import type { Tag } from 'api/tags/tag';
 import messages from 'locales/messages';
 import { uniq, uniqBy } from 'lodash';
@@ -8,36 +9,40 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { tagPrefix } from 'utils/props';
+import { awsCategoryPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import { styles } from './groupBy.styles';
 
-interface GroupByTagOwnProps extends RouterComponentProps, WrappedComponentProps {
+interface GroupBySelectOwnProps extends RouterComponentProps, WrappedComponentProps {
   groupBy?: string;
+  isCostCategory?: boolean;
   isDisabled?: boolean;
   onSelected(value: string);
   options: {
     label: string;
     value: string;
   }[];
-  tagReport: Tag;
+  report: Resource | Tag;
 }
 
-interface GroupByTagState {
+interface GroupBySelectState {
   currentItem?: string;
   isGroupByOpen?: boolean;
+  prefix?: string;
 }
 
-type GroupByTagProps = GroupByTagOwnProps;
+type GroupBySelectProps = GroupBySelectOwnProps;
 
-class GroupByTagBase extends React.Component<GroupByTagProps, GroupByTagState> {
-  protected defaultState: GroupByTagState = {
+class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelectState> {
+  protected defaultState: GroupBySelectState = {
     isGroupByOpen: false,
+    prefix: this.props.isCostCategory ? awsCategoryPrefix : tagPrefix,
   };
-  public state: GroupByTagState = { ...this.defaultState };
+  public state: GroupBySelectState = { ...this.defaultState };
 
-  constructor(props: GroupByTagProps) {
+  constructor(props: GroupBySelectProps) {
     super(props);
     this.handleGroupByClear = this.handleGroupByClear.bind(this);
     this.handleGroupBySelected = this.handleGroupBySelected.bind(this);
@@ -50,61 +55,63 @@ class GroupByTagBase extends React.Component<GroupByTagProps, GroupByTagState> {
     });
   }
 
-  public componentDidUpdate(prevProps: GroupByTagProps) {
+  public componentDidUpdate(prevProps: GroupBySelectProps) {
     const { groupBy } = this.props;
     if (prevProps.groupBy !== groupBy) {
       this.setState({ currentItem: this.getCurrentGroupBy() });
     }
   }
 
-  private getGroupByItems = () => {
-    const { tagReport } = this.props;
+  private getCurrentGroupBy = () => {
+    const { router } = this.props;
+    const { prefix } = this.state;
 
-    if (!(tagReport && tagReport.data)) {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
+    const groupByKeys = queryFromRoute && queryFromRoute.group_by ? Object.keys(queryFromRoute.group_by) : [];
+
+    let groupBy: string;
+    for (const key of groupByKeys) {
+      const index = key.indexOf(prefix);
+      if (index !== -1) {
+        groupBy = key.slice(prefix.length);
+        break;
+      }
+    }
+    return groupBy;
+  };
+
+  private getGroupByItems = () => {
+    const { report } = this.props;
+
+    if (!(report && report.data)) {
       return [];
     }
 
     // If the key_only param is used, we have an array of strings
-    let hasTagKeys = false;
-    for (const item of tagReport.data) {
+    let hasKeys = false;
+    for (const item of report.data) {
       if (item.hasOwnProperty('key')) {
-        hasTagKeys = true;
+        hasKeys = true;
         break;
       }
     }
 
     // Workaround for https://github.com/project-koku/koku/issues/1797
     let data = [];
-    if (hasTagKeys) {
-      const keepData = tagReport.data.map(
+    if (hasKeys) {
+      const keepData = report.data.map(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ({ type, ...keepProps }: any) => keepProps
       );
       data = uniqBy(keepData, 'key');
     } else {
-      data = uniq(tagReport.data);
+      data = uniq(report.data);
     }
 
     return data.map((item, index) => {
-      const tagKey = hasTagKeys ? item.key : item;
-      return <SelectOption key={`${tagKey}:${index}`} value={tagKey} />;
+      const key = hasKeys ? item.key : item;
+      return <SelectOption key={`${key}:${index}`} value={key} />;
     });
-  };
-
-  private getCurrentGroupBy = () => {
-    const { router } = this.props;
-    const queryFromRoute = parseQuery<Query>(router.location.search);
-    const groupByKeys = queryFromRoute && queryFromRoute.group_by ? Object.keys(queryFromRoute.group_by) : [];
-
-    let groupBy: string;
-    for (const key of groupByKeys) {
-      const index = key.indexOf(tagPrefix);
-      if (index !== -1) {
-        groupBy = key.slice(tagPrefix.length);
-        break;
-      }
-    }
-    return groupBy;
   };
 
   private handleGroupByClear = () => {
@@ -115,13 +122,14 @@ class GroupByTagBase extends React.Component<GroupByTagProps, GroupByTagState> {
 
   private handleGroupBySelected = (event, selection) => {
     const { onSelected } = this.props;
+    const { prefix } = this.state;
 
     this.setState({
       currentItem: selection,
       isGroupByOpen: false,
     });
     if (onSelected) {
-      onSelected(`${tagPrefix}${selection}`);
+      onSelected(`${prefix}${selection}`);
     }
   };
 
@@ -130,19 +138,21 @@ class GroupByTagBase extends React.Component<GroupByTagProps, GroupByTagState> {
   };
 
   public render() {
-    const { isDisabled, intl } = this.props;
+    const { isCostCategory, isDisabled, intl } = this.props;
     const { currentItem, isGroupByOpen } = this.state;
 
     return (
       <div style={styles.groupBySelector}>
         <Select
-          aria-label={intl.formatMessage(messages.filterByTagKeyAriaLabel)}
+          aria-label={intl.formatMessage(
+            isCostCategory ? messages.filterByCostCategoryKeyAriaLabel : messages.filterByTagKeyAriaLabel
+          )}
           isDisabled={isDisabled}
           onClear={this.handleGroupByClear}
           onToggle={this.handleGroupByToggle}
           onSelect={this.handleGroupBySelected}
           isOpen={isGroupByOpen}
-          placeholderText={intl.formatMessage(messages.filterByTagKeyPlaceholder)}
+          placeholderText={intl.formatMessage(messages.chooseKeyPlaceholder)}
           selections={currentItem}
           variant={SelectVariant.typeahead}
         >
@@ -153,7 +163,6 @@ class GroupByTagBase extends React.Component<GroupByTagProps, GroupByTagState> {
   }
 }
 
-const GroupByTag = injectIntl(withRouter(GroupByTagBase));
+const GroupBySelect = injectIntl(withRouter(GroupBySelectBase));
 
-export { GroupByTag };
-export type { GroupByTagProps };
+export { GroupBySelect };

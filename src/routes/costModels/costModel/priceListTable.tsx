@@ -283,7 +283,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                   }
                 />
                 {fetchStatus !== FetchStatus.complete && <LoadingState />}
-                {fetchStatus === FetchStatus.complete && Boolean(fetchError) && <Unavailable />}
+                {fetchStatus === FetchStatus.complete && fetchError && <Unavailable />}
                 {fetchStatus === FetchStatus.complete &&
                   filtered.length === 0 &&
                   (search.metrics.length !== 0 || search.measurements.length !== 0) && <EmptyFilterState />}

@@ -3,7 +3,8 @@ import type { Org } from 'api/orgs/org';
 import { OrgPathsType, OrgType } from 'api/orgs/org';
 import type { AwsQuery } from 'api/queries/awsQuery';
 import { getQuery } from 'api/queries/query';
-import { ResourcePathsType } from 'api/resources/resource';
+import type { Resource } from 'api/resources/resource';
+import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import type { Tag } from 'api/tags/tag';
 import { TagPathsType, TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -16,10 +17,11 @@ import type { Filter } from 'routes/views/utils/filter';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
+import { resourceActions, resourceSelectors } from 'store/resources';
 import { tagActions, tagSelectors } from 'store/tags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
-import { orgUnitIdKey, tagKey } from 'utils/props';
+import { awsCategoryKey, orgUnitIdKey, tagKey } from 'utils/props';
 
 interface DetailsToolbarOwnProps {
   isAllSelected?: boolean;
@@ -43,6 +45,9 @@ interface DetailsToolbarStateProps {
   orgReport?: Org;
   orgReportFetchStatus?: FetchStatus;
   orgQueryString?: string;
+  resourceReport?: Resource;
+  resourceReportFetchStatus?: FetchStatus;
+  resourceQueryString?: string;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
   tagQueryString?: string;
@@ -50,6 +55,7 @@ interface DetailsToolbarStateProps {
 
 interface DetailsToolbarDispatchProps {
   fetchOrg?: typeof orgActions.fetchOrg;
+  fetchResource?: typeof resourceActions.fetchResource;
   fetchTag?: typeof tagActions.fetchTag;
 }
 
@@ -62,10 +68,12 @@ type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarDispatchProps &
   WrappedComponentProps;
 
-const orgReportPathsType = OrgPathsType.aws;
-const orgReportType = OrgType.org;
-const tagReportPathsType = TagPathsType.aws;
-const tagReportType = TagType.tag;
+const orgPathsType = OrgPathsType.aws;
+const orgType = OrgType.org;
+const resourcePathsType = ResourcePathsType.aws;
+const resourceType = ResourceType.aws_category;
+const tagPathsType = TagPathsType.aws;
+const tagType = TagType.tag;
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, DetailsToolbarState> {
   protected defaultState: DetailsToolbarState = {};
@@ -83,9 +91,13 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const { orgReport, query, tagReport } = this.props;
+    const { orgReport, query, resourceReport, tagReport } = this.props;
 
-    if (!isEqual(orgReport, prevProps.orgReport) || !isEqual(tagReport, prevProps.tagReport)) {
+    if (
+      !isEqual(orgReport, prevProps.orgReport) ||
+      !isEqual(resourceReport, prevProps.resourceReport) ||
+      !isEqual(tagReport, prevProps.tagReport)
+    ) {
       this.setState(
         {
           categoryOptions: this.getCategoryOptions(),
@@ -100,7 +112,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { intl, orgReport, tagReport } = this.props;
+    const { intl, orgReport, resourceReport, tagReport } = this.props;
 
     const options = [
       { name: intl.formatMessage(messages.filterByValues, { value: 'account' }), key: 'account' },
@@ -114,15 +126,30 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
       });
     }
     if (tagReport && tagReport.data && tagReport.data.length) {
-      options.push({ name: intl.formatMessage(messages.filterByValues, { value: 'tag' }), key: tagKey });
+      options.push({ name: intl.formatMessage(messages.filterByValues, { value: tagKey }), key: tagKey });
     }
-    return options;
+    if (resourceReport && resourceReport.data && resourceReport.data.length) {
+      options.push({
+        name: intl.formatMessage(messages.filterByValues, { value: awsCategoryKey }),
+        key: awsCategoryKey,
+      });
+    }
+    return options.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
   };
 
   private updateReport = () => {
-    const { fetchOrg, fetchTag, orgQueryString, tagQueryString } = this.props;
-    fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
-    fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+    const { fetchOrg, fetchResource, fetchTag, orgQueryString, resourceQueryString, tagQueryString } = this.props;
+    fetchOrg(orgPathsType, orgType, orgQueryString);
+    fetchResource(resourcePathsType, resourceType, resourceQueryString);
+    fetchTag(tagPathsType, tagType, tagQueryString);
   };
 
   public render() {
@@ -141,6 +168,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
       orgReport,
       pagination,
       query,
+      resourceReport,
       selectedItems,
       tagReport,
     } = this.props;
@@ -163,14 +191,15 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
         orgReport={orgReport}
         pagination={pagination}
         query={query}
-        resourcePathsType={ResourcePathsType.aws}
+        resourcePathsType={resourcePathsType}
+        resourceReport={resourceReport}
         selectedItems={selectedItems}
         showBulkSelect
         showExcludes
         showExport
         showFilter
+        tagPathsType={tagPathsType}
         tagReport={tagReport}
-        tagReportPathsType={tagReportPathsType}
       />
     );
   }
@@ -178,8 +207,8 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
-  // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
-  // However, for better server-side performance, we chose to use key_only here.
+  // Note: Omitting key_only would help to share a single, cached request. Only the toolbar requires key values;
+  // however, for better server-side performance, we chose to use key_only here.
   const baseQuery = {
     filter: {
       resolution: 'monthly',
@@ -190,31 +219,35 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
     limit: 1000,
   };
 
+  const resourceQueryString = getQuery({
+    key_only: true,
+  });
+  const resourceReport = resourceSelectors.selectResource(state, resourcePathsType, resourceType, resourceQueryString);
+  const resourceReportFetchStatus = resourceSelectors.selectResourceFetchStatus(
+    state,
+    resourcePathsType,
+    resourceType,
+    resourceQueryString
+  );
+
   const tagQueryString = getQuery({
     ...baseQuery,
   });
-  const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
-  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
-    state,
-    tagReportPathsType,
-    tagReportType,
-    tagQueryString
-  );
+  const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
+  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
 
   const orgQueryString = getQuery({
     ...baseQuery,
   });
-  const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, orgQueryString);
-  const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(
-    state,
-    orgReportPathsType,
-    orgReportType,
-    orgQueryString
-  );
+  const orgReport = orgSelectors.selectOrg(state, orgPathsType, orgType, orgQueryString);
+  const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgPathsType, orgType, orgQueryString);
   return {
     orgReport,
     orgReportFetchStatus,
     orgQueryString,
+    resourceReport,
+    resourceReportFetchStatus,
+    resourceQueryString,
     tagReport,
     tagReportFetchStatus,
     tagQueryString,
@@ -223,6 +256,7 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
 
 const mapDispatchToProps: DetailsToolbarDispatchProps = {
   fetchOrg: orgActions.fetchOrg,
+  fetchResource: resourceActions.fetchResource,
   fetchTag: tagActions.fetchTag,
 };
 

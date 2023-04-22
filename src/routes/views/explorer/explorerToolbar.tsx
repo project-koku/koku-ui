@@ -60,8 +60,9 @@ export class ExplorerToolbarBase extends React.Component<ExplorerToolbarProps, E
       selectedItems,
     } = this.props;
 
-    const tagReportPathsType = getTagReportPathsType(perspective);
+    const tagPathsType = getTagReportPathsType(perspective);
 
+    // Note: This is the table toolbar used for bulk select and pagination, not the filter toolbar in the page header
     return (
       <DataToolbar
         isAllSelected={isAllSelected}
@@ -77,7 +78,7 @@ export class ExplorerToolbarBase extends React.Component<ExplorerToolbarProps, E
         showBulkSelect
         showExcludes
         showExport
-        tagReportPathsType={tagReportPathsType}
+        tagPathsType={tagPathsType}
       />
     );
   }

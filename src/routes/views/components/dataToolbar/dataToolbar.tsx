@@ -27,7 +27,7 @@ import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import type { Org } from 'api/orgs/org';
 import type { Query } from 'api/queries/query';
-import type { ResourcePathsType, ResourceType } from 'api/resources/resource';
+import type { Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
 import { isResourceTypeValid } from 'api/resources/resourceUtils';
 import type { Tag } from 'api/tags/tag';
 import type { TagPathsType } from 'api/tags/tag';
@@ -43,8 +43,17 @@ import type { Filter } from 'routes/views/utils/filter';
 import { createMapStateToProps } from 'store/common';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
-import { orgUnitIdKey, orgUnitNameKey, platformCategoryKey, tagKey, tagPrefix } from 'utils/props';
+import {
+  awsCategoryKey,
+  awsCategoryPrefix,
+  orgUnitIdKey,
+  orgUnitNameKey,
+  platformCategoryKey,
+  tagKey,
+  tagPrefix,
+} from 'utils/props';
 
+import { CostCategoryValue } from './costCategoryValue';
 import { DataKebab } from './dataKebab';
 import { styles } from './dataToolbar.styles';
 import { TagValue } from './tagValue';
@@ -75,6 +84,7 @@ interface DataToolbarOwnProps {
   pagination?: React.ReactNode; // Optional pagination controls to display in toolbar
   query?: Query; // Query containing filter_by params used to restore state upon page refresh
   resourcePathsType?: ResourcePathsType;
+  resourceReport?: Resource;
   selectedItems?: ComputedReportItem[];
   showBulkSelect?: boolean; // Show bulk select
   showColumnManagement?: boolean; // Show column management
@@ -83,24 +93,27 @@ interface DataToolbarOwnProps {
   showFilter?: boolean; // Show export icon
   showPlatformCosts?: boolean; // Show platform costs switch
   style?: React.CSSProperties;
+  tagPathsType?: TagPathsType;
   tagReport?: Tag; // Data containing tag key and value data
-  tagReportPathsType?: TagPathsType;
 }
 
 interface DataToolbarState {
   categoryInput?: string;
+  costCategoryKeyValueInput?: string;
   currentCategory?: string;
   currentExclude?: string;
+  currentCostCategoryKey?: string;
   currentOrgUnit?: string;
   currentTagKey?: string;
   currentWorkloadType?: string;
   filters?: Filters;
   isBulkSelectOpen?: boolean;
   isCategorySelectOpen?: boolean;
+  isCostCategoryKeySelectExpanded?: boolean;
+  isCostCategoryValueSelectExpanded?: boolean;
   isExcludeSelectOpen?: boolean;
   isOrgUnitSelectExpanded?: boolean;
   isPlatformCostsChecked?: boolean;
-  isTagValueDropdownOpen?: boolean;
   isTagKeySelectExpanded?: boolean;
   isTagValueSelectExpanded?: boolean;
   tagKeyValueInput?: string;
@@ -111,6 +124,7 @@ interface DataToolbarStateProps {
 }
 
 interface GroupByOrgOption extends SelectOptionObject {
+  toString(): string; // label
   id?: string;
 }
 
@@ -127,6 +141,7 @@ interface ExcludeOption extends SelectOptionObject {
 type DataToolbarProps = DataToolbarOwnProps & DataToolbarStateProps & WrappedComponentProps;
 
 const defaultFilters = {
+  [awsCategoryKey]: {},
   tag: {},
 };
 
@@ -142,10 +157,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     filters: cloneDeep(defaultFilters),
     isBulkSelectOpen: false,
     isCategorySelectOpen: false,
+    isCostCategoryKeySelectExpanded: false,
+    isCostCategoryValueSelectExpanded: false,
     isExcludeSelectOpen: false,
     isOrgUnitSelectExpanded: false,
     isPlatformCostsChecked: this.props.query ? this.props.query.category === platformCategoryKey : false,
-    isTagValueDropdownOpen: false,
     isTagKeySelectExpanded: false,
     isTagValueSelectExpanded: false,
     tagKeyValueInput: '',
@@ -160,13 +176,14 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   }
 
   public componentDidUpdate(prevProps: DataToolbarProps) {
-    const { categoryOptions, groupBy, orgReport, query, tagReport } = this.props;
+    const { categoryOptions, groupBy, orgReport, query, resourceReport, tagReport } = this.props;
 
     if (
       groupBy !== prevProps.groupBy ||
       (categoryOptions && !isEqual(categoryOptions, prevProps.categoryOptions)) ||
       (query && !isEqual(query, prevProps.query)) ||
       (orgReport && !isEqual(orgReport, prevProps.orgReport)) ||
+      (resourceReport && !isEqual(resourceReport, prevProps.resourceReport)) ||
       (tagReport && !isEqual(tagReport, prevProps.tagReport))
     ) {
       this.setState(() => {
@@ -174,7 +191,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
         return categoryOptions !== prevProps.categoryOptions || prevProps.groupBy !== groupBy
           ? {
               categoryInput: '',
+              costCategoryKeyValueInput: '',
               currentCategory: this.getDefaultCategory(),
+              currentCostCategoryKey: '',
               currentOrgUnit: '',
               currentTagKey: '',
               currentWorkloadType: '',
@@ -228,6 +247,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
           ];
         } else {
           filters.tag[key.substring(tagPrefix.length)] = this.getFilters(key, values, isExcludes);
+        }
+      } else if (key.indexOf(awsCategoryPrefix) !== -1) {
+        if (filters[awsCategoryKey][key.substring(awsCategoryPrefix.length)]) {
+          filters[awsCategoryKey][key.substring(awsCategoryPrefix.length)] = [
+            ...filters[awsCategoryKey][key.substring(awsCategoryPrefix.length)],
+            ...this.getFilters(key, values, isExcludes),
+          ];
+        } else {
+          filters[awsCategoryKey][key.substring(awsCategoryPrefix.length)] = this.getFilters(key, values, isExcludes);
         }
       } else if (filters[key]) {
         filters[key] = [...filters[key], ...this.getFilters(key, values, isExcludes)];
@@ -288,6 +316,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       let filter;
       if (filters.tag[_type]) {
         filter = filters.tag[_type].find(item => item.value === id);
+      } else if (filters[awsCategoryKey][_type]) {
+        filter = filters[awsCategoryKey][_type].find(item => item.value === id);
       } else if (filters[_type]) {
         filter = (filters[_type] as Filter[]).find(item => item.value === id);
       }
@@ -297,6 +327,10 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
           if (prevState.filters.tag[_type]) {
             // Todo: use ID
             prevState.filters.tag[_type] = prevState.filters.tag[_type].filter(item => item.value !== id);
+          } else if (prevState.filters[awsCategoryKey][_type]) {
+            prevState.filters[awsCategoryKey][_type] = prevState.filters[awsCategoryKey][_type].filter(
+              item => item.value !== id
+            );
           } else if (prevState.filters[_type]) {
             prevState.filters[_type] = prevState.filters[_type].filter(item => item.value !== id);
           }
@@ -325,9 +359,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
     if (filters) {
       for (const filterKey of Object.keys(filters)) {
-        if (filterKey === tagKey) {
-          for (const tagFilterKey of Object.keys(filters[filterKey])) {
-            if (filters[filterKey][tagFilterKey]) {
+        if (filterKey === awsCategoryKey || filterKey === tagKey) {
+          for (const key of Object.keys(filters[filterKey])) {
+            if (filters[filterKey][key]) {
               return true;
             }
           }
@@ -468,6 +502,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     this.setState({
       categoryInput: '',
       currentCategory: selection.value,
+      currentCostCategoryKey: undefined,
       currentTagKey: undefined,
       currentWorkloadType: undefined,
       isCategorySelectOpen: !this.state.isCategorySelectOpen,
@@ -619,8 +654,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     );
   };
 
-  // Workload type select
-
   private handleOnWorkloadTypeSelect = (event, selection) => {
     const { currentCategory } = this.state;
 
@@ -635,6 +668,226 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
         };
         return {
           filters,
+        };
+      },
+      () => {
+        if (checked) {
+          this.props.onFilterAdded(filter);
+        } else {
+          this.props.onFilterRemoved(filter);
+        }
+      }
+    );
+  };
+
+  // Cost category key select
+
+  public getCostCategoryKeySelect = (hasFilters: boolean) => {
+    const { intl, isDisabled } = this.props;
+    const { currentCategory, currentCostCategoryKey, isCostCategoryKeySelectExpanded } = this.state;
+
+    if (currentCategory !== awsCategoryKey) {
+      return null;
+    }
+
+    const selectOptions = this.getCostCategoryKeyOptions().map(selectOption => {
+      return <SelectOption key={selectOption.key} value={selectOption.key} />;
+    });
+
+    return (
+      <ToolbarItem>
+        <Select
+          isDisabled={isDisabled && !hasFilters}
+          variant={SelectVariant.typeahead}
+          typeAheadAriaLabel={intl.formatMessage(messages.filterByCostCategoryKeyAriaLabel)}
+          onClear={this.handleOnCostCategoryKeyClear}
+          onToggle={this.handleOnCostCategoryKeyToggle}
+          onSelect={this.handleOnCostCategoryKeySelect}
+          isOpen={isCostCategoryKeySelectExpanded}
+          placeholderText={intl.formatMessage(messages.chooseKeyPlaceholder)}
+          selections={currentCostCategoryKey}
+        >
+          {selectOptions}
+        </Select>
+      </ToolbarItem>
+    );
+  };
+
+  private getCostCategoryKeyOptions(): ToolbarChipGroup[] {
+    const { resourceReport } = this.props;
+
+    let data = [];
+    let options = [];
+
+    if (!(resourceReport && resourceReport.data)) {
+      return options;
+    }
+
+    // If the key_only param is used, we have an array of strings
+    let hasKeys = false;
+    for (const item of resourceReport.data) {
+      if (item.hasOwnProperty('key')) {
+        hasKeys = true;
+        break;
+      }
+    }
+
+    // Workaround for https://github.com/project-koku/koku/issues/1797
+    if (hasKeys) {
+      const keepData = resourceReport.data.map(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ({ type, ...keepProps }: any) => keepProps
+      );
+      data = uniqBy(keepData, 'key');
+    } else {
+      data = uniq(resourceReport.data);
+    }
+
+    if (data.length > 0) {
+      options = data.map(item => {
+        const key = hasKeys ? item.key : item;
+        return {
+          key,
+          name: key, // keys not localized
+        };
+      });
+    }
+    return options;
+  }
+
+  private handleOnCostCategoryKeyClear = () => {
+    this.setState({
+      currentCostCategoryKey: undefined,
+      isCostCategoryKeySelectExpanded: false,
+    });
+  };
+
+  private handleOnCostCategoryKeySelect = (event, selection) => {
+    this.setState({
+      currentCostCategoryKey: selection,
+      isCostCategoryKeySelectExpanded: !this.state.isCostCategoryKeySelectExpanded,
+    });
+  };
+
+  private handleOnCostCategoryKeyToggle = isOpen => {
+    this.setState({
+      isCostCategoryKeySelectExpanded: isOpen,
+    });
+  };
+
+  // Cost category value select
+
+  public getCostCategoryValueSelect = (costCategoryKeyOption: ToolbarChipGroup, hasFilters: boolean) => {
+    const { isDisabled, resourcePathsType } = this.props;
+    const { currentCategory, currentCostCategoryKey, filters, costCategoryKeyValueInput } = this.state;
+
+    // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
+    const categoryName = {
+      name: costCategoryKeyOption.name,
+      key: `${awsCategoryPrefix}${costCategoryKeyOption.key}`,
+    };
+
+    return (
+      <ToolbarFilter
+        categoryName={categoryName}
+        chips={this.getChips(filters[awsCategoryKey][costCategoryKeyOption.key])}
+        deleteChip={this.onDelete}
+        key={costCategoryKeyOption.key}
+        showToolbarItem={currentCategory === awsCategoryKey && currentCostCategoryKey === costCategoryKeyOption.key}
+      >
+        <CostCategoryValue
+          costCategoryKey={currentCostCategoryKey}
+          costCategoryKeyValue={costCategoryKeyValueInput}
+          isDisabled={isDisabled && !hasFilters}
+          onCostCategoryValueSelect={this.onCostCategoryValueSelect}
+          onCostCategoryValueInput={this.onCostCategoryValueInput}
+          onCostCategoryValueInputChange={this.onCostCategoryValueInputChange}
+          resourcePathsType={resourcePathsType}
+          selections={
+            filters[awsCategoryKey][costCategoryKeyOption.key]
+              ? filters[awsCategoryKey][costCategoryKeyOption.key].map(filter => filter.value)
+              : []
+          }
+        />
+      </ToolbarFilter>
+    );
+  };
+
+  private onCostCategoryValueInputChange = value => {
+    this.setState({ costCategoryKeyValueInput: value });
+  };
+
+  private onCostCategoryValueInput = event => {
+    const { currentExclude, currentCostCategoryKey, costCategoryKeyValueInput } = this.state;
+
+    if ((event.key && event.key !== 'Enter') || costCategoryKeyValueInput.trim() === '') {
+      return;
+    }
+
+    const isExcludes = currentExclude === ExcludeType.exclude;
+    const filter = this.getFilter(
+      `${awsCategoryPrefix}${currentCostCategoryKey}`,
+      costCategoryKeyValueInput,
+      isExcludes
+    );
+
+    this.setState(
+      (prevState: any) => {
+        const prevItems = prevState.filters[awsCategoryKey][currentCostCategoryKey]
+          ? prevState.filters[awsCategoryKey][currentCostCategoryKey]
+          : [];
+        for (const item of prevItems) {
+          if (item.value === costCategoryKeyValueInput) {
+            return {
+              ...prevState.filters,
+              costCategoryKeyValueInput: '',
+            };
+          }
+        }
+        return {
+          filters: {
+            ...prevState.filters,
+            [awsCategoryKey]: {
+              ...prevState.filters[awsCategoryKey],
+              [currentCostCategoryKey]: [...prevItems, filter],
+            },
+          },
+          costCategoryKeyValueInput: '',
+        };
+      },
+      () => {
+        this.props.onFilterAdded(filter);
+      }
+    );
+  };
+
+  private onCostCategoryValueSelect = (event, selection) => {
+    const { currentExclude, currentCostCategoryKey, filters } = this.state;
+
+    const checked = event.target.checked;
+    let filter;
+    if (checked) {
+      const isExcludes = currentExclude === ExcludeType.exclude;
+      filter = this.getFilter(`${awsCategoryPrefix}${currentCostCategoryKey}`, selection, isExcludes);
+    } else if (filters[awsCategoryKey][currentCostCategoryKey]) {
+      filter = filters[awsCategoryKey][currentCostCategoryKey].find(item => item.value === selection);
+    }
+
+    this.setState(
+      (prevState: any) => {
+        const prevItems = prevState.filters[awsCategoryKey][currentCostCategoryKey]
+          ? prevState.filters[awsCategoryKey][currentCostCategoryKey]
+          : [];
+        return {
+          filters: {
+            ...prevState.filters,
+            [awsCategoryKey]: {
+              ...prevState.filters[awsCategoryKey],
+              [currentCostCategoryKey]: checked
+                ? [...prevItems, filter]
+                : prevItems.filter(item => item.value !== filter.value),
+            },
+          },
         };
       },
       () => {
@@ -824,9 +1077,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
         return {
           filters: {
             ...prevState.filters,
-            tag: {
-              ...prevState.filters.tag,
-            },
+            // tag: {
+            //   ...prevState.filters.tag,
+            // },
             [orgUnitIdKey]: checked ? [...prevItems, filter] : prevItems.filter(item => item.value !== filter.value),
           },
         };
@@ -871,7 +1124,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
           onToggle={this.handleOnTagKeyToggle}
           onSelect={this.handleOnTagKeySelect}
           isOpen={isTagKeySelectExpanded}
-          placeholderText={intl.formatMessage(messages.filterByTagKeyPlaceholder)}
+          placeholderText={intl.formatMessage(messages.chooseKeyPlaceholder)}
           selections={currentTagKey}
         >
           {selectOptions}
@@ -945,7 +1198,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   // Tag value select
 
   public getTagValueSelect = (tagKeyOption: ToolbarChipGroup, hasFilters: boolean) => {
-    const { isDisabled, tagReportPathsType } = this.props;
+    const { isDisabled, tagPathsType } = this.props;
     const { currentCategory, currentTagKey, filters, tagKeyValueInput } = this.state;
 
     // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
@@ -970,7 +1223,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
           selections={filters.tag[tagKeyOption.key] ? filters.tag[tagKeyOption.key].map(filter => filter.value) : []}
           tagKey={currentTagKey}
           tagKeyValue={tagKeyValueInput}
-          tagReportPathsType={tagReportPathsType}
+          tagPathsType={tagPathsType}
         />
       </ToolbarFilter>
     );
@@ -1189,12 +1442,16 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
                 <ToolbarGroup variant="filter-group">
                   {this.getCategorySelect(hasFilters)}
                   {showExcludes && this.getExcludeSelect(hasFilters)}
+                  {this.getCostCategoryKeySelect(hasFilters)}
+                  {this.getCostCategoryKeyOptions().map(option => this.getCostCategoryValueSelect(option, hasFilters))}
                   {this.getTagKeySelect(hasFilters)}
                   {this.getTagKeyOptions().map(option => this.getTagValueSelect(option, hasFilters))}
                   {this.getOrgUnitSelect(hasFilters)}
                   {options &&
                     options
-                      .filter(option => option.key !== tagKey && option.key !== orgUnitIdKey)
+                      .filter(
+                        option => option.key !== awsCategoryKey && option.key !== tagKey && option.key !== orgUnitIdKey
+                      )
                       .map(option => this.getCategoryInput(option, hasFilters))}
                 </ToolbarGroup>
               </ToolbarToggleGroup>

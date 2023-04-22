@@ -110,7 +110,7 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
                         </Td>
                         <Td>
                           {row.name}{' '}
-                          {Boolean(row.costmodel) && (
+                          {row.costmodel && (
                             <WarningIcon
                               key={`wrng-${row.name}`}
                               text={intl.formatMessage(messages.costModelsWizardSourceWarning, {

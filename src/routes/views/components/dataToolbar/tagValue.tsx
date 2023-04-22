@@ -19,7 +19,8 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
-import { createMapStateToProps, FetchStatus } from 'store/common';
+import type { FetchStatus } from 'store/common';
+import { createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
 import { orgUnitIdKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -33,7 +34,7 @@ interface TagValueOwnProps extends RouterComponentProps, WrappedComponentProps {
   selections?: SelectOptionObject[];
   tagKey: string;
   tagKeyValue: string;
-  tagReportPathsType: TagPathsType;
+  tagPathsType: TagPathsType;
 }
 
 interface TagValueStateProps {
@@ -55,7 +56,7 @@ interface TagValueState {
 
 type TagValueProps = TagValueOwnProps & TagValueStateProps & TagValueDispatchProps;
 
-const tagReportType = TagType.tag;
+const tagType = TagType.tag;
 
 // If the number of tag keys are greater or equal, then show text input Vs select
 // See https://github.com/project-koku/koku/pull/2069
@@ -68,21 +69,14 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
   public state: TagValueState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { fetchTag, tagQueryString, tagReportFetchStatus, tagReportPathsType } = this.props;
-
-    if (tagReportFetchStatus !== FetchStatus.inProgress) {
-      fetchTag(tagReportPathsType, tagReportType, tagQueryString);
-    }
+    this.updateReport();
   }
 
   public componentDidUpdate(prevProps: TagValueProps) {
-    const { fetchTag, tagQueryString, tagReportFetchStatus, tagReportPathsType } = this.props;
+    const { tagQueryString, tagPathsType } = this.props;
 
-    if (
-      (prevProps.tagQueryString !== tagQueryString || prevProps.tagReportPathsType !== tagReportPathsType) &&
-      tagReportFetchStatus !== FetchStatus.inProgress
-    ) {
-      fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+    if (prevProps.tagQueryString !== tagQueryString || prevProps.tagPathsType !== tagPathsType) {
+      this.updateReport();
     }
   }
 
@@ -127,6 +121,11 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
     });
   };
 
+  private updateReport = () => {
+    const { fetchTag, tagQueryString, tagPathsType } = this.props;
+    fetchTag(tagPathsType, tagType, tagQueryString);
+  };
+
   public render() {
     const { intl, isDisabled, onTagValueInput, onTagValueSelect, selections, tagKeyValue } = this.props;
     const { isTagValueExpanded } = this.state;
@@ -135,50 +134,50 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
       return <SelectOption key={selectOption.key} value={selectOption.key} />;
     });
 
-    if (selectOptions.length > tagKeyValueLimit) {
+    if (selectOptions.length > 0 && selectOptions.length < tagKeyValueLimit) {
       return (
-        <InputGroup>
-          <TextInput
-            isDisabled={isDisabled}
-            name="tagkeyvalue-input"
-            id="tagkeyvalue-input"
-            type="search"
-            aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
-            onChange={this.onTagValueChange}
-            value={tagKeyValue}
-            placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
-            onKeyDown={evt => onTagValueInput(evt)}
-          />
-          <Button
-            isDisabled={isDisabled}
-            variant={ButtonVariant.control}
-            aria-label={intl.formatMessage(messages.filterByTagValueButtonAriaLabel)}
-            onClick={evt => onTagValueInput(evt)}
-          >
-            <SearchIcon />
-          </Button>
-        </InputGroup>
+        <Select
+          isDisabled={isDisabled}
+          variant={SelectVariant.checkbox}
+          aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
+          onToggle={this.onTagValueToggle}
+          onSelect={onTagValueSelect}
+          selections={selections}
+          isOpen={isTagValueExpanded}
+          placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}
+        >
+          {selectOptions}
+        </Select>
       );
     }
     return (
-      <Select
-        isDisabled={isDisabled}
-        variant={SelectVariant.checkbox}
-        aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
-        onToggle={this.onTagValueToggle}
-        onSelect={onTagValueSelect}
-        selections={selections}
-        isOpen={isTagValueExpanded}
-        placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}
-      >
-        {selectOptions}
-      </Select>
+      <InputGroup>
+        <TextInput
+          isDisabled={isDisabled}
+          name="tag-key-value-input"
+          id="tag-key-value-input"
+          type="search"
+          aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
+          onChange={this.onTagValueChange}
+          value={tagKeyValue}
+          placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
+          onKeyDown={evt => onTagValueInput(evt)}
+        />
+        <Button
+          isDisabled={isDisabled}
+          variant={ButtonVariant.control}
+          aria-label={intl.formatMessage(messages.filterByTagValueButtonAriaLabel)}
+          onClick={evt => onTagValueInput(evt)}
+        >
+          <SearchIcon />
+        </Button>
+      </InputGroup>
     );
   }
 }
 
 const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStateProps>(
-  (state, { router, tagKey, tagReportPathsType }) => {
+  (state, { router, tagKey, tagPathsType }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
@@ -191,13 +190,8 @@ const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStatePro
         key: tagKey,
       },
     });
-    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
-    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
-      state,
-      tagReportPathsType,
-      tagReportType,
-      tagQueryString
-    );
+    const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
+    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
 
     return {
       groupBy,

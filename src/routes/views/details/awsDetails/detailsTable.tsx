@@ -24,6 +24,7 @@ import { withRouter } from 'utils/router';
 
 interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   groupBy: string;
+  groupByCostCategory?: string;
   groupByOrg?: string;
   groupByTagKey?: string;
   isAllSelected?: boolean;
@@ -65,7 +66,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   }
 
   private initDatum = () => {
-    const { groupBy, groupByOrg, groupByTagKey, intl, isAllSelected, report, router, selectedItems } = this.props;
+    const {
+      groupBy,
+      groupByCostCategory,
+      groupByOrg,
+      groupByTagKey,
+      intl,
+      isAllSelected,
+      report,
+      router,
+      selectedItems,
+    } = this.props;
     if (!report) {
       return;
     }
@@ -73,17 +84,25 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({
       report,
-      idKey: (groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupBy) as any,
+      idKey: (groupByCostCategory
+        ? groupByCostCategory
+        : groupByTagKey
+        ? groupByTagKey
+        : groupByOrg
+        ? 'org_entities'
+        : groupBy) as any,
     });
 
     const columns =
-      groupByTagKey || groupByOrg
+      groupByCostCategory || groupByTagKey || groupByOrg
         ? [
             {
               name: '',
             },
             {
-              name: groupByOrg
+              name: groupByCostCategory
+                ? intl.formatMessage(messages.costCategoryNames)
+                : groupByOrg
                 ? intl.formatMessage(messages.names, { count: 2 })
                 : intl.formatMessage(messages.tagNames),
             },
@@ -127,7 +146,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       const cost = this.getTotalCost(item, index);
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const label = item && item.label && item.label !== null ? item.label : '';
-      const isDisabled = label === `${noPrefix}${groupBy}` || label === `${noPrefix}${groupByTagKey}`;
+      const isDisabled =
+        label === `${noPrefix}${groupBy}` ||
+        label === `${noPrefix}${groupByCostCategory}` ||
+        label === `${noPrefix}${groupByTagKey}`;
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
       const actions = this.getActions(item, isDisabled);
 
@@ -217,10 +239,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
         <div className="monthOverMonthOverride">
           <div className={iconOverride} key={`month-over-month-cost-${index}`}>
             {showPercentage ? intl.formatMessage(messages.percent, { value: percentage }) : <EmptyValueState />}
-            {Boolean(showPercentage && item.delta_percent !== null && item.delta_value > 0) && (
+            {showPercentage && item.delta_percent !== null && item.delta_value > 0 && (
               <span className="fa fa-sort-up" style={styles.infoArrow} key={`month-over-month-icon-${index}`} />
             )}
-            {Boolean(showPercentage && item.delta_percent !== null && item.delta_value < 0) && (
+            {showPercentage && item.delta_percent !== null && item.delta_value < 0 && (
               <span
                 className="fa fa-sort-down"
                 style={{

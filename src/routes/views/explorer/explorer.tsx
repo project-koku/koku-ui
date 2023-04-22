@@ -21,7 +21,7 @@ import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
 import type { DateRangeType } from 'routes/views/utils/dateRange';
 import { getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
-import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
+import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleCostDistributionSelected,
   handleCostTypeSelected,
@@ -43,7 +43,7 @@ import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerRepo
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getCostDistribution, getCostType, getCurrency } from 'utils/localStorage';
-import { noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
+import { awsCategoryPrefix, noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import {
@@ -159,12 +159,19 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByCostCategory = getGroupByCostCategory(query);
     const groupByOrg = getGroupByOrgValue(query);
     const groupByTagKey = getGroupByTagKey(query);
 
     const computedItems = getUnsortedComputedReportItems({
       report,
-      idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
+      idKey: groupByCostCategory
+        ? groupByCostCategory
+        : groupByTagKey
+        ? groupByTagKey
+        : groupByOrg
+        ? 'org_entities'
+        : groupById,
       isDateMap: false, // Don't use isDateMap here, so we can use a flattened data structure with row selection
     });
     return computedItems;
@@ -175,13 +182,17 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByCostCategory = getGroupByCostCategory(query);
     const groupByTagKey = getGroupByTagKey(query);
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     // Omit items labeled 'no-project'
     const items = [];
     selectedItems.map(item => {
-      if (!(item.label === `${noPrefix}${groupById}` || item.label === `${noPrefix}${groupByTagKey}`)) {
+      if (
+        !(item.label === `${noPrefix}${groupById}` || item.label === `${noPrefix}${groupByCostCategory}`) ||
+        item.label === `${noPrefix}${groupByTagKey}`
+      ) {
         items.push(item);
       }
     });
@@ -189,7 +200,13 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
       <ExportModal
         count={isAllSelected ? itemsTotal : items.length}
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
-        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        groupBy={
+          groupByCostCategory
+            ? `${awsCategoryPrefix}${groupByCostCategory}`
+            : groupByTagKey
+            ? `${tagPrefix}${groupByTagKey}`
+            : groupById
+        }
         isOpen={isExportModalOpen}
         items={items}
         onClose={this.handleExportModalClose}
@@ -241,13 +258,21 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByCostCategory = getGroupByCostCategory(query);
     const groupByTagKey = getGroupByTagKey(query);
     const groupByOrg = getGroupByOrgValue(query);
 
     return (
       <ExplorerTable
         costDistribution={costDistribution}
-        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        groupBy={
+          groupByCostCategory
+            ? `${awsCategoryPrefix}${groupByCostCategory}`
+            : groupByTagKey
+            ? `${tagPrefix}${groupByTagKey}`
+            : groupById
+        }
+        groupByCostCategory={groupByCostCategory}
         groupByTagKey={groupByTagKey}
         groupByOrg={groupByOrg}
         isAllSelected={isAllSelected}
@@ -444,6 +469,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     const isDisabled = computedItems.length === 0;
     const itemsTotal = report && report.meta ? report.meta.count : 0;
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByCostCategory = getGroupByCostCategory(query);
     const groupByTagKey = getGroupByTagKey(query);
     const title = intl.formatMessage(messages.explorerTitle);
 
@@ -473,7 +499,13 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
           costDistribution={costDistribution}
           costType={costType}
           currency={currency}
-          groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+          groupBy={
+            groupByCostCategory
+              ? `${awsCategoryPrefix}${groupByCostCategory}`
+              : groupByTagKey
+              ? `${tagPrefix}${groupByTagKey}`
+              : groupById
+          }
           onCostDistributionSelected={value => handleCostDistributionSelected(query, router, value)}
           onCostTypeSelected={value => handleCostTypeSelected(query, router, value)}
           onCurrencySelected={value => handleCurrencySelected(query, router, value)}
@@ -491,7 +523,13 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
                 costDistribution={costDistribution}
                 costType={costType}
                 currency={currency}
-                groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+                groupBy={
+                  groupByCostCategory
+                    ? `${awsCategoryPrefix}${groupByCostCategory}`
+                    : groupByTagKey
+                    ? `${tagPrefix}${groupByTagKey}`
+                    : groupById
+                }
                 perspective={perspective}
               />
             </div>

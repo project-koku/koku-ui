@@ -273,9 +273,9 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders && noRhelProviders;
 
     const groupByOptions = getGroupByOptions(perspective);
-    const orgReportPathsType = getOrgReportPathsType(perspective);
+    const orgPathsType = getOrgReportPathsType(perspective);
     const resourcePathsType = getResourcePathsType(perspective);
-    const tagReportPathsType = getTagReportPathsType(perspective);
+    const tagPathsType = getTagReportPathsType(perspective);
 
     return (
       <header style={styles.header}>
@@ -297,11 +297,13 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
               isDisabled={noProviders}
               onSelected={onGroupBySelected}
               options={groupByOptions}
-              orgReportPathsType={orgReportPathsType}
+              orgPathsType={orgPathsType}
               perspective={perspective}
-              showOrgs={orgReportPathsType}
-              showTags={tagReportPathsType}
-              tagReportPathsType={tagReportPathsType}
+              resourcePathsType={resourcePathsType}
+              showCostCategories={resourcePathsType}
+              showOrgs={orgPathsType}
+              showTags={tagPathsType}
+              tagPathsType={tagPathsType}
             />
           </div>
           {perspective === PerspectiveType.ocp && groupBy === 'project' && (
@@ -322,7 +324,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
           onFilterRemoved={onFilterRemoved}
           perspective={perspective}
           query={query}
-          resourcePathsType={resourcePathsType}
         />
       </header>
     );

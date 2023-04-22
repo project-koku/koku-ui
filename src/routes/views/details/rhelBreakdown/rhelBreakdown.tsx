@@ -107,7 +107,7 @@ const mapStateToProps = createMapStateToProps<RhelBreakdownOwnProps, BreakdownSt
     reportType,
     reportPathsType,
     reportQueryString,
-    tagReportPathsType: TagPathsType.rhel,
+    tagPathsType: TagPathsType.rhel,
     title,
   };
 });

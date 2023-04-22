@@ -382,10 +382,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
         <div className="monthOverMonthOverride">
           <div className={iconOverride} key={`month-over-month-cost-${index}`}>
             {showPercentage ? intl.formatMessage(messages.percent, { value: percentage }) : <EmptyValueState />}
-            {Boolean(showPercentage && item.delta_percent !== null && item.delta_value > 0) && (
+            {showPercentage && item.delta_percent !== null && item.delta_value > 0 && (
               <span className="fa fa-sort-up" style={styles.infoArrow} key={`month-over-month-icon-${index}`} />
             )}
-            {Boolean(showPercentage && item.delta_percent !== null && item.delta_value < 0) && (
+            {showPercentage && item.delta_percent !== null && item.delta_value < 0 && (
               <span
                 className="fa fa-sort-down"
                 style={{ ...styles.ininfoArrow, ...styles.infoArrowDesc }}

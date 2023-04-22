@@ -19,7 +19,7 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
-import { getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
+import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleCostTypeSelected,
   handleCurrencySelected,
@@ -38,7 +38,7 @@ import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportIte
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getCostType, getCurrency } from 'utils/localStorage';
-import { logicalOrPrefix, noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
+import { awsCategoryPrefix, logicalOrPrefix, noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -149,6 +149,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByCostCategory = getGroupByCostCategory(query);
     const groupByTagKey = getGroupByTagKey(query);
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
@@ -163,7 +164,13 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
       <ExportModal
         count={isAllSelected ? itemsTotal : items.length}
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
-        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        groupBy={
+          groupByCostCategory
+            ? `${awsCategoryPrefix}${groupByCostCategory}`
+            : groupByTagKey
+            ? `${tagPrefix}${groupByTagKey}`
+            : groupById
+        }
         isOpen={isExportModalOpen}
         items={items}
         onClose={this.handleExportModalClose}
@@ -213,12 +220,20 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByCostCategory = getGroupByCostCategory(query);
     const groupByTagKey = getGroupByTagKey(query);
     const groupByOrg = getGroupByOrgValue(query);
 
     return (
       <DetailsTable
-        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        groupBy={
+          groupByCostCategory
+            ? `${awsCategoryPrefix}${groupByCostCategory}`
+            : groupByTagKey
+            ? `${tagPrefix}${groupByTagKey}`
+            : groupById
+        }
+        groupByCostCategory={groupByCostCategory}
         groupByTagKey={groupByTagKey}
         groupByOrg={groupByOrg}
         isAllSelected={isAllSelected}
@@ -237,13 +252,20 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByCostCategory = getGroupByCostCategory(query);
     const groupByTagKey = getGroupByTagKey(query);
     const isDisabled = computedItems.length === 0;
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
       <DetailsToolbar
-        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        groupBy={
+          groupByCostCategory
+            ? `${awsCategoryPrefix}${groupByCostCategory}`
+            : groupByTagKey
+            ? `${tagPrefix}${groupByTagKey}`
+            : groupById
+        }
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
         isExportDisabled={isDisabled || (!isAllSelected && selectedItems.length === 0)}

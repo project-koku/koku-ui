@@ -106,7 +106,7 @@ const mapStateToProps = createMapStateToProps<OciCostOwnProps, BreakdownStatePro
     reportType,
     reportPathsType,
     reportQueryString,
-    tagReportPathsType: TagPathsType.oci,
+    tagPathsType: TagPathsType.oci,
     title: groupByValue,
   };
 });

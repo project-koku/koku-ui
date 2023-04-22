@@ -52,7 +52,7 @@ const groupByOptions: {
   { label: 'region', value: 'region' },
 ];
 
-const tagReportPathsType = TagPathsType.oci;
+const tagPathsType = TagPathsType.oci;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
   public render() {
@@ -92,10 +92,10 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
               onSelected={onGroupBySelected}
               options={groupByOptions}
               showTags
-              tagReportPathsType={tagReportPathsType}
+              tagPathsType={tagPathsType}
             />
           </div>
-          {Boolean(showContent) && (
+          {showContent && (
             <div>
               <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
                 {formatCurrency(

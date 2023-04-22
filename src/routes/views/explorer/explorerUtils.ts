@@ -357,31 +357,6 @@ export const getResourcePathsType = (perspective: string) => {
     case PerspectiveType.awsOcp:
       return ResourcePathsType.awsOcp;
       break;
-    case PerspectiveType.azure:
-      return ResourcePathsType.azure;
-      break;
-    case PerspectiveType.azureOcp:
-      return ResourcePathsType.azureOcp;
-      break;
-    case PerspectiveType.gcp:
-      return ResourcePathsType.gcp;
-    case PerspectiveType.gcpOcp:
-      return ResourcePathsType.gcpOcp;
-    case PerspectiveType.ibm:
-      return ResourcePathsType.ibm;
-      break;
-    case PerspectiveType.oci:
-      return ResourcePathsType.oci;
-      break;
-    case PerspectiveType.ocp:
-      return ResourcePathsType.ocp;
-      break;
-    case PerspectiveType.ocpCloud:
-      return ResourcePathsType.ocpCloud;
-      break;
-    case PerspectiveType.rhel:
-      return ResourcePathsType.rhel;
-      break;
     default:
       result = undefined;
       break;

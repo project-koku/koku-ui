@@ -159,6 +159,22 @@
               }
             ]
           },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Back to "
+              },
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " cost category details"
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
@@ -466,6 +482,14 @@
               {
                 "type": 0,
                 "value": "Cost by accounts"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost by category"
               }
             ]
           },
@@ -933,6 +957,12 @@
         "value": ")"
       }
     ],
+    "chooseKeyPlaceholder": [
+      {
+        "type": 0,
+        "value": "Choose key"
+      }
+    ],
     "chooseValuePlaceholder": [
       {
         "type": 0,
@@ -999,6 +1029,12 @@
       {
         "type": 0,
         "value": "Cost calculations (optional)"
+      }
+    ],
+    "costCategoryNames": [
+      {
+        "type": 0,
+        "value": "Cost category names"
       }
     ],
     "costDistribution": [
@@ -2363,6 +2399,22 @@
               }
             ]
           },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "cost category "
+              },
+              {
+                "type": 1,
+                "value": "name"
+              },
+              {
+                "type": 0,
+                "value": " clusters"
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
@@ -2626,6 +2678,14 @@
               }
             ]
           },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost category names"
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
@@ -2750,6 +2810,18 @@
               {
                 "type": 0,
                 "value": " accounts"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "type": 1,
+                "value": "name"
+              },
+              {
+                "type": 0,
+                "value": " cost categories"
               }
             ]
           },
@@ -3027,6 +3099,14 @@
               {
                 "type": 0,
                 "value": "View all accounts"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "View all cost categories"
               }
             ]
           },
@@ -3709,6 +3789,67 @@
                       {
                         "type": 0,
                         "value": "_accounts_monthly_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "resolution"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "options": {
+                  "daily": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "provider"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_cost_category_daily_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
+                      }
+                    ]
+                  },
+                  "monthly": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "provider"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_cost_category_monthly_"
                       },
                       {
                         "type": 1,
@@ -4584,6 +4725,14 @@
               }
             ]
           },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Aggregates of the following cost categories will be exported to a .csv file."
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
@@ -4788,6 +4937,107 @@
                       {
                         "type": 0,
                         "value": "All cloud filtered by OpenShift grouped by Account"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by Cost category"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Cost category"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by Cost category"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Cost category"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by Cost category"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by Cost category"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by Cost category"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by Cost category"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by Cost category"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by Cost category"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by Cost category"
                       }
                     ]
                   },
@@ -6019,6 +6269,22 @@
               }
             ]
           },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Selected cost categories ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
@@ -6367,6 +6633,14 @@
               }
             ]
           },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter button for cost category name"
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
@@ -6487,6 +6761,24 @@
         "value": "value"
       }
     ],
+    "filterByCostCategoryKeyAriaLabel": [
+      {
+        "type": 0,
+        "value": "Cost category keys"
+      }
+    ],
+    "filterByCostCategoryValueAriaLabel": [
+      {
+        "type": 0,
+        "value": "Cost category values"
+      }
+    ],
+    "filterByCostCategoryValueButtonAriaLabel": [
+      {
+        "type": 0,
+        "value": "Filter button for cost category value"
+      }
+    ],
     "filterByInputAriaLabel": [
       {
         "options": {
@@ -6495,6 +6787,14 @@
               {
                 "type": 0,
                 "value": "Input for account name"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for cost category name"
               }
             ]
           },
@@ -6638,6 +6938,14 @@
               {
                 "type": 0,
                 "value": "Filter by account"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by cost category"
               }
             ]
           },
@@ -6807,12 +7115,6 @@
         "value": "Tag keys"
       }
     ],
-    "filterByTagKeyPlaceholder": [
-      {
-        "type": 0,
-        "value": "Choose key"
-      }
-    ],
     "filterByTagValueAriaLabel": [
       {
         "type": 0,
@@ -6839,6 +7141,14 @@
               {
                 "type": 0,
                 "value": "Account"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost category"
               }
             ]
           },
@@ -7085,6 +7395,34 @@
                       {
                         "type": 0,
                         "value": "All accounts"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cost category"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cost categories"
                       }
                     ]
                   }
@@ -7504,6 +7842,34 @@
               }
             ]
           },
+          "aws_category": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Top cost category"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Top cost categories"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
@@ -7887,6 +8253,14 @@
               }
             ]
           },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost category names"
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
@@ -8020,6 +8394,34 @@
                       {
                         "type": 0,
                         "value": "accounts"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "cost category"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "cost categories"
                       }
                     ]
                   }
@@ -8423,6 +8825,34 @@
                       {
                         "type": 0,
                         "value": "Accounts"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Cost category"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Cost categories"
                       }
                     ]
                   }

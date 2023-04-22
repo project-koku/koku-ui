@@ -58,7 +58,7 @@ const groupByOptions: {
   { label: 'project', value: 'project' },
 ];
 
-const tagReportPathsType = TagPathsType.ocp;
+const tagPathsType = TagPathsType.ocp;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeaderState> {
   protected defaultState: DetailsHeaderState = {};
@@ -122,7 +122,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
               onSelected={onGroupBySelected}
               options={groupByOptions}
               showTags
-              tagReportPathsType={tagReportPathsType}
+              tagPathsType={tagPathsType}
             />
             {groupBy === 'project' && (
               <div style={styles.costDistribution}>
@@ -130,7 +130,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
               </div>
             )}
           </div>
-          {Boolean(showContent) && (
+          {showContent && (
             <div>
               <Tooltip
                 content={intl.formatMessage(messages.dashboardTotalCostTooltip, {

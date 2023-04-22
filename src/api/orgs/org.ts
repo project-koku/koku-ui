@@ -10,7 +10,7 @@ export interface OrgData {
 }
 
 export interface OrgMeta extends PagedMetaData {
-  key_only: boolean;
+  key_only?: boolean;
   group_by?: {
     [group: string]: string[];
   };

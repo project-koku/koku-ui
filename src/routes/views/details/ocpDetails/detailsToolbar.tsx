@@ -55,8 +55,8 @@ type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarDispatchProps &
   WrappedComponentProps;
 
-const tagReportType = TagType.tag;
-const tagReportPathsType = TagPathsType.ocp;
+const tagType = TagType.tag;
+const tagPathsType = TagPathsType.ocp;
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, DetailsToolbarState> {
   protected defaultState: DetailsToolbarState = {};
@@ -109,7 +109,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
 
   private updateReport = () => {
     const { fetchTag, tagQueryString } = this.props;
-    fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+    fetchTag(tagPathsType, tagType, tagQueryString);
   };
 
   public render() {
@@ -159,7 +159,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
         showFilter
         showPlatformCosts={groupBy === 'project'}
         tagReport={tagReport}
-        tagReportPathsType={tagReportPathsType}
+        tagPathsType={tagPathsType}
       />
     );
   }
@@ -178,13 +178,8 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
     key_only: true,
     limit: 1000,
   });
-  const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
-  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
-    state,
-    tagReportPathsType,
-    tagReportType,
-    tagQueryString
-  );
+  const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
+  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
   return {
     tagReport,
     tagReportFetchStatus,

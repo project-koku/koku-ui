@@ -39,6 +39,7 @@ import { PerspectiveType } from './explorerUtils';
 interface ExplorerTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   costDistribution?: string;
   groupBy: string;
+  groupByCostCategory?: string;
   groupByOrg?: string;
   groupByTagKey?: string;
   isAllSelected?: boolean;
@@ -103,6 +104,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
       costDistribution,
       end_date,
       groupBy,
+      groupByCostCategory,
       groupByOrg,
       groupByTagKey,
       isAllSelected,
@@ -121,18 +123,26 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     const computedItems = getUnsortedComputedReportItems<any, any>({
       report,
       isDateMap: true,
-      idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupBy,
+      idKey: groupByCostCategory
+        ? groupByCostCategory
+        : groupByTagKey
+        ? groupByTagKey
+        : groupByOrg
+        ? 'org_entities'
+        : groupBy,
     });
 
     // Add first two column headings (i.e., select and name)
     const columns =
-      groupByTagKey || groupByOrg
+      groupByCostCategory || groupByTagKey || groupByOrg
         ? [
             {
               name: '',
             },
             {
-              name: groupByOrg
+              name: groupByCostCategory
+                ? intl.formatMessage(messages.costCategoryNames)
+                : groupByOrg
                 ? intl.formatMessage(messages.names, { count: 2 })
                 : intl.formatMessage(messages.tagNames),
             },
@@ -243,7 +253,9 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
       rows.push({
         cells,
         selectionDisabled:
-          selectItem.label === `${noPrefix}${groupBy}` || selectItem.label === `${noPrefix}${groupByTagKey}`,
+          selectItem.label === `${noPrefix}${groupBy}` ||
+          selectItem.label === `${noPrefix}${groupByCostCategory}` ||
+          selectItem.label === `${noPrefix}${groupByTagKey}`,
         item: selectItem,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === selectItem.id) !== undefined),
       });
@@ -426,7 +438,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
             )}
           </Tbody>
         </TableComposable>
-        {Boolean(rows.length === 0) && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
+        {rows.length === 0 && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
       </InnerScrollContainer>
     );
   }

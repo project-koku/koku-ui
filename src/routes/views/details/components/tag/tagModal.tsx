@@ -21,7 +21,7 @@ import { TagContent } from './tagContent';
 interface TagModalOwnProps extends RouterComponentProps, WrappedComponentProps {
   isOpen: boolean;
   onClose(isOpen: boolean);
-  tagReportPathsType: TagPathsType;
+  tagPathsType: TagPathsType;
 }
 
 interface TagModalStateProps {
@@ -40,7 +40,7 @@ interface TagModalDispatchProps {
 
 type TagModalProps = TagModalOwnProps & TagModalStateProps & TagModalDispatchProps;
 
-const tagReportType = TagType.tag;
+const tagType = TagType.tag;
 
 class TagModalBase extends React.Component<TagModalProps, any> {
   constructor(props: TagModalProps) {
@@ -49,14 +49,14 @@ class TagModalBase extends React.Component<TagModalProps, any> {
   }
 
   public componentDidMount() {
-    const { fetchTag, tagReportPathsType, tagQueryString } = this.props;
-    fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+    const { fetchTag, tagPathsType, tagQueryString } = this.props;
+    fetchTag(tagPathsType, tagType, tagQueryString);
   }
 
   public componentDidUpdate(prevProps: TagModalProps) {
-    const { fetchTag, tagReportPathsType, tagQueryString } = this.props;
+    const { fetchTag, tagPathsType, tagQueryString } = this.props;
     if (prevProps.tagQueryString !== tagQueryString) {
-      fetchTag(tagReportPathsType, tagReportType, tagQueryString);
+      fetchTag(tagPathsType, tagType, tagQueryString);
     }
   }
 
@@ -107,7 +107,7 @@ class TagModalBase extends React.Component<TagModalProps, any> {
 }
 
 const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStateProps>(
-  (state, { router, tagReportPathsType }) => {
+  (state, { router, tagPathsType }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
     const queryState = parseQueryState<Query>(queryFromRoute);
 
@@ -143,13 +143,8 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
     };
 
     const tagQueryString = getQuery(tagQuery);
-    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
-    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
-      state,
-      tagReportPathsType,
-      tagReportType,
-      tagQueryString
-    );
+    const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
+    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
 
     return {
       groupBy,

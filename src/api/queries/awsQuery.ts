@@ -7,17 +7,19 @@ export interface AwsFilters extends utils.Filters {
 type AwsGroupByValue = string | string[];
 
 interface AwsGroupBys {
-  service?: AwsGroupByValue;
   account?: AwsGroupByValue;
+  aws_category?: AwsGroupByValue;
   org_unit_id?: AwsGroupByValue;
   region?: AwsGroupByValue;
+  service?: AwsGroupByValue;
 }
 
 interface AwsOrderBys {
   account?: string;
+  aws_category?: string;
+  cost?: string;
   region?: string;
   service?: string;
-  cost?: string;
   usage?: string;
 }
 

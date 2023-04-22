@@ -24,6 +24,7 @@ export interface Query {
   filter_by?: any;
   group_by?: any;
   isPlatformCosts?: boolean;
+  key?: string;
   key_only?: boolean;
   limit?: number;
   offset?: number;

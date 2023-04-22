@@ -18,7 +18,7 @@ import {
 } from 'routes/views/components/charts/common/chartDatum';
 import { CostExplorerChart } from 'routes/views/components/charts/costExplorerChart';
 import { getDateRangeFromQuery } from 'routes/views/utils/dateRange';
-import { getGroupById, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
+import { getGroupByCostCategory, getGroupById, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
@@ -162,10 +162,17 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
     const { query } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByCostCategory = getGroupByCostCategory(query);
     const groupByOrg = getGroupByOrgValue(query);
     const groupByTagKey = getGroupByTagKey(query);
 
-    return groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById;
+    return groupByCostCategory
+      ? groupByCostCategory
+      : groupByTagKey
+      ? groupByTagKey
+      : groupByOrg
+      ? 'org_entities'
+      : groupById;
   };
 
   private getSkeleton = () => {
