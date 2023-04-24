@@ -35,7 +35,7 @@ class WorkloadTypeBase extends React.Component<WorkloadTypeProps, WorkloadTypeSt
       { name: 'deploymentconfig', key: 'deploymentconfig' },
       { name: 'replicaset', key: 'replicaset' },
       { name: 'replicationcontroller', key: 'replicationcontroller' },
-      { name: 'statefulsets', key: 'statefulsets' },
+      { name: 'statefulset', key: 'statefulset' },
     ];
     return options;
   };
