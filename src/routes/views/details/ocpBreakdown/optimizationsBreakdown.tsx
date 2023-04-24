@@ -176,7 +176,7 @@ class OptimizationsBreakdownBase extends React.Component<OptimizationsBreakdownP
   };
 
   public render() {
-    const { intl, report, reportError, reportFetchStatus } = this.props;
+    const { intl, query, report, reportError, reportFetchStatus } = this.props;
 
     const itemsTotal = report && report.meta ? report.meta.count : 0;
     const isDisabled = itemsTotal === 0;
@@ -186,7 +186,7 @@ class OptimizationsBreakdownBase extends React.Component<OptimizationsBreakdownP
     if (reportError) {
       return <NotAvailable title={title} />;
     }
-    if (!hasOptimizations && reportFetchStatus === FetchStatus.complete) {
+    if (!query.filter_by && !hasOptimizations && reportFetchStatus === FetchStatus.complete) {
       return <NoOptimizations />;
     }
     return (
