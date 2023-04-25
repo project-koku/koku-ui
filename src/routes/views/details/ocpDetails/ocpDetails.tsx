@@ -21,7 +21,7 @@ import { ComputedReportItemValueType } from 'routes/views/components/charts/comm
 import { ExportModal } from 'routes/views/components/export';
 import type { ColumnManagementModalOption } from 'routes/views/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/views/details/components/columnManagement';
-import { getGroupByTagKey } from 'routes/views/utils/groupBy';
+import { getGroupById, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleCostDistributionSelected,
   handleCurrencySelected,
@@ -353,6 +353,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
       },
       order_by: { cost: 'desc' },
       category: undefined, // Only applies to projects
+      delta: undefined,
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {
       router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
@@ -460,6 +461,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
+  const groupBy = getGroupById(queryFromRoute);
   const costDistribution = getCostDistribution();
   const currency = getCurrency();
 
@@ -470,7 +472,10 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   const reportQuery = {
     category: query.category,
     currency,
-    delta: costDistribution === ComputedReportItemValueType.distributed ? 'distributed_cost' : 'cost',
+    delta:
+      groupBy === 'project' && costDistribution === ComputedReportItemValueType.distributed
+        ? 'distributed_cost'
+        : 'cost',
     exclude: query.exclude,
     filter: {
       ...query.filter,

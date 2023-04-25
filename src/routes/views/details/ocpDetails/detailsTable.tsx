@@ -139,7 +139,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             style: styles.managedColumn,
           },
           {
-            orderBy: costDistribution === ComputedReportItemValueType.distributed ? 'distributed_cost' : 'cost',
+            orderBy:
+              groupBy === 'project' && costDistribution === ComputedReportItemValueType.distributed
+                ? 'distributed_cost'
+                : 'cost',
             name: intl.formatMessage(messages.cost),
             style: styles.costColumn,
             ...(computedItems.length && { isSortable: false }),
@@ -189,7 +192,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             // ...(computedItems.length && { isSortable: true }),
           },
           {
-            orderBy: costDistribution === ComputedReportItemValueType.distributed ? 'distributed_cost' : 'cost',
+            orderBy:
+              groupBy === 'project' && costDistribution === ComputedReportItemValueType.distributed
+                ? 'distributed_cost'
+                : 'cost',
             name: intl.formatMessage(messages.cost),
             style: styles.costColumn,
             ...(computedItems.length && { isSortable: true }),
@@ -206,6 +212,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       const supplementaryCost = this.getSupplementaryCost(item, index);
       const InfrastructureCost = this.getInfrastructureCost(item, index);
       const isOverheadCosts =
+        groupBy === 'project' &&
         costDistribution === ComputedReportItemValueType.distributed &&
         ((item.cost.platformDistributed && item.cost.platformDistributed.value > 0) ||
           (item.cost.workerUnallocatedDistributed && item.cost.workerUnallocatedDistributed.value > 0));
