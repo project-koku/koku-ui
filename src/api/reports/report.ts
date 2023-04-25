@@ -82,6 +82,7 @@ export interface ReportMeta extends PagedMetaData {
     percent: number;
     value: number;
   };
+  distributed_overhead?: boolean;
   filter?: {
     [filter: string]: any;
   };

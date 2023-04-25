@@ -5,6 +5,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
+import type { Report } from 'api/reports/report';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
@@ -69,6 +70,7 @@ interface ExplorerHeaderOwnProps extends RouterComponentProps, WrappedComponentP
   onGroupBySelected(value: string);
   onPerspectiveClicked(value: string);
   perspective: PerspectiveType;
+  report: Report;
 }
 
 interface ExplorerHeaderStateProps {
@@ -76,6 +78,7 @@ interface ExplorerHeaderStateProps {
   azureProviders?: Providers;
   gcpProviders?: Providers;
   ibmProviders?: Providers;
+  isDistributedOverhead?: boolean;
   isExportsFeatureEnabled?: boolean;
   isFinsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
@@ -260,6 +263,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       perspective,
       providersFetchStatus,
       query,
+      report,
     } = this.props;
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
@@ -276,6 +280,13 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
     const orgPathsType = getOrgReportPathsType(perspective);
     const resourcePathsType = getResourcePathsType(perspective);
     const tagPathsType = getTagReportPathsType(perspective);
+
+    const showCostDistribution =
+      perspective === PerspectiveType.ocp &&
+      groupBy === 'project' &&
+      report &&
+      report.meta &&
+      report.meta.distributed_overhead === true;
 
     return (
       <header style={styles.header}>
@@ -306,7 +317,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
               tagPathsType={tagPathsType}
             />
           </div>
-          {perspective === PerspectiveType.ocp && groupBy === 'project' && (
+          {showCostDistribution && (
             <div style={styles.costDistribution}>
               <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelected} />
             </div>

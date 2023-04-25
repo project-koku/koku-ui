@@ -14,6 +14,9 @@ export const styles = {
   chartContent: {
     paddingTop: global_spacer_lg.value,
   },
+  defaultLabel: {
+    minWidth: '63px',
+  },
   explorer: {
     minHeight: '100%',
   },

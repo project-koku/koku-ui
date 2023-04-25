@@ -515,6 +515,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
           onGroupBySelected={this.handleGroupBySelected}
           onPerspectiveClicked={this.handlePerspectiveClick}
           perspective={perspective}
+          report={report}
         />
         {itemsTotal > 0 && (
           <div style={styles.chartContent}>

@@ -79,6 +79,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
       intl,
     } = this.props;
     const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
+    const showCostDistribution =
+      groupBy === 'project' && report && report.meta && report.meta.distributed_overhead === true;
 
     let cost: string | React.ReactNode = <EmptyValueState />;
     let supplementaryCost: string | React.ReactNode = <EmptyValueState />;
@@ -124,7 +126,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
               showTags
               tagPathsType={tagPathsType}
             />
-            {groupBy === 'project' && (
+            {showCostDistribution && (
               <div style={styles.costDistribution}>
                 <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelected} />
               </div>

@@ -140,7 +140,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           },
           {
             orderBy:
-              groupBy === 'project' && costDistribution === ComputedReportItemValueType.distributed
+              isGroupByProject && costDistribution === ComputedReportItemValueType.distributed
                 ? 'distributed_cost'
                 : 'cost',
             name: intl.formatMessage(messages.cost),

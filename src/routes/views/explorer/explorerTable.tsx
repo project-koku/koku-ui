@@ -1,6 +1,6 @@
 import './explorerTable.scss';
 
-import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
+import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Label, Spinner, Tooltip } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import type { ThProps } from '@patternfly/react-table';
 import {
@@ -118,7 +118,13 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
       return;
     }
 
-    const rows = [];
+    const showCostDistribution =
+      costDistribution === ComputedReportItemValueType.distributed &&
+      perspective === PerspectiveType.ocp &&
+      groupBy === 'project' &&
+      report &&
+      report.meta &&
+      report.meta.distributed_overhead === true;
 
     const computedItems = getUnsortedComputedReportItems<any, any>({
       report,
@@ -156,6 +162,10 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
               name: intl.formatMessage(messages.groupByValueNames, { groupBy }),
               orderBy: groupBy === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupBy,
               ...(computedItems.length && { isSortable: true }),
+            },
+            {
+              hidden: !showCostDistribution,
+              name: '', // Default & Overhead column
             },
           ];
 
@@ -199,6 +209,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
 
     const reportItem = ComputedReportItemType.cost;
     const reportItemValue = groupBy === 'project' ? costDistribution : ComputedReportItemValueType.total;
+    const rows = [];
 
     // Sort by date and fill in missing cells
     computedItems.map(rowItem => {
@@ -206,6 +217,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
       let desc; // First column description (i.e., show ID if different than label)
       let name; // For first column resource name
       let selectItem; // Save for row selection
+      let isOverheadCosts = false; // True if item has overhead costs
 
       const items: any = Array.from(rowItem.values()).sort((a: any, b: any) => {
         if (new Date(a.date) > new Date(b.date)) {
@@ -227,6 +239,14 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
         if (item.id && !selectItem) {
           selectItem = item;
         }
+        if (
+          showCostDistribution &&
+          item.cost &&
+          ((item.cost.platformDistributed && item.cost.platformDistributed.value > 0) ||
+            (item.cost.workerUnallocatedDistributed && item.cost.workerUnallocatedDistributed.value > 0))
+        ) {
+          isOverheadCosts = true;
+        }
 
         // Add row cells
         cells.push({
@@ -247,6 +267,18 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
               {desc}
             </div>
           ),
+        },
+        {
+          hidden: !showCostDistribution,
+          value: isOverheadCosts ? (
+            <Tooltip content={intl.formatMessage(messages.overheadDesc)} enableFlip>
+              <Label variant="outline" color="orange">
+                {intl.formatMessage(messages.overhead)}
+              </Label>
+            </Tooltip>
+          ) : (
+            <div style={styles.defaultLabel} />
+          ),
         }
       );
 
@@ -256,14 +288,21 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
           selectItem.label === `${noPrefix}${groupBy}` ||
           selectItem.label === `${noPrefix}${groupByCostCategory}` ||
           selectItem.label === `${noPrefix}${groupByTagKey}`,
+        isOverheadCosts,
         item: selectItem,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === selectItem.id) !== undefined),
       });
     });
 
+    const filteredColumns = (columns as any[]).filter(column => !column.hidden);
+    const filteredRows = rows.map(({ ...row }) => {
+      row.cells = row.cells.filter(cell => !cell.hidden);
+      return row;
+    });
+
     this.setState({
-      columns,
-      rows,
+      columns: filteredColumns,
+      rows: filteredRows,
     });
   };
 
@@ -351,6 +390,14 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     const { intl, isLoading } = this.props;
     const { columns, rows } = this.state;
 
+    let showCostDistribution = false;
+    for (const row of rows) {
+      if (row.isOverheadCosts) {
+        showCostDistribution = true;
+        break;
+      }
+    }
+
     return (
       <InnerScrollContainer>
         <TableComposable
@@ -365,13 +412,23 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                   <Th isStickyColumn key={`col-${index}-${col.value}`} stickyMinWidth="53px" />
                 ) : index === 1 ? (
                   <Th
-                    hasRightBorder
+                    hasRightBorder={!showCostDistribution}
                     isStickyColumn
                     key={`col-${index}-${col.value}`}
                     modifier="nowrap"
                     sort={col.isSortable ? this.getSortParams(index) : undefined}
-                    stickyMinWidth="100px"
+                    stickyMinWidth={showCostDistribution ? '164px' : '100px'}
                     stickyLeftOffset="53px"
+                  >
+                    {col.name}
+                  </Th>
+                ) : index === 2 && showCostDistribution ? (
+                  <Th
+                    hasRightBorder
+                    isStickyColumn
+                    key={`col-${index}-${col.value}`}
+                    stickyMinWidth="110px"
+                    stickyLeftOffset="217px"
                   >
                     {col.name}
                   </Th>
@@ -418,12 +475,22 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                     ) : cellIndex === 1 ? (
                       <Td
                         dataLabel={columns[cellIndex].name}
+                        hasRightBorder={!showCostDistribution}
+                        isStickyColumn
+                        key={`cell-${rowIndex}-${cellIndex}`}
+                        stickyMinWidth={showCostDistribution ? '164px' : '100px'}
+                        stickyLeftOffset="53px"
+                      >
+                        {item.value}
+                      </Td>
+                    ) : cellIndex === 2 && showCostDistribution ? (
+                      <Td
+                        dataLabel={columns[cellIndex].name}
                         hasRightBorder
                         isStickyColumn
                         key={`cell-${rowIndex}-${cellIndex}`}
-                        modifier="nowrap"
-                        stickyMinWidth="100px"
-                        stickyLeftOffset="53px"
+                        stickyMinWidth="110px"
+                        stickyLeftOffset="217px"
                       >
                         {item.value}
                       </Td>
