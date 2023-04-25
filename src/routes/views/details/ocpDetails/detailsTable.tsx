@@ -206,8 +206,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       const supplementaryCost = this.getSupplementaryCost(item, index);
       const InfrastructureCost = this.getInfrastructureCost(item, index);
       const isOverheadCosts =
-        (item.cost.platformDistributed && item.cost.platformDistributed.value > 0) ||
-        (item.cost.workerUnallocatedDistributed && item.cost.workerUnallocatedDistributed.value > 0);
+        costDistribution === ComputedReportItemValueType.distributed &&
+        ((item.cost.platformDistributed && item.cost.platformDistributed.value > 0) ||
+          (item.cost.workerUnallocatedDistributed && item.cost.workerUnallocatedDistributed.value > 0));
       const isPlatformCosts = item.classification === classificationPlatform;
       const isUnallocatedCosts = item.classification === classificationUnallocated;
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
