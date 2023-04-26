@@ -65,6 +65,7 @@ interface ExplorerTableState {
   columns?: any[];
   loadingRows?: any[];
   rows?: any[];
+  showLabels?: boolean;
 }
 
 type ExplorerTableProps = ExplorerTableOwnProps & ExplorerTableStateProps;
@@ -73,6 +74,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
   public state: ExplorerTableState = {
     columns: [],
     rows: [],
+    showLabels: false,
   };
 
   constructor(props: ExplorerTableProps) {
@@ -167,6 +169,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
             },
             {
               hidden: !isGroupByProject,
+              isLabelColumn: true,
               name: '',
             },
           ];
@@ -209,6 +212,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
       });
     }
 
+    let showLabels = false;
     const reportItem = ComputedReportItemType.cost;
     const reportItemValue = isGroupByProject ? costDistribution : ComputedReportItemValueType.total;
     const rows = [];
@@ -249,9 +253,11 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
             (item.cost.workerUnallocatedDistributed && item.cost.workerUnallocatedDistributed.value > 0))
         ) {
           isOverheadCosts = true;
+          showLabels = true;
         }
         if (showPlatformCosts && item.classification === classificationDefault) {
           isPlatformCosts = true;
+          showLabels = true;
         }
 
         // Add row cells
@@ -262,8 +268,6 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
               : intl.formatMessage(messages.chartNoData),
         });
       });
-
-      const showLabels = isOverheadCosts || isPlatformCosts;
 
       // Add first row cells
       cells.unshift(
@@ -278,6 +282,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
         },
         {
           hidden: !isGroupByProject,
+          isLabelColumn: true,
           value: isPlatformCosts ? (
             <div>
               <Label variant="outline" color="green">
@@ -304,9 +309,24 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
           selectItem.label === `${noPrefix}${groupByTagKey}`,
         item: selectItem,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === selectItem.id) !== undefined),
-        showLabels,
       });
     });
+
+    // Hide column if there are no labels to show
+    if (isGroupByProject && !showLabels) {
+      columns.map(column => {
+        if (column.isLabelColumn) {
+          column.hidden = true;
+        }
+      });
+      rows.map(row => {
+        row.cells.map(cell => {
+          if (cell.isLabelColumn) {
+            cell.hidden = true;
+          }
+        });
+      });
+    }
 
     const filteredColumns = (columns as any[]).filter(column => !column.hidden);
     const filteredRows = rows.map(({ ...row }) => {
@@ -317,6 +337,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     this.setState({
       columns: filteredColumns,
       rows: filteredRows,
+      showLabels,
     });
   };
 
@@ -401,17 +422,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
   };
 
   public render() {
-    const { groupBy, intl, isLoading } = this.props;
-    const { columns, rows } = this.state;
-
-    // Omit a potentially empty column
-    let showLabels = false;
-    for (const row of rows) {
-      if (row.showLabels) {
-        showLabels = true;
-        break;
-      }
-    }
+    const { intl, isLoading } = this.props;
+    const { columns, rows, showLabels } = this.state;
 
     return (
       <InnerScrollContainer>
@@ -437,19 +449,17 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                   >
                     {col.name}
                   </Th>
-                ) : index === 2 && groupBy === 'project' ? (
-                  showLabels ? (
-                    <Th
-                      hasRightBorder
-                      isStickyColumn
-                      key={`col-${index}-${col.value}`}
-                      modifier="nowrap"
-                      stickyMinWidth="110px"
-                      stickyLeftOffset="268px"
-                    >
-                      {col.name}
-                    </Th>
-                  ) : null
+                ) : index === 2 && showLabels ? (
+                  <Th
+                    hasRightBorder
+                    isStickyColumn
+                    key={`col-${index}-${col.value}`}
+                    modifier="nowrap"
+                    stickyMinWidth="110px"
+                    stickyLeftOffset="268px"
+                  >
+                    {col.name}
+                  </Th>
                 ) : (
                   <Th
                     key={`col-${index}-${col.value}`}
@@ -502,20 +512,18 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                       >
                         {item.value}
                       </Td>
-                    ) : cellIndex === 2 && groupBy === 'project' ? (
-                      showLabels ? (
-                        <Td
-                          dataLabel={columns[cellIndex].name}
-                          hasRightBorder
-                          isStickyColumn
-                          key={`cell-${rowIndex}-${cellIndex}`}
-                          modifier="nowrap"
-                          stickyMinWidth="110px"
-                          stickyLeftOffset="268px"
-                        >
-                          {item.value}
-                        </Td>
-                      ) : null
+                    ) : cellIndex === 2 && showLabels ? (
+                      <Td
+                        dataLabel={columns[cellIndex].name}
+                        hasRightBorder
+                        isStickyColumn
+                        key={`cell-${rowIndex}-${cellIndex}`}
+                        modifier="nowrap"
+                        stickyMinWidth="110px"
+                        stickyLeftOffset="268px"
+                      >
+                        {item.value}
+                      </Td>
                     ) : (
                       <Td dataLabel={columns[cellIndex].name} key={`cell-${rowIndex}-${cellIndex}`} modifier="nowrap">
                         {item.value}
