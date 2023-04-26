@@ -461,8 +461,8 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
-  const groupBy = getGroupById(queryFromRoute);
-  const costDistribution = getCostDistribution();
+  const groupBy = queryFromRoute.group_by ? getGroupById(queryFromRoute) : getGroupById(baseQuery);
+  const costDistribution = groupBy === 'project' ? getCostDistribution() : undefined;
   const currency = getCurrency();
 
   const query: any = {
@@ -472,10 +472,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   const reportQuery = {
     category: query.category,
     currency,
-    delta:
-      groupBy === 'project' && costDistribution === ComputedReportItemValueType.distributed
-        ? 'distributed_cost'
-        : 'cost',
+    delta: costDistribution === ComputedReportItemValueType.distributed ? 'distributed_cost' : 'cost',
     exclude: query.exclude,
     filter: {
       ...query.filter,

@@ -108,7 +108,7 @@ export const deleteCostDistribution = () => {
 // Returns cost distribution
 export const getCostDistribution = () => {
   const costDistribution = getItem(costDistributionID);
-  return costDistribution && costDistribution !== null ? costDistribution : ComputedReportItemValueType.distributed;
+  return costDistribution && costDistribution !== null ? costDistribution : ComputedReportItemValueType.total;
 };
 
 // Returns true if cost distribution is available

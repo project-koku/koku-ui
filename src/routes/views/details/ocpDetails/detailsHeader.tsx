@@ -86,13 +86,14 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
     let supplementaryCost: string | React.ReactNode = <EmptyValueState />;
     let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
 
+    const reportItemValue = costDistribution ? costDistribution : 'total';
     if (report && report.meta && report.meta.total) {
-      const hasCost = report.meta.total.cost && report.meta.total.cost[costDistribution];
+      const hasCost = report.meta.total.cost && report.meta.total.cost[reportItemValue];
       const hasSupplementaryCost = report.meta.total.supplementary && report.meta.total.supplementary.total;
       const hasInfrastructureCost = report.meta.total.infrastructure && report.meta.total.infrastructure.total;
       cost = formatCurrency(
-        hasCost ? report.meta.total.cost[costDistribution].value : 0,
-        hasCost ? report.meta.total.cost[costDistribution].units : 'USD'
+        hasCost ? report.meta.total.cost[reportItemValue].value : 0,
+        hasCost ? report.meta.total.cost[reportItemValue].units : 'USD'
       );
       supplementaryCost = formatCurrency(
         hasSupplementaryCost ? report.meta.total.supplementary.total.value : 0,

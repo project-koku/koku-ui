@@ -125,8 +125,11 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   private getCostDistributionChart = (widget: CostOverviewWidget) => {
-    const { report, intl } = this.props;
+    const { costDistribution, report, intl } = this.props;
 
+    if (!costDistribution) {
+      return null;
+    }
     return (
       <Card>
         <CardTitle>
@@ -156,7 +159,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
           </Title>
         </CardTitle>
         <CardBody>
-          <OverheadCostChart name={widget.chartName} report={report} />
+          <OverheadCostChart costDistribution={costDistribution} name={widget.chartName} report={report} />
         </CardBody>
       </Card>
     );

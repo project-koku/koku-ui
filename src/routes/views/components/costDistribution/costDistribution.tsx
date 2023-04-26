@@ -58,7 +58,7 @@ class CostDistributionBase extends React.Component<CostDistributionProps, CostDi
   public state: CostDistributionState = { ...this.defaultState };
 
   private getSelect = () => {
-    const { costDistribution = ComputedReportItemValueType.total, isDisabled } = this.props;
+    const { costDistribution, isDisabled } = this.props;
     const { isSelectOpen } = this.state;
 
     const selectOptions = this.getSelectOptions();

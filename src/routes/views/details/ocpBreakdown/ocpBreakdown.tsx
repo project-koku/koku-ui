@@ -48,7 +48,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
-  const costDistribution = getCostDistribution();
+  const costDistribution = groupBy === 'project' ? getCostDistribution() : undefined;
   const currency = getCurrency();
 
   const query = { ...queryFromRoute };

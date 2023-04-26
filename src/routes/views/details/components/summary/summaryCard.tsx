@@ -20,7 +20,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { ReportSummaryItem, ReportSummaryItems } from 'routes/views/components/reports/reportSummary';
 import { SummaryModal } from 'routes/views/details/components/summary/summaryModal';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
@@ -95,12 +94,10 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
   };
 
   private getSummary = () => {
-    const {
-      costDistribution = ComputedReportItemValueType.total,
-      report,
-      reportGroupBy,
-      reportFetchStatus,
-    } = this.props;
+    const { costDistribution, report, reportGroupBy, reportFetchStatus } = this.props;
+
+    const reportItemValue = costDistribution ? costDistribution : 'total';
+
     return (
       <ReportSummaryItems idKey={reportGroupBy as any} report={report} status={reportFetchStatus}>
         {({ items }) =>
@@ -109,9 +106,9 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
               formatOptions={{}}
               key={`${reportItem.id}-item`}
               label={reportItem.label ? reportItem.label.toString() : undefined}
-              totalValue={report.meta.total.cost[costDistribution].value}
-              units={report.meta.total.cost[costDistribution].units}
-              value={reportItem.cost[costDistribution].value}
+              totalValue={report.meta.total.cost[reportItemValue].value}
+              units={report.meta.total.cost[reportItemValue].units}
+              value={reportItem.cost[reportItemValue].value}
             />
           ))
         }
