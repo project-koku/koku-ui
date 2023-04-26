@@ -1,6 +1,6 @@
 import './explorerTable.scss';
 
-import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
+import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Label, Spinner, Tooltip } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import type { ThProps } from '@patternfly/react-table';
 import {
@@ -29,7 +29,7 @@ import { createMapStateToProps } from 'store/common';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatCurrency } from 'utils/format';
-import { noPrefix } from 'utils/props';
+import { classificationDefault, noPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -65,6 +65,7 @@ interface ExplorerTableState {
   columns?: any[];
   loadingRows?: any[];
   rows?: any[];
+  showLabels?: boolean;
 }
 
 type ExplorerTableProps = ExplorerTableOwnProps & ExplorerTableStateProps;
@@ -73,6 +74,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
   public state: ExplorerTableState = {
     columns: [],
     rows: [],
+    showLabels: false,
   };
 
   constructor(props: ExplorerTableProps) {
@@ -118,7 +120,15 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
       return;
     }
 
-    const rows = [];
+    const isGroupByProject = groupBy === 'project';
+    const showPlatformCosts = isGroupByProject;
+    const showCostDistribution =
+      costDistribution === ComputedReportItemValueType.distributed &&
+      perspective === PerspectiveType.ocp &&
+      isGroupByProject &&
+      report &&
+      report.meta &&
+      report.meta.distributed_overhead === true;
 
     const computedItems = getUnsortedComputedReportItems<any, any>({
       report,
@@ -157,6 +167,11 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
               orderBy: groupBy === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupBy,
               ...(computedItems.length && { isSortable: true }),
             },
+            {
+              hidden: !isGroupByProject,
+              isLabelColumn: true,
+              name: '',
+            },
           ];
 
     // Fill in missing columns
@@ -190,15 +205,17 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
         isSortable,
         orderBy:
           perspective === PerspectiveType.ocp &&
-          groupBy === 'project' &&
+          isGroupByProject &&
           costDistribution === ComputedReportItemValueType.distributed
             ? 'distributed_cost'
             : 'cost',
       });
     }
 
+    let showLabels = false;
     const reportItem = ComputedReportItemType.cost;
-    const reportItemValue = groupBy === 'project' ? costDistribution : ComputedReportItemValueType.total;
+    const reportItemValue = isGroupByProject ? costDistribution : ComputedReportItemValueType.total;
+    const rows = [];
 
     // Sort by date and fill in missing cells
     computedItems.map(rowItem => {
@@ -206,6 +223,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
       let desc; // First column description (i.e., show ID if different than label)
       let name; // For first column resource name
       let selectItem; // Save for row selection
+      let isOverheadCosts = false; // True if item has overhead costs
+      let isPlatformCosts = false; // True if item is of default classification
 
       const items: any = Array.from(rowItem.values()).sort((a: any, b: any) => {
         if (new Date(a.date) > new Date(b.date)) {
@@ -227,6 +246,19 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
         if (item.id && !selectItem) {
           selectItem = item;
         }
+        if (
+          showCostDistribution &&
+          item.cost &&
+          ((item.cost.platformDistributed && item.cost.platformDistributed.value > 0) ||
+            (item.cost.workerUnallocatedDistributed && item.cost.workerUnallocatedDistributed.value > 0))
+        ) {
+          isOverheadCosts = true;
+          showLabels = true;
+        }
+        if (showPlatformCosts && item.classification === classificationDefault) {
+          isPlatformCosts = true;
+          showLabels = true;
+        }
 
         // Add row cells
         cells.push({
@@ -247,6 +279,25 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
               {desc}
             </div>
           ),
+        },
+        {
+          hidden: !isGroupByProject,
+          isLabelColumn: true,
+          value: isPlatformCosts ? (
+            <div>
+              <Label variant="outline" color="green">
+                {intl.formatMessage(messages.default)}
+              </Label>
+            </div>
+          ) : isOverheadCosts ? (
+            <Tooltip content={intl.formatMessage(messages.overheadDesc)} enableFlip>
+              <Label variant="outline" color="orange">
+                {intl.formatMessage(messages.overhead)}
+              </Label>
+            </Tooltip>
+          ) : (
+            <div style={styles.defaultLabel} />
+          ),
         }
       );
 
@@ -261,9 +312,32 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
       });
     });
 
+    // Hide column if there are no labels to show
+    if (isGroupByProject && !showLabels) {
+      columns.map(column => {
+        if (column.isLabelColumn) {
+          column.hidden = true;
+        }
+      });
+      rows.map(row => {
+        row.cells.map(cell => {
+          if (cell.isLabelColumn) {
+            cell.hidden = true;
+          }
+        });
+      });
+    }
+
+    const filteredColumns = (columns as any[]).filter(column => !column.hidden);
+    const filteredRows = rows.map(({ ...row }) => {
+      row.cells = row.cells.filter(cell => !cell.hidden);
+      return row;
+    });
+
     this.setState({
-      columns,
-      rows,
+      columns: filteredColumns,
+      rows: filteredRows,
+      showLabels,
     });
   };
 
@@ -349,7 +423,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
 
   public render() {
     const { intl, isLoading } = this.props;
-    const { columns, rows } = this.state;
+    const { columns, rows, showLabels } = this.state;
 
     return (
       <InnerScrollContainer>
@@ -365,13 +439,24 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                   <Th isStickyColumn key={`col-${index}-${col.value}`} stickyMinWidth="53px" />
                 ) : index === 1 ? (
                   <Th
-                    hasRightBorder
+                    hasRightBorder={!showLabels}
                     isStickyColumn
                     key={`col-${index}-${col.value}`}
                     modifier="nowrap"
                     sort={col.isSortable ? this.getSortParams(index) : undefined}
-                    stickyMinWidth="100px"
+                    stickyMinWidth={showLabels ? '215px' : '100px'}
                     stickyLeftOffset="53px"
+                  >
+                    {col.name}
+                  </Th>
+                ) : index === 2 && showLabels ? (
+                  <Th
+                    hasRightBorder
+                    isStickyColumn
+                    key={`col-${index}-${col.value}`}
+                    modifier="nowrap"
+                    stickyMinWidth="110px"
+                    stickyLeftOffset="268px"
                   >
                     {col.name}
                   </Th>
@@ -418,12 +503,24 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                     ) : cellIndex === 1 ? (
                       <Td
                         dataLabel={columns[cellIndex].name}
+                        hasRightBorder={!showLabels}
+                        isStickyColumn
+                        key={`cell-${rowIndex}-${cellIndex}`}
+                        modifier="nowrap"
+                        stickyMinWidth={showLabels ? '215px' : '100px'}
+                        stickyLeftOffset="53px"
+                      >
+                        {item.value}
+                      </Td>
+                    ) : cellIndex === 2 && showLabels ? (
+                      <Td
+                        dataLabel={columns[cellIndex].name}
                         hasRightBorder
                         isStickyColumn
                         key={`cell-${rowIndex}-${cellIndex}`}
                         modifier="nowrap"
-                        stickyMinWidth="100px"
-                        stickyLeftOffset="53px"
+                        stickyMinWidth="110px"
+                        stickyLeftOffset="268px"
                       >
                         {item.value}
                       </Td>
