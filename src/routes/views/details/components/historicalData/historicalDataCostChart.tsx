@@ -8,11 +8,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import {
-  ComputedReportItemValueType,
-  DatumType,
-  transformReport,
-} from 'routes/views/components/charts/common/chartDatum';
+import { DatumType, transformReport } from 'routes/views/components/charts/common/chartDatum';
 import { HistoricalCostChart } from 'routes/views/components/charts/historicalCostChart';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -89,7 +85,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
   public render() {
     const {
       chartName,
-      costDistribution = ComputedReportItemValueType.total,
+      costDistribution,
       currentReport,
       currentReportFetchStatus,
       previousReport,
@@ -97,8 +93,10 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
       intl,
     } = this.props;
 
+    const reportItemValue = costDistribution ? costDistribution : 'total';
+
     // Current data
-    const currentData = transformReport(currentReport, DatumType.cumulative, 'date', 'cost', costDistribution);
+    const currentData = transformReport(currentReport, DatumType.cumulative, 'date', 'cost', reportItemValue);
     const currentInfrastructureCostData = transformReport(
       currentReport,
       DatumType.cumulative,
@@ -107,7 +105,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
     );
 
     // Previous data
-    const previousData = transformReport(previousReport, DatumType.cumulative, 'date', 'cost', costDistribution);
+    const previousData = transformReport(previousReport, DatumType.cumulative, 'date', 'cost', reportItemValue);
     const previousInfrastructureCostData = transformReport(
       previousReport,
       DatumType.cumulative,
@@ -117,7 +115,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
 
     const costUnits =
       currentReport && currentReport.meta && currentReport.meta.total && currentReport.meta.total.cost
-        ? currentReport.meta.total.cost[costDistribution].units
+        ? currentReport.meta.total.cost[reportItemValue].units
         : 'USD';
 
     const test = intl.formatMessage(messages.currencyUnits, { units: costUnits });

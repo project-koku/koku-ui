@@ -9,7 +9,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { ReportSummaryItem, ReportSummaryItems } from 'routes/views/components/reports/reportSummary';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import type { FetchStatus } from 'store/common';
@@ -69,18 +68,13 @@ class SummaryModalContentBase extends React.Component<SummaryModalContentProps, 
   };
 
   public render() {
-    const {
-      costDistribution = ComputedReportItemValueType.total,
-      intl,
-      report,
-      reportGroupBy,
-      reportFetchStatus,
-    } = this.props;
+    const { costDistribution, intl, report, reportGroupBy, reportFetchStatus } = this.props;
 
+    const reportItemValue = costDistribution ? costDistribution : 'total';
     const hasTotal = report && report.meta && report.meta.total;
     const cost = formatCurrency(
-      hasTotal ? report.meta.total.cost[costDistribution].value : 0,
-      hasTotal ? report.meta.total.cost[costDistribution].units : 'USD'
+      hasTotal ? report.meta.total.cost[reportItemValue].value : 0,
+      hasTotal ? report.meta.total.cost[reportItemValue].units : 'USD'
     );
 
     return (
@@ -98,9 +92,9 @@ class SummaryModalContentBase extends React.Component<SummaryModalContentProps, 
                   key={_item.id}
                   formatOptions={{}}
                   label={_item.label ? _item.label.toString() : ''}
-                  totalValue={report.meta.total.cost[costDistribution].value}
-                  units={report.meta.total.cost[costDistribution].units}
-                  value={_item.cost[costDistribution].value}
+                  totalValue={report.meta.total.cost[reportItemValue].value}
+                  units={report.meta.total.cost[reportItemValue].units}
+                  value={_item.cost[reportItemValue].value}
                 />
               ))
             }

@@ -5,6 +5,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { FetchStatus } from 'store/common';
 import type { reportActions } from 'store/reports';
 import { formatCurrency } from 'utils/format';
@@ -13,6 +14,7 @@ import { skeletonWidth } from 'utils/skeleton';
 import { chartStyles, styles } from './overheadCostChart.styles';
 
 interface OverheadCostChartOwnProps {
+  costDistribution?: string;
   report: Report;
 }
 
@@ -52,11 +54,17 @@ class OverheadCostChartBase extends React.Component<OverheadCostChartProps, any>
   };
 
   public render() {
-    const { name, report, reportFetchStatus, intl } = this.props;
+    const { costDistribution, name, report, reportFetchStatus, intl } = this.props;
 
     const hasCost = report && report.meta && report.meta.total && report.meta.total.cost;
-    const hasPlatformDistributed = hasCost && report.meta.total.cost.platform_distributed;
-    const hasWorkerUnallocated = hasCost && report.meta.total.cost.worker_unallocated_distributed;
+    const hasPlatformDistributed =
+      hasCost &&
+      costDistribution === ComputedReportItemValueType.distributed &&
+      report.meta.total.cost.platform_distributed;
+    const hasWorkerUnallocated =
+      hasCost &&
+      costDistribution === ComputedReportItemValueType.distributed &&
+      report.meta.total.cost.worker_unallocated_distributed;
     const hasCostTotal = hasCost && report.meta.total.cost.total;
 
     const platformDistributedUnits = hasPlatformDistributed ? report.meta.total.cost.platform_distributed.units : 'USD';

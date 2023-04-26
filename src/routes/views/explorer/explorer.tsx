@@ -21,7 +21,7 @@ import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
 import type { DateRangeType } from 'routes/views/utils/dateRange';
 import { getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
-import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
+import { getGroupByCostCategory, getGroupById, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleCostDistributionSelected,
   handleCostTypeSelected,
@@ -602,13 +602,11 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     userAccess,
   });
 
-  // Ensure group_by key is not undefined
-  let group_by = queryFromRoute.group_by;
-  if (!group_by && perspective) {
-    group_by = { [getGroupByDefault(perspective)]: '*' };
-  }
+  const groupBy = queryFromRoute.group_by ? getGroupById(queryFromRoute) : getGroupByDefault(perspective);
+  const group_by = queryFromRoute.group_by ? queryFromRoute.group_by : { [groupBy]: '*' }; // Ensure group_by key is not undefined
 
-  const costDistribution = perspective === PerspectiveType.ocp ? getCostDistribution() : undefined;
+  const costDistribution =
+    perspective === PerspectiveType.ocp && groupBy === 'project' ? getCostDistribution() : undefined;
   const costType =
     perspective === PerspectiveType.aws || perspective === PerspectiveType.awsOcp ? getCostType() : undefined;
   const currency = getCurrency();

@@ -71,6 +71,9 @@ interface ExplorerTableState {
 type ExplorerTableProps = ExplorerTableOwnProps & ExplorerTableStateProps;
 
 class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTableState> {
+  private selectColRef = React.createRef<HTMLTableCellElement>();
+  private nameColRef = React.createRef<HTMLTableCellElement>();
+
   public state: ExplorerTableState = {
     columns: [],
     rows: [],
@@ -125,7 +128,6 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     const showCostDistribution =
       costDistribution === ComputedReportItemValueType.distributed &&
       perspective === PerspectiveType.ocp &&
-      isGroupByProject &&
       report &&
       report.meta &&
       report.meta.distributed_overhead === true;
@@ -204,9 +206,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
         date: mapId,
         isSortable,
         orderBy:
-          perspective === PerspectiveType.ocp &&
-          isGroupByProject &&
-          costDistribution === ComputedReportItemValueType.distributed
+          perspective === PerspectiveType.ocp && costDistribution === ComputedReportItemValueType.distributed
             ? 'distributed_cost'
             : 'cost',
       });
@@ -425,6 +425,9 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     const { intl, isLoading } = this.props;
     const { columns, rows, showLabels } = this.state;
 
+    const selectColOffset = this.selectColRef?.current?.clientWidth ? this.selectColRef.current.clientWidth : 53;
+    const nameColOffset = this.nameColRef?.current?.clientWidth ? this.nameColRef.current.clientWidth : 215;
+
     return (
       <InnerScrollContainer>
         <TableComposable
@@ -456,7 +459,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                     key={`col-${index}-${col.value}`}
                     modifier="nowrap"
                     stickyMinWidth="110px"
-                    stickyLeftOffset="268px"
+                    stickyLeftOffset={`${selectColOffset + nameColOffset}px`}
                   >
                     {col.name}
                   </Th>
@@ -492,6 +495,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                         dataLabel={columns[cellIndex].name}
                         isStickyColumn
                         key={`cell-${cellIndex}-${rowIndex}`}
+                        ref={this.selectColRef}
                         select={{
                           disable: row.selectionDisabled, // Disable select for "no-project"
                           isSelected: row.selected,
@@ -507,6 +511,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                         isStickyColumn
                         key={`cell-${rowIndex}-${cellIndex}`}
                         modifier="nowrap"
+                        ref={this.nameColRef}
                         stickyMinWidth={showLabels ? '215px' : '100px'}
                         stickyLeftOffset="53px"
                       >
@@ -520,7 +525,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                         key={`cell-${rowIndex}-${cellIndex}`}
                         modifier="nowrap"
                         stickyMinWidth="110px"
-                        stickyLeftOffset="268px"
+                        stickyLeftOffset={`${selectColOffset + nameColOffset}px`}
                       >
                         {item.value}
                       </Td>

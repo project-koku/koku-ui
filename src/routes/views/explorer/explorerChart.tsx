@@ -261,7 +261,7 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
 
     const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
     const groupBy = getGroupById(queryFromRoute);
-    const costDistribution = getCostDistribution();
+    const costDistribution = groupBy === 'project' ? getCostDistribution() : undefined;
 
     // Ensure group_by key is not undefined
     let group_by = queryFromRoute.group_by;
@@ -283,7 +283,6 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
       group_by,
       start_date,
       ...(perspective === PerspectiveType.ocp &&
-        groupBy === 'project' &&
         costDistribution === ComputedReportItemValueType.distributed && {
           order_by: { distributed_cost: 'asc' },
         }),
