@@ -341,7 +341,7 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
       group_by: {
         [groupByKey]: '*',
       },
-      order_by: { cost: 'desc' },
+      order_by: undefined, // Clear sort
       category: undefined, // Only applies to projects
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {

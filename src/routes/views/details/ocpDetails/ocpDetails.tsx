@@ -351,7 +351,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
       group_by: {
         [groupByKey]: '*',
       },
-      order_by: { cost: 'desc' },
+      order_by: undefined, // Clear sort
       category: undefined, // Only applies to projects
       delta: undefined,
     };
