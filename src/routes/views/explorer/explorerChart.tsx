@@ -20,6 +20,7 @@ import { CostExplorerChart } from 'routes/views/components/charts/costExplorerCh
 import { getDateRangeFromQuery } from 'routes/views/utils/dateRange';
 import { getGroupByCostCategory, getGroupById, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
@@ -127,10 +128,10 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
   };
 
   private getChartDatums = (computedItems: ComputedReportItem[]) => {
-    const { costDistribution, groupBy } = this.props;
+    const { costDistribution } = this.props;
 
     const reportItem = ComputedReportItemType.cost;
-    const reportItemValue = groupBy === 'project' ? costDistribution : ComputedReportItemValueType.total;
+    const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
     const chartDatums = [];
 
     computedItems.map(computedItem => {
@@ -260,14 +261,15 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
     const queryFromRoute = parseQuery<Query>(router.location.search);
 
     const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
-    const groupBy = getGroupById(queryFromRoute);
-    const costDistribution = groupBy === 'project' ? getCostDistribution() : undefined;
 
-    // Ensure group_by key is not undefined
-    let group_by = queryFromRoute.group_by;
-    if (!group_by && perspective) {
-      group_by = { [getGroupByDefault(perspective)]: '*' };
-    }
+    const groupBy = queryFromRoute.group_by ? getGroupById(queryFromRoute) : getGroupByDefault(perspective);
+    const group_by = queryFromRoute.group_by ? queryFromRoute.group_by : { [groupBy]: '*' }; // Ensure group_by key is not undefined
+
+    const isCostDistributionFeatureEnabled = featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state);
+    const costDistribution =
+      perspective === PerspectiveType.ocp && groupBy === 'project' && isCostDistributionFeatureEnabled
+        ? getCostDistribution()
+        : undefined;
 
     const query: any = {
       ...queryFromRoute,
@@ -282,10 +284,9 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
       filter_by: query.filter_by,
       group_by,
       start_date,
-      ...(perspective === PerspectiveType.ocp &&
-        costDistribution === ComputedReportItemValueType.distributed && {
-          order_by: { distributed_cost: 'asc' },
-        }),
+      ...(costDistribution === ComputedReportItemValueType.distributed && {
+        order_by: { distributed_cost: 'asc' },
+      }),
     };
 
     const reportPathsType = getReportPathsType(perspective);

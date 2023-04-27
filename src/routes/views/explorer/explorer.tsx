@@ -18,6 +18,7 @@ import { Loading } from 'routes/state/loading';
 import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
+import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { ExportModal } from 'routes/views/components/export';
 import type { DateRangeType } from 'routes/views/utils/dateRange';
 import { getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
@@ -605,14 +606,22 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   const groupBy = queryFromRoute.group_by ? getGroupById(queryFromRoute) : getGroupByDefault(perspective);
   const group_by = queryFromRoute.group_by ? queryFromRoute.group_by : { [groupBy]: '*' }; // Ensure group_by key is not undefined
 
+  const isCostDistributionFeatureEnabled = featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state);
   const costDistribution =
-    perspective === PerspectiveType.ocp && groupBy === 'project' ? getCostDistribution() : undefined;
+    perspective === PerspectiveType.ocp && groupBy === 'project' && isCostDistributionFeatureEnabled
+      ? getCostDistribution()
+      : undefined;
   const costType =
     perspective === PerspectiveType.aws || perspective === PerspectiveType.awsOcp ? getCostType() : undefined;
   const currency = getCurrency();
 
   const query: any = {
     ...baseQuery,
+    ...(costDistribution === ComputedReportItemValueType.distributed && {
+      order_by: {
+        distributed_cost: 'desc',
+      },
+    }),
     ...queryFromRoute,
     group_by,
   };
