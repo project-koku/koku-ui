@@ -17,10 +17,6 @@ require.resolve('@patternfly/patternfly/patternfly-addons.css');
 
 import './styles/global.css';
 
-initApi({
-  version: 'v1',
-});
-
 const store = configureStore({
   // session: {
   //   token: getToken(),
@@ -29,6 +25,11 @@ const store = configureStore({
 
 const AppEntry = () => {
   const locale = getLocale();
+
+  // Initialize here https://issues.redhat.com/browse/RHCLOUD-25573
+  initApi({
+    version: 'v1',
+  });
 
   return (
     <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale]} onError={console.log}>
