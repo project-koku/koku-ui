@@ -14,11 +14,13 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
 import { Currency } from 'routes/components/currency';
+import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { CostDistribution } from 'routes/views/components/costDistribution';
 import { CostType } from 'routes/views/components/costType';
 import { TagLink } from 'routes/views/details/components/tag';
 import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { getTotalCostDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 import { formatPath } from 'utils/paths';
@@ -48,6 +50,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
 }
 
 interface BreakdownHeaderStateProps {
+  isCostDistributionFeatureEnabled?: boolean;
   isOptimizationsPath?: boolean;
 }
 
@@ -105,7 +108,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   private getTotalCost = () => {
     const { costDistribution, report } = this.props;
 
-    const reportItemValue = costDistribution ? costDistribution : 'total';
+    const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
     const hasCost =
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[reportItemValue];
     const cost = formatCurrency(
@@ -124,6 +127,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       description,
       groupBy,
       intl,
+      isCostDistributionFeatureEnabled,
       onCostDistributionSelected,
       onCostTypeSelected,
       onCurrencySelected,
@@ -181,7 +185,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
               {intl.formatMessage(messages.breakdownTitle, { value: title })}
               {description && <div style={styles.infoDescription}>{description}</div>}
             </Title>
-            {showCostDistribution && (
+            {showCostDistribution && isCostDistributionFeatureEnabled && (
               <div style={styles.costDistribution}>
                 <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelected} />
               </div>
@@ -221,6 +225,7 @@ const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, Breakdown
     const queryFromRoute = parseQuery<Query>(router.location.search);
 
     return {
+      isCostDistributionFeatureEnabled: featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state),
       isOptimizationsPath: queryFromRoute.optimizationsPath !== undefined,
     };
   }

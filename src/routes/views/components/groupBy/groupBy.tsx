@@ -17,6 +17,7 @@ import type { PerspectiveType } from 'routes/views/explorer/explorerUtils';
 import { getDateRangeFromQuery } from 'routes/views/utils/dateRange';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { resourceActions, resourceSelectors } from 'store/resources';
 import { tagActions, tagSelectors } from 'store/tags';
@@ -47,6 +48,7 @@ interface GroupByOwnProps extends RouterComponentProps, WrappedComponentProps {
 }
 
 interface GroupByStateProps {
+  isCostCategoriesFeatureEnabled?: boolean;
   orgReport?: Org;
   orgReportFetchStatus?: FetchStatus;
   orgQueryString?: string;
@@ -209,7 +211,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
   };
 
   private getGroupByOptions = (): GroupByOption[] => {
-    const { options, orgReport, resourceReport, tagReport, intl } = this.props;
+    const { isCostCategoriesFeatureEnabled, options, orgReport, resourceReport, tagReport, intl } = this.props;
 
     const allOptions = [...options];
     if (orgReport && orgReport.data && orgReport.data.length > 0) {
@@ -218,7 +220,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
     if (tagReport && tagReport.data && tagReport.data.length > 0) {
       allOptions.push(...groupByTagOptions);
     }
-    if (resourceReport && resourceReport.data && resourceReport.data.length > 0) {
+    if (resourceReport && resourceReport.data && resourceReport.data.length > 0 && isCostCategoriesFeatureEnabled) {
       allOptions.push(...groupByCostCategoryOptions);
     }
     return allOptions
@@ -277,6 +279,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
       fetchOrg,
       fetchResource,
       fetchTag,
+      isCostCategoriesFeatureEnabled,
       orgPathsType,
       orgQueryString,
       showCostCategories,
@@ -288,7 +291,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
       tagQueryString,
     } = this.props;
 
-    if (showCostCategories) {
+    if (showCostCategories && isCostCategoriesFeatureEnabled) {
       fetchResource(resourcePathsType, resourceType, resourceQueryString);
     }
     if (showOrgs) {
@@ -412,6 +415,7 @@ const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps
     const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgPathsType, orgType, orgQueryString);
 
     return {
+      isCostCategoriesFeatureEnabled: featureFlagsSelectors.selectIsCostCategoriesFeatureEnabled(state),
       orgReport,
       orgReportFetchStatus,
       orgQueryString,

@@ -462,11 +462,19 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
 const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
   const groupBy = queryFromRoute.group_by ? getGroupById(queryFromRoute) : getGroupById(baseQuery);
-  const costDistribution = groupBy === 'project' ? getCostDistribution() : undefined;
+
+  const isCostDistributionFeatureEnabled = featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state);
+  const costDistribution =
+    groupBy === 'project' && isCostDistributionFeatureEnabled ? getCostDistribution() : undefined;
   const currency = getCurrency();
 
   const query: any = {
     ...baseQuery,
+    ...(costDistribution === ComputedReportItemValueType.distributed && {
+      order_by: {
+        distributed_cost: 'desc',
+      },
+    }),
     ...queryFromRoute,
   };
   const reportQuery = {

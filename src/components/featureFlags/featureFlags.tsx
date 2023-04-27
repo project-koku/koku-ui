@@ -5,6 +5,8 @@ import { featureFlagsActions } from 'store/featureFlags';
 
 // eslint-disable-next-line no-shadow
 export const enum FeatureToggle {
+  costCategories = 'cost-management.ui.cost-categories', // AWS cost categories https://issues.redhat.com/browse/COST-3611
+  costDistribution = 'cost-management.ui.cost-distribution', // OCP distributed overhead costs https://issues.redhat.com/browse/COST-3681
   exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
   finsights = 'cost-management.ui.finsights', // RHEL support for FINsights https://issues.redhat.com/browse/COST-3306
   ibm = 'cost-management.ui.ibm', // IBM https://issues.redhat.com/browse/COST-935
@@ -52,6 +54,8 @@ const useFeatureFlags = () => {
       await updateContext({ userId }).then(() => {
         dispatch(
           featureFlagsActions.setFeatureFlags({
+            isCostCategoriesFeatureEnabled: client.isEnabled(FeatureToggle.costCategories),
+            isCostDistributionFeatureEnabled: client.isEnabled(FeatureToggle.costDistribution),
             isExportsFeatureEnabled: client.isEnabled(FeatureToggle.exports),
             isFinsightsFeatureEnabled: client.isEnabled(FeatureToggle.finsights),
             isIbmFeatureEnabled: client.isEnabled(FeatureToggle.ibm),

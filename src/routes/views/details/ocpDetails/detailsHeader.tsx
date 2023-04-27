@@ -13,6 +13,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Currency } from 'routes/components/currency';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
+import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { CostDistribution } from 'routes/views/components/costDistribution';
 import { GroupBy } from 'routes/views/components/groupBy';
 import { filterProviders } from 'routes/views/utils/providers';
@@ -38,6 +39,7 @@ interface DetailsHeaderOwnProps {
 }
 
 interface DetailsHeaderStateProps {
+  isCostDistributionFeatureEnabled?: boolean;
   isExportsFeatureEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
@@ -69,6 +71,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
       costDistribution,
       currency,
       groupBy,
+      isCostDistributionFeatureEnabled,
       isExportsFeatureEnabled,
       onCostDistributionSelected,
       onCurrencySelected,
@@ -86,7 +89,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
     let supplementaryCost: string | React.ReactNode = <EmptyValueState />;
     let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
 
-    const reportItemValue = costDistribution ? costDistribution : 'total';
+    const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
     if (report && report.meta && report.meta.total) {
       const hasCost = report.meta.total.cost && report.meta.total.cost[reportItemValue];
       const hasSupplementaryCost = report.meta.total.supplementary && report.meta.total.supplementary.total;
@@ -127,7 +130,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
               showTags
               tagPathsType={tagPathsType}
             />
-            {showCostDistribution && (
+            {showCostDistribution && isCostDistributionFeatureEnabled && (
               <div style={styles.costDistribution}>
                 <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelected} />
               </div>
@@ -167,6 +170,7 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   );
 
   return {
+    isCostDistributionFeatureEnabled: featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state),
     isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
     providers: filterProviders(providers, ProviderType.ocp),
     providersError,

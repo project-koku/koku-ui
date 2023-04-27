@@ -1,4 +1,5 @@
 import type { Query } from 'api/queries/query';
+import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import type { RouteComponentProps } from 'utils/router';
 
 import type { Filter } from './filter';
@@ -36,7 +37,37 @@ export const handleCostDistributionSelected = (
   value: string,
   reset: boolean = false
 ) => {
-  handleSelected(query, router, value, reset);
+  const hasOrderBy = query && query.order_by;
+  let orderBy = hasOrderBy && query.order_by.distributed_cost ? 'distributed_cost' : undefined;
+  if (!orderBy) {
+    orderBy = hasOrderBy && query.order_by.cost ? 'cost' : undefined;
+  }
+
+  let orderByValue = orderBy === 'distributed_cost' ? query.order_by.distributed_cost : undefined;
+  if (!orderByValue) {
+    orderByValue = orderBy === 'cost' ? query.order_by.cost : undefined;
+  }
+
+  const newQuery = {
+    ...JSON.parse(JSON.stringify(query)),
+    ...(orderBy === 'distributed_cost' &&
+      value === ComputedReportItemValueType.total && {
+        order_by: {
+          ...query.order_by,
+          cost: orderByValue,
+          distributed_cost: undefined,
+        },
+      }),
+    ...(orderBy === 'cost' &&
+      value === ComputedReportItemValueType.distributed && {
+        order_by: {
+          ...query.order_by,
+          distributed_cost: orderByValue,
+          cost: undefined,
+        },
+      }),
+  };
+  handleSelected(newQuery, router, value, reset);
 };
 
 export const handleFilterAdded = (query: Query, router: RouteComponentProps, filter: Filter) => {

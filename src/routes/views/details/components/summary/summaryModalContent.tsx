@@ -9,6 +9,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { ReportSummaryItem, ReportSummaryItems } from 'routes/views/components/reports/reportSummary';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
 import type { FetchStatus } from 'store/common';
@@ -70,7 +71,7 @@ class SummaryModalContentBase extends React.Component<SummaryModalContentProps, 
   public render() {
     const { costDistribution, intl, report, reportGroupBy, reportFetchStatus } = this.props;
 
-    const reportItemValue = costDistribution ? costDistribution : 'total';
+    const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
     const hasTotal = report && report.meta && report.meta.total;
     const cost = formatCurrency(
       hasTotal ? report.meta.total.cost[reportItemValue].value : 0,

@@ -323,7 +323,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   private getSupplementaryCost = (item: ComputedReportItem, index: number) => {
     const { costDistribution, report, intl } = this.props;
 
-    const reportItemValue = costDistribution ? costDistribution : 'total';
+    const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
     const cost =
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[reportItemValue]
         ? report.meta.total.cost[reportItemValue].value
@@ -342,7 +342,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   private getInfrastructureCost = (item: ComputedReportItem, index: number) => {
     const { costDistribution, report, intl } = this.props;
 
-    const reportItemValue = costDistribution ? costDistribution : 'total';
+    const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
     const cost =
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[reportItemValue]
         ? report.meta.total.cost[reportItemValue].value
@@ -361,7 +361,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
     const { costDistribution, intl } = this.props;
 
-    const reportItemValue = costDistribution ? costDistribution : 'total';
+    const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
     const value = formatCurrency(
       Math.abs(item.cost[reportItemValue].value - item.delta_value),
       item.cost[reportItemValue].units
@@ -411,7 +411,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   private getTotalCost = (item: ComputedReportItem, index: number) => {
     const { costDistribution, report, intl } = this.props;
 
-    const reportItemValue = costDistribution ? costDistribution : 'total';
+    const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
     const cost =
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[reportItemValue]
         ? report.meta.total.cost[reportItemValue].value
