@@ -3,6 +3,8 @@
 exports[`default state 1`] = `
 {
   "hasFeatureFlags": false,
+  "isCostCategoriesFeatureEnabled": false,
+  "isCostDistributionFeatureEnabled": false,
   "isExportsFeatureEnabled": false,
   "isFinsightsFeatureEnabled": false,
   "isIbmFeatureEnabled": false,

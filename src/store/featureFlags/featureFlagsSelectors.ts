@@ -6,6 +6,10 @@ export const selectFeatureFlagsState = (state: RootState) => state[stateKey];
 
 export const selectHasFeatureFlags = (state: RootState) => selectFeatureFlagsState(state).hasFeatureFlags;
 
+export const selectIsCostCategoriesFeatureEnabled = (state: RootState) =>
+  selectFeatureFlagsState(state).isCostCategoriesFeatureEnabled;
+export const selectIsCostDistributionFeatureEnabled = (state: RootState) =>
+  selectFeatureFlagsState(state).isCostDistributionFeatureEnabled;
 export const selectIsExportsFeatureEnabled = (state: RootState) =>
   selectFeatureFlagsState(state).isExportsFeatureEnabled;
 export const selectIsFinsightsFeatureEnabled = (state: RootState) =>
