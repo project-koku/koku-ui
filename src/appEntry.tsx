@@ -17,7 +17,7 @@ require.resolve('@patternfly/patternfly/patternfly-addons.css');
 
 import './styles/global.css';
 
-const store = configureStore({
+const costStore = configureStore({
   // session: {
   //   token: getToken(),
   // },
@@ -33,7 +33,7 @@ const AppEntry = () => {
 
   return (
     <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale]} onError={console.log}>
-      <Provider store={store as any}>
+      <Provider store={costStore as any}>
         <NotificationsPortal />
         <App />
       </Provider>
