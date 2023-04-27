@@ -5,7 +5,6 @@ import NotificationsPortal from '@redhat-cloud-services/frontend-components-noti
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/Registry';
 import React, { useEffect, useLayoutEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import type { Reducer } from 'redux';
 
 import pkg from '../package.json';
@@ -13,8 +12,7 @@ import { useFeatureFlags } from './components/featureFlags';
 import { Routes } from './routes';
 
 const App = () => {
-  const navigate = useNavigate();
-  const { on, updateDocumentTitle } = useChrome();
+  const { updateDocumentTitle } = useChrome();
 
   useEffect(() => {
     const registry = getRegistry();
@@ -22,11 +20,6 @@ const App = () => {
 
     // You can use directly the name of your app
     updateDocumentTitle(pkg.insights.appname);
-    const unregister = on('APP_NAVIGATION', event => navigate(`/${event.navId}`));
-
-    return () => {
-      unregister();
-    };
   }, []);
 
   useFeatureFlags();
