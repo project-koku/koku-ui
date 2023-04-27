@@ -324,7 +324,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
       group_by: {
         [groupByKey]: value,
       },
-      order_by: { cost: 'desc' },
+      order_by: undefined, // Clear sort
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {
       router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });

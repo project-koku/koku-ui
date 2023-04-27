@@ -285,7 +285,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
       group_by: {
         [groupByKey]: '*',
       },
-      order_by: { cost: 'desc' },
+      order_by: undefined, // Clear sort
     };
     this.setState({ isAllSelected: false, selectedItems: [] }, () => {
       router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });

@@ -128,7 +128,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
       group_by: {
         [currentTab]: '*',
       },
-      order_by: { cost: 'desc' },
     })}`;
   };
 
