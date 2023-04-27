@@ -124,13 +124,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     }
 
     const isGroupByProject = groupBy === 'project';
-    const showPlatformCosts = isGroupByProject;
-    const showCostDistribution =
-      costDistribution === ComputedReportItemValueType.distributed &&
-      perspective === PerspectiveType.ocp &&
-      report &&
-      report.meta &&
-      report.meta.distributed_overhead === true;
+    const showPlatformCosts = perspective === PerspectiveType.ocp && isGroupByProject;
+    const showCostDistribution = costDistribution && report && report.meta && report.meta.distributed_overhead === true;
 
     const computedItems = getUnsortedComputedReportItems<any, any>({
       report,
@@ -205,16 +200,13 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
         }),
         date: mapId,
         isSortable,
-        orderBy:
-          perspective === PerspectiveType.ocp && costDistribution === ComputedReportItemValueType.distributed
-            ? 'distributed_cost'
-            : 'cost',
+        orderBy: costDistribution === ComputedReportItemValueType.distributed ? 'distributed_cost' : 'cost',
       });
     }
 
     let showLabels = false;
     const reportItem = ComputedReportItemType.cost;
-    const reportItemValue = isGroupByProject ? costDistribution : ComputedReportItemValueType.total;
+    const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
     const rows = [];
 
     // Sort by date and fill in missing cells
