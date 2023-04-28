@@ -1807,7 +1807,7 @@ export default defineMessages({
   filterByValuePlaceholder: {
     defaultMessage: 'Filter by value',
     description: 'Filter by value',
-    id: 'filterByValueInputPlaceholder',
+    id: 'filterByValuePlaceholder',
   },
   filterByValues: {
     defaultMessage:
