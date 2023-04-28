@@ -7127,7 +7127,7 @@
         "value": "Filter button for tag value"
       }
     ],
-    "filterByValueInputPlaceholder": [
+    "filterByValuePlaceholder": [
       {
         "type": 0,
         "value": "Filter by value"

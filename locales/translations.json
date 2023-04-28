@@ -287,7 +287,7 @@
   "filterByTagKeyAriaLabel": "Tag keys",
   "filterByTagValueAriaLabel": "Tag values",
   "filterByTagValueButtonAriaLabel": "Filter button for tag value",
-  "filterByValueInputPlaceholder": "Filter by value",
+  "filterByValuePlaceholder": "Filter by value",
   "filterByValues": "{value, select, account {Account} aws_category {Cost category} cluster {Cluster} container {Container} gcp_project {GCP project} name {Name} node {Node} org_unit_id {Organizational unit} payer_tenant_id {Account} product_service {Service} project {Project} region {Region} resource_location {Region} service {Service} service_name {Service} subscription_guid {Account} tag {Tag} workload {Workload name} workload_type {Workload type} other {}}",
   "filterByWorkloadTypeAriaLabel": "Workload types",
   "forDate": "{value} for {dateRange}",
