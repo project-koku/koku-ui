@@ -9,5 +9,6 @@ exports[`default state 1`] = `
   "isFinsightsFeatureEnabled": false,
   "isIbmFeatureEnabled": false,
   "isRosFeatureEnabled": false,
+  "isSettingsFeatureEnabled": false,
 }
 `;
