@@ -49,3 +49,9 @@ test('ROS feature is enabled', async () => {
   store.dispatch(actions.setFeatureFlags({ isRosFeatureEnabled: true }));
   expect(featureFlagsSelectors.selectIsRosFeatureEnabled(store.getState())).toBe(true);
 });
+
+test('Settings feature is enabled', async () => {
+  const store = createUIStore();
+  store.dispatch(actions.setFeatureFlags({ isSettingsFeatureEnabled: true }));
+  expect(featureFlagsSelectors.selectIsSettingsFeatureEnabled(store.getState())).toBe(true);
+});
