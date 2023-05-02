@@ -25,6 +25,7 @@ const Optimizations = lazy(() => import(/* webpackChunkName: "recommendations" *
 const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/views/overview'));
 const RhelDetails = lazy(() => import(/* webpackChunkName: "rhelDetails" */ 'routes/views/details/rhelDetails'));
 const RhelBreakdown = lazy(() => import(/* webpackChunkName: "rhelBreakdown" */ 'routes/views/details/rhelBreakdown'));
+const Settings = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/settings'));
 
 const routes = {
   awsDetails: {
@@ -103,6 +104,10 @@ const routes = {
   rhelDetailsBreakdown: {
     element: userAccess(RhelBreakdown),
     path: '/rhel/breakdown',
+  },
+  settings: {
+    element: userAccess(Settings),
+    path: '/settings',
   },
 };
 

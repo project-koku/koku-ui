@@ -1988,6 +1988,12 @@
         "value": "symbol"
       }
     ],
+    "currencyCalcuations": [
+      {
+        "type": 0,
+        "value": "Currency and calculations"
+      }
+    ],
     "currencyOptions": [
       {
         "options": {
@@ -11184,6 +11190,12 @@
         "value": " selected"
       }
     ],
+    "settingsTitle": [
+      {
+        "type": 0,
+        "value": "Cost Management Settings"
+      }
+    ],
     "sinceDate": [
       {
         "type": 1,
@@ -11291,6 +11303,12 @@
       {
         "type": 0,
         "value": "Value"
+      }
+    ],
+    "tagLabels": [
+      {
+        "type": 0,
+        "value": "Tags and labels"
       }
     ],
     "tagNames": [
