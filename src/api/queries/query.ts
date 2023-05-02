@@ -37,6 +37,7 @@ export interface Query {
   search?: any;
   start_date?: any;
   state?: any;
+  tabKey?: number;
 }
 
 // Converts filter_by props to filter props
