@@ -32,6 +32,7 @@ interface PermissionsStateProps {
   isFinsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
   isRosFeatureEnabled?: boolean;
+  isSettingsEnabled?: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -45,6 +46,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
   isFinsightsFeatureEnabled,
   isIbmFeatureEnabled,
   isRosFeatureEnabled,
+  isSettingsEnabled,
   userAccess,
   userAccessError,
   userAccessFetchStatus,
@@ -63,6 +65,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const ocp = hasOcpAccess(userAccess);
     const rhel = isFinsightsFeatureEnabled && hasRhelAccess(userAccess);
     const ros = isRosFeatureEnabled && hasRosAccess(userAccess);
+    const settings = isSettingsEnabled;
 
     switch (pathname) {
       case formatPath(routes.explorer.path):
@@ -93,6 +96,8 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
       case formatPath(routes.rhelDetails.path):
       case formatPath(routes.rhelDetailsBreakdown.path):
         return rhel;
+      case formatPath(routes.settings.path):
+        return settings;
       default:
         return false;
     }
@@ -127,6 +132,7 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
     isFinsightsFeatureEnabled: featureFlagsSelectors.selectIsFinsightsFeatureEnabled(state),
     isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
     isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
+    isSettingsEnabled: featureFlagsSelectors.selectIsSettingsFeatureEnabled(state),
     userAccess,
     userAccessError,
     userAccessFetchStatus,
