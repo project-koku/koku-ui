@@ -9968,7 +9968,7 @@
     "noOptimizationsDesc": [
       {
         "type": 0,
-        "value": "There is not enough data available to generate an optimization."
+        "value": "There's not enough data available to generate an optimization or your organization isn't in the Technical Preview program, contact your TAM for more information. Submit a feedback form if you want in and we'll consider."
       }
     ],
     "noOptimizationsTitle": [

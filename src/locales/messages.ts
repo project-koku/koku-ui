@@ -2299,8 +2299,10 @@ export default defineMessages({
     id: 'noExportsStateTitle',
   },
   noOptimizationsDesc: {
-    defaultMessage: 'There is not enough data available to generate an optimization.',
-    description: 'There is not enough data available to generate an optimization.',
+    defaultMessage:
+      "There's not enough data available to generate an optimization or your organization isn't in the Technical Preview program, contact your TAM for more information. Submit a feedback form if you want in and we'll consider.",
+    description:
+      "There's not enough data available to generate an optimization or your organization isn't in the Technical Preview program, contact your TAM for more information. Submit a feedback form if you want in and we'll consider.",
     id: 'noOptimizationsDesc',
   },
   noOptimizationsTitle: {
