@@ -23,8 +23,7 @@ const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl }) => {
         return messages.pageTitleAzure;
       case formatPath(routes.costModel.path):
       case formatPath(routes.costModelsDetails.path):
-      case formatPath(routes.costModelOld.path):
-      case formatPath(routes.costModelsDetailsOld.path):
+      case formatPath(routes.costModels.path):
         return messages.pageTitleCostModels;
       case formatPath(routes.explorer.path):
         return messages.pageTitleExplorer;

@@ -1,5 +1,9 @@
-import { PageSection, PageSectionVariants } from '@patternfly/react-core';
+import { PageSection } from '@patternfly/react-core';
+import messages from 'locales/messages';
+import { parse, stringify } from 'qs';
 import React from 'react';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
 import type { RootState } from 'store';
@@ -10,13 +14,13 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import { CostModelsBottomPagination } from './bottomPagination';
+import { styles } from './costModelsDetails.styles';
 import { CreateCostModelWizard } from './createCostModelButton';
 import DeleteDialog from './dialog';
-import Header from './header';
 import CostModelsTable from './table';
 import CostModelsToolbar from './toolbar';
 
-interface CostModelsDetailsProps {
+interface CostModelsDetailsProps extends WrappedComponentProps {
   search: string;
   getCostModelsData: (query: string) => Promise<void>;
   getRbacData: () => Promise<void>;
@@ -25,31 +29,41 @@ interface CostModelsDetailsProps {
 
 class CostModelsDetailsBase extends React.Component<CostModelsDetailsProps, any> {
   componentDidMount() {
-    this.props.getCostModelsData(this.props.search.slice(1));
-    this.props.getRbacData();
-    this.props.getMetricsData();
+    const { getCostModelsData, getMetricsData, getRbacData, search } = this.props;
+
+    getCostModelsData(search);
+    getMetricsData();
+    getRbacData();
   }
 
   componentDidUpdate(prevProps: CostModelsDetailsProps) {
-    if (prevProps.search !== this.props.search) {
-      this.props.getCostModelsData(this.props.search.slice(1));
+    const { getCostModelsData, search } = this.props;
+
+    if (prevProps.search !== search) {
+      getCostModelsData(search);
     }
   }
 
   render() {
+    const { intl } = this.props;
+
     return (
-      <>
-        <PageSection variant={PageSectionVariants.light}>
-          <Header />
-        </PageSection>
-        <PageSection isFilled>
-          <CreateCostModelWizard />
-          <DeleteDialog />
-          <CostModelsToolbar />
-          <CostModelsTable />
-          <CostModelsBottomPagination />
-        </PageSection>
-      </>
+      <PageSection isFilled>
+        <div style={styles.descContainer}>
+          {intl.formatMessage(messages.costModelsDesc, {
+            learnMore: (
+              <a href={intl.formatMessage(messages.docsUsingCostModels)} rel="noreferrer" target="_blank">
+                {intl.formatMessage(messages.learnMore)}
+              </a>
+            ),
+          })}
+        </div>
+        <CreateCostModelWizard />
+        <DeleteDialog />
+        <CostModelsToolbar />
+        <CostModelsTable />
+        <CostModelsBottomPagination />
+      </PageSection>
     );
   }
 }
@@ -63,11 +77,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 };
 
 const mapStateToProps = (state: RootState, ownProps: RouterComponentProps) => {
+  const query = parse(ownProps.router.location.search, { ignoreQueryPrefix: true });
+  const searchQuery = {
+    ...query,
+    tabKey: undefined,
+  };
   return {
-    search: ownProps.router.location.search,
+    search: stringify(searchQuery, { encode: false, indices: false }),
   };
 };
 
-const CostModelsDetails = withRouter(connect(mapStateToProps, mapDispatchToProps)(CostModelsDetailsBase));
+const CostModelsDetails = withRouter(injectIntl(connect(mapStateToProps, mapDispatchToProps)(CostModelsDetailsBase)));
 
 export default CostModelsDetails;

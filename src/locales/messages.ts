@@ -490,6 +490,13 @@ export default defineMessages({
     description: 'You must unassign any sources before you can delete this cost model.',
     id: 'costModelsDeleteSource',
   },
+  costModelsDesc: {
+    defaultMessage:
+      'Associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}',
+    description:
+      'Associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}',
+    id: 'costModelsDesc',
+  },
   costModelsDescTooLong: {
     defaultMessage: 'Should not exceed 500 characters',
     description: 'Should not exceed 500 characters',

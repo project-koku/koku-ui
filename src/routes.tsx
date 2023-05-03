@@ -13,7 +13,6 @@ const AzureDetails = lazy(() => import(/* webpackChunkName: "azureDetails" */ 'r
 const CostModelOld = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/costModels/costModel'));
 const CostModelsDetailsOld = lazy(() => import(/* lazy: "costModelsDetails" */ 'routes/costModels/costModelsDetails'));
 const CostModel = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/settings/costModel'));
-const CostModelsDetails = lazy(() => import(/* lazy: "costModelsDetails" */ 'routes/settings/costModelsDetails'));
 const Explorer = lazy(() => import(/* webpackChunkName: "explorer" */ 'routes/views/explorer'));
 const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'routes/views/details/gcpBreakdown'));
 const GcpDetails = lazy(() => import(/* webpackChunkName: "gcpDetails" */ 'routes/views/details/gcpDetails'));
@@ -48,19 +47,18 @@ const routes = {
   },
   costModel: {
     // Note: Order matters here (i.e., dynamic segment must be defined after costModelsDetails)
+    basePath: `/settings/cost-model`,
     element: userAccess(CostModel),
-    path: `/settings/cost-models/:uuid`,
+    path: `/settings/cost-model/:uuid`,
   },
-  costModelsDetails: {
-    element: userAccess(CostModelsDetails),
-    path: '/settings/cost-models',
-  },
-  costModelOld: {
+  // Todo: Remove when settings page is enabled
+  costModels: {
     // Note: Order matters here (i.e., dynamic segment must be defined after costModelsDetails)
     element: userAccess(CostModelOld),
     path: `/cost-models/:uuid`,
   },
-  costModelsDetailsOld: {
+  // Todo: Remove when settings page is enabled
+  costModelsDetails: {
     element: userAccess(CostModelsDetailsOld),
     path: '/cost-models',
   },

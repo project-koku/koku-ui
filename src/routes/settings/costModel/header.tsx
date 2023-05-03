@@ -108,9 +108,7 @@ const Header: React.FC<Props> = ({
           <Breadcrumb style={styles.breadcrumb}>
             <BreadcrumbItem
               render={() => (
-                <Link to={`${formatPath(routes.costModelsDetails.path)}`}>
-                  {intl.formatMessage(messages.costModels)}
-                </Link>
+                <Link to={`${formatPath(routes.settings.path)}`}>{intl.formatMessage(messages.costModels)}</Link>
               )}
             />
             <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>

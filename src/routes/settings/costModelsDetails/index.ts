@@ -1,1 +1,1 @@
-export { default } from './costModelsDetails';
+export { default as CostModelsDetails } from './costModelsDetails';

@@ -58,7 +58,7 @@ export function getRowsByStateName(stateName: string, data: any) {
     return {
       cells: [
         {
-          title: <Link to={`${formatPath(routes.costModelsDetails.path)}/${item.uuid}`}>{item.name}</Link>,
+          title: <Link to={`${formatPath(routes.costModel.basePath)}/${item.uuid}`}>{item.name}</Link>,
         },
         item.description,
         item.source_type,
