@@ -1,13 +1,12 @@
 @import url("~@patternfly/patternfly/base/patternfly-variables.css");
 
-.stickyColumn {
-  --pf-c-table--cell--Width: 1%;
-}
-
 .explorerTableOverride {
   &.pf-c-table {
     .pf-c-table__sticky-column {
       z-index: 99;
     }
+  }
+  .stickyColumn {
+    --pf-c-table--cell--Width: 1%;
   }
 }
