@@ -17,6 +17,8 @@ import { createAction, createAsyncAction } from 'typesafe-actions';
 import { formatPath } from 'utils/paths';
 import type { RouteComponentProps } from 'utils/router';
 
+import { selectIsSettingsFeatureEnabled } from '../featureFlags/featureFlagsSelectors';
+
 interface FilterQuery {
   currentFilterType?: string;
   currentFilterValue?: string;
@@ -121,11 +123,17 @@ export const deleteCostModel = (uuid: string, dialog: string = '', router: Route
 };
 
 export const redirectToCostModelFromSourceUuid = (source_uuid: string, router: RouteComponentProps): ThunkAction => {
-  return (dispatch: Dispatch) => {
+  return (dispatch: Dispatch, getState) => {
     return apiGetCostModels(`source_uuid=${source_uuid}`)
       .then(res => {
         const uuid = res.data.data[0].uuid;
-        router.navigate(`${formatPath(routes.costModelsDetails.path)}/${uuid}`);
+        router.navigate(
+          `${formatPath(
+            selectIsSettingsFeatureEnabled(getState())
+              ? routes.costModelsDetails.path
+              : routes.costModelsDetailsOld.path
+          )}/${uuid}`
+        );
       })
       .catch(() => {
         dispatch(

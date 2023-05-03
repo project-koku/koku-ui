@@ -46,5 +46,10 @@ export const usePathname = () => {
 
   // cost models may include UUID in path
   const costModelsPath = formatPath(routes.costModelsDetails.path);
-  return location.pathname.startsWith(costModelsPath) ? costModelsPath : location.pathname.replace(/\/$/, '');
+  const costModelsPathOld = formatPath(routes.costModelsDetailsOld.path);
+  return location.pathname.startsWith(costModelsPath)
+    ? costModelsPath
+    : location.pathname.startsWith(costModelsPathOld)
+    ? costModelsPathOld
+    : location.pathname.replace(/\/$/, '');
 };

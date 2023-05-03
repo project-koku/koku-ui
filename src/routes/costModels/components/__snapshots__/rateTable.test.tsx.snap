@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rate-table sort by metric & measurement 1`] = `
+[
+  <td
+    class=""
+  >
+    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"Node"}
+  </td>,
+  <td
+    class=""
+  >
+    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
+  </td>,
+  <td
+    class=""
+  >
+    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
+  </td>,
+  <td
+    class=""
+  >
+    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
+  </td>,
+]
+`;
+
+exports[`rate-table sort by metric & measurement 2`] = `
+[
+  <td
+    class=""
+  >
+    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"Node"}
+  </td>,
+  <td
+    class=""
+  >
+    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
+  </td>,
+  <td
+    class=""
+  >
+    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
+  </td>,
+  <td
+    class=""
+  >
+    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
+  </td>,
+]
+`;
+
+exports[`rate-table sort by metric & measurement 3`] = `
+[
+  <td
+    class=""
+  >
+    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"Node"}
+  </td>,
+  <td
+    class=""
+  >
+    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
+  </td>,
+  <td
+    class=""
+  >
+    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
+  </td>,
+  <td
+    class=""
+  >
+    {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
+  </td>,
+]
+`;
