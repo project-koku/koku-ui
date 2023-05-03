@@ -1,5 +1,5 @@
 import { Checkbox, Stack, StackItem, Text, TextContent, TextVariants, Title, TitleSizes } from '@patternfly/react-core';
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -81,7 +81,10 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
               {loading ? (
                 <LoadingState />
               ) : (
-                <TableComposable aria-label={intl.formatMessage(messages.costModelsWizardSourceTableAriaLabel)}>
+                <TableComposable
+                  aria-label={intl.formatMessage(messages.costModelsWizardSourceTableAriaLabel)}
+                  variant={TableVariant.compact}
+                >
                   <Thead>
                     <Tr>
                       {[

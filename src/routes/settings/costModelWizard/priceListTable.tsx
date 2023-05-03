@@ -255,7 +255,6 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                                 },
                               } as any,
                             ]}
-                            isCompact
                             tiers={res}
                             sortCallback={e => {
                               this.setState({
