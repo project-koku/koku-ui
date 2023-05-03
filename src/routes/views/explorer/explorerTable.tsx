@@ -126,7 +126,11 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
 
     const isGroupByProject = groupBy === 'project';
     const showPlatformCosts = perspective === PerspectiveType.ocp && isGroupByProject;
-    const showCostDistribution = costDistribution && report && report.meta && report.meta.distributed_overhead === true;
+    const showCostDistribution =
+      costDistribution === ComputedReportItemValueType.distributed &&
+      report &&
+      report.meta &&
+      report.meta.distributed_overhead === true;
 
     const computedItems = getUnsortedComputedReportItems<any, any>({
       report,
@@ -500,6 +504,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                       />
                     ) : cellIndex === 1 ? (
                       <Td
+                        className="stickyColumn"
                         dataLabel={columns[cellIndex].name}
                         hasRightBorder={!showLabels}
                         isStickyColumn
@@ -513,6 +518,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                       </Td>
                     ) : cellIndex === 2 && showLabels ? (
                       <Td
+                        className="stickyColumn"
                         dataLabel={columns[cellIndex].name}
                         hasRightBorder
                         isStickyColumn
