@@ -16,6 +16,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Currency } from 'routes/components/currency';
+import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { CostDistribution } from 'routes/views/components/costDistribution';
 import { CostType } from 'routes/views/components/costType';
 import { GroupBy } from 'routes/views/components/groupBy';
@@ -285,7 +286,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
 
     const showCostDistribution =
       isCostDistributionFeatureEnabled &&
-      costDistribution &&
+      costDistribution === ComputedReportItemValueType.distributed &&
       report &&
       report.meta &&
       report.meta.distributed_overhead === true;
