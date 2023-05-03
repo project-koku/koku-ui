@@ -1,0 +1,92 @@
+import { PageSection } from '@patternfly/react-core';
+import messages from 'locales/messages';
+import { parse, stringify } from 'qs';
+import React from 'react';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
+import type { Dispatch } from 'redux';
+import type { RootState } from 'store';
+import { costModelsActions } from 'store/costModels';
+import { metricsActions } from 'store/metrics';
+import { rbacActions } from 'store/rbac';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
+
+import { CostModelsBottomPagination } from './bottomPagination';
+import { styles } from './costModelsDetails.styles';
+import { CreateCostModelWizard } from './createCostModelButton';
+import DeleteDialog from './dialog';
+import CostModelsTable from './table';
+import CostModelsToolbar from './toolbar';
+
+interface CostModelsDetailsProps extends WrappedComponentProps {
+  search: string;
+  getCostModelsData: (query: string) => Promise<void>;
+  getRbacData: () => Promise<void>;
+  getMetricsData: () => Promise<void>;
+}
+
+class CostModelsDetailsBase extends React.Component<CostModelsDetailsProps, any> {
+  componentDidMount() {
+    const { getCostModelsData, getMetricsData, getRbacData, search } = this.props;
+
+    getCostModelsData(search);
+    getMetricsData();
+    getRbacData();
+  }
+
+  componentDidUpdate(prevProps: CostModelsDetailsProps) {
+    const { getCostModelsData, search } = this.props;
+
+    if (prevProps.search !== search) {
+      getCostModelsData(search);
+    }
+  }
+
+  render() {
+    const { intl } = this.props;
+
+    return (
+      <PageSection isFilled>
+        <div style={styles.descContainer}>
+          {intl.formatMessage(messages.costModelsDesc, {
+            learnMore: (
+              <a href={intl.formatMessage(messages.docsUsingCostModels)} rel="noreferrer" target="_blank">
+                {intl.formatMessage(messages.learnMore)}
+              </a>
+            ),
+          })}
+        </div>
+        <CreateCostModelWizard />
+        <DeleteDialog />
+        <CostModelsToolbar />
+        <CostModelsTable />
+        <CostModelsBottomPagination />
+      </PageSection>
+    );
+  }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    getCostModelsData: (query: string) => costModelsActions.fetchCostModels(query)(dispatch),
+    getRbacData: () => rbacActions.fetchRbac()(dispatch),
+    getMetricsData: () => metricsActions.fetchMetrics()(dispatch),
+  };
+};
+
+const mapStateToProps = (state: RootState, ownProps: RouterComponentProps) => {
+  const query = parse(ownProps.router.location.search, { ignoreQueryPrefix: true });
+  const searchQuery = {
+    ...query,
+    tabKey: undefined,
+  };
+  return {
+    search: stringify(searchQuery, { encode: false, indices: false }),
+  };
+};
+
+const CostModelsDetails = withRouter(injectIntl(connect(mapStateToProps, mapDispatchToProps)(CostModelsDetailsBase)));
+
+export default CostModelsDetails;

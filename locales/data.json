@@ -1236,6 +1236,16 @@
         "value": "You must unassign any sources before you can delete this cost model."
       }
     ],
+    "costModelsDesc": [
+      {
+        "type": 0,
+        "value": "Associate a price to metrics provided by your sources to charge for utilization of resources. "
+      },
+      {
+        "type": 1,
+        "value": "learnMore"
+      }
+    ],
     "costModelsDescTooLong": [
       {
         "type": 0,

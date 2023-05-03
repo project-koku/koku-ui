@@ -3,7 +3,7 @@ import './dataTable.scss';
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import type { ThProps } from '@patternfly/react-table';
-import { SortByDirection, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { SortByDirection, TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { parseQuery } from 'api/queries/ocpQuery';
 import messages from 'locales/messages';
@@ -138,6 +138,7 @@ class DataTable extends React.Component<DataTableProps, any> {
           className="tableOverride"
           gridBreakPoint="grid-2xl"
           hasSelectableRowCaption={isOptimizations}
+          variant={TableVariant.compact}
         >
           <Thead>
             <Tr>

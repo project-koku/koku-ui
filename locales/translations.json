@@ -87,6 +87,7 @@
   "costModelsDelete": "Delete cost model",
   "costModelsDeleteDesc": "This action will delete {costModel} cost model from the system. This action cannot be undone.",
   "costModelsDeleteSource": "You must unassign any sources before you can delete this cost model.",
+  "costModelsDesc": "Associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}",
   "costModelsDescTooLong": "Should not exceed 500 characters",
   "costModelsDetailsTitle": "Cost Model Details",
   "costModelsDistributionDesc": "The following is the type of metric that is set to be used when distributing costs to the project level breakdowns.",

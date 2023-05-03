@@ -1,5 +1,5 @@
 import { Pagination, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import type { CostModel } from 'api/costModels';
 import type { Provider } from 'api/providers';
 import messages from 'locales/messages';
@@ -184,7 +184,10 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
           }}
         />
         {sources.length > 0 && (
-          <TableComposable aria-label={intl.formatMessage(messages.costModelsAssignSources, { count: 1 })}>
+          <TableComposable
+            aria-label={intl.formatMessage(messages.costModelsAssignSources, { count: 1 })}
+            variant={TableVariant.compact}
+          >
             <Thead>
               <Tr>
                 <Th

@@ -10,8 +10,9 @@ const AzureBreakdown = lazy(
   () => import(/* webpackChunkName: "azureBreakdown" */ 'routes/views/details/azureBreakdown')
 );
 const AzureDetails = lazy(() => import(/* webpackChunkName: "azureDetails" */ 'routes/views/details/azureDetails'));
-const CostModelsDetails = lazy(() => import(/* lazy: "costModelsDetails" */ 'routes/costModels/costModelsDetails'));
-const CostModel = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/costModels/costModel'));
+const CostModelOld = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/costModels/costModel'));
+const CostModelsDetailsOld = lazy(() => import(/* lazy: "costModelsDetails" */ 'routes/costModels/costModelsDetails'));
+const CostModel = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/settings/costModel'));
 const Explorer = lazy(() => import(/* webpackChunkName: "explorer" */ 'routes/views/explorer'));
 const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'routes/views/details/gcpBreakdown'));
 const GcpDetails = lazy(() => import(/* webpackChunkName: "gcpDetails" */ 'routes/views/details/gcpDetails'));
@@ -44,14 +45,22 @@ const routes = {
     element: userAccess(AzureBreakdown),
     path: '/azure/breakdown',
   },
-  costModelsDetails: {
-    element: userAccess(CostModelsDetails),
-    path: '/cost-models',
+  costModel: {
+    // Note: Order matters here (i.e., dynamic segment must be defined after costModelsDetails)
+    basePath: `/settings/cost-model`,
+    element: userAccess(CostModel),
+    path: `/settings/cost-model/:uuid`,
   },
+  // Todo: Remove when settings page is enabled
   costModels: {
     // Note: Order matters here (i.e., dynamic segment must be defined after costModelsDetails)
-    element: userAccess(CostModel),
+    element: userAccess(CostModelOld),
     path: `/cost-models/:uuid`,
+  },
+  // Todo: Remove when settings page is enabled
+  costModelsDetails: {
+    element: userAccess(CostModelsDetailsOld),
+    path: '/cost-models',
   },
   explorer: {
     element: userAccess(Explorer),

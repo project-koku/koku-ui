@@ -8,6 +8,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { CostModelsDetails } from 'routes/settings/costModelsDetails';
 import { createMapStateToProps } from 'store/common';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -130,7 +131,7 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
 
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === SettingsTab.costModels) {
-      return 'cost models';
+      return <CostModelsDetails />;
     } else if (currentTab === SettingsTab.calculations) {
       return 'calculations';
     } else if (currentTab === SettingsTab.tags) {
@@ -198,7 +199,7 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
           </div>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
         </header>
-        <div style={styles.main}>{this.getTabContent(availableTabs)}</div>
+        <div>{this.getTabContent(availableTabs)}</div>
       </div>
     );
   }

@@ -29,7 +29,6 @@ interface RateTableProps extends WrappedComponentProps {
 const RateTableBase: React.FC<RateTableProps> = ({
   actions = [],
   intl = defaultIntl,
-  isCompact,
   tiers,
   sortCallback = () => {},
 }) => {
@@ -125,7 +124,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
   return (
     <TableComposable
       aria-label={intl.formatMessage(messages.costModelsWizardCreatePriceList)}
-      variant={isCompact ? TableVariant.compact : undefined}
+      variant={TableVariant.compact}
     >
       <Thead>
         <Tr>
@@ -171,7 +170,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
               <Tr>
                 <Td colSpan={6}>
                   <ExpandableRowContent>
-                    <TableComposable variant={TableVariant.compact} borders={false}>
+                    <TableComposable borders={false} variant={TableVariant.compact}>
                       <Thead>
                         <Tr>
                           {tagColumns.map((tag, tagIndex) => (

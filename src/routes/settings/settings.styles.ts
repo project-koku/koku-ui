@@ -13,9 +13,6 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
   },
-  main: {
-    padding: global_spacer_lg.value,
-  },
   tabs: {
     backgroundColor: global_BackgroundColor_light_100.var,
     paddingTop: global_spacer_lg.var,
