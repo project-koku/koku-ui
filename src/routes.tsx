@@ -10,8 +10,8 @@ const AzureBreakdown = lazy(
   () => import(/* webpackChunkName: "azureBreakdown" */ 'routes/views/details/azureBreakdown')
 );
 const AzureDetails = lazy(() => import(/* webpackChunkName: "azureDetails" */ 'routes/views/details/azureDetails'));
-const CostModelsDetails = lazy(() => import(/* lazy: "costModelsDetails" */ 'routes/costModels/costModelsDetails'));
-const CostModel = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/costModels/costModel'));
+const CostModelsDetails = lazy(() => import(/* lazy: "costModelsDetails" */ 'routes/settings/costModelsDetails'));
+const CostModel = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/settings/costModel'));
 const Explorer = lazy(() => import(/* webpackChunkName: "explorer" */ 'routes/views/explorer'));
 const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'routes/views/details/gcpBreakdown'));
 const GcpDetails = lazy(() => import(/* webpackChunkName: "gcpDetails" */ 'routes/views/details/gcpDetails'));
