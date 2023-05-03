@@ -7,6 +7,7 @@ import {
   InnerScrollContainer,
   SortByDirection,
   TableComposable,
+  TableVariant,
   Tbody,
   Td,
   Th,
@@ -426,6 +427,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
           aria-label={intl.formatMessage(messages.explorerTableAriaLabel)}
           className="explorerTableOverride"
           gridBreakPoint=""
+          variant={TableVariant.compact}
         >
           <Thead>
             <Tr>
