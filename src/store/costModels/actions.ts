@@ -13,11 +13,10 @@ import messages from 'locales/messages';
 import type { Dispatch } from 'redux';
 import { routes } from 'routes';
 import type { ThunkAction } from 'store/common';
+import { selectIsSettingsFeatureEnabled } from 'store/featureFlags/featureFlagsSelectors';
 import { createAction, createAsyncAction } from 'typesafe-actions';
 import { formatPath } from 'utils/paths';
 import type { RouteComponentProps } from 'utils/router';
-
-import { selectIsSettingsFeatureEnabled } from '../featureFlags/featureFlagsSelectors';
 
 interface FilterQuery {
   currentFilterType?: string;
