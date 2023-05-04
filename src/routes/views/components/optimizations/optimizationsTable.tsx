@@ -25,6 +25,7 @@ interface OptimizationsTableOwnProps extends RouterComponentProps {
 }
 
 interface OptimizationsTableState {
+  currentRow?: number;
   columns?: any[];
   rows?: any[];
 }
@@ -147,14 +148,29 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
   };
 
   private handleOnRowClick = (event: React.KeyboardEvent | React.MouseEvent, rowIndex: number) => {
-    const { openOptimizationsDrawer } = this.props;
-    const { rows } = this.state;
+    const { closeOptimizationsDrawer, isOpen, openOptimizationsDrawer } = this.props;
+    const { currentRow, rows } = this.state;
 
-    openOptimizationsDrawer(rows[rowIndex].optimization);
+    this.setState({ currentRow: rowIndex }, () => {
+      if (currentRow === rowIndex && isOpen) {
+        closeOptimizationsDrawer();
+      } else {
+        openOptimizationsDrawer(rows[rowIndex].optimization);
+      }
+    });
+  };
+
+  private handleOnSort = (value: string, isSortAscending: boolean) => {
+    const { closeOptimizationsDrawer, onSort } = this.props;
+
+    closeOptimizationsDrawer();
+    if (onSort) {
+      onSort(value, isSortAscending);
+    }
   };
 
   public render() {
-    const { isLoading, onSort } = this.props;
+    const { isLoading } = this.props;
     const { columns, rows } = this.state;
 
     return (
@@ -162,7 +178,7 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
         columns={columns}
         isLoading={isLoading}
         isOptimizations
-        onSort={onSort}
+        onSort={this.handleOnSort}
         rows={rows}
         onRowClick={this.handleOnRowClick}
       />
