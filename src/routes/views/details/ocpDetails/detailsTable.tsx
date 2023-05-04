@@ -249,11 +249,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             hidden: !isGroupByProject,
             value:
               item.classification === classificationDefault ? (
-                <div>
-                  <Label variant="outline" color="green">
-                    {intl.formatMessage(messages.default)}
-                  </Label>
-                </div>
+                <Label variant="outline" color="green">
+                  {intl.formatMessage(messages.default)}
+                </Label>
               ) : isOverheadCosts ? (
                 <Tooltip content={intl.formatMessage(messages.overheadDesc)} enableFlip>
                   <Label variant="outline" color="orange">
@@ -261,30 +259,26 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
                   </Label>
                 </Tooltip>
               ) : (
-                <div style={styles.defaultLabel} />
+                <span style={styles.defaultLabel} />
               ),
           },
           {
             hidden: !(isGroupByProject && isRosFeatureEnabled),
-            value: !isPlatformCosts && !isDisabled && (
-              <div>
-                <DetailsOptimization project={label} />
-              </div>
-            ),
+            value: !isPlatformCosts && !isDisabled && <DetailsOptimization project={label} />,
           },
-          { value: <div>{monthOverMonth}</div>, id: DetailsTableColumnIds.monthOverMonth },
+          { value: monthOverMonth, id: DetailsTableColumnIds.monthOverMonth },
           {
-            value: <div>{InfrastructureCost}</div>,
+            value: InfrastructureCost,
             id: DetailsTableColumnIds.infrastructure,
             style: styles.managedColumn,
           },
           {
-            value: <div>{supplementaryCost}</div>,
+            value: supplementaryCost,
             id: DetailsTableColumnIds.supplementary,
             style: styles.managedColumn,
           },
-          { value: <div>{cost}</div>, style: styles.managedColumn },
-          { value: <div>{actions}</div> },
+          { value: cost, style: styles.managedColumn },
+          { value: actions },
         ],
         item,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),

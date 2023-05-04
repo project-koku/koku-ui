@@ -120,12 +120,12 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
 
         rows.push({
           cells: [
-            { value: <div>{container}</div> },
-            { value: <div>{project}</div>, hidden: groupBy === 'project' },
-            { value: <div>{workload}</div> },
-            { value: <div>{workloadType}</div> },
-            { value: <div>{cluster}</div>, hidden: groupBy === 'cluster' },
-            { value: <div>{lastReported}</div>, style: styles.lastReported },
+            { value: container },
+            { value: project, hidden: groupBy === 'project' },
+            { value: workload },
+            { value: workloadType },
+            { value: cluster, hidden: groupBy === 'cluster' },
+            { value: lastReported, style: styles.lastReported },
           ],
           optimization: {
             container: item.container,
