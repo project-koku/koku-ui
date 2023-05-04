@@ -12,12 +12,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
-import {
-  deleteInactiveSources,
-  invalidateSession,
-  isInactiveSourcesValid,
-  setInactiveSources,
-} from 'utils/localStorage';
+import { deleteInactiveSources, isInactiveSourcesValid, setInactiveSources } from 'utils/localStorage';
 import { getReleasePath } from 'utils/paths';
 
 interface InactiveSourcesOwnProps {
@@ -94,9 +89,6 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps, any> {
     if (this.isAlertClosed()) {
       return null; // Don't display alert
     }
-
-    // Clear local storage value if current session is not valid
-    invalidateSession();
 
     return (
       <div className="alert">

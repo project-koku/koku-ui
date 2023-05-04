@@ -9,7 +9,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { invalidateSession, setCurrency } from 'utils/localStorage';
+import { setCurrency } from 'utils/localStorage';
 
 import { styles } from './currency.styles';
 
@@ -127,9 +127,6 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
 
   public render() {
     const { intl } = this.props;
-
-    // Clear local storage value if current session is not valid
-    invalidateSession();
 
     return (
       <div style={styles.currencySelector}>

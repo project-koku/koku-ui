@@ -50,8 +50,7 @@ export const isSessionValid = async () => {
     return true; // Don't clear
   }
   return getPartialToken().then(partialToken => {
-    const test = token === partialToken;
-    return test;
+    return token === partialToken;
   });
 };
 
@@ -92,7 +91,6 @@ export const setItem = (id: string, value: string) => {
     s = {};
   }
   s[id] = value;
-
   localStorage.setItem(costManagementID, JSON.stringify(s));
 };
 
@@ -175,7 +173,7 @@ export const deleteCurrency = () => {
 // Returns account currency
 export const getAccountCurrency = () => {
   const units = getItem(accountCurrencyID);
-  return units ? units : 'USD';
+  return units ? units : undefined;
 };
 
 // Returns currency

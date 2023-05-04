@@ -6,6 +6,7 @@ import { notificationsReducer } from '@redhat-cloud-services/frontend-components
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/Registry';
 import React, { useEffect, useLayoutEffect } from 'react';
 import type { Reducer } from 'redux';
+import { invalidateSession } from 'utils/localStorage';
 
 import pkg from '../package.json';
 import { useFeatureFlags } from './components/featureFlags';
@@ -22,7 +23,11 @@ const App = () => {
     updateDocumentTitle(pkg.insights.appname);
   }, []);
 
+  // Initialize Unleash feature flags
   useFeatureFlags();
+
+  // Clear local storage value if current session is not valid
+  invalidateSession();
 
   useLayoutEffect(() => {
     const el = document.querySelector<HTMLDivElement>('.chr-scope__default-layout');

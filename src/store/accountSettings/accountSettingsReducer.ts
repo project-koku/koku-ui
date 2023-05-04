@@ -6,7 +6,6 @@ import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 import {
   getAccountCurrency,
-  invalidateSession,
   isCostTypeAvailable,
   isCurrencyAvailable,
   setAccountCurrency,
@@ -80,9 +79,6 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
 
 // Initialize cost type in local storage
 function initCostType(value: string) {
-  // Clear local storage value if current session is not valid
-  invalidateSession();
-
   if (!isCostTypeAvailable()) {
     setCostType(value);
   }
@@ -90,16 +86,13 @@ function initCostType(value: string) {
 
 // Initialize currency in local storage
 function initCurrency(value: string) {
-  // Clear local storage value if current session is not valid
-  invalidateSession();
-
   // Reset UI's currency selection if default currency has changed.
-  if (value !== getAccountCurrency()) {
+  const accountCurrency = getAccountCurrency();
+  if (accountCurrency && accountCurrency !== value) {
     // Todo: After the settings page is moved to the Cost Management UI, we can clear the cached currency there.
     // That way, resetting the currency for the UI should only affect the user who changed the default.
-    invalidateSession(true);
+    setCurrency(accountCurrency);
   }
-
   if (!isCurrencyAvailable()) {
     setCurrency(value);
   }

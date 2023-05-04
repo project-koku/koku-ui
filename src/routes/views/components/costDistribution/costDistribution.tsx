@@ -10,7 +10,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { createMapStateToProps } from 'store/common';
-import { invalidateSession, setCostDistribution } from 'utils/localStorage';
+import { setCostDistribution } from 'utils/localStorage';
 
 import { styles } from './costDistribution.styles';
 
@@ -119,9 +119,6 @@ class CostDistributionBase extends React.Component<CostDistributionProps, CostDi
 
   public render() {
     const { intl } = this.props;
-
-    // Clear local storage value if current session is not valid
-    invalidateSession();
 
     return (
       <div style={styles.selector}>
