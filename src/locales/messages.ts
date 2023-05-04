@@ -2307,9 +2307,9 @@ export default defineMessages({
   },
   noOptimizationsDesc: {
     defaultMessage:
-      "There's not enough data available to generate an optimization or your organization isn't in the Technical Preview program, contact your TAM for more information. Submit a feedback form if you want in and we'll consider.",
+      'Resource Optimization is now available in preview for select customers. If your organization wants to participate, tell us through the Feedback button, which is purple and located on the right.  Otherwise, there is not enough data available to generate an optimization.',
     description:
-      "There's not enough data available to generate an optimization or your organization isn't in the Technical Preview program, contact your TAM for more information. Submit a feedback form if you want in and we'll consider.",
+      'Resource Optimization is now available in preview for select customers. If your organization wants to participate, tell us through the Feedback button, which is purple and located on the right.  Otherwise, there is not enough data available to generate an optimization.',
     id: 'noOptimizationsDesc',
   },
   noOptimizationsTitle: {
