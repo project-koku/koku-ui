@@ -185,7 +185,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
       start_date,
       end_date,
     };
-    router.navigate(getRouteForQuery(newQuery, router.location), { replace: true });
+    router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
   };
 
   private handleDateRangeSelected = (value: string) => {
@@ -200,7 +200,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
           start_date: undefined,
           end_date: undefined,
         };
-        router.navigate(getRouteForQuery(newQuery, router.location), { replace: true });
+        router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
       }
     });
   };

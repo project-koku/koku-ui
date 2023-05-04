@@ -180,7 +180,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       if (onPerspectiveClicked) {
         onPerspectiveClicked(value);
       }
-      router.navigate(getRouteForQuery(newQuery, router.location), { replace: true });
+      router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
     });
   };
 
