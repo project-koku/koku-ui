@@ -327,7 +327,11 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
   };
 
   private handleDatePickerSelected = (startDate: Date, endDate: Date) => {
-    this.setState({ startDate, endDate });
+    const { query, router } = this.props;
+
+    this.setState({ startDate, endDate }, () => {
+      router.navigate(getRouteForQuery(query, router.location, true), { replace: true });
+    });
   };
 
   private handleExportModalClose = (isOpen: boolean) => {

@@ -183,9 +183,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
               </div>
             ),
           },
-          { value: <div>{monthOverMonth}</div> },
-          { value: <div>{cost}</div>, style: styles.managedColumn },
-          { value: <div>{actions}</div> },
+          { value: monthOverMonth },
+          { value: cost, style: styles.managedColumn },
+          { value: actions },
         ],
         item,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),

@@ -7,7 +7,7 @@ import type React from 'react';
 
 export const styles = {
   defaultLabel: {
-    minWidth: '63px',
+    minWidth: '50px',
   },
   emptyState: {
     backgroundColor: global_BackgroundColor_light_100.value,

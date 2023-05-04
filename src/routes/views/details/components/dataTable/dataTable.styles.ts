@@ -13,7 +13,7 @@ export const styles = {
     paddingRight: 0,
   },
   defaultLabel: {
-    minWidth: '63px',
+    minWidth: '50px',
   },
   emptyState: {
     backgroundColor: global_BackgroundColor_light_100.value,

@@ -16,7 +16,6 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Currency } from 'routes/components/currency';
-import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { CostDistribution } from 'routes/views/components/costDistribution';
 import { CostType } from 'routes/views/components/costType';
 import { GroupBy } from 'routes/views/components/groupBy';
@@ -180,7 +179,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       if (onPerspectiveClicked) {
         onPerspectiveClicked(value);
       }
-      router.navigate(getRouteForQuery(newQuery, router.location), { replace: true });
+      router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
     });
   };
 
@@ -286,7 +285,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
 
     const showCostDistribution =
       isCostDistributionFeatureEnabled &&
-      costDistribution === ComputedReportItemValueType.distributed &&
+      costDistribution &&
       report &&
       report.meta &&
       report.meta.distributed_overhead === true;
