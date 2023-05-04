@@ -13,11 +13,12 @@ import { Loading } from 'routes/state/loading';
 import { NoOptimizations } from 'routes/state/noOptimizations';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { OptimizationsTable, OptimizationsToolbar } from 'routes/views/components/optimizations';
-import { handleFilterAdded, handleFilterRemoved, handleSort } from 'routes/views/utils/handles';
+import { handleOnFilterAdded, handleOnFilterRemoved, handleOnSort } from 'routes/views/utils/handles';
 import { getOrderById, getOrderByValue } from 'routes/views/utils/orderBy';
 import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
+import { uiActions } from 'store/ui';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -37,6 +38,7 @@ interface OptimizationsStateProps {
 }
 
 interface OptimizationsDispatchProps {
+  closeOptimizationsDrawer: typeof uiActions.closeOptimizationsDrawer;
   fetchRosReport: typeof rosActions.fetchRosReport;
 }
 
@@ -94,8 +96,8 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
         isCompact={!isBottom}
         isDisabled={isDisabled}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => this.handlePerPageSelect(perPage)}
-        onSetPage={(event, pageNumber) => this.handleSetPage(pageNumber)}
+        onPerPageSelect={(event, perPage) => this.handleOnPerPageSelect(perPage)}
+        onSetPage={(event, pageNumber) => this.handleOnSetPage(pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -116,7 +118,7 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
     return (
       <OptimizationsTable
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        onSort={(sortType, isSortAscending) => handleSort(query, router, sortType, isSortAscending)}
+        onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         report={report}
         reportQueryString={reportQueryString}
       />
@@ -136,16 +138,16 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
         isProject
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
-        onFilterAdded={filter => handleFilterAdded(query, router, filter)}
-        onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
+        onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
+        onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
         pagination={this.getPagination(isDisabled)}
         query={query}
       />
     );
   };
 
-  private handlePerPageSelect = (perPage: number) => {
-    const { query, router } = this.props;
+  private handleOnPerPageSelect = (perPage: number) => {
+    const { closeOptimizationsDrawer, query, router } = this.props;
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
@@ -153,10 +155,11 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
     };
     const filteredQuery = getRouteForQuery(newQuery, router.location, true);
     router.navigate(filteredQuery, { replace: true });
+    closeOptimizationsDrawer();
   };
 
-  private handleSetPage = (pageNumber: number) => {
-    const { query, report, router } = this.props;
+  private handleOnSetPage = (pageNumber: number) => {
+    const { closeOptimizationsDrawer, query, report, router } = this.props;
 
     const limit = report && report.meta && report.meta.limit ? report.meta.limit : baseQuery.limit;
     const offset = pageNumber * limit - limit;
@@ -168,6 +171,7 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
     };
     const filteredQuery = getRouteForQuery(newQuery, router.location);
     router.navigate(filteredQuery, { replace: true });
+    closeOptimizationsDrawer();
   };
 
   private updateReport = () => {
@@ -243,6 +247,7 @@ const mapStateToProps = createMapStateToProps<OptimizationsOwnProps, Optimizatio
 });
 
 const mapDispatchToProps: OptimizationsDispatchProps = {
+  closeOptimizationsDrawer: uiActions.closeOptimizationsDrawer,
   fetchRosReport: rosActions.fetchRosReport,
 };
 

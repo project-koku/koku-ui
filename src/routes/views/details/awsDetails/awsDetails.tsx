@@ -21,13 +21,13 @@ import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
 import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
-  handleCostTypeSelected,
-  handleCurrencySelected,
-  handleFilterAdded,
-  handleFilterRemoved,
-  handlePerPageSelect,
-  handleSetPage,
-  handleSort,
+  handleOnCostTypeSelected,
+  handleOnCurrencySelected,
+  handleOnFilterAdded,
+  handleOnFilterRemoved,
+  handleOnPerPageSelect,
+  handleOnSetPage,
+  handleOnSort,
 } from 'routes/views/utils/handles';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
@@ -199,8 +199,8 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
         isCompact={!isBottom}
         isDisabled={isDisabled}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => handlePerPageSelect(query, router, perPage)}
-        onSetPage={(event, pageNumber) => handleSetPage(query, router, report, pageNumber)}
+        onPerPageSelect={(event, perPage) => handleOnPerPageSelect(query, router, perPage)}
+        onSetPage={(event, pageNumber) => handleOnSetPage(query, router, report, pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -239,7 +239,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
-        onSort={(sortType, isSortAscending) => handleSort(query, router, sortType, isSortAscending)}
+        onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
@@ -273,8 +273,8 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}
-        onFilterAdded={filter => handleFilterAdded(query, router, filter)}
-        onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
+        onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
+        onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
         pagination={this.getPagination(isDisabled)}
         query={query}
         selectedItems={selectedItems}
@@ -393,8 +393,8 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
           costType={costType}
           currency={currency}
           groupBy={groupById}
-          onCostTypeSelected={value => handleCostTypeSelected(query, router, value)}
-          onCurrencySelected={value => handleCurrencySelected(query, router, value)}
+          onCostTypeSelected={value => handleOnCostTypeSelected(query, router, value)}
+          onCurrencySelected={value => handleOnCurrencySelected(query, router, value)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />

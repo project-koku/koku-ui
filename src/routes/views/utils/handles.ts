@@ -12,7 +12,7 @@ export const handleSelected = (query: Query, router: RouteComponentProps, value:
   router.navigate(getRouteForQuery(newQuery, router.location, reset), { replace: true }); // Don't reset pagination
 };
 
-export const handleCurrencySelected = (
+export const handleOnCurrencySelected = (
   query: Query,
   router: RouteComponentProps,
   value: string,
@@ -21,7 +21,7 @@ export const handleCurrencySelected = (
   handleSelected(query, router, value, reset);
 };
 
-export const handleCostTypeSelected = (
+export const handleOnCostTypeSelected = (
   query: Query,
   router: RouteComponentProps,
   value: string,
@@ -30,7 +30,7 @@ export const handleCostTypeSelected = (
   handleSelected(query, router, value, reset);
 };
 
-export const handleCostDistributionSelected = (
+export const handleOnCostDistributionSelected = (
   query: Query,
   router: RouteComponentProps,
   value: string,
@@ -43,17 +43,17 @@ export const handleCostDistributionSelected = (
   handleSelected(newQuery, router, value, reset);
 };
 
-export const handleFilterAdded = (query: Query, router: RouteComponentProps, filter: Filter) => {
+export const handleOnFilterAdded = (query: Query, router: RouteComponentProps, filter: Filter) => {
   const filteredQuery = addFilterToQuery(query, filter);
   router.navigate(getRouteForQuery(filteredQuery, router.location, true), { replace: true });
 };
 
-export const handleFilterRemoved = (query: Query, router: RouteComponentProps, filter: Filter) => {
+export const handleOnFilterRemoved = (query: Query, router: RouteComponentProps, filter: Filter) => {
   const filteredQuery = removeFilterFromQuery(query, filter);
   router.navigate(getRouteForQuery(filteredQuery, router.location, true), { replace: true });
 };
 
-export const handlePerPageSelect = (query: Query, router: RouteComponentProps, perPage: number) => {
+export const handleOnPerPageSelect = (query: Query, router: RouteComponentProps, perPage: number) => {
   const newQuery = { ...JSON.parse(JSON.stringify(query)) };
   newQuery.filter = {
     ...query.filter,
@@ -63,7 +63,7 @@ export const handlePerPageSelect = (query: Query, router: RouteComponentProps, p
   router.navigate(filteredQuery, { replace: true });
 };
 
-export const handleSetPage = (query: Query, router: RouteComponentProps, report, pageNumber) => {
+export const handleOnSetPage = (query: Query, router: RouteComponentProps, report, pageNumber) => {
   const limit = report && report.meta && report.meta.filter && report.meta.filter.limit ? report.meta.filter.limit : 10;
   const offset = pageNumber * limit - limit;
 
@@ -76,7 +76,7 @@ export const handleSetPage = (query: Query, router: RouteComponentProps, report,
   router.navigate(filteredQuery, { replace: true });
 };
 
-export const handleSort = (
+export const handleOnSort = (
   query: Query,
   router: RouteComponentProps,
   sortType: string,

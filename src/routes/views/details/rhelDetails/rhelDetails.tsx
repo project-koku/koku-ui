@@ -22,12 +22,12 @@ import type { ColumnManagementModalOption } from 'routes/views/details/component
 import { ColumnManagementModal, initHiddenColumns } from 'routes/views/details/components/columnManagement';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
-  handleCurrencySelected,
-  handleFilterAdded,
-  handleFilterRemoved,
-  handlePerPageSelect,
-  handleSetPage,
-  handleSort,
+  handleOnCurrencySelected,
+  handleOnFilterAdded,
+  handleOnFilterRemoved,
+  handleOnPerPageSelect,
+  handleOnSetPage,
+  handleOnSort,
 } from 'routes/views/utils/handles';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
@@ -229,8 +229,8 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
         isCompact={!isBottom}
         isDisabled={isDisabled}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => handlePerPageSelect(query, router, perPage)}
-        onSetPage={(event, pageNumber) => handleSetPage(query, router, report, pageNumber)}
+        onPerPageSelect={(event, perPage) => handleOnPerPageSelect(query, router, perPage)}
+        onSetPage={(event, pageNumber) => handleOnSetPage(query, router, report, pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -260,7 +260,7 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
-        onSort={(sortType, isSortAscending) => handleSort(query, router, sortType, isSortAscending)}
+        onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
@@ -288,8 +288,8 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
         onBulkSelected={this.handleBulkSelected}
         onColumnManagementClicked={this.handleColumnManagementModalOpen}
         onExportClicked={this.handleExportModalOpen}
-        onFilterAdded={filter => handleFilterAdded(query, router, filter)}
-        onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
+        onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
+        onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
         pagination={this.getPagination()}
         query={query}
         selectedItems={selectedItems}
@@ -400,7 +400,7 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
-          onCurrencySelected={value => handleCurrencySelected(query, router, value)}
+          onCurrencySelected={value => handleOnCurrencySelected(query, router, value)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />

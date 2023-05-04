@@ -24,14 +24,14 @@ import type { DateRangeType } from 'routes/views/utils/dateRange';
 import { getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import { getGroupByCostCategory, getGroupById, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
-  handleCostDistributionSelected,
-  handleCostTypeSelected,
-  handleCurrencySelected,
-  handleFilterAdded,
-  handleFilterRemoved,
-  handlePerPageSelect,
-  handleSetPage,
-  handleSort,
+  handleOnCostDistributionSelected,
+  handleOnCostTypeSelected,
+  handleOnCurrencySelected,
+  handleOnFilterAdded,
+  handleOnFilterRemoved,
+  handleOnPerPageSelect,
+  handleOnSetPage,
+  handleOnSort,
 } from 'routes/views/utils/handles';
 import { filterProviders, hasData } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
@@ -238,8 +238,8 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
         isCompact={!isBottom}
         isDisabled={isDisabled}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => handlePerPageSelect(query, router, perPage)}
-        onSetPage={(event, pageNumber) => handleSetPage(query, router, report, pageNumber)}
+        onPerPageSelect={(event, perPage) => handleOnPerPageSelect(query, router, perPage)}
+        onSetPage={(event, pageNumber) => handleOnSetPage(query, router, report, pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -279,7 +279,9 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
-        onSort={(sortType, isSortAscending, date: string) => handleSort(query, router, sortType, isSortAscending, date)}
+        onSort={(sortType, isSortAscending, date: string) =>
+          handleOnSort(query, router, sortType, isSortAscending, date)
+        }
         perspective={perspective}
         query={query}
         report={report}
@@ -511,12 +513,12 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
               ? `${tagPrefix}${groupByTagKey}`
               : groupById
           }
-          onCostDistributionSelected={value => handleCostDistributionSelected(query, router, value)}
-          onCostTypeSelected={value => handleCostTypeSelected(query, router, value)}
-          onCurrencySelected={value => handleCurrencySelected(query, router, value)}
+          onCostDistributionSelected={value => handleOnCostDistributionSelected(query, router, value)}
+          onCostTypeSelected={value => handleOnCostTypeSelected(query, router, value)}
+          onCurrencySelected={value => handleOnCurrencySelected(query, router, value)}
           onDatePickerSelected={this.handleDatePickerSelected}
-          onFilterAdded={filter => handleFilterAdded(query, router, filter)}
-          onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
+          onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
+          onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
           onGroupBySelected={this.handleGroupBySelected}
           onPerspectiveClicked={this.handlePerspectiveClick}
           perspective={perspective}

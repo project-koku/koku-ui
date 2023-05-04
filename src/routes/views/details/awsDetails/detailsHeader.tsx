@@ -62,7 +62,7 @@ const resourcePathsType = ResourcePathsType.aws;
 const tagPathsType = TagPathsType.aws;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
-  private handleCostTypeSelected = (value: string) => {
+  private handleOnCostTypeSelected = (value: string) => {
     const { onCostTypeSelected } = this.props;
 
     if (onCostTypeSelected) {
@@ -115,7 +115,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
               tagPathsType={tagPathsType}
             />
             <div style={styles.costType}>
-              <CostType costType={costType} onSelect={this.handleCostTypeSelected} />
+              <CostType costType={costType} onSelect={this.handleOnCostTypeSelected} />
             </div>
           </div>
           {showContent && (
