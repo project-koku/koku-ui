@@ -9,7 +9,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { invalidateSession, setCostType } from 'utils/localStorage';
+import { setCostType } from 'utils/localStorage';
 
 import { styles } from './costType.styles';
 
@@ -125,9 +125,6 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
 
   public render() {
     const { intl } = this.props;
-
-    // Clear local storage value if current session is not valid
-    invalidateSession();
 
     return (
       <div style={styles.costSelector}>
