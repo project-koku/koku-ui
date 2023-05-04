@@ -30,3 +30,9 @@
     }
   }
 }
+
+.tableOverride {
+  &.pf-c-table tbody .pf-c-table__check input {
+    margin-top: .40rem;
+  }
+}

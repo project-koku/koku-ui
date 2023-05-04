@@ -6,6 +6,9 @@
       z-index: 99;
     }
   }
+  &.pf-c-table tbody .pf-c-table__check input {
+    margin-top: .40rem;
+  }
   .stickyColumn {
     --pf-c-table--cell--Width: 1%;
   }
