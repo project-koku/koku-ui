@@ -23,13 +23,13 @@ import type { ColumnManagementModalOption } from 'routes/views/details/component
 import { ColumnManagementModal, initHiddenColumns } from 'routes/views/details/components/columnManagement';
 import { getGroupById, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
-  handleCostDistributionSelected,
-  handleCurrencySelected,
-  handleFilterAdded,
-  handleFilterRemoved,
-  handlePerPageSelect,
-  handleSetPage,
-  handleSort,
+  handleOnCostDistributionSelected,
+  handleOnCurrencySelected,
+  handleOnFilterAdded,
+  handleOnFilterRemoved,
+  handleOnPerPageSelect,
+  handleOnSetPage,
+  handleOnSort,
 } from 'routes/views/utils/handles';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
@@ -235,8 +235,8 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         isCompact={!isBottom}
         isDisabled={isDisabled}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => handlePerPageSelect(query, router, perPage)}
-        onSetPage={(event, pageNumber) => handleSetPage(query, router, report, pageNumber)}
+        onPerPageSelect={(event, perPage) => handleOnPerPageSelect(query, router, perPage)}
+        onSetPage={(event, pageNumber) => handleOnSetPage(query, router, report, pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -269,7 +269,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         isRosFeatureEnabled={isRosFeatureEnabled}
         onSelected={this.handleSelected}
-        onSort={(sortType, isSortAscending) => handleSort(query, router, sortType, isSortAscending)}
+        onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
@@ -297,8 +297,8 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         onBulkSelected={this.handleBulkSelected}
         onColumnManagementClicked={this.handleColumnManagementModalOpen}
         onExportClicked={this.handleExportModalOpen}
-        onFilterAdded={filter => handleFilterAdded(query, router, filter)}
-        onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
+        onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
+        onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
         onPlatformCostsChanged={this.handlePlatformCostsChanged}
         pagination={this.getPagination(isDisabled)}
         query={query}
@@ -433,8 +433,8 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
           costDistribution={costDistribution}
           currency={currency}
           groupBy={groupById}
-          onCostDistributionSelected={value => handleCostDistributionSelected(query, router, value)}
-          onCurrencySelected={value => handleCurrencySelected(query, router, value)}
+          onCostDistributionSelected={value => handleOnCostDistributionSelected(query, router, value)}
+          onCurrencySelected={value => handleOnCurrencySelected(query, router, value)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />

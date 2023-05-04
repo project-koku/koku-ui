@@ -262,7 +262,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     if (currentItem === InfrastructurePerspective.aws || currentItem === InfrastructurePerspective.awsOcp) {
       return (
         <div style={styles.costType}>
-          <CostType costType={costType} onSelect={this.handleCostTypeSelected} />
+          <CostType costType={costType} onSelect={this.handleOnCostTypeSelected} />
         </div>
       );
     }
@@ -272,7 +272,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
   private getCurrency = () => {
     const { currency } = this.props;
 
-    return <Currency onSelect={this.handleCurrencySelected} currency={currency} />;
+    return <Currency onSelect={this.handleOnCurrencySelected} currency={currency} />;
   };
 
   private getCurrentTab = () => {
@@ -579,7 +579,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     }
   };
 
-  private handleCostTypeSelected = () => {
+  private handleOnCostTypeSelected = () => {
     const { query, router } = this.props;
 
     const newQuery = {
@@ -588,7 +588,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     router.navigate(this.getRouteForQuery(newQuery), { replace: true });
   };
 
-  private handleCurrencySelected = () => {
+  private handleOnCurrencySelected = () => {
     const { router, query } = this.props;
 
     const newQuery = {

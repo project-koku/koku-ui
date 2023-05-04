@@ -15,7 +15,7 @@ import { NotAvailable } from 'routes/state/notAvailable';
 import { OptimizationsTable, OptimizationsToolbar } from 'routes/views/components/optimizations';
 import { styles } from 'routes/views/optimizations/optimizations.styles';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
-import { handleFilterAdded, handleFilterRemoved, handleSort } from 'routes/views/utils/handles';
+import { handleOnFilterAdded, handleOnFilterRemoved, handleOnSort } from 'routes/views/utils/handles';
 import { getOrderById, getOrderByValue } from 'routes/views/utils/orderBy';
 import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -95,8 +95,8 @@ class OptimizationsBreakdownBase extends React.Component<OptimizationsBreakdownP
         isCompact={!isBottom}
         isDisabled={isDisabled}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => this.handlePerPageSelect(perPage)}
-        onSetPage={(event, pageNumber) => this.handleSetPage(pageNumber)}
+        onPerPageSelect={(event, perPage) => this.handleOnPerPageSelect(perPage)}
+        onSetPage={(event, pageNumber) => this.handleOnSetPage(pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -117,7 +117,7 @@ class OptimizationsBreakdownBase extends React.Component<OptimizationsBreakdownP
     return (
       <OptimizationsTable
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        onSort={(sortType, isSortAscending) => handleSort(query, router, sortType, isSortAscending)}
+        onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         report={report}
         reportQueryString={reportQueryString}
       />
@@ -136,15 +136,15 @@ class OptimizationsBreakdownBase extends React.Component<OptimizationsBreakdownP
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
-        onFilterAdded={filter => handleFilterAdded(query, router, filter)}
-        onFilterRemoved={filter => handleFilterRemoved(query, router, filter)}
+        onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
+        onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
         pagination={this.getPagination(isDisabled)}
         query={query}
       />
     );
   };
 
-  private handlePerPageSelect = (perPage: number) => {
+  private handleOnPerPageSelect = (perPage: number) => {
     const { query, router } = this.props;
 
     const newQuery = {
@@ -155,7 +155,7 @@ class OptimizationsBreakdownBase extends React.Component<OptimizationsBreakdownP
     router.navigate(filteredQuery, { replace: true });
   };
 
-  private handleSetPage = (pageNumber: number) => {
+  private handleOnSetPage = (pageNumber: number) => {
     const { query, report, router } = this.props;
 
     const limit = report && report.meta && report.meta.limit ? report.meta.limit : baseQuery.limit;
