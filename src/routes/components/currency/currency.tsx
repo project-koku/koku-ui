@@ -16,7 +16,9 @@ import { styles } from './currency.styles';
 interface CurrencyOwnProps {
   currency?: string;
   isDisabled?: boolean;
+  isLocalStorage?: boolean;
   onSelect?: (value: string) => void;
+  showLabel?: boolean;
 }
 
 interface CurrencyDispatchProps {
@@ -66,7 +68,7 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
   public state: CurrencyState = { ...this.defaultState };
 
   private getSelect = () => {
-    const { currency, isDisabled } = this.props;
+    const { currency, isDisabled, showLabel = true } = this.props;
     const { isSelectOpen } = this.state;
 
     const selectOptions = this.getSelectOptions();
@@ -74,7 +76,7 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
 
     return (
       <Select
-        className="currencyOverride"
+        className={showLabel ? 'currencyOverride' : undefined}
         id="currencySelect"
         isDisabled={isDisabled}
         isOpen={isSelectOpen}
@@ -105,10 +107,12 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
   };
 
   private handleSelect = (event, selection: CurrencyOption) => {
-    const { onSelect } = this.props;
+    const { isLocalStorage = true, onSelect } = this.props;
 
-    setCurrency(selection.value); // Set currency units via local storage
-
+    // Set currency units via local storage
+    if (isLocalStorage) {
+      setCurrency(selection.value);
+    }
     this.setState(
       {
         isSelectOpen: false,
@@ -126,13 +130,15 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
   };
 
   public render() {
-    const { intl } = this.props;
+    const { intl, showLabel = true } = this.props;
 
     return (
       <div style={styles.currencySelector}>
-        <Title headingLevel="h2" size="md" style={styles.currencyLabel}>
-          {intl.formatMessage(messages.currency)}
-        </Title>
+        {showLabel && (
+          <Title headingLevel="h2" size="md" style={styles.currencyLabel}>
+            {intl.formatMessage(messages.currency)}
+          </Title>
+        )}
         {this.getSelect()}
       </div>
     );
