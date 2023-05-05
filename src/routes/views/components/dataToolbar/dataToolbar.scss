@@ -9,6 +9,9 @@
 }
 
 .toolbarOverride {
+  .pf-c-button.pf-m-control::after {
+    border-left: none;
+  }
   // Alternative workaround to overriding table sticky style
   // --pf-c-toolbar--ZIndex: auto; z-index: 301;
 }

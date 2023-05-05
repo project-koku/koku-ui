@@ -16,20 +16,18 @@ const CostModelsToolbar = () => {
   return (
     <ClearableToolbar>
       <ToolbarContent>
-        <ToolbarGroup variant="filter-group">
-          <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
+        <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
+          <ToolbarGroup variant="filter-group">
             <ToolbarItem>
               <CostModelsFilterSelector />
             </ToolbarItem>
-            <ToolbarItem>
-              <NameFilter />
-              <DescriptionFilter />
-              <SourceTypeFilter />
-            </ToolbarItem>
-          </ToolbarToggleGroup>
-          <ToolbarItem>
-            <CreateCostModelButton />
-          </ToolbarItem>
+            <NameFilter />
+            <DescriptionFilter />
+            <SourceTypeFilter />
+          </ToolbarGroup>
+        </ToolbarToggleGroup>
+        <ToolbarGroup>
+          <CreateCostModelButton />
         </ToolbarGroup>
         <ToolbarItem variant={ToolbarItemVariant.pagination}>
           <CostModelsTopPagination />
