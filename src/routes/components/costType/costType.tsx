@@ -2,7 +2,7 @@ import './costType.scss';
 
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import type { SelectOptionObject } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant, Title } from '@patternfly/react-core';
+import { Select, SelectOption, SelectVariant, Title, TitleSizes } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -133,7 +133,7 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
     return (
       <div style={styles.costSelector}>
         {showLabel && (
-          <Title headingLevel="h3" size="md" style={styles.costLabel}>
+          <Title headingLevel="h2" size={TitleSizes.md} style={styles.costLabel}>
             {intl.formatMessage(messages.costTypeLabel)}
           </Title>
         )}

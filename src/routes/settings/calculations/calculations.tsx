@@ -71,7 +71,7 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
 
     return (
       <div style={styles.costTypeContainer}>
-        <Title headingLevel="h2" style={styles.title} size={TitleSizes.xl}>
+        <Title headingLevel="h2" style={styles.title} size={TitleSizes.md}>
           {intl.formatMessage(messages.costTypeSettingsLabel)}
         </Title>
         {intl.formatMessage(messages.costTypeSettingsDesc)}
@@ -93,7 +93,7 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
 
     return (
       <div style={styles.currencyContainer}>
-        <Title headingLevel="h2" style={styles.title} size={TitleSizes.xl}>
+        <Title headingLevel="h2" style={styles.title} size={TitleSizes.md}>
           {intl.formatMessage(messages.currency)}
         </Title>
         {intl.formatMessage(messages.currencyDesc)}
