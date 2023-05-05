@@ -1,4 +1,3 @@
-import type { SettingsPayload } from 'api/settings';
 import type { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
@@ -8,15 +7,13 @@ import { getType } from 'typesafe-actions';
 import { updateSettingsFailure, updateSettingsRequest, updateSettingsSuccess } from './settingsActions';
 
 export type SettingsState = Readonly<{
-  current: SettingsPayload;
   error: AxiosError;
   status?: FetchStatus;
 }>;
 
 export const defaultState: SettingsState = {
-  current: undefined,
   error: undefined,
-  status: undefined,
+  status: FetchStatus.none,
 };
 
 export type SettingsAction = ActionType<
@@ -37,7 +34,6 @@ export function settingsReducer(state = defaultState, action: SettingsAction): S
     case getType(updateSettingsSuccess):
       return {
         ...state,
-        current: action.payload.data,
         error: null,
         status: FetchStatus.complete,
       };

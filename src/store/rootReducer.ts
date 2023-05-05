@@ -40,6 +40,7 @@ import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { reportReducer, reportStateKey } from 'store/reports';
 import { resourceReducer, resourceStateKey } from 'store/resources';
 import { rosReducer, rosStateKey } from 'store/ros';
+import { settingsReducer, settingsStateKey } from 'store/settings';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { tagReducer, tagStateKey } from 'store/tags';
 import type { StateType } from 'typesafe-actions';
@@ -92,6 +93,7 @@ export const rootReducer = combineReducers({
   [rhelDashboardStateKey]: rhelDashboardReducer,
   [rhelHistoricalDataStateKey]: rhelHistoricalDataReducer,
   [rosStateKey]: rosReducer,
+  [settingsStateKey]: settingsReducer,
   [sourcesStateKey]: sourcesReducer,
   [tagStateKey]: tagReducer,
   [uiStateKey]: uiReducer,

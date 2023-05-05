@@ -1841,6 +1841,18 @@
         "value": "Show cost as"
       }
     ],
+    "costTypeSettingsDesc": [
+      {
+        "type": 0,
+        "value": "Select the preferred way to calculating upfront costs, either through savings plans or subscription fees. This feature is available for Amazon Web Services cost only."
+      }
+    ],
+    "costTypeSettingsLabel": [
+      {
+        "type": 0,
+        "value": "Show cost as (Amazon Web Services only)"
+      }
+    ],
     "costTypeUnblended": [
       {
         "type": 0,
@@ -2002,6 +2014,12 @@
       {
         "type": 0,
         "value": "Currency and calculations"
+      }
+    ],
+    "currencyDesc": [
+      {
+        "type": 0,
+        "value": "Select the preferred currency view for your organization"
       }
     ],
     "currencyOptions": [
@@ -11066,6 +11084,12 @@
         "value": "Requests"
       }
     ],
+    "reset": [
+      {
+        "type": 0,
+        "value": "Reset"
+      }
+    ],
     "rhel": [
       {
         "type": 0,
@@ -11198,6 +11222,30 @@
       {
         "type": 0,
         "value": " selected"
+      }
+    ],
+    "settingsErrorDesc": [
+      {
+        "type": 0,
+        "value": "Failed to update settings"
+      }
+    ],
+    "settingsErrorTitle": [
+      {
+        "type": 0,
+        "value": "Unable to save application settings"
+      }
+    ],
+    "settingsSuccessDesc": [
+      {
+        "type": 0,
+        "value": "Settings for Cost Management were replaced with new values"
+      }
+    ],
+    "settingsSuccessTitle": [
+      {
+        "type": 0,
+        "value": "Application settings saved"
       }
     ],
     "settingsTitle": [

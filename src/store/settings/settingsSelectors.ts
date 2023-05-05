@@ -6,6 +6,6 @@ export const selectSettingsState = (state: RootState) => state[stateKey];
 
 // Update settings
 
-export const selectSettingsUpdateStatus = (state: RootState) => selectSettingsState(state).fetchStatus;
+export const selectSettingsUpdateStatus = (state: RootState) => selectSettingsState(state).status;
 
-export const selectSettingsError = (state: RootState) => selectSettingsState(state).errors;
+export const selectSettingsError = (state: RootState) => selectSettingsState(state).error;

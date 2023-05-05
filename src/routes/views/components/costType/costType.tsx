@@ -16,7 +16,9 @@ import { styles } from './costType.styles';
 interface CostTypeOwnProps {
   costType?: string;
   isDisabled?: boolean;
+  isLocalStorage?: boolean;
   onSelect?: (value: string) => void;
+  showLabel?: boolean;
 }
 
 interface CostTypeDispatchProps {
@@ -103,10 +105,12 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
   };
 
   private handleSelect = (event, selection: CostTypeOption) => {
-    const { onSelect } = this.props;
+    const { isLocalStorage = true, onSelect } = this.props;
 
-    setCostType(selection.value); // Set cost type in local storage
-
+    // Set cost type in local storage
+    if (isLocalStorage) {
+      setCostType(selection.value);
+    }
     this.setState(
       {
         isSelectOpen: false,
@@ -124,13 +128,15 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
   };
 
   public render() {
-    const { intl } = this.props;
+    const { intl, showLabel = true } = this.props;
 
     return (
       <div style={styles.costSelector}>
-        <Title headingLevel="h3" size="md" style={styles.costLabel}>
-          {intl.formatMessage(messages.costTypeLabel)}
-        </Title>
+        {showLabel && (
+          <Title headingLevel="h3" size="md" style={styles.costLabel}>
+            {intl.formatMessage(messages.costTypeLabel)}
+          </Title>
+        )}
         {this.getSelect()}
       </div>
     );

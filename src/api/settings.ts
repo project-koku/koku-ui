@@ -10,5 +10,5 @@ export interface SettingsPayload {
 }
 
 export function updatetSettings(payload: SettingsPayload) {
-  return axios.put(`settings/`, payload);
+  return axios.post(`settings/`, payload);
 }

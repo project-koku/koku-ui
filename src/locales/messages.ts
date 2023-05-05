@@ -918,6 +918,18 @@ export default defineMessages({
     description: 'Show cost as',
     id: 'costTypeLabel',
   },
+  costTypeSettingsDesc: {
+    defaultMessage:
+      'Select the preferred way to calculating upfront costs, either through savings plans or subscription fees. This feature is available for Amazon Web Services cost only.',
+    description:
+      'Select the preferred way to calculating upfront costs, either through savings plans or subscription fees. This feature is available for Amazon Web Services cost only.',
+    id: 'costTypeSettingsDesc',
+  },
+  costTypeSettingsLabel: {
+    defaultMessage: 'Show cost as (Amazon Web Services only)',
+    description: 'Show cost as (Amazon Web Services only)',
+    id: 'costTypeSettingsLabel',
+  },
   costTypeUnblended: {
     defaultMessage: 'Unblended',
     description: 'Unblended cost type',
@@ -1001,6 +1013,11 @@ export default defineMessages({
     defaultMessage: 'Currency and calculations',
     description: 'Currency and calculations',
     id: 'currencyCalcuations',
+  },
+  currencyDesc: {
+    defaultMessage: 'Select the preferred currency view for your organization',
+    description: 'Select the preferred currency view for your organization',
+    id: 'currencyDesc',
   },
   // See https://www.localeplanet.com/icu/currency.html
   currencyOptions: {
@@ -2926,6 +2943,11 @@ export default defineMessages({
     description: 'Requests',
     id: 'requests',
   },
+  reset: {
+    defaultMessage: 'Reset',
+    description: 'Reset',
+    id: 'reset',
+  },
   rhel: {
     defaultMessage: 'RHEL',
     description: 'RHEL',
@@ -3012,6 +3034,26 @@ export default defineMessages({
     defaultMessage: '{value} selected',
     description: '{value} selected',
     id: 'selected',
+  },
+  settingsErrorDesc: {
+    defaultMessage: 'Failed to update settings',
+    description: 'Failed to update settings',
+    id: 'settingsErrorDesc',
+  },
+  settingsErrorTitle: {
+    defaultMessage: 'Unable to save application settings',
+    description: 'Unable to save application settings',
+    id: 'settingsErrorTitle',
+  },
+  settingsSuccessDesc: {
+    defaultMessage: 'Settings for Cost Management were replaced with new values',
+    description: 'Settings for Cost Management were replaced with new values',
+    id: 'settingsSuccessDesc',
+  },
+  settingsSuccessTitle: {
+    defaultMessage: 'Application settings saved',
+    description: 'Application settings saved',
+    id: 'settingsSuccessTitle',
   },
   settingsTitle: {
     defaultMessage: 'Cost Management Settings',
