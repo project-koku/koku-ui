@@ -1,4 +1,4 @@
-import { FormGroup, Radio, Stack, StackItem, Text, TextContent, Title } from '@patternfly/react-core';
+import { FormGroup, Radio, Stack, StackItem, Text, TextContent, Title, TitleSizes } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -37,7 +37,7 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
           return (
             <Stack hasGutter>
               <StackItem>
-                <Title headingLevel="h2" size="xl" style={styles.titleWithLearnMore}>
+                <Title headingLevel="h2" size={TitleSizes.xl} style={styles.titleWithLearnMore}>
                   {intl.formatMessage(messages.costDistribution)}
                 </Title>
                 <a href={intl.formatMessage(messages.docsCostModelsDistribution)} rel="noreferrer" target="_blank">
@@ -45,7 +45,7 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                 </a>
               </StackItem>
               <StackItem>
-                <Title headingLevel="h3" size="md">
+                <Title headingLevel="h3" size={TitleSizes.md}>
                   {intl.formatMessage(messages.distributionType)}
                 </Title>
                 <TextContent>
@@ -77,7 +77,7 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                 </Form>
               </StackItem>
               <StackItem>
-                <Title headingLevel="h3" size="md">
+                <Title headingLevel="h3" size={TitleSizes.md}>
                   {intl.formatMessage(messages.platform)}
                 </Title>
                 <TextContent>
@@ -109,7 +109,7 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                 </Form>
               </StackItem>
               <StackItem>
-                <Title headingLevel="h3" size="md">
+                <Title headingLevel="h3" size={TitleSizes.md}>
                   {intl.formatMessage(messages.workerUnallocated)}
                 </Title>
                 <TextContent>

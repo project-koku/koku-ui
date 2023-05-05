@@ -1,4 +1,4 @@
-import { Skeleton, Title } from '@patternfly/react-core';
+import { Skeleton, Title, TitleSizes } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
@@ -225,7 +225,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
     return (
       <>
         <div style={styles.titleContainer}>
-          <Title headingLevel="h3" size="md">
+          <Title headingLevel="h3" size={TitleSizes.md}>
             {intl.formatMessage(messages.explorerChartTitle, { value: perspective })}
           </Title>
         </div>

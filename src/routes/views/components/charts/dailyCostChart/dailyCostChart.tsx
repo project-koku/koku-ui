@@ -11,7 +11,7 @@ import {
   createContainer,
   getInteractiveLegendEvents,
 } from '@patternfly/react-charts';
-import { Title } from '@patternfly/react-core';
+import { Title, TitleSizes } from '@patternfly/react-core';
 import { getDate } from 'date-fns';
 import messages from 'locales/messages';
 import React from 'react';
@@ -405,7 +405,7 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
     return (
       <>
         {title && (
-          <Title headingLevel="h3" size="md">
+          <Title headingLevel="h3" size={TitleSizes.md}>
             {title}
           </Title>
         )}

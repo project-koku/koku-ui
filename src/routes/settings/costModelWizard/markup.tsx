@@ -79,7 +79,7 @@ class MarkupWithDistributionBase extends React.Component<MarkupWithDistributionP
                 </a>
               </StackItem>
               <StackItem>
-                <Title headingLevel="h3" size="md">
+                <Title headingLevel="h3" size={TitleSizes.md}>
                   {intl.formatMessage(messages.markupOrDiscount)}
                 </Title>
                 <TextContent>
