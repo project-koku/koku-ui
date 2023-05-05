@@ -9,7 +9,7 @@ import { Currency } from 'routes/components/currency';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
-import { getCostType, getCurrency, setCostType, setCurrency } from 'utils/localStorage';
+import { getCostType, getCurrency, setAccountCurrency, setCostType, setCurrency } from 'utils/localStorage';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -71,7 +71,7 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
 
     return (
       <div style={styles.costTypeContainer}>
-        <Title headingLevel="h2" style={styles.title} size={TitleSizes.xl}>
+        <Title headingLevel="h2" style={styles.title} size={TitleSizes.md}>
           {intl.formatMessage(messages.costTypeSettingsLabel)}
         </Title>
         {intl.formatMessage(messages.costTypeSettingsDesc)}
@@ -93,7 +93,7 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
 
     return (
       <div style={styles.currencyContainer}>
-        <Title headingLevel="h2" style={styles.title} size={TitleSizes.xl}>
+        <Title headingLevel="h2" style={styles.title} size={TitleSizes.md}>
           {intl.formatMessage(messages.currency)}
         </Title>
         {intl.formatMessage(messages.currencyDesc)}
@@ -127,6 +127,7 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
 
     setCostType(currentCostType);
     setCurrency(currentCurrency);
+    setAccountCurrency(currentCurrency); // Todo: remove account currency after settings page has been moved
     updateSettings({
       api: {
         settings: {

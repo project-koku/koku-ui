@@ -1,4 +1,12 @@
-import { Button, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
+import {
+  Button,
+  EmptyState,
+  EmptyStateBody,
+  EmptyStateIcon,
+  EmptyStateVariant,
+  Title,
+  TitleSizes,
+} from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import messages from 'locales/messages';
 import React from 'react';
@@ -18,7 +26,7 @@ class NoDataStateBase extends React.Component<NoDataStateProps, any> {
     return (
       <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
         <EmptyStateIcon icon={PlusCircleIcon} />
-        <Title headingLevel="h5" size="lg">
+        <Title headingLevel="h5" size={TitleSizes.lg}>
           {intl.formatMessage(messages.noDataStateTitle)}
         </Title>
         <EmptyStateBody>{intl.formatMessage(messages.noDataStateDesc)}</EmptyStateBody>

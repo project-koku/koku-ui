@@ -32,7 +32,7 @@ export const ErrorState: React.FC<ErrorStateProps> = ({ variant, actionButton, t
   return (
     <EmptyState variant={variant}>
       <EmptyStateIcon icon={ExclamationCircleIcon} color={global_DangerColor_100.value} />
-      <Title headingLevel="h4" size="lg">
+      <Title headingLevel="h4" size={TitleSizes.lg}>
         {title}
       </Title>
       <EmptyStateBody>

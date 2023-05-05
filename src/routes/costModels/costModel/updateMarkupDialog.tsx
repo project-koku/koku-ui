@@ -18,6 +18,7 @@ import {
   TextContent,
   TextInput,
   Title,
+  TitleSizes,
 } from '@patternfly/react-core';
 import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
@@ -155,7 +156,7 @@ class UpdateMarkupDialogBase extends React.Component<UpdateMarkupDialogProps, Up
           </StackItem>
           <StackItem>
             <TextContent>
-              <Title headingLevel="h2" size="md">
+              <Title headingLevel="h2" size={TitleSizes.md}>
                 {intl.formatMessage(messages.markupOrDiscount)}
               </Title>
             </TextContent>

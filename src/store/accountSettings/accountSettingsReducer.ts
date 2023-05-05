@@ -89,7 +89,7 @@ function initCurrency(value: string) {
   // Reset UI's currency selection if default currency has changed.
   const accountCurrency = getAccountCurrency();
   if (accountCurrency && accountCurrency !== value) {
-    // Todo: After the settings page is moved to the Cost Management UI, we can clear the cached currency there.
+    // Todo: remove account currency after settings page has been moved
     // That way, resetting the currency for the UI should only affect the user who changed the default.
     setCurrency(accountCurrency);
   }

@@ -9,6 +9,7 @@ import {
   Popover,
   Spinner,
   Title,
+  TitleSizes,
 } from '@patternfly/react-core';
 import { DownloadIcon } from '@patternfly/react-icons/dist/esm/icons/download-icon';
 import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
@@ -169,7 +170,7 @@ class ExportsTableBase extends React.Component<ExportsTableProps, ExportsTableSt
     return (
       <EmptyState>
         <EmptyStateIcon icon={PlusCircleIcon} />
-        <Title headingLevel="h5" size="lg">
+        <Title headingLevel="h5" size={TitleSizes.lg}>
           {intl.formatMessage(messages.noExportsStateTitle)}
         </Title>
         <EmptyStateBody>{intl.formatMessage(messages.exportsEmptyState)}</EmptyStateBody>

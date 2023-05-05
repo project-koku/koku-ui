@@ -11,6 +11,7 @@ import {
   Text,
   TextContent,
   Title,
+  TitleSizes,
 } from '@patternfly/react-core';
 import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
@@ -122,7 +123,7 @@ class UpdateDistributionDialogBase extends React.Component<
         <Stack hasGutter>
           <StackItem>{error && <Alert variant="danger" title={`${error}`} />}</StackItem>
           <StackItem>
-            <Title headingLevel="h3" size="md">
+            <Title headingLevel="h3" size={TitleSizes.md}>
               {intl.formatMessage(messages.distributionType)}
             </Title>
             <TextContent>
@@ -154,7 +155,7 @@ class UpdateDistributionDialogBase extends React.Component<
             </Form>
           </StackItem>
           <StackItem>
-            <Title headingLevel="h3" size="md">
+            <Title headingLevel="h3" size={TitleSizes.md}>
               {intl.formatMessage(messages.platform)}
             </Title>
             <TextContent>
@@ -186,7 +187,7 @@ class UpdateDistributionDialogBase extends React.Component<
             </Form>
           </StackItem>
           <StackItem>
-            <Title headingLevel="h3" size="md">
+            <Title headingLevel="h3" size={TitleSizes.md}>
               {intl.formatMessage(messages.workerUnallocated)}
             </Title>
             <TextContent>
