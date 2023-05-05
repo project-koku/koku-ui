@@ -1,5 +1,5 @@
+import { CostTypes } from 'routes/components/costType/costType';
 import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
-import { CostTypes } from 'routes/views/components/costType/costType';
 
 const accountCurrencyID = 'account_currency';
 const costDistributionID = 'cost_distribution';

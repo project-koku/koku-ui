@@ -136,7 +136,7 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
     } else if (currentTab === SettingsTab.calculations) {
       return <Calculations />;
     } else if (currentTab === SettingsTab.tags) {
-      return 'tags';
+      return null;
     } else {
       return emptyTab;
     }
