@@ -1,4 +1,4 @@
-import { Button, ButtonVariant, PageSection, Title, TitleSizes } from '@patternfly/react-core';
+import { PageSection, Title, TitleSizes } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -45,26 +45,6 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
   };
   public state: SettingsState = { ...this.defaultState };
 
-  private getActions = () => {
-    const { intl } = this.props;
-    const { currentCostType, currentCurrency } = this.state;
-
-    const isDisabled = currentCostType === getCostType() && currentCurrency === getCurrency();
-
-    return (
-      <div style={styles.actionsContainer}>
-        <Button isDisabled={isDisabled} key="save" onClick={this.handleOnSave} variant={ButtonVariant.primary}>
-          {intl.formatMessage(messages.save)}
-        </Button>
-        <div style={styles.resetContainer}>
-          <Button isDisabled={isDisabled} key="reset" onClick={this.handleOnReset} variant={ButtonVariant.secondary}>
-            {intl.formatMessage(messages.reset)}
-          </Button>
-        </div>
-      </div>
-    );
-  };
-
   private getCostType = () => {
     const { intl } = this.props;
     const { currentCostType } = this.state;
@@ -110,31 +90,33 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
   };
 
   private handleOnCostTypeSelected = value => {
-    this.setState({ currentCostType: value });
+    const { updateSettings } = this.props;
+
+    this.setState({ currentCostType: value }, () => {
+      setCostType(value);
+      updateSettings({
+        api: {
+          settings: {
+            cost_type: value,
+          },
+        },
+      });
+    });
   };
 
   private handleOnCurrencySelected = value => {
-    this.setState({ currentCurrency: value });
-  };
-
-  private handleOnReset = () => {
-    this.setState({ currentCostType: getCostType(), currentCurrency: getCurrency() });
-  };
-
-  private handleOnSave = () => {
     const { updateSettings } = this.props;
-    const { currentCostType, currentCurrency } = this.state;
 
-    setCostType(currentCostType);
-    setCurrency(currentCurrency);
-    setAccountCurrency(currentCurrency); // Todo: remove account currency after settings page has been moved
-    updateSettings({
-      api: {
-        settings: {
-          cost_type: currentCostType,
-          currency: currentCurrency,
+    this.setState({ currentCurrency: value }, () => {
+      setCurrency(value);
+      setAccountCurrency(value); // Todo: remove account currency after settings page has been moved
+      updateSettings({
+        api: {
+          settings: {
+            currency: value,
+          },
         },
-      },
+      });
     });
   };
 
@@ -143,7 +125,6 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
       <PageSection isFilled>
         {this.getCurrency()}
         {this.getCostType()}
-        {this.getActions()}
       </PageSection>
     );
   }
