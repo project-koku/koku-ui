@@ -133,18 +133,22 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
           {rows.map((r, rowIndex) => (
             <Tr key={rowIndex}>
               {r.cells.map((c, cellIndex) => (
-                <Td key={cellIndex}>{c.title ? c.title : c}</Td>
+                <Td colSpan={c.props ? c.props.colSpan : undefined} key={cellIndex}>
+                  {c.title ? c.title : c}
+                </Td>
               ))}
-              <Td isActionCell>
-                <ActionsColumn
-                  items={actions.map(a => {
-                    return {
-                      ...a,
-                      onClick: _evt => a.onClick(_evt, rowIndex, r, null),
-                    };
-                  })}
-                />
-              </Td>
+              {!r.heightAuto && (
+                <Td isActionCell>
+                  <ActionsColumn
+                    items={actions.map(a => {
+                      return {
+                        ...a,
+                        onClick: _evt => a.onClick(_evt, rowIndex, r, null),
+                      };
+                    })}
+                  />
+                </Td>
+              )}
             </Tr>
           ))}
         </Tbody>

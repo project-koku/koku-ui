@@ -37,7 +37,7 @@ export function getRowsByStateName(stateName: string, data: any) {
         heightAuto: true,
         cells: [
           {
-            props: { colSpan: 5 },
+            props: { colSpan: 6 },
             title: <Bullseye> {component} </Bullseye>,
           },
         ],
