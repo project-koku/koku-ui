@@ -8,7 +8,7 @@ export const styles = {
     marginTop: global_spacer_lg.value,
   },
   firstColumn: {
-    width: '250px',
+    width: '225px',
   },
   tableContainer: {
     marginTop: global_spacer_lg.value,
