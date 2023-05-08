@@ -88,7 +88,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       },
     ];
 
-    computedItems.map((item, index) => {
+    computedItems.map(item => {
       const label = item && item.label !== null ? item.label : '';
 
       rows.push({
