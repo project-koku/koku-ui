@@ -692,11 +692,6 @@ export default defineMessages({
     description: 'Sources table',
     id: 'costModelsSourceTableAriaLabel',
   },
-  costModelsSourceType: {
-    defaultMessage: 'Source type',
-    description: 'Source type',
-    id: 'costModelsSourceType',
-  },
   costModelsTableAriaLabel: {
     defaultMessage: 'Cost models table',
     description: 'Cost models table',
@@ -1202,6 +1197,7 @@ export default defineMessages({
       'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
       'gcp_project {GCP project names} ' +
+      'name {Name} ' +
       'node {Node names} ' +
       'org_unit_id {Organizational unit names} ' +
       'payer_tenant_id {Account names} ' +
@@ -1211,7 +1207,9 @@ export default defineMessages({
       'resource_location {Region names} ' +
       'service {Service names} ' +
       'service_name {Service names} ' +
+      'status {Status} ' +
       'subscription_guid {Account names} ' +
+      'source_type {Source type} ' +
       'tag {Tag names} ' +
       'other {}}',
     description: 'Details table resource names',
@@ -1295,6 +1293,11 @@ export default defineMessages({
       'other {}}',
     description: 'View all {value}',
     id: 'detailsViewAll',
+  },
+  disabled: {
+    defaultMessage: 'Disabled',
+    description: 'Disabled',
+    id: 'disabled',
   },
   discountMinus: {
     defaultMessage: 'Discount (-)',
@@ -1420,6 +1423,11 @@ export default defineMessages({
     defaultMessage: 'No match found',
     description: 'No match found',
     id: 'emptyFilterStateTitle',
+  },
+  enabled: {
+    defaultMessage: 'Enabled',
+    description: 'Enabled',
+    id: 'enabled',
   },
   end: {
     defaultMessage: 'End',
@@ -3064,6 +3072,11 @@ export default defineMessages({
     defaultMessage: '{dateRange}',
     description: 'Jan 1-31',
     id: 'sinceDate',
+  },
+  sourceType: {
+    defaultMessage: 'Source type',
+    description: 'Source type',
+    id: 'sourceType',
   },
   sources: {
     defaultMessage: 'Sources',
