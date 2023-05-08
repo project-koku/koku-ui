@@ -168,11 +168,11 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
           <TextListItem component={TextListItemVariants.dt}>
             {intl.formatMessage(messages.optimizationsValues, { value: 'workload_type' })}
           </TextListItem>
-          <TextListItem component={TextListItemVariants.dd}>{workload}</TextListItem>
+          <TextListItem component={TextListItemVariants.dd}>{workloadType}</TextListItem>
           <TextListItem component={TextListItemVariants.dt}>
             {intl.formatMessage(messages.optimizationsValues, { value: 'workload' })}
           </TextListItem>
-          <TextListItem component={TextListItemVariants.dd}>{workloadType}</TextListItem>
+          <TextListItem component={TextListItemVariants.dd}>{workload}</TextListItem>
         </TextList>
       </TextContent>
     );
