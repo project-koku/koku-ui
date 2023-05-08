@@ -1,4 +1,3 @@
-import { PageSection, PageSectionVariants } from '@patternfly/react-core';
 import type { ICell, IRowData, ThProps } from '@patternfly/react-table';
 import { ActionsColumn, TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { sortable, TableGridBreakpoint } from '@patternfly/react-table';
@@ -115,28 +114,30 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
     });
 
     return (
-      <PageSection variant={PageSectionVariants.light}>
-        <TableComposable
-          aria-label={intl.formatMessage(messages.costModelsTableAriaLabel)}
-          gridBreakPoint={TableGridBreakpoint.grid2xl}
-          variant={TableVariant.compact}
-        >
-          <Thead>
-            <Tr>
-              {cells.map((c, cellIndex) => (
-                <Th key={cellIndex} sort={c.transforms ? getSortParams(cellIndex) : undefined}>
-                  {c.title}
-                </Th>
+      <TableComposable
+        aria-label={intl.formatMessage(messages.costModelsTableAriaLabel)}
+        gridBreakPoint={TableGridBreakpoint.grid2xl}
+        variant={TableVariant.compact}
+      >
+        <Thead>
+          <Tr>
+            {cells.map((c, cellIndex) => (
+              <Th key={cellIndex} sort={c.transforms ? getSortParams(cellIndex) : undefined}>
+                {c.title}
+              </Th>
+            ))}
+            <Th></Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {rows.map((r, rowIndex) => (
+            <Tr key={rowIndex}>
+              {r.cells.map((c, cellIndex) => (
+                <Td colSpan={c.props ? c.props.colSpan : undefined} key={cellIndex}>
+                  {c.title ? c.title : c}
+                </Td>
               ))}
-              <Th></Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {rows.map((r, rowIndex) => (
-              <Tr key={rowIndex}>
-                {r.cells.map((c, cellIndex) => (
-                  <Td key={cellIndex}>{c.title ? c.title : c}</Td>
-                ))}
+              {!r.heightAuto && (
                 <Td isActionCell>
                   <ActionsColumn
                     items={actions.map(a => {
@@ -147,11 +148,11 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
                     })}
                   />
                 </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </TableComposable>
-      </PageSection>
+              )}
+            </Tr>
+          ))}
+        </Tbody>
+      </TableComposable>
     );
   }
 }
