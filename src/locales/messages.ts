@@ -375,15 +375,22 @@ export default defineMessages({
     description: 'Cost calculations (optional)',
     id: 'costCalculationsOptional',
   },
-  costCategories: {
-    defaultMessage: 'Cost categories',
-    description: 'Cost categories',
-    id: 'costCategories',
+  costCategoryDesc: {
+    defaultMessage:
+      'Enable your data source labels to be used as AWS category keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
+    description:
+      'Enable your data source labels to be used as AWS category keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
+    id: 'costCategoryDesc',
   },
   costCategoryNames: {
     defaultMessage: 'Cost category names',
     description: 'Cost category names',
     id: 'costCategoryNames',
+  },
+  costCategoryTitle: {
+    defaultMessage: 'Cost categories',
+    description: 'Cost categories',
+    id: 'costCategoryTitle',
   },
   costDistribution: {
     defaultMessage: 'Cost distribution',
@@ -1009,10 +1016,10 @@ export default defineMessages({
     description: 'str.match(/([\\D]*)([\\d.,]+)([\\D]*)/)',
     id: 'currencyAbbreviations',
   },
-  currencyCalcuations: {
+  currencyCalcuationsTitle: {
     defaultMessage: 'Currency and calculations',
     description: 'Currency and calculations',
-    id: 'currencyCalcuations',
+    id: 'currencyCalcuationsTitle',
   },
   currencyDesc: {
     defaultMessage: 'Select the preferred currency view for your organization',
@@ -1360,6 +1367,13 @@ export default defineMessages({
     description:
       'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/adding_an_openshift_container_platform_source_to_cost_management',
     id: 'docsAddOcpSources',
+  },
+  docsConfigCostCategory: {
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
+    id: 'docsConfigCostCategory',
   },
   docsConfigCostModels: {
     defaultMessage:
@@ -3165,7 +3179,7 @@ export default defineMessages({
     description: 'Value',
     id: 'tagHeadingValue',
   },
-  tagLabels: {
+  tagLabelsTitle: {
     defaultMessage: 'Tags and labels',
     description: 'Tags and labels',
     id: 'tagLabels',

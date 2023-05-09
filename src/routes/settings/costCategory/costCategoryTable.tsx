@@ -145,4 +145,3 @@ class CostCategoryBase extends React.Component<CostCategoryProps, CostCategorySt
 const CostCategoryTable = injectIntl(withRouter(CostCategoryBase));
 
 export { CostCategoryTable };
-export type { CostCategoryProps };

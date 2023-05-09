@@ -11,8 +11,6 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Loading } from 'routes/state/loading';
 import { NotAvailable } from 'routes/state/notAvailable';
-import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
-import { getGroupById, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleOnFilterAdded,
   handleOnFilterRemoved,
@@ -21,13 +19,9 @@ import {
   handleOnSort,
 } from 'routes/views/utils/handles';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { getCostDistribution, getCurrency } from 'utils/localStorage';
-import { tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -110,14 +104,11 @@ class CostCategory extends React.Component<CostCategoryProps, CostCategoryState>
   }
 
   private getComputedItems = () => {
-    const { query, report } = this.props;
-
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = getGroupByTagKey(query);
+    const { report } = this.props;
 
     return getUnsortedComputedReportItems({
       report,
-      idKey: (groupByTagKey as any) || groupById,
+      idKey: 'project' as any,
     });
   };
 
@@ -160,13 +151,8 @@ class CostCategory extends React.Component<CostCategoryProps, CostCategoryState>
     const { query, report, reportFetchStatus, reportQueryString, router } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = getGroupByTagKey(query);
-
     return (
       <CostCategoryTable
-        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
-        groupByTagKey={groupByTagKey}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
@@ -248,7 +234,7 @@ class CostCategory extends React.Component<CostCategoryProps, CostCategoryState>
 
     const computedItems = this.getComputedItems();
     const isDisabled = computedItems.length === 0;
-    const title = intl.formatMessage(messages.ocpDetailsTitle);
+    const title = intl.formatMessage(messages.costCategoryTitle);
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
     if (reportError) {
@@ -257,9 +243,9 @@ class CostCategory extends React.Component<CostCategoryProps, CostCategoryState>
     return (
       <PageSection isFilled>
         <div style={styles.descContainer}>
-          {intl.formatMessage(messages.tagDesc, {
+          {intl.formatMessage(messages.costCategoryDesc, {
             learnMore: (
-              <a href={intl.formatMessage(messages.docsConfigTags)} rel="noreferrer" target="_blank">
+              <a href={intl.formatMessage(messages.docsConfigCostCategory)} rel="noreferrer" target="_blank">
                 {intl.formatMessage(messages.learnMore)}
               </a>
             ),
@@ -282,26 +268,12 @@ class CostCategory extends React.Component<CostCategoryProps, CostCategoryState>
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<CostCategoryOwnProps, CostCategoryStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
-  const groupBy = queryFromRoute.group_by ? getGroupById(queryFromRoute) : getGroupById(baseQuery);
-
-  const isCostDistributionFeatureEnabled = featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state);
-  const costDistribution =
-    groupBy === 'project' && isCostDistributionFeatureEnabled ? getCostDistribution() : undefined;
-  const currency = getCurrency();
 
   const query: any = {
     ...baseQuery,
-    ...(costDistribution === ComputedReportItemValueType.distributed && {
-      order_by: {
-        distributed_cost: 'desc',
-      },
-    }),
     ...queryFromRoute,
   };
   const reportQuery = {
-    category: query.category,
-    currency,
-    delta: costDistribution === ComputedReportItemValueType.distributed ? 'distributed_cost' : 'cost',
     exclude: query.exclude,
     filter: {
       ...query.filter,

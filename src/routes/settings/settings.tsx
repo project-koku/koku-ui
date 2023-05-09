@@ -169,11 +169,11 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
     if (tab === SettingsTab.costModels) {
       return intl.formatMessage(messages.costModels);
     } else if (tab === SettingsTab.calculations) {
-      return intl.formatMessage(messages.currencyCalcuations);
+      return intl.formatMessage(messages.currencyCalcuationsTitle);
     } else if (tab === SettingsTab.tags) {
-      return intl.formatMessage(messages.tagLabels);
+      return intl.formatMessage(messages.tagLabelsTitle);
     } else if (tab === SettingsTab.costCategory) {
-      return intl.formatMessage(messages.costCategories);
+      return intl.formatMessage(messages.costCategoryTitle);
     }
   };
 
