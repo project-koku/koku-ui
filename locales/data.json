@@ -3274,6 +3274,12 @@
         "value": "value"
       }
     ],
+    "disableTags": [
+      {
+        "type": 0,
+        "value": "Disable tags"
+      }
+    ],
     "disabled": [
       {
         "type": 0,
@@ -3510,6 +3516,12 @@
       {
         "type": 0,
         "value": "No match found"
+      }
+    ],
+    "enableTags": [
+      {
+        "type": 0,
+        "value": "Enable tags"
       }
     ],
     "enabled": [
@@ -7326,6 +7338,22 @@
               {
                 "type": 0,
                 "value": "Service"
+              }
+            ]
+          },
+          "source_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Source type"
+              }
+            ]
+          },
+          "status": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Status"
               }
             ]
           },

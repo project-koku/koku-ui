@@ -5,13 +5,6 @@ import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm'
 import type React from 'react';
 
 export const styles = {
-  actionsContainer: {
-    backgroundColor: global_BackgroundColor_light_100.var,
-    paddingBottom: global_spacer_lg.var,
-    paddingLeft: global_spacer_lg.var,
-    paddingRight: global_spacer_lg.var,
-    // paddingTop: global_spacer_lg.var,
-  },
   costType: {
     marginBottom: global_spacer_lg.var,
     marginTop: global_spacer_lg.var,

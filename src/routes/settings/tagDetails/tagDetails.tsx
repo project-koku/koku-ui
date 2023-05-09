@@ -213,6 +213,8 @@ class TagDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
+        onDisableTags={this.handleOnDisableTags}
+        onEnableTags={this.handleOnEnableTags}
         onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
         pagination={this.getPagination(isDisabled)}
@@ -252,6 +254,10 @@ class TagDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
     }
     this.setState({ isAllSelected: false, selectedItems: newItems });
   };
+
+  private handleOnDisableTags = () => {};
+
+  private handleOnEnableTags = () => {};
 
   private updateReport = () => {
     const { fetchReport, reportQueryString } = this.props;

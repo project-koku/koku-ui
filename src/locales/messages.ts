@@ -1294,6 +1294,11 @@ export default defineMessages({
     description: 'View all {value}',
     id: 'detailsViewAll',
   },
+  disableTags: {
+    defaultMessage: 'Disable tags',
+    description: 'Disable tags',
+    id: 'disableTags',
+  },
   disabled: {
     defaultMessage: 'Disabled',
     description: 'Disabled',
@@ -1430,6 +1435,11 @@ export default defineMessages({
     defaultMessage: 'No match found',
     description: 'No match found',
     id: 'emptyFilterStateTitle',
+  },
+  enableTags: {
+    defaultMessage: 'Enable tags',
+    description: 'Enabled tags',
+    id: 'enableTags',
   },
   enabled: {
     defaultMessage: 'Enabled',
@@ -1873,6 +1883,8 @@ export default defineMessages({
       'resource_location {Region} ' +
       'service {Service} ' +
       'service_name {Service} ' +
+      'status {Status} ' +
+      'source_type {Source type} ' +
       'subscription_guid {Account} ' +
       'tag {Tag} ' +
       'workload {Workload name} ' +

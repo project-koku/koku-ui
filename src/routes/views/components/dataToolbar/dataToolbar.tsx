@@ -93,6 +93,7 @@ interface DataToolbarOwnProps {
   showFilter?: boolean; // Show export icon
   showPlatformCosts?: boolean; // Show platform costs switch
   style?: React.CSSProperties;
+  tagActions?: React.ReactNode;
   tagPathsType?: TagPathsType;
   tagReport?: Tag; // Data containing tag key and value data
 }
@@ -1423,6 +1424,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       showFilter,
       showPlatformCosts,
       style,
+      tagActions,
     } = this.props;
     const options = categoryOptions ? categoryOptions : this.getDefaultCategoryOptions();
     const hasFilters = this.hasFilters();
@@ -1470,6 +1472,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
                 {datePicker}
               </ToolbarGroup>
             )}
+            {tagActions && <ToolbarGroup>{tagActions}</ToolbarGroup>}
             <ToolbarItem alignment={{ default: 'alignRight' }} variant="pagination">
               {pagination}
             </ToolbarItem>
