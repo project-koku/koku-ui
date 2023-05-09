@@ -1,9 +1,7 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
+import { Button, ButtonVariant } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
-import { getQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
-import type { OcpTag } from 'api/tags/ocpTags';
-import { TagPathsType, TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -11,12 +9,10 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { DataToolbar } from 'routes/views/components/dataToolbar';
 import type { Filter } from 'routes/views/utils/filter';
-import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
-import { tagActions, tagSelectors } from 'store/tags';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { isEqual } from 'utils/equal';
-import { tagKey } from 'utils/props';
+
+import { styles } from './tagDetails.styles';
 
 interface DetailsToolbarOwnProps {
   isAllSelected?: boolean;
@@ -24,6 +20,8 @@ interface DetailsToolbarOwnProps {
   itemsPerPage?: number;
   itemsTotal?: number;
   onBulkSelected(action: string);
+  onDisableTags();
+  onEnableTags();
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
@@ -32,13 +30,11 @@ interface DetailsToolbarOwnProps {
 }
 
 interface DetailsToolbarStateProps {
-  tagReport?: OcpTag;
-  tagReportFetchStatus?: FetchStatus;
-  tagQueryString?: string;
+  // TBD...
 }
 
 interface DetailsToolbarDispatchProps {
-  fetchTag?: typeof tagActions.fetchTag;
+  // TBD...
 }
 
 interface DetailsToolbarState {
@@ -50,61 +46,51 @@ type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarDispatchProps &
   WrappedComponentProps;
 
-const tagType = TagType.tag;
-const tagPathsType = TagPathsType.ocp;
-
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, DetailsToolbarState> {
   protected defaultState: DetailsToolbarState = {};
   public state: DetailsToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
-    this.setState(
-      {
-        categoryOptions: this.getCategoryOptions(),
-      },
-      () => {
-        this.updateReport();
-      }
+    this.setState({
+      categoryOptions: this.getCategoryOptions(),
+    });
+  }
+
+  private getTagActions = () => {
+    const { intl, onDisableTags, onEnableTags, selectedItems } = this.props;
+
+    return (
+      <>
+        <Button
+          isDisabled={selectedItems.length === 0}
+          key="save"
+          onClick={onEnableTags}
+          variant={ButtonVariant.primary}
+        >
+          {intl.formatMessage(messages.enableTags)}
+        </Button>
+        <Button
+          isDisabled={selectedItems.length === 0}
+          key="reset"
+          onClick={onDisableTags}
+          style={styles.action}
+          variant={ButtonVariant.secondary}
+        >
+          {intl.formatMessage(messages.disableTags)}
+        </Button>
+      </>
     );
-  }
-
-  public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const { query, tagReport } = this.props;
-    if (!isEqual(tagReport, prevProps.tagReport)) {
-      this.setState(
-        {
-          categoryOptions: this.getCategoryOptions(),
-        },
-        () => {
-          this.updateReport();
-        }
-      );
-    } else if (query && !isEqual(query, prevProps.query)) {
-      this.updateReport();
-    }
-  }
-
-  private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { intl, tagReport } = this.props;
-
-    const options = [
-      { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
-      { name: intl.formatMessage(messages.filterByValues, { value: 'node' }), key: 'node' },
-      { name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' },
-    ];
-
-    if (tagReport && tagReport.data && tagReport.data.length) {
-      options.push({
-        name: intl.formatMessage(messages.filterByValues, { value: tagKey }),
-        key: tagKey,
-      });
-    }
-    return options;
   };
 
-  private updateReport = () => {
-    const { fetchTag, tagQueryString } = this.props;
-    fetchTag(tagPathsType, tagType, tagQueryString);
+  private getCategoryOptions = (): ToolbarChipGroup[] => {
+    const { intl } = this.props;
+
+    const options = [
+      { name: intl.formatMessage(messages.filterByValues, { value: 'name' }), key: 'name' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'status' }), key: 'status' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }), key: 'source_type' },
+    ];
+    return options;
   };
 
   public render() {
@@ -119,7 +105,6 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
       pagination,
       query,
       selectedItems,
-      tagReport,
     } = this.props;
     const { categoryOptions } = this.state;
 
@@ -139,8 +124,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
         selectedItems={selectedItems}
         showBulkSelect
         showFilter
-        tagReport={tagReport}
-        tagPathsType={tagPathsType}
+        tagActions={this.getTagActions()}
       />
     );
   }
@@ -148,28 +132,13 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
-  // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
-  // However, for better server-side performance, we chose to use key_only here.
-  const tagQueryString = getQuery({
-    filter: {
-      resolution: 'monthly',
-      time_scope_units: 'month',
-      time_scope_value: -1,
-    },
-    key_only: true,
-    limit: 1000,
-  });
-  const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
-  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
   return {
-    tagReport,
-    tagReportFetchStatus,
-    tagQueryString,
+    // TBD...
   };
 });
 
 const mapDispatchToProps: DetailsToolbarDispatchProps = {
-  fetchTag: tagActions.fetchTag,
+  // TBD...
 };
 
 const DetailsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase);

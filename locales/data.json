@@ -3274,6 +3274,12 @@
         "value": "value"
       }
     ],
+    "disableTags": [
+      {
+        "type": 0,
+        "value": "Disable tags"
+      }
+    ],
     "disabled": [
       {
         "type": 0,
@@ -3434,6 +3440,12 @@
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index#assembly-setting-up-cost-models"
       }
     ],
+    "docsConfigTags": [
+      {
+        "type": 0,
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management"
+      }
+    ],
     "docsCostModelTerminology": [
       {
         "type": 0,
@@ -3504,6 +3516,12 @@
       {
         "type": 0,
         "value": "No match found"
+      }
+    ],
+    "enableTags": [
+      {
+        "type": 0,
+        "value": "Enable tags"
       }
     ],
     "enabled": [
@@ -7320,6 +7338,22 @@
               {
                 "type": 0,
                 "value": "Service"
+              }
+            ]
+          },
+          "source_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Source type"
+              }
+            ]
+          },
+          "status": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Status"
               }
             ]
           },
@@ -11371,6 +11405,16 @@
       {
         "type": 0,
         "value": "Supplementary"
+      }
+    ],
+    "tagDesc": [
+      {
+        "type": 0,
+        "value": "Enable your data source labels to be used as tag keys for report grouping and filtering. Changes will be reflected within 24 hours. "
+      },
+      {
+        "type": 1,
+        "value": "learnMore"
       }
     ],
     "tagHeadingKey": [
