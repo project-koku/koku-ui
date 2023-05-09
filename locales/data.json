@@ -1488,12 +1488,6 @@
         "value": "Sources table"
       }
     ],
-    "costModelsSourceType": [
-      {
-        "type": 0,
-        "value": "Source type"
-      }
-    ],
     "costModelsTableAriaLabel": [
       {
         "type": 0,
@@ -2736,6 +2730,14 @@
               }
             ]
           },
+          "name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Name"
+              }
+            ]
+          },
           "node": {
             "value": [
               {
@@ -2808,6 +2810,22 @@
               {
                 "type": 0,
                 "value": "Service names"
+              }
+            ]
+          },
+          "source_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Source type"
+              }
+            ]
+          },
+          "status": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Status"
               }
             ]
           },
@@ -3256,6 +3274,12 @@
         "value": "value"
       }
     ],
+    "disabled": [
+      {
+        "type": 0,
+        "value": "Disabled"
+      }
+    ],
     "discountMinus": [
       {
         "type": 0,
@@ -3480,6 +3504,12 @@
       {
         "type": 0,
         "value": "No match found"
+      }
+    ],
+    "enabled": [
+      {
+        "type": 0,
+        "value": "Enabled"
       }
     ],
     "end": [
@@ -11258,6 +11288,12 @@
       {
         "type": 1,
         "value": "dateRange"
+      }
+    ],
+    "sourceType": [
+      {
+        "type": 0,
+        "value": "Source type"
       }
     ],
     "sources": [

@@ -9,7 +9,8 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Calculations } from 'routes/settings/calculations';
-import { CostModelsDetails } from 'routes/settings/costModelsDetails';
+import { CostModelsDetails } from 'routes/settings/costModels';
+import { TagDetails } from 'routes/settings/tagDetails';
 import { createMapStateToProps } from 'store/common';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -136,7 +137,7 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
     } else if (currentTab === SettingsTab.calculations) {
       return <Calculations />;
     } else if (currentTab === SettingsTab.tags) {
-      return null;
+      return <TagDetails />;
     } else {
       return emptyTab;
     }

@@ -14,8 +14,8 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { currencyOptions } from 'routes/components/currency';
-import { Form } from 'routes/costModels/components/forms/form';
-import { Selector } from 'routes/costModels/components/inputs/selector';
+import { Form } from 'routes/settings/costModels/components/forms/form';
+import { Selector } from 'routes/settings/costModels/components/inputs/selector';
 import { createMapStateToProps } from 'store/common';
 
 import { CostModelContext } from './context';
