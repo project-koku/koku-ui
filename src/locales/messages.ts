@@ -1837,6 +1837,7 @@ export default defineMessages({
       'service {Filter by service} ' +
       'service_name {Filter by service} ' +
       'source_type {Filter by source type} ' +
+      'status {Filter by status} ' +
       'subscription_guid {Filter by account} ' +
       'workload {Filter by workload name} ' +
       'workload_type {Filter by workload type} ' +
