@@ -428,6 +428,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
     return (
       <DataTable
         columns={columns}
+        isActionsCell
         isLoading={isLoading}
         onSelected={onSelected}
         onSort={onSort}

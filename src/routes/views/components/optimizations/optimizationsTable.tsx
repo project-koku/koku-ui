@@ -105,7 +105,7 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'last_reported' }),
         orderBy: 'last_reported',
-        style: styles.lastReportedColumn,
+        style: styles.lastItemColumn,
         ...(hasData && { isSortable: true }),
       },
     ];
@@ -126,7 +126,7 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
             { value: workload },
             { value: workloadType },
             { value: cluster, hidden: groupBy === 'cluster' },
-            { value: lastReported, style: styles.lastReported },
+            { value: lastReported, style: styles.lastItem },
           ],
           optimization: {
             container: item.container,
