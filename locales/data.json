@@ -1031,6 +1031,12 @@
         "value": "Cost calculations (optional)"
       }
     ],
+    "costCategories": [
+      {
+        "type": 0,
+        "value": "Cost categories"
+      }
+    ],
     "costCategoryNames": [
       {
         "type": 0,

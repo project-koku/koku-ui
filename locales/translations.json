@@ -65,6 +65,7 @@
   "costBreakdownTooltip": "{name}: {value}",
   "costCalculations": "Cost calculations",
   "costCalculationsOptional": "Cost calculations (optional)",
+  "costCategories": "Cost categories",
   "costCategoryNames": "Cost category names",
   "costDistribution": "Cost distribution",
   "costDistributionAriaDesc": "Overhead cost breakdown of platform, worker unallocated, and total costs",

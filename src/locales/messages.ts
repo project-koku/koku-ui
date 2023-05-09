@@ -375,6 +375,11 @@ export default defineMessages({
     description: 'Cost calculations (optional)',
     id: 'costCalculationsOptional',
   },
+  costCategories: {
+    defaultMessage: 'Cost categories',
+    description: 'Cost categories',
+    id: 'costCategories',
+  },
   costCategoryNames: {
     defaultMessage: 'Cost category names',
     description: 'Cost category names',
