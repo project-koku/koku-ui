@@ -8,6 +8,12 @@ export const styles = {
     paddingBottom: global_spacer_lg.value,
     paddingTop: global_spacer_lg.value,
   },
+  descContainer: {
+    backgroundColor: global_BackgroundColor_light_100.value,
+    paddingLeft: global_spacer_md.value,
+    paddingRight: global_spacer_md.value,
+    paddingTop: global_spacer_md.value,
+  },
   paginationContainer: {
     marginLeft: global_spacer_lg.value,
     marginRight: global_spacer_lg.value,
@@ -20,9 +26,6 @@ export const styles = {
   tableContainer: {
     marginLeft: global_spacer_lg.value,
     marginRight: global_spacer_lg.value,
-  },
-  tagDetails: {
-    minHeight: '100vh',
   },
   toolbarContainer: {
     marginLeft: global_spacer_lg.value,

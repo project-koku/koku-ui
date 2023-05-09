@@ -1,4 +1,4 @@
-import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import { PageSection, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { getQuery, parseQuery } from 'api/queries/ocpQuery';
 import type { OcpReport } from 'api/reports/ocpReports';
@@ -270,21 +270,26 @@ class TagDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
       return <NotAvailable title={title} />;
     }
     return (
-      <div style={styles.tagDetails}>
-        <div style={styles.content}>
-          <div style={styles.toolbarContainer}>{this.getToolbar(computedItems)}</div>
-          {reportFetchStatus === FetchStatus.inProgress ? (
-            <Loading />
-          ) : (
-            <>
-              <div style={styles.tableContainer}>{this.getTable()}</div>
-              <div style={styles.paginationContainer}>
-                <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
-              </div>
-            </>
-          )}
+      <PageSection isFilled>
+        <div style={styles.descContainer}>
+          {intl.formatMessage(messages.tagDesc, {
+            learnMore: (
+              <a href={intl.formatMessage(messages.docsConfigTags)} rel="noreferrer" target="_blank">
+                {intl.formatMessage(messages.learnMore)}
+              </a>
+            ),
+          })}
         </div>
-      </div>
+        {this.getToolbar(computedItems)}
+        {reportFetchStatus === FetchStatus.inProgress ? (
+          <Loading />
+        ) : (
+          <>
+            {this.getTable()}
+            <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
+          </>
+        )}
+      </PageSection>
     );
   }
 }

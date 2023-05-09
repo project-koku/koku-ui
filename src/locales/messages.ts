@@ -1358,6 +1358,13 @@ export default defineMessages({
       'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index#assembly-setting-up-cost-models',
     id: 'docsConfigCostModels',
   },
+  docsConfigTags: {
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
+    id: 'docsConfigTags',
+  },
   docsCostModelTerminology: {
     defaultMessage:
       'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index#cost-model-terminology',
@@ -3117,6 +3124,13 @@ export default defineMessages({
     defaultMessage: 'Supplementary',
     description: 'Supplementary',
     id: 'supplementary',
+  },
+  tagDesc: {
+    defaultMessage:
+      'Enable your data source labels to be used as tag keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
+    description:
+      'Enable your data source labels to be used as tag keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
+    id: 'tagDesc',
   },
   tagHeadingKey: {
     defaultMessage: 'Key',
