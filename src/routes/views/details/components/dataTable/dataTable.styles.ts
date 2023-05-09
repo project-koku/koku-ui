@@ -33,11 +33,11 @@ export const styles = {
     color: global_disabled_color_100.value,
     fontSize: global_FontSize_xs.value,
   },
-  lastReported: {
+  lastItem: {
     textAlign: 'right',
-    paddingRight: '40px',
+    paddingRight: '3.8rem',
   },
-  lastReportedColumn: {
+  lastItemColumn: {
     textAlign: 'right',
     display: 'flex',
     justifyContent: 'flex-end',

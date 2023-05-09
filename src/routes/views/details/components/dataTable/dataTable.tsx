@@ -20,6 +20,7 @@ import { styles } from './dataTable.styles';
 
 interface DataTableOwnProps {
   columns?: any[];
+  isActionsCell?: boolean;
   isLoading?: boolean;
   isOptimizations?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
@@ -129,7 +130,7 @@ class DataTable extends React.Component<DataTableProps, any> {
   };
 
   public render() {
-    const { columns, intl, isLoading, isOptimizations, rows } = this.props;
+    const { columns, intl, isActionsCell = false, isLoading, isOptimizations, rows } = this.props;
 
     return (
       <>
@@ -193,7 +194,7 @@ class DataTable extends React.Component<DataTableProps, any> {
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${rowIndex}-${cellIndex}`}
                         modifier="nowrap"
-                        isActionCell={!isOptimizations && cellIndex === row.cells.length - 1}
+                        isActionCell={isActionsCell && cellIndex === row.cells.length - 1}
                         style={item.style}
                       >
                         {item.value}
