@@ -13,7 +13,7 @@ import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputed
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
+interface TagTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   isAllSelected?: boolean;
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
@@ -23,21 +23,21 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   selectedItems?: ComputedReportItem[];
 }
 
-interface DetailsTableState {
+interface TagTableState {
   columns?: any[];
   rows?: any[];
 }
 
-type DetailsTableProps = DetailsTableOwnProps;
+type TagTableProps = TagTableOwnProps;
 
-export const DetailsTableColumnIds = {
+export const TagTableColumnIds = {
   infrastructure: 'infrastructure',
   monthOverMonth: 'monthOverMonth',
   supplementary: 'supplementary',
 };
 
-class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableState> {
-  public state: DetailsTableState = {
+class TagTableBase extends React.Component<TagTableProps, TagTableState> {
+  public state: TagTableState = {
     columns: [],
     rows: [],
   };
@@ -46,7 +46,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
     this.initDatum();
   }
 
-  public componentDidUpdate(prevProps: DetailsTableProps) {
+  public componentDidUpdate(prevProps: TagTableProps) {
     const { report, selectedItems } = this.props;
     const currentReport = report && report.data ? JSON.stringify(report.data) : '';
     const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
@@ -142,7 +142,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   }
 }
 
-const TagTable = injectIntl(withRouter(DetailsTableBase));
+const TagTable = injectIntl(withRouter(TagTableBase));
 
 export { TagTable };
-export type { DetailsTableProps };

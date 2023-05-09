@@ -11,10 +11,6 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Loading } from 'routes/state/loading';
 import { NotAvailable } from 'routes/state/notAvailable';
-import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
-import type { ColumnManagementModalOption } from 'routes/views/details/components/columnManagement';
-import { initHiddenColumns } from 'routes/views/details/components/columnManagement';
-import { getGroupById, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleOnFilterAdded,
   handleOnFilterRemoved,
@@ -23,21 +19,17 @@ import {
   handleOnSort,
 } from 'routes/views/utils/handles';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { getCostDistribution, getCurrency } from 'utils/localStorage';
-import { tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import { styles } from './tagDetails.styles';
-import { DetailsTableColumnIds, TagTable } from './tagTable';
+import { TagTable } from './tagTable';
 import { TagToolbar } from './tagToolbar';
 
-export interface OcpDetailsStateProps {
+export interface TagDetailsStateProps {
   query: OcpQuery;
   report: OcpReport;
   reportError: AxiosError;
@@ -45,21 +37,20 @@ export interface OcpDetailsStateProps {
   reportQueryString: string;
 }
 
-interface OcpDetailsDispatchProps {
+interface TagDetailsDispatchProps {
   fetchReport: typeof reportActions.fetchReport;
 }
 
-interface OcpDetailsState {
+interface TagDetailsState {
   columns?: any[];
-  hiddenColumns?: Set<string>;
   isAllSelected?: boolean;
   rows?: any[];
   selectedItems?: ComputedReportItem[];
 }
 
-type OcpDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
+type TagDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
 
-type OcpDetailsProps = OcpDetailsStateProps & OcpDetailsOwnProps & OcpDetailsDispatchProps;
+type TagDetailsProps = TagDetailsStateProps & TagDetailsOwnProps & TagDetailsDispatchProps;
 
 const baseQuery: OcpQuery = {
   filter: {
@@ -76,34 +67,17 @@ const baseQuery: OcpQuery = {
   },
 };
 
-const defaultColumnOptions: ColumnManagementModalOption[] = [
-  { label: messages.monthOverMonthChange, value: DetailsTableColumnIds.monthOverMonth },
-  {
-    description: messages.ocpDetailsInfrastructureCostDesc,
-    label: messages.ocpDetailsInfrastructureCost,
-    value: DetailsTableColumnIds.infrastructure,
-    hidden: true,
-  },
-  {
-    description: messages.ocpDetailsSupplementaryCostDesc,
-    label: messages.ocpDetailsSupplementaryCost,
-    value: DetailsTableColumnIds.supplementary,
-    hidden: true,
-  },
-];
-
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.ocp;
 
-class TagDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
-  protected defaultState: OcpDetailsState = {
+class TagDetails extends React.Component<TagDetailsProps, TagDetailsState> {
+  protected defaultState: TagDetailsState = {
     columns: [],
-    hiddenColumns: initHiddenColumns(defaultColumnOptions),
     isAllSelected: false,
     rows: [],
     selectedItems: [],
   };
-  public state: OcpDetailsState = { ...this.defaultState };
+  public state: TagDetailsState = { ...this.defaultState };
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
@@ -115,7 +89,7 @@ class TagDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
     this.updateReport();
   }
 
-  public componentDidUpdate(prevProps: OcpDetailsProps, prevState: OcpDetailsState) {
+  public componentDidUpdate(prevProps: TagDetailsProps, prevState: TagDetailsState) {
     const { report, reportError, reportQueryString, router } = this.props;
     const { selectedItems } = this.state;
 
@@ -130,14 +104,11 @@ class TagDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
   }
 
   private getComputedItems = () => {
-    const { query, report } = this.props;
-
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = getGroupByTagKey(query);
+    const { report } = this.props;
 
     return getUnsortedComputedReportItems({
       report,
-      idKey: (groupByTagKey as any) || groupById,
+      idKey: 'project' as any,
     });
   };
 
@@ -178,16 +149,10 @@ class TagDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
 
   private getTable = () => {
     const { query, report, reportFetchStatus, reportQueryString, router } = this.props;
-    const { hiddenColumns, isAllSelected, selectedItems } = this.state;
-
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = getGroupByTagKey(query);
+    const { isAllSelected, selectedItems } = this.state;
 
     return (
       <TagTable
-        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
-        groupByTagKey={groupByTagKey}
-        hiddenColumns={hiddenColumns}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
@@ -269,7 +234,7 @@ class TagDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
 
     const computedItems = this.getComputedItems();
     const isDisabled = computedItems.length === 0;
-    const title = intl.formatMessage(messages.ocpDetailsTitle);
+    const title = intl.formatMessage(messages.tagLabelsTitle);
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
     if (reportError) {
@@ -301,29 +266,14 @@ class TagDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStateProps>((state, { router }) => {
+const mapStateToProps = createMapStateToProps<TagDetailsOwnProps, TagDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
-  const groupBy = queryFromRoute.group_by ? getGroupById(queryFromRoute) : getGroupById(baseQuery);
-
-  const isCostDistributionFeatureEnabled = featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state);
-  const costDistribution =
-    groupBy === 'project' && isCostDistributionFeatureEnabled ? getCostDistribution() : undefined;
-  const currency = getCurrency();
 
   const query: any = {
     ...baseQuery,
-    ...(costDistribution === ComputedReportItemValueType.distributed && {
-      order_by: {
-        distributed_cost: 'desc',
-      },
-    }),
     ...queryFromRoute,
   };
   const reportQuery = {
-    category: query.category,
-    currency,
-    delta: costDistribution === ComputedReportItemValueType.distributed ? 'distributed_cost' : 'cost',
-    exclude: query.exclude,
     filter: {
       ...query.filter,
       resolution: 'monthly',
@@ -354,7 +304,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   };
 });
 
-const mapDispatchToProps: OcpDetailsDispatchProps = {
+const mapDispatchToProps: TagDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 

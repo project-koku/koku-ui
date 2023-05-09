@@ -14,7 +14,7 @@ import type { ComputedReportItem } from 'utils/computedReport/getComputedReportI
 
 import { styles } from './tagDetails.styles';
 
-interface DetailsToolbarOwnProps {
+interface TagToolbarOwnProps {
   isAllSelected?: boolean;
   isDisabled?: boolean;
   itemsPerPage?: number;
@@ -29,26 +29,23 @@ interface DetailsToolbarOwnProps {
   selectedItems?: ComputedReportItem[];
 }
 
-interface DetailsToolbarStateProps {
+interface TagToolbarStateProps {
   // TBD...
 }
 
-interface DetailsToolbarDispatchProps {
+interface TagToolbarDispatchProps {
   // TBD...
 }
 
-interface DetailsToolbarState {
+interface TagToolbarState {
   categoryOptions?: ToolbarChipGroup[];
 }
 
-type DetailsToolbarProps = DetailsToolbarOwnProps &
-  DetailsToolbarStateProps &
-  DetailsToolbarDispatchProps &
-  WrappedComponentProps;
+type TagToolbarProps = TagToolbarOwnProps & TagToolbarStateProps & TagToolbarDispatchProps & WrappedComponentProps;
 
-export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, DetailsToolbarState> {
-  protected defaultState: DetailsToolbarState = {};
-  public state: DetailsToolbarState = { ...this.defaultState };
+export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarState> {
+  protected defaultState: TagToolbarState = {};
+  public state: TagToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
     this.setState({
@@ -131,18 +128,18 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<TagToolbarOwnProps, TagToolbarStateProps>((state, props) => {
   return {
     // TBD...
   };
 });
 
-const mapDispatchToProps: DetailsToolbarDispatchProps = {
+const mapDispatchToProps: TagToolbarDispatchProps = {
   // TBD...
 };
 
-const DetailsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase);
-const TagToolbar = injectIntl(DetailsToolbarConnect);
+const TagToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(TagToolbarBase);
+const TagToolbar = injectIntl(TagToolbarConnect);
 
 export { TagToolbar };
-export type { DetailsToolbarProps };
+export type { TagToolbarProps };
