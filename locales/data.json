@@ -7154,6 +7154,14 @@
               }
             ]
           },
+          "status": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by status"
+              }
+            ]
+          },
           "subscription_guid": {
             "value": [
               {
