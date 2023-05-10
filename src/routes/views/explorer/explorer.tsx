@@ -513,9 +513,9 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
               ? `${tagPrefix}${groupByTagKey}`
               : groupById
           }
-          onCostDistributionSelected={value => handleOnCostDistributionSelected(query, router)}
-          onCostTypeSelected={value => handleOnCostTypeSelected(query, router)}
-          onCurrencySelected={value => handleOnCurrencySelected(query, router)}
+          onCostDistributionSelected={() => handleOnCostDistributionSelected(query, router)}
+          onCostTypeSelected={() => handleOnCostTypeSelected(query, router)}
+          onCurrencySelected={() => handleOnCurrencySelected(query, router)}
           onDatePickerSelected={this.handleDatePickerSelected}
           onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
           onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}

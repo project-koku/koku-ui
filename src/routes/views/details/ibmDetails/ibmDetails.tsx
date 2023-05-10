@@ -345,7 +345,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
-          onCurrencySelected={value => handleOnCurrencySelected(query, router)}
+          onCurrencySelected={() => handleOnCurrencySelected(query, router)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />

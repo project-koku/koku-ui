@@ -354,7 +354,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
-          onCurrencySelected={value => handleOnCurrencySelected(query, router)}
+          onCurrencySelected={() => handleOnCurrencySelected(query, router)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />

@@ -343,7 +343,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
-          onCurrencySelected={value => handleOnCurrencySelected(query, router)}
+          onCurrencySelected={() => handleOnCurrencySelected(query, router)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />

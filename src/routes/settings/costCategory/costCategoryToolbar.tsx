@@ -131,13 +131,11 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<CostCategoryToolbarOwnProps, CostCategoryToolbarStateProps>(
-  (state, props) => {
-    return {
-      // TBD...
-    };
-  }
-);
+const mapStateToProps = createMapStateToProps<CostCategoryToolbarOwnProps, CostCategoryToolbarStateProps>(() => {
+  return {
+    // TBD...
+  };
+});
 
 const mapDispatchToProps: CostCategoryToolbarDispatchProps = {
   // TBD...

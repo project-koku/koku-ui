@@ -401,7 +401,7 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
-          onCurrencySelected={value => handleOnCurrencySelected(query, router)}
+          onCurrencySelected={() => handleOnCurrencySelected(query, router)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />
