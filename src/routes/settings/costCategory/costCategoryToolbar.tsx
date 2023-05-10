@@ -67,7 +67,7 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
           onClick={onEnableTags}
           variant={ButtonVariant.primary}
         >
-          {intl.formatMessage(messages.enableTags)}
+          {intl.formatMessage(messages.enableCategories)}
         </Button>
         <Button
           isDisabled={selectedItems.length === 0}
@@ -76,7 +76,7 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
           style={styles.action}
           variant={ButtonVariant.secondary}
         >
-          {intl.formatMessage(messages.disableTags)}
+          {intl.formatMessage(messages.disableCategories)}
         </Button>
       </>
     );
@@ -86,7 +86,7 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
     const { intl } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.filterByValues, { value: 'name' }), key: 'name' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'name' }), key: 'project' }, // Todo: update filter name
       { name: intl.formatMessage(messages.filterByValues, { value: 'status' }), key: 'status' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }), key: 'source_type' },
     ];

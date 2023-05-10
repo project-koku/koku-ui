@@ -3290,6 +3290,12 @@
         "value": "value"
       }
     ],
+    "disableCategories": [
+      {
+        "type": 0,
+        "value": "Disable categories"
+      }
+    ],
     "disableTags": [
       {
         "type": 0,
@@ -3538,6 +3544,12 @@
       {
         "type": 0,
         "value": "No match found"
+      }
+    ],
+    "enableCategories": [
+      {
+        "type": 0,
+        "value": "Enable categories"
       }
     ],
     "enableTags": [

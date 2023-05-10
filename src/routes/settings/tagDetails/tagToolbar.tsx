@@ -83,7 +83,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
     const { intl } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.filterByValues, { value: 'name' }), key: 'name' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'name' }), key: 'project' }, // Todo: update filter name
       { name: intl.formatMessage(messages.filterByValues, { value: 'status' }), key: 'status' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }), key: 'source_type' },
     ];

@@ -17,7 +17,7 @@ import {
   handleOnPerPageSelect,
   handleOnSetPage,
   handleOnSort,
-} from 'routes/views/utils/handles';
+} from 'routes/views/utils/navHandles';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
@@ -42,9 +42,7 @@ interface TagDetailsDispatchProps {
 }
 
 interface TagDetailsState {
-  columns?: any[];
   isAllSelected?: boolean;
-  rows?: any[];
   selectedItems?: ComputedReportItem[];
 }
 
@@ -72,9 +70,7 @@ const reportPathsType = ReportPathsType.ocp;
 
 class TagDetails extends React.Component<TagDetailsProps, TagDetailsState> {
   protected defaultState: TagDetailsState = {
-    columns: [],
     isAllSelected: false,
-    rows: [],
     selectedItems: [],
   };
   public state: TagDetailsState = { ...this.defaultState };
@@ -153,10 +149,12 @@ class TagDetails extends React.Component<TagDetailsProps, TagDetailsState> {
 
     return (
       <TagTable
+        filterBy={query.filter_by}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
+        orderBy={query.order_by}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}

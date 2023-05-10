@@ -1306,6 +1306,11 @@ export default defineMessages({
     description: 'View all {value}',
     id: 'detailsViewAll',
   },
+  disableCategories: {
+    defaultMessage: 'Disable categories',
+    description: 'Disable categories',
+    id: 'disableCategories',
+  },
   disableTags: {
     defaultMessage: 'Disable tags',
     description: 'Disable tags',
@@ -1454,6 +1459,11 @@ export default defineMessages({
     defaultMessage: 'No match found',
     description: 'No match found',
     id: 'emptyFilterStateTitle',
+  },
+  enableCategories: {
+    defaultMessage: 'Enable categories',
+    description: 'Enabled categories',
+    id: 'enableCategories',
   },
   enableTags: {
     defaultMessage: 'Enable tags',
