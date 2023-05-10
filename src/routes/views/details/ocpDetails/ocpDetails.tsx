@@ -30,7 +30,7 @@ import {
   handleOnPerPageSelect,
   handleOnSetPage,
   handleOnSort,
-} from 'routes/views/utils/handles';
+} from 'routes/views/utils/navHandles';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -262,6 +262,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
     return (
       <DetailsTable
         costDistribution={costDistribution}
+        filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
         hiddenColumns={hiddenColumns}
@@ -270,6 +271,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         isRosFeatureEnabled={isRosFeatureEnabled}
         onSelected={this.handleSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
+        orderBy={query.order_by}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
@@ -433,8 +435,8 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
           costDistribution={costDistribution}
           currency={currency}
           groupBy={groupById}
-          onCostDistributionSelected={value => handleOnCostDistributionSelected(query, router, value)}
-          onCurrencySelected={value => handleOnCurrencySelected(query, router, value)}
+          onCostDistributionSelected={value => handleOnCostDistributionSelected(query, router)}
+          onCurrencySelected={value => handleOnCurrencySelected(query, router)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />

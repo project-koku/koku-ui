@@ -28,7 +28,7 @@ import {
   handleOnPerPageSelect,
   handleOnSetPage,
   handleOnSort,
-} from 'routes/views/utils/handles';
+} from 'routes/views/utils/navHandles';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -226,6 +226,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
 
     return (
       <DetailsTable
+        filterBy={query.filter_by}
         groupBy={
           groupByCostCategory
             ? `${awsCategoryPrefix}${groupByCostCategory}`
@@ -240,6 +241,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
+        orderBy={query.order_by}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
@@ -393,8 +395,8 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
           costType={costType}
           currency={currency}
           groupBy={groupById}
-          onCostTypeSelected={value => handleOnCostTypeSelected(query, router, value)}
-          onCurrencySelected={value => handleOnCurrencySelected(query, router, value)}
+          onCostTypeSelected={value => handleOnCostTypeSelected(query, router)}
+          onCurrencySelected={value => handleOnCurrencySelected(query, router)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />

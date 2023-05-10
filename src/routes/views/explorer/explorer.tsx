@@ -32,7 +32,7 @@ import {
   handleOnPerPageSelect,
   handleOnSetPage,
   handleOnSort,
-} from 'routes/views/utils/handles';
+} from 'routes/views/utils/navHandles';
 import { filterProviders, hasData } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -513,9 +513,9 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
               ? `${tagPrefix}${groupByTagKey}`
               : groupById
           }
-          onCostDistributionSelected={value => handleOnCostDistributionSelected(query, router, value)}
-          onCostTypeSelected={value => handleOnCostTypeSelected(query, router, value)}
-          onCurrencySelected={value => handleOnCurrencySelected(query, router, value)}
+          onCostDistributionSelected={value => handleOnCostDistributionSelected(query, router)}
+          onCostTypeSelected={value => handleOnCostTypeSelected(query, router)}
+          onCurrencySelected={value => handleOnCurrencySelected(query, router)}
           onDatePickerSelected={this.handleDatePickerSelected}
           onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
           onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}

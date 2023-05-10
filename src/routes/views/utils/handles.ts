@@ -49,8 +49,11 @@ export const handleOnFilterRemoved = (query: Query, filter: Filter) => {
 };
 
 export const handleOnPerPageSelect = (query: Query, perPage: number) => {
-  return initQuery(query, true, {
-    limit: perPage,
+  return initQuery(query, false, {
+    filter: {
+      ...query.filter,
+      limit: perPage,
+    },
   });
 };
 
@@ -58,13 +61,16 @@ export const handleOnSetPage = (query: Query, report, pageNumber) => {
   const limit = report && report.meta && report.meta.filter && report.meta.filter.limit ? report.meta.filter.limit : 10;
   const offset = pageNumber * limit - limit;
 
-  return initQuery(query, true, {
-    offset,
+  return initQuery(query, false, {
+    filter: {
+      ...query.filter,
+      offset,
+    },
   });
 };
 
 export const handleOnSort = (query: Query, sortType: string, isSortAscending: boolean, date: string = undefined) => {
-  return initQuery(query, true, {
+  return initQuery(query, false, {
     order_by: {
       [sortType]: isSortAscending ? 'asc' : 'desc',
       ...(date && {

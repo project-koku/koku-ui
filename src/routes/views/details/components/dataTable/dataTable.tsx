@@ -4,8 +4,6 @@ import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import type { ThProps } from '@patternfly/react-table';
 import { SortByDirection, TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
-import type { OcpQuery } from 'api/queries/ocpQuery';
-import { parseQuery } from 'api/queries/ocpQuery';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -20,12 +18,14 @@ import { styles } from './dataTable.styles';
 
 interface DataTableOwnProps {
   columns?: any[];
+  filterBy: any;
   isActionsCell?: boolean;
   isLoading?: boolean;
   isOptimizations?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   onRowClick(event: React.KeyboardEvent | React.MouseEvent, rowIndex: number);
+  orderBy: any;
   rows?: any[];
   selectedItems?: ComputedReportItem[];
 }
@@ -40,11 +40,10 @@ class DataTable extends React.Component<DataTableProps, any> {
   }
 
   private getEmptyState = () => {
-    const { intl, isOptimizations, router } = this.props;
+    const { filterBy, intl, isOptimizations } = this.props;
 
-    const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
-    if (queryFromRoute.filter_by) {
-      for (const val of Object.values(queryFromRoute.filter_by)) {
+    if (filterBy) {
+      for (const val of Object.values(filterBy)) {
         if (val !== '*') {
           return <EmptyFilterState filter={val as string} showMargin={false} />;
         }
@@ -62,11 +61,9 @@ class DataTable extends React.Component<DataTableProps, any> {
   };
 
   private getSortBy = index => {
-    const { columns, router } = this.props;
+    const { columns, orderBy } = this.props;
 
-    const orderBy = columns[index].orderBy;
-    const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
-    const direction = queryFromRoute && queryFromRoute.order_by && queryFromRoute.order_by[orderBy];
+    const direction = orderBy && orderBy[columns[index].orderBy];
 
     return direction
       ? {

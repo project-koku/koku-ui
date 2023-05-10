@@ -15,7 +15,7 @@ import { NotAvailable } from 'routes/state/notAvailable';
 import { OptimizationsTable, OptimizationsToolbar } from 'routes/views/components/optimizations';
 import { styles } from 'routes/views/optimizations/optimizations.styles';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
-import { handleOnFilterAdded, handleOnFilterRemoved, handleOnSort } from 'routes/views/utils/handles';
+import { handleOnFilterAdded, handleOnFilterRemoved, handleOnSort } from 'routes/views/utils/navHandles';
 import { getOrderById, getOrderByValue } from 'routes/views/utils/orderBy';
 import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
