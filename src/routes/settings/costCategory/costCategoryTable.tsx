@@ -7,7 +7,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { DataTable } from 'routes/views/details/components/dataTable';
-import { styles } from 'routes/views/details/components/dataTable/dataTable.styles';
 import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import type { RouterComponentProps } from 'utils/router';
@@ -84,12 +83,6 @@ class CostCategoryBase extends React.Component<CostCategoryProps, CostCategorySt
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'status' }),
         ...(computedItems.length && { isSortable: true }),
       },
-      {
-        orderBy: 'source_type',
-        name: intl.formatMessage(messages.sourceType),
-        ...(computedItems.length && { isSortable: true }),
-        style: styles.lastItemColumn,
-      },
     ];
 
     computedItems.map(item => {
@@ -108,7 +101,6 @@ class CostCategoryBase extends React.Component<CostCategoryProps, CostCategorySt
               </Label>
             ),
           },
-          { value: 'source type', style: styles.lastItem },
         ],
         item,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),
