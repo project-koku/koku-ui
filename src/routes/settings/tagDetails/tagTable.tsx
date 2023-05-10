@@ -14,10 +14,12 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 interface TagTableOwnProps extends RouterComponentProps, WrappedComponentProps {
+  filterBy?: any;
   isAllSelected?: boolean;
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
+  orderBy?: any;
   report: Report;
   reportQueryString: string;
   selectedItems?: ComputedReportItem[];
@@ -73,7 +75,7 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
         name: '', // Selection column
       },
       {
-        orderBy: 'name',
+        orderBy: 'project', // Todo: update filter name
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'name' }),
         ...(computedItems.length && { isSortable: true }),
       },
@@ -126,15 +128,17 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
   };
 
   public render() {
-    const { isLoading, onSelected, onSort, selectedItems } = this.props;
+    const { filterBy, isLoading, onSelected, onSort, orderBy, selectedItems } = this.props;
     const { columns, rows } = this.state;
 
     return (
       <DataTable
         columns={columns}
+        filterBy={filterBy}
         isLoading={isLoading}
         onSelected={onSelected}
         onSort={onSort}
+        orderBy={orderBy}
         rows={rows}
         selectedItems={selectedItems}
       />

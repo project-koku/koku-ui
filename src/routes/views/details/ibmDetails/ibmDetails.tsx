@@ -25,7 +25,7 @@ import {
   handleOnPerPageSelect,
   handleOnSetPage,
   handleOnSort,
-} from 'routes/views/utils/handles';
+} from 'routes/views/utils/navHandles';
 import { hasCurrentMonthData } from 'routes/views/utils/providers';
 import { filterProviders } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
@@ -212,12 +212,14 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
 
     return (
       <DetailsTable
+        filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
+        orderBy={query.order_by}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
@@ -343,7 +345,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
-          onCurrencySelected={value => handleOnCurrencySelected(query, router, value)}
+          onCurrencySelected={value => handleOnCurrencySelected(query, router)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />

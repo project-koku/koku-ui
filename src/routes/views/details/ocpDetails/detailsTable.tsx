@@ -29,6 +29,7 @@ import DetailsOptimization from './detailsOptimization';
 
 interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   costDistribution?: string;
+  filterBy?: any;
   groupBy: string;
   groupByTagKey: string;
   hiddenColumns?: Set<string>;
@@ -37,6 +38,7 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   isRosFeatureEnabled?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
+  orderBy?: any;
   report: OcpReport;
   reportQueryString: string;
   selectedItems?: ComputedReportItem[];
@@ -422,16 +424,18 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   };
 
   public render() {
-    const { isLoading, onSelected, onSort, selectedItems } = this.props;
+    const { filterBy, isLoading, onSelected, onSort, orderBy, selectedItems } = this.props;
     const { columns, rows } = this.state;
 
     return (
       <DataTable
         columns={columns}
+        filterBy={filterBy}
         isActionsCell
         isLoading={isLoading}
         onSelected={onSelected}
         onSort={onSort}
+        orderBy={orderBy}
         rows={rows}
         selectedItems={selectedItems}
       />

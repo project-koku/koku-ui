@@ -18,8 +18,10 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 interface OptimizationsTableOwnProps extends RouterComponentProps {
+  filterBy?: any;
   isLoading?: boolean;
   onSort(value: string, isSortAscending: boolean);
+  orderBy?: any;
   report: RosReport;
   reportQueryString: string;
 }
@@ -170,15 +172,17 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
   };
 
   public render() {
-    const { isLoading } = this.props;
+    const { filterBy, isLoading, orderBy } = this.props;
     const { columns, rows } = this.state;
 
     return (
       <DataTable
         columns={columns}
+        filterBy={filterBy}
         isLoading={isLoading}
         isOptimizations
         onSort={this.handleOnSort}
+        orderBy={orderBy}
         rows={rows}
         onRowClick={this.handleOnRowClick}
       />
