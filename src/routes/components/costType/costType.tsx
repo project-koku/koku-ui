@@ -43,7 +43,7 @@ type CostTypeProps = CostTypeOwnProps & CostTypeDispatchProps & CostTypeStatePro
 
 // eslint-disable-next-line no-shadow
 export const enum CostTypes {
-  amortized = 'savingsplan_effective_cost',
+  amortized = 'calculated_amortized_cost',
   blended = 'blended_cost',
   unblended = 'unblended_cost',
 }
