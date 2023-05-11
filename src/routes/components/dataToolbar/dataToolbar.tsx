@@ -38,11 +38,11 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { ResourceTypeahead } from 'routes/views/components/resourceTypeahead';
-import type { Filter } from 'routes/views/utils/filter';
+import { ResourceTypeahead } from 'routes/components/resourceTypeahead';
+import type { Filter } from 'routes/utils/filter';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { isEqual } from 'routes/views/utils/equal';
 import { createMapStateToProps } from 'store/common';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { isEqual } from 'utils/equal';
 import {
   awsCategoryKey,
   awsCategoryPrefix,

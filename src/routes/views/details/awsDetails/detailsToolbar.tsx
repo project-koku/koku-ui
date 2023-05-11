@@ -12,16 +12,16 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { DataToolbar } from 'routes/views/components/dataToolbar';
-import type { Filter } from 'routes/views/utils/filter';
+import { DataToolbar } from 'routes/components/dataToolbar';
+import type { Filter } from 'routes/utils/filter';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { isEqual } from 'routes/views/utils/equal';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { resourceActions, resourceSelectors } from 'store/resources';
 import { tagActions, tagSelectors } from 'store/tags';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { isEqual } from 'utils/equal';
 import { awsCategoryKey, orgUnitIdKey, tagKey } from 'utils/props';
 
 interface DetailsToolbarOwnProps {

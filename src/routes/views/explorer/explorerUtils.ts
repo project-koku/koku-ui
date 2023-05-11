@@ -7,13 +7,13 @@ import { ResourcePathsType } from 'api/resources/resource';
 import { TagPathsType } from 'api/tags/tag';
 import type { UserAccess } from 'api/userAccess';
 import messages from 'locales/messages';
+import type { ComputedAwsReportItemsParams } from 'routes/views/utils/computedReport/getComputedAwsReportItems';
+import type { ComputedAzureReportItemsParams } from 'routes/views/utils/computedReport/getComputedAzureReportItems';
+import type { ComputedGcpReportItemsParams } from 'routes/views/utils/computedReport/getComputedGcpReportItems';
+import type { ComputedIbmReportItemsParams } from 'routes/views/utils/computedReport/getComputedIbmReportItems';
+import type { ComputedOciReportItemsParams } from 'routes/views/utils/computedReport/getComputedOciReportItems';
+import type { ComputedOcpReportItemsParams } from 'routes/views/utils/computedReport/getComputedOcpReportItems';
 import { hasCloudProvider } from 'routes/views/utils/providers';
-import type { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
-import type { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
-import type { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
-import type { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
-import type { ComputedOciReportItemsParams } from 'utils/computedReport/getComputedOciReportItems';
-import type { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import {
   hasAwsAccess,
   hasAzureAccess,

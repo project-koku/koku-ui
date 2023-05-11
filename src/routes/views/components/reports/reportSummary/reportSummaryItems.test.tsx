@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
+import * as utils from 'routes/views/utils/computedReport/getComputedReportItems';
 import { FetchStatus } from 'store/common';
-import * as utils from 'utils/computedReport/getComputedReportItems';
 
 import type { ReportSummaryItemsProps } from './reportSummaryItems';
 import ReportSummaryItems from './reportSummaryItems';

@@ -21,6 +21,9 @@ import { ComputedReportItemValueType } from 'routes/views/components/charts/comm
 import { ExportModal } from 'routes/views/components/export';
 import type { ColumnManagementModalOption } from 'routes/views/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/views/details/components/columnManagement';
+import { getIdKeyForGroupBy } from 'routes/views/utils/computedReport/getComputedOcpReportItems';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
 import { getGroupById, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleOnCostDistributionSelected,
@@ -37,9 +40,6 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getCostDistribution, getCurrency } from 'utils/localStorage';
 import { noPrefix, platformCategoryKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';

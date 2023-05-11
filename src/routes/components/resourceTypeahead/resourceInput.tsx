@@ -23,9 +23,9 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { noop } from 'routes/views/utils/noop';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { resourceActions, resourceSelectors } from 'store/resources';
-import { noop } from 'utils/noop';
 
 interface ResourceInputOwnProps {
   ariaLabel?: string;

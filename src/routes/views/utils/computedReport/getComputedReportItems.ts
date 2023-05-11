@@ -1,7 +1,7 @@
 import type { Report, ReportData, ReportItem, ReportItemValue, ReportValue } from 'api/reports/report';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
-import { sort, SortDirection } from 'utils/sort';
+import { sort, SortDirection } from 'routes/views/utils/sort';
 
 import { getItemLabel } from './getItemLabel';
 

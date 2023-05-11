@@ -2,9 +2,9 @@ import type { Forecast } from 'api/forecasts/forecast';
 import type { Report } from 'api/reports/report';
 import { getDate } from 'date-fns';
 import { cloneDeep } from 'lodash';
-import type { ComputedForecastItem } from 'utils/computedForecast/getComputedForecastItems';
-import { getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
-import { SortDirection } from 'utils/sort';
+import type { ComputedForecastItem } from 'routes/views/utils/computedForecast/getComputedForecastItems';
+import { getComputedForecastItems } from 'routes/views/utils/computedForecast/getComputedForecastItems';
+import { SortDirection } from 'routes/views/utils/sort';
 
 import type { ChartDatum } from './chartDatum';
 import { DatumType, isFloat, isInt, padChartDatums } from './chartDatum';

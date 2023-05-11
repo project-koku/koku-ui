@@ -2,11 +2,11 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { DashboardWidgetOwnProps, DashboardWidgetStateProps } from 'routes/views/overview/components';
 import { DashboardWidgetBase } from 'routes/views/overview/components';
+import type { ComputedIbmReportItemsParams } from 'routes/views/utils/computedReport/getComputedIbmReportItems';
 import { createMapStateToProps } from 'store/common';
 import { ibmDashboardActions, ibmDashboardSelectors, IbmDashboardTab } from 'store/dashboard/ibmDashboard';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import type { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
 import { getCurrency } from 'utils/localStorage';
 
 interface IbmDashboardWidgetDispatchProps {

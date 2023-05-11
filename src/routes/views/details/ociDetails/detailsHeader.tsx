@@ -13,13 +13,13 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Currency } from 'routes/components/currency';
 import { GroupBy } from 'routes/views/components/groupBy';
+import type { ComputedOciReportItemsParams } from 'routes/views/utils/computedReport/getComputedOciReportItems';
+import { getIdKeyForGroupBy } from 'routes/views/utils/computedReport/getComputedOciReportItems';
 import { filterProviders } from 'routes/views/utils/providers';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
-import type { ComputedOciReportItemsParams } from 'utils/computedReport/getComputedOciReportItems';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOciReportItems';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 

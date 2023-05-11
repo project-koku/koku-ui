@@ -10,7 +10,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { NoOptimizationsState } from 'routes/state/noOptimizations/noOptimizationsState';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

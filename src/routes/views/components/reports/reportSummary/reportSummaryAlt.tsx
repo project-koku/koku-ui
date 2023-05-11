@@ -14,8 +14,8 @@ import {
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { skeletonWidth } from 'routes/views/utils/skeleton';
 import { FetchStatus } from 'store/common';
-import { skeletonWidth } from 'utils/skeleton';
 
 export interface ReportSummaryAltAltProps extends WrappedComponentProps {
   children?: React.ReactNode;

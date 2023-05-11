@@ -2,11 +2,11 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { DashboardWidgetOwnProps, DashboardWidgetStateProps } from 'routes/views/overview/components';
 import { DashboardWidgetBase } from 'routes/views/overview/components';
+import type { ComputedAwsReportItemsParams } from 'routes/views/utils/computedReport/getComputedAwsReportItems';
 import { createMapStateToProps } from 'store/common';
 import { awsOcpDashboardActions, awsOcpDashboardSelectors, AwsOcpDashboardTab } from 'store/dashboard/awsOcpDashboard';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import type { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { getCostType, getCurrency } from 'utils/localStorage';
 
 interface AwsOcpDashboardWidgetDispatchProps {

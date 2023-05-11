@@ -1,4 +1,4 @@
-import 'routes/views/details/components/dataTable/dataTable.scss';
+import 'routes/components/dataTable/dataTable.scss';
 
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
@@ -8,8 +8,8 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { DataTable } from 'routes/views/details/components/dataTable';
-import { styles } from 'routes/views/details/components/dataTable/dataTable.styles';
+import { DataTable } from 'routes/components/dataTable';
+import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { getGroupById } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
 import { uiActions, uiSelectors } from 'store/ui';

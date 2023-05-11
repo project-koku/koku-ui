@@ -17,19 +17,19 @@ import {
   isInt,
 } from 'routes/views/components/charts/common/chartDatum';
 import { CostExplorerChart } from 'routes/views/components/charts/costExplorerChart';
+import { getIdKeyForGroupBy } from 'routes/views/utils/computedReport/getComputedExplorerReportItems';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
 import { getDateRangeFromQuery } from 'routes/views/utils/dateRange';
 import { getGroupByCostCategory, getGroupById, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
+import { skeletonWidth } from 'routes/views/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatUnits } from 'utils/format';
 import { getCostDistribution } from 'utils/localStorage';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
-import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './explorerChart.styles';
 import { PerspectiveType } from './explorerUtils';

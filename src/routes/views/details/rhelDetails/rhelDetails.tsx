@@ -20,6 +20,9 @@ import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
 import type { ColumnManagementModalOption } from 'routes/views/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/views/details/components/columnManagement';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getIdKeyForGroupBy } from 'routes/views/utils/computedReport/getComputedRhelReportItems';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleOnCurrencySelected,
@@ -34,9 +37,6 @@ import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedRhelReportItems';
 import { getCurrency } from 'utils/localStorage';
 import { noPrefix, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';

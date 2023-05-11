@@ -1,4 +1,4 @@
-import 'routes/views/details/components/dataTable/dataTable.scss';
+import 'routes/components/dataTable/dataTable.scss';
 
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
@@ -19,6 +19,9 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
+import { getIdKeyForGroupBy } from 'routes/views/utils/computedReport/getComputedAwsReportItems';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
 import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleOnCostTypeSelected,
@@ -34,9 +37,6 @@ import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getCostType, getCurrency } from 'utils/localStorage';
 import { awsCategoryPrefix, logicalOrPrefix, noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';

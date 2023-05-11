@@ -5,10 +5,13 @@ import type { Report, ReportItem } from 'api/reports/report';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import type {
+  ComputedReportItem,
+  ComputedReportItemsParams,
+} from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { skeletonWidth } from 'routes/views/utils/skeleton';
 import { FetchStatus } from 'store/common';
-import type { ComputedReportItem, ComputedReportItemsParams } from 'utils/computedReport/getComputedReportItems';
-import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { skeletonWidth } from 'utils/skeleton';
 
 interface ReportSummaryItemsRenderProps {
   items: ComputedReportItem[];

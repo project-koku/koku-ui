@@ -6,10 +6,10 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
+import { skeletonWidth } from 'routes/views/utils/skeleton';
 import { FetchStatus } from 'store/common';
 import type { reportActions } from 'store/reports';
 import { formatCurrency } from 'utils/format';
-import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './overheadCostChart.styles';
 

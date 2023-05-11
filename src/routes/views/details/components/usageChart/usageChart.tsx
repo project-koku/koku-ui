@@ -15,14 +15,14 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { getResizeObserver } from 'routes/views/components/charts/common/chartUtils';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
+import { noop } from 'routes/views/utils/noop';
+import { skeletonWidth } from 'routes/views/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPercentage, formatUnits, unitsLookupKey } from 'utils/format';
-import { noop } from 'utils/noop';
 import { platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
-import { skeletonWidth } from 'utils/skeleton';
 
 import { styles } from './usageChart.styles';
 

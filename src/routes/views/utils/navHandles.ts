@@ -1,8 +1,8 @@
 import type { Query } from 'api/queries/query';
+import type { Filter } from 'routes/utils/filter';
+import * as handles from 'routes/utils/handles';
 import type { RouteComponentProps } from 'utils/router';
 
-import type { Filter } from './filter';
-import * as handles from './handles';
 import { getRouteForQuery } from './query';
 
 export const handleOnCurrencySelected = (query: Query, router: RouteComponentProps) => {

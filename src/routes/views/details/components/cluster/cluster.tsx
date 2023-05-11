@@ -4,7 +4,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
 
 import { styles } from './cluster.styles';
 import { ClusterModal } from './clusterModal';

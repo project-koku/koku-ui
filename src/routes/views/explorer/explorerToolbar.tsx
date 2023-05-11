@@ -3,9 +3,9 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { DataToolbar } from 'routes/views/components/dataToolbar';
+import { DataToolbar } from 'routes/components/dataToolbar';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
 import { createMapStateToProps } from 'store/common';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 import type { PerspectiveType } from './explorerUtils';
 import { getTagReportPathsType } from './explorerUtils';

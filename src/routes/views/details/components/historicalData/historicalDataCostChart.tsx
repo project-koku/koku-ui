@@ -15,13 +15,13 @@ import {
 } from 'routes/views/components/charts/common/chartDatum';
 import { HistoricalCostChart } from 'routes/views/components/charts/historicalCostChart';
 import { getGroupById, getGroupByValue } from 'routes/views/utils/groupBy';
+import { skeletonWidth } from 'routes/views/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUnits } from 'utils/format';
 import { logicalOrPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
-import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './historicalChart.styles';
 

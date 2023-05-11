@@ -17,6 +17,9 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
+import { getIdKeyForGroupBy } from 'routes/views/utils/computedReport/getComputedAzureReportItems';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleOnCurrencySelected,
@@ -31,9 +34,6 @@ import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getCurrency } from 'utils/localStorage';
 import { noPrefix, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';

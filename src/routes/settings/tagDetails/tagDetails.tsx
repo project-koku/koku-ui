@@ -11,6 +11,8 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Loading } from 'routes/state/loading';
 import { NotAvailable } from 'routes/state/notAvailable';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
 import {
   handleOnFilterAdded,
   handleOnFilterRemoved,
@@ -20,8 +22,6 @@ import {
 } from 'routes/views/utils/navHandles';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

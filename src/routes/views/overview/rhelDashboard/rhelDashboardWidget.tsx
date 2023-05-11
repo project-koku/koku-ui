@@ -2,11 +2,11 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { DashboardWidgetOwnProps, DashboardWidgetStateProps } from 'routes/views/overview/components';
 import { DashboardWidgetBase } from 'routes/views/overview/components';
+import type { ComputedRhelReportItemsParams } from 'routes/views/utils/computedReport/getComputedRhelReportItems';
 import { createMapStateToProps } from 'store/common';
 import { rhelDashboardActions, rhelDashboardSelectors, RhelDashboardTab } from 'store/dashboard/rhelDashboard';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import type { ComputedRhelReportItemsParams } from 'utils/computedReport/getComputedRhelReportItems';
 import { getCurrency } from 'utils/localStorage';
 
 import { chartStyles } from './rhelDashboardWidget.styles';

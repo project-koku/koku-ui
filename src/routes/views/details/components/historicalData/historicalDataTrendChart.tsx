@@ -11,13 +11,13 @@ import { connect } from 'react-redux';
 import { DatumType, transformReport } from 'routes/views/components/charts/common/chartDatum';
 import { HistoricalTrendChart } from 'routes/views/components/charts/historicalTrendChart';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
+import { skeletonWidth } from 'routes/views/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUnits, unitsLookupKey } from 'utils/format';
 import { logicalAndPrefix, logicalOrPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
-import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './historicalChart.styles';
 

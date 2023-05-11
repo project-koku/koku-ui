@@ -1,4 +1,4 @@
-import 'routes/views/details/components/dataTable/dataTable.scss';
+import 'routes/components/dataTable/dataTable.scss';
 
 import { Label } from '@patternfly/react-core';
 import type { Report, ReportItem } from 'api/reports/report';
@@ -6,10 +6,10 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { DataTable } from 'routes/views/details/components/dataTable';
-import { styles } from 'routes/views/details/components/dataTable/dataTable.styles';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { DataTable } from 'routes/components/dataTable';
+import { styles } from 'routes/components/dataTable/dataTable.styles';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

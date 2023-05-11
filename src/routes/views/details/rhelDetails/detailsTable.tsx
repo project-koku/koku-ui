@@ -1,4 +1,4 @@
-import 'routes/views/details/components/dataTable/dataTable.scss';
+import 'routes/components/dataTable/dataTable.scss';
 
 import { Label } from '@patternfly/react-core';
 import { ProviderType } from 'api/providers';
@@ -10,13 +10,13 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
+import { DataTable } from 'routes/components/dataTable';
+import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { Actions } from 'routes/views/details/components/actions';
-import { DataTable } from 'routes/views/details/components/dataTable';
-import { styles } from 'routes/views/details/components/dataTable/dataTable.styles';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
 import { getBreakdownPath } from 'routes/views/utils/paths';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dates';
 import { formatCurrency, formatPercentage } from 'utils/format';
 import { formatPath } from 'utils/paths';

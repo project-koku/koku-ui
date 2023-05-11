@@ -23,14 +23,14 @@ import { connect } from 'react-redux';
 import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { ReportSummaryItem, ReportSummaryItems } from 'routes/views/components/reports/reportSummary';
 import { SummaryModal } from 'routes/views/details/components/summary/summaryModal';
+import { getComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
+import { skeletonWidth } from 'routes/views/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { logicalAndPrefix, logicalOrPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
-import { skeletonWidth } from 'utils/skeleton';
 
 import { styles } from './summaryCard.styles';
 

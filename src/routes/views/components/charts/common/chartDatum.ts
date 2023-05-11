@@ -3,11 +3,11 @@ import type { Report } from 'api/reports/report';
 import { intl } from 'components/i18n';
 import { endOfMonth, format, getDate, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { SortDirection } from 'routes/views/utils/sort';
 import type { FormatOptions } from 'utils/format';
 import { formatCurrency, unitsLookupKey } from 'utils/format';
-import { SortDirection } from 'utils/sort';
 
 export interface ChartDatum {
   childName?: string;

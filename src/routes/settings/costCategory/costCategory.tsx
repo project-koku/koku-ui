@@ -13,12 +13,12 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { Loading } from 'routes/state/loading';
 import { NotAvailable } from 'routes/state/notAvailable';
-import * as handles from 'routes/views/utils/handles';
+import * as handles from 'routes/utils/handles';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
 import { styles } from './costCategory.styles';
 import { CostCategoryTable } from './costCategoryTable';
