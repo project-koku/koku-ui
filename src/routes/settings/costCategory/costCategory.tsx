@@ -1,7 +1,6 @@
 import { PageSection, Pagination, PaginationVariant } from '@patternfly/react-core';
-import type { OcpQuery } from 'api/queries/ocpQuery';
-import { getQuery } from 'api/queries/ocpQuery';
 import type { Query } from 'api/queries/query';
+import { getQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -39,7 +38,7 @@ export interface CostCategoryMapProps {
   reportQueryString?: string;
 }
 
-const baseQuery: OcpQuery = {
+const baseQuery: Query = {
   filter: {
     resolution: 'monthly',
     time_scope_units: 'month',
@@ -55,9 +54,6 @@ const baseQuery: OcpQuery = {
     cost: 'desc',
   },
 };
-
-const reportType = ReportType.cost;
-const reportPathsType = ReportPathsType.ocp;
 
 const CostCategory: React.FC<CostCategoryProps> = () => {
   const [isAllSelected, setIsAllSelected] = useState(false);
@@ -236,6 +232,8 @@ const CostCategory: React.FC<CostCategoryProps> = () => {
 
 // eslint-disable-next-line no-empty-pattern
 const useMapToProps = ({ query }: CostCategoryOwnProps): CostCategoryMapProps => {
+  const reportType = ReportType.cost;
+  const reportPathsType = ReportPathsType.ocp;
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
   const reportQueryString = getQuery(query);
