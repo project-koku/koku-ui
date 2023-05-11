@@ -43,8 +43,7 @@ interface OptimizationsDispatchProps {
 }
 
 interface OptimizationsState {
-  columns: any[];
-  rows: any[];
+  // TBD...
 }
 
 type OptimizationsProps = OptimizationsStateProps & OptimizationsOwnProps & OptimizationsDispatchProps;
@@ -61,10 +60,7 @@ const reportType = RosType.ros as any;
 const reportPathsType = RosPathsType.recommendations as any;
 
 class Optimizations extends React.Component<OptimizationsProps, OptimizationsState> {
-  protected defaultState: OptimizationsState = {
-    columns: [],
-    rows: [],
-  };
+  protected defaultState: OptimizationsState = {};
   public state: OptimizationsState = { ...this.defaultState };
 
   public componentDidMount() {
