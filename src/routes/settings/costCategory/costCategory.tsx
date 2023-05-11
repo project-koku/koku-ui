@@ -213,9 +213,9 @@ const CostCategory: React.FC<CostCategoryProps> = () => {
   return (
     <PageSection isFilled>
       <div style={styles.descContainer}>
-        {intl.formatMessage(messages.tagDesc, {
+        {intl.formatMessage(messages.costCategoryDesc, {
           learnMore: (
-            <a href={intl.formatMessage(messages.docsConfigTags)} rel="noreferrer" target="_blank">
+            <a href={intl.formatMessage(messages.docsConfigCostCategory)} rel="noreferrer" target="_blank">
               {intl.formatMessage(messages.learnMore)}
             </a>
           ),
