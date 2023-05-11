@@ -17,6 +17,9 @@ import { NoData } from 'routes/state/noData';
 import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ExportModal } from 'routes/views/components/export';
+import { getIdKeyForGroupBy } from 'routes/views/utils/computedReport/getComputedGcpReportItems';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
 import { getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleOnCurrencySelected,
@@ -25,15 +28,12 @@ import {
   handleOnPerPageSelect,
   handleOnSetPage,
   handleOnSort,
-} from 'routes/views/utils/handles';
+} from 'routes/views/utils/navHandles';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedGcpReportItems';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getCurrency } from 'utils/localStorage';
 import { noPrefix, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -210,12 +210,14 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
 
     return (
       <DetailsTable
+        filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
+        orderBy={query.order_by}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
@@ -341,7 +343,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
-          onCurrencySelected={value => handleOnCurrencySelected(query, router, value)}
+          onCurrencySelected={() => handleOnCurrencySelected(query, router)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />

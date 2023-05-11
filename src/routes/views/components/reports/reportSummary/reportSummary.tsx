@@ -4,8 +4,8 @@ import { Card, CardBody, CardFooter, CardTitle, Skeleton, Title, TitleSizes } fr
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { skeletonWidth } from 'routes/views/utils/skeleton';
 import { FetchStatus } from 'store/common';
-import { skeletonWidth } from 'utils/skeleton';
 
 export interface ReportSummaryProps extends WrappedComponentProps {
   children?: React.ReactNode;

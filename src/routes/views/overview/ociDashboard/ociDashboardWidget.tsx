@@ -2,11 +2,11 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { DashboardWidgetOwnProps, DashboardWidgetStateProps } from 'routes/views/overview/components';
 import { DashboardWidgetBase } from 'routes/views/overview/components';
+import type { ComputedOciReportItemsParams } from 'routes/views/utils/computedReport/getComputedOciReportItems';
 import { createMapStateToProps } from 'store/common';
 import { ociDashboardActions, ociDashboardSelectors, OciDashboardTab } from 'store/dashboard/ociDashboard';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import type { ComputedOciReportItemsParams } from 'utils/computedReport/getComputedOciReportItems';
 import { getCurrency } from 'utils/localStorage';
 
 interface OciDashboardWidgetDispatchProps {

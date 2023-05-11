@@ -16,13 +16,13 @@ import { connect } from 'react-redux';
 import { CostType } from 'routes/components/costType';
 import { Currency } from 'routes/components/currency';
 import { GroupBy } from 'routes/views/components/groupBy';
+import type { ComputedAwsReportItemsParams } from 'routes/views/utils/computedReport/getComputedAwsReportItems';
+import { getIdKeyForGroupBy } from 'routes/views/utils/computedReport/getComputedAwsReportItems';
 import { filterProviders } from 'routes/views/utils/providers';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
-import type { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 

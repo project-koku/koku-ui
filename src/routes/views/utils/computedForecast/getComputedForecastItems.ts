@@ -1,5 +1,5 @@
 import type { Forecast, ForecastData } from 'api/forecasts/forecast';
-import { sort, SortDirection } from 'utils/sort';
+import { sort, SortDirection } from 'routes/views/utils/sort';
 
 export interface ComputedForecastValue {
   units?: string;

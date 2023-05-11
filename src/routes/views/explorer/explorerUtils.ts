@@ -7,13 +7,13 @@ import { ResourcePathsType } from 'api/resources/resource';
 import { TagPathsType } from 'api/tags/tag';
 import type { UserAccess } from 'api/userAccess';
 import messages from 'locales/messages';
+import type { ComputedAwsReportItemsParams } from 'routes/views/utils/computedReport/getComputedAwsReportItems';
+import type { ComputedAzureReportItemsParams } from 'routes/views/utils/computedReport/getComputedAzureReportItems';
+import type { ComputedGcpReportItemsParams } from 'routes/views/utils/computedReport/getComputedGcpReportItems';
+import type { ComputedIbmReportItemsParams } from 'routes/views/utils/computedReport/getComputedIbmReportItems';
+import type { ComputedOciReportItemsParams } from 'routes/views/utils/computedReport/getComputedOciReportItems';
+import type { ComputedOcpReportItemsParams } from 'routes/views/utils/computedReport/getComputedOcpReportItems';
 import { hasCloudProvider } from 'routes/views/utils/providers';
-import type { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
-import type { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
-import type { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
-import type { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
-import type { ComputedOciReportItemsParams } from 'utils/computedReport/getComputedOciReportItems';
-import type { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -353,10 +353,26 @@ export const getResourcePathsType = (perspective: string) => {
   switch (perspective) {
     case PerspectiveType.aws:
       return ResourcePathsType.aws;
-      break;
     case PerspectiveType.awsOcp:
       return ResourcePathsType.awsOcp;
-      break;
+    case PerspectiveType.azure:
+      return ResourcePathsType.azure;
+    case PerspectiveType.azureOcp:
+      return ResourcePathsType.azureOcp;
+    case PerspectiveType.gcp:
+      return ResourcePathsType.gcp;
+    case PerspectiveType.gcpOcp:
+      return ResourcePathsType.gcpOcp;
+    case PerspectiveType.ibm:
+      return ResourcePathsType.ibm;
+    case PerspectiveType.oci:
+      return ResourcePathsType.oci;
+    case PerspectiveType.ocp:
+      return ResourcePathsType.ocp;
+    case PerspectiveType.ocpCloud:
+      return ResourcePathsType.ocpCloud;
+    case PerspectiveType.rhel:
+      return ResourcePathsType.rhel;
     default:
       result = undefined;
       break;
@@ -369,37 +385,26 @@ export const getTagReportPathsType = (perspective: string) => {
   switch (perspective) {
     case PerspectiveType.aws:
       return TagPathsType.aws;
-      break;
     case PerspectiveType.awsOcp:
       return TagPathsType.awsOcp;
-      break;
     case PerspectiveType.azure:
       return TagPathsType.azure;
-      break;
     case PerspectiveType.azureOcp:
       return TagPathsType.azureOcp;
-      break;
     case PerspectiveType.gcp:
       return TagPathsType.gcp;
-      break;
     case PerspectiveType.gcpOcp:
       return TagPathsType.gcpOcp;
-      break;
     case PerspectiveType.ibm:
       return TagPathsType.ibm;
-      break;
     case PerspectiveType.oci:
       return TagPathsType.oci;
-      break;
     case PerspectiveType.ocp:
       return TagPathsType.ocp;
-      break;
     case PerspectiveType.ocpCloud:
       return TagPathsType.ocpCloud;
-      break;
     case PerspectiveType.rhel:
       return TagPathsType.rhel;
-      break;
     default:
       result = undefined;
       break;

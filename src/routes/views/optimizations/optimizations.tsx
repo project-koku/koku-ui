@@ -13,7 +13,7 @@ import { Loading } from 'routes/state/loading';
 import { NoOptimizations } from 'routes/state/noOptimizations';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { OptimizationsTable, OptimizationsToolbar } from 'routes/views/components/optimizations';
-import { handleOnFilterAdded, handleOnFilterRemoved, handleOnSort } from 'routes/views/utils/handles';
+import { handleOnFilterAdded, handleOnFilterRemoved, handleOnSort } from 'routes/views/utils/navHandles';
 import { getOrderById, getOrderByValue } from 'routes/views/utils/orderBy';
 import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -117,8 +117,10 @@ class Optimizations extends React.Component<OptimizationsProps, OptimizationsSta
 
     return (
       <OptimizationsTable
+        filterBy={query.filter_by}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
+        orderBy={query.order_by}
         report={report}
         reportQueryString={reportQueryString}
       />

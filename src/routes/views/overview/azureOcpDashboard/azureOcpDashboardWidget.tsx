@@ -2,6 +2,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { DashboardWidgetOwnProps, DashboardWidgetStateProps } from 'routes/views/overview/components';
 import { DashboardWidgetBase } from 'routes/views/overview/components';
+import type { ComputedAzureReportItemsParams } from 'routes/views/utils/computedReport/getComputedAzureReportItems';
 import { createMapStateToProps } from 'store/common';
 import {
   azureOcpDashboardActions,
@@ -10,7 +11,6 @@ import {
 } from 'store/dashboard/azureOcpDashboard';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import type { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { getCurrency } from 'utils/localStorage';
 
 interface AzureOcpDashboardWidgetDispatchProps {

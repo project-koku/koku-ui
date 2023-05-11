@@ -29,8 +29,8 @@ import {
   isDataAvailable,
   isSeriesHidden,
 } from 'routes/views/components/charts/common/chartUtils';
+import { noop } from 'routes/views/utils/noop';
 import type { FormatOptions, Formatter } from 'utils/format';
-import { noop } from 'utils/noop';
 
 import { chartStyles, styles } from './historicalUsageChart.styles';
 

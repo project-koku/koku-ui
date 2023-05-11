@@ -18,7 +18,7 @@ import {
   handleOnCostDistributionSelected,
   handleOnCostTypeSelected,
   handleOnCurrencySelected,
-} from 'routes/views/utils/handles';
+} from 'routes/views/utils/navHandles';
 import { hasCurrentMonthData } from 'routes/views/utils/providers';
 import { FetchStatus } from 'store/common';
 import type { reportActions } from 'store/reports';
@@ -303,9 +303,9 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
           description={description}
           detailsURL={detailsURL}
           groupBy={groupBy}
-          onCostDistributionSelected={value => handleOnCostDistributionSelected(query, router, value)}
-          onCostTypeSelected={value => handleOnCostTypeSelected(query, router, value)}
-          onCurrencySelected={value => handleOnCurrencySelected(query, router, value)}
+          onCostDistributionSelected={() => handleOnCostDistributionSelected(query, router)}
+          onCostTypeSelected={() => handleOnCostTypeSelected(query, router)}
+          onCurrencySelected={() => handleOnCurrencySelected(query, router)}
           query={query}
           report={report}
           showCostDistribution={showCostDistribution}

@@ -20,9 +20,9 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { tagPrefix } from 'utils/props';
 
 import { styles } from './exportModal.styles';

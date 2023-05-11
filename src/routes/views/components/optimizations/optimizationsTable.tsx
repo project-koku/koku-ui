@@ -1,4 +1,4 @@
-import 'routes/views/details/components/dataTable/dataTable.scss';
+import 'routes/components/dataTable/dataTable.scss';
 
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
@@ -8,8 +8,8 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { DataTable } from 'routes/views/details/components/dataTable';
-import { styles } from 'routes/views/details/components/dataTable/dataTable.styles';
+import { DataTable } from 'routes/components/dataTable';
+import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { getGroupById } from 'routes/views/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
 import { uiActions, uiSelectors } from 'store/ui';
@@ -18,8 +18,10 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 interface OptimizationsTableOwnProps extends RouterComponentProps {
+  filterBy?: any;
   isLoading?: boolean;
   onSort(value: string, isSortAscending: boolean);
+  orderBy?: any;
   report: RosReport;
   reportQueryString: string;
 }
@@ -170,15 +172,17 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
   };
 
   public render() {
-    const { isLoading } = this.props;
+    const { filterBy, isLoading, orderBy } = this.props;
     const { columns, rows } = this.state;
 
     return (
       <DataTable
         columns={columns}
+        filterBy={filterBy}
         isLoading={isLoading}
         isOptimizations
         onSort={this.handleOnSort}
+        orderBy={orderBy}
         rows={rows}
         onRowClick={this.handleOnRowClick}
       />

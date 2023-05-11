@@ -21,6 +21,9 @@ import { ComputedReportItemValueType } from 'routes/views/components/charts/comm
 import { ExportModal } from 'routes/views/components/export';
 import type { ColumnManagementModalOption } from 'routes/views/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/views/details/components/columnManagement';
+import { getIdKeyForGroupBy } from 'routes/views/utils/computedReport/getComputedOcpReportItems';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
 import { getGroupById, getGroupByTagKey } from 'routes/views/utils/groupBy';
 import {
   handleOnCostDistributionSelected,
@@ -30,16 +33,13 @@ import {
   handleOnPerPageSelect,
   handleOnSetPage,
   handleOnSort,
-} from 'routes/views/utils/handles';
+} from 'routes/views/utils/navHandles';
 import { filterProviders, hasCurrentMonthData } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getCostDistribution, getCurrency } from 'utils/localStorage';
 import { noPrefix, platformCategoryKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -262,6 +262,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
     return (
       <DetailsTable
         costDistribution={costDistribution}
+        filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
         hiddenColumns={hiddenColumns}
@@ -270,6 +271,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         isRosFeatureEnabled={isRosFeatureEnabled}
         onSelected={this.handleSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
+        orderBy={query.order_by}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
@@ -433,8 +435,8 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
           costDistribution={costDistribution}
           currency={currency}
           groupBy={groupById}
-          onCostDistributionSelected={value => handleOnCostDistributionSelected(query, router, value)}
-          onCurrencySelected={value => handleOnCurrencySelected(query, router, value)}
+          onCostDistributionSelected={() => handleOnCostDistributionSelected(query, router)}
+          onCurrencySelected={() => handleOnCurrencySelected(query, router)}
           onGroupBySelected={this.handleGroupBySelected}
           report={report}
         />

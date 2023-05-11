@@ -20,6 +20,9 @@ import { NoProviders } from 'routes/state/noProviders';
 import { NotAvailable } from 'routes/state/notAvailable';
 import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { ExportModal } from 'routes/views/components/export';
+import { getIdKeyForGroupBy } from 'routes/views/utils/computedReport/getComputedExplorerReportItems';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
 import type { DateRangeType } from 'routes/views/utils/dateRange';
 import { getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/views/utils/dateRange';
 import { getGroupByCostCategory, getGroupById, getGroupByOrgValue, getGroupByTagKey } from 'routes/views/utils/groupBy';
@@ -32,7 +35,7 @@ import {
   handleOnPerPageSelect,
   handleOnSetPage,
   handleOnSort,
-} from 'routes/views/utils/handles';
+} from 'routes/views/utils/navHandles';
 import { filterProviders, hasData } from 'routes/views/utils/providers';
 import { getRouteForQuery } from 'routes/views/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -40,9 +43,6 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getCostDistribution, getCostType, getCurrency } from 'utils/localStorage';
 import { awsCategoryPrefix, noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -513,9 +513,9 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
               ? `${tagPrefix}${groupByTagKey}`
               : groupById
           }
-          onCostDistributionSelected={value => handleOnCostDistributionSelected(query, router, value)}
-          onCostTypeSelected={value => handleOnCostTypeSelected(query, router, value)}
-          onCurrencySelected={value => handleOnCurrencySelected(query, router, value)}
+          onCostDistributionSelected={() => handleOnCostDistributionSelected(query, router)}
+          onCostTypeSelected={() => handleOnCostTypeSelected(query, router)}
+          onCurrencySelected={() => handleOnCurrencySelected(query, router)}
           onDatePickerSelected={this.handleDatePickerSelected}
           onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
           onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}

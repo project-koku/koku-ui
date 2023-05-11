@@ -16,13 +16,13 @@ import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { CostDistribution } from 'routes/views/components/costDistribution';
 import { GroupBy } from 'routes/views/components/groupBy';
+import type { ComputedOcpReportItemsParams } from 'routes/views/utils/computedReport/getComputedOcpReportItems';
+import { getIdKeyForGroupBy } from 'routes/views/utils/computedReport/getComputedOcpReportItems';
 import { filterProviders } from 'routes/views/utils/providers';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
-import type { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 

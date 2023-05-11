@@ -15,21 +15,25 @@ import { createMapStateToProps } from 'store/common';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
+import { CostCategory } from './costCategory';
 import { styles } from './settings.styles';
 
 // eslint-disable-next-line no-shadow
 const enum SettingsTab {
-  costModels = 'cost-models',
+  costModels = 'cost_models',
   calculations = 'calculations',
+  costCategory = 'cost_category',
   tags = 'tags',
 }
 
 export const getIdKeyForTab = (tab: SettingsTab) => {
   switch (tab) {
     case SettingsTab.costModels:
-      return 'cost-models';
+      return 'cost_models';
     case SettingsTab.calculations:
       return 'calculations';
+    case SettingsTab.costCategory:
+      return 'cost_category';
     case SettingsTab.tags:
       return 'tags';
   }
@@ -85,6 +89,10 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
         contentRef: React.createRef(),
         tab: SettingsTab.tags,
       },
+      {
+        contentRef: React.createRef(),
+        tab: SettingsTab.costCategory,
+      },
     ];
     return availableTabs;
   };
@@ -138,6 +146,8 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
       return <Calculations />;
     } else if (currentTab === SettingsTab.tags) {
       return <TagDetails />;
+    } else if (currentTab === SettingsTab.costCategory) {
+      return <CostCategory />;
     } else {
       return emptyTab;
     }
@@ -159,9 +169,11 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
     if (tab === SettingsTab.costModels) {
       return intl.formatMessage(messages.costModels);
     } else if (tab === SettingsTab.calculations) {
-      return intl.formatMessage(messages.currencyCalcuations);
+      return intl.formatMessage(messages.currencyCalcuationsTitle);
     } else if (tab === SettingsTab.tags) {
-      return intl.formatMessage(messages.tagLabels);
+      return intl.formatMessage(messages.tagLabelsTitle);
+    } else if (tab === SettingsTab.costCategory) {
+      return intl.formatMessage(messages.costCategoryTitle);
     }
   };
 

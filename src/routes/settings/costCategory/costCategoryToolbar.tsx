@@ -12,9 +12,9 @@ import type { Filter } from 'routes/utils/filter';
 import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
 import { createMapStateToProps } from 'store/common';
 
-import { styles } from './tagDetails.styles';
+import { styles } from './costCategory.styles';
 
-interface TagToolbarOwnProps {
+interface CostCategoryToolbarOwnProps {
   isAllSelected?: boolean;
   isDisabled?: boolean;
   itemsPerPage?: number;
@@ -29,23 +29,26 @@ interface TagToolbarOwnProps {
   selectedItems?: ComputedReportItem[];
 }
 
-interface TagToolbarStateProps {
+interface CostCategoryToolbarStateProps {
   // TBD...
 }
 
-interface TagToolbarDispatchProps {
+interface CostCategoryToolbarDispatchProps {
   // TBD...
 }
 
-interface TagToolbarState {
+interface CostCategoryToolbarState {
   categoryOptions?: ToolbarChipGroup[];
 }
 
-type TagToolbarProps = TagToolbarOwnProps & TagToolbarStateProps & TagToolbarDispatchProps & WrappedComponentProps;
+type CostCategoryToolbarProps = CostCategoryToolbarOwnProps &
+  CostCategoryToolbarStateProps &
+  CostCategoryToolbarDispatchProps &
+  WrappedComponentProps;
 
-export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarState> {
-  protected defaultState: TagToolbarState = {};
-  public state: TagToolbarState = { ...this.defaultState };
+export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbarProps, CostCategoryToolbarState> {
+  protected defaultState: CostCategoryToolbarState = {};
+  public state: CostCategoryToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
     this.setState({
@@ -64,7 +67,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
           onClick={onEnableTags}
           variant={ButtonVariant.primary}
         >
-          {intl.formatMessage(messages.enableTags)}
+          {intl.formatMessage(messages.enableCategories)}
         </Button>
         <Button
           isDisabled={selectedItems.length === 0}
@@ -73,7 +76,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
           style={styles.action}
           variant={ButtonVariant.secondary}
         >
-          {intl.formatMessage(messages.disableTags)}
+          {intl.formatMessage(messages.disableCategories)}
         </Button>
       </>
     );
@@ -128,18 +131,18 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<TagToolbarOwnProps, TagToolbarStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<CostCategoryToolbarOwnProps, CostCategoryToolbarStateProps>(() => {
   return {
     // TBD...
   };
 });
 
-const mapDispatchToProps: TagToolbarDispatchProps = {
+const mapDispatchToProps: CostCategoryToolbarDispatchProps = {
   // TBD...
 };
 
-const TagToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(TagToolbarBase);
-const TagToolbar = injectIntl(TagToolbarConnect);
+const CostCategoryToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(CostCategoryToolbarBase);
+const CostCategoryToolbar = injectIntl(CostCategoryToolbarConnect);
 
-export { TagToolbar };
-export type { TagToolbarProps };
+export { CostCategoryToolbar };
+export type { CostCategoryToolbarProps };

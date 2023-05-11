@@ -7,13 +7,12 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { DataTable } from 'routes/components/dataTable';
-import { styles } from 'routes/components/dataTable/dataTable.styles';
 import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-interface TagTableOwnProps extends RouterComponentProps, WrappedComponentProps {
+interface CostCategoryOwnProps extends RouterComponentProps, WrappedComponentProps {
   filterBy?: any;
   isAllSelected?: boolean;
   isLoading?: boolean;
@@ -25,21 +24,21 @@ interface TagTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   selectedItems?: ComputedReportItem[];
 }
 
-interface TagTableState {
+interface CostCategoryState {
   columns?: any[];
   rows?: any[];
 }
 
-type TagTableProps = TagTableOwnProps;
+type CostCategoryProps = CostCategoryOwnProps;
 
-export const TagTableColumnIds = {
+export const CostCategoryColumnIds = {
   infrastructure: 'infrastructure',
   monthOverMonth: 'monthOverMonth',
   supplementary: 'supplementary',
 };
 
-class TagTableBase extends React.Component<TagTableProps, TagTableState> {
-  public state: TagTableState = {
+class CostCategoryBase extends React.Component<CostCategoryProps, CostCategoryState> {
+  public state: CostCategoryState = {
     columns: [],
     rows: [],
   };
@@ -48,7 +47,7 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
     this.initDatum();
   }
 
-  public componentDidUpdate(prevProps: TagTableProps) {
+  public componentDidUpdate(prevProps: CostCategoryProps) {
     const { report, selectedItems } = this.props;
     const currentReport = report && report.data ? JSON.stringify(report.data) : '';
     const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
@@ -75,7 +74,7 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
         name: '', // Selection column
       },
       {
-        orderBy: 'project', // Todo: update filter name
+        orderBy: 'project', // Todo: update sort name
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'name' }),
         ...(computedItems.length && { isSortable: true }),
       },
@@ -83,12 +82,6 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
         orderBy: 'status',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'status' }),
         ...(computedItems.length && { isSortable: true }),
-      },
-      {
-        orderBy: 'source_type',
-        name: intl.formatMessage(messages.sourceType),
-        ...(computedItems.length && { isSortable: true }),
-        style: styles.lastItemColumn,
       },
     ];
 
@@ -108,7 +101,6 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
               </Label>
             ),
           },
-          { value: 'source type', style: styles.lastItem },
         ],
         item,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),
@@ -146,6 +138,6 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
   }
 }
 
-const TagTable = injectIntl(withRouter(TagTableBase));
+const CostCategoryTable = injectIntl(withRouter(CostCategoryBase));
 
-export { TagTable };
+export { CostCategoryTable };

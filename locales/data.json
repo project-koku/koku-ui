@@ -1031,10 +1031,26 @@
         "value": "Cost calculations (optional)"
       }
     ],
+    "costCategoryDesc": [
+      {
+        "type": 0,
+        "value": "Enable your data source labels to be used as AWS category keys for report grouping and filtering. Changes will be reflected within 24 hours. "
+      },
+      {
+        "type": 1,
+        "value": "learnMore"
+      }
+    ],
     "costCategoryNames": [
       {
         "type": 0,
         "value": "Cost category names"
+      }
+    ],
+    "costCategoryTitle": [
+      {
+        "type": 0,
+        "value": "Cost categories"
       }
     ],
     "costDistribution": [
@@ -2004,7 +2020,7 @@
         "value": "symbol"
       }
     ],
-    "currencyCalcuations": [
+    "currencyCalcuationsTitle": [
       {
         "type": 0,
         "value": "Currency and calculations"
@@ -3274,6 +3290,12 @@
         "value": "value"
       }
     ],
+    "disableCategories": [
+      {
+        "type": 0,
+        "value": "Disable categories"
+      }
+    ],
     "disableTags": [
       {
         "type": 0,
@@ -3434,6 +3456,12 @@
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/adding_an_openshift_container_platform_source_to_cost_management"
       }
     ],
+    "docsConfigCostCategory": [
+      {
+        "type": 0,
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management"
+      }
+    ],
     "docsConfigCostModels": [
       {
         "type": 0,
@@ -3516,6 +3544,12 @@
       {
         "type": 0,
         "value": "No match found"
+      }
+    ],
+    "enableCategories": [
+      {
+        "type": 0,
+        "value": "Enable categories"
       }
     ],
     "enableTags": [

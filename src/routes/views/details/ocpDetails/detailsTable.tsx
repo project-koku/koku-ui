@@ -1,4 +1,4 @@
-import 'routes/views/details/components/dataTable/dataTable.scss';
+import 'routes/components/dataTable/dataTable.scss';
 
 import { Label, Tooltip } from '@patternfly/react-core';
 import { ProviderType } from 'api/providers';
@@ -10,14 +10,14 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
+import { DataTable } from 'routes/components/dataTable';
+import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { ComputedReportItemValueType } from 'routes/views/components/charts/common';
 import { Actions } from 'routes/views/details/components/actions';
-import { DataTable } from 'routes/views/details/components/dataTable';
-import { styles } from 'routes/views/details/components/dataTable/dataTable.styles';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
 import { getBreakdownPath } from 'routes/views/utils/paths';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dates';
 import { formatCurrency, formatPercentage } from 'utils/format';
 import { formatPath } from 'utils/paths';
@@ -29,6 +29,7 @@ import DetailsOptimization from './detailsOptimization';
 
 interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   costDistribution?: string;
+  filterBy?: any;
   groupBy: string;
   groupByTagKey: string;
   hiddenColumns?: Set<string>;
@@ -37,6 +38,7 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   isRosFeatureEnabled?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
+  orderBy?: any;
   report: OcpReport;
   reportQueryString: string;
   selectedItems?: ComputedReportItem[];
@@ -422,16 +424,18 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   };
 
   public render() {
-    const { isLoading, onSelected, onSort, selectedItems } = this.props;
+    const { filterBy, isLoading, onSelected, onSort, orderBy, selectedItems } = this.props;
     const { columns, rows } = this.state;
 
     return (
       <DataTable
         columns={columns}
+        filterBy={filterBy}
         isActionsCell
         isLoading={isLoading}
         onSelected={onSelected}
         onSort={onSort}
+        orderBy={orderBy}
         rows={rows}
         selectedItems={selectedItems}
       />

@@ -5,8 +5,8 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { DataToolbar } from 'routes/views/components/dataToolbar';
-import type { Filter } from 'routes/views/utils/filter';
+import { DataToolbar } from 'routes/components/dataToolbar';
+import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
 import { uiActions } from 'store/ui';
 

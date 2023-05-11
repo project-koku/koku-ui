@@ -38,11 +38,11 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { ResourceTypeahead } from 'routes/views/components/resourceTypeahead';
-import type { Filter } from 'routes/views/utils/filter';
+import { ResourceTypeahead } from 'routes/components/resourceTypeahead';
+import type { Filter } from 'routes/utils/filter';
+import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { isEqual } from 'routes/views/utils/equal';
 import { createMapStateToProps } from 'store/common';
-import type { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { isEqual } from 'utils/equal';
 import {
   awsCategoryKey,
   awsCategoryPrefix,
@@ -584,7 +584,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   // Remove trailing commas -- see https://issues.redhat.com/browse/COST-3641
   private cleanInput = (value: string) => {
-    const val = value.replace(/,\s*$/, '').replace(/&\s*$/, '');
+    const val = value.replace(/,*$/g, '').replace(/&*$/g, '');
     return val;
   };
 
@@ -596,12 +596,17 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   private onCategoryInput = (event, key) => {
     const { categoryInput, currentCategory, currentExclude } = this.state;
 
-    if ((event && event.key && event.key !== 'Enter') || categoryInput.trim() === '') {
+    if (event && event.key && event.key !== 'Enter') {
+      return;
+    }
+
+    const val = this.cleanInput(categoryInput);
+    if (val.trim() === '') {
       return;
     }
 
     const isExcludes = currentExclude === ExcludeType.exclude;
-    const filter = this.getFilter(currentCategory, categoryInput, isExcludes);
+    const filter = this.getFilter(currentCategory, val, isExcludes);
     this.setState(
       (prevState: any) => {
         const prevItems = prevState.filters[key] ? prevState.filters[key] : [];
@@ -609,7 +614,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
           filters: {
             ...prevState.filters,
             [currentCategory]:
-              prevItems && prevItems.find(item => item.value === categoryInput)
+              prevItems && prevItems.find(item => item.value === val)
                 ? prevItems
                 : prevItems
                 ? [...prevItems, filter]

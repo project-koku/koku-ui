@@ -13,13 +13,13 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Currency } from 'routes/components/currency';
 import { GroupBy } from 'routes/views/components/groupBy';
+import type { ComputedAzureReportItemsParams } from 'routes/views/utils/computedReport/getComputedAzureReportItems';
+import { getIdKeyForGroupBy } from 'routes/views/utils/computedReport/getComputedAzureReportItems';
 import { filterProviders } from 'routes/views/utils/providers';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
-import type { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 

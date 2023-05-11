@@ -14,13 +14,13 @@ import { connect } from 'react-redux';
 import { Currency } from 'routes/components/currency';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { GroupBy } from 'routes/views/components/groupBy';
+import type { ComputedRhelReportItemsParams } from 'routes/views/utils/computedReport/getComputedRhelReportItems';
+import { getIdKeyForGroupBy } from 'routes/views/utils/computedReport/getComputedRhelReportItems';
 import { filterProviders } from 'routes/views/utils/providers';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
-import type { ComputedRhelReportItemsParams } from 'utils/computedReport/getComputedRhelReportItems';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedRhelReportItems';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 

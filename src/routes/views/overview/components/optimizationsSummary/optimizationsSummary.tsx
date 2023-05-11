@@ -20,9 +20,9 @@ import type { MessageDescriptor } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
+import { skeletonWidth } from 'routes/views/utils/skeleton';
 import { FetchStatus } from 'store/common';
 import { formatPath } from 'utils/paths';
-import { skeletonWidth } from 'utils/skeleton';
 
 import { styles } from './optimizations.styles';
 
