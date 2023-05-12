@@ -1,5 +1,5 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
-import { Button, ButtonVariant } from '@patternfly/react-core';
+import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
 import messages from 'locales/messages';
@@ -56,28 +56,29 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
     });
   }
 
-  private getTagActions = () => {
+  private getActions = () => {
     const { intl, onDisableTags, onEnableTags, selectedItems } = this.props;
+
+    const isDisabled = selectedItems.length === 0;
 
     return (
       <>
-        <Button
-          isDisabled={selectedItems.length === 0}
-          key="save"
-          onClick={onEnableTags}
-          variant={ButtonVariant.primary}
-        >
-          {intl.formatMessage(messages.enableCategories)}
-        </Button>
-        <Button
-          isDisabled={selectedItems.length === 0}
-          key="reset"
-          onClick={onDisableTags}
-          style={styles.action}
-          variant={ButtonVariant.secondary}
-        >
-          {intl.formatMessage(messages.disableCategories)}
-        </Button>
+        <Tooltip content={intl.formatMessage(messages.selectCategories)}>
+          <Button isAriaDisabled={isDisabled} key="save" onClick={onEnableTags} variant={ButtonVariant.primary}>
+            {intl.formatMessage(messages.enableCategories)}
+          </Button>
+        </Tooltip>
+        <Tooltip content={intl.formatMessage(messages.selectCategories)}>
+          <Button
+            isAriaDisabled={isDisabled}
+            key="reset"
+            onClick={onDisableTags}
+            style={styles.action}
+            variant={ButtonVariant.secondary}
+          >
+            {intl.formatMessage(messages.disableCategories)}
+          </Button>
+        </Tooltip>
       </>
     );
   };
@@ -110,6 +111,7 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
 
     return (
       <DataToolbar
+        actions={this.getActions()}
         categoryOptions={categoryOptions}
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
@@ -124,7 +126,6 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
         selectedItems={selectedItems}
         showBulkSelect
         showFilter
-        tagActions={this.getTagActions()}
       />
     );
   }

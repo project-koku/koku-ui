@@ -1316,11 +1316,6 @@ export default defineMessages({
     description: 'Disable tags',
     id: 'disableTags',
   },
-  disabled: {
-    defaultMessage: 'Disabled',
-    description: 'Disabled',
-    id: 'disabled',
-  },
   discountMinus: {
     defaultMessage: 'Discount (-)',
     description: 'Discount (-)',
@@ -3000,11 +2995,6 @@ export default defineMessages({
     description: 'Requests',
     id: 'requests',
   },
-  reset: {
-    defaultMessage: 'Reset',
-    description: 'Reset',
-    id: 'reset',
-  },
   rhel: {
     defaultMessage: 'RHEL',
     description: 'RHEL',
@@ -3082,10 +3072,20 @@ export default defineMessages({
     description: 'Select all',
     id: 'selectAll',
   },
+  selectCategories: {
+    defaultMessage: 'Select categories to enable or disable',
+    description: 'Select categories to enable or disable',
+    id: 'selectCategories',
+  },
   selectRow: {
     defaultMessage: 'Select row {value}',
     description: 'Select row {value}',
     id: 'selectRow',
+  },
+  selectTags: {
+    defaultMessage: 'Select tags to enable or disable',
+    description: 'Select tags to enable or disable',
+    id: 'selectTags',
   },
   selected: {
     defaultMessage: '{value} selected',
