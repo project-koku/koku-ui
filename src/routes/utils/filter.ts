@@ -46,7 +46,11 @@ export const addQueryFilter = (query: Query, filterType: string, filterValue: st
       }
     }
     if (!found) {
-      newQuery[type][filterType] = [newQuery[type][filterType], filterValue];
+      if (Array.isArray(newQuery[type][filterType])) {
+        newQuery[type][filterType] = [...newQuery[type][filterType], filterValue];
+      } else {
+        newQuery[type][filterType] = [newQuery[type][filterType], filterValue];
+      }
     }
   } else {
     newQuery[type][filterType] = [filterValue];
