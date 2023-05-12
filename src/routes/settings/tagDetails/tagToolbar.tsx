@@ -1,5 +1,5 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
-import { Button, ButtonVariant } from '@patternfly/react-core';
+import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
 import messages from 'locales/messages';
@@ -53,28 +53,29 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
     });
   }
 
-  private getTagActions = () => {
+  private getActions = () => {
     const { intl, onDisableTags, onEnableTags, selectedItems } = this.props;
+
+    const isDisabled = selectedItems.length === 0;
 
     return (
       <>
-        <Button
-          isDisabled={selectedItems.length === 0}
-          key="save"
-          onClick={onEnableTags}
-          variant={ButtonVariant.primary}
-        >
-          {intl.formatMessage(messages.enableTags)}
-        </Button>
-        <Button
-          isDisabled={selectedItems.length === 0}
-          key="reset"
-          onClick={onDisableTags}
-          style={styles.action}
-          variant={ButtonVariant.secondary}
-        >
-          {intl.formatMessage(messages.disableTags)}
-        </Button>
+        <Tooltip content={intl.formatMessage(messages.selectTags)}>
+          <Button isAriaDisabled={isDisabled} key="save" onClick={onEnableTags} variant={ButtonVariant.primary}>
+            {intl.formatMessage(messages.enableTags)}
+          </Button>
+        </Tooltip>
+        <Tooltip content={intl.formatMessage(messages.selectTags)}>
+          <Button
+            isAriaDisabled={isDisabled}
+            key="reset"
+            onClick={onDisableTags}
+            style={styles.action}
+            variant={ButtonVariant.secondary}
+          >
+            {intl.formatMessage(messages.disableTags)}
+          </Button>
+        </Tooltip>
       </>
     );
   };
@@ -107,6 +108,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
 
     return (
       <DataToolbar
+        actions={this.getActions()}
         categoryOptions={categoryOptions}
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
@@ -121,7 +123,6 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
         selectedItems={selectedItems}
         showBulkSelect
         showFilter
-        tagActions={this.getTagActions()}
       />
     );
   }

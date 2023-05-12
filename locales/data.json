@@ -3302,12 +3302,6 @@
         "value": "Disable tags"
       }
     ],
-    "disabled": [
-      {
-        "type": 0,
-        "value": "Disabled"
-      }
-    ],
     "discountMinus": [
       {
         "type": 0,
@@ -11190,12 +11184,6 @@
         "value": "Requests"
       }
     ],
-    "reset": [
-      {
-        "type": 0,
-        "value": "Reset"
-      }
-    ],
     "rhel": [
       {
         "type": 0,
@@ -11310,6 +11298,12 @@
         "value": "Select all"
       }
     ],
+    "selectCategories": [
+      {
+        "type": 0,
+        "value": "Select categories to enable or disable"
+      }
+    ],
     "selectRow": [
       {
         "type": 0,
@@ -11318,6 +11312,12 @@
       {
         "type": 1,
         "value": "value"
+      }
+    ],
+    "selectTags": [
+      {
+        "type": 0,
+        "value": "Select tags to enable or disable"
       }
     ],
     "selected": [
