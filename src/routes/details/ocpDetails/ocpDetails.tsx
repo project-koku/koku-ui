@@ -25,6 +25,8 @@ import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedOcpRe
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getGroupById, getGroupByTagKey } from 'routes/utils/groupBy';
+import { filterProviders, hasCurrentMonthData } from 'routes/utils/providers';
+import { getRouteForQuery } from 'routes/utils/query';
 import {
   handleOnCostDistributionSelected,
   handleOnCurrencySelected,
@@ -33,9 +35,7 @@ import {
   handleOnPerPageSelect,
   handleOnSetPage,
   handleOnSort,
-} from 'routes/utils/navHandles';
-import { filterProviders, hasCurrentMonthData } from 'routes/utils/providers';
-import { getRouteForQuery } from 'routes/utils/query';
+} from 'routes/utils/queryNavigate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';

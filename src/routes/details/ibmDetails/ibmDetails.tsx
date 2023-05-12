@@ -21,6 +21,9 @@ import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedIbmRe
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getGroupByTagKey } from 'routes/utils/groupBy';
+import { hasCurrentMonthData } from 'routes/utils/providers';
+import { filterProviders } from 'routes/utils/providers';
+import { getRouteForQuery } from 'routes/utils/query';
 import {
   handleOnCurrencySelected,
   handleOnFilterAdded,
@@ -28,10 +31,7 @@ import {
   handleOnPerPageSelect,
   handleOnSetPage,
   handleOnSort,
-} from 'routes/utils/navHandles';
-import { hasCurrentMonthData } from 'routes/utils/providers';
-import { filterProviders } from 'routes/utils/providers';
-import { getRouteForQuery } from 'routes/utils/query';
+} from 'routes/utils/queryNavigate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';

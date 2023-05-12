@@ -14,12 +14,12 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
+import { hasCurrentMonthData } from 'routes/utils/providers';
 import {
   handleOnCostDistributionSelected,
   handleOnCostTypeSelected,
   handleOnCurrencySelected,
-} from 'routes/utils/navHandles';
-import { hasCurrentMonthData } from 'routes/utils/providers';
+} from 'routes/utils/queryNavigate';
 import { FetchStatus } from 'store/common';
 import type { reportActions } from 'store/reports';
 import type { uiActions } from 'store/ui';

@@ -26,6 +26,8 @@ import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getC
 import type { DateRangeType } from 'routes/utils/dateRange';
 import { getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/utils/dateRange';
 import { getGroupByCostCategory, getGroupById, getGroupByOrgValue, getGroupByTagKey } from 'routes/utils/groupBy';
+import { filterProviders, hasData } from 'routes/utils/providers';
+import { getRouteForQuery } from 'routes/utils/query';
 import {
   handleOnCostDistributionSelected,
   handleOnCostTypeSelected,
@@ -35,9 +37,7 @@ import {
   handleOnPerPageSelect,
   handleOnSetPage,
   handleOnSort,
-} from 'routes/utils/navHandles';
-import { filterProviders, hasData } from 'routes/utils/providers';
-import { getRouteForQuery } from 'routes/utils/query';
+} from 'routes/utils/queryNavigate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';

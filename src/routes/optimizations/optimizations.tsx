@@ -13,9 +13,9 @@ import { OptimizationsTable, OptimizationsToolbar } from 'routes/components/opti
 import { Loading } from 'routes/components/page/loading';
 import { NoOptimizations } from 'routes/components/page/noOptimizations';
 import { NotAvailable } from 'routes/components/page/notAvailable';
-import { handleOnFilterAdded, handleOnFilterRemoved, handleOnSort } from 'routes/utils/navHandles';
 import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import { getRouteForQuery } from 'routes/utils/query';
+import { handleOnFilterAdded, handleOnFilterRemoved, handleOnSort } from 'routes/utils/queryNavigate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import { uiActions } from 'store/ui';
