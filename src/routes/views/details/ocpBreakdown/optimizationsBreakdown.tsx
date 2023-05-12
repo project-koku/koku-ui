@@ -40,8 +40,7 @@ interface OptimizationsBreakdownDispatchProps {
 }
 
 interface OptimizationsBreakdownState {
-  columns: any[];
-  rows: any[];
+  // TBD...
 }
 
 type OptimizationsBreakdownProps = OptimizationsBreakdownStateProps &
@@ -60,10 +59,7 @@ const reportType = RosType.ros as any;
 const reportPathsType = RosPathsType.recommendations as any;
 
 class OptimizationsBreakdownBase extends React.Component<OptimizationsBreakdownProps, OptimizationsBreakdownState> {
-  protected defaultState: OptimizationsBreakdownState = {
-    columns: [],
-    rows: [],
-  };
+  protected defaultState: OptimizationsBreakdownState = {};
   public state: OptimizationsBreakdownState = { ...this.defaultState };
 
   public componentDidMount() {
