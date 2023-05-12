@@ -23,20 +23,22 @@ import { styles } from './tagDetails.styles';
 import { TagTable } from './tagTable';
 import { TagToolbar } from './tagToolbar';
 
-interface TagDetailsProps {
+interface TagDetailsOwnProps {
   // TBD...
 }
 
-export interface TagDetailsOwnProps {
+export interface TagDetailsMapProps {
   query?: Query;
 }
 
-export interface TagDetailsMapProps {
+export interface TagDetailsStateProps {
   report?: Report;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
   reportQueryString?: string;
 }
+
+type TagDetailsProps = TagDetailsOwnProps;
 
 const baseQuery: Query = {
   filter: {
@@ -231,7 +233,7 @@ const TagDetails: React.FC<TagDetailsProps> = () => {
 };
 
 // eslint-disable-next-line no-empty-pattern
-const useMapToProps = ({ query }: TagDetailsOwnProps): TagDetailsMapProps => {
+const useMapToProps = ({ query }: TagDetailsMapProps): TagDetailsStateProps => {
   const reportType = ReportType.cost;
   const reportPathsType = ReportPathsType.ocp;
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();

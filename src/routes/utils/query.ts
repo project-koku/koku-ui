@@ -55,24 +55,45 @@ export const handleOnFilterRemoved = (query: Query, filter: Filter) => {
   return removeFilterFromQuery(newQuery, filter);
 };
 
-export const handleOnPerPageSelect = (query: Query, perPage: number) => {
+export const handleOnPerPageSelect = (query: Query, perPage: number, isLimit = false) => {
   return initQuery(query, false, {
-    filter: {
-      ...query.filter,
-      limit: perPage,
-    },
+    ...(isLimit
+      ? {
+          limit: perPage,
+        }
+      : {
+          filter: {
+            ...query.filter,
+            limit: perPage,
+          },
+        }),
   });
 };
 
-export const handleOnSetPage = (query: Query, report, pageNumber) => {
-  const limit = report && report.meta && report.meta.filter && report.meta.filter.limit ? report.meta.filter.limit : 10;
+export const handleOnSetPage = (query: Query, report, pageNumber, isLimit = false) => {
+  let limit = 10;
+  if (report && report.meta) {
+    if (isLimit && report.meta.limit !== undefined) {
+      limit = report.meta.limit;
+    } else if (report.meta.filter && report.meta.filter.limit !== undefined) {
+      limit = report.meta.filter.limit;
+    }
+  }
   const offset = pageNumber * limit - limit;
 
   return initQuery(query, false, {
-    filter: {
-      ...query.filter,
-      offset,
-    },
+    ...(isLimit
+      ? {
+          limit,
+          offset,
+        }
+      : {
+          filter: {
+            ...query.filter,
+            limit,
+            offset,
+          },
+        }),
   });
 };
 

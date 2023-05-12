@@ -23,20 +23,22 @@ import { styles } from './costCategory.styles';
 import { CostCategoryTable } from './costCategoryTable';
 import { CostCategoryToolbar } from './costCategoryToolbar';
 
-interface CostCategoryProps {
+interface CostCategoryOwnProps {
   // TBD...
 }
 
-export interface CostCategoryOwnProps {
+export interface CostCategoryMapProps {
   query?: Query;
 }
 
-export interface CostCategoryMapProps {
+export interface CostCategoryStateProps {
   report?: Report;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
   reportQueryString?: string;
 }
+
+type CostCategoryProps = CostCategoryOwnProps;
 
 const baseQuery: Query = {
   filter: {
@@ -231,7 +233,7 @@ const CostCategory: React.FC<CostCategoryProps> = () => {
 };
 
 // eslint-disable-next-line no-empty-pattern
-const useMapToProps = ({ query }: CostCategoryOwnProps): CostCategoryMapProps => {
+const useMapToProps = ({ query }: CostCategoryMapProps): CostCategoryStateProps => {
   const reportType = ReportType.cost;
   const reportPathsType = ReportPathsType.ocp;
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
