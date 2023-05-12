@@ -1,8 +1,9 @@
+import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { routes } from 'routes';
 import { Loading } from 'routes/components/page/loading';
@@ -11,6 +12,7 @@ import { NotAvailable } from 'routes/components/page/notAvailable';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { isOrgAdmin } from 'utils/chrome';
 import { formatPath, usePathname } from 'utils/paths';
 import {
   hasAwsAccess,
@@ -51,6 +53,10 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
   userAccessError,
   userAccessFetchStatus,
 }) => {
+  const { auth } = useChrome();
+  const [orgAdmin, setOrgAdmin] = useState(false);
+  isOrgAdmin(auth).then(val => setOrgAdmin(val));
+
   const hasPermissions = pathname => {
     if (!(userAccess && userAccessFetchStatus === FetchStatus.complete)) {
       return false;
@@ -65,7 +71,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const ocp = hasOcpAccess(userAccess);
     const rhel = isFinsightsFeatureEnabled && hasRhelAccess(userAccess);
     const ros = isRosFeatureEnabled && hasRosAccess(userAccess);
-    const settings = isSettingsEnabled;
+    const settings = isSettingsEnabled && (orgAdmin || costModel);
 
     switch (pathname) {
       case formatPath(routes.explorer.path):

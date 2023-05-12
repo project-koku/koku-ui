@@ -2518,6 +2518,11 @@ export default defineMessages({
     description: 'RHEL in Cost Management',
     id: 'notAuthorizedStateRhel',
   },
+  notAuthorizedStateSettings: {
+    defaultMessage: 'Settings in Cost Management',
+    description: 'Settings in Cost Management',
+    id: 'notAuthorizedStateSettings',
+  },
   oci: {
     defaultMessage: 'Oracle Cloud Infrastructure',
     description: 'Oracle Cloud Infrastructure',

@@ -394,6 +394,7 @@
   "notAuthorizedStateOcp": "OpenShift in Cost Management",
   "notAuthorizedStateOptimizations": "Optimizations in Cost Management",
   "notAuthorizedStateRhel": "RHEL in Cost Management",
+  "notAuthorizedStateSettings": "Settings in Cost Management",
   "oci": "Oracle Cloud Infrastructure",
   "ociComputeTitle": "Virtual machines usage",
   "ociCostTrendTitle": "Oracle Cloud Infrastructure cumulative cost comparison ({units})",
