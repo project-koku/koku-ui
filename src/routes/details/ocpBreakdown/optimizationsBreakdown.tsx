@@ -23,12 +23,14 @@ import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
+import { uiActions } from 'store/ui';
 
 interface OptimizationsBreakdownOwnProps {
   // TBD...
 }
 
 export interface OptimizationsBreakdownStateProps {
+  closeOptimizationsDrawer: typeof uiActions.closeOptimizationsDrawer;
   report: RosReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
@@ -56,7 +58,9 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
   const [query, setQuery] = useState({ ...baseQuery });
   const intl = useIntl();
 
-  const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({ query });
+  const { closeOptimizationsDrawer, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
+    query,
+  });
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report && report.meta ? report.meta.count : 0;
@@ -119,26 +123,31 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
   const handleOnFilterAdded = filter => {
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
     setQuery(newQuery);
+    closeOptimizationsDrawer();
   };
 
   const handleOnFilterRemoved = filter => {
     const newQuery = queryUtils.handleOnFilterRemoved(query, filter);
     setQuery(newQuery);
+    closeOptimizationsDrawer();
   };
 
   const handleOnPerPageSelect = perPage => {
     const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
     setQuery(newQuery);
+    closeOptimizationsDrawer();
   };
 
   const handleOnSetPage = pageNumber => {
     const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
     setQuery(newQuery);
+    closeOptimizationsDrawer();
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery(newQuery);
+    closeOptimizationsDrawer();
   };
 
   const itemsTotal = report && report.meta ? report.meta.count : 0;
@@ -210,6 +219,7 @@ const useMapToProps = ({ query }: OptimizationsBreakdownMapProps): Optimizations
   }, [query]);
 
   return {
+    closeOptimizationsDrawer: uiActions.closeOptimizationsDrawer,
     report,
     reportError,
     reportFetchStatus,

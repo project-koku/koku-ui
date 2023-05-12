@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { DataToolbar } from 'routes/components/dataToolbar';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
-import { uiActions } from 'store/ui';
 
 interface OptimizationsToolbarOwnProps {
   isDisabled?: boolean;
@@ -26,7 +25,7 @@ interface OptimizationsToolbarStateProps {
 }
 
 interface OptimizationsToolbarDispatchProps {
-  closeOptimizationsDrawer: typeof uiActions.closeOptimizationsDrawer;
+  // TBD...
 }
 
 interface OptimizationsToolbarState {
@@ -61,26 +60,8 @@ export class OptimizationsToolbarBase extends React.Component<OptimizationsToolb
     return isProject ? options : options.filter(option => option.key !== 'project');
   };
 
-  private handleOnFilterAdded = (filter: Filter) => {
-    const { closeOptimizationsDrawer, onFilterAdded } = this.props;
-
-    closeOptimizationsDrawer();
-    if (onFilterAdded) {
-      onFilterAdded(filter);
-    }
-  };
-
-  private handleOnFilterRemoved = (filter: Filter) => {
-    const { closeOptimizationsDrawer, onFilterRemoved } = this.props;
-
-    closeOptimizationsDrawer();
-    if (onFilterRemoved) {
-      onFilterRemoved(filter);
-    }
-  };
-
   public render() {
-    const { isDisabled, itemsPerPage, itemsTotal, pagination, query } = this.props;
+    const { isDisabled, itemsPerPage, itemsTotal, onFilterAdded, onFilterRemoved, pagination, query } = this.props;
     const { categoryOptions } = this.state;
 
     return (
@@ -89,8 +70,8 @@ export class OptimizationsToolbarBase extends React.Component<OptimizationsToolb
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
-        onFilterAdded={this.handleOnFilterAdded}
-        onFilterRemoved={this.handleOnFilterRemoved}
+        onFilterAdded={onFilterAdded}
+        onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
         showFilter
@@ -107,7 +88,7 @@ const mapStateToProps = createMapStateToProps<OptimizationsToolbarOwnProps, Opti
 });
 
 const mapDispatchToProps: OptimizationsToolbarDispatchProps = {
-  closeOptimizationsDrawer: uiActions.closeOptimizationsDrawer,
+  // TBD...
 };
 
 const OptimizationsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(OptimizationsToolbarBase);
