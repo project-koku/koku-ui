@@ -7,7 +7,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 
-import { styles } from './optimizations.styles';
+import { styles } from './optimizationsHeader.styles';
 
 interface OptimizationsHeaderOwnProps {
   // TBD...
