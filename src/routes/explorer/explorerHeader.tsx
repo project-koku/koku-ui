@@ -44,6 +44,7 @@ import {
   isRhelAvailable,
 } from 'utils/userAccess';
 
+import { ResourcePathsType } from '../../api/resources/resource';
 import { ExplorerFilter } from './explorerFilter';
 import { styles } from './explorerHeader.styles';
 import {
@@ -313,7 +314,9 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
               orgPathsType={orgPathsType}
               perspective={perspective}
               resourcePathsType={resourcePathsType}
-              showCostCategories={resourcePathsType}
+              showCostCategories={
+                resourcePathsType === ResourcePathsType.aws || resourcePathsType === ResourcePathsType.awsOcp
+              }
               showOrgs={orgPathsType}
               showTags={tagPathsType}
               tagPathsType={tagPathsType}
