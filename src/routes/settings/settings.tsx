@@ -1,7 +1,6 @@
 import './settings.scss';
 
 import { Tab, TabContent, Tabs, TabTitleText, Title, TitleSizes } from '@patternfly/react-core';
-import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
@@ -19,7 +18,8 @@ import { TagDetails } from 'routes/settings/tagDetails';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
-import { isOrgAdmin } from 'utils/chrome';
+import type { ChromeComponentProps } from 'utils/chrome';
+import { withChrome } from 'utils/chrome';
 import { formatPath } from 'utils/paths';
 import { hasCostModelAccess } from 'utils/userAccess';
 
@@ -52,7 +52,7 @@ interface AvailableTab {
   tab: SettingsTab;
 }
 
-interface SettingsOwnProps {
+interface SettingsOwnProps extends ChromeComponentProps {
   // TBD...
 }
 
@@ -69,14 +69,10 @@ export interface SettingsStateProps {
 
 type SettingsProps = SettingsOwnProps;
 
-const Settings: React.FC<SettingsProps> = () => {
-  const { auth } = useChrome();
+const Settings: React.FC<SettingsProps> = ({ chrome }) => {
   const [activeTabKey, setActiveTabKey] = useState(0);
-  const [orgAdmin, setOrgAdmin] = useState(false);
   const { userAccess, userAccessFetchStatus } = useMapToProps();
   const intl = useIntl();
-
-  isOrgAdmin(auth).then(val => setOrgAdmin(val));
 
   const getAvailableTabs = () => {
     const availableTabs = [
@@ -137,17 +133,17 @@ const Settings: React.FC<SettingsProps> = () => {
 
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === SettingsTab.costModels) {
-      return orgAdmin || hasCostModelAccess(userAccess) ? (
+      return chrome.isOrgAdmin || hasCostModelAccess(userAccess) ? (
         <CostModelsDetails />
       ) : (
         <NotAuthorized pathname={formatPath(routes.costModel.path)} />
       );
     } else if (currentTab === SettingsTab.calculations) {
-      return orgAdmin ? <Calculations /> : notAuthorized;
+      return chrome.isOrgAdmin ? <Calculations /> : notAuthorized;
     } else if (currentTab === SettingsTab.tags) {
-      return orgAdmin ? <TagDetails /> : notAuthorized;
+      return chrome.isOrgAdmin ? <TagDetails /> : notAuthorized;
     } else if (currentTab === SettingsTab.costCategory) {
-      return orgAdmin ? <CostCategory /> : notAuthorized;
+      return chrome.isOrgAdmin ? <CostCategory /> : notAuthorized;
     } else {
       return emptyTab;
     }
@@ -221,4 +217,4 @@ const useMapToProps = (): SettingsStateProps => {
   };
 };
 
-export default Settings;
+export default withChrome(Settings);
