@@ -3,29 +3,27 @@ import { userAccess } from 'components/userAccess';
 import React, { lazy, Suspense } from 'react';
 import { Route, Routes as RouterRoutes } from 'react-router-dom';
 
-const NotFound = lazy(() => import(/* webpackChunkName: "notFound" */ 'routes/state/notFound'));
-const AwsBreakdown = lazy(() => import(/* webpackChunkName: "awsBreakdown" */ 'routes/views/details/awsBreakdown'));
-const AwsDetails = lazy(() => import(/* webpackChunkName: "awsDetails" */ 'routes/views/details/awsDetails'));
-const AzureBreakdown = lazy(
-  () => import(/* webpackChunkName: "azureBreakdown" */ 'routes/views/details/azureBreakdown')
-);
-const AzureDetails = lazy(() => import(/* webpackChunkName: "azureDetails" */ 'routes/views/details/azureDetails'));
+const NotFound = lazy(() => import(/* webpackChunkName: "notFound" */ 'routes/components/page/notFound'));
+const AwsBreakdown = lazy(() => import(/* webpackChunkName: "awsBreakdown" */ 'routes/details/awsBreakdown'));
+const AwsDetails = lazy(() => import(/* webpackChunkName: "awsDetails" */ 'routes/details/awsDetails'));
+const AzureBreakdown = lazy(() => import(/* webpackChunkName: "azureBreakdown" */ 'routes/details/azureBreakdown'));
+const AzureDetails = lazy(() => import(/* webpackChunkName: "azureDetails" */ 'routes/details/azureDetails'));
 const CostModelOld = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/costModels/costModel'));
 const CostModelsDetailsOld = lazy(() => import(/* lazy: "costModelsDetails" */ 'routes/costModels/costModelsDetails'));
 const CostModel = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/settings/costModels/costModel'));
-const Explorer = lazy(() => import(/* webpackChunkName: "explorer" */ 'routes/views/explorer'));
-const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'routes/views/details/gcpBreakdown'));
-const GcpDetails = lazy(() => import(/* webpackChunkName: "gcpDetails" */ 'routes/views/details/gcpDetails'));
-const IbmBreakdown = lazy(() => import(/* webpackChunkName: "ibmBreakdown" */ 'routes/views/details/ibmBreakdown'));
-const IbmDetails = lazy(() => import(/* webpackChunkName: "ibmDetails" */ 'routes/views/details/ibmDetails'));
-const OciBreakdown = lazy(() => import(/* webpackChunkName: "ociBreakdown" */ 'routes/views/details/ociBreakdown'));
-const OciDetails = lazy(() => import(/* webpackChunkName: "ociDetails" */ 'routes/views/details/ociDetails'));
-const OcpBreakdown = lazy(() => import(/* webpackChunkName: "ocpBreakdown" */ 'routes/views/details/ocpBreakdown'));
-const OcpDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/views/details/ocpDetails'));
-const Optimizations = lazy(() => import(/* webpackChunkName: "recommendations" */ 'routes/views/optimizations'));
-const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/views/overview'));
-const RhelDetails = lazy(() => import(/* webpackChunkName: "rhelDetails" */ 'routes/views/details/rhelDetails'));
-const RhelBreakdown = lazy(() => import(/* webpackChunkName: "rhelBreakdown" */ 'routes/views/details/rhelBreakdown'));
+const Explorer = lazy(() => import(/* webpackChunkName: "explorer" */ 'routes/explorer'));
+const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'routes/details/gcpBreakdown'));
+const GcpDetails = lazy(() => import(/* webpackChunkName: "gcpDetails" */ 'routes/details/gcpDetails'));
+const IbmBreakdown = lazy(() => import(/* webpackChunkName: "ibmBreakdown" */ 'routes/details/ibmBreakdown'));
+const IbmDetails = lazy(() => import(/* webpackChunkName: "ibmDetails" */ 'routes/details/ibmDetails'));
+const OciBreakdown = lazy(() => import(/* webpackChunkName: "ociBreakdown" */ 'routes/details/ociBreakdown'));
+const OciDetails = lazy(() => import(/* webpackChunkName: "ociDetails" */ 'routes/details/ociDetails'));
+const OcpBreakdown = lazy(() => import(/* webpackChunkName: "ocpBreakdown" */ 'routes/details/ocpBreakdown'));
+const OcpDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/details/ocpDetails'));
+const Optimizations = lazy(() => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations'));
+const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/overview'));
+const RhelDetails = lazy(() => import(/* webpackChunkName: "rhelDetails" */ 'routes/details/rhelDetails'));
+const RhelBreakdown = lazy(() => import(/* webpackChunkName: "rhelBreakdown" */ 'routes/details/rhelBreakdown'));
 const Settings = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/settings'));
 
 const routes = {

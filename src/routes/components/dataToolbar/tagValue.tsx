@@ -18,7 +18,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/views/utils/groupBy';
+import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';

@@ -3,7 +3,7 @@ import type { RecommendationItems } from 'api/ros/recommendations';
 import messages from 'locales/messages';
 import React from 'react';
 import { connect } from 'react-redux';
-import { PerspectiveSelect } from 'routes/views/components/perspective/perspectiveSelect';
+import { PerspectiveSelect } from 'routes/components/perspective/perspectiveSelect';
 import { createMapStateToProps } from 'store/common';
 
 import { Interval } from './optimizationsContent';

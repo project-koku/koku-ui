@@ -9,7 +9,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { Loading } from 'routes/state/loading';
+import { Loading } from 'routes/components/page/loading';
 import type { Filter } from 'routes/utils/filter';
 import { addFilterToQuery, removeFilterFromQuery } from 'routes/utils/filter';
 import { createMapStateToProps, FetchStatus } from 'store/common';

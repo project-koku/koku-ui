@@ -8,8 +8,8 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { DataToolbar } from 'routes/components/dataToolbar';
+import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import type { Filter } from 'routes/utils/filter';
-import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
 import { createMapStateToProps } from 'store/common';
 
 import { styles } from './costCategory.styles';

@@ -1,0 +1,493 @@
+import 'routes/components/dataTable/dataTable.scss';
+
+import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import type { Providers } from 'api/providers';
+import { ProviderType } from 'api/providers';
+import type { AwsQuery } from 'api/queries/awsQuery';
+import { getQuery, parseQuery } from 'api/queries/awsQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import type { AwsReport } from 'api/reports/awsReports';
+import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { AxiosError } from 'axios';
+import messages from 'locales/messages';
+import React from 'react';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
+import { ExportModal } from 'routes/components/export';
+import { Loading } from 'routes/components/page/loading';
+import { NoData } from 'routes/components/page/noData';
+import { NoProviders } from 'routes/components/page/noProviders';
+import { NotAvailable } from 'routes/components/page/notAvailable';
+import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedAwsReportItems';
+import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
+import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/utils/groupBy';
+import {
+  handleOnCostTypeSelected,
+  handleOnCurrencySelected,
+  handleOnFilterAdded,
+  handleOnFilterRemoved,
+  handleOnPerPageSelect,
+  handleOnSetPage,
+  handleOnSort,
+} from 'routes/utils/navHandles';
+import { filterProviders, hasCurrentMonthData } from 'routes/utils/providers';
+import { getRouteForQuery } from 'routes/utils/query';
+import { createMapStateToProps, FetchStatus } from 'store/common';
+import { providersQuery, providersSelectors } from 'store/providers';
+import { reportActions, reportSelectors } from 'store/reports';
+import { getCostType, getCurrency } from 'utils/localStorage';
+import { awsCategoryPrefix, logicalOrPrefix, noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
+
+import { styles } from './awsDetails.styles';
+import { DetailsHeader } from './detailsHeader';
+import { DetailsTable } from './detailsTable';
+import { DetailsToolbar } from './detailsToolbar';
+
+interface AwsDetailsStateProps {
+  costType: string;
+  currency?: string;
+  providers: Providers;
+  providersError: AxiosError;
+  providersFetchStatus: FetchStatus;
+  query: AwsQuery;
+  report: AwsReport;
+  reportError: AxiosError;
+  reportFetchStatus: FetchStatus;
+  reportQueryString: string;
+}
+
+interface AwsDetailsDispatchProps {
+  fetchReport: typeof reportActions.fetchReport;
+}
+
+interface AwsDetailsState {
+  columns?: any[];
+  isAllSelected?: boolean;
+  isExportModalOpen?: boolean;
+  rows?: any[];
+  selectedItems?: ComputedReportItem[];
+}
+
+type AwsDetailsOwnProps = RouterComponentProps & WrappedComponentProps;
+
+type AwsDetailsProps = AwsDetailsStateProps & AwsDetailsOwnProps & AwsDetailsDispatchProps;
+
+const baseQuery: AwsQuery = {
+  filter: {
+    limit: 10,
+    offset: 0,
+  },
+  exclude: {},
+  filter_by: {},
+  group_by: {
+    account: '*',
+  },
+  order_by: {
+    cost: 'desc',
+  },
+};
+
+const reportType = ReportType.cost;
+const reportPathsType = ReportPathsType.aws;
+
+class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
+  protected defaultState: AwsDetailsState = {
+    columns: [],
+    isAllSelected: false,
+    isExportModalOpen: false,
+    rows: [],
+    selectedItems: [],
+  };
+  public state: AwsDetailsState = { ...this.defaultState };
+
+  constructor(stateProps, dispatchProps) {
+    super(stateProps, dispatchProps);
+    this.handleBulkSelected = this.handleBulkSelected.bind(this);
+    this.handleExportModalClose = this.handleExportModalClose.bind(this);
+    this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
+    this.handleSelected = this.handleSelected.bind(this);
+  }
+
+  public componentDidMount() {
+    this.updateReport();
+  }
+
+  public componentDidUpdate(prevProps: AwsDetailsProps, prevState: AwsDetailsState) {
+    const { report, reportError, reportQueryString, router } = this.props;
+    const { selectedItems } = this.state;
+
+    const newQuery = prevProps.reportQueryString !== reportQueryString;
+    const noReport = !report && !reportError;
+    const noLocation = !router.location.search;
+    const newItems = prevState.selectedItems !== selectedItems;
+
+    if (newQuery || noReport || noLocation || newItems) {
+      this.updateReport();
+    }
+  }
+
+  private getComputedItems = () => {
+    const { query, report } = this.props;
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = getGroupByTagKey(query);
+
+    const groupBy = (groupByTagKey as any) || groupById;
+
+    return getUnsortedComputedReportItems({
+      report,
+      idKey: groupBy === orgUnitIdKey ? 'org_entities' : groupBy,
+    });
+  };
+
+  private getExportModal = (computedItems: ComputedReportItem[]) => {
+    const { query, report, reportQueryString } = this.props;
+    const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByCostCategory = getGroupByCostCategory(query);
+    const groupByTagKey = getGroupByTagKey(query);
+    const itemsTotal = report && report.meta ? report.meta.count : 0;
+
+    // Omit items labeled 'no-project'
+    const items = [];
+    selectedItems.map(item => {
+      if (!(item.label === `${noPrefix}${groupById}` || item.label === `${noPrefix}${groupByTagKey}`)) {
+        items.push(item);
+      }
+    });
+    return (
+      <ExportModal
+        count={isAllSelected ? itemsTotal : items.length}
+        isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
+        groupBy={
+          groupByCostCategory
+            ? `${awsCategoryPrefix}${groupByCostCategory}`
+            : groupByTagKey
+            ? `${tagPrefix}${groupByTagKey}`
+            : groupById
+        }
+        isOpen={isExportModalOpen}
+        items={items}
+        onClose={this.handleExportModalClose}
+        reportPathsType={reportPathsType}
+        reportQueryString={reportQueryString}
+      />
+    );
+  };
+
+  private getPagination = (isDisabled = false, isBottom = false) => {
+    const { intl, query, router, report } = this.props;
+
+    const count = report && report.meta ? report.meta.count : 0;
+    const limit =
+      report && report.meta && report.meta.filter && report.meta.filter.limit
+        ? report.meta.filter.limit
+        : baseQuery.filter.limit;
+    const offset =
+      report && report.meta && report.meta.filter && report.meta.filter.offset
+        ? report.meta.filter.offset
+        : baseQuery.filter.offset;
+    const page = Math.trunc(offset / limit + 1);
+
+    return (
+      <Pagination
+        isCompact={!isBottom}
+        isDisabled={isDisabled}
+        itemCount={count}
+        onPerPageSelect={(event, perPage) => handleOnPerPageSelect(query, router, perPage)}
+        onSetPage={(event, pageNumber) => handleOnSetPage(query, router, report, pageNumber)}
+        page={page}
+        perPage={limit}
+        titles={{
+          paginationTitle: intl.formatMessage(messages.paginationTitle, {
+            title: intl.formatMessage(messages.aws),
+            placement: isBottom ? 'bottom' : 'top',
+          }),
+        }}
+        variant={isBottom ? PaginationVariant.bottom : PaginationVariant.top}
+        widgetId={`exports-pagination${isBottom ? '-bottom' : ''}`}
+      />
+    );
+  };
+
+  private getTable = () => {
+    const { query, report, reportFetchStatus, reportQueryString, router } = this.props;
+    const { isAllSelected, selectedItems } = this.state;
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByCostCategory = getGroupByCostCategory(query);
+    const groupByTagKey = getGroupByTagKey(query);
+    const groupByOrg = getGroupByOrgValue(query);
+
+    return (
+      <DetailsTable
+        filterBy={query.filter_by}
+        groupBy={
+          groupByCostCategory
+            ? `${awsCategoryPrefix}${groupByCostCategory}`
+            : groupByTagKey
+            ? `${tagPrefix}${groupByTagKey}`
+            : groupById
+        }
+        groupByCostCategory={groupByCostCategory}
+        groupByTagKey={groupByTagKey}
+        groupByOrg={groupByOrg}
+        isAllSelected={isAllSelected}
+        isLoading={reportFetchStatus === FetchStatus.inProgress}
+        onSelected={this.handleSelected}
+        onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
+        orderBy={query.order_by}
+        report={report}
+        reportQueryString={reportQueryString}
+        selectedItems={selectedItems}
+      />
+    );
+  };
+
+  private getToolbar = (computedItems: ComputedReportItem[]) => {
+    const { query, router, report } = this.props;
+    const { isAllSelected, selectedItems } = this.state;
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByCostCategory = getGroupByCostCategory(query);
+    const groupByTagKey = getGroupByTagKey(query);
+    const isDisabled = computedItems.length === 0;
+    const itemsTotal = report && report.meta ? report.meta.count : 0;
+
+    return (
+      <DetailsToolbar
+        groupBy={
+          groupByCostCategory
+            ? `${awsCategoryPrefix}${groupByCostCategory}`
+            : groupByTagKey
+            ? `${tagPrefix}${groupByTagKey}`
+            : groupById
+        }
+        isAllSelected={isAllSelected}
+        isDisabled={isDisabled}
+        isExportDisabled={isDisabled || (!isAllSelected && selectedItems.length === 0)}
+        itemsPerPage={computedItems.length}
+        itemsTotal={itemsTotal}
+        onBulkSelected={this.handleBulkSelected}
+        onExportClicked={this.handleExportModalOpen}
+        onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
+        onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
+        pagination={this.getPagination(isDisabled)}
+        query={query}
+        selectedItems={selectedItems}
+      />
+    );
+  };
+
+  private handleBulkSelected = (action: string) => {
+    const { isAllSelected } = this.state;
+
+    if (action === 'none') {
+      this.setState({ isAllSelected: false, selectedItems: [] });
+    } else if (action === 'page') {
+      this.setState({
+        isAllSelected: false,
+        selectedItems: this.getComputedItems(),
+      });
+    } else if (action === 'all') {
+      this.setState({ isAllSelected: !isAllSelected, selectedItems: [] });
+    }
+  };
+
+  public handleExportModalClose = (isOpen: boolean) => {
+    this.setState({ isExportModalOpen: isOpen });
+  };
+
+  public handleExportModalOpen = () => {
+    this.setState({ isExportModalOpen: true });
+  };
+
+  private handleGroupBySelected = groupBy => {
+    const { query, router } = this.props;
+
+    let groupByKey = groupBy;
+    let value = '*';
+
+    // Check for org units
+    const index = groupBy && groupBy.indexOf(orgUnitIdKey);
+    if (index !== -1) {
+      groupByKey = orgUnitIdKey.substring(0, orgUnitIdKey.length);
+      value = groupBy.slice(orgUnitIdKey.length);
+    }
+
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      // filter_by: undefined, // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
+      group_by: {
+        [groupByKey]: value,
+      },
+      order_by: undefined, // Clear sort
+    };
+    this.setState({ isAllSelected: false, selectedItems: [] }, () => {
+      router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
+    });
+  };
+
+  private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
+    const { isAllSelected, selectedItems } = this.state;
+
+    let newItems = [...(isAllSelected ? this.getComputedItems() : selectedItems)];
+    if (items && items.length > 0) {
+      if (isSelected) {
+        items.map(item => newItems.push(item));
+      } else {
+        items.map(item => {
+          newItems = newItems.filter(val => val.id !== item.id);
+        });
+      }
+    }
+    this.setState({ isAllSelected: false, selectedItems: newItems });
+  };
+
+  private updateReport = () => {
+    const { fetchReport, reportQueryString } = this.props;
+    fetchReport(reportPathsType, reportType, reportQueryString);
+  };
+
+  public render() {
+    const {
+      costType,
+      currency,
+      intl,
+      providers,
+      providersFetchStatus,
+      query,
+      report,
+      reportError,
+      reportFetchStatus,
+      router,
+    } = this.props;
+
+    const computedItems = this.getComputedItems();
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const isDisabled = computedItems.length === 0;
+    const title = intl.formatMessage(messages.awsDetailsTitle);
+
+    // Note: Providers are fetched via the AccountSettings component used by all routes
+    if (reportError) {
+      return <NotAvailable title={title} />;
+    } else if (providersFetchStatus === FetchStatus.inProgress) {
+      return <Loading title={title} />;
+    } else if (providersFetchStatus === FetchStatus.complete) {
+      // API returns empy data array for no sources
+      const noProviders = providers && providers.meta && providers.meta.count === 0;
+
+      if (noProviders) {
+        return <NoProviders providerType={ProviderType.aws} title={title} />;
+      }
+      if (!hasCurrentMonthData(providers)) {
+        return <NoData title={title} />;
+      }
+    }
+    return (
+      <div style={styles.awsDetails}>
+        <DetailsHeader
+          costType={costType}
+          currency={currency}
+          groupBy={groupById}
+          onCostTypeSelected={() => handleOnCostTypeSelected(query, router)}
+          onCurrencySelected={() => handleOnCurrencySelected(query, router)}
+          onGroupBySelected={this.handleGroupBySelected}
+          report={report}
+        />
+        <div style={styles.content}>
+          <div style={styles.toolbarContainer}>{this.getToolbar(computedItems)}</div>
+          {this.getExportModal(computedItems)}
+          {reportFetchStatus === FetchStatus.inProgress ? (
+            <Loading />
+          ) : (
+            <>
+              <div style={styles.tableContainer}>{this.getTable()}</div>
+              <div style={styles.paginationContainer}>
+                <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStateProps>((state, { router }) => {
+  const queryFromRoute = parseQuery<AwsQuery>(router.location.search);
+  const costType = getCostType();
+  const currency = getCurrency();
+
+  const query: any = {
+    ...baseQuery,
+    ...queryFromRoute,
+  };
+  const reportQuery = {
+    cost_type: costType,
+    currency,
+    delta: 'cost',
+    exclude: query.exclude,
+    filter: {
+      ...query.filter,
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: -1,
+    },
+    filter_by: {
+      ...query.filter_by,
+      // Workaround for https://issues.redhat.com/browse/COST-1189
+      ...(query.filter_by &&
+        query.filter_by[orgUnitIdKey] && {
+          [`${logicalOrPrefix}${orgUnitIdKey}`]: query.filter_by[orgUnitIdKey],
+          [orgUnitIdKey]: undefined,
+        }),
+    },
+    group_by: query.group_by,
+    order_by: query.order_by,
+  };
+
+  const reportQueryString = getQuery(reportQuery);
+  const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
+  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
+    state,
+    reportPathsType,
+    reportType,
+    reportQueryString
+  );
+
+  const providersQueryString = getProvidersQuery(providersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
+  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.all,
+    providersQueryString
+  );
+
+  return {
+    costType,
+    currency,
+    providers: filterProviders(providers, ProviderType.aws),
+    providersError,
+    providersFetchStatus,
+    query,
+    report,
+    reportError,
+    reportFetchStatus,
+    reportQueryString,
+  };
+});
+
+const mapDispatchToProps: AwsDetailsDispatchProps = {
+  fetchReport: reportActions.fetchReport,
+};
+
+export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(AwsDetails)));

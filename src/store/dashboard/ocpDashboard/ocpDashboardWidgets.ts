@@ -7,8 +7,8 @@ import {
   ComputedReportItemType,
   ComputedReportItemValueType,
   DatumType,
-} from 'routes/views/components/charts/common/chartDatum';
-import { ComputedForecastItemType } from 'routes/views/components/charts/common/chartDatumForecast';
+} from 'routes/components/charts/common/chartDatum';
+import { ComputedForecastItemType } from 'routes/components/charts/common/chartDatumForecast';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
 import { formatPath } from 'utils/paths';
