@@ -205,8 +205,7 @@ const TagDetails: React.FC<TagDetailsProps> = () => {
 
   // Note: Providers are fetched via the AccountSettings component used by all routes
   if (reportError) {
-    const title = intl.formatMessage(messages.tagLabelsTitle);
-    return <NotAvailable title={title} />;
+    return <NotAvailable />;
   }
   return (
     <PageSection isFilled>

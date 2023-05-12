@@ -1,19 +1,27 @@
 import './settings.scss';
 
 import { Tab, TabContent, Tabs, TabTitleText, Title, TitleSizes } from '@patternfly/react-core';
-import type { Query } from 'api/queries/query';
-import { getQueryRoute, parseQuery } from 'api/queries/query';
+import { getUserAccessQuery } from 'api/queries/userAccessQuery';
+import type { UserAccess } from 'api/userAccess';
+import { UserAccessType } from 'api/userAccess';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React from 'react';
-import type { WrappedComponentProps } from 'react-intl';
-import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
+import { routes } from 'routes';
+import { Loading } from 'routes/components/page/loading';
+import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { Calculations } from 'routes/settings/calculations';
 import { CostModelsDetails } from 'routes/settings/costModels';
 import { TagDetails } from 'routes/settings/tagDetails';
-import { createMapStateToProps } from 'store/common';
-import type { RouterComponentProps } from 'utils/router';
-import { withRouter } from 'utils/router';
+import type { RootState } from 'store';
+import { FetchStatus } from 'store/common';
+import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
+import type { ChromeComponentProps } from 'utils/chrome';
+import { withChrome } from 'utils/chrome';
+import { formatPath } from 'utils/paths';
+import { hasCostModelAccess } from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
 import { styles } from './settings.styles';
@@ -39,43 +47,34 @@ export const getIdKeyForTab = (tab: SettingsTab) => {
   }
 };
 
-type SettingsOwnProps = RouterComponentProps & WrappedComponentProps;
-
-interface SettingsDispatchProps {
-  // TBD...
-}
-
-interface SettingsStateProps {
-  query: Query;
-  tabKey?: number;
-}
-
 interface AvailableTab {
   contentRef: React.ReactNode;
   tab: SettingsTab;
 }
 
-interface SettingsState {
-  activeTabKey?: number;
+interface SettingsOwnProps extends ChromeComponentProps {
+  // TBD...
 }
 
-type SettingsProps = SettingsOwnProps & SettingsStateProps & SettingsDispatchProps;
+export interface SettingsMapProps {
+  // TBD...
+}
 
-class SettingsBase extends React.Component<SettingsProps, SettingsState> {
-  protected defaultState: SettingsState = {
-    activeTabKey: 0,
-  };
-  public state: SettingsState = { ...this.defaultState };
+export interface SettingsStateProps {
+  userAccess: UserAccess;
+  userAccessError: AxiosError;
+  userAccessFetchStatus: FetchStatus;
+  userAccessQueryString: string;
+}
 
-  public componentDidMount() {
-    const { tabKey } = this.props;
+type SettingsProps = SettingsOwnProps;
 
-    this.setState({
-      activeTabKey: tabKey,
-    });
-  }
+const Settings: React.FC<SettingsProps> = ({ chrome }) => {
+  const [activeTabKey, setActiveTabKey] = useState(0);
+  const { userAccess, userAccessFetchStatus } = useMapToProps();
+  const intl = useIntl();
 
-  private getAvailableTabs = () => {
+  const getAvailableTabs = () => {
     const availableTabs = [
       {
         contentRef: React.createRef(),
@@ -97,25 +96,19 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
     return availableTabs;
   };
 
-  private getRouteForQuery = (query: Query) => {
-    const { router } = this.props;
-
-    return `${router.location.pathname}?${getQueryRoute(query)}`;
-  };
-
-  private getTab = (tab: SettingsTab, contentRef, index: number) => {
+  const getTab = (tab: SettingsTab, contentRef, index: number) => {
     return (
       <Tab
         eventKey={index}
         key={`${getIdKeyForTab(tab)}-tab`}
         tabContentId={`tab-${index}`}
         tabContentRef={contentRef}
-        title={<TabTitleText>{this.getTabTitle(tab)}</TabTitleText>}
+        title={<TabTitleText>{getTabTitle(tab)}</TabTitleText>}
       />
     );
   };
 
-  private getTabContent = (availableTabs: AvailableTab[]) => {
+  const getTabContent = (availableTabs: AvailableTab[]) => {
     return availableTabs.map((val, index) => {
       return (
         <TabContent
@@ -124,15 +117,14 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
           id={`tab-${index}`}
           ref={val.contentRef as any}
         >
-          {this.getTabItem(val.tab, index)}
+          {getTabItem(val.tab, index)}
         </TabContent>
       );
     });
   };
 
-  private getTabItem = (tab: SettingsTab, index: number) => {
-    const { activeTabKey } = this.state;
-
+  const getTabItem = (tab: SettingsTab, index: number) => {
+    const notAuthorized = <NotAuthorized pathname={formatPath(routes.settings.path)} />;
     const emptyTab = <></>; // Lazily load tabs
 
     if (activeTabKey !== index) {
@@ -141,31 +133,31 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
 
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === SettingsTab.costModels) {
-      return <CostModelsDetails />;
+      return chrome.isOrgAdmin || hasCostModelAccess(userAccess) ? (
+        <CostModelsDetails />
+      ) : (
+        <NotAuthorized pathname={formatPath(routes.costModel.path)} />
+      );
     } else if (currentTab === SettingsTab.calculations) {
-      return <Calculations />;
+      return chrome.isOrgAdmin ? <Calculations /> : notAuthorized;
     } else if (currentTab === SettingsTab.tags) {
-      return <TagDetails />;
+      return chrome.isOrgAdmin ? <TagDetails /> : notAuthorized;
     } else if (currentTab === SettingsTab.costCategory) {
-      return <CostCategory />;
+      return chrome.isOrgAdmin ? <CostCategory /> : notAuthorized;
     } else {
       return emptyTab;
     }
   };
 
-  private getTabs = (availableTabs: AvailableTab[]) => {
-    const { activeTabKey } = this.state;
-
+  const getTabs = (availableTabs: AvailableTab[]) => {
     return (
-      <Tabs activeKey={activeTabKey} onSelect={this.handleTabClick}>
-        {availableTabs.map((val, index) => this.getTab(val.tab, val.contentRef, index))}
+      <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
+        {availableTabs.map((val, index) => getTab(val.tab, val.contentRef, index))}
       </Tabs>
     );
   };
 
-  private getTabTitle = (tab: SettingsTab) => {
-    const { intl } = this.props;
-
+  const getTabTitle = (tab: SettingsTab) => {
     if (tab === SettingsTab.costModels) {
       return intl.formatMessage(messages.costModels);
     } else if (tab === SettingsTab.calculations) {
@@ -177,67 +169,52 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
     }
   };
 
-  private handleTabClick = (event, tabIndex) => {
-    const { query, router } = this.props;
-    const { activeTabKey } = this.state;
-
+  const handleTabClick = (event, tabIndex) => {
     if (activeTabKey !== tabIndex) {
-      this.setState(
-        {
-          activeTabKey: tabIndex,
-        },
-        () => {
-          const newQuery = {
-            ...JSON.parse(JSON.stringify(query)),
-            tabKey: tabIndex,
-          };
-          router.navigate(this.getRouteForQuery(newQuery), { replace: true });
-        }
-      );
+      setActiveTabKey(tabIndex);
     }
   };
 
-  public render() {
-    const { intl } = this.props;
+  const availableTabs = getAvailableTabs();
 
-    const availableTabs = this.getAvailableTabs();
-    const title = intl.formatMessage(messages.settingsTitle);
-
-    return (
-      <div className="tabsOverride">
-        <header style={styles.header}>
-          <div style={styles.headerContent}>
-            <Title headingLevel="h1" size={TitleSizes['2xl']}>
-              {title}
-            </Title>
-          </div>
-          <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
-        </header>
-        <div>{this.getTabContent(availableTabs)}</div>
-      </div>
-    );
-  }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<SettingsOwnProps, SettingsStateProps>((state, { router }) => {
-  const queryFromRoute = parseQuery<Query>(router.location.search);
-  const tabKey = queryFromRoute.tabKey && !Number.isNaN(queryFromRoute.tabKey) ? Number(queryFromRoute.tabKey) : 0;
-
-  const query = {
-    ...queryFromRoute,
-  };
-
-  return {
-    query,
-    tabKey,
-  };
-});
-
-const mapDispatchToProps: SettingsDispatchProps = {
-  // TBD...
+  return (
+    <div className="tabsOverride">
+      <header style={styles.header}>
+        <div style={styles.headerContent}>
+          <Title headingLevel="h1" size={TitleSizes['2xl']}>
+            {intl.formatMessage(messages.settingsTitle)}
+          </Title>
+        </div>
+        {userAccessFetchStatus === FetchStatus.inProgress ? (
+          <Loading />
+        ) : (
+          <div style={styles.tabs}>{getTabs(availableTabs)}</div>
+        )}
+      </header>
+      <div>{getTabContent(availableTabs)}</div>
+    </div>
+  );
 };
 
-const Settings = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(SettingsBase)));
+// eslint-disable-next-line no-empty-pattern
+const useMapToProps = (): SettingsStateProps => {
+  const userAccessQueryString = getUserAccessQuery(userAccessQuery);
+  const userAccess = useSelector((state: RootState) =>
+    userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString)
+  );
+  const userAccessError = useSelector((state: RootState) =>
+    userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString)
+  );
+  const userAccessFetchStatus = useSelector((state: RootState) =>
+    userAccessSelectors.selectUserAccessFetchStatus(state, UserAccessType.all, userAccessQueryString)
+  );
 
-export default Settings;
+  return {
+    userAccess,
+    userAccessError,
+    userAccessFetchStatus,
+    userAccessQueryString,
+  };
+};
+
+export default withChrome(Settings);

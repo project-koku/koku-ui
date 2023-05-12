@@ -27,6 +27,7 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps, an
       case formatPath(routes.azureDetailsBreakdown.path):
         msg = messages.notAuthorizedStateAzure;
         break;
+      case formatPath(routes.costModel.path):
       case formatPath(routes.costModelsDetails.path):
         msg = messages.notAuthorizedStateCostModels;
         break;
@@ -52,6 +53,9 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps, an
         break;
       case formatPath(routes.optimizations.path):
         msg = messages.notAuthorizedStateOptimizations;
+        break;
+      case formatPath(routes.settings.path):
+        msg = messages.notAuthorizedStateSettings;
         break;
       case formatPath(routes.explorer.path):
       default:

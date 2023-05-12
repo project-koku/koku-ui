@@ -11,6 +11,8 @@ import { NotAvailable } from 'routes/components/page/notAvailable';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
+import type { ChromeComponentProps } from 'utils/chrome';
+import { withChrome } from 'utils/chrome';
 import { formatPath, usePathname } from 'utils/paths';
 import {
   hasAwsAccess,
@@ -24,7 +26,7 @@ import {
   hasRosAccess,
 } from 'utils/userAccess';
 
-interface PermissionsOwnProps {
+interface PermissionsOwnProps extends ChromeComponentProps {
   children?: React.ReactNode;
 }
 
@@ -43,6 +45,7 @@ type PermissionsProps = PermissionsOwnProps & PermissionsStateProps;
 
 const PermissionsBase: React.FC<PermissionsProps> = ({
   children = null,
+  chrome,
   isFinsightsFeatureEnabled,
   isIbmFeatureEnabled,
   isRosFeatureEnabled,
@@ -65,7 +68,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const ocp = hasOcpAccess(userAccess);
     const rhel = isFinsightsFeatureEnabled && hasRhelAccess(userAccess);
     const ros = isRosFeatureEnabled && hasRosAccess(userAccess);
-    const settings = isSettingsEnabled;
+    const settings = isSettingsEnabled && (chrome.isOrgAdmin || costModel);
 
     switch (pathname) {
       case formatPath(routes.explorer.path):
@@ -141,6 +144,6 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
   };
 });
 
-const Permissions = connect(mapStateToProps, undefined)(PermissionsBase);
+const Permissions = withChrome(connect(mapStateToProps, undefined)(PermissionsBase));
 
 export default Permissions;
