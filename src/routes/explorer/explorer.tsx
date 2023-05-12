@@ -427,7 +427,9 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
 
   private updateReport = () => {
     const { fetchReport, perspective, reportQueryString } = this.props;
-    fetchReport(getReportPathsType(perspective), getReportType(perspective), reportQueryString);
+    if (perspective) {
+      fetchReport(getReportPathsType(perspective), getReportType(perspective), reportQueryString);
+    }
   };
 
   public render() {
