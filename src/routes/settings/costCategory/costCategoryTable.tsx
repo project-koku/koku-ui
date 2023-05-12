@@ -7,8 +7,8 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { DataTable } from 'routes/components/dataTable';
-import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
+import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 

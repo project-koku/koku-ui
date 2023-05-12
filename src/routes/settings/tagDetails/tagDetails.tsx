@@ -10,11 +10,11 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import { Loading } from 'routes/state/loading';
-import { NotAvailable } from 'routes/state/notAvailable';
-import * as handles from 'routes/utils/handles';
-import type { ComputedReportItem } from 'routes/views/utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'routes/views/utils/computedReport/getComputedReportItems';
+import { Loading } from 'routes/components/page/loading';
+import { NotAvailable } from 'routes/components/page/notAvailable';
+import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
+import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
+import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -23,20 +23,22 @@ import { styles } from './tagDetails.styles';
 import { TagTable } from './tagTable';
 import { TagToolbar } from './tagToolbar';
 
-interface TagDetailsProps {
+interface TagDetailsOwnProps {
   // TBD...
 }
 
-export interface TagDetailsOwnProps {
+export interface TagDetailsMapProps {
   query?: Query;
 }
 
-export interface TagDetailsMapProps {
+export interface TagDetailsStateProps {
   report?: Report;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
   reportQueryString?: string;
 }
+
+type TagDetailsProps = TagDetailsOwnProps;
 
 const baseQuery: Query = {
   filter: {
@@ -159,22 +161,22 @@ const TagDetails: React.FC<TagDetailsProps> = () => {
   const handleOnEnableCategories = () => {};
 
   const handleOnFilterAdded = filter => {
-    const newQuery = handles.handleOnFilterAdded(query, filter);
+    const newQuery = queryUtils.handleOnFilterAdded(query, filter);
     setQuery(newQuery);
   };
 
   const handleOnFilterRemoved = filter => {
-    const newQuery = handles.handleOnFilterRemoved(query, filter);
+    const newQuery = queryUtils.handleOnFilterRemoved(query, filter);
     setQuery(newQuery);
   };
 
   const handleOnPerPageSelect = perPage => {
-    const newQuery = handles.handleOnPerPageSelect(query, perPage);
+    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage);
     setQuery(newQuery);
   };
 
   const handleOnSetPage = pageNumber => {
-    const newQuery = handles.handleOnSetPage(query, report, pageNumber);
+    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber);
     setQuery(newQuery);
   };
 
@@ -194,7 +196,7 @@ const TagDetails: React.FC<TagDetailsProps> = () => {
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
-    const newQuery = handles.handleOnSort(query, sortType, isSortAscending);
+    const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery(newQuery);
   };
 
@@ -231,7 +233,7 @@ const TagDetails: React.FC<TagDetailsProps> = () => {
 };
 
 // eslint-disable-next-line no-empty-pattern
-const useMapToProps = ({ query }: TagDetailsOwnProps): TagDetailsMapProps => {
+const useMapToProps = ({ query }: TagDetailsMapProps): TagDetailsStateProps => {
   const reportType = ReportType.cost;
   const reportPathsType = ReportPathsType.ocp;
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();

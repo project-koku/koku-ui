@@ -1,7 +1,7 @@
 jest.mock('store/reports/reportActions');
 
 import { ReportType } from 'api/reports/report';
-import { DatumType } from 'routes/views/components/charts/common/chartDatum';
+import { DatumType } from 'routes/components/charts/common/chartDatum';
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
 
