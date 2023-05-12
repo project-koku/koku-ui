@@ -6,6 +6,7 @@ import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { Report } from 'api/reports/report';
+import { ResourcePathsType } from 'api/resources/resource';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
@@ -44,7 +45,6 @@ import {
   isRhelAvailable,
 } from 'utils/userAccess';
 
-import { ResourcePathsType } from '../../api/resources/resource';
 import { ExplorerFilter } from './explorerFilter';
 import { styles } from './explorerHeader.styles';
 import {
