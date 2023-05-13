@@ -2,18 +2,14 @@ import './optimizations.scss';
 
 import {
   Bullseye,
-  Button,
   Spinner,
   TextContent,
   TextList,
   TextListItem,
   TextListItemVariants,
   TextListVariants,
-  Tooltip,
 } from '@patternfly/react-core';
 import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
-import type { RosQuery } from 'api/queries/rosQuery';
-import { parseQuery } from 'api/queries/rosQuery';
 import type { RecommendationItem, RecommendationReportData } from 'api/ros/recommendations';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
@@ -22,29 +18,24 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { routes } from 'routes';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
-import { getGroupById } from 'routes/utils/groupBy';
-import { getBreakdownPath } from 'routes/utils/paths';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import { getTimeFromNow } from 'utils/dates';
-import { getToday } from 'utils/dates';
-import { formatPath } from 'utils/paths';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import { styles } from './optimizations.styles';
+import { OptimizationsLink } from './optimizationsLink';
 import { OptimizationsToolbar } from './optimizationsToolbar';
 
 interface OptimizationsContentOwnProps extends RouterComponentProps {
   id?: string;
   onClose();
+  project?: string;
 }
 
 interface OptimizationsContentStateProps {
-  groupBy?: string;
   report?: RecommendationReportData;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
@@ -347,51 +338,12 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     );
   };
 
-  private getViewAllLink = () => {
-    const { groupBy, intl, report, router } = this.props;
-    const isStandalone = groupBy === undefined;
-
-    if (!isStandalone || !report) {
-      return null;
-    }
-
-    const lastReported = report ? new Date(report.last_reported) : undefined;
-    const today = getToday();
-    const isDisabled = !(
-      today.getFullYear() === lastReported.getFullYear() && today.getMonth() === lastReported.getMonth()
-    );
-
-    const breakdownPath = getBreakdownPath({
-      basePath: formatPath(routes.ocpDetailsBreakdown.path),
-      groupBy: 'project',
-      id: report.project,
-      isOptimizationsPath: true,
-      isOptimizationsTab: true,
-      router,
-      title: report.project,
-    });
-
-    const buttonComponent = (
-      <Button
-        isAriaDisabled={isDisabled}
-        variant="link"
-        component={(props: any) => <Link {...props} to={breakdownPath} />}
-      >
-        {intl.formatMessage(messages.optimizationsViewAll)}
-      </Button>
-    );
-    if (isDisabled) {
-      return <Tooltip content={intl.formatMessage(messages.optimizationsViewAllDisabled)}>{buttonComponent}</Tooltip>;
-    }
-    return buttonComponent;
-  };
-
   private handleOnSelected = (value: string) => {
     this.setState({ currentInterval: value });
   };
 
   public render() {
-    const { report, reportFetchStatus } = this.props;
+    const { id, project, report, reportFetchStatus } = this.props;
     const { currentInterval } = this.state;
 
     const isLoading = reportFetchStatus === FetchStatus.inProgress;
@@ -415,7 +367,9 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
           <>
             <div style={styles.tableContainer}>{this.getRequestsTable()}</div>
             <div style={styles.tableContainer}>{this.getLimitsTable()}</div>
-            <div style={styles.viewAllContainer}>{this.getViewAllLink()}</div>
+            <div style={styles.viewAllContainer}>
+              <OptimizationsLink id={id} project={project} />
+            </div>
           </>
         )}
       </div>
@@ -424,17 +378,13 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
 }
 
 const mapStateToProps = createMapStateToProps<OptimizationsContentOwnProps, OptimizationsContentStateProps>(
-  (state, { id, router }) => {
-    const queryFromRoute = parseQuery<RosQuery>(router.location.search);
-    const groupBy = getGroupById(queryFromRoute);
-
+  (state, { id }) => {
     const reportQueryString = id ? id : '';
     const report: any = rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString);
     const reportError = rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString);
     const reportFetchStatus = rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString);
 
     return {
-      groupBy,
       report,
       reportError,
       reportFetchStatus,

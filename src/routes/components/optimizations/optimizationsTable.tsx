@@ -133,6 +133,7 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
           optimization: {
             container: item.container,
             id: item.id,
+            project,
           },
         });
       });

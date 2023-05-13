@@ -1,5 +1,5 @@
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 
 export interface ChromeComponentProps {
   chrome: {
@@ -22,9 +22,21 @@ export const withChrome = Component => {
     const [initialized, setInitialized] = useState(false);
     const [orgAdmin, setOrgAdmin] = useState(false);
 
-    isOrgAdmin(auth).then(val => {
-      setOrgAdmin(val);
-      setInitialized(true);
+    const isMounted = useRef(false);
+    useLayoutEffect(() => {
+      isMounted.current = true;
+      return () => {
+        isMounted.current = false;
+      };
+    }, []);
+
+    useLayoutEffect(() => {
+      isOrgAdmin(auth).then(val => {
+        if (isMounted.current) {
+          setOrgAdmin(val);
+          setInitialized(true);
+        }
+      });
     });
 
     return initialized ? <Component {...props} chrome={{ isOrgAdmin: orgAdmin }} /> : null;

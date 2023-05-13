@@ -46,8 +46,9 @@ class OptimizationsDrawerBase extends React.Component<OptimizationsDrawerProps, 
   public render() {
     const { isOpen, payload } = this.props;
 
-    const title = payload ? payload.container : null;
     const id = payload ? payload.id : undefined;
+    const project = payload ? payload.project : undefined;
+    const title = payload ? payload.container : null;
 
     return (
       <DrawerPanelContent id="optimizationsDrawer" minSize={'750px'}>
@@ -64,7 +65,7 @@ class OptimizationsDrawerBase extends React.Component<OptimizationsDrawerProps, 
           </DrawerActions>
         </DrawerHead>
         <DrawerPanelBody>
-          <OptimizationsContent id={id} onClose={this.handleClose} />
+          <OptimizationsContent id={id} onClose={this.handleClose} project={project} />
         </DrawerPanelBody>
       </DrawerPanelContent>
     );
