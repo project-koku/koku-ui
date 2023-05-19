@@ -118,7 +118,13 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
     // Prune unsupported tag params from filter_by
     const filterByParams = queryState && queryState.filter_by ? queryState.filter_by : {};
     for (const key of Object.keys(filterByParams)) {
-      if (key.indexOf(tagPrefix) !== -1) {
+      // Omit unsupported query params
+      if (
+        key.indexOf('node') !== -1 ||
+        key.indexOf('region') !== -1 ||
+        key.indexOf('service') !== -1 ||
+        key.indexOf(tagPrefix) !== -1
+      ) {
         filterByParams[key] = undefined;
       }
     }
