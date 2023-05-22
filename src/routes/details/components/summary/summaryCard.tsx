@@ -100,7 +100,12 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
     const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
 
     return (
-      <ReportSummaryItems idKey={reportGroupBy as any} report={report} status={reportFetchStatus}>
+      <ReportSummaryItems
+        costDistribution={costDistribution}
+        idKey={reportGroupBy as any}
+        report={report}
+        status={reportFetchStatus}
+      >
         {({ items }) =>
           items.map(reportItem => (
             <ReportSummaryItem
