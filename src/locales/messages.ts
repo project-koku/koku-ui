@@ -3092,6 +3092,21 @@ export default defineMessages({
     description: 'Select tags to enable or disable',
     id: 'selectTags',
   },
+  selectableTableAriaLabel: {
+    defaultMessage: 'Selectable table',
+    description: 'Selectable table',
+    id: 'selectableTableAriaLabel',
+  },
+  selectableTableHeaderAriaLabel: {
+    defaultMessage: 'Select to open the optimizations drawer',
+    description: 'Select to open the optimizations drawer',
+    id: 'selectableTableHeaderAriaLabel',
+  },
+  selectableTableRowAriaLabel: {
+    defaultMessage: 'Selectable table row',
+    description: 'Selectable table row',
+    id: 'selectableTableRowAriaLabel',
+  },
   selected: {
     defaultMessage: '{value} selected',
     description: '{value} selected',

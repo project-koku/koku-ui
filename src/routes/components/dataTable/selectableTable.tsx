@@ -1,43 +1,38 @@
-import './dataTable.scss';
-
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import type { ThProps } from '@patternfly/react-table';
 import { SortByDirection, TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import messages from 'locales/messages';
+import type { ReactNode } from 'react';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
-import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import { styles } from './dataTable.styles';
-
-interface DataTableOwnProps {
+interface SelectableTableOwnProps {
   columns?: any[];
+  emptyState?: ReactNode;
   filterBy: any;
-  isActionsCell?: boolean;
   isLoading?: boolean;
-  onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
+  onRowClick(event: React.KeyboardEvent | React.MouseEvent, rowIndex: number);
   orderBy: any;
   rows?: any[];
-  selectedItems?: ComputedReportItem[];
 }
 
-type DataTableProps = DataTableOwnProps & RouterComponentProps & WrappedComponentProps;
+type SelectableTableProps = SelectableTableOwnProps & RouterComponentProps & WrappedComponentProps;
 
-class DataTable extends React.Component<DataTableProps, any> {
-  constructor(props: DataTableProps) {
+class SelectableTable extends React.Component<SelectableTableProps, any> {
+  constructor(props: SelectableTableProps) {
     super(props);
-    this.handleOnSelect = this.handleOnSelect.bind(this);
     this.handleOnSort = this.handleOnSort.bind(this);
   }
 
   private getEmptyState = () => {
-    const { filterBy, intl } = this.props;
+    const { emptyState, filterBy, intl } = this.props;
 
     if (filterBy) {
       for (const val of Object.values(filterBy)) {
@@ -45,6 +40,10 @@ class DataTable extends React.Component<DataTableProps, any> {
           return <EmptyFilterState filter={val as string} showMargin={false} />;
         }
       }
+    }
+    // Return custom empty state
+    if (emptyState) {
+      return emptyState;
     }
     return (
       <EmptyState>
@@ -75,28 +74,6 @@ class DataTable extends React.Component<DataTableProps, any> {
     };
   };
 
-  private handleOnSelect = (event, isSelected, rowId) => {
-    const { onSelected, rows } = this.props;
-
-    let newRows;
-    let items = [];
-    if (rowId === -1) {
-      newRows = rows.map(row => {
-        row.selected = isSelected;
-        return row;
-      });
-    } else {
-      newRows = [...rows];
-      newRows[rowId].selected = isSelected;
-      items = [newRows[rowId].item];
-    }
-    this.setState({ rows }, () => {
-      if (onSelected) {
-        onSelected(items, isSelected);
-      }
-    });
-  };
-
   private handleOnSort = (event, index, direction) => {
     const { columns, onSort } = this.props;
 
@@ -107,15 +84,28 @@ class DataTable extends React.Component<DataTableProps, any> {
     }
   };
 
+  private handleOnRowClick = (event, rowIndex) => {
+    const { onRowClick, rows } = this.props;
+
+    rows.map(row => (row.selected = false));
+    rows[rowIndex].selected = true;
+
+    this.setState({ rows }, () => {
+      if (onRowClick) {
+        onRowClick(event, rowIndex);
+      }
+    });
+  };
+
   public render() {
-    const { columns, intl, isActionsCell = false, isLoading, rows } = this.props;
+    const { columns, intl, isLoading, rows } = this.props;
 
     return (
       <>
         <TableComposable
-          aria-label={intl.formatMessage(messages.dataTableAriaLabel)}
-          className="tableOverride"
+          aria-label={intl.formatMessage(messages.selectableTableAriaLabel)}
           gridBreakPoint="grid-2xl"
+          hasSelectableRowCaption
           variant={TableVariant.compact}
         >
           <Thead>
@@ -145,27 +135,30 @@ class DataTable extends React.Component<DataTableProps, any> {
               </Tr>
             ) : (
               rows.map((row, rowIndex) => (
-                <Tr key={`row-${rowIndex}`}>
+                <Tr
+                  aria-label={intl.formatMessage(messages.selectableTableRowAriaLabel)}
+                  isSelectable
+                  isHoverable
+                  isRowSelected={row.selected}
+                  onRowClick={_event => this.handleOnRowClick(_event, rowIndex)}
+                  key={`row-${rowIndex}`}
+                >
                   {row.cells.map((item, cellIndex) =>
                     cellIndex === 0 ? (
-                      <Td
+                      <Th
+                        aria-label={intl.formatMessage(messages.selectableTableHeaderAriaLabel)}
                         dataLabel={columns[cellIndex].name}
-                        key={`cell-${cellIndex}-${rowIndex}`}
+                        key={`cell-${rowIndex}-${cellIndex}`}
                         modifier="nowrap"
-                        select={{
-                          disable: row.selectionDisabled, // Disable select for "no-project"
-                          isSelected: row.selected,
-                          onSelect: (_event, isSelected) => this.handleOnSelect(_event, isSelected, rowIndex),
-                          rowIndex,
-                        }}
                         style={item.style}
-                      />
+                      >
+                        {item.value}
+                      </Th>
                     ) : (
                       <Td
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${rowIndex}-${cellIndex}`}
                         modifier="nowrap"
-                        isActionCell={isActionsCell && cellIndex === row.cells.length - 1}
                         style={item.style}
                       >
                         {item.value}
@@ -183,4 +176,4 @@ class DataTable extends React.Component<DataTableProps, any> {
   }
 }
 
-export default injectIntl(withRouter(DataTable));
+export default injectIntl(withRouter(SelectableTable));
