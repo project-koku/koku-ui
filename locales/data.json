@@ -11326,6 +11326,24 @@
         "value": "Select tags to enable or disable"
       }
     ],
+    "selectableTableAriaLabel": [
+      {
+        "type": 0,
+        "value": "Selectable table"
+      }
+    ],
+    "selectableTableHeaderAriaLabel": [
+      {
+        "type": 0,
+        "value": "Select to open the optimizations drawer"
+      }
+    ],
+    "selectableTableRowAriaLabel": [
+      {
+        "type": 0,
+        "value": "Selectable table row"
+      }
+    ],
     "selected": [
       {
         "type": 1,
