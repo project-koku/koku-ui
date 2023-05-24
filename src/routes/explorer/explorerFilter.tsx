@@ -1,3 +1,5 @@
+import './explorerFilter.scss';
+
 import type { ToolbarChipGroup } from '@patternfly/react-core';
 import type { Org, OrgPathsType } from 'api/orgs/org';
 import { OrgType } from 'api/orgs/org';
@@ -248,6 +250,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
     return (
       <DataToolbar
         categoryOptions={categoryOptions}
+        className="explorerToolbarOverride"
         dateRange={this.getDateRangeComponent()}
         datePicker={this.getDatePickerComponent()}
         groupBy={groupBy}
@@ -259,6 +262,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
         resourceReport={resourceReport}
         resourcePathsType={resourcePathsType}
         style={styles.toolbarContainer}
+        showExcludes
         showFilter
         tagReport={tagReport}
         tagPathsType={tagPathsType}
