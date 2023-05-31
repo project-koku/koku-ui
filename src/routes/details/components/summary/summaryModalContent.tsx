@@ -107,7 +107,7 @@ class SummaryModalContentBase extends React.Component<SummaryModalContentProps, 
 }
 
 const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, SummaryModalContentStateProps>(
-  (state, { costType, currency, reportGroupBy, reportPathsType, router }) => {
+  (state, { costDistribution, costType, currency, reportGroupBy, reportPathsType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
     const queryState = parseQueryState<Query>(queryFromRoute);
 
@@ -146,6 +146,11 @@ const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, Summa
       group_by: {
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
       },
+      ...(costDistribution === ComputedReportItemValueType.distributed && {
+        order_by: {
+          distributed_cost: 'desc',
+        },
+      }),
     };
 
     const reportQueryString = getQuery(reportQuery);
