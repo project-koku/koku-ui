@@ -6,21 +6,25 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 
 interface LoadingStateProps extends WrappedComponentProps {
+  body?: string;
+  heading?: string;
   icon?: string;
 }
 
 // defaultIntl required for testing
-const LoadingStateBase: React.FC<LoadingStateProps> = ({ intl = defaultIntl }) => {
-  const title = intl.formatMessage(messages.loadingStateTitle);
-  const subTitle = intl.formatMessage(messages.loadingStateDesc);
+const LoadingStateBase: React.FC<LoadingStateProps> = ({
+  intl = defaultIntl,
 
+  body = intl.formatMessage(messages.loadingStateDesc),
+  heading = intl.formatMessage(messages.loadingStateTitle),
+}) => {
   return (
     <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
       <Spinner size="lg" />
       <Title headingLevel="h5" size={TitleSizes.lg}>
-        {title}
+        {heading}
       </Title>
-      <EmptyStateBody>{subTitle}</EmptyStateBody>
+      <EmptyStateBody>{body}</EmptyStateBody>
     </EmptyState>
   );
 };

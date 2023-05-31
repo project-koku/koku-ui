@@ -4,12 +4,14 @@ import React from 'react';
 import { LoadingState } from 'routes/components/state/loadingState';
 
 interface LoadingOwnProps {
+  body?: string;
+  heading?: string;
   title?: string;
 }
 
 type LoadingProps = LoadingOwnProps;
 
-const Loading = ({ title }: LoadingProps) => {
+const Loading = ({ body, heading, title }: LoadingProps) => {
   return (
     <>
       {title && (
@@ -18,7 +20,7 @@ const Loading = ({ title }: LoadingProps) => {
         </PageHeader>
       )}
       <PageSection>
-        <LoadingState />
+        <LoadingState body={body} heading={heading} />
       </PageSection>
     </>
   );
