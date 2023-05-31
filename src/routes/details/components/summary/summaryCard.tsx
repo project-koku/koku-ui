@@ -222,7 +222,7 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps>(
-  (state, { costType, currency, reportGroupBy, reportPathsType, reportType, router }) => {
+  (state, { costDistribution, costType, currency, reportGroupBy, reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
     const queryState = parseQueryState<Query>(queryFromRoute);
 
@@ -263,6 +263,11 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
       group_by: {
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by all accounts, regions, etc.
       },
+      ...(costDistribution === ComputedReportItemValueType.distributed && {
+        order_by: {
+          distributed_cost: 'desc',
+        },
+      }),
     };
 
     const reportQueryString = getQuery(reportQuery);
