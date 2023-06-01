@@ -152,11 +152,27 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
   private getComputedItems = () => {
     const { report } = this.props;
 
-    return getUnsortedComputedReportItems({
+    const computedReportItems = getUnsortedComputedReportItems({
       report,
       idKey: this.getGroupBy(),
       isDateMap: true,
     });
+
+    // Move "Others" to be the last legend label
+    for (let i = 0; i < computedReportItems.length; i++) {
+      let found = false;
+      for (const item of computedReportItems[i]) {
+        if (item[item.length - 1].id === 'Others') {
+          computedReportItems.push(computedReportItems.splice(i, 1)[0]);
+          found = true;
+          break;
+        }
+      }
+      if (found) {
+        break;
+      }
+    }
+    return computedReportItems;
   };
 
   private getGroupBy = () => {
@@ -285,7 +301,7 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
       group_by,
       start_date,
       ...(costDistribution === ComputedReportItemValueType.distributed && {
-        order_by: { distributed_cost: 'asc' },
+        order_by: { distributed_cost: 'desc' },
       }),
     };
 
