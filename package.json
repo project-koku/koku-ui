@@ -113,7 +113,7 @@
     "prettier": "^2.8.8",
     "rimraf": "^5.0.1",
     "typescript": "^5.0.4",
-    "webpack-bundle-analyzer": "^4.8.0"
+    "webpack-bundle-analyzer": "^4.9.0"
   },
   "overrides": {
     "eslint": "^8.41.0",
