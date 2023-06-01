@@ -58,7 +58,7 @@ export const PriceListToolbar: React.FC<PriceListToolbarProps> = ({
         <ToolbarItem>{button}</ToolbarItem>
         <ToolbarItem variant={ToolbarItemVariant.pagination}>{pagination}</ToolbarItem>
       </ToolbarContent>
-      <hr className="pf-c-divider" />
+      <hr className="pf-v5-c-divider" />
     </Toolbar>
   );
 };

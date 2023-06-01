@@ -2,9 +2,11 @@ import {
   Alert,
   Button,
   EmptyState,
+  EmptyStateActions,
   EmptyStateBody,
+  EmptyStateFooter,
+  EmptyStateHeader,
   EmptyStateIcon,
-  EmptyStateSecondaryActions,
   Stack,
   StackItem,
   Text,
@@ -32,18 +34,21 @@ const ReviewSuccessBase: React.FC<WrappedComponentProps> = ({ intl }) => (
   <CostModelContext.Consumer>
     {({ onClose, name }) => (
       <EmptyState>
-        <EmptyStateIcon icon={OkIcon} color="green" />
-        <Title headingLevel="h2" size={TitleSizes.lg}>
-          {intl.formatMessage(messages.costModelsWizardReviewStatusTitle)}
-        </Title>
+        <EmptyStateHeader
+          titleText={<>{intl.formatMessage(messages.costModelsWizardReviewStatusTitle)}</>}
+          icon={<EmptyStateIcon icon={OkIcon} color="green" />}
+          headingLevel="h2"
+        />
         <EmptyStateBody>
           {intl.formatMessage(messages.costModelsWizardReviewStatusSubTitle, { value: name })}
         </EmptyStateBody>
-        <EmptyStateSecondaryActions>
-          <Button variant="link" onClick={onClose}>
-            {intl.formatMessage(messages.close)}
-          </Button>
-        </EmptyStateSecondaryActions>
+        <EmptyStateFooter>
+          <EmptyStateActions>
+            <Button variant="link" onClick={onClose}>
+              {intl.formatMessage(messages.close)}
+            </Button>
+          </EmptyStateActions>
+        </EmptyStateFooter>
       </EmptyState>
     )}
   </CostModelContext.Consumer>

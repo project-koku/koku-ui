@@ -5,9 +5,9 @@ exports[`reports are formatted to datums 1`] = `
   class="chartOverride"
 >
   <h2
-    class="pf-c-title pf-m-xl"
+    class="pf-v5-c-title pf-m-xl"
     data-ouia-component-id="OUIA-Generated-Title-1"
-    data-ouia-component-type="PF4/Title"
+    data-ouia-component-type="PF5/Title"
     data-ouia-safe="true"
     style="margin-left: -1.5rem;"
   >
@@ -21,7 +21,7 @@ exports[`reports are formatted to datums 1`] = `
       style="height: 100px; width: 0px;"
     >
       <div
-        class="pf-c-chart"
+        class="pf-v5-c-chart"
         style="height: 100%; width: 100%; user-select: none; pointer-events: none; position: relative;"
       >
         <svg
@@ -225,7 +225,7 @@ exports[`reports are formatted to datums 1`] = `
             <line
               role="presentation"
               shape-rendering="auto"
-              style="stroke: var(--pf-chart-axis--axis--stroke--Color, #d2d2d2); fill: var(--pf-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
+              style="stroke: var(--pf-v5-chart-axis--axis--stroke--Color, #d2d2d2); fill: var(--pf-v5-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
               vector-effect="non-scaling-stroke"
               x1="8"
               x2="-8"
@@ -245,7 +245,7 @@ exports[`reports are formatted to datums 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
+                  style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
                   text-anchor="middle"
                   x="8"
                 >
@@ -266,7 +266,7 @@ exports[`reports are formatted to datums 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
+                  style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
                   text-anchor="middle"
                   x="0.5333333333333332"
                 >
@@ -287,7 +287,7 @@ exports[`reports are formatted to datums 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
+                  style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
                   text-anchor="middle"
                   x="-8"
                 >
@@ -302,7 +302,7 @@ exports[`reports are formatted to datums 1`] = `
             <line
               role="presentation"
               shape-rendering="auto"
-              style="stroke: var(--pf-chart-axis--axis--stroke--Color, #d2d2d2); fill: var(--pf-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
+              style="stroke: var(--pf-v5-chart-axis--axis--stroke--Color, #d2d2d2); fill: var(--pf-v5-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
               vector-effect="non-scaling-stroke"
               x1="8"
               x2="8"
@@ -322,7 +322,7 @@ exports[`reports are formatted to datums 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+                  style="font-size: 0px; font-family: "RedHatText",helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -343,7 +343,7 @@ exports[`reports are formatted to datums 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+                  style="font-size: 0px; font-family: "RedHatText",helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -364,7 +364,7 @@ exports[`reports are formatted to datums 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+                  style="font-size: 0px; font-family: "RedHatText",helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -385,7 +385,7 @@ exports[`reports are formatted to datums 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+                  style="font-size: 0px; font-family: "RedHatText",helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -495,7 +495,7 @@ exports[`reports are formatted to datums 1`] = `
               <tspan
                 dx="0"
                 dy="0"
-                style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
+                style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-global--label--Fill, #151515);"
                 text-anchor="start"
                 x="30.8"
               >
@@ -512,7 +512,7 @@ exports[`reports are formatted to datums 1`] = `
               <tspan
                 dx="0"
                 dy="0"
-                style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
+                style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-global--label--Fill, #151515);"
                 text-anchor="start"
                 x="70.39999999999999"
               >
@@ -529,7 +529,7 @@ exports[`reports are formatted to datums 1`] = `
               <tspan
                 dx="0"
                 dy="0"
-                style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
+                style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-global--label--Fill, #151515);"
                 text-anchor="start"
                 x="30.8"
               >
@@ -546,7 +546,7 @@ exports[`reports are formatted to datums 1`] = `
               <tspan
                 dx="0"
                 dy="0"
-                style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
+                style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-global--label--Fill, #151515);"
                 text-anchor="start"
                 x="70.39999999999999"
               >
@@ -563,7 +563,7 @@ exports[`reports are formatted to datums 1`] = `
               <tspan
                 dx="0"
                 dy="0"
-                style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
+                style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-global--label--Fill, #151515);"
                 text-anchor="start"
                 x="30.8"
               >
@@ -580,7 +580,7 @@ exports[`reports are formatted to datums 1`] = `
               <tspan
                 dx="0"
                 dy="0"
-                style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
+                style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-global--label--Fill, #151515);"
                 text-anchor="start"
                 x="70.39999999999999"
               >

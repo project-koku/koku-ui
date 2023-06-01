@@ -1,4 +1,4 @@
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
 import type { Resource } from 'api/resources/resource';
@@ -120,16 +120,16 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
     });
   };
 
-  private handleOnSelected = (event, selection) => {
+  private handleOnSelected = value => {
     const { onSelected } = this.props;
     const { prefix } = this.state;
 
     this.setState({
-      currentItem: selection,
+      currentItem: value,
       isGroupByOpen: false,
     });
     if (onSelected) {
-      onSelected(`${prefix}${selection}`);
+      onSelected(`${prefix}${value}`);
     }
   };
 
@@ -149,8 +149,8 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
           )}
           isDisabled={isDisabled}
           onClear={this.handleOnClear}
-          onToggle={this.handleOnToggle}
-          onSelect={this.handleOnSelected}
+          onSelect={(_evt, value) => this.handleOnSelected(value)}
+          onToggle={(_evt, isExpanded) => this.handleOnToggle(isExpanded)}
           isOpen={isGroupByOpen}
           placeholderText={intl.formatMessage(messages.chooseKeyPlaceholder)}
           selections={currentItem}

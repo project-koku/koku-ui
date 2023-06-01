@@ -2,10 +2,10 @@ import {
   Button,
   EmptyState,
   EmptyStateBody,
+  EmptyStateFooter,
+  EmptyStateHeader,
   EmptyStateIcon,
   EmptyStateVariant,
-  Title,
-  TitleSizes,
 } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import messages from 'locales/messages';
@@ -24,17 +24,20 @@ class NoDataStateBase extends React.Component<NoDataStateProps, any> {
     const { intl, showReload = true } = this.props;
 
     return (
-      <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
-        <EmptyStateIcon icon={PlusCircleIcon} />
-        <Title headingLevel="h5" size={TitleSizes.lg}>
-          {intl.formatMessage(messages.noDataStateTitle)}
-        </Title>
+      <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
+        <EmptyStateHeader
+          titleText={<>{intl.formatMessage(messages.noDataStateTitle)}</>}
+          icon={<EmptyStateIcon icon={PlusCircleIcon} />}
+          headingLevel="h5"
+        />
         <EmptyStateBody>{intl.formatMessage(messages.noDataStateDesc)}</EmptyStateBody>
-        {showReload && (
-          <Button variant="primary" onClick={() => window.location.reload()}>
-            {intl.formatMessage(messages.noDataStateRefresh)}
-          </Button>
-        )}
+        <EmptyStateFooter>
+          {showReload && (
+            <Button variant="primary" onClick={() => window.location.reload()}>
+              {intl.formatMessage(messages.noDataStateRefresh)}
+            </Button>
+          )}
+        </EmptyStateFooter>
       </EmptyState>
     );
   }

@@ -2,17 +2,18 @@
 
 exports[`dialog title renders correctly with icon and title text 1`] = `
 <h1
-  class="pf-c-title pf-m-2xl"
+  class="pf-v5-c-title pf-m-2xl"
   data-ouia-component-id="OUIA-Generated-Title-1"
-  data-ouia-component-type="PF4/Title"
+  data-ouia-component-type="PF5/Title"
   data-ouia-safe="true"
 >
   <svg
     aria-hidden="true"
-    fill="orange"
+    class="pf-v5-svg"
+    color="orange"
+    fill="currentColor"
     height="1em"
     role="img"
-    style="vertical-align: -0.125em;"
     viewBox="0 0 576 512"
     width="1em"
   >

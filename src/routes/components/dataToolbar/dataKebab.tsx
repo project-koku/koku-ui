@@ -1,5 +1,5 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Dropdown, DropdownItem, DropdownPosition, KebabToggle } from '@patternfly/react-core';
+import { Dropdown, DropdownItem, DropdownPosition, KebabToggle } from '@patternfly/react-core/deprecated';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';

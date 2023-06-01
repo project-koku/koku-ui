@@ -103,7 +103,7 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
         value={description}
         validated={errors.description ? 'error' : 'default'}
         helperTextInvalid={errors.description}
-        onChange={setDescription}
+        onChange={(_evt, value) => setDescription(value)}
       />
       <Grid hasGutter>
         <GridItem span={6}>
@@ -115,7 +115,7 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
             label={intl.formatMessage(messages.metric)}
             placeholderText={intl.formatMessage(messages.select)}
             value={metric}
-            onChange={setMetric}
+            onChange={(_evt, value) => setMetric(value)}
             options={[
               ...metricOptions.map(opt => {
                 return {
@@ -142,7 +142,7 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
                   ? measurement
                   : getMeasurementLabel(measurement, metricsHash[metric][measurement].label_measurement_unit)
               }
-              onChange={setMeasurement}
+              onChange={(_evt, value) => setMeasurement(value)}
               placeholderText="Select..."
               options={[
                 ...measurementOptions.map(opt => {
@@ -197,7 +197,7 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
               currencyUnits={currencyUnits}
               fieldId="regular-rate"
               helperTextInvalid={errors.tieredRates}
-              onChange={setRegular}
+              onChange={(_evt, value) => setRegular(value)}
               style={style}
               validated={errors.tieredRates && regularDirty ? 'error' : 'default'}
               value={inputValue}
@@ -208,7 +208,7 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
                 isRequired
                 style={style}
                 value={tagKey}
-                onChange={setTagKey}
+                onChange={(_evt, value) => setTagKey(value)}
                 id="tag-key"
                 label={messages.costModelsFilterTagKey}
                 placeholder={intl.formatMessage(messages.costModelsEnterTagKey)}

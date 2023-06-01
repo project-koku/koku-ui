@@ -3,10 +3,11 @@
 exports[`warning icon 1`] = `
 <svg
   aria-hidden="true"
-  fill="orange"
+  class="pf-v5-svg"
+  color="orange"
+  fill="currentColor"
   height="1em"
   role="img"
-  style="vertical-align: -0.125em;"
   viewBox="0 0 576 512"
   width="1em"
 >

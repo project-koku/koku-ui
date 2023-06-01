@@ -91,7 +91,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
         page={page}
         perPage={limit}
         titles={{
-          paginationTitle: intl.formatMessage(messages.paginationTitle, {
+          paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
             title: intl.formatMessage(messages.openShift),
             placement: isBottom ? 'bottom' : 'top',
           }),

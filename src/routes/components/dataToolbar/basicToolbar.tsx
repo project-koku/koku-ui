@@ -194,7 +194,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
     });
   }
 
-  private handleOnCategorySelect = (event, selection: CategoryOption) => {
+  private handleOnCategorySelect = (selection: CategoryOption) => {
     this.setState({
       categoryInput: '',
       currentCategory: selection.value,
@@ -361,7 +361,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
               </ToolbarToggleGroup>
             )}
             {actions && <ToolbarGroup>{actions}</ToolbarGroup>}
-            <ToolbarItem alignment={{ default: 'alignRight' }} variant="pagination">
+            <ToolbarItem align={{ default: 'alignRight' }} variant="pagination">
               {pagination}
             </ToolbarItem>
           </ToolbarContent>

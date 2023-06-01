@@ -1,7 +1,8 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant, ToolbarFilter, ToolbarItem } from '@patternfly/react-core';
-import type { Resource } from 'api/resources/resource';
-import type { ResourcePathsType } from 'api/resources/resource';
+import { ToolbarFilter, ToolbarItem } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
+import type { Resource, ResourcePathsType } from 'api/resources/resource';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep, uniq, uniqBy } from 'lodash';
@@ -32,7 +33,7 @@ export const getCostCategoryKeySelect = ({
   isCostCategoryKeySelectExpanded?: boolean;
   isDisabled?: boolean;
   onCostCategoryKeyClear?: () => void;
-  onCostCategoryKeySelect?: (event, selection) => void;
+  onCostCategoryKeySelect?: (selection: SelectOptionObject) => void;
   onCostCategoryKeyToggle?: (isOpen: boolean) => void;
   resourceReport?: Resource;
 }) => {
@@ -50,10 +51,10 @@ export const getCostCategoryKeySelect = ({
         isDisabled={isDisabled && !hasFilters(filters)}
         variant={SelectVariant.typeahead}
         typeAheadAriaLabel={intl.formatMessage(messages.filterByCostCategoryKeyAriaLabel)}
-        onClear={onCostCategoryKeyClear}
-        onToggle={onCostCategoryKeyToggle}
-        onSelect={onCostCategoryKeySelect}
         isOpen={isCostCategoryKeySelectExpanded}
+        onClear={onCostCategoryKeyClear}
+        onSelect={(_evt, value) => onCostCategoryKeySelect(value)}
+        onToggle={(_evt, isExpanded) => onCostCategoryKeyToggle(isExpanded)}
         placeholderText={intl.formatMessage(messages.chooseKeyPlaceholder)}
         selections={currentCostCategoryKey}
       >

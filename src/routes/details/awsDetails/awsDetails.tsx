@@ -206,7 +206,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
         page={page}
         perPage={limit}
         titles={{
-          paginationTitle: intl.formatMessage(messages.paginationTitle, {
+          paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
             title: intl.formatMessage(messages.aws),
             placement: isBottom ? 'bottom' : 'top',
           }),

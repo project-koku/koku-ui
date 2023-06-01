@@ -243,7 +243,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
         page={page}
         perPage={limit}
         titles={{
-          paginationTitle: intl.formatMessage(messages.paginationTitle, {
+          paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
             title: intl.formatMessage(messages.explorerTitle),
             placement: isBottom ? 'bottom' : 'top',
           }),

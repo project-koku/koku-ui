@@ -1,8 +1,9 @@
 import './costDistribution.scss';
 
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import type { SelectOptionObject } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant, Title, TitleSizes } from '@patternfly/react-core';
+import { Title, TitleSizes } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -70,8 +71,8 @@ class CostDistributionBase extends React.Component<CostDistributionProps, CostDi
         id="costDistributionSelect"
         isDisabled={isDisabled}
         isOpen={isSelectOpen}
-        onSelect={this.handleSelect}
-        onToggle={this.handleToggle}
+        onSelect={(_evt, value) => this.handleSelect(value)}
+        onToggle={(_evt, isExpanded) => this.handleToggle(isExpanded)}
         selections={selection}
         variant={SelectVariant.single}
       >
@@ -96,7 +97,7 @@ class CostDistributionBase extends React.Component<CostDistributionProps, CostDi
     return options;
   };
 
-  private handleSelect = (event, selection: CostDistributionOption) => {
+  private handleSelect = (selection: CostDistributionOption) => {
     const { onSelect } = this.props;
 
     setCostDistribution(selection.value); // Set cost distribution in local storage

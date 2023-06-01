@@ -1,8 +1,9 @@
 import './costType.scss';
 
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import type { SelectOptionObject } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant, Title, TitleSizes } from '@patternfly/react-core';
+import { Title, TitleSizes } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -77,8 +78,8 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
         id="costTypeSelect"
         isDisabled={isDisabled}
         isOpen={isSelectOpen}
-        onSelect={this.handleOnSelect}
-        onToggle={this.handleOnToggle}
+        onSelect={(_evt, value) => this.handleOnSelect(value)}
+        onToggle={(_evt, isExpanded) => this.handleOnToggle(isExpanded)}
         selections={selection}
         variant={SelectVariant.single}
       >
@@ -104,7 +105,7 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
     return options;
   };
 
-  private handleOnSelect = (event, selection: CostTypeOption) => {
+  private handleOnSelect = (selection: CostTypeOption) => {
     const { isLocalStorage = true, onSelect } = this.props;
 
     // Set cost type in local storage

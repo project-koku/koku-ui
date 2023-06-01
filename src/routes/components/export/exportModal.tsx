@@ -7,6 +7,8 @@ import {
   FormGroup,
   Grid,
   GridItem,
+  HelperText,
+  HelperTextItem,
   Modal,
   Radio,
   TextInput,
@@ -108,19 +110,19 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
     this.setState({ error });
   };
 
-  private handleOnMonthChange = (_, event) => {
+  private handleOnMonthChange = event => {
     this.setState({ timeScope: event.currentTarget.value });
   };
 
-  private handleOnNameChange = (_, event) => {
+  private handleOnNameChange = event => {
     this.setState({ name: event.currentTarget.value });
   };
 
-  private handleOnResolutionChange = (_, event) => {
+  private handleOnResolutionChange = event => {
     this.setState({ resolution: event.currentTarget.value });
   };
 
-  private handleOnTypeChange = (_, event) => {
+  private handleOnTypeChange = event => {
     this.setState({ formatType: event.currentTarget.value });
   };
 
@@ -227,13 +229,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
           <Grid hasGutter md={6}>
             {isExportsFeatureEnabled && (
               <GridItem span={12}>
-                <FormGroup
-                  fieldId="exportName"
-                  helperTextInvalid={helpText ? intl.formatMessage(helpText) : undefined}
-                  label={intl.formatMessage(messages.names, { count: 1 })}
-                  isRequired
-                  validated={validated}
-                >
+                <FormGroup fieldId="exportName" label={intl.formatMessage(messages.names, { count: 1 })} isRequired>
                   <TextInput
                     isRequired
                     type="text"
@@ -241,7 +237,13 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                     name="exportName"
                     value={defaultName}
                     onChange={this.handleOnNameChange}
+                    validated={validated}
                   />
+                  {validated === 'error' && (
+                    <HelperText>
+                      <HelperTextItem variant="error">{intl.formatMessage(helpText)}</HelperTextItem>
+                    </HelperText>
+                  )}
                 </FormGroup>
               </GridItem>
             )}

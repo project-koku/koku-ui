@@ -1,13 +1,7 @@
-import type { SelectOptionObject, ToolbarChipGroup } from '@patternfly/react-core';
-import {
-  Button,
-  ButtonVariant,
-  InputGroup,
-  Select,
-  SelectOption,
-  SelectVariant,
-  TextInput,
-} from '@patternfly/react-core';
+import type { ToolbarChipGroup } from '@patternfly/react-core';
+import { Button, ButtonVariant, InputGroup, InputGroupItem, TextInput } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
@@ -141,8 +135,8 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
           isDisabled={isDisabled}
           variant={SelectVariant.checkbox}
           aria-label={intl.formatMessage(messages.filterByCostCategoryValueAriaLabel)}
-          onToggle={this.onCostCategoryValueToggle}
           onSelect={onCostCategoryValueSelect}
+          onToggle={(_evt, isExpanded) => this.onCostCategoryValueToggle(isExpanded)}
           selections={selections}
           isOpen={isCostCategoryValueExpanded}
           placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}
@@ -153,25 +147,29 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
     }
     return (
       <InputGroup>
-        <TextInput
-          isDisabled={isDisabled}
-          name="tag-key-value-input"
-          id="tag-key-value-input"
-          type="search"
-          aria-label={intl.formatMessage(messages.filterByCostCategoryValueAriaLabel)}
-          onChange={this.onCostCategoryValueChange}
-          value={costCategoryKeyValue}
-          placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
-          onKeyDown={evt => onCostCategoryValueInput(evt)}
-        />
-        <Button
-          isDisabled={isDisabled}
-          variant={ButtonVariant.control}
-          aria-label={intl.formatMessage(messages.filterByCostCategoryValueButtonAriaLabel)}
-          onClick={evt => onCostCategoryValueInput(evt)}
-        >
-          <SearchIcon />
-        </Button>
+        <InputGroupItem isFill>
+          <TextInput
+            isDisabled={isDisabled}
+            name="tag-key-value-input"
+            id="tag-key-value-input"
+            type="search"
+            aria-label={intl.formatMessage(messages.filterByCostCategoryValueAriaLabel)}
+            onChange={(_evt, value) => this.onCostCategoryValueChange(value)}
+            value={costCategoryKeyValue}
+            placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
+            onKeyDown={evt => onCostCategoryValueInput(evt)}
+          />
+        </InputGroupItem>
+        <InputGroupItem>
+          <Button
+            isDisabled={isDisabled}
+            variant={ButtonVariant.control}
+            aria-label={intl.formatMessage(messages.filterByCostCategoryValueButtonAriaLabel)}
+            onClick={evt => onCostCategoryValueInput(evt)}
+          >
+            <SearchIcon />
+          </Button>
+        </InputGroupItem>
       </InputGroup>
     );
   }

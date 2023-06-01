@@ -1,4 +1,4 @@
-import { EmptyState, EmptyStateBody, EmptyStateVariant, Spinner, Title, TitleSizes } from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, EmptyStateHeader, EmptyStateVariant, Spinner } from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
@@ -19,11 +19,9 @@ const LoadingStateBase: React.FC<LoadingStateProps> = ({
   heading = intl.formatMessage(messages.loadingStateTitle),
 }) => {
   return (
-    <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
+    <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
       <Spinner size="lg" />
-      <Title headingLevel="h5" size={TitleSizes.lg}>
-        {heading}
-      </Title>
+      <EmptyStateHeader titleText={<>{heading}</>} headingLevel="h5" />
       <EmptyStateBody>{body}</EmptyStateBody>
     </EmptyState>
   );

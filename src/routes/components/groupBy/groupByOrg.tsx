@@ -1,5 +1,5 @@
-import type { SelectOptionObject } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import type { Org } from 'api/orgs/org';
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
@@ -120,7 +120,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps, GroupByOrgState> {
     });
   };
 
-  private handleOnSelect = (event, selection: GroupByOrgOption) => {
+  private handleOnSelect = (selection: GroupByOrgOption) => {
     const { onSelected } = this.props;
 
     this.setState({
@@ -149,8 +149,8 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps, GroupByOrgState> {
           aria-label={intl.formatMessage(messages.filterByOrgUnitAriaLabel)}
           isDisabled={isDisabled}
           onClear={this.handleOnClear}
-          onToggle={this.handleOnToggle}
-          onSelect={this.handleOnSelect}
+          onSelect={(_evt, value) => this.handleOnSelect(value)}
+          onToggle={(_evt, isExpanded) => this.handleOnToggle(isExpanded)}
           isOpen={isGroupByOpen}
           placeholderText={intl.formatMessage(messages.filterByOrgUnitPlaceholder)}
           selections={selection}

@@ -100,7 +100,7 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
         </Title>
         {showWarningIcon && (
           <span style={styles.warningIcon}>
-            <ExclamationTriangleIcon color="orange" size="sm" />
+            <ExclamationTriangleIcon color="orange" />
           </span>
         )}
       </div>
