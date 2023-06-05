@@ -15,6 +15,7 @@ export type FeatureFlagsState = Readonly<{
   isIbmFeatureEnabled: boolean;
   isRosFeatureEnabled: boolean;
   isSettingsFeatureEnabled: boolean;
+  isSettingsPlatformFeatureEnabled: boolean;
 }>;
 
 export const defaultState: FeatureFlagsState = {
@@ -26,6 +27,7 @@ export const defaultState: FeatureFlagsState = {
   isIbmFeatureEnabled: false,
   isRosFeatureEnabled: false,
   isSettingsFeatureEnabled: false,
+  isSettingsPlatformFeatureEnabled: false,
 };
 
 export const stateKey = 'featureFlags';
@@ -43,6 +45,7 @@ export function featureFlagsReducer(state = defaultState, action: FeatureFlagsAc
         isIbmFeatureEnabled: action.payload.isIbmFeatureEnabled,
         isRosFeatureEnabled: action.payload.isRosFeatureEnabled,
         isSettingsFeatureEnabled: action.payload.isSettingsFeatureEnabled,
+        isSettingsPlatformFeatureEnabled: action.payload.isSettingsPlatformFeatureEnabled,
       };
 
     default:
