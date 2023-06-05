@@ -1,5 +1,11 @@
 {
   "en": {
+    "addProjects": [
+      {
+        "type": 0,
+        "value": "Add projects"
+      }
+    ],
     "allOtherProjectCosts": [
       {
         "type": 0,
@@ -2746,6 +2752,14 @@
               }
             ]
           },
+          "group": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Group"
+              }
+            ]
+          },
           "name": {
             "value": [
               {
@@ -3453,13 +3467,19 @@
     "docsConfigCostCategory": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management"
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023"
       }
     ],
     "docsConfigCostModels": [
       {
         "type": 0,
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index#assembly-setting-up-cost-models"
+      }
+    ],
+    "docsConfigPlatformProjects": [
+      {
+        "type": 0,
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023"
       }
     ],
     "docsConfigTags": [
@@ -7091,6 +7111,14 @@
               }
             ]
           },
+          "group": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by group"
+              }
+            ]
+          },
           "name": {
             "value": [
               {
@@ -7291,6 +7319,14 @@
               {
                 "type": 0,
                 "value": "GCP project"
+              }
+            ]
+          },
+          "group": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Group"
               }
             ]
           },
@@ -11022,6 +11058,16 @@
         "value": "value"
       }
     ],
+    "platfomProjectaDesc": [
+      {
+        "type": 0,
+        "value": "Associate additional projects with OpenShift Platform project costs to charge for utilization of resources. Changes will be reflected in this month's cost calculations within 24 hrs. "
+      },
+      {
+        "type": 1,
+        "value": "learnMore"
+      }
+    ],
     "platform": [
       {
         "type": 0,
@@ -11038,6 +11084,12 @@
       {
         "type": 0,
         "value": "Platform distributed"
+      }
+    ],
+    "platformProjectsTitle": [
+      {
+        "type": 0,
+        "value": "Platform projects"
       }
     ],
     "priceList": [
@@ -11196,6 +11248,12 @@
         "value": "Remove"
       }
     ],
+    "removeProjects": [
+      {
+        "type": 0,
+        "value": "Remove projects"
+      }
+    ],
     "requests": [
       {
         "type": 0,
@@ -11320,6 +11378,12 @@
       {
         "type": 0,
         "value": "Select categories to enable or disable"
+      }
+    ],
+    "selectProjects": [
+      {
+        "type": 0,
+        "value": "Select projects to add or remove"
       }
     ],
     "selectRow": [
