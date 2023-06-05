@@ -19,26 +19,26 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 
-import { styles } from './tagDetails.styles';
-import { TagTable } from './tagTable';
-import { TagToolbar } from './tagToolbar';
+import { styles } from './platformProjects.styles';
+import { PlatformTable } from './platformTable';
+import { PlatformToolbar } from './platformToolbar';
 
-interface TagDetailsOwnProps {
+interface PlatformProjectsOwnProps {
   // TBD...
 }
 
-export interface TagDetailsMapProps {
+export interface PlatformProjectsMapProps {
   query?: Query;
 }
 
-export interface TagDetailsStateProps {
+export interface PlatformProjectsStateProps {
   report?: Report;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
   reportQueryString?: string;
 }
 
-type TagDetailsProps = TagDetailsOwnProps;
+type PlatformProjectsProps = PlatformProjectsOwnProps;
 
 const baseQuery: Query = {
   filter: {
@@ -57,7 +57,7 @@ const baseQuery: Query = {
   },
 };
 
-const TagDetails: React.FC<TagDetailsProps> = () => {
+const PlatformProjects: React.FC<PlatformProjectsProps> = () => {
   const [isAllSelected, setIsAllSelected] = useState(false);
   const [query, setQuery] = useState({ ...baseQuery });
   const [selectedItems, setSelectedItems] = useState([]);
@@ -107,7 +107,7 @@ const TagDetails: React.FC<TagDetailsProps> = () => {
 
   const getTable = () => {
     return (
-      <TagTable
+      <PlatformTable
         filterBy={query.filter_by}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
@@ -126,16 +126,16 @@ const TagDetails: React.FC<TagDetailsProps> = () => {
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
-      <TagToolbar
+      <PlatformToolbar
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
+        onAddProjects={handleOnAddProjects}
         onBulkSelected={handleOnBulkSelected}
-        onDisableTags={handleOnDisableTags}
-        onEnableTags={handleOnEnableTags}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
+        onRemoveProjects={handleOnRemoveProjects}
         pagination={getPagination(isDisabled)}
         query={query}
         selectedItems={selectedItems}
@@ -156,9 +156,9 @@ const TagDetails: React.FC<TagDetailsProps> = () => {
     }
   };
 
-  const handleOnDisableTags = () => {};
+  const handleOnAddProjects = () => {};
 
-  const handleOnEnableTags = () => {};
+  const handleOnRemoveProjects = () => {};
 
   const handleOnFilterAdded = filter => {
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
@@ -210,9 +210,9 @@ const TagDetails: React.FC<TagDetailsProps> = () => {
   return (
     <PageSection isFilled>
       <div style={styles.descContainer}>
-        {intl.formatMessage(messages.tagDesc, {
+        {intl.formatMessage(messages.platfomProjectaDesc, {
           learnMore: (
-            <a href={intl.formatMessage(messages.docsConfigTags)} rel="noreferrer" target="_blank">
+            <a href={intl.formatMessage(messages.docsConfigPlatformProjects)} rel="noreferrer" target="_blank">
               {intl.formatMessage(messages.learnMore)}
             </a>
           ),
@@ -232,7 +232,7 @@ const TagDetails: React.FC<TagDetailsProps> = () => {
 };
 
 // eslint-disable-next-line no-empty-pattern
-const useMapToProps = ({ query }: TagDetailsMapProps): TagDetailsStateProps => {
+const useMapToProps = ({ query }: PlatformProjectsMapProps): PlatformProjectsStateProps => {
   const reportType = ReportType.cost;
   const reportPathsType = ReportPathsType.ocp;
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
@@ -262,4 +262,4 @@ const useMapToProps = ({ query }: TagDetailsMapProps): TagDetailsStateProps => {
   };
 };
 
-export default TagDetails;
+export default PlatformProjects;

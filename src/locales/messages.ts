@@ -2,6 +2,11 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
+  addProjects: {
+    defaultMessage: 'Add projects',
+    description: 'Add projects',
+    id: 'addProjects',
+  },
   allOtherProjectCosts: {
     defaultMessage: 'Project (All other costs)',
     description: 'Project (All other costs)',
@@ -1209,6 +1214,7 @@ export default defineMessages({
       'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
       'gcp_project {GCP project names} ' +
+      'group {Group} ' +
       'name {Name} ' +
       'node {Node names} ' +
       'org_unit_id {Organizational unit names} ' +
@@ -1369,10 +1375,8 @@ export default defineMessages({
     id: 'docsAddOcpSources',
   },
   docsConfigCostCategory: {
-    defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
-    description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
+    defaultMessage: 'https://access.redhat.com/documentation/en-us/cost_management_service/2023',
+    description: 'https://access.redhat.com/documentation/en-us/cost_management_service/2023',
     id: 'docsConfigCostCategory',
   },
   docsConfigCostModels: {
@@ -1381,6 +1385,11 @@ export default defineMessages({
     description:
       'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index#assembly-setting-up-cost-models',
     id: 'docsConfigCostModels',
+  },
+  docsConfigPlatformProjects: {
+    defaultMessage: 'https://access.redhat.com/documentation/en-us/cost_management_service/2023',
+    description: 'https://access.redhat.com/documentation/en-us/cost_management_service/2023',
+    id: 'docsConfigPlatformProjects',
   },
   docsConfigTags: {
     defaultMessage:
@@ -1850,6 +1859,7 @@ export default defineMessages({
       'container {Filter by container} ' +
       'description {Filter by description} ' +
       'gcp_project {Filter by GCP project} ' +
+      'group {Filter by group} ' +
       'name {Filter by name} ' +
       'node {Filter by node} ' +
       'org_unit_id {Filter by organizational unit} ' +
@@ -1898,6 +1908,7 @@ export default defineMessages({
       'cluster {Cluster} ' +
       'container {Container} ' +
       'gcp_project {GCP project} ' +
+      'group {Group} ' +
       'name {Name} ' +
       'node {Node} ' +
       'org_unit_id {Organizational unit} ' +
@@ -2898,6 +2909,13 @@ export default defineMessages({
     description: 'Perspective values',
     id: 'perspectiveValues',
   },
+  platfomProjectaDesc: {
+    defaultMessage:
+      "Associate additional projects with OpenShift Platform project costs to charge for utilization of resources. Changes will be reflected in this month's cost calculations within 24 hrs. {learnMore}",
+    description:
+      "Associate additional projects with OpenShift Platform project costs to charge for utilization of resources. Changes will be reflected in this month's cost calculations within 24 hrs. {learnMore}",
+    id: 'platfomProjectaDesc',
+  },
   platform: {
     defaultMessage: 'Platform',
     description: 'Platform',
@@ -2912,6 +2930,11 @@ export default defineMessages({
     defaultMessage: 'Platform distributed',
     description: 'Platform distributed',
     id: 'platformDistributed',
+  },
+  platformProjectsTitle: {
+    defaultMessage: 'Platform projects',
+    description: 'Platform projects',
+    id: 'platformProjectsTitle',
   },
   priceList: {
     defaultMessage: 'Price list',
@@ -3005,6 +3028,11 @@ export default defineMessages({
     description: 'Remove',
     id: 'remove',
   },
+  removeProjects: {
+    defaultMessage: 'Remove projects',
+    description: 'Remove projects',
+    id: 'removeProjects',
+  },
   requests: {
     defaultMessage: 'Requests',
     description: 'Requests',
@@ -3091,6 +3119,11 @@ export default defineMessages({
     defaultMessage: 'Select categories to enable or disable',
     description: 'Select categories to enable or disable',
     id: 'selectCategories',
+  },
+  selectProjects: {
+    defaultMessage: 'Select projects to add or remove',
+    description: 'Select projects to add or remove',
+    id: 'selectProjects',
   },
   selectRow: {
     defaultMessage: 'Select row {value}',
