@@ -171,7 +171,10 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
       <PageSection>
         {getToolbar()}
         {reportFetchStatus === FetchStatus.inProgress ? (
-          <Loading />
+          <Loading
+            body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
+            heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
+          />
         ) : (
           <>
             {getTable()}

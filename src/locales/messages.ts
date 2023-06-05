@@ -2689,6 +2689,16 @@ export default defineMessages({
     description: 'A dialog with a description of optimizations',
     id: 'optimizationsInfoButtonArialLabel',
   },
+  optimizationsLoadingStateDesc: {
+    defaultMessage: 'Searching for your optimizations. Do not refresh the browser',
+    description: 'Searching for your optimizations. Do not refresh the browser',
+    id: 'optimizationsLoadingStateDesc',
+  },
+  optimizationsLoadingStateTitle: {
+    defaultMessage: 'Looking for optimizations...',
+    description: 'Looking for optimizations',
+    id: 'optimizationsLoadingStateTitle',
+  },
   optimizationsLongTerm: {
     defaultMessage: 'Last 15 days',
     description: 'Last 15 days',

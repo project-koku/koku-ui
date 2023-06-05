@@ -427,6 +427,8 @@
   "optimizationsInfo": "Assess and monitor your usage so you can optimize your OpenShift resources.",
   "optimizationsInfoArialLabel": "A description of optimizations",
   "optimizationsInfoButtonArialLabel": "A dialog with a description of optimizations",
+  "optimizationsLoadingStateDesc": "Searching for your optimizations. Do not refresh the browser",
+  "optimizationsLoadingStateTitle": "Looking for optimizations...",
   "optimizationsLongTerm": "Last 15 days",
   "optimizationsMediumTerm": "Last 7 days",
   "optimizationsNames": "{value, select, cluster {Cluster names} container {Container names} last_reported {Last reported} project {Project names} workload {Workload names} workload_type {Workload types} other {}}",

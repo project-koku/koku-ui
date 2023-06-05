@@ -6,6 +6,7 @@ import {
   getQueryForWidgetTabs,
   ocpDashboardDefaultFilters,
   ocpDashboardStateKey,
+  OcpDashboardTab,
   ocpDashboardTabFilters,
 } from './ocpDashboardCommon';
 
@@ -31,6 +32,16 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
   const props = {
     currency: getCurrency(),
   };
+  const tabsProps = {
+    ...props,
+    ...(widget.trend &&
+      widget.trend.costDistribution &&
+      widget.currentTab === OcpDashboardTab.projects && {
+        order_by: {
+          distributed_cost: 'desc',
+        },
+      }),
+  };
 
   return {
     previous: getQueryForWidget(
@@ -49,7 +60,7 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
         ...(tabsFilter as any),
         resolution: 'monthly',
       },
-      props
+      tabsProps
     ),
   };
 };

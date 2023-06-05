@@ -17,6 +17,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { Cluster } from 'routes/details/components/cluster';
 import { CostChart } from 'routes/details/components/costChart';
 import { OverheadCostChart } from 'routes/details/components/overheadCostChart';
@@ -230,7 +231,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
     if (showWidget) {
       return (
         <SummaryCard
-          costDistribution={costDistribution}
+          costDistribution={groupBy === 'cluster' ? ComputedReportItemValueType.distributed : costDistribution}
           costType={costType}
           currency={currency}
           isPlatformCosts={isPlatformCosts}

@@ -43,6 +43,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
     computedForecastInfrastructureItem: ComputedForecastItemType.infrastructure,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
+    costDistribution: ComputedReportItemValueType.distributed,
     dailyTitleKey: messages.ocpDashboardDailyCostTitle,
     datumType: DatumType.cumulative,
     titleKey: messages.ocpDashboardCostTrendTitle,
