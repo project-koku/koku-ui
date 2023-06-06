@@ -34,7 +34,7 @@ interface PermissionsStateProps {
   isFinsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
   isRosFeatureEnabled?: boolean;
-  isSettingsEnabled?: boolean;
+  isSettingsFeatureEnabled?: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -49,7 +49,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
   isFinsightsFeatureEnabled,
   isIbmFeatureEnabled,
   isRosFeatureEnabled,
-  isSettingsEnabled,
+  isSettingsFeatureEnabled,
   userAccess,
   userAccessError,
   userAccessFetchStatus,
@@ -68,7 +68,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const ocp = hasOcpAccess(userAccess);
     const rhel = isFinsightsFeatureEnabled && hasRhelAccess(userAccess);
     const ros = isRosFeatureEnabled && hasRosAccess(userAccess);
-    const settings = isSettingsEnabled && (chrome.isOrgAdmin || costModel);
+    const settings = isSettingsFeatureEnabled && (chrome.isOrgAdmin || costModel);
 
     switch (pathname) {
       case formatPath(routes.explorer.path):
@@ -136,7 +136,7 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
     isFinsightsFeatureEnabled: featureFlagsSelectors.selectIsFinsightsFeatureEnabled(state),
     isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
     isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
-    isSettingsEnabled: featureFlagsSelectors.selectIsSettingsFeatureEnabled(state),
+    isSettingsFeatureEnabled: featureFlagsSelectors.selectIsSettingsFeatureEnabled(state),
     userAccess,
     userAccessError,
     userAccessFetchStatus,
