@@ -123,6 +123,7 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
     if (
       key.indexOf('node') !== -1 ||
       key.indexOf('region') !== -1 ||
+      key.indexOf('resource_location') !== -1 ||
       key.indexOf('service') !== -1 ||
       key.indexOf(tagPrefix) !== -1
     ) {
