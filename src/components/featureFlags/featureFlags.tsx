@@ -13,6 +13,7 @@ export const enum FeatureToggle {
   ros = 'cost-management.ui.ros', // ROS support https://issues.redhat.com/browse/COST-3477
   rosBeta = 'cost-management.ui.ros-beta', // ROS support https://issues.redhat.com/browse/COST-3477
   settings = 'cost-management.ui.settings', // Settings page https://issues.redhat.com/browse/COST-3307
+  settingsPlatform = 'cost-management.ui.settings.platform', // Platform projects https://issues.redhat.com/browse/COST-3818
 }
 
 // The FeatureFlags component saves feature flags in store for places where Unleash hooks not available
@@ -64,6 +65,7 @@ const useFeatureFlags = () => {
               client.isEnabled(FeatureToggle.ros) ||
               (client.isEnabled(FeatureToggle.rosBeta) && insights && insights.chrome && insights.chrome.isBeta()),
             isSettingsFeatureEnabled: client.isEnabled(FeatureToggle.settings),
+            isSettingsPlatformFeatureEnabled: client.isEnabled(FeatureToggle.settingsPlatform),
           })
         );
       });

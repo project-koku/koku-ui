@@ -8,8 +8,9 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { DataTable } from 'routes/components/dataTable';
+import { SelectableTable } from 'routes/components/dataTable';
 import { styles } from 'routes/components/dataTable/dataTable.styles';
+import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
 import { getGroupById } from 'routes/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
 import { uiActions, uiSelectors } from 'store/ui';
@@ -177,8 +178,9 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
     const { columns, rows } = this.state;
 
     return (
-      <DataTable
+      <SelectableTable
         columns={columns}
+        emptyState={<NoOptimizationsState />}
         filterBy={filterBy}
         isLoading={isLoading}
         isOptimizations
