@@ -57,7 +57,7 @@ merge()
   git checkout $BRANCH
 
   git fetch origin $REMOTE_BRANCH
-  git merge origin/$REMOTE_BRANCH --commit --no-edit
+  git merge origin/$REMOTE_BRANCH --commit --no-edit --no-ff
 }
 
 push()

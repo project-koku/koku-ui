@@ -15,6 +15,7 @@ interface ReportSummaryItemsRenderProps {
 }
 
 interface ReportSummaryItemsOwnProps extends ComputedReportItemsParams<Report, ReportItem> {
+  costDistribution?: string;
   children?(props: ReportSummaryItemsRenderProps): React.ReactNode;
   status?: number;
 }
@@ -23,7 +24,7 @@ export type ReportSummaryItemsProps = ReportSummaryItemsOwnProps & WrappedCompon
 
 class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps, any> {
   public shouldComponentUpdate(nextProps: ReportSummaryItemsProps) {
-    return nextProps.report !== this.props.report;
+    return nextProps.report !== this.props.report || nextProps.costDistribution !== this.props.costDistribution;
   }
 
   private getItems() {

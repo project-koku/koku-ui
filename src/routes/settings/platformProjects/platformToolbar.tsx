@@ -12,40 +12,43 @@ import type { ComputedReportItem } from 'routes/utils/computedReport/getComputed
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
-import { styles } from './tagDetails.styles';
+import { styles } from './platformProjects.styles';
 
-interface TagToolbarOwnProps {
+interface PlatformToolbarOwnProps {
   isAllSelected?: boolean;
   isDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
+  onAddProjects();
   onBulkSelected(action: string);
-  onDisableTags();
-  onEnableTags();
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
+  onRemoveProjects();
   pagination?: React.ReactNode;
   query?: OcpQuery;
   selectedItems?: ComputedReportItem[];
 }
 
-interface TagToolbarStateProps {
+interface PlatformToolbarStateProps {
   // TBD...
 }
 
-interface TagToolbarDispatchProps {
+interface PlatformToolbarDispatchProps {
   // TBD...
 }
 
-interface TagToolbarState {
+interface PlatformToolbarState {
   categoryOptions?: ToolbarChipGroup[];
 }
 
-type TagToolbarProps = TagToolbarOwnProps & TagToolbarStateProps & TagToolbarDispatchProps & WrappedComponentProps;
+type PlatformToolbarProps = PlatformToolbarOwnProps &
+  PlatformToolbarStateProps &
+  PlatformToolbarDispatchProps &
+  WrappedComponentProps;
 
-export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarState> {
-  protected defaultState: TagToolbarState = {};
-  public state: TagToolbarState = { ...this.defaultState };
+export class PlatformToolbarBase extends React.Component<PlatformToolbarProps, PlatformToolbarState> {
+  protected defaultState: PlatformToolbarState = {};
+  public state: PlatformToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
     this.setState({
@@ -54,26 +57,26 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
   }
 
   private getActions = () => {
-    const { intl, onDisableTags, onEnableTags, selectedItems } = this.props;
+    const { intl, onAddProjects, onRemoveProjects, selectedItems } = this.props;
 
     const isDisabled = selectedItems.length === 0;
 
     return (
       <>
-        <Tooltip content={intl.formatMessage(messages.selectTags)}>
-          <Button isAriaDisabled={isDisabled} key="save" onClick={onEnableTags} variant={ButtonVariant.primary}>
-            {intl.formatMessage(messages.enableTags)}
+        <Tooltip content={intl.formatMessage(messages.selectProjects)}>
+          <Button isAriaDisabled={isDisabled} key="save" onClick={onAddProjects} variant={ButtonVariant.primary}>
+            {intl.formatMessage(messages.addProjects)}
           </Button>
         </Tooltip>
-        <Tooltip content={intl.formatMessage(messages.selectTags)}>
+        <Tooltip content={intl.formatMessage(messages.selectProjects)}>
           <Button
             isAriaDisabled={isDisabled}
             key="reset"
-            onClick={onDisableTags}
+            onClick={onRemoveProjects}
             style={styles.action}
             variant={ButtonVariant.secondary}
           >
-            {intl.formatMessage(messages.disableTags)}
+            {intl.formatMessage(messages.removeProjects)}
           </Button>
         </Tooltip>
       </>
@@ -85,8 +88,8 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
 
     const options = [
       { name: intl.formatMessage(messages.filterByValues, { value: 'name' }), key: 'project' }, // Todo: update filter name
-      { name: intl.formatMessage(messages.filterByValues, { value: 'status' }), key: 'status' },
-      { name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }), key: 'source_type' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'group' }), key: 'group' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
     ];
     return options;
   };
@@ -129,18 +132,18 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<TagToolbarOwnProps, TagToolbarStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<PlatformToolbarOwnProps, PlatformToolbarStateProps>((state, props) => {
   return {
     // TBD...
   };
 });
 
-const mapDispatchToProps: TagToolbarDispatchProps = {
+const mapDispatchToProps: PlatformToolbarDispatchProps = {
   // TBD...
 };
 
-const TagToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(TagToolbarBase);
-const TagToolbar = injectIntl(TagToolbarConnect);
+const PlatformToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(PlatformToolbarBase);
+const PlatformToolbar = injectIntl(PlatformToolbarConnect);
 
-export { TagToolbar };
-export type { TagToolbarProps };
+export { PlatformToolbar };
+export type { PlatformToolbarProps };

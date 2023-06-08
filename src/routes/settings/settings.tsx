@@ -14,9 +14,11 @@ import { Loading } from 'routes/components/page/loading';
 import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { Calculations } from 'routes/settings/calculations';
 import { CostModelsDetails } from 'routes/settings/costModels';
+import { PlatformProjects } from 'routes/settings/platformProjects';
 import { TagDetails } from 'routes/settings/tagDetails';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import type { ChromeComponentProps } from 'utils/chrome';
 import { withChrome } from 'utils/chrome';
@@ -31,6 +33,7 @@ const enum SettingsTab {
   costModels = 'cost_models',
   calculations = 'calculations',
   costCategory = 'cost_category',
+  platformProjects = 'platform_projects',
   tags = 'tags',
 }
 
@@ -42,6 +45,8 @@ export const getIdKeyForTab = (tab: SettingsTab) => {
       return 'calculations';
     case SettingsTab.costCategory:
       return 'cost_category';
+    case SettingsTab.platformProjects:
+      return 'platform_projects';
     case SettingsTab.tags:
       return 'tags';
   }
@@ -61,6 +66,7 @@ export interface SettingsMapProps {
 }
 
 export interface SettingsStateProps {
+  isSettingsPlatformEnabled?: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -71,7 +77,7 @@ type SettingsProps = SettingsOwnProps;
 
 const Settings: React.FC<SettingsProps> = ({ chrome }) => {
   const [activeTabKey, setActiveTabKey] = useState(0);
-  const { userAccess, userAccessFetchStatus } = useMapToProps();
+  const { isSettingsPlatformEnabled, userAccess, userAccessFetchStatus } = useMapToProps();
   const intl = useIntl();
 
   const getAvailableTabs = () => {
@@ -93,6 +99,12 @@ const Settings: React.FC<SettingsProps> = ({ chrome }) => {
         tab: SettingsTab.costCategory,
       },
     ];
+    if (isSettingsPlatformEnabled) {
+      availableTabs.push({
+        contentRef: React.createRef(),
+        tab: SettingsTab.platformProjects,
+      });
+    }
     return availableTabs;
   };
 
@@ -140,10 +152,12 @@ const Settings: React.FC<SettingsProps> = ({ chrome }) => {
       );
     } else if (currentTab === SettingsTab.calculations) {
       return chrome.isOrgAdmin ? <Calculations /> : notAuthorized;
-    } else if (currentTab === SettingsTab.tags) {
-      return chrome.isOrgAdmin ? <TagDetails /> : notAuthorized;
     } else if (currentTab === SettingsTab.costCategory) {
       return chrome.isOrgAdmin ? <CostCategory /> : notAuthorized;
+    } else if (currentTab === SettingsTab.platformProjects) {
+      return chrome.isOrgAdmin ? <PlatformProjects /> : notAuthorized;
+    } else if (currentTab === SettingsTab.tags) {
+      return chrome.isOrgAdmin ? <TagDetails /> : notAuthorized;
     } else {
       return emptyTab;
     }
@@ -158,14 +172,16 @@ const Settings: React.FC<SettingsProps> = ({ chrome }) => {
   };
 
   const getTabTitle = (tab: SettingsTab) => {
-    if (tab === SettingsTab.costModels) {
-      return intl.formatMessage(messages.costModels);
-    } else if (tab === SettingsTab.calculations) {
+    if (tab === SettingsTab.calculations) {
       return intl.formatMessage(messages.currencyCalcuationsTitle);
-    } else if (tab === SettingsTab.tags) {
-      return intl.formatMessage(messages.tagLabelsTitle);
     } else if (tab === SettingsTab.costCategory) {
       return intl.formatMessage(messages.costCategoryTitle);
+    } else if (tab === SettingsTab.costModels) {
+      return intl.formatMessage(messages.costModels);
+    } else if (tab === SettingsTab.platformProjects) {
+      return intl.formatMessage(messages.platformProjectsTitle);
+    } else if (tab === SettingsTab.tags) {
+      return intl.formatMessage(messages.tagLabelsTitle);
     }
   };
 
@@ -210,6 +226,9 @@ const useMapToProps = (): SettingsStateProps => {
   );
 
   return {
+    isSettingsPlatformEnabled: useSelector((state: RootState) =>
+      featureFlagsSelectors.selectIsSettingsPlatformFeatureEnabled(state)
+    ),
     userAccess,
     userAccessError,
     userAccessFetchStatus,

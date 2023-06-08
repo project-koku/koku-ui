@@ -165,7 +165,10 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
     <>
       {getToolbar()}
       {reportFetchStatus === FetchStatus.inProgress ? (
-        <Loading />
+        <Loading
+          body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
+          heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
+        />
       ) : (
         <>
           {getTable()}

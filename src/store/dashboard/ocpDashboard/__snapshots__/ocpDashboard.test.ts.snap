@@ -15,7 +15,7 @@ exports[`fetch widget reports 1`] = `
   [
     "ocp",
     "cost",
-    "currency=USD&filter[limit]=3&filter[resolution]=monthly&filter[time_scope_units]=month&filter[time_scope_value]=-1&group_by[project]=*",
+    "currency=USD&filter[limit]=3&filter[resolution]=monthly&filter[time_scope_units]=month&filter[time_scope_value]=-1&group_by[project]=*&order_by[distributed_cost]=desc",
   ],
 ]
 `;

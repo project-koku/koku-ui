@@ -30,6 +30,7 @@ import {
 import { OptimizationsSummary } from 'routes/overview/components/optimizationsSummary';
 import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { OcpDashboardTab } from 'store/dashboard/ocpDashboard';
 import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
 
 import { ChartComparison } from './chartComparison';
@@ -476,7 +477,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
     const currentTab = getIdKeyForTab(tab);
     const activeTab = getIdKeyForTab(availableTabs[activeTabKey]);
     const computedReportItem = trend.computedReportItem || 'cost';
-    const computedReportItemValue = trend.computedReportItemValue || 'total';
+    const computedReportItemValue =
+      trend.costDistribution && tab === OcpDashboardTab.projects
+        ? trend.costDistribution
+        : trend.computedReportItemValue || 'total';
 
     let totalValue;
     const hasTotal = tabsReport && tabsReport.meta && tabsReport.meta.total;

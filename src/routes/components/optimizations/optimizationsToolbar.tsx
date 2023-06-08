@@ -5,7 +5,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { DataToolbar } from 'routes/components/dataToolbar';
+import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
@@ -65,7 +65,7 @@ export class OptimizationsToolbarBase extends React.Component<OptimizationsToolb
     const { categoryOptions } = this.state;
 
     return (
-      <DataToolbar
+      <BasicToolbar
         categoryOptions={categoryOptions}
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
