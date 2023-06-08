@@ -18,3 +18,5 @@ export const selectIsIbmFeatureEnabled = (state: RootState) => selectFeatureFlag
 export const selectIsRosFeatureEnabled = (state: RootState) => selectFeatureFlagsState(state).isRosFeatureEnabled;
 export const selectIsSettingsFeatureEnabled = (state: RootState) =>
   selectFeatureFlagsState(state).isSettingsFeatureEnabled;
+export const selectIsSettingsPlatformFeatureEnabled = (state: RootState) =>
+  selectFeatureFlagsState(state).isSettingsPlatformFeatureEnabled;
