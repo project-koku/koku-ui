@@ -3071,6 +3071,12 @@
         "value": "groupBy"
       }
     ],
+    "detailsUnusedCapacityLabel": [
+      {
+        "type": 0,
+        "value": "Unused capacity"
+      }
+    ],
     "detailsUnusedRequestsLabel": [
       {
         "type": 0,
@@ -3093,12 +3099,6 @@
       {
         "type": 0,
         "value": "% of capacity)"
-      }
-    ],
-    "detailsUnusedUsageLabel": [
-      {
-        "type": 0,
-        "value": "Unused capacity"
       }
     ],
     "detailsUsageCapacity": [
@@ -11826,6 +11826,14 @@
               }
             ]
           },
+          "core": {
+            "value": [
+              {
+                "type": 0,
+                "value": "core"
+              }
+            ]
+          },
           "core_hours": {
             "value": [
               {
@@ -11930,6 +11938,24 @@
       {
         "type": 0,
         "value": "Usage cost"
+      }
+    ],
+    "usageSubtitle": [
+      {
+        "type": 1,
+        "value": "count"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "countUnits"
+      },
+      {
+        "type": 0,
+        "value": " maximum"
       }
     ],
     "various": [

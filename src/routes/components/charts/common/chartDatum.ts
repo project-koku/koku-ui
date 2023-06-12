@@ -77,8 +77,10 @@ export function transformReport(
     }, []);
   } else {
     chartDatums = computedItems.map(i => {
-      const val = i[reportItem][reportItemValue] ? i[reportItem][reportItemValue].value : i[reportItem].value;
-      return createReportDatum(val, i, idKey, reportItem, reportItemValue);
+      if (i[reportItem]) {
+        const val = i[reportItem][reportItemValue] ? i[reportItem][reportItemValue].value : i[reportItem].value;
+        return createReportDatum(val, i, idKey, reportItem, reportItemValue);
+      }
     });
   }
   return idKey === 'date' ? padChartDatums(chartDatums, datumType) : chartDatums;
@@ -112,8 +114,8 @@ export function fillChartDatums(datums: ChartDatum[], datumType): ChartDatum[] {
   if (!datums || datums.length === 0) {
     return result;
   }
-  const firstDate = new Date(datums[0].key + 'T00:00:00');
-  const lastDate = new Date(datums[datums.length - 1].key + 'T00:00:00');
+  const firstDate = new Date(datums[0] ? datums[0].key + 'T00:00:00' : undefined);
+  const lastDate = new Date(datums[datums.length - 1] ? datums[datums.length - 1].key + 'T00:00:00' : undefined);
 
   const padDate = startOfMonth(firstDate);
   let prevChartDatum;
@@ -156,8 +158,8 @@ export function padChartDatums(datums: ChartDatum[], datumType): ChartDatum[] {
   if (!datums || datums.length === 0) {
     return result;
   }
-  const firstDate = new Date(datums[0].key + 'T00:00:00');
-  const lastDate = new Date(datums[datums.length - 1].key + 'T00:00:00');
+  const firstDate = new Date(datums[0] ? datums[0].key + 'T00:00:00' : undefined);
+  const lastDate = new Date(datums[datums.length - 1] ? datums[datums.length - 1].key + 'T00:00:00' : undefined);
 
   // Pad start for missing data
   let padDate = startOfMonth(firstDate);
