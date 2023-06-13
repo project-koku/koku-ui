@@ -105,13 +105,11 @@ exports[`reports are formatted to datums 1`] = `
         </defs>
         <g>
           <path
-            d="M0.5333333333333332,25L0.5333333333333332,25Z"
             role="presentation"
             shape-rendering="auto"
             style="fill: none; stroke: none; stroke-dasharray: 3,3; fill-opacity: 0.3; stroke-width: 2;"
           />
           <path
-            d="M0.5333333333333332,25Z"
             role="presentation"
             shape-rendering="auto"
             style="fill: none; stroke: #d2d2d2; stroke-dasharray: 3,3; fill-opacity: 0.3; stroke-width: 2;"
@@ -137,13 +135,11 @@ exports[`reports are formatted to datums 1`] = `
         </defs>
         <g>
           <path
-            d="M0.5333333333333332,25L0.5333333333333332,25Z"
             role="presentation"
             shape-rendering="auto"
             style="fill: none; stroke: none; stroke-dasharray: 3,3; fill-opacity: 0.3; stroke-width: 2;"
           />
           <path
-            d="M0.5333333333333332,25Z"
             role="presentation"
             shape-rendering="auto"
             style="fill: none; stroke: #4cb140; stroke-dasharray: 3,3; fill-opacity: 0.3; stroke-width: 2;"
@@ -332,7 +328,7 @@ exports[`reports are formatted to datums 1`] = `
           shape-rendering="auto"
           style="fill: none;"
           vector-effect="non-scaling-stroke"
-          width="295.44999999999993"
+          width="276.52812499999993"
           x="0"
           y="57"
         />
@@ -444,7 +440,7 @@ exports[`reports are formatted to datums 1`] = `
             text-anchor="start"
             x="30.8"
           >
-            Requests ({dateRange}){"dateRange":""}
+            Requests (no data)
           </tspan>
         </text>
         <text
@@ -461,7 +457,7 @@ exports[`reports are formatted to datums 1`] = `
             text-anchor="start"
             x="30.8"
           >
-            Requests ({dateRange}){"dateRange":""}
+            Requests (no data)
           </tspan>
         </text>
       </g>

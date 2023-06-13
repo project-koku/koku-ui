@@ -1255,6 +1255,11 @@ export default defineMessages({
     description: ', {value} more...',
     id: 'detailsSummaryModalTitle',
   },
+  detailsUnusedCapacityLabel: {
+    defaultMessage: 'Unused capacity',
+    description: 'Unused capacity',
+    id: 'detailsUnusedCapacityLabel',
+  },
   detailsUnusedRequestsLabel: {
     defaultMessage: 'Unrequested capacity',
     description: 'Unrequested capacity',
@@ -1264,11 +1269,6 @@ export default defineMessages({
     defaultMessage: '{units} ({percentage}% of capacity)',
     description: '{units} ({percentage}% of capacity)',
     id: 'detailsUnusedUnits',
-  },
-  detailsUnusedUsageLabel: {
-    defaultMessage: 'Unused capacity',
-    description: 'Unused capacity',
-    id: 'detailsUnusedUsageLabel',
   },
   detailsUsageCapacity: {
     defaultMessage: 'Capacity - {value} {units}',
@@ -3329,6 +3329,7 @@ export default defineMessages({
     defaultMessage:
       '{units, select, ' +
       'byte_ms {Byte-ms} ' +
+      'core {core} ' +
       'core_hours {core-hours} ' +
       'gb {GB} ' +
       'gb_hours {GB-hours} ' +
@@ -3357,6 +3358,11 @@ export default defineMessages({
     defaultMessage: 'Usage cost',
     description: 'Usage cost',
     id: 'usageCostTitle',
+  },
+  usageSubtitle: {
+    defaultMessage: '{count} {countUnits} maximum',
+    description: '{count} {countUnits} maximum',
+    id: 'usageSubtitle',
   },
   various: {
     defaultMessage: 'Various',

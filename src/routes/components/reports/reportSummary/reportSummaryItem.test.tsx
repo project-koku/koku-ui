@@ -19,7 +19,7 @@ test('formats value', () => {
   expect(screen.getByText(/label/i)).not.toBeNull();
   expect(
     screen.getByText(
-      '{value} {units} ({percent} %){"percent":"10","units":"{units, select, byte_ms {Byte-ms} core_hours {core-hours} gb {GB} gb_hours {GB-hours} gb_mo {GB-month} gb_ms {GB-ms} gibibyte_month {GiB-month} hour {hours} hrs {hours} ms {milliseconds} vm_hours {VM-hours} other {}}{}","value":100}'
+      '{value} {units} ({percent} %){"percent":"10","units":"{units, select, byte_ms {Byte-ms} core {core} core_hours {core-hours} gb {GB} gb_hours {GB-hours} gb_mo {GB-month} gb_ms {GB-ms} gibibyte_month {GiB-month} hour {hours} hrs {hours} ms {milliseconds} vm_hours {VM-hours} other {}}{}","value":100}'
     )
   ).not.toBeNull();
   expect(screen.getByRole('progressbar').getAttribute('aria-valuenow')).toBe('10');
