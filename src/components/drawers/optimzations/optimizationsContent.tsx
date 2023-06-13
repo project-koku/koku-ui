@@ -256,11 +256,11 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
   };
 
   private getFormattedValue = value => {
-    return value ? value.toFixed(1) : <EmptyValueState />;
+    return value !== undefined ? value : <EmptyValueState />;
   };
 
   private getOriginalValue = (amount, variation) => {
-    return amount && variation ? (amount - variation).toFixed(1) : <EmptyValueState />;
+    return amount !== undefined && variation !== undefined ? amount - variation : <EmptyValueState />;
   };
 
   private getRecommendationTerm = (): RecommendationItem => {
