@@ -129,7 +129,7 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     };
 
     // Qualitative range included when grouped by cluster and volume usage
-    if (groupBy === 'cluster' || reportType === ReportType.volume) {
+    if (groupBy === 'cluster' || groupBy === 'node' || reportType === ReportType.volume) {
       const capacity = Math.trunc(hasCapacityValue ? computedItem.capacity.value : 0);
       const capacityUnits = intl.formatMessage(messages.units, {
         units: unitsLookupKey(hasCapacityUnits ? computedItem.capacity.units : undefined),
@@ -349,7 +349,7 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     const { groupBy } = this.props;
     const { width } = this.state;
 
-    if (groupBy === 'cluster') {
+    if (groupBy === 'cluster' || groupBy === 'node') {
       return width > 950 ? 115 : width > 450 ? 150 : 210;
     } else {
       return width > 700 ? 115 : width > 450 ? 150 : 180;
