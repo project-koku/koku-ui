@@ -360,9 +360,9 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     const hasCapacity = computedItem && computedItem.capacity !== undefined;
     const hasCapacityCount = hasCapacity && computedItem.capacity.count !== undefined;
     const hasCapacityCountUnits = hasCapacity && computedItem.capacity.count_units !== undefined;
-    const hasCapacityUnits = hasCapacity && computedItem.units !== undefined;
+    const hasCapacityUnits = hasCapacity && computedItem.capacity.units !== undefined;
     const hasCapacityUnused = hasCapacity && computedItem.capacity.unused !== undefined;
-    const hasCapacityUnusedPercent = hasCapacity && computedItem.unused_percent !== undefined;
+    const hasCapacityUnusedPercent = hasCapacity && computedItem.capacity.unused_percent !== undefined;
     const hasCapacityValue = hasCapacity && computedItem.capacity.value !== undefined;
     const hasLimit = computedItem && computedItem.limit;
     const hasLimitUnits = hasLimit && computedItem.limit.value !== undefined;
