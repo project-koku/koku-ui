@@ -323,12 +323,12 @@ exports[`reports are formatted to datums 1`] = `
       </g>
       <g>
         <rect
-          height="123.61999999999999"
+          height="56"
           role="presentation"
           shape-rendering="auto"
           style="fill: none;"
           vector-effect="non-scaling-stroke"
-          width="276.52812499999993"
+          width="39.6"
           x="0"
           y="57"
         />
@@ -343,7 +343,7 @@ exports[`reports are formatted to datums 1`] = `
           style="fill: #d2d2d2;"
         />
         <path
-          d="M 7.84, 104.061
+          d="M 7.84, 87.156
       h12.32
       v-4.312
       h-12.32
@@ -353,17 +353,17 @@ exports[`reports are formatted to datums 1`] = `
           style="fill: #38812f;"
         />
         <path
-          d="M 7.84, 134.966
+          d="M 7.84, 101.156
       h3.6959999999999997
       v-4.312
       h-3.6959999999999997
       z
-      M 12.767999999999999, 134.966
+      M 12.767999999999999, 101.156
       h3.6959999999999997
       v-4.312
       h-3.6959999999999997
       z
-      M 17.695999999999998, 134.966
+      M 17.695999999999998, 101.156
       h3.6959999999999997
       v-4.312
       h-3.6959999999999997
@@ -373,17 +373,17 @@ exports[`reports are formatted to datums 1`] = `
           style="fill: #d2d2d2;"
         />
         <path
-          d="M 7.84, 165.87099999999998
+          d="M 7.84, 115.156
       h3.6959999999999997
       v-4.312
       h-3.6959999999999997
       z
-      M 12.767999999999999, 165.87099999999998
+      M 12.767999999999999, 115.156
       h3.6959999999999997
       v-4.312
       h-3.6959999999999997
       z
-      M 17.695999999999998, 165.87099999999998
+      M 17.695999999999998, 115.156
       h3.6959999999999997
       v-4.312
       h-3.6959999999999997
@@ -414,7 +414,7 @@ exports[`reports are formatted to datums 1`] = `
           dx="0"
           id="exampleUsageChart-legend-ChartLabel-1"
           x="30.8"
-          y="106.875"
+          y="89.97"
         >
           <tspan
             dx="0"
@@ -431,7 +431,7 @@ exports[`reports are formatted to datums 1`] = `
           dx="0"
           id="exampleUsageChart-legend-ChartLabel-2"
           x="30.8"
-          y="137.78"
+          y="103.97"
         >
           <tspan
             dx="0"
@@ -448,7 +448,7 @@ exports[`reports are formatted to datums 1`] = `
           dx="0"
           id="exampleUsageChart-legend-ChartLabel-3"
           x="30.8"
-          y="168.68499999999997"
+          y="117.97"
         >
           <tspan
             dx="0"
