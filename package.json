@@ -66,14 +66,14 @@
     "react": "^17.0.2",
     "react-bootstrap": "^2.7.4",
     "react-dom": "^17.0.2",
-    "react-intl": "^6.4.2",
-    "react-redux": "^8.0.7",
-    "react-router-dom": "^6.11.2",
+    "react-intl": "^6.4.4",
+    "react-redux": "^8.1.0",
+    "react-router-dom": "^6.13.0",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
     "typesafe-actions": "^5.1.0",
     "unleash-proxy-client": "^2.5.0",
-    "victory-core": "36.6.7",
+    "victory-core": "^36.6.11",
     "xstate": "^4.37.2"
   },
   "devDependencies": {
@@ -93,7 +93,7 @@
     "@xstate/test": "^0.5.1",
     "aphrodite": "^2.4.0",
     "copy-webpack-plugin": "^11.0.0",
-    "eslint": "^8.41.0",
+    "eslint": "^8.42.0",
     "eslint-plugin-formatjs": "^4.10.3",
     "eslint-plugin-jest-dom": "^5.0.1",
     "eslint-plugin-jsdoc": "^46.2.6",
@@ -116,8 +116,8 @@
     "webpack-bundle-analyzer": "^4.9.0"
   },
   "overrides": {
-    "eslint": "^8.41.0",
-    "react-intl": "^6.4.2"
+    "eslint": "^8.42.0",
+    "react-intl": "^6.4.4"
   },
   "insights": {
     "appname": "cost-management"
