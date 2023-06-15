@@ -276,12 +276,12 @@ exports[`reports are formatted to datums 1`] = `
           </g>
           <g>
             <rect
-              height="61.809999999999995"
+              height="28"
               role="presentation"
               shape-rendering="auto"
               style="fill: none;"
               vector-effect="non-scaling-stroke"
-              width="266.81562499999995"
+              width="39.6"
               x="0"
               y="82"
             />
@@ -296,7 +296,7 @@ exports[`reports are formatted to datums 1`] = `
               style="fill: #d2d2d2;"
             />
             <path
-              d="M 7.84, 129.061
+              d="M 7.84, 112.156
       h12.32
       v-4.312
       h-12.32
@@ -327,7 +327,7 @@ exports[`reports are formatted to datums 1`] = `
               dx="0"
               id="exampleTrendChart-legend-ChartLabel-1"
               x="30.8"
-              y="131.875"
+              y="114.97"
             >
               <tspan
                 dx="0"
