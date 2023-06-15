@@ -1,7 +1,11 @@
 import type { PagedMetaData, PagedResponse } from 'api/api';
 
 export interface ReportValue {
+  count?: number;
+  count_units?: string;
   units?: string;
+  unused?: number;
+  unused_percent?: number;
   value?: number;
 }
 
