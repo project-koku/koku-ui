@@ -10,14 +10,14 @@ class Sources extends React.Component<any, any> {
   constructor(props) {
     super(props);
     this.fetchData = () => {
-      const { type, query, page, perPage, fetchSources } = this.context;
+      const { type, query, page, perPage, fetchSources } = this.context as any;
       const sourceType = type === 'Azure' ? 'Azure' : type;
       fetchSources(sourceType, query, page, perPage);
     };
   }
 
   public componentDidMount() {
-    const { dataFetched } = this.context;
+    const { dataFetched } = this.context as any;
     if (dataFetched) {
       return;
     }
@@ -25,11 +25,11 @@ class Sources extends React.Component<any, any> {
   }
 
   public renderContent() {
-    if (this.context.loading) {
+    if ((this.context as any).loading) {
       return <LoadingState />;
     }
 
-    if (this.context.apiError) {
+    if ((this.context as any).apiError) {
       return <SourceStepErrorState onRefresh={this.fetchData} />;
     }
     return <SourcesTable />;
