@@ -345,10 +345,8 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
   private getHasData = () => {
     const { report } = this.props;
 
-    // Note that we're using values from meta.total instead of data array values for the following reasons.
-    //
-    // 1. When "platform costs" is applied, there is no "platform" project.
-    // 2. The volumes API may return an empty data array, so the legend units are unknown
+    // Note: When APIs return an empty data array, units are unknown. Likewise, when "platform projects" are applied,
+    // there is no "platform" project. As a workaround, we obtain values from the meta data.
 
     const hasMeta = report && report.meta !== undefined;
     const hasTotal = hasMeta && report.meta.total !== undefined;
