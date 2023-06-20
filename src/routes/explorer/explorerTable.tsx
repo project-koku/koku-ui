@@ -30,7 +30,7 @@ import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getC
 import { getDateRangeFromQuery } from 'routes/utils/dateRange';
 import { createMapStateToProps } from 'store/common';
 import { formatCurrency } from 'utils/format';
-import { classificationDefault, noPrefix } from 'utils/props';
+import { classificationDefault, classificationUnallocated, noPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -246,6 +246,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
         }
         if (
           showCostDistribution &&
+          item.classification !== classificationUnallocated &&
           item.cost &&
           ((item.cost.platformDistributed && item.cost.platformDistributed.value > 0) ||
             (item.cost.workerUnallocatedDistributed && item.cost.workerUnallocatedDistributed.value > 0))
