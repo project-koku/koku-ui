@@ -36,8 +36,10 @@ const SimpleInputBase: React.FC<SimpleInputProps> = ({
       isRequired={isRequired}
       style={style}
       fieldId={id}
-      label={label !== null && typeof label === 'object' ? intl.formatMessage(label) : label}
-      helperTextInvalid={helpText !== null && typeof helpText === 'object' ? intl.formatMessage(helpText) : helpText}
+      label={label !== null && typeof label === 'object' ? intl.formatMessage(label) : (label as string)}
+      helperTextInvalid={
+        helpText !== null && typeof helpText === 'object' ? intl.formatMessage(helpText) : (helpText as string)
+      }
       validated={validated}
     >
       <TextInput

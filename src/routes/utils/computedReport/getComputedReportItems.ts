@@ -97,77 +97,111 @@ function getClusters(val, item?: any) {
 }
 
 function getCostData(val, key, item?: any) {
+  const defaultUnits = 'USD';
   return {
-    distributed: {
-      value:
-        (item && item[key] && item[key].distributed ? item[key].distributed.value : 0) +
-        (val[key] && val[key].distributed ? val[key].distributed.value : 0),
-      units: val && val[key] && val[key].distributed ? val[key].distributed.units : 'USD',
-    },
-    markup: {
-      value:
-        (item && item[key] && item[key].markup ? item[key].markup.value : 0) +
-        (val[key] && val[key].markup ? val[key].markup.value : 0),
-      units: val && val[key] && val[key].markup ? val[key].markup.units : 'USD',
-    },
-    platformDistributed: {
-      value:
-        (item && item[key] && item[key].platform_distributed ? item[key].platform_distributed.value : 0) +
-        (val[key] && val[key].platform_distributed ? val[key].platform_distributed.value : 0),
-      units: val && val[key] && val[key].platform_distributed ? val[key].platform_distributed.units : 'USD',
-    },
-    raw: {
-      value:
-        (item && item[key] && item[key].raw ? item[key].raw.value : 0) +
-        (val[key] && val[key].raw ? val[key].raw.value : 0),
-      units: val && val[key] && val[key].raw ? val[key].raw.units : 'USD',
-    },
-    total: {
-      value:
-        (item && item[key] && item[key].total ? item[key].total.value : 0) +
-        (val[key] && val[key].total ? Number(val[key].total.value) : 0),
-      units: val && val[key] && val[key].total ? val[key].total.units : null,
-    },
-    usage: {
-      value:
-        (item && item[key] && item[key].usage ? item[key].usage.value : 0) +
-        (val[key] && val[key].usage ? Number(val[key].usage.value) : 0),
-      units: val && val[key] && val[key].usage ? val[key].usage.units : null,
-    },
-    workerUnallocatedDistributed: {
-      value:
-        (item && item[key] && item[key].worker_unallocated_distributed
-          ? item[key].worker_unallocated_distributed.value
-          : 0) +
-        (val[key] && val[key].worker_unallocated_distributed
-          ? Number(val[key].worker_unallocated_distributed.value)
-          : 0),
-      units:
-        val && val[key] && val[key].worker_unallocated_distributed
-          ? val[key].worker_unallocated_distributed.units
-          : null,
-    },
+    ...(val[key] &&
+      val[key].distributed && {
+        distributed: {
+          value: val[key].distributed.value + (item && item[key]?.distributed ? item[key].distributed.value : 0),
+          units: val[key].distributed.units ? val[key].distributed.units : defaultUnits,
+        },
+      }),
+    ...(val[key] &&
+      val[key].markup && {
+        markup: {
+          value: val[key].markup.value + (item && item[key]?.markup ? item[key].markup.value : 0),
+          units: val[key].markup.units ? val[key].markup.units : defaultUnits,
+        },
+      }),
+    ...(val[key] &&
+      val[key].platform_distributed && {
+        platformDistributed: {
+          value:
+            val[key].platform_distributed.value +
+            (item && item[key]?.platform_distributed ? item[key].platform_distributed.value : 0),
+          units: val[key].platform_distributed.units ? val[key].platform_distributed.units : defaultUnits,
+        },
+      }),
+    ...(val[key] &&
+      val[key].total && {
+        raw: {
+          value: val[key].raw.value + (item && item[key]?.raw ? item[key].raw.value : 0),
+          units: val[key].raw.units ? val[key].raw.units : defaultUnits,
+        },
+      }),
+    ...(val[key] &&
+      val[key].total && {
+        total: {
+          value: val[key].total.value + (item && item[key]?.total ? item[key].total.value : 0),
+          units: val[key].total.units ? val[key].total.units : defaultUnits,
+        },
+      }),
+    ...(val[key] &&
+      val[key].usage && {
+        usage: {
+          value: val[key].usage.value + (item && item[key]?.usage ? item[key].usage.value : 0),
+          units: val[key].usage.units ? val[key].usage.units : defaultUnits,
+        },
+      }),
+    ...(val[key] &&
+      val[key].worker_unallocated_distributed && {
+        workerUnallocatedDistributed: {
+          value:
+            val[key].worker_unallocated_distributed.value +
+            (item && item[key]?.worker_unallocated_distributed ? item[key].worker_unallocated_distributed.value : 0),
+          units: val[key].worker_unallocated_distributed.units
+            ? val[key].worker_unallocated_distributed.units
+            : defaultUnits,
+        },
+      }),
   };
 }
 
 function getUsageData(val, item?: any) {
+  const defaultUnits = 'Core-Hours';
   return {
-    capacity: {
-      value: (item && item.capacity ? item.capacity.value : 0) + (val.capacity ? val.capacity.value : 0),
-      units: val && val.capacity ? val.capacity.units : 'Core-Hours',
-    },
-    limit: {
-      value: (item && item.limit ? item.limit.value : 0) + (val.limit ? val.limit.value : 0),
-      units: val && val.limit ? val.limit.units : 'Core-Hours',
-    },
-    request: {
-      value: (item && item.request ? item.request.value : 0) + (val.request ? val.request.value : 0),
-      units: val && val.request ? val.request.units : 'Core-Hours',
-    },
-    usage: {
-      value: (item && item.usage ? item.usage.value : 0) + (val.usage ? val.usage.value : 0),
-      units: val && val.usage ? val.usage.units : 'Core-Hours',
-    },
+    ...(val.capacity && {
+      capacity: {
+        value: val.capacity.value + (item?.capacity ? item.capacity.value : 0),
+        units: val.capacity.units ? val.capacity.units : defaultUnits,
+        ...(val.capacity.count !== undefined && {
+          count: val.capacity.count + (item?.capacity ? item.capacity.count : 0),
+        }),
+        ...(val.capacity.count_units && {
+          count_units: val.capacity.count_units,
+        }),
+        ...(val.capacity.unused !== undefined && {
+          unused: val.capacity.unused + (item?.capacity ? item.capacity.unused : 0),
+        }),
+        ...(val.capacity.unused_percent !== undefined && {
+          unused_percent: val.capacity.unused_percent + (item?.capacity ? item.capacity.unused_percent : 0),
+        }),
+      },
+    }),
+    ...(val.limit && {
+      limit: {
+        value: val.limit.value + (item?.limit ? item.limit.value : 0),
+        units: val.limit.units ? val.limit.units : defaultUnits,
+      },
+    }),
+    ...(val.request && {
+      request: {
+        value: val.request.value + (item?.request ? item.request.value : 0),
+        units: val.request.units ? val.request.units : defaultUnits,
+        ...(val.request.unused !== undefined && {
+          unused: val.request.unused + (item?.request ? item.request.unused : 0),
+        }),
+        ...(val.request.unused_percent !== undefined && {
+          unused_percent: val.request.unused_percent + (item?.request ? item.request.unused_percent : 0),
+        }),
+      },
+    }),
+    ...(val.usage && {
+      usage: {
+        value: val.usage.value + (item?.usage ? item.usage.value : 0),
+        units: val.usage.units ? val.usage.units : defaultUnits,
+      },
+    }),
   };
 }
 

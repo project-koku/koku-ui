@@ -57,7 +57,7 @@ const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl,
         </Tr>
       </Thead>
       <Tbody>
-        {rows.map((r, rowIndex) => (
+        {rows.map((r: any, rowIndex) => (
           <Tr key={rowIndex}>
             <Td>{r}</Td>
             <Td isActionCell>
