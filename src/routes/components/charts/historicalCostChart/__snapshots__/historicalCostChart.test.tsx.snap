@@ -329,17 +329,17 @@ exports[`null previous and current reports are handled 1`] = `
             </g>
             <g>
               <rect
-                height="30.904999999999998"
+                height="14"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill: none;"
                 vector-effect="non-scaling-stroke"
-                width="262.775"
+                width="79.2"
                 x="0"
-                y="94.905"
+                y="78"
               />
               <path
-                d="M 7.84, 111.061
+                d="M 7.84, 94.156
       h12.32
       v-4.312
       h-12.32
@@ -349,10 +349,10 @@ exports[`null previous and current reports are handled 1`] = `
                 style="fill: #8bc1f7;"
               />
               <path
-                d="M 139.2275, 111.061
-      h12.319999999999993
+                d="M 47.44, 94.156
+      h12.320000000000007
       v-4.312
-      h-12.319999999999993
+      h-12.320000000000007
       z"
                 role="presentation"
                 shape-rendering="auto"
@@ -363,7 +363,7 @@ exports[`null previous and current reports are handled 1`] = `
                 dx="0"
                 id="exampleCostChart-legend-ChartLabel-0"
                 x="30.8"
-                y="113.875"
+                y="96.97"
               >
                 <tspan
                   dx="0"
@@ -379,15 +379,15 @@ exports[`null previous and current reports are handled 1`] = `
                 direction="inherit"
                 dx="0"
                 id="exampleCostChart-legend-ChartLabel-1"
-                x="162.1875"
-                y="113.875"
+                x="70.39999999999999"
+                y="96.97"
               >
                 <tspan
                   dx="0"
                   dy="0"
                   style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
                   text-anchor="start"
-                  x="162.1875"
+                  x="70.39999999999999"
                 >
                   Cost (no data)
                 </tspan>
@@ -698,17 +698,17 @@ exports[`reports are formatted to datums 1`] = `
             </g>
             <g>
               <rect
-                height="30.904999999999998"
+                height="14"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill: none;"
                 vector-effect="non-scaling-stroke"
-                width="533.6312499999999"
+                width="79.2"
                 x="0"
-                y="94.905"
+                y="78"
               />
               <path
-                d="M 7.84, 111.061
+                d="M 7.84, 94.156
       h12.32
       v-4.312
       h-12.32
@@ -718,10 +718,10 @@ exports[`reports are formatted to datums 1`] = `
                 style="fill: #8bc1f7;"
               />
               <path
-                d="M 274.65562499999993, 111.061
-      h12.32000000000005
+                d="M 47.44, 94.156
+      h12.320000000000007
       v-4.312
-      h-12.32000000000005
+      h-12.320000000000007
       z"
                 role="presentation"
                 shape-rendering="auto"
@@ -732,7 +732,7 @@ exports[`reports are formatted to datums 1`] = `
                 dx="0"
                 id="exampleCostChart-legend-ChartLabel-0"
                 x="30.8"
-                y="113.875"
+                y="96.97"
               >
                 <tspan
                   dx="0"
@@ -748,15 +748,15 @@ exports[`reports are formatted to datums 1`] = `
                 direction="inherit"
                 dx="0"
                 id="exampleCostChart-legend-ChartLabel-1"
-                x="297.61562499999997"
-                y="113.875"
+                x="70.39999999999999"
+                y="96.97"
               >
                 <tspan
                   dx="0"
                   dy="0"
                   style="font-family: "RedHatText","Overpass",overpass,helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-chart-global--label--stroke, transparent); fill: var(--pf-chart-global--label--Fill, #151515);"
                   text-anchor="start"
-                  x="297.61562499999997"
+                  x="70.39999999999999"
                 >
                   Cost ({dateRange}){"dateRange":""}
                 </tspan>

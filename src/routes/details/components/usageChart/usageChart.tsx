@@ -91,20 +91,28 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
   };
 
   private getChartDatum(): ChartDatum {
-    const { groupBy, report, intl, reportType } = this.props;
+    const { groupBy, intl, report, reportType } = this.props;
     const datum: ChartDatum = {
       limit: {},
       ranges: [],
       usage: [],
     };
 
-    // Always show bullet chart legends https://github.com/project-koku/koku-ui/issues/963
-    const hasTotal = report && report.meta && report.meta.total;
+    const {
+      hasCapacityUnits,
+      hasCapacityValue,
+      hasLimitUnits,
+      hasLimitValue,
+      hasRequestUnits,
+      hasRequestValue,
+      hasUsageUnits,
+      hasUsageValue,
+    } = this.getHasData();
 
-    const hasLimit = hasTotal && report.meta.total.limit && report.meta.total.limit !== null;
-    const limit = Math.trunc(hasLimit ? report.meta.total.limit.value : 0);
+    // Always show bullet chart legends https://github.com/project-koku/koku-ui/issues/963
+    const limit = Math.trunc(hasLimitValue ? report.meta.total.limit.value : 0);
     const limitUnits = intl.formatMessage(messages.units, {
-      units: unitsLookupKey(hasLimit ? report.meta.total.limit.units : undefined),
+      units: unitsLookupKey(hasLimitUnits ? report.meta.total.limit.units : undefined),
     });
     datum.limit = {
       legend: intl.formatMessage(messages.detailsUsageLimit, {
@@ -119,11 +127,10 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     };
 
     // Qualitative range included when grouped by cluster and volume usage
-    if (groupBy === 'cluster' || reportType === ReportType.volume) {
-      const hasCapacity = hasTotal && report.meta.total.capacity && report.meta.total.capacity !== null;
-      const capacity = Math.trunc(hasCapacity ? report.meta.total.capacity.value : 0);
+    if (groupBy === 'cluster' || groupBy === 'node' || reportType === ReportType.volume) {
+      const capacity = Math.trunc(hasCapacityValue ? report.meta.total.capacity.value : 0);
       const capacityUnits = intl.formatMessage(messages.units, {
-        units: unitsLookupKey(hasCapacity ? report.meta.total.capacity.units : undefined),
+        units: unitsLookupKey(hasCapacityUnits ? report.meta.total.capacity.units : undefined),
       });
       datum.ranges = [
         {
@@ -140,15 +147,13 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
       ];
     }
 
-    const hasRequest = hasTotal && report.meta.total.request && report.meta.total.request !== null;
-    const hasUsage = hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
-    const request = Math.trunc(hasRequest ? report.meta.total.request.value : 0);
+    const request = Math.trunc(hasRequestValue ? report.meta.total.request.value : 0);
     const requestUnits = intl.formatMessage(messages.units, {
-      units: unitsLookupKey(hasRequest ? report.meta.total.request.units : undefined),
+      units: unitsLookupKey(hasRequestUnits ? report.meta.total.request.units : undefined),
     });
-    const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
+    const usage = Math.trunc(hasUsageValue ? report.meta.total.usage.value : 0);
     const usageUnits = intl.formatMessage(messages.units, {
-      units: unitsLookupKey(hasUsage ? report.meta.total.usage.units : undefined),
+      units: unitsLookupKey(hasUsageUnits ? report.meta.total.usage.units : undefined),
     });
     datum.usage = [
       {
@@ -178,22 +183,21 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
   }
 
   private getChart = () => {
-    const { groupBy, name, reportFetchStatus, report } = this.props;
+    const { name, reportFetchStatus, report } = this.props;
     const { width } = this.state;
 
     const chartDatum = this.getChartDatum();
-
     if (!report || chartDatum.usage.length === 0) {
       return null;
     }
 
     return (
-      <div className="chartOverride">
+      <>
         {reportFetchStatus === FetchStatus.inProgress ? (
           this.getSkeleton()
         ) : (
           <>
-            {groupBy === 'cluster' && this.getFreeSpace()}
+            {this.getFreeSpace()}
             <ChartBullet
               comparativeErrorMeasureData={
                 chartDatum.limit.value
@@ -253,61 +257,69 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
             />
           </>
         )}
-      </div>
+      </>
     );
   };
 
   private getFreeSpace() {
-    const { report, intl } = this.props;
-    const hasTotal = report && report.meta && report.meta.total;
-    const hasCapacity = hasTotal && report.meta.total.capacity && report.meta.total.capacity !== null;
-    const hasRequest = hasTotal && report.meta.total.request && report.meta.total.request !== null;
-    const hasUsage = hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
+    const { groupBy, intl, report } = this.props;
 
-    const capacity = Math.trunc(hasCapacity ? report.meta.total.capacity.value : 0);
-    const request = Math.trunc(hasRequest ? report.meta.total.request.value : 0);
-    const requestUnits = intl.formatMessage(messages.units, {
-      units: unitsLookupKey(hasRequest ? report.meta.total.request.units : undefined),
-    });
-    const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
-    const usageUnits = intl.formatMessage(messages.units, {
-      units: unitsLookupKey(hasUsage ? report.meta.total.usage.units : undefined),
-    });
+    if (!report || !(groupBy === 'cluster' || groupBy === 'node')) {
+      return null;
+    }
+
+    const {
+      hasCapacityCount,
+      hasCapacityCountUnits,
+      hasCapacityUnits,
+      hasCapacityUnused,
+      hasCapacityUnusedPercent,
+      hasRequestUnits,
+      hasRequestUnused,
+      hasRequestUnusedPercent,
+    } = this.getHasData();
+
+    if (!(hasCapacityUnused && hasRequestUnused)) {
+      return null;
+    }
 
     // Show negative values https://github.com/project-koku/koku-ui/issues/1214
-    const unusedRequestCapacity = capacity - request;
-    const unusedUsageCapacity = capacity - usage;
+    const capacityUnits = intl.formatMessage(messages.units, {
+      units: unitsLookupKey(hasCapacityUnits ? report.meta.total.capacity.units : undefined),
+    });
+    const capacityUnused = Math.trunc(hasCapacityUnused ? report.meta.total.capacity.unused : 0);
+    const capacityUnusedPercent = Math.trunc(hasCapacityUnusedPercent ? report.meta.total.capacity.unused_percent : 0);
 
-    let unusedRequestCapacityPercentage = request > 0 ? (request / capacity) * 100 : 0;
-    if (unusedRequestCapacityPercentage > 100) {
-      unusedRequestCapacityPercentage = 100 - unusedRequestCapacityPercentage;
-    }
-    let unusedUsageCapacityPercentage = capacity > usage ? (usage / capacity) * 100 : 0;
-    if (unusedUsageCapacityPercentage > 100) {
-      unusedUsageCapacityPercentage = 100 - unusedUsageCapacityPercentage;
-    }
+    const requestUnits = intl.formatMessage(messages.units, {
+      units: unitsLookupKey(hasRequestUnits ? report.meta.total.request.units : undefined),
+    });
+    const requestUnused = Math.trunc(hasRequestUnused ? report.meta.total.request.unused : 0);
+    const requestUnusedPercent = Math.trunc(hasRequestUnusedPercent ? report.meta.total.request.unused_percent : 0);
+
+    const chartContainer =
+      groupBy === 'node' && !(hasCapacityCount && hasCapacityCountUnits) ? styles.chartContainer : undefined;
 
     return (
-      <Grid hasGutter>
+      <Grid hasGutter style={chartContainer}>
         <GridItem md={12} lg={6}>
-          <div>{intl.formatMessage(messages.detailsUnusedUsageLabel)}</div>
-          <div style={styles.capacity}>{formatUnits(unusedUsageCapacity, usageUnits)}</div>
+          <div>{intl.formatMessage(messages.detailsUnusedCapacityLabel)}</div>
+          <div style={styles.capacity}>{formatUnits(capacityUnused, capacityUnits)}</div>
           <div>
             {intl.formatMessage(messages.detailsUnusedUnits, {
-              percentage: formatPercentage(unusedUsageCapacityPercentage, {
+              percentage: formatPercentage(capacityUnusedPercent, {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
               }),
-              units: usageUnits,
+              units: capacityUnits,
             })}
           </div>
         </GridItem>
         <GridItem md={12} lg={6}>
           <div>{intl.formatMessage(messages.detailsUnusedRequestsLabel)}</div>
-          <div style={styles.capacity}>{formatUnits(unusedRequestCapacity, requestUnits)}</div>
+          <div style={styles.capacity}>{formatUnits(requestUnused, requestUnits)}</div>
           <div>
             {intl.formatMessage(messages.detailsUnusedUnits, {
-              percentage: formatPercentage(unusedRequestCapacityPercentage, {
+              percentage: formatPercentage(requestUnusedPercent, {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
               }),
@@ -323,11 +335,62 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     const { groupBy } = this.props;
     const { width } = this.state;
 
-    if (groupBy === 'cluster') {
+    if (groupBy === 'cluster' || groupBy === 'node') {
       return width > 950 ? 115 : width > 450 ? 150 : 210;
     } else {
       return width > 700 ? 115 : width > 450 ? 150 : 180;
     }
+  };
+
+  private getHasData = () => {
+    const { report } = this.props;
+
+    // Note: When APIs return an empty data array, units are unknown. Likewise, when "platform projects" are applied,
+    // there is no "platform" project. As a workaround, we obtain values from the meta data.
+
+    const hasMeta = report && report.meta !== undefined;
+    const hasTotal = hasMeta && report.meta.total !== undefined;
+    const hasCapacity = hasTotal && report.meta.total.capacity !== undefined;
+    const hasCapacityCount = hasCapacity && report.meta.total.capacity.count !== undefined;
+    const hasCapacityCountUnits = hasCapacity && report.meta.total.capacity.count_units !== undefined;
+    const hasCapacityUnits = hasCapacity && report.meta.total.capacity.units !== undefined;
+    const hasCapacityUnused = hasCapacity && report.meta.total.capacity.unused !== undefined;
+    const hasCapacityUnusedPercent = hasCapacity && report.meta.total.capacity.unused_percent !== undefined;
+    const hasCapacityValue = hasCapacity && report.meta.total.capacity.value !== undefined;
+    const hasLimit = hasTotal && report.meta.total.limit;
+    const hasLimitUnits = hasLimit && report.meta.total.limit.value !== undefined;
+    const hasLimitValue = hasLimit && report.meta.total.limit.units !== undefined;
+    const hasRequest = hasTotal && report.meta.total.request !== undefined;
+    const hasRequestUnits = hasRequest && report.meta.total.request.units !== undefined;
+    const hasRequestUnused = hasRequest && report.meta.total.request.unused !== undefined;
+    const hasRequestUnusedPercent = hasRequest && report.meta.total.request.unused_percent !== undefined;
+    const hasRequestValue = hasRequest && report.meta.total.request.value !== undefined;
+    const hasUsage = hasTotal && report.meta.total.usage !== undefined;
+    const hasUsageUnits = hasUsage && report.meta.total.usage.units !== undefined;
+    const hasUsageValue = hasUsage && report.meta.total.usage.value !== undefined;
+
+    return {
+      hasCapacity,
+      hasCapacityCount,
+      hasCapacityCountUnits,
+      hasCapacityUnits,
+      hasCapacityUnused,
+      hasCapacityUnusedPercent,
+      hasCapacityValue,
+      hasLimit,
+      hasLimitUnits,
+      hasLimitValue,
+      hasMeta,
+      hasRequest,
+      hasRequestUnits,
+      hasRequestUnused,
+      hasRequestUnusedPercent,
+      hasRequestValue,
+      hasTotal,
+      hasUsage,
+      hasUsageUnits,
+      hasUsageValue,
+    };
   };
 
   private getItemsPerRow = () => {
@@ -343,6 +406,26 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
       </>
     );
   };
+
+  private getSubTitle() {
+    const { groupBy, intl, report } = this.props;
+
+    if (!report || !(groupBy === 'cluster' || groupBy === 'node')) {
+      return null;
+    }
+
+    const { hasCapacityCount, hasCapacityCountUnits } = this.getHasData();
+
+    const count = hasCapacityCount ? report.meta.total.capacity.count : 0;
+    const countUnits = intl.formatMessage(messages.units, {
+      units: unitsLookupKey(hasCapacityCountUnits ? report.meta.total.capacity.count_units : undefined),
+    });
+
+    if (hasCapacityCount && hasCapacityCountUnits) {
+      return <div style={styles.subtitle}>{intl.formatMessage(messages.usageSubtitle, { count, countUnits })}</div>;
+    }
+    return null;
+  }
 
   private isDatumEmpty = (datum: ChartDatum) => {
     let hasRange = false;
@@ -370,6 +453,7 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
   public render() {
     return (
       <div className="chartOverride" ref={this.containerRef}>
+        {this.getSubTitle()}
         {this.getChart()}
       </div>
     );
