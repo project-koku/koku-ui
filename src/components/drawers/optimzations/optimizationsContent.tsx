@@ -77,8 +77,13 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
   }
 
   public componentDidUpdate(prevProps: OptimizationsContentProps) {
+    const { reportQueryString } = this.props;
+
     if (prevProps.id !== this.props.id) {
       this.updateReport();
+    }
+    if (prevProps.reportQueryString !== reportQueryString) {
+      this.setState({ currentInterval: this.getDefaultTerm() });
     }
   }
 
