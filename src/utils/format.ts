@@ -228,6 +228,7 @@ export const unitsLookupKey = (units): string => {
 
   switch (lookup) {
     case 'byte_ms':
+    case 'core':
     case 'core_hours':
     case 'gb':
     case 'gb_hours':

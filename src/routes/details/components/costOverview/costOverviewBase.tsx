@@ -1,3 +1,5 @@
+import './costOverview.scss';
+
 import {
   Button,
   ButtonVariant,
@@ -169,10 +171,10 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns CPU usage chart
   private getCpuUsageChart = (widget: CostOverviewWidget) => {
-    const { intl } = this.props;
+    const { groupBy, intl } = this.props;
 
     return (
-      <Card>
+      <Card className={groupBy === 'node' ? 'cardOverride' : undefined}>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
             {intl.formatMessage(messages.cpuTitle)}
@@ -187,10 +189,10 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns memory usage chart
   private getMemoryUsageChart = (widget: CostOverviewWidget) => {
-    const { intl } = this.props;
+    const { groupBy, intl } = this.props;
 
     return (
-      <Card>
+      <Card className={groupBy === 'node' ? 'cardOverride' : undefined}>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
             {intl.formatMessage(messages.memoryTitle)}
@@ -248,10 +250,10 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns volume usage chart
   private getVolumeUsageChart = (widget: CostOverviewWidget) => {
-    const { intl } = this.props;
+    const { groupBy, intl } = this.props;
 
     return (
-      <Card>
+      <Card className={groupBy === 'node' ? 'cardOverride' : undefined}>
         <CardTitle>
           <Title headingLevel="h2" size={TitleSizes.lg}>
             {intl.formatMessage(messages.volumeTitle)}

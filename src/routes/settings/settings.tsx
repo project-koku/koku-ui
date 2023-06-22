@@ -6,6 +6,7 @@ import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
+import type { RefObject } from 'react';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -53,7 +54,7 @@ export const getIdKeyForTab = (tab: SettingsTab) => {
 };
 
 interface AvailableTab {
-  contentRef: React.ReactNode;
+  contentRef: RefObject<any>;
   tab: SettingsTab;
 }
 
@@ -81,7 +82,7 @@ const Settings: React.FC<SettingsProps> = ({ chrome }) => {
   const intl = useIntl();
 
   const getAvailableTabs = () => {
-    const availableTabs = [
+    const availableTabs: AvailableTab[] = [
       {
         contentRef: React.createRef(),
         tab: SettingsTab.costModels,

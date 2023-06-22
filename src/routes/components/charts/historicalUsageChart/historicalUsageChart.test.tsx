@@ -31,7 +31,7 @@ test('reports are formatted to datums', () => {
   render(<HistoricalUsageChart {...props} />);
   /* eslint-disable-next-line testing-library/no-node-access */
   expect(screen.getByText(props.title).parentElement).toMatchSnapshot();
-  expect(screen.getAllByText(/no data/i).length).toBe(2);
+  expect(screen.getAllByText(/no data/i).length).toBe(4);
 });
 
 test('null previous and current reports are handled', () => {

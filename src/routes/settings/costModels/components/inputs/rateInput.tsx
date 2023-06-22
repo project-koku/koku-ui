@@ -43,8 +43,10 @@ const RateInputBase: React.FC<RateInputBaseProps> = ({
       isRequired
       style={style}
       fieldId={fieldId}
-      label={label !== null && typeof label === 'object' ? intl.formatMessage(label) : label}
-      helperTextInvalid={helpText !== null && typeof helpText === 'object' ? intl.formatMessage(helpText) : helpText}
+      label={label !== null && typeof label === 'object' ? intl.formatMessage(label) : (label as string)}
+      helperTextInvalid={
+        helpText !== null && typeof helpText === 'object' ? intl.formatMessage(helpText) : (helpText as string)
+      }
       validated={validated}
     >
       <InputGroup>
