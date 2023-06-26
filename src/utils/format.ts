@@ -165,6 +165,18 @@ export const formatPercentageMarkup: PercentageFormatter = (
   return value.toLocaleString(getLocale(), options);
 };
 
+// Format optimization metrics
+export const formatOptimization: PercentageFormatter = (
+  value,
+  options: FormatOptions = {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 20, // Allow the API to set the number of decimal places
+  }
+) => {
+  const val = value.toLocaleString(getLocale(), options);
+  return val;
+};
+
 const formatUsage: UnitsFormatter = (
   value,
   options: FormatOptions = {
