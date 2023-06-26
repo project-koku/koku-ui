@@ -22,6 +22,7 @@ import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import { getTimeFromNow } from 'utils/dates';
+import { formatOptimization } from 'utils/format';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -182,22 +183,23 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     } else if (value !== null && value > 0) {
       iconOverride += ' increase';
     }
+    const val = formatOptimization(value);
     return (
       <div className="optimizationsOverride">
         <div className={iconOverride}>
           {value < 0 ? (
             <>
-              <span style={styles.value}>{value}</span>
+              <span style={styles.value}>{val}</span>
               <span className="fa fa-sort-down" />
             </>
           ) : value > 0 ? (
             <>
-              <span style={styles.value}>{value}</span>
+              <span style={styles.value}>{val}</span>
               <span className="fa fa-sort-up" />
             </>
           ) : value === 0 ? (
             <>
-              <span style={styles.value}>{value}</span>
+              <span style={styles.value}>{val}</span>
               <span className="fa fa-equals" />
             </>
           ) : (
@@ -261,11 +263,15 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
   };
 
   private getFormattedValue = value => {
-    return value !== undefined ? value : <EmptyValueState />;
+    return value !== undefined ? formatOptimization(value) : <EmptyValueState />;
   };
 
   private getOriginalValue = (amount, variation) => {
-    return amount !== undefined && variation !== undefined ? amount - variation : <EmptyValueState />;
+    return amount !== undefined && variation !== undefined ? (
+      formatOptimization(amount - variation)
+    ) : (
+      <EmptyValueState />
+    );
   };
 
   private getRecommendationTerm = (): RecommendationItem => {
