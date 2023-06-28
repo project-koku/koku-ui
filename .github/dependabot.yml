@@ -6,7 +6,7 @@ updates:
     directory: "/" # Location of package manifests
     target-branch: "main"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     open-pull-requests-limit: 10
     labels:
       - "dependency-bot"
