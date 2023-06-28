@@ -183,23 +183,22 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     } else if (value !== null && value > 0) {
       iconOverride += ' increase';
     }
-    const val = formatOptimization(value);
     return (
       <div className="optimizationsOverride">
         <div className={iconOverride}>
           {value < 0 ? (
             <>
-              <span style={styles.value}>{val}</span>
+              <span style={styles.value}>{formatOptimization(value)}</span>
               <span className="fa fa-sort-down" />
             </>
           ) : value > 0 ? (
             <>
-              <span style={styles.value}>{val}</span>
+              <span style={styles.value}>{formatOptimization(value)}</span>
               <span className="fa fa-sort-up" />
             </>
           ) : value === 0 ? (
             <>
-              <span style={styles.value}>{val}</span>
+              <span style={styles.value}>{formatOptimization(value)}</span>
               <span className="fa fa-equals" />
             </>
           ) : (
