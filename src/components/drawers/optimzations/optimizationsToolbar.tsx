@@ -5,6 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { PerspectiveSelect } from 'routes/components/perspective/perspectiveSelect';
 import { createMapStateToProps } from 'store/common';
+import { hasNotification, hasRecommendation } from 'utils/recomendations';
 
 import { Interval } from './optimizationsContent';
 
@@ -41,17 +42,17 @@ export class OptimizationsToolbarBase extends React.Component<OptimizationsToolb
 
     return [
       {
-        isDisabled: !(recommendations && recommendations.short_term && !recommendations.short_term.notifications),
+        isDisabled: !hasRecommendation(recommendations?.short_term) && !hasNotification(recommendations?.short_term),
         label: messages.optimizationsShortTerm,
         value: Interval.short_term,
       },
       {
-        isDisabled: !(recommendations && recommendations.medium_term && !recommendations.medium_term.notifications),
+        isDisabled: !hasRecommendation(recommendations?.medium_term) && !hasNotification(recommendations?.medium_term),
         label: messages.optimizationsMediumTerm,
         value: Interval.medium_term,
       },
       {
-        isDisabled: !(recommendations && recommendations.long_term && !recommendations.long_term.notifications),
+        isDisabled: !hasRecommendation(recommendations?.long_term) && !hasNotification(recommendations?.long_term),
         label: messages.optimizationsLongTerm,
         value: Interval.long_term,
       },

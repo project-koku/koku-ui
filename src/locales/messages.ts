@@ -2534,6 +2534,11 @@ export default defineMessages({
     description: 'Settings in Cost Management',
     id: 'notAuthorizedStateSettings',
   },
+  notificationsAlertTitle: {
+    defaultMessage: 'Duration based notifications',
+    description: 'Duration based notifications',
+    id: 'notificationsAlertTitle',
+  },
   oci: {
     defaultMessage: 'Oracle Cloud Infrastructure',
     description: 'Oracle Cloud Infrastructure',

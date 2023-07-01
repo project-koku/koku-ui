@@ -1,8 +1,9 @@
 import 'routes/components/dataTable/dataTable.scss';
 
+import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
-import type { RosReport } from 'api/ros/ros';
+import type { RecommendationItems, RecommendationReport } from 'api/ros/recommendations';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -15,6 +16,7 @@ import { getGroupById } from 'routes/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
 import { uiActions, uiSelectors } from 'store/ui';
 import { getTimeFromNow } from 'utils/dates';
+import { hasNotification } from 'utils/recomendations';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -23,7 +25,7 @@ interface OptimizationsTableOwnProps extends RouterComponentProps {
   isLoading?: boolean;
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
-  report: RosReport;
+  report: RecommendationReport;
   reportQueryString: string;
 }
 
@@ -121,6 +123,7 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
         const project = item.project ? item.project : '';
         const workload = item.workload ? item.workload : '';
         const workloadType = item.workload_type ? item.workload_type : '';
+        const showWarningIcon = this.hasWarning(item?.recommendations?.duration_based);
 
         rows.push({
           cells: [
@@ -128,7 +131,19 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
             { value: project, hidden: groupBy === 'project' },
             { value: workload },
             { value: workloadType },
-            { value: cluster, hidden: groupBy === 'cluster' },
+            {
+              value: (
+                <>
+                  {cluster}
+                  {showWarningIcon ? (
+                    <span style={styles.warningIcon}>
+                      <ExclamationTriangleIcon color="orange" />
+                    </span>
+                  ) : null}
+                </>
+              ),
+              hidden: groupBy === 'cluster',
+            },
             { value: lastReported, style: styles.lastItem },
           ],
           optimization: {
@@ -149,6 +164,23 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
       columns: filteredColumns,
       rows: filteredRows,
     });
+  };
+
+  private hasWarning = (recommendations: RecommendationItems) => {
+    // if (hasRecommendation(recommendations.short_term)) {
+    //   return hasNotification(recommendations.short_term);
+    // }
+    // if (hasRecommendation(recommendations.medium_term)) {
+    //   return hasNotification(recommendations.medium_term);
+    // }
+    // if (hasRecommendation(recommendations.long_term)) {
+    //   return hasNotification(recommendations.long_term);
+    // }
+    return (
+      hasNotification(recommendations.short_term) ||
+      hasNotification(recommendations.medium_term) ||
+      hasNotification(recommendations.long_term)
+    );
   };
 
   private handleOnRowClick = (event: React.KeyboardEvent | React.MouseEvent, rowIndex: number) => {
