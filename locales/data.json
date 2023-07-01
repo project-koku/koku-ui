@@ -10291,6 +10291,12 @@
         "value": "Settings in Cost Management"
       }
     ],
+    "notificationsAlertTitle": [
+      {
+        "type": 0,
+        "value": "Duration based notifications"
+      }
+    ],
     "oci": [
       {
         "type": 0,

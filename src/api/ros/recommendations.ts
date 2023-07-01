@@ -33,10 +33,12 @@ export interface RecommendationItem {
   duration_in_hours?: string;
   monitoring_start_time?: string;
   monitoring_end_time?: string;
-  notifications?: {
-    type?: string;
-    message?: string;
-  };
+  notifications?: [
+    {
+      type?: string;
+      message?: string;
+    }
+  ];
 }
 
 export interface RecommendationItems {
