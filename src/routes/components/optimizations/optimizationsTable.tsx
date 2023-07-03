@@ -167,15 +167,6 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
   };
 
   private hasWarning = (recommendations: RecommendationItems) => {
-    // if (hasRecommendation(recommendations.short_term)) {
-    //   return hasNotification(recommendations.short_term);
-    // }
-    // if (hasRecommendation(recommendations.medium_term)) {
-    //   return hasNotification(recommendations.medium_term);
-    // }
-    // if (hasRecommendation(recommendations.long_term)) {
-    //   return hasNotification(recommendations.long_term);
-    // }
     return (
       hasNotification(recommendations.short_term) ||
       hasNotification(recommendations.medium_term) ||
