@@ -17,6 +17,7 @@ import { styles } from './costCategory.styles';
 interface CostCategoryToolbarOwnProps {
   isAllSelected?: boolean;
   isDisabled?: boolean;
+  isReadOnly?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onBulkSelected(action: string);
@@ -57,18 +58,19 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
   }
 
   private getActions = () => {
-    const { intl, onDisableTags, onEnableTags, selectedItems } = this.props;
+    const { intl, isReadOnly, onDisableTags, onEnableTags, selectedItems } = this.props;
 
-    const isDisabled = selectedItems.length === 0;
+    const isDisabled = isReadOnly || selectedItems.length === 0;
+    const tooltip = intl.formatMessage(isReadOnly ? messages.readOnlyPermissions : messages.selectCategories);
 
     return (
       <>
-        <Tooltip content={intl.formatMessage(messages.selectCategories)}>
+        <Tooltip content={tooltip}>
           <Button isAriaDisabled={isDisabled} key="save" onClick={onEnableTags} variant={ButtonVariant.primary}>
             {intl.formatMessage(messages.enableCategories)}
           </Button>
         </Tooltip>
-        <Tooltip content={intl.formatMessage(messages.selectCategories)}>
+        <Tooltip content={tooltip}>
           <Button
             isAriaDisabled={isDisabled}
             key="reset"
@@ -98,6 +100,7 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
     const {
       isAllSelected,
       isDisabled,
+      isReadOnly,
       itemsPerPage,
       itemsTotal,
       onBulkSelected,
@@ -115,6 +118,7 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
         categoryOptions={categoryOptions}
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
+        isReadOnly={isReadOnly}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onBulkSelected={onBulkSelected}

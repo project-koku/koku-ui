@@ -17,6 +17,7 @@ import { styles } from './tagDetails.styles';
 interface TagToolbarOwnProps {
   isAllSelected?: boolean;
   isDisabled?: boolean;
+  isReadOnly?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onBulkSelected(action: string);
@@ -54,18 +55,19 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
   }
 
   private getActions = () => {
-    const { intl, onDisableTags, onEnableTags, selectedItems } = this.props;
+    const { intl, isReadOnly, onDisableTags, onEnableTags, selectedItems } = this.props;
 
-    const isDisabled = selectedItems.length === 0;
+    const isDisabled = isReadOnly || selectedItems.length === 0;
+    const tooltip = intl.formatMessage(isReadOnly ? messages.readOnlyPermissions : messages.selectCategories);
 
     return (
       <>
-        <Tooltip content={intl.formatMessage(messages.selectTags)}>
+        <Tooltip content={tooltip}>
           <Button isAriaDisabled={isDisabled} key="save" onClick={onEnableTags} variant={ButtonVariant.primary}>
             {intl.formatMessage(messages.enableTags)}
           </Button>
         </Tooltip>
-        <Tooltip content={intl.formatMessage(messages.selectTags)}>
+        <Tooltip content={tooltip}>
           <Button
             isAriaDisabled={isDisabled}
             key="reset"
@@ -95,6 +97,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
     const {
       isAllSelected,
       isDisabled,
+      isReadOnly,
       itemsPerPage,
       itemsTotal,
       onBulkSelected,
@@ -112,6 +115,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
         categoryOptions={categoryOptions}
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
+        isReadOnly={isReadOnly}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onBulkSelected={onBulkSelected}

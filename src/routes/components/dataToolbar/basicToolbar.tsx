@@ -36,6 +36,7 @@ interface BasicToolbarOwnProps {
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
   isDisabled?: boolean;
+  isReadOnly?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onBulkSelected?: (action: string) => void;
@@ -124,7 +125,8 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
   // Bulk select
 
   public getBulkSelectComponent = () => {
-    const { isAllSelected, isBulkSelectDisabled, isDisabled, itemsPerPage, itemsTotal, selectedItems } = this.props;
+    const { isAllSelected, isBulkSelectDisabled, isDisabled, isReadOnly, itemsPerPage, itemsTotal, selectedItems } =
+      this.props;
     const { isBulkSelectOpen } = this.state;
 
     return getBulkSelect({
@@ -135,6 +137,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       isBulkSelectDisabled,
       isBulkSelectOpen,
       isDisabled,
+      isReadOnly,
       itemsPerPage,
       itemsTotal,
       selectedItems,

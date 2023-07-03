@@ -34,7 +34,7 @@ const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl,
     return [
       {
         style: { pointerEvents: 'auto' },
-        tooltip: intl.formatMessage(messages.costModelsReadOnly),
+        tooltip: intl.formatMessage(messages.readOnlyPermissions),
         isDisabled: true,
         title: intl.formatMessage(messages.costModelsSourceDelete),
       },

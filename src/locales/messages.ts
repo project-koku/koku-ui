@@ -637,11 +637,6 @@ export default defineMessages({
     description: 'Should not exceed 10 decimals',
     id: 'costModelsRateTooLong',
   },
-  costModelsReadOnly: {
-    defaultMessage: 'You have read only permissions',
-    description: 'You have read only permissions',
-    id: 'costModelsReadOnly',
-  },
   costModelsRefreshDialog: {
     defaultMessage: 'Refresh this dialog',
     description: 'Refresh this dialog',
@@ -3017,6 +3012,11 @@ export default defineMessages({
     defaultMessage: 'Failed to get RBAC information',
     description: 'RBAC error title',
     id: 'rbacErrorTitle',
+  },
+  readOnlyPermissions: {
+    defaultMessage: 'You have read only permissions',
+    description: 'You have read only permissions',
+    id: 'readOnlyPermissions',
   },
   recommended: {
     defaultMessage: 'Recommended',
