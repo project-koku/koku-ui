@@ -17,6 +17,7 @@ interface PlatformTableOwnProps extends RouterComponentProps, WrappedComponentPr
   filterBy?: any;
   isAllSelected?: boolean;
   isLoading?: boolean;
+  isReadOnly?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
@@ -59,7 +60,7 @@ class PlatformTableBase extends React.Component<PlatformTableProps, PlatformTabl
   }
 
   private initDatum = () => {
-    const { intl, isAllSelected, report, selectedItems } = this.props;
+    const { intl, isAllSelected, isReadOnly, report, selectedItems } = this.props;
     if (!report) {
       return;
     }
@@ -112,6 +113,7 @@ class PlatformTableBase extends React.Component<PlatformTableProps, PlatformTabl
         ],
         item,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),
+        selectionDisabled: isReadOnly,
       });
     });
 

@@ -4,6 +4,7 @@ import {
   DropdownPosition,
   DropdownToggle,
   DropdownToggleCheckbox,
+  Tooltip,
 } from '@patternfly/react-core';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
@@ -19,6 +20,7 @@ export const getBulkSelect = ({
   isBulkSelectDisabled,
   isBulkSelectOpen,
   isDisabled,
+  isReadOnly,
   itemsPerPage,
   itemsTotal,
   selectedItems,
@@ -30,6 +32,7 @@ export const getBulkSelect = ({
   isBulkSelectDisabled?: boolean;
   isBulkSelectOpen?: boolean;
   isDisabled?: boolean;
+  isReadOnly?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   selectedItems?: ComputedReportItem[];
@@ -52,13 +55,13 @@ export const getBulkSelect = ({
     </DropdownItem>,
   ];
 
-  return (
+  const bulkSelect = (
     <Dropdown
       onSelect={handleOnBulkSelect}
       position={DropdownPosition.left}
       toggle={
         <DropdownToggle
-          isDisabled={isDisabled || isBulkSelectDisabled}
+          isDisabled={isDisabled || isReadOnly || isBulkSelectDisabled}
           splitButtonItems={[
             <DropdownToggleCheckbox
               id="bulk-select"
@@ -82,5 +85,10 @@ export const getBulkSelect = ({
       isOpen={isBulkSelectOpen}
       dropdownItems={dropdownItems}
     />
+  );
+  return isReadOnly ? (
+    <Tooltip content={intl.formatMessage(messages.readOnlyPermissions)}>{bulkSelect}</Tooltip>
+  ) : (
+    bulkSelect
   );
 };

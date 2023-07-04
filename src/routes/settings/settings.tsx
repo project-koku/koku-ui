@@ -24,7 +24,7 @@ import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import type { ChromeComponentProps } from 'utils/chrome';
 import { withChrome } from 'utils/chrome';
 import { formatPath } from 'utils/paths';
-import { hasCostModelAccess } from 'utils/userAccess';
+import { hasCostModelAccess, hasSettingsAccess } from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
 import { styles } from './settings.styles';
@@ -76,7 +76,7 @@ export interface SettingsStateProps {
 
 type SettingsProps = SettingsOwnProps;
 
-const Settings: React.FC<SettingsProps> = ({ chrome }) => {
+const Settings: React.FC<SettingsProps> = () => {
   const [activeTabKey, setActiveTabKey] = useState(0);
   const { isSettingsPlatformEnabled, userAccess, userAccessFetchStatus } = useMapToProps();
   const intl = useIntl();
@@ -146,19 +146,19 @@ const Settings: React.FC<SettingsProps> = ({ chrome }) => {
 
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === SettingsTab.costModels) {
-      return chrome.isOrgAdmin || hasCostModelAccess(userAccess) ? (
+      return hasCostModelAccess(userAccess) ? (
         <CostModelsDetails />
       ) : (
         <NotAuthorized pathname={formatPath(routes.costModel.path)} />
       );
     } else if (currentTab === SettingsTab.calculations) {
-      return chrome.isOrgAdmin ? <Calculations /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <Calculations /> : notAuthorized;
     } else if (currentTab === SettingsTab.costCategory) {
-      return chrome.isOrgAdmin ? <CostCategory /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <CostCategory /> : notAuthorized;
     } else if (currentTab === SettingsTab.platformProjects) {
-      return chrome.isOrgAdmin ? <PlatformProjects /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <PlatformProjects /> : notAuthorized;
     } else if (currentTab === SettingsTab.tags) {
-      return chrome.isOrgAdmin ? <TagDetails /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <TagDetails /> : notAuthorized;
     } else {
       return emptyTab;
     }

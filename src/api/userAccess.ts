@@ -26,6 +26,7 @@ export const enum UserAccessType {
   ocp = 'ocp',
   rhel = 'ocp', // Todo: update to use RHEL when APIs are available
   ros = 'ocp',
+  settings = 'settings',
 }
 
 // If the user-access API is called without a query parameter, all types are returned in the response
