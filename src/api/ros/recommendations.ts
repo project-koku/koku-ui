@@ -15,8 +15,17 @@ export interface Notification {
 }
 
 export interface RecommendationItem {
-  // confidence_level?: number;
   config: {
+    limits: {
+      memory?: RecommendationValue;
+      cpu?: RecommendationValue;
+    };
+    requests: {
+      memory?: RecommendationValue;
+      cpu?: RecommendationValue;
+    };
+  };
+  current: {
     limits: {
       memory?: RecommendationValue;
       cpu?: RecommendationValue;
