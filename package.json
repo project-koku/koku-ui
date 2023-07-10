@@ -105,7 +105,7 @@
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "eslint-plugin-testing-library": "^5.11.0",
     "git-revision-webpack-plugin": "^5.0.0",
-    "jest": "^29.5.0",
+    "jest": "^29.6.1",
     "jest-environment-jsdom": "^29.5.0",
     "jest-mock-axios": "^4.7.2",
     "jws": "^4.0.0",
