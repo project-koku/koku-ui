@@ -8,6 +8,12 @@ export interface RecommendationValue {
   format?: string;
 }
 
+export interface Notification {
+  code?: number;
+  message?: string;
+  type?: string;
+}
+
 export interface RecommendationItem {
   // confidence_level?: number;
   config: {
@@ -33,12 +39,9 @@ export interface RecommendationItem {
   duration_in_hours?: string;
   monitoring_start_time?: string;
   monitoring_end_time?: string;
-  notifications?: [
-    {
-      type?: string;
-      message?: string;
-    },
-  ];
+  notifications?: {
+    [key: string]: Notification;
+  };
 }
 
 export interface RecommendationItems {
