@@ -37,7 +37,7 @@ export interface RecommendationItem {
     {
       type?: string;
       message?: string;
-    }
+    },
   ];
 }
 
