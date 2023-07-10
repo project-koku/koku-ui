@@ -1,10 +1,18 @@
-import type { RecommendationItem } from 'api/ros/recommendations';
+import type { Notification, RecommendationItem } from 'api/ros/recommendations';
+
+export const getNotifications = (term: RecommendationItem): Notification[] => {
+  if (!hasNotification(term)) {
+    return undefined;
+  }
+  return Object.keys(term.notifications).map(key => term.notifications[key]);
+};
 
 export const hasNotification = (term: RecommendationItem) => {
   if (!(term && term.notifications)) {
     return false;
   }
-  return term.notifications.length > 0;
+  const keys = Object.keys(term.notifications);
+  return keys.length > 0;
 };
 
 export const hasRecommendation = (term: RecommendationItem) => {

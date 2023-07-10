@@ -26,7 +26,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import { getTimeFromNow } from 'utils/dates';
 import { formatOptimization } from 'utils/format';
-import { hasRecommendation, hasRecommendationValues } from 'utils/recomendations';
+import { getNotifications, hasRecommendation, hasRecommendationValues } from 'utils/recomendations';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -101,11 +101,12 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     const { intl, report } = this.props;
     const { currentInterval } = this.state;
 
-    const recommendations = report?.recommendations?.duration_based;
-    const recommendation = recommendations ? recommendations[currentInterval] : undefined;
-    const notifications = recommendation && recommendation.notifications ? recommendation.notifications : [];
+    let notifications;
+    if (report?.recommendations?.duration_based?.[currentInterval]) {
+      notifications = getNotifications(report.recommendations.duration_based[currentInterval]);
+    }
 
-    if (notifications.length === 0) {
+    if (!notifications) {
       return null;
     }
 
