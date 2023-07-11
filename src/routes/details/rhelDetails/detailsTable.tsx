@@ -196,7 +196,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             groupBy,
             id: item.id,
             router,
-            title: label.toString(),
+            title: label.toString(), // Convert IDs if applicable
           })}
         >
           {label}

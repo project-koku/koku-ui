@@ -103,7 +103,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             name: '',
           },
           {
-            orderBy: groupBy,
+            orderBy: groupBy === 'subscription_guid' ? 'subscription_name' : groupBy,
             name: intl.formatMessage(messages.detailsResourceNames, { value: groupBy }),
             ...(computedItems.length && { isSortable: true }),
           },
@@ -123,7 +123,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
     computedItems.map((item, index) => {
       const cost = this.getTotalCost(item, index);
-      const label = item && item.label !== null ? item.label : '';
+      const label = item && item.label && item.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const isDisabled = label === `${noPrefix}${groupBy}` || label === `${noPrefix}${groupByTagKey}`;
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
@@ -139,7 +139,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             groupBy,
             id: item.id,
             router,
-            title: label.toString(),
+            title: label.toString(), // Convert IDs if applicable
           })}
         >
           {label}

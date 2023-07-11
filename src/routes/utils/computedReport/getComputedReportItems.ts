@@ -254,6 +254,8 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
             label = val.account_alias;
           } else if (itemLabelKey === 'cluster' && cluster_alias) {
             label = cluster_alias;
+          } else if (itemLabelKey === 'subscription_guid' && val.subscription_name) {
+            label = val.subscription_name;
           } else if (val[itemLabelKey] instanceof Object) {
             label = val[itemLabelKey].value;
           } else {
