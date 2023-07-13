@@ -2,6 +2,7 @@ import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/g
 import global_disabled_color_100 from '@patternfly/react-tokens/dist/js/global_disabled_color_100';
 import global_FontSize_xs from '@patternfly/react-tokens/dist/js/global_FontSize_xs';
 import global_spacer_3xl from '@patternfly/react-tokens/dist/js/global_spacer_3xl';
+import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
 import global_spacer_xs from '@patternfly/react-tokens/dist/js/global_spacer_xs';
 import type React from 'react';
 
@@ -47,5 +48,8 @@ export const styles = {
   },
   nameColumn: {
     width: '1%',
+  },
+  warningIcon: {
+    paddingLeft: global_spacer_sm.var,
   },
 } as { [className: string]: React.CSSProperties };

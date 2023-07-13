@@ -17,6 +17,7 @@ import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getC
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
+import { rbacActions, rbacSelectors } from 'store/rbac';
 import { reportActions, reportSelectors } from 'store/reports';
 
 import { styles } from './tagDetails.styles';
@@ -32,6 +33,7 @@ export interface TagDetailsMapProps {
 }
 
 export interface TagDetailsStateProps {
+  isReadOnly?: boolean;
   report?: Report;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
@@ -63,7 +65,7 @@ const TagDetails: React.FC<TagDetailsProps> = () => {
   const [selectedItems, setSelectedItems] = useState([]);
   const intl = useIntl();
 
-  const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({ query });
+  const { isReadOnly, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({ query });
 
   const getComputedItems = () => {
     return getUnsortedComputedReportItems({
@@ -111,6 +113,7 @@ const TagDetails: React.FC<TagDetailsProps> = () => {
         filterBy={query.filter_by}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
+        isReadOnly={isReadOnly}
         orderBy={query.order_by}
         onSelected={handleOnSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
@@ -129,6 +132,7 @@ const TagDetails: React.FC<TagDetailsProps> = () => {
       <TagToolbar
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
+        isReadOnly={isReadOnly}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onBulkSelected={handleOnBulkSelected}
@@ -248,13 +252,21 @@ const useMapToProps = ({ query }: TagDetailsMapProps): TagDetailsStateProps => {
     reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString)
   );
 
+  const canWrite = useSelector((state: RootState) => rbacSelectors.isSettingsWritePermission(state));
+  const rbacStatus = useSelector((state: RootState) => rbacSelectors.selectRbacStatus(state));
+  const rbacError = useSelector((state: RootState) => rbacSelectors.selectRbacError(state));
+
   useEffect(() => {
     if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
       dispatch(reportActions.fetchReport(reportPathsType, reportType, reportQueryString));
     }
+    if (!rbacError && rbacStatus !== FetchStatus.inProgress) {
+      dispatch(rbacActions.fetchRbac());
+    }
   }, [query]);
 
   return {
+    isReadOnly: !canWrite,
     report,
     reportError,
     reportFetchStatus,

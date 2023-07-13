@@ -1,4 +1,4 @@
-import { PageSection, Title, TitleSizes } from '@patternfly/react-core';
+import { PageSection, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -8,6 +8,7 @@ import { CostType } from 'routes/components/costType';
 import { Currency } from 'routes/components/currency';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
+import { rbacActions, rbacSelectors } from 'store/rbac';
 import { settingsActions, settingsSelectors } from 'store/settings';
 import { getCostType, getCurrency, setAccountCurrency, setCostType, setCurrency } from 'utils/localStorage';
 import type { RouterComponentProps } from 'utils/router';
@@ -20,10 +21,12 @@ interface SettingsOwnProps {
 }
 
 interface SettingsDispatchProps {
+  fetchRbac: typeof rbacActions.fetchRbac;
   updateSettings: typeof settingsActions.updateSettings;
 }
 
 interface SettingsStateProps {
+  canWrite?: boolean;
   updateSettingsStatus: FetchStatus;
 }
 
@@ -45,8 +48,12 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
   };
   public state: SettingsState = { ...this.defaultState };
 
+  public componentDidMount() {
+    this.updateReport();
+  }
+
   private getCostType = () => {
-    const { intl } = this.props;
+    const { canWrite, intl } = this.props;
     const { currentCostType } = this.state;
 
     return (
@@ -56,19 +63,22 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
         </Title>
         {intl.formatMessage(messages.costTypeSettingsDesc)}
         <div style={styles.costType}>
-          <CostType
-            costType={currentCostType}
-            isLocalStorage={false}
-            onSelect={this.handleOnCostTypeSelected}
-            showLabel={false}
-          />
+          {this.getTooltip(
+            <CostType
+              costType={currentCostType}
+              isDisabled={!canWrite}
+              isLocalStorage={false}
+              onSelect={this.handleOnCostTypeSelected}
+              showLabel={false}
+            />
+          )}
         </div>
       </div>
     );
   };
 
   private getCurrency = () => {
-    const { intl } = this.props;
+    const { canWrite, intl } = this.props;
     const { currentCurrency } = this.state;
 
     return (
@@ -78,15 +88,24 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
         </Title>
         {intl.formatMessage(messages.currencyDesc)}
         <div style={styles.currency}>
-          <Currency
-            currency={currentCurrency}
-            isLocalStorage={false}
-            onSelect={this.handleOnCurrencySelected}
-            showLabel={false}
-          />
+          {this.getTooltip(
+            <Currency
+              currency={currentCurrency}
+              isDisabled={!canWrite}
+              isLocalStorage={false}
+              onSelect={this.handleOnCurrencySelected}
+              showLabel={false}
+            />
+          )}
         </div>
       </div>
     );
+  };
+
+  private getTooltip = comp => {
+    const { canWrite, intl } = this.props;
+
+    return !canWrite ? <Tooltip content={intl.formatMessage(messages.readOnlyPermissions)}>{comp}</Tooltip> : comp;
   };
 
   private handleOnCostTypeSelected = value => {
@@ -120,6 +139,11 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
     });
   };
 
+  private updateReport = () => {
+    const { fetchRbac } = this.props;
+    fetchRbac();
+  };
+
   public render() {
     return (
       <PageSection isFilled>
@@ -135,11 +159,13 @@ const mapStateToProps = createMapStateToProps<SettingsOwnProps, SettingsStatePro
   const updateSettingsStatus = settingsSelectors.selectSettingsUpdateStatus(state);
 
   return {
+    canWrite: rbacSelectors.isSettingsWritePermission(state),
     updateSettingsStatus,
   };
 });
 
 const mapDispatchToProps: SettingsDispatchProps = {
+  fetchRbac: rbacActions.fetchRbac,
   updateSettings: settingsActions.updateSettings,
 };
 

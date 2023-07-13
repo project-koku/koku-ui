@@ -19,7 +19,7 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCurrency } from 'utils/localStorage';
 import { formatPath } from 'utils/paths';
-import { breakdownDescKey } from 'utils/props';
+import { breakdownDescKey, breakdownTitleKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -86,6 +86,8 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, BreakdownStateP
     providersQueryString
   );
 
+  const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
+
   return {
     costOverviewComponent: <CostOverview currency={currency} groupBy={groupBy} report={report} />,
     currency,
@@ -107,7 +109,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, BreakdownStateP
     reportPathsType,
     reportQueryString,
     tagPathsType: TagPathsType.azure,
-    title: groupByValue,
+    title,
   };
 });
 

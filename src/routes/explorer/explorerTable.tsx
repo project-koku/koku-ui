@@ -145,6 +145,13 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
         : groupBy,
     });
 
+    let orderBy = groupBy;
+    if (perspective === PerspectiveType.aws || perspective === PerspectiveType.awsOcp) {
+      orderBy = groupBy === 'account' ? 'account_alias' : groupBy;
+    } else if (perspective === PerspectiveType.azure || perspective === PerspectiveType.azureOcp) {
+      orderBy = groupBy === 'subscription_guid' ? 'subscription_name' : groupBy;
+    }
+
     // Add first two column headings (i.e., select and name)
     const columns =
       groupByCostCategory || groupByTagKey || groupByOrg
@@ -167,7 +174,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
             {
               date: undefined,
               name: intl.formatMessage(messages.groupByValueNames, { groupBy }),
-              orderBy: groupBy === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupBy,
+              orderBy,
               ...(computedItems.length && { isSortable: true }),
             },
             {
@@ -218,7 +225,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     // Sort by date and fill in missing cells
     computedItems.map(rowItem => {
       const cells = [];
-      let desc; // First column description (i.e., show ID if different than label)
+      let desc; // First column description (i.e., show ID if different from label)
       let name; // For first column resource name
       let selectItem; // Save for row selection
       let isOverheadCosts = false; // True if item has overhead costs

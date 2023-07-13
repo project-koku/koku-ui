@@ -24,8 +24,11 @@ export const enum UserAccessType {
   ibm = 'ibm',
   oci = 'oci',
   ocp = 'ocp',
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   rhel = 'ocp', // Todo: update to use RHEL when APIs are available
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   ros = 'ocp',
+  settings = 'settings',
 }
 
 // If the user-access API is called without a query parameter, all types are returned in the response
