@@ -7,6 +7,9 @@ export interface RosData {
   id?: number;
   project?: string;
   last_reported?: string;
+  recommendations?: {
+    duration_based?: any;
+  };
   workload?: string;
   workload_type?: string;
 }

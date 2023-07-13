@@ -45,7 +45,7 @@ type PermissionsProps = PermissionsOwnProps & PermissionsStateProps;
 
 const PermissionsBase: React.FC<PermissionsProps> = ({
   children = null,
-  chrome,
+  // chrome,
   isFinsightsFeatureEnabled,
   isIbmFeatureEnabled,
   isRosFeatureEnabled,
@@ -68,7 +68,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const ocp = hasOcpAccess(userAccess);
     const rhel = isFinsightsFeatureEnabled && hasRhelAccess(userAccess);
     const ros = isRosFeatureEnabled && hasRosAccess(userAccess);
-    const settings = isSettingsFeatureEnabled && (chrome.isOrgAdmin || costModel);
+    const settings = isSettingsFeatureEnabled;
 
     switch (pathname) {
       case formatPath(routes.explorer.path):

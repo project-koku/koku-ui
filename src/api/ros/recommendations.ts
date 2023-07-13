@@ -8,9 +8,24 @@ export interface RecommendationValue {
   format?: string;
 }
 
+export interface Notification {
+  code?: number;
+  message?: string;
+  type?: string;
+}
+
 export interface RecommendationItem {
-  // confidence_level?: number;
   config: {
+    limits: {
+      memory?: RecommendationValue;
+      cpu?: RecommendationValue;
+    };
+    requests: {
+      memory?: RecommendationValue;
+      cpu?: RecommendationValue;
+    };
+  };
+  current: {
     limits: {
       memory?: RecommendationValue;
       cpu?: RecommendationValue;
@@ -34,8 +49,7 @@ export interface RecommendationItem {
   monitoring_start_time?: string;
   monitoring_end_time?: string;
   notifications?: {
-    type?: string;
-    message?: string;
+    [key: string]: Notification;
   };
 }
 

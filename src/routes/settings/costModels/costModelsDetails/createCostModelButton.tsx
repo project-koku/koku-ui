@@ -36,7 +36,7 @@ const buttonMergeProps = (
 
   return {
     isDisabled: !canWrite,
-    tooltip: intl.formatMessage(messages.costModelsReadOnly),
+    tooltip: intl.formatMessage(messages.readOnlyPermissions),
     children: (
       <Button isDisabled={!canWrite} onClick={openWizard}>
         {intl.formatMessage(messages.costModelsWizardCreateCostModel)}

@@ -17,7 +17,6 @@ export const enum DateRangeType {
   previousMonthToDate = 'previous_month_to_date', // Previous and current month (Dec 1 - Jan 18)
   lastNinetyDays = 'last_ninety_days', // Last 90 days
   lastSixtyDays = 'last_sixty_days', // Last 60 days (Nov 18 - Jan 17)
-  lastSixtyFiveDays = 'last_sixty_days', // Last 65 days (Nov 18 - Jan 17)
   lastThirtyDays = 'last_thirty_days', // Last 30 days (Dec 18 - Jan 17)
 }
 

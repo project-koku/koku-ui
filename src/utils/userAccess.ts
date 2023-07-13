@@ -110,3 +110,9 @@ export const hasRosAccess = (userAccess: UserAccess) => {
 export const isRosAvailable = (userAccess: UserAccess, rosProviders: Providers) => {
   return hasRosAccess(userAccess) && hasProviders(rosProviders);
 };
+
+// Returns true if user has access to settings tabs
+export const hasSettingsAccess = (userAccess: UserAccess) => {
+  // Todo: test "settings" access when user-access API has been updated
+  return userAccess !== undefined; // hasAccess(userAccess, UserAccessType.settings);
+};
