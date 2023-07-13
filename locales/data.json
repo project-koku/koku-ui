@@ -1410,12 +1410,6 @@
         "value": "Should not exceed 10 decimals"
       }
     ],
-    "costModelsReadOnly": [
-      {
-        "type": 0,
-        "value": "You have read only permissions"
-      }
-    ],
     "costModelsRefreshDialog": [
       {
         "type": 0,
@@ -10291,6 +10285,12 @@
         "value": "Settings in Cost Management"
       }
     ],
+    "notificationsAlertTitle": [
+      {
+        "type": 0,
+        "value": "Duration based notifications"
+      }
+    ],
     "oci": [
       {
         "type": 0,
@@ -11228,6 +11228,12 @@
       {
         "type": 0,
         "value": "Failed to get RBAC information"
+      }
+    ],
+    "readOnlyPermissions": [
+      {
+        "type": 0,
+        "value": "You have read only permissions"
       }
     ],
     "recommended": [

@@ -89,7 +89,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
     const actions = createActions(stateName, canWrite, [
       {
         title: intl.formatMessage(messages.delete),
-        tooltip: intl.formatMessage(messages.costModelsReadOnly),
+        tooltip: intl.formatMessage(messages.readOnlyPermissions),
         onClick: (_evt: React.MouseEvent, _rowIx: number, rowData: IRowData) => {
           openDeleteDialog(rowData.data);
         },

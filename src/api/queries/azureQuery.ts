@@ -14,6 +14,7 @@ interface AzureGroupBys {
 
 interface AzureOrderBys {
   subscription_guid?: string;
+  subscription_name?: string;
   resource_location?: string;
   service_name?: string;
   cost?: string;

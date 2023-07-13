@@ -17,6 +17,7 @@ import { styles } from './platformProjects.styles';
 interface PlatformToolbarOwnProps {
   isAllSelected?: boolean;
   isDisabled?: boolean;
+  isReadOnly?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onAddProjects();
@@ -57,18 +58,19 @@ export class PlatformToolbarBase extends React.Component<PlatformToolbarProps, P
   }
 
   private getActions = () => {
-    const { intl, onAddProjects, onRemoveProjects, selectedItems } = this.props;
+    const { intl, isReadOnly, onAddProjects, onRemoveProjects, selectedItems } = this.props;
 
-    const isDisabled = selectedItems.length === 0;
+    const isDisabled = isReadOnly || selectedItems.length === 0;
+    const tooltip = intl.formatMessage(isReadOnly ? messages.readOnlyPermissions : messages.selectCategories);
 
     return (
       <>
-        <Tooltip content={intl.formatMessage(messages.selectProjects)}>
+        <Tooltip content={tooltip}>
           <Button isAriaDisabled={isDisabled} key="save" onClick={onAddProjects} variant={ButtonVariant.primary}>
             {intl.formatMessage(messages.addProjects)}
           </Button>
         </Tooltip>
-        <Tooltip content={intl.formatMessage(messages.selectProjects)}>
+        <Tooltip content={tooltip}>
           <Button
             isAriaDisabled={isDisabled}
             key="reset"
@@ -98,6 +100,7 @@ export class PlatformToolbarBase extends React.Component<PlatformToolbarProps, P
     const {
       isAllSelected,
       isDisabled,
+      isReadOnly,
       itemsPerPage,
       itemsTotal,
       onBulkSelected,
@@ -115,6 +118,7 @@ export class PlatformToolbarBase extends React.Component<PlatformToolbarProps, P
         categoryOptions={categoryOptions}
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
+        isReadOnly={isReadOnly}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onBulkSelected={onBulkSelected}

@@ -49,7 +49,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
       const newMeasurement = state.measurement;
       if (newMeasurement.isDirty) {
         newMeasurement.value = '';
-        // Past discussions we've agreed this required error should show on measurement when metric updates
+        // Past discussions, we've agreed this required error should show on measurement when metric updates
         errors.measurement = textHelpers.required;
       }
       let step = state.step;
@@ -225,6 +225,8 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
             error,
             ...state.errors.tagValues.slice(action.index + 1),
           ],
+          // "Create rate" button must remain disabled if tag key not set -- see https://issues.redhat.com/browse/COST-3977
+          tagKey: tagKeyValueErrors(state.taggingRates.tagKey.value),
         },
       };
     }

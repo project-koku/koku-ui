@@ -230,7 +230,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             isPlatformCosts,
             groupBy,
             router,
-            title: label.toString(),
+            title: label.toString(), // Convert IDs if applicable
           })}
         >
           {label}

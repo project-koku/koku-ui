@@ -1,7 +1,10 @@
 import './optimizations.scss';
 
 import {
+  Alert,
   Bullseye,
+  List,
+  ListItem,
   Spinner,
   TextContent,
   TextList,
@@ -9,6 +12,7 @@ import {
   TextListItemVariants,
   TextListVariants,
 } from '@patternfly/react-core';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import type { RecommendationItem, RecommendationReportData } from 'api/ros/recommendations';
 import { RosPathsType, RosType } from 'api/ros/ros';
@@ -18,10 +22,11 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import { getTimeFromNow } from 'utils/dates';
+import { formatOptimization } from 'utils/format';
+import { getNotifications, hasRecommendation, hasRecommendationValues } from 'utils/recomendations';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -92,6 +97,30 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     fetchRosReport(reportPathsType, reportType, reportQueryString);
   }
 
+  private getAlert = () => {
+    const { intl, report } = this.props;
+    const { currentInterval } = this.state;
+
+    let notifications;
+    if (report?.recommendations?.duration_based?.[currentInterval]) {
+      notifications = getNotifications(report.recommendations.duration_based[currentInterval]);
+    }
+
+    if (!notifications) {
+      return null;
+    }
+
+    return (
+      <Alert isInline variant="warning" title={intl.formatMessage(messages.notificationsAlertTitle)}>
+        <List>
+          {notifications.map((notification, index) => (
+            <ListItem key={index}>{notification.message}</ListItem>
+          ))}
+        </List>
+      </Alert>
+    );
+  };
+
   private getDefaultTerm = () => {
     const { report } = this.props;
 
@@ -101,35 +130,12 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     }
 
     const recommendation = report.recommendations.duration_based;
-    if (this.hasRecommendation(recommendation.short_term)) {
+    if (hasRecommendation(recommendation.short_term)) {
       result = Interval.short_term;
-    } else if (this.hasRecommendation(recommendation.medium_term)) {
+    } else if (hasRecommendation(recommendation.medium_term)) {
       result = Interval.medium_term;
-    } else if (this.hasRecommendation(recommendation.long_term)) {
+    } else if (hasRecommendation(recommendation.long_term)) {
       result = Interval.long_term;
-    }
-    return result;
-  };
-
-  private hasRecommendation = term => {
-    if (!term) {
-      return false;
-    }
-
-    const hasConfigLimitsCpu = this.hasValues(term, 'config', 'limits', 'cpu');
-    const hasConfigLimitsMemory = this.hasValues(term, 'config', 'limits', 'memory');
-    const hasConfigRequestsCpu = this.hasValues(term, 'config', 'requests', 'cpu');
-    const hasConfigRequestsMemory = this.hasValues(term, 'config', 'requests', 'memory');
-
-    return hasConfigLimitsCpu || hasConfigLimitsMemory || hasConfigRequestsCpu || hasConfigRequestsMemory;
-  };
-
-  // Helper to determine if config and variation are empty objects
-  // Example: key1 = config, key2 = limits, key3 = cpu
-  private hasValues = (term, key1: string, key2: string, key3: string) => {
-    let result = false;
-    if (term && term[key1] && term[key1][key2] && term[key1][key2][key3]) {
-      result = Object.keys(term[key1][key2][key3]).length > 0;
     }
     return result;
   };
@@ -187,21 +193,21 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
         <div className={iconOverride}>
           {value < 0 ? (
             <>
-              <span style={styles.value}>{value}</span>
+              <span style={styles.value}>{formatOptimization(value)}</span>
               <span className="fa fa-sort-down" />
             </>
           ) : value > 0 ? (
             <>
-              <span style={styles.value}>{value}</span>
+              <span style={styles.value}>{formatOptimization(value)}</span>
               <span className="fa fa-sort-up" />
             </>
           ) : value === 0 ? (
             <>
-              <span style={styles.value}>{value}</span>
+              <span style={styles.value}>{formatOptimization(value)}</span>
               <span className="fa fa-equals" />
             </>
           ) : (
-            <EmptyValueState />
+            <ExclamationTriangleIcon color="orange" />
           )}
         </div>
       </div>
@@ -214,17 +220,27 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     if (!report) {
       return null;
     }
+
     const term = this.getRecommendationTerm();
-    const hasConfigLimitsCpu = this.hasValues(term, 'config', 'limits', 'cpu');
-    const hasConfigLimitsMemory = this.hasValues(term, 'config', 'limits', 'memory');
-    const hasVariationLimitsCpu = this.hasValues(term, 'variation', 'limits', 'cpu');
-    const hasVariationLimitsMemory = this.hasValues(term, 'variation', 'limits', 'memory');
+    if (!hasRecommendation(term)) {
+      return null;
+    }
+
+    const hasConfigLimitsCpu = hasRecommendationValues(term, 'config', 'limits', 'cpu');
+    const hasConfigLimitsMemory = hasRecommendationValues(term, 'config', 'limits', 'memory');
+    const hasCurrentLimitsCpu = hasRecommendationValues(term, 'current', 'limits', 'cpu');
+    const hasCurrentLimitsMemory = hasRecommendationValues(term, 'current', 'limits', 'memory');
+    const hasVariationLimitsCpu = hasRecommendationValues(term, 'variation', 'limits', 'cpu');
+    const hasVariationLimitsMemory = hasRecommendationValues(term, 'variation', 'limits', 'memory');
 
     const cpuConfigAmount = hasConfigLimitsCpu ? term.config.limits.cpu.amount : undefined;
     const cpuConfigUnits = hasConfigLimitsCpu ? term.config.limits.cpu.format : undefined;
+    const cpuCurrentAmount = hasCurrentLimitsCpu ? term.current.limits.cpu.amount : undefined;
     const cpuVariation = hasVariationLimitsCpu ? term.variation.limits.cpu.amount : undefined;
+
     const memConfigAmount = hasConfigLimitsMemory ? term.config.limits.memory.amount : undefined;
     const memConfigUnits = hasConfigLimitsMemory ? term.config.limits.memory.format : undefined;
+    const memCurrentAmount = hasCurrentLimitsMemory ? term.current.limits.memory.amount : undefined;
     const memVariation = hasVariationLimitsMemory ? term.variation.limits.memory.amount : undefined;
 
     return (
@@ -245,13 +261,13 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
         <Tbody>
           <Tr>
             <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuUnits, { units: cpuConfigUnits })}</Td>
-            <Td>{this.getOriginalValue(cpuConfigAmount, cpuVariation)}</Td>
+            <Td>{this.getFormattedValue(cpuCurrentAmount)}</Td>
             <Td hasRightBorder>{this.getFormattedValue(cpuConfigAmount)}</Td>
             <Td>{this.getChangeValue(cpuVariation)}</Td>
           </Tr>
           <Tr>
             <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryUnits, { units: memConfigUnits })}</Td>
-            <Td>{this.getOriginalValue(memConfigAmount, memVariation)}</Td>
+            <Td>{this.getFormattedValue(memCurrentAmount)}</Td>
             <Td hasRightBorder>{this.getFormattedValue(memConfigAmount)}</Td>
             <Td>{this.getChangeValue(memVariation)}</Td>
           </Tr>
@@ -261,11 +277,7 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
   };
 
   private getFormattedValue = value => {
-    return value !== undefined ? value : <EmptyValueState />;
-  };
-
-  private getOriginalValue = (amount, variation) => {
-    return amount !== undefined && variation !== undefined ? amount - variation : <EmptyValueState />;
+    return value !== undefined ? formatOptimization(value) : <ExclamationTriangleIcon color="orange" />;
   };
 
   private getRecommendationTerm = (): RecommendationItem => {
@@ -298,16 +310,25 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
       return null;
     }
     const term = this.getRecommendationTerm();
-    const hasConfigRequestsCpu = this.hasValues(term, 'config', 'requests', 'cpu');
-    const hasConfigRequestsMemory = this.hasValues(term, 'config', 'requests', 'memory');
-    const hasVariationRequestsCpu = this.hasValues(term, 'variation', 'requests', 'cpu');
-    const hasVariationRequestsMemory = this.hasValues(term, 'variation', 'requests', 'memory');
+    if (!hasRecommendation(term)) {
+      return null;
+    }
+
+    const hasConfigRequestsCpu = hasRecommendationValues(term, 'config', 'requests', 'cpu');
+    const hasConfigRequestsMemory = hasRecommendationValues(term, 'config', 'requests', 'memory');
+    const hasCurrentLimitsCpu = hasRecommendationValues(term, 'current', 'requests', 'cpu');
+    const hasCurrentLimitsMemory = hasRecommendationValues(term, 'current', 'requests', 'memory');
+    const hasVariationRequestsCpu = hasRecommendationValues(term, 'variation', 'requests', 'cpu');
+    const hasVariationRequestsMemory = hasRecommendationValues(term, 'variation', 'requests', 'memory');
 
     const cpuConfigAmount = hasConfigRequestsCpu ? term.config.requests.cpu.amount : undefined;
     const cpuConfigUnits = hasConfigRequestsCpu ? term.config.requests.cpu.format : undefined;
+    const cpuCurrentAmount = hasCurrentLimitsCpu ? term.current.requests.cpu.amount : undefined;
     const cpuVariation = hasVariationRequestsCpu ? term.variation.requests.cpu.amount : undefined;
+
     const memConfigAmount = hasConfigRequestsMemory ? term.config.requests.memory.amount : undefined;
     const memConfigUnits = hasConfigRequestsMemory ? term.config.requests.memory.format : undefined;
+    const memCurrentAmount = hasCurrentLimitsMemory ? term.current.requests.memory.amount : undefined;
     const memVariation = hasVariationRequestsMemory ? term.variation.requests.memory.amount : undefined;
 
     return (
@@ -328,13 +349,13 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
         <Tbody>
           <Tr>
             <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuUnits, { units: cpuConfigUnits })}</Td>
-            <Td>{this.getOriginalValue(cpuConfigAmount, cpuVariation)}</Td>
+            <Td>{this.getFormattedValue(cpuCurrentAmount)}</Td>
             <Td hasRightBorder>{this.getFormattedValue(cpuConfigAmount)}</Td>
             <Td>{this.getChangeValue(cpuVariation)}</Td>
           </Tr>
           <Tr>
             <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryUnits, { units: memConfigUnits })}</Td>
-            <Td>{this.getOriginalValue(memConfigAmount, memVariation)}</Td>
+            <Td>{this.getFormattedValue(memCurrentAmount)}</Td>
             <Td hasRightBorder>{this.getFormattedValue(memConfigAmount)}</Td>
             <Td>{this.getChangeValue(memVariation)}</Td>
           </Tr>
@@ -370,6 +391,7 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
           </Bullseye>
         ) : (
           <>
+            <div style={styles.alertContainer}>{this.getAlert()}</div>
             <div style={styles.tableContainer}>{this.getRequestsTable()}</div>
             <div style={styles.tableContainer}>{this.getLimitsTable()}</div>
             <div style={styles.viewAllContainer}>
