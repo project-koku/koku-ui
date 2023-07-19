@@ -952,11 +952,6 @@ export default defineMessages({
     description: 'CPU',
     id: 'cpuTitle',
   },
-  cpuUnits: {
-    defaultMessage: 'CPU ({units})',
-    description: 'CPU (mCores)',
-    id: 'cpuUnits',
-  },
   create: {
     defaultMessage: 'Create',
     description: 'Create',
@@ -2306,11 +2301,6 @@ export default defineMessages({
     description: 'Memory',
     id: 'memoryTitle',
   },
-  memoryUnits: {
-    defaultMessage: 'Memory ({units})',
-    description: 'Memory (MB)',
-    id: 'memoryUnits',
-  },
   metric: {
     defaultMessage: 'Metric',
     description: 'Metric',
@@ -2747,6 +2737,11 @@ export default defineMessages({
     defaultMessage: 'Optimizations table',
     description: 'Optimizations table',
     id: 'optimizationsTableAriaLabel',
+  },
+  optimizationsValue: {
+    defaultMessage: '{value} {units}',
+    description: '2 GiB',
+    id: 'optimizationsValueUnits',
   },
   optimizationsValues: {
     defaultMessage:

@@ -180,7 +180,9 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     );
   };
 
-  private getChangeValue = value => {
+  private getChangeValue = (value, units = '') => {
+    const { intl } = this.props;
+
     // Show icon opposite of month over month
     let iconOverride = 'iconOverride';
     if (value !== null && value < 0) {
@@ -193,17 +195,32 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
         <div className={iconOverride}>
           {value < 0 ? (
             <>
-              <span style={styles.value}>{formatOptimization(value)}</span>
+              <span style={styles.value}>
+                {intl.formatMessage(messages.optimizationsValue, {
+                  value: formatOptimization(value),
+                  units,
+                })}
+              </span>
               <span className="fa fa-sort-down" />
             </>
           ) : value > 0 ? (
             <>
-              <span style={styles.value}>{formatOptimization(value)}</span>
+              <span style={styles.value}>
+                {intl.formatMessage(messages.optimizationsValue, {
+                  value: formatOptimization(value),
+                  units,
+                })}
+              </span>
               <span className="fa fa-sort-up" />
             </>
           ) : value === 0 ? (
             <>
-              <span style={styles.value}>{formatOptimization(value)}</span>
+              <span style={styles.value}>
+                {intl.formatMessage(messages.optimizationsValue, {
+                  value: formatOptimization(value),
+                  units,
+                })}
+              </span>
               <span className="fa fa-equals" />
             </>
           ) : (
@@ -236,12 +253,16 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     const cpuConfigAmount = hasConfigLimitsCpu ? term.config.limits.cpu.amount : undefined;
     const cpuConfigUnits = hasConfigLimitsCpu ? term.config.limits.cpu.format : undefined;
     const cpuCurrentAmount = hasCurrentLimitsCpu ? term.current.limits.cpu.amount : undefined;
+    const cpuCurrentUnits = hasCurrentLimitsCpu ? term.current.limits.cpu.format : undefined;
     const cpuVariation = hasVariationLimitsCpu ? term.variation.limits.cpu.amount : undefined;
+    const cpuVariationUnits = hasVariationLimitsCpu ? term.variation.limits.cpu.format : undefined;
 
     const memConfigAmount = hasConfigLimitsMemory ? term.config.limits.memory.amount : undefined;
     const memConfigUnits = hasConfigLimitsMemory ? term.config.limits.memory.format : undefined;
     const memCurrentAmount = hasCurrentLimitsMemory ? term.current.limits.memory.amount : undefined;
+    const memCurrentUnits = hasCurrentLimitsMemory ? term.current.limits.memory.format : undefined;
     const memVariation = hasVariationLimitsMemory ? term.variation.limits.memory.amount : undefined;
+    const memVariationUnits = hasVariationLimitsMemory ? term.variation.limits.memory.format : undefined;
 
     return (
       <TableComposable
@@ -260,16 +281,36 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
         </Thead>
         <Tbody>
           <Tr>
-            <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuUnits, { units: cpuConfigUnits })}</Td>
-            <Td>{this.getFormattedValue(cpuCurrentAmount)}</Td>
-            <Td hasRightBorder>{this.getFormattedValue(cpuConfigAmount)}</Td>
-            <Td>{this.getChangeValue(cpuVariation)}</Td>
+            <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuTitle)}</Td>
+            <Td>
+              {intl.formatMessage(messages.optimizationsValue, {
+                value: this.getFormattedValue(cpuCurrentAmount),
+                units: cpuCurrentUnits,
+              })}
+            </Td>
+            <Td hasRightBorder>
+              {intl.formatMessage(messages.optimizationsValue, {
+                value: this.getFormattedValue(cpuConfigAmount),
+                units: cpuConfigUnits,
+              })}
+            </Td>
+            <Td>{this.getChangeValue(cpuVariation, cpuVariationUnits)}</Td>
           </Tr>
           <Tr>
-            <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryUnits, { units: memConfigUnits })}</Td>
-            <Td>{this.getFormattedValue(memCurrentAmount)}</Td>
-            <Td hasRightBorder>{this.getFormattedValue(memConfigAmount)}</Td>
-            <Td>{this.getChangeValue(memVariation)}</Td>
+            <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryTitle)}</Td>
+            <Td>
+              {intl.formatMessage(messages.optimizationsValue, {
+                value: this.getFormattedValue(memCurrentAmount),
+                units: memCurrentUnits,
+              })}
+            </Td>
+            <Td hasRightBorder>
+              {intl.formatMessage(messages.optimizationsValue, {
+                value: this.getFormattedValue(memConfigAmount),
+                units: memConfigUnits,
+              })}
+            </Td>
+            <Td>{this.getChangeValue(memVariation, memVariationUnits)}</Td>
           </Tr>
         </Tbody>
       </TableComposable>
@@ -324,12 +365,16 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     const cpuConfigAmount = hasConfigRequestsCpu ? term.config.requests.cpu.amount : undefined;
     const cpuConfigUnits = hasConfigRequestsCpu ? term.config.requests.cpu.format : undefined;
     const cpuCurrentAmount = hasCurrentLimitsCpu ? term.current.requests.cpu.amount : undefined;
+    const cpuCurrentUnits = hasCurrentLimitsCpu ? term.current.requests.cpu.format : undefined;
     const cpuVariation = hasVariationRequestsCpu ? term.variation.requests.cpu.amount : undefined;
+    const cpuVariationUnits = hasVariationRequestsCpu ? term.variation.requests.cpu.format : undefined;
 
     const memConfigAmount = hasConfigRequestsMemory ? term.config.requests.memory.amount : undefined;
     const memConfigUnits = hasConfigRequestsMemory ? term.config.requests.memory.format : undefined;
     const memCurrentAmount = hasCurrentLimitsMemory ? term.current.requests.memory.amount : undefined;
+    const memCurrentUnits = hasCurrentLimitsMemory ? term.current.requests.memory.format : undefined;
     const memVariation = hasVariationRequestsMemory ? term.variation.requests.memory.amount : undefined;
+    const memVariationUnits = hasVariationRequestsMemory ? term.variation.requests.memory.format : undefined;
 
     return (
       <TableComposable
@@ -348,16 +393,36 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
         </Thead>
         <Tbody>
           <Tr>
-            <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuUnits, { units: cpuConfigUnits })}</Td>
-            <Td>{this.getFormattedValue(cpuCurrentAmount)}</Td>
-            <Td hasRightBorder>{this.getFormattedValue(cpuConfigAmount)}</Td>
-            <Td>{this.getChangeValue(cpuVariation)}</Td>
+            <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuTitle)}</Td>
+            <Td>
+              {intl.formatMessage(messages.optimizationsValue, {
+                value: this.getFormattedValue(cpuCurrentAmount),
+                units: cpuCurrentUnits,
+              })}
+            </Td>
+            <Td hasRightBorder>
+              {intl.formatMessage(messages.optimizationsValue, {
+                value: this.getFormattedValue(cpuConfigAmount),
+                units: cpuConfigUnits,
+              })}
+            </Td>
+            <Td>{this.getChangeValue(cpuVariation, cpuVariationUnits)}</Td>
           </Tr>
           <Tr>
-            <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryUnits, { units: memConfigUnits })}</Td>
-            <Td>{this.getFormattedValue(memCurrentAmount)}</Td>
-            <Td hasRightBorder>{this.getFormattedValue(memConfigAmount)}</Td>
-            <Td>{this.getChangeValue(memVariation)}</Td>
+            <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryTitle)}</Td>
+            <Td>
+              {intl.formatMessage(messages.optimizationsValue, {
+                value: this.getFormattedValue(memCurrentAmount),
+                units: memCurrentUnits,
+              })}
+            </Td>
+            <Td hasRightBorder>
+              {intl.formatMessage(messages.optimizationsValue, {
+                value: this.getFormattedValue(memConfigAmount),
+                units: memConfigUnits,
+              })}
+            </Td>
+            <Td>{this.getChangeValue(memVariation, memVariationUnits)}</Td>
           </Tr>
         </Tbody>
       </TableComposable>
