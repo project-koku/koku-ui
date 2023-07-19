@@ -1881,20 +1881,6 @@
         "value": "CPU"
       }
     ],
-    "cpuUnits": [
-      {
-        "type": 0,
-        "value": "CPU ("
-      },
-      {
-        "type": 1,
-        "value": "units"
-      },
-      {
-        "type": 0,
-        "value": ")"
-      }
-    ],
     "create": [
       {
         "type": 0,
@@ -9960,20 +9946,6 @@
         "value": "Memory"
       }
     ],
-    "memoryUnits": [
-      {
-        "type": 0,
-        "value": "Memory ("
-      },
-      {
-        "type": 1,
-        "value": "units"
-      },
-      {
-        "type": 0,
-        "value": ")"
-      }
-    ],
     "metric": [
       {
         "type": 0,
@@ -10674,6 +10646,20 @@
       {
         "type": 0,
         "value": "Optimizations table"
+      }
+    ],
+    "optimizationsValueUnits": [
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "units"
       }
     ],
     "optimizationsValues": [
