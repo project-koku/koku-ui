@@ -6,10 +6,10 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { CostType } from 'routes/components/costType';
 import { Currency } from 'routes/components/currency';
+import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { rbacActions, rbacSelectors } from 'store/rbac';
-import { settingsActions, settingsSelectors } from 'store/settings';
 import { getCostType, getCurrency, setAccountCurrency, setCostType, setCurrency } from 'utils/localStorage';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -22,12 +22,14 @@ interface SettingsOwnProps {
 
 interface SettingsDispatchProps {
   fetchRbac: typeof rbacActions.fetchRbac;
-  updateSettings: typeof settingsActions.updateSettings;
+  updateCostType: typeof accountSettingsActions.updateCostType;
+  updateCurrency: typeof accountSettingsActions.updateCurrency;
 }
 
 interface SettingsStateProps {
   canWrite?: boolean;
-  updateSettingsStatus: FetchStatus;
+  updateCostTypeStatus: FetchStatus;
+  updateCurrencyStatus: FetchStatus;
 }
 
 interface SettingsState {
@@ -109,32 +111,24 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
   };
 
   private handleOnCostTypeSelected = value => {
-    const { updateSettings } = this.props;
+    const { updateCostType } = this.props;
 
     this.setState({ currentCostType: value }, () => {
       setCostType(value);
-      updateSettings({
-        api: {
-          settings: {
-            cost_type: value,
-          },
-        },
+      updateCostType({
+        cost_type: value,
       });
     });
   };
 
   private handleOnCurrencySelected = value => {
-    const { updateSettings } = this.props;
+    const { updateCurrency } = this.props;
 
     this.setState({ currentCurrency: value }, () => {
       setCurrency(value);
       setAccountCurrency(value); // Todo: remove account currency after settings page has been moved
-      updateSettings({
-        api: {
-          settings: {
-            currency: value,
-          },
-        },
+      updateCurrency({
+        currency: value,
       });
     });
   };
@@ -156,17 +150,20 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<SettingsOwnProps, SettingsStateProps>(state => {
-  const updateSettingsStatus = settingsSelectors.selectSettingsUpdateStatus(state);
+  const updateCostTypeStatus = accountSettingsSelectors.selectUpdateCostTypeStatus(state);
+  const updateCurrencyStatus = accountSettingsSelectors.selectUpdateCurrencyStatus(state);
 
   return {
     canWrite: rbacSelectors.isSettingsWritePermission(state),
-    updateSettingsStatus,
+    updateCostTypeStatus,
+    updateCurrencyStatus,
   };
 });
 
 const mapDispatchToProps: SettingsDispatchProps = {
   fetchRbac: rbacActions.fetchRbac,
-  updateSettings: settingsActions.updateSettings,
+  updateCostType: accountSettingsActions.updateCostType,
+  updateCurrency: accountSettingsActions.updateCurrency,
 };
 
 const Calculations = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(SettingsBase)));
