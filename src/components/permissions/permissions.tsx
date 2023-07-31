@@ -24,6 +24,7 @@ import {
   hasOcpAccess,
   hasRhelAccess,
   hasRosAccess,
+  hasSettingsAccess,
 } from 'utils/userAccess';
 
 interface PermissionsOwnProps extends ChromeComponentProps {
@@ -68,7 +69,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const ocp = hasOcpAccess(userAccess);
     const rhel = isFinsightsFeatureEnabled && hasRhelAccess(userAccess);
     const ros = isRosFeatureEnabled && hasRosAccess(userAccess);
-    const settings = isSettingsFeatureEnabled;
+    const settings = isSettingsFeatureEnabled && hasSettingsAccess(userAccess);
 
     switch (pathname) {
       case formatPath(routes.explorer.path):
@@ -101,7 +102,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
       case formatPath(routes.rhelDetailsBreakdown.path):
         return rhel;
       case formatPath(routes.settings.path):
-        return settings;
+        return costModel || settings;
       default:
         return false;
     }
