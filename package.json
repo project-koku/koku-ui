@@ -50,7 +50,7 @@
     "@patternfly/react-core": "4.276.8",
     "@patternfly/react-icons": "4.93.6",
     "@patternfly/react-styles": "4.92.6",
-    "@patternfly/react-table": "4.113.0",
+    "@patternfly/react-table": "4.113.3",
     "@patternfly/react-tokens": "4.94.6",
     "@redhat-cloud-services/frontend-components": "^3.11.2",
     "@redhat-cloud-services/frontend-components-notifications": "^3.2.14",
