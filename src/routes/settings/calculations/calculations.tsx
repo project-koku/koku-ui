@@ -9,7 +9,6 @@ import { Currency } from 'routes/components/currency';
 import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
-import { rbacActions, rbacSelectors } from 'store/rbac';
 import { getCostType, getCurrency, setAccountCurrency, setCostType, setCurrency } from 'utils/localStorage';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -17,17 +16,15 @@ import { withRouter } from 'utils/router';
 import { styles } from './calculations.styles';
 
 interface SettingsOwnProps {
-  // TBD...
+  canWrite?: boolean;
 }
 
 interface SettingsDispatchProps {
-  fetchRbac: typeof rbacActions.fetchRbac;
   updateCostType: typeof accountSettingsActions.updateCostType;
   updateCurrency: typeof accountSettingsActions.updateCurrency;
 }
 
 interface SettingsStateProps {
-  canWrite?: boolean;
   updateCostTypeStatus: FetchStatus;
   updateCurrencyStatus: FetchStatus;
 }
@@ -49,10 +46,6 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
     currentCurrency: getCurrency(),
   };
   public state: SettingsState = { ...this.defaultState };
-
-  public componentDidMount() {
-    this.updateReport();
-  }
 
   private getCostType = () => {
     const { canWrite, intl } = this.props;
@@ -133,11 +126,6 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
     });
   };
 
-  private updateReport = () => {
-    const { fetchRbac } = this.props;
-    fetchRbac();
-  };
-
   public render() {
     return (
       <PageSection isFilled>
@@ -154,14 +142,12 @@ const mapStateToProps = createMapStateToProps<SettingsOwnProps, SettingsStatePro
   const updateCurrencyStatus = accountSettingsSelectors.selectUpdateCurrencyStatus(state);
 
   return {
-    canWrite: rbacSelectors.isSettingsWritePermission(state),
     updateCostTypeStatus,
     updateCurrencyStatus,
   };
 });
 
 const mapDispatchToProps: SettingsDispatchProps = {
-  fetchRbac: rbacActions.fetchRbac,
   updateCostType: accountSettingsActions.updateCostType,
   updateCurrency: accountSettingsActions.updateCurrency,
 };

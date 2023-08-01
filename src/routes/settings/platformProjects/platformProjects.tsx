@@ -25,7 +25,7 @@ import { PlatformTable } from './platformTable';
 import { PlatformToolbar } from './platformToolbar';
 
 interface PlatformProjectsOwnProps {
-  // TBD...
+  canWrite?: boolean;
 }
 
 export interface PlatformProjectsMapProps {
