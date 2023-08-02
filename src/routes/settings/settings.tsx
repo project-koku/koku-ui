@@ -81,6 +81,15 @@ const Settings: React.FC<SettingsProps> = () => {
   const { isSettingsPlatformEnabled, userAccess, userAccessFetchStatus } = useMapToProps();
   const intl = useIntl();
 
+  const canWrite = () => {
+    let result = false;
+    if (userAccess) {
+      const data = (userAccess.data as any).find(d => d.type === 'settings');
+      result = data && data.access && data.write;
+    }
+    return result;
+  };
+
   const getAvailableTabs = () => {
     const availableTabs: AvailableTab[] = [
       {
@@ -152,13 +161,13 @@ const Settings: React.FC<SettingsProps> = () => {
         <NotAuthorized pathname={formatPath(routes.costModel.path)} />
       );
     } else if (currentTab === SettingsTab.calculations) {
-      return hasSettingsAccess(userAccess) ? <Calculations /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <Calculations canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.costCategory) {
-      return hasSettingsAccess(userAccess) ? <CostCategory /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <CostCategory canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.platformProjects) {
-      return hasSettingsAccess(userAccess) ? <PlatformProjects /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <PlatformProjects canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.tags) {
-      return hasSettingsAccess(userAccess) ? <TagDetails /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <TagDetails canWrite={canWrite()} /> : notAuthorized;
     } else {
       return emptyTab;
     }

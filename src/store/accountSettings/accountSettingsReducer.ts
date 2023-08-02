@@ -17,12 +17,20 @@ import {
   fetchAccountSettingsFailure,
   fetchAccountSettingsRequest,
   fetchAccountSettingsSuccess,
+  updateCostTypeFailure,
+  updateCostTypeRequest,
+  updateCostTypeSuccess,
+  updateCurrencyFailure,
+  updateCurrencyRequest,
+  updateCurrencySuccess,
 } from './accountSettingsActions';
 
 export type AccountSettingsState = Readonly<{
   byId: Map<string, AccountSettings>;
-  errors: Map<string, AxiosError>;
-  fetchStatus: Map<string, FetchStatus>;
+  error?: AxiosError;
+  errors?: Map<string, AxiosError>;
+  fetchStatus?: Map<string, FetchStatus>;
+  status?: FetchStatus;
 }>;
 
 export const defaultState: AccountSettingsState = {
@@ -35,6 +43,12 @@ export type AccountSettingsAction = ActionType<
   | typeof fetchAccountSettingsFailure
   | typeof fetchAccountSettingsRequest
   | typeof fetchAccountSettingsSuccess
+  | typeof updateCostTypeFailure
+  | typeof updateCostTypeRequest
+  | typeof updateCostTypeSuccess
+  | typeof updateCurrencyFailure
+  | typeof updateCurrencyRequest
+  | typeof updateCurrencySuccess
   | typeof resetState
 >;
 
@@ -71,6 +85,40 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
         ...state,
         fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
         errors: new Map(state.errors).set(action.meta.fetchId, action.payload),
+      };
+    case getType(updateCostTypeRequest):
+      return {
+        ...state,
+        status: FetchStatus.inProgress,
+      };
+    case getType(updateCostTypeSuccess):
+      return {
+        ...state,
+        error: null,
+        status: FetchStatus.complete,
+      };
+    case getType(updateCostTypeFailure):
+      return {
+        ...state,
+        error: action.payload,
+        status: FetchStatus.complete,
+      };
+    case getType(updateCurrencyRequest):
+      return {
+        ...state,
+        status: FetchStatus.inProgress,
+      };
+    case getType(updateCurrencySuccess):
+      return {
+        ...state,
+        error: null,
+        status: FetchStatus.complete,
+      };
+    case getType(updateCurrencyFailure):
+      return {
+        ...state,
+        error: action.payload,
+        status: FetchStatus.complete,
       };
     default:
       return state;

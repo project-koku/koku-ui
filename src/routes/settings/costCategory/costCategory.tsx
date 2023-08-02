@@ -25,7 +25,7 @@ import { CostCategoryTable } from './costCategoryTable';
 import { CostCategoryToolbar } from './costCategoryToolbar';
 
 interface CostCategoryOwnProps {
-  // TBD...
+  canWrite?: boolean;
 }
 
 export interface CostCategoryMapProps {
