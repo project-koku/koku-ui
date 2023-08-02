@@ -25,7 +25,7 @@ import { TagTable } from './tagTable';
 import { TagToolbar } from './tagToolbar';
 
 interface TagDetailsOwnProps {
-  // TBD...
+  canWrite?: boolean;
 }
 
 export interface TagDetailsMapProps {

@@ -5,6 +5,7 @@ import type { PagedLinks, PagedMetaData } from './api';
 export interface UserAccessData {
   access?: boolean;
   type?: UserAccessType;
+  write?: boolean;
 }
 
 export interface UserAccess {

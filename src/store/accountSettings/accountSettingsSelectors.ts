@@ -1,4 +1,5 @@
 import type { RootState } from 'store/rootReducer';
+import { selectSettingsState } from 'store/settings/settingsSelectors';
 
 import { getFetchId, stateKey } from './accountSettingsCommon';
 
@@ -13,3 +14,11 @@ export const selectAccountSettingsFetchStatus = (state: RootState) =>
 
 export const selectAccountSettingsError = (state: RootState) =>
   selectAccountSettingsState(state).errors.get(getFetchId());
+
+export const selectUpdateCostTypeError = (state: RootState) => selectSettingsState(state).error;
+
+export const selectUpdateCostTypeStatus = (state: RootState) => selectSettingsState(state).status;
+
+export const selectUpdateCurrencyError = (state: RootState) => selectSettingsState(state).error;
+
+export const selectUpdateCurrencyStatus = (state: RootState) => selectSettingsState(state).status;
