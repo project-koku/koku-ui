@@ -76,7 +76,7 @@ pullRequest()
 
   COMMIT=`git rev-parse HEAD`
   TITLE="Deployment commit for $BRANCH"
-  BODY="Merge main branch to stage-stable. Replace namespace \`ref\` in app-interface repo with commit $COMMIT"
+  BODY="Merged $REMOTE_BRANCH branch to $BRANCH. Use commit $COMMIT to update namespace \`ref\` in app-interface repo"
 
   gh pr create -t "$TITLE" -b "$BODY" -B $BRANCH
 }
