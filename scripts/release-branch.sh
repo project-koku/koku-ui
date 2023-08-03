@@ -78,7 +78,7 @@ pullRequest()
   TITLE="Deployment commit for $BRANCH"
   BODY="Merge main branch to stage-stable. Replace namespace \`ref\` in app-interface repo with commit $COMMIT"
 
-  gh pr create -t "$TITLE" -b "$BODY"
+  gh pr create -t "$TITLE" -b "$BODY" -B $BRANCH
 }
 
 push()
