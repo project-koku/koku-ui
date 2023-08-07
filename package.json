@@ -95,7 +95,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "eslint": "^8.46.0",
     "eslint-plugin-formatjs": "^4.10.3",
-    "eslint-plugin-jest-dom": "^5.0.1",
+    "eslint-plugin-jest-dom": "^5.0.2",
     "eslint-plugin-jsdoc": "^46.4.6",
     "eslint-plugin-markdown": "^3.0.1",
     "eslint-plugin-patternfly-react": "^5.0.0",
