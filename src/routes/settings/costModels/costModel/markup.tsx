@@ -1,13 +1,11 @@
 import {
+  Button,
+  ButtonVariant,
   Card,
   CardActions,
   CardBody,
   CardHeader,
   CardHeaderMain,
-  Dropdown,
-  DropdownItem,
-  DropdownPosition,
-  KebabToggle,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
@@ -40,7 +38,6 @@ const MarkupCardBase: React.FC<Props> = ({
   current,
   isUpdateDialogOpen,
 }) => {
-  const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
   const markupValue = formatPercentageMarkup(
     current && current.markup && current.markup.value ? Number(current.markup.value) : 0
   );
@@ -56,24 +53,16 @@ const MarkupCardBase: React.FC<Props> = ({
             </Title>
           </CardHeaderMain>
           <CardActions>
-            <Dropdown
-              toggle={<KebabToggle onToggle={setDropdownIsOpen} />}
-              isOpen={dropdownIsOpen}
-              onSelect={() => setDropdownIsOpen(false)}
-              position={DropdownPosition.right}
-              isPlain
-              dropdownItems={[
-                <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
-                  <DropdownItem
-                    isDisabled={!isWritePermission}
-                    onClick={() => setCostModelDialog({ isOpen: true, name: 'updateMarkup' })}
-                    component="button"
-                  >
-                    {intl.formatMessage(messages.editMarkup)}
-                  </DropdownItem>
-                </ReadOnlyTooltip>,
-              ]}
-            />
+            <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
+              <Button
+                aria-label={intl.formatMessage(messages.editMarkup)}
+                variant={ButtonVariant.link}
+                isAriaDisabled={!isWritePermission}
+                onClick={() => setCostModelDialog({ isOpen: true, name: 'updateMarkup' })}
+              >
+                {intl.formatMessage(messages.edit)}
+              </Button>
+            </ReadOnlyTooltip>
           </CardActions>
         </CardHeader>
         <CardBody style={styles.cardDescription}>{intl.formatMessage(messages.markupOrDiscountDesc)}</CardBody>
