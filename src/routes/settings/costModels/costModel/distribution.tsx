@@ -1,13 +1,11 @@
 import {
+  Button,
+  ButtonVariant,
   Card,
   CardActions,
   CardBody,
   CardHeader,
   CardHeaderMain,
-  Dropdown,
-  DropdownItem,
-  DropdownPosition,
-  KebabToggle,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
@@ -38,7 +36,6 @@ const DistributionCardBase: React.FC<Props> = ({
   isUpdateDialogOpen,
 }) => {
   const intl = useIntl();
-  const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
 
   return (
     <>
@@ -51,24 +48,16 @@ const DistributionCardBase: React.FC<Props> = ({
             </Title>
           </CardHeaderMain>
           <CardActions>
-            <Dropdown
-              toggle={<KebabToggle onToggle={setDropdownIsOpen} />}
-              isOpen={dropdownIsOpen}
-              onSelect={() => setDropdownIsOpen(false)}
-              position={DropdownPosition.right}
-              isPlain
-              dropdownItems={[
-                <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
-                  <DropdownItem
-                    isDisabled={!isWritePermission}
-                    onClick={() => setCostModelDialog({ isOpen: true, name: 'updateDistribution' })}
-                    component="button"
-                  >
-                    {intl.formatMessage(messages.costModelsDistributionEdit)}
-                  </DropdownItem>
-                </ReadOnlyTooltip>,
-              ]}
-            />
+            <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
+              <Button
+                aria-label={intl.formatMessage(messages.costModelsDistributionEdit)}
+                variant={ButtonVariant.link}
+                isAriaDisabled={!isWritePermission}
+                onClick={() => setCostModelDialog({ isOpen: true, name: 'updateDistribution' })}
+              >
+                {intl.formatMessage(messages.edit)}
+              </Button>
+            </ReadOnlyTooltip>
           </CardActions>
         </CardHeader>
         <CardBody style={styles.cardDescription}>{intl.formatMessage(messages.costModelsDistributionDesc)}</CardBody>

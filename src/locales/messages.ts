@@ -509,9 +509,9 @@ export default defineMessages({
   },
   costModelsDesc: {
     defaultMessage:
-      'Associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}',
+      'Cost models can help you analyze and predict future costs. Associate a price to metrics provided by your sources to calculate your charges for resource usage. {learnMore}',
     description:
-      'Associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}',
+      'Cost models can help you analyze and predict future costs. Associate a price to metrics provided by your sources to calculate your charges for resource usage. {learnMore}',
     id: 'costModelsDesc',
   },
   costModelsDescTooLong: {
@@ -927,9 +927,9 @@ export default defineMessages({
   },
   costTypeSettingsDesc: {
     defaultMessage:
-      'Select the preferred way to calculating upfront costs, either through savings plans or subscription fees. This feature is available for Amazon Web Services cost only.',
+      'Select the preferred way of calculating upfront costs of savings plans or subscription fees. This feature is available for Amazon Web Services cost only.',
     description:
-      'Select the preferred way to calculating upfront costs, either through savings plans or subscription fees. This feature is available for Amazon Web Services cost only.',
+      'Select the preferred way of calculating upfront costs of savings plans or subscription fees. This feature is available for Amazon Web Services cost only.',
     id: 'costTypeSettingsDesc',
   },
   costTypeSettingsLabel: {
