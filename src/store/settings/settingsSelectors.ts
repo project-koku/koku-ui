@@ -15,8 +15,8 @@ export const selectSettingsStatus = (state: RootState, settingsType: SettingsTyp
 export const selectSettingsError = (state: RootState, settingsType: SettingsType, reportQueryString: string) =>
   selectSettingsState(state)?.errors.get(getFetchId(settingsType, reportQueryString));
 
-export const selectSettingsUpdateStatus = (state: RootState, settingsType: SettingsType, reportQueryString: string) =>
-  selectSettingsState(state)?.status.get(getFetchId(settingsType, reportQueryString));
+export const selectSettingsUpdateStatus = (state: RootState, settingsType: SettingsType) =>
+  selectSettingsState(state)?.status.get(getFetchId(settingsType));
 
-export const selectSettingsUpdateError = (state: RootState, settingsType: SettingsType, reportQueryString: string) =>
-  selectSettingsState(state)?.errors.get(getFetchId(settingsType, reportQueryString));
+export const selectSettingsUpdateError = (state: RootState, settingsType: SettingsType) =>
+  selectSettingsState(state)?.errors.get(getFetchId(settingsType));

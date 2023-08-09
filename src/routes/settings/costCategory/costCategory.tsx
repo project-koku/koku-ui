@@ -55,7 +55,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const { settings, settingsError, settingsStatus, settingsQueryString } = useMapToProps({ query });
+  const { settings, settingsError, settingsStatus } = useMapToProps({ query });
 
   const getCategories = () => {
     if (settings) {
@@ -135,9 +135,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
   const handleOnBulkSelected = (action: string) => {
     if (action === 'none') {
       setSelectedItems([]);
-    } else if (action === 'page') {
-      setSelectedItems(getCategories());
-    } else if (action === 'all') {
+    } else if (action === 'all' || action === 'page') {
       setSelectedItems(getCategories());
     }
   };
@@ -146,7 +144,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
     if (selectedItems.length > 0) {
       setSelectedItems([], () => {
         dispatch(
-          settingsActions.updateSettings(SettingsType.awsCategoryKeysDisable, settingsQueryString, {
+          settingsActions.updateSettings(SettingsType.awsCategoryKeysDisable, {
             ids: selectedItems.map(item => item.uuid),
           })
         );
@@ -158,7 +156,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
     if (selectedItems.length > 0) {
       setSelectedItems([], () => {
         dispatch(
-          settingsActions.updateSettings(SettingsType.awsCategoryKeysEnable, settingsQueryString, {
+          settingsActions.updateSettings(SettingsType.awsCategoryKeysEnable, {
             ids: selectedItems.map(item => item.uuid),
           })
         );
@@ -258,10 +256,10 @@ const useMapToProps = ({ query }: CostCategoryMapProps): CostCategoryStateProps 
   );
 
   const settingsUpdateDisableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.awsCategoryKeysDisable, settingsQueryString)
+    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.awsCategoryKeysDisable)
   );
   const settingsUpdateEnableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.awsCategoryKeysEnable, settingsQueryString)
+    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.awsCategoryKeysEnable)
   );
 
   useEffect(() => {

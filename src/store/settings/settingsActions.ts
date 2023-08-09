@@ -61,21 +61,17 @@ export function fetchSettings(settingsType: SettingsType, settingsQueryString: s
   };
 }
 
-export function updateSettings(
-  settingsType: SettingsType,
-  settingsQueryString: string,
-  payload: SettingsPayload
-): ThunkAction {
+export function updateSettings(settingsType: SettingsType, payload: SettingsPayload): ThunkAction {
   return (dispatch, getState) => {
     const state = getState();
-    const fetchError = selectSettingsUpdateError(state, settingsType, settingsQueryString);
-    const fetchStatus = selectSettingsUpdateStatus(state, settingsType, settingsQueryString);
+    const fetchError = selectSettingsUpdateError(state, settingsType);
+    const fetchStatus = selectSettingsUpdateStatus(state, settingsType);
     if (fetchError || fetchStatus === FetchStatus.inProgress) {
       return;
     }
 
     const meta: SettingsActionMeta = {
-      fetchId: getFetchId(settingsType, settingsQueryString),
+      fetchId: getFetchId(settingsType),
     };
 
     dispatch(updateSettingsRequest(meta));
