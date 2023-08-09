@@ -22,9 +22,9 @@ interface SettingsActionMeta {
   fetchId: string;
 }
 
-export const fetchSettingsRequest = createAction('accountSettings/fetch/request')<SettingsActionMeta>();
-export const fetchSettingsSuccess = createAction('accountSettings/fetch/success')<Settings, SettingsActionMeta>();
-export const fetchSettingsFailure = createAction('accountSettings/fetch/failure')<AxiosError, SettingsActionMeta>();
+export const fetchSettingsRequest = createAction('settings/fetch/request')<SettingsActionMeta>();
+export const fetchSettingsSuccess = createAction('settings/fetch/success')<Settings, SettingsActionMeta>();
+export const fetchSettingsFailure = createAction('settings/fetch/failure')<AxiosError, SettingsActionMeta>();
 
 export const updateSettingsRequest = createAction('settings/awsCategoryKeys/update/request')<SettingsActionMeta>();
 export const updateSettingsSuccess = createAction('settings/awsCategoryKeys/update/success')<
