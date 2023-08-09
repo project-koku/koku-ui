@@ -142,13 +142,12 @@ if [ "$SKIP_SMOKE_TESTS" = "false" ]; then
     source "$CICD_ROOT"/post_test_results.sh
 
 
-
 else
     echo "PR_check is not running smokes"
 
 fi
 
-
+exit $BUILD_RESULTS
 
 
 
