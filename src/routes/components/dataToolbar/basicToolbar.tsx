@@ -10,7 +10,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { isEqual } from 'routes/utils/equal';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
@@ -46,8 +45,9 @@ interface BasicToolbarOwnProps {
   query?: Query; // Query containing filter_by params used to restore state upon page refresh
   resourcePathsType?: ResourcePathsType;
   resourceReport?: Resource;
-  selectedItems?: ComputedReportItem[];
+  selectedItems?: any[];
   showBulkSelect?: boolean; // Show bulk select
+  showBulkSelectAll?: boolean; // Show bulk select all option
   showFilter?: boolean; // Show export icon
   style?: React.CSSProperties;
 }
@@ -125,8 +125,16 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
   // Bulk select
 
   public getBulkSelectComponent = () => {
-    const { isAllSelected, isBulkSelectDisabled, isDisabled, isReadOnly, itemsPerPage, itemsTotal, selectedItems } =
-      this.props;
+    const {
+      isAllSelected,
+      isBulkSelectDisabled,
+      isDisabled,
+      isReadOnly,
+      itemsPerPage,
+      itemsTotal,
+      selectedItems,
+      showBulkSelectAll,
+    } = this.props;
     const { isBulkSelectOpen } = this.state;
 
     return getBulkSelect({
@@ -141,6 +149,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       itemsPerPage,
       itemsTotal,
       selectedItems,
+      showSelectAll: showBulkSelectAll,
     });
   };
 

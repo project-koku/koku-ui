@@ -15,9 +15,9 @@ import { createMapStateToProps } from 'store/common';
 import { styles } from './tagDetails.styles';
 
 interface TagToolbarOwnProps {
+  canWrite?: boolean;
   isAllSelected?: boolean;
   isDisabled?: boolean;
-  isReadOnly?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onBulkSelected(action: string);
@@ -55,10 +55,10 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
   }
 
   private getActions = () => {
-    const { intl, isReadOnly, onDisableTags, onEnableTags, selectedItems } = this.props;
+    const { canWrite, intl, onDisableTags, onEnableTags, selectedItems } = this.props;
 
-    const isDisabled = isReadOnly || selectedItems.length === 0;
-    const tooltip = intl.formatMessage(isReadOnly ? messages.readOnlyPermissions : messages.selectCategories);
+    const isDisabled = !canWrite || selectedItems.length === 0;
+    const tooltip = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.selectCategories);
 
     return (
       <>
@@ -95,9 +95,9 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
 
   public render() {
     const {
+      canWrite,
       isAllSelected,
       isDisabled,
-      isReadOnly,
       itemsPerPage,
       itemsTotal,
       onBulkSelected,
@@ -115,7 +115,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
         categoryOptions={categoryOptions}
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
-        isReadOnly={isReadOnly}
+        isReadOnly={!canWrite}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onBulkSelected={onBulkSelected}

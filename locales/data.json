@@ -1040,7 +1040,7 @@
     "costCategoryDesc": [
       {
         "type": 0,
-        "value": "Enable your data source labels to be used as AWS category keys for report grouping and filtering. Changes will be reflected within 24 hours. "
+        "value": "Enable your AWS cost categories to be used for report grouping and filtering. Changes will be reflected within 24 hours. "
       },
       {
         "type": 1,
@@ -3294,6 +3294,12 @@
       {
         "type": 0,
         "value": "Disable tags"
+      }
+    ],
+    "disabled": [
+      {
+        "type": 0,
+        "value": "Disabled"
       }
     ],
     "discountMinus": [
@@ -11432,6 +11438,95 @@
       {
         "type": 0,
         "value": "Unable to save application settings"
+      }
+    ],
+    "settingsSuccessChanges": [
+      {
+        "type": 0,
+        "value": "Changes will be reflected in report summarizations within 24 hours"
+      }
+    ],
+    "settingsSuccessCostCategoryKeys": [
+      {
+        "options": {
+          "disable": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " cost category key disabled"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " cost category keys disabled"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "enable": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " cost category key enabled"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " cost category keys enabled"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
       }
     ],
     "settingsSuccessDesc": [
