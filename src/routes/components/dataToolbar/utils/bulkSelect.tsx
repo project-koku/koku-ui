@@ -24,6 +24,7 @@ export const getBulkSelect = ({
   itemsPerPage,
   itemsTotal,
   selectedItems,
+  showSelectAll = true,
 }: {
   handleOnBulkSelect?: () => void;
   handleOnBulkSelectClicked?: (action: string) => void;
@@ -36,6 +37,7 @@ export const getBulkSelect = ({
   itemsPerPage?: number;
   itemsTotal?: number;
   selectedItems?: ComputedReportItem[];
+  showSelectAll?: boolean;
 }) => {
   const numSelected = isAllSelected ? itemsTotal : selectedItems ? selectedItems.length : 0;
   const allSelected = (isAllSelected || numSelected === itemsTotal) && itemsTotal > 0;
@@ -50,10 +52,15 @@ export const getBulkSelect = ({
     <DropdownItem key="item-2" onClick={() => handleOnBulkSelectClicked('page')}>
       {intl.formatMessage(messages.toolBarBulkSelectPage, { value: itemsPerPage })}
     </DropdownItem>,
-    <DropdownItem key="item-3" onClick={() => handleOnBulkSelectClicked('all')}>
-      {intl.formatMessage(messages.toolBarBulkSelectAll, { value: itemsTotal })}
-    </DropdownItem>,
   ];
+
+  if (showSelectAll) {
+    dropdownItems.push(
+      <DropdownItem key="item-3" onClick={() => handleOnBulkSelectClicked('all')}>
+        {intl.formatMessage(messages.toolBarBulkSelectAll, { value: itemsTotal })}
+      </DropdownItem>
+    );
+  }
 
   const bulkSelect = (
     <Dropdown
@@ -61,7 +68,7 @@ export const getBulkSelect = ({
       position={DropdownPosition.left}
       toggle={
         <DropdownToggle
-          isDisabled={isDisabled || isReadOnly || isBulkSelectDisabled}
+          isDisabled={isDisabled || isBulkSelectDisabled || isReadOnly}
           splitButtonItems={[
             <DropdownToggleCheckbox
               id="bulk-select"

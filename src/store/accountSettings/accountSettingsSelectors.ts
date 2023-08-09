@@ -1,24 +1,21 @@
+import type { AccountSettingsType } from 'api/accountSettings';
 import type { RootState } from 'store/rootReducer';
-import { selectSettingsState } from 'store/settings/settingsSelectors';
 
-import { getFetchId, stateKey } from './accountSettingsCommon';
+import { accountSettingsStateKey, getFetchId } from './accountSettingsCommon';
 
-export const selectAccountSettingsState = (state: RootState) => state[stateKey];
+export const selectAccountSettingsState = (state: RootState) => state[accountSettingsStateKey];
 
-// Fetch account settings
+export const selectAccountSettings = (state: RootState, accountSettingsType: AccountSettingsType) =>
+  selectAccountSettingsState(state).byId.get(getFetchId(accountSettingsType));
 
-export const selectAccountSettings = (state: RootState) => selectAccountSettingsState(state).byId.get(getFetchId());
+export const selectAccountSettingsStatus = (state: RootState, accountSettingsType: AccountSettingsType) =>
+  selectAccountSettingsState(state)?.status.get(getFetchId(accountSettingsType));
 
-export const selectAccountSettingsFetchStatus = (state: RootState) =>
-  selectAccountSettingsState(state).fetchStatus.get(getFetchId());
+export const selectAccountSettingsError = (state: RootState, accountSettingsType: AccountSettingsType) =>
+  selectAccountSettingsState(state)?.errors.get(getFetchId(accountSettingsType));
 
-export const selectAccountSettingsError = (state: RootState) =>
-  selectAccountSettingsState(state).errors.get(getFetchId());
+export const selectAccountSettingsUpdateStatus = (state: RootState, accountSettingsType: AccountSettingsType) =>
+  selectAccountSettingsState(state)?.status.get(getFetchId(accountSettingsType));
 
-export const selectUpdateCostTypeError = (state: RootState) => selectSettingsState(state).error;
-
-export const selectUpdateCostTypeStatus = (state: RootState) => selectSettingsState(state).status;
-
-export const selectUpdateCurrencyError = (state: RootState) => selectSettingsState(state).error;
-
-export const selectUpdateCurrencyStatus = (state: RootState) => selectSettingsState(state).status;
+export const selectAccountSettingsUpdateError = (state: RootState, accountSettingsType: AccountSettingsType) =>
+  selectAccountSettingsState(state)?.errors.get(getFetchId(accountSettingsType));

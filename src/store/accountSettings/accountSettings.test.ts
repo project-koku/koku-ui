@@ -2,17 +2,17 @@ jest.mock('api/accountSettings');
 
 import { waitFor } from '@testing-library/react';
 import type { AccountSettings } from 'api/accountSettings';
-import { fetchAccountSettings } from 'api/accountSettings';
+import { AccountSettingsType, fetchAccountSettings } from 'api/accountSettings';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 
 import * as actions from './accountSettingsActions';
-import { stateKey } from './accountSettingsCommon';
+import { accountSettingsStateKey } from './accountSettingsCommon';
 import { accountSettingsReducer } from './accountSettingsReducer';
 import * as selectors from './accountSettingsSelectors';
 
 const createProdvidersStore = createMockStoreCreator({
-  [stateKey]: accountSettingsReducer,
+  [accountSettingsStateKey]: accountSettingsReducer,
 });
 
 const fetchAccountSettingsMock = fetchAccountSettings as jest.Mock;
@@ -30,7 +30,7 @@ const accountSettingsMock: AccountSettings = {
 
 fetchAccountSettingsMock.mockReturnValue(Promise.resolve({ data: accountSettingsMock }));
 
-jest.spyOn(selectors, 'selectAccountSettingsFetchStatus');
+jest.spyOn(selectors, 'selectAccountSettingsStatus');
 
 test('default state', async () => {
   const store = createProdvidersStore();
@@ -39,22 +39,26 @@ test('default state', async () => {
 
 test('fetch account settings success', async () => {
   const store = createProdvidersStore();
-  store.dispatch(actions.fetchAccountSettings());
+  store.dispatch(actions.fetchAccountSettings(AccountSettingsType.settings));
   expect(fetchAccountSettingsMock).toBeCalled();
-  expect(selectors.selectAccountSettingsFetchStatus(store.getState())).toBe(FetchStatus.inProgress);
-  await waitFor(() => expect(selectors.selectAccountSettingsFetchStatus).toHaveBeenCalled());
+  expect(selectors.selectAccountSettingsStatus(store.getState(), AccountSettingsType.settings)).toBe(
+    FetchStatus.inProgress
+  );
+  await waitFor(() => expect(selectors.selectAccountSettingsStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectAccountSettingsFetchStatus(finishedState)).toBe(FetchStatus.complete);
+  expect(selectors.selectAccountSettingsStatus(finishedState, AccountSettingsType.settings)).toBe(FetchStatus.complete);
 });
 
 test('fetch account settings failure', async () => {
   const store = createProdvidersStore();
   const error = Symbol('getAccountSettings error');
   fetchAccountSettingsMock.mockReturnValueOnce(Promise.reject(error));
-  store.dispatch(actions.fetchAccountSettings());
+  store.dispatch(actions.fetchAccountSettings(AccountSettingsType.settings));
   expect(fetchAccountSettingsMock).toBeCalled();
-  expect(selectors.selectAccountSettingsFetchStatus(store.getState())).toBe(FetchStatus.inProgress);
-  await waitFor(() => expect(selectors.selectAccountSettingsFetchStatus).toHaveBeenCalled());
+  expect(selectors.selectAccountSettingsStatus(store.getState(), AccountSettingsType.settings)).toBe(
+    FetchStatus.inProgress
+  );
+  await waitFor(() => expect(selectors.selectAccountSettingsStatus).toHaveBeenCalled());
   const finishedState = store.getState();
-  expect(selectors.selectAccountSettingsFetchStatus(finishedState)).toBe(FetchStatus.complete);
+  expect(selectors.selectAccountSettingsStatus(finishedState, AccountSettingsType.settings)).toBe(FetchStatus.complete);
 });

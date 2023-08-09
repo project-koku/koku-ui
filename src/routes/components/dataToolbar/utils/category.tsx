@@ -32,6 +32,10 @@ export interface CategoryOption extends SelectOptionObject {
   value?: string;
 }
 
+export interface ToolbarChipGroupExt extends ToolbarChipGroup {
+  placeholder?: string;
+}
+
 // Category input
 
 export const getCategoryInput = ({
@@ -48,7 +52,7 @@ export const getCategoryInput = ({
   resourcePathsType,
 }: {
   categoryInput?: string;
-  categoryOption?: ToolbarChipGroup;
+  categoryOption?: ToolbarChipGroupExt;
   currentCategory?: string;
   filters?: Filters;
   handleOnCategoryInput?: (event, key: string) => void;
@@ -60,6 +64,7 @@ export const getCategoryInput = ({
   resourcePathsType?: ResourcePathsType;
 }) => {
   const _hasFilters = hasFilters(filters);
+  const placeholder = categoryOption.placeholder || categoryOption.key;
 
   return (
     <ToolbarFilter
@@ -80,10 +85,10 @@ export const getCategoryInput = ({
           />
         ) : isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
           <ResourceTypeahead
-            ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: categoryOption.key })}
+            ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: placeholder })}
             isDisabled={isDisabled && !_hasFilters}
             onSelect={value => handleOnCategoryInputSelect(value, categoryOption.key)}
-            placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: categoryOption.key })}
+            placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholder })}
             resourcePathsType={resourcePathsType}
             resourceType={categoryOption.key as ResourceType}
           />
@@ -94,17 +99,17 @@ export const getCategoryInput = ({
               name={`category-input-${categoryOption.key}`}
               id={`category-input-${categoryOption.key}`}
               type="search"
-              aria-label={intl.formatMessage(messages.filterByInputAriaLabel, { value: categoryOption.key })}
+              aria-label={intl.formatMessage(messages.filterByInputAriaLabel, { value: placeholder })}
               onChange={handleOnCategoryInputChange}
               value={categoryInput}
-              placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: categoryOption.key })}
+              placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholder })}
               onKeyDown={evt => handleOnCategoryInput(evt, categoryOption.key)}
-              size={intl.formatMessage(messages.filterByPlaceholder, { value: categoryOption.key }).length}
+              size={intl.formatMessage(messages.filterByPlaceholder, { value: placeholder }).length}
             />
             <Button
               isDisabled={isDisabled && !_hasFilters}
               variant={ButtonVariant.control}
-              aria-label={intl.formatMessage(messages.filterByButtonAriaLabel, { value: categoryOption.key })}
+              aria-label={intl.formatMessage(messages.filterByButtonAriaLabel, { value: placeholder })}
               onClick={evt => handleOnCategoryInput(evt, categoryOption.key)}
             >
               <SearchIcon />

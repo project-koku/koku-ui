@@ -382,9 +382,9 @@ export default defineMessages({
   },
   costCategoryDesc: {
     defaultMessage:
-      'Enable your data source labels to be used as AWS category keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
+      'Enable your AWS cost categories to be used for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
     description:
-      'Enable your data source labels to be used as AWS category keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
+      'Enable your AWS cost categories to be used for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
     id: 'costCategoryDesc',
   },
   costCategoryNames: {
@@ -1312,6 +1312,11 @@ export default defineMessages({
     description: 'Disable tags',
     id: 'disableTags',
   },
+  disabled: {
+    defaultMessage: 'Disabled',
+    description: 'Disabled',
+    id: 'disabled',
+  },
   discountMinus: {
     defaultMessage: 'Discount (-)',
     description: 'Discount (-)',
@@ -1814,17 +1819,18 @@ export default defineMessages({
       'aws_category {Input for cost category name} ' +
       'cluster {Input for cluster name} ' +
       'gcp_project {Input for GCP project name} ' +
-      'name {Input for name name} ' +
+      'name {Input for name} ' +
       'node {Input for node name} ' +
       'org_unit_id {Input for organizational unit name} ' +
       'payer_tenant_id {Input for account name} ' +
-      'product_service {Input for service_name name} ' +
+      'product_service {Input for service_name} ' +
       'project {Input for project name} ' +
       'region {Input for region name} ' +
       'resource_location {Input for region name} ' +
       'service {Input for service name} ' +
-      'service_name {Input for service_name name} ' +
+      'service_name {Input for service_name} ' +
       'subscription_guid {Input for account name} ' +
+      'status {Input for status value} ' +
       'tag {Input for tag name} ' +
       'other {}}',
     description: 'Input for {value} name',
@@ -3164,6 +3170,20 @@ export default defineMessages({
     defaultMessage: 'Unable to save application settings',
     description: 'Unable to save application settings',
     id: 'settingsErrorTitle',
+  },
+  settingsSuccessChanges: {
+    defaultMessage: 'Changes will be reflected in report summarizations within 24 hours',
+    description: 'Changes will be reflected in report summarizations within 24 hours',
+    id: 'settingsSuccessChanges',
+  },
+  settingsSuccessCostCategoryKeys: {
+    defaultMessage:
+      '{value, select, ' +
+      'enable {{count, plural, one {{count} cost category key enabled} other {{count} cost category keys enabled}}} ' +
+      'disable {{count, plural, one {{count} cost category key disabled} other {{count} cost category keys disabled}}} ' +
+      'other {}}',
+    description: 'Cost category keys enabled or disabled',
+    id: 'settingsSuccessCostCategoryKeys',
   },
   settingsSuccessDesc: {
     defaultMessage: 'Settings for Cost Management were replaced with new values',
