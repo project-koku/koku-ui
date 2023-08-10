@@ -1376,10 +1376,10 @@
         "value": "Should not exceed 100 characters"
       }
     ],
-    "costModelsLastChange": [
+    "costModelsLastUpdated": [
       {
         "type": 0,
-        "value": "Last change"
+        "value": "Last updated"
       }
     ],
     "costModelsPopover": [
@@ -11228,6 +11228,12 @@
       {
         "type": 0,
         "value": "Failed to get RBAC information"
+      }
+    ],
+    "readOnly": [
+      {
+        "type": 0,
+        "value": "Read only"
       }
     ],
     "readOnlyPermissions": [
