@@ -610,10 +610,10 @@ export default defineMessages({
     description: 'Should not exceed 100 characters',
     id: 'costModelsInfoTooLong',
   },
-  costModelsLastChange: {
-    defaultMessage: 'Last change',
-    description: 'Last change',
-    id: 'costModelsLastChange',
+  costModelsLastUpdated: {
+    defaultMessage: 'Last updated',
+    description: 'Last updated',
+    id: 'costModelsLastUpdated',
   },
   costModelsPopover: {
     defaultMessage:
@@ -3013,6 +3013,11 @@ export default defineMessages({
     defaultMessage: 'Failed to get RBAC information',
     description: 'RBAC error title',
     id: 'rbacErrorTitle',
+  },
+  readOnly: {
+    defaultMessage: 'Read only',
+    description: 'Read only',
+    id: 'readOnly',
   },
   readOnlyPermissions: {
     defaultMessage: 'You have read only permissions',

@@ -23,7 +23,7 @@ import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
@@ -54,7 +54,6 @@ const Header: React.FC<Props> = ({
   current,
   deleteCostModel,
   deleteError,
-  intl,
   isDeleteProcessing,
   isDialogOpen,
   isWritePermission,
@@ -65,6 +64,18 @@ const Header: React.FC<Props> = ({
   tabIndex,
 }) => {
   const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
+  const intl = useIntl();
+
+  const dateTime: any = intl.formatDate(current.updated_timestamp, {
+    day: 'numeric',
+    hour: 'numeric',
+    hour12: false,
+    minute: 'numeric',
+    month: 'short',
+    timeZone: 'UTC',
+    timeZoneName: 'short',
+    year: 'numeric',
+  });
 
   return (
     <>
@@ -161,6 +172,10 @@ const Header: React.FC<Props> = ({
         </Split>
         <TextContent style={styles.currency}>
           <TextList component={TextListVariants.dl}>
+            <TextListItem component={TextListItemVariants.dt}>
+              {intl.formatMessage(messages.costModelsLastUpdated)}
+            </TextListItem>
+            <TextListItem component={TextListItemVariants.dd}>{dateTime}</TextListItem>
             <TextListItem component={TextListItemVariants.dt}>{intl.formatMessage(messages.currency)}</TextListItem>
             <TextListItem component={TextListItemVariants.dd}>
               {intl.formatMessage(messages.currencyOptions, { units: current.currency || 'USD' })}
@@ -209,19 +224,17 @@ const Header: React.FC<Props> = ({
   );
 };
 
-export default injectIntl(
-  withRouter(
-    connect(
-      createMapStateToProps(state => ({
-        isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
-        isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
-        deleteError: costModelsSelectors.deleteError(state),
-        isWritePermission: rbacSelectors.isCostModelWritePermission(state),
-      })),
-      {
-        setDialogOpen: costModelsActions.setCostModelDialog,
-        deleteCostModel: costModelsActions.deleteCostModel,
-      }
-    )(Header)
-  )
+export default withRouter(
+  connect(
+    createMapStateToProps(state => ({
+      isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
+      isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
+      deleteError: costModelsSelectors.deleteError(state),
+      isWritePermission: rbacSelectors.isCostModelWritePermission(state),
+    })),
+    {
+      setDialogOpen: costModelsActions.setCostModelDialog,
+      deleteCostModel: costModelsActions.deleteCostModel,
+    }
+  )(Header)
 );

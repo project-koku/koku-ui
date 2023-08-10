@@ -56,9 +56,9 @@ const MarkupCardBase: React.FC<Props> = ({
             <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
               <Button
                 aria-label={intl.formatMessage(messages.editMarkup)}
-                variant={ButtonVariant.link}
                 isAriaDisabled={!isWritePermission}
                 onClick={() => setCostModelDialog({ isOpen: true, name: 'updateMarkup' })}
+                variant={ButtonVariant.link}
               >
                 {intl.formatMessage(messages.edit)}
               </Button>

@@ -1,11 +1,14 @@
-import type { IAction, IRow } from '@patternfly/react-table';
-import { ActionsColumn, TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Button, ButtonVariant } from '@patternfly/react-core';
+import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
+import type { IRow } from '@patternfly/react-table';
+import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { TableGridBreakpoint } from '@patternfly/react-table';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
 import { createMapStateToProps } from 'store/common';
 import { costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
@@ -22,26 +25,6 @@ interface SourcesTableStateProps {
 type SourcesTableProps = SourcesTableOwnProps & SourcesTableStateProps & WrappedComponentProps;
 
 const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl, showDeleteDialog }) => {
-  const getActions = (): IAction[] => {
-    if (canWrite) {
-      return [
-        {
-          title: intl.formatMessage(messages.costModelsSourceDelete),
-          onClick: (_evt, rowIndex: number) => showDeleteDialog(rowIndex),
-        },
-      ];
-    }
-    return [
-      {
-        style: { pointerEvents: 'auto' },
-        tooltip: intl.formatMessage(messages.readOnlyPermissions),
-        isDisabled: true,
-        title: intl.formatMessage(messages.costModelsSourceDelete),
-      },
-    ];
-  };
-
-  const actions = getActions();
   const rows: (IRow | string[])[] = costModels.length > 0 ? costModels[0].sources.map(source => [source.name]) : [];
 
   return (
@@ -61,14 +44,17 @@ const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl,
           <Tr key={rowIndex}>
             <Td>{r}</Td>
             <Td isActionCell>
-              <ActionsColumn
-                items={actions.map(a => {
-                  return {
-                    ...a,
-                    onClick: () => a.onClick(null, rowIndex, r, null),
-                  };
-                })}
-              ></ActionsColumn>
+              <ReadOnlyTooltip key="action" isDisabled={!canWrite}>
+                <Button
+                  aria-label={intl.formatMessage(messages.costModelsSourceDelete)}
+                  isAriaDisabled={!canWrite}
+                  isSmall
+                  onClick={() => showDeleteDialog(rowIndex)}
+                  variant={ButtonVariant.plain}
+                >
+                  <MinusCircleIcon />
+                </Button>
+              </ReadOnlyTooltip>
             </Td>
           </Tr>
         ))}

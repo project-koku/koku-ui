@@ -51,9 +51,9 @@ const DistributionCardBase: React.FC<Props> = ({
             <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
               <Button
                 aria-label={intl.formatMessage(messages.costModelsDistributionEdit)}
-                variant={ButtonVariant.link}
                 isAriaDisabled={!isWritePermission}
                 onClick={() => setCostModelDialog({ isOpen: true, name: 'updateDistribution' })}
+                variant={ButtonVariant.link}
               >
                 {intl.formatMessage(messages.edit)}
               </Button>
