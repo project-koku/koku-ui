@@ -66,8 +66,8 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = settings?.meta ? settings.meta.count : 0;
-    const limit = settings?.meta?.limit ? settings.meta.limit : baseQuery.limit; // Todo: API doesn't provide limit
-    const offset = settings?.meta?.offset ? settings.meta.offset : baseQuery.offset; // Todo: API doesn't provide offset
+    const limit = settings?.meta ? settings.meta.limit : baseQuery.limit;
+    const offset = settings?.meta ? settings.meta.offset : baseQuery.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -180,7 +180,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
   };
 
   const handleOnSetPage = pageNumber => {
-    const newQuery = queryUtils.handleOnSetPage(query, settings, pageNumber);
+    const newQuery = queryUtils.handleOnSetPage(query, settings, pageNumber, true);
     setQuery(newQuery);
   };
 
@@ -206,7 +206,6 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
   const categories = getCategories();
   const isDisabled = categories.length === 0;
 
-  // Note: Providers are fetched via the AccountSettings component used by all routes
   if (settingsError) {
     return <NotAvailable />;
   }

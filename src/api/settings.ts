@@ -28,12 +28,18 @@ export const enum SettingsType {
   awsCategoryKeys = 'awsCategoryKeys',
   awsCategoryKeysEnable = 'awsCategoryKeysEnable',
   awsCategoryKeysDisable = 'awsCategoryKeysDisable',
+  tags = 'tags',
+  tagsEnable = 'tagsEnable',
+  tagsDisable = 'tagsDisable',
 }
 
 export const SettingsTypePaths: Partial<Record<SettingsType, string>> = {
   [SettingsType.awsCategoryKeys]: 'settings/aws_category_keys/',
   [SettingsType.awsCategoryKeysEnable]: 'settings/aws_category_keys/enable/',
   [SettingsType.awsCategoryKeysDisable]: 'settings/aws_category_keys/disable/',
+  [SettingsType.tags]: 'settings/tags',
+  [SettingsType.tagsEnable]: 'settings/tags/enable/',
+  [SettingsType.tagsDisable]: 'settings/tags/disable/',
 };
 
 export function fetchSettings(settingsType: SettingsType, query: string) {
