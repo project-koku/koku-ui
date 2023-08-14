@@ -18,6 +18,8 @@ interface TagToolbarOwnProps {
   canWrite?: boolean;
   isAllSelected?: boolean;
   isDisabled?: boolean;
+  isPrimaryActionDisabled?: boolean;
+  isSecondaryActionDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onBulkSelected(action: string);
@@ -28,6 +30,7 @@ interface TagToolbarOwnProps {
   pagination?: React.ReactNode;
   query?: OcpQuery;
   selectedItems?: ComputedReportItem[];
+  showBulkSelectAll?: boolean;
 }
 
 interface TagToolbarStateProps {
@@ -55,7 +58,15 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
   }
 
   private getActions = () => {
-    const { canWrite, intl, onDisableTags, onEnableTags, selectedItems } = this.props;
+    const {
+      canWrite,
+      intl,
+      isPrimaryActionDisabled,
+      isSecondaryActionDisabled,
+      onDisableTags,
+      onEnableTags,
+      selectedItems,
+    } = this.props;
 
     const isDisabled = !canWrite || selectedItems.length === 0;
     const tooltip = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.selectCategories);
@@ -63,13 +74,18 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
     return (
       <>
         <Tooltip content={tooltip}>
-          <Button isAriaDisabled={isDisabled} key="save" onClick={onEnableTags} variant={ButtonVariant.primary}>
+          <Button
+            isAriaDisabled={isDisabled || isPrimaryActionDisabled}
+            key="save"
+            onClick={onEnableTags}
+            variant={ButtonVariant.primary}
+          >
             {intl.formatMessage(messages.enableTags)}
           </Button>
         </Tooltip>
         <Tooltip content={tooltip}>
           <Button
-            isAriaDisabled={isDisabled}
+            isAriaDisabled={isDisabled || isSecondaryActionDisabled}
             key="reset"
             onClick={onDisableTags}
             style={styles.action}
@@ -86,9 +102,14 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
     const { intl } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.filterByValues, { value: 'name' }), key: 'project' }, // Todo: update filter name
-      { name: intl.formatMessage(messages.filterByValues, { value: 'status' }), key: 'status' },
-      { name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }), key: 'source_type' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'name' }), placeholder: 'name', key: 'key' },
+      {
+        name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }),
+        placeholder: 'source_type',
+        key: 'provider_type',
+      },
+      // Todo: It's a bit wonky entering a true / false value for status filter
+      // { name: intl.formatMessage(messages.filterByValues, { value: 'status' }), placeholder: 'status', key: 'enabled' },
     ];
     return options;
   };
@@ -106,6 +127,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
       pagination,
       query,
       selectedItems,
+      showBulkSelectAll,
     } = this.props;
     const { categoryOptions } = this.state;
 
@@ -127,6 +149,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
         selectedItems={selectedItems}
         showBulkSelect
         showFilter
+        showBulkSelectAll={showBulkSelectAll}
       />
     );
   }

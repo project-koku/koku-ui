@@ -7,6 +7,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { DataTable } from 'routes/components/dataTable';
+import { styles } from 'routes/components/dataTable/dataTable.styles';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -27,12 +28,6 @@ interface CostCategoryState {
 }
 
 type CostCategoryProps = CostCategoryOwnProps;
-
-export const CostCategoryColumnIds = {
-  infrastructure: 'infrastructure',
-  monthOverMonth: 'monthOverMonth',
-  supplementary: 'supplementary',
-};
 
 class CostCategoryBase extends React.Component<CostCategoryProps, CostCategoryState> {
   public state: CostCategoryState = {
@@ -68,7 +63,7 @@ class CostCategoryBase extends React.Component<CostCategoryProps, CostCategorySt
         name: '', // Selection column
       },
       {
-        orderBy: 'key', // Todo: update sort name
+        orderBy: 'key',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'name' }),
         ...(categories.length && { isSortable: true }),
       },
@@ -76,6 +71,7 @@ class CostCategoryBase extends React.Component<CostCategoryProps, CostCategorySt
         orderBy: 'enabled',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'status' }),
         ...(categories.length && { isSortable: true }),
+        style: styles.lastItemColumn,
       },
     ];
 
@@ -92,6 +88,7 @@ class CostCategoryBase extends React.Component<CostCategoryProps, CostCategorySt
             ) : (
               <Label>{intl.formatMessage(messages.disabled)}</Label>
             ),
+            style: styles.lastItem,
           },
         ],
         item,
