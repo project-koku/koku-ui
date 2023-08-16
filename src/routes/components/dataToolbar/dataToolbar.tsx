@@ -1,6 +1,5 @@
 import './dataToolbar.scss';
 
-import type { ToolbarChipGroup } from '@patternfly/react-core';
 import { Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, ToolbarToggleGroup } from '@patternfly/react-core';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import type { Org } from 'api/orgs/org';
@@ -30,7 +29,7 @@ import {
   onCategoryInput,
   onCategoryInputSelect,
 } from './utils/category';
-import type { Filters } from './utils/common';
+import type { Filters, ToolbarChipGroupExt } from './utils/common';
 import { cleanInput, defaultFilters, getActiveFilters, getDefaultCategory, onDelete } from './utils/common';
 import {
   getCostCategoryKeyOptions,
@@ -39,13 +38,14 @@ import {
   onCostCategoryValueInput,
   onCostCategoryValueSelect,
 } from './utils/costCategory';
+import { getCustomSelect, onCustomSelect } from './utils/custom';
 import type { ExcludeOption } from './utils/exclude';
 import { ExcludeType, getExcludeSelect } from './utils/exclude';
 import { getOrgUnitSelect, onOrgUnitSelect } from './utils/orgUntits';
 import { getTagKeyOptions, getTagKeySelect, getTagValueSelect, onTagValueInput, onTagValueSelect } from './utils/tags';
 
 interface DataToolbarOwnProps {
-  categoryOptions?: ToolbarChipGroup[]; // Options for category menu
+  categoryOptions?: ToolbarChipGroupExt[]; // Options for category menu
   className?: string;
   dateRange?: React.ReactNode; // Optional date range controls to display in toolbar
   datePicker?: React.ReactNode; // Optional date picker controls to display in toolbar
@@ -252,10 +252,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   // Category input
 
-  public getCategoryInputComponent = (categoryOption: ToolbarChipGroup) => {
+  public getCategoryInputComponent = (categoryOption: ToolbarChipGroupExt) => {
     const { isDisabled, resourcePathsType } = this.props;
     const { categoryInput, currentCategory, filters } = this.state;
 
+    if (categoryOption.selectOptions) {
+      return null;
+    }
     return getCategoryInput({
       categoryInput,
       categoryOption,
@@ -366,7 +369,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   // Cost category value select
 
-  public getCostCategoryValueSelectComponent = (costCategoryKeyOption: ToolbarChipGroup) => {
+  public getCostCategoryValueSelectComponent = (costCategoryKeyOption: ToolbarChipGroupExt) => {
     const { isDisabled, resourcePathsType } = this.props;
     const { currentCategory, currentCostCategoryKey, filters, costCategoryKeyValueInput } = this.state;
 
@@ -432,6 +435,57 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       },
       () => {
         if (event.target.checked) {
+          if (onFilterAdded) {
+            onFilterAdded(filter);
+          }
+        } else {
+          if (onFilterRemoved) {
+            onFilterRemoved(filter);
+          }
+        }
+      }
+    );
+  };
+
+  // Custom select
+
+  public getCustomSelectComponent = (categoryOption: ToolbarChipGroupExt) => {
+    const { isDisabled } = this.props;
+    const { currentCategory, filters } = this.state;
+
+    if (!categoryOption.selectOptions) {
+      return null;
+    }
+    return getCustomSelect({
+      categoryOption,
+      currentCategory,
+      filters,
+      handleOnDelete: this.handleOnDelete,
+      handleOnSelect: this.handleOnCustomSelect,
+      isDisabled,
+      selectClassName: categoryOption.selectClassName,
+      selectOptions: categoryOption.selectOptions,
+    });
+  };
+
+  private handleOnCustomSelect = (event, selection) => {
+    const { onFilterAdded, onFilterRemoved } = this.props;
+    const { currentCategory, filters: currentFilters } = this.state;
+
+    const checked = event.target.checked;
+    const { filter, filters } = onCustomSelect({
+      currentCategory,
+      currentFilters,
+      event,
+      selection,
+    });
+
+    this.setState(
+      {
+        filters,
+      },
+      () => {
+        if (checked) {
           if (onFilterAdded) {
             onFilterAdded(filter);
           }
@@ -566,7 +620,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   // Tag value select
 
-  public getTagValueSelect = (tagKeyOption: ToolbarChipGroup) => {
+  public getTagValueSelect = (tagKeyOption: ToolbarChipGroupExt) => {
     const { isDisabled, tagPathsType } = this.props;
     const { currentCategory, currentTagKey, filters, tagKeyValueInput } = this.state;
 
@@ -764,6 +818,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
                   {getTagKeyOptions(tagReport).map(option => this.getTagValueSelect(option))}
                   {this.getOrgUnitSelectComponent()}
                   {filteredOptions.map(option => this.getCategoryInputComponent(option))}
+                  {filteredOptions.map(option => this.getCustomSelectComponent(option))}
                 </ToolbarGroup>
               </ToolbarToggleGroup>
             )}

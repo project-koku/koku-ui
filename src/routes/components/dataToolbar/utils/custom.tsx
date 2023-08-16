@@ -3,9 +3,9 @@ import { cloneDeep } from 'lodash';
 import React from 'react';
 import type { SelectOptionObjectExt } from 'routes/components/dataToolbar/customSelect';
 import { CustomSelect } from 'routes/components/dataToolbar/customSelect';
+import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
 import type { Filter } from 'routes/utils/filter';
 
-import type { ToolbarChipGroupExt } from '../basicToolbar';
 import type { Filters } from './common';
 import { getChips, getFilter, hasFilters } from './common';
 

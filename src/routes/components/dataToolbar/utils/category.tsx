@@ -19,7 +19,7 @@ import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
-import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/basicToolbar';
+import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
 import { ResourceTypeahead } from 'routes/components/resourceTypeahead';
 import type { Filter } from 'routes/utils/filter';
 

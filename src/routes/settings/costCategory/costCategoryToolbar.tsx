@@ -8,7 +8,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { BasicToolbar } from 'routes/components/dataToolbar';
-import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/basicToolbar';
+import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
 

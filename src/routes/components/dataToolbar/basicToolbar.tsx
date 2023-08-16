@@ -24,16 +24,9 @@ import {
   onCategoryInput,
   onCategoryInputSelect,
 } from './utils/category';
-import type { Filters } from './utils/common';
+import type { Filters, ToolbarChipGroupExt } from './utils/common';
 import { cleanInput, defaultFilters, getActiveFilters, getDefaultCategory, onDelete } from './utils/common';
 import { getCustomSelect, onCustomSelect } from './utils/custom';
-
-export interface ToolbarChipGroupExt extends ToolbarChipGroup {
-  ariaLabelKey?: string;
-  placeholderKey?: string;
-  selectClassName?: string; // A selector from routes/components/dataToolbar/dataToolbar.scss
-  selectOptions?: ToolbarChipGroup[];
-}
 
 interface BasicToolbarOwnProps {
   actions?: React.ReactNode;

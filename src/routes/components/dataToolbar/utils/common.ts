@@ -10,6 +10,13 @@ export interface Filters {
   [key: string]: Filter[] | { [key: string]: Filter[] };
 }
 
+export interface ToolbarChipGroupExt extends ToolbarChipGroup {
+  ariaLabelKey?: string;
+  placeholderKey?: string;
+  selectClassName?: string; // A selector from routes/components/dataToolbar/dataToolbar.scss
+  selectOptions?: ToolbarChipGroup[];
+}
+
 export const defaultFilters = {
   [awsCategoryKey]: {},
   tag: {},
