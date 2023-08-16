@@ -135,8 +135,14 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
   const handleOnBulkSelected = (action: string) => {
     if (action === 'none') {
       setSelectedItems([]);
-    } else if (action === 'all' || action === 'page') {
-      setSelectedItems(getCategories());
+    } else if (action === 'page') {
+      const newSelectedItems = [...selectedItems];
+      getCategories().map(val => {
+        if (!newSelectedItems.find(item => item.uuid === val.uuid)) {
+          newSelectedItems.push(val);
+        }
+      });
+      setSelectedItems(newSelectedItems);
     }
   };
 
@@ -175,7 +181,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
   };
 
   const handleOnPerPageSelect = perPage => {
-    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage);
+    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
     setQuery(newQuery);
   };
 
