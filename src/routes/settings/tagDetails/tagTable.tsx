@@ -96,7 +96,10 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
               <Label>{intl.formatMessage(messages.disabled)}</Label>
             ),
           },
-          { value: item.provider_type ? item.provider_type : '', style: styles.lastItem },
+          {
+            value: intl.formatMessage(messages.sourceTypes, { value: item.provider_type.toLowerCase() }),
+            style: styles.lastItem,
+          },
         ],
         item,
         selected: selectedItems && selectedItems.find(val => val.uuid === item.uuid) !== undefined,

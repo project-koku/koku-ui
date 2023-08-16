@@ -27,10 +27,18 @@ import {
 } from './utils/category';
 import type { Filters } from './utils/common';
 import { cleanInput, defaultFilters, getActiveFilters, getDefaultCategory, onDelete } from './utils/common';
+import { getCustomSelect, onCustomSelect } from './utils/custom';
+
+export interface ToolbarChipGroupExt extends ToolbarChipGroup {
+  ariaLabelKey?: string;
+  placeholderKey?: string;
+  selectOptions?: ToolbarChipGroup[];
+}
 
 interface BasicToolbarOwnProps {
   actions?: React.ReactNode;
-  categoryOptions?: ToolbarChipGroup[]; // Options for category menu
+  categoryOptions?: ToolbarChipGroupExt[]; // Options for category menu
+  filters?: Filters;
   groupBy?: string; // Sync category selection with groupBy value
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
@@ -50,6 +58,7 @@ interface BasicToolbarOwnProps {
   showBulkSelectAll?: boolean; // Show bulk select all option
   showFilter?: boolean; // Show export icon
   style?: React.CSSProperties;
+  useActiveFilters?: boolean;
 }
 
 interface BasicToolbarState {
@@ -84,7 +93,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
   }
 
   public componentDidUpdate(prevProps: BasicToolbarProps) {
-    const { categoryOptions, groupBy, query, resourceReport } = this.props;
+    const { categoryOptions, groupBy, query, resourceReport, useActiveFilters = false } = this.props;
 
     if (
       groupBy !== prevProps.groupBy ||
@@ -93,16 +102,19 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       (resourceReport && !isEqual(resourceReport, prevProps.resourceReport))
     ) {
       this.setState(() => {
-        const filters = getActiveFilters(query);
-        return categoryOptions !== prevProps.categoryOptions || prevProps.groupBy !== groupBy
+        const result = {
+          ...((categoryOptions !== prevProps.categoryOptions || prevProps.groupBy !== groupBy) && {
+            categoryInput: '',
+            currentCategory: getDefaultCategory(categoryOptions, groupBy, query),
+          }),
+        };
+        // Active filters overrides Filter.toString
+        return useActiveFilters
           ? {
-              categoryInput: '',
-              currentCategory: getDefaultCategory(categoryOptions, groupBy, query),
-              filters,
+              ...result,
+              filters: getActiveFilters(query),
             }
-          : {
-              filters,
-            };
+          : result;
       });
     }
   }
@@ -206,10 +218,13 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
 
   // Category input
 
-  public getCategoryInputComponent = (categoryOption: ToolbarChipGroup) => {
+  public getCategoryInputComponent = (categoryOption: ToolbarChipGroupExt) => {
     const { isDisabled, resourcePathsType } = this.props;
     const { categoryInput, currentCategory, filters } = this.state;
 
+    if (categoryOption.selectOptions) {
+      return null;
+    }
     return getCategoryInput({
       categoryInput,
       categoryOption,
@@ -307,6 +322,56 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
     );
   };
 
+  // Custom select
+
+  public getCustomSelectComponent = (categoryOption: ToolbarChipGroupExt) => {
+    const { isDisabled } = this.props;
+    const { currentCategory, filters } = this.state;
+
+    if (!categoryOption.selectOptions) {
+      return null;
+    }
+    return getCustomSelect({
+      categoryOption,
+      currentCategory,
+      filters,
+      handleOnDelete: this.handleOnDelete,
+      handleOnSelect: this.handleOnCustomSelect,
+      isDisabled,
+      options: categoryOption.selectOptions,
+    });
+  };
+
+  private handleOnCustomSelect = (event, selection) => {
+    const { onFilterAdded, onFilterRemoved } = this.props;
+    const { currentCategory, filters: currentFilters } = this.state;
+
+    const checked = event.target.checked;
+    const { filter, filters } = onCustomSelect({
+      currentCategory,
+      currentFilters,
+      event,
+      selection,
+    });
+
+    this.setState(
+      {
+        filters,
+      },
+      () => {
+        if (checked) {
+          if (onFilterAdded) {
+            onFilterAdded(filter);
+          }
+        } else {
+          if (onFilterRemoved) {
+            onFilterRemoved(filter);
+          }
+        }
+      }
+    );
+  };
+
   public render() {
     const { actions, categoryOptions, pagination, showBulkSelect, showFilter, style } = this.props;
     const options = categoryOptions ? categoryOptions : getDefaultCategoryOptions();
@@ -326,6 +391,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
                 <ToolbarGroup variant="filter-group">
                   {this.getCategorySelectComponent()}
                   {options && options.map(option => this.getCategoryInputComponent(option))}
+                  {options && options.map(option => this.getCustomSelectComponent(option))}
                 </ToolbarGroup>
               </ToolbarToggleGroup>
             )}

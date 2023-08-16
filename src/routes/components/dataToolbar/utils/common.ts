@@ -49,13 +49,13 @@ export const getActiveFilters = query => {
     }
   };
 
-  if (query && query.filter_by) {
+  if (query?.filter_by) {
     Object.keys(query.filter_by).forEach(key => {
       const values = Array.isArray(query.filter_by[key]) ? [...query.filter_by[key]] : [query.filter_by[key]];
       parseFilters(key, values);
     });
   }
-  if (query && query.exclude) {
+  if (query?.exclude) {
     Object.keys(query.exclude).forEach(key => {
       const values = Array.isArray(query.exclude[key]) ? [...query.exclude[key]] : [query.exclude[key]];
       parseFilters(key, values, true);
@@ -66,11 +66,17 @@ export const getActiveFilters = query => {
 
 export const getChips = (filters: Filter[]): string[] => {
   const chips = [];
-  if (filters) {
+  if (filters instanceof Array) {
     filters.forEach(item => {
+      const label = item.toString ? item.toString() : undefined;
+
       chips.push({
         key: item.value,
-        node: item.isExcludes ? intl.formatMessage(messages.excludeLabel, { value: item.value }) : item.value,
+        node: label
+          ? label
+          : item.isExcludes
+          ? intl.formatMessage(messages.excludeLabel, { value: item.value })
+          : item.value,
       });
     });
   }
@@ -92,8 +98,13 @@ export const getDefaultCategory = (categoryOptions: ToolbarChipGroup[], groupBy:
   return categoryOptions[0].key;
 };
 
-export const getFilter = (filterType: string, filterValue: string, isExcludes = false): Filter => {
-  return { type: filterType, value: filterValue, isExcludes };
+export const getFilter = (
+  filterType: string,
+  filterValue: string,
+  isExcludes = false,
+  toString = undefined
+): Filter => {
+  return { type: filterType, value: filterValue, isExcludes, toString };
 };
 
 export const getFilters = (filterType: string, filterValues: string[], isExcludes = false): Filter[] => {

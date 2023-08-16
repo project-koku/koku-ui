@@ -768,6 +768,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       tagReport,
     } = this.props;
     const options = categoryOptions ? categoryOptions : getDefaultCategoryOptions();
+    const filteredOptions = options.filter(
+      option => option.key !== awsCategoryKey && option.key !== tagKey && option.key !== orgUnitIdKey
+    );
 
     // Todo: clearAllFilters workaround https://github.com/patternfly/patternfly-react/issues/4222
     return (
@@ -791,12 +794,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
                   {this.getTagKeySelectComponent()}
                   {getTagKeyOptions(tagReport).map(option => this.getTagValueSelect(option))}
                   {this.getOrgUnitSelectComponent()}
-                  {options &&
-                    options
-                      .filter(
-                        option => option.key !== awsCategoryKey && option.key !== tagKey && option.key !== orgUnitIdKey
-                      )
-                      .map(option => this.getCategoryInputComponent(option))}
+                  {filteredOptions.map(option => this.getCategoryInputComponent(option))}
                 </ToolbarGroup>
               </ToolbarToggleGroup>
             )}

@@ -19,6 +19,7 @@ import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
+import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/basicToolbar';
 import { WorkloadType } from 'routes/components/dataToolbar/workloadType';
 import { ResourceTypeahead } from 'routes/components/resourceTypeahead';
 import type { Filter } from 'routes/utils/filter';
@@ -30,10 +31,6 @@ import { ExcludeType } from './exclude';
 export interface CategoryOption extends SelectOptionObject {
   toString(): string; // label
   value?: string;
-}
-
-export interface ToolbarChipGroupExt extends ToolbarChipGroup {
-  placeholder?: string;
 }
 
 // Category input
@@ -64,7 +61,8 @@ export const getCategoryInput = ({
   resourcePathsType?: ResourcePathsType;
 }) => {
   const _hasFilters = hasFilters(filters);
-  const placeholder = categoryOption.placeholder || categoryOption.key;
+  const ariaLabelKey = categoryOption.ariaLabelKey || categoryOption.key;
+  const placeholderKey = categoryOption.placeholderKey || categoryOption.key;
 
   return (
     <ToolbarFilter
@@ -85,10 +83,10 @@ export const getCategoryInput = ({
           />
         ) : isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
           <ResourceTypeahead
-            ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: placeholder })}
+            ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
             isDisabled={isDisabled && !_hasFilters}
             onSelect={value => handleOnCategoryInputSelect(value, categoryOption.key)}
-            placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholder })}
+            placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
             resourcePathsType={resourcePathsType}
             resourceType={categoryOption.key as ResourceType}
           />
@@ -99,17 +97,17 @@ export const getCategoryInput = ({
               name={`category-input-${categoryOption.key}`}
               id={`category-input-${categoryOption.key}`}
               type="search"
-              aria-label={intl.formatMessage(messages.filterByInputAriaLabel, { value: placeholder })}
+              aria-label={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
               onChange={handleOnCategoryInputChange}
               value={categoryInput}
-              placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholder })}
+              placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
               onKeyDown={evt => handleOnCategoryInput(evt, categoryOption.key)}
-              size={intl.formatMessage(messages.filterByPlaceholder, { value: placeholder }).length}
+              size={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey }).length}
             />
             <Button
               isDisabled={isDisabled && !_hasFilters}
               variant={ButtonVariant.control}
-              aria-label={intl.formatMessage(messages.filterByButtonAriaLabel, { value: placeholder })}
+              aria-label={intl.formatMessage(messages.filterByButtonAriaLabel, { value: ariaLabelKey })}
               onClick={evt => handleOnCategoryInput(evt, categoryOption.key)}
             >
               <SearchIcon />
