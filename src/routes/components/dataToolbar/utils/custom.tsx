@@ -18,7 +18,8 @@ export const getCustomSelect = ({
   handleOnDelete,
   handleOnSelect,
   isDisabled,
-  options,
+  selectClassName,
+  selectOptions,
 }: {
   categoryOption?: ToolbarChipGroupExt;
   currentCategory?: string;
@@ -26,7 +27,8 @@ export const getCustomSelect = ({
   handleOnDelete?: (type: any, chip: any) => void;
   handleOnSelect?: (event: any, selection) => void;
   isDisabled?: boolean;
-  options?: ToolbarChipGroupExt[];
+  selectOptions?: ToolbarChipGroupExt[];
+  selectClassName?: string;
 }) => {
   // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
   const categoryName = {
@@ -43,10 +45,11 @@ export const getCustomSelect = ({
       showToolbarItem={currentCategory === categoryOption.key}
     >
       <CustomSelect
+        className={selectClassName}
         filters={filters[categoryOption.key]}
         isDisabled={isDisabled && !hasFilters(filters)}
         onSelect={handleOnSelect}
-        options={options}
+        options={selectOptions}
       />
     </ToolbarFilter>
   );

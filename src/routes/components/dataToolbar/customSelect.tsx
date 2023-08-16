@@ -1,3 +1,5 @@
+import './dataToolbar.scss';
+
 import type { SelectOptionObject, ToolbarChipGroup } from '@patternfly/react-core';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import messages from 'locales/messages';
@@ -9,6 +11,7 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 interface CustomSelectOwnProps extends RouterComponentProps, WrappedComponentProps {
+  className?: string;
   filters?: Filter[];
   isDisabled?: boolean;
   onSelect(event, selection);
@@ -61,7 +64,7 @@ class CustomSelectBase extends React.Component<CustomSelectProps, CustomSelectSt
   };
 
   public render() {
-    const { filters, intl, isDisabled, onSelect } = this.props;
+    const { className, filters, intl, isDisabled, onSelect } = this.props;
     const { isExpanded } = this.state;
 
     const selectOptions = this.getSelectOptions();
@@ -71,6 +74,7 @@ class CustomSelectBase extends React.Component<CustomSelectProps, CustomSelectSt
 
     return (
       <Select
+        className={className}
         isDisabled={isDisabled}
         variant={SelectVariant.checkbox}
         aria-label={intl.formatMessage(messages.filterByValuesAriaLabel)}

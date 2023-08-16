@@ -113,6 +113,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
         placeholderKey: 'source_type',
         key: 'provider_type',
         name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }),
+        selectClassName: 'selectOverride', // A selector from routes/components/dataToolbar/dataToolbar.scss
         selectOptions: [
           {
             key: 'AWS',

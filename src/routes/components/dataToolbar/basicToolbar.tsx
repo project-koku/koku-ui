@@ -32,6 +32,7 @@ import { getCustomSelect, onCustomSelect } from './utils/custom';
 export interface ToolbarChipGroupExt extends ToolbarChipGroup {
   ariaLabelKey?: string;
   placeholderKey?: string;
+  selectClassName?: string; // A selector from routes/components/dataToolbar/dataToolbar.scss
   selectOptions?: ToolbarChipGroup[];
 }
 
@@ -338,7 +339,8 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       handleOnDelete: this.handleOnDelete,
       handleOnSelect: this.handleOnCustomSelect,
       isDisabled,
-      options: categoryOption.selectOptions,
+      selectClassName: categoryOption.selectClassName,
+      selectOptions: categoryOption.selectOptions,
     });
   };
 
