@@ -29,7 +29,6 @@ import {
   getDefaultCategoryOptions,
   onCategoryInput,
   onCategoryInputSelect,
-  onWorkloadTypeSelect,
 } from './utils/category';
 import type { Filters } from './utils/common';
 import { cleanInput, defaultFilters, getActiveFilters, getDefaultCategory, onDelete } from './utils/common';
@@ -266,7 +265,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       handleOnCategoryInputChange: this.handleOnCategoryInputChange,
       handleOnCategoryInputSelect: this.handleOnCategoryInputSelect,
       handleOnDelete: this.handleOnDelete,
-      handleOnWorkloadTypeSelect: this.handleOnWorkloadTypeSelect,
       isDisabled,
       resourcePathsType,
     });
@@ -322,35 +320,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       () => {
         if (onFilterAdded) {
           onFilterAdded(filter);
-        }
-      }
-    );
-  };
-
-  private handleOnWorkloadTypeSelect = (event, selection) => {
-    const { onFilterAdded, onFilterRemoved } = this.props;
-    const { currentCategory, filters: currentFilters } = this.state;
-
-    const { filter, filters } = onWorkloadTypeSelect({
-      currentCategory,
-      currentFilters,
-      event,
-      selection,
-    });
-
-    this.setState(
-      {
-        filters,
-      },
-      () => {
-        if (event.target.checked) {
-          if (onFilterAdded) {
-            onFilterAdded(filter);
-          }
-        } else {
-          if (onFilterRemoved) {
-            onFilterRemoved(filter);
-          }
         }
       }
     );

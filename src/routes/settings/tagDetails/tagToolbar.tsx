@@ -197,7 +197,6 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
         showBulkSelect
         showFilter
         showBulkSelectAll={showBulkSelectAll}
-        useActiveFilters={false}
       />
     );
   }
