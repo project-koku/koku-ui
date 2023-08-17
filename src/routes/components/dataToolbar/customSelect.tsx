@@ -1,11 +1,12 @@
 import './dataToolbar.scss';
 
-import type { SelectOptionObject, ToolbarChipGroup } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
 import type { Filter } from 'routes/utils/filter';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -15,7 +16,7 @@ interface CustomSelectOwnProps extends RouterComponentProps, WrappedComponentPro
   filters?: Filter[];
   isDisabled?: boolean;
   onSelect(event, selection);
-  options: ToolbarChipGroup[];
+  options: ToolbarChipGroupExt[];
 }
 
 interface CustomSelectStateProps {
