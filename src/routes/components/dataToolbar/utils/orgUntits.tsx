@@ -20,20 +20,20 @@ interface GroupByOrgOption extends SelectOptionObject {
 export const getOrgUnitSelect = ({
   currentCategory,
   filters,
-  handleOnDelete,
-  handleOnOrgUnitSelect,
-  handleOnOrgUnitToggle,
   isDisabled,
   isOrgUnitSelectExpanded,
+  onDelete,
+  onOrgUnitSelect,
+  onOrgUnitToggle,
   orgReport,
 }: {
   currentCategory?: string;
   filters?: Filters;
-  handleOnDelete?: (type: any, chip: any) => void;
-  handleOnOrgUnitSelect?: (event, selection: string) => void;
-  handleOnOrgUnitToggle?: (isOpen: boolean) => void;
   isDisabled?: boolean;
   isOrgUnitSelectExpanded?: boolean;
+  onDelete?: (type: any, chip: any) => void;
+  onOrgUnitSelect?: (event, selection: string) => void;
+  onOrgUnitToggle?: (isOpen: boolean) => void;
   orgReport: Org;
 }) => {
   const options: GroupByOrgOption[] = getOrgUnitOptions(orgReport).map(option => ({
@@ -69,7 +69,7 @@ export const getOrgUnitSelect = ({
         name: intl.formatMessage(messages.filterByValues, { value: 'org_unit_id' }),
       }}
       chips={chips}
-      deleteChip={handleOnDelete}
+      deleteChip={onDelete}
       key={orgUnitIdKey}
       showToolbarItem={currentCategory === orgUnitIdKey}
     >
@@ -78,8 +78,8 @@ export const getOrgUnitSelect = ({
         className="selectOverride"
         variant={SelectVariant.checkbox}
         aria-label={intl.formatMessage(messages.filterByOrgUnitAriaLabel)}
-        onToggle={handleOnOrgUnitToggle}
-        onSelect={handleOnOrgUnitSelect}
+        onToggle={onOrgUnitToggle}
+        onSelect={onOrgUnitSelect}
         selections={selections}
         isOpen={isOrgUnitSelectExpanded}
         placeholderText={intl.formatMessage(messages.filterByOrgUnitPlaceholder)}

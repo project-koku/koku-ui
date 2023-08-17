@@ -184,15 +184,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     const { isBulkSelectOpen } = this.state;
 
     return getBulkSelect({
-      handleOnBulkSelect: this.handleOnBulkSelect,
-      handleOnBulkSelectClicked: this.handleOnBulkSelectClicked,
-      handleOnBulkSelectToggle: this.handleOnBulkSelectToggle,
       isAllSelected,
       isBulkSelectDisabled,
       isBulkSelectOpen,
       isDisabled,
       itemsPerPage,
       itemsTotal,
+      onBulkSelect: this.handleOnBulkSelect,
+      onBulkSelectClicked: this.handleOnBulkSelectClicked,
+      onBulkSelectToggle: this.handleOnBulkSelectToggle,
       selectedItems,
     });
   };
@@ -228,9 +228,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       currentCategory,
       isDisabled,
       filters,
-      handleOnCategorySelect: this.handleOnCategorySelect,
-      handleOnCategoryToggle: this.handleOnCategoryToggle,
       isCategorySelectOpen,
+      onCategorySelect: this.handleOnCategorySelect,
+      onCategoryToggle: this.handleOnCategoryToggle,
     });
   }
 
@@ -264,11 +264,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       categoryOption,
       currentCategory,
       filters,
-      handleOnCategoryInput: this.handleOnCategoryInput,
-      handleOnCategoryInputChange: this.handleOnCategoryInputChange,
-      handleOnCategoryInputSelect: this.handleOnCategoryInputSelect,
-      handleOnDelete: this.handleOnDelete,
       isDisabled,
+      onCategoryInput: this.handleOnCategoryInput,
+      onCategoryInputChange: this.handleOnCategoryInputChange,
+      onCategoryInputSelect: this.handleOnCategoryInputSelect,
+      onDelete: this.handleOnDelete,
       resourcePathsType,
     });
   };
@@ -338,11 +338,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       currentCategory,
       currentCostCategoryKey,
       filters,
-      handleOnCostCategoryKeyClear: this.handleOnCostCategoryKeyClear,
-      handleOnCostCategoryKeySelect: this.handleOnCostCategoryKeySelect,
-      handleOnCostCategoryKeyToggle: this.handleOnCostCategoryKeyToggle,
       isCostCategoryKeySelectExpanded,
       isDisabled,
+      onCostCategoryKeyClear: this.handleOnCostCategoryKeyClear,
+      onCostCategoryKeySelect: this.handleOnCostCategoryKeySelect,
+      onCostCategoryKeyToggle: this.handleOnCostCategoryKeyToggle,
       resourceReport,
     });
   };
@@ -379,11 +379,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       costCategoryKeyOption,
       costCategoryKeyValueInput,
       filters,
-      handleOnDelete: this.handleOnDelete,
-      handleOnCostCategoryValueSelect: this.handleOnCostCategoryValueSelect,
-      handleOnCostCategoryValueInput: this.handleOnCostCategoryValueInput,
-      handleOnCostCategoryValueInputChange: this.handleOnCostCategoryValueInputChange,
       isDisabled,
+      onDelete: this.handleOnDelete,
+      onCostCategoryValueSelect: this.handleOnCostCategoryValueSelect,
+      onCostCategoryValueInput: this.handleOnCostCategoryValueInput,
+      onCostCategoryValueInputChange: this.handleOnCostCategoryValueInputChange,
       resourcePathsType,
     });
   };
@@ -460,9 +460,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       categoryOption,
       currentCategory,
       filters,
-      handleOnDelete: this.handleOnDelete,
-      handleOnSelect: this.handleOnCustomSelect,
       isDisabled,
+      onDelete: this.handleOnDelete,
+      onSelect: this.handleOnCustomSelect,
       selectClassName: categoryOption.selectClassName,
       selectOptions: categoryOption.selectOptions,
     });
@@ -507,9 +507,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     return getExcludeSelect({
       currentExclude,
       filters,
-      handleOnExcludeSelect: this.handleOnExcludeSelect,
-      handleOnExcludeToggle: this.handleOnExcludeToggle,
       isDisabled,
+      onExcludeSelect: this.handleOnExcludeSelect,
+      onExcludeToggle: this.handleOnExcludeToggle,
       isExcludeSelectOpen,
     });
   }
@@ -535,11 +535,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     return getOrgUnitSelect({
       currentCategory,
       filters,
-      handleOnDelete: this.handleOnDelete,
-      handleOnOrgUnitSelect: this.handleOnOrgUnitSelect,
-      handleOnOrgUnitToggle: this.handleOnOrgUnitToggle,
       isDisabled,
       isOrgUnitSelectExpanded,
+      onDelete: this.handleOnDelete,
+      onOrgUnitSelect: this.handleOnOrgUnitSelect,
+      onOrgUnitToggle: this.handleOnOrgUnitToggle,
       orgReport,
     });
   };
@@ -589,11 +589,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       currentCategory,
       currentTagKey,
       filters,
-      handleOnTagKeyClear: this.handleOnTagKeyClear,
-      handleOnTagKeySelect: this.handleOnTagKeySelect,
-      handleOnTagKeyToggle: this.handleOnTagKeyToggle,
       isDisabled,
       isTagKeySelectExpanded,
+      onTagKeyClear: this.handleOnTagKeyClear,
+      onTagKeySelect: this.handleOnTagKeySelect,
+      onTagKeyToggle: this.handleOnTagKeyToggle,
       tagReport,
     });
   };
@@ -628,11 +628,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       currentCategory,
       currentTagKey,
       filters,
-      handleOnDelete: this.handleOnDelete,
-      handleOnTagValueSelect: this.handleOnTagValueSelect,
-      handleOnTagValueInput: this.handleOnTagValueInput,
-      handleOnTagValueInputChange: this.handleOnTagValueInputChange,
       isDisabled,
+      onDelete: this.handleOnDelete,
+      onTagValueSelect: this.handleOnTagValueSelect,
+      onTagValueInput: this.handleOnTagValueInput,
+      onTagValueInputChange: this.handleOnTagValueInputChange,
       tagKeyOption,
       tagPathsType,
       tagKeyValueInput,
@@ -704,12 +704,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     const { isDisabled } = this.props;
 
     return getColumnManagement({
-      handleColumnManagementClicked: this.handleColumnManagementClicked,
       isDisabled,
+      onColumnManagementClicked: this.handleOnColumnManagementClicked,
     });
   };
 
-  private handleColumnManagementClicked = () => {
+  private handleOnColumnManagementClicked = () => {
     const { onColumnManagementClicked } = this.props;
     if (onColumnManagementClicked) {
       onColumnManagementClicked();
@@ -722,13 +722,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     const { isDisabled, isExportDisabled } = this.props;
 
     return getExportButton({
-      handleExportClicked: this.handleExportClicked,
       isDisabled,
       isExportDisabled,
+      onExportClicked: this.handleOnExportClicked,
     });
   };
 
-  private handleExportClicked = () => {
+  private handleOnExportClicked = () => {
     const { onExportClicked } = this.props;
     if (onExportClicked) {
       onExportClicked();
@@ -742,13 +742,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     const { isPlatformCostsChecked } = this.state;
 
     return getPlatformCosts({
-      handlePlatformCostsChanged: this.handlePlatformCostsChanged,
       isDisabled,
       isPlatformCostsChecked,
+      onPlatformCostsChanged: this.handleOnPlatformCostsChanged,
     });
   };
 
-  private handlePlatformCostsChanged = (checked: boolean) => {
+  private handleOnPlatformCostsChanged = (checked: boolean) => {
     const { onPlatformCostsChanged } = this.props;
     const { isPlatformCostsChecked } = this.state;
     this.setState({ isPlatformCostsChecked: !isPlatformCostsChecked }, () => {
@@ -765,9 +765,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     const { isPlatformCostsChecked } = this.state;
 
     return getKebab({
-      handleColumnManagementClicked: this.handleColumnManagementClicked,
-      handlePlatformCostsChanged: this.handlePlatformCostsChanged,
       isPlatformCostsChecked,
+      onColumnManagementClicked: this.handleOnColumnManagementClicked,
+      onPlatformCostsChanged: this.handleOnPlatformCostsChanged,
       showColumnManagement,
       showPlatformCosts,
     });

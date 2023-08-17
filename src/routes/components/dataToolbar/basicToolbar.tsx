@@ -142,9 +142,6 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
     const { isBulkSelectOpen } = this.state;
 
     return getBulkSelect({
-      handleOnBulkSelect: this.handleOnBulkSelect,
-      handleOnBulkSelectClicked: this.handleOnBulkSelectClicked,
-      handleOnBulkSelectToggle: this.handleOnBulkSelectToggle,
       isAllSelected,
       isBulkSelectDisabled,
       isBulkSelectOpen,
@@ -152,6 +149,9 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       isReadOnly,
       itemsPerPage,
       itemsTotal,
+      onBulkSelect: this.handleOnBulkSelect,
+      onBulkSelectClicked: this.handleOnBulkSelectClicked,
+      onBulkSelectToggle: this.handleOnBulkSelectToggle,
       selectedItems,
       showSelectAll: showBulkSelectAll,
     });
@@ -186,11 +186,11 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
     return getCategorySelect({
       categoryOptions,
       currentCategory,
-      isDisabled,
       filters,
-      handleOnCategorySelect: this.handleOnCategorySelect,
-      handleOnCategoryToggle: this.handleOnCategoryToggle,
+      isDisabled,
       isCategorySelectOpen,
+      onCategorySelect: this.handleOnCategorySelect,
+      onCategoryToggle: this.handleOnCategoryToggle,
     });
   }
 
@@ -222,11 +222,11 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       categoryOption,
       currentCategory,
       filters,
-      handleOnCategoryInput: this.handleOnCategoryInput,
-      handleOnCategoryInputChange: this.handleOnCategoryInputChange,
-      handleOnCategoryInputSelect: this.handleOnCategoryInputSelect,
-      handleOnDelete: this.handleOnDelete,
       isDisabled,
+      onCategoryInput: this.handleOnCategoryInput,
+      onCategoryInputChange: this.handleOnCategoryInputChange,
+      onCategoryInputSelect: this.handleOnCategoryInputSelect,
+      onDelete: this.handleOnDelete,
       resourcePathsType,
     });
   };
@@ -297,9 +297,9 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       categoryOption,
       currentCategory,
       filters,
-      handleOnDelete: this.handleOnDelete,
-      handleOnSelect: this.handleOnCustomSelect,
       isDisabled,
+      onDelete: this.handleOnDelete,
+      onSelect: this.handleOnCustomSelect,
       selectClassName: categoryOption.selectClassName,
       selectOptions: categoryOption.selectOptions,
     });

@@ -39,22 +39,22 @@ export const getCategoryInput = ({
   categoryOption,
   currentCategory,
   filters,
-  handleOnCategoryInput,
-  handleOnCategoryInputChange,
-  handleOnCategoryInputSelect,
-  handleOnDelete,
   isDisabled,
+  onCategoryInput,
+  onCategoryInputChange,
+  onCategoryInputSelect,
+  onDelete,
   resourcePathsType,
 }: {
   categoryInput?: string;
   categoryOption?: ToolbarChipGroupExt;
   currentCategory?: string;
   filters?: Filters;
-  handleOnCategoryInput?: (event, key: string) => void;
-  handleOnCategoryInputChange?: (value: string) => void;
-  handleOnCategoryInputSelect?: (value: string, key: string) => void;
-  handleOnDelete?: (type: any, chip: any) => void;
   isDisabled?: boolean;
+  onCategoryInput?: (event, key: string) => void;
+  onCategoryInputChange?: (value: string) => void;
+  onCategoryInputSelect?: (value: string, key: string) => void;
+  onDelete?: (type: any, chip: any) => void;
   resourcePathsType?: ResourcePathsType;
 }) => {
   const _hasFilters = hasFilters(filters);
@@ -65,7 +65,7 @@ export const getCategoryInput = ({
     <ToolbarFilter
       categoryName={categoryOption}
       chips={getChips(filters[categoryOption.key] as Filter[])}
-      deleteChip={handleOnDelete}
+      deleteChip={onDelete}
       key={categoryOption.key}
       showToolbarItem={currentCategory === categoryOption.key}
     >
@@ -74,7 +74,7 @@ export const getCategoryInput = ({
           <ResourceTypeahead
             ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
             isDisabled={isDisabled && !_hasFilters}
-            onSelect={value => handleOnCategoryInputSelect(value, categoryOption.key)}
+            onSelect={value => onCategoryInputSelect(value, categoryOption.key)}
             placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
             resourcePathsType={resourcePathsType}
             resourceType={categoryOption.key as ResourceType}
@@ -87,17 +87,17 @@ export const getCategoryInput = ({
               id={`category-input-${categoryOption.key}`}
               type="search"
               aria-label={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
-              onChange={handleOnCategoryInputChange}
+              onChange={onCategoryInputChange}
               value={categoryInput}
               placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
-              onKeyDown={evt => handleOnCategoryInput(evt, categoryOption.key)}
+              onKeyDown={evt => onCategoryInput(evt, categoryOption.key)}
               size={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey }).length}
             />
             <Button
               isDisabled={isDisabled && !_hasFilters}
               variant={ButtonVariant.control}
               aria-label={intl.formatMessage(messages.filterByButtonAriaLabel, { value: ariaLabelKey })}
-              onClick={evt => handleOnCategoryInput(evt, categoryOption.key)}
+              onClick={evt => onCategoryInput(evt, categoryOption.key)}
             >
               <SearchIcon />
             </Button>
@@ -195,18 +195,18 @@ export const onCategoryInputSelect = ({
 export const getCategorySelect = ({
   categoryOptions,
   currentCategory,
-  handleOnCategorySelect,
-  handleOnCategoryToggle,
-  isDisabled,
   filters,
+  isDisabled,
   isCategorySelectOpen,
+  onCategorySelect,
+  onCategoryToggle,
 }: {
   categoryOptions?: ToolbarChipGroup[]; // Options for category menu
   currentCategory?: string;
-  isDisabled?: boolean;
   filters?: Filters;
-  handleOnCategorySelect?: (event, selection: CategoryOption) => void;
-  handleOnCategoryToggle?: (isOpen: boolean) => void;
+  isDisabled?: boolean;
+  onCategorySelect?: (event, selection: CategoryOption) => void;
+  onCategoryToggle?: (isOpen: boolean) => void;
   isCategorySelectOpen?: boolean;
 }) => {
   if (!categoryOptions) {
@@ -222,8 +222,8 @@ export const getCategorySelect = ({
         id="category-select"
         isDisabled={isDisabled && !hasFilters(filters)}
         isOpen={isCategorySelectOpen}
-        onSelect={handleOnCategorySelect}
-        onToggle={handleOnCategoryToggle}
+        onSelect={onCategorySelect}
+        onToggle={onCategoryToggle}
         selections={selection}
         toggleIcon={<FilterIcon />}
         variant={SelectVariant.single}

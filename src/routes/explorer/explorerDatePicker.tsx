@@ -81,7 +81,7 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
     return (
       <DatePicker
         aria-label={intl.formatMessage(messages.datePickerStartDateAriaLabel)}
-        onChange={this.handleStartDateOnChange}
+        onChange={this.handleOnStartDateOnChange}
         placeholder={intl.formatMessage(messages.start)}
         ref={this.startDateRef}
         validators={[rangeValidator]}
@@ -107,7 +107,7 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
       <DatePicker
         aria-label={intl.formatMessage(messages.datePickerEndDateAriaLabel)}
         isDisabled={!startDate}
-        onChange={this.handleEndDateOnChange}
+        onChange={this.handleOnEndDateOnChange}
         placeholder={intl.formatMessage(messages.end)}
         rangeStart={startDate}
         ref={this.endDateRef}
@@ -146,7 +146,7 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
     return startDate >= minDate && startDate <= maxDate;
   };
 
-  private handleEndDateOnChange = (evt: FormEvent, value: string, date?: Date) => {
+  private handleOnEndDateOnChange = (evt: FormEvent, value: string, date?: Date) => {
     const { onSelected } = this.props;
     const { startDate } = this.state;
 
@@ -159,7 +159,7 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
     }
   };
 
-  private handleStartDateOnChange = (evt: FormEvent, value: string, date?: Date) => {
+  private handleOnStartDateOnChange = (evt: FormEvent, value: string, date?: Date) => {
     if (date && this.isStartDateValid(date)) {
       this.setState({ startDate: date }, () => {
         if (this.endDateRef && this.endDateRef.current) {

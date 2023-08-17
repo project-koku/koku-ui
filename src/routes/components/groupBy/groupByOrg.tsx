@@ -46,9 +46,9 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps, GroupByOrgState> {
 
   constructor(props: GroupByOrgProps) {
     super(props);
-    this.handleGroupByClear = this.handleGroupByClear.bind(this);
-    this.handleGroupBySelected = this.handleGroupBySelected.bind(this);
-    this.handleGroupByToggle = this.handleGroupByToggle.bind(this);
+    this.handleOnClear = this.handleOnClear.bind(this);
+    this.handleOnSelect = this.handleOnSelect.bind(this);
+    this.handleOnToggle = this.handleOnToggle.bind(this);
   }
 
   public componentDidMount() {
@@ -114,13 +114,13 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps, GroupByOrgState> {
     }));
   };
 
-  private handleGroupByClear = () => {
+  private handleOnClear = () => {
     this.setState({
       currentItem: undefined,
     });
   };
 
-  private handleGroupBySelected = (event, selection: GroupByOrgOption) => {
+  private handleOnSelect = (event, selection: GroupByOrgOption) => {
     const { onSelected } = this.props;
 
     this.setState({
@@ -132,7 +132,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps, GroupByOrgState> {
     }
   };
 
-  private handleGroupByToggle = isGroupByOpen => {
+  private handleOnToggle = isGroupByOpen => {
     this.setState({ isGroupByOpen });
   };
 
@@ -148,9 +148,9 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps, GroupByOrgState> {
         <Select
           aria-label={intl.formatMessage(messages.filterByOrgUnitAriaLabel)}
           isDisabled={isDisabled}
-          onClear={this.handleGroupByClear}
-          onToggle={this.handleGroupByToggle}
-          onSelect={this.handleGroupBySelected}
+          onClear={this.handleOnClear}
+          onToggle={this.handleOnToggle}
+          onSelect={this.handleOnSelect}
           isOpen={isGroupByOpen}
           placeholderText={intl.formatMessage(messages.filterByOrgUnitPlaceholder)}
           selections={selection}
