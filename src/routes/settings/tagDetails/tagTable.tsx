@@ -74,7 +74,7 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
         ...(tags.length && { isSortable: true }),
       },
       {
-        orderBy: 'provider_type',
+        orderBy: 'source_type',
         name: intl.formatMessage(messages.sourceType),
         ...(tags.length && { isSortable: true }),
       },
@@ -95,7 +95,7 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
             ),
           },
           {
-            value: intl.formatMessage(messages.sourceTypes, { value: item.provider_type.toLowerCase() }),
+            value: intl.formatMessage(messages.sourceTypes, { value: item?.source_type?.toLowerCase() }),
           },
         ],
         item,
