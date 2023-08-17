@@ -15,18 +15,18 @@ export const getCustomSelect = ({
   categoryOption,
   currentCategory,
   filters,
-  handleOnDelete,
-  handleOnSelect,
   isDisabled,
+  onDelete,
+  onSelect,
   selectClassName,
   selectOptions,
 }: {
   categoryOption?: ToolbarChipGroupExt;
   currentCategory?: string;
   filters?: Filters;
-  handleOnDelete?: (type: any, chip: any) => void;
-  handleOnSelect?: (event: any, selection) => void;
   isDisabled?: boolean;
+  onDelete?: (type: any, chip: any) => void;
+  onSelect?: (event: any, selection) => void;
   selectOptions?: ToolbarChipGroupExt[];
   selectClassName?: string;
 }) => {
@@ -40,7 +40,7 @@ export const getCustomSelect = ({
     <ToolbarFilter
       categoryName={categoryName}
       chips={getChips(filters[categoryOption.key] as Filter[])}
-      deleteChip={handleOnDelete}
+      deleteChip={onDelete}
       key={`custom-select-${categoryOption.key}`}
       showToolbarItem={currentCategory === categoryOption.key}
     >
@@ -48,7 +48,7 @@ export const getCustomSelect = ({
         className={selectClassName}
         filters={filters[categoryOption.key]}
         isDisabled={isDisabled && !hasFilters(filters)}
-        onSelect={handleOnSelect}
+        onSelect={onSelect}
         options={selectOptions}
       />
     </ToolbarFilter>

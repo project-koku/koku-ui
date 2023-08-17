@@ -71,11 +71,11 @@ class ResourceInputBase extends React.Component<ResourceInputProps, ResourceInpu
   constructor(props: ResourceInputProps) {
     super(props);
 
-    this.handleClearSearch = this.handleClearSearch.bind(this);
-    this.handleMenuClick = this.handleMenuClick.bind(this);
-    this.handleMenuKeyDown = this.handleMenuKeyDown.bind(this);
-    this.handleMenuSelect = this.handleMenuSelect.bind(this);
-    this.handleTextInputKeyDown = this.handleTextInputKeyDown.bind(this);
+    this.handleOnClear = this.handleOnClear.bind(this);
+    this.handleOnMenuKeyDown = this.handleOnMenuKeyDown.bind(this);
+    this.handleOnMenuSelect = this.handleOnMenuSelect.bind(this);
+    this.handleOnPopperClick = this.handleOnPopperClick.bind(this);
+    this.handleOnTextInputKeyDown = this.handleOnTextInputKeyDown.bind(this);
   }
 
   public componentDidUpdate(prevProps: ResourceInputProps) {
@@ -108,12 +108,12 @@ class ResourceInputBase extends React.Component<ResourceInputProps, ResourceInpu
             value={search}
             onChange={onSearchChanged}
             onFocus={this.openMenu}
-            onKeyDown={this.handleTextInputKeyDown}
+            onKeyDown={this.handleOnTextInputKeyDown}
             placeholder={placeholder}
           />
           {search && search.length && (
             <TextInputGroupUtilities>
-              <Button variant="plain" onClick={this.handleClearSearch} aria-label="Clear button and input">
+              <Button variant="plain" onClick={this.handleOnClear} aria-label="Clear button and input">
                 <TimesIcon />
               </Button>
             </TextInputGroupUtilities>
@@ -129,7 +129,7 @@ class ResourceInputBase extends React.Component<ResourceInputProps, ResourceInpu
     return (
       <div ref={this.menuRef}>
         {search && search.length && (
-          <Menu onSelect={this.handleMenuSelect} onKeyDown={this.handleMenuKeyDown}>
+          <Menu onSelect={this.handleOnMenuSelect} onKeyDown={this.handleOnMenuKeyDown}>
             <MenuContent>
               <MenuList>{this.getMenuItems()}</MenuList>
             </MenuContent>
@@ -178,19 +178,8 @@ class ResourceInputBase extends React.Component<ResourceInputProps, ResourceInpu
     return options;
   };
 
-  // Close menu when a click occurs outside of the menu or text input group
-  private handleMenuClick = event => {
-    if (
-      this.menuRef.current &&
-      !this.menuRef.current.contains(event.target) &&
-      !this.textInputGroupRef.current.contains(event.target)
-    ) {
-      this.setState({ menuIsOpen: false });
-    }
-  };
-
   // Enable keyboard only usage while focused on the menu
-  private handleMenuKeyDown = event => {
+  private handleOnMenuKeyDown = event => {
     if (event.key === 'Escape' || event.key === 'Tab') {
       event.preventDefault();
       this.focusTextInput();
@@ -199,7 +188,7 @@ class ResourceInputBase extends React.Component<ResourceInputProps, ResourceInpu
   };
 
   // Add the text of the selected item
-  private handleMenuSelect = event => {
+  private handleOnMenuSelect = event => {
     const { onSelect, search } = this.props;
 
     event.stopPropagation();
@@ -215,11 +204,22 @@ class ResourceInputBase extends React.Component<ResourceInputProps, ResourceInpu
     });
   };
 
+  // Close menu when a click occurs outside the menu or text input group
+  private handleOnPopperClick = event => {
+    if (
+      this.menuRef.current &&
+      !this.menuRef.current.contains(event.target) &&
+      !this.textInputGroupRef.current.contains(event.target)
+    ) {
+      this.setState({ menuIsOpen: false });
+    }
+  };
+
   // Enable keyboard only usage while focused on the text input
-  private handleTextInputKeyDown = event => {
+  private handleOnTextInputKeyDown = event => {
     switch (event.key) {
       case 'Enter':
-        this.handleMenuSelect(event);
+        this.handleOnMenuSelect(event);
         break;
       case 'Escape':
       case 'Tab':
@@ -240,7 +240,7 @@ class ResourceInputBase extends React.Component<ResourceInputProps, ResourceInpu
     }
   };
 
-  private handleClearSearch = () => {
+  private handleOnClear = () => {
     const { onClear } = this.props;
 
     this.setState({ menuIsOpen: false }, () => {
@@ -267,7 +267,7 @@ class ResourceInputBase extends React.Component<ResourceInputProps, ResourceInpu
         popper={this.getMenu()}
         appendTo={() => this.textInputGroupRef.current}
         isVisible={menuIsOpen}
-        onDocumentClick={this.handleMenuClick}
+        onDocumentClick={this.handleOnPopperClick}
       />
     );
   }
