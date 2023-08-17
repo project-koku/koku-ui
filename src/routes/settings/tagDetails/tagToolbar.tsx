@@ -1,4 +1,3 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
 import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
@@ -8,6 +7,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { BasicToolbar } from 'routes/components/dataToolbar';
+import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
@@ -42,7 +42,7 @@ interface TagToolbarDispatchProps {
 }
 
 interface TagToolbarState {
-  categoryOptions?: ToolbarChipGroup[];
+  categoryOptions?: ToolbarChipGroupExt[];
 }
 
 type TagToolbarProps = TagToolbarOwnProps & TagToolbarStateProps & TagToolbarDispatchProps & WrappedComponentProps;
@@ -98,18 +98,65 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
     );
   };
 
-  private getCategoryOptions = (): ToolbarChipGroup[] => {
+  private getCategoryOptions = (): ToolbarChipGroupExt[] => {
     const { intl } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.filterByValues, { value: 'name' }), placeholder: 'name', key: 'key' },
       {
-        name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }),
-        placeholder: 'source_type',
-        key: 'provider_type',
+        ariaLabelKey: 'name',
+        placeholderKey: 'name',
+        key: 'key',
+        name: intl.formatMessage(messages.filterByValues, { value: 'name' }),
       },
-      // Todo: It's a bit wonky entering a true / false value for status filter
-      // { name: intl.formatMessage(messages.filterByValues, { value: 'status' }), placeholder: 'status', key: 'enabled' },
+      {
+        ariaLabelKey: 'source_type',
+        placeholderKey: 'source_type',
+        key: 'provider_type',
+        name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }),
+        selectClassName: 'selectOverride', // A selector from routes/components/dataToolbar/dataToolbar.scss
+        selectOptions: [
+          {
+            key: 'AWS',
+            name: intl.formatMessage(messages.aws),
+          },
+          {
+            key: 'Azure',
+            name: intl.formatMessage(messages.azure),
+          },
+          {
+            key: 'GCP',
+            name: intl.formatMessage(messages.gcp),
+          },
+          // {
+          //   key: 'IBM',
+          //   name: intl.formatMessage(messages.ibm), // Todo: enable when supported by API
+          // },
+          {
+            key: 'OCI',
+            name: intl.formatMessage(messages.oci),
+          },
+          {
+            key: 'OCP',
+            name: intl.formatMessage(messages.openShift),
+          },
+        ],
+      },
+      {
+        ariaLabelKey: 'status',
+        placeholderKey: 'status',
+        key: 'enabled',
+        name: intl.formatMessage(messages.filterByValues, { value: 'status' }),
+        selectOptions: [
+          {
+            name: intl.formatMessage(messages.enabled),
+            key: 'true',
+          },
+          {
+            name: intl.formatMessage(messages.disabled),
+            key: 'false',
+          },
+        ],
+      },
     ];
     return options;
   };

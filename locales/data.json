@@ -7460,6 +7460,12 @@
         "value": "value"
       }
     ],
+    "filterByValuesAriaLabel": [
+      {
+        "type": 0,
+        "value": "Values"
+      }
+    ],
     "filterByWorkloadTypeAriaLabel": [
       {
         "type": 0,
@@ -11571,6 +11577,65 @@
       {
         "type": 0,
         "value": "Source type"
+      }
+    ],
+    "sourceTypes": [
+      {
+        "options": {
+          "aws": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Amazon Web Services"
+              }
+            ]
+          },
+          "azure": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Microsoft Azure"
+              }
+            ]
+          },
+          "gcp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Google Cloud Platform"
+              }
+            ]
+          },
+          "ibm": {
+            "value": [
+              {
+                "type": 0,
+                "value": "IBM Cloud"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Oracle Cloud Infrastructure"
+              }
+            ]
+          },
+          "ocp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "OpenShift"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
       }
     ],
     "sources": [

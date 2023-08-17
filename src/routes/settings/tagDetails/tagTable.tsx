@@ -7,7 +7,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { DataTable } from 'routes/components/dataTable';
-import { styles } from 'routes/components/dataTable/dataTable.styles';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -78,7 +77,6 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
         orderBy: 'provider_type',
         name: intl.formatMessage(messages.sourceType),
         ...(tags.length && { isSortable: true }),
-        style: styles.lastItemColumn,
       },
     ];
 
@@ -96,7 +94,9 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
               <Label>{intl.formatMessage(messages.disabled)}</Label>
             ),
           },
-          { value: item.provider_type ? item.provider_type : '', style: styles.lastItem },
+          {
+            value: intl.formatMessage(messages.sourceTypes, { value: item.provider_type.toLowerCase() }),
+          },
         ],
         item,
         selected: selectedItems && selectedItems.find(val => val.uuid === item.uuid) !== undefined,

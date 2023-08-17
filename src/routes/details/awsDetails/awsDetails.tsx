@@ -285,14 +285,20 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
   };
 
   private handleBulkSelected = (action: string) => {
-    const { isAllSelected } = this.state;
+    const { isAllSelected, selectedItems } = this.state;
 
     if (action === 'none') {
       this.setState({ isAllSelected: false, selectedItems: [] });
     } else if (action === 'page') {
+      const newSelectedItems = [...selectedItems];
+      this.getComputedItems().map(val => {
+        if (!newSelectedItems.find(item => item.id === val.id)) {
+          newSelectedItems.push(val);
+        }
+      });
       this.setState({
         isAllSelected: false,
-        selectedItems: this.getComputedItems(),
+        selectedItems: newSelectedItems,
       });
     } else if (action === 'all') {
       this.setState({ isAllSelected: !isAllSelected, selectedItems: [] });

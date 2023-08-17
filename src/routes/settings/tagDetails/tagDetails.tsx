@@ -134,8 +134,14 @@ const TagDetails: React.FC<TagDetailsProps> = ({ canWrite }) => {
   const handleOnBulkSelected = (action: string) => {
     if (action === 'none') {
       setSelectedItems([]);
-    } else if (action === 'all' || action === 'page') {
-      setSelectedItems(getTags());
+    } else if (action === 'page') {
+      const newSelectedItems = [...selectedItems];
+      getTags().map(val => {
+        if (!newSelectedItems.find(item => item.uuid === val.uuid)) {
+          newSelectedItems.push(val);
+        }
+      });
+      setSelectedItems(newSelectedItems);
     }
   };
 
@@ -174,7 +180,7 @@ const TagDetails: React.FC<TagDetailsProps> = ({ canWrite }) => {
   };
 
   const handleOnPerPageSelect = perPage => {
-    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage);
+    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
     setQuery(newQuery);
   };
 

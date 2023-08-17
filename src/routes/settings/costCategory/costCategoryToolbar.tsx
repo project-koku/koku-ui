@@ -1,4 +1,3 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
 import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
@@ -9,6 +8,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { BasicToolbar } from 'routes/components/dataToolbar';
+import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
@@ -41,7 +41,7 @@ interface CostCategoryToolbarDispatchProps {
 }
 
 interface CostCategoryToolbarState {
-  categoryOptions?: ToolbarChipGroup[];
+  categoryOptions?: ToolbarChipGroupExt[];
 }
 
 type CostCategoryToolbarProps = CostCategoryToolbarOwnProps &
@@ -100,13 +100,32 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
     );
   };
 
-  private getCategoryOptions = (): ToolbarChipGroup[] => {
+  private getCategoryOptions = (): ToolbarChipGroupExt[] => {
     const { intl } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.filterByValues, { value: 'name' }), placeholder: 'name', key: 'key' },
-      // Todo: It's a bit wonky entering a true / false value for status filter
-      // { name: intl.formatMessage(messages.filterByValues, { value: 'status' }), placeholder: 'status', key: 'enabled' },
+      {
+        ariaLabelKey: 'name',
+        placeholderKey: 'name',
+        key: 'key',
+        name: intl.formatMessage(messages.filterByValues, { value: 'name' }),
+      },
+      {
+        ariaLabelKey: 'status',
+        placeholderKey: 'status',
+        key: 'enabled',
+        name: intl.formatMessage(messages.filterByValues, { value: 'status' }),
+        selectOptions: [
+          {
+            name: intl.formatMessage(messages.enabled),
+            key: 'true',
+          },
+          {
+            name: intl.formatMessage(messages.disabled),
+            key: 'false',
+          },
+        ],
+      },
     ];
     return options;
   };

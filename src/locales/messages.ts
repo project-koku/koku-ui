@@ -1925,6 +1925,11 @@ export default defineMessages({
     description: 'Filter by values',
     id: 'filterByValues',
   },
+  filterByValuesAriaLabel: {
+    defaultMessage: 'Values',
+    description: 'Values',
+    id: 'filterByValuesAriaLabel',
+  },
   filterByWorkloadTypeAriaLabel: {
     defaultMessage: 'Workload types',
     description: 'Workload types',
@@ -2897,12 +2902,12 @@ export default defineMessages({
       'aws {Amazon Web Services} ' +
       'aws_ocp {Amazon Web Services filtered by OpenShift} ' +
       'azure {Microsoft Azure} ' +
-      'oci {Oracle Cloud Infrastructure} ' +
       'azure_ocp {Microsoft Azure filtered by OpenShift} ' +
       'gcp {Google Cloud Platform} ' +
       'gcp_ocp {Google Cloud Platform filtered by OpenShift} ' +
       'ibm {IBM Cloud} ' +
       'ibm_ocp {IBM filtered by OpenShift} ' +
+      'oci {Oracle Cloud Infrastructure} ' +
       'ocp {All OpenShift} ' +
       'ocp_cloud {All cloud filtered by OpenShift} ' +
       'rhel {All RHEL} ' +
@@ -3214,6 +3219,19 @@ export default defineMessages({
     defaultMessage: 'Source type',
     description: 'Source type',
     id: 'sourceType',
+  },
+  sourceTypes: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {Amazon Web Services} ' +
+      'azure {Microsoft Azure} ' +
+      'oci {Oracle Cloud Infrastructure} ' +
+      'gcp {Google Cloud Platform} ' +
+      'ibm {IBM Cloud} ' +
+      'ocp {OpenShift} ' +
+      'other {}}',
+    description: 'Source types',
+    id: 'sourceTypes',
   },
   sources: {
     defaultMessage: 'Sources',

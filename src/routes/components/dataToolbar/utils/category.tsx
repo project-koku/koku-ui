@@ -19,7 +19,7 @@ import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
-import { WorkloadType } from 'routes/components/dataToolbar/workloadType';
+import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
 import { ResourceTypeahead } from 'routes/components/resourceTypeahead';
 import type { Filter } from 'routes/utils/filter';
 
@@ -30,10 +30,6 @@ import { ExcludeType } from './exclude';
 export interface CategoryOption extends SelectOptionObject {
   toString(): string; // label
   value?: string;
-}
-
-export interface ToolbarChipGroupExt extends ToolbarChipGroup {
-  placeholder?: string;
 }
 
 // Category input
@@ -47,7 +43,6 @@ export const getCategoryInput = ({
   handleOnCategoryInputChange,
   handleOnCategoryInputSelect,
   handleOnDelete,
-  handleOnWorkloadTypeSelect,
   isDisabled,
   resourcePathsType,
 }: {
@@ -59,12 +54,12 @@ export const getCategoryInput = ({
   handleOnCategoryInputChange?: (value: string) => void;
   handleOnCategoryInputSelect?: (value: string, key: string) => void;
   handleOnDelete?: (type: any, chip: any) => void;
-  handleOnWorkloadTypeSelect?: (event, selection: string) => void;
   isDisabled?: boolean;
   resourcePathsType?: ResourcePathsType;
 }) => {
   const _hasFilters = hasFilters(filters);
-  const placeholder = categoryOption.placeholder || categoryOption.key;
+  const ariaLabelKey = categoryOption.ariaLabelKey || categoryOption.key;
+  const placeholderKey = categoryOption.placeholderKey || categoryOption.key;
 
   return (
     <ToolbarFilter
@@ -75,20 +70,12 @@ export const getCategoryInput = ({
       showToolbarItem={currentCategory === categoryOption.key}
     >
       <InputGroup>
-        {categoryOption.key === 'workload_type' ? (
-          <WorkloadType
-            isDisabled={isDisabled && !_hasFilters}
-            onSelect={handleOnWorkloadTypeSelect}
-            selections={
-              filters[categoryOption.key] ? (filters[categoryOption.key] as Filter[]).map(filter => filter.value) : []
-            }
-          />
-        ) : isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
+        {isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
           <ResourceTypeahead
-            ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: placeholder })}
+            ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
             isDisabled={isDisabled && !_hasFilters}
             onSelect={value => handleOnCategoryInputSelect(value, categoryOption.key)}
-            placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholder })}
+            placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
             resourcePathsType={resourcePathsType}
             resourceType={categoryOption.key as ResourceType}
           />
@@ -99,17 +86,17 @@ export const getCategoryInput = ({
               name={`category-input-${categoryOption.key}`}
               id={`category-input-${categoryOption.key}`}
               type="search"
-              aria-label={intl.formatMessage(messages.filterByInputAriaLabel, { value: placeholder })}
+              aria-label={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
               onChange={handleOnCategoryInputChange}
               value={categoryInput}
-              placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholder })}
+              placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
               onKeyDown={evt => handleOnCategoryInput(evt, categoryOption.key)}
-              size={intl.formatMessage(messages.filterByPlaceholder, { value: placeholder }).length}
+              size={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey }).length}
             />
             <Button
               isDisabled={isDisabled && !_hasFilters}
               variant={ButtonVariant.control}
-              aria-label={intl.formatMessage(messages.filterByButtonAriaLabel, { value: placeholder })}
+              aria-label={intl.formatMessage(messages.filterByButtonAriaLabel, { value: ariaLabelKey })}
               onClick={evt => handleOnCategoryInput(evt, categoryOption.key)}
             >
               <SearchIcon />
@@ -199,30 +186,6 @@ export const onCategoryInputSelect = ({
           : newFilters
           ? [...newFilters, filter]
           : [filter],
-    },
-  };
-};
-
-export const onWorkloadTypeSelect = ({
-  currentCategory,
-  currentFilters,
-  event,
-  selection,
-}: {
-  currentCategory?: string;
-  currentFilters?: Filters;
-  event: any;
-  selection?: string;
-}) => {
-  const checked = event.target.checked;
-  const filter = getFilter(currentCategory, selection);
-  const newFilters: any = cloneDeep(currentFilters[currentCategory] ? currentFilters[currentCategory] : []);
-
-  return {
-    filter,
-    filters: {
-      ...currentFilters,
-      [currentCategory]: checked ? [...newFilters, filter] : newFilters.filter(item => item.value !== filter.value),
     },
   };
 };
