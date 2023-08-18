@@ -2174,6 +2174,11 @@ export default defineMessages({
     description: 'Infrastructure',
     id: 'infrastructure',
   },
+  lastProcessed: {
+    defaultMessage: 'Last processed',
+    description: 'Last processed',
+    id: 'lastProcessed',
+  },
   learnMore: {
     defaultMessage: 'Learn more',
     description: 'Learn more',

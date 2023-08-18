@@ -9609,6 +9609,12 @@
         "value": "Infrastructure"
       }
     ],
+    "lastProcessed": [
+      {
+        "type": 0,
+        "value": "Last processed"
+      }
+    ],
     "learnMore": [
       {
         "type": 0,

@@ -334,6 +334,7 @@
   "inactiveSourcesTitle": "A problem was detected with {value}",
   "inactiveSourcesTitleMultiplier": "A problem was detected with the following sources",
   "infrastructure": "Infrastructure",
+  "lastProcessed": "Last processed",
   "learnMore": "Learn more",
   "limits": "Limits",
   "loadingStateDesc": "Searching for your sources. Do not refresh the browser",
