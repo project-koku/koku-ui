@@ -109,9 +109,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
         name: intl.formatMessage(messages.filterByValues, { value: 'name' }),
       },
       {
-        ariaLabelKey: 'source_type',
-        placeholderKey: 'source_type',
-        key: 'provider_type',
+        key: 'source_type',
         name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }),
         selectClassName: 'selectOverride', // A selector from routes/components/dataToolbar/dataToolbar.scss
         selectOptions: [

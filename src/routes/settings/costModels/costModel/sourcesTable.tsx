@@ -25,7 +25,7 @@ interface SourcesTableStateProps {
 type SourcesTableProps = SourcesTableOwnProps & SourcesTableStateProps & WrappedComponentProps;
 
 const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl, showDeleteDialog }) => {
-  const rows: (IRow | string[])[] = costModels.length > 0 ? costModels[0].sources.map(source => [source.name]) : [];
+  const rows: (IRow | string[])[] = costModels.length > 0 ? costModels[0].sources : [];
 
   return (
     <TableComposable
@@ -36,13 +36,26 @@ const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl,
       <Thead>
         <Tr>
           <Th>{intl.formatMessage(messages.names, { count: 1 })}</Th>
+          <Th>{intl.formatMessage(messages.lastProcessed)}</Th>
           <Th></Th>
         </Tr>
       </Thead>
       <Tbody>
-        {rows.map((r: any, rowIndex) => (
+        {rows.map((row: any, rowIndex) => (
           <Tr key={rowIndex}>
-            <Td>{r}</Td>
+            <Td>{row.name}</Td>
+            <Td>
+              {intl.formatDate(row.last_processed, {
+                day: 'numeric',
+                hour: 'numeric',
+                hour12: false,
+                minute: 'numeric',
+                month: 'short',
+                timeZone: 'UTC',
+                timeZoneName: 'short',
+                year: 'numeric',
+              })}
+            </Td>
             <Td isActionCell>
               <ReadOnlyTooltip key="action" isDisabled={!canWrite}>
                 <Button
