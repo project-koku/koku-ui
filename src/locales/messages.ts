@@ -1930,11 +1930,6 @@ export default defineMessages({
     description: 'Values',
     id: 'filterByValuesAriaLabel',
   },
-  filterByWorkloadTypeAriaLabel: {
-    defaultMessage: 'Workload types',
-    description: 'Workload types',
-    id: 'filterByWorkloadTypeAriaLabel',
-  },
   forDate: {
     defaultMessage: '{value} for {dateRange}',
     description: '{value} for {Jan 1-31}',
@@ -2757,7 +2752,7 @@ export default defineMessages({
   optimizationsValue: {
     defaultMessage: '{value} {units}',
     description: '2 GiB',
-    id: 'optimizationsValueUnits',
+    id: 'optimizationsValue',
   },
   optimizationsValues: {
     defaultMessage:
@@ -3140,11 +3135,6 @@ export default defineMessages({
     defaultMessage: 'Select categories to enable or disable',
     description: 'Select categories to enable or disable',
     id: 'selectCategories',
-  },
-  selectProjects: {
-    defaultMessage: 'Select projects to add or remove',
-    description: 'Select projects to add or remove',
-    id: 'selectProjects',
   },
   selectRow: {
     defaultMessage: 'Select row {value}',

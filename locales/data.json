@@ -7466,12 +7466,6 @@
         "value": "Values"
       }
     ],
-    "filterByWorkloadTypeAriaLabel": [
-      {
-        "type": 0,
-        "value": "Workload types"
-      }
-    ],
     "forDate": [
       {
         "type": 1,
@@ -10674,7 +10668,7 @@
         "value": "Optimizations table"
       }
     ],
-    "optimizationsValueUnits": [
+    "optimizationsValue": [
       {
         "type": 1,
         "value": "value"
@@ -11402,12 +11396,6 @@
       {
         "type": 0,
         "value": "Select categories to enable or disable"
-      }
-    ],
-    "selectProjects": [
-      {
-        "type": 0,
-        "value": "Select projects to add or remove"
       }
     ],
     "selectRow": [
