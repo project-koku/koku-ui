@@ -69,7 +69,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
     } = this.props;
 
     const isDisabled = !canWrite || selectedItems.length === 0;
-    const tooltip = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.selectCategories);
+    const tooltip = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.selectTags);
 
     return (
       <>
