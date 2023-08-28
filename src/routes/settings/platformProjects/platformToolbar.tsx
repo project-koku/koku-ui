@@ -15,9 +15,9 @@ import { createMapStateToProps } from 'store/common';
 import { styles } from './platformProjects.styles';
 
 interface PlatformToolbarOwnProps {
+  canWrite?: boolean;
   isAllSelected?: boolean;
   isDisabled?: boolean;
-  isReadOnly?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onAddProjects();
@@ -58,10 +58,10 @@ export class PlatformToolbarBase extends React.Component<PlatformToolbarProps, P
   }
 
   private getActions = () => {
-    const { intl, isReadOnly, onAddProjects, onRemoveProjects, selectedItems } = this.props;
+    const { canWrite, intl, onAddProjects, onRemoveProjects, selectedItems } = this.props;
 
-    const isDisabled = isReadOnly || selectedItems.length === 0;
-    const tooltip = intl.formatMessage(isReadOnly ? messages.readOnlyPermissions : messages.selectCategories);
+    const isDisabled = !canWrite || selectedItems.length === 0;
+    const tooltip = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.selectCategories);
 
     return (
       <>
@@ -98,9 +98,9 @@ export class PlatformToolbarBase extends React.Component<PlatformToolbarProps, P
 
   public render() {
     const {
+      canWrite,
       isAllSelected,
       isDisabled,
-      isReadOnly,
       itemsPerPage,
       itemsTotal,
       onBulkSelected,
@@ -118,7 +118,7 @@ export class PlatformToolbarBase extends React.Component<PlatformToolbarProps, P
         categoryOptions={categoryOptions}
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
-        isReadOnly={isReadOnly}
+        isReadOnly={!canWrite}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onBulkSelected={onBulkSelected}

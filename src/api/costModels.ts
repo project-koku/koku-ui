@@ -5,6 +5,7 @@ import type { Rate, RateRequest } from './rates';
 
 export interface CostModelProvider {
   name: string;
+  last_processed?: string;
   uuid: string;
 }
 

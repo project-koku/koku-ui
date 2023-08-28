@@ -23,17 +23,17 @@ export const enum ExcludeType {
 export const getExcludeSelect = ({
   currentExclude,
   filters,
-  handleOnExcludeSelect,
-  handleOnExcludeToggle,
   isDisabled,
   isExcludeSelectOpen,
+  onExcludeSelect,
+  onExcludeToggle,
 }: {
   currentExclude?: string;
   filters?: Filters;
-  handleOnExcludeSelect: (event: any, selection: ExcludeOption) => void;
-  handleOnExcludeToggle: (isOpen: boolean) => void;
   isDisabled?: boolean;
   isExcludeSelectOpen?: boolean;
+  onExcludeSelect: (event: any, selection: ExcludeOption) => void;
+  onExcludeToggle: (isOpen: boolean) => void;
 }) => {
   const selectOptions = getExcludeSelectOptions();
   const selection = selectOptions.find((option: ExcludeOption) => option.value === currentExclude);
@@ -44,8 +44,8 @@ export const getExcludeSelect = ({
         id="exclude-select"
         isDisabled={isDisabled && !hasFilters(filters)}
         isOpen={isExcludeSelectOpen}
-        onSelect={handleOnExcludeSelect}
-        onToggle={handleOnExcludeToggle}
+        onSelect={onExcludeSelect}
+        onToggle={onExcludeToggle}
         selections={selection}
         variant={SelectVariant.single}
       >

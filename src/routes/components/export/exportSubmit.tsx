@@ -82,12 +82,27 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
     }
   }
 
+  private fetchExport = () => {
+    const { exportQueryString, fetchExport, isExportsFeatureEnabled, reportPathsType } = this.props;
+
+    fetchExport(reportPathsType, reportType, exportQueryString, isExportsFeatureEnabled);
+
+    this.setState(
+      {
+        fetchExportClicked: true,
+      },
+      () => {
+        this.getExport();
+      }
+    );
+  };
+
   private getExport = () => {
     const { exportFetchStatus, exportReport } = this.props;
 
     if (exportReport && exportFetchStatus === FetchStatus.complete) {
       fileDownload(exportReport.data, this.getFileName(), 'text/csv');
-      this.handleClose();
+      this.handleOnClose();
     }
   };
 
@@ -106,7 +121,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
     return `${fileName}.csv`;
   };
 
-  private handleClose = () => {
+  private handleOnClose = () => {
     const { exportError } = this.props;
 
     this.setState({ ...this.defaultState }, () => {
@@ -114,21 +129,6 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
         this.props.onClose(false);
       }
     });
-  };
-
-  private handleFetchExport = () => {
-    const { exportQueryString, fetchExport, isExportsFeatureEnabled, reportPathsType } = this.props;
-
-    fetchExport(reportPathsType, reportType, exportQueryString, isExportsFeatureEnabled);
-
-    this.setState(
-      {
-        fetchExportClicked: true,
-      },
-      () => {
-        this.getExport();
-      }
-    );
   };
 
   public render() {
@@ -139,7 +139,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
         ouiaId="submit-btn"
         isDisabled={disabled || exportFetchStatus === FetchStatus.inProgress}
         key="confirm"
-        onClick={this.handleFetchExport}
+        onClick={this.fetchExport}
         variant={ButtonVariant.primary}
       >
         {intl.formatMessage(messages.exportGenerate)}
