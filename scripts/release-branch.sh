@@ -15,8 +15,8 @@ default()
   PROD_STABLE_BRANCH="prod-stable"
   STAGE_STABLE_BRANCH="stage-stable"
 
-  UI_DIR="$TMP_DIR/hybrid-committed-spend-ui"
-  UI_REPO="git@github.com:RedHatInsights/hybrid-committed-spend-ui.git"
+  UI_DIR="$TMP_DIR/koku-ui"
+  UI_REPO="git@github.com:project-koku/koku-ui.git"
 }
 
 usage()
