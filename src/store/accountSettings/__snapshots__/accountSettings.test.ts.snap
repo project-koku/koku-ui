@@ -4,6 +4,6 @@ exports[`default state 1`] = `
 {
   "byId": Map {},
   "errors": Map {},
-  "fetchStatus": Map {},
+  "status": Map {},
 }
 `;

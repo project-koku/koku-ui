@@ -55,7 +55,19 @@ export class OptimizationsToolbarBase extends React.Component<OptimizationsToolb
       { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'workload' }), key: 'workload' },
-      { name: intl.formatMessage(messages.filterByValues, { value: 'workload_type' }), key: 'workload_type' },
+      {
+        name: intl.formatMessage(messages.filterByValues, { value: 'workload_type' }),
+        key: 'workload_type',
+        selectClassName: 'selectOverride', // A selector from routes/components/dataToolbar/dataToolbar.scss
+        selectOptions: [
+          { name: 'daemonset', key: 'daemonset' },
+          { name: 'deployment', key: 'deployment' },
+          { name: 'deploymentconfig', key: 'deploymentconfig' },
+          { name: 'replicaset', key: 'replicaset' },
+          { name: 'replicationcontroller', key: 'replicationcontroller' },
+          { name: 'statefulset', key: 'statefulset' },
+        ],
+      },
     ];
     return isProject ? options : options.filter(option => option.key !== 'project');
   };

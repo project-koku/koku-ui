@@ -19,7 +19,7 @@ import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
-import { WorkloadType } from 'routes/components/dataToolbar/workloadType';
+import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
 import { ResourceTypeahead } from 'routes/components/resourceTypeahead';
 import type { Filter } from 'routes/utils/filter';
 
@@ -39,51 +39,43 @@ export const getCategoryInput = ({
   categoryOption,
   currentCategory,
   filters,
-  handleOnCategoryInput,
-  handleOnCategoryInputChange,
-  handleOnCategoryInputSelect,
-  handleOnDelete,
-  handleOnWorkloadTypeSelect,
   isDisabled,
+  onCategoryInput,
+  onCategoryInputChange,
+  onCategoryInputSelect,
+  onDelete,
   resourcePathsType,
 }: {
   categoryInput?: string;
-  categoryOption?: ToolbarChipGroup;
+  categoryOption?: ToolbarChipGroupExt;
   currentCategory?: string;
   filters?: Filters;
-  handleOnCategoryInput?: (event, key: string) => void;
-  handleOnCategoryInputChange?: (value: string) => void;
-  handleOnCategoryInputSelect?: (value: string, key: string) => void;
-  handleOnDelete?: (type: any, chip: any) => void;
-  handleOnWorkloadTypeSelect?: (event, selection: string) => void;
   isDisabled?: boolean;
+  onCategoryInput?: (event, key: string) => void;
+  onCategoryInputChange?: (value: string) => void;
+  onCategoryInputSelect?: (value: string, key: string) => void;
+  onDelete?: (type: any, chip: any) => void;
   resourcePathsType?: ResourcePathsType;
 }) => {
   const _hasFilters = hasFilters(filters);
+  const ariaLabelKey = categoryOption.ariaLabelKey || categoryOption.key;
+  const placeholderKey = categoryOption.placeholderKey || categoryOption.key;
 
   return (
     <ToolbarFilter
       categoryName={categoryOption}
       chips={getChips(filters[categoryOption.key] as Filter[])}
-      deleteChip={handleOnDelete}
+      deleteChip={onDelete}
       key={categoryOption.key}
       showToolbarItem={currentCategory === categoryOption.key}
     >
       <InputGroup>
-        {categoryOption.key === 'workload_type' ? (
-          <WorkloadType
-            isDisabled={isDisabled && !_hasFilters}
-            onSelect={handleOnWorkloadTypeSelect}
-            selections={
-              filters[categoryOption.key] ? (filters[categoryOption.key] as Filter[]).map(filter => filter.value) : []
-            }
-          />
-        ) : isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
+        {isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
           <ResourceTypeahead
-            ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: categoryOption.key })}
+            ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
             isDisabled={isDisabled && !_hasFilters}
-            onSelect={value => handleOnCategoryInputSelect(value, categoryOption.key)}
-            placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: categoryOption.key })}
+            onSelect={value => onCategoryInputSelect(value, categoryOption.key)}
+            placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
             resourcePathsType={resourcePathsType}
             resourceType={categoryOption.key as ResourceType}
           />
@@ -94,18 +86,18 @@ export const getCategoryInput = ({
               name={`category-input-${categoryOption.key}`}
               id={`category-input-${categoryOption.key}`}
               type="search"
-              aria-label={intl.formatMessage(messages.filterByInputAriaLabel, { value: categoryOption.key })}
-              onChange={handleOnCategoryInputChange}
+              aria-label={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
+              onChange={onCategoryInputChange}
               value={categoryInput}
-              placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: categoryOption.key })}
-              onKeyDown={evt => handleOnCategoryInput(evt, categoryOption.key)}
-              size={intl.formatMessage(messages.filterByPlaceholder, { value: categoryOption.key }).length}
+              placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
+              onKeyDown={evt => onCategoryInput(evt, categoryOption.key)}
+              size={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey }).length}
             />
             <Button
               isDisabled={isDisabled && !_hasFilters}
               variant={ButtonVariant.control}
-              aria-label={intl.formatMessage(messages.filterByButtonAriaLabel, { value: categoryOption.key })}
-              onClick={evt => handleOnCategoryInput(evt, categoryOption.key)}
+              aria-label={intl.formatMessage(messages.filterByButtonAriaLabel, { value: ariaLabelKey })}
+              onClick={evt => onCategoryInput(evt, categoryOption.key)}
             >
               <SearchIcon />
             </Button>
@@ -198,47 +190,23 @@ export const onCategoryInputSelect = ({
   };
 };
 
-export const onWorkloadTypeSelect = ({
-  currentCategory,
-  currentFilters,
-  event,
-  selection,
-}: {
-  currentCategory?: string;
-  currentFilters?: Filters;
-  event: any;
-  selection?: string;
-}) => {
-  const checked = event.target.checked;
-  const filter = getFilter(currentCategory, selection);
-  const newFilters: any = cloneDeep(currentFilters[currentCategory] ? currentFilters[currentCategory] : []);
-
-  return {
-    filter,
-    filters: {
-      ...currentFilters,
-      [currentCategory]: checked ? [...newFilters, filter] : newFilters.filter(item => item.value !== filter.value),
-    },
-  };
-};
-
 // Category select
 
 export const getCategorySelect = ({
   categoryOptions,
   currentCategory,
-  handleOnCategorySelect,
-  handleOnCategoryToggle,
-  isDisabled,
   filters,
+  isDisabled,
   isCategorySelectOpen,
+  onCategorySelect,
+  onCategoryToggle,
 }: {
   categoryOptions?: ToolbarChipGroup[]; // Options for category menu
   currentCategory?: string;
-  isDisabled?: boolean;
   filters?: Filters;
-  handleOnCategorySelect?: (event, selection: CategoryOption) => void;
-  handleOnCategoryToggle?: (isOpen: boolean) => void;
+  isDisabled?: boolean;
+  onCategorySelect?: (event, selection: CategoryOption) => void;
+  onCategoryToggle?: (isOpen: boolean) => void;
   isCategorySelectOpen?: boolean;
 }) => {
   if (!categoryOptions) {
@@ -254,8 +222,8 @@ export const getCategorySelect = ({
         id="category-select"
         isDisabled={isDisabled && !hasFilters(filters)}
         isOpen={isCategorySelectOpen}
-        onSelect={handleOnCategorySelect}
-        onToggle={handleOnCategoryToggle}
+        onSelect={onCategorySelect}
+        onToggle={onCategoryToggle}
         selections={selection}
         toggleIcon={<FilterIcon />}
         variant={SelectVariant.single}

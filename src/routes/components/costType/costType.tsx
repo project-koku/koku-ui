@@ -77,8 +77,8 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
         id="costTypeSelect"
         isDisabled={isDisabled}
         isOpen={isSelectOpen}
-        onSelect={this.handleSelect}
-        onToggle={this.handleToggle}
+        onSelect={this.handleOnSelect}
+        onToggle={this.handleOnToggle}
         selections={selection}
         variant={SelectVariant.single}
       >
@@ -104,7 +104,7 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
     return options;
   };
 
-  private handleSelect = (event, selection: CostTypeOption) => {
+  private handleOnSelect = (event, selection: CostTypeOption) => {
     const { isLocalStorage = true, onSelect } = this.props;
 
     // Set cost type in local storage
@@ -123,7 +123,7 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
     );
   };
 
-  private handleToggle = isSelectOpen => {
+  private handleOnToggle = isSelectOpen => {
     this.setState({ isSelectOpen });
   };
 

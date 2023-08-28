@@ -44,9 +44,9 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
 
   constructor(props: GroupBySelectProps) {
     super(props);
-    this.handleGroupByClear = this.handleGroupByClear.bind(this);
-    this.handleGroupBySelected = this.handleGroupBySelected.bind(this);
-    this.handleGroupByToggle = this.handleGroupByToggle.bind(this);
+    this.handleOnClear = this.handleOnClear.bind(this);
+    this.handleOnSelected = this.handleOnSelected.bind(this);
+    this.handleOnToggle = this.handleOnToggle.bind(this);
   }
 
   public componentDidMount() {
@@ -114,13 +114,13 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
     });
   };
 
-  private handleGroupByClear = () => {
+  private handleOnClear = () => {
     this.setState({
       currentItem: undefined,
     });
   };
 
-  private handleGroupBySelected = (event, selection) => {
+  private handleOnSelected = (event, selection) => {
     const { onSelected } = this.props;
     const { prefix } = this.state;
 
@@ -133,7 +133,7 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
     }
   };
 
-  private handleGroupByToggle = isGroupByOpen => {
+  private handleOnToggle = isGroupByOpen => {
     this.setState({ isGroupByOpen });
   };
 
@@ -148,9 +148,9 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
             isCostCategory ? messages.filterByCostCategoryKeyAriaLabel : messages.filterByTagKeyAriaLabel
           )}
           isDisabled={isDisabled}
-          onClear={this.handleGroupByClear}
-          onToggle={this.handleGroupByToggle}
-          onSelect={this.handleGroupBySelected}
+          onClear={this.handleOnClear}
+          onToggle={this.handleOnToggle}
+          onSelect={this.handleOnSelected}
           isOpen={isGroupByOpen}
           placeholderText={intl.formatMessage(messages.chooseKeyPlaceholder)}
           selections={currentItem}

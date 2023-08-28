@@ -1,3 +1,4 @@
+import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import { useUnleashClient, useUnleashContext } from '@unleash/proxy-client-react';
 import { useLayoutEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
@@ -21,14 +22,12 @@ const useFeatureFlags = () => {
   const updateContext = useUnleashContext();
   const client = useUnleashClient();
   const dispatch = useDispatch();
+  const { auth } = useChrome();
 
   const fetchUser = callback => {
-    const insights = (window as any).insights;
-    if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
-      insights.chrome.auth.getUser().then(user => {
-        callback(user.identity.account_number);
-      });
-    }
+    auth.getUser().then(user => {
+      callback((user as any).identity.account_number);
+    });
   };
 
   const isMounted = useRef(false);

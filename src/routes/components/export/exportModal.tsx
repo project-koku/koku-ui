@@ -92,35 +92,35 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleMonthChange = this.handleMonthChange.bind(this);
-    this.handleResolutionChange = this.handleResolutionChange.bind(this);
-    this.handleTypeChange = this.handleTypeChange.bind(this);
+    this.handleOnMonthChange = this.handleOnMonthChange.bind(this);
+    this.handleOnResolutionChange = this.handleOnResolutionChange.bind(this);
+    this.handleOnTypeChange = this.handleOnTypeChange.bind(this);
   }
 
   // Reset default state upon close -- see https://issues.redhat.com/browse/COST-1134
-  private handleClose = () => {
+  private handleOnClose = () => {
     this.setState({ ...this.defaultState }, () => {
       this.props.onClose(false);
     });
   };
 
-  private handleError = (error: AxiosError) => {
+  private handleOnError = (error: AxiosError) => {
     this.setState({ error });
   };
 
-  private handleMonthChange = (_, event) => {
+  private handleOnMonthChange = (_, event) => {
     this.setState({ timeScope: event.currentTarget.value });
   };
 
-  private handleNameChange = (_, event) => {
+  private handleOnNameChange = (_, event) => {
     this.setState({ name: event.currentTarget.value });
   };
 
-  private handleResolutionChange = (_, event) => {
+  private handleOnResolutionChange = (_, event) => {
     this.setState({ resolution: event.currentTarget.value });
   };
 
-  private handleTypeChange = (_, event) => {
+  private handleOnTypeChange = (_, event) => {
     this.setState({ formatType: event.currentTarget.value });
   };
 
@@ -189,7 +189,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       <Modal
         style={styles.modal}
         isOpen={this.props.isOpen}
-        onClose={this.handleClose}
+        onClose={this.handleOnClose}
         title={intl.formatMessage(messages.exportTitle)}
         variant="small"
         actions={[
@@ -201,14 +201,14 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             items={items}
             key="confirm"
             timeScope={showTimeScope ? timeScope : undefined}
-            onClose={this.handleClose}
-            onError={this.handleError}
+            onClose={this.handleOnClose}
+            onError={this.handleOnError}
             name={defaultName}
             reportPathsType={reportPathsType}
             reportQueryString={reportQueryString}
             resolution={resolution}
           />,
-          <Button ouiaId="cancel-btn" key="cancel" onClick={this.handleClose} variant={ButtonVariant.link}>
+          <Button ouiaId="cancel-btn" key="cancel" onClick={this.handleOnClose} variant={ButtonVariant.link}>
             {intl.formatMessage(messages.cancel)}
           </Button>,
         ]}
@@ -240,7 +240,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                     id="exportName"
                     name="exportName"
                     value={defaultName}
-                    onChange={this.handleNameChange}
+                    onChange={this.handleOnNameChange}
                   />
                 </FormGroup>
               </GridItem>
@@ -257,7 +257,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                       value={option.value}
                       isChecked={resolution === option.value}
                       name="resolution"
-                      onChange={this.handleResolutionChange}
+                      onChange={this.handleOnResolutionChange}
                       aria-label={intl.formatMessage(option.label, { value: option.value })}
                     />
                   ))}
@@ -279,7 +279,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                       value={option.value}
                       isChecked={timeScope === option.value}
                       name="timeScope"
-                      onChange={this.handleMonthChange}
+                      onChange={this.handleOnMonthChange}
                       aria-label={intl.formatMessage(option.label, {
                         date: option.value === 'previous' ? previousMonth : currentMonth,
                         value: option.value,
@@ -301,7 +301,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                       value={option.value}
                       isChecked={formatType === option.value}
                       name="formatType"
-                      onChange={this.handleTypeChange}
+                      onChange={this.handleOnTypeChange}
                       aria-label={intl.formatMessage(option.label, { value: option.value })}
                     />
                   ))}
