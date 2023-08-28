@@ -66,12 +66,12 @@ class UpdateMarkupDialogBase extends React.Component<UpdateMarkupDialogProps, Up
     };
   }
 
-  private handleSignChange = (_, event) => {
+  private handleOnSignChange = (_, event) => {
     const { value } = event.currentTarget;
     this.setState({ isDiscount: value === 'true' });
   };
 
-  private handleMarkupDiscountChange = (_, event) => {
+  private handleOnMarkupDiscountChange = (_, event) => {
     const { value } = event.currentTarget;
 
     this.setState({ markup: value });
@@ -170,7 +170,7 @@ class UpdateMarkupDialogBase extends React.Component<UpdateMarkupDialogProps, Up
                     aria-label={intl.formatMessage(messages.markupPlus)}
                     id="markup"
                     value="false" // "+"
-                    onChange={this.handleSignChange}
+                    onChange={this.handleOnSignChange}
                     style={styles.markupRadio}
                   />
                   <Radio
@@ -180,7 +180,7 @@ class UpdateMarkupDialogBase extends React.Component<UpdateMarkupDialogProps, Up
                     aria-label={intl.formatMessage(messages.discountMinus)}
                     id="discount"
                     value="true" // '-'
-                    onChange={this.handleSignChange}
+                    onChange={this.handleOnSignChange}
                   />
                 </FlexItem>
               </Flex>
@@ -204,7 +204,7 @@ class UpdateMarkupDialogBase extends React.Component<UpdateMarkupDialogProps, Up
                           id="markup-input-box"
                           isRequired
                           onKeyDown={this.handleOnKeyDown}
-                          onChange={this.handleMarkupDiscountChange}
+                          onChange={this.handleOnMarkupDiscountChange}
                           placeholder={'0'}
                           style={styles.inputField}
                           type="text"

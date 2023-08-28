@@ -435,7 +435,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
         isIbmFeatureEnabled={isIbmFeatureEnabled}
         isInfrastructureTab={OverviewTab.infrastructure === currentTab}
         isRhelTab={OverviewTab.rhel === currentTab}
-        onSelected={this.handlePerspectiveSelected}
+        onSelected={this.handleOnPerspectiveSelected}
       />
     );
   };
@@ -558,7 +558,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     const { activeTabKey } = this.state;
 
     return (
-      <Tabs activeKey={activeTabKey} onSelect={this.handleTabClick}>
+      <Tabs activeKey={activeTabKey} onSelect={this.handleOnTabClick}>
         {availableTabs.map((val, index) => this.getTab(val.tab, val.contentRef, index))}
       </Tabs>
     );
@@ -597,7 +597,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     router.navigate(this.getRouteForQuery(newQuery), { replace: true });
   };
 
-  private handlePerspectiveSelected = (value: string) => {
+  private handleOnPerspectiveSelected = (value: string) => {
     const { query, router } = this.props;
     const currentTab = this.getCurrentTab();
 
@@ -618,7 +618,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     );
   };
 
-  private handleTabClick = (event, tabIndex) => {
+  private handleOnTabClick = (event, tabIndex) => {
     const { query, router } = this.props;
     const { activeTabKey } = this.state;
 

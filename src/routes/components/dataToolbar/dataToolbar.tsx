@@ -1,6 +1,5 @@
 import './dataToolbar.scss';
 
-import type { ToolbarChipGroup } from '@patternfly/react-core';
 import { Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, ToolbarToggleGroup } from '@patternfly/react-core';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import type { Org } from 'api/orgs/org';
@@ -29,9 +28,8 @@ import {
   getDefaultCategoryOptions,
   onCategoryInput,
   onCategoryInputSelect,
-  onWorkloadTypeSelect,
 } from './utils/category';
-import type { Filters } from './utils/common';
+import type { Filters, ToolbarChipGroupExt } from './utils/common';
 import { cleanInput, defaultFilters, getActiveFilters, getDefaultCategory, onDelete } from './utils/common';
 import {
   getCostCategoryKeyOptions,
@@ -40,13 +38,14 @@ import {
   onCostCategoryValueInput,
   onCostCategoryValueSelect,
 } from './utils/costCategory';
+import { getCustomSelect, onCustomSelect } from './utils/custom';
 import type { ExcludeOption } from './utils/exclude';
 import { ExcludeType, getExcludeSelect } from './utils/exclude';
 import { getOrgUnitSelect, onOrgUnitSelect } from './utils/orgUntits';
 import { getTagKeyOptions, getTagKeySelect, getTagValueSelect, onTagValueInput, onTagValueSelect } from './utils/tags';
 
 interface DataToolbarOwnProps {
-  categoryOptions?: ToolbarChipGroup[]; // Options for category menu
+  categoryOptions?: ToolbarChipGroupExt[]; // Options for category menu
   className?: string;
   dateRange?: React.ReactNode; // Optional date range controls to display in toolbar
   datePicker?: React.ReactNode; // Optional date picker controls to display in toolbar
@@ -185,15 +184,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     const { isBulkSelectOpen } = this.state;
 
     return getBulkSelect({
-      handleOnBulkSelect: this.handleOnBulkSelect,
-      handleOnBulkSelectClicked: this.handleOnBulkSelectClicked,
-      handleOnBulkSelectToggle: this.handleOnBulkSelectToggle,
       isAllSelected,
       isBulkSelectDisabled,
       isBulkSelectOpen,
       isDisabled,
       itemsPerPage,
       itemsTotal,
+      onBulkSelect: this.handleOnBulkSelect,
+      onBulkSelectClicked: this.handleOnBulkSelectClicked,
+      onBulkSelectToggle: this.handleOnBulkSelectToggle,
       selectedItems,
     });
   };
@@ -229,9 +228,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       currentCategory,
       isDisabled,
       filters,
-      handleOnCategorySelect: this.handleOnCategorySelect,
-      handleOnCategoryToggle: this.handleOnCategoryToggle,
       isCategorySelectOpen,
+      onCategorySelect: this.handleOnCategorySelect,
+      onCategoryToggle: this.handleOnCategoryToggle,
     });
   }
 
@@ -253,21 +252,23 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   // Category input
 
-  public getCategoryInputComponent = (categoryOption: ToolbarChipGroup) => {
+  public getCategoryInputComponent = (categoryOption: ToolbarChipGroupExt) => {
     const { isDisabled, resourcePathsType } = this.props;
     const { categoryInput, currentCategory, filters } = this.state;
 
+    if (categoryOption.selectOptions) {
+      return null;
+    }
     return getCategoryInput({
       categoryInput,
       categoryOption,
       currentCategory,
       filters,
-      handleOnCategoryInput: this.handleOnCategoryInput,
-      handleOnCategoryInputChange: this.handleOnCategoryInputChange,
-      handleOnCategoryInputSelect: this.handleOnCategoryInputSelect,
-      handleOnDelete: this.handleOnDelete,
-      handleOnWorkloadTypeSelect: this.handleOnWorkloadTypeSelect,
       isDisabled,
+      onCategoryInput: this.handleOnCategoryInput,
+      onCategoryInputChange: this.handleOnCategoryInputChange,
+      onCategoryInputSelect: this.handleOnCategoryInputSelect,
+      onDelete: this.handleOnDelete,
       resourcePathsType,
     });
   };
@@ -327,35 +328,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     );
   };
 
-  private handleOnWorkloadTypeSelect = (event, selection) => {
-    const { onFilterAdded, onFilterRemoved } = this.props;
-    const { currentCategory, filters: currentFilters } = this.state;
-
-    const { filter, filters } = onWorkloadTypeSelect({
-      currentCategory,
-      currentFilters,
-      event,
-      selection,
-    });
-
-    this.setState(
-      {
-        filters,
-      },
-      () => {
-        if (event.target.checked) {
-          if (onFilterAdded) {
-            onFilterAdded(filter);
-          }
-        } else {
-          if (onFilterRemoved) {
-            onFilterRemoved(filter);
-          }
-        }
-      }
-    );
-  };
-
   // Cost category key select
 
   public getCostCategoryKeySelectComponent = () => {
@@ -366,11 +338,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       currentCategory,
       currentCostCategoryKey,
       filters,
-      handleOnCostCategoryKeyClear: this.handleOnCostCategoryKeyClear,
-      handleOnCostCategoryKeySelect: this.handleOnCostCategoryKeySelect,
-      handleOnCostCategoryKeyToggle: this.handleOnCostCategoryKeyToggle,
       isCostCategoryKeySelectExpanded,
       isDisabled,
+      onCostCategoryKeyClear: this.handleOnCostCategoryKeyClear,
+      onCostCategoryKeySelect: this.handleOnCostCategoryKeySelect,
+      onCostCategoryKeyToggle: this.handleOnCostCategoryKeyToggle,
       resourceReport,
     });
   };
@@ -397,7 +369,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   // Cost category value select
 
-  public getCostCategoryValueSelectComponent = (costCategoryKeyOption: ToolbarChipGroup) => {
+  public getCostCategoryValueSelectComponent = (costCategoryKeyOption: ToolbarChipGroupExt) => {
     const { isDisabled, resourcePathsType } = this.props;
     const { currentCategory, currentCostCategoryKey, filters, costCategoryKeyValueInput } = this.state;
 
@@ -407,11 +379,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       costCategoryKeyOption,
       costCategoryKeyValueInput,
       filters,
-      handleOnDelete: this.handleOnDelete,
-      handleOnCostCategoryValueSelect: this.handleOnCostCategoryValueSelect,
-      handleOnCostCategoryValueInput: this.handleOnCostCategoryValueInput,
-      handleOnCostCategoryValueInputChange: this.handleOnCostCategoryValueInputChange,
       isDisabled,
+      onDelete: this.handleOnDelete,
+      onCostCategoryValueSelect: this.handleOnCostCategoryValueSelect,
+      onCostCategoryValueInput: this.handleOnCostCategoryValueInput,
+      onCostCategoryValueInputChange: this.handleOnCostCategoryValueInputChange,
       resourcePathsType,
     });
   };
@@ -475,6 +447,57 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     );
   };
 
+  // Custom select
+
+  public getCustomSelectComponent = (categoryOption: ToolbarChipGroupExt) => {
+    const { isDisabled } = this.props;
+    const { currentCategory, filters } = this.state;
+
+    if (!categoryOption.selectOptions) {
+      return null;
+    }
+    return getCustomSelect({
+      categoryOption,
+      currentCategory,
+      filters,
+      isDisabled,
+      onDelete: this.handleOnDelete,
+      onSelect: this.handleOnCustomSelect,
+      selectClassName: categoryOption.selectClassName,
+      selectOptions: categoryOption.selectOptions,
+    });
+  };
+
+  private handleOnCustomSelect = (event, selection) => {
+    const { onFilterAdded, onFilterRemoved } = this.props;
+    const { currentCategory, filters: currentFilters } = this.state;
+
+    const checked = event.target.checked;
+    const { filter, filters } = onCustomSelect({
+      currentCategory,
+      currentFilters,
+      event,
+      selection,
+    });
+
+    this.setState(
+      {
+        filters,
+      },
+      () => {
+        if (checked) {
+          if (onFilterAdded) {
+            onFilterAdded(filter);
+          }
+        } else {
+          if (onFilterRemoved) {
+            onFilterRemoved(filter);
+          }
+        }
+      }
+    );
+  };
+
   // Exclude select
 
   public getExcludeSelectComponent() {
@@ -484,9 +507,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     return getExcludeSelect({
       currentExclude,
       filters,
-      handleOnExcludeSelect: this.handleOnExcludeSelect,
-      handleOnExcludeToggle: this.handleOnExcludeToggle,
       isDisabled,
+      onExcludeSelect: this.handleOnExcludeSelect,
+      onExcludeToggle: this.handleOnExcludeToggle,
       isExcludeSelectOpen,
     });
   }
@@ -512,11 +535,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     return getOrgUnitSelect({
       currentCategory,
       filters,
-      handleOnDelete: this.handleOnDelete,
-      handleOnOrgUnitSelect: this.handleOnOrgUnitSelect,
-      handleOnOrgUnitToggle: this.handleOnOrgUnitToggle,
       isDisabled,
       isOrgUnitSelectExpanded,
+      onDelete: this.handleOnDelete,
+      onOrgUnitSelect: this.handleOnOrgUnitSelect,
+      onOrgUnitToggle: this.handleOnOrgUnitToggle,
       orgReport,
     });
   };
@@ -566,11 +589,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       currentCategory,
       currentTagKey,
       filters,
-      handleOnTagKeyClear: this.handleOnTagKeyClear,
-      handleOnTagKeySelect: this.handleOnTagKeySelect,
-      handleOnTagKeyToggle: this.handleOnTagKeyToggle,
       isDisabled,
       isTagKeySelectExpanded,
+      onTagKeyClear: this.handleOnTagKeyClear,
+      onTagKeySelect: this.handleOnTagKeySelect,
+      onTagKeyToggle: this.handleOnTagKeyToggle,
       tagReport,
     });
   };
@@ -597,7 +620,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   // Tag value select
 
-  public getTagValueSelect = (tagKeyOption: ToolbarChipGroup) => {
+  public getTagValueSelect = (tagKeyOption: ToolbarChipGroupExt) => {
     const { isDisabled, tagPathsType } = this.props;
     const { currentCategory, currentTagKey, filters, tagKeyValueInput } = this.state;
 
@@ -605,11 +628,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       currentCategory,
       currentTagKey,
       filters,
-      handleOnDelete: this.handleOnDelete,
-      handleOnTagValueSelect: this.handleOnTagValueSelect,
-      handleOnTagValueInput: this.handleOnTagValueInput,
-      handleOnTagValueInputChange: this.handleOnTagValueInputChange,
       isDisabled,
+      onDelete: this.handleOnDelete,
+      onTagValueSelect: this.handleOnTagValueSelect,
+      onTagValueInput: this.handleOnTagValueInput,
+      onTagValueInputChange: this.handleOnTagValueInputChange,
       tagKeyOption,
       tagPathsType,
       tagKeyValueInput,
@@ -681,12 +704,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     const { isDisabled } = this.props;
 
     return getColumnManagement({
-      handleColumnManagementClicked: this.handleColumnManagementClicked,
       isDisabled,
+      onColumnManagementClicked: this.handleOnColumnManagementClicked,
     });
   };
 
-  private handleColumnManagementClicked = () => {
+  private handleOnColumnManagementClicked = () => {
     const { onColumnManagementClicked } = this.props;
     if (onColumnManagementClicked) {
       onColumnManagementClicked();
@@ -699,13 +722,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     const { isDisabled, isExportDisabled } = this.props;
 
     return getExportButton({
-      handleExportClicked: this.handleExportClicked,
       isDisabled,
       isExportDisabled,
+      onExportClicked: this.handleOnExportClicked,
     });
   };
 
-  private handleExportClicked = () => {
+  private handleOnExportClicked = () => {
     const { onExportClicked } = this.props;
     if (onExportClicked) {
       onExportClicked();
@@ -719,13 +742,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     const { isPlatformCostsChecked } = this.state;
 
     return getPlatformCosts({
-      handlePlatformCostsChanged: this.handlePlatformCostsChanged,
       isDisabled,
       isPlatformCostsChecked,
+      onPlatformCostsChanged: this.handleOnPlatformCostsChanged,
     });
   };
 
-  private handlePlatformCostsChanged = (checked: boolean) => {
+  private handleOnPlatformCostsChanged = (checked: boolean) => {
     const { onPlatformCostsChanged } = this.props;
     const { isPlatformCostsChecked } = this.state;
     this.setState({ isPlatformCostsChecked: !isPlatformCostsChecked }, () => {
@@ -742,9 +765,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     const { isPlatformCostsChecked } = this.state;
 
     return getKebab({
-      handleColumnManagementClicked: this.handleColumnManagementClicked,
-      handlePlatformCostsChanged: this.handlePlatformCostsChanged,
       isPlatformCostsChecked,
+      onColumnManagementClicked: this.handleOnColumnManagementClicked,
+      onPlatformCostsChanged: this.handleOnPlatformCostsChanged,
       showColumnManagement,
       showPlatformCosts,
     });
@@ -768,6 +791,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       tagReport,
     } = this.props;
     const options = categoryOptions ? categoryOptions : getDefaultCategoryOptions();
+    const filteredOptions = options.filter(
+      option => option.key !== awsCategoryKey && option.key !== tagKey && option.key !== orgUnitIdKey
+    );
 
     // Todo: clearAllFilters workaround https://github.com/patternfly/patternfly-react/issues/4222
     return (
@@ -791,12 +817,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
                   {this.getTagKeySelectComponent()}
                   {getTagKeyOptions(tagReport).map(option => this.getTagValueSelect(option))}
                   {this.getOrgUnitSelectComponent()}
-                  {options &&
-                    options
-                      .filter(
-                        option => option.key !== awsCategoryKey && option.key !== tagKey && option.key !== orgUnitIdKey
-                      )
-                      .map(option => this.getCategoryInputComponent(option))}
+                  {filteredOptions.map(option => this.getCategoryInputComponent(option))}
+                  {filteredOptions.map(option => this.getCustomSelectComponent(option))}
                 </ToolbarGroup>
               </ToolbarToggleGroup>
             )}

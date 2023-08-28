@@ -102,10 +102,10 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleBulkSelected = this.handleBulkSelected.bind(this);
-    this.handleExportModalClose = this.handleExportModalClose.bind(this);
-    this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
-    this.handleSelected = this.handleSelected.bind(this);
+    this.handleOnBulkSelected = this.handleOnBulkSelected.bind(this);
+    this.handleOnExportModalClose = this.handleOnExportModalClose.bind(this);
+    this.handleOnExportModalOpen = this.handleOnExportModalOpen.bind(this);
+    this.handleOnSelected = this.handleOnSelected.bind(this);
   }
 
   public componentDidMount() {
@@ -160,7 +160,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={items}
-        onClose={this.handleExportModalClose}
+        onClose={this.handleOnExportModalClose}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
       />
@@ -215,7 +215,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         groupByTagKey={groupByTagKey}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        onSelected={this.handleSelected}
+        onSelected={this.handleOnSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         orderBy={query.order_by}
         report={report}
@@ -242,8 +242,8 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         isExportDisabled={isDisabled || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
-        onBulkSelected={this.handleBulkSelected}
-        onExportClicked={this.handleExportModalOpen}
+        onBulkSelected={this.handleOnBulkSelected}
+        onExportClicked={this.handleOnExportModalOpen}
         onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
         pagination={this.getPagination(isDisabled)}
@@ -253,30 +253,36 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
     );
   };
 
-  private handleBulkSelected = (action: string) => {
-    const { isAllSelected } = this.state;
+  private handleOnBulkSelected = (action: string) => {
+    const { isAllSelected, selectedItems } = this.state;
 
     if (action === 'none') {
       this.setState({ isAllSelected: false, selectedItems: [] });
     } else if (action === 'page') {
+      const newSelectedItems = [...selectedItems];
+      this.getComputedItems().map(val => {
+        if (!newSelectedItems.find(item => item.id === val.id)) {
+          newSelectedItems.push(val);
+        }
+      });
       this.setState({
         isAllSelected: false,
-        selectedItems: this.getComputedItems(),
+        selectedItems: newSelectedItems,
       });
     } else if (action === 'all') {
       this.setState({ isAllSelected: !isAllSelected, selectedItems: [] });
     }
   };
 
-  public handleExportModalClose = (isOpen: boolean) => {
+  public handleOnExportModalClose = (isOpen: boolean) => {
     this.setState({ isExportModalOpen: isOpen });
   };
 
-  public handleExportModalOpen = () => {
+  public handleOnExportModalOpen = () => {
     this.setState({ isExportModalOpen: true });
   };
 
-  private handleGroupBySelected = groupBy => {
+  private handleOnGroupBySelected = groupBy => {
     const { query, router } = this.props;
     const groupByKey: keyof GcpQuery['group_by'] = groupBy as any;
     const newQuery = {
@@ -292,7 +298,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
     });
   };
 
-  private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
+  private handleOnSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
     const { isAllSelected, selectedItems } = this.state;
 
     let newItems = [...(isAllSelected ? this.getComputedItems() : selectedItems)];
@@ -344,7 +350,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
           currency={currency}
           groupBy={groupById}
           onCurrencySelected={() => handleOnCurrencySelected(query, router)}
-          onGroupBySelected={this.handleGroupBySelected}
+          onGroupBySelected={this.handleOnGroupBySelected}
           report={report}
         />
         <div style={styles.content}>

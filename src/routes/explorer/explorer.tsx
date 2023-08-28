@@ -130,11 +130,11 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleBulkSelected = this.handleBulkSelected.bind(this);
-    this.handleExportModalClose = this.handleExportModalClose.bind(this);
-    this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
-    this.handlePerspectiveClick = this.handlePerspectiveClick.bind(this);
-    this.handleSelected = this.handleSelected.bind(this);
+    this.handleOnBulkSelected = this.handleOnBulkSelected.bind(this);
+    this.handleOnExportModalClose = this.handleOnExportModalClose.bind(this);
+    this.handleOnExportModalOpen = this.handleOnExportModalOpen.bind(this);
+    this.handleOnPerspectiveClick = this.handleOnPerspectiveClick.bind(this);
+    this.handleOnSelected = this.handleOnSelected.bind(this);
   }
 
   public componentDidMount() {
@@ -210,7 +210,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
         }
         isOpen={isExportModalOpen}
         items={items}
-        onClose={this.handleExportModalClose}
+        onClose={this.handleOnExportModalClose}
         reportPathsType={getReportPathsType(perspective)}
         reportQueryString={reportQueryString}
         resolution="daily"
@@ -278,7 +278,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
         groupByOrg={groupByOrg}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        onSelected={this.handleSelected}
+        onSelected={this.handleOnSelected}
         onSort={(sortType, isSortAscending, date: string) =>
           handleOnSort(query, router, sortType, isSortAscending, date)
         }
@@ -304,8 +304,8 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
         isExportDisabled={isDisabled || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
-        onBulkSelected={this.handleBulkSelected}
-        onExportClicked={this.handleExportModalOpen}
+        onBulkSelected={this.handleOnBulkSelected}
+        onExportClicked={this.handleOnExportModalOpen}
         pagination={this.getPagination(isDisabled)}
         perspective={perspective}
         selectedItems={selectedItems}
@@ -313,22 +313,28 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     );
   };
 
-  private handleBulkSelected = (action: string) => {
-    const { isAllSelected } = this.state;
+  private handleOnBulkSelected = (action: string) => {
+    const { isAllSelected, selectedItems } = this.state;
 
     if (action === 'none') {
       this.setState({ isAllSelected: false, selectedItems: [] });
     } else if (action === 'page') {
+      const newSelectedItems = [...selectedItems];
+      this.getComputedItems().map(val => {
+        if (!newSelectedItems.find(item => item.id === val.id)) {
+          newSelectedItems.push(val);
+        }
+      });
       this.setState({
         isAllSelected: false,
-        selectedItems: this.getComputedItems(),
+        selectedItems: newSelectedItems,
       });
     } else if (action === 'all') {
       this.setState({ isAllSelected: !isAllSelected, selectedItems: [] });
     }
   };
 
-  private handleDatePickerSelected = (startDate: Date, endDate: Date) => {
+  private handleOnDatePickerSelected = (startDate: Date, endDate: Date) => {
     const { query, router } = this.props;
 
     this.setState({ startDate, endDate }, () => {
@@ -336,15 +342,15 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     });
   };
 
-  private handleExportModalClose = (isOpen: boolean) => {
+  private handleOnExportModalClose = (isOpen: boolean) => {
     this.setState({ isExportModalOpen: isOpen });
   };
 
-  private handleExportModalOpen = () => {
+  private handleOnExportModalOpen = () => {
     this.setState({ isExportModalOpen: true });
   };
 
-  private handleGroupBySelected = groupBy => {
+  private handleOnGroupBySelected = groupBy => {
     const { query, router } = this.props;
 
     let groupByKey = groupBy;
@@ -370,11 +376,11 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     });
   };
 
-  private handlePerspectiveClick = () => {
+  private handleOnPerspectiveClick = () => {
     this.setState({ isAllSelected: false, selectedItems: [] });
   };
 
-  private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
+  private handleOnSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
     const { isAllSelected, selectedItems } = this.state;
 
     let newItems = [...(isAllSelected ? this.getComputedItems() : selectedItems)];
@@ -518,11 +524,11 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
           onCostDistributionSelected={() => handleOnCostDistributionSelected(query, router)}
           onCostTypeSelected={() => handleOnCostTypeSelected(query, router)}
           onCurrencySelected={() => handleOnCurrencySelected(query, router)}
-          onDatePickerSelected={this.handleDatePickerSelected}
+          onDatePickerSelected={this.handleOnDatePickerSelected}
           onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
           onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
-          onGroupBySelected={this.handleGroupBySelected}
-          onPerspectiveClicked={this.handlePerspectiveClick}
+          onGroupBySelected={this.handleOnGroupBySelected}
+          onPerspectiveClicked={this.handleOnPerspectiveClick}
           perspective={perspective}
           report={report}
         />

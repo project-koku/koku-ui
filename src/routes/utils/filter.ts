@@ -2,6 +2,7 @@ import type { Query } from 'api/queries/query';
 
 export interface Filter {
   isExcludes?: boolean;
+  toString?: () => string;
   type?: string;
   value?: string;
 }

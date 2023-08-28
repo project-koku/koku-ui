@@ -1,11 +1,22 @@
+import type { SettingsType } from 'api/settings';
 import type { RootState } from 'store/rootReducer';
 
-import { stateKey } from './settingsCommon';
+import { getFetchId } from './settingsCommon';
+import { settingsStateKey } from './settingsCommon';
 
-export const selectSettingsState = (state: RootState) => state[stateKey];
+export const selectSettingsState = (state: RootState) => state[settingsStateKey];
 
-// Update settings
+export const selectSettings = (state: RootState, settingsType: SettingsType, reportQueryString: string) =>
+  selectSettingsState(state).byId.get(getFetchId(settingsType, reportQueryString));
 
-export const selectSettingsUpdateStatus = (state: RootState) => selectSettingsState(state).status;
+export const selectSettingsStatus = (state: RootState, settingsType: SettingsType, reportQueryString: string) =>
+  selectSettingsState(state)?.status.get(getFetchId(settingsType, reportQueryString));
 
-export const selectSettingsError = (state: RootState) => selectSettingsState(state).error;
+export const selectSettingsError = (state: RootState, settingsType: SettingsType, reportQueryString: string) =>
+  selectSettingsState(state)?.errors.get(getFetchId(settingsType, reportQueryString));
+
+export const selectSettingsUpdateStatus = (state: RootState, settingsType: SettingsType) =>
+  selectSettingsState(state)?.status.get(getFetchId(settingsType));
+
+export const selectSettingsUpdateError = (state: RootState, settingsType: SettingsType) =>
+  selectSettingsState(state)?.errors.get(getFetchId(settingsType));

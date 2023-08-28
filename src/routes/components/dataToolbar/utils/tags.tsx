@@ -17,21 +17,21 @@ export const getTagKeySelect = ({
   currentCategory,
   currentTagKey,
   filters,
-  handleOnTagKeyClear,
-  handleOnTagKeySelect,
-  handleOnTagKeyToggle,
   isDisabled,
   isTagKeySelectExpanded,
+  onTagKeyClear,
+  onTagKeySelect,
+  onTagKeyToggle,
   tagReport,
 }: {
   currentCategory?: string;
   currentTagKey?: string;
   filters?: Filters;
-  handleOnTagKeyClear?: () => void;
-  handleOnTagKeySelect?: (event, selection) => void;
-  handleOnTagKeyToggle?: (isOpen: boolean) => void;
   isDisabled?: boolean;
   isTagKeySelectExpanded?: boolean;
+  onTagKeyClear?: () => void;
+  onTagKeySelect?: (event, selection) => void;
+  onTagKeyToggle?: (isOpen: boolean) => void;
   tagReport?: Tag;
 }) => {
   if (currentCategory !== tagKey) {
@@ -48,9 +48,9 @@ export const getTagKeySelect = ({
         isDisabled={isDisabled && !hasFilters(filters)}
         variant={SelectVariant.typeahead}
         typeAheadAriaLabel={intl.formatMessage(messages.filterByTagKeyAriaLabel)}
-        onClear={handleOnTagKeyClear}
-        onToggle={handleOnTagKeyToggle}
-        onSelect={handleOnTagKeySelect}
+        onClear={onTagKeyClear}
+        onToggle={onTagKeyToggle}
+        onSelect={onTagKeySelect}
         isOpen={isTagKeySelectExpanded}
         placeholderText={intl.formatMessage(messages.chooseKeyPlaceholder)}
         selections={currentTagKey}
@@ -107,11 +107,11 @@ export const getTagValueSelect = ({
   currentCategory,
   currentTagKey,
   filters,
-  handleOnDelete,
-  handleOnTagValueSelect,
-  handleOnTagValueInput,
-  handleOnTagValueInputChange,
   isDisabled,
+  onDelete,
+  onTagValueSelect,
+  onTagValueInput,
+  onTagValueInputChange,
   tagKeyOption,
   tagPathsType,
   tagKeyValueInput,
@@ -119,11 +119,11 @@ export const getTagValueSelect = ({
   currentCategory?: string;
   currentTagKey?: string;
   filters?: Filters;
-  handleOnDelete?: (type: any, chip: any) => void;
-  handleOnTagValueSelect?: (event: any, selection) => void;
-  handleOnTagValueInput?: (event: any) => void;
-  handleOnTagValueInputChange?: (value: string) => void;
   isDisabled?: boolean;
+  onDelete?: (type: any, chip: any) => void;
+  onTagValueSelect?: (event: any, selection) => void;
+  onTagValueInput?: (event: any) => void;
+  onTagValueInputChange?: (value: string) => void;
   tagKeyOption?: ToolbarChipGroup;
   tagPathsType?: TagPathsType;
   tagKeyValueInput?: string;
@@ -138,15 +138,15 @@ export const getTagValueSelect = ({
     <ToolbarFilter
       categoryName={categoryName}
       chips={getChips(filters.tag[tagKeyOption.key])}
-      deleteChip={handleOnDelete}
+      deleteChip={onDelete}
       key={tagKeyOption.key}
       showToolbarItem={currentCategory === tagKey && currentTagKey === tagKeyOption.key}
     >
       <TagValue
         isDisabled={isDisabled && !hasFilters(filters)}
-        onTagValueSelect={handleOnTagValueSelect}
-        onTagValueInput={handleOnTagValueInput}
-        onTagValueInputChange={handleOnTagValueInputChange}
+        onTagValueSelect={onTagValueSelect}
+        onTagValueInput={onTagValueInput}
+        onTagValueInputChange={onTagValueInputChange}
         selections={filters.tag[tagKeyOption.key] ? filters.tag[tagKeyOption.key].map(filter => filter.value) : []}
         tagKey={currentTagKey}
         tagKeyValue={tagKeyValueInput}
