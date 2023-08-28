@@ -19,21 +19,21 @@ export const getCostCategoryKeySelect = ({
   currentCategory,
   currentCostCategoryKey,
   filters,
-  handleOnCostCategoryKeyClear,
-  handleOnCostCategoryKeySelect,
-  handleOnCostCategoryKeyToggle,
   isCostCategoryKeySelectExpanded,
   isDisabled,
+  onCostCategoryKeyClear,
+  onCostCategoryKeySelect,
+  onCostCategoryKeyToggle,
   resourceReport,
 }: {
   currentCategory?: string;
   currentCostCategoryKey?: string;
   filters?: Filters;
-  handleOnCostCategoryKeyClear?: () => void;
-  handleOnCostCategoryKeySelect?: (event, selection) => void;
-  handleOnCostCategoryKeyToggle?: (isOpen: boolean) => void;
   isCostCategoryKeySelectExpanded?: boolean;
   isDisabled?: boolean;
+  onCostCategoryKeyClear?: () => void;
+  onCostCategoryKeySelect?: (event, selection) => void;
+  onCostCategoryKeyToggle?: (isOpen: boolean) => void;
   resourceReport?: Resource;
 }) => {
   if (currentCategory !== awsCategoryKey) {
@@ -50,9 +50,9 @@ export const getCostCategoryKeySelect = ({
         isDisabled={isDisabled && !hasFilters(filters)}
         variant={SelectVariant.typeahead}
         typeAheadAriaLabel={intl.formatMessage(messages.filterByCostCategoryKeyAriaLabel)}
-        onClear={handleOnCostCategoryKeyClear}
-        onToggle={handleOnCostCategoryKeyToggle}
-        onSelect={handleOnCostCategoryKeySelect}
+        onClear={onCostCategoryKeyClear}
+        onToggle={onCostCategoryKeyToggle}
+        onSelect={onCostCategoryKeySelect}
         isOpen={isCostCategoryKeySelectExpanded}
         placeholderText={intl.formatMessage(messages.chooseKeyPlaceholder)}
         selections={currentCostCategoryKey}
@@ -111,11 +111,11 @@ export const getCostCategoryValueSelect = ({
   costCategoryKeyOption,
   costCategoryKeyValueInput,
   filters,
-  handleOnDelete,
-  handleOnCostCategoryValueSelect,
-  handleOnCostCategoryValueInput,
-  handleOnCostCategoryValueInputChange,
   isDisabled,
+  onDelete,
+  onCostCategoryValueSelect,
+  onCostCategoryValueInput,
+  onCostCategoryValueInputChange,
   resourcePathsType,
 }: {
   currentCategory?: string;
@@ -123,11 +123,11 @@ export const getCostCategoryValueSelect = ({
   costCategoryKeyOption: ToolbarChipGroup;
   costCategoryKeyValueInput?: string;
   filters?: Filters;
-  handleOnDelete?: (type: any, chip: any) => void;
-  handleOnCostCategoryValueSelect?: (event, selection: string) => void;
-  handleOnCostCategoryValueInput?: (event) => void;
-  handleOnCostCategoryValueInputChange?: (value: string) => void;
   isDisabled?: boolean;
+  onDelete?: (type: any, chip: any) => void;
+  onCostCategoryValueSelect?: (event, selection: string) => void;
+  onCostCategoryValueInput?: (event) => void;
+  onCostCategoryValueInputChange?: (value: string) => void;
   resourcePathsType?: ResourcePathsType;
 }) => {
   // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
@@ -140,7 +140,7 @@ export const getCostCategoryValueSelect = ({
     <ToolbarFilter
       categoryName={categoryName}
       chips={getChips(filters[awsCategoryKey][costCategoryKeyOption.key])}
-      deleteChip={handleOnDelete}
+      deleteChip={onDelete}
       key={costCategoryKeyOption.key}
       showToolbarItem={currentCategory === awsCategoryKey && currentCostCategoryKey === costCategoryKeyOption.key}
     >
@@ -148,9 +148,9 @@ export const getCostCategoryValueSelect = ({
         costCategoryKey={currentCostCategoryKey}
         costCategoryKeyValue={costCategoryKeyValueInput}
         isDisabled={isDisabled && !hasFilters(filters)}
-        onCostCategoryValueSelect={handleOnCostCategoryValueSelect}
-        onCostCategoryValueInput={handleOnCostCategoryValueInput}
-        onCostCategoryValueInputChange={handleOnCostCategoryValueInputChange}
+        onCostCategoryValueSelect={onCostCategoryValueSelect}
+        onCostCategoryValueInput={onCostCategoryValueInput}
+        onCostCategoryValueInputChange={onCostCategoryValueInputChange}
         resourcePathsType={resourcePathsType}
         selections={
           filters[awsCategoryKey][costCategoryKeyOption.key]

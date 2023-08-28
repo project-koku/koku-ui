@@ -1,4 +1,3 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
 import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
@@ -8,6 +7,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { BasicToolbar } from 'routes/components/dataToolbar';
+import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
@@ -15,9 +15,11 @@ import { createMapStateToProps } from 'store/common';
 import { styles } from './tagDetails.styles';
 
 interface TagToolbarOwnProps {
+  canWrite?: boolean;
   isAllSelected?: boolean;
   isDisabled?: boolean;
-  isReadOnly?: boolean;
+  isPrimaryActionDisabled?: boolean;
+  isSecondaryActionDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onBulkSelected(action: string);
@@ -28,6 +30,7 @@ interface TagToolbarOwnProps {
   pagination?: React.ReactNode;
   query?: OcpQuery;
   selectedItems?: ComputedReportItem[];
+  showBulkSelectAll?: boolean;
 }
 
 interface TagToolbarStateProps {
@@ -39,7 +42,7 @@ interface TagToolbarDispatchProps {
 }
 
 interface TagToolbarState {
-  categoryOptions?: ToolbarChipGroup[];
+  categoryOptions?: ToolbarChipGroupExt[];
 }
 
 type TagToolbarProps = TagToolbarOwnProps & TagToolbarStateProps & TagToolbarDispatchProps & WrappedComponentProps;
@@ -55,21 +58,34 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
   }
 
   private getActions = () => {
-    const { intl, isReadOnly, onDisableTags, onEnableTags, selectedItems } = this.props;
+    const {
+      canWrite,
+      intl,
+      isPrimaryActionDisabled,
+      isSecondaryActionDisabled,
+      onDisableTags,
+      onEnableTags,
+      selectedItems,
+    } = this.props;
 
-    const isDisabled = isReadOnly || selectedItems.length === 0;
-    const tooltip = intl.formatMessage(isReadOnly ? messages.readOnlyPermissions : messages.selectCategories);
+    const isDisabled = !canWrite || selectedItems.length === 0;
+    const tooltip = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.selectTags);
 
     return (
       <>
         <Tooltip content={tooltip}>
-          <Button isAriaDisabled={isDisabled} key="save" onClick={onEnableTags} variant={ButtonVariant.primary}>
+          <Button
+            isAriaDisabled={isDisabled || isPrimaryActionDisabled}
+            key="save"
+            onClick={onEnableTags}
+            variant={ButtonVariant.primary}
+          >
             {intl.formatMessage(messages.enableTags)}
           </Button>
         </Tooltip>
         <Tooltip content={tooltip}>
           <Button
-            isAriaDisabled={isDisabled}
+            isAriaDisabled={isDisabled || isSecondaryActionDisabled}
             key="reset"
             onClick={onDisableTags}
             style={styles.action}
@@ -82,22 +98,72 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
     );
   };
 
-  private getCategoryOptions = (): ToolbarChipGroup[] => {
+  private getCategoryOptions = (): ToolbarChipGroupExt[] => {
     const { intl } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.filterByValues, { value: 'name' }), key: 'project' }, // Todo: update filter name
-      { name: intl.formatMessage(messages.filterByValues, { value: 'status' }), key: 'status' },
-      { name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }), key: 'source_type' },
+      {
+        ariaLabelKey: 'name',
+        placeholderKey: 'name',
+        key: 'key',
+        name: intl.formatMessage(messages.filterByValues, { value: 'name' }),
+      },
+      {
+        key: 'source_type',
+        name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }),
+        selectClassName: 'selectOverride', // A selector from routes/components/dataToolbar/dataToolbar.scss
+        selectOptions: [
+          {
+            key: 'AWS',
+            name: intl.formatMessage(messages.aws),
+          },
+          {
+            key: 'Azure',
+            name: intl.formatMessage(messages.azure),
+          },
+          {
+            key: 'GCP',
+            name: intl.formatMessage(messages.gcp),
+          },
+          // {
+          //   key: 'IBM',
+          //   name: intl.formatMessage(messages.ibm), // Todo: enable when supported by API
+          // },
+          {
+            key: 'OCI',
+            name: intl.formatMessage(messages.oci),
+          },
+          {
+            key: 'OCP',
+            name: intl.formatMessage(messages.openShift),
+          },
+        ],
+      },
+      {
+        ariaLabelKey: 'status',
+        placeholderKey: 'status',
+        key: 'enabled',
+        name: intl.formatMessage(messages.filterByValues, { value: 'status' }),
+        selectOptions: [
+          {
+            name: intl.formatMessage(messages.enabled),
+            key: 'true',
+          },
+          {
+            name: intl.formatMessage(messages.disabled),
+            key: 'false',
+          },
+        ],
+      },
     ];
     return options;
   };
 
   public render() {
     const {
+      canWrite,
       isAllSelected,
       isDisabled,
-      isReadOnly,
       itemsPerPage,
       itemsTotal,
       onBulkSelected,
@@ -106,6 +172,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
       pagination,
       query,
       selectedItems,
+      showBulkSelectAll,
     } = this.props;
     const { categoryOptions } = this.state;
 
@@ -115,7 +182,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
         categoryOptions={categoryOptions}
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
-        isReadOnly={isReadOnly}
+        isReadOnly={!canWrite}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onBulkSelected={onBulkSelected}
@@ -127,6 +194,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
         selectedItems={selectedItems}
         showBulkSelect
         showFilter
+        showBulkSelectAll={showBulkSelectAll}
       />
     );
   }

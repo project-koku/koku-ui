@@ -17,38 +17,30 @@ import {
   fetchAccountSettingsFailure,
   fetchAccountSettingsRequest,
   fetchAccountSettingsSuccess,
-  updateCostTypeFailure,
-  updateCostTypeRequest,
-  updateCostTypeSuccess,
-  updateCurrencyFailure,
-  updateCurrencyRequest,
-  updateCurrencySuccess,
+  updateAccountSettingsFailure,
+  updateAccountSettingsRequest,
+  updateAccountSettingsSuccess,
 } from './accountSettingsActions';
 
 export type AccountSettingsState = Readonly<{
   byId: Map<string, AccountSettings>;
-  error?: AxiosError;
   errors?: Map<string, AxiosError>;
-  fetchStatus?: Map<string, FetchStatus>;
-  status?: FetchStatus;
+  status?: Map<string, FetchStatus>;
 }>;
 
 export const defaultState: AccountSettingsState = {
   byId: new Map(),
   errors: new Map(),
-  fetchStatus: new Map(),
+  status: new Map(),
 };
 
 export type AccountSettingsAction = ActionType<
   | typeof fetchAccountSettingsFailure
   | typeof fetchAccountSettingsRequest
   | typeof fetchAccountSettingsSuccess
-  | typeof updateCostTypeFailure
-  | typeof updateCostTypeRequest
-  | typeof updateCostTypeSuccess
-  | typeof updateCurrencyFailure
-  | typeof updateCurrencyRequest
-  | typeof updateCurrencySuccess
+  | typeof updateAccountSettingsFailure
+  | typeof updateAccountSettingsRequest
+  | typeof updateAccountSettingsSuccess
   | typeof resetState
 >;
 
@@ -58,10 +50,16 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
       state = defaultState;
       return state;
 
+    case getType(fetchAccountSettingsFailure):
+      return {
+        ...state,
+        status: new Map(state.status).set(action.meta.fetchId, FetchStatus.complete),
+        errors: new Map(state.errors).set(action.meta.fetchId, action.payload),
+      };
     case getType(fetchAccountSettingsRequest):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.payload.fetchId, FetchStatus.inProgress),
+        status: new Map(state.status).set(action.payload.fetchId, FetchStatus.inProgress),
       };
     case getType(fetchAccountSettingsSuccess):
       if (action.payload.data) {
@@ -74,51 +72,28 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
       }
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        status: new Map(state.status).set(action.meta.fetchId, FetchStatus.complete),
         byId: new Map(state.byId).set(action.meta.fetchId, {
           ...action.payload,
         }),
         errors: new Map(state.errors).set(action.meta.fetchId, null),
       };
-    case getType(fetchAccountSettingsFailure):
+    case getType(updateAccountSettingsFailure):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        status: new Map(state.status).set(action.meta.fetchId, FetchStatus.complete),
         errors: new Map(state.errors).set(action.meta.fetchId, action.payload),
       };
-    case getType(updateCostTypeRequest):
+    case getType(updateAccountSettingsRequest):
       return {
         ...state,
-        status: FetchStatus.inProgress,
+        status: new Map(state.status).set(action.payload.fetchId, FetchStatus.inProgress),
       };
-    case getType(updateCostTypeSuccess):
+    case getType(updateAccountSettingsSuccess):
       return {
         ...state,
-        error: null,
-        status: FetchStatus.complete,
-      };
-    case getType(updateCostTypeFailure):
-      return {
-        ...state,
-        error: action.payload,
-        status: FetchStatus.complete,
-      };
-    case getType(updateCurrencyRequest):
-      return {
-        ...state,
-        status: FetchStatus.inProgress,
-      };
-    case getType(updateCurrencySuccess):
-      return {
-        ...state,
-        error: null,
-        status: FetchStatus.complete,
-      };
-    case getType(updateCurrencyFailure):
-      return {
-        ...state,
-        error: action.payload,
-        status: FetchStatus.complete,
+        status: new Map(state.status).set(action.meta.fetchId, FetchStatus.complete),
+        errors: new Map(state.errors).set(action.meta.fetchId, null),
       };
     default:
       return state;

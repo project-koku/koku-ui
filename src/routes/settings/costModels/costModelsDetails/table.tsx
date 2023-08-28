@@ -1,5 +1,7 @@
-import type { ICell, IRowData, ThProps } from '@patternfly/react-table';
-import { ActionsColumn, TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Button, ButtonVariant } from '@patternfly/react-core';
+import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
+import type { ICell, ThProps } from '@patternfly/react-table';
+import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { sortable, TableGridBreakpoint } from '@patternfly/react-table';
 import type { CostModel } from 'api/costModels';
 import { intl as defaultIntl } from 'components/i18n';
@@ -9,6 +11,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
+import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
@@ -16,7 +19,7 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import type { CostModelsQuery } from './utils/query';
-import { createActions, createOnSort, getRowsByStateName } from './utils/table';
+import { createOnSort, getRowsByStateName } from './utils/table';
 
 interface CostModelsTableOwnProps {
   actionResolver?: any;
@@ -75,7 +78,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
       },
       { title: intl.formatMessage(messages.costModelsAssignedSources) },
       {
-        title: intl.formatMessage(messages.costModelsLastChange),
+        title: intl.formatMessage(messages.costModelsLastUpdated),
         data: { orderName: 'updated_timestamp' },
         ...(rows.length && { transforms: [sortable] }),
       },
@@ -84,16 +87,6 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
         props: { 'aria-label': intl.formatMessage(messages.costModelsActions) },
       },
     ] as ICell[];
-
-    const actions = createActions(stateName, canWrite, [
-      {
-        title: intl.formatMessage(messages.delete),
-        tooltip: intl.formatMessage(messages.readOnlyPermissions),
-        onClick: (_evt: React.MouseEvent, _rowIx: number, rowData: IRowData) => {
-          openDeleteDialog(rowData.data);
-        },
-      } as any,
-    ]);
 
     const onSort = createOnSort(cells, query, router);
     const getSortParams = (columnIndex: number): ThProps['sort'] => ({
@@ -137,16 +130,19 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
                   {c.title ? c.title : c}
                 </Td>
               ))}
-              {!r.heightAuto && (
+              {!r.heightAuto && stateName === 'success' && (
                 <Td isActionCell>
-                  <ActionsColumn
-                    items={actions.map(a => {
-                      return {
-                        ...a,
-                        onClick: _evt => a.onClick(_evt, rowIndex, r, null),
-                      };
-                    })}
-                  />
+                  <ReadOnlyTooltip key="action" isDisabled={!canWrite}>
+                    <Button
+                      aria-label={intl.formatMessage(messages.delete)}
+                      isAriaDisabled={!canWrite}
+                      isSmall
+                      onClick={() => openDeleteDialog(r.data)}
+                      variant={ButtonVariant.plain}
+                    >
+                      <MinusCircleIcon />
+                    </Button>
+                  </ReadOnlyTooltip>
                 </Td>
               )}
             </Tr>

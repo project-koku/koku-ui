@@ -17,7 +17,6 @@ import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getC
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
-import { rbacActions, rbacSelectors } from 'store/rbac';
 import { reportActions, reportSelectors } from 'store/reports';
 
 import { styles } from './platformProjects.styles';
@@ -59,13 +58,13 @@ const baseQuery: Query = {
   },
 };
 
-const PlatformProjects: React.FC<PlatformProjectsProps> = () => {
+const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
   const [isAllSelected, setIsAllSelected] = useState(false);
   const [query, setQuery] = useState({ ...baseQuery });
   const [selectedItems, setSelectedItems] = useState([]);
   const intl = useIntl();
 
-  const { isReadOnly, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({ query });
+  const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({ query });
 
   const getComputedItems = () => {
     return getUnsortedComputedReportItems({
@@ -110,10 +109,10 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = () => {
   const getTable = () => {
     return (
       <PlatformTable
+        canWrite={canWrite}
         filterBy={query.filter_by}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        isReadOnly={isReadOnly}
         orderBy={query.order_by}
         onSelected={handleOnSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
@@ -130,9 +129,9 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = () => {
 
     return (
       <PlatformToolbar
+        canWrite={canWrite}
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
-        isReadOnly={isReadOnly}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onAddProjects={handleOnAddProjects}
@@ -252,21 +251,13 @@ const useMapToProps = ({ query }: PlatformProjectsMapProps): PlatformProjectsSta
     reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString)
   );
 
-  const canWrite = useSelector((state: RootState) => rbacSelectors.isSettingsWritePermission(state));
-  const rbacStatus = useSelector((state: RootState) => rbacSelectors.selectRbacStatus(state));
-  const rbacError = useSelector((state: RootState) => rbacSelectors.selectRbacError(state));
-
   useEffect(() => {
     if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
       dispatch(reportActions.fetchReport(reportPathsType, reportType, reportQueryString));
     }
-    if (!rbacError && rbacStatus !== FetchStatus.inProgress) {
-      dispatch(rbacActions.fetchRbac());
-    }
   }, [query]);
 
   return {
-    isReadOnly: !canWrite,
     report,
     reportError,
     reportFetchStatus,

@@ -1,5 +1,5 @@
 import * as settingsActions from './settingsActions';
-import { stateKey as settingsStateKey } from './settingsCommon';
+import { settingsStateKey } from './settingsCommon';
 import type { SettingsAction, SettingsState } from './settingsReducer';
 import { settingsReducer } from './settingsReducer';
 import * as settingsSelectors from './settingsSelectors';

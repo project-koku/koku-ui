@@ -160,12 +160,12 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
         hasRhel={hasRhel}
         isDisabled={isDisabled}
         isIbmFeatureEnabled={isIbmFeatureEnabled}
-        onSelected={this.handlePerspectiveSelected}
+        onSelected={this.handleOnPerspectiveSelected}
       />
     );
   };
 
-  private handlePerspectiveSelected = (value: string) => {
+  private handleOnPerspectiveSelected = (value: string) => {
     const { onPerspectiveClicked, query, router } = this.props;
 
     const newQuery = {

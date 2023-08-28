@@ -13,9 +13,6 @@ import type { ComputedReportItem } from 'routes/utils/computedReport/getComputed
 
 // Bulk select
 export const getBulkSelect = ({
-  handleOnBulkSelect,
-  handleOnBulkSelectClicked,
-  handleOnBulkSelectToggle,
   isAllSelected,
   isBulkSelectDisabled,
   isBulkSelectOpen,
@@ -23,11 +20,12 @@ export const getBulkSelect = ({
   isReadOnly,
   itemsPerPage,
   itemsTotal,
+  onBulkSelect,
+  onBulkSelectClicked,
+  onBulkSelectToggle,
   selectedItems,
+  showSelectAll = true,
 }: {
-  handleOnBulkSelect?: () => void;
-  handleOnBulkSelectClicked?: (action: string) => void;
-  handleOnBulkSelectToggle?: (isOpen: boolean) => void;
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
   isBulkSelectOpen?: boolean;
@@ -35,7 +33,11 @@ export const getBulkSelect = ({
   isReadOnly?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
+  onBulkSelect?: () => void;
+  onBulkSelectClicked?: (action: string) => void;
+  onBulkSelectToggle?: (isOpen: boolean) => void;
   selectedItems?: ComputedReportItem[];
+  showSelectAll?: boolean;
 }) => {
   const numSelected = isAllSelected ? itemsTotal : selectedItems ? selectedItems.length : 0;
   const allSelected = (isAllSelected || numSelected === itemsTotal) && itemsTotal > 0;
@@ -44,24 +46,29 @@ export const getBulkSelect = ({
   const isChecked = allSelected ? true : someChecked;
 
   const dropdownItems = [
-    <DropdownItem key="item-1" onClick={() => handleOnBulkSelectClicked('none')}>
+    <DropdownItem key="item-1" onClick={() => onBulkSelectClicked('none')}>
       {intl.formatMessage(messages.toolBarBulkSelectNone)}
     </DropdownItem>,
-    <DropdownItem key="item-2" onClick={() => handleOnBulkSelectClicked('page')}>
+    <DropdownItem key="item-2" onClick={() => onBulkSelectClicked('page')}>
       {intl.formatMessage(messages.toolBarBulkSelectPage, { value: itemsPerPage })}
-    </DropdownItem>,
-    <DropdownItem key="item-3" onClick={() => handleOnBulkSelectClicked('all')}>
-      {intl.formatMessage(messages.toolBarBulkSelectAll, { value: itemsTotal })}
     </DropdownItem>,
   ];
 
+  if (showSelectAll) {
+    dropdownItems.push(
+      <DropdownItem key="item-3" onClick={() => onBulkSelectClicked('all')}>
+        {intl.formatMessage(messages.toolBarBulkSelectAll, { value: itemsTotal })}
+      </DropdownItem>
+    );
+  }
+
   const bulkSelect = (
     <Dropdown
-      onSelect={handleOnBulkSelect}
+      onSelect={onBulkSelect}
       position={DropdownPosition.left}
       toggle={
         <DropdownToggle
-          isDisabled={isDisabled || isReadOnly || isBulkSelectDisabled}
+          isDisabled={isDisabled || isBulkSelectDisabled || isReadOnly}
           splitButtonItems={[
             <DropdownToggleCheckbox
               id="bulk-select"
@@ -71,11 +78,11 @@ export const getBulkSelect = ({
               )}
               isChecked={isChecked}
               onClick={() => {
-                anySelected ? handleOnBulkSelectClicked('none') : handleOnBulkSelectClicked('all');
+                anySelected ? onBulkSelectClicked('none') : onBulkSelectClicked('all');
               }}
             />,
           ]}
-          onToggle={handleOnBulkSelectToggle}
+          onToggle={onBulkSelectToggle}
         >
           {numSelected !== 0 && (
             <React.Fragment>{intl.formatMessage(messages.selected, { value: numSelected })}</React.Fragment>

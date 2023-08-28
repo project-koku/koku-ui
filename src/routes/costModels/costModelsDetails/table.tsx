@@ -76,7 +76,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
       },
       { title: intl.formatMessage(messages.costModelsAssignedSources) },
       {
-        title: intl.formatMessage(messages.costModelsLastChange),
+        title: intl.formatMessage(messages.costModelsLastUpdated),
         data: { orderName: 'updated_timestamp' },
         ...(rows.length && { transforms: [sortable] }),
       },

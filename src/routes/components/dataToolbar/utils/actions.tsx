@@ -8,15 +8,15 @@ import { DataKebab } from 'routes/components/dataToolbar/dataKebab';
 // Column management
 
 export const getColumnManagement = ({
-  handleColumnManagementClicked,
   isDisabled,
+  onColumnManagementClicked,
 }: {
-  handleColumnManagementClicked?: () => void;
   isDisabled?: boolean;
+  onColumnManagementClicked?: () => void;
 }) => {
   return (
     <ToolbarItem visibility={{ default: 'hidden', '2xl': 'visible', xl: 'visible', lg: 'hidden' }}>
-      <Button isDisabled={isDisabled} onClick={handleColumnManagementClicked} variant={ButtonVariant.link}>
+      <Button isDisabled={isDisabled} onClick={onColumnManagementClicked} variant={ButtonVariant.link}>
         {intl.formatMessage(messages.detailsColumnManagementTitle)}
       </Button>
     </ToolbarItem>
@@ -26,13 +26,13 @@ export const getColumnManagement = ({
 // Export button
 
 export const getExportButton = ({
-  handleExportClicked,
   isDisabled,
   isExportDisabled,
+  onExportClicked,
 }: {
-  handleExportClicked?: () => void;
   isDisabled?: boolean;
   isExportDisabled?: boolean;
+  onExportClicked?: () => void;
 }) => {
   return (
     <ToolbarItem
@@ -43,7 +43,7 @@ export const getExportButton = ({
       <Button
         aria-label="Export data"
         isDisabled={isDisabled || isExportDisabled}
-        onClick={handleExportClicked}
+        onClick={onExportClicked}
         variant={ButtonVariant.plain}
       >
         <ExportIcon />
@@ -55,13 +55,13 @@ export const getExportButton = ({
 // Platform costs
 
 export const getPlatformCosts = ({
-  handlePlatformCostsChanged,
   isDisabled,
   isPlatformCostsChecked,
+  onPlatformCostsChanged,
 }: {
-  handlePlatformCostsChanged?: (checked: boolean) => void;
   isDisabled?: boolean;
   isPlatformCostsChecked?: boolean;
+  onPlatformCostsChanged?: (checked: boolean) => void;
 }) => {
   return (
     <ToolbarItem visibility={{ default: 'hidden', '2xl': 'visible', xl: 'visible', lg: 'hidden' }}>
@@ -70,7 +70,7 @@ export const getPlatformCosts = ({
         label={intl.formatMessage(messages.sumPlatformCosts)}
         isChecked={isPlatformCostsChecked}
         isDisabled={isDisabled}
-        onChange={handlePlatformCostsChanged}
+        onChange={onPlatformCostsChanged}
       />
     </ToolbarItem>
   );
@@ -79,15 +79,15 @@ export const getPlatformCosts = ({
 // Kebab
 
 export const getKebab = ({
-  handleColumnManagementClicked,
-  handlePlatformCostsChanged,
   isPlatformCostsChecked,
+  onColumnManagementClicked,
+  onPlatformCostsChanged,
   showColumnManagement,
   showPlatformCosts,
 }: {
-  handleColumnManagementClicked?: () => void;
-  handlePlatformCostsChanged?: (checked: boolean) => void;
   isPlatformCostsChecked?: boolean;
+  onColumnManagementClicked?: () => void;
+  onPlatformCostsChanged?: (checked: boolean) => void;
   showColumnManagement?: boolean;
   showPlatformCosts?: boolean;
 }) => {
@@ -95,13 +95,13 @@ export const getKebab = ({
   if (showColumnManagement) {
     options.push({
       label: messages.detailsColumnManagementTitle,
-      onClick: handleColumnManagementClicked,
+      onClick: onColumnManagementClicked,
     });
   }
   if (showPlatformCosts) {
     options.push({
       label: messages.sumPlatformCosts,
-      onClick: () => handlePlatformCostsChanged(!isPlatformCostsChecked),
+      onClick: () => onPlatformCostsChanged(!isPlatformCostsChecked),
     });
   }
   return (
