@@ -74,9 +74,8 @@ pullRequest()
   echo "\n*** Pushing $NEW_BRANCH..."
   git push -u origin HEAD
 
-  COMMIT=`git rev-parse HEAD`
   TITLE="Deployment commit for $BRANCH"
-  BODY="Merged $REMOTE_BRANCH branch to $BRANCH. Use commit $COMMIT to update namespace \`ref\` in app-interface repo"
+  BODY="Merged $REMOTE_BRANCH branch to $BRANCH. Use latest commit to update namespace \`ref\` in app-interface repo. Don't use merge commit, SHAs must be unique when images are created for each branch."
 
   gh pr create -t "$TITLE" -b "$BODY" -B $BRANCH
 }
