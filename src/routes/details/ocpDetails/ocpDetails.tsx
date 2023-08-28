@@ -129,14 +129,14 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleBulkSelected = this.handleBulkSelected.bind(this);
-    this.handleColumnManagementModalClose = this.handleColumnManagementModalClose.bind(this);
-    this.handleColumnManagementModalOpen = this.handleColumnManagementModalOpen.bind(this);
-    this.handleColumnManagementModalSave = this.handleColumnManagementModalSave.bind(this);
-    this.handleExportModalClose = this.handleExportModalClose.bind(this);
-    this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
-    this.handlePlatformCostsChanged = this.handlePlatformCostsChanged.bind(this);
-    this.handleSelected = this.handleSelected.bind(this);
+    this.handleOnBulkSelected = this.handleOnBulkSelected.bind(this);
+    this.handleOnColumnManagementModalClose = this.handleOnColumnManagementModalClose.bind(this);
+    this.handleOnColumnManagementModalOpen = this.handleOnColumnManagementModalOpen.bind(this);
+    this.handleOnColumnManagementModalSave = this.handleOnColumnManagementModalSave.bind(this);
+    this.handleOnExportModalClose = this.handleOnExportModalClose.bind(this);
+    this.handleOnExportModalOpen = this.handleOnExportModalOpen.bind(this);
+    this.handleOnPlatformCostsChanged = this.handleOnPlatformCostsChanged.bind(this);
+    this.handleOnSelected = this.handleOnSelected.bind(this);
   }
 
   public componentDidMount() {
@@ -169,8 +169,8 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
       <ColumnManagementModal
         isOpen={isColumnManagementModalOpen}
         options={options}
-        onClose={this.handleColumnManagementModalClose}
-        onSave={this.handleColumnManagementModalSave}
+        onClose={this.handleOnColumnManagementModalClose}
+        onSave={this.handleOnColumnManagementModalSave}
       />
     );
   };
@@ -209,7 +209,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={items}
-        onClose={this.handleExportModalClose}
+        onClose={this.handleOnExportModalClose}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
       />
@@ -269,7 +269,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         isRosFeatureEnabled={isRosFeatureEnabled}
-        onSelected={this.handleSelected}
+        onSelected={this.handleOnSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         orderBy={query.order_by}
         report={report}
@@ -296,12 +296,12 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         isExportDisabled={isDisabled || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
-        onBulkSelected={this.handleBulkSelected}
-        onColumnManagementClicked={this.handleColumnManagementModalOpen}
-        onExportClicked={this.handleExportModalOpen}
+        onBulkSelected={this.handleOnBulkSelected}
+        onColumnManagementClicked={this.handleOnColumnManagementModalOpen}
+        onExportClicked={this.handleOnExportModalOpen}
         onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
-        onPlatformCostsChanged={this.handlePlatformCostsChanged}
+        onPlatformCostsChanged={this.handleOnPlatformCostsChanged}
         pagination={this.getPagination(isDisabled)}
         query={query}
         selectedItems={selectedItems}
@@ -309,42 +309,48 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
     );
   };
 
-  private handleBulkSelected = (action: string) => {
-    const { isAllSelected } = this.state;
+  private handleOnBulkSelected = (action: string) => {
+    const { isAllSelected, selectedItems } = this.state;
 
     if (action === 'none') {
       this.setState({ isAllSelected: false, selectedItems: [] });
     } else if (action === 'page') {
+      const newSelectedItems = [...selectedItems];
+      this.getComputedItems().map(val => {
+        if (!newSelectedItems.find(item => item.id === val.id)) {
+          newSelectedItems.push(val);
+        }
+      });
       this.setState({
         isAllSelected: false,
-        selectedItems: this.getComputedItems(),
+        selectedItems: newSelectedItems,
       });
     } else if (action === 'all') {
       this.setState({ isAllSelected: !isAllSelected, selectedItems: [] });
     }
   };
 
-  public handleColumnManagementModalClose = (isOpen: boolean) => {
+  public handleOnColumnManagementModalClose = (isOpen: boolean) => {
     this.setState({ isColumnManagementModalOpen: isOpen });
   };
 
-  public handleColumnManagementModalOpen = () => {
+  public handleOnColumnManagementModalOpen = () => {
     this.setState({ isColumnManagementModalOpen: true });
   };
 
-  public handleColumnManagementModalSave = (hiddenColumns: Set<string>) => {
+  public handleOnColumnManagementModalSave = (hiddenColumns: Set<string>) => {
     this.setState({ hiddenColumns });
   };
 
-  public handleExportModalClose = (isOpen: boolean) => {
+  public handleOnExportModalClose = (isOpen: boolean) => {
     this.setState({ isExportModalOpen: isOpen });
   };
 
-  public handleExportModalOpen = () => {
+  public handleOnExportModalOpen = () => {
     this.setState({ isExportModalOpen: true });
   };
 
-  private handleGroupBySelected = groupBy => {
+  private handleOnGroupBySelected = groupBy => {
     const { query, router } = this.props;
     const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
     const newQuery = {
@@ -362,7 +368,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
     });
   };
 
-  private handlePlatformCostsChanged = (checked: boolean) => {
+  private handleOnPlatformCostsChanged = (checked: boolean) => {
     const { query, router } = this.props;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
@@ -373,7 +379,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
     });
   };
 
-  private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
+  private handleOnSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
     const { isAllSelected, selectedItems } = this.state;
 
     let newItems = [...(isAllSelected ? this.getComputedItems() : selectedItems)];
@@ -437,7 +443,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
           groupBy={groupById}
           onCostDistributionSelected={() => handleOnCostDistributionSelected(query, router)}
           onCurrencySelected={() => handleOnCurrencySelected(query, router)}
-          onGroupBySelected={this.handleGroupBySelected}
+          onGroupBySelected={this.handleOnGroupBySelected}
           report={report}
         />
         <div style={styles.content}>

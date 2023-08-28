@@ -7,28 +7,41 @@ export interface AccountSettingsData {
   currency?: string;
 }
 
+export interface PagedMetaDataExt extends PagedMetaData {
+  limit?: number;
+  offset?: number;
+}
+
 export interface AccountSettings {
-  meta: PagedMetaData;
+  meta: PagedMetaDataExt;
   links?: PagedLinks;
   data: AccountSettingsData;
 }
 
-export interface CostTypePayload {
+export interface AccountSettingsPayload {
   cost_type?: string;
-}
-
-export interface CurrencyPayload {
   currency?: string;
 }
 
-export function fetchAccountSettings() {
-  return axios.get<AccountSettings>(`account-settings/`);
+// eslint-disable-next-line no-shadow
+export const enum AccountSettingsType {
+  settings = 'settings',
+  costType = 'costType',
+  currency = 'currency',
 }
 
-export function updateCostType(payload: CostTypePayload) {
-  return axios.put(`account-settings/cost-type`, payload);
+export const AccountSettingsTypePaths: Partial<Record<AccountSettingsType, string>> = {
+  [AccountSettingsType.settings]: 'account-settings/',
+  [AccountSettingsType.costType]: 'account-settings/cost-type/',
+  [AccountSettingsType.currency]: 'account-settings/currency/',
+};
+
+export function fetchAccountSettings(settingsType: AccountSettingsType) {
+  const path = AccountSettingsTypePaths[settingsType];
+  return axios.get<AccountSettings>(`${path}`);
 }
 
-export function updateCurrency(payload: CurrencyPayload) {
-  return axios.put(`account-settings/currency`, payload);
+export function updateAccountSettings(settingsType: AccountSettingsType, payload: AccountSettingsPayload) {
+  const path = AccountSettingsTypePaths[settingsType];
+  return axios.put(`${path}`, payload);
 }

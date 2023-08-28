@@ -1,4 +1,5 @@
 import { PageSection, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
+import { AccountSettingsType } from 'api/accountSettings';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -20,8 +21,8 @@ interface SettingsOwnProps {
 }
 
 interface SettingsDispatchProps {
-  updateCostType: typeof accountSettingsActions.updateCostType;
-  updateCurrency: typeof accountSettingsActions.updateCurrency;
+  updateCostType: typeof accountSettingsActions.updateAccountSettings;
+  updateCurrency: typeof accountSettingsActions.updateAccountSettings;
 }
 
 interface SettingsStateProps {
@@ -108,7 +109,7 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
 
     this.setState({ currentCostType: value }, () => {
       setCostType(value);
-      updateCostType({
+      updateCostType(AccountSettingsType.costType, {
         cost_type: value,
       });
     });
@@ -120,7 +121,7 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
     this.setState({ currentCurrency: value }, () => {
       setCurrency(value);
       setAccountCurrency(value); // Todo: remove account currency after settings page has been moved
-      updateCurrency({
+      updateCurrency(AccountSettingsType.currency, {
         currency: value,
       });
     });
@@ -138,8 +139,14 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<SettingsOwnProps, SettingsStateProps>(state => {
-  const updateCostTypeStatus = accountSettingsSelectors.selectUpdateCostTypeStatus(state);
-  const updateCurrencyStatus = accountSettingsSelectors.selectUpdateCurrencyStatus(state);
+  const updateCostTypeStatus = accountSettingsSelectors.selectAccountSettingsUpdateStatus(
+    state,
+    AccountSettingsType.costType
+  );
+  const updateCurrencyStatus = accountSettingsSelectors.selectAccountSettingsUpdateStatus(
+    state,
+    AccountSettingsType.currency
+  );
 
   return {
     updateCostTypeStatus,
@@ -148,8 +155,8 @@ const mapStateToProps = createMapStateToProps<SettingsOwnProps, SettingsStatePro
 });
 
 const mapDispatchToProps: SettingsDispatchProps = {
-  updateCostType: accountSettingsActions.updateCostType,
-  updateCurrency: accountSettingsActions.updateCurrency,
+  updateCostType: accountSettingsActions.updateAccountSettings,
+  updateCurrency: accountSettingsActions.updateAccountSettings,
 };
 
 const Calculations = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(SettingsBase)));

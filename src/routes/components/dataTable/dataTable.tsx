@@ -20,7 +20,7 @@ interface DataTableOwnProps {
   filterBy: any;
   isActionsCell?: boolean;
   isLoading?: boolean;
-  onSelected(items: ComputedReportItem[], isSelected: boolean);
+  onSelected(items: any[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   orderBy: any;
   rows?: any[];

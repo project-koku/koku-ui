@@ -113,8 +113,8 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleGroupBySelected = this.handleGroupBySelected.bind(this);
-    this.handleGroupByToggle = this.handleGroupByToggle.bind(this);
+    this.handleOnSelect = this.handleOnSelect.bind(this);
+    this.handleOnToggle = this.handleOnToggle.bind(this);
   }
 
   public componentDidMount() {
@@ -198,8 +198,8 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
         id="groupBySelect"
         isDisabled={isDisabled}
         isOpen={isGroupByOpen}
-        onSelect={this.handleGroupBySelected}
-        onToggle={this.handleGroupByToggle}
+        onSelect={this.handleOnSelect}
+        onToggle={this.handleOnToggle}
         selections={selection}
         variant={SelectVariant.single}
       >
@@ -239,7 +239,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
       });
   };
 
-  private handleGroupBySelected = (event, selection: GroupByOption) => {
+  private handleOnSelect = (event, selection: GroupByOption) => {
     const { onSelected } = this.props;
 
     if (selection.value === orgUnitIdKey || selection.value === awsCategoryKey || selection.value === tagKey) {
@@ -268,7 +268,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
     }
   };
 
-  private handleGroupByToggle = isGroupByOpen => {
+  private handleOnToggle = isGroupByOpen => {
     this.setState({
       isGroupByOpen,
     });

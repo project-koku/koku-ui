@@ -382,9 +382,9 @@ export default defineMessages({
   },
   costCategoryDesc: {
     defaultMessage:
-      'Enable your data source labels to be used as AWS category keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
+      'Enable your AWS cost categories to be used for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
     description:
-      'Enable your data source labels to be used as AWS category keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
+      'Enable your AWS cost categories to be used for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
     id: 'costCategoryDesc',
   },
   costCategoryNames: {
@@ -509,9 +509,9 @@ export default defineMessages({
   },
   costModelsDesc: {
     defaultMessage:
-      'Associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}',
+      'Cost models can help you analyze and predict future costs. Associate a price to metrics provided by your sources to calculate your charges for resource usage. {learnMore}',
     description:
-      'Associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}',
+      'Cost models can help you analyze and predict future costs. Associate a price to metrics provided by your sources to calculate your charges for resource usage. {learnMore}',
     id: 'costModelsDesc',
   },
   costModelsDescTooLong: {
@@ -610,10 +610,10 @@ export default defineMessages({
     description: 'Should not exceed 100 characters',
     id: 'costModelsInfoTooLong',
   },
-  costModelsLastChange: {
-    defaultMessage: 'Last change',
-    description: 'Last change',
-    id: 'costModelsLastChange',
+  costModelsLastUpdated: {
+    defaultMessage: 'Last updated',
+    description: 'Last updated',
+    id: 'costModelsLastUpdated',
   },
   costModelsPopover: {
     defaultMessage:
@@ -927,9 +927,9 @@ export default defineMessages({
   },
   costTypeSettingsDesc: {
     defaultMessage:
-      'Select the preferred way to calculating upfront costs, either through savings plans or subscription fees. This feature is available for Amazon Web Services cost only.',
+      'Select the preferred way of calculating upfront costs of savings plans or subscription fees. This feature is available for Amazon Web Services cost only.',
     description:
-      'Select the preferred way to calculating upfront costs, either through savings plans or subscription fees. This feature is available for Amazon Web Services cost only.',
+      'Select the preferred way of calculating upfront costs of savings plans or subscription fees. This feature is available for Amazon Web Services cost only.',
     id: 'costTypeSettingsDesc',
   },
   costTypeSettingsLabel: {
@@ -1311,6 +1311,11 @@ export default defineMessages({
     defaultMessage: 'Disable tags',
     description: 'Disable tags',
     id: 'disableTags',
+  },
+  disabled: {
+    defaultMessage: 'Disabled',
+    description: 'Disabled',
+    id: 'disabled',
   },
   discountMinus: {
     defaultMessage: 'Discount (-)',
@@ -1814,17 +1819,18 @@ export default defineMessages({
       'aws_category {Input for cost category name} ' +
       'cluster {Input for cluster name} ' +
       'gcp_project {Input for GCP project name} ' +
-      'name {Input for name name} ' +
+      'name {Input for name} ' +
       'node {Input for node name} ' +
       'org_unit_id {Input for organizational unit name} ' +
       'payer_tenant_id {Input for account name} ' +
-      'product_service {Input for service_name name} ' +
+      'product_service {Input for service_name} ' +
       'project {Input for project name} ' +
       'region {Input for region name} ' +
       'resource_location {Input for region name} ' +
       'service {Input for service name} ' +
-      'service_name {Input for service_name name} ' +
+      'service_name {Input for service_name} ' +
       'subscription_guid {Input for account name} ' +
+      'status {Input for status value} ' +
       'tag {Input for tag name} ' +
       'other {}}',
     description: 'Input for {value} name',
@@ -1919,10 +1925,10 @@ export default defineMessages({
     description: 'Filter by values',
     id: 'filterByValues',
   },
-  filterByWorkloadTypeAriaLabel: {
-    defaultMessage: 'Workload types',
-    description: 'Workload types',
-    id: 'filterByWorkloadTypeAriaLabel',
+  filterByValuesAriaLabel: {
+    defaultMessage: 'Values',
+    description: 'Values',
+    id: 'filterByValuesAriaLabel',
   },
   forDate: {
     defaultMessage: '{value} for {dateRange}',
@@ -2162,6 +2168,11 @@ export default defineMessages({
     defaultMessage: 'Infrastructure',
     description: 'Infrastructure',
     id: 'infrastructure',
+  },
+  lastProcessed: {
+    defaultMessage: 'Last processed',
+    description: 'Last processed',
+    id: 'lastProcessed',
   },
   learnMore: {
     defaultMessage: 'Learn more',
@@ -2741,7 +2752,7 @@ export default defineMessages({
   optimizationsValue: {
     defaultMessage: '{value} {units}',
     description: '2 GiB',
-    id: 'optimizationsValueUnits',
+    id: 'optimizationsValue',
   },
   optimizationsValues: {
     defaultMessage:
@@ -2891,12 +2902,12 @@ export default defineMessages({
       'aws {Amazon Web Services} ' +
       'aws_ocp {Amazon Web Services filtered by OpenShift} ' +
       'azure {Microsoft Azure} ' +
-      'oci {Oracle Cloud Infrastructure} ' +
       'azure_ocp {Microsoft Azure filtered by OpenShift} ' +
       'gcp {Google Cloud Platform} ' +
       'gcp_ocp {Google Cloud Platform filtered by OpenShift} ' +
       'ibm {IBM Cloud} ' +
       'ibm_ocp {IBM filtered by OpenShift} ' +
+      'oci {Oracle Cloud Infrastructure} ' +
       'ocp {All OpenShift} ' +
       'ocp_cloud {All cloud filtered by OpenShift} ' +
       'rhel {All RHEL} ' +
@@ -3007,6 +3018,11 @@ export default defineMessages({
     defaultMessage: 'Failed to get RBAC information',
     description: 'RBAC error title',
     id: 'rbacErrorTitle',
+  },
+  readOnly: {
+    defaultMessage: 'Read only',
+    description: 'Read only',
+    id: 'readOnly',
   },
   readOnlyPermissions: {
     defaultMessage: 'You have read only permissions',
@@ -3120,11 +3136,6 @@ export default defineMessages({
     description: 'Select categories to enable or disable',
     id: 'selectCategories',
   },
-  selectProjects: {
-    defaultMessage: 'Select projects to add or remove',
-    description: 'Select projects to add or remove',
-    id: 'selectProjects',
-  },
   selectRow: {
     defaultMessage: 'Select row {value}',
     description: 'Select row {value}',
@@ -3165,6 +3176,20 @@ export default defineMessages({
     description: 'Unable to save application settings',
     id: 'settingsErrorTitle',
   },
+  settingsSuccessChanges: {
+    defaultMessage: 'Changes will be reflected in report summarizations within 24 hours',
+    description: 'Changes will be reflected in report summarizations within 24 hours',
+    id: 'settingsSuccessChanges',
+  },
+  settingsSuccessCostCategoryKeys: {
+    defaultMessage:
+      '{value, select, ' +
+      'enable {{count, plural, one {{count} cost category key enabled} other {{count} cost category keys enabled}}} ' +
+      'disable {{count, plural, one {{count} cost category key disabled} other {{count} cost category keys disabled}}} ' +
+      'other {}}',
+    description: 'Cost category keys enabled or disabled',
+    id: 'settingsSuccessCostCategoryKeys',
+  },
   settingsSuccessDesc: {
     defaultMessage: 'Settings for Cost Management were replaced with new values',
     description: 'Settings for Cost Management were replaced with new values',
@@ -3189,6 +3214,19 @@ export default defineMessages({
     defaultMessage: 'Source type',
     description: 'Source type',
     id: 'sourceType',
+  },
+  sourceTypes: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {Amazon Web Services} ' +
+      'azure {Microsoft Azure} ' +
+      'oci {Oracle Cloud Infrastructure} ' +
+      'gcp {Google Cloud Platform} ' +
+      'ibm {IBM Cloud} ' +
+      'ocp {OpenShift} ' +
+      'other {}}',
+    description: 'Source types',
+    id: 'sourceTypes',
   },
   sources: {
     defaultMessage: 'Sources',
