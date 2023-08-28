@@ -1,6 +1,7 @@
-export const stateKey = 'accountSettings';
-export const accountSettingsKey = 'accountSettings';
+import type { AccountSettingsType } from 'api/accountSettings';
 
-export function getFetchId() {
-  return `accountSettings`;
+export const accountSettingsStateKey = 'accountSettings';
+
+export function getFetchId(settingsType: AccountSettingsType) {
+  return `${settingsType}`;
 }

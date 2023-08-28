@@ -80,8 +80,8 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
         id="currencySelect"
         isDisabled={isDisabled}
         isOpen={isSelectOpen}
-        onSelect={this.handleSelect}
-        onToggle={this.handleToggle}
+        onSelect={this.handleOnSelect}
+        onToggle={this.handleOnToggle}
         selections={selection}
         variant={SelectVariant.single}
       >
@@ -106,7 +106,7 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
     return options;
   };
 
-  private handleSelect = (event, selection: CurrencyOption) => {
+  private handleOnSelect = (event, selection: CurrencyOption) => {
     const { isLocalStorage = true, onSelect } = this.props;
 
     // Set currency units via local storage
@@ -125,7 +125,7 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
     );
   };
 
-  private handleToggle = isSelectOpen => {
+  private handleOnToggle = isSelectOpen => {
     this.setState({ isSelectOpen });
   };
 

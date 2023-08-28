@@ -53,8 +53,8 @@ const RateTableBase: React.FC<RateTableProps> = ({
       {
         data: { index: ix, hasChildren: isTagRates, tag_rates: tier.tag_rates, stateIndex: tier.stateIndex },
         cells: [
-          tier.description || '',
           getMetric(tier.metric.label_metric),
+          tier.description || '',
           getMeasurement(tier.metric.label_measurement, tier.metric.label_measurement_unit),
           tier.cost_type,
           {
@@ -68,8 +68,8 @@ const RateTableBase: React.FC<RateTableProps> = ({
     ];
   }, []);
   const columns = [
+    { title: intl.formatMessage(messages.metric), sortable: true, sortIndex: 0 },
     { title: intl.formatMessage(messages.description) },
-    { title: intl.formatMessage(messages.metric), sortable: true, sortIndex: 1 },
     { title: intl.formatMessage(messages.measurement), sortable: true, sortIndex: 2 },
     { title: intl.formatMessage(messages.calculationType) },
     { title: intl.formatMessage(messages.rate) },

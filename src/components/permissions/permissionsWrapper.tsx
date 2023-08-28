@@ -1,4 +1,5 @@
 import type { AccountSettings } from 'api/accountSettings';
+import { AccountSettingsType } from 'api/accountSettings';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -71,7 +72,7 @@ class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps, an
     // Fetched in order of component usage via render()
     fetchUserAccess(UserAccessType.all, userAccessQueryString);
     fetchProviders(ProviderType.all, providersQueryString);
-    fetchAccountSettings();
+    fetchAccountSettings(AccountSettingsType.settings);
   }
 
   public render() {
@@ -95,9 +96,12 @@ class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps, an
 }
 
 const mapStateToProps = createMapStateToProps<PermissionsWrapperOwnProps, PermissionsWrapperStateProps>(state => {
-  const accountSettings = accountSettingsSelectors.selectAccountSettings(state);
-  const accountSettingsError = accountSettingsSelectors.selectAccountSettingsError(state);
-  const accountSettingsFetchStatus = accountSettingsSelectors.selectAccountSettingsFetchStatus(state);
+  const accountSettings = accountSettingsSelectors.selectAccountSettings(state, AccountSettingsType.settings);
+  const accountSettingsError = accountSettingsSelectors.selectAccountSettingsError(state, AccountSettingsType.settings);
+  const accountSettingsFetchStatus = accountSettingsSelectors.selectAccountSettingsStatus(
+    state,
+    AccountSettingsType.settings
+  );
 
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);

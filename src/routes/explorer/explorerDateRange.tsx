@@ -44,8 +44,8 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
         id="dateRangeSelect"
         isDisabled={isDisabled}
         isOpen={isSelectOpen}
-        onSelect={this.handleSelect}
-        onToggle={this.handleToggle}
+        onSelect={this.handleOnSelect}
+        onToggle={this.handleOnToggle}
         selections={selection}
         variant={SelectVariant.single}
       >
@@ -70,7 +70,7 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
     return selectOptions;
   };
 
-  private handleSelect = (event, selection: ExplorerDateRangeOption) => {
+  private handleOnSelect = (event, selection: ExplorerDateRangeOption) => {
     const { onSelected } = this.props;
 
     if (onSelected) {
@@ -81,7 +81,7 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
     });
   };
 
-  private handleToggle = isSelectOpen => {
+  private handleOnToggle = isSelectOpen => {
     this.setState({ isSelectOpen });
   };
 

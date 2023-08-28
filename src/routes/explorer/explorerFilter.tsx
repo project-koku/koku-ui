@@ -115,7 +115,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
     }
     // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
     if (prevProps.perspective !== perspective) {
-      this.handleDateRangeSelected(dateRangeOptions[0].value);
+      this.handleOnDateRangeSelected(dateRangeOptions[0].value);
     }
   }
 
@@ -164,7 +164,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
       <ExplorerDateRange
         dateRangeType={currentDateRangeType}
         isDisabled={isDisabled}
-        onSelected={this.handleDateRangeSelected}
+        onSelected={this.handleOnDateRangeSelected}
         options={dateRangeOptions}
       />
     );
@@ -173,10 +173,10 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   private getDatePickerComponent = () => {
     const { showDatePicker } = this.state;
 
-    return showDatePicker ? <ExplorerDatePicker onSelected={this.handleDatePickerSelected} /> : undefined;
+    return showDatePicker ? <ExplorerDatePicker onSelected={this.handleOnDatePickerSelected} /> : undefined;
   };
 
-  private handleDatePickerSelected = (startDate: Date, endDate: Date) => {
+  private handleOnDatePickerSelected = (startDate: Date, endDate: Date) => {
     const { query, router } = this.props;
 
     const { start_date, end_date } = formatStartEndDate(startDate, endDate);
@@ -190,7 +190,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
     router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
   };
 
-  private handleDateRangeSelected = (value: string) => {
+  private handleOnDateRangeSelected = (value: string) => {
     const { query, router } = this.props;
 
     const showDatePicker = value === DateRangeType.custom;
