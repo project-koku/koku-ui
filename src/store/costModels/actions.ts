@@ -128,7 +128,7 @@ export const redirectToCostModelFromSourceUuid = (source_uuid: string, router: R
         const uuid = res.data.data[0].uuid;
         router.navigate(
           `${formatPath(
-            selectIsSettingsFeatureEnabled(getState()) ? routes.settings.path : routes.costModelsDetails.path
+            selectIsSettingsFeatureEnabled(getState()) ? routes.costModel.basePath : routes.costModelsDetails.path
           )}/${uuid}`
         );
       })

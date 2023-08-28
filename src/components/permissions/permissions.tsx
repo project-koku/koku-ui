@@ -69,7 +69,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const ocp = hasOcpAccess(userAccess);
     const rhel = isFinsightsFeatureEnabled && hasRhelAccess(userAccess);
     const ros = isRosFeatureEnabled && hasRosAccess(userAccess);
-    const settings = isSettingsFeatureEnabled && hasSettingsAccess(userAccess);
+    const settings = (costModel || hasSettingsAccess(userAccess)) && isSettingsFeatureEnabled;
 
     switch (pathname) {
       case formatPath(routes.explorer.path):
@@ -102,7 +102,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
       case formatPath(routes.rhelDetailsBreakdown.path):
         return rhel;
       case formatPath(routes.settings.path):
-        return costModel || settings;
+        return settings;
       default:
         return false;
     }
