@@ -3407,8 +3407,8 @@ export default defineMessages({
     id: 'usageCostTitle',
   },
   usageSubtitle: {
-    defaultMessage: '{count} {countUnits} maximum',
-    description: '{count} {countUnits} maximum',
+    defaultMessage: '{value} {units} maximum',
+    description: '{value} {units} maximum',
     id: 'usageSubtitle',
   },
   various: {

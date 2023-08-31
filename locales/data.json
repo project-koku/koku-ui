@@ -12186,7 +12186,7 @@
     "usageSubtitle": [
       {
         "type": 1,
-        "value": "count"
+        "value": "value"
       },
       {
         "type": 0,
@@ -12194,7 +12194,7 @@
       },
       {
         "type": 1,
-        "value": "countUnits"
+        "value": "units"
       },
       {
         "type": 0,
