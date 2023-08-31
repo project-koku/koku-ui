@@ -553,7 +553,7 @@
   "usage": "Usage",
   "usageCostDesc": "The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.",
   "usageCostTitle": "Usage cost",
-  "usageSubtitle": "{count} {countUnits} maximum",
+  "usageSubtitle": "{value} {units} maximum",
   "various": "Various",
   "volumeTitle": "Volume",
   "workerUnallocated": "Worker unallocated",
