@@ -35,7 +35,7 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps, any> {
 
     if (providers && providers.data) {
       providers.data.map(data => {
-        if (data.active !== true) {
+        if (data.active !== true && data.paused !== true) {
           sources.push(data.name);
         }
       });
