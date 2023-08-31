@@ -3195,6 +3195,15 @@ export default defineMessages({
     description: 'Settings for Cost Management were replaced with new values',
     id: 'settingsSuccessDesc',
   },
+  settingsSuccessTags: {
+    defaultMessage:
+      '{value, select, ' +
+      'enable {{count, plural, one {{count} tag enabled} other {{count} tags enabled}}} ' +
+      'disable {{count, plural, one {{count} tag disabled} other {{count} tags disabled}}} ' +
+      'other {}}',
+    description: 'Cost category keys enabled or disabled',
+    id: 'settingsSuccessTags',
+  },
   settingsSuccessTitle: {
     defaultMessage: 'Application settings saved',
     description: 'Application settings saved',

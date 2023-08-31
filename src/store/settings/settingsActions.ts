@@ -76,14 +76,35 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
 
     dispatch(updateSettingsRequest(meta));
 
+    let msg;
+    let status;
+    switch (settingsType) {
+      case SettingsType.awsCategoryKeysDisable:
+        msg = messages.settingsSuccessCostCategoryKeys;
+        status = 'disable';
+        break;
+      case SettingsType.awsCategoryKeysEnable:
+        msg = messages.settingsSuccessCostCategoryKeys;
+        status = 'enable';
+        break;
+      case SettingsType.tagsDisable:
+        msg = messages.settingsSuccessTags;
+        status = 'disable';
+        break;
+      case SettingsType.tagsEnable:
+        msg = messages.settingsSuccessTags;
+        status = 'enable';
+        break;
+    }
+
     return apiUpdateSettings(settingsType, payload)
       .then(res => {
         dispatch(updateSettingsSuccess(res, meta));
         dispatch(
           addNotification({
-            title: intl.formatMessage(messages.settingsSuccessCostCategoryKeys, {
-              ...{ value: settingsType === SettingsType.awsCategoryKeysEnable ? 'enable' : 'disable' },
+            title: intl.formatMessage(msg, {
               count: payload.ids.length,
+              value: status,
             }),
             description: intl.formatMessage(messages.settingsSuccessChanges),
             variant: AlertVariant.success,
