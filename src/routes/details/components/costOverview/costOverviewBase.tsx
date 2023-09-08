@@ -36,7 +36,6 @@ interface CostOverviewOwnProps {
   costType?: string;
   currency?: string;
   groupBy?: string;
-  isCostDistributionFeatureEnabled?: boolean;
   isPlatformCosts?: boolean;
   query?: Query;
   report: Report;
@@ -129,9 +128,9 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   private getCostDistributionChart = (widget: CostOverviewWidget) => {
-    const { costDistribution, intl, isCostDistributionFeatureEnabled, report } = this.props;
+    const { costDistribution, intl, report } = this.props;
 
-    if (!costDistribution || !isCostDistributionFeatureEnabled) {
+    if (!costDistribution) {
       return null;
     }
     return (

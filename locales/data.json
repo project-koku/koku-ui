@@ -10855,6 +10855,12 @@
         "value": "RHEL - Cost Management | OpenShift"
       }
     ],
+    "pageTitleSettings": [
+      {
+        "type": 0,
+        "value": "Settings - Cost Management | OpenShift"
+      }
+    ],
     "paginationTitle": [
       {
         "options": {

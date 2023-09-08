@@ -2862,6 +2862,11 @@ export default defineMessages({
     description: 'RHEL - Cost Management | OpenShift',
     id: 'pageTitleRhel',
   },
+  pageTitleSettings: {
+    defaultMessage: 'Settings - Cost Management | OpenShift',
+    description: 'Settings - Cost Management | OpenShift',
+    id: 'pageTitleSettings',
+  },
   paginationTitle: {
     defaultMessage:
       '{placement, select, ' +
