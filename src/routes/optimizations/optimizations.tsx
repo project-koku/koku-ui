@@ -168,7 +168,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
   return (
     <div style={styles.container}>
       <OptimizationsHeader />
-      <PageSection>
+      <PageSection isFilled>
         {getToolbar()}
         {reportFetchStatus === FetchStatus.inProgress ? (
           <Loading
