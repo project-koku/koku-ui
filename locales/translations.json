@@ -458,6 +458,7 @@
   "pageTitleOptimizations": "Optimizations - Cost Management | OpenShift",
   "pageTitleOverview": "Overview - Cost Management | OpenShift",
   "pageTitleRhel": "RHEL - Cost Management | OpenShift",
+  "pageTitleSettings": "Settings - Cost Management | OpenShift",
   "paginationTitle": "{placement, select, top {{title} top pagination} bottom {{title} bottom pagination} other {{title} pagination}}",
   "percent": "{value} %",
   "percentOfCost": "{value} % of cost",

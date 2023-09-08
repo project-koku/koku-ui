@@ -79,7 +79,6 @@ interface ExplorerHeaderStateProps {
   azureProviders?: Providers;
   gcpProviders?: Providers;
   ibmProviders?: Providers;
-  isCostDistributionFeatureEnabled?: boolean;
   isDistributedOverhead?: boolean;
   isExportsFeatureEnabled?: boolean;
   isFinsightsFeatureEnabled?: boolean;
@@ -255,7 +254,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       currency,
       groupBy,
       intl,
-      isCostDistributionFeatureEnabled,
       isExportsFeatureEnabled,
       onCostDistributionSelected,
       onCostTypeSelected,
@@ -284,12 +282,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
     const resourcePathsType = getResourcePathsType(perspective);
     const tagPathsType = getTagReportPathsType(perspective);
 
-    const showCostDistribution =
-      isCostDistributionFeatureEnabled &&
-      costDistribution &&
-      report &&
-      report.meta &&
-      report.meta.distributed_overhead === true;
+    const showCostDistribution = costDistribution && report && report.meta && report.meta.distributed_overhead === true;
 
     return (
       <header style={styles.header}>
@@ -386,7 +379,6 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       azureProviders: filterProviders(providers, ProviderType.azure),
       gcpProviders: filterProviders(providers, ProviderType.gcp),
       ibmProviders: filterProviders(providers, ProviderType.ibm),
-      isCostDistributionFeatureEnabled: featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state),
       isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
       isFinsightsFeatureEnabled: featureFlagsSelectors.selectIsFinsightsFeatureEnabled(state),
       isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),

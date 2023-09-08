@@ -21,9 +21,7 @@ const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl }) => {
       case formatPath(routes.azureDetails.path):
       case formatPath(routes.azureDetailsBreakdown.path):
         return messages.pageTitleAzure;
-      case formatPath(routes.costModel.path):
-      case formatPath(routes.costModelsDetails.path):
-      case formatPath(routes.costModels.path):
+      case formatPath(routes.costModel.basePath):
         return messages.pageTitleCostModels;
       case formatPath(routes.explorer.path):
         return messages.pageTitleExplorer;
@@ -46,6 +44,8 @@ const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl }) => {
       case formatPath(routes.rhelDetails.path):
       case formatPath(routes.rhelDetailsBreakdown.path):
         return messages.pageTitleRhel;
+      case formatPath(routes.settings.path):
+        return messages.pageTitleSettings;
       default:
         return messages.pageTitleDefault;
     }

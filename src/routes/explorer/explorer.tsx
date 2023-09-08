@@ -620,11 +620,8 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   const groupBy = queryFromRoute.group_by ? getGroupById(queryFromRoute) : getGroupByDefault(perspective);
   const group_by = queryFromRoute.group_by ? queryFromRoute.group_by : { [groupBy]: '*' }; // Ensure group_by key is not undefined
 
-  const isCostDistributionFeatureEnabled = featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state);
   const costDistribution =
-    perspective === PerspectiveType.ocp && groupBy === 'project' && isCostDistributionFeatureEnabled
-      ? getCostDistribution()
-      : undefined;
+    perspective === PerspectiveType.ocp && groupBy === 'project' ? getCostDistribution() : undefined;
   const costType =
     perspective === PerspectiveType.aws || perspective === PerspectiveType.awsOcp ? getCostType() : undefined;
   const currency = getCurrency();

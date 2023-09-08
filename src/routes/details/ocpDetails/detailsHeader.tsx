@@ -39,7 +39,6 @@ interface DetailsHeaderOwnProps {
 }
 
 interface DetailsHeaderStateProps {
-  isCostDistributionFeatureEnabled?: boolean;
   isExportsFeatureEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
@@ -71,7 +70,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
       costDistribution,
       currency,
       groupBy,
-      isCostDistributionFeatureEnabled,
       isExportsFeatureEnabled,
       onCostDistributionSelected,
       onCurrencySelected,
@@ -130,7 +128,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
               showTags
               tagPathsType={tagPathsType}
             />
-            {showCostDistribution && isCostDistributionFeatureEnabled && (
+            {showCostDistribution && (
               <div style={styles.costDistribution}>
                 <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelected} />
               </div>
@@ -170,7 +168,6 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   );
 
   return {
-    isCostDistributionFeatureEnabled: featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state),
     isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
     providers: filterProviders(providers, ProviderType.ocp),
     providersError,
