@@ -3214,6 +3214,16 @@ export default defineMessages({
     description: 'Application settings saved',
     id: 'settingsSuccessTitle',
   },
+  settingsTagsErrorDesc: {
+    defaultMessage: 'You currently have {value} tags enabled',
+    description: 'You currently have {value} tags enabled',
+    id: 'settingsTagsErrorDesc',
+  },
+  settingsTagsErrorTitle: {
+    defaultMessage: 'You can not enable more than {value} tags total',
+    description: 'You can not enable more than {value} tags total',
+    id: 'settingsTagsErrorTitle',
+  },
   settingsTitle: {
     defaultMessage: 'Cost Management Settings',
     description: 'Cost Management Settings',

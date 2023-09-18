@@ -11,12 +11,7 @@ import { FetchStatus } from 'store/common';
 import { createAction } from 'typesafe-actions';
 
 import { getFetchId } from './settingsCommon';
-import {
-  selectSettingsError,
-  selectSettingsStatus,
-  selectSettingsUpdateError,
-  selectSettingsUpdateStatus,
-} from './settingsSelectors';
+import { selectSettingsError, selectSettingsStatus, selectSettingsUpdateStatus } from './settingsSelectors';
 
 interface SettingsActionMeta {
   fetchId: string;
@@ -64,9 +59,8 @@ export function fetchSettings(settingsType: SettingsType, settingsQueryString: s
 export function updateSettings(settingsType: SettingsType, payload: SettingsPayload): ThunkAction {
   return (dispatch, getState) => {
     const state = getState();
-    const fetchError = selectSettingsUpdateError(state, settingsType);
     const fetchStatus = selectSettingsUpdateStatus(state, settingsType);
-    if (fetchError || fetchStatus === FetchStatus.inProgress) {
+    if (fetchStatus === FetchStatus.inProgress) {
       return;
     }
 
@@ -114,12 +108,18 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
       })
       .catch(err => {
         dispatch(updateSettingsFailure(err, meta));
+        let description = intl.formatMessage(messages.settingsErrorDesc);
+        let title = intl.formatMessage(messages.settingsErrorTitle);
+        if (err.response.status === 412) {
+          description = intl.formatMessage(messages.settingsTagsErrorDesc, { value: err.response.data.enabled });
+          title = intl.formatMessage(messages.settingsTagsErrorTitle, { value: err.response.data.limit });
+        }
         dispatch(
           addNotification({
-            title: intl.formatMessage(messages.settingsErrorTitle),
-            description: intl.formatMessage(messages.settingsErrorDesc),
-            variant: AlertVariant.danger,
+            description,
             dismissable: true,
+            title,
+            variant: AlertVariant.danger,
           })
         );
       });
