@@ -522,6 +522,8 @@
   "settingsSuccessDesc": "Settings for Cost Management were replaced with new values",
   "settingsSuccessTags": "{value, select, enable {{count, plural, one {{count} tag enabled} other {{count} tags enabled}}} disable {{count, plural, one {{count} tag disabled} other {{count} tags disabled}}} other {}}",
   "settingsSuccessTitle": "Application settings saved",
+  "settingsTagsErrorDesc": "You currently have {value} tags enabled",
+  "settingsTagsErrorTitle": "You can not enable more than {value} tags total",
   "settingsTitle": "Cost Management Settings",
   "sinceDate": "{dateRange}",
   "sourceType": "Source type",

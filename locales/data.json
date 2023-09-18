@@ -11644,6 +11644,34 @@
         "value": "Application settings saved"
       }
     ],
+    "settingsTagsErrorDesc": [
+      {
+        "type": 0,
+        "value": "You currently have "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " tags enabled"
+      }
+    ],
+    "settingsTagsErrorTitle": [
+      {
+        "type": 0,
+        "value": "You can not enable more than "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " tags total"
+      }
+    ],
     "settingsTitle": [
       {
         "type": 0,
