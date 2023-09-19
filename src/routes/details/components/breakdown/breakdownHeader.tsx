@@ -88,7 +88,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
 
     if (isOptimizationsPath) {
       return (
-        <Link to={this.buildDetailsLink(formatPath(routes.optimizations.path))}>
+        <Link to={this.buildDetailsLink(formatPath(routes.optimizationsDetails.path))}>
           {intl.formatMessage(messages.breakdownBackToOptimizations)}
         </Link>
       );

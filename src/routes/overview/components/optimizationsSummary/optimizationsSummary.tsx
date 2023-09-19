@@ -63,7 +63,7 @@ const OptimizationsSummaryBase: React.FC<OptimizationsSummaryProps> = ({ intl, r
             <Skeleton className="skeleton" width={skeletonWidth.md} />
           </>
         ) : count > 0 ? (
-          <Link to={formatPath(routes.optimizations.path)}>{description}</Link>
+          <Link to={formatPath(routes.optimizationsDetails.path)}>{description}</Link>
         ) : (
           description
         )}

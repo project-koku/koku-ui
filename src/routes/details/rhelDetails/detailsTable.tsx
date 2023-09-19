@@ -191,7 +191,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       ) : (
         <Link
           to={getBreakdownPath({
-            basePath: formatPath(routes.rhelDetailsBreakdown.path),
+            basePath: formatPath(routes.rhelBreakdown.path),
             description: item.id,
             groupBy,
             id: item.id,

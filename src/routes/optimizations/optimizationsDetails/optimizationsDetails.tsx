@@ -1,4 +1,4 @@
-import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import { PageSection, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
@@ -16,7 +16,6 @@ import { OptimizationsTable, OptimizationsToolbar } from 'routes/components/opti
 import { Loading } from 'routes/components/page/loading';
 import { NoOptimizations } from 'routes/components/page/noOptimizations';
 import { NotAvailable } from 'routes/components/page/notAvailable';
-import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import * as queryUtils from 'routes/utils/query';
@@ -25,11 +24,14 @@ import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import { uiActions } from 'store/ui';
 
-interface OptimizationsBreakdownOwnProps {
+import { styles } from './optimizationsDetails.styles';
+import { OptimizationsDetailsHeader } from './optimizationsDetailsHeader';
+
+interface OptimizationsDetailsOwnProps {
   // TBD...
 }
 
-export interface OptimizationsBreakdownStateProps {
+export interface OptimizationsDetailsStateProps {
   closeOptimizationsDrawer: typeof uiActions.closeOptimizationsDrawer;
   report: RosReport;
   reportError: AxiosError;
@@ -37,11 +39,11 @@ export interface OptimizationsBreakdownStateProps {
   reportQueryString: string;
 }
 
-export interface OptimizationsBreakdownMapProps {
+export interface OptimizationsDetailsMapProps {
   query?: RosQuery;
 }
 
-type OptimizationsBreakdownProps = OptimizationsBreakdownOwnProps;
+type OptimizationsDetailsProps = OptimizationsDetailsOwnProps;
 
 const baseQuery: RosQuery = {
   limit: 10,
@@ -54,7 +56,7 @@ const baseQuery: RosQuery = {
 const reportType = RosType.ros as any;
 const reportPathsType = RosPathsType.recommendations as any;
 
-const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
+const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
   const [query, setQuery] = useState({ ...baseQuery });
   const intl = useIntl();
 
@@ -110,6 +112,7 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
     return (
       <OptimizationsToolbar
         isDisabled={isDisabled}
+        isProject
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
@@ -162,20 +165,23 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
     return <NoOptimizations />;
   }
   return (
-    <>
-      {getToolbar()}
-      {reportFetchStatus === FetchStatus.inProgress ? (
-        <Loading
-          body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
-          heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
-        />
-      ) : (
-        <>
-          {getTable()}
-          <div style={styles.pagination}>{getPagination(isDisabled, true)}</div>
-        </>
-      )}
-    </>
+    <div style={styles.container}>
+      <OptimizationsDetailsHeader />
+      <PageSection isFilled>
+        {getToolbar()}
+        {reportFetchStatus === FetchStatus.inProgress ? (
+          <Loading
+            body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
+            heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
+          />
+        ) : (
+          <>
+            {getTable()}
+            {getPagination(isDisabled, true)}
+          </>
+        )}
+      </PageSection>
+    </div>
   );
 };
 
@@ -185,7 +191,7 @@ const useQueryFromRoute = () => {
 };
 
 // eslint-disable-next-line no-empty-pattern
-const useMapToProps = ({ query }: OptimizationsBreakdownMapProps): OptimizationsBreakdownStateProps => {
+const useMapToProps = ({ query }: OptimizationsDetailsMapProps): OptimizationsDetailsStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
 
@@ -230,4 +236,4 @@ const useMapToProps = ({ query }: OptimizationsBreakdownMapProps): Optimizations
   };
 };
 
-export { OptimizationsBreakdown };
+export default OptimizationsDetails;

@@ -73,30 +73,31 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
       case formatPath(routes.explorer.path):
       case formatPath(routes.overview.path):
         return aws || azure || costModel || gcp || ibm || ocp || oci;
+      case formatPath(routes.awsBreakdown.path):
       case formatPath(routes.awsDetails.path):
-      case formatPath(routes.awsDetailsBreakdown.path):
         return aws;
+      case formatPath(routes.azureBreakdown.path):
       case formatPath(routes.azureDetails.path):
-      case formatPath(routes.azureDetailsBreakdown.path):
         return azure;
       case formatPath(routes.costModel.basePath):
         return costModel;
+      case formatPath(routes.gcpBreakdown.path):
       case formatPath(routes.gcpDetails.path):
-      case formatPath(routes.gcpDetailsBreakdown.path):
         return gcp;
+      case formatPath(routes.ociBreakdown.path):
       case formatPath(routes.ociDetails.path):
-      case formatPath(routes.ociDetailsBreakdown.path):
         return oci;
+      case formatPath(routes.ibmBreakdown.path):
       case formatPath(routes.ibmDetails.path):
-      case formatPath(routes.ibmDetailsBreakdown.path):
         return ibm;
+      case formatPath(routes.ocpBreakdown.path):
       case formatPath(routes.ocpDetails.path):
-      case formatPath(routes.ocpDetailsBreakdown.path):
         return ocp;
-      case formatPath(routes.optimizations.path):
+      case formatPath(routes.optimizationsBreakdown.path):
+      case formatPath(routes.optimizationsDetails.path):
         return ros;
+      case formatPath(routes.rhelBreakdown.path):
       case formatPath(routes.rhelDetails.path):
-      case formatPath(routes.rhelDetailsBreakdown.path):
         return rhel;
       case formatPath(routes.settings.path):
         return settings;

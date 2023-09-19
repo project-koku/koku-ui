@@ -63,7 +63,7 @@ class DetailsOptimization extends React.Component<DetailsOptimizationProps, Deta
     return (
       <Link
         to={getBreakdownPath({
-          basePath: formatPath(routes.ocpDetailsBreakdown.path),
+          basePath: formatPath(routes.ocpBreakdown.path),
           groupBy: 'project',
           id: project,
           isOptimizationsTab: true,

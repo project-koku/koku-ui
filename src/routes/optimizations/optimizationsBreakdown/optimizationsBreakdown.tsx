@@ -16,7 +16,6 @@ import { OptimizationsTable, OptimizationsToolbar } from 'routes/components/opti
 import { Loading } from 'routes/components/page/loading';
 import { NoOptimizations } from 'routes/components/page/noOptimizations';
 import { NotAvailable } from 'routes/components/page/notAvailable';
-// import { styles } from 'routes/optimizations/optimizations.styles';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import * as queryUtils from 'routes/utils/query';
@@ -25,14 +24,14 @@ import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import { uiActions } from 'store/ui';
 
-import { styles } from './optimizations.styles';
-import { OptimizationsHeader } from './optimizationsHeader';
+import { styles } from './optimizationsBreakdown.styles';
+import { OptimizationsBreakdownHeader } from './optimizationsBreakdownHeader';
 
-interface OptimizationsOwnProps {
+interface OptimizationsBreakdownOwnProps {
   // TBD...
 }
 
-export interface OptimizationsStateProps {
+export interface OptimizationsBreakdownStateProps {
   closeOptimizationsDrawer: typeof uiActions.closeOptimizationsDrawer;
   report: RosReport;
   reportError: AxiosError;
@@ -40,11 +39,11 @@ export interface OptimizationsStateProps {
   reportQueryString: string;
 }
 
-export interface OptimizationsMapProps {
+export interface OptimizationsBreakdownMapProps {
   query?: RosQuery;
 }
 
-type OptimizationsProps = OptimizationsOwnProps;
+type OptimizationsBreakdownProps = OptimizationsBreakdownOwnProps;
 
 const baseQuery: RosQuery = {
   limit: 10,
@@ -57,7 +56,7 @@ const baseQuery: RosQuery = {
 const reportType = RosType.ros as any;
 const reportPathsType = RosPathsType.recommendations as any;
 
-const Optimizations: React.FC<OptimizationsProps> = () => {
+const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
   const [query, setQuery] = useState({ ...baseQuery });
   const intl = useIntl();
 
@@ -167,7 +166,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
   }
   return (
     <div style={styles.container}>
-      <OptimizationsHeader />
+      <OptimizationsBreakdownHeader />
       <PageSection isFilled>
         {getToolbar()}
         {reportFetchStatus === FetchStatus.inProgress ? (
@@ -192,7 +191,7 @@ const useQueryFromRoute = () => {
 };
 
 // eslint-disable-next-line no-empty-pattern
-const useMapToProps = ({ query }: OptimizationsMapProps): OptimizationsStateProps => {
+const useMapToProps = ({ query }: OptimizationsBreakdownMapProps): OptimizationsBreakdownStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
 
@@ -237,4 +236,4 @@ const useMapToProps = ({ query }: OptimizationsMapProps): OptimizationsStateProp
   };
 };
 
-export default Optimizations;
+export default OptimizationsBreakdown;

@@ -7,23 +7,28 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 
-import { styles } from './optimizationsHeader.styles';
+import { styles } from './optimizationsDetailsHeader.styles';
 
-interface OptimizationsHeaderOwnProps {
+interface OptimizationsDetailsHeaderOwnProps {
   // TBD...
 }
 
-interface OptimizationsHeaderStateProps {
+interface OptimizationsDetailsHeaderStateProps {
   // TBD...
 }
 
-interface OptimizationsHeaderState {}
+interface OptimizationsDetailsHeaderState {}
 
-type OptimizationsHeaderProps = OptimizationsHeaderOwnProps & OptimizationsHeaderStateProps & WrappedComponentProps;
+type OptimizationsDetailsHeaderProps = OptimizationsDetailsHeaderOwnProps &
+  OptimizationsDetailsHeaderStateProps &
+  WrappedComponentProps;
 
-class OptimizationsHeaderBase extends React.Component<OptimizationsHeaderProps, OptimizationsHeaderState> {
-  protected defaultState: OptimizationsHeaderState = {};
-  public state: OptimizationsHeaderState = { ...this.defaultState };
+class OptimizationsDetailsHeaderBase extends React.Component<
+  OptimizationsDetailsHeaderProps,
+  OptimizationsDetailsHeaderState
+> {
+  protected defaultState: OptimizationsDetailsHeaderState = {};
+  public state: OptimizationsDetailsHeaderState = { ...this.defaultState };
 
   public render() {
     const { intl } = this.props;
@@ -55,13 +60,15 @@ class OptimizationsHeaderBase extends React.Component<OptimizationsHeaderProps, 
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<OptimizationsHeaderOwnProps, OptimizationsHeaderStateProps>(() => {
-  return {
-    // TBD...
-  };
-});
+const mapStateToProps = createMapStateToProps<OptimizationsDetailsHeaderOwnProps, OptimizationsDetailsHeaderStateProps>(
+  () => {
+    return {
+      // TBD...
+    };
+  }
+);
 
-const OptimizationsHeader = injectIntl(connect(mapStateToProps, {})(OptimizationsHeaderBase));
+const OptimizationsDetailsHeader = injectIntl(connect(mapStateToProps, {})(OptimizationsDetailsHeaderBase));
 
-export { OptimizationsHeader };
-export type { OptimizationsHeaderProps };
+export { OptimizationsDetailsHeader };
+export type { OptimizationsDetailsHeaderProps };

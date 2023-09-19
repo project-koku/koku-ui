@@ -18,28 +18,33 @@ const OciBreakdown = lazy(() => import(/* webpackChunkName: "ociBreakdown" */ 'r
 const OciDetails = lazy(() => import(/* webpackChunkName: "ociDetails" */ 'routes/details/ociDetails'));
 const OcpBreakdown = lazy(() => import(/* webpackChunkName: "ocpBreakdown" */ 'routes/details/ocpBreakdown'));
 const OcpDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/details/ocpDetails'));
-const Optimizations = lazy(() => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations'));
+const OptimizationsBreakdown = lazy(
+  () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/optimizationsBreakdown')
+);
+const OptimizationsDetails = lazy(
+  () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/optimizationsDetails')
+);
 const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/overview'));
 const RhelDetails = lazy(() => import(/* webpackChunkName: "rhelDetails" */ 'routes/details/rhelDetails'));
 const RhelBreakdown = lazy(() => import(/* webpackChunkName: "rhelBreakdown" */ 'routes/details/rhelBreakdown'));
 const Settings = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/settings'));
 
 const routes = {
+  awsBreakdown: {
+    element: userAccess(AwsBreakdown),
+    path: '/aws/breakdown',
+  },
   awsDetails: {
     element: userAccess(AwsDetails),
     path: '/aws',
   },
-  awsDetailsBreakdown: {
-    element: userAccess(AwsBreakdown),
-    path: '/aws/breakdown',
+  azureBreakdown: {
+    element: userAccess(AzureBreakdown),
+    path: '/azure/breakdown',
   },
   azureDetails: {
     element: userAccess(AzureDetails),
     path: '/azure',
-  },
-  azureDetailsBreakdown: {
-    element: userAccess(AzureBreakdown),
-    path: '/azure/breakdown',
   },
   costModel: {
     // Note: Order matters here (i.e., dynamic segment must be defined after costModelsDetails)
@@ -51,53 +56,57 @@ const routes = {
     element: userAccess(Explorer),
     path: '/explorer',
   },
+  gcpBreakdown: {
+    element: userAccess(GcpBreakdown),
+    path: '/gcp/breakdown',
+  },
   gcpDetails: {
     element: userAccess(GcpDetails),
     path: '/gcp',
   },
-  gcpDetailsBreakdown: {
-    element: userAccess(GcpBreakdown),
-    path: '/gcp/breakdown',
+  ibmBreakdown: {
+    element: userAccess(IbmBreakdown),
+    path: '/ibm/breakdown',
   },
   ibmDetails: {
     element: userAccess(IbmDetails),
     path: '/ibm',
   },
-  ibmDetailsBreakdown: {
-    element: userAccess(IbmBreakdown),
-    path: '/ibm/breakdown',
+  ociBreakdown: {
+    element: userAccess(OciBreakdown),
+    path: '/oci/breakdown',
   },
   ociDetails: {
     element: userAccess(OciDetails),
     path: '/oci',
   },
-  ociDetailsBreakdown: {
-    element: userAccess(OciBreakdown),
-    path: '/oci/breakdown',
+  ocpBreakdown: {
+    element: userAccess(OcpBreakdown),
+    path: '/ocp/breakdown',
   },
   ocpDetails: {
     element: userAccess(OcpDetails),
     path: '/ocp',
   },
-  ocpDetailsBreakdown: {
-    element: userAccess(OcpBreakdown),
-    path: '/ocp/breakdown',
+  optimizationsBreakdown: {
+    element: userAccess(OptimizationsBreakdown),
+    path: '/optimizations/breakdown',
   },
-  optimizations: {
-    element: userAccess(Optimizations),
+  optimizationsDetails: {
+    element: userAccess(OptimizationsDetails),
     path: '/optimizations',
   },
   overview: {
     element: userAccess(Overview),
     path: '/',
   },
+  rhelBreakdown: {
+    element: userAccess(RhelBreakdown),
+    path: '/rhel/breakdown',
+  },
   rhelDetails: {
     element: userAccess(RhelDetails),
     path: '/rhel',
-  },
-  rhelDetailsBreakdown: {
-    element: userAccess(RhelBreakdown),
-    path: '/rhel/breakdown',
   },
   settings: {
     element: userAccess(Settings),

@@ -160,7 +160,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       ) : (
         <Link
           to={getOrgBreakdownPath({
-            basePath: formatPath(routes.awsDetailsBreakdown.path),
+            basePath: formatPath(routes.awsBreakdown.path),
             description: item.id,
             groupBy,
             groupByOrg,
