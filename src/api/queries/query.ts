@@ -23,6 +23,7 @@ export interface Query {
   filter?: any;
   filter_by?: any;
   group_by?: any;
+  id?: string;
   isPlatformCosts?: boolean;
   key?: string;
   key_only?: boolean;

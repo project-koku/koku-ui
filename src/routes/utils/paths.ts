@@ -25,18 +25,21 @@ export const getBreakdownPath = ({
   router: RouteComponentProps;
   title: string | number; // Used to display a title in the breakdown header
 }) => {
-  const queryFromRoute = parseQuery<Query>(router.location.search);
-  const state = JSON.stringify(queryFromRoute); // Ignores query prefix
+  const queryFromRoute = router ? parseQuery<Query>(router.location.search) : undefined;
+  const state = queryFromRoute ? JSON.stringify(queryFromRoute) : undefined; // Ignores query prefix
   const newQuery: any = {
     ...(description && description !== title && { [breakdownDescKey]: description }),
     ...(title && { [breakdownTitleKey]: title }),
     optimizationsPath: isOptimizationsPath ? true : undefined,
     optimizationsTab: isOptimizationsTab ? true : undefined, // Clear query params
-    group_by: {
-      [groupBy]: isPlatformCosts ? '*' : id, // Use ID here -- see https://github.com/project-koku/koku-ui/pull/2821
-    },
+    ...(groupBy && {
+      group_by: {
+        [groupBy]: isPlatformCosts ? '*' : id, // Use ID here -- see https://github.com/project-koku/koku-ui/pull/2821
+      },
+    }),
+    id,
     isPlatformCosts: isPlatformCosts ? true : undefined,
-    state: window.btoa(state),
+    ...(state && { state: window.btoa(state) }),
   };
   return `${basePath}?${getQueryRoute(newQuery)}`;
 };

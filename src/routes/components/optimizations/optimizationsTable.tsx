@@ -9,13 +9,17 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { SelectableTable } from 'routes/components/dataTable';
+import { Link } from 'react-router-dom';
+import { routes } from 'routes';
+import { DataTable } from 'routes/components/dataTable';
 import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
 import { getGroupById } from 'routes/utils/groupBy';
+import { getBreakdownPath } from 'routes/utils/paths';
 import { createMapStateToProps } from 'store/common';
 import { uiActions, uiSelectors } from 'store/ui';
 import { getTimeFromNow } from 'utils/dates';
+import { formatPath } from 'utils/paths';
 import { hasNotification } from 'utils/recomendations';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -71,7 +75,7 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
   }
 
   private initDatum = () => {
-    const { groupBy, intl, report } = this.props;
+    const { groupBy, intl, report, router } = this.props;
     if (!report) {
       return;
     }
@@ -127,7 +131,21 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
 
         rows.push({
           cells: [
-            { value: container },
+            {
+              value: (
+                <Link
+                  to={getBreakdownPath({
+                    basePath: formatPath(routes.optimizationsBreakdown.path),
+                    id: item.id,
+                    groupBy,
+                    router,
+                    title: container,
+                  })}
+                >
+                  {container}
+                </Link>
+              ),
+            },
             { value: project, hidden: groupBy === 'project' },
             { value: workload },
             { value: workloadType },
@@ -174,18 +192,18 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
     );
   };
 
-  private handleOnRowClick = (event: React.KeyboardEvent | React.MouseEvent, rowIndex: number) => {
-    const { closeOptimizationsDrawer, isOpen, openOptimizationsDrawer } = this.props;
-    const { currentRow, rows } = this.state;
-
-    this.setState({ currentRow: rowIndex }, () => {
-      if (currentRow === rowIndex && isOpen) {
-        closeOptimizationsDrawer();
-      } else {
-        openOptimizationsDrawer(rows[rowIndex].optimization);
-      }
-    });
-  };
+  // private handleOnRowClick = (event: React.KeyboardEvent | React.MouseEvent, rowIndex: number) => {
+  //   const { closeOptimizationsDrawer, isOpen, openOptimizationsDrawer } = this.props;
+  //   const { currentRow, rows } = this.state;
+  //
+  //   this.setState({ currentRow: rowIndex }, () => {
+  //     if (currentRow === rowIndex && isOpen) {
+  //       closeOptimizationsDrawer();
+  //     } else {
+  //       openOptimizationsDrawer(rows[rowIndex].optimization);
+  //     }
+  //   });
+  // };
 
   private handleOnSort = (value: string, isSortAscending: boolean) => {
     const { closeOptimizationsDrawer, onSort } = this.props;
@@ -201,16 +219,16 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
     const { columns, rows } = this.state;
 
     return (
-      <SelectableTable
+      <DataTable
         columns={columns}
         emptyState={<NoOptimizationsState />}
         filterBy={filterBy}
         isLoading={isLoading}
         isOptimizations
+        isSelectable={false}
         onSort={this.handleOnSort}
         orderBy={orderBy}
         rows={rows}
-        onRowClick={this.handleOnRowClick}
       />
     );
   }
