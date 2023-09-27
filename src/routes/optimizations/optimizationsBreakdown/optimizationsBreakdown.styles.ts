@@ -1,30 +1,35 @@
-import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
-import global_FontWeight_bold from '@patternfly/react-tokens/dist/js/global_FontWeight_bold';
+import global_danger_color_100 from '@patternfly/react-tokens/dist/js/global_danger_color_100';
 import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
+import global_success_color_100 from '@patternfly/react-tokens/dist/js/global_success_color_100';
 import type React from 'react';
 
 export const styles = {
-  bullseye: {
-    marginTop: global_spacer_lg.value,
+  alertContainer: {
+    marginBottom: global_spacer_lg.value,
+  },
+  codeBlock: {
+    display: 'flex',
   },
   container: {
     minHeight: '100vh',
   },
-  firstColumn: {
-    width: '225px',
+  currentActions: {
+    height: '36px',
   },
-  tableContainer: {
-    marginTop: global_spacer_lg.value,
+  decrease: {
+    color: global_success_color_100.var,
   },
-  toolbarContainer: {
-    backgroundColor: global_BackgroundColor_light_100.value,
-    paddingBottom: global_spacer_lg.value,
-    paddingTop: global_spacer_lg.value,
+  increase: {
+    color: global_danger_color_100.var,
   },
-  value: {
-    fontWeight: global_FontWeight_bold.value,
+  leftCodeBlock: {
+    flexShrink: 1,
+    flexDirection: 'column',
+    minWidth: '225px',
   },
-  viewAllContainer: {
-    marginTop: global_spacer_lg.value,
+  rightCodeBlock: {
+    display: 'flex',
+    flexGrow: 1,
+    flexDirection: 'column',
   },
 } as { [className: string]: React.CSSProperties };

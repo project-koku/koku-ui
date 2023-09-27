@@ -1,8 +1,23 @@
 import './optimizationsBreakdown.scss';
 
-import { Alert, List, ListItem, PageSection } from '@patternfly/react-core';
+import {
+  Alert,
+  Card,
+  CardBody,
+  CardTitle,
+  ClipboardCopyButton,
+  CodeBlock,
+  CodeBlockAction,
+  CodeBlockCode,
+  Grid,
+  GridItem,
+  List,
+  ListItem,
+  PageSection,
+  Title,
+  TitleSizes,
+} from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
-import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
@@ -17,13 +32,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
+import { routes } from 'routes';
 import { Loading } from 'routes/components/page/loading';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import { formatOptimization } from 'utils/format';
+import { formatPath } from 'utils/paths';
 import { getNotifications, hasRecommendation, hasRecommendationValues } from 'utils/recomendations';
 import type { RouterComponentProps } from 'utils/router';
+import YAML from 'yaml';
 
 import { styles } from './optimizationsBreakdown.styles';
 import { OptimizationsBreakdownHeader } from './optimizationsBreakdownHeader';
@@ -33,6 +51,7 @@ interface OptimizationsBreakdownOwnProps extends RouterComponentProps {
 }
 
 interface OptimizationsBreakdownStateProps {
+  queryFromRoute?: Query;
   report?: RecommendationReportData;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
@@ -63,7 +82,8 @@ const reportType = RosType.ros as any;
 const reportPathsType = RosPathsType.recommendation as any;
 
 const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
-  const { report, reportFetchStatus } = useMapToProps();
+  const [copied, setCopied] = React.useState(false);
+  const { queryFromRoute, report, reportFetchStatus } = useMapToProps();
   const intl = useIntl();
 
   const getDefaultTerm = () => {
@@ -96,151 +116,126 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
     }
 
     return (
-      <Alert isInline variant="warning" title={intl.formatMessage(messages.notificationsAlertTitle)}>
-        <List>
-          {notifications.map((notification, index) => (
-            <ListItem key={index}>{notification.message}</ListItem>
-          ))}
-        </List>
-      </Alert>
-    );
-  };
-
-  const getChangeValue = (value, units = '') => {
-    // Show icon opposite of month over month
-    let iconOverride = 'iconOverride';
-    if (value !== null && value < 0) {
-      iconOverride += ' decrease';
-    } else if (value !== null && value > 0) {
-      iconOverride += ' increase';
-    }
-    return (
-      <div className="optimizationsOverride">
-        <div className={iconOverride}>
-          {value < 0 ? (
-            <>
-              <span style={styles.value}>
-                {intl.formatMessage(messages.optimizationsValue, {
-                  value: formatOptimization(value),
-                  units,
-                })}
-              </span>
-              <span className="fa fa-sort-down" />
-            </>
-          ) : value > 0 ? (
-            <>
-              <span style={styles.value}>
-                {intl.formatMessage(messages.optimizationsValue, {
-                  value: formatOptimization(value),
-                  units,
-                })}
-              </span>
-              <span className="fa fa-sort-up" />
-            </>
-          ) : value === 0 ? (
-            <>
-              <span style={styles.value}>
-                {intl.formatMessage(messages.optimizationsValue, {
-                  value: formatOptimization(value),
-                  units,
-                })}
-              </span>
-              <span className="fa fa-equals" />
-            </>
-          ) : (
-            <ExclamationTriangleIcon color="orange" />
-          )}
-        </div>
+      <div style={styles.alertContainer}>
+        <Alert isInline variant="warning" title={intl.formatMessage(messages.notificationsAlertTitle)}>
+          <List>
+            {notifications.map((notification, index) => (
+              <ListItem key={index}>{notification.message}</ListItem>
+            ))}
+          </List>
+        </Alert>
       </div>
     );
   };
 
-  const getLimitsTable = () => {
-    if (!report) {
-      return null;
-    }
-
-    const term = getRecommendationTerm();
-    if (!hasRecommendation(term)) {
-      return null;
-    }
-
-    const hasConfigLimitsCpu = hasRecommendationValues(term, 'config', 'limits', 'cpu');
-    const hasConfigLimitsMemory = hasRecommendationValues(term, 'config', 'limits', 'memory');
-    const hasCurrentLimitsCpu = hasRecommendationValues(term, 'current', 'limits', 'cpu');
-    const hasCurrentLimitsMemory = hasRecommendationValues(term, 'current', 'limits', 'memory');
-    const hasVariationLimitsCpu = hasRecommendationValues(term, 'variation', 'limits', 'cpu');
-    const hasVariationLimitsMemory = hasRecommendationValues(term, 'variation', 'limits', 'memory');
-
-    const cpuConfigAmount = hasConfigLimitsCpu ? term.config.limits.cpu.amount : undefined;
-    const cpuConfigUnits = hasConfigLimitsCpu ? term.config.limits.cpu.format : undefined;
-    const cpuCurrentAmount = hasCurrentLimitsCpu ? term.current.limits.cpu.amount : undefined;
-    const cpuCurrentUnits = hasCurrentLimitsCpu ? term.current.limits.cpu.format : undefined;
-    const cpuVariation = hasVariationLimitsCpu ? term.variation.limits.cpu.amount : undefined;
-    const cpuVariationUnits = hasVariationLimitsCpu ? term.variation.limits.cpu.format : undefined;
-
-    const memConfigAmount = hasConfigLimitsMemory ? term.config.limits.memory.amount : undefined;
-    const memConfigUnits = hasConfigLimitsMemory ? term.config.limits.memory.format : undefined;
-    const memCurrentAmount = hasCurrentLimitsMemory ? term.current.limits.memory.amount : undefined;
-    const memCurrentUnits = hasCurrentLimitsMemory ? term.current.limits.memory.format : undefined;
-    const memVariation = hasVariationLimitsMemory ? term.variation.limits.memory.amount : undefined;
-    const memVariationUnits = hasVariationLimitsMemory ? term.variation.limits.memory.format : undefined;
-
+  const getChangeValue = (value, units) => {
+    const blockComment = `# `;
     return (
-      <TableComposable
-        aria-label={intl.formatMessage(messages.optimizationsTableAriaLabel)}
-        borders={false}
-        hasSelectableRowCaption
-        variant={TableVariant.compact}
-      >
-        <Thead>
-          <Tr>
-            <Th>{intl.formatMessage(messages.limits)}</Th>
-            <Th>{intl.formatMessage(messages.current)}</Th>
-            <Th>{intl.formatMessage(messages.recommended)}</Th>
-            <Th>{intl.formatMessage(messages.change)}</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr>
-            <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuTitle)}</Td>
-            <Td>
+      <>
+        {value !== null && value < 0 ? (
+          <>
+            {blockComment}
+            <span style={styles.decrease}>
               {intl.formatMessage(messages.optimizationsValue, {
-                value: getFormattedValue(cpuCurrentAmount),
-                units: cpuCurrentUnits,
+                value: formatOptimization(value),
+                units,
               })}
-            </Td>
-            <Td hasRightBorder>
+            </span>
+          </>
+        ) : value > 0 ? (
+          <>
+            {blockComment}
+            <span style={styles.increase}>
               {intl.formatMessage(messages.optimizationsValue, {
-                value: getFormattedValue(cpuConfigAmount),
-                units: cpuConfigUnits,
+                value: formatOptimization(value),
+                units,
               })}
-            </Td>
-            <Td>{getChangeValue(cpuVariation, cpuVariationUnits)}</Td>
-          </Tr>
-          <Tr>
-            <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryTitle)}</Td>
-            <Td>
-              {intl.formatMessage(messages.optimizationsValue, {
-                value: getFormattedValue(memCurrentAmount),
-                units: memCurrentUnits,
-              })}
-            </Td>
-            <Td hasRightBorder>
-              {intl.formatMessage(messages.optimizationsValue, {
-                value: getFormattedValue(memConfigAmount),
-                units: memConfigUnits,
-              })}
-            </Td>
-            <Td>{getChangeValue(memVariation, memVariationUnits)}</Td>
-          </Tr>
-        </Tbody>
-      </TableComposable>
+            </span>
+          </>
+        ) : value === 0 ? (
+          <>
+            {blockComment}
+            {intl.formatMessage(messages.optimizationsValue, {
+              value: formatOptimization(value),
+              units,
+            })}
+          </>
+        ) : (
+          <ExclamationTriangleIcon color="orange" />
+        )}
+      </>
     );
   };
 
+  const getConfig = (key: 'config' | 'current') => {
+    const term = getRecommendationTerm();
+
+    const hasConfigLimitsCpu = hasRecommendationValues(term, key, 'limits', 'cpu');
+    const hasConfigLimitsMemory = hasRecommendationValues(term, key, 'limits', 'memory');
+    const hasConfigRequestsCpu = hasRecommendationValues(term, key, 'requests', 'cpu');
+    const hasConfigRequestsMemory = hasRecommendationValues(term, key, 'requests', 'memory');
+
+    const cpuConfigLimitsAmount = hasConfigLimitsCpu ? term[key].limits.cpu.amount : undefined;
+    const cpuConfigLimitsUnits = hasConfigLimitsCpu ? term[key].limits.cpu.format : undefined;
+    const cpuConfigRequestsAmount = hasConfigRequestsCpu ? term[key].requests.cpu.amount : undefined;
+    const cpuConfigRequestsUnits = hasConfigRequestsCpu ? term[key].requests.cpu.format : undefined;
+
+    const memConfigLimitsAmount = hasConfigLimitsMemory ? term[key].limits.memory.amount : undefined;
+    const memConfigLimitsUnits = hasConfigLimitsMemory ? term[key].limits.memory.format : undefined;
+    const memConfigRequestsAmount = hasConfigRequestsMemory ? term[key].requests.memory.amount : undefined;
+    const memConfigRequestsUnits = hasConfigRequestsMemory ? term[key].requests.memory.format : undefined;
+
+    return {
+      resources: {
+        requests: {
+          memory: intl.formatMessage(messages.optimizationsValue, {
+            value: getFormattedValue(memConfigRequestsAmount),
+            units: memConfigRequestsUnits,
+          }),
+          cpu: intl.formatMessage(messages.optimizationsValue, {
+            value: getFormattedValue(cpuConfigRequestsAmount),
+            units: cpuConfigRequestsUnits,
+          }),
+        },
+        limits: {
+          memory: intl.formatMessage(messages.optimizationsValue, {
+            value: getFormattedValue(memConfigLimitsAmount),
+            units: memConfigLimitsUnits,
+          }),
+          cpu: intl.formatMessage(messages.optimizationsValue, {
+            value: getFormattedValue(cpuConfigLimitsAmount),
+            units: cpuConfigLimitsUnits,
+          }),
+        },
+      },
+    };
+  };
+
+  const getCurrentConfig = () => {
+    const code = getConfig('current');
+
+    return YAML.stringify(code, null, 2);
+  };
+
+  const getCurrentConfigCodeBlock = () => {
+    const code = getCurrentConfig();
+    if (code === null) {
+      return null;
+    }
+    return (
+      <CodeBlock actions={getEmptyActions()}>
+        <CodeBlockCode>{code}</CodeBlockCode>
+      </CodeBlock>
+    );
+  };
+
+  // Returns empty element to force a header
+  const getEmptyActions = () => {
+    return <div style={styles.currentActions} />;
+  };
+
   const getFormattedValue = value => {
-    return value !== undefined ? formatOptimization(value) : <ExclamationTriangleIcon color="orange" />;
+    return value !== undefined ? formatOptimization(value) : undefined;
   };
 
   const getRecommendationTerm = (): RecommendationItem => {
@@ -263,87 +258,184 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
     return result;
   };
 
-  const getRequestsTable = () => {
+  const getOptimizationCards = () => {
     if (!report) {
       return null;
     }
-    const term = getRecommendationTerm();
-    if (!hasRecommendation(term)) {
+    return (
+      <Grid hasGutter>
+        <GridItem xl={6}>
+          <Card>
+            <CardTitle>
+              <Title headingLevel="h2" size={TitleSizes.lg}>
+                {intl.formatMessage(messages.currentConfiguration)}
+              </Title>
+            </CardTitle>
+            <CardBody>
+              <div style={styles.codeBlock}>
+                <div className="leftCodeBlockOverride" style={styles.leftCodeBlock}>
+                  {getCurrentConfigCodeBlock()}
+                </div>
+                <div className="rightCodeBlockOverride" style={styles.rightCodeBlock}>
+                  {getWarningsCodeBlock()}
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </GridItem>
+        <GridItem xl={6}>
+          <Card>
+            <CardTitle>
+              <Title headingLevel="h2" size={TitleSizes.lg}>
+                {intl.formatMessage(messages.recommendedConfiguration)}
+              </Title>
+            </CardTitle>
+            <CardBody>
+              <div style={styles.codeBlock}>
+                <div className="leftCodeBlockOverride" style={styles.leftCodeBlock}>
+                  {getRecommendedConfigCodeBlock()}
+                </div>
+                <div className="rightCodeBlockOverride" style={styles.rightCodeBlock}>
+                  {getVariationConfigCodeBlock()}
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </GridItem>
+      </Grid>
+    );
+  };
+
+  const getRecommendedActions = () => {
+    const code = getRecommendedConfig();
+
+    return (
+      <CodeBlockAction>
+        <ClipboardCopyButton
+          id="copy-button"
+          textId="code-content"
+          aria-label={intl.formatMessage(messages.copyToClipboard)}
+          onClick={e => handleClipboardCopyOnClick(e, code)}
+          exitDelay={copied ? 1500 : 600}
+          maxWidth="110px"
+          variant="plain"
+          onTooltipHidden={() => setCopied(false)}
+        >
+          {intl.formatMessage(copied ? messages.copyToClipboardSuccessfull : messages.copyToClipboard)}
+        </ClipboardCopyButton>
+      </CodeBlockAction>
+    );
+  };
+
+  const getRecommendedConfig = () => {
+    const code = getConfig('config');
+    if (code === null) {
       return null;
     }
+    return YAML.stringify(code, null, 2);
+  };
 
-    const hasConfigRequestsCpu = hasRecommendationValues(term, 'config', 'requests', 'cpu');
-    const hasConfigRequestsMemory = hasRecommendationValues(term, 'config', 'requests', 'memory');
-    const hasCurrentLimitsCpu = hasRecommendationValues(term, 'current', 'requests', 'cpu');
-    const hasCurrentLimitsMemory = hasRecommendationValues(term, 'current', 'requests', 'memory');
+  const getRecommendedConfigCodeBlock = () => {
+    const code = getRecommendedConfig();
+    if (code === null) {
+      return null;
+    }
+    return (
+      <CodeBlock actions={getEmptyActions()}>
+        <CodeBlockCode>{code}</CodeBlockCode>
+      </CodeBlock>
+    );
+  };
+
+  const getVariationConfigCodeBlock = () => {
+    const code = getVariationConfig();
+    if (code === null) {
+      return null;
+    }
+    return (
+      <CodeBlock actions={getRecommendedActions()}>
+        <CodeBlockCode>{code}</CodeBlockCode>
+      </CodeBlock>
+    );
+  };
+
+  const getVariationConfig = () => {
+    const term = getRecommendationTerm();
+
+    const hasVariationLimitsCpu = hasRecommendationValues(term, 'variation', 'limits', 'cpu');
+    const hasVariationLimitsMemory = hasRecommendationValues(term, 'variation', 'limits', 'memory');
     const hasVariationRequestsCpu = hasRecommendationValues(term, 'variation', 'requests', 'cpu');
     const hasVariationRequestsMemory = hasRecommendationValues(term, 'variation', 'requests', 'memory');
 
-    const cpuConfigAmount = hasConfigRequestsCpu ? term.config.requests.cpu.amount : undefined;
-    const cpuConfigUnits = hasConfigRequestsCpu ? term.config.requests.cpu.format : undefined;
-    const cpuCurrentAmount = hasCurrentLimitsCpu ? term.current.requests.cpu.amount : undefined;
-    const cpuCurrentUnits = hasCurrentLimitsCpu ? term.current.requests.cpu.format : undefined;
-    const cpuVariation = hasVariationRequestsCpu ? term.variation.requests.cpu.amount : undefined;
-    const cpuVariationUnits = hasVariationRequestsCpu ? term.variation.requests.cpu.format : undefined;
+    const cpuVariationLimitsAmount = hasVariationLimitsCpu ? term.variation.limits.cpu.amount : undefined;
+    const cpuVariationLimitsUnits = hasVariationLimitsCpu ? term.variation.limits.cpu.format : undefined;
+    const memVariationLimitsAmount = hasVariationLimitsMemory ? term.variation.limits.memory.amount : undefined;
+    const memVariationLimitsUnits = hasVariationLimitsMemory ? term.variation.limits.memory.format : undefined;
 
-    const memConfigAmount = hasConfigRequestsMemory ? term.config.requests.memory.amount : undefined;
-    const memConfigUnits = hasConfigRequestsMemory ? term.config.requests.memory.format : undefined;
-    const memCurrentAmount = hasCurrentLimitsMemory ? term.current.requests.memory.amount : undefined;
-    const memCurrentUnits = hasCurrentLimitsMemory ? term.current.requests.memory.format : undefined;
-    const memVariation = hasVariationRequestsMemory ? term.variation.requests.memory.amount : undefined;
-    const memVariationUnits = hasVariationRequestsMemory ? term.variation.requests.memory.format : undefined;
+    const cpuVariationRequestsAmount = hasVariationRequestsCpu ? term.variation.requests.cpu.amount : undefined;
+    const cpuVariationRequestsUnits = hasVariationRequestsCpu ? term.variation.requests.cpu.format : undefined;
+    const memVariationRequestsAmount = hasVariationRequestsMemory ? term.variation.requests.memory.amount : undefined;
+    const memVariationRequestsUnits = hasVariationRequestsMemory ? term.variation.requests.memory.format : undefined;
+
+    const cpuVariationLimitsChange = getChangeValue(cpuVariationLimitsAmount, cpuVariationLimitsUnits);
+    const memoryVariationLimitsChange = getChangeValue(memVariationLimitsAmount, memVariationLimitsUnits);
+    const cpuVariationRequestsChange = getChangeValue(cpuVariationRequestsAmount, cpuVariationRequestsUnits);
+    const memoryVariationRequestsChange = getChangeValue(memVariationRequestsAmount, memVariationRequestsUnits);
 
     return (
-      <TableComposable
-        aria-label={intl.formatMessage(messages.optimizationsTableAriaLabel)}
-        borders={false}
-        hasSelectableRowCaption
-        variant={TableVariant.compact}
-      >
-        <Thead>
-          <Tr>
-            <Th>{intl.formatMessage(messages.requests)}</Th>
-            <Th>{intl.formatMessage(messages.current)}</Th>
-            <Th>{intl.formatMessage(messages.recommended)}</Th>
-            <Th>{intl.formatMessage(messages.change)}</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr>
-            <Td style={styles.firstColumn}>{intl.formatMessage(messages.cpuTitle)}</Td>
-            <Td>
-              {intl.formatMessage(messages.optimizationsValue, {
-                value: getFormattedValue(cpuCurrentAmount),
-                units: cpuCurrentUnits,
-              })}
-            </Td>
-            <Td hasRightBorder>
-              {intl.formatMessage(messages.optimizationsValue, {
-                value: getFormattedValue(cpuConfigAmount),
-                units: cpuConfigUnits,
-              })}
-            </Td>
-            <Td>{getChangeValue(cpuVariation, cpuVariationUnits)}</Td>
-          </Tr>
-          <Tr>
-            <Td style={styles.firstColumn}>{intl.formatMessage(messages.memoryTitle)}</Td>
-            <Td>
-              {intl.formatMessage(messages.optimizationsValue, {
-                value: getFormattedValue(memCurrentAmount),
-                units: memCurrentUnits,
-              })}
-            </Td>
-            <Td hasRightBorder>
-              {intl.formatMessage(messages.optimizationsValue, {
-                value: getFormattedValue(memConfigAmount),
-                units: memConfigUnits,
-              })}
-            </Td>
-            <Td>{getChangeValue(memVariation, memVariationUnits)}</Td>
-          </Tr>
-        </Tbody>
-      </TableComposable>
+      <>
+        <br />
+        <br />
+        {memoryVariationRequestsChange}
+        <br />
+        {cpuVariationRequestsChange}
+        <br />
+        <br />
+        {memoryVariationLimitsChange}
+        <br />
+        {cpuVariationLimitsChange}
+      </>
     );
+  };
+
+  const getWarningsConfig = () => {
+    const config = getConfig('current');
+
+    const getWarning = (value, defaultValue = null) => {
+      return !value ? <ExclamationTriangleIcon color="orange" /> : defaultValue;
+    };
+
+    return (
+      <>
+        <br />
+        <br />
+        {getWarning(config.resources.requests.memory)}
+        <br />
+        {getWarning(config.resources.requests.cpu)}
+        <br />
+        <br />
+        {getWarning(config.resources.limits.memory)}
+        <br />
+        {getWarning(config.resources.limits.cpu, <br />)}
+      </>
+    );
+  };
+
+  const getWarningsCodeBlock = () => {
+    const code = getWarningsConfig();
+    if (code === null) {
+      return null;
+    }
+    return (
+      <CodeBlock actions={getEmptyActions()}>
+        <CodeBlockCode>{code}</CodeBlockCode>
+      </CodeBlock>
+    );
+  };
+
+  const handleClipboardCopyOnClick = (event, text) => {
+    navigator.clipboard.writeText(text.toString());
+    setCopied(true);
   };
 
   const handleOnSelected = (value: Interval) => {
@@ -351,6 +443,7 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
   };
 
   const isLoading = reportFetchStatus === FetchStatus.inProgress;
+  const optimizationsURL = formatPath(routes.optimizationsDetails.path);
 
   return (
     <div style={styles.container}>
@@ -358,6 +451,8 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
         currentInterval={currentInterval}
         isDisabled={isLoading}
         onSelected={handleOnSelected}
+        optimizationsURL={optimizationsURL}
+        queryFromRoute={queryFromRoute}
         report={report}
       />
       <PageSection isFilled>
@@ -368,9 +463,8 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
           />
         ) : (
           <>
-            <div style={styles.alertContainer}>{getAlert()}</div>
-            <div style={styles.tableContainer}>{getRequestsTable()}</div>
-            <div style={styles.tableContainer}>{getLimitsTable()}</div>
+            {getAlert()}
+            {getOptimizationCards()}
           </>
         )}
       </PageSection>
@@ -406,6 +500,7 @@ const useMapToProps = (): OptimizationsBreakdownStateProps => {
   }, [reportQueryString]);
 
   return {
+    queryFromRoute,
     report,
     reportError,
     reportFetchStatus,

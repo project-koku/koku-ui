@@ -987,6 +987,18 @@
         "value": "Clusters"
       }
     ],
+    "copyToClipboard": [
+      {
+        "type": 0,
+        "value": "Copy to clipboard"
+      }
+    ],
+    "copyToClipboardSuccessfull": [
+      {
+        "type": 0,
+        "value": "Successfully copied to clipboard!"
+      }
+    ],
     "cost": [
       {
         "type": 0,
@@ -1380,28 +1392,6 @@
       {
         "type": 0,
         "value": "Last updated"
-      }
-    ],
-    "costModelsPopover": [
-      {
-        "type": 0,
-        "value": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources. "
-      },
-      {
-        "type": 1,
-        "value": "learnMore"
-      }
-    ],
-    "costModelsPopoverAriaLabel": [
-      {
-        "type": 0,
-        "value": "Cost model info popover"
-      }
-    ],
-    "costModelsPopoverButtonAriaLabel": [
-      {
-        "type": 0,
-        "value": "Opens a dialog with cost model info"
       }
     ],
     "costModelsRateTooLong": [
@@ -2284,6 +2274,12 @@
       {
         "type": 0,
         "value": "Current"
+      }
+    ],
+    "currentConfiguration": [
+      {
+        "type": 0,
+        "value": "Current configuration"
       }
     ],
     "dashboardCumulativeCostComparison": [
@@ -10674,10 +10670,6 @@
         "value": "value"
       },
       {
-        "type": 0,
-        "value": " "
-      },
-      {
         "type": 1,
         "value": "units"
       }
@@ -11258,6 +11250,12 @@
       {
         "type": 0,
         "value": "Recommended"
+      }
+    ],
+    "recommendedConfiguration": [
+      {
+        "type": 0,
+        "value": "Recommended configuration"
       }
     ],
     "redHatStatusUrl": [

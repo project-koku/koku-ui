@@ -87,6 +87,7 @@ export class OptimizationsToolbarBase extends React.Component<OptimizationsToolb
         pagination={pagination}
         query={query}
         showFilter
+        useActiveFilters
       />
     );
   }

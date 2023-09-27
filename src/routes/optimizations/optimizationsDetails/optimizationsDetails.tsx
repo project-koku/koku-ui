@@ -1,6 +1,6 @@
 import { PageSection, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery } from 'api/queries/query';
+import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
 import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
@@ -9,7 +9,7 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { OptimizationsTable, OptimizationsToolbar } from 'routes/components/optimizations';
@@ -22,7 +22,6 @@ import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
-import { uiActions } from 'store/ui';
 
 import { styles } from './optimizationsDetails.styles';
 import { OptimizationsDetailsHeader } from './optimizationsDetailsHeader';
@@ -32,7 +31,7 @@ interface OptimizationsDetailsOwnProps {
 }
 
 export interface OptimizationsDetailsStateProps {
-  closeOptimizationsDrawer: typeof uiActions.closeOptimizationsDrawer;
+  queryState?: Query;
   report: RosReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
@@ -58,11 +57,22 @@ const reportPathsType = RosPathsType.recommendations as any;
 
 const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
   const [query, setQuery] = useState({ ...baseQuery });
-  const intl = useIntl();
-
-  const { closeOptimizationsDrawer, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
+  const { queryState, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     query,
   });
+
+  const intl = useIntl();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Restore state returned from breakdown page
+  useEffect(() => {
+    setQuery({
+      ...query,
+      ...queryState,
+    });
+    navigate(location.pathname, { replace: true });
+  }, [reportQueryString]);
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report && report.meta ? report.meta.count : 0;
@@ -98,6 +108,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
+        query={query}
         report={report}
         reportQueryString={reportQueryString}
       />
@@ -126,31 +137,26 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
   const handleOnFilterAdded = filter => {
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnFilterRemoved = filter => {
     const newQuery = queryUtils.handleOnFilterRemoved(query, filter);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnPerPageSelect = perPage => {
     const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnSetPage = pageNumber => {
     const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const itemsTotal = report && report.meta ? report.meta.count : 0;
@@ -194,6 +200,7 @@ const useQueryFromRoute = () => {
 const useMapToProps = ({ query }: OptimizationsDetailsMapProps): OptimizationsDetailsStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
+  const queryState = parseQueryState<Query>(queryFromRoute);
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
@@ -228,7 +235,7 @@ const useMapToProps = ({ query }: OptimizationsDetailsMapProps): OptimizationsDe
   }, [query]);
 
   return {
-    closeOptimizationsDrawer: uiActions.closeOptimizationsDrawer,
+    queryState,
     report,
     reportError,
     reportFetchStatus,

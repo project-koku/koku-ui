@@ -44,6 +44,27 @@ export const getBreakdownPath = ({
   return `${basePath}?${getQueryRoute(newQuery)}`;
 };
 
+export const getOptimizationsBreakdownPath = ({
+  basePath,
+  id,
+  query,
+  title,
+}: {
+  basePath: string;
+  id: string | number; // group_by[account]=<id> param in the breakdown page
+  query?: Query;
+  title: string | number; // Used to display a title in the breakdown header
+}) => {
+  const state = query ? JSON.stringify(query) : undefined; // Ignores query prefix
+
+  const newQuery: any = {
+    id,
+    ...(state && { state: window.btoa(state) }),
+    ...(title && { [breakdownTitleKey]: title }),
+  };
+  return `${basePath}?${getQueryRoute(newQuery)}`;
+};
+
 export const getOrgBreakdownPath = ({
   basePath,
   description,
