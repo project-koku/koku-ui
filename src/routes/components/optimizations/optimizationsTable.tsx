@@ -4,7 +4,7 @@ import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/
 import type { Query } from 'api/queries/query';
 import type { RecommendationReport } from 'api/ros/recommendations';
 import messages from 'locales/messages';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
 import { DataTable } from 'routes/components/dataTable';
@@ -45,11 +45,17 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   const intl = useIntl();
   const location = useLocation();
 
+  const [columns, setColumns] = useState([]);
+  const [rows, setRows] = useState([]);
+
   const initDatum = () => {
+    if (!report) {
+      return;
+    }
     const hasData = report && report.data && report.data.length > 0;
 
-    const rows = [];
-    const columns = [
+    const newRows = [];
+    const newColumns = [
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'container' }),
         orderBy: 'container',
@@ -95,7 +101,7 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
         const workloadType = item.workload_type ? item.workload_type : '';
         const showWarningIcon = hasWarning(item?.recommendations?.duration_based);
 
-        rows.push({
+        newRows.push({
           cells: [
             {
               value: (
@@ -144,16 +150,14 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
         });
       });
 
-    const filteredColumns = (columns as any[]).filter(column => !column.hidden);
-    const filteredRows = rows.map(({ ...row }) => {
+    const filteredColumns = (newColumns as any[]).filter(column => !column.hidden);
+    const filteredRows = newRows.map(({ ...row }) => {
       row.cells = row.cells.filter(cell => !cell.hidden);
       return row;
     });
 
-    return {
-      columns: filteredColumns,
-      rows: filteredRows,
-    };
+    setColumns(filteredColumns);
+    setRows(filteredRows);
   };
 
   const handleOnSort = (value: string, isSortAscending: boolean) => {
@@ -162,10 +166,9 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
     }
   };
 
-  if (!report) {
-    return null;
-  }
-  const { columns, rows } = initDatum();
+  useEffect(() => {
+    initDatum();
+  }, [report]);
 
   return (
     <DataTable
