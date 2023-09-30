@@ -1,7 +1,7 @@
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
+import { getQuery, getQueryState, parseQuery } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -39,7 +39,7 @@ const reportPathsType = ReportPathsType.azure;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<AzureCostOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const queryState = parseQueryState<Query>(queryFromRoute);
+  const queryState = getQueryState(router.location, 'details');
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);

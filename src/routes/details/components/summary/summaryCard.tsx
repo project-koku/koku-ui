@@ -11,7 +11,7 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
+import { getQuery, getQueryState, parseQuery } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -224,7 +224,7 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
 const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps>(
   (state, { costDistribution, costType, currency, reportGroupBy, reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = parseQueryState<Query>(queryFromRoute);
+    const queryState = getQueryState(router.location, 'details');
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);

@@ -1,6 +1,6 @@
 import { Modal } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
+import { getQuery, getQueryState, parseQuery } from 'api/queries/query';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -109,7 +109,7 @@ class TagModalBase extends React.Component<TagModalProps, any> {
 const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStateProps>(
   (state, { router, tagPathsType }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = parseQueryState<Query>(queryFromRoute);
+    const queryState = getQueryState(router.location, 'details');
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);

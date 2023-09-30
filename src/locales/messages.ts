@@ -129,6 +129,11 @@ export default defineMessages({
     description: 'Back to optimizations',
     id: 'breakdownBackToOptimizations',
   },
+  breakdownBackToOptimizationsProject: {
+    defaultMessage: 'Back to optimizations for project {value}',
+    description: 'Back to optimizations for project {value}',
+    id: 'breakdownBackToOptimizationsProject',
+  },
   breakdownBackToTitles: {
     defaultMessage:
       '{value, select, ' +
@@ -2881,6 +2886,11 @@ export default defineMessages({
     defaultMessage: '{value} % of cost',
     description: '{value} % of cost',
     id: 'percentOfCost',
+  },
+  percentPlus: {
+    defaultMessage: '{count, plural, one {+{value}%} other {{value}%}}',
+    description: 'Percent value with plus symbol',
+    id: 'percentPlus',
   },
   percentSymbol: {
     defaultMessage: '%',

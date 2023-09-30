@@ -14,6 +14,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { routes } from 'routes';
 import { ExportModal } from 'routes/components/export';
 import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
@@ -38,6 +39,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCostType, getCurrency } from 'utils/localStorage';
+import { formatPath } from 'utils/paths';
 import { awsCategoryPrefix, logicalOrPrefix, noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -226,6 +228,8 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
 
     return (
       <DetailsTable
+        basePath={formatPath(routes.awsBreakdown.path)}
+        breadcrumbPath={formatPath(`${routes.awsDetails.path}${location.search}`)}
         filterBy={query.filter_by}
         groupBy={
           groupByCostCategory
@@ -242,6 +246,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
         onSelected={this.handleOnSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         orderBy={query.order_by}
+        query={query}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}

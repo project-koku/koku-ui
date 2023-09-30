@@ -84,6 +84,10 @@ const routes = {
     element: userAccess(OcpBreakdown),
     path: '/ocp/breakdown',
   },
+  ocpBreakdownOptimizations: {
+    element: userAccess(OptimizationsBreakdown),
+    path: '/ocp/breakdown/optimizations',
+  },
   ocpDetails: {
     element: userAccess(OcpDetails),
     path: '/ocp',

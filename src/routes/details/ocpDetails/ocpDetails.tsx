@@ -13,6 +13,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { routes } from 'routes';
 import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { ExportModal } from 'routes/components/export';
 import { Loading } from 'routes/components/page/loading';
@@ -41,6 +42,7 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCostDistribution, getCurrency } from 'utils/localStorage';
+import { formatPath } from 'utils/paths';
 import { noPrefix, platformCategoryKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -261,6 +263,8 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
 
     return (
       <DetailsTable
+        basePath={formatPath(routes.ocpBreakdown.path)}
+        breadcrumbPath={formatPath(`${routes.ocpDetails.path}${location.search}`)}
         costDistribution={costDistribution}
         filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
@@ -272,6 +276,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         onSelected={this.handleOnSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         orderBy={query.order_by}
+        query={query}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}

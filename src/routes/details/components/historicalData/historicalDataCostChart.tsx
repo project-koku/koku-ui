@@ -1,6 +1,6 @@
 import { Skeleton } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
+import { getQuery, getQueryState, parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -153,7 +153,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
 const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, HistoricalDataCostChartStateProps>(
   (state, { costType, currency, reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = parseQueryState<Query>(queryFromRoute);
+    const queryState = getQueryState(router.location, 'details');
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);

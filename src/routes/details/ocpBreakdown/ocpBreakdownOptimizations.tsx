@@ -1,6 +1,6 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery } from 'api/queries/query';
+import { getQuery, getQueryState, parseQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
 import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
+import { routes } from 'routes';
 import { OptimizationsTable, OptimizationsToolbar } from 'routes/components/optimizations';
 import { Loading } from 'routes/components/page/loading';
 import { NoOptimizations } from 'routes/components/page/noOptimizations';
@@ -23,25 +24,27 @@ import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
-import { uiActions } from 'store/ui';
+import { formatPath } from 'utils/paths';
+import { breakdownTitleKey } from 'utils/props';
 
-interface OptimizationsBreakdownOwnProps {
+interface OcpOptimizationsBreakdownOwnProps {
   // TBD...
 }
 
-export interface OptimizationsBreakdownStateProps {
-  closeOptimizationsDrawer: typeof uiActions.closeOptimizationsDrawer;
+export interface OcpOptimizationsBreakdownStateProps {
+  groupBy?: string;
+  project?: number | string;
   report: RosReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
 }
 
-export interface OptimizationsBreakdownMapProps {
+export interface OcpOptimizationsBreakdownMapProps {
   query?: RosQuery;
 }
 
-type OptimizationsBreakdownProps = OptimizationsBreakdownOwnProps;
+type OcpOptimizationsBreakdownProps = OcpOptimizationsBreakdownOwnProps;
 
 const baseQuery: RosQuery = {
   limit: 10,
@@ -54,11 +57,13 @@ const baseQuery: RosQuery = {
 const reportType = RosType.ros as any;
 const reportPathsType = RosPathsType.recommendations as any;
 
-const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
-  const [query, setQuery] = useState({ ...baseQuery });
+const OcpBreakdownOptimizations: React.FC<OcpOptimizationsBreakdownProps> = () => {
   const intl = useIntl();
+  const location = useLocation();
 
-  const { closeOptimizationsDrawer, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
+  const queryState = getQueryState(location, 'optimizations');
+  const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
+  const { groupBy, project, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     query,
   });
 
@@ -92,10 +97,15 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
   const getTable = () => {
     return (
       <OptimizationsTable
+        basePath={formatPath(routes.ocpBreakdownOptimizations.path)}
+        breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: project })}
+        breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}&optimizationsTab=true`)}
         filterBy={query.filter_by}
+        groupBy={groupBy}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
+        query={query}
         report={report}
         reportQueryString={reportQueryString}
       />
@@ -123,40 +133,34 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
   const handleOnFilterAdded = filter => {
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnFilterRemoved = filter => {
     const newQuery = queryUtils.handleOnFilterRemoved(query, filter);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnPerPageSelect = perPage => {
     const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnSetPage = pageNumber => {
     const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const itemsTotal = report && report.meta ? report.meta.count : 0;
   const isDisabled = itemsTotal === 0;
-  const title = intl.formatMessage(messages.optimizations);
   const hasOptimizations = report && report.meta && report.meta.count > 0;
 
   if (reportError) {
-    return <NotAvailable title={title} />;
+    return <NotAvailable title={intl.formatMessage(messages.optimizations)} />;
   }
   if (!query.filter_by && !hasOptimizations && reportFetchStatus === FetchStatus.complete) {
     return <NoOptimizations />;
@@ -185,7 +189,7 @@ const useQueryFromRoute = () => {
 };
 
 // eslint-disable-next-line no-empty-pattern
-const useMapToProps = ({ query }: OptimizationsBreakdownMapProps): OptimizationsBreakdownStateProps => {
+const useMapToProps = ({ query }: OcpOptimizationsBreakdownMapProps): OcpOptimizationsBreakdownStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
 
@@ -222,7 +226,8 @@ const useMapToProps = ({ query }: OptimizationsBreakdownMapProps): Optimizations
   }, [query]);
 
   return {
-    closeOptimizationsDrawer: uiActions.closeOptimizationsDrawer,
+    groupBy,
+    project: queryFromRoute[breakdownTitleKey],
     report,
     reportError,
     reportFetchStatus,
@@ -230,4 +235,4 @@ const useMapToProps = ({ query }: OptimizationsBreakdownMapProps): Optimizations
   };
 };
 
-export { OptimizationsBreakdown };
+export { OcpBreakdownOptimizations };

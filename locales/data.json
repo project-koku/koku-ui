@@ -409,6 +409,16 @@
         "value": "Back to optimizations"
       }
     ],
+    "breakdownBackToOptimizationsProject": [
+      {
+        "type": 0,
+        "value": "Back to optimizations for project "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      }
+    ],
     "breakdownBackToTitles": [
       {
         "options": {
@@ -10915,6 +10925,44 @@
       {
         "type": 0,
         "value": " % of cost"
+      }
+    ],
+    "percentPlus": [
+      {
+        "offset": 0,
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 0,
+                "value": "+"
+              },
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": "%"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": "%"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
       }
     ],
     "percentSymbol": [

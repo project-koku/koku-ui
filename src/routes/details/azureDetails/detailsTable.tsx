@@ -1,5 +1,6 @@
 import 'routes/components/dataTable/dataTable.scss';
 
+import type { Query } from 'api/queries/query';
 import type { AzureReport } from 'api/reports/azureReports';
 import { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -23,6 +24,7 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
+  breadcrumbPath?: string;
   filterBy?: any;
   isAllSelected?: boolean;
   groupBy: string;
@@ -31,6 +33,7 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
+  query?: Query;
   report: AzureReport;
   reportQueryString: string;
   selectedItems?: ComputedReportItem[];
@@ -66,7 +69,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   }
 
   private initDatum = () => {
-    const { groupBy, groupByTagKey, intl, isAllSelected, report, selectedItems, router } = this.props;
+    const { breadcrumbPath, groupBy, groupByTagKey, intl, isAllSelected, query, report, router, selectedItems } =
+      this.props;
     if (!report) {
       return;
     }
@@ -138,9 +142,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             description: item.id,
             groupBy,
             id: item.id,
-            router,
             title: label.toString(), // Convert IDs if applicable
           })}
+          state={{
+            ...(router.location.state && router.location.state),
+            details: {
+              ...(query && query),
+              breadcrumbPath,
+            },
+          }}
         >
           {label}
         </Link>

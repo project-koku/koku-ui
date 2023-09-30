@@ -82,7 +82,7 @@ class OptimizationsLinkBase extends React.Component<OptimizationsLinkProps, any>
   };
 
   public render() {
-    const { intl, isStandalone, project, report, router } = this.props;
+    const { intl, isStandalone, project, report } = this.props;
 
     if (!isStandalone || !report) {
       return null;
@@ -97,7 +97,6 @@ class OptimizationsLinkBase extends React.Component<OptimizationsLinkProps, any>
       id: project,
       isOptimizationsPath: true,
       isOptimizationsTab: true,
-      router,
       title: project,
     });
 

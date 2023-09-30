@@ -248,17 +248,19 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       key,
     });
 
-    this.setState(
-      {
-        filters,
-        categoryInput: '',
-      },
-      () => {
-        if (onFilterAdded) {
-          onFilterAdded(filter);
+    if (filter && filters) {
+      this.setState(
+        {
+          filters,
+          categoryInput: '',
+        },
+        () => {
+          if (onFilterAdded) {
+            onFilterAdded(filter);
+          }
         }
-      }
-    );
+      );
+    }
   };
 
   private handleOnCategoryInputSelect = (value, key) => {

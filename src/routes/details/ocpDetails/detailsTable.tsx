@@ -2,6 +2,7 @@ import 'routes/components/dataTable/dataTable.scss';
 
 import { Label, Tooltip } from '@patternfly/react-core';
 import { ProviderType } from 'api/providers';
+import type { Query } from 'api/queries/query';
 import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
 import { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -28,6 +29,8 @@ import { withRouter } from 'utils/router';
 import DetailsOptimization from './detailsOptimization';
 
 interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
+  basePath?: string;
+  breadcrumbPath?: string;
   costDistribution?: string;
   filterBy?: any;
   groupBy: string;
@@ -39,6 +42,7 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
+  query?: Query;
   report: OcpReport;
   reportQueryString: string;
   selectedItems?: ComputedReportItem[];
@@ -86,6 +90,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
   private initDatum = () => {
     const {
+      basePath,
+      breadcrumbPath,
       costDistribution,
       groupBy,
       groupByTagKey,
@@ -93,6 +99,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       intl,
       isAllSelected,
       isRosFeatureEnabled,
+      query,
       report,
       router,
       selectedItems,
@@ -224,14 +231,20 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       ) : (
         <Link
           to={getBreakdownPath({
-            basePath: formatPath(routes.ocpBreakdown.path),
+            basePath,
             description: item.id,
             id: item.id,
             isPlatformCosts,
             groupBy,
-            router,
             title: label.toString(), // Convert IDs if applicable
           })}
+          state={{
+            ...(router.location.state && router.location.state),
+            details: {
+              ...(query && query),
+              breadcrumbPath,
+            },
+          }}
         >
           {label}
         </Link>
@@ -267,7 +280,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           },
           {
             hidden: !(isGroupByProject && isRosFeatureEnabled),
-            value: !isPlatformCosts && !isDisabled && <DetailsOptimization project={label} />,
+            value: !isPlatformCosts && !isDisabled && (
+              <DetailsOptimization
+                basePath={formatPath(routes.ocpBreakdown.path)}
+                breadcrumbPath={formatPath(`${routes.ocpDetails.path}${location.search}`)}
+                project={label}
+                query={query}
+              />
+            ),
           },
           { value: monthOverMonth, id: DetailsTableColumnIds.monthOverMonth },
           {

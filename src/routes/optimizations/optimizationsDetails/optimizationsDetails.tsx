@@ -1,6 +1,6 @@
 import { PageSection, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
+import { getQuery, getQueryState, parseQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
 import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
+import { routes } from 'routes';
 import { OptimizationsTable, OptimizationsToolbar } from 'routes/components/optimizations';
 import { Loading } from 'routes/components/page/loading';
 import { NoOptimizations } from 'routes/components/page/noOptimizations';
@@ -22,6 +23,7 @@ import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
+import { formatPath } from 'utils/paths';
 
 import { styles } from './optimizationsDetails.styles';
 import { OptimizationsDetailsHeader } from './optimizationsDetailsHeader';
@@ -31,7 +33,7 @@ interface OptimizationsDetailsOwnProps {
 }
 
 export interface OptimizationsDetailsStateProps {
-  queryState?: Query;
+  groupBy?: string;
   report: RosReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
@@ -56,22 +58,21 @@ const reportType = RosType.ros as any;
 const reportPathsType = RosPathsType.recommendations as any;
 
 const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
-  const [query, setQuery] = useState({ ...baseQuery });
-  const { queryState, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
+  const intl = useIntl();
+  const location = useLocation();
+
+  const queryState = getQueryState(location, 'optimizations');
+  const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
+  const { groupBy, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     query,
   });
 
-  const intl = useIntl();
-  const location = useLocation();
+  // Clear state returned from breakdown page
   const navigate = useNavigate();
-
-  // Restore state returned from breakdown page
   useEffect(() => {
-    setQuery({
-      ...query,
-      ...queryState,
+    navigate(location.pathname, {
+      state: { ...(location.state && location.state), optimizations: undefined },
     });
-    navigate(location.pathname, { replace: true });
   }, [reportQueryString]);
 
   const getPagination = (isDisabled = false, isBottom = false) => {
@@ -104,7 +105,10 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
   const getTable = () => {
     return (
       <OptimizationsTable
+        basePath={formatPath(routes.optimizationsBreakdown.path)}
+        breadcrumbPath={formatPath(`${routes.optimizationsDetails.path}${location.search}`)}
         filterBy={query.filter_by}
+        groupBy={groupBy}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
@@ -200,7 +204,6 @@ const useQueryFromRoute = () => {
 const useMapToProps = ({ query }: OptimizationsDetailsMapProps): OptimizationsDetailsStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
-  const queryState = parseQueryState<Query>(queryFromRoute);
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
@@ -235,7 +238,7 @@ const useMapToProps = ({ query }: OptimizationsDetailsMapProps): OptimizationsDe
   }, [query]);
 
   return {
-    queryState,
+    groupBy,
     report,
     reportError,
     reportFetchStatus,

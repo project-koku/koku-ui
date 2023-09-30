@@ -2,9 +2,7 @@ import type { Query } from 'api/queries/query';
 import type { RecommendationItems } from 'api/ros/recommendations';
 import messages from 'locales/messages';
 import React from 'react';
-import { connect } from 'react-redux';
 import { PerspectiveSelect } from 'routes/components/perspective/perspectiveSelect';
-import { createMapStateToProps } from 'store/common';
 import { hasNotification, hasRecommendation } from 'utils/recomendations';
 
 import { Interval } from './optimizationsBreakdown';
@@ -17,29 +15,15 @@ interface OptimizationsBreakdownToolbarOwnProps {
   recommendations?: RecommendationItems;
 }
 
-interface OptimizationsBreakdownToolbarStateProps {
-  // TDB...
-}
+type OptimizationsBreakdownToolbarProps = OptimizationsBreakdownToolbarOwnProps;
 
-interface OptimizationsBreakdownToolbarDispatchProps {
-  // TDB...
-}
-
-interface OptimizationsBreakdownToolbarState {}
-
-type OptimizationsBreakdownToolbarProps = OptimizationsBreakdownToolbarOwnProps &
-  OptimizationsBreakdownToolbarStateProps &
-  OptimizationsBreakdownToolbarDispatchProps;
-
-export class OptimizationsBreakdownToolbarBase extends React.Component<OptimizationsBreakdownToolbarProps, any> {
-  protected defaultState: OptimizationsBreakdownToolbarState = {
-    // TBD...
-  };
-  public state: OptimizationsBreakdownToolbarState = { ...this.defaultState };
-
-  private getOptions = () => {
-    const { recommendations } = this.props;
-
+const OptimizationsBreakdownToolbar: React.FC<OptimizationsBreakdownToolbarProps> = ({
+  currentInterval,
+  isDisabled,
+  onSelected,
+  recommendations,
+}) => {
+  const getOptions = () => {
     return [
       {
         isDisabled: !hasRecommendation(recommendations?.short_term) && !hasNotification(recommendations?.short_term),
@@ -59,33 +43,17 @@ export class OptimizationsBreakdownToolbarBase extends React.Component<Optimizat
     ];
   };
 
-  public render() {
-    const { currentInterval, isDisabled, onSelected } = this.props;
+  const options = getOptions();
 
-    const options = this.getOptions();
-
-    return (
-      <PerspectiveSelect
-        currentItem={currentInterval || options[0].value}
-        isDisabled={isDisabled}
-        onSelected={onSelected}
-        options={options}
-        title={messages.optimizationsPerspective}
-      />
-    );
-  }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<
-  OptimizationsBreakdownToolbarOwnProps,
-  OptimizationsBreakdownToolbarStateProps
->(() => {
-  return {};
-});
-
-const mapDispatchToProps: OptimizationsBreakdownToolbarDispatchProps = {};
-
-const OptimizationsBreakdownToolbar = connect(mapStateToProps, mapDispatchToProps)(OptimizationsBreakdownToolbarBase);
+  return (
+    <PerspectiveSelect
+      currentItem={currentInterval || options[0].value}
+      isDisabled={isDisabled}
+      onSelected={onSelected}
+      options={options}
+      title={messages.optimizationsPerspective}
+    />
+  );
+};
 
 export { OptimizationsBreakdownToolbar };

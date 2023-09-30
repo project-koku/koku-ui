@@ -1,7 +1,7 @@
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
+import { getQuery, getQueryState, parseQuery } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -10,6 +10,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { routes } from 'routes';
+import { OptimizationsBadge } from 'routes/components/optimizations';
 import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
@@ -27,8 +28,7 @@ import { withRouter } from 'utils/router';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
-import { OptimizationsBadge } from './optimizationsBadge';
-import { OptimizationsBreakdown } from './optimizationsBreakdown';
+import { OcpBreakdownOptimizations } from './ocpBreakdownOptimizations';
 
 interface BreakdownDispatchProps {
   closeOptimizationsDrawer?: typeof uiActions.closeOptimizationsDrawer;
@@ -44,7 +44,7 @@ const reportPathsType = ReportPathsType.ocp;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const queryState = parseQueryState<Query>(queryFromRoute);
+  const queryState = getQueryState(router.location, 'details');
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
@@ -117,7 +117,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
     isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
     optimizationsBadgeComponent: <OptimizationsBadge />,
-    optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <OptimizationsBreakdown /> : undefined,
+    optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <OcpBreakdownOptimizations /> : undefined,
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     providerType: ProviderType.ocp,
