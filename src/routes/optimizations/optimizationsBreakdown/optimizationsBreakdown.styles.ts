@@ -5,10 +5,18 @@ export const styles = {
   alertContainer: {
     marginBottom: global_spacer_lg.value,
   },
+  codeBlock: {
+    display: 'flex',
+  },
   container: {
     minHeight: '100vh',
   },
   currentActions: {
     height: '36px',
+  },
+  rightCodeBlock: {
+    display: 'flex',
+    flexGrow: 1,
+    flexDirection: 'column',
   },
 } as { [className: string]: React.CSSProperties };

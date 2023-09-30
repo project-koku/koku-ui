@@ -13,6 +13,7 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { RecommendationItem } from 'api/ros/recommendations';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
@@ -80,7 +81,7 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
     const code = getConfig('current');
 
     // See https://eemeli.org/yaml/#tojs-options
-    return YAML.stringify(code);
+    return YAML.stringify(code).replace(/"/g, ''); // prettify
   };
 
   const getCurrentConfigCodeBlock = () => {
@@ -138,7 +139,7 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
     code = getVariationConfig(code);
 
     // See https://eemeli.org/yaml/#tojs-options
-    return YAML.stringify(code).replace(/"/g, '');
+    return YAML.stringify(code).replace(/"/g, ''); // prettify
   };
 
   const getRecommendedConfigCodeBlock = () => {
@@ -238,9 +239,64 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
     return `${spacing}${value}`;
   };
 
+  const getWarningConfig = () => {
+    const config = getConfig('config', false);
+
+    const getWarning = value => {
+      return !value ? <ExclamationTriangleIcon color="orange" /> : null;
+    };
+
+    const cpuLimitsWarning = getWarning(config.resources.limits.cpu);
+    const cpuRequestsWarning = getWarning(config.resources.requests.cpu);
+    const memoryLimitsWarning = getWarning(config.resources.limits.memory);
+    const memoryRequestsWarning = getWarning(config.resources.requests.memory);
+
+    return (
+      <>
+        <br />
+        <br />
+        {cpuLimitsWarning}
+        <br />
+        {memoryLimitsWarning}
+        <br />
+        <br />
+        {cpuRequestsWarning}
+        <br />
+        {memoryRequestsWarning !== null ? memoryRequestsWarning : <br />}
+      </>
+    );
+  };
+
+  const getWarningCodeBlock = () => {
+    const code = getWarningConfig();
+    if (code === null) {
+      return null;
+    }
+    return (
+      <CodeBlock actions={getEmptyActions()}>
+        <CodeBlockCode>{code}</CodeBlockCode>
+      </CodeBlock>
+    );
+  };
+
   const handleClipboardCopyOnClick = (event, text) => {
     navigator.clipboard.writeText(text.toString());
     setCopied(true);
+  };
+
+  const hasMissingValue = (key: 'config' | 'current') => {
+    const config = getConfig(key, false);
+
+    const isMissingValue = value => {
+      return !value || `${value}`.trim().length === 0;
+    };
+
+    const cpuLimitsWarning = isMissingValue(config.resources.limits.cpu);
+    const cpuRequestsWarning = isMissingValue(config.resources.requests.cpu);
+    const memoryLimitsWarning = isMissingValue(config.resources.limits.memory);
+    const memoryRequestsWarning = isMissingValue(config.resources.requests.memory);
+
+    return cpuLimitsWarning || cpuRequestsWarning || memoryLimitsWarning || memoryRequestsWarning;
   };
 
   return (
@@ -262,7 +318,16 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
               {intl.formatMessage(messages.recommendedConfiguration)}
             </Title>
           </CardTitle>
-          <CardBody>{getRecommendedConfigCodeBlock()}</CardBody>
+          <CardBody>
+            {hasMissingValue('config') ? (
+              <div style={styles.codeBlock}>
+                <div className="leftCodeBlockOverride">{getWarningCodeBlock()}</div>
+                <div style={styles.rightCodeBlock}>{getRecommendedConfigCodeBlock()}</div>
+              </div>
+            ) : (
+              getRecommendedConfigCodeBlock()
+            )}
+          </CardBody>
         </Card>
       </GridItem>
     </Grid>
