@@ -14,9 +14,4 @@ export const styles = {
   currentActions: {
     height: '36px',
   },
-  rightCodeBlock: {
-    display: 'flex',
-    flexGrow: 1,
-    flexDirection: 'column',
-  },
 } as { [className: string]: React.CSSProperties };

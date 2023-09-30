@@ -91,7 +91,17 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
     }
     return (
       <CodeBlock actions={getEmptyActions()}>
-        <CodeBlockCode>{code}</CodeBlockCode>
+        <CodeBlockCode>
+          {hasMissingValue('current') ? (
+            <span style={styles.codeBlock}>
+              <span>{getWarningConfig('current')}</span>
+              <span>&nbsp;</span>
+              <span>{code}</span>
+            </span>
+          ) : (
+            code
+          )}
+        </CodeBlockCode>
       </CodeBlock>
     );
   };
@@ -149,7 +159,17 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
     }
     return (
       <CodeBlock actions={getRecommendedActions()}>
-        <CodeBlockCode>{code}</CodeBlockCode>
+        <CodeBlockCode>
+          {hasMissingValue('config') ? (
+            <span style={styles.codeBlock}>
+              <span>{getWarningConfig('config')}</span>
+              <span>&nbsp;</span>
+              <span>{code}</span>
+            </span>
+          ) : (
+            code
+          )}
+        </CodeBlockCode>
       </CodeBlock>
     );
   };
@@ -239,8 +259,8 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
     return `${spacing}${value}`;
   };
 
-  const getWarningConfig = () => {
-    const config = getConfig('config', false);
+  const getWarningConfig = (key: 'current' | 'config') => {
+    const config = getConfig(key, false);
 
     const getWarning = value => {
       return !value ? <ExclamationTriangleIcon color="orange" /> : null;
@@ -264,18 +284,6 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
         <br />
         {memoryRequestsWarning !== null ? memoryRequestsWarning : <br />}
       </>
-    );
-  };
-
-  const getWarningCodeBlock = () => {
-    const code = getWarningConfig();
-    if (code === null) {
-      return null;
-    }
-    return (
-      <CodeBlock actions={getEmptyActions()}>
-        <CodeBlockCode>{code}</CodeBlockCode>
-      </CodeBlock>
     );
   };
 
@@ -308,16 +316,7 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
               {intl.formatMessage(messages.currentConfiguration)}
             </Title>
           </CardTitle>
-          <CardBody>
-            {hasMissingValue('current') ? (
-              <div style={styles.codeBlock}>
-                <div className="leftCodeBlockOverride">{getWarningCodeBlock()}</div>
-                <div style={styles.rightCodeBlock}>{getCurrentConfigCodeBlock()}</div>
-              </div>
-            ) : (
-              getRecommendedConfigCodeBlock()
-            )}
-          </CardBody>
+          <CardBody>{getCurrentConfigCodeBlock()}</CardBody>
         </Card>
       </GridItem>
       <GridItem xl={6}>
@@ -327,16 +326,7 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
               {intl.formatMessage(messages.recommendedConfiguration)}
             </Title>
           </CardTitle>
-          <CardBody>
-            {hasMissingValue('config') ? (
-              <div style={styles.codeBlock}>
-                <div className="leftCodeBlockOverride">{getWarningCodeBlock()}</div>
-                <div style={styles.rightCodeBlock}>{getRecommendedConfigCodeBlock()}</div>
-              </div>
-            ) : (
-              getRecommendedConfigCodeBlock()
-            )}
-          </CardBody>
+          <CardBody>{getRecommendedConfigCodeBlock()}</CardBody>
         </Card>
       </GridItem>
     </Grid>

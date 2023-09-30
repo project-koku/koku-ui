@@ -1,12 +1,5 @@
 @import url("~@patternfly/patternfly/base/patternfly-variables.css");
 
-.leftCodeBlockOverride {
-  .pf-c-code-block__header,
-  .pf-c-code-block__content {
-    padding-right: 0;
-  }
-}
-
 .optimizationsOverride {
   div {
     display: block;
