@@ -308,7 +308,16 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
               {intl.formatMessage(messages.currentConfiguration)}
             </Title>
           </CardTitle>
-          <CardBody>{getCurrentConfigCodeBlock()}</CardBody>
+          <CardBody>
+            {hasMissingValue('current') ? (
+              <div style={styles.codeBlock}>
+                <div className="leftCodeBlockOverride">{getWarningCodeBlock()}</div>
+                <div style={styles.rightCodeBlock}>{getCurrentConfigCodeBlock()}</div>
+              </div>
+            ) : (
+              getRecommendedConfigCodeBlock()
+            )}
+          </CardBody>
         </Card>
       </GridItem>
       <GridItem xl={6}>
