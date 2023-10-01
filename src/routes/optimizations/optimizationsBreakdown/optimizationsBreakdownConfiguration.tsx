@@ -266,23 +266,18 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
       return !value ? <ExclamationTriangleIcon color="orange" /> : null;
     };
 
-    const cpuLimitsWarning = getWarning(config.resources.limits.cpu);
-    const cpuRequestsWarning = getWarning(config.resources.requests.cpu);
-    const memoryLimitsWarning = getWarning(config.resources.limits.memory);
-    const memoryRequestsWarning = getWarning(config.resources.requests.memory);
-
     return (
       <>
         <br />
         <br />
-        {cpuLimitsWarning}
+        {getWarning(config.resources.limits.cpu)}
         <br />
-        {memoryLimitsWarning}
+        {getWarning(config.resources.limits.memory)}
         <br />
         <br />
-        {cpuRequestsWarning}
+        {getWarning(config.resources.requests.cpu)}
         <br />
-        {memoryRequestsWarning !== null ? memoryRequestsWarning : <br />}
+        {getWarning(config.resources.requests.memory)}
       </>
     );
   };
