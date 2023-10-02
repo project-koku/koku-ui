@@ -13,6 +13,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { routes } from 'routes';
 import { ExportModal } from 'routes/components/export';
 import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
@@ -38,6 +39,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCurrency } from 'utils/localStorage';
+import { formatPath } from 'utils/paths';
 import { noPrefix, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -254,6 +256,8 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
 
     return (
       <DetailsTable
+        basePath={formatPath(routes.rhelBreakdown.path)}
+        breadcrumbPath={formatPath(`${routes.rhelDetails.path}${location.search}`)}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
         hiddenColumns={hiddenColumns}
@@ -262,6 +266,7 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
         onSelected={this.handleOnSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         orderBy={query.order_by}
+        query={query}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}

@@ -1,3 +1,4 @@
+import type * as H from 'history';
 import { parse, stringify } from 'qs';
 import { logicalAndPrefix, logicalOrPrefix } from 'utils/props';
 
@@ -23,6 +24,7 @@ export interface Query {
   filter?: any;
   filter_by?: any;
   group_by?: any;
+  id?: string;
   isPlatformCosts?: boolean;
   key?: string;
   key_only?: boolean;
@@ -131,6 +133,6 @@ export function parseQuery<T = any>(query: string): T {
   return parseFilterByPrefix(parseGroupByPrefix(newQuery));
 }
 
-export function parseQueryState<T = any>(query: Query): T {
-  return query && query.state ? JSON.parse(window.atob(query.state)) : undefined;
+export function getQueryState(location: H.Location, key: string) {
+  return location && location.state && location.state[key] ? location.state[key] : undefined;
 }

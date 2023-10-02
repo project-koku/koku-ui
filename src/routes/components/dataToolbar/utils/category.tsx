@@ -128,12 +128,12 @@ export const onCategoryInput = ({
   key?: string;
 }) => {
   if (event && event.key && event.key !== 'Enter') {
-    return;
+    return {};
   }
 
   const val = cleanInput(categoryInput);
   if (val.trim() === '') {
-    return;
+    return {};
   }
 
   const isExcludes = currentExclude === ExcludeType.exclude;

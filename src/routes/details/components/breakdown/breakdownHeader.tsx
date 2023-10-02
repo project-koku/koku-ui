@@ -3,7 +3,6 @@ import './breakdownHeader.scss';
 import { Title, TitleSizes } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left-icon';
 import type { Query } from 'api/queries/query';
-import { getQueryRoute, parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import type { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -12,7 +11,6 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { routes } from 'routes';
 import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { CostDistribution } from 'routes/components/costDistribution';
 import { CostType } from 'routes/components/costType';
@@ -22,7 +20,6 @@ import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'ro
 import { createMapStateToProps } from 'store/common';
 import { getTotalCostDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
-import { formatPath } from 'utils/paths';
 import { awsCategoryKey, orgUnitIdKey, tagKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -30,6 +27,7 @@ import { withRouter } from 'utils/router';
 import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps extends RouterComponentProps {
+  breadcrumb?: string;
   costDistribution?: string;
   costType?: string;
   currency?: string;
@@ -49,7 +47,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
 }
 
 interface BreakdownHeaderStateProps {
-  isOptimizationsPath?: boolean;
+  // TBD...
 }
 
 interface BreakdownHeaderDispatchProps {
@@ -59,42 +57,36 @@ interface BreakdownHeaderDispatchProps {
 type BreakdownHeaderProps = BreakdownHeaderOwnProps & BreakdownHeaderStateProps & WrappedComponentProps;
 
 class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
-  private buildDetailsLink = url => {
-    const { groupBy, isOptimizationsPath, query } = this.props;
-
-    let groupByKey = groupBy;
-    let value = '*';
-
-    // Retrieve org unit used by the details page
-    if (query[orgUnitIdKey]) {
-      groupByKey = orgUnitIdKey;
-      value = query[orgUnitIdKey];
-    }
-
-    const state = query.state ? window.atob(query.state) : undefined;
-    const newQuery = {
-      ...(state && JSON.parse(state)),
-      ...(!isOptimizationsPath && {
-        group_by: {
-          [groupByKey]: value,
-        },
-      }),
-    };
-    return `${url}?${getQueryRoute(newQuery)}`;
-  };
+  // private buildDetailsLink = url => {
+  //   const { groupBy, query, router } = this.props;
+  //
+  //   let groupByKey = groupBy;
+  //   let value = '*';
+  //
+  //   // Retrieve org unit used by the details page
+  //   if (query[orgUnitIdKey]) {
+  //     groupByKey = orgUnitIdKey;
+  //     value = query[orgUnitIdKey];
+  //   }
+  //
+  //   const queryState = getQueryState(router.location, 'details');
+  //   const newQuery = {
+  //     ...(queryState && queryState),
+  //     group_by: {
+  //       [groupByKey]: value,
+  //     },
+  //   };
+  //   return `${url}?${getQueryRoute(newQuery)}`;
+  // };
 
   private getBackToLink = groupByKey => {
-    const { detailsURL, intl, isOptimizationsPath, tagPathsType } = this.props;
+    const { breadcrumb, intl, router, tagPathsType } = this.props;
 
-    if (isOptimizationsPath) {
-      return (
-        <Link to={this.buildDetailsLink(formatPath(routes.optimizations.path))}>
-          {intl.formatMessage(messages.breakdownBackToOptimizations)}
-        </Link>
-      );
+    if (!breadcrumb) {
+      return null;
     }
     return (
-      <Link to={this.buildDetailsLink(detailsURL)}>
+      <Link to={breadcrumb} state={{ ...router.location.state }}>
         {intl.formatMessage(messages.breakdownBackToDetails, {
           value: intl.formatMessage(messages.breakdownBackToTitles, { value: tagPathsType }),
           groupBy: groupByKey,
@@ -102,6 +94,19 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       </Link>
     );
   };
+
+  // private getBackToLink = groupByKey => {
+  //   const { detailsURL, intl, router, tagPathsType } = this.props;
+  //
+  //   return (
+  //     <Link to={this.buildDetailsLink(detailsURL)} state={{ ...router.location.state }}>
+  //       {intl.formatMessage(messages.breakdownBackToDetails, {
+  //         value: intl.formatMessage(messages.breakdownBackToTitles, { value: tagPathsType }),
+  //         groupBy: groupByKey,
+  //       })}
+  //     </Link>
+  //   );
+  // };
 
   private getTotalCost = () => {
     const { costDistribution, report } = this.props;
@@ -217,15 +222,9 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, BreakdownHeaderStateProps>(
-  (state, { router }) => {
-    const queryFromRoute = parseQuery<Query>(router.location.search);
-
-    return {
-      isOptimizationsPath: queryFromRoute.optimizationsPath !== undefined,
-    };
-  }
-);
+const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, BreakdownHeaderStateProps>(() => {
+  return {};
+});
 
 const mapDispatchToProps: BreakdownHeaderDispatchProps = {
   // TDB

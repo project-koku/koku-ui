@@ -129,6 +129,11 @@ export default defineMessages({
     description: 'Back to optimizations',
     id: 'breakdownBackToOptimizations',
   },
+  breakdownBackToOptimizationsProject: {
+    defaultMessage: 'Back to optimizations for project {value}',
+    description: 'Back to optimizations for project {value}',
+    id: 'breakdownBackToOptimizationsProject',
+  },
   breakdownBackToTitles: {
     defaultMessage:
       '{value, select, ' +
@@ -344,6 +349,16 @@ export default defineMessages({
     defaultMessage: 'Clusters',
     description: 'Clusters',
     id: 'clusters',
+  },
+  copyToClipboard: {
+    defaultMessage: 'Copy to clipboard',
+    description: 'Copy to clipboard',
+    id: 'copyToClipboard',
+  },
+  copyToClipboardSuccessfull: {
+    defaultMessage: 'Successfully copied to clipboard!',
+    description: 'Successfully copied to clipboard!',
+    id: 'copyToClipboardSuccessfull',
   },
   cost: {
     defaultMessage: 'Cost',
@@ -614,23 +629,6 @@ export default defineMessages({
     defaultMessage: 'Last updated',
     description: 'Last updated',
     id: 'costModelsLastUpdated',
-  },
-  costModelsPopover: {
-    defaultMessage:
-      'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}',
-    description:
-      'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources. {learnMore}',
-    id: 'costModelsPopover',
-  },
-  costModelsPopoverAriaLabel: {
-    defaultMessage: 'Cost model info popover',
-    description: 'Cost model info popover',
-    id: 'costModelsPopoverAriaLabel',
-  },
-  costModelsPopoverButtonAriaLabel: {
-    defaultMessage: 'Opens a dialog with cost model info',
-    description: 'Opens a dialog with cost model info',
-    id: 'costModelsPopoverButtonAriaLabel',
   },
   costModelsRateTooLong: {
     defaultMessage: 'Should not exceed 10 decimals',
@@ -1044,7 +1042,6 @@ export default defineMessages({
     description: 'return the proper unit label based on key: "units"',
     id: 'currencyOptions',
   },
-
   // See https://www.localeplanet.com/icu/currency.html
   currencyUnits: {
     defaultMessage:
@@ -1068,11 +1065,15 @@ export default defineMessages({
     description: 'return the proper unit label based on key: "units"',
     id: 'currencyUnits',
   },
-
   current: {
     defaultMessage: 'Current',
     description: 'Current',
     id: 'current',
+  },
+  currentConfiguration: {
+    defaultMessage: 'Current configuration',
+    description: 'Current configuration',
+    id: 'currentConfiguration',
   },
   dashboardCumulativeCostComparison: {
     defaultMessage: 'Cumulative cost comparison ({units})',
@@ -2750,7 +2751,7 @@ export default defineMessages({
     id: 'optimizationsTableAriaLabel',
   },
   optimizationsValue: {
-    defaultMessage: '{value} {units}',
+    defaultMessage: '{value}{units}',
     description: '2 GiB',
     id: 'optimizationsValue',
   },
@@ -2885,6 +2886,11 @@ export default defineMessages({
     defaultMessage: '{value} % of cost',
     description: '{value} % of cost',
     id: 'percentOfCost',
+  },
+  percentPlus: {
+    defaultMessage: '{count, plural, one {+{value}%} other {{value}%}}',
+    description: 'Percent value with plus symbol',
+    id: 'percentPlus',
   },
   percentSymbol: {
     defaultMessage: '%',
@@ -3038,6 +3044,11 @@ export default defineMessages({
     defaultMessage: 'Recommended',
     description: 'Recommended',
     id: 'recommended',
+  },
+  recommendedConfiguration: {
+    defaultMessage: 'Recommended configuration',
+    description: 'Recommended configuration',
+    id: 'recommendedConfiguration',
   },
   redHatStatusUrl: {
     defaultMessage: 'https://status.redhat.com',

@@ -2,84 +2,60 @@ import 'routes/components/dataTable/dataTable.scss';
 
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { Query } from 'api/queries/query';
-import { parseQuery } from 'api/queries/query';
-import type { RecommendationItems, RecommendationReport } from 'api/ros/recommendations';
+import type { RecommendationReport } from 'api/ros/recommendations';
 import messages from 'locales/messages';
-import React from 'react';
-import type { WrappedComponentProps } from 'react-intl';
-import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
-import { SelectableTable } from 'routes/components/dataTable';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { Link, useLocation } from 'react-router-dom';
+import { DataTable } from 'routes/components/dataTable';
 import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
-import { getGroupById } from 'routes/utils/groupBy';
-import { createMapStateToProps } from 'store/common';
-import { uiActions, uiSelectors } from 'store/ui';
+import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
-import { hasNotification } from 'utils/recomendations';
-import type { RouterComponentProps } from 'utils/router';
-import { withRouter } from 'utils/router';
+import { hasWarning } from 'utils/recomendations';
 
-interface OptimizationsTableOwnProps extends RouterComponentProps {
+interface OptimizationsTableOwnProps {
+  basePath?: string;
+  breadcrumbLabel?: string;
+  breadcrumbPath?: string;
   filterBy?: any;
+  groupBy?: string;
   isLoading?: boolean;
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
+  query?: Query;
   report: RecommendationReport;
   reportQueryString: string;
 }
 
-interface OptimizationsTableState {
-  currentRow?: number;
-  columns?: any[];
-  rows?: any[];
-}
+type OptimizationsTableProps = OptimizationsTableOwnProps;
 
-interface OptimizationsTableStateProps {
-  groupBy?: string;
-  isOpen?: boolean;
-}
+const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
+  basePath,
+  breadcrumbLabel,
+  breadcrumbPath,
+  filterBy,
+  groupBy,
+  isLoading,
+  onSort,
+  orderBy,
+  query,
+  report,
+}) => {
+  const intl = useIntl();
+  const location = useLocation();
 
-interface OptimizationsTableDispatchProps {
-  closeOptimizationsDrawer: typeof uiActions.closeOptimizationsDrawer;
-  openOptimizationsDrawer: typeof uiActions.openOptimizationsDrawer;
-}
+  const [columns, setColumns] = useState([]);
+  const [rows, setRows] = useState([]);
 
-type OptimizationsTableProps = OptimizationsTableOwnProps &
-  OptimizationsTableStateProps &
-  OptimizationsTableDispatchProps &
-  WrappedComponentProps;
-
-class OptimizationsTableBase extends React.Component<OptimizationsTableProps, OptimizationsTableState> {
-  public state: OptimizationsTableState = {
-    columns: [],
-    rows: [],
-  };
-
-  public componentDidMount() {
-    this.initDatum();
-  }
-
-  public componentDidUpdate(prevProps: OptimizationsTableProps) {
-    const { report } = this.props;
-    const currentReport = report && report.data ? JSON.stringify(report.data) : '';
-    const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
-
-    if (previousReport !== currentReport) {
-      this.initDatum();
-    }
-  }
-
-  private initDatum = () => {
-    const { groupBy, intl, report } = this.props;
+  const initDatum = () => {
     if (!report) {
       return;
     }
-
     const hasData = report && report.data && report.data.length > 0;
 
-    const rows = [];
-    const columns = [
+    const newRows = [];
+    const newColumns = [
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'container' }),
         orderBy: 'container',
@@ -123,11 +99,31 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
         const project = item.project ? item.project : '';
         const workload = item.workload ? item.workload : '';
         const workloadType = item.workload_type ? item.workload_type : '';
-        const showWarningIcon = this.hasWarning(item?.recommendations?.duration_based);
+        const showWarningIcon = hasWarning(item?.recommendations?.duration_based);
 
-        rows.push({
+        newRows.push({
           cells: [
-            { value: container },
+            {
+              value: (
+                <Link
+                  to={getOptimizationsBreakdownPath({
+                    basePath,
+                    breadcrumbLabel,
+                    id: item.id,
+                    title: container,
+                  })}
+                  state={{
+                    ...(location.state && location.state),
+                    optimizations: {
+                      ...query,
+                      breadcrumbPath,
+                    },
+                  }}
+                >
+                  {container}
+                </Link>
+              ),
+            },
             { value: project, hidden: groupBy === 'project' },
             { value: workload },
             { value: workloadType },
@@ -135,11 +131,11 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
               value: (
                 <>
                   {cluster}
-                  {showWarningIcon ? (
+                  {showWarningIcon && (
                     <span style={styles.warningIcon}>
                       <ExclamationTriangleIcon color="orange" />
                     </span>
-                  ) : null}
+                  )}
                 </>
               ),
               hidden: groupBy === 'cluster',
@@ -154,84 +150,38 @@ class OptimizationsTableBase extends React.Component<OptimizationsTableProps, Op
         });
       });
 
-    const filteredColumns = (columns as any[]).filter(column => !column.hidden);
-    const filteredRows = rows.map(({ ...row }) => {
+    const filteredColumns = (newColumns as any[]).filter(column => !column.hidden);
+    const filteredRows = newRows.map(({ ...row }) => {
       row.cells = row.cells.filter(cell => !cell.hidden);
       return row;
     });
 
-    this.setState({
-      columns: filteredColumns,
-      rows: filteredRows,
-    });
+    setColumns(filteredColumns);
+    setRows(filteredRows);
   };
 
-  private hasWarning = (recommendations: RecommendationItems) => {
-    return (
-      hasNotification(recommendations.short_term) ||
-      hasNotification(recommendations.medium_term) ||
-      hasNotification(recommendations.long_term)
-    );
-  };
-
-  private handleOnRowClick = (event: React.KeyboardEvent | React.MouseEvent, rowIndex: number) => {
-    const { closeOptimizationsDrawer, isOpen, openOptimizationsDrawer } = this.props;
-    const { currentRow, rows } = this.state;
-
-    this.setState({ currentRow: rowIndex }, () => {
-      if (currentRow === rowIndex && isOpen) {
-        closeOptimizationsDrawer();
-      } else {
-        openOptimizationsDrawer(rows[rowIndex].optimization);
-      }
-    });
-  };
-
-  private handleOnSort = (value: string, isSortAscending: boolean) => {
-    const { closeOptimizationsDrawer, onSort } = this.props;
-
-    closeOptimizationsDrawer();
+  const handleOnSort = (value: string, isSortAscending: boolean) => {
     if (onSort) {
       onSort(value, isSortAscending);
     }
   };
 
-  public render() {
-    const { filterBy, isLoading, orderBy } = this.props;
-    const { columns, rows } = this.state;
+  useEffect(() => {
+    initDatum();
+  }, [report]);
 
-    return (
-      <SelectableTable
-        columns={columns}
-        emptyState={<NoOptimizationsState />}
-        filterBy={filterBy}
-        isLoading={isLoading}
-        isOptimizations
-        onSort={this.handleOnSort}
-        orderBy={orderBy}
-        rows={rows}
-        onRowClick={this.handleOnRowClick}
-      />
-    );
-  }
-}
-
-const mapStateToProps = createMapStateToProps<OptimizationsTableOwnProps, OptimizationsTableStateProps>(
-  (state, { router }) => {
-    const queryFromRoute = parseQuery<Query>(router.location.search);
-
-    return {
-      groupBy: getGroupById(queryFromRoute),
-      isOpen: uiSelectors.selectIsOptimizationsDrawerOpen(state),
-    };
-  }
-);
-
-const mapDispatchToProps: OptimizationsTableDispatchProps = {
-  closeOptimizationsDrawer: uiActions.closeOptimizationsDrawer,
-  openOptimizationsDrawer: uiActions.openOptimizationsDrawer,
+  return (
+    <DataTable
+      columns={columns}
+      emptyState={<NoOptimizationsState />}
+      filterBy={filterBy}
+      isLoading={isLoading}
+      isSelectable={false}
+      onSort={handleOnSort}
+      orderBy={orderBy}
+      rows={rows}
+    />
+  );
 };
-
-const OptimizationsTable = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(OptimizationsTableBase)));
 
 export { OptimizationsTable };

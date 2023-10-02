@@ -20,6 +20,7 @@ interface DataTableOwnProps {
   filterBy: any;
   isActionsCell?: boolean;
   isLoading?: boolean;
+  isSelectable?: boolean;
   onSelected(items: any[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   orderBy: any;
@@ -108,7 +109,7 @@ class DataTable extends React.Component<DataTableProps, any> {
   };
 
   public render() {
-    const { columns, intl, isActionsCell = false, isLoading, rows } = this.props;
+    const { columns, intl, isActionsCell = false, isLoading, isSelectable = true, rows } = this.props;
 
     return (
       <>
@@ -147,7 +148,7 @@ class DataTable extends React.Component<DataTableProps, any> {
               rows.map((row, rowIndex) => (
                 <Tr key={`row-${rowIndex}`}>
                   {row.cells.map((item, cellIndex) =>
-                    cellIndex === 0 ? (
+                    cellIndex === 0 && isSelectable ? (
                       <Td
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${cellIndex}-${rowIndex}`}

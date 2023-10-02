@@ -82,7 +82,7 @@ class OptimizationsLinkBase extends React.Component<OptimizationsLinkProps, any>
   };
 
   public render() {
-    const { intl, isStandalone, project, report, router } = this.props;
+    const { intl, isStandalone, project, report } = this.props;
 
     if (!isStandalone || !report) {
       return null;
@@ -92,12 +92,11 @@ class OptimizationsLinkBase extends React.Component<OptimizationsLinkProps, any>
     const isDisabled = computedItems.length === 0;
 
     const breakdownPath = getBreakdownPath({
-      basePath: formatPath(routes.ocpDetailsBreakdown.path),
+      basePath: formatPath(routes.ocpBreakdown.path),
       groupBy: 'project',
       id: project,
       isOptimizationsPath: true,
       isOptimizationsTab: true,
-      router,
       title: project,
     });
 
