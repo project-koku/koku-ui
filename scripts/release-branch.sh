@@ -17,6 +17,8 @@ default()
 
   UI_DIR="$TMP_DIR/koku-ui"
   UI_REPO="git@github.com:project-koku/koku-ui.git"
+
+  BODY_FILE="$UI_DIR/body"
 }
 
 usage()
@@ -49,6 +51,14 @@ clone()
   git clone $UI_REPO
 }
 
+createPullRequestBody()
+{
+cat <<- EEOOFF > $BODY_FILE
+Merged $REMOTE_BRANCH branch to $BRANCH.
+
+Use latest commit to update namespace \`ref\` in app-interface repo. Don't use merge commit, SHAs must be unique when images are created for each branch.
+EEOOFF
+}
 
 merge()
 {
@@ -67,7 +77,7 @@ merge()
 # Use gh in a non-interactive way -- see https://github.com/cli/cli/issues/1718
 pullRequest()
 {
-  NEW_BRANCH="release/${BRANCH}.$$"
+  NEW_BRANCH="release_${BRANCH}.$$"
 
   git branch -m $NEW_BRANCH
 
@@ -75,7 +85,7 @@ pullRequest()
   git push -u origin HEAD
 
   TITLE="Deployment commit for $BRANCH"
-  BODY="Merged $REMOTE_BRANCH branch to $BRANCH. Use latest commit to update namespace \`ref\` in app-interface repo. Don't use merge commit, SHAs must be unique when images are created for each branch."
+  BODY=`cat $BODY_FILE`
 
   gh pr create -t "$TITLE" -b "$BODY" -B $BRANCH
 }
@@ -124,6 +134,7 @@ push()
     if [ -n "$PUSH" ]; then
       push
     else
+      createPullRequestBody
       pullRequest
     fi
   else

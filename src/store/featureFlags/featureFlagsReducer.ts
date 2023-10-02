@@ -8,25 +8,19 @@ export type FeatureFlagsAction = ActionType<typeof setFeatureFlags | typeof rese
 
 export type FeatureFlagsState = Readonly<{
   hasFeatureFlags: boolean;
-  isCostCategoriesFeatureEnabled: boolean;
-  isCostDistributionFeatureEnabled: boolean;
   isExportsFeatureEnabled: boolean;
   isFinsightsFeatureEnabled: boolean;
   isIbmFeatureEnabled: boolean;
   isRosFeatureEnabled: boolean;
-  isSettingsFeatureEnabled: boolean;
   isSettingsPlatformFeatureEnabled: boolean;
 }>;
 
 export const defaultState: FeatureFlagsState = {
   hasFeatureFlags: false,
-  isCostCategoriesFeatureEnabled: false,
-  isCostDistributionFeatureEnabled: false,
   isExportsFeatureEnabled: false,
   isFinsightsFeatureEnabled: false,
   isIbmFeatureEnabled: false,
   isRosFeatureEnabled: false,
-  isSettingsFeatureEnabled: false,
   isSettingsPlatformFeatureEnabled: false,
 };
 
@@ -38,13 +32,10 @@ export function featureFlagsReducer(state = defaultState, action: FeatureFlagsAc
       return {
         ...state,
         hasFeatureFlags: true,
-        isCostCategoriesFeatureEnabled: action.payload.isCostCategoriesFeatureEnabled,
-        isCostDistributionFeatureEnabled: action.payload.isCostDistributionFeatureEnabled,
         isExportsFeatureEnabled: action.payload.isExportsFeatureEnabled,
         isFinsightsFeatureEnabled: action.payload.isFinsightsFeatureEnabled,
         isIbmFeatureEnabled: action.payload.isIbmFeatureEnabled,
         isRosFeatureEnabled: action.payload.isRosFeatureEnabled,
-        isSettingsFeatureEnabled: action.payload.isSettingsFeatureEnabled,
         isSettingsPlatformFeatureEnabled: action.payload.isSettingsPlatformFeatureEnabled,
       };
 

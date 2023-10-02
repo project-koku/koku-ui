@@ -471,9 +471,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
   const groupBy = queryFromRoute.group_by ? getGroupById(queryFromRoute) : getGroupById(baseQuery);
 
-  const isCostDistributionFeatureEnabled = featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state);
-  const costDistribution =
-    groupBy === 'project' && isCostDistributionFeatureEnabled ? getCostDistribution() : undefined;
+  const costDistribution = groupBy === 'project' ? getCostDistribution() : undefined;
   const currency = getCurrency();
 
   const query: any = {
