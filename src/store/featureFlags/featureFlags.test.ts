@@ -14,18 +14,6 @@ test('default state', async () => {
   expect(selectors.selectFeatureFlagsState(store.getState())).toMatchSnapshot();
 });
 
-test('Cost categories feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureFlags({ isCostCategoriesFeatureEnabled: true }));
-  expect(featureFlagsSelectors.selectIsCostCategoriesFeatureEnabled(store.getState())).toBe(true);
-});
-
-test('Cost distribution feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureFlags({ isCostDistributionFeatureEnabled: true }));
-  expect(featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(store.getState())).toBe(true);
-});
-
 test('Exports feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureFlags({ isExportsFeatureEnabled: true }));
@@ -48,10 +36,4 @@ test('ROS feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureFlags({ isRosFeatureEnabled: true }));
   expect(featureFlagsSelectors.selectIsRosFeatureEnabled(store.getState())).toBe(true);
-});
-
-test('Settings feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureFlags({ isSettingsFeatureEnabled: true }));
-  expect(featureFlagsSelectors.selectIsSettingsFeatureEnabled(store.getState())).toBe(true);
 });

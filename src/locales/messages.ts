@@ -2862,6 +2862,11 @@ export default defineMessages({
     description: 'RHEL - Cost Management | OpenShift',
     id: 'pageTitleRhel',
   },
+  pageTitleSettings: {
+    defaultMessage: 'Settings - Cost Management | OpenShift',
+    description: 'Settings - Cost Management | OpenShift',
+    id: 'pageTitleSettings',
+  },
   paginationTitle: {
     defaultMessage:
       '{placement, select, ' +
@@ -3195,10 +3200,29 @@ export default defineMessages({
     description: 'Settings for Cost Management were replaced with new values',
     id: 'settingsSuccessDesc',
   },
+  settingsSuccessTags: {
+    defaultMessage:
+      '{value, select, ' +
+      'enable {{count, plural, one {{count} tag enabled} other {{count} tags enabled}}} ' +
+      'disable {{count, plural, one {{count} tag disabled} other {{count} tags disabled}}} ' +
+      'other {}}',
+    description: 'Cost category keys enabled or disabled',
+    id: 'settingsSuccessTags',
+  },
   settingsSuccessTitle: {
     defaultMessage: 'Application settings saved',
     description: 'Application settings saved',
     id: 'settingsSuccessTitle',
+  },
+  settingsTagsErrorDesc: {
+    defaultMessage: 'You currently have {value} tags enabled',
+    description: 'You currently have {value} tags enabled',
+    id: 'settingsTagsErrorDesc',
+  },
+  settingsTagsErrorTitle: {
+    defaultMessage: 'You can not enable more than {value} tags total',
+    description: 'You can not enable more than {value} tags total',
+    id: 'settingsTagsErrorTitle',
   },
   settingsTitle: {
     defaultMessage: 'Cost Management Settings',
@@ -3398,8 +3422,8 @@ export default defineMessages({
     id: 'usageCostTitle',
   },
   usageSubtitle: {
-    defaultMessage: '{count} {countUnits} maximum',
-    description: '{count} {countUnits} maximum',
+    defaultMessage: '{value} {units} maximum',
+    description: '{value} {units} maximum',
     id: 'usageSubtitle',
   },
   various: {

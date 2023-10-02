@@ -1,13 +1,10 @@
 import { createAction } from 'typesafe-actions';
 
 export interface FeatureFlagsActionMeta {
-  isCostCategoriesFeatureEnabled?: boolean;
-  isCostDistributionFeatureEnabled?: boolean;
   isExportsFeatureEnabled?: boolean;
   isFinsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
   isRosFeatureEnabled?: boolean;
-  isSettingsFeatureEnabled?: boolean;
   isSettingsPlatformFeatureEnabled?: boolean;
 }
 

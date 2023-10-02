@@ -13,7 +13,6 @@ import messages from 'locales/messages';
 import type { Dispatch } from 'redux';
 import { routes } from 'routes';
 import type { ThunkAction } from 'store/common';
-import { selectIsSettingsFeatureEnabled } from 'store/featureFlags/featureFlagsSelectors';
 import { createAction, createAsyncAction } from 'typesafe-actions';
 import { formatPath } from 'utils/paths';
 import type { RouteComponentProps } from 'utils/router';
@@ -122,15 +121,11 @@ export const deleteCostModel = (uuid: string, dialog: string = '', router: Route
 };
 
 export const redirectToCostModelFromSourceUuid = (source_uuid: string, router: RouteComponentProps): ThunkAction => {
-  return (dispatch: Dispatch, getState) => {
+  return (dispatch: Dispatch) => {
     return apiGetCostModels(`source_uuid=${source_uuid}`)
       .then(res => {
         const uuid = res.data.data[0].uuid;
-        router.navigate(
-          `${formatPath(
-            selectIsSettingsFeatureEnabled(getState()) ? routes.costModel.basePath : routes.costModelsDetails.path
-          )}/${uuid}`
-        );
+        router.navigate(`${formatPath(routes.costModel.basePath)}/${uuid}`);
       })
       .catch(() => {
         dispatch(

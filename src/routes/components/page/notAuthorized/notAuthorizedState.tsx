@@ -27,8 +27,7 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps, an
       case formatPath(routes.azureDetailsBreakdown.path):
         msg = messages.notAuthorizedStateAzure;
         break;
-      case formatPath(routes.costModel.path):
-      case formatPath(routes.costModelsDetails.path):
+      case formatPath(routes.costModel.basePath):
         msg = messages.notAuthorizedStateCostModels;
         break;
       case formatPath(routes.gcpDetails.path):
