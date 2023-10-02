@@ -127,6 +127,7 @@ export const formatUnits: Formatter = (value, units, options) => {
 
   switch (lookup) {
     case 'byte_ms':
+    case 'core':
     case 'core_hours':
     case 'hour':
     case 'hrs':
@@ -181,7 +182,7 @@ const formatUsage: UnitsFormatter = (
   value,
   options: FormatOptions = {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }
 ) => {
   return value.toLocaleString(getLocale(), options);

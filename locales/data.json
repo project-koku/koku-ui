@@ -10855,6 +10855,12 @@
         "value": "RHEL - Cost Management | OpenShift"
       }
     ],
+    "pageTitleSettings": [
+      {
+        "type": 0,
+        "value": "Settings - Cost Management | OpenShift"
+      }
+    ],
     "paginationTitle": [
       {
         "options": {
@@ -11549,10 +11555,121 @@
         "value": "Settings for Cost Management were replaced with new values"
       }
     ],
+    "settingsSuccessTags": [
+      {
+        "options": {
+          "disable": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " tag disabled"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " tags disabled"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "enable": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " tag enabled"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " tags enabled"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
     "settingsSuccessTitle": [
       {
         "type": 0,
         "value": "Application settings saved"
+      }
+    ],
+    "settingsTagsErrorDesc": [
+      {
+        "type": 0,
+        "value": "You currently have "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " tags enabled"
+      }
+    ],
+    "settingsTagsErrorTitle": [
+      {
+        "type": 0,
+        "value": "You can not enable more than "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " tags total"
       }
     ],
     "settingsTitle": [
@@ -12103,7 +12220,7 @@
     "usageSubtitle": [
       {
         "type": 1,
-        "value": "count"
+        "value": "value"
       },
       {
         "type": 0,
@@ -12111,7 +12228,7 @@
       },
       {
         "type": 1,
-        "value": "countUnits"
+        "value": "units"
       },
       {
         "type": 0,

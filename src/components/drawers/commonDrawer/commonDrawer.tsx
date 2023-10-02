@@ -1,6 +1,4 @@
-import './commonDrawer.scss';
-
-import { Drawer, DrawerContent, DrawerContentBody } from '@patternfly/react-core';
+import { Drawer, DrawerContent } from '@patternfly/react-core';
 import { ExportsDrawer } from 'components/drawers';
 import { OptimizationsDrawer } from 'components/drawers';
 import React from 'react';
@@ -56,8 +54,8 @@ class CommonDrawerBase extends React.Component<CommonDrawerProps> {
     // https://github.com/redhat-developer/rhosak-ui/blob/main/packages/ui/src/components/KafkaInstanceDrawer/KafkaInstanceDrawer.tsx#L69-L78
     return (
       <Drawer className="drawerOverride" isExpanded={isExpanded} onExpand={this.handleExpand}>
-        <DrawerContent panelContent={this.getPanelContent()}>
-          <DrawerContentBody className="pf-u-display-flex pf-u-flex-direction-column">{children}</DrawerContentBody>
+        <DrawerContent colorVariant="light-200" panelContent={this.getPanelContent()}>
+          {children}
         </DrawerContent>
       </Drawer>
     );
