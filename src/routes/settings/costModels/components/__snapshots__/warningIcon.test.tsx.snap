@@ -4,7 +4,6 @@ exports[`warning icon 1`] = `
 <svg
   aria-hidden="true"
   class="pf-v5-svg"
-  color="orange"
   fill="currentColor"
   height="1em"
   role="img"

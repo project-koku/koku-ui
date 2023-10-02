@@ -1,16 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`dialog title renders correctly with icon and title text 1`] = `
-<h1
-  class="pf-v5-c-title pf-m-2xl"
-  data-ouia-component-id="OUIA-Generated-Title-1"
-  data-ouia-component-type="PF5/Title"
-  data-ouia-safe="true"
+<span
+  class="pf-v5-c-icon__content pf-m-warning"
 >
   <svg
     aria-hidden="true"
     class="pf-v5-svg"
-    color="orange"
     fill="currentColor"
     height="1em"
     role="img"
@@ -23,5 +19,5 @@ exports[`dialog title renders correctly with icon and title text 1`] = `
   </svg>
    
   Test dialog
-</h1>
+</span>
 `;
