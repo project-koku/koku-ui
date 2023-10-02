@@ -8,8 +8,6 @@ const AwsBreakdown = lazy(() => import(/* webpackChunkName: "awsBreakdown" */ 'r
 const AwsDetails = lazy(() => import(/* webpackChunkName: "awsDetails" */ 'routes/details/awsDetails'));
 const AzureBreakdown = lazy(() => import(/* webpackChunkName: "azureBreakdown" */ 'routes/details/azureBreakdown'));
 const AzureDetails = lazy(() => import(/* webpackChunkName: "azureDetails" */ 'routes/details/azureDetails'));
-const CostModelOld = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/costModels/costModel'));
-const CostModelsDetailsOld = lazy(() => import(/* lazy: "costModelsDetails" */ 'routes/costModels/costModelsDetails'));
 const CostModel = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/settings/costModels/costModel'));
 const Explorer = lazy(() => import(/* webpackChunkName: "explorer" */ 'routes/explorer'));
 const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'routes/details/gcpBreakdown'));
@@ -48,17 +46,6 @@ const routes = {
     basePath: `/settings/cost-model`,
     element: userAccess(CostModel),
     path: `/settings/cost-model/:uuid`,
-  },
-  // Todo: Remove when settings page is enabled
-  costModels: {
-    // Note: Order matters here (i.e., dynamic segment must be defined after costModelsDetails)
-    element: userAccess(CostModelOld),
-    path: `/cost-models/:uuid`,
-  },
-  // Todo: Remove when settings page is enabled
-  costModelsDetails: {
-    element: userAccess(CostModelsDetailsOld),
-    path: '/cost-models',
   },
   explorer: {
     element: userAccess(Explorer),

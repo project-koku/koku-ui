@@ -24,7 +24,6 @@ import { getDateRangeFromQuery } from 'routes/utils/dateRange';
 import { getGroupByCostCategory, getGroupById, getGroupByOrgValue, getGroupByTagKey } from 'routes/utils/groupBy';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUnits } from 'utils/format';
 import { getCostDistribution } from 'utils/localStorage';
@@ -281,11 +280,8 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
     const groupBy = queryFromRoute.group_by ? getGroupById(queryFromRoute) : getGroupByDefault(perspective);
     const group_by = queryFromRoute.group_by ? queryFromRoute.group_by : { [groupBy]: '*' }; // Ensure group_by key is not undefined
 
-    const isCostDistributionFeatureEnabled = featureFlagsSelectors.selectIsCostDistributionFeatureEnabled(state);
     const costDistribution =
-      perspective === PerspectiveType.ocp && groupBy === 'project' && isCostDistributionFeatureEnabled
-        ? getCostDistribution()
-        : undefined;
+      perspective === PerspectiveType.ocp && groupBy === 'project' ? getCostDistribution() : undefined;
 
     const query: any = {
       ...queryFromRoute,
