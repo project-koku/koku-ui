@@ -1,4 +1,4 @@
-import { Button, Modal, Title, TitleSizes } from '@patternfly/react-core';
+import { Button, Icon, Modal, Title, TitleSizes } from '@patternfly/react-core';
 import type { WizardStepFunctionType } from '@patternfly/react-core/deprecated';
 import { Wizard } from '@patternfly/react-core/deprecated';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
@@ -543,7 +543,10 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
           isOpen={this.state.isDialogOpen}
           header={
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
-              <ExclamationTriangleIcon color="orange" /> {intl.formatMessage(messages.createCostModelExit)}
+              <Icon status="warning">
+                <ExclamationTriangleIcon />
+              </Icon>{' '}
+              {intl.formatMessage(messages.createCostModelExit)}
             </Title>
           }
           onClose={closeConfirmDialog}

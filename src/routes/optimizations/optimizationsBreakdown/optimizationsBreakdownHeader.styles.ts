@@ -31,5 +31,6 @@ export const styles = {
   },
   warningIcon: {
     paddingLeft: global_spacer_sm.var,
+    paddingTop: '2px',
   },
 } as { [className: string]: React.CSSProperties };

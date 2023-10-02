@@ -1,5 +1,6 @@
 import 'routes/components/dataTable/dataTable.scss';
 
+import { Icon } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { Query } from 'api/queries/query';
 import type { RecommendationReport } from 'api/ros/recommendations';
@@ -133,7 +134,9 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
                   {cluster}
                   {showWarningIcon && (
                     <span style={styles.warningIcon}>
-                      <ExclamationTriangleIcon color="orange" />
+                      <Icon status="warning">
+                        <ExclamationTriangleIcon />
+                      </Icon>
                     </span>
                   )}
                 </>

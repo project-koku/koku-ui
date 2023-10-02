@@ -7,6 +7,7 @@ import {
   EmptyStateFooter,
   EmptyStateHeader,
   EmptyStateIcon,
+  Icon,
   Stack,
   StackItem,
   Text,
@@ -36,7 +37,11 @@ const ReviewSuccessBase: React.FC<WrappedComponentProps> = ({ intl }) => (
       <EmptyState>
         <EmptyStateHeader
           titleText={<>{intl.formatMessage(messages.costModelsWizardReviewStatusTitle)}</>}
-          icon={<EmptyStateIcon icon={OkIcon} color="green" />}
+          icon={
+            <Icon status="success">
+              <EmptyStateIcon icon={OkIcon} />
+            </Icon>
+          }
           headingLevel="h2"
         />
         <EmptyStateBody>

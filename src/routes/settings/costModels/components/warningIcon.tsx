@@ -1,4 +1,4 @@
-import { Tooltip } from '@patternfly/react-core';
+import { Icon, Tooltip } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import React from 'react';
 
@@ -9,7 +9,9 @@ interface WarningIconProps {
 export const WarningIcon: React.FC<WarningIconProps> = ({ text }) => {
   return (
     <Tooltip content={text} enableFlip>
-      <ExclamationTriangleIcon color="orange" />
+      <Icon status="warning">
+        <ExclamationTriangleIcon />
+      </Icon>
     </Tooltip>
   );
 };
