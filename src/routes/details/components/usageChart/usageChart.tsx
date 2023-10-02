@@ -415,14 +415,13 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     }
 
     const { hasCapacityCount, hasCapacityCountUnits } = this.getHasData();
-
-    const count = hasCapacityCount ? report.meta.total.capacity.count : 0;
-    const countUnits = intl.formatMessage(messages.units, {
+    const units = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasCapacityCountUnits ? report.meta.total.capacity.count_units : undefined),
     });
+    const value = formatUnits(hasCapacityCount ? report.meta.total.capacity.count : 0, units);
 
     if (hasCapacityCount && hasCapacityCountUnits) {
-      return <div style={styles.subtitle}>{intl.formatMessage(messages.usageSubtitle, { count, countUnits })}</div>;
+      return <div style={styles.subtitle}>{intl.formatMessage(messages.usageSubtitle, { value, units })}</div>;
     }
     return null;
   }

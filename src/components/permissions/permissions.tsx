@@ -35,7 +35,6 @@ interface PermissionsStateProps {
   isFinsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
   isRosFeatureEnabled?: boolean;
-  isSettingsFeatureEnabled?: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -50,7 +49,6 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
   isFinsightsFeatureEnabled,
   isIbmFeatureEnabled,
   isRosFeatureEnabled,
-  isSettingsFeatureEnabled,
   userAccess,
   userAccessError,
   userAccessFetchStatus,
@@ -69,7 +67,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const ocp = hasOcpAccess(userAccess);
     const rhel = isFinsightsFeatureEnabled && hasRhelAccess(userAccess);
     const ros = isRosFeatureEnabled && hasRosAccess(userAccess);
-    const settings = (costModel || hasSettingsAccess(userAccess)) && isSettingsFeatureEnabled;
+    const settings = costModel || hasSettingsAccess(userAccess);
 
     switch (pathname) {
       case formatPath(routes.explorer.path):
@@ -82,7 +80,6 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
       case formatPath(routes.azureDetailsBreakdown.path):
         return azure;
       case formatPath(routes.costModel.basePath):
-      case formatPath(routes.costModelsDetails.path):
         return costModel;
       case formatPath(routes.gcpDetails.path):
       case formatPath(routes.gcpDetailsBreakdown.path):
@@ -137,7 +134,6 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
     isFinsightsFeatureEnabled: featureFlagsSelectors.selectIsFinsightsFeatureEnabled(state),
     isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
     isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
-    isSettingsFeatureEnabled: featureFlagsSelectors.selectIsSettingsFeatureEnabled(state),
     userAccess,
     userAccessError,
     userAccessFetchStatus,

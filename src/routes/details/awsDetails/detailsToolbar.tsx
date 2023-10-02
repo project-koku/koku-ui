@@ -18,7 +18,6 @@ import { isEqual } from 'routes/utils/equal';
 import type { Filter } from 'routes/utils/filter';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { resourceActions, resourceSelectors } from 'store/resources';
 import { tagActions, tagSelectors } from 'store/tags';
@@ -43,7 +42,6 @@ interface DetailsToolbarOwnProps {
 }
 
 interface DetailsToolbarStateProps {
-  isCostCategoriesFeatureEnabled?: boolean;
   orgReport?: Org;
   orgReportFetchStatus?: FetchStatus;
   orgQueryString?: string;
@@ -114,7 +112,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { intl, isCostCategoriesFeatureEnabled, orgReport, resourceReport, tagReport } = this.props;
+    const { intl, orgReport, resourceReport, tagReport } = this.props;
 
     const options = [
       { name: intl.formatMessage(messages.filterByValues, { value: 'account' }), key: 'account' },
@@ -130,7 +128,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
     if (tagReport && tagReport.data && tagReport.data.length) {
       options.push({ name: intl.formatMessage(messages.filterByValues, { value: tagKey }), key: tagKey });
     }
-    if (resourceReport && resourceReport.data && resourceReport.data.length && isCostCategoriesFeatureEnabled) {
+    if (resourceReport && resourceReport.data && resourceReport.data.length) {
       options.push({
         name: intl.formatMessage(messages.filterByValues, { value: awsCategoryKey }),
         key: awsCategoryKey,
@@ -148,19 +146,9 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
   };
 
   private updateReport = () => {
-    const {
-      fetchOrg,
-      fetchResource,
-      fetchTag,
-      isCostCategoriesFeatureEnabled,
-      orgQueryString,
-      resourceQueryString,
-      tagQueryString,
-    } = this.props;
+    const { fetchOrg, fetchResource, fetchTag, orgQueryString, resourceQueryString, tagQueryString } = this.props;
     fetchOrg(orgPathsType, orgType, orgQueryString);
-    if (isCostCategoriesFeatureEnabled) {
-      fetchResource(resourcePathsType, resourceType, resourceQueryString);
-    }
+    fetchResource(resourcePathsType, resourceType, resourceQueryString);
     fetchTag(tagPathsType, tagType, tagQueryString);
   };
 
@@ -255,7 +243,6 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
   const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgPathsType, orgType, orgQueryString);
 
   return {
-    isCostCategoriesFeatureEnabled: featureFlagsSelectors.selectIsCostCategoriesFeatureEnabled(state),
     orgReport,
     orgReportFetchStatus,
     orgQueryString,
