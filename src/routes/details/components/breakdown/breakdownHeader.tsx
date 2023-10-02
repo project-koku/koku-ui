@@ -57,28 +57,6 @@ interface BreakdownHeaderDispatchProps {
 type BreakdownHeaderProps = BreakdownHeaderOwnProps & BreakdownHeaderStateProps & WrappedComponentProps;
 
 class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
-  // private buildDetailsLink = url => {
-  //   const { groupBy, query, router } = this.props;
-  //
-  //   let groupByKey = groupBy;
-  //   let value = '*';
-  //
-  //   // Retrieve org unit used by the details page
-  //   if (query[orgUnitIdKey]) {
-  //     groupByKey = orgUnitIdKey;
-  //     value = query[orgUnitIdKey];
-  //   }
-  //
-  //   const queryState = getQueryState(router.location, 'details');
-  //   const newQuery = {
-  //     ...(queryState && queryState),
-  //     group_by: {
-  //       [groupByKey]: value,
-  //     },
-  //   };
-  //   return `${url}?${getQueryRoute(newQuery)}`;
-  // };
-
   private getBackToLink = groupByKey => {
     const { breadcrumb, intl, router, tagPathsType } = this.props;
 
@@ -94,19 +72,6 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       </Link>
     );
   };
-
-  // private getBackToLink = groupByKey => {
-  //   const { detailsURL, intl, router, tagPathsType } = this.props;
-  //
-  //   return (
-  //     <Link to={this.buildDetailsLink(detailsURL)} state={{ ...router.location.state }}>
-  //       {intl.formatMessage(messages.breakdownBackToDetails, {
-  //         value: intl.formatMessage(messages.breakdownBackToTitles, { value: tagPathsType }),
-  //         groupBy: groupByKey,
-  //       })}
-  //     </Link>
-  //   );
-  // };
 
   private getTotalCost = () => {
     const { costDistribution, report } = this.props;

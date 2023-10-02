@@ -7,7 +7,7 @@ import { getRouteForQuery } from './query';
 
 export const handleOnCurrencySelected = (query: Query, router: RouteComponentProps) => {
   const newQuery = queryUtils.handleOnCurrencySelected(query);
-  router.navigate(getRouteForQuery(newQuery, router.location), { replace: true }); // Don't reset pagination
+  router.navigate(getRouteForQuery(newQuery, router.location), { replace: true, state: router.location.state }); // Don't reset pagination
 };
 
 export const handleOnCostTypeSelected = (query: Query, router: RouteComponentProps) => {
@@ -17,7 +17,7 @@ export const handleOnCostTypeSelected = (query: Query, router: RouteComponentPro
 
 export const handleOnCostDistributionSelected = (query: Query, router: RouteComponentProps) => {
   const newQuery = queryUtils.handleOnCostDistributionSelected(query);
-  router.navigate(getRouteForQuery(newQuery, router.location), { replace: true }); // Don't reset pagination
+  router.navigate(getRouteForQuery(newQuery, router.location), { replace: true, state: router.location.state }); // Don't reset pagination
 };
 
 export const handleOnFilterAdded = (query: Query, router: RouteComponentProps, filter: Filter) => {
