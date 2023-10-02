@@ -13,6 +13,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
+import { routes } from 'routes';
 import { getTimeFromNow } from 'utils/dates';
 import { hasWarning } from 'utils/recomendations';
 
@@ -32,7 +33,7 @@ type OptimizationsBreakdownHeaderProps = OptimizationsBreakdownHeaderOwnProps;
 
 const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> = ({
   breadcrumbLabel,
-  breadcrumbPath,
+  breadcrumbPath = routes.optimizationsDetails,
   currentInterval,
   isDisabled,
   onSelected,
@@ -45,9 +46,6 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
   const showWarningIcon = hasWarning(recommendations);
 
   const getBackToLink = () => {
-    if (!breadcrumbPath) {
-      return null;
-    }
     return (
       <Link to={breadcrumbPath} state={location.state}>
         {breadcrumbLabel ? breadcrumbLabel : intl.formatMessage(messages.breakdownBackToOptimizations)}
