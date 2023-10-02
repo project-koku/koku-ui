@@ -1,19 +1,18 @@
-import type { SelectOptionObject, ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarChipGroup } from '@patternfly/react-core';
 import {
   Button,
   ButtonVariant,
   InputGroup,
-  Select,
-  SelectOption,
-  SelectVariant,
+  InputGroupItem,
   TextInput,
   ToolbarFilter,
   ToolbarItem,
 } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
-import type { ResourceType } from 'api/resources/resource';
-import type { ResourcePathsType } from 'api/resources/resource';
+import type { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import { isResourceTypeValid } from 'api/resources/resourceUtils';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
@@ -70,39 +69,41 @@ export const getCategoryInput = ({
       showToolbarItem={currentCategory === categoryOption.key}
     >
       <InputGroup>
-        {isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
-          <ResourceTypeahead
-            ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
-            isDisabled={isDisabled && !_hasFilters}
-            onSelect={value => onCategoryInputSelect(value, categoryOption.key)}
-            placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
-            resourcePathsType={resourcePathsType}
-            resourceType={categoryOption.key as ResourceType}
-          />
-        ) : (
-          <>
-            <TextInput
+        <InputGroupItem>
+          {isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
+            <ResourceTypeahead
+              ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
               isDisabled={isDisabled && !_hasFilters}
-              name={`category-input-${categoryOption.key}`}
-              id={`category-input-${categoryOption.key}`}
-              type="search"
-              aria-label={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
-              onChange={onCategoryInputChange}
-              value={categoryInput}
+              onSelect={value => onCategoryInputSelect(value, categoryOption.key)}
               placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
-              onKeyDown={evt => onCategoryInput(evt, categoryOption.key)}
-              size={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey }).length}
+              resourcePathsType={resourcePathsType}
+              resourceType={categoryOption.key as ResourceType}
             />
-            <Button
-              isDisabled={isDisabled && !_hasFilters}
-              variant={ButtonVariant.control}
-              aria-label={intl.formatMessage(messages.filterByButtonAriaLabel, { value: ariaLabelKey })}
-              onClick={evt => onCategoryInput(evt, categoryOption.key)}
-            >
-              <SearchIcon />
-            </Button>
-          </>
-        )}
+          ) : (
+            <>
+              <TextInput
+                isDisabled={isDisabled && !_hasFilters}
+                name={`category-input-${categoryOption.key}`}
+                id={`category-input-${categoryOption.key}`}
+                type="search"
+                aria-label={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
+                onChange={(_evt, value) => onCategoryInputChange(value)}
+                value={categoryInput}
+                placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
+                onKeyDown={evt => onCategoryInput(evt, categoryOption.key)}
+                size={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey }).length}
+              />
+              <Button
+                isDisabled={isDisabled && !_hasFilters}
+                variant={ButtonVariant.control}
+                aria-label={intl.formatMessage(messages.filterByButtonAriaLabel, { value: placeholderKey })}
+                onClick={evt => onCategoryInput(evt, categoryOption.key)}
+              >
+                <SearchIcon />
+              </Button>
+            </>
+          )}
+        </InputGroupItem>
       </InputGroup>
     </ToolbarFilter>
   );
@@ -205,7 +206,7 @@ export const getCategorySelect = ({
   currentCategory?: string;
   filters?: Filters;
   isDisabled?: boolean;
-  onCategorySelect?: (event, selection: CategoryOption) => void;
+  onCategorySelect?: (selection: CategoryOption) => void;
   onCategoryToggle?: (isOpen: boolean) => void;
   isCategorySelectOpen?: boolean;
 }) => {
@@ -222,8 +223,8 @@ export const getCategorySelect = ({
         id="category-select"
         isDisabled={isDisabled && !hasFilters(filters)}
         isOpen={isCategorySelectOpen}
-        onSelect={onCategorySelect}
-        onToggle={onCategoryToggle}
+        onSelect={(_evt, value) => onCategorySelect(value)}
+        onToggle={(_evt, isExpanded) => onCategoryToggle(isExpanded)}
         selections={selection}
         toggleIcon={<FilterIcon />}
         variant={SelectVariant.single}

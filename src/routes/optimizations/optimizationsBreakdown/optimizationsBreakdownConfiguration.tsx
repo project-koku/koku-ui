@@ -10,6 +10,7 @@ import {
   CodeBlockCode,
   Grid,
   GridItem,
+  Icon,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
@@ -263,7 +264,11 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
     const config = getConfig(key, false);
 
     const getWarning = value => {
-      return !value ? <ExclamationTriangleIcon color="orange" /> : null;
+      return !value ? (
+        <Icon status="warning">
+          <ExclamationTriangleIcon />
+        </Icon>
+      ) : null;
     };
 
     return (

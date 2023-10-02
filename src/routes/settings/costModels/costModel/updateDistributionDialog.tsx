@@ -61,17 +61,17 @@ class UpdateDistributionDialogBase extends React.Component<
     };
   }
 
-  private handleDistributionChange = (_, event) => {
+  private handleDistributionChange = event => {
     const { value } = event.currentTarget;
     this.setState({ distribution: value });
   };
 
-  private handleDistributePlatformUnallocatedChange = (_, event) => {
+  private handleDistributePlatformUnallocatedChange = event => {
     const { value } = event.currentTarget;
     this.setState({ distributePlatformUnallocated: value === 'true' });
   };
 
-  private handleDistributeWorkerUnallocatedChange = (_, event) => {
+  private handleDistributeWorkerUnallocatedChange = event => {
     const { value } = event.currentTarget;
     this.setState({ distributeWorkerUnallocated: value === 'true' });
   };

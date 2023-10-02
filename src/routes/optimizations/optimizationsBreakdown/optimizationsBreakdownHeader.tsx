@@ -1,4 +1,5 @@
 import {
+  Icon,
   TextContent,
   TextList,
   TextListItem,
@@ -100,7 +101,9 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
         </Title>
         {showWarningIcon && (
           <span style={styles.warningIcon}>
-            <ExclamationTriangleIcon color="orange" size="sm" />
+            <Icon status="warning">
+              <ExclamationTriangleIcon />
+            </Icon>
           </span>
         )}
       </div>

@@ -1,12 +1,21 @@
 import './explorerTable.scss';
 
-import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Label, Spinner, Tooltip } from '@patternfly/react-core';
+import {
+  Bullseye,
+  EmptyState,
+  EmptyStateBody,
+  EmptyStateHeader,
+  EmptyStateIcon,
+  Label,
+  Spinner,
+  Tooltip,
+} from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import type { ThProps } from '@patternfly/react-table';
 import {
   InnerScrollContainer,
   SortByDirection,
-  TableComposable,
+  Table,
   TableVariant,
   Tbody,
   Td,
@@ -355,7 +364,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     }
     return (
       <EmptyState>
-        <EmptyStateIcon icon={CalculatorIcon} />
+        <EmptyStateHeader icon={<EmptyStateIcon icon={CalculatorIcon} />} />
         <EmptyStateBody>{intl.formatMessage(messages.detailsEmptyState)}</EmptyStateBody>
       </EmptyState>
     );
@@ -391,7 +400,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     };
   };
 
-  private handleOnSelect = (event, isSelected, rowId) => {
+  private handleOnSelect = (isSelected, rowId) => {
     const { onSelected } = this.props;
     const { rows } = this.state;
 
@@ -414,7 +423,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     });
   };
 
-  private handleOnSort = (event, index, direction) => {
+  private handleOnSort = (index, direction) => {
     const { onSort } = this.props;
     const { columns } = this.state;
 
@@ -435,7 +444,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
 
     return (
       <InnerScrollContainer>
-        <TableComposable
+        <Table
           aria-label={intl.formatMessage(messages.explorerTableAriaLabel)}
           className="explorerTableOverride"
           gridBreakPoint=""
@@ -503,9 +512,9 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                         key={`cell-${cellIndex}-${rowIndex}`}
                         ref={this.selectColRef}
                         select={{
-                          disable: row.selectionDisabled, // Disable select for "no-project"
+                          isDisabled: row.selectionDisabled, // Disable select for "no-project"
                           isSelected: row.selected,
-                          onSelect: (_event, isSelected) => this.handleOnSelect(_event, isSelected, rowIndex),
+                          onSelect: (_evt, isSelected) => this.handleOnSelect(isSelected, rowIndex),
                           rowIndex,
                         }}
                         stickyMinWidth={`${selectColWidth}px`}
@@ -548,7 +557,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
               ))
             )}
           </Tbody>
-        </TableComposable>
+        </Table>
         {rows.length === 0 && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
       </InnerScrollContainer>
     );

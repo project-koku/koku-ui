@@ -1,11 +1,11 @@
+import { Tooltip } from '@patternfly/react-core';
 import {
   Dropdown,
   DropdownItem,
   DropdownPosition,
   DropdownToggle,
   DropdownToggleCheckbox,
-  Tooltip,
-} from '@patternfly/react-core';
+} from '@patternfly/react-core/deprecated';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
@@ -82,7 +82,7 @@ export const getBulkSelect = ({
               }}
             />,
           ]}
-          onToggle={onBulkSelectToggle}
+          onToggle={(_evt, isOpen) => onBulkSelectToggle(isOpen)}
         >
           {numSelected !== 0 && (
             <React.Fragment>{intl.formatMessage(messages.selected, { value: numSelected })}</React.Fragment>

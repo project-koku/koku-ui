@@ -44,7 +44,7 @@ const BottomPaginationBase: React.FC<BottomPaginationBaseProps> = props => {
             page={page}
             perPage={perPage}
             titles={{
-              paginationTitle: intl.formatMessage(messages.paginationTitle, {
+              paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
                 title: intl.formatMessage(messages.costModelsDetailsTitle),
                 placement: 'bottom',
               }),

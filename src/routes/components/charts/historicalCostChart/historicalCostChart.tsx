@@ -16,8 +16,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { default as ChartTheme } from 'routes/components/charts/chartTheme';
-import { getCostRangeString, getCostRangeTooltip } from 'routes/components/charts/common/chartDatum';
-import { getDateRange } from 'routes/components/charts/common/chartDatum';
+import { getCostRangeString, getCostRangeTooltip, getDateRange } from 'routes/components/charts/common/chartDatum';
 import type { ChartSeries } from 'routes/components/charts/common/chartUtils';
 import {
   getChartNames,

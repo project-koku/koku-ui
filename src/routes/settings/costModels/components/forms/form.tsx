@@ -1,13 +1,13 @@
-import type { FormProps as FormPF4Props } from '@patternfly/react-core';
-import { Form as FormPF4 } from '@patternfly/react-core';
+import type { FormProps as FormPFProps } from '@patternfly/react-core';
+import { Form as FormPF } from '@patternfly/react-core';
 import React from 'react';
 
-type FormProps = Omit<FormPF4Props, 'onSubmit'>;
+type FormProps = Omit<FormPFProps, 'onSubmit'>;
 
 export const Form: React.ComponentType<FormProps> = ({ children, ...props }) => {
   return (
-    <FormPF4 onSubmit={(event: React.FormEvent<HTMLFormElement>) => event.preventDefault()} {...props}>
+    <FormPF onSubmit={(event: React.FormEvent<HTMLFormElement>) => event.preventDefault()} {...props}>
       {children}
-    </FormPF4>
+    </FormPF>
   );
 };

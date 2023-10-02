@@ -1,9 +1,16 @@
 import './dataTable.scss';
 
-import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
+import {
+  Bullseye,
+  EmptyState,
+  EmptyStateBody,
+  EmptyStateHeader,
+  EmptyStateIcon,
+  Spinner,
+} from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import type { ThProps } from '@patternfly/react-table';
-import { SortByDirection, TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { SortByDirection, Table, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -49,7 +56,7 @@ class DataTable extends React.Component<DataTableProps, any> {
     }
     return (
       <EmptyState>
-        <EmptyStateIcon icon={CalculatorIcon} />
+        <EmptyStateHeader icon={<EmptyStateIcon icon={CalculatorIcon} />} />
         <EmptyStateBody>{intl.formatMessage(messages.detailsEmptyState)}</EmptyStateBody>
       </EmptyState>
     );
@@ -71,12 +78,12 @@ class DataTable extends React.Component<DataTableProps, any> {
   private getSortParams = (index: number): ThProps['sort'] => {
     return {
       sortBy: this.getSortBy(index),
-      onSort: this.handleOnSort,
+      onSort: (_evt, i, direction) => this.handleOnSort(i, direction),
       columnIndex: index,
     };
   };
 
-  private handleOnSelect = (event, isSelected, rowId) => {
+  private handleOnSelect = (isSelected, rowId) => {
     const { onSelected, rows } = this.props;
 
     let newRows;
@@ -98,7 +105,7 @@ class DataTable extends React.Component<DataTableProps, any> {
     });
   };
 
-  private handleOnSort = (event, index, direction) => {
+  private handleOnSort = (index, direction) => {
     const { columns, onSort } = this.props;
 
     if (onSort) {
@@ -113,7 +120,7 @@ class DataTable extends React.Component<DataTableProps, any> {
 
     return (
       <>
-        <TableComposable
+        <Table
           aria-label={intl.formatMessage(messages.dataTableAriaLabel)}
           className="tableOverride"
           gridBreakPoint="grid-2xl"
@@ -154,9 +161,9 @@ class DataTable extends React.Component<DataTableProps, any> {
                         key={`cell-${cellIndex}-${rowIndex}`}
                         modifier="nowrap"
                         select={{
-                          disable: row.selectionDisabled, // Disable select for "no-project"
+                          isDisabled: row.selectionDisabled, // Disable select for "no-project"
                           isSelected: row.selected,
-                          onSelect: (_event, isSelected) => this.handleOnSelect(_event, isSelected, rowIndex),
+                          onSelect: (_evt, isSelected) => this.handleOnSelect(isSelected, rowIndex),
                           rowIndex,
                         }}
                         style={item.style}
@@ -177,7 +184,7 @@ class DataTable extends React.Component<DataTableProps, any> {
               ))
             )}
           </Tbody>
-        </TableComposable>
+        </Table>
         {rows.length === 0 && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
       </>
     );

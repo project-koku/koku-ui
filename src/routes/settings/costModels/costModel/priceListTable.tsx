@@ -3,12 +3,11 @@ import {
   Button,
   EmptyState,
   EmptyStateBody,
+  EmptyStateHeader,
   EmptyStateIcon,
   List,
   ListItem,
   Pagination,
-  Title,
-  TitleSizes,
   Toolbar,
   ToolbarContent,
   ToolbarItem,
@@ -274,7 +273,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                       }
                       onPerPageSelect={(_evt, perPage) => this.setState({ pagination: { page: 1, perPage } })}
                       titles={{
-                        paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                        paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
                           title: intl.formatMessage(messages.priceList),
                           placement: 'top',
                         }),
@@ -293,10 +292,11 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                   search.metrics.length === 0 && (
                     <Bullseye>
                       <EmptyState>
-                        <EmptyStateIcon icon={PlusCircleIcon} />
-                        <Title headingLevel="h2" size={TitleSizes.lg}>
-                          {intl.formatMessage(messages.priceListEmptyRate)}
-                        </Title>
+                        <EmptyStateHeader
+                          titleText={<>{intl.formatMessage(messages.priceListEmptyRate)}</>}
+                          icon={<EmptyStateIcon icon={PlusCircleIcon} />}
+                          headingLevel="h2"
+                        />
                         <EmptyStateBody>{intl.formatMessage(messages.priceListEmptyRateDesc)}</EmptyStateBody>
                       </EmptyState>
                     </Bullseye>
@@ -310,9 +310,11 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                           isDisabled: !isWritePermission,
                           // HACK: to display tooltip on disable
                           style: !isWritePermission ? { pointerEvents: 'auto' } : undefined,
-                          tooltip: !isWritePermission ? (
-                            <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>
-                          ) : undefined,
+                          tooltipProps: {
+                            content: !isWritePermission ? (
+                              <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>
+                            ) : undefined,
+                          },
                           onClick: (_evt, _rowIndex, rowData) => {
                             this.setState({
                               deleteRate: null,
@@ -329,9 +331,11 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                           isDisabled: !isWritePermission,
                           // HACK: to display tooltip on disable
                           style: !isWritePermission ? { pointerEvents: 'auto' } : {},
-                          tooltip: !isWritePermission ? (
-                            <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>
-                          ) : undefined,
+                          tooltipProps: {
+                            content: !isWritePermission ? (
+                              <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>
+                            ) : undefined,
+                          },
                           onClick: (_evt, _rowIndex, rowData) => {
                             const rowIndex = rowData.data.stateIndex;
                             this.setState({
@@ -372,7 +376,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                               })
                             }
                             titles={{
-                              paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                              paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
                                 title: intl.formatMessage(messages.priceList),
                                 placement: 'bottom',
                               }),

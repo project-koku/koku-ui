@@ -4,13 +4,13 @@
   div {
     display: block;
     margin-right: 0;
-    margin-bottom: var(--pf-global--spacer--xs);
+    margin-bottom: var(--pf-v5-global--spacer--xs);
     &.iconOverride {
       &.decrease {
-        // color: var(--pf-global--success-color--100);
+        // color: var(--pf-v5-global--success-color--100);
       }
       &.increase {
-        // color: var(--pf-global--danger-color--100);
+        // color: var(--pf-v5-global--danger-color--100);
       }
       .fa-equals {
         margin-left: 25px;
@@ -27,10 +27,10 @@
         top: -3px;
       }
       .fa-sort-up::before {
-        // color: var(--pf-global--danger-color--100);
+        // color: var(--pf-v5-global--danger-color--100);
       }
       .fa-sort-down::before {
-        // color: var(--pf-global--success-color--100);
+        // color: var(--pf-v5-global--success-color--100);
       }
       span {
         margin-right: -17px !important;

@@ -168,9 +168,9 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       <header style={styles.header}>
         <div style={styles.headerContent}>
           <nav aria-label={intl.formatMessage(messages.breakdownBackToDetailsAriaLabel)} className="breadcrumbOverride">
-            <ol className="pf-c-breadcrumb__list">
-              <li className="pf-c-breadcrumb__item">
-                <span className="pf-c-breadcrumb__item-divider">
+            <ol className="pf-v5-c-breadcrumb__list">
+              <li className="pf-v5-c-breadcrumb__item">
+                <span className="pf-v5-c-breadcrumb__item-divider">
                   <AngleLeftIcon />
                 </span>
                 {this.getBackToLink(groupByKey)}

@@ -2,7 +2,10 @@ import {
   Flex,
   FlexItem,
   FormGroup,
+  HelperText,
+  HelperTextItem,
   InputGroup,
+  InputGroupItem,
   InputGroupText,
   List,
   ListItem,
@@ -114,34 +117,36 @@ class MarkupWithDistributionBase extends React.Component<MarkupWithDistributionP
                   <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfCenter' }}>
                     <FlexItem>
                       <Form>
-                        <FormGroup
-                          fieldId="markup-input-box"
-                          helperTextInvalid={helpText ? intl.formatMessage(helpText) : undefined}
-                          style={costCalcStyles.rateContainer}
-                          validated={validated}
-                        >
+                        <FormGroup fieldId="markup-input-box" style={costCalcStyles.rateContainer}>
                           <InputGroup>
                             <InputGroupText style={costCalcStyles.sign}>
                               {isDiscount
                                 ? intl.formatMessage(messages.discountMinus)
                                 : intl.formatMessage(messages.markupPlus)}
                             </InputGroupText>
-                            <TextInput
-                              aria-label={intl.formatMessage(messages.rate)}
-                              id="markup-input-box"
-                              isRequired
-                              onKeyDown={handleOnKeyDown}
-                              onChange={handleMarkupDiscountChange}
-                              placeholder={'0'}
-                              style={costCalcStyles.inputField}
-                              type="text"
-                              validated={validated}
-                              value={markup}
-                            />
+                            <InputGroupItem isFill>
+                              <TextInput
+                                aria-label={intl.formatMessage(messages.rate)}
+                                id="markup-input-box"
+                                isRequired
+                                onKeyDown={handleOnKeyDown}
+                                onChange={handleMarkupDiscountChange}
+                                placeholder={'0'}
+                                style={costCalcStyles.inputField}
+                                type="text"
+                                validated={validated}
+                                value={markup}
+                              />
+                            </InputGroupItem>
                             <InputGroupText style={costCalcStyles.percent}>
                               {intl.formatMessage(messages.percentSymbol)}
                             </InputGroupText>
                           </InputGroup>
+                          {validated === 'error' && (
+                            <HelperText>
+                              <HelperTextItem variant="error">{intl.formatMessage(helpText)}</HelperTextItem>
+                            </HelperText>
+                          )}
                         </FormGroup>
                       </Form>
                     </FlexItem>

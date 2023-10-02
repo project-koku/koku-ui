@@ -1,7 +1,9 @@
-import type { ButtonProps, PaginationProps } from '@patternfly/react-core';
+import type { ButtonProps } from '@patternfly/react-core';
+import type { PaginationProps } from '@patternfly/react-core';
 import {
   Button,
   InputGroup,
+  InputGroupItem,
   InputGroupText,
   Pagination,
   TextInput,
@@ -19,26 +21,28 @@ import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyT
 interface FilterInputProps {
   id: string;
   value: string;
-  onChange: (value: string, event: React.FormEvent<HTMLInputElement>) => void;
-  onSearch: (evt: React.KeyboardEvent<HTMLInputElement>) => void;
+  onChange: (value: string) => void;
+  onSearch: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
 }
 
 const FilterInput: React.FC<FilterInputProps> = ({ id, placeholder = '', value, onChange, onSearch }) => {
   return (
     <InputGroup>
-      <TextInput
-        value={value}
-        placeholder={placeholder}
-        id={id}
-        onChange={onChange}
-        onKeyPress={(evt: React.KeyboardEvent<HTMLInputElement>) => {
-          if (evt.key !== 'Enter' || value === '') {
-            return;
-          }
-          onSearch(evt);
-        }}
-      />
+      <InputGroupItem isFill>
+        <TextInput
+          value={value}
+          placeholder={placeholder}
+          id={id}
+          onChange={(_evt, val) => onChange(val)}
+          onKeyPress={(evt: React.KeyboardEvent<HTMLInputElement>) => {
+            if (evt.key !== 'Enter' || value === '') {
+              return;
+            }
+            onSearch(evt);
+          }}
+        />
+      </InputGroupItem>
       <InputGroupText style={{ borderLeft: '0' }}>
         <SearchIcon />
       </InputGroupText>

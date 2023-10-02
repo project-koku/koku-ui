@@ -1,7 +1,8 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant, ToolbarFilter, ToolbarItem } from '@patternfly/react-core';
-import type { Tag } from 'api/tags/tag';
-import type { TagPathsType } from 'api/tags/tag';
+import { ToolbarFilter, ToolbarItem } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
+import type { Tag, TagPathsType } from 'api/tags/tag';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep, uniq, uniqBy } from 'lodash';
@@ -30,7 +31,7 @@ export const getTagKeySelect = ({
   isDisabled?: boolean;
   isTagKeySelectExpanded?: boolean;
   onTagKeyClear?: () => void;
-  onTagKeySelect?: (event, selection) => void;
+  onTagKeySelect?: (value: SelectOptionObject) => void;
   onTagKeyToggle?: (isOpen: boolean) => void;
   tagReport?: Tag;
 }) => {
@@ -49,8 +50,8 @@ export const getTagKeySelect = ({
         variant={SelectVariant.typeahead}
         typeAheadAriaLabel={intl.formatMessage(messages.filterByTagKeyAriaLabel)}
         onClear={onTagKeyClear}
-        onToggle={onTagKeyToggle}
-        onSelect={onTagKeySelect}
+        onSelect={(_evt, value) => onTagKeySelect(value)}
+        onToggle={(_evt, isExpanded) => onTagKeyToggle(isExpanded)}
         isOpen={isTagKeySelectExpanded}
         placeholderText={intl.formatMessage(messages.chooseKeyPlaceholder)}
         selections={currentTagKey}

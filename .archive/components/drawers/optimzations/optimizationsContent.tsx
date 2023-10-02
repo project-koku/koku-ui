@@ -13,7 +13,7 @@ import {
   TextListVariants,
 } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
-import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import type { RecommendationItem, RecommendationReportData } from 'api/ros/recommendations';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
@@ -265,10 +265,9 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     const memVariationUnits = hasVariationLimitsMemory ? term.variation.limits.memory.format : undefined;
 
     return (
-      <TableComposable
+      <Table
         aria-label={intl.formatMessage(messages.optimizationsTableAriaLabel)}
         borders={false}
-        hasSelectableRowCaption
         variant={TableVariant.compact}
       >
         <Thead>
@@ -313,7 +312,7 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
             <Td>{this.getChangeValue(memVariation, memVariationUnits)}</Td>
           </Tr>
         </Tbody>
-      </TableComposable>
+      </Table>
     );
   };
 
@@ -377,10 +376,9 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
     const memVariationUnits = hasVariationRequestsMemory ? term.variation.requests.memory.format : undefined;
 
     return (
-      <TableComposable
+      <Table
         aria-label={intl.formatMessage(messages.optimizationsTableAriaLabel)}
         borders={false}
-        hasSelectableRowCaption
         variant={TableVariant.compact}
       >
         <Thead>
@@ -425,7 +423,7 @@ class OptimizationsContentBase extends React.Component<OptimizationsContentProps
             <Td>{this.getChangeValue(memVariation, memVariationUnits)}</Td>
           </Tr>
         </Tbody>
-      </TableComposable>
+      </Table>
     );
   };
 

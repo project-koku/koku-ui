@@ -1,7 +1,7 @@
 import './dataToolbar.scss';
 
-import type { SelectOptionObject } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -28,7 +28,7 @@ interface CustomSelectDispatchProps {
 }
 
 interface CustomSelectState {
-  isExpanded?: boolean;
+  isCustomSelectExpanded?: boolean;
 }
 
 export interface SelectOptionObjectExt extends SelectOptionObject {
@@ -40,13 +40,13 @@ type CustomSelectProps = CustomSelectOwnProps & CustomSelectStateProps & CustomS
 
 class CustomSelectBase extends React.Component<CustomSelectProps, CustomSelectState> {
   protected defaultState: CustomSelectState = {
-    isExpanded: false,
+    isCustomSelectExpanded: false,
   };
   public state: CustomSelectState = { ...this.defaultState };
 
   private onCustomSelectToggle = isOpen => {
     this.setState({
-      isExpanded: isOpen,
+      isCustomSelectExpanded: isOpen,
     });
   };
 
@@ -66,7 +66,7 @@ class CustomSelectBase extends React.Component<CustomSelectProps, CustomSelectSt
 
   public render() {
     const { className, filters, intl, isDisabled, onSelect } = this.props;
-    const { isExpanded } = this.state;
+    const { isCustomSelectExpanded } = this.state;
 
     const selectOptions = this.getSelectOptions();
     const selections = filters?.map(filter => {
@@ -79,10 +79,10 @@ class CustomSelectBase extends React.Component<CustomSelectProps, CustomSelectSt
         isDisabled={isDisabled}
         variant={SelectVariant.checkbox}
         aria-label={intl.formatMessage(messages.filterByValuesAriaLabel)}
-        onToggle={this.onCustomSelectToggle}
+        onToggle={(_evt, isExpanded) => this.onCustomSelectToggle(isExpanded)}
         onSelect={onSelect}
         selections={selections}
-        isOpen={isExpanded}
+        isOpen={isCustomSelectExpanded}
         placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}
       >
         {selectOptions.map(option => (

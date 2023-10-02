@@ -1,6 +1,6 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import type { FormGroupProps, TextInputProps } from '@patternfly/react-core';
-import { FormGroup, TextInput } from '@patternfly/react-core';
+import type { TextInputProps } from '@patternfly/react-core';
+import { FormGroup, HelperText, HelperTextItem, TextInput } from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -11,12 +11,11 @@ interface SimpleInputOwnProps {
   label?: MessageDescriptor | string;
 }
 
-type SimpleInputFormGroupProps = Pick<FormGroupProps, 'onBlur' | 'isRequired' | 'placeholder' | 'style' | 'validated'>;
-type SimpleInputTextInputProps = Pick<TextInputProps, 'id' | 'onChange' | 'value'>;
-type SimpleInputProps = SimpleInputOwnProps &
-  SimpleInputTextInputProps &
-  SimpleInputFormGroupProps &
-  WrappedComponentProps;
+type SimpleInputTextInputProps = Pick<
+  TextInputProps,
+  'onChange' | 'onBlur' | 'id' | 'isRequired' | 'placeholder' | 'style' | 'validated' | 'value'
+>;
+type SimpleInputProps = SimpleInputOwnProps & SimpleInputTextInputProps & WrappedComponentProps;
 
 const SimpleInputBase: React.FC<SimpleInputProps> = ({
   id,
@@ -37,10 +36,6 @@ const SimpleInputBase: React.FC<SimpleInputProps> = ({
       style={style}
       fieldId={id}
       label={label !== null && typeof label === 'object' ? intl.formatMessage(label) : (label as string)}
-      helperTextInvalid={
-        helpText !== null && typeof helpText === 'object' ? intl.formatMessage(helpText) : (helpText as string)
-      }
-      validated={validated}
     >
       <TextInput
         validated={validated}
@@ -51,6 +46,11 @@ const SimpleInputBase: React.FC<SimpleInputProps> = ({
         isRequired={isRequired}
         placeholder={placeholder}
       />
+      {validated === 'error' && typeof helpText === 'object' && (
+        <HelperText>
+          <HelperTextItem variant="error">{intl.formatMessage(helpText)}</HelperTextItem>
+        </HelperText>
+      )}
     </FormGroup>
   );
 };
