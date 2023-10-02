@@ -11,12 +11,7 @@ import { FetchStatus } from 'store/common';
 import { createAction } from 'typesafe-actions';
 
 import { getFetchId } from './settingsCommon';
-import {
-  selectSettingsError,
-  selectSettingsStatus,
-  selectSettingsUpdateError,
-  selectSettingsUpdateStatus,
-} from './settingsSelectors';
+import { selectSettingsError, selectSettingsStatus, selectSettingsUpdateStatus } from './settingsSelectors';
 
 interface SettingsActionMeta {
   fetchId: string;
@@ -64,9 +59,8 @@ export function fetchSettings(settingsType: SettingsType, settingsQueryString: s
 export function updateSettings(settingsType: SettingsType, payload: SettingsPayload): ThunkAction {
   return (dispatch, getState) => {
     const state = getState();
-    const fetchError = selectSettingsUpdateError(state, settingsType);
     const fetchStatus = selectSettingsUpdateStatus(state, settingsType);
-    if (fetchError || fetchStatus === FetchStatus.inProgress) {
+    if (fetchStatus === FetchStatus.inProgress) {
       return;
     }
 
@@ -76,14 +70,35 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
 
     dispatch(updateSettingsRequest(meta));
 
+    let msg;
+    let status;
+    switch (settingsType) {
+      case SettingsType.awsCategoryKeysDisable:
+        msg = messages.settingsSuccessCostCategoryKeys;
+        status = 'disable';
+        break;
+      case SettingsType.awsCategoryKeysEnable:
+        msg = messages.settingsSuccessCostCategoryKeys;
+        status = 'enable';
+        break;
+      case SettingsType.tagsDisable:
+        msg = messages.settingsSuccessTags;
+        status = 'disable';
+        break;
+      case SettingsType.tagsEnable:
+        msg = messages.settingsSuccessTags;
+        status = 'enable';
+        break;
+    }
+
     return apiUpdateSettings(settingsType, payload)
       .then(res => {
         dispatch(updateSettingsSuccess(res, meta));
         dispatch(
           addNotification({
-            title: intl.formatMessage(messages.settingsSuccessCostCategoryKeys, {
-              ...{ value: settingsType === SettingsType.awsCategoryKeysEnable ? 'enable' : 'disable' },
+            title: intl.formatMessage(msg, {
               count: payload.ids.length,
+              value: status,
             }),
             description: intl.formatMessage(messages.settingsSuccessChanges),
             variant: AlertVariant.success,
@@ -93,12 +108,18 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
       })
       .catch(err => {
         dispatch(updateSettingsFailure(err, meta));
+        let description = intl.formatMessage(messages.settingsErrorDesc);
+        let title = intl.formatMessage(messages.settingsErrorTitle);
+        if (err.response.status === 412) {
+          description = intl.formatMessage(messages.settingsTagsErrorDesc, { value: err.response.data.enabled });
+          title = intl.formatMessage(messages.settingsTagsErrorTitle, { value: err.response.data.limit });
+        }
         dispatch(
           addNotification({
-            title: intl.formatMessage(messages.settingsErrorTitle),
-            description: intl.formatMessage(messages.settingsErrorDesc),
-            variant: AlertVariant.danger,
+            description,
             dismissable: true,
+            title,
+            variant: AlertVariant.danger,
           })
         );
       });
