@@ -25,7 +25,9 @@ export interface ComputedReportOcpItem extends ReportItem {
   cluster?: string;
   clusters?: string[];
   limit?: ReportValue;
+  persistent_volume_claim?: string;
   request?: ReportValue;
+  storage_class?: string;
   usage?: ReportValue;
 }
 
@@ -240,6 +242,8 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
         const default_project = val.default_project && val.default_project.toLowerCase() === 'true';
         const delta_percent = val.delta_percent ? val.delta_percent : 0;
         const delta_value = val.delta_value ? val.delta_value : 0;
+        const persistent_volume_claim = val.persistent_volume_claim ? val.persistent_volume_claim : [];
+        const storage_class = val.storage_class ? val.storage_class : [];
         const source_uuid = val.source_uuid ? val.source_uuid : [];
 
         let label;
@@ -280,7 +284,9 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
             id,
             infrastructure: getCostData(val, 'infrastructure'),
             label,
+            persistent_volume_claim,
             source_uuid,
+            storage_class,
             supplementary: getCostData(val, 'supplementary'),
             type,
           };
@@ -311,7 +317,9 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
               id,
               infrastructure: getCostData(val, 'infrastructure', item),
               label,
+              persistent_volume_claim,
               source_uuid,
+              storage_class,
               supplementary: getCostData(val, 'supplementary', item),
               type,
             });
@@ -329,7 +337,9 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
               id,
               infrastructure: getCostData(val, 'infrastructure'),
               label,
+              persistent_volume_claim,
               source_uuid,
+              storage_class,
               supplementary: getCostData(val, 'supplementary'),
               type,
             });

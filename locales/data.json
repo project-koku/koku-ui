@@ -991,6 +991,12 @@
         "value": "Close"
       }
     ],
+    "cluster": [
+      {
+        "type": 0,
+        "value": "Cluster"
+      }
+    ],
     "clusters": [
       {
         "type": 0,
@@ -2687,6 +2693,16 @@
       {
         "type": 0,
         "value": "Processing data to generate a list of all services that sums to a total cost..."
+      }
+    ],
+    "detailsMore": [
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " more..."
       }
     ],
     "detailsMoreClusters": [
@@ -7154,6 +7170,14 @@
               }
             ]
           },
+          "persistent_volume_claim": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by persistent volume claim"
+              }
+            ]
+          },
           "product_service": {
             "value": [
               {
@@ -7215,6 +7239,14 @@
               {
                 "type": 0,
                 "value": "Filter by status"
+              }
+            ]
+          },
+          "storage_class": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by StorageClass"
               }
             ]
           },
@@ -7365,6 +7397,14 @@
               }
             ]
           },
+          "persistent_volume_claim": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Persistent volume claim"
+              }
+            ]
+          },
           "product_service": {
             "value": [
               {
@@ -7426,6 +7466,14 @@
               {
                 "type": 0,
                 "value": "Status"
+              }
+            ]
+          },
+          "storage_class": {
+            "value": [
+              {
+                "type": 0,
+                "value": "StorageClass"
               }
             ]
           },
@@ -11252,6 +11300,12 @@
         "value": "Rate must be a positive number"
       }
     ],
+    "pvcTitle": [
+      {
+        "type": 0,
+        "value": "Persistent Volume Claims"
+      }
+    ],
     "rate": [
       {
         "type": 0,
@@ -11322,6 +11376,30 @@
       {
         "type": 0,
         "value": "Remove projects"
+      }
+    ],
+    "requestedCapacity": [
+      {
+        "type": 0,
+        "value": "Requested capacity"
+      }
+    ],
+    "requestedCapacityValue": [
+      {
+        "type": 0,
+        "value": "Requested capacity - "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "units"
       }
     ],
     "requests": [
@@ -11848,6 +11926,12 @@
         "value": "Status/Actions"
       }
     ],
+    "storageClass": [
+      {
+        "type": 0,
+        "value": "StorageClass"
+      }
+    ],
     "suggestions": [
       {
         "type": 0,
@@ -12279,6 +12363,20 @@
       {
         "type": 0,
         "value": " maximum"
+      }
+    ],
+    "valueUnits": [
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "units"
       }
     ],
     "various": [

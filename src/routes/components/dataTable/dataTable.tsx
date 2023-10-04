@@ -24,6 +24,7 @@ import { styles } from './dataTable.styles';
 
 interface DataTableOwnProps {
   columns?: any[];
+  emptyState?: React.ReactNode;
   filterBy: any;
   isActionsCell?: boolean;
   isLoading?: boolean;
@@ -45,7 +46,7 @@ class DataTable extends React.Component<DataTableProps, any> {
   }
 
   private getEmptyState = () => {
-    const { filterBy, intl } = this.props;
+    const { emptyState, filterBy, intl } = this.props;
 
     if (filterBy) {
       for (const val of Object.values(filterBy)) {
@@ -54,7 +55,9 @@ class DataTable extends React.Component<DataTableProps, any> {
         }
       }
     }
-    return (
+    return emptyState ? (
+      emptyState
+    ) : (
       <EmptyState>
         <EmptyStateHeader icon={<EmptyStateIcon icon={CalculatorIcon} />} />
         <EmptyStateBody>{intl.formatMessage(messages.detailsEmptyState)}</EmptyStateBody>
