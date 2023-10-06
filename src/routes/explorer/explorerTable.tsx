@@ -395,7 +395,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
   private getSortParams = (index: number): ThProps['sort'] => {
     return {
       sortBy: this.getSortBy(index),
-      onSort: this.handleOnSort,
+      onSort: (_evt, i, direction) => this.handleOnSort(i, direction),
       columnIndex: index,
     };
   };
