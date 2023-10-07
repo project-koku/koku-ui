@@ -123,13 +123,13 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
     };
 
     const request = item.request ? item.request.value : 0;
-    const requestValue = request < 100 ? formatUsage(request) : Math.trunc(request);
+    const requestValue = formatUsage(request);
     const requestUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(item.request ? item.request.units : undefined),
     });
 
     const usage = item.usage ? item.usage.value : 0;
-    const usageValue = usage < 100 ? formatUsage(usage) : Math.trunc(usage);
+    const usageValue = formatUsage(usage);
     const usageUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(item.usage ? item.usage.units : undefined),
     });
@@ -144,7 +144,7 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
           value: usageValue,
           units: usageUnits,
         }),
-        value: Math.round((usage + Number.EPSILON) * 100) / 100,
+        value: this.getRoundValue(usage),
       },
       {
         legend: intl.formatMessage(messages.requestedCapacityValue, {
@@ -155,7 +155,7 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
           value: requestValue,
           units: requestUnits,
         }),
-        value: Math.round((request + Number.EPSILON) * 100) / 100,
+        value: this.getRoundValue(request),
       },
     ];
     return datum;
@@ -266,6 +266,10 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
       );
     }
     return null;
+  };
+
+  private getRoundValue = (value: number) => {
+    return Math.round((value + Number.EPSILON) * 100) / 100;
   };
 
   private getSkeleton = () => {

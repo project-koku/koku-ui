@@ -73,13 +73,13 @@ const PvcTable: React.FC<PvcTableProps> = ({ filterBy, isLoading, onSort, orderB
       const storageClass = item.storage_class ? item.storage_class[0] : '';
 
       const request = item.request ? item.request.value : 0;
-      const requestValue = request < 10 ? formatUsage(request) : Math.trunc(request);
+      const requestValue = formatUsage(request);
       const requestUnits = intl.formatMessage(messages.units, {
         units: unitsLookupKey(item.request ? item.request.units : undefined),
       });
 
       const usage = item.usage ? item.usage.value : 0;
-      const usageValue = usage < 10 ? formatUsage(usage) : Math.trunc(usage);
+      const usageValue = formatUsage(usage);
       const usageUnits = intl.formatMessage(messages.units, {
         units: unitsLookupKey(item.usage ? item.usage.units : undefined),
       });
