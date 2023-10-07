@@ -6,6 +6,7 @@ import {
   cpuUsageWidget,
   memoryUsageWidget,
   projectSummaryWidget,
+  pvcWidget,
   volumeUsageWidget,
 } from './ocpCostOverviewWidgets';
 
@@ -22,6 +23,7 @@ export const defaultState: OcpCostOverviewState = {
     projectSummaryWidget.id,
     cpuUsageWidget.id,
     memoryUsageWidget.id,
+    pvcWidget.id,
     volumeUsageWidget.id,
   ],
   widgets: {
@@ -31,6 +33,7 @@ export const defaultState: OcpCostOverviewState = {
     [projectSummaryWidget.id]: projectSummaryWidget,
     [cpuUsageWidget.id]: cpuUsageWidget,
     [memoryUsageWidget.id]: memoryUsageWidget,
+    [pvcWidget.id]: pvcWidget,
     [volumeUsageWidget.id]: volumeUsageWidget,
   },
 };

@@ -1,0 +1,401 @@
+import 'routes/components/charts/common/chart.scss';
+import './pvc.scss';
+
+import { ChartBullet } from '@patternfly/react-charts';
+import {
+  Divider,
+  Skeleton,
+  TextContent,
+  TextList,
+  TextListItem,
+  TextListItemVariants,
+  TextListVariants,
+} from '@patternfly/react-core';
+import type { OcpQuery } from 'api/queries/ocpQuery';
+import { parseQuery } from 'api/queries/ocpQuery';
+import type { Query } from 'api/queries/query';
+import { getQuery, getQueryState } from 'api/queries/query';
+import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
+import type { Report, ReportPathsType } from 'api/reports/report';
+import type { ReportType } from 'api/reports/report';
+import messages from 'locales/messages';
+import React from 'react';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
+import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
+import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
+import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
+import { noop } from 'routes/utils/noop';
+import { skeletonWidth } from 'routes/utils/skeleton';
+import { createMapStateToProps, FetchStatus } from 'store/common';
+import { reportActions, reportSelectors } from 'store/reports';
+import { formatUsage, unitsLookupKey } from 'utils/format';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
+
+import { PvcModal } from './modal/pvcModal';
+import { styles } from './pvcChart.styles';
+
+export interface ChartDatum {
+  usage: any[];
+}
+
+interface PvcChartOwnProps extends RouterComponentProps, WrappedComponentProps {
+  name?: string;
+  reportPathsType: ReportPathsType;
+  reportType: ReportType;
+}
+
+interface PvcChartStateProps {
+  groupBy?: string;
+  query?: Query;
+  report?: Report;
+  reportFetchStatus?: FetchStatus;
+  reportQueryString?: string;
+}
+
+interface PvcChartDispatchProps {
+  fetchReport?: typeof reportActions.fetchReport;
+}
+
+interface PvcChartState {
+  extraHeight: number;
+  isOpen: boolean;
+  width: number;
+}
+
+type PvcChartProps = PvcChartOwnProps & PvcChartStateProps & PvcChartDispatchProps;
+
+const baseQuery: OcpQuery = {
+  filter: {
+    limit: 2, // Render 2 items max
+    offset: 0,
+    time_scope_units: 'month',
+    time_scope_value: -1,
+    resolution: 'monthly',
+  },
+  order_by: {
+    request: 'desc',
+  },
+};
+
+class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
+  private containerRef = React.createRef<HTMLDivElement>();
+  private observer: any = noop;
+  public state: PvcChartState = {
+    extraHeight: 0,
+    isOpen: false,
+    width: 0,
+  };
+
+  public componentDidMount() {
+    this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
+    this.updateReport();
+  }
+
+  public componentDidUpdate(prevProps: PvcChartProps) {
+    const { reportQueryString } = this.props;
+    if (prevProps.reportQueryString !== reportQueryString) {
+      this.updateReport();
+    }
+  }
+
+  public componentWillUnmount() {
+    if (this.observer) {
+      this.observer();
+    }
+  }
+
+  private handleResize = () => {
+    const { width } = this.state;
+    const { clientWidth = 0 } = this.containerRef.current || {};
+
+    if (clientWidth !== width) {
+      this.setState({ width: clientWidth });
+    }
+  };
+
+  private getChartDatum(item): ChartDatum {
+    const { intl } = this.props;
+    const datum: ChartDatum = {
+      usage: [],
+    };
+
+    const request = item.request ? item.request.value : 0;
+    const requestValue = formatUsage(request);
+    const requestUnits = intl.formatMessage(messages.units, {
+      units: unitsLookupKey(item.request ? item.request.units : undefined),
+    });
+
+    const usage = item.usage ? item.usage.value : 0;
+    const usageValue = formatUsage(usage);
+    const usageUnits = intl.formatMessage(messages.units, {
+      units: unitsLookupKey(item.usage ? item.usage.units : undefined),
+    });
+
+    datum.usage = [
+      {
+        legend: intl.formatMessage(messages.detailsUsageUsage, {
+          value: usageValue,
+          units: usageUnits,
+        }),
+        tooltip: intl.formatMessage(messages.detailsUsageUsage, {
+          value: usageValue,
+          units: usageUnits,
+        }),
+        value: this.getRoundValue(usage),
+      },
+      {
+        legend: intl.formatMessage(messages.requestedCapacityValue, {
+          value: requestValue,
+          units: requestUnits,
+        }),
+        tooltip: intl.formatMessage(messages.detailsUsageRequests, {
+          value: requestValue,
+          units: requestUnits,
+        }),
+        value: this.getRoundValue(request),
+      },
+    ];
+    return datum;
+  }
+
+  private getChart = (item, index) => {
+    const { name, reportFetchStatus } = this.props;
+    const { width } = this.state;
+
+    const chartDatum = this.getChartDatum(item);
+    if (!item || chartDatum.usage.length === 0) {
+      return null;
+    }
+    return (
+      <>
+        {reportFetchStatus === FetchStatus.inProgress ? (
+          this.getSkeleton()
+        ) : (
+          <ChartBullet
+            height={this.getChartHeight(115)}
+            labels={({ datum }) => `${datum.tooltip}`}
+            legendAllowWrap={this.handleLegendAllowWrap}
+            legendPosition="bottom-left"
+            maxDomain={this.isDatumEmpty(chartDatum) ? 100 : undefined}
+            minDomain={0}
+            name={`${name}-${index}`}
+            padding={{
+              bottom: 75,
+              left: 10,
+              right: 50,
+              top: 0,
+            }}
+            primarySegmentedMeasureData={
+              chartDatum.usage.length
+                ? chartDatum.usage.map(datum => {
+                    return {
+                      tooltip: datum.tooltip,
+                      y: datum.value,
+                    };
+                  })
+                : []
+            }
+            primarySegmentedMeasureLegendData={
+              chartDatum.usage.length
+                ? chartDatum.usage.map(datum => {
+                    return {
+                      name: datum.legend,
+                    };
+                  })
+                : []
+            }
+            width={width}
+          />
+        )}
+      </>
+    );
+  };
+
+  private getDescription = item => {
+    const { intl } = this.props;
+
+    return (
+      <div style={styles.description}>
+        <TextContent className="textContentOverride">
+          <TextList component={TextListVariants.dl}>
+            <TextListItem component={TextListItemVariants.dt}>
+              {intl.formatMessage(messages.names, { count: 1 })}
+            </TextListItem>
+            <TextListItem component={TextListItemVariants.dd}>{item.persistent_volume_claim}</TextListItem>
+            <TextListItem component={TextListItemVariants.dt}>{intl.formatMessage(messages.cluster)}</TextListItem>
+            <TextListItem component={TextListItemVariants.dd}>{item.clusters ? item.clusters[0] : null}</TextListItem>
+          </TextList>
+        </TextContent>
+        <TextContent className="textContentOverride">
+          <TextList component={TextListVariants.dl}>
+            <TextListItem component={TextListItemVariants.dt}>&nbsp;</TextListItem>
+            <TextListItem component={TextListItemVariants.dd}>&nbsp;</TextListItem>
+            <TextListItem component={TextListItemVariants.dt}>{intl.formatMessage(messages.storageClass)}</TextListItem>
+            <TextListItem component={TextListItemVariants.dd}>
+              {item.storage_class ? item.storage_class[0] : null}
+            </TextListItem>
+          </TextList>
+        </TextContent>
+      </div>
+    );
+  };
+
+  private getChartHeight = baseHeight => {
+    const { extraHeight } = this.state;
+
+    return baseHeight + extraHeight;
+  };
+
+  private getMoreLink = () => {
+    const { intl, report } = this.props;
+    const { isOpen } = this.state;
+
+    const count = report && report.meta ? report.meta.count : 0;
+
+    if (count - baseQuery.filter.limit - 1 > 0) {
+      return (
+        <>
+          <a data-testid="pvc-lnk" href="#/" onClick={this.handleOpen}>
+            {intl.formatMessage(messages.detailsMore, { value: count })}
+          </a>
+          <PvcModal isOpen={isOpen} onClose={this.handleClose} title={intl.formatMessage(messages.pvcTitle)} />
+        </>
+      );
+    }
+    return null;
+  };
+
+  private getRoundValue = (value: number) => {
+    return Math.round((value + Number.EPSILON) * 100) / 100;
+  };
+
+  private getSkeleton = () => {
+    return (
+      <>
+        <Skeleton style={styles.chartSkeleton} width={skeletonWidth.md} />
+        <Skeleton style={styles.legendSkeleton} width={skeletonWidth.xs} />
+      </>
+    );
+  };
+
+  private getPvcCharts = computedItems => {
+    const { report } = this.props;
+
+    const items = computedItems.slice(0, baseQuery.filter.limit);
+    const count = report && report.meta ? report.meta.count : 0;
+
+    return items.map((item, index) => {
+      const showDivider = count - index - 1 > 0;
+      return (
+        <div key={`pvc-${index}`}>
+          {this.getDescription(item)}
+          {this.getChart(item, index)}
+          {showDivider && <Divider style={styles.divider} />}
+        </div>
+      );
+    });
+  };
+
+  private handleClose = (isOpen: boolean) => {
+    this.setState({ isOpen });
+  };
+
+  private handleLegendAllowWrap = extraHeight => {
+    if (extraHeight !== this.state.extraHeight) {
+      this.setState({ extraHeight });
+    }
+  };
+
+  public handleOpen = event => {
+    this.setState({ isOpen: true });
+    event.preventDefault();
+    return false;
+  };
+
+  private isDatumEmpty = (datum: ChartDatum) => {
+    let hasUsage = false;
+    for (const usage of datum.usage) {
+      if (usage.value) {
+        hasUsage = true;
+        break;
+      }
+    }
+    return !hasUsage;
+  };
+
+  private updateReport = () => {
+    const { fetchReport, reportPathsType, reportType, reportQueryString } = this.props;
+    fetchReport(reportPathsType, reportType, reportQueryString);
+  };
+
+  public render() {
+    const { report } = this.props;
+
+    const computedItems = getUnsortedComputedReportItems<OcpReport, OcpReportItem>({
+      report,
+      idKey: 'persistentvolumeclaim' as any,
+    });
+
+    return (
+      <div className="chartOverride" ref={this.containerRef}>
+        {this.getPvcCharts(computedItems)}
+        {this.getMoreLink()}
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = createMapStateToProps<PvcChartOwnProps, PvcChartStateProps>(
+  (state, { reportPathsType, reportType, router }) => {
+    const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
+    const queryState = getQueryState(router.location, 'details');
+
+    const groupBy = getGroupById(queryFromRoute);
+    const groupByValue = getGroupByValue(queryFromRoute);
+
+    const query = { ...queryFromRoute };
+    const reportQuery: Query = {
+      filter: {
+        ...baseQuery.filter,
+      },
+      filter_by: {
+        // Add filters here to apply logical OR/AND
+        ...(queryState && queryState.filter_by && queryState.filter_by),
+        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: groupByValue }), // Note: We're not inserting PVC information for the Platform project
+      },
+      exclude: {
+        ...(queryState && queryState.exclude && queryState.exclude),
+      },
+      group_by: { persistentvolumeclaim: '*' },
+    };
+
+    const reportQueryString = getQuery(reportQuery);
+    const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(
+      state,
+      reportPathsType,
+      reportType,
+      reportQueryString
+    );
+
+    return {
+      groupBy,
+      query,
+      report,
+      reportFetchStatus,
+      reportQueryString,
+    };
+  }
+);
+
+const mapDispatchToProps: PvcChartDispatchProps = {
+  fetchReport: reportActions.fetchReport,
+};
+
+const PvcChart = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(PvcChartBase)));
+
+export default PvcChart;

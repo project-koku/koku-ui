@@ -345,6 +345,11 @@ export default defineMessages({
     description: 'Close',
     id: 'close',
   },
+  cluster: {
+    defaultMessage: 'Cluster',
+    description: 'Cluster',
+    id: 'cluster',
+  },
   clusters: {
     defaultMessage: 'Clusters',
     description: 'Clusters',
@@ -1193,6 +1198,11 @@ export default defineMessages({
     description: 'Processing data to generate a list of all services that sums to a total cost...',
     id: 'detailsEmptyState',
   },
+  detailsMore: {
+    defaultMessage: '{value} more...',
+    description: '{value} more...',
+    id: 'detailsMore',
+  },
   detailsMoreClusters: {
     defaultMessage: ', {value} more...',
     description: ', {value} more...',
@@ -1861,6 +1871,7 @@ export default defineMessages({
       'node {Filter by node} ' +
       'org_unit_id {Filter by organizational unit} ' +
       'payer_tenant_id {Filter by account} ' +
+      'persistent_volume_claim {Filter by persistent volume claim} ' +
       'product_service {Filter by service} ' +
       'project {Filter by project} ' +
       'region {Filter by region} ' +
@@ -1869,6 +1880,7 @@ export default defineMessages({
       'service_name {Filter by service} ' +
       'source_type {Filter by source type} ' +
       'status {Filter by status} ' +
+      'storage_class {Filter by StorageClass} ' +
       'subscription_guid {Filter by account} ' +
       'workload {Filter by workload name} ' +
       'workload_type {Filter by workload type} ' +
@@ -1910,14 +1922,16 @@ export default defineMessages({
       'node {Node} ' +
       'org_unit_id {Organizational unit} ' +
       'payer_tenant_id {Account} ' +
+      'persistent_volume_claim {Persistent volume claim} ' +
       'product_service {Service} ' +
       'project {Project} ' +
       'region {Region} ' +
       'resource_location {Region} ' +
       'service {Service} ' +
       'service_name {Service} ' +
-      'status {Status} ' +
       'source_type {Source type} ' +
+      'status {Status} ' +
+      'storage_class {StorageClass} ' +
       'subscription_guid {Account} ' +
       'tag {Tag} ' +
       'workload {Workload name} ' +
@@ -3004,6 +3018,11 @@ export default defineMessages({
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
   },
+  pvcTitle: {
+    defaultMessage: 'Persistent Volume Claims',
+    description: 'Persistent Volume Claims',
+    id: 'pvcTitle',
+  },
   rate: {
     defaultMessage: 'Rate',
     description: 'Rate',
@@ -3064,6 +3083,16 @@ export default defineMessages({
     defaultMessage: 'Remove projects',
     description: 'Remove projects',
     id: 'removeProjects',
+  },
+  requestedCapacity: {
+    defaultMessage: 'Requested capacity',
+    description: 'Requested capacity',
+    id: 'requestedCapacity',
+  },
+  requestedCapacityValue: {
+    defaultMessage: 'Requested capacity - {value} {units}',
+    description: 'Requested capacity - {value} {units}',
+    id: 'requestedCapacityValue',
   },
   requests: {
     defaultMessage: 'Requests',
@@ -3283,6 +3312,11 @@ export default defineMessages({
     description: 'Status/Actions',
     id: 'statusActions',
   },
+  storageClass: {
+    defaultMessage: 'StorageClass',
+    description: 'StorageClass',
+    id: 'storageClass',
+  },
   suggestions: {
     defaultMessage: 'Suggestions',
     description: 'Suggestions',
@@ -3436,6 +3470,11 @@ export default defineMessages({
     defaultMessage: '{value} {units} maximum',
     description: '{value} {units} maximum',
     id: 'usageSubtitle',
+  },
+  valueUnits: {
+    defaultMessage: '{value} {units}',
+    description: '{value} {units}',
+    id: 'valueUnits',
   },
   various: {
     defaultMessage: 'Various',

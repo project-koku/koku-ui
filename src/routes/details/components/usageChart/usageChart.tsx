@@ -19,7 +19,7 @@ import { noop } from 'routes/utils/noop';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { formatPercentage, formatUnits, unitsLookupKey } from 'utils/format';
+import { formatPercentage, formatUnits, formatUsage, unitsLookupKey } from 'utils/format';
 import { platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -110,73 +110,100 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     } = this.getHasData();
 
     // Always show bullet chart legends https://github.com/project-koku/koku-ui/issues/963
-    const limit = Math.trunc(hasLimitValue ? report.meta.total.limit.value : 0);
+    // const limit = Math.trunc(hasLimitValue ? report.meta.total.limit.value : 0);
+    // const limitUnits = intl.formatMessage(messages.units, {
+    //   units: unitsLookupKey(hasLimitUnits ? report.meta.total.limit.units : undefined),
+    // });
+
+    const limit = hasLimitValue ? report.meta.total.limit.value : 0;
+    const limitValue = formatUsage(limit);
     const limitUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasLimitUnits ? report.meta.total.limit.units : undefined),
     });
+
     datum.limit = {
       legend: intl.formatMessage(messages.detailsUsageLimit, {
-        value: limit,
+        value: limitValue,
         units: limitUnits,
       }),
       tooltip: intl.formatMessage(messages.detailsUsageLimit, {
-        value: limit,
+        value: limitValue,
         units: limitUnits,
       }),
-      value: Math.trunc(limit),
+      value: this.getRoundValue(limit),
     };
 
     // Qualitative range included when grouped by cluster and volume usage
     if (groupBy === 'cluster' || groupBy === 'node' || reportType === ReportType.volume) {
-      const capacity = Math.trunc(hasCapacityValue ? report.meta.total.capacity.value : 0);
+      // const capacity = Math.trunc(hasCapacityValue ? report.meta.total.capacity.value : 0);
+      // const capacityUnits = intl.formatMessage(messages.units, {
+      //   units: unitsLookupKey(hasCapacityUnits ? report.meta.total.capacity.units : undefined),
+      // });
+
+      const capacity = hasCapacityValue ? report.meta.total.capacity.value : 0;
+      const capacityValue = formatUsage(capacity);
       const capacityUnits = intl.formatMessage(messages.units, {
         units: unitsLookupKey(hasCapacityUnits ? report.meta.total.capacity.units : undefined),
       });
+
       datum.ranges = [
         {
           legend: intl.formatMessage(messages.detailsUsageCapacity, {
-            value: capacity,
+            value: capacityValue,
             units: capacityUnits,
           }),
           tooltip: intl.formatMessage(messages.detailsUsageCapacity, {
-            value: capacity,
+            value: capacityValue,
             units: capacityUnits,
           }),
-          value: Math.trunc(capacity),
+          value: this.getRoundValue(capacity),
         },
       ];
     }
 
-    const request = Math.trunc(hasRequestValue ? report.meta.total.request.value : 0);
+    // const request = Math.trunc(hasRequestValue ? report.meta.total.request.value : 0);
+    // const requestUnits = intl.formatMessage(messages.units, {
+    //   units: unitsLookupKey(hasRequestUnits ? report.meta.total.request.units : undefined),
+    // });
+    // const usage = Math.trunc(hasUsageValue ? report.meta.total.usage.value : 0);
+    // const usageUnits = intl.formatMessage(messages.units, {
+    //   units: unitsLookupKey(hasUsageUnits ? report.meta.total.usage.units : undefined),
+    // });
+
+    const request = hasRequestValue ? report.meta.total.request.value : 0;
+    const requestValue = formatUsage(request);
     const requestUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasRequestUnits ? report.meta.total.request.units : undefined),
     });
-    const usage = Math.trunc(hasUsageValue ? report.meta.total.usage.value : 0);
+
+    const usage = hasUsageValue ? report.meta.total.usage.value : 0;
+    const usageValue = formatUsage(usage);
     const usageUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasUsageUnits ? report.meta.total.usage.units : undefined),
     });
+
     datum.usage = [
       {
         legend: intl.formatMessage(messages.detailsUsageUsage, {
-          value: usage,
+          value: usageValue,
           units: usageUnits,
         }),
         tooltip: intl.formatMessage(messages.detailsUsageUsage, {
-          value: usage,
+          value: usageValue,
           units: usageUnits,
         }),
-        value: Math.trunc(usage),
+        value: this.getRoundValue(usage),
       },
       {
         legend: intl.formatMessage(messages.detailsUsageRequests, {
-          value: request,
+          value: requestValue,
           units: requestUnits,
         }),
         tooltip: intl.formatMessage(messages.detailsUsageRequests, {
-          value: request,
+          value: requestValue,
           units: requestUnits,
         }),
-        value: Math.trunc(request),
+        value: this.getRoundValue(request),
       },
     ];
     return datum;
@@ -287,14 +314,18 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     const capacityUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasCapacityUnits ? report.meta.total.capacity.units : undefined),
     });
-    const capacityUnused = Math.trunc(hasCapacityUnused ? report.meta.total.capacity.unused : 0);
-    const capacityUnusedPercent = Math.trunc(hasCapacityUnusedPercent ? report.meta.total.capacity.unused_percent : 0);
+    const capacityUnused = this.getRoundValue(hasCapacityUnused ? report.meta.total.capacity.unused : 0);
+    const capacityUnusedPercent = this.getRoundValue(
+      hasCapacityUnusedPercent ? report.meta.total.capacity.unused_percent : 0
+    );
 
     const requestUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasRequestUnits ? report.meta.total.request.units : undefined),
     });
-    const requestUnused = Math.trunc(hasRequestUnused ? report.meta.total.request.unused : 0);
-    const requestUnusedPercent = Math.trunc(hasRequestUnusedPercent ? report.meta.total.request.unused_percent : 0);
+    const requestUnused = this.getRoundValue(hasRequestUnused ? report.meta.total.request.unused : 0);
+    const requestUnusedPercent = this.getRoundValue(
+      hasRequestUnusedPercent ? report.meta.total.request.unused_percent : 0
+    );
 
     const chartContainer =
       groupBy === 'node' && !(hasCapacityCount && hasCapacityCountUnits) ? styles.chartContainer : undefined;
@@ -398,6 +429,10 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     return width > 950 ? 4 : width > 700 ? 3 : width > 450 ? 2 : 1;
   };
 
+  private getRoundValue = (value: number) => {
+    return Math.round((value + Number.EPSILON) * 100) / 100;
+  };
+
   private getSkeleton = () => {
     return (
       <>
@@ -479,7 +514,7 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
         ...(queryState && queryState.filter_by && queryState.filter_by),
         ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
       },
       exclude: {
         ...(queryState && queryState.exclude && queryState.exclude),
