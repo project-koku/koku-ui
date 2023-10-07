@@ -22,7 +22,7 @@ import { withRouter } from 'utils/router';
 
 import { styles } from './summaryModal.styles';
 
-interface SummaryModalContentOwnProps extends RouterComponentProps, WrappedComponentProps {
+interface SummaryContentOwnProps extends RouterComponentProps, WrappedComponentProps {
   costDistribution: string;
   costType?: string;
   currency?: string;
@@ -30,25 +30,23 @@ interface SummaryModalContentOwnProps extends RouterComponentProps, WrappedCompo
   reportPathsType: ReportPathsType;
 }
 
-interface SummaryModalContentStateProps {
+interface SummaryContentStateProps {
   report?: Report;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
   reportQueryString?: string;
 }
 
-interface SummaryModalContentDispatchProps {
+interface SummaryContentDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type SummaryModalContentProps = SummaryModalContentOwnProps &
-  SummaryModalContentStateProps &
-  SummaryModalContentDispatchProps;
+type SummaryContentProps = SummaryContentOwnProps & SummaryContentStateProps & SummaryContentDispatchProps;
 
 const reportType = ReportType.cost;
 
-class SummaryModalContentBase extends React.Component<SummaryModalContentProps, any> {
-  constructor(props: SummaryModalContentProps) {
+class SummaryContentBase extends React.Component<SummaryContentProps, any> {
+  constructor(props: SummaryContentProps) {
     super(props);
   }
 
@@ -56,7 +54,7 @@ class SummaryModalContentBase extends React.Component<SummaryModalContentProps, 
     this.updateReport();
   }
 
-  public componentDidUpdate(prevProps: SummaryModalContentProps) {
+  public componentDidUpdate(prevProps: SummaryContentProps) {
     const { reportQueryString } = this.props;
     if (prevProps.reportQueryString !== reportQueryString) {
       this.updateReport();
@@ -106,7 +104,7 @@ class SummaryModalContentBase extends React.Component<SummaryModalContentProps, 
   }
 }
 
-const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, SummaryModalContentStateProps>(
+const mapStateToProps = createMapStateToProps<SummaryContentOwnProps, SummaryContentStateProps>(
   (state, { costDistribution, costType, currency, reportGroupBy, reportPathsType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
     const queryState = getQueryState(router.location, 'details');
@@ -172,13 +170,11 @@ const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, Summa
   }
 );
 
-const mapDispatchToProps: SummaryModalContentDispatchProps = {
+const mapDispatchToProps: SummaryContentDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryModalContent = injectIntl(
-  withRouter(connect(mapStateToProps, mapDispatchToProps)(SummaryModalContentBase))
-);
+const SummaryContent = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(SummaryContentBase)));
 
-export { SummaryModalContent };
-export type { SummaryModalContentProps };
+export { SummaryContent };
+export type { SummaryContentProps };

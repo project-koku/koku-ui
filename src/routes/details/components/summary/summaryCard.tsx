@@ -22,7 +22,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { ReportSummaryItem, ReportSummaryItems } from 'routes/components/reports/reportSummary';
-import { SummaryModal } from 'routes/details/components/summary/summaryModal';
+import { SummaryModal } from 'routes/details/components/summary/modal/summaryModal';
 import { getComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
 import { skeletonWidth } from 'routes/utils/skeleton';
