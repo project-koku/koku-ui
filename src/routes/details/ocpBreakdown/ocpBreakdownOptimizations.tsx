@@ -1,6 +1,6 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, getQueryState, parseQuery } from 'api/queries/query';
+import { clearQueryState, getQuery, getQueryState, parseQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
 import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
@@ -66,6 +66,11 @@ const OcpBreakdownOptimizations: React.FC<OcpOptimizationsBreakdownProps> = () =
   const { groupBy, project, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     query,
   });
+
+  // Clear queryState, returned from breakdown page, after query has been initialized
+  useEffect(() => {
+    clearQueryState(location, 'optimizations');
+  }, [reportQueryString]);
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report && report.meta ? report.meta.count : 0;

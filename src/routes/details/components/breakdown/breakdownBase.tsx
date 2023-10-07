@@ -2,7 +2,6 @@ import { Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import type { ProviderType } from 'api/providers';
 import type { Query } from 'api/queries/query';
-import { getQueryState } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import type { TagPathsType } from 'api/tags/tag';
@@ -120,17 +119,6 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
 
     if (newQuery || noReport || noLocation) {
       this.updateReport();
-    }
-
-    // Clear state for optimizations breakdown only
-    const queryState = getQueryState(router.location, 'optimizations');
-    if (queryState) {
-      router.navigate(`${router.location.pathname}${router.location.search}`, {
-        state: {
-          ...(router.location.state && router.location.state),
-          optimizations: undefined,
-        },
-      });
     }
   }
 

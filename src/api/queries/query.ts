@@ -133,6 +133,12 @@ export function parseQuery<T = any>(query: string): T {
   return parseFilterByPrefix(parseGroupByPrefix(newQuery));
 }
 
+export function clearQueryState(location: H.Location, key: string) {
+  if (location && location.state && location.state[key]) {
+    location.state[key] = undefined;
+  }
+}
+
 export function getQueryState(location: H.Location, key: string) {
   return location && location.state && location.state[key] ? location.state[key] : undefined;
 }
