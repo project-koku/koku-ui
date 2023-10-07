@@ -1,6 +1,6 @@
 import { PageSection, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, getQueryState, parseQuery } from 'api/queries/query';
+import { clearQueryState, getQuery, getQueryState, parseQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
 import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
@@ -9,7 +9,7 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
@@ -67,12 +67,9 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
     query,
   });
 
-  // Clear state returned from breakdown page
-  const navigate = useNavigate();
+  // Clear queryState, returned from breakdown page, after query has been initialized
   useEffect(() => {
-    navigate(location.pathname, {
-      state: { ...(location.state && location.state), optimizations: undefined },
-    });
+    clearQueryState(location, 'optimizations');
   }, [reportQueryString]);
 
   const getPagination = (isDisabled = false, isBottom = false) => {

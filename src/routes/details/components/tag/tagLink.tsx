@@ -15,8 +15,8 @@ import { logicalAndPrefix, orgUnitIdKey, platformCategoryKey, tagPrefix } from '
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
+import { TagModal } from './modal/tagModal';
 import { styles } from './tag.styles';
-import { TagModal } from './tagModal';
 
 interface TagLinkOwnProps extends RouterComponentProps, WrappedComponentProps {
   id?: string;
@@ -28,9 +28,6 @@ interface TagLinkState {
 }
 
 interface TagLinkStateProps {
-  groupBy: string;
-  groupByValue: string | number;
-  query?: Query;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
   tagQueryString?: string;
@@ -83,7 +80,6 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
     const { isOpen } = this.state;
 
     let count = 0;
-
     if (tagReport) {
       for (const item of tagReport.data) {
         if (item.values) {
@@ -91,17 +87,15 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
         }
       }
     }
-
+    if (count === 0) {
+      return null;
+    }
     return (
       <div style={styles.tagsContainer} id={id}>
-        {count > 0 && (
-          <>
-            <TagIcon />
-            <a data-testid="tag-lnk" href="#/" onClick={this.handleOpen} style={styles.tagLink}>
-              {count}
-            </a>
-          </>
-        )}
+        <TagIcon />
+        <a data-testid="tag-lnk" href="#/" onClick={this.handleOpen} style={styles.tagLink}>
+          {count}
+        </a>
         <TagModal isOpen={isOpen} onClose={this.handleClose} tagPathsType={tagPathsType} />
       </div>
     );
@@ -116,8 +110,10 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
   const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
 
-  // Prune unsupported tag params from filter_by
-  const filterByParams = queryState && queryState.filter_by ? queryState.filter_by : {};
+  // Prune unsupported tag params from filter_by, but don't reset queryState
+  const filterByParams = {
+    ...(queryState && queryState.filter_by ? queryState.filter_by : {}),
+  };
   for (const key of Object.keys(filterByParams)) {
     // Omit unsupported query params
     if (
@@ -131,7 +127,6 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
     }
   }
 
-  const query = { ...queryFromRoute };
   const tagQuery = {
     filter: {
       resolution: 'monthly',
@@ -155,9 +150,6 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
   const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
 
   return {
-    groupBy,
-    groupByValue,
-    query,
     tagReport,
     tagReportFetchStatus,
     tagQueryString,

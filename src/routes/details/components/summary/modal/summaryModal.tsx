@@ -8,7 +8,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 
-import { SummaryModalContent } from './summaryModalContent';
+import { SummaryContent } from './summaryContent';
 
 interface SummaryModalOwnProps {
   costDistribution?: string;
@@ -55,7 +55,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps, any> {
         })}
         variant="large"
       >
-        <SummaryModalContent
+        <SummaryContent
           costDistribution={costDistribution}
           costType={costType}
           currency={currency}

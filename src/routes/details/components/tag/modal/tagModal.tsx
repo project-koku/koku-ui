@@ -115,8 +115,10 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
 
-    // Prune unsupported tag params from filter_by
-    const filterByParams = queryState && queryState.filter_by ? queryState.filter_by : {};
+    // Prune unsupported tag params from filter_by, but don't reset queryState
+    const filterByParams = {
+      ...(queryState && queryState.filter_by ? queryState.filter_by : {}),
+    };
     for (const key of Object.keys(filterByParams)) {
       // Omit unsupported query params
       if (
