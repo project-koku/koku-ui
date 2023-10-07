@@ -52,7 +52,8 @@ interface UsageChartDispatchProps {
 }
 
 interface UsageChartState {
-  width: number;
+  extraHeight?: number;
+  width?: number;
 }
 
 type UsageChartProps = UsageChartOwnProps & UsageChartStateProps & UsageChartDispatchProps;
@@ -61,6 +62,7 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
   private containerRef = React.createRef<HTMLDivElement>();
   private observer: any = noop;
   public state: UsageChartState = {
+    extraHeight: 0,
     width: 0,
   };
 
@@ -110,12 +112,6 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
       hasUsageValue,
     } = this.getHasData();
 
-    // Always show bullet chart legends https://github.com/project-koku/koku-ui/issues/963
-    // const limit = Math.trunc(hasLimitValue ? report.meta.total.limit.value : 0);
-    // const limitUnits = intl.formatMessage(messages.units, {
-    //   units: unitsLookupKey(hasLimitUnits ? report.meta.total.limit.units : undefined),
-    // });
-
     const limit = hasLimitValue ? report.meta.total.limit.value : 0;
     const limitValue = formatUsage(limit);
     const limitUnits = intl.formatMessage(messages.units, {
@@ -136,11 +132,6 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
 
     // Qualitative range included when grouped by cluster and volume usage
     if (groupBy === 'cluster' || groupBy === 'node' || reportType === ReportType.volume) {
-      // const capacity = Math.trunc(hasCapacityValue ? report.meta.total.capacity.value : 0);
-      // const capacityUnits = intl.formatMessage(messages.units, {
-      //   units: unitsLookupKey(hasCapacityUnits ? report.meta.total.capacity.units : undefined),
-      // });
-
       const capacity = hasCapacityValue ? report.meta.total.capacity.value : 0;
       const capacityValue = formatUsage(capacity);
       const capacityUnits = intl.formatMessage(messages.units, {
@@ -161,15 +152,6 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
         },
       ];
     }
-
-    // const request = Math.trunc(hasRequestValue ? report.meta.total.request.value : 0);
-    // const requestUnits = intl.formatMessage(messages.units, {
-    //   units: unitsLookupKey(hasRequestUnits ? report.meta.total.request.units : undefined),
-    // });
-    // const usage = Math.trunc(hasUsageValue ? report.meta.total.usage.value : 0);
-    // const usageUnits = intl.formatMessage(messages.units, {
-    //   units: unitsLookupKey(hasUsageUnits ? report.meta.total.usage.units : undefined),
-    // });
 
     const request = hasRequestValue ? report.meta.total.request.value : 0;
     const requestValue = formatUsage(request);
@@ -238,10 +220,10 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
                   : []
               }
               comparativeErrorMeasureLegendData={chartDatum.limit.value ? [{ name: chartDatum.limit.legend }] : []}
-              height={this.getChartHeight()}
+              height={this.getHeight(115)}
               labels={({ datum }) => `${datum.tooltip}`}
+              legendAllowWrap={this.handleLegendAllowWrap}
               legendPosition="bottom-left"
-              legendItemsPerRow={this.getItemsPerRow()}
               maxDomain={this.isDatumEmpty(chartDatum) ? 100 : undefined}
               minDomain={0}
               name={name}
@@ -363,17 +345,6 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     );
   }
 
-  private getChartHeight = () => {
-    const { groupBy } = this.props;
-    const { width } = this.state;
-
-    if (groupBy === 'cluster' || groupBy === 'node') {
-      return width > 950 ? 115 : width > 450 ? 150 : 210;
-    } else {
-      return width > 700 ? 115 : width > 450 ? 150 : 180;
-    }
-  };
-
   private getHasData = () => {
     const { report } = this.props;
 
@@ -413,9 +384,10 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     };
   };
 
-  private getItemsPerRow = () => {
-    const { width } = this.state;
-    return width > 950 ? 4 : width > 700 ? 3 : width > 450 ? 2 : 1;
+  private getHeight = baseHeight => {
+    const { extraHeight } = this.state;
+
+    return baseHeight + extraHeight;
   };
 
   private getRoundValue = (value: number) => {
@@ -449,6 +421,12 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     }
     return null;
   }
+
+  private handleLegendAllowWrap = extraHeight => {
+    if (extraHeight !== this.state.extraHeight) {
+      this.setState({ extraHeight });
+    }
+  };
 
   private isDatumEmpty = (datum: ChartDatum) => {
     let hasRange = false;

@@ -37,12 +37,10 @@ import type { FormatOptions, Formatter } from 'utils/format';
 import { chartStyles } from './dailyCostChart.styles';
 
 interface DailyCostChartOwnProps {
-  adjustContainerHeight?: boolean;
-  containerHeight?: number;
+  baseHeight?: number;
   currentCostData: any;
   forecastConeData?: any;
   forecastData?: any;
-  height?: number;
   legendItemsPerRow?: number;
   name?: string;
   padding?: any;
@@ -55,6 +53,7 @@ interface DailyCostChartOwnProps {
 
 interface State {
   cursorVoronoiContainer?: any;
+  extraHeight?: number;
   hiddenSeries?: Set<number>;
   series?: ChartSeries[];
   width?: number;
@@ -67,6 +66,7 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
   private observer: any = noop;
 
   public state: State = {
+    extraHeight: 0,
     hiddenSeries: new Set(),
     width: 0,
   };
@@ -204,31 +204,6 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
     return data;
   };
 
-  private getAdjustedContainerHeight = () => {
-    const { adjustContainerHeight, height, containerHeight = height, showForecast } = this.props;
-    const { width } = this.state;
-
-    let adjustedContainerHeight = containerHeight;
-    if (adjustContainerHeight) {
-      if (showForecast) {
-        if (width > 675 && width < 1175) {
-          adjustedContainerHeight += 25;
-        } else if (width > 450 && width < 675) {
-          adjustedContainerHeight += 50;
-        } else if (width <= 450) {
-          adjustedContainerHeight += 75;
-        }
-      } else {
-        if (width > 450 && width < 725) {
-          adjustedContainerHeight += 25;
-        } else if (width <= 450) {
-          adjustedContainerHeight += 50;
-        }
-      }
-    }
-    return adjustedContainerHeight;
-  };
-
   private getChart = (series: ChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
@@ -331,6 +306,12 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
     return result;
   }
 
+  private getHeight = baseHeight => {
+    const { extraHeight } = this.state;
+
+    return baseHeight + extraHeight;
+  };
+
   private getLegend = () => {
     const { name = '' } = this.props;
     const { hiddenSeries, series } = this.state;
@@ -344,6 +325,23 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
         responsive={false}
       />
     );
+  };
+
+  private getPadding = () => {
+    const { extraHeight } = this.state;
+
+    return {
+      bottom: 50 + extraHeight, // Maintain chart aspect ratio
+      left: 8,
+      right: 8,
+      top: 8,
+    };
+  };
+
+  private handleLegendAllowWrap = extraHeight => {
+    if (extraHeight !== this.state.extraHeight) {
+      this.setState({ extraHeight });
+    }
   };
 
   // Hide each data series individually
@@ -362,18 +360,7 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
   };
 
   public render() {
-    const {
-      height,
-      intl,
-      name,
-      padding = {
-        bottom: 50,
-        left: 8,
-        right: 8,
-        top: 8,
-      },
-      title,
-    } = this.props;
+    const { baseHeight, intl, name, padding = this.getPadding(), title } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
     const domain = getDomain(series, hiddenSeries);
     const lastDate = this.getEndDate();
@@ -397,6 +384,8 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
         } as any)
       : undefined;
 
+    const chartHeight = this.getHeight(baseHeight);
+
     // Note: For tooltip values to match properly, chart groups must be rendered in the order given as legend data
     return (
       <>
@@ -405,14 +394,15 @@ class DailyCostChartBase extends React.Component<DailyCostChartProps, State> {
             {title}
           </Title>
         )}
-        <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
-          <div style={{ height, width }}>
+        <div className="chartOverride" ref={this.containerRef}>
+          <div style={{ height: chartHeight }}>
+            DAILY COST
             <Chart
               containerComponent={container}
               domain={domain}
               events={this.getEvents()}
-              height={height}
-              legendAllowWrap
+              height={chartHeight}
+              legendAllowWrap={this.handleLegendAllowWrap}
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom-left"

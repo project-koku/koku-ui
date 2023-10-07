@@ -99,14 +99,12 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
             this.getSkeleton()
           ) : (
             <HistoricalUsageChart
-              adjustContainerHeight
-              containerHeight={chartStyles.chartContainerHeight}
+              baseHeight={chartStyles.chartHeight}
               currentLimitData={currentLimitData}
               currentRequestData={currentRequestData}
               currentUsageData={currentUsageData}
               formatter={formatUnits}
               formatOptions={{}}
-              height={chartStyles.chartHeight}
               name={chartName}
               previousLimitData={previousLimitData}
               previousRequestData={previousRequestData}

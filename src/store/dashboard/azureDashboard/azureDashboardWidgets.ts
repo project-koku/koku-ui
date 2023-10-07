@@ -34,7 +34,6 @@ export const costSummaryWidget: AzureDashboardWidget = {
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.cost,
   details: {
-    adjustContainerHeight: true,
     costKey: messages.cost,
     showHorizontal: true,
     viewAllPath: formatPath(routes.azureDetails.path),

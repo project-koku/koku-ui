@@ -132,11 +132,10 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
             this.getSkeleton()
           ) : (
             <HistoricalTrendChart
-              containerHeight={chartStyles.chartContainerHeight - 50}
+              baseHeight={chartStyles.chartHeight}
               currentData={currentData}
               formatOptions={{}}
               formatter={formatUnits}
-              height={chartStyles.chartHeight}
               name={chartName}
               previousData={previousData}
               units={isCostChart ? costUnits : usageUnits}
