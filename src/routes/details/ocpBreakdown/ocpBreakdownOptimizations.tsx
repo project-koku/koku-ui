@@ -1,6 +1,6 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { clearQueryState, getQuery, getQueryState, parseQuery } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
 import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
@@ -21,6 +21,7 @@ import { styles } from 'routes/optimizations/optimizationsBreakdown/optimization
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import * as queryUtils from 'routes/utils/query';
+import { clearQueryState, getQueryState } from 'routes/utils/queryState';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';

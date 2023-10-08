@@ -1,6 +1,6 @@
 import { Skeleton } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, getQueryState, parseQuery } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { Report, ReportPathsType } from 'api/reports/report';
 import { ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { DatumType, transformReport } from 'routes/components/charts/common/chartDatum';
 import { HistoricalUsageChart } from 'routes/components/charts/historicalUsageChart';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
+import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
