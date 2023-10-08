@@ -275,6 +275,8 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       tagPathsType,
       title,
     } = this.props;
+    const { activeTabKey } = this.state;
+
     const availableTabs = this.getAvailableTabs();
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
@@ -313,8 +315,9 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
           onCurrencySelected={() => handleOnCurrencySelected(query, router, router.location.state)}
           query={query}
           report={report}
-          showCostDistribution={showCostDistribution}
+          showCostDistribution={showCostDistribution && activeTabKey !== 2}
           showCostType={showCostType}
+          showCurrency={activeTabKey !== 2}
           tabs={this.getTabs(availableTabs)}
           tagPathsType={tagPathsType}
           title={title}

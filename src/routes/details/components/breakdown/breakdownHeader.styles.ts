@@ -37,6 +37,7 @@ export const styles = {
   headerContent: {
     display: 'flex',
     justifyContent: 'space-between',
+    minHeight: '36px',
   },
   headerContentRight: {
     display: 'flex',
