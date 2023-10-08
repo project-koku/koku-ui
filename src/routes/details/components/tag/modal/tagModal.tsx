@@ -1,6 +1,6 @@
 import { Modal } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, getQueryState, parseQuery } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -9,6 +9,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
+import { getQueryState } from 'routes/utils/queryState';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';

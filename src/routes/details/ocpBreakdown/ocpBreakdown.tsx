@@ -1,7 +1,7 @@
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
-import { getQuery, getQueryState, parseQuery } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -15,6 +15,7 @@ import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { filterProviders } from 'routes/utils/providers';
+import { getQueryState } from 'routes/utils/queryState';
 import { createMapStateToProps } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';

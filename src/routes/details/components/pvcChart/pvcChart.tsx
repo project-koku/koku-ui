@@ -14,7 +14,7 @@ import {
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { parseQuery } from 'api/queries/ocpQuery';
 import type { Query } from 'api/queries/query';
-import { getQuery, getQueryState } from 'api/queries/query';
+import { getQuery } from 'api/queries/query';
 import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
 import type { Report, ReportPathsType } from 'api/reports/report';
 import type { ReportType } from 'api/reports/report';
@@ -27,6 +27,7 @@ import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { noop } from 'routes/utils/noop';
+import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';

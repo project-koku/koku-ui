@@ -1,6 +1,6 @@
 import { Title, TitleSizes } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, getQueryState, parseQuery } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { Report, ReportPathsType } from 'api/reports/report';
 import { ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { ReportSummaryItem, ReportSummaryItems } from 'routes/components/reports/reportSummary';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
+import { getQueryState } from 'routes/utils/queryState';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';

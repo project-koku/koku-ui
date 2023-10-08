@@ -1,4 +1,3 @@
-import type * as H from 'history';
 import { parse, stringify } from 'qs';
 import { logicalAndPrefix, logicalOrPrefix } from 'utils/props';
 
@@ -131,14 +130,4 @@ export function parseGroupByPrefix(query: Query) {
 export function parseQuery<T = any>(query: string): T {
   const newQuery: any = parse(query, { ignoreQueryPrefix: true });
   return parseFilterByPrefix(parseGroupByPrefix(newQuery));
-}
-
-export function clearQueryState(location: H.Location, key: string) {
-  if (location && location.state && location.state[key]) {
-    location.state[key] = undefined;
-  }
-}
-
-export function getQueryState(location: H.Location, key: string) {
-  return location && location.state && location.state[key] ? location.state[key] : undefined;
 }

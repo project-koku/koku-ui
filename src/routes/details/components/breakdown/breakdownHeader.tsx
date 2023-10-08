@@ -41,6 +41,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
   report: Report;
   showCostDistribution?: boolean;
   showCostType?: boolean;
+  showCurrency?: boolean;
   tabs: React.ReactNode;
   tagPathsType: TagPathsType;
   title: string;
@@ -101,6 +102,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       query,
       showCostDistribution,
       showCostType,
+      showCurrency,
       tabs,
       tagPathsType,
       title,
@@ -142,9 +144,11 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
               </li>
             </ol>
           </nav>
-          <div style={styles.headerContentRight}>
-            <Currency currency={currency} onSelect={onCurrencySelected} />
-          </div>
+          {showCurrency && (
+            <div style={styles.headerContentRight}>
+              <Currency currency={currency} onSelect={onCurrencySelected} />
+            </div>
+          )}
         </div>
         <div style={styles.headerContent}>
           <div style={styles.title}>

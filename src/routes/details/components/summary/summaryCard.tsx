@@ -11,7 +11,7 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, getQueryState, parseQuery } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -25,6 +25,7 @@ import { ReportSummaryItem, ReportSummaryItems } from 'routes/components/reports
 import { SummaryModal } from 'routes/details/components/summary/modal/summaryModal';
 import { getComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
+import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';

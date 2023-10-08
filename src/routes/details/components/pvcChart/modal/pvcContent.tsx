@@ -1,7 +1,7 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import type { Query } from 'api/queries/query';
-import { getQuery, getQueryState, parseQuery } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType } from 'api/reports/report';
 import { ReportType } from 'api/reports/report';
@@ -17,6 +17,7 @@ import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import * as queryUtils from 'routes/utils/query';
+import { getQueryState } from 'routes/utils/queryState';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
