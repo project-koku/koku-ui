@@ -254,7 +254,7 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
     const { intl, report } = this.props;
     const { isOpen } = this.state;
 
-    const count = report && report.meta ? report.meta.count : 0;
+    const count = report?.meta ? report.meta.count : 0;
 
     if (count - baseQuery.filter.limit - 1 > 0) {
       return (
@@ -286,7 +286,7 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
     const { report } = this.props;
 
     const items = computedItems.slice(0, baseQuery.filter.limit);
-    const count = report && report.meta ? report.meta.count : 0;
+    const count = report?.meta ? report.meta.count : 0;
 
     return items.map((item, index) => {
       const showDivider = count - index - 1 > 0;
@@ -364,12 +364,12 @@ const mapStateToProps = createMapStateToProps<PvcChartOwnProps, PvcChartStatePro
       },
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(queryState && queryState.filter_by && queryState.filter_by),
+        ...(queryState?.filter_by && queryState.filter_by),
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
         ...(groupBy && groupByValue !== '*' && { [groupBy]: groupByValue }), // Note: We're not inserting PVC information for the Platform project
       },
       exclude: {
-        ...(queryState && queryState.exclude && queryState.exclude),
+        ...(queryState?.exclude && queryState.exclude),
       },
       group_by: { persistentvolumeclaim: '*' },
     };

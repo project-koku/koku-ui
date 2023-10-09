@@ -45,9 +45,8 @@ const PvcTable: React.FC<PvcTableProps> = ({ filterBy, isLoading, onSort, orderB
       },
       {
         name: intl.formatMessage(messages.cluster),
-        orderBy: 'clusters',
-        // Todo: Not currently supported by API
-        // ...(computedItems.length && { isSortable: true }),
+        orderBy: 'cluster',
+        ...(computedItems.length && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.storageClass),
