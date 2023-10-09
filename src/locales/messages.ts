@@ -472,14 +472,14 @@ export default defineMessages({
     id: 'costModelsAddTagValues',
   },
   costModelsAssignSources: {
-    defaultMessage: '{count, plural, one {Assign source} other {Assign sources}}',
-    description: 'Assign sources -- plural or singular',
+    defaultMessage: '{count, plural, one {Assign integration} other {Assign integrations}}',
+    description: 'Assign integrations -- plural or singular',
     id: 'costModelsAssignSources',
   },
   costModelsAssignSourcesErrorDesc: {
     defaultMessage:
-      'You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {url} for known outages.',
-    description: 'You cannot assign a source at this time',
+      'You cannot assign a integration at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our {url} for known outages.',
+    description: 'You cannot assign a integration at this time',
     id: 'costModelsAssignSourcesErrorDesc',
   },
   costModelsAssignSourcesErrorTitle: {
@@ -488,18 +488,18 @@ export default defineMessages({
     id: 'costModelsAssignSourcesErrorTitle',
   },
   costModelsAssignSourcesParen: {
-    defaultMessage: 'Assign source(s)',
-    description: 'Assign source(s)',
+    defaultMessage: 'Assign integrations',
+    description: 'Assign integrations',
     id: 'costModelsAssignSourcesParen',
   },
   costModelsAssignedSources: {
-    defaultMessage: 'Assigned sources',
-    description: 'Assigned sourcess',
+    defaultMessage: 'Assigned integrations',
+    description: 'Assigned integrationss',
     id: 'costModelsAssignedSources',
   },
   costModelsAvailableSources: {
-    defaultMessage: 'The following sources are assigned to my production cost model:',
-    description: 'The following sources are assigned to my production cost model:',
+    defaultMessage: 'The following integrations are assigned to my production cost model:',
+    description: 'The following integrations are assigned to my production cost model:',
     id: 'costModelsAvailableSources',
   },
   costModelsCanDelete: {
@@ -508,8 +508,8 @@ export default defineMessages({
     id: 'costModelsCanDelete',
   },
   costModelsCanNotDelete: {
-    defaultMessage: 'The following sources are assigned to {name} cost model:',
-    description: 'The following sources are assigned to {name} cost model:',
+    defaultMessage: 'The following integrations are assigned to {name} cost model:',
+    description: 'The following integrations are assigned to {name} cost model:',
     id: 'costModelsCanNotDelete',
   },
   costModelsDelete: {
@@ -523,15 +523,15 @@ export default defineMessages({
     id: 'costModelsDeleteDesc',
   },
   costModelsDeleteSource: {
-    defaultMessage: 'You must unassign any sources before you can delete this cost model.',
-    description: 'You must unassign any sources before you can delete this cost model.',
+    defaultMessage: 'You must unassign any integrations before you can delete this cost model.',
+    description: 'You must unassign any integrations before you can delete this cost model.',
     id: 'costModelsDeleteSource',
   },
   costModelsDesc: {
     defaultMessage:
-      'Cost models can help you analyze and predict future costs. Associate a price to metrics provided by your sources to calculate your charges for resource usage. {learnMore}',
+      'Cost models can help you analyze and predict future costs. Associate a price to metrics provided by your integrations to calculate your charges for resource usage. {learnMore}',
     description:
-      'Cost models can help you analyze and predict future costs. Associate a price to metrics provided by your sources to calculate your charges for resource usage. {learnMore}',
+      'Cost models can help you analyze and predict future costs. Associate a price to metrics provided by your integrations to calculate your charges for resource usage. {learnMore}',
     id: 'costModelsDesc',
   },
   costModelsDescTooLong: {
@@ -594,25 +594,26 @@ export default defineMessages({
     id: 'costModelsEnterTagValue',
   },
   costModelsExamplesDoubleMarkup: {
-    defaultMessage: 'A markup rate of (+) 100% doubles the base costs of your source(s).',
-    description: 'A markup rate of (+) 100% doubles the base costs of your source(s).',
+    defaultMessage: 'A markup rate of (+) 100% doubles the base costs of your integrations.',
+    description: 'A markup rate of (+) 100% doubles the base costs of your integrations.',
     id: 'costModelsExamplesDoubleMarkup',
   },
   costModelsExamplesNoAdjust: {
     defaultMessage:
-      'A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your source(s).',
+      'A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your integrations.',
     description:
-      'A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your source(s).',
+      'A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your integrations.',
     id: 'costModelsExamplesNoAdjust',
   },
   costModelsExamplesReduceSeventyfive: {
-    defaultMessage: 'A discount rate of (-) 25% reduces the base costs of your source(s) to 75% of the original value.',
-    description: 'A discount rate of (-) 25% reduces the base costs of your source(s) to 75% of the original value.',
+    defaultMessage:
+      'A discount rate of (-) 25% reduces the base costs of your integrations to 75% of the original value.',
+    description: 'A discount rate of (-) 25% reduces the base costs of your integrations to 75% of the original value.',
     id: 'costModelsExamplesReduceSeventyfive',
   },
   costModelsExamplesReduceZero: {
-    defaultMessage: 'A discount rate of (-) 100% reduces the base costs of your source(s) to 0.',
-    description: 'A discount rate of (-) 100% reduces the base costs of your source(s) to 0.',
+    defaultMessage: 'A discount rate of (-) 100% reduces the base costs of your integrations to 0.',
+    description: 'A discount rate of (-) 100% reduces the base costs of your integrations to 0.',
     id: 'costModelsExamplesReduceZero',
   },
   costModelsFilterPlaceholder: {
@@ -681,30 +682,30 @@ export default defineMessages({
     id: 'costModelsSourceDelete',
   },
   costModelsSourceDeleteSource: {
-    defaultMessage: 'Unassign source',
-    description: 'Unassign source',
+    defaultMessage: 'Unassign integration',
+    description: 'Unassign integration',
     id: 'costModelsSourceDeleteSource',
   },
   costModelsSourceDeleteSourceDesc: {
     defaultMessage:
-      'This will remove the assignment of {source} from the {costModel} cost model. You can then assign the cost model to a new source.',
+      'This will remove the assignment of {integration} from the {costModel} cost model. You can then assign the cost model to a new integration.',
     description:
-      'This will remove the assignment of {source} from the {costModel} cost model. You can then assign the cost model to a new source.',
+      'This will remove the assignment of {integration} from the {costModel} cost model. You can then assign the cost model to a new integration.',
     id: 'costModelsSourceDeleteSourceDesc',
   },
   costModelsSourceEmptyStateDesc: {
-    defaultMessage: 'Select the source(s) you want to apply this cost model to.',
-    description: 'Select the source(s) you want to apply this cost model to.',
+    defaultMessage: 'Select the integrations you want to apply this cost model to.',
+    description: 'Select the integrations you want to apply this cost model to.',
     id: 'costModelsSourceEmptyStateDesc',
   },
   costModelsSourceEmptyStateTitle: {
-    defaultMessage: 'No sources are assigned',
-    description: 'No sources are assigned',
+    defaultMessage: 'No integrations are assigned',
+    description: 'No integrations are assigned',
     id: 'costModelsSourceEmptyStateTitle',
   },
   costModelsSourceTableAriaLabel: {
-    defaultMessage: 'Sources table',
-    description: 'Sources table',
+    defaultMessage: 'Integrations table',
+    description: 'Integrations table',
     id: 'costModelsSourceTableAriaLabel',
   },
   costModelsTableAriaLabel: {
@@ -748,8 +749,8 @@ export default defineMessages({
     id: 'costModelsWizardCurrencyToggleLabel',
   },
   costModelsWizardEmptySourceTypeLabel: {
-    defaultMessage: 'Select source type',
-    description: 'Select source type',
+    defaultMessage: 'Select integration',
+    description: 'Select integration',
     id: 'costModelsWizardEmptySourceTypeLabel',
   },
   costModelsWizardEmptyStateOtherTime: {
@@ -813,9 +814,9 @@ export default defineMessages({
   },
   costModelsWizardReviewStatusSubTitle: {
     defaultMessage:
-      'Costs for resources connected to the assigned sources will now be calculated using the newly created {value} cost model.',
+      'Costs for resources connected to the assigned integrations will now be calculated using the newly created {value} cost model.',
     description:
-      'Costs for resources connected to the assigned sources will now be calculated using the newly created {value} cost model.',
+      'Costs for resources connected to the assigned integrations will now be calculated using the newly created {value} cost model.',
     id: 'costModelsWizardReviewStatusSubTitle',
   },
   costModelsWizardReviewStatusTitle: {
@@ -826,18 +827,18 @@ export default defineMessages({
   costModelsWizardSourceCaption: {
     defaultMessage:
       '{value, select, ' +
-      'aws {Select from the following Amazon Web Services sources:} ' +
-      'azure {Select from the following Microsoft Azure sources:} ' +
-      'oci {Select from the following Oracle Cloud Infrastructure sources:} ' +
-      'gcp {Select from the following Google Cloud Platform sources:} ' +
-      'ocp {Select from the following Red Hat OpenShift sources:} ' +
+      'aws {Select from the following Amazon Web Services integrations:} ' +
+      'azure {Select from the following Microsoft Azure integrations:} ' +
+      'oci {Select from the following Oracle Cloud Infrastructure integrations:} ' +
+      'gcp {Select from the following Google Cloud Platform integrations:} ' +
+      'ocp {Select from the following Red Hat OpenShift integrations:} ' +
       'other {}}',
-    description: 'Select from the following {value} sources:',
+    description: 'Select from the following {value} integrations:',
     id: 'costModelsWizardSourceCaption',
   },
   costModelsWizardSourceErrorDesc: {
     defaultMessage:
-      'Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {url} for known outages.',
+      'Try refreshing this step or you can skip this step (as it is optional) and assign the integration to the cost model at a later time. If the problem persists, contact your organization administrator or visit our {url} for known outages.',
     description: 'This step is temporarily unavailable',
     id: 'costModelsWizardSourceErrorDesc',
   },
@@ -848,14 +849,14 @@ export default defineMessages({
   },
   costModelsWizardSourceSubtitle: {
     defaultMessage:
-      'Select one or more sources to this cost model. You can skip this step and assign the cost model to a source at a later time. A source will be unavailable for selection if a cost model is already assigned to it.',
+      'Select one or more integrations to this cost model. You can skip this step and assign the cost model to a integration at a later time. An integration will be unavailable for selection if a cost model is already assigned to it.',
     description:
-      'Select one or more sources to this cost model. You can skip this step and assign the cost model to a source at a later time. A source will be unavailable for selection if a cost model is already assigned to it.',
+      'Select one or more integrations to this cost model. You can skip this step and assign the cost model to a integration at a later time. An integration will be unavailable for selection if a cost model is already assigned to it.',
     id: 'costModelsWizardSourceSubtitle',
   },
   costModelsWizardSourceTableAriaLabel: {
-    defaultMessage: 'Assign sources to cost model table',
-    description: 'Assign sources to cost model table',
+    defaultMessage: 'Assign integrations to cost model table',
+    description: 'Assign integrations to cost model table',
     id: 'costModelsWizardSourceTableAriaLabel',
   },
   costModelsWizardSourceTableCostModel: {
@@ -869,13 +870,13 @@ export default defineMessages({
     id: 'costModelsWizardSourceTableDefaultCostModel',
   },
   costModelsWizardSourceTitle: {
-    defaultMessage: 'Assign sources to the cost model (optional)',
-    description: 'Assign sources to the cost model (optional)',
+    defaultMessage: 'Assign integrations to the cost model (optional)',
+    description: 'Assign integrations to the cost model (optional)',
     id: 'costModelsWizardSourceTitle',
   },
   costModelsWizardSourceWarning: {
-    defaultMessage: 'This source is assigned to {costModel} cost model. You will have to unassigned it first',
-    description: 'This source is assigned to {costModel} cost model. You will have to unassigned it first',
+    defaultMessage: 'This integration is assigned to {costModel} cost model. You will have to unassigned it first',
+    description: 'This integration is assigned to {costModel} cost model. You will have to unassigned it first',
     id: 'costModelsWizardSourceWarning',
   },
   costModelsWizardStepsGenInfo: {
@@ -889,8 +890,8 @@ export default defineMessages({
     id: 'costModelsWizardStepsReview',
   },
   costModelsWizardStepsSources: {
-    defaultMessage: 'Assign a source to the cost model',
-    description: 'Assign a source to the cost model',
+    defaultMessage: 'Assign an integration to the cost model',
+    description: 'Assign an integration to the cost model',
     id: 'costModelsWizardStepsSources',
   },
   costModelsWizardSubTitleTable: {
@@ -899,8 +900,8 @@ export default defineMessages({
     id: 'costModelsWizardSubTitleTable',
   },
   costModelsWizardWarningSources: {
-    defaultMessage: 'Cannot assign cost model to a source that is already assigned to another one',
-    description: 'No Cannot assign cost model to a source that is already assigned to another one',
+    defaultMessage: 'Cannot assign cost model to an integration that is already assigned to another one',
+    description: 'No Cannot assign cost model to an integration that is already assigned to another one',
     id: 'costModelsWizardWarningSources',
   },
   costTypeAmortized: {
@@ -967,9 +968,9 @@ export default defineMessages({
   },
   createCostModelDesc: {
     defaultMessage:
-      'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
+      'A cost model allows you to associate a price to metrics provided by your integrations to charge for utilization of resources.',
     description:
-      'A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.',
+      'A cost model allows you to associate a price to metrics provided by your integrations to charge for utilization of resources.',
     id: 'createCostModelDesc',
   },
   createCostModelExit: {
@@ -1228,7 +1229,7 @@ export default defineMessages({
       'service_name {Service names} ' +
       'status {Status} ' +
       'subscription_guid {Account names} ' +
-      'source_type {Source type} ' +
+      'source_type {Integration} ' +
       'tag {Tag names} ' +
       'other {}}',
     description: 'Details table resource names',
@@ -1391,6 +1392,13 @@ export default defineMessages({
     description:
       'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index#assembly-setting-up-cost-models',
     id: 'docsConfigCostModels',
+  },
+  docsConfigCostModelsOcp: {
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models',
+    id: 'docsConfigCostModelsOcp',
   },
   docsConfigPlatformProjects: {
     defaultMessage: 'https://access.redhat.com/documentation/en-us/cost_management_service/2023',
@@ -1878,7 +1886,7 @@ export default defineMessages({
       'resource_location {Filter by region} ' +
       'service {Filter by service} ' +
       'service_name {Filter by service} ' +
-      'source_type {Filter by source type} ' +
+      'source_type {Filter by integration} ' +
       'status {Filter by status} ' +
       'storage_class {Filter by StorageClass} ' +
       'subscription_guid {Filter by account} ' +
@@ -1929,7 +1937,7 @@ export default defineMessages({
       'resource_location {Region} ' +
       'service {Service} ' +
       'service_name {Service} ' +
-      'source_type {Source type} ' +
+      'source_type {Integration} ' +
       'status {Status} ' +
       'storage_class {StorageClass} ' +
       'subscription_guid {Account} ' +
@@ -2165,8 +2173,8 @@ export default defineMessages({
     id: 'ibmDetailsTitle',
   },
   inactiveSourcesGoTo: {
-    defaultMessage: 'Go to Sources for more information',
-    description: 'Go to Sources for more information',
+    defaultMessage: 'Go to Integrations for more information',
+    description: 'Go to Integrations for more information',
     id: 'inactiveSourcesGoTo',
   },
   inactiveSourcesTitle: {
@@ -2175,8 +2183,8 @@ export default defineMessages({
     id: 'inactiveSourcesTitle',
   },
   inactiveSourcesTitleMultiplier: {
-    defaultMessage: 'A problem was detected with the following sources',
-    description: 'A problem was detected with the following sources',
+    defaultMessage: 'A problem was detected with the following integrations',
+    description: 'A problem was detected with the following integrations',
     id: 'inactiveSourcesTitleMultiplier',
   },
   infrastructure: {
@@ -2200,13 +2208,13 @@ export default defineMessages({
     id: 'limits',
   },
   loadingStateDesc: {
-    defaultMessage: 'Searching for your sources. Do not refresh the browser',
-    description: 'Searching for your sources. Do not refresh the browser',
+    defaultMessage: 'Searching for your integrations. Do not refresh the browser',
+    description: 'Searching for your integrations. Do not refresh the browser',
     id: 'loadingStateDesc',
   },
   loadingStateTitle: {
-    defaultMessage: 'Looking for sources...',
-    description: 'Looking for sources',
+    defaultMessage: 'Looking for integrations...',
+    description: 'Looking for integrations',
     id: 'loadingStateTitle',
   },
   maintenanceEmptyStateDesc: {
@@ -2261,9 +2269,9 @@ export default defineMessages({
   },
   markupOrDiscountModalDesc: {
     defaultMessage:
-      'Use markup/discount to manipulate how the raw costs are being calculated for your sources. Note, costs calculated from price list rates will not be affected by this.',
+      'Use markup/discount to manipulate how the raw costs are being calculated for your integrations. Note, costs calculated from price list rates will not be affected by this.',
     description:
-      'Use markup/discount to manipulate how the raw costs are being calculated for your sources. Note, costs calculated from price list rates will not be affected by this.',
+      'Use markup/discount to manipulate how the raw costs are being calculated for your integrations. Note, costs calculated from price list rates will not be affected by this.',
     id: 'markupOrDiscountModalDesc',
   },
   markupOrDiscountNumber: {
@@ -2445,8 +2453,8 @@ export default defineMessages({
     id: 'noProvidersStateGcpTitle',
   },
   noProvidersStateGetStarted: {
-    defaultMessage: 'Get started with Sources',
-    description: 'Get started with Sources',
+    defaultMessage: 'Get started with Integrations',
+    description: 'Get started with Integrations',
     id: 'noProvidersStateGetStarted',
   },
   noProvidersStateIbmDesc: {
@@ -2984,8 +2992,9 @@ export default defineMessages({
   },
   priceListDeleteRateDesc: {
     defaultMessage:
-      '{count, plural, one {This action will remove {metric} rate from {costModel}} other {This action will remove {metric} rate from {costModel}, which is assigned to the following sources:}}',
-    description: 'This action will remove {metric} rate from {costModel}, which is assigned to the following sources:',
+      '{count, plural, one {This action will remove {metric} rate from {costModel}} other {This action will remove {metric} rate from {costModel}, which is assigned to the following integrations:}}',
+    description:
+      'This action will remove {metric} rate from {costModel}, which is assigned to the following integrations:',
     id: 'priceListDeleteRateDesc',
   },
   priceListDuplicate: {
@@ -3275,8 +3284,8 @@ export default defineMessages({
     id: 'sinceDate',
   },
   sourceType: {
-    defaultMessage: 'Source type',
-    description: 'Source type',
+    defaultMessage: 'Integration',
+    description: 'Integration',
     id: 'sourceType',
   },
   sourceTypes: {
@@ -3289,12 +3298,12 @@ export default defineMessages({
       'ibm {IBM Cloud} ' +
       'ocp {OpenShift} ' +
       'other {}}',
-    description: 'Source types',
+    description: 'Integrations',
     id: 'sourceTypes',
   },
   sources: {
-    defaultMessage: 'Sources',
-    description: 'Sources',
+    defaultMessage: 'Integrations',
+    description: 'Integrations',
     id: 'sources',
   },
   start: {
@@ -3339,9 +3348,9 @@ export default defineMessages({
   },
   tagDesc: {
     defaultMessage:
-      'Enable your data source labels to be used as tag keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
+      'Enable your tags and labels to be used as tag keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
     description:
-      'Enable your data source labels to be used as tag keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
+      'Enable your tags and labels to be used as tag keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
     id: 'tagDesc',
   },
   tagHeadingKey: {
