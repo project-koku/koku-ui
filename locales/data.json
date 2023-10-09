@@ -1176,7 +1176,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Assign source"
+                "value": "Assign integration"
               }
             ]
           },
@@ -1184,7 +1184,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Assign sources"
+                "value": "Assign integrations"
               }
             ]
           }
@@ -1197,7 +1197,7 @@
     "costModelsAssignSourcesErrorDesc": [
       {
         "type": 0,
-        "value": "You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our "
+        "value": "You cannot assign a integration at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our "
       },
       {
         "type": 1,
@@ -1217,19 +1217,19 @@
     "costModelsAssignSourcesParen": [
       {
         "type": 0,
-        "value": "Assign source(s)"
+        "value": "Assign integrations"
       }
     ],
     "costModelsAssignedSources": [
       {
         "type": 0,
-        "value": "Assigned sources"
+        "value": "Assigned integrations"
       }
     ],
     "costModelsAvailableSources": [
       {
         "type": 0,
-        "value": "The following sources are assigned to my production cost model:"
+        "value": "The following integrations are assigned to my production cost model:"
       }
     ],
     "costModelsCanDelete": [
@@ -1249,7 +1249,7 @@
     "costModelsCanNotDelete": [
       {
         "type": 0,
-        "value": "The following sources are assigned to "
+        "value": "The following integrations are assigned to "
       },
       {
         "type": 1,
@@ -1283,13 +1283,13 @@
     "costModelsDeleteSource": [
       {
         "type": 0,
-        "value": "You must unassign any sources before you can delete this cost model."
+        "value": "You must unassign any integrations before you can delete this cost model."
       }
     ],
     "costModelsDesc": [
       {
         "type": 0,
-        "value": "Cost models can help you analyze and predict future costs. Associate a price to metrics provided by your sources to calculate your charges for resource usage. "
+        "value": "Cost models can help you analyze and predict future costs. Associate a price to metrics provided by your integrations to calculate your charges for resource usage. "
       },
       {
         "type": 1,
@@ -1365,25 +1365,25 @@
     "costModelsExamplesDoubleMarkup": [
       {
         "type": 0,
-        "value": "A markup rate of (+) 100% doubles the base costs of your source(s)."
+        "value": "A markup rate of (+) 100% doubles the base costs of your integrations."
       }
     ],
     "costModelsExamplesNoAdjust": [
       {
         "type": 0,
-        "value": "A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your source(s)."
+        "value": "A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your integrations."
       }
     ],
     "costModelsExamplesReduceSeventyfive": [
       {
         "type": 0,
-        "value": "A discount rate of (-) 25% reduces the base costs of your source(s) to 75% of the original value."
+        "value": "A discount rate of (-) 25% reduces the base costs of your integrations to 75% of the original value."
       }
     ],
     "costModelsExamplesReduceZero": [
       {
         "type": 0,
-        "value": "A discount rate of (-) 100% reduces the base costs of your source(s) to 0."
+        "value": "A discount rate of (-) 100% reduces the base costs of your integrations to 0."
       }
     ],
     "costModelsFilterPlaceholder": [
@@ -1467,7 +1467,7 @@
     "costModelsSourceDeleteSource": [
       {
         "type": 0,
-        "value": "Unassign source"
+        "value": "Unassign integration"
       }
     ],
     "costModelsSourceDeleteSourceDesc": [
@@ -1477,7 +1477,7 @@
       },
       {
         "type": 1,
-        "value": "source"
+        "value": "integration"
       },
       {
         "type": 0,
@@ -1489,25 +1489,25 @@
       },
       {
         "type": 0,
-        "value": " cost model. You can then assign the cost model to a new source."
+        "value": " cost model. You can then assign the cost model to a new integration."
       }
     ],
     "costModelsSourceEmptyStateDesc": [
       {
         "type": 0,
-        "value": "Select the source(s) you want to apply this cost model to."
+        "value": "Select the integrations you want to apply this cost model to."
       }
     ],
     "costModelsSourceEmptyStateTitle": [
       {
         "type": 0,
-        "value": "No sources are assigned"
+        "value": "No integrations are assigned"
       }
     ],
     "costModelsSourceTableAriaLabel": [
       {
         "type": 0,
-        "value": "Sources table"
+        "value": "Integrations table"
       }
     ],
     "costModelsTableAriaLabel": [
@@ -1569,7 +1569,7 @@
     "costModelsWizardEmptySourceTypeLabel": [
       {
         "type": 0,
-        "value": "Select source type"
+        "value": "Select integration"
       }
     ],
     "costModelsWizardEmptyStateOtherTime": [
@@ -1665,7 +1665,7 @@
     "costModelsWizardReviewStatusSubTitle": [
       {
         "type": 0,
-        "value": "Costs for resources connected to the assigned sources will now be calculated using the newly created "
+        "value": "Costs for resources connected to the assigned integrations will now be calculated using the newly created "
       },
       {
         "type": 1,
@@ -1689,7 +1689,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Select from the following Amazon Web Services sources:"
+                "value": "Select from the following Amazon Web Services integrations:"
               }
             ]
           },
@@ -1697,7 +1697,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Select from the following Microsoft Azure sources:"
+                "value": "Select from the following Microsoft Azure integrations:"
               }
             ]
           },
@@ -1705,7 +1705,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Select from the following Google Cloud Platform sources:"
+                "value": "Select from the following Google Cloud Platform integrations:"
               }
             ]
           },
@@ -1713,7 +1713,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Select from the following Oracle Cloud Infrastructure sources:"
+                "value": "Select from the following Oracle Cloud Infrastructure integrations:"
               }
             ]
           },
@@ -1721,7 +1721,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Select from the following Red Hat OpenShift sources:"
+                "value": "Select from the following Red Hat OpenShift integrations:"
               }
             ]
           },
@@ -1736,7 +1736,7 @@
     "costModelsWizardSourceErrorDesc": [
       {
         "type": 0,
-        "value": "Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our "
+        "value": "Try refreshing this step or you can skip this step (as it is optional) and assign the integration to the cost model at a later time. If the problem persists, contact your organization administrator or visit our "
       },
       {
         "type": 1,
@@ -1756,13 +1756,13 @@
     "costModelsWizardSourceSubtitle": [
       {
         "type": 0,
-        "value": "Select one or more sources to this cost model. You can skip this step and assign the cost model to a source at a later time. A source will be unavailable for selection if a cost model is already assigned to it."
+        "value": "Select one or more integrations to this cost model. You can skip this step and assign the cost model to a integration at a later time. An integration will be unavailable for selection if a cost model is already assigned to it."
       }
     ],
     "costModelsWizardSourceTableAriaLabel": [
       {
         "type": 0,
-        "value": "Assign sources to cost model table"
+        "value": "Assign integrations to cost model table"
       }
     ],
     "costModelsWizardSourceTableCostModel": [
@@ -1780,13 +1780,13 @@
     "costModelsWizardSourceTitle": [
       {
         "type": 0,
-        "value": "Assign sources to the cost model (optional)"
+        "value": "Assign integrations to the cost model (optional)"
       }
     ],
     "costModelsWizardSourceWarning": [
       {
         "type": 0,
-        "value": "This source is assigned to "
+        "value": "This integration is assigned to "
       },
       {
         "type": 1,
@@ -1812,7 +1812,7 @@
     "costModelsWizardStepsSources": [
       {
         "type": 0,
-        "value": "Assign a source to the cost model"
+        "value": "Assign an integration to the cost model"
       }
     ],
     "costModelsWizardSubTitleTable": [
@@ -1824,7 +1824,7 @@
     "costModelsWizardWarningSources": [
       {
         "type": 0,
-        "value": "Cannot assign cost model to a source that is already assigned to another one"
+        "value": "Cannot assign cost model to an integration that is already assigned to another one"
       }
     ],
     "costTypeAmortized": [
@@ -1902,7 +1902,7 @@
     "createCostModelDesc": [
       {
         "type": 0,
-        "value": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources."
+        "value": "A cost model allows you to associate a price to metrics provided by your integrations to charge for utilization of resources."
       }
     ],
     "createCostModelExit": [
@@ -2849,7 +2849,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Source type"
+                "value": "Integration"
               }
             ]
           },
@@ -3482,6 +3482,12 @@
       {
         "type": 0,
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index#assembly-setting-up-cost-models"
+      }
+    ],
+    "docsConfigCostModelsOcp": [
+      {
+        "type": 0,
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models"
       }
     ],
     "docsConfigPlatformProjects": [
@@ -7230,7 +7236,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Filter by source type"
+                "value": "Filter by integration"
               }
             ]
           },
@@ -7457,7 +7463,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Source type"
+                "value": "Integration"
               }
             ]
           },
@@ -9632,7 +9638,7 @@
     "inactiveSourcesGoTo": [
       {
         "type": 0,
-        "value": "Go to Sources for more information"
+        "value": "Go to Integrations for more information"
       }
     ],
     "inactiveSourcesTitle": [
@@ -9648,7 +9654,7 @@
     "inactiveSourcesTitleMultiplier": [
       {
         "type": 0,
-        "value": "A problem was detected with the following sources"
+        "value": "A problem was detected with the following integrations"
       }
     ],
     "infrastructure": [
@@ -9678,13 +9684,13 @@
     "loadingStateDesc": [
       {
         "type": 0,
-        "value": "Searching for your sources. Do not refresh the browser"
+        "value": "Searching for your integrations. Do not refresh the browser"
       }
     ],
     "loadingStateTitle": [
       {
         "type": 0,
-        "value": "Looking for sources..."
+        "value": "Looking for integrations..."
       }
     ],
     "maintenanceEmptyStateDesc": [
@@ -9748,7 +9754,7 @@
     "markupOrDiscountModalDesc": [
       {
         "type": 0,
-        "value": "Use markup/discount to manipulate how the raw costs are being calculated for your sources. Note, costs calculated from price list rates will not be affected by this."
+        "value": "Use markup/discount to manipulate how the raw costs are being calculated for your integrations. Note, costs calculated from price list rates will not be affected by this."
       }
     ],
     "markupOrDiscountNumber": [
@@ -10220,7 +10226,7 @@
     "noProvidersStateGetStarted": [
       {
         "type": 0,
-        "value": "Get started with Sources"
+        "value": "Get started with Integrations"
       }
     ],
     "noProvidersStateIbmDesc": [
@@ -11254,7 +11260,7 @@
               },
               {
                 "type": 0,
-                "value": ", which is assigned to the following sources:"
+                "value": ", which is assigned to the following integrations:"
               }
             ]
           }
@@ -11811,7 +11817,7 @@
     "sourceType": [
       {
         "type": 0,
-        "value": "Source type"
+        "value": "Integration"
       }
     ],
     "sourceTypes": [
@@ -11876,7 +11882,7 @@
     "sources": [
       {
         "type": 0,
-        "value": "Sources"
+        "value": "Integrations"
       }
     ],
     "start": [
@@ -11959,7 +11965,7 @@
     "tagDesc": [
       {
         "type": 0,
-        "value": "Enable your data source labels to be used as tag keys for report grouping and filtering. Changes will be reflected within 24 hours. "
+        "value": "Enable your tags and labels to be used as tag keys for report grouping and filtering. Changes will be reflected within 24 hours. "
       },
       {
         "type": 1,
