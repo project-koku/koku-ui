@@ -9,7 +9,7 @@ export const getNotifications = (term: RecommendationItem): Notification[] => {
 };
 
 export const hasNotification = (term: RecommendationItem) => {
-  if (!(term && term.notifications)) {
+  if (!term?.notifications) {
     return false;
   }
   const keys = Object.keys(term.notifications);

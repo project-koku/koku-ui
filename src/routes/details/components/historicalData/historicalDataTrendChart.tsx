@@ -109,15 +109,9 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
       isCostChart ? 'cost' : 'usage'
     );
 
-    const costUnits =
-      currentReport && currentReport.meta && currentReport.meta.total && currentReport.meta.total.cost
-        ? currentReport.meta.total.cost.total.units
-        : 'USD';
+    const costUnits = currentReport?.meta?.total?.cost?.total ? currentReport.meta.total.cost.total.units : 'USD';
 
-    const usageUnits =
-      currentReport && currentReport.meta && currentReport.meta.total && currentReport.meta.total.usage
-        ? currentReport.meta.total.usage.units
-        : undefined;
+    const usageUnits = currentReport?.meta?.total?.usage ? currentReport.meta.total.usage.units : undefined;
 
     let yAxisLabel;
     if (isCostChart) {
@@ -168,21 +162,18 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
     const baseQuery: Query = {
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(queryState && queryState.filter_by && queryState.filter_by),
-        ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
-        ...(queryFromRoute &&
-          queryFromRoute.filter &&
-          queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+        ...(queryState?.filter_by && queryState.filter_by),
+        ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
+        ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
         // Workaround for https://issues.redhat.com/browse/COST-1189
-        ...(queryState &&
-          queryState.filter_by &&
+        ...(queryState?.filter_by &&
           queryState.filter_by[orgUnitIdKey] && {
             [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
             [orgUnitIdKey]: undefined,
           }),
       },
       exclude: {
-        ...(queryState && queryState.exclude && queryState.exclude),
+        ...(queryState?.exclude && queryState.exclude),
       },
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),

@@ -67,7 +67,7 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
     const { prefix } = this.state;
 
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const groupByKeys = queryFromRoute && queryFromRoute.group_by ? Object.keys(queryFromRoute.group_by) : [];
+    const groupByKeys = queryFromRoute?.group_by ? Object.keys(queryFromRoute.group_by) : [];
 
     let groupBy: string;
     for (const key of groupByKeys) {
@@ -83,7 +83,7 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
   private getGroupByItems = () => {
     const { report } = this.props;
 
-    if (!(report && report.data)) {
+    if (!report?.data) {
       return [];
     }
 

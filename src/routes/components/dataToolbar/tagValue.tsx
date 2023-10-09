@@ -78,7 +78,7 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
     const { tagKey, tagReport } = this.props;
 
     let data = [];
-    if (tagReport && tagReport.data) {
+    if (tagReport?.data) {
       data = [...new Set([...tagReport.data])]; // prune duplicates
     }
 

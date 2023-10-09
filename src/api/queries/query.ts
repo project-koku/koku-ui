@@ -43,7 +43,7 @@ export interface Query {
 
 // Converts filter_by props to filter props
 export function convertFilterBy(query: Query) {
-  if (!(query && query.filter_by)) {
+  if (!query?.filter_by) {
     return query;
   }
   const newQuery = {
@@ -97,7 +97,7 @@ function parseKey(val: string) {
 
 // Returns query without filter_by prefix
 export function parseFilterByPrefix(query: Query) {
-  if (!(query && query.filter_by)) {
+  if (!query?.filter_by) {
     return query;
   }
   const newQuery = {
@@ -113,7 +113,7 @@ export function parseFilterByPrefix(query: Query) {
 
 // Returns query without group_by prefix -- https://github.com/project-koku/koku-ui/issues/704
 export function parseGroupByPrefix(query: Query) {
-  if (!(query && query.group_by)) {
+  if (!query?.group_by) {
     return query;
   }
   const newQuery = {

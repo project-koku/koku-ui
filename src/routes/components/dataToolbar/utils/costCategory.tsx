@@ -68,7 +68,7 @@ export const getCostCategoryKeyOptions = (resourceReport: Resource): ToolbarChip
   let data = [];
   let options = [];
 
-  if (!(resourceReport && resourceReport.data)) {
+  if (!resourceReport?.data) {
     return options;
   }
 

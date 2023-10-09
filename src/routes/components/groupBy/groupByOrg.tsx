@@ -68,7 +68,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps, GroupByOrgState> {
     const { getIdKeyForGroupBy, router } = this.props;
 
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const groupByKeys = queryFromRoute && queryFromRoute.group_by ? Object.keys(queryFromRoute.group_by) : [];
+    const groupByKeys = queryFromRoute?.group_by ? Object.keys(queryFromRoute.group_by) : [];
 
     let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);
     for (const key of groupByKeys) {
@@ -84,7 +84,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps, GroupByOrgState> {
   private getGroupByItems = () => {
     const { orgReport } = this.props;
 
-    if (!(orgReport && orgReport.data)) {
+    if (!orgReport?.data) {
       return [];
     }
 

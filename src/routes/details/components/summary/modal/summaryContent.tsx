@@ -71,7 +71,7 @@ class SummaryContentBase extends React.Component<SummaryContentProps, any> {
     const { costDistribution, intl, report, reportGroupBy, reportFetchStatus } = this.props;
 
     const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
-    const hasTotal = report && report.meta && report.meta.total;
+    const hasTotal = report?.meta?.total;
     const cost = formatCurrency(
       hasTotal ? report.meta.total.cost[reportItemValue].value : 0,
       hasTotal ? report.meta.total.cost[reportItemValue].units : 'USD'
@@ -124,23 +124,20 @@ const mapStateToProps = createMapStateToProps<SummaryContentOwnProps, SummaryCon
       },
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(queryState && queryState.filter_by && queryState.filter_by),
-        ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
-        ...(queryFromRoute &&
-          queryFromRoute.filter &&
-          queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+        ...(queryState?.filter_by && queryState.filter_by),
+        ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
+        ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
         // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
         ...(groupBy && groupByValue !== '*' && { [groupBy]: groupByValue }), // group bys must appear in filter to show costs by region, account, etc
         // Workaround for https://issues.redhat.com/browse/COST-1189
-        ...(queryState &&
-          queryState.filter_by &&
+        ...(queryState?.filter_by &&
           queryState.filter_by[orgUnitIdKey] && {
             [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
             [orgUnitIdKey]: undefined,
           }),
       },
       exclude: {
-        ...(queryState && queryState.exclude && queryState.exclude),
+        ...(queryState?.exclude && queryState.exclude),
       },
       group_by: {
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.

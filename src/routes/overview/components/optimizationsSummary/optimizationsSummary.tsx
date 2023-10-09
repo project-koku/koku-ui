@@ -33,7 +33,7 @@ export interface OptimizationsSummaryProps extends WrappedComponentProps {
 }
 
 const OptimizationsSummaryBase: React.FC<OptimizationsSummaryProps> = ({ intl, report, status, title }) => {
-  const count = report && report.meta ? report.meta.count : 0;
+  const count = report?.meta ? report.meta.count : 0;
   const description = intl.formatMessage(messages.optimizationsDetails, { count });
   return (
     <Card className="summary">

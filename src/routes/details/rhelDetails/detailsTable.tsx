@@ -69,8 +69,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
     const { hiddenColumns, report, selectedItems } = this.props;
-    const currentReport = report && report.data ? JSON.stringify(report.data) : '';
-    const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
+    const currentReport = report?.data ? JSON.stringify(report.data) : '';
+    const previousReport = prevProps?.report?.data ? JSON.stringify(prevProps.report.data) : '';
 
     if (
       previousReport !== currentReport ||
@@ -296,10 +296,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
   private getSupplementaryCost = (item: ComputedReportItem, index: number) => {
     const { report, intl } = this.props;
-    const cost =
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
-        ? report.meta.total.cost.total.value
-        : 0;
+    const cost = report?.meta?.total?.cost?.total ? report.meta.total.cost.total.value : 0;
     const percentValue = cost === 0 ? cost.toFixed(2) : ((item.supplementary.total.value / cost) * 100).toFixed(2);
     return (
       <>
@@ -313,10 +310,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
   private getInfrastructureCost = (item: ComputedReportItem, index: number) => {
     const { report, intl } = this.props;
-    const cost =
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
-        ? report.meta.total.cost.total.value
-        : 0;
+    const cost = report?.meta?.total?.cost?.total ? report.meta.total.cost.total.value : 0;
     const percentValue = cost === 0 ? cost.toFixed(2) : ((item.infrastructure.total.value / cost) * 100).toFixed(2);
     return (
       <>
@@ -375,10 +369,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
   private getTotalCost = (item: ComputedReportItem, index: number) => {
     const { report, intl } = this.props;
-    const cost =
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
-        ? report.meta.total.cost.total.value
-        : 0;
+    const cost = report?.meta?.total?.cost?.total ? report.meta.total.cost.total.value : 0;
     const percentValue = cost === 0 ? cost.toFixed(2) : ((item.cost.total.value / cost) * 100).toFixed(2);
     return (
       <>

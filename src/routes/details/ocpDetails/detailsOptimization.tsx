@@ -87,7 +87,7 @@ class DetailsOptimization extends React.Component<DetailsOptimizationProps, Deta
   public render() {
     const { report } = this.props;
 
-    const count = report && report.meta ? report.meta.count : 0;
+    const count = report?.meta ? report.meta.count : 0;
 
     // Todo: Add link to breakdown page
     return <span>{this.getBreakdownLink(count)}</span>;

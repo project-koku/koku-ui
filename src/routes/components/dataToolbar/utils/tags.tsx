@@ -66,7 +66,7 @@ export const getTagKeyOptions = (tagReport: Tag): ToolbarChipGroup[] => {
   let data = [];
   let options = [];
 
-  if (!(tagReport && tagReport.data)) {
+  if (!tagReport?.data) {
     return options;
   }
 

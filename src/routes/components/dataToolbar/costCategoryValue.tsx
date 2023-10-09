@@ -78,7 +78,7 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
     const { costCategoryKey, resourceReport } = this.props;
 
     let data = [];
-    if (resourceReport && resourceReport.data) {
+    if (resourceReport?.data) {
       data = [...new Set([...resourceReport.data])]; // prune duplicates
     }
 

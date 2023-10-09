@@ -71,8 +71,8 @@ class ExportsTableBase extends React.Component<ExportsTableProps, ExportsTableSt
 
   public componentDidUpdate(prevProps: ExportsTableProps) {
     const { query, report } = this.props;
-    const currentReport = report && report.data ? JSON.stringify(report.data) : '';
-    const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
+    const currentReport = report?.data ? JSON.stringify(report.data) : '';
+    const previousReport = prevProps?.report?.data ? JSON.stringify(prevProps.report.data) : '';
 
     if (getQuery(prevProps.query) !== getQuery(query) || previousReport !== currentReport) {
       this.initDatum();
