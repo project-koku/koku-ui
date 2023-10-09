@@ -44,8 +44,7 @@ class PvcToolbarBase extends React.Component<PvcToolbarProps, PvcToolbarState> {
         placeholderKey: 'persistent_volume_claim',
       },
       { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
-      // Todo: Not currently supported by API
-      // { name: intl.formatMessage(messages.filterByValues, { value: 'storage_class' }), key: 'storage_class' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'storage_class' }), key: 'storageclass' },
     ];
     return isProject ? options : options.filter(option => option.key !== 'project');
   };

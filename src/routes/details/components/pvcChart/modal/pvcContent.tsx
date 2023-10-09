@@ -52,9 +52,7 @@ const baseQuery: OcpQuery = {
   filter_by: {},
   limit: 10,
   offset: 0,
-  order_by: {
-    request: 'desc',
-  },
+  order_by: {},
 };
 
 const reportType = ReportType.volume;
@@ -71,9 +69,9 @@ const PvcContent: React.FC<PvcContentProps> = () => {
   });
 
   const getPagination = (isDisabled = false, isBottom = false) => {
-    const count = report && report.meta ? report.meta.count : 0;
-    const limit = report && report.meta ? report.meta.limit : baseQuery.limit;
-    const offset = report && report.meta ? report.meta.offset : baseQuery.offset;
+    const count = report?.meta ? report.meta.count : 0;
+    const limit = report?.meta ? report.meta.limit : baseQuery.limit;
+    const offset = report?.meta ? report.meta.offset : baseQuery.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -111,8 +109,8 @@ const PvcContent: React.FC<PvcContentProps> = () => {
   };
 
   const getToolbar = () => {
-    const itemsPerPage = report && report.meta ? report.meta.limit : 0;
-    const itemsTotal = report && report.meta ? report.meta.count : 0;
+    const itemsPerPage = report?.meta ? report.meta.limit : 0;
+    const itemsTotal = report?.meta ? report.meta.count : 0;
     const isDisabled = itemsTotal === 0;
 
     return (
@@ -154,7 +152,7 @@ const PvcContent: React.FC<PvcContentProps> = () => {
     setQuery(newQuery);
   };
 
-  const itemsTotal = report && report.meta ? report.meta.count : 0;
+  const itemsTotal = report?.meta ? report.meta.count : 0;
   const isDisabled = itemsTotal === 0;
   const title = intl.formatMessage(messages.optimizations);
 
@@ -208,15 +206,18 @@ const useMapToProps = ({ query }: PvcContentMapProps): PvcContentStateProps => {
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(queryState && queryState.filter_by && queryState.filter_by),
+      ...(queryState?.filter_by && queryState.filter_by),
       // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
       ...(groupBy && groupByValue !== '*' && { [groupBy]: groupByValue }), // Note: We're not inserting PVC information for the Platform project
       ...query.filter_by,
     },
     exclude: {
-      ...(queryState && queryState.exclude && queryState.exclude),
+      ...(queryState?.exclude && queryState.exclude),
     },
-    group_by: { persistentvolumeclaim: '*' },
+    group_by: {
+      persistentvolumeclaim: '*',
+      ...(query?.order_by?.cluster && { cluster: '*' }), // Sort by cluster requires group by cluster
+    },
     order_by: query.order_by,
   };
 
