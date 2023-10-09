@@ -483,14 +483,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
         : trend.computedReportItemValue || 'total';
 
     let totalValue;
-    const hasTotal = tabsReport && tabsReport.meta && tabsReport.meta.total;
     if (computedReportItem === ComputedReportItemType.usage) {
-      if (hasTotal && tabsReport.meta.total.usage) {
+      if (tabsReport?.meta?.total?.usage) {
         totalValue = tabsReport.meta.total.usage.value;
       }
     } else {
       if (
-        hasTotal &&
+        tabsReport?.meta?.total &&
         tabsReport.meta.total[computedReportItem] &&
         tabsReport.meta.total[computedReportItem][computedReportItemValue]
       ) {
@@ -548,13 +547,11 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
       return '';
     }
 
-    const hasTotal = currentReport && currentReport.meta && currentReport.meta.total;
     if (computedReportItem === ComputedReportItemType.usage) {
-      const hasUsage = hasTotal && currentReport.meta.total.usage;
-      return hasUsage ? currentReport.meta.total.usage.units : undefined;
+      return currentReport?.meta?.total?.usage ? currentReport.meta.total.usage.units : undefined;
     } else {
       const hasCost =
-        hasTotal &&
+        currentReport?.meta?.total &&
         currentReport.meta.total[computedReportItem] &&
         currentReport.meta.total[computedReportItem][computedReportItemValue];
       return hasCost ? currentReport.meta.total[computedReportItem][computedReportItemValue].units : 'USD';

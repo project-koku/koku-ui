@@ -56,16 +56,12 @@ class OverheadCostChartBase extends React.Component<OverheadCostChartProps, any>
   public render() {
     const { costDistribution, name, report, reportFetchStatus, intl } = this.props;
 
-    const hasCost = report && report.meta && report.meta.total && report.meta.total.cost;
     const hasPlatformDistributed =
-      hasCost &&
-      costDistribution === ComputedReportItemValueType.distributed &&
-      report.meta.total.cost.platform_distributed;
+      report?.meta?.total?.cost?.platform_distributed && costDistribution === ComputedReportItemValueType.distributed;
     const hasWorkerUnallocated =
-      hasCost &&
-      costDistribution === ComputedReportItemValueType.distributed &&
-      report.meta.total.cost.worker_unallocated_distributed;
-    const hasCostTotal = hasCost && report.meta.total.cost.total;
+      report?.meta?.total?.cost?.worker_unallocated_distributed &&
+      costDistribution === ComputedReportItemValueType.distributed;
+    const hasCostTotal = report?.meta?.total?.cost?.total;
 
     const platformDistributedUnits = hasPlatformDistributed ? report.meta.total.cost.platform_distributed.units : 'USD';
     const workerUnallocatedUnits = hasWorkerUnallocated

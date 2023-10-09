@@ -37,7 +37,7 @@ const OptimizationsBadge: React.FC<OptimizationsBadgeProps> = () => {
   const { report } = useMapToProps();
   const intl = useIntl();
 
-  const count = report && report.meta ? report.meta.count : 0;
+  const count = report?.meta ? report.meta.count : 0;
 
   return <Badge screenReaderText={intl.formatMessage(messages.optimizationsDetails, { count })}>{count}</Badge>;
 };

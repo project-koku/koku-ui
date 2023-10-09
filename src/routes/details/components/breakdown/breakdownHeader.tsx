@@ -78,8 +78,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
     const { costDistribution, report } = this.props;
 
     const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
-    const hasCost =
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[reportItemValue];
+    const hasCost = report?.meta?.total?.cost && report.meta.total.cost[reportItemValue];
     const cost = formatCurrency(
       hasCost ? report.meta.total.cost[reportItemValue].value : 0,
       hasCost ? report.meta.total.cost[reportItemValue].units : 'USD'

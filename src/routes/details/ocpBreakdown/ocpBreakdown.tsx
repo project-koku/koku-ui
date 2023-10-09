@@ -63,13 +63,13 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(queryState && queryState.filter_by && queryState.filter_by),
-      ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
+      ...(queryState?.filter_by && queryState.filter_by),
+      ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
       // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
       ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
     },
     exclude: {
-      ...(queryState && queryState.exclude && queryState.exclude),
+      ...(queryState?.exclude && queryState.exclude),
     },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
@@ -103,7 +103,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
         costDistribution={costDistribution}
         currency={currency}
         groupBy={groupBy}
-        isPlatformCosts={queryFromRoute && queryFromRoute.isPlatformCosts}
+        isPlatformCosts={queryFromRoute?.isPlatformCosts}
         report={report}
         title={title}
       />

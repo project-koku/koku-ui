@@ -8,10 +8,10 @@ const hasAccess = (userAccess: UserAccess, userAccessType: UserAccessType) => {
   if (userAccess && Array.isArray(userAccess.data)) {
     // Used with multiple types (e.g., type=)
     const data = (userAccess.data as any).find(d => d.type === userAccessType);
-    result = data && data.access;
+    result = data?.access;
   } else {
     // Used with type=any, type=GCP, etc.
-    result = userAccess && userAccess.data === true;
+    result = userAccess?.data === true;
   }
   return result;
 };
@@ -19,7 +19,7 @@ const hasAccess = (userAccess: UserAccess, userAccessType: UserAccessType) => {
 const hasProviders = (providers: Providers) => {
   let result = false;
 
-  if (providers && providers.meta) {
+  if (providers?.meta) {
     // providers API returns empty data array for no sources
     result = providers.meta.count > 0;
   }

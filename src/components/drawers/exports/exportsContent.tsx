@@ -62,15 +62,9 @@ class ExportsContentBase extends React.Component<ExportsContentProps, ExportsCon
   private getPagination = (isBottom: boolean = false) => {
     const { intl, report } = this.props;
 
-    const count = report && report.meta ? report.meta.count : 0;
-    const limit =
-      report && report.meta && report.meta.filter && report.meta.filter.limit
-        ? report.meta.filter.limit
-        : baseQuery.filter.limit;
-    const offset =
-      report && report.meta && report.meta.filter && report.meta.filter.offset
-        ? report.meta.filter.offset
-        : baseQuery.filter.offset;
+    const count = report?.meta ? report.meta.count : 0;
+    const limit = report?.meta?.filter?.limit ? report.meta.filter.limit : baseQuery.filter.limit;
+    const offset = report?.meta?.filter?.offset ? report.meta.filter.offset : baseQuery.filter.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -157,10 +151,7 @@ class ExportsContentBase extends React.Component<ExportsContentProps, ExportsCon
     const { report } = this.props;
     const { query } = this.state;
 
-    const limit =
-      report && report.meta && report.meta.filter && report.meta.filter.limit
-        ? report.meta.filter.limit
-        : baseQuery.filter.limit;
+    const limit = report?.meta?.filter?.limit ? report.meta.filter.limit : baseQuery.filter.limit;
     const offset = pageNumber * limit - limit;
 
     const newQuery = { ...JSON.parse(JSON.stringify(query)) };

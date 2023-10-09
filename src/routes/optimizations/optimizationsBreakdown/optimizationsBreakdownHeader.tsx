@@ -55,14 +55,14 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
   };
 
   const getDescription = () => {
-    const clusterAlias = report && report.cluster_alias ? report.cluster_alias : undefined;
-    const clusterUuid = report && report.cluster_uuid ? report.cluster_uuid : '';
+    const clusterAlias = report?.cluster_alias ? report.cluster_alias : undefined;
+    const clusterUuid = report?.cluster_uuid ? report.cluster_uuid : '';
     const cluster = clusterAlias ? clusterAlias : clusterUuid;
 
     const lastReported = report ? getTimeFromNow(report.last_reported) : '';
-    const project = report && report.project ? report.project : '';
-    const workload = report && report.workload ? report.workload : '';
-    const workloadType = report && report.workload_type ? report.workload_type : '';
+    const project = report?.project ? report.project : '';
+    const workload = report?.workload ? report.workload : '';
+    const workloadType = report?.workload_type ? report.workload_type : '';
 
     return (
       <TextContent>

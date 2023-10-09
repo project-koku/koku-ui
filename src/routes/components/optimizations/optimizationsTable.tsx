@@ -53,7 +53,7 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
     if (!report) {
       return;
     }
-    const hasData = report && report.data && report.data.length > 0;
+    const hasData = report?.data && report.data.length > 0;
 
     const newRows = [];
     const newColumns = [

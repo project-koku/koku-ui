@@ -12,9 +12,9 @@ const enum DataType {
 const _getOcpProvider = (ocpProviders: Providers, uuid?: string) => {
   let result;
 
-  if (ocpProviders && ocpProviders.data) {
+  if (ocpProviders?.data) {
     for (const provider of ocpProviders.data) {
-      if (provider.infrastructure && provider.infrastructure.uuid === uuid) {
+      if (provider?.infrastructure?.uuid === uuid) {
         result = provider;
         break;
       }
@@ -48,7 +48,7 @@ export const filterProviders = (providers: Providers, sourceType: ProviderType) 
 const _hasData = (providers: Providers, datumType: DataType) => {
   let result = false;
 
-  if (providers && providers.data) {
+  if (providers?.data) {
     for (const provider of providers.data) {
       if (provider[datumType]) {
         result = true;
@@ -63,7 +63,7 @@ const _hasData = (providers: Providers, datumType: DataType) => {
 const _hasCloudData = (providers: Providers, ocpProviders: Providers, dataType: DataType) => {
   let result = false;
 
-  if (providers && providers.data) {
+  if (providers?.data) {
     for (const provider of providers.data) {
       const ocpProvider = _getOcpProvider(ocpProviders, provider.uuid);
 
@@ -81,7 +81,7 @@ const _hasCloudData = (providers: Providers, ocpProviders: Providers, dataType: 
 const _hasCloudProvider = (providers: Providers, ocpProviders: Providers) => {
   let result = false;
 
-  if (providers && providers.data) {
+  if (providers?.data) {
     for (const provider of providers.data) {
       const ocpProvider = _getOcpProvider(ocpProviders, provider.uuid);
 

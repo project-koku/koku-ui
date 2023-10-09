@@ -380,46 +380,34 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     // Note: When APIs return an empty data array, units are unknown. Likewise, when "platform projects" are applied,
     // there is no "platform" project. As a workaround, we obtain values from the meta data.
 
-    const hasMeta = report && report.meta !== undefined;
-    const hasTotal = hasMeta && report.meta.total !== undefined;
-    const hasCapacity = hasTotal && report.meta.total.capacity !== undefined;
-    const hasCapacityCount = hasCapacity && report.meta.total.capacity.count !== undefined;
-    const hasCapacityCountUnits = hasCapacity && report.meta.total.capacity.count_units !== undefined;
-    const hasCapacityUnits = hasCapacity && report.meta.total.capacity.units !== undefined;
-    const hasCapacityUnused = hasCapacity && report.meta.total.capacity.unused !== undefined;
-    const hasCapacityUnusedPercent = hasCapacity && report.meta.total.capacity.unused_percent !== undefined;
-    const hasCapacityValue = hasCapacity && report.meta.total.capacity.value !== undefined;
-    const hasLimit = hasTotal && report.meta.total.limit;
-    const hasLimitUnits = hasLimit && report.meta.total.limit.value !== undefined;
-    const hasLimitValue = hasLimit && report.meta.total.limit.units !== undefined;
-    const hasRequest = hasTotal && report.meta.total.request !== undefined;
-    const hasRequestUnits = hasRequest && report.meta.total.request.units !== undefined;
-    const hasRequestUnused = hasRequest && report.meta.total.request.unused !== undefined;
-    const hasRequestUnusedPercent = hasRequest && report.meta.total.request.unused_percent !== undefined;
-    const hasRequestValue = hasRequest && report.meta.total.request.value !== undefined;
-    const hasUsage = hasTotal && report.meta.total.usage !== undefined;
-    const hasUsageUnits = hasUsage && report.meta.total.usage.units !== undefined;
-    const hasUsageValue = hasUsage && report.meta.total.usage.value !== undefined;
+    const hasCapacityCount = report?.meta?.total?.capacity?.count !== undefined;
+    const hasCapacityCountUnits = report?.meta?.total?.capacity?.count_units !== undefined;
+    const hasCapacityUnits = report?.meta?.total?.capacity?.units !== undefined;
+    const hasCapacityUnused = report?.meta?.total?.capacity?.unused !== undefined;
+    const hasCapacityUnusedPercent = report?.meta?.total?.capacity?.unused_percent !== undefined;
+    const hasCapacityValue = report?.meta?.total?.capacity?.value !== undefined;
+    const hasLimitUnits = report?.meta?.total?.limit?.value !== undefined;
+    const hasLimitValue = report?.meta?.total?.limit?.units !== undefined;
+    const hasRequestUnits = report?.meta?.total?.request?.units !== undefined;
+    const hasRequestUnused = report?.meta?.total?.request?.unused !== undefined;
+    const hasRequestUnusedPercent = report?.meta?.total?.request?.unused_percent !== undefined;
+    const hasRequestValue = report?.meta?.total?.request?.value !== undefined;
+    const hasUsageUnits = report?.meta?.total?.usage?.units !== undefined;
+    const hasUsageValue = report?.meta?.total?.usage?.value !== undefined;
 
     return {
-      hasCapacity,
       hasCapacityCount,
       hasCapacityCountUnits,
       hasCapacityUnits,
       hasCapacityUnused,
       hasCapacityUnusedPercent,
       hasCapacityValue,
-      hasLimit,
       hasLimitUnits,
       hasLimitValue,
-      hasMeta,
-      hasRequest,
       hasRequestUnits,
       hasRequestUnused,
       hasRequestUnusedPercent,
       hasRequestValue,
-      hasTotal,
-      hasUsage,
       hasUsageUnits,
       hasUsageValue,
     };
@@ -512,13 +500,13 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
       },
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(queryState && queryState.filter_by && queryState.filter_by),
-        ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
+        ...(queryState?.filter_by && queryState.filter_by),
+        ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
         ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
       },
       exclude: {
-        ...(queryState && queryState.exclude && queryState.exclude),
+        ...(queryState?.exclude && queryState.exclude),
       },
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),

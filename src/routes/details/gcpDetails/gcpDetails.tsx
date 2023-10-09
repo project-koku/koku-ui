@@ -146,7 +146,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
-    const itemsTotal = report && report.meta ? report.meta.count : 0;
+    const itemsTotal = report?.meta ? report.meta.count : 0;
 
     // Omit items labeled 'no-project'
     const items = [];
@@ -172,15 +172,9 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
   private getPagination = (isDisabled = false, isBottom = false) => {
     const { intl, query, router, report } = this.props;
 
-    const count = report && report.meta ? report.meta.count : 0;
-    const limit =
-      report && report.meta && report.meta.filter && report.meta.filter.limit
-        ? report.meta.filter.limit
-        : baseQuery.filter.limit;
-    const offset =
-      report && report.meta && report.meta.filter && report.meta.filter.offset
-        ? report.meta.filter.offset
-        : baseQuery.filter.offset;
+    const count = report?.meta ? report.meta.count : 0;
+    const limit = report?.meta?.filter?.limit ? report.meta.filter.limit : baseQuery.filter.limit;
+    const offset = report?.meta?.filter?.offset ? report.meta.filter.offset : baseQuery.filter.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -237,7 +231,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
     const isDisabled = computedItems.length === 0;
-    const itemsTotal = report && report.meta ? report.meta.count : 0;
+    const itemsTotal = report?.meta ? report.meta.count : 0;
 
     return (
       <DetailsToolbar

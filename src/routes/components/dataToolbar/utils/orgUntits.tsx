@@ -96,7 +96,7 @@ export const getOrgUnitSelect = ({
 
 export const getOrgUnitOptions = (orgReport: Org): ToolbarChipGroup[] => {
   let options = [];
-  if (!(orgReport && orgReport.data)) {
+  if (!orgReport?.data) {
     return options;
   }
 

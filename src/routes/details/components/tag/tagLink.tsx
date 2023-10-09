@@ -113,7 +113,7 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
 
   // Prune unsupported tag params from filter_by, but don't reset queryState
   const filterByParams = {
-    ...(queryState && queryState.filter_by ? queryState.filter_by : {}),
+    ...(queryState?.filter_by ? queryState.filter_by : {}),
   };
   for (const key of Object.keys(filterByParams)) {
     // Omit unsupported query params
@@ -137,10 +137,8 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
     filter_by: {
       // Add filters here to apply logical OR/AND
       ...filterByParams,
-      ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
-      ...(queryFromRoute &&
-        queryFromRoute.filter &&
-        queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+      ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
+      ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
       // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
       ...(groupBy && groupByValue !== '*' && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
     },

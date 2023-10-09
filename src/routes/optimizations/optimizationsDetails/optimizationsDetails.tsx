@@ -74,9 +74,9 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
   }, [reportQueryString]);
 
   const getPagination = (isDisabled = false, isBottom = false) => {
-    const count = report && report.meta ? report.meta.count : 0;
-    const limit = report && report.meta ? report.meta.limit : baseQuery.limit;
-    const offset = report && report.meta ? report.meta.offset : baseQuery.offset;
+    const count = report?.meta ? report.meta.count : 0;
+    const limit = report?.meta ? report.meta.limit : baseQuery.limit;
+    const offset = report?.meta ? report.meta.offset : baseQuery.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -119,8 +119,8 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
   };
 
   const getToolbar = () => {
-    const itemsPerPage = report && report.meta ? report.meta.limit : 0;
-    const itemsTotal = report && report.meta ? report.meta.count : 0;
+    const itemsPerPage = report?.meta ? report.meta.limit : 0;
+    const itemsTotal = report?.meta ? report.meta.count : 0;
     const isDisabled = itemsTotal === 0;
 
     return (
@@ -162,10 +162,10 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
     setQuery(newQuery);
   };
 
-  const itemsTotal = report && report.meta ? report.meta.count : 0;
+  const itemsTotal = report?.meta ? report.meta.count : 0;
   const isDisabled = itemsTotal === 0;
   const title = intl.formatMessage(messages.optimizations);
-  const hasOptimizations = report && report.meta && report.meta.count > 0;
+  const hasOptimizations = report?.meta && report.meta.count > 0;
 
   if (reportError) {
     return <NotAvailable title={title} />;

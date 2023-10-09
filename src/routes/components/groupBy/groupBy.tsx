@@ -149,12 +149,12 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
     const { defaultItem } = this.state;
 
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    if (!(queryFromRoute && queryFromRoute.group_by)) {
+    if (!queryFromRoute?.group_by) {
       return defaultItem;
     }
 
     let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);
-    const groupByKeys = queryFromRoute && queryFromRoute.group_by ? Object.keys(queryFromRoute.group_by) : [];
+    const groupByKeys = queryFromRoute?.group_by ? Object.keys(queryFromRoute.group_by) : [];
 
     for (const key of groupByKeys) {
       let index = key.indexOf(tagPrefix);
@@ -213,13 +213,13 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
     const { options, orgReport, resourceReport, tagReport, intl } = this.props;
 
     const allOptions = [...options];
-    if (orgReport && orgReport.data && orgReport.data.length > 0) {
+    if (orgReport?.data?.length > 0) {
       allOptions.push(...groupByOrgOptions);
     }
-    if (tagReport && tagReport.data && tagReport.data.length > 0) {
+    if (tagReport?.data?.length > 0) {
       allOptions.push(...groupByTagOptions);
     }
-    if (resourceReport && resourceReport.data && resourceReport.data.length > 0) {
+    if (resourceReport?.data?.length > 0) {
       allOptions.push(...groupByCostCategoryOptions);
     }
     return allOptions

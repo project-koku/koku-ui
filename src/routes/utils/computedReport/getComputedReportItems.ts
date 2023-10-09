@@ -353,7 +353,7 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
       }
     }
   };
-  if (report && report.data) {
+  if (report?.data) {
     report.data.forEach(visitDataPoint);
   }
   return Array.from(itemMap.values());

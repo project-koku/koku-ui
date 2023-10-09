@@ -61,7 +61,7 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
 
   const getDefaultTerm = () => {
     let result = Interval.short_term;
-    if (!(report && report.recommendations && report.recommendations.duration_based)) {
+    if (!report?.recommendations?.duration_based) {
       return result;
     }
 

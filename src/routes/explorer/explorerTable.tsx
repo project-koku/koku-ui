@@ -103,8 +103,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
 
   public componentDidUpdate(prevProps: ExplorerTableProps) {
     const { costDistribution, report, selectedItems } = this.props;
-    const currentReport = report && report.data ? JSON.stringify(report.data) : '';
-    const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
+    const currentReport = report?.data ? JSON.stringify(report.data) : '';
+    const previousReport = prevProps?.report?.data ? JSON.stringify(prevProps.report.data) : '';
 
     if (
       previousReport !== currentReport ||
@@ -137,10 +137,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     const isGroupByProject = groupBy === 'project';
     const showPlatformCosts = perspective === PerspectiveType.ocp && isGroupByProject;
     const showCostDistribution =
-      costDistribution === ComputedReportItemValueType.distributed &&
-      report &&
-      report.meta &&
-      report.meta.distributed_overhead === true;
+      costDistribution === ComputedReportItemValueType.distributed && report?.meta?.distributed_overhead === true;
 
     const computedItems = getUnsortedComputedReportItems<any, any>({
       report,
@@ -252,7 +249,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
 
       items.map(item => {
         if (!name) {
-          name = item && item.label && item.label !== null ? item.label : null;
+          name = item?.label && item?.label !== null ? item.label : null;
         }
         if (!desc) {
           desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
@@ -263,9 +260,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
         if (
           showCostDistribution &&
           item.classification !== classificationUnallocated &&
-          item.cost &&
-          ((item.cost.platformDistributed && item.cost.platformDistributed.value > 0) ||
-            (item.cost.workerUnallocatedDistributed && item.cost.workerUnallocatedDistributed.value > 0))
+          (item?.cost?.platformDistributed?.value > 0 || item?.cost?.workerUnallocatedDistributed?.value > 0)
         ) {
           isOverheadCosts = true;
           showLabels = true;
@@ -321,7 +316,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
           selectItem.label === `${noPrefix}${groupByCostCategory}` ||
           selectItem.label === `${noPrefix}${groupByTagKey}`,
         item: selectItem,
-        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === selectItem.id) !== undefined),
+        selected: isAllSelected || selectedItems?.find(val => val.id === selectItem.id) !== undefined,
       });
     });
 
@@ -375,14 +370,12 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     const { columns } = this.state;
 
     let direction;
-
     const column = columns[index];
-    const hasOrderBy = query && query.order_by && query.order_by;
 
     if (column.orderBy && !column.date) {
-      direction = hasOrderBy && query.order_by[column.orderBy];
-    } else if (hasOrderBy && query.order_by.date === column.date) {
-      direction = hasOrderBy && query.order_by[column.orderBy];
+      direction = query?.order_by[column.orderBy];
+    } else if (query?.order_by?.date === column.date) {
+      direction = query?.order_by[column.orderBy];
     }
     return direction
       ? {
