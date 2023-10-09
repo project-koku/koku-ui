@@ -30,7 +30,6 @@ export const costSummaryWidget: OciDashboardWidget = {
   reportPathsType: ReportPathsType.oci,
   reportType: ReportType.cost,
   details: {
-    adjustContainerHeight: true,
     costKey: messages.cost,
     showHorizontal: true,
     viewAllPath: formatPath(routes.ociDetails.path),

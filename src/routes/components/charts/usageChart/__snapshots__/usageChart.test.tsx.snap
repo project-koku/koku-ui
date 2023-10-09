@@ -3,7 +3,7 @@
 exports[`reports are formatted to datums 1`] = `
 <div
   data-testid="usage-chart-wrapper"
-  style="height: 100px; width: 0px;"
+  style="height: 100px;"
 >
   <div
     class="pf-v5-c-chart"
@@ -323,12 +323,12 @@ exports[`reports are formatted to datums 1`] = `
       </g>
       <g>
         <rect
-          height="56"
+          height="14"
           role="presentation"
           shape-rendering="auto"
           style="fill: none;"
           vector-effect="non-scaling-stroke"
-          width="39.6"
+          width="158.4"
           x="0"
           y="57"
         />
@@ -343,50 +343,50 @@ exports[`reports are formatted to datums 1`] = `
           style="fill: #d2d2d2;"
         />
         <path
-          d="M 7.84, 87.156
-      h12.32
+          d="M 47.44, 73.156
+      h12.320000000000007
       v-4.312
-      h-12.32
+      h-12.320000000000007
       z"
           role="presentation"
           shape-rendering="auto"
           style="fill: #38812f;"
         />
         <path
-          d="M 7.84, 101.156
-      h3.6959999999999997
+          d="M 87.04, 73.156
+      h3.695999999999998
       v-4.312
-      h-3.6959999999999997
+      h-3.695999999999998
       z
-      M 12.767999999999999, 101.156
-      h3.6959999999999997
+      M 91.968, 73.156
+      h3.695999999999998
       v-4.312
-      h-3.6959999999999997
+      h-3.695999999999998
       z
-      M 17.695999999999998, 101.156
-      h3.6959999999999997
+      M 96.896, 73.156
+      h3.695999999999998
       v-4.312
-      h-3.6959999999999997
+      h-3.695999999999998
       z"
           role="presentation"
           shape-rendering="auto"
           style="fill: #d2d2d2;"
         />
         <path
-          d="M 7.84, 115.156
-      h3.6959999999999997
+          d="M 126.64000000000001, 73.156
+      h3.695999999999998
       v-4.312
-      h-3.6959999999999997
+      h-3.695999999999998
       z
-      M 12.767999999999999, 115.156
-      h3.6959999999999997
+      M 131.568, 73.156
+      h3.695999999999998
       v-4.312
-      h-3.6959999999999997
+      h-3.695999999999998
       z
-      M 17.695999999999998, 115.156
-      h3.6959999999999997
+      M 136.496, 73.156
+      h3.695999999999998
       v-4.312
-      h-3.6959999999999997
+      h-3.695999999999998
       z"
           role="presentation"
           shape-rendering="auto"
@@ -413,15 +413,15 @@ exports[`reports are formatted to datums 1`] = `
           direction="inherit"
           dx="0"
           id="exampleUsageChart-legend-ChartLabel-1"
-          x="30.8"
-          y="89.97"
+          x="70.39999999999999"
+          y="75.97"
         >
           <tspan
             dx="0"
             dy="0"
             style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-global--label--Fill, #151515);"
             text-anchor="start"
-            x="30.8"
+            x="70.39999999999999"
           >
             Usage ({dateRange}){"dateRange":""}
           </tspan>
@@ -430,15 +430,15 @@ exports[`reports are formatted to datums 1`] = `
           direction="inherit"
           dx="0"
           id="exampleUsageChart-legend-ChartLabel-2"
-          x="30.8"
-          y="103.97"
+          x="110"
+          y="75.97"
         >
           <tspan
             dx="0"
             dy="0"
             style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-global--label--Fill, #151515);"
             text-anchor="start"
-            x="30.8"
+            x="110"
           >
             Requests (no data)
           </tspan>
@@ -447,15 +447,15 @@ exports[`reports are formatted to datums 1`] = `
           direction="inherit"
           dx="0"
           id="exampleUsageChart-legend-ChartLabel-3"
-          x="30.8"
-          y="117.97"
+          x="149.60000000000002"
+          y="75.97"
         >
           <tspan
             dx="0"
             dy="0"
             style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-global--label--Fill, #151515);"
             text-anchor="start"
-            x="30.8"
+            x="149.60000000000002"
           >
             Requests (no data)
           </tspan>

@@ -34,14 +34,12 @@ import type { FormatOptions, Formatter } from 'utils/format';
 import { chartStyles } from './trendChart.styles';
 
 interface TrendChartOwnProps {
-  adjustContainerHeight?: boolean;
-  containerHeight?: number;
+  baseHeight?: number;
   currentData: any;
   forecastData?: any;
   forecastConeData?: any;
   formatOptions?: FormatOptions;
   formatter: Formatter;
-  height?: number;
   legendItemsPerRow?: number;
   name?: string;
   previousData?: any;
@@ -55,6 +53,7 @@ interface TrendChartOwnProps {
 
 interface State {
   cursorVoronoiContainer?: any;
+  extraHeight?: number;
   hiddenSeries?: Set<number>;
   series?: ChartSeries[];
   width?: number;
@@ -67,6 +66,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
   private observer: any = noop;
 
   public state: State = {
+    extraHeight: 0,
     hiddenSeries: new Set(),
     width: 0,
   };
@@ -219,28 +219,6 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
     this.setState({ cursorVoronoiContainer, series });
   };
 
-  private getAdjustedContainerHeight = () => {
-    const {
-      adjustContainerHeight,
-      height,
-      containerHeight = height,
-      showForecast,
-      showSupplementaryLabel,
-    } = this.props;
-    const { width } = this.state;
-
-    let adjustedContainerHeight = containerHeight;
-    if (adjustContainerHeight) {
-      if (showForecast) {
-        const maxWidth = showSupplementaryLabel ? 900 : 725;
-        if (width < maxWidth) {
-          adjustedContainerHeight += 25;
-        }
-      }
-    }
-    return adjustedContainerHeight;
-  };
-
   private getChart = (series: ChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
@@ -268,12 +246,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
-        voronoiPadding={{
-          bottom: 50,
-          left: 8,
-          right: 8,
-          top: 8,
-        }}
+        voronoiPadding={this.getPadding()}
       />
     );
   };
@@ -304,11 +277,16 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
     return result;
   }
 
+  private getHeight = baseHeight => {
+    const { extraHeight } = this.state;
+
+    return baseHeight + extraHeight;
+  };
+
   private getLegend = () => {
     const { name = '', legendItemsPerRow } = this.props;
-    const { hiddenSeries, series, width } = this.state;
+    const { hiddenSeries, series } = this.state;
 
-    // Todo: use PF legendAllowWrap feature
     return (
       <ChartLegend
         data={getLegendData(series, hiddenSeries)}
@@ -316,9 +294,27 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         height={25}
         itemsPerRow={legendItemsPerRow}
         name={`${name}-legend`}
-        orientation={width > 150 ? 'horizontal' : 'vertical'}
       />
     );
+  };
+
+  private getPadding = () => {
+    const { extraHeight } = this.state;
+
+    return {
+      bottom: 50 + extraHeight, // Maintain chart aspect ratio
+      left: 8,
+      right: 8,
+      top: 8,
+    };
+  };
+
+  private handleLegendAllowWrap = extraHeight => {
+    const { legendItemsPerRow } = this.props;
+
+    if (!legendItemsPerRow && extraHeight !== this.state.extraHeight) {
+      this.setState({ extraHeight });
+    }
   };
 
   // Hide each data series individually
@@ -337,19 +333,10 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
   };
 
   public render() {
-    const {
-      height,
-      intl,
-      name,
-      padding = {
-        bottom: 50,
-        left: 8,
-        right: 8,
-        top: 8,
-      },
-      title,
-    } = this.props;
+    const { baseHeight, intl, name, padding = this.getPadding(), title } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
+
+    const chartHeight = this.getHeight(baseHeight);
     const domain = getDomain(series, hiddenSeries);
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
@@ -366,6 +353,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
           ),
         } as any)
       : undefined;
+
     return (
       <>
         {title?.length && (
@@ -373,14 +361,14 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
             {title}
           </Title>
         )}
-        <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
-          <div style={{ height, width }} data-testid="trend-chart-wrapper">
+        <div className="chartOverride" ref={this.containerRef}>
+          <div style={{ height: chartHeight }} data-testid="trend-chart-wrapper">
             <Chart
               containerComponent={container}
               domain={domain}
               events={this.getEvents()}
-              height={height}
-              legendAllowWrap
+              height={chartHeight}
+              legendAllowWrap={this.handleLegendAllowWrap}
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom-left"

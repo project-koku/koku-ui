@@ -34,13 +34,11 @@ import type { FormatOptions, Formatter } from 'utils/format';
 import { chartStyles, styles } from './historicalCostChart.styles';
 
 interface HistoricalCostChartOwnProps {
-  adjustContainerHeight?: boolean;
-  containerHeight?: number;
+  baseHeight: number;
   currentCostData?: any;
   currentInfrastructureCostData?: any;
   formatOptions?: FormatOptions;
   formatter?: Formatter;
-  height: number;
   legendItemsPerRow?: number;
   name?: string;
   padding?: any;
@@ -53,6 +51,7 @@ interface HistoricalCostChartOwnProps {
 
 interface State {
   cursorVoronoiContainer?: any;
+  extraHeight?: number;
   hiddenSeries?: Set<number>;
   series?: ChartSeries[];
   width?: number;
@@ -65,6 +64,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
   private observer: any = noop;
 
   public state: State = {
+    extraHeight: 0,
     hiddenSeries: new Set(),
     width: 0,
   };
@@ -167,12 +167,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
         labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
-        voronoiPadding={{
-          bottom: 120,
-          left: 8,
-          right: 8,
-          top: 8,
-        }}
+        voronoiPadding={this.getPadding()}
       />
     );
   };
@@ -203,21 +198,45 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
     return result;
   }
 
+  private getHeight = baseHeight => {
+    const { extraHeight } = this.state;
+
+    return baseHeight + extraHeight;
+  };
+
+  private getPadding = () => {
+    const { legendItemsPerRow } = this.props;
+    const { extraHeight } = this.state;
+
+    const extraPadding = legendItemsPerRow ? 0 : extraHeight;
+
+    return {
+      bottom: 75 + extraPadding,
+      left: 8,
+      right: 8,
+      top: 8,
+    };
+  };
+
   private getLegend = () => {
     const { legendItemsPerRow, name = '' } = this.props;
-    const { hiddenSeries, series, width } = this.state;
-
-    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 725 ? chartStyles.itemsPerRow : 2;
+    const { hiddenSeries, series } = this.state;
 
     return (
       <ChartLegend
         data={getLegendData(series, hiddenSeries)}
         height={25}
         gutter={20}
-        itemsPerRow={itemsPerRow}
+        itemsPerRow={legendItemsPerRow}
         name={`${name}-legend`}
       />
     );
+  };
+
+  private handleLegendAllowWrap = extraHeight => {
+    if (extraHeight !== this.state.extraHeight) {
+      this.setState({ extraHeight });
+    }
   };
 
   // Hide each data series individually
@@ -236,32 +255,13 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
   };
 
   public render() {
-    const {
-      adjustContainerHeight,
-      height,
-      containerHeight = height,
-      intl,
-      name,
-      padding = {
-        bottom: 120,
-        left: 8,
-        right: 8,
-        top: 8,
-      },
-      title,
-      xAxisLabel,
-      yAxisLabel,
-    } = this.props;
+    const { baseHeight, intl, name, padding = this.getPadding(), title, xAxisLabel, yAxisLabel } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
+
+    const chartHeight = this.getHeight(baseHeight);
     const domain = getDomain(series, hiddenSeries);
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
-
-    const adjustedContainerHeight = adjustContainerHeight
-      ? width > 725
-        ? containerHeight - 25
-        : containerHeight
-      : containerHeight;
 
     // Clone original container. See https://issues.redhat.com/browse/COST-762
     const container = cursorVoronoiContainer
@@ -275,18 +275,20 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
           ),
         } as any)
       : undefined;
+
     return (
       <div className="chartOverride" ref={this.containerRef}>
         <Title headingLevel="h2" style={styles.title} size={TitleSizes.xl}>
           {title}
         </Title>
-        <div style={{ ...styles.chart, height: adjustedContainerHeight }}>
-          <div style={{ height, width }} data-testid="historical-chart-wrapper">
+        <div style={{ ...styles.chart }}>
+          <div style={{ height: chartHeight }} data-testid="historical-chart-wrapper">
             <Chart
               containerComponent={container}
               domain={domain}
               events={this.getEvents()}
-              height={height}
+              height={chartHeight}
+              legendAllowWrap={this.handleLegendAllowWrap}
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom"

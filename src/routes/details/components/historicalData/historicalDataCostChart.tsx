@@ -126,13 +126,11 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
             this.getSkeleton()
           ) : (
             <HistoricalCostChart
-              adjustContainerHeight
-              containerHeight={chartStyles.chartContainerHeight - 25}
+              baseHeight={chartStyles.chartHeight}
               currentCostData={currentData}
               currentInfrastructureCostData={currentInfrastructureCostData}
               formatOptions={{}}
               formatter={formatUnits}
-              height={chartStyles.chartHeight}
               name={chartName}
               previousCostData={previousData}
               previousInfrastructureCostData={previousInfrastructureCostData}

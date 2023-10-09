@@ -61,9 +61,9 @@ interface PvcChartDispatchProps {
 }
 
 interface PvcChartState {
-  extraHeight: number;
-  isOpen: boolean;
-  width: number;
+  extraHeight?: number;
+  isOpen?: boolean;
+  width?: number;
 }
 
 type PvcChartProps = PvcChartOwnProps & PvcChartStateProps & PvcChartDispatchProps;
@@ -176,7 +176,7 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
           this.getSkeleton()
         ) : (
           <ChartBullet
-            height={this.getChartHeight(115)}
+            height={this.getHeight(115)}
             labels={({ datum }) => `${datum.tooltip}`}
             legendAllowWrap={this.handleLegendAllowWrap}
             legendPosition="bottom-left"
@@ -244,7 +244,7 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
     );
   };
 
-  private getChartHeight = baseHeight => {
+  private getHeight = baseHeight => {
     const { extraHeight } = this.state;
 
     return baseHeight + extraHeight;
