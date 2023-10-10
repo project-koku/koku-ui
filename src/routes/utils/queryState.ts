@@ -2,7 +2,7 @@ import type * as H from 'history';
 import { cloneDeep } from 'lodash';
 
 export function clearQueryState(location: H.Location, key: string) {
-  if (location?.state[key]) {
+  if (location?.state && location.state[key]) {
     location.state[key] = undefined;
   }
 }
