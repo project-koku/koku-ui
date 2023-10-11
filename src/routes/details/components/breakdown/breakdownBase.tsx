@@ -1,4 +1,5 @@
 import { Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
+import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import type { Providers } from 'api/providers';
 import type { ProviderType } from 'api/providers';
 import type { Query } from 'api/queries/query';
@@ -164,7 +165,17 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
         title={
           <>
             <TabTitleText>{this.getTabTitle(tab)}</TabTitleText>
-            {badge && <span>{badge}</span>}
+            {badge && (
+              <span>
+                {
+                  <AsyncComponent
+                    scope="costManagementMfe"
+                    appName="cost-management-mfe"
+                    module="./OptimizationsBadge"
+                  />
+                }
+              </span>
+            )}
           </>
         }
       />
