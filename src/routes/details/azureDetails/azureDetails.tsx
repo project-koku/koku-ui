@@ -12,6 +12,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { routes } from 'routes';
 import { ExportModal } from 'routes/components/export';
 import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
@@ -35,6 +36,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCurrency } from 'utils/localStorage';
+import { formatPath } from 'utils/paths';
 import { noPrefix, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -144,7 +146,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
-    const itemsTotal = report && report.meta ? report.meta.count : 0;
+    const itemsTotal = report?.meta ? report.meta.count : 0;
 
     // Omit items labeled 'no-project'
     const items = [];
@@ -170,15 +172,9 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
   private getPagination = (isDisabled = false, isBottom = false) => {
     const { intl, query, router, report } = this.props;
 
-    const count = report && report.meta ? report.meta.count : 0;
-    const limit =
-      report && report.meta && report.meta.filter && report.meta.filter.limit
-        ? report.meta.filter.limit
-        : baseQuery.filter.limit;
-    const offset =
-      report && report.meta && report.meta.filter && report.meta.filter.offset
-        ? report.meta.filter.offset
-        : baseQuery.filter.offset;
+    const count = report?.meta ? report.meta.count : 0;
+    const limit = report?.meta?.filter?.limit ? report.meta.filter.limit : baseQuery.filter.limit;
+    const offset = report?.meta?.filter?.offset ? report.meta.filter.offset : baseQuery.filter.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -191,7 +187,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
         page={page}
         perPage={limit}
         titles={{
-          paginationTitle: intl.formatMessage(messages.paginationTitle, {
+          paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
             title: intl.formatMessage(messages.azure),
             placement: isBottom ? 'bottom' : 'top',
           }),
@@ -211,6 +207,8 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
 
     return (
       <DetailsTable
+        basePath={formatPath(routes.azureBreakdown.path)}
+        breadcrumbPath={formatPath(`${routes.azureDetails.path}${location.search}`)}
         filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
@@ -219,6 +217,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
         onSelected={this.handleOnSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         orderBy={query.order_by}
+        query={query}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
@@ -233,7 +232,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
     const isDisabled = computedItems.length === 0;
-    const itemsTotal = report && report.meta ? report.meta.count : 0;
+    const itemsTotal = report?.meta ? report.meta.count : 0;
 
     return (
       <DetailsToolbar

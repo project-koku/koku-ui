@@ -1,6 +1,7 @@
 import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { CostTypes } from 'routes/components/costType/costType';
 
+const accountCostTypeID = 'account_cost_type';
 const accountCurrencyID = 'account_currency';
 const costDistributionID = 'cost_distribution';
 const costManagementID = 'cost_management';
@@ -134,6 +135,12 @@ export const deleteCostType = () => {
   removeItem(costTypeID);
 };
 
+// Returns account cost type
+export const getAccountCostType = () => {
+  const costType = getItem(accountCostTypeID);
+  return costType ? costType : undefined;
+};
+
 // Returns cost type
 export const getCostType = () => {
   const costType = getItem(costTypeID);
@@ -144,6 +151,12 @@ export const getCostType = () => {
 export const isCostTypeAvailable = () => {
   const costType = getItem(costTypeID);
   return costType && costType !== null;
+};
+
+// Set account currency
+export const setAccountCostType = (value: string) => {
+  setItem(accountCostTypeID, value);
+  saveSessionToken();
 };
 
 // Set cost type

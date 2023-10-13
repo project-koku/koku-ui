@@ -8,10 +8,10 @@ import { HistoricalCostChartTestProps } from './testProps/historicalCostChartPro
 
 const props: HistoricalCostChartProps = {
   ...HistoricalCostChartTestProps,
+  baseHeight: 100,
   formatter: jest.fn(),
   formatOptions: {},
   intl: defaultIntl,
-  height: 100,
   name: 'exampleCostChart',
   title: 'Usage Title',
 };

@@ -130,19 +130,19 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
         key: option.value,
       });
     });
-    if (orgReport && orgReport.data && orgReport.data.length > 0) {
+    if (orgReport?.data?.length > 0) {
       options.push({
         name: intl.formatMessage(messages.filterByValues, { value: 'org_unit_id' }),
         key: orgUnitIdKey,
       });
     }
-    if (resourceReport && resourceReport.data && resourceReport.data.length > 0) {
+    if (resourceReport?.data?.length > 0) {
       options.push({
         name: intl.formatMessage(messages.filterByValues, { value: awsCategoryKey }),
         key: awsCategoryKey,
       });
     }
-    if (tagReport && tagReport.data && tagReport.data.length > 0) {
+    if (tagReport?.data?.length > 0) {
       options.push({ name: intl.formatMessage(messages.filterByValues, { value: tagKey }), key: tagKey });
     }
     return options.sort((a, b) => {

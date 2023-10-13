@@ -48,7 +48,6 @@ export interface DashboardWidgetOwnProps {
 
 export interface DashboardWidgetStateProps extends DashboardWidget {
   chartAltHeight?: number;
-  containerAltHeight?: number;
   costType?: string;
   currency?: string;
   currentReport?: Report;
@@ -132,16 +131,16 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
     })}`;
   };
 
-  private getChart = (containerHeight: number, height: number, adjustContainerHeight: boolean = false) => {
+  private getChart = (height: number) => {
     const { chartType, trend } = this.props;
     if (chartType === DashboardChartType.dailyTrend) {
-      return this.getDailyTrendChart(containerHeight, height, adjustContainerHeight, trend.showSupplementaryLabel);
+      return this.getDailyTrendChart(height, trend.showSupplementaryLabel);
     } else if (chartType === DashboardChartType.dailyCost) {
-      return this.getDailyCostChart(containerHeight, height, adjustContainerHeight);
+      return this.getDailyCostChart(height);
     } else if (chartType === DashboardChartType.trend) {
-      return this.getTrendChart(containerHeight, height, adjustContainerHeight, trend.showSupplementaryLabel);
+      return this.getTrendChart(height, trend.showSupplementaryLabel);
     } else if (chartType === DashboardChartType.usage) {
-      return this.getUsageChart(height, adjustContainerHeight);
+      return this.getUsageChart(height);
     } else {
       return null;
     }
@@ -171,7 +170,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
   };
 
   // This chart displays cumulative and daily cost compared to infrastructure cost
-  private getDailyCostChart = (containerHeight: number, height: number, adjustContainerHeight: boolean = false) => {
+  private getDailyCostChart = (height: number) => {
     const { chartFormatter, currentReport, previousReport, trend } = this.props;
     const { currentComparison } = this.state;
 
@@ -195,14 +194,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
           <div style={styles.comparison}>{this.getChartComparison()}</div>
         </div>
         <ReportSummaryComponent
-          adjustContainerHeight={adjustContainerHeight}
-          containerHeight={containerHeight}
+          baseHeight={height}
           currentCostData={currentCostData}
           forecastConeData={forecastData.forecastConeData}
           forecastData={forecastData.forecastData}
           formatOptions={trend.formatOptions}
           formatter={chartFormatter || formatCurrency}
-          height={height}
           previousCostData={previousCostData}
           showForecast={trend.computedForecastItem !== undefined}
         />
@@ -211,12 +208,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
   };
 
   // This chart displays cumulative and daily cost
-  private getDailyTrendChart = (
-    containerHeight: number,
-    height: number,
-    adjustContainerHeight: boolean = false,
-    showSupplementaryLabel: boolean = false
-  ) => {
+  private getDailyTrendChart = (height: number, showSupplementaryLabel: boolean = false) => {
     const { chartFormatter, chartName, currentReport, details, previousReport, trend } = this.props;
     const { currentComparison } = this.state;
 
@@ -240,15 +232,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
           <div style={styles.comparison}>{this.getChartComparison()}</div>
         </div>
         <ReportSummaryComponent
-          adjustContainerHeight={adjustContainerHeight}
+          baseHeight={height}
           chartName={chartName}
-          containerHeight={containerHeight}
           currentData={currentData}
           forecastData={forecastData}
           forecastConeData={forecastConeData}
           formatOptions={trend.formatOptions}
           formatter={chartFormatter || formatUnits}
-          height={height}
           previousData={previousData}
           showForecast={trend.computedForecastItem !== undefined}
           showSupplementaryLabel={showSupplementaryLabel}
@@ -276,12 +266,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
   };
 
   // This chart displays cumulative cost only
-  private getTrendChart = (
-    containerHeight: number,
-    height: number,
-    adjustContainerHeight: boolean = false,
-    showSupplementaryLabel: boolean = false
-  ) => {
+  private getTrendChart = (height: number, showSupplementaryLabel: boolean = false) => {
     const { chartFormatter, chartName, currentReport, details, intl, previousReport, trend } = this.props;
 
     const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementary cost, etc.
@@ -309,15 +294,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
 
     return (
       <ReportSummaryTrend
-        adjustContainerHeight={adjustContainerHeight}
-        containerHeight={containerHeight}
+        baseHeight={height}
         chartName={chartName}
         currentData={currentData}
         forecastData={forecastData}
         forecastConeData={forecastConeData}
         formatOptions={trend.formatOptions}
         formatter={chartFormatter || formatUnits}
-        height={height}
         previousData={previousData}
         showForecast={trend.computedForecastItem !== undefined}
         showSupplementaryLabel={showSupplementaryLabel}
@@ -329,7 +312,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
   };
 
   // This chart displays usage and requests
-  private getUsageChart = (height: number, adjustContainerHeight: boolean = false) => {
+  private getUsageChart = (height: number) => {
     const { chartFormatter, chartName, currentReport, intl, previousReport, trend } = this.props;
 
     const title = intl.formatMessage(trend.titleKey, {
@@ -346,14 +329,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
 
     return (
       <ReportSummaryUsage
-        adjustContainerHeight={adjustContainerHeight}
+        baseHeight={height}
         chartName={chartName}
-        containerHeight={chartStyles.containerUsageHeight}
         currentRequestData={currentRequestData}
         currentUsageData={currentUsageData}
         formatOptions={trend.formatOptions}
         formatter={chartFormatter || formatUnits}
-        height={height}
+        legendItemsPerRow={2}
         previousRequestData={previousRequestData}
         previousUsageData={previousUsageData}
         title={title}
@@ -420,12 +402,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
   };
 
   private getHorizontalLayout = () => {
-    const {
-      containerAltHeight = chartStyles.containerAltHeight,
-      chartAltHeight = chartStyles.chartAltHeight,
-      currentReportFetchStatus,
-      details,
-    } = this.props;
+    const { chartAltHeight = chartStyles.chartAltHeight, currentReportFetchStatus } = this.props;
 
     return (
       <ReportSummaryAlt
@@ -435,7 +412,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
         title={this.getTitle()}
       >
         {this.getDetails()}
-        {this.getChart(containerAltHeight, chartAltHeight, details.adjustContainerHeight)}
+        {this.getChart(chartAltHeight)}
       </ReportSummaryAlt>
     );
   };
@@ -483,14 +460,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
         : trend.computedReportItemValue || 'total';
 
     let totalValue;
-    const hasTotal = tabsReport && tabsReport.meta && tabsReport.meta.total;
     if (computedReportItem === ComputedReportItemType.usage) {
-      if (hasTotal && tabsReport.meta.total.usage) {
+      if (tabsReport?.meta?.total?.usage) {
         totalValue = tabsReport.meta.total.usage.value;
       }
     } else {
       if (
-        hasTotal &&
+        tabsReport?.meta?.total &&
         tabsReport.meta.total[computedReportItem] &&
         tabsReport.meta.total[computedReportItem][computedReportItemValue]
       ) {
@@ -548,13 +524,11 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
       return '';
     }
 
-    const hasTotal = currentReport && currentReport.meta && currentReport.meta.total;
     if (computedReportItem === ComputedReportItemType.usage) {
-      const hasUsage = hasTotal && currentReport.meta.total.usage;
-      return hasUsage ? currentReport.meta.total.usage.units : undefined;
+      return currentReport?.meta?.total?.usage ? currentReport.meta.total.usage.units : undefined;
     } else {
       const hasCost =
-        hasTotal &&
+        currentReport?.meta?.total &&
         currentReport.meta.total[computedReportItem] &&
         currentReport.meta.total[computedReportItem][computedReportItemValue];
       return hasCost ? currentReport.meta.total[computedReportItem][computedReportItemValue].units : 'USD';
@@ -562,12 +536,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
   };
 
   private getVerticalLayout = () => {
-    const { availableTabs, currentReportFetchStatus, details } = this.props;
+    const { availableTabs, currentReportFetchStatus } = this.props;
 
     return (
       <ReportSummary detailsLink={this.getDetailsLink()} status={currentReportFetchStatus} title={this.getTitle()}>
         {this.getDetails()}
-        {this.getChart(chartStyles.containerTrendHeight, chartStyles.chartHeight, details.adjustContainerHeight)}
+        {this.getChart(chartStyles.chartHeight)}
         {availableTabs && <div style={styles.tabs}>{this.getTabs()}</div>}
       </ReportSummary>
     );

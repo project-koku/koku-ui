@@ -1,6 +1,6 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import type { SelectOptionObject } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -44,8 +44,8 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
         id="dateRangeSelect"
         isDisabled={isDisabled}
         isOpen={isSelectOpen}
-        onSelect={this.handleOnSelect}
-        onToggle={this.handleOnToggle}
+        onSelect={(_evt, value) => this.handleOnSelect(value)}
+        onToggle={(_evt, isExpanded) => this.handleOnToggle(isExpanded)}
         selections={selection}
         variant={SelectVariant.single}
       >
@@ -70,7 +70,7 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
     return selectOptions;
   };
 
-  private handleOnSelect = (event, selection: ExplorerDateRangeOption) => {
+  private handleOnSelect = (selection: ExplorerDateRangeOption) => {
     const { onSelected } = this.props;
 
     if (onSelected) {

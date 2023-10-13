@@ -7,13 +7,7 @@ export interface RBAC {
 
 export async function getRBAC(): Promise<RBAC> {
   const insights = (window as any).insights;
-  if (
-    insights &&
-    insights.chrome &&
-    insights.chrome.auth &&
-    insights.chrome.auth.getUser &&
-    insights.chrome.getUserPermissions
-  ) {
+  if (insights?.chrome?.auth?.getUser && insights?.chrome?.getUserPermissions) {
     const user = await insights.chrome.auth.getUser();
     const permissions = await insights.chrome.getUserPermissions();
     return {

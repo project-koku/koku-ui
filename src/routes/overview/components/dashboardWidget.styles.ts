@@ -6,9 +6,6 @@ import type React from 'react';
 export const chartStyles = {
   chartAltHeight: 250,
   chartHeight: 180,
-  containerAltHeight: 250,
-  containerTrendHeight: 180,
-  containerUsageHeight: 180,
 };
 
 export const styles = {

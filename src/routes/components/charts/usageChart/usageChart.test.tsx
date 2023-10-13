@@ -15,12 +15,12 @@ const previousRequestData = utils.transformReport(previousMonthReport, utils.Dat
 const previousUsageData = utils.transformReport(previousMonthReport, utils.DatumType.rolling, 'date', 'usage');
 
 const props: UsageChartProps = {
+  baseHeight: 100,
   currentRequestData,
   currentUsageData,
   formatter: jest.fn(),
   formatOptions: {},
   intl: null,
-  height: 100,
   name: 'exampleUsageChart',
   previousRequestData,
   previousUsageData,

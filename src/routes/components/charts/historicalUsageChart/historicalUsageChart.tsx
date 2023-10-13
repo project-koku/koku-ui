@@ -16,8 +16,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { default as ChartTheme } from 'routes/components/charts/chartTheme';
-import { getDateRange, getUsageRangeTooltip } from 'routes/components/charts/common/chartDatum';
-import { getUsageRangeString } from 'routes/components/charts/common/chartDatum';
+import { getDateRange, getUsageRangeString, getUsageRangeTooltip } from 'routes/components/charts/common/chartDatum';
 import type { ChartSeries } from 'routes/components/charts/common/chartUtils';
 import {
   getChartNames,
@@ -35,14 +34,12 @@ import type { FormatOptions, Formatter } from 'utils/format';
 import { chartStyles, styles } from './historicalUsageChart.styles';
 
 interface HistoricalUsageChartOwnProps {
-  adjustContainerHeight?: boolean;
-  containerHeight?: number;
+  baseHeight: number;
   currentLimitData?: any;
   currentRequestData?: any;
   currentUsageData: any;
   formatOptions?: FormatOptions;
   formatter?: Formatter;
-  height: number;
   legendItemsPerRow?: number;
   name?: string;
   padding?: any;
@@ -56,6 +53,7 @@ interface HistoricalUsageChartOwnProps {
 
 interface State {
   cursorVoronoiContainer?: any;
+  extraHeight?: number;
   hiddenSeries?: Set<number>;
   series?: ChartSeries[];
   width?: number;
@@ -68,6 +66,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
   private observer: any = noop;
 
   public state: State = {
+    extraHeight: 0,
     hiddenSeries: new Set(),
     width: 0,
   };
@@ -269,12 +268,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
-        voronoiPadding={{
-          bottom: 130,
-          left: 8,
-          right: 8,
-          top: 8,
-        }}
+        voronoiPadding={this.getPadding()}
       />
     );
   };
@@ -305,20 +299,44 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
     return result;
   }
 
+  private getHeight = baseHeight => {
+    const { extraHeight } = this.state;
+
+    return baseHeight + extraHeight;
+  };
+
+  private getPadding = () => {
+    const { extraHeight } = this.state;
+
+    return {
+      bottom: 80 + extraHeight, // Maintain chart aspect ratio
+      left: 8,
+      right: 8,
+      top: 8,
+    };
+  };
+
   private getLegend = () => {
     const { legendItemsPerRow, name = '' } = this.props;
-    const { hiddenSeries, series, width } = this.state;
-    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 925 ? chartStyles.itemsPerRow : 2;
+    const { hiddenSeries, series } = this.state;
 
     return (
       <ChartLegend
         data={getLegendData(series, hiddenSeries)}
         height={25}
         gutter={20}
-        itemsPerRow={itemsPerRow}
+        itemsPerRow={legendItemsPerRow}
         name={`${name}-legend`}
       />
     );
+  };
+
+  private handleLegendAllowWrap = extraHeight => {
+    const { legendItemsPerRow } = this.props;
+
+    if (!legendItemsPerRow && extraHeight !== this.state.extraHeight) {
+      this.setState({ extraHeight });
+    }
   };
 
   // Hide each data series individually
@@ -337,32 +355,13 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
   };
 
   public render() {
-    const {
-      adjustContainerHeight,
-      height,
-      containerHeight = height,
-      intl,
-      name,
-      padding = {
-        bottom: 130,
-        left: 8,
-        right: 8,
-        top: 8,
-      },
-      title,
-      xAxisLabel,
-      yAxisLabel,
-    } = this.props;
+    const { baseHeight, intl, name, padding = this.getPadding(), title, xAxisLabel, yAxisLabel } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
+
+    const chartHeight = this.getHeight(baseHeight);
     const domain = getDomain(series, hiddenSeries);
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
-
-    const adjustedContainerHeight = adjustContainerHeight
-      ? width > 925
-        ? containerHeight - 50
-        : containerHeight
-      : containerHeight;
 
     // Clone original container. See https://issues.redhat.com/browse/COST-762
     const container = cursorVoronoiContainer
@@ -382,13 +381,14 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         <Title headingLevel="h2" style={styles.title} size={TitleSizes.xl}>
           {title}
         </Title>
-        <div style={{ ...styles.chart, height: adjustedContainerHeight }}>
-          <div style={{ height, width }} data-testid="historical-chart-wrapper">
+        <div style={{ ...styles.chart }}>
+          <div style={{ height: chartHeight }} data-testid="historical-chart-wrapper">
             <Chart
               containerComponent={container}
               domain={domain}
               events={this.getEvents()}
-              height={height}
+              height={chartHeight}
+              legendAllowWrap={this.handleLegendAllowWrap}
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom"

@@ -1,7 +1,14 @@
-import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
+import {
+  Bullseye,
+  EmptyState,
+  EmptyStateBody,
+  EmptyStateHeader,
+  EmptyStateIcon,
+  Spinner,
+} from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import type { ThProps } from '@patternfly/react-table';
-import { SortByDirection, TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { SortByDirection, Table, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import messages from 'locales/messages';
 import type { ReactNode } from 'react';
 import React from 'react';
@@ -18,7 +25,7 @@ interface SelectableTableOwnProps {
   filterBy: any;
   isLoading?: boolean;
   onSort(value: string, isSortAscending: boolean);
-  onRowClick(event: React.KeyboardEvent | React.MouseEvent, rowIndex: number);
+  onRowClick(rowIndex: number);
   orderBy: any;
   rows?: any[];
 }
@@ -47,7 +54,7 @@ class SelectableTable extends React.Component<SelectableTableProps, any> {
     }
     return (
       <EmptyState>
-        <EmptyStateIcon icon={CalculatorIcon} />
+        <EmptyStateHeader icon={<EmptyStateIcon icon={CalculatorIcon} />} />
         <EmptyStateBody>{intl.formatMessage(messages.detailsEmptyState)}</EmptyStateBody>
       </EmptyState>
     );
@@ -74,7 +81,7 @@ class SelectableTable extends React.Component<SelectableTableProps, any> {
     };
   };
 
-  private handleOnSort = (event, index, direction) => {
+  private handleOnSort = (index, direction) => {
     const { columns, onSort } = this.props;
 
     if (onSort) {
@@ -84,7 +91,7 @@ class SelectableTable extends React.Component<SelectableTableProps, any> {
     }
   };
 
-  private handleOnRowClick = (event, rowIndex) => {
+  private handleOnRowClick = (rowIndex: number) => {
     const { onRowClick, rows } = this.props;
 
     rows.map(row => (row.selected = false));
@@ -92,7 +99,7 @@ class SelectableTable extends React.Component<SelectableTableProps, any> {
 
     this.setState({ rows }, () => {
       if (onRowClick) {
-        onRowClick(event, rowIndex);
+        onRowClick(rowIndex);
       }
     });
   };
@@ -102,10 +109,9 @@ class SelectableTable extends React.Component<SelectableTableProps, any> {
 
     return (
       <>
-        <TableComposable
+        <Table
           aria-label={intl.formatMessage(messages.selectableTableAriaLabel)}
           gridBreakPoint="grid-2xl"
-          hasSelectableRowCaption
           variant={TableVariant.compact}
         >
           <Thead>
@@ -138,9 +144,9 @@ class SelectableTable extends React.Component<SelectableTableProps, any> {
                 <Tr
                   aria-label={intl.formatMessage(messages.selectableTableRowAriaLabel)}
                   isSelectable
-                  isHoverable
+                  isClickable
                   isRowSelected={row.selected}
-                  onRowClick={_event => this.handleOnRowClick(_event, rowIndex)}
+                  onRowClick={() => this.handleOnRowClick(rowIndex)}
                   key={`row-${rowIndex}`}
                 >
                   {row.cells.map((item, cellIndex) =>
@@ -169,7 +175,7 @@ class SelectableTable extends React.Component<SelectableTableProps, any> {
               ))
             )}
           </Tbody>
-        </TableComposable>
+        </Table>
         {rows.length === 0 && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
       </>
     );

@@ -1,13 +1,7 @@
-import type { SelectOptionObject, ToolbarChipGroup } from '@patternfly/react-core';
-import {
-  Button,
-  ButtonVariant,
-  InputGroup,
-  Select,
-  SelectOption,
-  SelectVariant,
-  TextInput,
-} from '@patternfly/react-core';
+import type { ToolbarChipGroup } from '@patternfly/react-core';
+import { Button, ButtonVariant, InputGroup, InputGroupItem, TextInput } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
@@ -84,7 +78,7 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
     const { tagKey, tagReport } = this.props;
 
     let data = [];
-    if (tagReport && tagReport.data) {
+    if (tagReport?.data) {
       data = [...new Set([...tagReport.data])]; // prune duplicates
     }
 
@@ -140,8 +134,8 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
           isDisabled={isDisabled}
           variant={SelectVariant.checkbox}
           aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
-          onToggle={this.onTagValueToggle}
           onSelect={onTagValueSelect}
+          onToggle={(_evt, isExpanded) => this.onTagValueToggle(isExpanded)}
           selections={selections}
           isOpen={isTagValueExpanded}
           placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}
@@ -152,25 +146,29 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
     }
     return (
       <InputGroup>
-        <TextInput
-          isDisabled={isDisabled}
-          name="tag-key-value-input"
-          id="tag-key-value-input"
-          type="search"
-          aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
-          onChange={this.onTagValueChange}
-          value={tagKeyValue}
-          placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
-          onKeyDown={evt => onTagValueInput(evt)}
-        />
-        <Button
-          isDisabled={isDisabled}
-          variant={ButtonVariant.control}
-          aria-label={intl.formatMessage(messages.filterByTagValueButtonAriaLabel)}
-          onClick={evt => onTagValueInput(evt)}
-        >
-          <SearchIcon />
-        </Button>
+        <InputGroupItem isFill>
+          <TextInput
+            isDisabled={isDisabled}
+            name="tag-key-value-input"
+            id="tag-key-value-input"
+            type="search"
+            aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
+            onChange={(_evt, value) => this.onTagValueChange(value)}
+            value={tagKeyValue}
+            placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
+            onKeyDown={evt => onTagValueInput(evt)}
+          />
+        </InputGroupItem>
+        <InputGroupItem>
+          <Button
+            isDisabled={isDisabled}
+            variant={ButtonVariant.control}
+            aria-label={intl.formatMessage(messages.filterByTagValueButtonAriaLabel)}
+            onClick={evt => onTagValueInput(evt)}
+          >
+            <SearchIcon />
+          </Button>
+        </InputGroupItem>
       </InputGroup>
     );
   }

@@ -74,15 +74,9 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
   };
 
   const getPagination = (isDisabled = false, isBottom = false) => {
-    const count = report && report.meta ? report.meta.count : 0;
-    const limit =
-      report && report.meta && report.meta.filter && report.meta.filter.limit
-        ? report.meta.filter.limit
-        : baseQuery.filter.limit;
-    const offset =
-      report && report.meta && report.meta.filter && report.meta.filter.offset
-        ? report.meta.filter.offset
-        : baseQuery.filter.offset;
+    const count = report?.meta ? report.meta.count : 0;
+    const limit = report?.meta?.filter?.limit ? report.meta.filter.limit : baseQuery.filter.limit;
+    const offset = report?.meta?.filter?.offset ? report.meta.filter.offset : baseQuery.filter.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -95,7 +89,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
         page={page}
         perPage={limit}
         titles={{
-          paginationTitle: intl.formatMessage(messages.paginationTitle, {
+          paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
             title: intl.formatMessage(messages.openShift),
             placement: isBottom ? 'bottom' : 'top',
           }),
@@ -125,7 +119,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
 
   const getToolbar = (computedItems: ComputedReportItem[]) => {
     const isDisabled = computedItems.length === 0;
-    const itemsTotal = report && report.meta ? report.meta.count : 0;
+    const itemsTotal = report?.meta ? report.meta.count : 0;
 
     return (
       <PlatformToolbar

@@ -5,7 +5,7 @@ import { Grid, GridItem, Skeleton } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { parseQuery } from 'api/queries/ocpQuery';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQueryState } from 'api/queries/query';
+import { getQuery } from 'api/queries/query';
 import type { Report, ReportPathsType } from 'api/reports/report';
 import { ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -16,10 +16,11 @@ import { connect } from 'react-redux';
 import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { noop } from 'routes/utils/noop';
+import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { formatPercentage, formatUnits, unitsLookupKey } from 'utils/format';
+import { formatPercentage, formatUnits, formatUsage, unitsLookupKey } from 'utils/format';
 import { platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -51,7 +52,8 @@ interface UsageChartDispatchProps {
 }
 
 interface UsageChartState {
-  width: number;
+  extraHeight?: number;
+  width?: number;
 }
 
 type UsageChartProps = UsageChartOwnProps & UsageChartStateProps & UsageChartDispatchProps;
@@ -60,6 +62,7 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
   private containerRef = React.createRef<HTMLDivElement>();
   private observer: any = noop;
   public state: UsageChartState = {
+    extraHeight: 0,
     width: 0,
   };
 
@@ -109,74 +112,81 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
       hasUsageValue,
     } = this.getHasData();
 
-    // Always show bullet chart legends https://github.com/project-koku/koku-ui/issues/963
-    const limit = Math.trunc(hasLimitValue ? report.meta.total.limit.value : 0);
+    const limit = hasLimitValue ? report.meta.total.limit.value : 0;
+    const limitValue = formatUsage(limit);
     const limitUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasLimitUnits ? report.meta.total.limit.units : undefined),
     });
+
     datum.limit = {
       legend: intl.formatMessage(messages.detailsUsageLimit, {
-        value: limit,
+        value: limitValue,
         units: limitUnits,
       }),
       tooltip: intl.formatMessage(messages.detailsUsageLimit, {
-        value: limit,
+        value: limitValue,
         units: limitUnits,
       }),
-      value: Math.trunc(limit),
+      value: this.getRoundValue(limit),
     };
 
     // Qualitative range included when grouped by cluster and volume usage
     if (groupBy === 'cluster' || groupBy === 'node' || reportType === ReportType.volume) {
-      const capacity = Math.trunc(hasCapacityValue ? report.meta.total.capacity.value : 0);
+      const capacity = hasCapacityValue ? report.meta.total.capacity.value : 0;
+      const capacityValue = formatUsage(capacity);
       const capacityUnits = intl.formatMessage(messages.units, {
         units: unitsLookupKey(hasCapacityUnits ? report.meta.total.capacity.units : undefined),
       });
+
       datum.ranges = [
         {
           legend: intl.formatMessage(messages.detailsUsageCapacity, {
-            value: capacity,
+            value: capacityValue,
             units: capacityUnits,
           }),
           tooltip: intl.formatMessage(messages.detailsUsageCapacity, {
-            value: capacity,
+            value: capacityValue,
             units: capacityUnits,
           }),
-          value: Math.trunc(capacity),
+          value: this.getRoundValue(capacity),
         },
       ];
     }
 
-    const request = Math.trunc(hasRequestValue ? report.meta.total.request.value : 0);
+    const request = hasRequestValue ? report.meta.total.request.value : 0;
+    const requestValue = formatUsage(request);
     const requestUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasRequestUnits ? report.meta.total.request.units : undefined),
     });
-    const usage = Math.trunc(hasUsageValue ? report.meta.total.usage.value : 0);
+
+    const usage = hasUsageValue ? report.meta.total.usage.value : 0;
+    const usageValue = formatUsage(usage);
     const usageUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasUsageUnits ? report.meta.total.usage.units : undefined),
     });
+
     datum.usage = [
       {
         legend: intl.formatMessage(messages.detailsUsageUsage, {
-          value: usage,
+          value: usageValue,
           units: usageUnits,
         }),
         tooltip: intl.formatMessage(messages.detailsUsageUsage, {
-          value: usage,
+          value: usageValue,
           units: usageUnits,
         }),
-        value: Math.trunc(usage),
+        value: this.getRoundValue(usage),
       },
       {
         legend: intl.formatMessage(messages.detailsUsageRequests, {
-          value: request,
+          value: requestValue,
           units: requestUnits,
         }),
         tooltip: intl.formatMessage(messages.detailsUsageRequests, {
-          value: request,
+          value: requestValue,
           units: requestUnits,
         }),
-        value: Math.trunc(request),
+        value: this.getRoundValue(request),
       },
     ];
     return datum;
@@ -210,10 +220,10 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
                   : []
               }
               comparativeErrorMeasureLegendData={chartDatum.limit.value ? [{ name: chartDatum.limit.legend }] : []}
-              height={this.getChartHeight()}
+              height={this.getHeight(115)}
               labels={({ datum }) => `${datum.tooltip}`}
+              legendAllowWrap={this.handleLegendAllowWrap}
               legendPosition="bottom-left"
-              legendItemsPerRow={this.getItemsPerRow()}
               maxDomain={this.isDatumEmpty(chartDatum) ? 100 : undefined}
               minDomain={0}
               name={name}
@@ -287,14 +297,18 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     const capacityUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasCapacityUnits ? report.meta.total.capacity.units : undefined),
     });
-    const capacityUnused = Math.trunc(hasCapacityUnused ? report.meta.total.capacity.unused : 0);
-    const capacityUnusedPercent = Math.trunc(hasCapacityUnusedPercent ? report.meta.total.capacity.unused_percent : 0);
+    const capacityUnused = this.getRoundValue(hasCapacityUnused ? report.meta.total.capacity.unused : 0);
+    const capacityUnusedPercent = this.getRoundValue(
+      hasCapacityUnusedPercent ? report.meta.total.capacity.unused_percent : 0
+    );
 
     const requestUnits = intl.formatMessage(messages.units, {
       units: unitsLookupKey(hasRequestUnits ? report.meta.total.request.units : undefined),
     });
-    const requestUnused = Math.trunc(hasRequestUnused ? report.meta.total.request.unused : 0);
-    const requestUnusedPercent = Math.trunc(hasRequestUnusedPercent ? report.meta.total.request.unused_percent : 0);
+    const requestUnused = this.getRoundValue(hasRequestUnused ? report.meta.total.request.unused : 0);
+    const requestUnusedPercent = this.getRoundValue(
+      hasRequestUnusedPercent ? report.meta.total.request.unused_percent : 0
+    );
 
     const chartContainer =
       groupBy === 'node' && !(hasCapacityCount && hasCapacityCountUnits) ? styles.chartContainer : undefined;
@@ -331,71 +345,53 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     );
   }
 
-  private getChartHeight = () => {
-    const { groupBy } = this.props;
-    const { width } = this.state;
-
-    if (groupBy === 'cluster' || groupBy === 'node') {
-      return width > 950 ? 115 : width > 450 ? 150 : 210;
-    } else {
-      return width > 700 ? 115 : width > 450 ? 150 : 180;
-    }
-  };
-
   private getHasData = () => {
     const { report } = this.props;
 
     // Note: When APIs return an empty data array, units are unknown. Likewise, when "platform projects" are applied,
     // there is no "platform" project. As a workaround, we obtain values from the meta data.
 
-    const hasMeta = report && report.meta !== undefined;
-    const hasTotal = hasMeta && report.meta.total !== undefined;
-    const hasCapacity = hasTotal && report.meta.total.capacity !== undefined;
-    const hasCapacityCount = hasCapacity && report.meta.total.capacity.count !== undefined;
-    const hasCapacityCountUnits = hasCapacity && report.meta.total.capacity.count_units !== undefined;
-    const hasCapacityUnits = hasCapacity && report.meta.total.capacity.units !== undefined;
-    const hasCapacityUnused = hasCapacity && report.meta.total.capacity.unused !== undefined;
-    const hasCapacityUnusedPercent = hasCapacity && report.meta.total.capacity.unused_percent !== undefined;
-    const hasCapacityValue = hasCapacity && report.meta.total.capacity.value !== undefined;
-    const hasLimit = hasTotal && report.meta.total.limit;
-    const hasLimitUnits = hasLimit && report.meta.total.limit.value !== undefined;
-    const hasLimitValue = hasLimit && report.meta.total.limit.units !== undefined;
-    const hasRequest = hasTotal && report.meta.total.request !== undefined;
-    const hasRequestUnits = hasRequest && report.meta.total.request.units !== undefined;
-    const hasRequestUnused = hasRequest && report.meta.total.request.unused !== undefined;
-    const hasRequestUnusedPercent = hasRequest && report.meta.total.request.unused_percent !== undefined;
-    const hasRequestValue = hasRequest && report.meta.total.request.value !== undefined;
-    const hasUsage = hasTotal && report.meta.total.usage !== undefined;
-    const hasUsageUnits = hasUsage && report.meta.total.usage.units !== undefined;
-    const hasUsageValue = hasUsage && report.meta.total.usage.value !== undefined;
+    const hasCapacityCount = report?.meta?.total?.capacity?.count !== undefined;
+    const hasCapacityCountUnits = report?.meta?.total?.capacity?.count_units !== undefined;
+    const hasCapacityUnits = report?.meta?.total?.capacity?.units !== undefined;
+    const hasCapacityUnused = report?.meta?.total?.capacity?.unused !== undefined;
+    const hasCapacityUnusedPercent = report?.meta?.total?.capacity?.unused_percent !== undefined;
+    const hasCapacityValue = report?.meta?.total?.capacity?.value !== undefined;
+    const hasLimitUnits = report?.meta?.total?.limit?.value !== undefined;
+    const hasLimitValue = report?.meta?.total?.limit?.units !== undefined;
+    const hasRequestUnits = report?.meta?.total?.request?.units !== undefined;
+    const hasRequestUnused = report?.meta?.total?.request?.unused !== undefined;
+    const hasRequestUnusedPercent = report?.meta?.total?.request?.unused_percent !== undefined;
+    const hasRequestValue = report?.meta?.total?.request?.value !== undefined;
+    const hasUsageUnits = report?.meta?.total?.usage?.units !== undefined;
+    const hasUsageValue = report?.meta?.total?.usage?.value !== undefined;
 
     return {
-      hasCapacity,
       hasCapacityCount,
       hasCapacityCountUnits,
       hasCapacityUnits,
       hasCapacityUnused,
       hasCapacityUnusedPercent,
       hasCapacityValue,
-      hasLimit,
       hasLimitUnits,
       hasLimitValue,
-      hasMeta,
-      hasRequest,
       hasRequestUnits,
       hasRequestUnused,
       hasRequestUnusedPercent,
       hasRequestValue,
-      hasTotal,
-      hasUsage,
       hasUsageUnits,
       hasUsageValue,
     };
   };
 
-  private getItemsPerRow = () => {
-    const { width } = this.state;
-    return width > 950 ? 4 : width > 700 ? 3 : width > 450 ? 2 : 1;
+  private getHeight = baseHeight => {
+    const { extraHeight } = this.state;
+
+    return baseHeight + extraHeight;
+  };
+
+  private getRoundValue = (value: number) => {
+    return Math.round((value + Number.EPSILON) * 100) / 100;
   };
 
   private getSkeleton = () => {
@@ -425,6 +421,12 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
     }
     return null;
   }
+
+  private handleLegendAllowWrap = extraHeight => {
+    if (extraHeight !== this.state.extraHeight) {
+      this.setState({ extraHeight });
+    }
+  };
 
   private isDatumEmpty = (datum: ChartDatum) => {
     let hasRange = false;
@@ -462,7 +464,7 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
 const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStateProps>(
   (state, { reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
-    const queryState = parseQueryState<Query>(queryFromRoute);
+    const queryState = getQueryState(router.location, 'details');
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
@@ -476,13 +478,13 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
       },
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(queryState && queryState.filter_by && queryState.filter_by),
-        ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
+        ...(queryState?.filter_by && queryState.filter_by),
+        ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
       },
       exclude: {
-        ...(queryState && queryState.exclude && queryState.exclude),
+        ...(queryState?.exclude && queryState.exclude),
       },
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),

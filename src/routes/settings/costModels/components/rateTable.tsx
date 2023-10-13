@@ -2,7 +2,7 @@ import type { IActions, ThProps } from '@patternfly/react-table';
 import {
   ActionsColumn,
   ExpandableRowContent,
-  TableComposable,
+  Table,
   TableVariant,
   Tbody,
   Td,
@@ -88,7 +88,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
       direction: activeSortDirection,
       defaultDirection: 'asc',
     },
-    onSort: (_event, index, direction) => {
+    onSort: (_evt, index, direction) => {
       setActiveSortIndex(index);
       setActiveSortDirection(direction);
       sortCallback({ index, direction });
@@ -121,10 +121,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
         });
 
   return (
-    <TableComposable
-      aria-label={intl.formatMessage(messages.costModelsWizardCreatePriceList)}
-      variant={TableVariant.compact}
-    >
+    <Table aria-label={intl.formatMessage(messages.costModelsWizardCreatePriceList)} variant={TableVariant.compact}>
       <Thead>
         <Tr>
           {columns.map((col: { title?: string; sortable?: boolean }, i) => (
@@ -169,7 +166,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
               <Tr>
                 <Td colSpan={6}>
                   <ExpandableRowContent>
-                    <TableComposable borders={false} variant={TableVariant.compact}>
+                    <Table borders={false} variant={TableVariant.compact}>
                       <Thead>
                         <Tr>
                           {tagColumns.map((tag, tagIndex) => (
@@ -188,7 +185,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
                           </Tr>
                         ))}
                       </Tbody>
-                    </TableComposable>
+                    </Table>
                   </ExpandableRowContent>
                 </Td>
               </Tr>
@@ -196,7 +193,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
           </Tbody>
         );
       })}
-    </TableComposable>
+    </Table>
   );
 };
 

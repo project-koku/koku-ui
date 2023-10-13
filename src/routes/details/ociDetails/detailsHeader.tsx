@@ -67,10 +67,9 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
       report,
       intl,
     } = this.props;
-    const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
 
-    const hasCost =
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total;
+    const showContent = report && !providersError && providers?.meta?.count > 0;
+    const hasCost = report?.meta?.total?.cost?.total;
 
     return (
       <header style={styles.header}>

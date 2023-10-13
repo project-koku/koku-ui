@@ -17,6 +17,9 @@ interface OcpOrderBys {
   cluster?: string;
   node?: string;
   project?: string;
+  persistentvolumeclaim?: string;
+  request?: string;
+  usage?: string;
 }
 
 export interface OcpQuery extends utils.Query {

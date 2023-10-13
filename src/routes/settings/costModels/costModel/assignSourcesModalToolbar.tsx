@@ -1,6 +1,7 @@
 import type { PaginationProps } from '@patternfly/react-core';
 import {
   InputGroup,
+  InputGroupItem,
   InputGroupText,
   Pagination,
   TextInput,
@@ -20,26 +21,28 @@ import { injectIntl } from 'react-intl';
 interface FilterInputProps {
   id: string;
   value: string;
-  onChange: (value: string, event: React.FormEvent<HTMLInputElement>) => void;
-  onSearch: (evt: React.KeyboardEvent<HTMLInputElement>) => void;
+  onChange: (value: string) => void;
+  onSearch: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
 }
 
 const FilterInput: React.FC<FilterInputProps> = ({ id, placeholder = '', value, onChange, onSearch }) => {
   return (
     <InputGroup>
-      <TextInput
-        value={value}
-        placeholder={placeholder}
-        id={id}
-        onChange={onChange}
-        onKeyPress={(evt: React.KeyboardEvent<HTMLInputElement>) => {
-          if (evt.key !== 'Enter' || value === '') {
-            return;
-          }
-          onSearch(evt);
-        }}
-      />
+      <InputGroupItem isFill>
+        <TextInput
+          value={value}
+          placeholder={placeholder}
+          id={id}
+          onChange={(_evt, val) => onChange(val)}
+          onKeyPress={(evt: React.KeyboardEvent<HTMLInputElement>) => {
+            if (evt.key !== 'Enter' || value === '') {
+              return;
+            }
+            onSearch(evt);
+          }}
+        />
+      </InputGroupItem>
       <InputGroupText style={{ borderLeft: '0' }}>
         <SearchIcon />
       </InputGroupText>
@@ -83,7 +86,7 @@ export const AssignSourcesToolbarBase: React.FC<AssignSourcesToolbarBaseProps> =
             page={paginationProps.page}
             perPage={paginationProps.perPage}
             titles={{
-              paginationTitle: intl.formatMessage(messages.paginationTitle, {
+              paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
                 title: intl.formatMessage(messages.costModelsAssignSourcesParen),
                 placement: 'top',
               }),
