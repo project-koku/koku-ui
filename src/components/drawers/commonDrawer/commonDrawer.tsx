@@ -1,6 +1,5 @@
 import { Drawer, DrawerContent } from '@patternfly/react-core';
 import { ExportsDrawer } from 'components/drawers';
-import { OptimizationsDrawer } from 'components/drawers';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -14,7 +13,6 @@ interface CommonDrawerOwnProps {
 
 interface CommonDrawerStateProps {
   isExportsDrawerOpen: boolean;
-  isOptimizationsDrawerOpen: boolean;
 }
 
 interface CommonDrawerDispatchProps {
@@ -30,12 +28,10 @@ class CommonDrawerBase extends React.Component<CommonDrawerProps> {
   private drawerRef = React.createRef();
 
   private getPanelContent = () => {
-    const { isExportsDrawerOpen, isOptimizationsDrawerOpen } = this.props;
+    const { isExportsDrawerOpen } = this.props;
 
     if (isExportsDrawerOpen) {
       return <ExportsDrawer />;
-    } else if (isOptimizationsDrawerOpen) {
-      return <OptimizationsDrawer />;
     }
     return null;
   };
@@ -45,9 +41,9 @@ class CommonDrawerBase extends React.Component<CommonDrawerProps> {
   };
 
   public render() {
-    const { children, isExportsDrawerOpen, isOptimizationsDrawerOpen } = this.props;
+    const { children, isExportsDrawerOpen } = this.props;
 
-    const isExpanded = isExportsDrawerOpen || isOptimizationsDrawerOpen;
+    const isExpanded = isExportsDrawerOpen;
 
     // Sticky drawer is based on RHOSAK app, see:
     // https://github.com/redhat-developer/rhosak-ui/blob/main/apps/consoledot-rhosak/src/AppEntry.tsx#L30-L37

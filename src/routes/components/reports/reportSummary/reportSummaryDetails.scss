@@ -1,40 +1,40 @@
 @import url("~@patternfly/patternfly/base/patternfly-variables.css");
 
 .reportSummaryDetails {
-    margin-bottom: var(--pf-global--spacer--md);
+    margin-bottom: var(--pf-v5-global--spacer--md);
     display: flex;
     align-Items: flex-end;
 }
 
 .text {
-  padding-bottom: var(--pf-global--spacer--sm);
-  line-height: var(--pf-global--LineHeight--sm);
-  font-size: var(--pf-global--FontSize--xs);
+  padding-bottom: var(--pf-v5-global--spacer--sm);
+  line-height: var(--pf-v5-global--LineHeight--sm);
+  font-size: var(--pf-v5-global--FontSize--xs);
 }
 
 .units {
-  padding-left: var(--pf-global--spacer--xs);
-  padding-bottom: var(--pf-global--spacer--sm);
-  line-height: var(--pf-global--LineHeight--sm);
-  font-size: var(--pf-global--FontSize--xs);
+  padding-left: var(--pf-v5-global--spacer--xs);
+  padding-bottom: var(--pf-v5-global--spacer--sm);
+  line-height: var(--pf-v5-global--LineHeight--sm);
+  font-size: var(--pf-v5-global--FontSize--xs);
   white-space: nowrap;
 }
 
 .value {
-  color: var(--pf-global--Color--100);
-  margin-right: var(--pf-global--spacer--sm);
-  font-size: var(--pf-global--FontSize--2xl);
+  color: var(--pf-v5-global--Color--100);
+  margin-right: var(--pf-v5-global--spacer--sm);
+  font-size: var(--pf-v5-global--FontSize--2xl);
 }
 
 .valueAlt {
-  color: var(--pf-global--Color--100);
-  margin-right: var(--pf-global--spacer--sm);
-  font-size: var(--pf-global--FontSize--4xl);
+  color: var(--pf-v5-global--Color--100);
+  margin-right: var(--pf-v5-global--spacer--sm);
+  font-size: var(--pf-v5-global--FontSize--4xl);
 }
 
 .valueContainer {
   display: inline-block;
-  margin-bottom: var(--pf-global--spacer--md);
+  margin-bottom: var(--pf-v5-global--spacer--md);
   width: 50%;
   word-Wrap: break-word;
 }

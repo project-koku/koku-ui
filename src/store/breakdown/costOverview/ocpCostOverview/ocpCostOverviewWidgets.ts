@@ -1,6 +1,6 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
-import { platformCategoryKey } from 'utils/props';
+import { platformCategoryKey, tagPrefix } from 'utils/props';
 
 import type { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
 
@@ -69,10 +69,24 @@ export const projectSummaryWidget: OcpCostOverviewWidget = {
   type: CostOverviewWidgetType.reportSummary,
 };
 
+export const pvcWidget: OcpCostOverviewWidget = {
+  chartName: 'ocpPvcWidget',
+  id: getId(),
+  pvc: {
+    showWidgetOnGroupBy: ['project'],
+  },
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.volume,
+  type: CostOverviewWidgetType.pvc,
+};
+
 export const volumeUsageWidget: OcpCostOverviewWidget = {
   chartName: 'ocpVolumeWidget',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.volume,
   type: CostOverviewWidgetType.volumeUsage,
+  volume: {
+    showWidgetOnGroupBy: ['cluster', 'node', tagPrefix],
+  },
 };

@@ -1,7 +1,7 @@
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -14,6 +14,7 @@ import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { filterProviders } from 'routes/utils/providers';
+import { getQueryState } from 'routes/utils/queryState';
 import { createMapStateToProps } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -39,7 +40,7 @@ const reportPathsType = ReportPathsType.azure;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<AzureCostOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const queryState = parseQueryState<Query>(queryFromRoute);
+  const queryState = getQueryState(router.location, 'details');
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
@@ -55,12 +56,12 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, BreakdownStateP
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(queryState && queryState.filter_by && queryState.filter_by),
+      ...(queryState?.filter_by && queryState.filter_by),
       // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-      ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+      // ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
     },
     exclude: {
-      ...(queryState && queryState.exclude && queryState.exclude),
+      ...(queryState?.exclude && queryState.exclude),
     },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),

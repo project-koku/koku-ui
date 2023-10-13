@@ -7,6 +7,7 @@ export const enum CostOverviewWidgetType {
   costDistribution = 'costDistribution', // This type displays cost distribution as a pie chart
   cpuUsage = 'cpuUsage', // This type displays cpu usage as a bullet chart
   memoryUsage = 'memoryUsage', // This type displays memory usage as a bullet chart
+  pvc = 'pvc', // This type displays persistent volume claim as a bullet chart
   reportSummary = 'summary', // This type displays a cost report summary
   volumeUsage = 'volumeUsage', // This type displays volume usage as a bullet chart
 }
@@ -16,6 +17,9 @@ export interface CostOverviewWidget {
   id: number;
   cluster?: {
     reportGroupBy: string; // Report group_by
+    showWidgetOnGroupBy?: string[]; // Show widget when group_by is matched
+  };
+  pvc?: {
     showWidgetOnGroupBy?: string[]; // Show widget when group_by is matched
   };
   usage?: {
@@ -30,4 +34,7 @@ export interface CostOverviewWidget {
   reportPathsType: ReportPathsType; // Report URL path
   reportType: ReportType; // Report type; cost, storage, etc.
   type: CostOverviewWidgetType;
+  volume?: {
+    showWidgetOnGroupBy?: string[]; // Show widget when group_by is matched
+  };
 }

@@ -1,9 +1,6 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
-  Dropdown,
-  DropdownItem,
-  KebabToggle,
   List,
   ListItem,
   Split,
@@ -19,6 +16,7 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
+import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core/deprecated';
 import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React from 'react';
@@ -134,7 +132,7 @@ const Header: React.FC<Props> = ({
           </SplitItem>
           <SplitItem>
             <Dropdown
-              toggle={<KebabToggle onToggle={setDropdownIsOpen} />}
+              toggle={<KebabToggle onToggle={(_evt, isOpen) => setDropdownIsOpen(isOpen)} />}
               isOpen={dropdownIsOpen}
               onSelect={() => setDropdownIsOpen(false)}
               isPlain

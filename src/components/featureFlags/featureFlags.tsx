@@ -19,7 +19,7 @@ const useFeatureFlags = () => {
   const updateContext = useUnleashContext();
   const client = useUnleashClient();
   const dispatch = useDispatch();
-  const { auth } = useChrome();
+  const { auth, isBeta } = useChrome();
 
   const fetchUser = callback => {
     auth.getUser().then(user => {
@@ -56,8 +56,7 @@ const useFeatureFlags = () => {
             isFinsightsFeatureEnabled: client.isEnabled(FeatureToggle.finsights),
             isIbmFeatureEnabled: client.isEnabled(FeatureToggle.ibm),
             isRosFeatureEnabled:
-              client.isEnabled(FeatureToggle.ros) ||
-              (client.isEnabled(FeatureToggle.rosBeta) && insights && insights.chrome && insights.chrome.isBeta()),
+              client.isEnabled(FeatureToggle.ros) || (client.isEnabled(FeatureToggle.rosBeta) && isBeta()), // Need to check beta in prod
             isSettingsPlatformFeatureEnabled: client.isEnabled(FeatureToggle.settingsPlatform),
           })
         );

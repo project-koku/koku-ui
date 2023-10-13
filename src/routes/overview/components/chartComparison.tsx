@@ -1,5 +1,5 @@
-import type { SelectOptionObject } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import React from 'react';
 
 interface ChartComparisonOwnProps {
@@ -44,8 +44,8 @@ class ChartComparisonBase extends React.Component<ChartComparisonProps, ChartCom
         id="comparisonSelect"
         isDisabled={isDisabled}
         isOpen={isSelectOpen}
-        onSelect={this.handleSelect}
-        onToggle={this.handleToggle}
+        onSelect={(_evt, value) => this.handleSelect(value)}
+        onToggle={(_evt, isExpanded) => this.handleToggle(isExpanded)}
         selections={selection}
         variant={SelectVariant.single}
       >
@@ -71,7 +71,7 @@ class ChartComparisonBase extends React.Component<ChartComparisonProps, ChartCom
     return selectOptions;
   };
 
-  private handleSelect = (event, selection: ComparisonOption) => {
+  private handleSelect = (selection: ComparisonOption) => {
     const { onItemClicked } = this.props;
 
     if (onItemClicked) {

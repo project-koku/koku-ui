@@ -1,6 +1,6 @@
 import { Skeleton } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { ComputedReportItemValueType, DatumType, transformReport } from 'routes/components/charts/common/chartDatum';
 import { HistoricalCostChart } from 'routes/components/charts/historicalCostChart';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
+import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -113,10 +114,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
       'infrastructure'
     );
 
-    const costUnits =
-      currentReport && currentReport.meta && currentReport.meta.total && currentReport.meta.total.cost
-        ? currentReport.meta.total.cost[reportItemValue].units
-        : 'USD';
+    const costUnits = currentReport?.meta?.total?.cost ? currentReport.meta.total.cost[reportItemValue].units : 'USD';
 
     const test = intl.formatMessage(messages.currencyUnits, { units: costUnits });
 
@@ -128,13 +126,11 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
             this.getSkeleton()
           ) : (
             <HistoricalCostChart
-              adjustContainerHeight
-              containerHeight={chartStyles.chartContainerHeight - 25}
+              baseHeight={chartStyles.chartHeight}
               currentCostData={currentData}
               currentInfrastructureCostData={currentInfrastructureCostData}
               formatOptions={{}}
               formatter={formatUnits}
-              height={chartStyles.chartHeight}
               name={chartName}
               previousCostData={previousData}
               previousInfrastructureCostData={previousInfrastructureCostData}
@@ -153,7 +149,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
 const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, HistoricalDataCostChartStateProps>(
   (state, { costType, currency, reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = parseQueryState<Query>(queryFromRoute);
+    const queryState = getQueryState(router.location, 'details');
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
@@ -161,18 +157,17 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
     const baseQuery: Query = {
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(queryState && queryState.filter_by && queryState.filter_by),
-        ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
+        ...(queryState?.filter_by && queryState.filter_by),
+        ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
         // Workaround for https://issues.redhat.com/browse/COST-1189
-        ...(queryState &&
-          queryState.filter_by &&
+        ...(queryState?.filter_by &&
           queryState.filter_by[orgUnitIdKey] && {
             [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
             [orgUnitIdKey]: undefined,
           }),
       },
       exclude: {
-        ...(queryState && queryState.exclude && queryState.exclude),
+        ...(queryState?.exclude && queryState.exclude),
       },
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),
@@ -192,7 +187,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
       filter_by: {
         ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
       },
     };
 
@@ -218,7 +213,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
       filter_by: {
         ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
       },
     };
 

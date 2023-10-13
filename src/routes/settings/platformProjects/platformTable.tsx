@@ -51,8 +51,8 @@ class PlatformTableBase extends React.Component<PlatformTableProps, PlatformTabl
 
   public componentDidUpdate(prevProps: PlatformTableProps) {
     const { report, selectedItems } = this.props;
-    const currentReport = report && report.data ? JSON.stringify(report.data) : '';
-    const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
+    const currentReport = report?.data ? JSON.stringify(report.data) : '';
+    const previousReport = prevProps?.report?.data ? JSON.stringify(prevProps.report.data) : '';
 
     if (previousReport !== currentReport || prevProps.selectedItems !== selectedItems) {
       this.initDatum();

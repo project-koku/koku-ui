@@ -13,7 +13,7 @@ export const initQuery = (query: Query, reset: boolean = false, props = {}) => {
 
   // Reset pagination
   if (reset) {
-    if (newQuery.filter && newQuery.filter.offset !== undefined) {
+    if (newQuery?.filter?.offset !== undefined) {
       newQuery.filter = {
         ...query.filter,
         offset: 0,
@@ -72,10 +72,10 @@ export const handleOnPerPageSelect = (query: Query, perPage: number, isLimit = f
 
 export const handleOnSetPage = (query: Query, report, pageNumber, isLimit = false) => {
   let limit = 10;
-  if (report && report.meta) {
-    if (isLimit && report.meta.limit !== undefined) {
+  if (report?.meta) {
+    if (isLimit && report?.meta?.limit !== undefined) {
       limit = report.meta.limit;
-    } else if (report.meta.filter && report.meta.filter.limit !== undefined) {
+    } else if (report?.meta?.filter?.limit !== undefined) {
       limit = report.meta.filter.limit;
     }
   }

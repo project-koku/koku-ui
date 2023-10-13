@@ -1,4 +1,4 @@
-import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
+import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core/deprecated';
 import type { ProviderType } from 'api/providers';
 import type { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -125,7 +125,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
       <>
         <Dropdown
           onSelect={this.handleOnSelect}
-          toggle={<KebabToggle onToggle={this.handleOnToggle} />}
+          toggle={<KebabToggle onToggle={(_evt, isOpen) => this.handleOnToggle(isOpen)} />}
           isOpen={this.state.isDropdownOpen}
           isPlain
           position="right"

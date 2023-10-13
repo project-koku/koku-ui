@@ -70,7 +70,7 @@ export const getPlatformCosts = ({
         label={intl.formatMessage(messages.sumPlatformCosts)}
         isChecked={isPlatformCostsChecked}
         isDisabled={isDisabled}
-        onChange={onPlatformCostsChanged}
+        onChange={(_evt, checked) => onPlatformCostsChanged(checked)}
       />
     </ToolbarItem>
   );

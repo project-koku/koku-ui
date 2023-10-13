@@ -1,4 +1,5 @@
 import type { Notification, RecommendationItem } from 'api/ros/recommendations';
+import type { RecommendationItems } from 'api/ros/recommendations';
 
 export const getNotifications = (term: RecommendationItem): Notification[] => {
   if (!hasNotification(term)) {
@@ -8,7 +9,7 @@ export const getNotifications = (term: RecommendationItem): Notification[] => {
 };
 
 export const hasNotification = (term: RecommendationItem) => {
-  if (!(term && term.notifications)) {
+  if (!term?.notifications) {
     return false;
   }
   const keys = Object.keys(term.notifications);
@@ -36,4 +37,15 @@ export const hasRecommendationValues = (term: RecommendationItem, key1: string, 
     result = Object.keys(term[key1][key2][key3]).length > 0;
   }
   return result;
+};
+
+export const hasWarning = (recommendations: RecommendationItems) => {
+  if (!recommendations) {
+    return false;
+  }
+  return (
+    hasNotification(recommendations.short_term) ||
+    hasNotification(recommendations.medium_term) ||
+    hasNotification(recommendations.long_term)
+  );
 };

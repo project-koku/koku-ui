@@ -42,7 +42,7 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
     const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
     const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
-    if (this.startDateRef && this.startDateRef.current) {
+    if (this.startDateRef?.current) {
       this.startDateRef.current.setCalendarOpen(dateRangeType !== DateRangeType.custom);
     }
     if (dateRangeType === DateRangeType.custom) {
@@ -162,7 +162,7 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
   private handleOnStartDateOnChange = (evt: FormEvent, value: string, date?: Date) => {
     if (date && this.isStartDateValid(date)) {
       this.setState({ startDate: date }, () => {
-        if (this.endDateRef && this.endDateRef.current) {
+        if (this.endDateRef?.current) {
           this.endDateRef.current.setCalendarOpen(true);
         }
       });

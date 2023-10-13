@@ -9,8 +9,11 @@ export interface OcpReportItem extends ReportItem {
   clusters?: string[];
   limit?: ReportValue;
   node?: string;
+  persistent_volume_claim?: string;
   project?: string;
   request?: ReportValue;
+  storage_class?: string;
+  usage?: ReportValue;
 }
 
 export interface GroupByClusterData extends Omit<OcpReportData, 'clusters'> {
@@ -25,9 +28,15 @@ export interface GroupByProjectData extends Omit<OcpReportData, 'projects'> {
   account: string;
 }
 
+export interface GroupByPvcData extends Omit<OcpReportData, 'persistentvolumeclaims'> {
+  // TBD...
+}
+
 export interface OcpReportData extends ReportData {
+  cluster_alias?: string;
   clusters?: GroupByClusterData[];
   nodes?: GroupByNodeData[];
+  persistentvolumeclaims?: GroupByPvcData[];
   projects?: GroupByProjectData[];
 }
 

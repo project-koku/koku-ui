@@ -1,6 +1,5 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import { EmptyState, EmptyStateBody, EmptyStateIcon, Title, TitleSizes } from '@patternfly/react-core';
-import { Bullseye } from '@patternfly/react-core';
+import { Bullseye, EmptyState, EmptyStateBody, EmptyStateHeader, EmptyStateIcon } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
@@ -71,7 +70,7 @@ const EmptyFilterStateBase: React.FC<EmptyFilterStateProps> = ({
       }
     } else {
       const queryFromRoute = parseQuery<Query>(location.search);
-      if (queryFromRoute && queryFromRoute.group_by) {
+      if (queryFromRoute?.group_by) {
         for (const values of Object.values(queryFromRoute.group_by)) {
           if (Array.isArray(values)) {
             for (const val of values) {
@@ -115,9 +114,7 @@ const EmptyFilterStateBase: React.FC<EmptyFilterStateProps> = ({
     >
       <EmptyState>
         {getItem()}
-        <Title headingLevel="h2" size={TitleSizes.lg}>
-          {intl.formatMessage(title)}
-        </Title>
+        <EmptyStateHeader titleText={<>{intl.formatMessage(title)}</>} headingLevel="h2" />
         <EmptyStateBody>{intl.formatMessage(subTitle)}</EmptyStateBody>
       </EmptyState>
     </div>

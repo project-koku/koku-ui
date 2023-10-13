@@ -1,4 +1,4 @@
-import { act, configure, render, screen } from '@testing-library/react';
+import { configure, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { Rate } from 'api/rates';
 import messages from 'locales/messages';
@@ -7,7 +7,7 @@ import { CostModelContext, defaultCostModelContext } from 'routes/settings/costM
 
 import AddPriceList from './addPriceList';
 
-const metricsHash = {
+const metricsHash: any = {
   CPU: {
     Request: {
       source_type: 'Openshift Container Platform',
@@ -127,12 +127,12 @@ describe('add-a-new-rate', () => {
     await user.type(screen.getByLabelText('Description'), 'regular rate test');
 
     // select first option for metric
-    await act(async () => user.click(screen.getByLabelText('Select Metric')));
+    await user.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
     // select first option for measurement
-    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
+    await user.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
@@ -142,7 +142,7 @@ describe('add-a-new-rate', () => {
     // selecting a different measurement does not reset cost type to default
     await user.click(screen.getByLabelText(qr.supplradio));
 
-    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
+    await user.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 
@@ -151,13 +151,13 @@ describe('add-a-new-rate', () => {
     // selecting metric will reset both measurement and cost type
     await user.click(screen.getByLabelText(qr.infraradio));
 
-    await act(async () => user.click(screen.getByLabelText('Select Metric')));
+    await user.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 
     expect(screen.getByText(regExp(messages.costModelsRequiredField))).not.toBeNull();
 
-    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
+    await user.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
@@ -197,11 +197,11 @@ describe('add-a-new-rate', () => {
 
     await user.type(screen.getByLabelText('Description'), 'tag rate test');
 
-    await act(async () => user.click(screen.getByLabelText('Select Metric')));
+    await user.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
-    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
+    await user.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
@@ -267,11 +267,11 @@ describe('add-a-new-rate', () => {
     let options = null;
     render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
-    await act(async () => user.click(screen.getByLabelText('Select Metric')));
+    await user.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 
-    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
+    await user.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
@@ -289,13 +289,13 @@ describe('add-a-new-rate', () => {
     await user.type(tagKeyInput, '{backspace}');
     expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
 
-    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
+    await user.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 
     expect(screen.queryByText(regExp(messages.priceListDuplicate))).toBeNull();
 
-    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
+    await user.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
@@ -310,11 +310,11 @@ describe('add-a-new-rate', () => {
 
     await render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
-    await act(async () => user.click(screen.getByLabelText('Select Metric')));
+    await user.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     await user.click(options[2]);
 
-    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
+    await user.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
     expect(screen.queryAllByLabelText(regExp(messages.costModelsEnterTagRate))).toHaveLength(0);

@@ -23,6 +23,7 @@ export interface Query {
   filter?: any;
   filter_by?: any;
   group_by?: any;
+  id?: string;
   isPlatformCosts?: boolean;
   key?: string;
   key_only?: boolean;
@@ -42,7 +43,7 @@ export interface Query {
 
 // Converts filter_by props to filter props
 export function convertFilterBy(query: Query) {
-  if (!(query && query.filter_by)) {
+  if (!query?.filter_by) {
     return query;
   }
   const newQuery = {
@@ -96,7 +97,7 @@ function parseKey(val: string) {
 
 // Returns query without filter_by prefix
 export function parseFilterByPrefix(query: Query) {
-  if (!(query && query.filter_by)) {
+  if (!query?.filter_by) {
     return query;
   }
   const newQuery = {
@@ -112,7 +113,7 @@ export function parseFilterByPrefix(query: Query) {
 
 // Returns query without group_by prefix -- https://github.com/project-koku/koku-ui/issues/704
 export function parseGroupByPrefix(query: Query) {
-  if (!(query && query.group_by)) {
+  if (!query?.group_by) {
     return query;
   }
   const newQuery = {
@@ -129,8 +130,4 @@ export function parseGroupByPrefix(query: Query) {
 export function parseQuery<T = any>(query: string): T {
   const newQuery: any = parse(query, { ignoreQueryPrefix: true });
   return parseFilterByPrefix(parseGroupByPrefix(newQuery));
-}
-
-export function parseQueryState<T = any>(query: Query): T {
-  return query && query.state ? JSON.parse(window.atob(query.state)) : undefined;
 }

@@ -136,6 +136,8 @@
         "react/prop-types": 0,
         "simple-import-sort/imports": "error",
         "spaced-comment": "error",
+        "rulesdir/disallow-pf-migrated-components": "off",
+        "rulesdir/forbid-pf-relative-imports": "off",
         "testing-library/await-async-queries": "error",
         "testing-library/no-await-sync-queries": "error",
         "testing-library/no-debugging-utils": "warn",

@@ -6,7 +6,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 
-import { styles } from './tag.styles';
+import { styles } from './tagContent.styles';
 
 interface TagContentOwnProps {
   groupBy: string;
