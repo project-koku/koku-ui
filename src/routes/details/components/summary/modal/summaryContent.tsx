@@ -1,6 +1,6 @@
 import { Title, TitleSizes } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { Report, ReportPathsType } from 'api/reports/report';
 import { ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { ReportSummaryItem, ReportSummaryItems } from 'routes/components/reports/reportSummary';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
+import { getQueryState } from 'routes/utils/queryState';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -22,7 +23,7 @@ import { withRouter } from 'utils/router';
 
 import { styles } from './summaryModal.styles';
 
-interface SummaryModalContentOwnProps extends RouterComponentProps, WrappedComponentProps {
+interface SummaryContentOwnProps extends RouterComponentProps, WrappedComponentProps {
   costDistribution: string;
   costType?: string;
   currency?: string;
@@ -30,25 +31,23 @@ interface SummaryModalContentOwnProps extends RouterComponentProps, WrappedCompo
   reportPathsType: ReportPathsType;
 }
 
-interface SummaryModalContentStateProps {
+interface SummaryContentStateProps {
   report?: Report;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
   reportQueryString?: string;
 }
 
-interface SummaryModalContentDispatchProps {
+interface SummaryContentDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type SummaryModalContentProps = SummaryModalContentOwnProps &
-  SummaryModalContentStateProps &
-  SummaryModalContentDispatchProps;
+type SummaryContentProps = SummaryContentOwnProps & SummaryContentStateProps & SummaryContentDispatchProps;
 
 const reportType = ReportType.cost;
 
-class SummaryModalContentBase extends React.Component<SummaryModalContentProps, any> {
-  constructor(props: SummaryModalContentProps) {
+class SummaryContentBase extends React.Component<SummaryContentProps, any> {
+  constructor(props: SummaryContentProps) {
     super(props);
   }
 
@@ -56,7 +55,7 @@ class SummaryModalContentBase extends React.Component<SummaryModalContentProps, 
     this.updateReport();
   }
 
-  public componentDidUpdate(prevProps: SummaryModalContentProps) {
+  public componentDidUpdate(prevProps: SummaryContentProps) {
     const { reportQueryString } = this.props;
     if (prevProps.reportQueryString !== reportQueryString) {
       this.updateReport();
@@ -72,7 +71,7 @@ class SummaryModalContentBase extends React.Component<SummaryModalContentProps, 
     const { costDistribution, intl, report, reportGroupBy, reportFetchStatus } = this.props;
 
     const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
-    const hasTotal = report && report.meta && report.meta.total;
+    const hasTotal = report?.meta?.total;
     const cost = formatCurrency(
       hasTotal ? report.meta.total.cost[reportItemValue].value : 0,
       hasTotal ? report.meta.total.cost[reportItemValue].units : 'USD'
@@ -106,10 +105,10 @@ class SummaryModalContentBase extends React.Component<SummaryModalContentProps, 
   }
 }
 
-const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, SummaryModalContentStateProps>(
+const mapStateToProps = createMapStateToProps<SummaryContentOwnProps, SummaryContentStateProps>(
   (state, { costDistribution, costType, currency, reportGroupBy, reportPathsType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = parseQueryState<Query>(queryFromRoute);
+    const queryState = getQueryState(router.location, 'details');
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
@@ -125,23 +124,20 @@ const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, Summa
       },
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(queryState && queryState.filter_by && queryState.filter_by),
-        ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
-        ...(queryFromRoute &&
-          queryFromRoute.filter &&
-          queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+        ...(queryState?.filter_by && queryState.filter_by),
+        ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
+        ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
         // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
         ...(groupBy && groupByValue !== '*' && { [groupBy]: groupByValue }), // group bys must appear in filter to show costs by region, account, etc
         // Workaround for https://issues.redhat.com/browse/COST-1189
-        ...(queryState &&
-          queryState.filter_by &&
+        ...(queryState?.filter_by &&
           queryState.filter_by[orgUnitIdKey] && {
             [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
             [orgUnitIdKey]: undefined,
           }),
       },
       exclude: {
-        ...(queryState && queryState.exclude && queryState.exclude),
+        ...(queryState?.exclude && queryState.exclude),
       },
       group_by: {
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
@@ -172,13 +168,11 @@ const mapStateToProps = createMapStateToProps<SummaryModalContentOwnProps, Summa
   }
 );
 
-const mapDispatchToProps: SummaryModalContentDispatchProps = {
+const mapDispatchToProps: SummaryContentDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryModalContent = injectIntl(
-  withRouter(connect(mapStateToProps, mapDispatchToProps)(SummaryModalContentBase))
-);
+const SummaryContent = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(SummaryContentBase)));
 
-export { SummaryModalContent };
-export type { SummaryModalContentProps };
+export { SummaryContent };
+export type { SummaryContentProps };

@@ -1,5 +1,7 @@
-import type { SelectOptionObject, ToolbarChipGroup } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant, ToolbarFilter } from '@patternfly/react-core';
+import type { ToolbarChipGroup } from '@patternfly/react-core';
+import { ToolbarFilter } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import type { Org } from 'api/orgs/org';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
@@ -32,7 +34,7 @@ export const getOrgUnitSelect = ({
   isDisabled?: boolean;
   isOrgUnitSelectExpanded?: boolean;
   onDelete?: (type: any, chip: any) => void;
-  onOrgUnitSelect?: (event, selection: string) => void;
+  onOrgUnitSelect?: (event: React.MouseEvent, selection: string) => void;
   onOrgUnitToggle?: (isOpen: boolean) => void;
   orgReport: Org;
 }) => {
@@ -78,8 +80,8 @@ export const getOrgUnitSelect = ({
         className="selectOverride"
         variant={SelectVariant.checkbox}
         aria-label={intl.formatMessage(messages.filterByOrgUnitAriaLabel)}
-        onToggle={onOrgUnitToggle}
         onSelect={onOrgUnitSelect}
+        onToggle={(_evt, isExpanded) => onOrgUnitToggle(isExpanded)}
         selections={selections}
         isOpen={isOrgUnitSelectExpanded}
         placeholderText={intl.formatMessage(messages.filterByOrgUnitPlaceholder)}
@@ -94,7 +96,7 @@ export const getOrgUnitSelect = ({
 
 export const getOrgUnitOptions = (orgReport: Org): ToolbarChipGroup[] => {
   let options = [];
-  if (!(orgReport && orgReport.data)) {
+  if (!orgReport?.data) {
     return options;
   }
 

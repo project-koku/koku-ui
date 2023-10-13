@@ -1,5 +1,6 @@
 import type { PaginationProps } from '@patternfly/react-core';
-import { Pagination, PaginationVariant, Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
@@ -75,11 +76,11 @@ const CostModelsFilterSelectorBase: React.FC<CostModelsFilterSelectorProps> = ({
   return (
     <Select
       isOpen={isOpen}
-      onSelect={(_event, value: string) => {
+      onSelect={(_evt, value) => {
         updateFilterType(value);
         setIsOpen(false);
       }}
-      onToggle={setIsOpen}
+      onToggle={(_evt, isExpanded) => setIsOpen(isExpanded)}
       selections={filterType}
       toggleIcon={<FilterIcon />}
       variant={SelectVariant.single}

@@ -1,6 +1,6 @@
-import type { WizardStepFunctionType } from '@patternfly/react-core';
-import { Title, TitleSizes, Wizard } from '@patternfly/react-core';
-import { Button, Modal } from '@patternfly/react-core';
+import { Button, Icon, Modal, Title, TitleSizes } from '@patternfly/react-core';
+import type { WizardStepFunctionType } from '@patternfly/react-core/deprecated';
+import { Wizard } from '@patternfly/react-core/deprecated';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import { addCostModel } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
@@ -413,23 +413,23 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
                   justSaved: value ? value : false,
                 },
               }),
-            handleDistributionChange: (_, event) => {
+            handleDistributionChange: event => {
               const { value } = event.currentTarget;
               this.setState({ distribution: value });
             },
-            handleDistributePlatformUnallocatedChange: (_, event) => {
+            handleDistributePlatformUnallocatedChange: event => {
               const { value } = event.currentTarget;
               this.setState({ distributePlatformUnallocated: value === 'true' });
             },
-            handleDistributeWorkerUnallocatedChange: (_, event) => {
+            handleDistributeWorkerUnallocatedChange: event => {
               const { value } = event.currentTarget;
               this.setState({ distributeWorkerUnallocated: value === 'true' });
             },
-            handleMarkupDiscountChange: (_, event) => {
+            handleMarkupDiscountChange: event => {
               const { value } = event.currentTarget;
               this.setState({ markup: value });
             },
-            handleSignChange: (_, event) => {
+            handleSignChange: event => {
               const { value } = event.currentTarget;
               this.setState({ isDiscount: value === 'true' });
             },
@@ -437,14 +437,14 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
             loading: this.state.loading,
             metricsHash,
             onClose: () => this.setState({ ...this.defaultState }, this.props.closeWizard),
-            onCurrencyChange: value =>
+            onCurrencyChange: (value: string) =>
               this.setState({ currencyUnits: value, tiers: updateTiersCurrency(this.state.tiers, value) }),
-            onDescChange: value => this.setState({ description: value }),
-            onFilterChange: value => this.setState({ filterName: value }),
-            onNameChange: value => this.setState({ name: value, dirtyName: true }),
-            onPageChange: (_evt, page) => this.setState({ page }),
-            onPerPageChange: (_evt, perPage) => this.setState({ page: 1, perPage }),
-            onSourceSelect: (rowId, isSelected) => {
+            onDescChange: (value: string) => this.setState({ description: value }),
+            onFilterChange: (value: string) => this.setState({ filterName: value }),
+            onNameChange: (value: string) => this.setState({ name: value, dirtyName: true }),
+            onPageChange: (page: number) => this.setState({ page }),
+            onPerPageChange: (perPage: number) => this.setState({ page: 1, perPage }),
+            onSourceSelect: (rowId: number, isSelected: boolean) => {
               if (rowId === -1) {
                 const pageSelections = this.state.sources.map(s => ({
                   [s.uuid]: { selected: isSelected, meta: s },
@@ -464,19 +464,19 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
               };
               return this.setState({ checked: newState });
             },
-            onTypeChange: value => this.setState({ type: value, dataFetched: false, loading: false }),
+            onTypeChange: (value: string) => this.setState({ type: value, dataFetched: false, loading: false }),
             page: this.state.page,
             priceListPagination: {
               page: this.state.priceListPagination.page,
               perPage: this.state.priceListPagination.perPage,
-              onPageSet: (_evt, page) =>
+              onPageSet: (page: number) =>
                 this.setState({
                   priceListPagination: {
                     ...this.state.priceListPagination,
                     page,
                   },
                 }),
-              onPerPageSet: (_evt, perPage) =>
+              onPerPageSet: (perPage: number) =>
                 this.setState({
                   priceListPagination: {
                     page: 1,
@@ -543,7 +543,10 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
           isOpen={this.state.isDialogOpen}
           header={
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
-              <ExclamationTriangleIcon color="orange" /> {intl.formatMessage(messages.createCostModelExit)}
+              <Icon status="warning">
+                <ExclamationTriangleIcon />
+              </Icon>{' '}
+              {intl.formatMessage(messages.createCostModelExit)}
             </Title>
           }
           onClose={closeConfirmDialog}

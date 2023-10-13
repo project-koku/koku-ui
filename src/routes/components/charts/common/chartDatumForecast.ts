@@ -70,13 +70,13 @@ export function getComputedForecast(
     newForecast.data = []; // Keep meta, but clear data array
   }
 
-  if (forecast && report && report.data) {
+  if (forecast && report?.data) {
     const total =
-      report.meta && report.meta.total && report.meta.total[computedForecastItem]
+      report?.meta?.total && report.meta.total[computedForecastItem]
         ? report.meta.total[computedForecastItem].total.value
         : 0;
     const units =
-      report.meta && report.meta.total && report.meta.total[computedForecastItem]
+      report?.meta?.total && report.meta.total[computedForecastItem]
         ? report.meta.total[computedForecastItem].total.units
         : 'USD';
 

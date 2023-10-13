@@ -1,6 +1,7 @@
 import {
   FormGroup,
-  SelectDirection,
+  HelperText,
+  HelperTextItem,
   Stack,
   StackItem,
   TextArea,
@@ -8,6 +9,7 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
+import { SelectDirection } from '@patternfly/react-core/deprecated';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -89,13 +91,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
             </StackItem>
             <StackItem>
               <Form style={styles.form}>
-                <FormGroup
-                  helperTextInvalid={nameErrors(name) && intl.formatMessage(nameErrors(name))}
-                  validated={nameErrors(name) === null || !dirtyName ? 'default' : 'error'}
-                  label={intl.formatMessage(messages.names, { count: 1 })}
-                  isRequired
-                  fieldId="name"
-                >
+                <FormGroup label={intl.formatMessage(messages.names, { count: 1 })} isRequired fieldId="name">
                   <TextInput
                     validated={nameErrors(name) === null || !dirtyName ? 'default' : 'error'}
                     isRequired
@@ -103,17 +99,15 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
                     id="name"
                     name="name"
                     value={name}
-                    onChange={onNameChange}
+                    onChange={(_evt, value) => onNameChange(value)}
                   />
+                  {dirtyName && nameErrors(name) && (
+                    <HelperText>
+                      <HelperTextItem variant="error">{intl.formatMessage(nameErrors(name))}</HelperTextItem>
+                    </HelperText>
+                  )}
                 </FormGroup>
-                <FormGroup
-                  helperTextInvalid={
-                    descriptionErrors(description) && intl.formatMessage(descriptionErrors(description))
-                  }
-                  validated={descriptionErrors(description) === null ? 'default' : 'error'}
-                  label={intl.formatMessage(messages.description)}
-                  fieldId="description"
-                >
+                <FormGroup label={intl.formatMessage(messages.description)} fieldId="description">
                   <TextArea
                     style={styles.textArea}
                     type="text"
@@ -121,8 +115,15 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
                     name="description"
                     value={description}
                     validated={descriptionErrors(description) === null ? 'default' : 'error'}
-                    onChange={onDescChange}
+                    onChange={(_evt, value) => onDescChange(value)}
                   />
+                  {descriptionErrors(description) && (
+                    <HelperText>
+                      <HelperTextItem variant="error">
+                        {intl.formatMessage(descriptionErrors(description))}
+                      </HelperTextItem>
+                    </HelperText>
+                  )}
                 </FormGroup>
                 <Selector
                   isRequired
@@ -134,7 +135,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
                   toggleAriaLabel={intl.formatMessage(messages.costModelsWizardEmptySourceTypeLabel)}
                   placeholderText={intl.formatMessage(messages.costModelsWizardEmptySourceTypeLabel)}
                   value={getValueLabel(type, sourceTypeOptions)}
-                  onChange={onTypeChange}
+                  onChange={(_evt, value) => onTypeChange(value)}
                   options={sourceTypeOptions}
                 />
                 <Selector
@@ -144,7 +145,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
                   maxHeight={styles.selector.maxHeight}
                   toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
                   value={getValueLabel(currencyUnits, currencyOptions)}
-                  onChange={onCurrencyChange}
+                  onChange={(_evt, value) => onCurrencyChange(value)}
                   id="currency-units-selector"
                   options={currencyOptions.map(o => {
                     return {

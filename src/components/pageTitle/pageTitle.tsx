@@ -15,34 +15,35 @@ const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl }) => {
   const usePageTitle = () => {
     const pathname = usePathname();
     switch (pathname) {
+      case formatPath(routes.awsBreakdown.path):
       case formatPath(routes.awsDetails.path):
-      case formatPath(routes.awsDetailsBreakdown.path):
         return messages.pageTitleAws;
+      case formatPath(routes.azureBreakdown.path):
       case formatPath(routes.azureDetails.path):
-      case formatPath(routes.azureDetailsBreakdown.path):
         return messages.pageTitleAzure;
       case formatPath(routes.costModel.basePath):
         return messages.pageTitleCostModels;
       case formatPath(routes.explorer.path):
         return messages.pageTitleExplorer;
+      case formatPath(routes.gcpBreakdown.path):
       case formatPath(routes.gcpDetails.path):
-      case formatPath(routes.gcpDetailsBreakdown.path):
         return messages.pageTitleGcp;
+      case formatPath(routes.ibmBreakdown.path):
       case formatPath(routes.ibmDetails.path):
-      case formatPath(routes.ibmDetailsBreakdown.path):
         return messages.pageTitleIbm;
+      case formatPath(routes.ociBreakdown.path):
       case formatPath(routes.ociDetails.path):
-      case formatPath(routes.ociDetailsBreakdown.path):
         return messages.pageTitleOci;
+      case formatPath(routes.ocpBreakdown.path):
       case formatPath(routes.ocpDetails.path):
-      case formatPath(routes.ocpDetailsBreakdown.path):
         return messages.pageTitleOcp;
-      case formatPath(routes.optimizations.path):
+      case formatPath(routes.optimizationsDetails.path):
+      case formatPath(routes.optimizationsBreakdown.path):
         return messages.pageTitleOptimizations;
       case formatPath(routes.overview.path):
         return messages.pageTitleOverview;
+      case formatPath(routes.rhelBreakdown.path):
       case formatPath(routes.rhelDetails.path):
-      case formatPath(routes.rhelDetailsBreakdown.path):
         return messages.pageTitleRhel;
       case formatPath(routes.settings.path):
         return messages.pageTitleSettings;

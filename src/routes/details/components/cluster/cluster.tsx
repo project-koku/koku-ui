@@ -7,7 +7,7 @@ import { injectIntl } from 'react-intl';
 import { getComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 
 import { styles } from './cluster.styles';
-import { ClusterModal } from './clusterModal';
+import { ClusterModal } from './modal/clusterModal';
 
 interface ClusterOwnProps {
   groupBy: string;

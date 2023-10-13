@@ -1,5 +1,5 @@
 import { Pagination, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
-import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import type { CostModel } from 'api/costModels';
 import type { Provider } from 'api/providers';
 import messages from 'locales/messages';
@@ -58,7 +58,7 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
       return <SourcesModalErrorState />;
     }
 
-    const onSelect = (_evt, isSelected, rowId) => {
+    const onSelect = (isSelected, rowId) => {
       if (rowId === -1) {
         const pageSelections = this.props.providers.reduce((acc, cur) => {
           // If assigned to another cost model, maintain original selection
@@ -146,7 +146,7 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
           }}
           filterInputProps={{
             id: 'assign-sources-modal-toolbar-input',
-            onChange: value =>
+            onChange: (value: string) =>
               this.props.updateFilter({
                 currentFilterType: 'name',
                 currentFilterValue: value,
@@ -184,7 +184,7 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
           }}
         />
         {sources.length > 0 && (
-          <TableComposable
+          <Table
             aria-label={intl.formatMessage(messages.costModelsAssignSources, { count: 1 })}
             variant={TableVariant.compact}
           >
@@ -192,7 +192,7 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
               <Tr>
                 <Th
                   select={{
-                    onSelect: (_evt, isSelecting) => onSelect(_evt, isSelecting, -1),
+                    onSelect: (_evt, isSelecting) => onSelect(isSelecting, -1),
                     isSelected: sources.filter(s => s.disableSelection || s.selected).length === sources.length,
                   }}
                 ></Th>
@@ -205,8 +205,8 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
                 <Tr key={rowIndex}>
                   <Td
                     select={{
-                      disable: s.disableSelection,
-                      onSelect: _evt => onSelect(_evt, !s.selected, rowIndex),
+                      isDisabled: s.disableSelection,
+                      onSelect: () => onSelect(!s.selected, rowIndex),
                       isSelected: s.selected,
                       rowIndex,
                     }}
@@ -217,7 +217,7 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         )}
         {sources.length === 0 && (
           <EmptyFilterState filter={this.props.filter} subTitle={messages.emptyFilterSourceStateSubtitle} />
@@ -231,7 +231,7 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
                 perPage={this.props.pagination.perPage}
                 page={this.props.pagination.page}
                 titles={{
-                  paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                  paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
                     title: intl.formatMessage(messages.costModelsAssignSourcesParen),
                     placement: 'bottom',
                   }),

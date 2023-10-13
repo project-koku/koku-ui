@@ -4,10 +4,8 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { Filter } from 'routes/utils/filter';
-import { createMapStateToProps } from 'store/common';
 
 interface OptimizationsToolbarOwnProps {
   isDisabled?: boolean;
@@ -20,24 +18,13 @@ interface OptimizationsToolbarOwnProps {
   query?: RosQuery;
 }
 
-interface OptimizationsToolbarStateProps {
-  // TBD...
-}
-
-interface OptimizationsToolbarDispatchProps {
-  // TBD...
-}
-
 interface OptimizationsToolbarState {
   categoryOptions?: ToolbarChipGroup[];
 }
 
-type OptimizationsToolbarProps = OptimizationsToolbarOwnProps &
-  OptimizationsToolbarStateProps &
-  OptimizationsToolbarDispatchProps &
-  WrappedComponentProps;
+type OptimizationsToolbarProps = OptimizationsToolbarOwnProps & WrappedComponentProps;
 
-export class OptimizationsToolbarBase extends React.Component<OptimizationsToolbarProps, OptimizationsToolbarState> {
+class OptimizationsToolbarBase extends React.Component<OptimizationsToolbarProps, OptimizationsToolbarState> {
   protected defaultState: OptimizationsToolbarState = {};
   public state: OptimizationsToolbarState = { ...this.defaultState };
 
@@ -87,24 +74,12 @@ export class OptimizationsToolbarBase extends React.Component<OptimizationsToolb
         pagination={pagination}
         query={query}
         showFilter
+        useActiveFilters
       />
     );
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<OptimizationsToolbarOwnProps, OptimizationsToolbarStateProps>(() => {
-  return {
-    // TBD...
-  };
-});
-
-const mapDispatchToProps: OptimizationsToolbarDispatchProps = {
-  // TBD...
-};
-
-const OptimizationsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(OptimizationsToolbarBase);
-const OptimizationsToolbar = injectIntl(OptimizationsToolbarConnect);
+const OptimizationsToolbar = injectIntl(OptimizationsToolbarBase);
 
 export { OptimizationsToolbar };
-export type { OptimizationsToolbarProps };

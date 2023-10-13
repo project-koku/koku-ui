@@ -34,11 +34,10 @@ import type { FormatOptions, Formatter } from 'utils/format';
 import { chartStyles, styles } from './historicalTrendChart.styles';
 
 interface HistoricalTrendChartOwnProps {
-  containerHeight?: number;
+  baseHeight: number;
   currentData: any;
   formatOptions?: FormatOptions;
   formatter: Formatter;
-  height: number;
   name?: string;
   padding?: any;
   previousData?: any;
@@ -52,6 +51,7 @@ interface HistoricalTrendChartOwnProps {
 
 interface State {
   cursorVoronoiContainer?: any;
+  extraHeight?: number;
   hiddenSeries?: Set<number>;
   series?: ChartSeries[];
   width?: number;
@@ -64,6 +64,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
   private observer: any = noop;
 
   public state: State = {
+    extraHeight: 0,
     hiddenSeries: new Set(),
     width: 0,
   };
@@ -161,12 +162,7 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
         labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
-        voronoiPadding={{
-          bottom: 120,
-          left: 8,
-          right: 8,
-          top: 8,
-        }}
+        voronoiPadding={this.getPadding()}
       />
     );
   };
@@ -193,6 +189,23 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
     return result;
   }
 
+  private getHeight = baseHeight => {
+    const { extraHeight } = this.state;
+
+    return baseHeight + extraHeight;
+  };
+
+  private getPadding = () => {
+    const { extraHeight } = this.state;
+
+    return {
+      bottom: 75 + extraHeight, // Maintain chart aspect ratio
+      left: 8,
+      right: 8,
+      top: 8,
+    };
+  };
+
   private getLegend = () => {
     const { legendItemsPerRow, name = '' } = this.props;
     const { hiddenSeries, series } = this.state;
@@ -206,6 +219,14 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
         name={`${name}-legend`}
       />
     );
+  };
+
+  private handleLegendAllowWrap = extraHeight => {
+    const { legendItemsPerRow } = this.props;
+
+    if (!legendItemsPerRow && extraHeight !== this.state.extraHeight) {
+      this.setState({ extraHeight });
+    }
   };
 
   // Hide each data series individually
@@ -224,22 +245,10 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
   };
 
   public render() {
-    const {
-      height,
-      containerHeight = height,
-      intl,
-      name,
-      padding = {
-        bottom: 120,
-        left: 8,
-        right: 8,
-        top: 8,
-      },
-      title,
-      xAxisLabel,
-      yAxisLabel,
-    } = this.props;
+    const { baseHeight, intl, name, padding = this.getPadding(), title, xAxisLabel, yAxisLabel } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
+
+    const chartHeight = this.getHeight(baseHeight);
     const domain = getDomain(series, hiddenSeries);
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
@@ -262,13 +271,14 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
         <Title headingLevel="h2" style={styles.title} size={TitleSizes.xl}>
           {title}
         </Title>
-        <div style={{ ...styles.chart, height: containerHeight }}>
-          <div style={{ height, width }} data-testid="historical-chart-wrapper">
+        <div style={{ ...styles.chart }}>
+          <div style={{ height: chartHeight }} data-testid="historical-chart-wrapper">
             <Chart
               containerComponent={container}
               domain={domain}
               events={this.getEvents()}
-              height={height}
+              height={chartHeight}
+              legendAllowWrap={this.handleLegendAllowWrap}
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom"

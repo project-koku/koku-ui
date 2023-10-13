@@ -1,10 +1,9 @@
 import {
   EmptyState,
   EmptyStateBody,
+  EmptyStateHeader,
   EmptyStateIcon,
   EmptyStateVariant,
-  Title,
-  TitleSizes,
 } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
@@ -23,11 +22,12 @@ class NoOptimizationsStateBase extends React.Component<NoOptimizationsStateProps
     const { intl } = this.props;
 
     return (
-      <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
-        <EmptyStateIcon icon={OptimizationIcon as any} />
-        <Title headingLevel="h1" size={TitleSizes.lg}>
-          {intl.formatMessage(messages.noOptimizationsTitle)}
-        </Title>
+      <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
+        <EmptyStateHeader
+          titleText={<>{intl.formatMessage(messages.noOptimizationsTitle)}</>}
+          icon={<EmptyStateIcon icon={OptimizationIcon as any} />}
+          headingLevel="h1"
+        />
         <EmptyStateBody>{intl.formatMessage(messages.noOptimizationsDesc)}</EmptyStateBody>
       </EmptyState>
     );

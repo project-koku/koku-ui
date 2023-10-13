@@ -34,7 +34,7 @@ export const rateFlatter = rate => {
 export const priceList = (state: RootState) => state[stateKey];
 
 export const cachedRates = (state: RootState, providerUuid: string) => {
-  if (priceList(state).rates && priceList(state).rates.get(providerUuid)) {
+  if (priceList(state)?.rates.get(providerUuid)) {
     return priceList(state).rates.get(providerUuid);
   }
   return null;
@@ -49,9 +49,8 @@ export const rates = (state: RootState, providerUuid: string) => {
 };
 
 export const ratesPerProvider = (state: RootState, providerUuid: string) =>
-  rates(state, providerUuid) &&
   rates(state, providerUuid)
-    .map(rateFlatter)
+    ?.map(rateFlatter)
     .reduce((acc, rateArray) => {
       return [...acc, ...rateArray];
     }, [])

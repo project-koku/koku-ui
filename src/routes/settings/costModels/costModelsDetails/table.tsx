@@ -1,8 +1,7 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
 import type { ICell, ThProps } from '@patternfly/react-table';
-import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
-import { sortable, TableGridBreakpoint } from '@patternfly/react-table';
+import { sortable, Table, TableGridBreakpoint, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import type { CostModel } from 'api/costModels';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
@@ -107,7 +106,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
     });
 
     return (
-      <TableComposable
+      <Table
         aria-label={intl.formatMessage(messages.costModelsTableAriaLabel)}
         gridBreakPoint={TableGridBreakpoint.grid2xl}
         variant={TableVariant.compact}
@@ -136,8 +135,8 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
                     <Button
                       aria-label={intl.formatMessage(messages.delete)}
                       isAriaDisabled={!canWrite}
-                      isSmall
                       onClick={() => openDeleteDialog(r.data)}
+                      size="sm"
                       variant={ButtonVariant.plain}
                     >
                       <MinusCircleIcon />
@@ -148,7 +147,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
             </Tr>
           ))}
         </Tbody>
-      </TableComposable>
+      </Table>
     );
   }
 }

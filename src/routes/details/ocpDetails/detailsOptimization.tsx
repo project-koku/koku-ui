@@ -1,3 +1,4 @@
+import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
@@ -5,17 +6,18 @@ import type { AxiosError } from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { routes } from 'routes';
 import { getBreakdownPath } from 'routes/utils/paths';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
-import { formatPath } from 'utils/paths';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 export interface DetailsOptimizationOwnProps {
+  basePath?: string;
+  breadcrumbPath?: string;
   project?: string;
+  query?: Query;
 }
 
 export interface DetailsOptimizationStateProps {
@@ -55,7 +57,7 @@ class DetailsOptimization extends React.Component<DetailsOptimizationProps, Deta
   };
 
   private getBreakdownLink = count => {
-    const { project, router } = this.props;
+    const { basePath, breadcrumbPath, project, query, router } = this.props;
 
     if (count === 0 || project === undefined) {
       return count;
@@ -63,13 +65,19 @@ class DetailsOptimization extends React.Component<DetailsOptimizationProps, Deta
     return (
       <Link
         to={getBreakdownPath({
-          basePath: formatPath(routes.ocpDetailsBreakdown.path),
+          basePath,
           groupBy: 'project',
           id: project,
           isOptimizationsTab: true,
-          router,
           title: project,
         })}
+        state={{
+          ...(router.location.state && router.location.state),
+          details: {
+            ...(query && query),
+            breadcrumbPath,
+          },
+        }}
       >
         {count}
       </Link>
@@ -79,7 +87,7 @@ class DetailsOptimization extends React.Component<DetailsOptimizationProps, Deta
   public render() {
     const { report } = this.props;
 
-    const count = report && report.meta ? report.meta.count : 0;
+    const count = report?.meta ? report.meta.count : 0;
 
     // Todo: Add link to breakdown page
     return <span>{this.getBreakdownLink(count)}</span>;

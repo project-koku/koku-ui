@@ -1,5 +1,5 @@
 import { Checkbox, Stack, StackItem, Text, TextContent, TextVariants, Title, TitleSizes } from '@patternfly/react-core';
-import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -62,7 +62,7 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
                 filterInputProps={{
                   id: 'assign-source-search-input',
                   value: filterName,
-                  onChange: onFilterChange,
+                  onChange: (value: string) => onFilterChange(value),
                   onSearch: () => {
                     fetchSources(sourceType, addMultiValueQuery(query)('name', filterName), 1, perPage);
                   },
@@ -81,7 +81,7 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
               {loading ? (
                 <LoadingState />
               ) : (
-                <TableComposable
+                <Table
                   aria-label={intl.formatMessage(messages.costModelsWizardSourceTableAriaLabel)}
                   variant={TableVariant.compact}
                 >
@@ -101,7 +101,7 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
                       <Tr key={rowIndex}>
                         <Td>
                           <Checkbox
-                            onChange={isChecked => {
+                            onChange={(_evt, isChecked) => {
                               onSourceSelect(rowIndex, isChecked);
                             }}
                             id={row.name}
@@ -126,14 +126,14 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
                       </Tr>
                     ))}
                   </Tbody>
-                </TableComposable>
+                </Table>
               )}
               <PaginationToolbarTemplate
                 itemCount={itemCount}
                 perPage={perPage}
                 page={page}
                 titles={{
-                  paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                  paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
                     title: intl.formatMessage(messages.sources),
                     placement: 'bottom',
                   }),

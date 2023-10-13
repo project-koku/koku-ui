@@ -79,16 +79,15 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
       report,
       intl,
     } = this.props;
-    const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
-    const showCostDistribution =
-      groupBy === 'project' && report && report.meta && report.meta.distributed_overhead === true;
+    const showContent = report && !providersError && providers?.meta?.count > 0;
+    const showCostDistribution = groupBy === 'project' && report?.meta?.distributed_overhead === true;
 
     let cost: string | React.ReactNode = <EmptyValueState />;
     let supplementaryCost: string | React.ReactNode = <EmptyValueState />;
     let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
 
     const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
-    if (report && report.meta && report.meta.total) {
+    if (report?.meta?.total) {
       const hasCost = report.meta.total.cost && report.meta.total.cost[reportItemValue];
       const hasSupplementaryCost = report.meta.total.supplementary && report.meta.total.supplementary.total;
       const hasInfrastructureCost = report.meta.total.infrastructure && report.meta.total.infrastructure.total;
