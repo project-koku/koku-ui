@@ -1,5 +1,6 @@
-import type { SelectOptionObject } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant, Title } from '@patternfly/react-core';
+import { Title } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import type { Org, OrgPathsType } from 'api/orgs/org';
 import { OrgType } from 'api/orgs/org';
 import type { Query } from 'api/queries/query';
@@ -148,12 +149,12 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
     const { defaultItem } = this.state;
 
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    if (!(queryFromRoute && queryFromRoute.group_by)) {
+    if (!queryFromRoute?.group_by) {
       return defaultItem;
     }
 
     let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);
-    const groupByKeys = queryFromRoute && queryFromRoute.group_by ? Object.keys(queryFromRoute.group_by) : [];
+    const groupByKeys = queryFromRoute?.group_by ? Object.keys(queryFromRoute.group_by) : [];
 
     for (const key of groupByKeys) {
       let index = key.indexOf(tagPrefix);
@@ -196,8 +197,8 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
         id="groupBySelect"
         isDisabled={isDisabled}
         isOpen={isGroupByOpen}
-        onSelect={this.handleOnSelect}
-        onToggle={this.handleOnToggle}
+        onSelect={(_evt, value) => this.handleOnSelect(value)}
+        onToggle={(_evt, isExpanded) => this.handleOnToggle(isExpanded)}
         selections={selection}
         variant={SelectVariant.single}
       >
@@ -212,13 +213,13 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
     const { options, orgReport, resourceReport, tagReport, intl } = this.props;
 
     const allOptions = [...options];
-    if (orgReport && orgReport.data && orgReport.data.length > 0) {
+    if (orgReport?.data?.length > 0) {
       allOptions.push(...groupByOrgOptions);
     }
-    if (tagReport && tagReport.data && tagReport.data.length > 0) {
+    if (tagReport?.data?.length > 0) {
       allOptions.push(...groupByTagOptions);
     }
-    if (resourceReport && resourceReport.data && resourceReport.data.length > 0) {
+    if (resourceReport?.data?.length > 0) {
       allOptions.push(...groupByCostCategoryOptions);
     }
     return allOptions
@@ -237,7 +238,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
       });
   };
 
-  private handleOnSelect = (event, selection: GroupByOption) => {
+  private handleOnSelect = (selection: GroupByOption) => {
     const { onSelected } = this.props;
 
     if (selection.value === orgUnitIdKey || selection.value === awsCategoryKey || selection.value === tagKey) {

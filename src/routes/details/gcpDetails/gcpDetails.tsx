@@ -12,6 +12,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { routes } from 'routes';
 import { ExportModal } from 'routes/components/export';
 import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
@@ -35,6 +36,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getCurrency } from 'utils/localStorage';
+import { formatPath } from 'utils/paths';
 import { noPrefix, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -144,7 +146,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
-    const itemsTotal = report && report.meta ? report.meta.count : 0;
+    const itemsTotal = report?.meta ? report.meta.count : 0;
 
     // Omit items labeled 'no-project'
     const items = [];
@@ -170,15 +172,9 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
   private getPagination = (isDisabled = false, isBottom = false) => {
     const { intl, query, router, report } = this.props;
 
-    const count = report && report.meta ? report.meta.count : 0;
-    const limit =
-      report && report.meta && report.meta.filter && report.meta.filter.limit
-        ? report.meta.filter.limit
-        : baseQuery.filter.limit;
-    const offset =
-      report && report.meta && report.meta.filter && report.meta.filter.offset
-        ? report.meta.filter.offset
-        : baseQuery.filter.offset;
+    const count = report?.meta ? report.meta.count : 0;
+    const limit = report?.meta?.filter?.limit ? report.meta.filter.limit : baseQuery.filter.limit;
+    const offset = report?.meta?.filter?.offset ? report.meta.filter.offset : baseQuery.filter.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -191,7 +187,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         page={page}
         perPage={limit}
         titles={{
-          paginationTitle: intl.formatMessage(messages.paginationTitle, {
+          paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
             title: intl.formatMessage(messages.gcp),
             placement: isBottom ? 'bottom' : 'top',
           }),
@@ -210,6 +206,8 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
 
     return (
       <DetailsTable
+        basePath={formatPath(routes.gcpBreakdown.path)}
+        breadcrumbPath={formatPath(`${routes.gcpDetails.path}${location.search}`)}
         filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
@@ -218,6 +216,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         onSelected={this.handleOnSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         orderBy={query.order_by}
+        query={query}
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
@@ -232,7 +231,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
     const isDisabled = computedItems.length === 0;
-    const itemsTotal = report && report.meta ? report.meta.count : 0;
+    const itemsTotal = report?.meta ? report.meta.count : 0;
 
     return (
       <DetailsToolbar

@@ -1,4 +1,4 @@
-import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
+import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core/deprecated';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -61,7 +61,7 @@ class ExportsActionsBase extends React.Component<ExportsActionsProps, ExportsAct
       <>
         <Dropdown
           onSelect={this.handleOnSelect}
-          toggle={<KebabToggle onToggle={this.handleOnToggle} />}
+          toggle={<KebabToggle onToggle={(_evt, isOpen) => this.handleOnToggle(isOpen)} />}
           isOpen={isDropdownOpen}
           isPlain
           position="right"

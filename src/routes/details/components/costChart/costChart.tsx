@@ -51,10 +51,9 @@ class CostChartBase extends React.Component<CostChartProps, any> {
   public render() {
     const { name, report, reportFetchStatus, intl } = this.props;
 
-    const hasCost = report && report.meta && report.meta.total && report.meta.total.cost;
-    const hasMarkup = hasCost && report.meta.total.cost.markup;
-    const hasRaw = hasCost && report.meta.total.cost.raw;
-    const hasUsage = hasCost && report.meta.total.cost.usage;
+    const hasMarkup = report?.meta?.total?.cost?.markup;
+    const hasRaw = report?.meta?.total?.cost?.raw;
+    const hasUsage = report?.meta?.total?.cost?.usage;
 
     const markupUnits = hasMarkup ? report.meta.total.cost.markup.units : 'USD';
     const rawUnits = hasRaw ? report.meta.total.cost.raw.units : 'USD';

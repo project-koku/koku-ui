@@ -93,7 +93,7 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
                 id="name"
                 name="name"
                 value={this.state.name}
-                onChange={value => this.setState({ name: value })}
+                onChange={(_evt, value) => this.setState({ name: value })}
               />
             </FormGroup>
             <FormGroup label={intl.formatMessage(messages.description)} fieldId="description">
@@ -102,7 +102,7 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
                 id="description"
                 name="description"
                 value={this.state.description}
-                onChange={value => this.setState({ description: value })}
+                onChange={(_evt, value) => this.setState({ description: value })}
               />
             </FormGroup>
           </Form>

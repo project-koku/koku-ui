@@ -37,14 +37,12 @@ import type { FormatOptions, Formatter } from 'utils/format';
 import { chartStyles } from './dailyTrendChart.styles';
 
 interface DailyTrendChartOwnProps {
-  adjustContainerHeight?: boolean;
-  containerHeight?: number;
+  baseHeight?: number;
   currentData: any;
   forecastData?: any;
   forecastConeData?: any;
   formatOptions?: FormatOptions;
   formatter: Formatter;
-  height?: number;
   legendItemsPerRow?: number;
   name?: string;
   previousData?: any;
@@ -58,6 +56,7 @@ interface DailyTrendChartOwnProps {
 
 interface State {
   cursorVoronoiContainer?: any;
+  extraHeight?: number;
   hiddenSeries?: Set<number>;
   series?: ChartSeries[];
   width?: number;
@@ -70,6 +69,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
   private observer: any = noop;
 
   public state: State = {
+    extraHeight: 0,
     hiddenSeries: new Set(),
     width: 0,
   };
@@ -230,28 +230,6 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
     return data;
   };
 
-  private getAdjustedContainerHeight = () => {
-    const {
-      adjustContainerHeight,
-      height,
-      containerHeight = height,
-      showForecast,
-      showSupplementaryLabel,
-    } = this.props;
-    const { width } = this.state;
-
-    let adjustedContainerHeight = containerHeight;
-    if (adjustContainerHeight) {
-      if (showForecast) {
-        const maxWidth = showSupplementaryLabel ? 850 : 725;
-        if (width < maxWidth) {
-          adjustedContainerHeight += 25;
-        }
-      }
-    }
-    return adjustedContainerHeight;
-  };
-
   private getChart = (series: ChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
@@ -319,12 +297,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
         labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
-        voronoiPadding={{
-          bottom: 50,
-          left: 8,
-          right: 8,
-          top: 8,
-        }}
+        voronoiPadding={this.getPadding()}
       />
     );
   };
@@ -353,11 +326,16 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
     return result;
   }
 
+  private getHeight = baseHeight => {
+    const { extraHeight } = this.state;
+
+    return baseHeight + extraHeight;
+  };
+
   private getLegend = () => {
     const { legendItemsPerRow, name = '' } = this.props;
-    const { hiddenSeries, series, width } = this.state;
+    const { hiddenSeries, series } = this.state;
 
-    // Todo: use PF legendAllowWrap feature
     return (
       <ChartLegend
         data={getLegendData(series, hiddenSeries)}
@@ -365,9 +343,27 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
         height={25}
         itemsPerRow={legendItemsPerRow}
         name={`${name}-legend`}
-        orientation={width > 150 ? 'horizontal' : 'vertical'}
       />
     );
+  };
+
+  private getPadding = () => {
+    const { extraHeight } = this.state;
+
+    return {
+      bottom: 50 + extraHeight, // Maintain chart aspect ratio
+      left: 8,
+      right: 8,
+      top: 8,
+    };
+  };
+
+  private handleLegendAllowWrap = extraHeight => {
+    const { legendItemsPerRow } = this.props;
+
+    if (!legendItemsPerRow && extraHeight !== this.state.extraHeight) {
+      this.setState({ extraHeight });
+    }
   };
 
   // Hide each data series individually
@@ -386,18 +382,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
   };
 
   public render() {
-    const {
-      height,
-      intl,
-      name,
-      padding = {
-        bottom: 50,
-        left: 8,
-        right: 8,
-        top: 8,
-      },
-      title,
-    } = this.props;
+    const { baseHeight, intl, name, padding = this.getPadding(), title } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
     const domain = getDomain(series, hiddenSeries);
     const lastDate = this.getEndDate();
@@ -421,6 +406,8 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
         } as any)
       : undefined;
 
+    const chartHeight = this.getHeight(baseHeight);
+
     // Note: For tooltip values to match properly, chart groups must be rendered in the order given as legend data
     return (
       <>
@@ -429,14 +416,14 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
             {title}
           </Title>
         )}
-        <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
-          <div style={{ height, width }}>
+        <div className="chartOverride" ref={this.containerRef}>
+          <div style={{ height: chartHeight }}>
             <Chart
               containerComponent={container}
               domain={domain}
               events={this.getEvents()}
-              height={height}
-              legendAllowWrap
+              height={chartHeight}
+              legendAllowWrap={this.handleLegendAllowWrap}
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom-left"

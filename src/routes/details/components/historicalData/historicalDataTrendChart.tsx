@@ -1,6 +1,6 @@
 import { Skeleton } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { Report, ReportPathsType } from 'api/reports/report';
 import { ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { DatumType, transformReport } from 'routes/components/charts/common/chartDatum';
 import { HistoricalTrendChart } from 'routes/components/charts/historicalTrendChart';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
+import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -108,15 +109,9 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
       isCostChart ? 'cost' : 'usage'
     );
 
-    const costUnits =
-      currentReport && currentReport.meta && currentReport.meta.total && currentReport.meta.total.cost
-        ? currentReport.meta.total.cost.total.units
-        : 'USD';
+    const costUnits = currentReport?.meta?.total?.cost?.total ? currentReport.meta.total.cost.total.units : 'USD';
 
-    const usageUnits =
-      currentReport && currentReport.meta && currentReport.meta.total && currentReport.meta.total.usage
-        ? currentReport.meta.total.usage.units
-        : undefined;
+    const usageUnits = currentReport?.meta?.total?.usage ? currentReport.meta.total.usage.units : undefined;
 
     let yAxisLabel;
     if (isCostChart) {
@@ -137,11 +132,10 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
             this.getSkeleton()
           ) : (
             <HistoricalTrendChart
-              containerHeight={chartStyles.chartContainerHeight - 50}
+              baseHeight={chartStyles.chartHeight}
               currentData={currentData}
               formatOptions={{}}
               formatter={formatUnits}
-              height={chartStyles.chartHeight}
               name={chartName}
               previousData={previousData}
               units={isCostChart ? costUnits : usageUnits}
@@ -158,7 +152,7 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, HistoricalDataTrendChartStateProps>(
   (state, { costType, currency, reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = parseQueryState<Query>(queryFromRoute);
+    const queryState = getQueryState(router.location, 'details');
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
@@ -167,21 +161,18 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
     const baseQuery: Query = {
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(queryState && queryState.filter_by && queryState.filter_by),
-        ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
-        ...(queryFromRoute &&
-          queryFromRoute.filter &&
-          queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+        ...(queryState?.filter_by && queryState.filter_by),
+        ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
+        ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
         // Workaround for https://issues.redhat.com/browse/COST-1189
-        ...(queryState &&
-          queryState.filter_by &&
+        ...(queryState?.filter_by &&
           queryState.filter_by[orgUnitIdKey] && {
             [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
             [orgUnitIdKey]: undefined,
           }),
       },
       exclude: {
-        ...(queryState && queryState.exclude && queryState.exclude),
+        ...(queryState?.exclude && queryState.exclude),
       },
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),
@@ -201,7 +192,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
       filter_by: {
         ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
       },
     };
 
@@ -227,7 +218,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
       filter_by: {
         ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
       },
     };
 

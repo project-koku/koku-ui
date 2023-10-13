@@ -20,7 +20,6 @@ export interface DashboardWidget {
   chartType?: DashboardChartType;
   currentTab?: any;
   details?: {
-    adjustContainerHeight?: boolean; // Adjust chart container height for responsiveness
     costKey?: MessageDescriptor; // i18n key
     formatOptions?: FormatOptions;
     requestFormatOptions?: FormatOptions;

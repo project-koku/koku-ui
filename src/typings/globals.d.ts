@@ -5,7 +5,7 @@ interface Chrome {
   init: () => void;
   identifyApp: (appId: string) => void;
   isBeta: () => boolean;
-  isProd: boolean;
+  isProd: () => boolean;
   navigation: (navFunc: any) => void;
   on: (event: string, eventFunc: any) => () => void;
   appAction: (pageName: string) => void;

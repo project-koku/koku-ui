@@ -5,7 +5,10 @@ import {
   FlexItem,
   Form,
   FormGroup,
+  HelperText,
+  HelperTextItem,
   InputGroup,
+  InputGroupItem,
   InputGroupText,
   List,
   ListItem,
@@ -66,12 +69,12 @@ class UpdateMarkupDialogBase extends React.Component<UpdateMarkupDialogProps, Up
     };
   }
 
-  private handleSignChange = (_, event) => {
+  private handleSignChange = event => {
     const { value } = event.currentTarget;
     this.setState({ isDiscount: value === 'true' });
   };
 
-  private handleMarkupDiscountChange = (_, event) => {
+  private handleMarkupDiscountChange = event => {
     const { value } = event.currentTarget;
 
     this.setState({ markup: value });
@@ -187,34 +190,36 @@ class UpdateMarkupDialogBase extends React.Component<UpdateMarkupDialogProps, Up
               <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfCenter' }}>
                 <FlexItem>
                   <Form>
-                    <FormGroup
-                      fieldId="markup-input-box"
-                      helperTextInvalid={helpText ? intl.formatMessage(helpText) : undefined}
-                      style={styles.rateContainer}
-                      validated={validated}
-                    >
+                    <FormGroup fieldId="markup-input-box" style={styles.rateContainer}>
                       <InputGroup>
                         <InputGroupText style={styles.sign}>
                           {isDiscount
                             ? intl.formatMessage(messages.discountMinus)
                             : intl.formatMessage(messages.markupPlus)}
                         </InputGroupText>
-                        <TextInput
-                          aria-label={intl.formatMessage(messages.rate)}
-                          id="markup-input-box"
-                          isRequired
-                          onKeyDown={this.handleOnKeyDown}
-                          onChange={this.handleMarkupDiscountChange}
-                          placeholder={'0'}
-                          style={styles.inputField}
-                          type="text"
-                          validated={validated}
-                          value={this.state.markup}
-                        />
+                        <InputGroupItem isFill>
+                          <TextInput
+                            aria-label={intl.formatMessage(messages.rate)}
+                            id="markup-input-box"
+                            isRequired
+                            onKeyDown={this.handleOnKeyDown}
+                            onChange={this.handleMarkupDiscountChange}
+                            placeholder={'0'}
+                            style={styles.inputField}
+                            type="text"
+                            validated={validated}
+                            value={this.state.markup}
+                          />
+                        </InputGroupItem>
                         <InputGroupText style={styles.percent}>
                           {intl.formatMessage(messages.percentSymbol)}
                         </InputGroupText>
                       </InputGroup>
+                      {validated === 'error' && (
+                        <HelperText>
+                          <HelperTextItem variant="error">{intl.formatMessage(helpText)}</HelperTextItem>
+                        </HelperText>
+                      )}
                     </FormGroup>
                   </Form>
                 </FlexItem>

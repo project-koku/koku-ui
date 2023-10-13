@@ -23,6 +23,7 @@ import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { Cluster } from 'routes/details/components/cluster';
 import { CostChart } from 'routes/details/components/costChart';
 import { OverheadCostChart } from 'routes/details/components/overheadCostChart';
+import { PvcChart } from 'routes/details/components/pvcChart';
 import { SummaryCard } from 'routes/details/components/summary';
 import { UsageChart } from 'routes/details/components/usageChart';
 import { styles } from 'routes/details/ocpDetails/detailsHeader.styles';
@@ -204,6 +205,36 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
     );
   };
 
+  // Returns PVC (persistent volume claim) chart
+  private getPvcChart = (widget: CostOverviewWidget) => {
+    const { groupBy, intl } = this.props;
+
+    let showWidget = false;
+    if (widget.pvc.showWidgetOnGroupBy) {
+      for (const groupById of widget.pvc.showWidgetOnGroupBy) {
+        if (groupById === groupBy) {
+          showWidget = true;
+          break;
+        }
+      }
+    }
+    if (!showWidget) {
+      return null;
+    }
+    return (
+      <Card className={groupBy === 'node' ? 'cardOverride' : undefined}>
+        <CardTitle>
+          <Title headingLevel="h2" size={TitleSizes.lg}>
+            {intl.formatMessage(messages.pvcTitle)}
+          </Title>
+        </CardTitle>
+        <CardBody>
+          <PvcChart name={widget.chartName} reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
+        </CardBody>
+      </Card>
+    );
+  };
+
   // Returns summary card widget
   private getSummaryCard = (widget: CostOverviewWidget) => {
     const { costDistribution, costType, currency, groupBy, isPlatformCosts, query } = this.props;
@@ -251,6 +282,19 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
   private getVolumeUsageChart = (widget: CostOverviewWidget) => {
     const { groupBy, intl } = this.props;
 
+    let showWidget = false;
+
+    if (widget.volume.showWidgetOnGroupBy) {
+      for (const groupById of widget.volume.showWidgetOnGroupBy) {
+        if (groupById === groupBy || (groupById === tagPrefix && groupBy && groupBy.indexOf(tagPrefix) !== -1)) {
+          showWidget = true;
+          break;
+        }
+      }
+    }
+    if (!showWidget) {
+      return null;
+    }
     return (
       <Card className={groupBy === 'node' ? 'cardOverride' : undefined}>
         <CardTitle>
@@ -307,6 +351,8 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
         return this.getCpuUsageChart(widget);
       case CostOverviewWidgetType.memoryUsage:
         return this.getMemoryUsageChart(widget);
+      case CostOverviewWidgetType.pvc:
+        return this.getPvcChart(widget);
       case CostOverviewWidgetType.reportSummary:
         return this.getSummaryCard(widget);
       case CostOverviewWidgetType.volumeUsage:
