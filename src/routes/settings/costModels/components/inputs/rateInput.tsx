@@ -1,6 +1,15 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import type { FormGroupProps, TextInputProps } from '@patternfly/react-core';
-import { FormGroup, InputGroup, InputGroupText, TextInput } from '@patternfly/react-core';
+import type { TextInputProps } from '@patternfly/react-core';
+import type { FormGroupProps } from '@patternfly/react-core';
+import {
+  FormGroup,
+  HelperText,
+  HelperTextItem,
+  InputGroup,
+  InputGroupItem,
+  InputGroupText,
+  TextInput,
+} from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
@@ -44,28 +53,31 @@ const RateInputBase: React.FC<RateInputBaseProps> = ({
       style={style}
       fieldId={fieldId}
       label={label !== null && typeof label === 'object' ? intl.formatMessage(label) : (label as string)}
-      helperTextInvalid={
-        helpText !== null && typeof helpText === 'object' ? intl.formatMessage(helpText) : (helpText as string)
-      }
-      validated={validated}
     >
       <InputGroup>
         <InputGroupText style={styles.currency}>
           {intl.formatMessage(messages.currencyUnits, { units: currencyUnits })}
         </InputGroupText>
-        <TextInput
-          onBlur={onBlur}
-          isRequired
-          type="text"
-          aria-label={intl.formatMessage(messages.costModelsWizardRateAriaLabel)}
-          id={fieldId}
-          placeholder={formatCurrencyRaw(0, currencyUnits, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-          value={value}
-          onChange={onChange}
-          onKeyDown={handleOnKeyDown}
-          validated={validated}
-        />
+        <InputGroupItem isFill>
+          <TextInput
+            onBlur={onBlur}
+            isRequired
+            type="text"
+            aria-label={intl.formatMessage(messages.costModelsWizardRateAriaLabel)}
+            id={fieldId}
+            placeholder={formatCurrencyRaw(0, currencyUnits, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            value={value}
+            onChange={onChange}
+            onKeyDown={handleOnKeyDown}
+            validated={validated}
+          />
+        </InputGroupItem>
       </InputGroup>
+      {validated === 'error' && typeof helpText === 'object' && (
+        <HelperText>
+          <HelperTextItem variant="error">{intl.formatMessage(helpText)}</HelperTextItem>
+        </HelperText>
+      )}
     </FormGroup>
   );
 };

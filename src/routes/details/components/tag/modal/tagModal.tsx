@@ -1,6 +1,6 @@
 import { Modal } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
@@ -9,6 +9,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
+import { getQueryState } from 'routes/utils/queryState';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
@@ -109,14 +110,16 @@ class TagModalBase extends React.Component<TagModalProps, any> {
 const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStateProps>(
   (state, { router, tagPathsType }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = parseQueryState<Query>(queryFromRoute);
+    const queryState = getQueryState(router.location, 'details');
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
 
-    // Prune unsupported tag params from filter_by
-    const filterByParams = queryState && queryState.filter_by ? queryState.filter_by : {};
+    // Prune unsupported tag params from filter_by, but don't reset queryState
+    const filterByParams = {
+      ...(queryState?.filter_by ? queryState.filter_by : {}),
+    };
     for (const key of Object.keys(filterByParams)) {
       // Omit unsupported query params
       if (
@@ -140,10 +143,8 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
       filter_by: {
         // Add filters here to apply logical OR/AND
         ...filterByParams,
-        ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
-        ...(queryFromRoute &&
-          queryFromRoute.filter &&
-          queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+        ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
+        ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
         // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
         ...(groupBy && groupByValue !== '*' && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
       },
@@ -156,7 +157,7 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
     return {
       groupBy,
       groupByValue,
-      isPlatformCosts: queryFromRoute && queryFromRoute.isPlatformCosts,
+      isPlatformCosts: queryFromRoute?.isPlatformCosts,
       query,
       tagReport,
       tagReportFetchStatus,

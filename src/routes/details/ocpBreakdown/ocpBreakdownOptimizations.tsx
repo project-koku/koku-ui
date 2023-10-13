@@ -1,4 +1,4 @@
-import { PageSection, Pagination, PaginationVariant } from '@patternfly/react-core';
+import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
@@ -12,39 +12,40 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
+import { routes } from 'routes';
 import { OptimizationsTable, OptimizationsToolbar } from 'routes/components/optimizations';
 import { Loading } from 'routes/components/page/loading';
 import { NoOptimizations } from 'routes/components/page/noOptimizations';
 import { NotAvailable } from 'routes/components/page/notAvailable';
-// import { styles } from 'routes/optimizations/optimizations.styles';
+import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import * as queryUtils from 'routes/utils/query';
+import { clearQueryState, getQueryState } from 'routes/utils/queryState';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
-import { uiActions } from 'store/ui';
+import { formatPath } from 'utils/paths';
+import { breakdownTitleKey } from 'utils/props';
 
-import { styles } from './optimizations.styles';
-import { OptimizationsHeader } from './optimizationsHeader';
-
-interface OptimizationsOwnProps {
+interface OcpOptimizationsBreakdownOwnProps {
   // TBD...
 }
 
-export interface OptimizationsStateProps {
-  closeOptimizationsDrawer: typeof uiActions.closeOptimizationsDrawer;
+export interface OcpOptimizationsBreakdownStateProps {
+  groupBy?: string;
+  project?: number | string;
   report: RosReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
 }
 
-export interface OptimizationsMapProps {
+export interface OcpOptimizationsBreakdownMapProps {
   query?: RosQuery;
 }
 
-type OptimizationsProps = OptimizationsOwnProps;
+type OcpOptimizationsBreakdownProps = OcpOptimizationsBreakdownOwnProps;
 
 const baseQuery: RosQuery = {
   limit: 10,
@@ -57,18 +58,25 @@ const baseQuery: RosQuery = {
 const reportType = RosType.ros as any;
 const reportPathsType = RosPathsType.recommendations as any;
 
-const Optimizations: React.FC<OptimizationsProps> = () => {
-  const [query, setQuery] = useState({ ...baseQuery });
+const OcpBreakdownOptimizations: React.FC<OcpOptimizationsBreakdownProps> = () => {
   const intl = useIntl();
+  const location = useLocation();
 
-  const { closeOptimizationsDrawer, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
+  const queryState = getQueryState(location, 'optimizations');
+  const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
+  const { groupBy, project, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     query,
   });
 
+  // Clear queryState, returned from breakdown page, after query has been initialized
+  useEffect(() => {
+    clearQueryState(location, 'optimizations');
+  }, [reportQueryString]);
+
   const getPagination = (isDisabled = false, isBottom = false) => {
-    const count = report && report.meta ? report.meta.count : 0;
-    const limit = report && report.meta ? report.meta.limit : baseQuery.limit;
-    const offset = report && report.meta ? report.meta.offset : baseQuery.offset;
+    const count = report?.meta ? report.meta.count : 0;
+    const limit = report?.meta ? report.meta.limit : baseQuery.limit;
+    const offset = report?.meta ? report.meta.offset : baseQuery.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -81,7 +89,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
         page={page}
         perPage={limit}
         titles={{
-          paginationTitle: intl.formatMessage(messages.paginationTitle, {
+          paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
             title: intl.formatMessage(messages.openShift),
             placement: isBottom ? 'bottom' : 'top',
           }),
@@ -95,10 +103,15 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
   const getTable = () => {
     return (
       <OptimizationsTable
+        basePath={formatPath(routes.ocpBreakdownOptimizations.path)}
+        breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: project })}
+        breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}&optimizationsTab=true`)}
         filterBy={query.filter_by}
+        groupBy={groupBy}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
+        query={query}
         report={report}
         reportQueryString={reportQueryString}
       />
@@ -106,14 +119,13 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
   };
 
   const getToolbar = () => {
-    const itemsPerPage = report && report.meta ? report.meta.limit : 0;
-    const itemsTotal = report && report.meta ? report.meta.count : 0;
+    const itemsPerPage = report?.meta ? report.meta.limit : 0;
+    const itemsTotal = report?.meta ? report.meta.count : 0;
     const isDisabled = itemsTotal === 0;
 
     return (
       <OptimizationsToolbar
         isDisabled={isDisabled}
-        isProject
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
@@ -127,62 +139,53 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
   const handleOnFilterAdded = filter => {
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnFilterRemoved = filter => {
     const newQuery = queryUtils.handleOnFilterRemoved(query, filter);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnPerPageSelect = perPage => {
     const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnSetPage = pageNumber => {
     const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
-  const itemsTotal = report && report.meta ? report.meta.count : 0;
+  const itemsTotal = report?.meta ? report.meta.count : 0;
   const isDisabled = itemsTotal === 0;
-  const title = intl.formatMessage(messages.optimizations);
-  const hasOptimizations = report && report.meta && report.meta.count > 0;
+  const hasOptimizations = report?.meta && report.meta.count > 0;
 
   if (reportError) {
-    return <NotAvailable title={title} />;
+    return <NotAvailable title={intl.formatMessage(messages.optimizations)} />;
   }
   if (!query.filter_by && !hasOptimizations && reportFetchStatus === FetchStatus.complete) {
     return <NoOptimizations />;
   }
   return (
-    <div style={styles.container}>
-      <OptimizationsHeader />
-      <PageSection isFilled>
-        {getToolbar()}
-        {reportFetchStatus === FetchStatus.inProgress ? (
-          <Loading
-            body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
-            heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
-          />
-        ) : (
-          <>
-            {getTable()}
-            {getPagination(isDisabled, true)}
-          </>
-        )}
-      </PageSection>
-    </div>
+    <>
+      {getToolbar()}
+      {reportFetchStatus === FetchStatus.inProgress ? (
+        <Loading
+          body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
+          heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
+        />
+      ) : (
+        <>
+          {getTable()}
+          <div style={styles.pagination}>{getPagination(isDisabled, true)}</div>
+        </>
+      )}
+    </>
   );
 };
 
@@ -192,7 +195,7 @@ const useQueryFromRoute = () => {
 };
 
 // eslint-disable-next-line no-empty-pattern
-const useMapToProps = ({ query }: OptimizationsMapProps): OptimizationsStateProps => {
+const useMapToProps = ({ query }: OcpOptimizationsBreakdownMapProps): OcpOptimizationsBreakdownStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
 
@@ -229,7 +232,8 @@ const useMapToProps = ({ query }: OptimizationsMapProps): OptimizationsStateProp
   }, [query]);
 
   return {
-    closeOptimizationsDrawer: uiActions.closeOptimizationsDrawer,
+    groupBy,
+    project: queryFromRoute[breakdownTitleKey],
     report,
     reportError,
     reportFetchStatus,
@@ -237,4 +241,4 @@ const useMapToProps = ({ query }: OptimizationsMapProps): OptimizationsStateProp
   };
 };
 
-export default Optimizations;
+export { OcpBreakdownOptimizations };

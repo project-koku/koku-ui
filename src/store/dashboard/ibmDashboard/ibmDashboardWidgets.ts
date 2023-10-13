@@ -61,7 +61,6 @@ export const costSummaryWidget: IbmDashboardWidget = {
   reportPathsType: ReportPathsType.ibm,
   reportType: ReportType.cost,
   details: {
-    adjustContainerHeight: true,
     costKey: messages.cost,
     showHorizontal: true,
     viewAllPath: formatPath(routes.ibmDetails.path),

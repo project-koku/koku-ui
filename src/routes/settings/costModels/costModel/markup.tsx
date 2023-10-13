@@ -1,14 +1,4 @@
-import {
-  Button,
-  ButtonVariant,
-  Card,
-  CardActions,
-  CardBody,
-  CardHeader,
-  CardHeaderMain,
-  Title,
-  TitleSizes,
-} from '@patternfly/react-core';
+import { Button, ButtonVariant, Card, CardBody, CardHeader, Title, TitleSizes } from '@patternfly/react-core';
 import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React from 'react';
@@ -46,24 +36,27 @@ const MarkupCardBase: React.FC<Props> = ({
     <>
       {isUpdateDialogOpen && <UpdateMarkupDialog current={current} />}
       <Card style={styles.card}>
-        <CardHeader>
-          <CardHeaderMain>
-            <Title headingLevel="h2" size={TitleSizes.md}>
-              {intl.formatMessage(messages.markupOrDiscount)}
-            </Title>
-          </CardHeaderMain>
-          <CardActions>
-            <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
-              <Button
-                aria-label={intl.formatMessage(messages.editMarkup)}
-                isAriaDisabled={!isWritePermission}
-                onClick={() => setCostModelDialog({ isOpen: true, name: 'updateMarkup' })}
-                variant={ButtonVariant.link}
-              >
-                {intl.formatMessage(messages.edit)}
-              </Button>
-            </ReadOnlyTooltip>
-          </CardActions>
+        <CardHeader
+          actions={{
+            actions: (
+              <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
+                <Button
+                  aria-label={intl.formatMessage(messages.editMarkup)}
+                  isAriaDisabled={!isWritePermission}
+                  onClick={() => setCostModelDialog({ isOpen: true, name: 'updateMarkup' })}
+                  variant={ButtonVariant.link}
+                >
+                  {intl.formatMessage(messages.edit)}
+                </Button>
+              </ReadOnlyTooltip>
+            ),
+            hasNoOffset: false,
+            className: undefined,
+          }}
+        >
+          <Title headingLevel="h2" size={TitleSizes.md}>
+            {intl.formatMessage(messages.markupOrDiscount)}
+          </Title>
         </CardHeader>
         <CardBody style={styles.cardDescription}>{intl.formatMessage(messages.markupOrDiscountDesc)}</CardBody>
         <CardBody isFilled />

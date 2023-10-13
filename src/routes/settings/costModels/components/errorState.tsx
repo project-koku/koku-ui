@@ -3,6 +3,8 @@ import {
   Button,
   EmptyState,
   EmptyStateBody,
+  EmptyStateFooter,
+  EmptyStateHeader,
   EmptyStateIcon,
   EmptyStateVariant,
   Stack,
@@ -31,16 +33,17 @@ type ErrorStateProps = ErrorEmptyProps & OwnProps;
 export const ErrorState: React.FC<ErrorStateProps> = ({ variant, actionButton, title, description }) => {
   return (
     <EmptyState variant={variant}>
-      <EmptyStateIcon icon={ExclamationCircleIcon} color={global_DangerColor_100.value} />
-      <Title headingLevel="h4" size={TitleSizes.lg}>
-        {title}
-      </Title>
+      <EmptyStateHeader
+        titleText={<>{title}</>}
+        icon={<EmptyStateIcon icon={ExclamationCircleIcon} color={global_DangerColor_100.value} />}
+        headingLevel="h4"
+      />
       <EmptyStateBody>
         <Stack>
           <StackItem>{description}</StackItem>
         </Stack>
       </EmptyStateBody>
-      {actionButton}
+      <EmptyStateFooter>{actionButton}</EmptyStateFooter>
     </EmptyState>
   );
 };
@@ -68,7 +71,7 @@ export const SourceStepErrorStateBase: React.FC<SourcesErrorStateProps> = ({ int
       </StackItem>
       <StackItem>
         <ErrorState
-          variant={EmptyStateVariant.large}
+          variant={EmptyStateVariant.lg}
           actionButton={actionButton}
           description={description}
           title={title}
@@ -108,7 +111,7 @@ export const SourcesModalErrorStateBase: React.FC<SourcesModalErrorProps> = ({ i
   });
   const actionButton = <Button onClick={onRefresh}>{intl.formatMessage(messages.costModelsRefreshDialog)}</Button>;
   return (
-    <ErrorState variant={EmptyStateVariant.large} actionButton={actionButton} description={description} title={title} />
+    <ErrorState variant={EmptyStateVariant.lg} actionButton={actionButton} description={description} title={title} />
   );
 };
 

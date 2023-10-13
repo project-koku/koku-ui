@@ -55,7 +55,7 @@ export function parseOrdering(query: CostModelsQuery, cells: ICell[]): ISortBy {
   }
   const name = ordering[0] === '-' ? ordering.slice(1) : ordering;
   const direction = ordering[0] === '-' ? SortByDirection.desc : SortByDirection.asc;
-  const index = cells.findIndex(cell => cell.data && cell.data.orderName === name);
+  const index = cells.findIndex(cell => cell?.data?.orderName === name);
   return { index, direction };
 }
 

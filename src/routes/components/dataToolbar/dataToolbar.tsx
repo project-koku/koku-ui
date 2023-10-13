@@ -5,8 +5,7 @@ import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import type { Org } from 'api/orgs/org';
 import type { Query } from 'api/queries/query';
 import type { Resource, ResourcePathsType } from 'api/resources/resource';
-import type { Tag } from 'api/tags/tag';
-import type { TagPathsType } from 'api/tags/tag';
+import type { Tag, TagPathsType } from 'api/tags/tag';
 import { cloneDeep } from 'lodash';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -234,7 +233,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     });
   }
 
-  private handleOnCategorySelect = (event, selection: CategoryOption) => {
+  private handleOnCategorySelect = (selection: CategoryOption) => {
     this.setState({
       categoryInput: '',
       currentCategory: selection.value,
@@ -278,7 +277,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     this.setState({ categoryInput: val });
   };
 
-  private handleOnCategoryInput = (event, key) => {
+  private handleOnCategoryInput = (event: React.FormEvent<HTMLInputElement>, key) => {
     const { onFilterAdded } = this.props;
     const { categoryInput, currentCategory, currentExclude, filters: currentFilters } = this.state;
 
@@ -354,7 +353,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     });
   };
 
-  private handleOnCostCategoryKeySelect = (event, selection) => {
+  private handleOnCostCategoryKeySelect = selection => {
     this.setState({
       currentCostCategoryKey: selection,
       isCostCategoryKeySelectExpanded: !this.state.isCostCategoryKeySelectExpanded,
@@ -514,7 +513,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     });
   }
 
-  private handleOnExcludeSelect = (event, selection: ExcludeOption) => {
+  private handleOnExcludeSelect = (selection: ExcludeOption) => {
     this.setState({
       currentExclude: selection.value,
       isExcludeSelectOpen: !this.state.isExcludeSelectOpen,
@@ -605,7 +604,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     });
   };
 
-  private handleOnTagKeySelect = (event, selection) => {
+  private handleOnTagKeySelect = selection => {
     this.setState({
       currentTagKey: selection,
       isTagKeySelectExpanded: !this.state.isTagKeySelectExpanded,
@@ -836,7 +835,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
                 {datePicker}
               </ToolbarGroup>
             )}
-            <ToolbarItem alignment={{ default: 'alignRight' }} variant="pagination">
+            <ToolbarItem align={{ default: 'alignRight' }} variant="pagination">
               {pagination}
             </ToolbarItem>
           </ToolbarContent>

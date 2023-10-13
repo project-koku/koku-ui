@@ -60,7 +60,6 @@ export const costSummaryWidget: GcpOcpDashboardWidget = {
   reportPathsType: ReportPathsType.gcpOcp,
   reportType: ReportType.cost,
   details: {
-    adjustContainerHeight: true,
     costKey: messages.cost,
     showHorizontal: true,
   },

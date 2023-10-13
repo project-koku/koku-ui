@@ -1,5 +1,6 @@
 import 'routes/components/dataTable/dataTable.scss';
 
+import type { Query } from 'api/queries/query';
 import type { OciReport } from 'api/reports/ociReports';
 import { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -23,6 +24,7 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
+  breadcrumbPath?: string;
   filterBy?: any;
   isAllSelected?: boolean;
   groupBy: string;
@@ -31,6 +33,7 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
+  query?: Query;
   report: OciReport;
   reportQueryString: string;
   selectedItems?: ComputedReportItem[];
@@ -57,8 +60,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
     const { report, selectedItems } = this.props;
-    const currentReport = report && report.data ? JSON.stringify(report.data) : '';
-    const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
+    const currentReport = report?.data ? JSON.stringify(report.data) : '';
+    const previousReport = prevProps?.report?.data ? JSON.stringify(prevProps.report.data) : '';
 
     if (previousReport !== currentReport || prevProps.selectedItems !== selectedItems) {
       this.initDatum();
@@ -66,7 +69,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   }
 
   private initDatum = () => {
-    const { groupBy, groupByTagKey, intl, isAllSelected, report, router, selectedItems } = this.props;
+    const { breadcrumbPath, groupBy, groupByTagKey, intl, isAllSelected, query, report, router, selectedItems } =
+      this.props;
     if (!report) {
       return;
     }
@@ -134,13 +138,19 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       ) : (
         <Link
           to={getBreakdownPath({
-            basePath: formatPath(routes.ociDetailsBreakdown.path),
+            basePath: formatPath(routes.ociBreakdown.path),
             description: item.id,
             groupBy,
             id: item.id,
-            router,
             title: label.toString(), // Convert IDs if applicable
           })}
+          state={{
+            ...(router.location.state && router.location.state),
+            details: {
+              ...(query && query),
+              breadcrumbPath,
+            },
+          }}
         >
           {label}
         </Link>
@@ -238,10 +248,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
   private getTotalCost = (item: ComputedReportItem, index: number) => {
     const { report, intl } = this.props;
-    const cost =
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
-        ? report.meta.total.cost.total.value
-        : 0;
+    const cost = report?.meta?.total?.cost?.total ? report.meta.total.cost.total.value : 0;
     const percentValue = cost === 0 ? cost.toFixed(2) : ((item.cost.total.value / cost) * 100).toFixed(2);
 
     return (

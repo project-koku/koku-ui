@@ -124,17 +124,13 @@ class ResourceInputBase extends React.Component<ResourceInputProps, ResourceInpu
   };
 
   private getMenu = () => {
-    const { search } = this.props;
-
     return (
       <div ref={this.menuRef}>
-        {search && search.length && (
-          <Menu onSelect={this.handleOnMenuSelect} onKeyDown={this.handleOnMenuKeyDown}>
-            <MenuContent>
-              <MenuList>{this.getMenuItems()}</MenuList>
-            </MenuContent>
-          </Menu>
-        )}
+        <Menu onSelect={this.handleOnMenuSelect} onKeyDown={this.handleOnMenuKeyDown}>
+          <MenuContent>
+            <MenuList>{this.getMenuItems()}</MenuList>
+          </MenuContent>
+        </Menu>
       </div>
     );
   };

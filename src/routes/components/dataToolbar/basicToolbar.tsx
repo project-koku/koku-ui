@@ -194,7 +194,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
     });
   }
 
-  private handleOnCategorySelect = (event, selection: CategoryOption) => {
+  private handleOnCategorySelect = (selection: CategoryOption) => {
     this.setState({
       categoryInput: '',
       currentCategory: selection.value,
@@ -248,17 +248,19 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       key,
     });
 
-    this.setState(
-      {
-        filters,
-        categoryInput: '',
-      },
-      () => {
-        if (onFilterAdded) {
-          onFilterAdded(filter);
+    if (filter && filters) {
+      this.setState(
+        {
+          filters,
+          categoryInput: '',
+        },
+        () => {
+          if (onFilterAdded) {
+            onFilterAdded(filter);
+          }
         }
-      }
-    );
+      );
+    }
   };
 
   private handleOnCategoryInputSelect = (value, key) => {
@@ -359,7 +361,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
               </ToolbarToggleGroup>
             )}
             {actions && <ToolbarGroup>{actions}</ToolbarGroup>}
-            <ToolbarItem alignment={{ default: 'alignRight' }} variant="pagination">
+            <ToolbarItem align={{ default: 'alignRight' }} variant="pagination">
               {pagination}
             </ToolbarItem>
           </ToolbarContent>

@@ -1,6 +1,9 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import type { FormGroupProps, FormSelectProps, SelectOptionObject } from '@patternfly/react-core';
-import { FormGroup, Select, SelectDirection, SelectOption, SelectVariant } from '@patternfly/react-core';
+import type { FormGroupProps } from '@patternfly/react-core';
+import type { FormSelectProps } from '@patternfly/react-core';
+import { FormGroup, HelperText, HelperTextItem } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectDirection, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { intl as defaultIntl } from 'components/i18n';
 import React, { useEffect, useState } from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -84,10 +87,6 @@ const SelectorBase: React.FC<SelectorProps> = ({
       style={style}
       fieldId={id}
       label={label !== null && typeof label === 'object' ? intl.formatMessage(label) : (label as string)}
-      helperTextInvalid={
-        helpText !== null && typeof helpText === 'object' ? intl.formatMessage(helpText) : (helpText as string)
-      }
-      validated={isInvalid ? 'error' : 'default'}
     >
       <Select
         id={id}
@@ -100,18 +99,24 @@ const SelectorBase: React.FC<SelectorProps> = ({
         direction={direction}
         menuAppendTo={appendMenuTo}
         isOpen={isOpen}
-        onToggle={() => setIsOpen(!isOpen)}
-        onSelect={(e, sel: SelectorOption) => {
+        onSelect={(_evt, sel: SelectorOption) => {
           setSelection(sel);
-          onChange(sel.value, null);
+          onChange(null, sel.value);
           setIsOpen(false);
         }}
+        onToggle={() => setIsOpen(!isOpen)}
         selections={selection}
+        validated={isInvalid ? 'error' : 'default'}
       >
         {getSelectorOptions().map(opt => (
           <SelectOption key={`${opt.value}`} value={opt} description={opt.description} />
         ))}
       </Select>
+      {isInvalid && typeof helpText === 'object' && (
+        <HelperText>
+          <HelperTextItem variant="error">{intl.formatMessage(helpText)}</HelperTextItem>
+        </HelperText>
+      )}
     </FormGroup>
   );
 };

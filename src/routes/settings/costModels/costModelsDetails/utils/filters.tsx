@@ -1,14 +1,6 @@
 import type { ToolbarProps } from '@patternfly/react-core';
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownToggle,
-  InputGroup,
-  InputGroupText,
-  TextInput,
-  Toolbar,
-  ToolbarFilter,
-} from '@patternfly/react-core';
+import { InputGroup, InputGroupItem, InputGroupText, TextInput, Toolbar, ToolbarFilter } from '@patternfly/react-core';
+import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core/deprecated';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
@@ -27,26 +19,28 @@ import type { Inputer, Opener } from './types';
 
 interface FilterInputProps {
   value: string;
-  onChange: (value: string, event: React.FormEvent<HTMLInputElement>) => void;
-  onKeyPress: (evt: React.KeyboardEvent<HTMLInputElement>) => void;
+  onChange: (value: string) => void;
+  onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
 }
 
 const FilterInput: React.FC<FilterInputProps> = ({ placeholder = '', value, onChange, onKeyPress }) => {
   return (
     <InputGroup>
-      <TextInput
-        aria-label={placeholder}
-        value={value}
-        placeholder={placeholder}
-        onChange={onChange}
-        onKeyPress={(evt: React.KeyboardEvent<HTMLInputElement>) => {
-          if (evt.key !== 'Enter' || value === '') {
-            return;
-          }
-          onKeyPress(evt);
-        }}
-      />
+      <InputGroupItem isFill>
+        <TextInput
+          aria-label={placeholder}
+          value={value}
+          placeholder={placeholder}
+          onChange={(_evt, val) => onChange(val)}
+          onKeyPress={(evt: React.KeyboardEvent<HTMLInputElement>) => {
+            if (evt.key !== 'Enter' || value === '') {
+              return;
+            }
+            onKeyPress(evt);
+          }}
+        />
+      </InputGroupItem>
       <InputGroupText style={{ borderLeft: '0' }}>
         <SearchIcon />
       </InputGroupText>
@@ -143,7 +137,7 @@ const DescriptionFilterBase: React.FC<DescriptionFilterProps> = ({
       <FilterInput
         placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: filterType })}
         value={value}
-        onChange={(text: string) => setValue(text)}
+        onChange={(val: string) => setValue(val)}
         onKeyPress={onKeyPress(router, 'description', { ...initialCostModelsQuery, ...query }, { value, setValue })}
       />
     ) : null;
@@ -218,7 +212,7 @@ const NameFilterBase: React.FC<NameFilterProps> = ({
       <FilterInput
         placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: filterType })}
         value={value}
-        onChange={(text: string) => setValue(text)}
+        onChange={(val: string) => setValue(val)}
         onKeyPress={onKeyPress(router, 'name', { ...initialCostModelsQuery, ...query }, { value, setValue })}
       />
     ) : null;
@@ -300,7 +294,7 @@ const SourceTypeFilterBase: React.FC<SourceTypeFilterProps> = ({
         isOpen={isOpen}
         toggle={
           <DropdownToggle
-            onToggle={(value: boolean) => {
+            onToggle={(_evt, value: boolean) => {
               setIsOpen(value);
             }}
             id={id}

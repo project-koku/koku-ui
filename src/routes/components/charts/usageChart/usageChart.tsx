@@ -34,11 +34,9 @@ import type { FormatOptions, Formatter } from 'utils/format';
 import { chartStyles } from './usageChart.styles';
 
 interface UsageChartOwnProps {
-  adjustContainerHeight?: boolean;
-  containerHeight?: number;
+  baseHeight?: number;
   currentRequestData?: any;
   currentUsageData: any;
-  height?: number;
   legendItemsPerRow?: number;
   name?: string;
   padding?: any;
@@ -51,6 +49,7 @@ interface UsageChartOwnProps {
 
 interface State {
   cursorVoronoiContainer?: any;
+  extraHeight?: number;
   hiddenSeries?: Set<number>;
   series?: ChartSeries[];
   width?: number;
@@ -63,6 +62,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
   private observer: any = noop;
 
   public state: State = {
+    extraHeight: 0,
     hiddenSeries: new Set(),
     width: 0,
   };
@@ -171,19 +171,6 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
     this.setState({ cursorVoronoiContainer, series });
   };
 
-  private getAdjustedContainerHeight = () => {
-    const { adjustContainerHeight, height, containerHeight = height } = this.props;
-    const { width } = this.state;
-
-    let adjustedContainerHeight = containerHeight;
-    if (adjustContainerHeight) {
-      if (width < 480) {
-        adjustedContainerHeight += 20;
-      }
-    }
-    return adjustedContainerHeight;
-  };
-
   private getChart = (series: ChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
     return (
@@ -210,12 +197,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
-        voronoiPadding={{
-          bottom: 75,
-          left: 8,
-          right: 8,
-          top: 8,
-        }}
+        voronoiPadding={this.getPadding()}
       />
     );
   };
@@ -246,22 +228,44 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
     return result;
   }
 
+  private getHeight = baseHeight => {
+    const { extraHeight } = this.state;
+
+    return baseHeight + extraHeight;
+  };
+
   private getLegend = () => {
     const { name = '', legendItemsPerRow } = this.props;
-    const { hiddenSeries, series, width } = this.state;
-
-    // Todo: use PF legendAllowWrap feature
-    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 300 ? chartStyles.itemsPerRow : 1;
+    const { hiddenSeries, series } = this.state;
 
     return (
       <ChartLegend
         data={getLegendData(series, hiddenSeries)}
         height={25}
         gutter={20}
-        itemsPerRow={itemsPerRow}
+        itemsPerRow={legendItemsPerRow}
         name={`${name}-legend`}
       />
     );
+  };
+
+  private getPadding = () => {
+    const { extraHeight } = this.state;
+
+    return {
+      bottom: 75 + extraHeight, // Maintain chart aspect ratio
+      left: 8,
+      right: 8,
+      top: 8,
+    };
+  };
+
+  private handleLegendAllowWrap = extraHeight => {
+    const { legendItemsPerRow } = this.props;
+
+    if (!legendItemsPerRow && extraHeight !== this.state.extraHeight) {
+      this.setState({ extraHeight });
+    }
   };
 
   // Hide each data series individually
@@ -280,19 +284,10 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
   };
 
   public render() {
-    const {
-      height,
-      intl,
-      name,
-      padding = {
-        bottom: 75,
-        left: 8,
-        right: 8,
-        top: 8,
-      },
-      title,
-    } = this.props;
+    const { baseHeight, intl, name, padding = this.getPadding(), title } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
+
+    const chartHeight = this.getHeight(baseHeight);
     const domain = getDomain(series, hiddenSeries);
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
@@ -317,13 +312,14 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
             {title}
           </Title>
         )}
-        <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
-          <div style={{ height, width }} data-testid="usage-chart-wrapper">
+        <div className="chartOverride" ref={this.containerRef}>
+          <div style={{ height: chartHeight }} data-testid="usage-chart-wrapper">
             <Chart
               containerComponent={container}
               domain={domain}
               events={this.getEvents()}
-              height={height}
+              height={chartHeight}
+              legendAllowWrap={this.handleLegendAllowWrap}
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom-left"

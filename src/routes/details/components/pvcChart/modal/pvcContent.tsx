@@ -1,9 +1,10 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import type { OcpQuery } from 'api/queries/ocpQuery';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
-import type { RosQuery } from 'api/queries/rosQuery';
-import type { RosReport } from 'api/ros/ros';
-import { RosPathsType, RosType } from 'api/ros/ros';
+import type { OcpReport } from 'api/reports/ocpReports';
+import { ReportPathsType } from 'api/reports/report';
+import { ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
@@ -12,60 +13,65 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import { OptimizationsTable, OptimizationsToolbar } from 'routes/components/optimizations';
-import { Loading } from 'routes/components/page/loading';
-import { NoOptimizations } from 'routes/components/page/noOptimizations';
 import { NotAvailable } from 'routes/components/page/notAvailable';
-import { styles } from 'routes/optimizations/optimizations.styles';
+import { LoadingState } from 'routes/components/state/loadingState';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
-import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import * as queryUtils from 'routes/utils/query';
+import { getQueryState } from 'routes/utils/queryState';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
-import { rosActions, rosSelectors } from 'store/ros';
-import { uiActions } from 'store/ui';
+import { reportActions, reportSelectors } from 'store/reports';
 
-interface OptimizationsBreakdownOwnProps {
+import { styles } from './pvcContent.styles';
+import { PvcTable } from './pvcTable';
+import { PvcToolbar } from './pvcToolbar';
+
+interface PvcContentOwnProps {
   // TBD...
 }
 
-export interface OptimizationsBreakdownStateProps {
-  closeOptimizationsDrawer: typeof uiActions.closeOptimizationsDrawer;
-  report: RosReport;
+export interface PvcContentStateProps {
+  report: OcpReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
 }
 
-export interface OptimizationsBreakdownMapProps {
-  query?: RosQuery;
+export interface PvcContentMapProps {
+  query?: OcpQuery;
 }
 
-type OptimizationsBreakdownProps = OptimizationsBreakdownOwnProps;
+type PvcContentProps = PvcContentOwnProps;
 
-const baseQuery: RosQuery = {
+const baseQuery: OcpQuery = {
+  filter: {
+    time_scope_units: 'month',
+    time_scope_value: -1,
+    resolution: 'monthly',
+  },
+  filter_by: {},
   limit: 10,
   offset: 0,
-  order_by: {
-    last_reported: 'desc',
-  },
+  order_by: {},
 };
 
-const reportType = RosType.ros as any;
-const reportPathsType = RosPathsType.recommendations as any;
+const reportType = ReportType.volume;
+const reportPathsType = ReportPathsType.ocp;
 
-const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
-  const [query, setQuery] = useState({ ...baseQuery });
+const PvcContent: React.FC<PvcContentProps> = () => {
   const intl = useIntl();
+  const location = useLocation();
 
-  const { closeOptimizationsDrawer, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
+  const queryState = getQueryState(location, 'optimizations');
+  const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
+  const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     query,
   });
 
   const getPagination = (isDisabled = false, isBottom = false) => {
-    const count = report && report.meta ? report.meta.count : 0;
-    const limit = report && report.meta ? report.meta.limit : baseQuery.limit;
-    const offset = report && report.meta ? report.meta.offset : baseQuery.offset;
+    const count = report?.meta ? report.meta.count : 0;
+    const limit = report?.meta ? report.meta.limit : baseQuery.limit;
+    const offset = report?.meta ? report.meta.offset : baseQuery.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -78,7 +84,7 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
         page={page}
         perPage={limit}
         titles={{
-          paginationTitle: intl.formatMessage(messages.paginationTitle, {
+          paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
             title: intl.formatMessage(messages.openShift),
             placement: isBottom ? 'bottom' : 'top',
           }),
@@ -91,7 +97,7 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
 
   const getTable = () => {
     return (
-      <OptimizationsTable
+      <PvcTable
         filterBy={query.filter_by}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
@@ -103,13 +109,14 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
   };
 
   const getToolbar = () => {
-    const itemsPerPage = report && report.meta ? report.meta.limit : 0;
-    const itemsTotal = report && report.meta ? report.meta.count : 0;
+    const itemsPerPage = report?.meta ? report.meta.limit : 0;
+    const itemsTotal = report?.meta ? report.meta.count : 0;
     const isDisabled = itemsTotal === 0;
 
     return (
-      <OptimizationsToolbar
+      <PvcToolbar
         isDisabled={isDisabled}
+        isProject
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
@@ -123,59 +130,52 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
   const handleOnFilterAdded = filter => {
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnFilterRemoved = filter => {
     const newQuery = queryUtils.handleOnFilterRemoved(query, filter);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnPerPageSelect = perPage => {
     const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnSetPage = pageNumber => {
     const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery(newQuery);
-    closeOptimizationsDrawer();
   };
 
-  const itemsTotal = report && report.meta ? report.meta.count : 0;
+  const itemsTotal = report?.meta ? report.meta.count : 0;
   const isDisabled = itemsTotal === 0;
   const title = intl.formatMessage(messages.optimizations);
-  const hasOptimizations = report && report.meta && report.meta.count > 0;
 
   if (reportError) {
     return <NotAvailable title={title} />;
   }
-  if (!query.filter_by && !hasOptimizations && reportFetchStatus === FetchStatus.complete) {
-    return <NoOptimizations />;
-  }
   return (
-    <>
+    <div style={styles.container}>
       {getToolbar()}
       {reportFetchStatus === FetchStatus.inProgress ? (
-        <Loading
-          body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
-          heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
-        />
+        <div style={styles.loading}>
+          <LoadingState
+            body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
+            heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
+          />
+        </div>
       ) : (
         <>
           {getTable()}
           <div style={styles.pagination}>{getPagination(isDisabled, true)}</div>
         </>
       )}
-    </>
+    </div>
   );
 };
 
@@ -184,45 +184,61 @@ const useQueryFromRoute = () => {
   return parseQuery<Query>(location.search);
 };
 
+const useQueryState = () => {
+  const location = useLocation();
+  return getQueryState(location, 'details');
+};
+
 // eslint-disable-next-line no-empty-pattern
-const useMapToProps = ({ query }: OptimizationsBreakdownMapProps): OptimizationsBreakdownStateProps => {
+const useMapToProps = ({ query }: PvcContentMapProps): PvcContentStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
+  const queryState = useQueryState();
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
-  const order_by = getOrderById(query) || getOrderById(baseQuery);
-  const order_how = getOrderByValue(query) || getOrderByValue(baseQuery);
 
-  const reportQuery = {
-    ...(groupBy && {
-      [groupBy]: groupByValue, // Flattened project filter
-    }),
-    ...query.filter_by, // Flattened filter by
-    limit: query.limit,
-    offset: query.offset,
-    order_by, // Flattened order by
-    order_how, // Flattened order how
+  const reportQuery: Query = {
+    filter: {
+      ...query.filter,
+      limit: query.limit,
+      offset: query.offset,
+    },
+    filter_by: {
+      // Add filters here to apply logical OR/AND
+      ...(queryState?.filter_by && queryState.filter_by),
+      // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+      ...(groupBy && groupByValue !== '*' && { [groupBy]: groupByValue }), // Note: We're not inserting PVC information for the Platform project
+      ...query.filter_by,
+    },
+    exclude: {
+      ...(queryState?.exclude && queryState.exclude),
+    },
+    group_by: {
+      persistentvolumeclaim: '*',
+      ...(query?.order_by?.cluster && { cluster: '*' }), // Sort by cluster requires group by cluster
+    },
+    order_by: query.order_by,
   };
+
   const reportQueryString = getQuery(reportQuery);
   const report = useSelector((state: RootState) =>
-    rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString)
+    reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString)
   );
   const reportFetchStatus = useSelector((state: RootState) =>
-    rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString)
+    reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, reportQueryString)
   );
   const reportError = useSelector((state: RootState) =>
-    rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString)
+    reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString)
   );
 
   useEffect(() => {
     if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
-      dispatch(rosActions.fetchRosReport(reportPathsType, reportType, reportQueryString));
+      dispatch(reportActions.fetchReport(reportPathsType, reportType, reportQueryString));
     }
   }, [query]);
 
   return {
-    closeOptimizationsDrawer: uiActions.closeOptimizationsDrawer,
     report,
     reportError,
     reportFetchStatus,
@@ -230,4 +246,4 @@ const useMapToProps = ({ query }: OptimizationsBreakdownMapProps): Optimizations
   };
 };
 
-export { OptimizationsBreakdown };
+export { PvcContent };

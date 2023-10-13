@@ -3,6 +3,7 @@ import {
   Button,
   EmptyState,
   EmptyStateBody,
+  EmptyStateHeader,
   EmptyStateIcon,
   Pagination,
   Stack,
@@ -93,10 +94,11 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
     const NoTiersEmptyState = () => (
       <Bullseye>
         <EmptyState>
-          <EmptyStateIcon icon={PlusCircleIcon} />
-          <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.costModelsWizardEmptyStateTitle)}
-          </Title>
+          <EmptyStateHeader
+            titleText={<>{intl.formatMessage(messages.costModelsWizardEmptyStateTitle)}</>}
+            icon={<EmptyStateIcon icon={PlusCircleIcon} />}
+            headingLevel="h2"
+          />
           <EmptyStateBody>
             {intl.formatMessage(messages.costModelsWizardEmptyStateSkipStep, {
               value: <strong>{intl.formatMessage(messages.next)}</strong>,
@@ -225,10 +227,10 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                               itemCount={filtered.length}
                               perPage={priceListPagination.perPage}
                               page={priceListPagination.page}
-                              onSetPage={priceListPagination.onPageSet}
-                              onPerPageSelect={priceListPagination.onPerPageSet}
+                              onSetPage={(_evt, perPage) => priceListPagination.onPageSet(perPage)}
+                              onPerPageSelect={(_evt, page) => priceListPagination.onPerPageSet(page)}
                               titles={{
-                                paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                                paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
                                   title: intl.formatMessage(messages.costModelsAssignSourcesParen),
                                   placement: 'top',
                                 }),
@@ -269,10 +271,10 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                           itemCount={filtered.length}
                           perPage={priceListPagination.perPage}
                           page={priceListPagination.page}
-                          onSetPage={priceListPagination.onPageSet}
-                          onPerPageSelect={priceListPagination.onPerPageSet}
+                          onSetPage={(_evt, perPage) => priceListPagination.onPageSet(perPage)}
+                          onPerPageSelect={(_evt, page) => priceListPagination.onPerPageSet(page)}
                           titles={{
-                            paginationTitle: intl.formatMessage(messages.paginationTitle, {
+                            paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
                               title: intl.formatMessage(messages.costModelsAssignSourcesParen),
                               placement: 'bottom',
                             }),

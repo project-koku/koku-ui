@@ -5,9 +5,11 @@ import { resetState } from 'store/ui/uiActions';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 import {
+  getAccountCostType,
   getAccountCurrency,
   isCostTypeAvailable,
   isCurrencyAvailable,
+  setAccountCostType,
   setAccountCurrency,
   setCostType,
   setCurrency,
@@ -102,9 +104,17 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
 
 // Initialize cost type in local storage
 function initCostType(value: string) {
+  // Reset UI's cost type selection if default cost type has changed.
+  const accountCostType = getAccountCostType();
+  if (accountCostType && accountCostType !== value) {
+    // Todo: remove account cost type after settings page has been moved
+    // That way, resetting the cost type for the UI should only affect the user who changed the default.
+    setCostType(accountCostType);
+  }
   if (!isCostTypeAvailable()) {
     setCostType(value);
   }
+  setAccountCostType(value);
 }
 
 // Initialize currency in local storage

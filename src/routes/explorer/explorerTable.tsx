@@ -1,12 +1,21 @@
 import './explorerTable.scss';
 
-import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Label, Spinner, Tooltip } from '@patternfly/react-core';
+import {
+  Bullseye,
+  EmptyState,
+  EmptyStateBody,
+  EmptyStateHeader,
+  EmptyStateIcon,
+  Label,
+  Spinner,
+  Tooltip,
+} from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import type { ThProps } from '@patternfly/react-table';
 import {
   InnerScrollContainer,
   SortByDirection,
-  TableComposable,
+  Table,
   TableVariant,
   Tbody,
   Td,
@@ -94,8 +103,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
 
   public componentDidUpdate(prevProps: ExplorerTableProps) {
     const { costDistribution, report, selectedItems } = this.props;
-    const currentReport = report && report.data ? JSON.stringify(report.data) : '';
-    const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
+    const currentReport = report?.data ? JSON.stringify(report.data) : '';
+    const previousReport = prevProps?.report?.data ? JSON.stringify(prevProps.report.data) : '';
 
     if (
       previousReport !== currentReport ||
@@ -128,10 +137,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     const isGroupByProject = groupBy === 'project';
     const showPlatformCosts = perspective === PerspectiveType.ocp && isGroupByProject;
     const showCostDistribution =
-      costDistribution === ComputedReportItemValueType.distributed &&
-      report &&
-      report.meta &&
-      report.meta.distributed_overhead === true;
+      costDistribution === ComputedReportItemValueType.distributed && report?.meta?.distributed_overhead === true;
 
     const computedItems = getUnsortedComputedReportItems<any, any>({
       report,
@@ -243,7 +249,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
 
       items.map(item => {
         if (!name) {
-          name = item && item.label && item.label !== null ? item.label : null;
+          name = item?.label && item?.label !== null ? item.label : null;
         }
         if (!desc) {
           desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
@@ -254,9 +260,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
         if (
           showCostDistribution &&
           item.classification !== classificationUnallocated &&
-          item.cost &&
-          ((item.cost.platformDistributed && item.cost.platformDistributed.value > 0) ||
-            (item.cost.workerUnallocatedDistributed && item.cost.workerUnallocatedDistributed.value > 0))
+          (item?.cost?.platformDistributed?.value > 0 || item?.cost?.workerUnallocatedDistributed?.value > 0)
         ) {
           isOverheadCosts = true;
           showLabels = true;
@@ -312,7 +316,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
           selectItem.label === `${noPrefix}${groupByCostCategory}` ||
           selectItem.label === `${noPrefix}${groupByTagKey}`,
         item: selectItem,
-        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === selectItem.id) !== undefined),
+        selected: isAllSelected || selectedItems?.find(val => val.id === selectItem.id) !== undefined,
       });
     });
 
@@ -355,7 +359,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     }
     return (
       <EmptyState>
-        <EmptyStateIcon icon={CalculatorIcon} />
+        <EmptyStateHeader icon={<EmptyStateIcon icon={CalculatorIcon} />} />
         <EmptyStateBody>{intl.formatMessage(messages.detailsEmptyState)}</EmptyStateBody>
       </EmptyState>
     );
@@ -366,14 +370,12 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     const { columns } = this.state;
 
     let direction;
-
     const column = columns[index];
-    const hasOrderBy = query && query.order_by && query.order_by;
 
     if (column.orderBy && !column.date) {
-      direction = hasOrderBy && query.order_by[column.orderBy];
-    } else if (hasOrderBy && query.order_by.date === column.date) {
-      direction = hasOrderBy && query.order_by[column.orderBy];
+      direction = query?.order_by[column.orderBy];
+    } else if (query?.order_by?.date === column.date) {
+      direction = query?.order_by[column.orderBy];
     }
     return direction
       ? {
@@ -386,12 +388,12 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
   private getSortParams = (index: number): ThProps['sort'] => {
     return {
       sortBy: this.getSortBy(index),
-      onSort: this.handleOnSort,
+      onSort: (_evt, i, direction) => this.handleOnSort(i, direction),
       columnIndex: index,
     };
   };
 
-  private handleOnSelect = (event, isSelected, rowId) => {
+  private handleOnSelect = (isSelected, rowId) => {
     const { onSelected } = this.props;
     const { rows } = this.state;
 
@@ -414,7 +416,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
     });
   };
 
-  private handleOnSort = (event, index, direction) => {
+  private handleOnSort = (index, direction) => {
     const { onSort } = this.props;
     const { columns } = this.state;
 
@@ -435,7 +437,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
 
     return (
       <InnerScrollContainer>
-        <TableComposable
+        <Table
           aria-label={intl.formatMessage(messages.explorerTableAriaLabel)}
           className="explorerTableOverride"
           gridBreakPoint=""
@@ -503,9 +505,9 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                         key={`cell-${cellIndex}-${rowIndex}`}
                         ref={this.selectColRef}
                         select={{
-                          disable: row.selectionDisabled, // Disable select for "no-project"
+                          isDisabled: row.selectionDisabled, // Disable select for "no-project"
                           isSelected: row.selected,
-                          onSelect: (_event, isSelected) => this.handleOnSelect(_event, isSelected, rowIndex),
+                          onSelect: (_evt, isSelected) => this.handleOnSelect(isSelected, rowIndex),
                           rowIndex,
                         }}
                         stickyMinWidth={`${selectColWidth}px`}
@@ -548,7 +550,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
               ))
             )}
           </Tbody>
-        </TableComposable>
+        </Table>
         {rows.length === 0 && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
       </InnerScrollContainer>
     );

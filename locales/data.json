@@ -409,6 +409,16 @@
         "value": "Back to optimizations"
       }
     ],
+    "breakdownBackToOptimizationsProject": [
+      {
+        "type": 0,
+        "value": "Back to optimizations for project "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      }
+    ],
     "breakdownBackToTitles": [
       {
         "options": {
@@ -981,10 +991,28 @@
         "value": "Close"
       }
     ],
+    "cluster": [
+      {
+        "type": 0,
+        "value": "Cluster"
+      }
+    ],
     "clusters": [
       {
         "type": 0,
         "value": "Clusters"
+      }
+    ],
+    "copyToClipboard": [
+      {
+        "type": 0,
+        "value": "Copy to clipboard"
+      }
+    ],
+    "copyToClipboardSuccessfull": [
+      {
+        "type": 0,
+        "value": "Successfully copied to clipboard!"
       }
     ],
     "cost": [
@@ -1380,28 +1408,6 @@
       {
         "type": 0,
         "value": "Last updated"
-      }
-    ],
-    "costModelsPopover": [
-      {
-        "type": 0,
-        "value": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources. "
-      },
-      {
-        "type": 1,
-        "value": "learnMore"
-      }
-    ],
-    "costModelsPopoverAriaLabel": [
-      {
-        "type": 0,
-        "value": "Cost model info popover"
-      }
-    ],
-    "costModelsPopoverButtonAriaLabel": [
-      {
-        "type": 0,
-        "value": "Opens a dialog with cost model info"
       }
     ],
     "costModelsRateTooLong": [
@@ -2286,6 +2292,12 @@
         "value": "Current"
       }
     ],
+    "currentConfiguration": [
+      {
+        "type": 0,
+        "value": "Current configuration"
+      }
+    ],
     "dashboardCumulativeCostComparison": [
       {
         "type": 0,
@@ -2681,6 +2693,16 @@
       {
         "type": 0,
         "value": "Processing data to generate a list of all services that sums to a total cost..."
+      }
+    ],
+    "detailsMore": [
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " more..."
       }
     ],
     "detailsMoreClusters": [
@@ -7148,6 +7170,14 @@
               }
             ]
           },
+          "persistent_volume_claim": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by persistent volume claim"
+              }
+            ]
+          },
           "product_service": {
             "value": [
               {
@@ -7209,6 +7239,14 @@
               {
                 "type": 0,
                 "value": "Filter by status"
+              }
+            ]
+          },
+          "storage_class": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by StorageClass"
               }
             ]
           },
@@ -7359,6 +7397,14 @@
               }
             ]
           },
+          "persistent_volume_claim": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Persistent volume claim"
+              }
+            ]
+          },
           "product_service": {
             "value": [
               {
@@ -7420,6 +7466,14 @@
               {
                 "type": 0,
                 "value": "Status"
+              }
+            ]
+          },
+          "storage_class": {
+            "value": [
+              {
+                "type": 0,
+                "value": "StorageClass"
               }
             ]
           },
@@ -10674,10 +10728,6 @@
         "value": "value"
       },
       {
-        "type": 0,
-        "value": " "
-      },
-      {
         "type": 1,
         "value": "units"
       }
@@ -10923,6 +10973,44 @@
       {
         "type": 0,
         "value": " % of cost"
+      }
+    ],
+    "percentPlus": [
+      {
+        "offset": 0,
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 0,
+                "value": "+"
+              },
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": "%"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": "%"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
       }
     ],
     "percentSymbol": [
@@ -11212,6 +11300,12 @@
         "value": "Rate must be a positive number"
       }
     ],
+    "pvcTitle": [
+      {
+        "type": 0,
+        "value": "Persistent Volume Claims"
+      }
+    ],
     "rate": [
       {
         "type": 0,
@@ -11260,6 +11354,12 @@
         "value": "Recommended"
       }
     ],
+    "recommendedConfiguration": [
+      {
+        "type": 0,
+        "value": "Recommended configuration"
+      }
+    ],
     "redHatStatusUrl": [
       {
         "type": 0,
@@ -11276,6 +11376,30 @@
       {
         "type": 0,
         "value": "Remove projects"
+      }
+    ],
+    "requestedCapacity": [
+      {
+        "type": 0,
+        "value": "Requested capacity"
+      }
+    ],
+    "requestedCapacityValue": [
+      {
+        "type": 0,
+        "value": "Requested capacity - "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "units"
       }
     ],
     "requests": [
@@ -11802,6 +11926,12 @@
         "value": "Status/Actions"
       }
     ],
+    "storageClass": [
+      {
+        "type": 0,
+        "value": "StorageClass"
+      }
+    ],
     "suggestions": [
       {
         "type": 0,
@@ -12233,6 +12363,20 @@
       {
         "type": 0,
         "value": " maximum"
+      }
+    ],
+    "valueUnits": [
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "units"
       }
     ],
     "various": [

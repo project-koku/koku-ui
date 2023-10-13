@@ -31,7 +31,6 @@ export const costSummaryWidget: RhelDashboardWidget = {
   reportPathsType: ReportPathsType.rhel,
   reportType: ReportType.cost,
   details: {
-    adjustContainerHeight: true,
     costKey: messages.cost,
     showHorizontal: true,
     showTooltip: true,

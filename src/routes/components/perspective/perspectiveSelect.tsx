@@ -1,6 +1,7 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import type { SelectOptionObject } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant, Title } from '@patternfly/react-core';
+import { Title } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -73,8 +74,8 @@ class PerspectiveSelectBase extends React.Component<PerspectiveSelectProps, Pers
         id="perspectiveSelect"
         isDisabled={isDisabled}
         isOpen={isSelectOpen}
-        onSelect={this.handleSelect}
-        onToggle={this.handleToggle}
+        onSelect={(_evt, value) => this.handleSelect(value)}
+        onToggle={(_evt, isExpanded) => this.handleToggle(isExpanded)}
         selections={selection}
         variant={SelectVariant.single}
       >
@@ -85,7 +86,7 @@ class PerspectiveSelectBase extends React.Component<PerspectiveSelectProps, Pers
     );
   };
 
-  private handleSelect = (event, selection: PerspectiveOption) => {
+  private handleSelect = (selection: PerspectiveOption) => {
     const { onSelected } = this.props;
 
     if (onSelected) {

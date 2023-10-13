@@ -57,6 +57,7 @@ export interface ReportOcpItem extends ReportItem {
   clusters?: string[];
   limit: ReportValue;
   node?: string;
+  persistentvolumeclaim?: string;
   project?: string;
   request: ReportValue;
   usage: ReportValue;
@@ -93,6 +94,8 @@ export interface ReportMeta extends PagedMetaData {
   group_by?: {
     [group: string]: string[];
   };
+  limit?: number;
+  offset?: number;
   order_by?: {
     [order: string]: string;
   };

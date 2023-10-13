@@ -35,11 +35,9 @@ import { formatCurrencyAbbreviation } from 'utils/format';
 import { chartStyles } from './costExplorerChart.styles';
 
 interface CostExplorerChartOwnProps {
-  adjustContainerHeight?: boolean;
-  containerHeight?: number;
+  baseHeight?: number;
   formatOptions?: FormatOptions;
   formatter?: Formatter;
-  height?: number;
   legendItemsPerRow?: number;
   name?: string;
   padding?: any;
@@ -53,6 +51,7 @@ interface CostExplorerChartOwnProps {
 
 interface State {
   cursorVoronoiContainer?: any;
+  extraHeight?: number;
   hiddenSeries?: Set<number>;
   series?: ChartSeries[];
   tickValues?: number[];
@@ -67,6 +66,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
   private observer: any = noop;
 
   public state: State = {
+    extraHeight: 0,
     hiddenSeries: new Set(),
     tickValues: [],
     width: 0,
@@ -225,23 +225,6 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
     return data;
   };
 
-  private getAdjustedContainerHeight = () => {
-    const { adjustContainerHeight, height, containerHeight = height } = this.props;
-    const { width } = this.state;
-
-    let adjustedContainerHeight = containerHeight;
-    if (adjustContainerHeight) {
-      if (width > 675 && width < 1250) {
-        adjustedContainerHeight += 25;
-      } else if (width > 400 && width < 650) {
-        adjustedContainerHeight += 50;
-      } else if (width <= 400) {
-        adjustedContainerHeight += 150;
-      }
-    }
-    return adjustedContainerHeight;
-  };
-
   // If bar width exceeds max and domainPadding is true, extra width is returned to help center bars horizontally
   private getBarWidth = (domainPadding: boolean = false) => {
     const { hiddenSeries, series, width } = this.state;
@@ -292,12 +275,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
         labels={({ datum }) => getTooltipLabel(datum, formatter, formatOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
-        voronoiPadding={{
-          bottom: 75,
-          left: 8,
-          right: 8,
-          top: 8,
-        }}
+        voronoiPadding={this.getPadding()}
       />
     );
   };
@@ -337,15 +315,33 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
     return result;
   };
 
+  private getHeight = baseHeight => {
+    const { extraHeight } = this.state;
+
+    return baseHeight + extraHeight;
+  };
+
+  private getPadding = () => {
+    const { extraHeight } = this.state;
+
+    return {
+      bottom: 50 + extraHeight, // Maintain chart aspect ratio
+      left: 40,
+      right: 8,
+      top: 8,
+    };
+  };
+
   private getLegend = () => {
-    const { name = '' } = this.props;
+    const { legendItemsPerRow, name = '' } = this.props;
     const { hiddenSeries, series } = this.state;
 
     return (
       <ChartLegend
         data={getLegendData(series, hiddenSeries)}
-        height={25}
         gutter={20}
+        height={25}
+        itemsPerRow={legendItemsPerRow}
         name={`${name}-legend`}
         responsive={false}
       />
@@ -410,6 +406,14 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
     return 'USD';
   };
 
+  private handleLegendAllowWrap = extraHeight => {
+    const { legendItemsPerRow } = this.props;
+
+    if (!legendItemsPerRow && extraHeight !== this.state.extraHeight) {
+      this.setState({ extraHeight });
+    }
+  };
+
   // Hide each data series individually
   private handleLegendClick = (index: number) => {
     const hiddenSeries = initHiddenSeries(this.state.series, this.state.hiddenSeries, index);
@@ -426,18 +430,11 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
   };
 
   public render() {
-    const {
-      height,
-      intl,
-      name,
-      padding = {
-        bottom: 50,
-        left: 40,
-        right: 8,
-        top: 8,
-      },
-    } = this.props;
+    const { baseHeight, intl, name, padding = this.getPadding() } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, tickValues, width } = this.state;
+
+    const barWidth = this.getBarWidth();
+    const chartHeight = this.getHeight(baseHeight);
 
     // Clone original container. See https://issues.redhat.com/browse/COST-762
     const container = cursorVoronoiContainer
@@ -452,20 +449,18 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
         } as any)
       : undefined;
 
-    const barWidth = this.getBarWidth();
-
     // Note: For tooltip values to match properly, chart groups must be rendered in the order given as legend data
     return (
-      <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
-        <div style={{ height, width }}>
+      <div className="chartOverride" ref={this.containerRef}>
+        <div style={{ height: chartHeight }}>
           <Chart
             ariaTitle={intl.formatMessage(messages.explorerChartAriaTitle)}
             containerComponent={container}
             domain={this.getDomain(series, hiddenSeries)}
             domainPadding={{ x: this.getBarWidth(true) }}
             events={this.getEvents()}
-            height={height}
-            legendAllowWrap
+            height={chartHeight}
+            legendAllowWrap={this.handleLegendAllowWrap}
             legendComponent={this.getLegend()}
             legendData={getLegendData(series, hiddenSeries)}
             legendPosition="bottom-left"

@@ -53,7 +53,7 @@ const TaggingRatesFormBase: React.FC<TaggingRatesFormProps> = ({
                 label={messages.costModelsTagRateTableValue}
                 placeholder={intl.formatMessage(messages.costModelsEnterTagValue)}
                 value={tag.tagValue}
-                onChange={value => updateTag({ tagValue: value }, ix)}
+                onChange={(_evt, value) => updateTag({ tagValue: value }, ix)}
                 validated={tagValues[ix].isTagValueDirty && errors.tagValueValues[ix] ? 'error' : 'default'}
                 helperTextInvalid={errors.tagValueValues[ix]}
               />
@@ -63,7 +63,7 @@ const TaggingRatesFormBase: React.FC<TaggingRatesFormProps> = ({
                 currencyUnits={currencyUnits}
                 fieldId={`rate_${ix}`}
                 helperTextInvalid={errors.tagValues[ix]}
-                onChange={value => updateTag({ value }, ix)}
+                onChange={(_evt, value) => updateTag({ value }, ix)}
                 style={style}
                 validated={tagValues[ix].isDirty && errors.tagValues[ix] ? 'error' : 'default'}
                 value={tag.inputValue}
@@ -77,7 +77,7 @@ const TaggingRatesFormBase: React.FC<TaggingRatesFormProps> = ({
                 validated={errors.tagDescription[ix] ? 'error' : 'default'}
                 placeholder={intl.formatMessage(messages.costModelsEnterTagDesc)}
                 value={tag.description}
-                onChange={value => updateTag({ description: value }, ix)}
+                onChange={(_evt, value) => updateTag({ description: value }, ix)}
                 helperTextInvalid={errors.tagDescription[ix]}
               />
             </SplitItem>
