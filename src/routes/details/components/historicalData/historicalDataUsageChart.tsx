@@ -1,6 +1,6 @@
 import { Skeleton } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { Report, ReportPathsType } from 'api/reports/report';
 import { ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { DatumType, transformReport } from 'routes/components/charts/common/chartDatum';
 import { HistoricalUsageChart } from 'routes/components/charts/historicalUsageChart';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
+import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -88,10 +89,7 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
     const previousRequestData = transformReport(previousReport, DatumType.rolling, 'date', 'request');
     const previousUsageData = transformReport(previousReport, DatumType.rolling, 'date', 'usage');
 
-    const usageUnits =
-      currentReport && currentReport.meta && currentReport.meta.total && currentReport.meta.total.usage
-        ? currentReport.meta.total.usage.units
-        : '';
+    const usageUnits = currentReport?.meta?.total?.usage ? currentReport.meta.total.usage.units : '';
 
     return (
       <div style={styles.chartContainer}>
@@ -101,14 +99,12 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
             this.getSkeleton()
           ) : (
             <HistoricalUsageChart
-              adjustContainerHeight
-              containerHeight={chartStyles.chartContainerHeight}
+              baseHeight={chartStyles.chartHeight}
               currentLimitData={currentLimitData}
               currentRequestData={currentRequestData}
               currentUsageData={currentUsageData}
               formatter={formatUnits}
               formatOptions={{}}
-              height={chartStyles.chartHeight}
               name={chartName}
               previousLimitData={previousLimitData}
               previousRequestData={previousRequestData}
@@ -126,7 +122,7 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
 const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, HistoricalDataUsageChartStateProps>(
   (state, { reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = parseQueryState<Query>(queryFromRoute);
+    const queryState = getQueryState(router.location, 'details');
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = getGroupById(queryFromRoute);
@@ -138,22 +134,19 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
     const baseQuery: Query = {
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(queryState && queryState.filter_by && queryState.filter_by),
-        ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
-        ...(queryFromRoute &&
-          queryFromRoute.filter &&
-          queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+        ...(queryState?.filter_by && queryState.filter_by),
+        ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
+        ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
         ...(groupByOrgValue && useFilter && { [orgUnitIdKey]: groupByOrgValue }),
         // Workaround for https://issues.redhat.com/browse/COST-1189
-        ...(queryState &&
-          queryState.filter_by &&
+        ...(queryState?.filter_by &&
           queryState.filter_by[orgUnitIdKey] && {
             [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
             [orgUnitIdKey]: undefined,
           }),
       },
       exclude: {
-        ...(queryState && queryState.exclude && queryState.exclude),
+        ...(queryState?.exclude && queryState.exclude),
       },
       group_by: {
         ...(groupByOrgValue && !useFilter && { [orgUnitIdKey]: groupByOrgValue }),
@@ -172,7 +165,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
       filter_by: {
         ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
       },
     };
 
@@ -196,7 +189,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
       filter_by: {
         ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }),
+        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
       },
     };
 

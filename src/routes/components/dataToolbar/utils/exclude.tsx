@@ -1,5 +1,6 @@
-import type { SelectOptionObject } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant, ToolbarItem } from '@patternfly/react-core';
+import { ToolbarItem } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
@@ -32,7 +33,7 @@ export const getExcludeSelect = ({
   filters?: Filters;
   isDisabled?: boolean;
   isExcludeSelectOpen?: boolean;
-  onExcludeSelect: (event: any, selection: ExcludeOption) => void;
+  onExcludeSelect: (selection: ExcludeOption) => void;
   onExcludeToggle: (isOpen: boolean) => void;
 }) => {
   const selectOptions = getExcludeSelectOptions();
@@ -44,8 +45,8 @@ export const getExcludeSelect = ({
         id="exclude-select"
         isDisabled={isDisabled && !hasFilters(filters)}
         isOpen={isExcludeSelectOpen}
-        onSelect={onExcludeSelect}
-        onToggle={onExcludeToggle}
+        onSelect={(_evt, value) => onExcludeSelect(value)}
+        onToggle={(_evt, isExpanded) => onExcludeToggle(isExpanded)}
         selections={selection}
         variant={SelectVariant.single}
       >

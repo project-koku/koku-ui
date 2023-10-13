@@ -1,8 +1,7 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
 import type { IRow } from '@patternfly/react-table';
-import { TableComposable, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
-import { TableGridBreakpoint } from '@patternfly/react-table';
+import { Table, TableGridBreakpoint, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -28,7 +27,7 @@ const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl,
   const rows: (IRow | string[])[] = costModels.length > 0 ? costModels[0].sources : [];
 
   return (
-    <TableComposable
+    <Table
       aria-label={intl.formatMessage(messages.costModelsSourceTableAriaLabel)}
       gridBreakPoint={TableGridBreakpoint.grid2xl}
       variant={TableVariant.compact}
@@ -61,8 +60,8 @@ const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl,
                 <Button
                   aria-label={intl.formatMessage(messages.costModelsSourceDelete)}
                   isAriaDisabled={!canWrite}
-                  isSmall
                   onClick={() => showDeleteDialog(rowIndex)}
+                  size="sm"
                   variant={ButtonVariant.plain}
                 >
                   <MinusCircleIcon />
@@ -72,7 +71,7 @@ const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl,
           </Tr>
         ))}
       </Tbody>
-    </TableComposable>
+    </Table>
   );
 };
 

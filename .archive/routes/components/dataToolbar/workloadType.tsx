@@ -1,7 +1,8 @@
 import './dataToolbar.scss';
 
-import type { SelectOptionObject, ToolbarChipGroup } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -60,8 +61,8 @@ class WorkloadTypeBase extends React.Component<WorkloadTypeProps, WorkloadTypeSt
         isDisabled={isDisabled}
         variant={SelectVariant.checkbox}
         aria-label={intl.formatMessage(messages.filterByWorkloadTypeAriaLabel)}
-        onToggle={this.onToggle}
         onSelect={onSelect}
+        onToggle={(_evt, isExpanded) => this.onToggle(isExpanded)}
         selections={selections}
         isOpen={isWorkloadTypeExpanded}
         placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}

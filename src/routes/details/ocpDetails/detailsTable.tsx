@@ -2,6 +2,7 @@ import 'routes/components/dataTable/dataTable.scss';
 
 import { Label, Tooltip } from '@patternfly/react-core';
 import { ProviderType } from 'api/providers';
+import type { Query } from 'api/queries/query';
 import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
 import { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -28,6 +29,8 @@ import { withRouter } from 'utils/router';
 import DetailsOptimization from './detailsOptimization';
 
 interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
+  basePath?: string;
+  breadcrumbPath?: string;
   costDistribution?: string;
   filterBy?: any;
   groupBy: string;
@@ -39,6 +42,7 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
+  query?: Query;
   report: OcpReport;
   reportQueryString: string;
   selectedItems?: ComputedReportItem[];
@@ -71,8 +75,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
     const { costDistribution, hiddenColumns, report, selectedItems } = this.props;
-    const currentReport = report && report.data ? JSON.stringify(report.data) : '';
-    const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
+    const currentReport = report?.data ? JSON.stringify(report.data) : '';
+    const previousReport = prevProps?.report?.data ? JSON.stringify(prevProps.report.data) : '';
 
     if (
       previousReport !== currentReport ||
@@ -86,6 +90,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
   private initDatum = () => {
     const {
+      basePath,
+      breadcrumbPath,
       costDistribution,
       groupBy,
       groupByTagKey,
@@ -93,6 +99,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       intl,
       isAllSelected,
       isRosFeatureEnabled,
+      query,
       report,
       router,
       selectedItems,
@@ -224,14 +231,20 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       ) : (
         <Link
           to={getBreakdownPath({
-            basePath: formatPath(routes.ocpDetailsBreakdown.path),
+            basePath,
             description: item.id,
             id: item.id,
             isPlatformCosts,
             groupBy,
-            router,
             title: label.toString(), // Convert IDs if applicable
           })}
+          state={{
+            ...(router.location.state && router.location.state),
+            details: {
+              ...(query && query),
+              breadcrumbPath,
+            },
+          }}
         >
           {label}
         </Link>
@@ -267,7 +280,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           },
           {
             hidden: !(isGroupByProject && isRosFeatureEnabled),
-            value: !isPlatformCosts && !isDisabled && <DetailsOptimization project={label} />,
+            value: !isPlatformCosts && !isDisabled && (
+              <DetailsOptimization
+                basePath={formatPath(routes.ocpBreakdown.path)}
+                breadcrumbPath={formatPath(`${routes.ocpDetails.path}${location.search}`)}
+                project={label}
+                query={query}
+              />
+            ),
           },
           { value: monthOverMonth, id: DetailsTableColumnIds.monthOverMonth },
           {
@@ -322,7 +342,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
     const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
     const cost =
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[reportItemValue]
+      report?.meta?.total?.cost && report.meta.total.cost[reportItemValue]
         ? report.meta.total.cost[reportItemValue].value
         : 0;
     const percentValue = cost === 0 ? cost.toFixed(2) : ((item.supplementary.total.value / cost) * 100).toFixed(2);
@@ -341,7 +361,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
     const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
     const cost =
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[reportItemValue]
+      report?.meta?.total?.cost && report.meta.total.cost[reportItemValue]
         ? report.meta.total.cost[reportItemValue].value
         : 0;
     const percentValue = cost === 0 ? cost.toFixed(2) : ((item.infrastructure.total.value / cost) * 100).toFixed(2);
@@ -410,7 +430,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
     const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
     const cost =
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost[reportItemValue]
+      report?.meta?.total?.cost && report.meta.total.cost[reportItemValue]
         ? report.meta.total.cost[reportItemValue].value
         : 0;
     const percentValue = cost === 0 ? cost.toFixed(2) : ((item.cost[reportItemValue].value / cost) * 100).toFixed(2);

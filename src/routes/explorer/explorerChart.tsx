@@ -250,11 +250,9 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
               this.getSkeleton()
             ) : (
               <CostExplorerChart
-                adjustContainerHeight
-                containerHeight={chartStyles.chartContainerHeight}
+                baseHeight={chartStyles.chartHeight}
                 formatOptions={{}}
                 formatter={formatUnits}
-                height={chartStyles.chartHeight}
                 top1stData={datums.length > 0 ? datums[0] : []}
                 top2ndData={datums.length > 1 ? datums[1] : []}
                 top3rdData={datums.length > 2 ? datums[2] : []}

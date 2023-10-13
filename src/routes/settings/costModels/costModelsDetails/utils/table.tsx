@@ -71,7 +71,7 @@ export function getRowsByStateName(stateName: string, data: any) {
 }
 
 export function createOnSort(cells: ICell[], query: CostModelsQuery, router: RouteComponentProps) {
-  return function (_event, index: number, direction: SortByDirection) {
+  return function (_evt, index: number, direction: SortByDirection) {
     const name = cells[index] && cells[index].data ? cells[index].data.orderName : null;
     if (name === null) {
       return;
@@ -94,7 +94,9 @@ export function createActions(stateName: string, canWrite: boolean, actions: IAc
       ...action,
       isDisabled: !canWrite,
       style: !canWrite ? { pointerEvents: 'auto' } : undefined,
-      tooltip: !canWrite ? action.tooltip : undefined,
+      tooltipProps: {
+        content: !canWrite ? action.tooltipProps?.content : undefined,
+      },
     };
   });
 }

@@ -178,7 +178,7 @@ export const formatOptimization: PercentageFormatter = (
   return val;
 };
 
-const formatUsage: UnitsFormatter = (
+export const formatUsage: UnitsFormatter = (
   value,
   options: FormatOptions = {
     minimumFractionDigits: 0,

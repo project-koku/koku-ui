@@ -13,10 +13,10 @@ const currentData = utils.transformReport(currentMonthReport, utils.DatumType.ro
 const previousData = utils.transformReport(previousMonthReport, utils.DatumType.rolling);
 
 const props: TrendChartProps = {
+  baseHeight: 100,
   currentData,
   formatter: jest.fn(),
   formatOptions: {},
-  height: 100,
   intl: null,
   name: 'exampleTrendChart',
   previousData,

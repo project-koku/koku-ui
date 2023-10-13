@@ -57,21 +57,16 @@ const ReportSummaryDetailsBase: React.FC<ReportSummaryDetailsProps> = ({
   let request: string | React.ReactNode = <EmptyValueState />;
   let usage: string | React.ReactNode = <EmptyValueState />;
 
-  const hasTotal = report && report.meta && report.meta.total;
-  const hasCost = hasTotal && report.meta.total.cost && report.meta.total.cost.total;
-  const hasCount = hasTotal && report.meta.total.count;
-  const hasSupplementaryCost =
-    hasTotal &&
-    report.meta.total.supplementary &&
-    report.meta.total.supplementary.total &&
-    report.meta.total.supplementary.total.value;
+  const hasTotal = report?.meta?.total;
+  const hasCost = report?.meta?.total?.cost?.total;
+  const hasCount = report?.meta?.total?.count;
+  const hasSupplementaryCost = report?.meta?.total?.supplementary?.total?.value;
   const hasInfrastructureCost =
-    hasTotal &&
-    report.meta.total.infrastructure &&
+    report?.meta?.total?.infrastructure &&
     report.meta.total.infrastructure[computedReportItemValue] &&
     report.meta.total.infrastructure[computedReportItemValue].value;
-  const hasRequest = hasTotal && report.meta.total.request;
-  const hasUsage = hasTotal && report.meta.total.usage;
+  const hasRequest = report?.meta?.total?.request;
+  const hasUsage = report?.meta?.total?.usage;
 
   if (hasTotal) {
     cost = formatCurrency(

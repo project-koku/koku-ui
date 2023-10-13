@@ -5,6 +5,7 @@ export const noPrefix = 'No-'; // no-project, no-region, no-<tag>
 export const tagPrefix = 'tag:'; // Tag prefix for group_by
 
 export const awsCategoryKey = 'aws_category'; // AWS category for group_by
+export const breadcrumbLabelKey = 'breadcrumb_label'; // Used to display a breadcrumb in the breakdown header
 export const breakdownDescKey = 'breakdown_desc'; // Used to display a description in the breakdown header
 export const breakdownTitleKey = 'breakdown_title'; // Used to display a title in the breakdown header
 export const orgUnitIdKey = 'org_unit_id'; // Org unit ID for group_by

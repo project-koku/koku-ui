@@ -37,6 +37,8 @@ module.exports = {
   interceptChromeConfig: false, // Change to false after your app is registered in configuration files
   proxyVerbose: true,
   sassPrefix: `.${moduleName}`,
+  // sassPrefix: 'body', // For PF v5 testing only
+  // bundlePfModules: true, // For PF v5 testing only
   stats,
   standalone: process.env.LOCAL_API_PORT ? true : false,
   useCache: true,
@@ -61,9 +63,9 @@ module.exports = {
       './RootApp': path.resolve(__dirname, './src/appEntry.tsx'),
     },
     shared: [
-      { 'react-redux': { requiredVersion: dependencies['react-redux'] } },
-      { 'react-router-dom': { import: false, requiredVersion: '*', singleton: true } },
-      { '@unleash/proxy-client-react': { requiredVersion: '*', singleton: true } },
+      { 'react-redux': { version: dependencies['react-redux'] } },
+      { 'react-router-dom': { version: dependencies['react-router-dom'], import: false, singleton: true } },
+      { '@unleash/proxy-client-react': { version: dependencies['@unleash/proxy-client-react'], singleton: true } },
     ],
   },
   /**

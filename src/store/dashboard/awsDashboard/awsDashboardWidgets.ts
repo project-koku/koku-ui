@@ -60,7 +60,6 @@ export const costSummaryWidget: AwsDashboardWidget = {
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.cost,
   details: {
-    adjustContainerHeight: true,
     costKey: messages.cost,
     showHorizontal: true,
     viewAllPath: formatPath(routes.awsDetails.path),

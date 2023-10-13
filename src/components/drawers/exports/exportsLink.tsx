@@ -50,7 +50,7 @@ class ExportsLinkBase extends React.Component<ExportsLinkProps, any> {
     // @redhat-cloud-services/frontend-components-notifications does not expose PatternFly's actionLinks prop
     if (isActionLink) {
       return (
-        <div className="pf-c-alert__action-group">
+        <div className="pf-v5-c-alert__action-group">
           <AlertActionLink onClick={this.handleToggle}>{intl.formatMessage(messages.exportsTitle)}</AlertActionLink>
         </div>
       );

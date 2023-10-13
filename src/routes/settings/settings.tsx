@@ -85,7 +85,7 @@ const Settings: React.FC<SettingsProps> = () => {
     let result = false;
     if (userAccess) {
       const data = (userAccess.data as any).find(d => d.type === 'settings');
-      result = data && data.access && data.write;
+      result = data?.access && data?.write;
     }
     return result;
   };

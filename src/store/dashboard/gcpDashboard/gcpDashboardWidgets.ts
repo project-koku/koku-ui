@@ -61,7 +61,6 @@ export const costSummaryWidget: GcpDashboardWidget = {
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.cost,
   details: {
-    adjustContainerHeight: true,
     costKey: messages.cost,
     showHorizontal: true,
     viewAllPath: formatPath(routes.gcpDetails.path),

@@ -1,6 +1,6 @@
 import { TagIcon } from '@patternfly/react-icons/dist/esm/icons/tag-icon';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery, parseQueryState } from 'api/queries/query';
+import { getQuery, parseQuery } from 'api/queries/query';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
 import React from 'react';
@@ -8,6 +8,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
+import { getQueryState } from 'routes/utils/queryState';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
@@ -15,8 +16,8 @@ import { logicalAndPrefix, orgUnitIdKey, platformCategoryKey, tagPrefix } from '
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
+import { TagModal } from './modal/tagModal';
 import { styles } from './tag.styles';
-import { TagModal } from './tagModal';
 
 interface TagLinkOwnProps extends RouterComponentProps, WrappedComponentProps {
   id?: string;
@@ -28,9 +29,6 @@ interface TagLinkState {
 }
 
 interface TagLinkStateProps {
-  groupBy: string;
-  groupByValue: string | number;
-  query?: Query;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
   tagQueryString?: string;
@@ -83,7 +81,6 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
     const { isOpen } = this.state;
 
     let count = 0;
-
     if (tagReport) {
       for (const item of tagReport.data) {
         if (item.values) {
@@ -91,17 +88,15 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
         }
       }
     }
-
+    if (count === 0) {
+      return null;
+    }
     return (
       <div style={styles.tagsContainer} id={id}>
-        {count > 0 && (
-          <>
-            <TagIcon />
-            <a data-testid="tag-lnk" href="#/" onClick={this.handleOpen} style={styles.tagLink}>
-              {count}
-            </a>
-          </>
-        )}
+        <TagIcon />
+        <a data-testid="tag-lnk" href="#/" onClick={this.handleOpen} style={styles.tagLink}>
+          {count}
+        </a>
         <TagModal isOpen={isOpen} onClose={this.handleClose} tagPathsType={tagPathsType} />
       </div>
     );
@@ -110,14 +105,16 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
 
 const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps>((state, { router, tagPathsType }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const queryState = parseQueryState<Query>(queryFromRoute);
+  const queryState = getQueryState(router.location, 'details');
 
   const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
   const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
 
-  // Prune unsupported tag params from filter_by
-  const filterByParams = queryState && queryState.filter_by ? queryState.filter_by : {};
+  // Prune unsupported tag params from filter_by, but don't reset queryState
+  const filterByParams = {
+    ...(queryState?.filter_by ? queryState.filter_by : {}),
+  };
   for (const key of Object.keys(filterByParams)) {
     // Omit unsupported query params
     if (
@@ -131,7 +128,6 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
     }
   }
 
-  const query = { ...queryFromRoute };
   const tagQuery = {
     filter: {
       resolution: 'monthly',
@@ -141,10 +137,8 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
     filter_by: {
       // Add filters here to apply logical OR/AND
       ...filterByParams,
-      ...(queryFromRoute && queryFromRoute.isPlatformCosts && { category: platformCategoryKey }),
-      ...(queryFromRoute &&
-        queryFromRoute.filter &&
-        queryFromRoute.filter.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+      ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
+      ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
       // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
       ...(groupBy && groupByValue !== '*' && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
     },
@@ -155,9 +149,6 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
   const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
 
   return {
-    groupBy,
-    groupByValue,
-    query,
     tagReport,
     tagReportFetchStatus,
     tagQueryString,

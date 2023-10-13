@@ -236,10 +236,10 @@ const initial = {
   },
 };
 
-function RenderFormDataUI({ index }) {
+function RenderFormDataUI(props) {
   return (
     <Provider store={createStore(rootReducer, initial)}>
-      <UpdateRateModal index={index} />;
+      <UpdateRateModal {...props} />;
     </Provider>
   );
 }
@@ -279,33 +279,33 @@ describe('update-rate', () => {
     await user.type(descInput, 'openshift-aws-node');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
+    await user.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 
     expect(saveButton.getAttribute('disabled')).toBeNull();
 
-    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
+    await user.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await act(async () => user.click(screen.getByLabelText('Select Metric')));
+    await user.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 
-    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
+    await user.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
     expect(saveButton.getAttribute('disabled')).toBeNull();
 
-    await act(async () => user.click(screen.getByLabelText('Select Metric')));
+    await user.click(screen.getByLabelText('Select Metric'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
-    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
+    await user.click(screen.getByLabelText('Select Measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 

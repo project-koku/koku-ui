@@ -282,7 +282,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
     const resourcePathsType = getResourcePathsType(perspective);
     const tagPathsType = getTagReportPathsType(perspective);
 
-    const showCostDistribution = costDistribution && report && report.meta && report.meta.distributed_overhead === true;
+    const showCostDistribution = costDistribution && report?.meta?.distributed_overhead === true;
 
     return (
       <header style={styles.header}>
