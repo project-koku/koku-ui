@@ -164,10 +164,7 @@ const PvcContent: React.FC<PvcContentProps> = () => {
       {getToolbar()}
       {reportFetchStatus === FetchStatus.inProgress ? (
         <div style={styles.loading}>
-          <LoadingState
-            body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
-            heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
-          />
+          <LoadingState />
         </div>
       ) : (
         <>
