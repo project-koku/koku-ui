@@ -59,7 +59,7 @@
     "@redhat-cloud-services/frontend-components-translations": "^3.2.7",
     "@redhat-cloud-services/frontend-components-utilities": "^4.0.2",
     "@redhat-cloud-services/rbac-client": "^1.2.11",
-    "@unleash/proxy-client-react": "^4.0.1",
+    "@unleash/proxy-client-react": "^4.0.3",
     "axios": "^1.5.1",
     "date-fns": "^2.30.0",
     "js-file-download": "^0.4.12",
@@ -74,7 +74,7 @@
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
     "typesafe-actions": "^5.1.0",
-    "unleash-proxy-client": "^2.5.0",
+    "unleash-proxy-client": "^3.0.0",
     "victory-core": "^36.6.11",
     "xstate": "^4.38.2",
     "yaml": "^2.3.3"
