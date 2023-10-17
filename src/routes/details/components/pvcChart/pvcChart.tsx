@@ -255,12 +255,13 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
     const { isOpen } = this.state;
 
     const count = report?.meta ? report.meta.count : 0;
+    const remaining = count - baseQuery.filter.limit;
 
-    if (count - baseQuery.filter.limit - 1 > 0) {
+    if (remaining > 0) {
       return (
         <>
           <a data-testid="pvc-lnk" href="#/" onClick={this.handleOpen}>
-            {intl.formatMessage(messages.detailsMore, { value: count })}
+            {intl.formatMessage(messages.detailsMore, { value: remaining })}
           </a>
           <PvcModal isOpen={isOpen} onClose={this.handleClose} title={intl.formatMessage(messages.pvcTitle)} />
         </>
