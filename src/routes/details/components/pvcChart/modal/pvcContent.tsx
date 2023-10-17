@@ -21,6 +21,7 @@ import { getQueryState } from 'routes/utils/queryState';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
+import { platformCategoryKey } from 'utils/props';
 
 import { styles } from './pvcContent.styles';
 import { PvcTable } from './pvcTable';
@@ -204,6 +205,7 @@ const useMapToProps = ({ query }: PvcContentMapProps): PvcContentStateProps => {
     filter_by: {
       // Add filters here to apply logical OR/AND
       ...(queryState?.filter_by && queryState.filter_by),
+      ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
       // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
       ...(groupBy && groupByValue !== '*' && { [groupBy]: groupByValue }), // Note: We're not inserting PVC information for the Platform project
       ...query.filter_by,
