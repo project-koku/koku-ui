@@ -32,6 +32,7 @@ import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUsage, unitsLookupKey } from 'utils/format';
+import { platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -366,6 +367,7 @@ const mapStateToProps = createMapStateToProps<PvcChartOwnProps, PvcChartStatePro
       filter_by: {
         // Add filters here to apply logical OR/AND
         ...(queryState?.filter_by && queryState.filter_by),
+        ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
         ...(groupBy && groupByValue !== '*' && { [groupBy]: groupByValue }), // Note: We're not inserting PVC information for the Platform project
       },
