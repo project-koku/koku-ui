@@ -156,6 +156,8 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   };
 
   private getTab = (tab: BreakdownTab, contentRef, badge: React.ReactNode, index: number) => {
+    const { groupBy, groupByValue } = this.props;
+
     return (
       <Tab
         eventKey={index}
@@ -172,6 +174,8 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
                     scope="costManagementMfe"
                     appName="cost-management-mfe"
                     module="./OptimizationsBadge"
+                    filter={groupBy}
+                    filterValue={groupByValue}
                   />
                 }
               </span>
