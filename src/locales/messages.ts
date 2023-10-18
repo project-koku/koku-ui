@@ -2385,7 +2385,7 @@ export default defineMessages({
   },
   noDataStateDesc: {
     defaultMessage:
-      'We have detected a source, but we are not done processing the incoming data. The time to process could take up to 24 hours. Try refreshing the page at a later time.',
+      'We have detected an integration, but we are not done processing the incoming data. The time to process could take up to 24 hours. Try refreshing the page at a later time.',
     description: 'still processing request, 24 hour message',
     id: 'noDataStateDesc',
   },
@@ -2488,9 +2488,9 @@ export default defineMessages({
   },
   noProvidersStateOverviewDesc: {
     defaultMessage:
-      'Add a source, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage.',
+      'Add an integration, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage.',
     description:
-      'Add a source, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage.',
+      'Add an integration, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage.',
     id: 'noProvidersStateOverviewDesc',
   },
   noProvidersStateOverviewTitle: {
