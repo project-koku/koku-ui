@@ -41,7 +41,7 @@ function regExp(msg) {
 
 test('loading table', () => {
   renderUI({});
-  expect(screen.queryAllByText(/Looking for sources/i)).toHaveLength(1);
+  expect(screen.queryAllByText(/Looking for integrations/i)).toHaveLength(1);
 });
 
 // Todo: Replace no_cost_models_title with default message string

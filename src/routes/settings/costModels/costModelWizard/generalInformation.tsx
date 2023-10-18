@@ -85,7 +85,13 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
               <Title headingLevel="h2" size={TitleSizes.xl} style={styles.titleWithLearnMore}>
                 {intl.formatMessage(messages.costModelsWizardGeneralInfoTitle)}
               </Title>
-              <a href={intl.formatMessage(messages.docsConfigCostModels)} rel="noreferrer" target="_blank">
+              <a
+                href={intl.formatMessage(
+                  type === 'OCP' ? messages.docsConfigCostModelsOcp : messages.docsConfigCostModels
+                )}
+                rel="noreferrer"
+                target="_blank"
+              >
                 {intl.formatMessage(messages.learnMore)}
               </a>
             </StackItem>
