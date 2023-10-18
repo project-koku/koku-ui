@@ -38,7 +38,7 @@ module.exports = {
   proxyVerbose: true,
   sassPrefix: `.${moduleName}`,
   // sassPrefix: 'body', // For PF v5 testing only
-  // bundlePfModules: true, // For PF v5 testing only
+  // bundlePfModules: true, // See https://console.stage.redhat.com/platform-docs/frontend-components/proxies/webpack-proxy#includePFcssmodulesinyourbundle
   stats,
   standalone: process.env.LOCAL_API_PORT ? true : false,
   useCache: true,
@@ -88,11 +88,10 @@ module.exports = {
   },
   routes: {
     /**
-     * Cloud services config routes, typically localhost:8889
+     * Chrome services backend config routes, typically localhost:8000
      */
     ...(process.env.CLOUD_SERVICES_CONFIG_PORT && {
-      '/config': { host: `http://localhost:${process.env.CLOUD_SERVICES_CONFIG_PORT}` },
-      '/beta/config': { host: `http://localhost:${process.env.CLOUD_SERVICES_CONFIG_PORT}` },
+      '/api/chrome-service/v1/static': { host: `http://localhost:${process.env.CLOUD_SERVICES_CONFIG_PORT}` },
     }),
     /**
      * Ephemeral routes, typically localhost:8000
@@ -106,6 +105,18 @@ module.exports = {
     ...(process.env.LOCAL_API_PORT && {
       '/api/cost-management/v1/': {
         host: `http://${process.env.LOCAL_API_HOST || 'localhost'}:${process.env.LOCAL_API_PORT}`,
+      },
+    }),
+    /**
+     * FEC static routes, typically localhost:8003
+     * https://console.stage.redhat.com/platform-docs/frontend-components/proxies/webpack-proxy#Inventoryexample
+     */
+    ...(process.env.FEC_STATIC_PORT && {
+      '/apps/cost-management-mfe': {
+        host: `http://localhost:${process.env.FEC_STATIC_PORT}`,
+      },
+      '/beta/apps/cost-management-mfe': {
+        host: `http://localhost:${process.env.FEC_STATIC_PORT}`,
       },
     }),
   },

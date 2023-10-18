@@ -32,6 +32,7 @@ import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUsage, unitsLookupKey } from 'utils/format';
+import { platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -255,12 +256,13 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
     const { isOpen } = this.state;
 
     const count = report?.meta ? report.meta.count : 0;
+    const remaining = count - baseQuery.filter.limit;
 
-    if (count - baseQuery.filter.limit - 1 > 0) {
+    if (remaining > 0) {
       return (
         <>
           <a data-testid="pvc-lnk" href="#/" onClick={this.handleOpen}>
-            {intl.formatMessage(messages.detailsMore, { value: count })}
+            {intl.formatMessage(messages.detailsMore, { value: remaining })}
           </a>
           <PvcModal isOpen={isOpen} onClose={this.handleClose} title={intl.formatMessage(messages.pvcTitle)} />
         </>
@@ -365,6 +367,7 @@ const mapStateToProps = createMapStateToProps<PvcChartOwnProps, PvcChartStatePro
       filter_by: {
         // Add filters here to apply logical OR/AND
         ...(queryState?.filter_by && queryState.filter_by),
+        ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
         ...(groupBy && groupByValue !== '*' && { [groupBy]: groupByValue }), // Note: We're not inserting PVC information for the Platform project
       },
