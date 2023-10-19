@@ -174,8 +174,8 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
                     scope="costManagementMfe"
                     appName="cost-management-mfe"
                     module="./OptimizationsBadge"
-                    filter={groupBy}
-                    filterValue={groupByValue}
+                    groupBy={groupBy}
+                    groupByValue={groupByValue}
                   />
                 }
               </span>
