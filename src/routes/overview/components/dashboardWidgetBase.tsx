@@ -424,7 +424,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
       <AsyncComponent
         scope="costManagementMfe"
         appName="cost-management-mfe"
-        module="./OptimizationsSummary"
+        module="./MfeOptimizationsSummary"
         toPath={formatPath(routes.optimizationsDetails.path)}
       />
     );

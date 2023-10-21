@@ -173,7 +173,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
                   <AsyncComponent
                     scope="costManagementMfe"
                     appName="cost-management-mfe"
-                    module="./OptimizationsBadge"
+                    module="./MfeOptimizationsBadge"
                     groupBy={groupBy}
                     groupByValue={groupByValue}
                   />

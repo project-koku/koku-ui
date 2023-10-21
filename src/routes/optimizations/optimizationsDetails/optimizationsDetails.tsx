@@ -21,7 +21,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
       <AsyncComponent
         scope="costManagementMfe"
         appName="cost-management-mfe"
-        module="./OptimizationsDetails"
+        module="./MfeOptimizationsDetails"
         breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
         breadcrumbPath={formatPath(`${routes.optimizationsDetails.path}${location.search}`)}
         toPath={formatPath(routes.optimizationsBreakdown.path)}
