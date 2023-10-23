@@ -76,7 +76,7 @@
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
     "typesafe-actions": "^5.1.0",
-    "unleash-proxy-client": "^3.0.0",
+    "unleash-proxy-client": "^3.1.0",
     "victory-core": "^36.6.11",
     "xstate": "^4.38.2",
     "yaml": "^2.3.3"
