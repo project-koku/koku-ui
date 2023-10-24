@@ -10,7 +10,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { routes } from 'routes';
 import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { DataTable } from 'routes/components/dataTable';
 import { styles } from 'routes/components/dataTable/dataTable.styles';
@@ -21,12 +20,9 @@ import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getC
 import { getBreakdownPath } from 'routes/utils/paths';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dates';
 import { formatCurrency, formatPercentage } from 'utils/format';
-import { formatPath } from 'utils/paths';
 import { classificationDefault, classificationPlatform, classificationUnallocated, noPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
-
-import DetailsOptimization from './detailsOptimization';
 
 interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   basePath?: string;
@@ -280,14 +276,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           },
           {
             hidden: !(isGroupByProject && isRosFeatureEnabled),
-            value: !isPlatformCosts && !isDisabled && (
-              <DetailsOptimization
-                basePath={formatPath(routes.ocpBreakdown.path)}
-                breadcrumbPath={formatPath(`${routes.ocpDetails.path}${location.search}`)}
-                project={label}
-                query={query}
-              />
-            ),
+            value: !isPlatformCosts && !isDisabled && `TBD...`, // detailsOptimization
           },
           { value: monthOverMonth, id: DetailsTableColumnIds.monthOverMonth },
           {

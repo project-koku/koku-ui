@@ -1,6 +1,5 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { RosPathsType, RosType } from 'api/ros/ros';
 import messages from 'locales/messages';
 import { routes } from 'routes';
 import {
@@ -99,8 +98,6 @@ export const memoryWidget: OcpDashboardWidget = {
 export const optimizationsWidget: OcpDashboardWidget = {
   id: getId(),
   titleKey: messages.optimizations,
-  rosPathsType: RosPathsType.recommendations,
-  rosType: RosType.ros,
   details: {
     showOptimizations: true,
   },

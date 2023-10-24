@@ -94,8 +94,8 @@ interface BreakdownState {
 }
 
 interface AvailableTab {
-  badge?: React.ReactNode;
   contentRef: React.ReactNode;
+  showBadge?: boolean;
   tab: BreakdownTab;
 }
 
@@ -124,13 +124,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   }
 
   private getAvailableTabs = () => {
-    const {
-      costOverviewComponent,
-      historicalDataComponent,
-      isRosFeatureEnabled,
-      optimizationsBadgeComponent,
-      optimizationsComponent,
-    } = this.props;
+    const { costOverviewComponent, historicalDataComponent, isRosFeatureEnabled, optimizationsComponent } = this.props;
 
     const availableTabs = [];
     if (costOverviewComponent) {
@@ -147,15 +141,15 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
     }
     if (optimizationsComponent && isRosFeatureEnabled) {
       availableTabs.push({
-        badge: optimizationsBadgeComponent,
         contentRef: React.createRef(),
+        showBadge: true,
         tab: BreakdownTab.optimizations,
       });
     }
     return availableTabs;
   };
 
-  private getTab = (tab: BreakdownTab, contentRef, badge: React.ReactNode, index: number) => {
+  private getTab = (tab: BreakdownTab, contentRef, showBadge: boolean, index: number) => {
     const { groupBy, groupByValue } = this.props;
 
     return (
@@ -167,7 +161,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
         title={
           <>
             <TabTitleText>{this.getTabTitle(tab)}</TabTitleText>
-            {badge && (
+            {showBadge && (
               <span>
                 {
                   <AsyncComponent
@@ -226,7 +220,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
 
     return (
       <Tabs activeKey={activeTabKey} onSelect={this.handleTabClick}>
-        {availableTabs.map((val, index) => this.getTab(val.tab, val.contentRef, val.badge, index))}
+        {availableTabs.map((val, index) => this.getTab(val.tab, val.contentRef, val.showBadge, index))}
       </Tabs>
     );
   };

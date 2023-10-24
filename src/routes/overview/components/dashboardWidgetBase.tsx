@@ -4,7 +4,6 @@ import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComp
 import type { Forecast } from 'api/forecasts/forecast';
 import { getQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
-import type { RosReport } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
@@ -63,9 +62,6 @@ export interface DashboardWidgetStateProps extends DashboardWidget {
   previousReport?: Report;
   previousReportError?: AxiosError;
   previousReportFetchStatus?: number;
-  rosReport?: RosReport;
-  rosReportError?: AxiosError;
-  rosReportFetchStatus?: number;
   tabsReport?: Report;
   tabsReportError?: AxiosError;
   tabsReportFetchStatus?: number;
@@ -79,7 +75,6 @@ export interface DashboardWidgetState {
 interface DashboardWidgetDispatchProps {
   fetchForecasts: (widgetId) => void;
   fetchReports: (widgetId) => void;
-  fetchRosReports: (widgetId) => void;
   updateTab: (id, availableTabs) => void;
 }
 
@@ -106,9 +101,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
     }
     if (!details.showOptimizations) {
       this.updateReports();
-    }
-    if (details.showOptimizations) {
-      this.updateRosReports();
     }
   }
 
@@ -577,13 +569,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
     const { fetchReports, widgetId } = this.props;
     if (fetchReports) {
       fetchReports(widgetId);
-    }
-  };
-
-  private updateRosReports = () => {
-    const { fetchRosReports, isRosFeatureEnabled, widgetId } = this.props;
-    if (fetchRosReports && isRosFeatureEnabled) {
-      fetchRosReports(widgetId);
     }
   };
 
