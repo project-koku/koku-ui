@@ -1,6 +1,7 @@
 import 'routes/components/dataTable/dataTable.scss';
 
 import { Label, Tooltip } from '@patternfly/react-core';
+import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { ProviderType } from 'api/providers';
 import type { Query } from 'api/queries/query';
 import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
@@ -276,7 +277,31 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           },
           {
             hidden: !(isGroupByProject && isRosFeatureEnabled),
-            value: !isPlatformCosts && !isDisabled && `TBD...`, // detailsOptimization
+            value: !isPlatformCosts && !isDisabled && (
+              <AsyncComponent
+                scope="costManagementMfe"
+                appName="cost-management-mfe"
+                module="./MfeOptimizationsLink"
+                groupBy={groupBy}
+                groupByValue={item.id}
+                state={{
+                  ...(router.location.state && router.location.state),
+                  details: {
+                    ...(query && query),
+                    breadcrumbPath,
+                  },
+                }}
+                toPath={getBreakdownPath({
+                  basePath,
+                  description: item.id,
+                  id: item.id,
+                  isPlatformCosts,
+                  groupBy,
+                  isOptimizationsTab: true,
+                  title: label.toString(), // Convert IDs if applicable
+                })}
+              />
+            ),
           },
           { value: monthOverMonth, id: DetailsTableColumnIds.monthOverMonth },
           {
