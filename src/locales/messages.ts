@@ -1152,6 +1152,12 @@ export default defineMessages({
     description: 'Description',
     id: 'description',
   },
+  deselectTags: {
+    defaultMessage:
+      'Your account is limited to {count} active tags at a time. You must disable some tags to enable others',
+    description: 'Your account is limited to 200 active tags at a time. You must disable some tags to enable others',
+    id: 'deselectTags',
+  },
   detailsActionsExport: {
     defaultMessage: 'Export data',
     description: 'Export data',
@@ -3348,9 +3354,9 @@ export default defineMessages({
   },
   tagDesc: {
     defaultMessage:
-      'Enable your tags and labels to be used as tag keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
+      'Enable your tags and labels to be used as tag keys for report grouping and filtering. Your account is limited to {count} active tags at a time. Changes will be reflected within 24 hours. {learnMore}',
     description:
-      'Enable your tags and labels to be used as tag keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
+      'Enable your tags and labels to be used as tag keys for report grouping and filtering. Your account is limited to 200 active tags at a time. Changes will be reflected within 24 hours. {learnMore}',
     id: 'tagDesc',
   },
   tagHeadingKey: {
