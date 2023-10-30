@@ -1,13 +1,13 @@
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
-import type { Query } from '@testing-library/react';
+import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { routes } from 'routes';
+import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { formatPath } from 'utils/paths';
-import { breakdownTitleKey } from 'utils/props';
 
 interface OcpOptimizationsBreakdownOwnProps {
   // TBD...
@@ -25,7 +25,8 @@ const OcpBreakdownOptimizations: React.FC<OcpOptimizationsBreakdownProps> = () =
   const location = useLocation();
   const queryFromRoute = useQueryFromRoute();
 
-  const project = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : '';
+  const groupBy = getGroupById(queryFromRoute);
+  const groupByValue = getGroupByValue(queryFromRoute);
   const otimizationsTab = location.search.indexOf('optimizationsTab') === -1 ? '&optimizationsTab=true' : '';
 
   return (
@@ -33,9 +34,14 @@ const OcpBreakdownOptimizations: React.FC<OcpOptimizationsBreakdownProps> = () =
       scope="costManagementMfe"
       appName="cost-management-mfe"
       module="./MfeOptimizationsTable"
-      breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: project })}
+      breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
       breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${otimizationsTab}`)}
-      toPath={formatPath(routes.optimizationsBreakdown.path)}
+      groupBy={groupBy}
+      groupByValue={groupByValue}
+      linkPath={formatPath(routes.optimizationsBreakdown.path)}
+      linkState={{
+        ...(location.state && location.state),
+      }}
     />
   );
 };

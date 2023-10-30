@@ -284,14 +284,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
                 module="./MfeOptimizationsLink"
                 groupBy={groupBy}
                 groupByValue={item.id}
-                state={{
-                  ...(router.location.state && router.location.state),
-                  details: {
-                    ...(query && query),
-                    breadcrumbPath,
-                  },
-                }}
-                toPath={getBreakdownPath({
+                linkPath={getBreakdownPath({
                   basePath,
                   description: item.id,
                   id: item.id,
@@ -300,6 +293,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
                   isOptimizationsTab: true,
                   title: label.toString(), // Convert IDs if applicable
                 })}
+                linkState={{
+                  ...(router.location.state && router.location.state),
+                  details: {
+                    ...(query && query),
+                    breadcrumbPath,
+                  },
+                }}
               />
             ),
           },

@@ -2,6 +2,7 @@ import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComp
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { useLocation } from 'react-router-dom';
 import { routes } from 'routes';
 import { formatPath } from 'utils/paths';
 
@@ -15,6 +16,7 @@ type OptimizationsDetailsProps = OptimizationsDetailsOwnProps;
 
 const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
   const intl = useIntl();
+  const location = useLocation();
 
   return (
     <div style={styles.container}>
@@ -24,7 +26,10 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
         module="./MfeOptimizationsDetails"
         breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
         breadcrumbPath={formatPath(`${routes.optimizationsDetails.path}${location.search}`)}
-        toPath={formatPath(routes.optimizationsBreakdown.path)}
+        linkPath={formatPath(routes.optimizationsBreakdown.path)}
+        linkState={{
+          ...(location.state && location.state),
+        }}
       />
     </div>
   );
