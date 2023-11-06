@@ -109,10 +109,14 @@ const TagDetails: React.FC<TagDetailsProps> = ({ canWrite }) => {
     const hasEnabledItem = selectedItems.find(item => item.enabled);
     const hasDisabledItem = selectedItems.find(item => !item.enabled);
     const itemsTotal = settings?.meta ? settings.meta.count : 0;
+    const enabledTagsCount = settings?.meta ? settings.meta.enabled_tags_count : 0;
+    const enabledTagsLimit = settings?.meta ? settings.meta.enabled_tags_limit : 0;
 
     return (
       <TagToolbar
         canWrite={canWrite}
+        enabledTagsCount={enabledTagsCount}
+        enabledTagsLimit={enabledTagsLimit}
         isDisabled={tags.length === 0}
         isPrimaryActionDisabled={!hasDisabledItem}
         isSecondaryActionDisabled={!hasEnabledItem}
@@ -208,16 +212,19 @@ const TagDetails: React.FC<TagDetailsProps> = ({ canWrite }) => {
     setQuery(newQuery);
   };
 
-  const tags = getTags();
-  const isDisabled = tags.length === 0;
-
   if (settingsError) {
     return <NotAvailable />;
   }
+
+  const tags = getTags();
+  const isDisabled = tags.length === 0;
+  const enabledTagsLimit = settings?.meta ? settings.meta.enabled_tags_limit : 0;
+
   return (
     <PageSection isFilled>
       <div style={styles.descContainer}>
         {intl.formatMessage(messages.tagDesc, {
+          count: enabledTagsLimit,
           learnMore: (
             <a href={intl.formatMessage(messages.docsConfigTags)} rel="noreferrer" target="_blank">
               {intl.formatMessage(messages.learnMore)}

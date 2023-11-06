@@ -11,6 +11,8 @@ export interface SettingsData {
 export interface PagedMetaDataExt extends PagedMetaData {
   limit?: number;
   offset?: number;
+  enabled_tags_count?: number;
+  enabled_tags_limit?: number;
 }
 
 export interface Settings {

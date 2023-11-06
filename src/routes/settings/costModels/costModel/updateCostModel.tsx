@@ -1,10 +1,15 @@
 import { Alert, Button, Form, FormGroup, Modal, TextArea, TextInput } from '@patternfly/react-core';
+import { SelectDirection } from '@patternfly/react-core/deprecated';
 import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
+import { cloneDeep } from 'lodash';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { currencyOptions } from 'routes/components/currency';
+import { Selector } from 'routes/settings/costModels/components/inputs/selector';
+import { styles } from 'routes/settings/costModels/costModelWizard/wizard.styles';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
@@ -26,6 +31,7 @@ interface UpdateCostModelDispatchProps {
 
 interface UpdateCostModelState {
   name?: string;
+  currency?: string;
   description?: string;
 }
 
@@ -37,12 +43,38 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
     const current = this.props.costModel[0];
     this.state = {
       name: current.name,
+      currency: current.currency,
       description: current.description,
     };
   }
   public render() {
     const { costModel, intl, isProcessing, setDialogOpen, updateCostModel, updateError } = this.props;
     const current = costModel[0];
+    const getValueLabel = (valStr: string, options) => {
+      const val = options.find(o => o.value === valStr);
+      return !val ? valStr : intl.formatMessage(val.label, { units: val.value });
+    };
+    // Workaround for https://issues.redhat.com/browse/COST-4355
+    const updateRatesCurrency = rates => {
+      if (!rates) {
+        return rates;
+      }
+      const result = cloneDeep(rates);
+      result.map(val => {
+        if (val.tiered_rates) {
+          for (const rate of val.tiered_rates) {
+            rate.unit = this.state.currency;
+            rate.usage.unit = this.state.currency;
+          }
+        }
+        if (val.tag_rates) {
+          for (const rate of val.tag_rates.tag_values) {
+            rate.unit = this.state.currency;
+          }
+        }
+      });
+      return result;
+    };
     return (
       <Modal
         title={intl.formatMessage(messages.editCostModel)}
@@ -61,14 +93,19 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
                   ...previous,
                   source_uuids: sources.map(provider => provider.uuid),
                   name: this.state.name,
+                  currency: this.state.currency,
                   description: this.state.description,
                   source_type: current.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
+                  rates: updateRatesCurrency(previous.rates),
                 } as any,
                 'updateCostModel'
               );
             }}
             isDisabled={
-              isProcessing || (this.state.name === current.name && this.state.description === current.description)
+              isProcessing ||
+              (this.state.name === current.name &&
+                this.state.currency === current.currency &&
+                this.state.description === current.description)
             }
           >
             {intl.formatMessage(messages.save)}
@@ -103,6 +140,24 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
                 name="description"
                 value={this.state.description}
                 onChange={(_evt, value) => this.setState({ description: value })}
+              />
+            </FormGroup>
+            <FormGroup fieldId="currency">
+              <Selector
+                label={messages.currency}
+                direction={SelectDirection.up}
+                appendMenuTo="inline"
+                maxHeight={styles.selector.maxHeight}
+                toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
+                value={getValueLabel(this.state.currency, currencyOptions)}
+                onChange={(_evt, value) => this.setState({ currency: value })}
+                id="currency-units-selector"
+                options={currencyOptions.map(o => {
+                  return {
+                    label: intl.formatMessage(o.label, { units: o.value }),
+                    value: o.value,
+                  };
+                })}
               />
             </FormGroup>
           </Form>
