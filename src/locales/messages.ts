@@ -1152,6 +1152,12 @@ export default defineMessages({
     description: 'Description',
     id: 'description',
   },
+  deselectTags: {
+    defaultMessage:
+      'Your account is limited to {count} active tags at a time. You must disable some tags to enable others',
+    description: 'Your account is limited to 200 active tags at a time. You must disable some tags to enable others',
+    id: 'deselectTags',
+  },
   detailsActionsExport: {
     defaultMessage: 'Export data',
     description: 'Export data',
@@ -1376,66 +1382,66 @@ export default defineMessages({
   },
   docsAddOcpSources: {
     defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/adding_an_openshift_container_platform_source_to_cost_management',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/adding_an_openshift_container_platform_source_to_cost_management',
     description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/adding_an_openshift_container_platform_source_to_cost_management',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/adding_an_openshift_container_platform_source_to_cost_management',
     id: 'docsAddOcpSources',
   },
   docsConfigCostCategory: {
-    defaultMessage: 'https://access.redhat.com/documentation/en-us/cost_management_service/2023',
-    description: 'https://access.redhat.com/documentation/en-us/cost_management_service/2023',
+    defaultMessage: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
+    description: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
     id: 'docsConfigCostCategory',
   },
   docsConfigCostModels: {
     defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index#assembly-setting-up-cost-models',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models',
     description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index#assembly-setting-up-cost-models',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models',
     id: 'docsConfigCostModels',
   },
   docsConfigCostModelsOcp: {
     defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models',
     description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models',
     id: 'docsConfigCostModelsOcp',
   },
   docsConfigPlatformProjects: {
-    defaultMessage: 'https://access.redhat.com/documentation/en-us/cost_management_service/2023',
-    description: 'https://access.redhat.com/documentation/en-us/cost_management_service/2023',
+    defaultMessage: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
+    description: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
     id: 'docsConfigPlatformProjects',
   },
   docsConfigTags: {
     defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
     description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
     id: 'docsConfigTags',
   },
   docsCostModelTerminology: {
     defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index#cost-model-terminology',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#cost-model-terminology',
     description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index#cost-model-terminology',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#cost-model-terminology',
     id: 'docsCostModelTerminology',
   },
   docsCostModelsDistribution: {
     defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models',
     description: 'url for cost models distribution',
     id: 'docsCostModelsDistribution',
   },
   docsCostModelsMarkup: {
     defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models',
     description: 'url for cost models markup',
     id: 'docsCostModelsMarkup',
   },
   docsUsingCostModels: {
     defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index',
     description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/2023/html-single/using_cost_models/index',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index',
     id: 'docsUsingCostModels',
   },
   download: {
@@ -3348,9 +3354,9 @@ export default defineMessages({
   },
   tagDesc: {
     defaultMessage:
-      'Enable your tags and labels to be used as tag keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
+      'Enable your tags and labels to be used as tag keys for report grouping and filtering. Your account is limited to {count} active tags at a time. Changes will be reflected within 24 hours. {learnMore}',
     description:
-      'Enable your tags and labels to be used as tag keys for report grouping and filtering. Changes will be reflected within 24 hours. {learnMore}',
+      'Enable your tags and labels to be used as tag keys for report grouping and filtering. Your account is limited to 200 active tags at a time. Changes will be reflected within 24 hours. {learnMore}',
     id: 'tagDesc',
   },
   tagHeadingKey: {
