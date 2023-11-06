@@ -45,7 +45,7 @@ interface InternalWizardBaseProps extends WrappedComponentProps {
 }
 
 // Update tiers currency
-const updateTiersCurrency = (tiers, currencyUnits = 'USD') => {
+export const updateTiersCurrency = (tiers, currencyUnits = 'USD') => {
   const rates = cloneDeep(tiers);
 
   rates.map(val => {
