@@ -16,6 +16,8 @@ import { styles } from './tagDetails.styles';
 
 interface TagToolbarOwnProps {
   canWrite?: boolean;
+  enabledTagsCount?: number;
+  enabledTagsLimit?: number;
   isAllSelected?: boolean;
   isDisabled?: boolean;
   isPrimaryActionDisabled?: boolean;
@@ -60,6 +62,8 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
   private getActions = () => {
     const {
       canWrite,
+      enabledTagsCount = 0,
+      enabledTagsLimit = 0,
       intl,
       isPrimaryActionDisabled,
       isSecondaryActionDisabled,
@@ -68,14 +72,20 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
       selectedItems,
     } = this.props;
 
+    const disabledItems = selectedItems.filter((item: any) => !item.enabled);
+    const isLimit = disabledItems.length + enabledTagsCount > enabledTagsLimit;
     const isDisabled = !canWrite || selectedItems.length === 0;
-    const tooltip = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.selectTags);
+    const enableTagsTooltip = intl.formatMessage(
+      !canWrite ? messages.readOnlyPermissions : isLimit ? messages.deselectTags : messages.selectTags,
+      { count: enabledTagsLimit }
+    );
+    const disableTagsTooltip = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.selectTags);
 
     return (
       <>
-        <Tooltip content={tooltip}>
+        <Tooltip content={enableTagsTooltip}>
           <Button
-            isAriaDisabled={isDisabled || isPrimaryActionDisabled}
+            isAriaDisabled={isDisabled || isPrimaryActionDisabled || isLimit}
             key="save"
             onClick={onEnableTags}
             variant={ButtonVariant.primary}
@@ -83,7 +93,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
             {intl.formatMessage(messages.enableTags)}
           </Button>
         </Tooltip>
-        <Tooltip content={tooltip}>
+        <Tooltip content={disableTagsTooltip}>
           <Button
             isAriaDisabled={isDisabled || isSecondaryActionDisabled}
             key="reset"
