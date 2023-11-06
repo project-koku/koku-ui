@@ -1,5 +1,4 @@
-import { Alert, Button, Icon, Modal, Title, TitleSizes } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
+import { Alert, Button, Modal } from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
@@ -49,16 +48,11 @@ const DialogBase: React.FC<Props> = ({
   return (
     <Modal
       aria-label={title}
-      header={
-        <Title headingLevel="h1" size={TitleSizes['2xl']}>
-          <Icon status="warning">
-            <ExclamationTriangleIcon /> {title}
-          </Icon>
-        </Title>
-      }
       isOpen={isOpen}
       onClose={onClose}
       actions={actions}
+      title={title}
+      titleIconVariant="warning"
       variant={isSmall ? 'small' : 'default'}
     >
       {error && <Alert variant="danger" title={`${error}`} />}
