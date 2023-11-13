@@ -110,20 +110,20 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
     const key = showUsageLegendLabel
       ? messages.chartUsageLegendLabel
       : showSupplementaryLabel
-      ? messages.chartCostSupplementaryLegendLabel
-      : messages.chartCostLegendLabel;
+        ? messages.chartCostSupplementaryLegendLabel
+        : messages.chartCostLegendLabel;
 
     const tooltipKey = showUsageLegendLabel
       ? messages.chartUsageLegendTooltip
       : showSupplementaryLabel
-      ? messages.chartCostSupplementaryLegendTooltip
-      : messages.chartCostLegendTooltip;
+        ? messages.chartCostSupplementaryLegendTooltip
+        : messages.chartCostLegendTooltip;
 
     const noDataKey = showUsageLegendLabel
       ? messages.chartUsageLegendNoDataLabel
       : showSupplementaryLabel
-      ? messages.chartCostSupplementaryLegendNoDataLabel
-      : messages.chartCostLegendNoDataLabel;
+        ? messages.chartCostSupplementaryLegendNoDataLabel
+        : messages.chartCostLegendNoDataLabel;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 

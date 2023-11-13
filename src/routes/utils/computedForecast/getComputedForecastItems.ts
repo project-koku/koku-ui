@@ -51,16 +51,16 @@ function getCostData(val, key, item?: any) {
       value: item
         ? item[key].confidence_max.value
         : 0 + val[key] && val[key].confidence_max
-        ? val[key].confidence_max.value
-        : 0,
+          ? val[key].confidence_max.value
+          : 0,
       units: val[key] && val[key].confidence_max ? val[key].confidence_max.units : 'USD',
     },
     confidence_min: {
       value: item
         ? item[key].confidence_min.value
         : 0 + val[key] && val[key].confidence_min
-        ? val[key].confidence_min.value
-        : 0,
+          ? val[key].confidence_min.value
+          : 0,
       units: val[key] && val[key].confidence_min ? val[key].confidence_min.units : 'USD',
     },
     pvalues: {
