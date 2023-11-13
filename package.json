@@ -83,6 +83,8 @@
   },
   "devDependencies": {
     "@formatjs/cli": "^6.2.3",
+    "@formatjs/ecma402-abstract": "^1.17.4",
+    "@formatjs/icu-messageformat-parser": "^2.7.2",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^2.0.3",
     "@redhat-cloud-services/frontend-components-config": "^6.0.5",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.4",
