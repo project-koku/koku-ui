@@ -61,8 +61,8 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
             units,
           })
         : isUnitsOnly
-        ? units
-        : value;
+          ? units
+          : value;
     };
     return {
       resources: {
