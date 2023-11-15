@@ -26,6 +26,9 @@ objects:
               title: Overview
               href: "/openshift/cost-management"
             - appId: 'cost-management'
+              title: 'Optimizations'
+              href: '/openshift/cost-management/optimizations'
+            - appId: 'cost-management'
               title: 'OpenShift'
               href: '/openshift/cost-management/ocp'
             - appId: 'cost-management'
@@ -44,11 +47,11 @@ objects:
               title: 'Oracle Cloud Infrastructure'
               href: '/openshift/cost-management/oci'
             - appId: 'cost-management'
-              title: 'Cost models'
-              href: '/openshift/cost-management/cost-models'
-            - appId: 'cost-management'
               title: 'Cost Explorer'
               href: '/openshift/cost-management/explorer'
+            - appId: 'cost-management'
+              title: 'Settings'
+              href: '/openshift/cost-management/settings'
       module:
         manifestLocation: "/apps/cost-management/fed-mods.json"
         modules:
