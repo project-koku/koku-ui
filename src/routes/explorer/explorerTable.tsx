@@ -145,10 +145,10 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
       idKey: groupByCostCategory
         ? groupByCostCategory
         : groupByTagKey
-        ? groupByTagKey
-        : groupByOrg
-        ? 'org_entities'
-        : groupBy,
+          ? groupByTagKey
+          : groupByOrg
+            ? 'org_entities'
+            : groupBy,
     });
 
     let orderBy = groupBy;
@@ -169,8 +169,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
               name: groupByCostCategory
                 ? intl.formatMessage(messages.costCategoryNames)
                 : groupByOrg
-                ? intl.formatMessage(messages.names, { count: 2 })
-                : intl.formatMessage(messages.tagNames),
+                  ? intl.formatMessage(messages.names, { count: 2 })
+                  : intl.formatMessage(messages.tagNames),
             },
           ]
         : [
