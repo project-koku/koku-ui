@@ -124,7 +124,7 @@
   "costModelsSelectMetric": "Select Metric",
   "costModelsSourceDelete": "Unassign",
   "costModelsSourceDeleteSource": "Unassign integration",
-  "costModelsSourceDeleteSourceDesc": "This will remove the assignment of {integration} from the {costModel} cost model. You can then assign the cost model to a new integration.",
+  "costModelsSourceDeleteSourceDesc": "This will remove the assignment of {source} from the {costModel} cost model. You can then assign the cost model to a new integration.",
   "costModelsSourceEmptyStateDesc": "Select the integrations you want to apply this cost model to.",
   "costModelsSourceEmptyStateTitle": "No integrations are assigned",
   "costModelsSourceTableAriaLabel": "Integrations table",

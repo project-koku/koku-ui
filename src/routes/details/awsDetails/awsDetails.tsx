@@ -170,8 +170,8 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
           groupByCostCategory
             ? `${awsCategoryPrefix}${groupByCostCategory}`
             : groupByTagKey
-            ? `${tagPrefix}${groupByTagKey}`
-            : groupById
+              ? `${tagPrefix}${groupByTagKey}`
+              : groupById
         }
         isOpen={isExportModalOpen}
         items={items}
@@ -229,8 +229,8 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
           groupByCostCategory
             ? `${awsCategoryPrefix}${groupByCostCategory}`
             : groupByTagKey
-            ? `${tagPrefix}${groupByTagKey}`
-            : groupById
+              ? `${tagPrefix}${groupByTagKey}`
+              : groupById
         }
         groupByCostCategory={groupByCostCategory}
         groupByTagKey={groupByTagKey}
@@ -264,8 +264,8 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
           groupByCostCategory
             ? `${awsCategoryPrefix}${groupByCostCategory}`
             : groupByTagKey
-            ? `${tagPrefix}${groupByTagKey}`
-            : groupById
+              ? `${tagPrefix}${groupByTagKey}`
+              : groupById
         }
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}

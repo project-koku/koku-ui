@@ -253,8 +253,8 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
             state.taggingRates.defaultTag === action.index
               ? null
               : state.taggingRates.defaultTag > action.index
-              ? state.taggingRates.defaultTag - 1
-              : state.taggingRates.defaultTag,
+                ? state.taggingRates.defaultTag - 1
+                : state.taggingRates.defaultTag,
           tagValues: [
             ...state.taggingRates.tagValues.slice(0, action.index),
             ...state.taggingRates.tagValues.slice(action.index + 1),

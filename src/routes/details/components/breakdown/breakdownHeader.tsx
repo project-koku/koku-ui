@@ -123,12 +123,12 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
     const groupByKey = filterByAccount
       ? 'account'
       : groupByCostCategory
-      ? awsCategoryKey
-      : groupByTag
-      ? tagKey
-      : groupByOrg
-      ? orgUnitIdKey
-      : groupBy;
+        ? awsCategoryKey
+        : groupByTag
+          ? tagKey
+          : groupByOrg
+            ? orgUnitIdKey
+            : groupBy;
 
     return (
       <header style={styles.header}>
