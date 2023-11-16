@@ -9,7 +9,7 @@ export const styles = {
     maxHeight: '150px',
   },
   selector: {
-    maxHeight: '350px',
+    maxHeight: '250px',
   },
   titleWithLearnMore: {
     display: 'inline-block',

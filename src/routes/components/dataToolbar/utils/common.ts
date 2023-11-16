@@ -82,8 +82,8 @@ export const getChips = (filters: Filter[]): string[] => {
         node: label
           ? label
           : item.isExcludes
-          ? intl.formatMessage(messages.excludeLabel, { value: item.value })
-          : item.value,
+            ? intl.formatMessage(messages.excludeLabel, { value: item.value })
+            : item.value,
       });
     });
   }
