@@ -94,10 +94,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       idKey: (groupByCostCategory
         ? groupByCostCategory
         : groupByTagKey
-        ? groupByTagKey
-        : groupByOrg
-        ? 'org_entities'
-        : groupBy) as any,
+          ? groupByTagKey
+          : groupByOrg
+            ? 'org_entities'
+            : groupBy) as any,
     });
 
     const columns =
@@ -110,8 +110,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
               name: groupByCostCategory
                 ? intl.formatMessage(messages.costCategoryNames)
                 : groupByOrg
-                ? intl.formatMessage(messages.names, { count: 2 })
-                : intl.formatMessage(messages.tagNames),
+                  ? intl.formatMessage(messages.names, { count: 2 })
+                  : intl.formatMessage(messages.tagNames),
             },
             {
               name: intl.formatMessage(messages.monthOverMonthChange),
