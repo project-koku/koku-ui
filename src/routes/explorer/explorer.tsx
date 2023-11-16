@@ -169,10 +169,10 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
       idKey: groupByCostCategory
         ? groupByCostCategory
         : groupByTagKey
-        ? groupByTagKey
-        : groupByOrg
-        ? 'org_entities'
-        : groupById,
+          ? groupByTagKey
+          : groupByOrg
+            ? 'org_entities'
+            : groupById,
       isDateMap: false, // Don't use isDateMap here, so we can use a flattened data structure with row selection
     });
     return computedItems;
@@ -205,8 +205,8 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
           groupByCostCategory
             ? `${awsCategoryPrefix}${groupByCostCategory}`
             : groupByTagKey
-            ? `${tagPrefix}${groupByTagKey}`
-            : groupById
+              ? `${tagPrefix}${groupByTagKey}`
+              : groupById
         }
         isOpen={isExportModalOpen}
         items={items}
@@ -264,8 +264,8 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
           groupByCostCategory
             ? `${awsCategoryPrefix}${groupByCostCategory}`
             : groupByTagKey
-            ? `${tagPrefix}${groupByTagKey}`
-            : groupById
+              ? `${tagPrefix}${groupByTagKey}`
+              : groupById
         }
         groupByCostCategory={groupByCostCategory}
         groupByTagKey={groupByTagKey}
@@ -512,8 +512,8 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
             groupByCostCategory
               ? `${awsCategoryPrefix}${groupByCostCategory}`
               : groupByTagKey
-              ? `${tagPrefix}${groupByTagKey}`
-              : groupById
+                ? `${tagPrefix}${groupByTagKey}`
+                : groupById
           }
           onCostDistributionSelected={() => handleOnCostDistributionSelected(query, router)}
           onCostTypeSelected={() => handleOnCostTypeSelected(query, router)}
@@ -537,8 +537,8 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
                   groupByCostCategory
                     ? `${awsCategoryPrefix}${groupByCostCategory}`
                     : groupByTagKey
-                    ? `${tagPrefix}${groupByTagKey}`
-                    : groupById
+                      ? `${tagPrefix}${groupByTagKey}`
+                      : groupById
                 }
                 perspective={perspective}
               />

@@ -149,8 +149,8 @@ export const onCategoryInput = ({
         newFilters && newFilters.find(item => item.value === val)
           ? newFilters
           : newFilters
-          ? [...newFilters, filter]
-          : [filter],
+            ? [...newFilters, filter]
+            : [filter],
     },
   };
 };
@@ -185,8 +185,8 @@ export const onCategoryInputSelect = ({
         newFilters && newFilters.find(item => item.value === val)
           ? newFilters
           : newFilters
-          ? [...newFilters, filter]
-          : [filter],
+            ? [...newFilters, filter]
+            : [filter],
     },
   };
 };

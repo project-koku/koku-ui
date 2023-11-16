@@ -688,9 +688,9 @@ export default defineMessages({
   },
   costModelsSourceDeleteSourceDesc: {
     defaultMessage:
-      'This will remove the assignment of {integration} from the {costModel} cost model. You can then assign the cost model to a new integration.',
+      'This will remove the assignment of {source} from the {costModel} cost model. You can then assign the cost model to a new integration.',
     description:
-      'This will remove the assignment of {integration} from the {costModel} cost model. You can then assign the cost model to a new integration.',
+      'This will remove the assignment of {source} from the {costModel} cost model. You can then assign the cost model to a new integration.',
     id: 'costModelsSourceDeleteSourceDesc',
   },
   costModelsSourceEmptyStateDesc: {

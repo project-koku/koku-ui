@@ -185,10 +185,10 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
     return groupByCostCategory
       ? groupByCostCategory
       : groupByTagKey
-      ? groupByTagKey
-      : groupByOrg
-      ? 'org_entities'
-      : groupById;
+        ? groupByTagKey
+        : groupByOrg
+          ? 'org_entities'
+          : groupById;
   };
 
   private getSkeleton = () => {
