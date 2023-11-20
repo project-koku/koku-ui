@@ -101,7 +101,7 @@
     "@xstate/test": "^0.5.1",
     "aphrodite": "^2.4.0",
     "copy-webpack-plugin": "^11.0.0",
-    "eslint": "^8.53.0",
+    "eslint": "^8.54.0",
     "eslint-plugin-formatjs": "^4.11.2",
     "eslint-plugin-jest-dom": "^5.1.0",
     "eslint-plugin-jsdoc": "^46.9.0",
