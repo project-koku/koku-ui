@@ -1,5 +1,7 @@
 # Koku UI
 
+No changes
+
 [![AGPLv3][license-badge]][license]
 [![Build Status][build-badge]][build]
 
