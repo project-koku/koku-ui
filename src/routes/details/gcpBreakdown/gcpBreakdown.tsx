@@ -27,7 +27,7 @@ import { withRouter } from 'utils/router';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-interface BreakdownDispatchProps {
+interface GcpBreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
@@ -112,10 +112,8 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, BreakdownSta
   };
 });
 
-const mapDispatchToProps: BreakdownDispatchProps = {
+const mapDispatchToProps: GcpBreakdownDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const GcpBreakdown = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
-
-export default GcpBreakdown;
+export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));

@@ -27,18 +27,18 @@ import { withRouter } from 'utils/router';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-interface OciCostDispatchProps {
+interface OciDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type OciCostOwnProps = RouterComponentProps & WrappedComponentProps;
+type OciOwnProps = RouterComponentProps & WrappedComponentProps;
 
 const detailsURL = formatPath(routes.ociDetails.path);
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.oci;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<OciCostOwnProps, BreakdownStateProps>((state, { intl, router }) => {
+const mapStateToProps = createMapStateToProps<OciOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
   const queryState = getQueryState(router.location, 'details');
 
@@ -112,10 +112,8 @@ const mapStateToProps = createMapStateToProps<OciCostOwnProps, BreakdownStatePro
   };
 });
 
-const mapDispatchToProps: OciCostDispatchProps = {
+const mapDispatchToProps: OciDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const OciCost = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
-
-export default OciCost;
+export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
