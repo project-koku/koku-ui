@@ -38,6 +38,4 @@ export const enum TagPathsType {
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud',
   rhel = 'rhel',
-  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
-  ros = 'ocp', // Todo: Remove when APIs are available
 }

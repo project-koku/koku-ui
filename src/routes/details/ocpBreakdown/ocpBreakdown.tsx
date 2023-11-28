@@ -10,7 +10,6 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { routes } from 'routes';
-import { OptimizationsBadge } from 'routes/components/optimizations';
 import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
@@ -31,7 +30,7 @@ import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 import { OcpBreakdownOptimizations } from './ocpBreakdownOptimizations';
 
-interface BreakdownDispatchProps {
+interface OcpBreakdownDispatchProps {
   closeOptimizationsDrawer?: typeof uiActions.closeOptimizationsDrawer;
   fetchReport?: typeof reportActions.fetchReport;
 }
@@ -117,7 +116,6 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     historicalDataComponent: <HistoricalData costDistribution={costDistribution} currency={currency} />,
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
     isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
-    optimizationsBadgeComponent: <OptimizationsBadge />,
     optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <OcpBreakdownOptimizations /> : undefined,
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
@@ -135,11 +133,9 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
   };
 });
 
-const mapDispatchToProps: BreakdownDispatchProps = {
+const mapDispatchToProps: OcpBreakdownDispatchProps = {
   closeOptimizationsDrawer: uiActions.closeOptimizationsDrawer,
   fetchReport: reportActions.fetchReport,
 };
 
-const OcpBreakdown = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
-
-export default OcpBreakdown;
+export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));

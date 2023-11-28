@@ -8,7 +8,6 @@ import { ocpDashboardActions, ocpDashboardSelectors, OcpDashboardTab } from 'sto
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import { rosSelectors } from 'store/ros';
 import { getCurrency } from 'utils/localStorage';
 
 import { chartStyles } from './ocpDashboardWidget.styles';
@@ -16,7 +15,6 @@ import { chartStyles } from './ocpDashboardWidget.styles';
 interface OcpDashboardWidgetDispatchProps {
   fetchForecasts: typeof ocpDashboardActions.fetchWidgetForecasts;
   fetchReports: typeof ocpDashboardActions.fetchWidgetReports;
-  fetchRosReports: typeof ocpDashboardActions.fetchWidgetRosReports;
   updateTab: typeof ocpDashboardActions.changeWidgetTab;
 }
 
@@ -114,23 +112,9 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
             queries.tabs
           ),
         }),
-      ...(widget.rosPathsType &&
-        widget.rosType && {
-          isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
-          rosReport: rosSelectors.selectRos(state, widget.rosPathsType, widget.rosType, queries.optimizations),
-          rosReportError: rosSelectors.selectRosError(
-            state,
-            widget.rosPathsType,
-            widget.rosType,
-            queries.optimizations
-          ),
-          rosReportFetchStatus: rosSelectors.selectRosFetchStatus(
-            state,
-            widget.rosPathsType,
-            widget.rosType,
-            queries.optimizations
-          ),
-        }),
+      ...(widget.details.showOptimizations && {
+        isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
+      }),
     };
   }
 );
@@ -138,7 +122,6 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
 const mapDispatchToProps: OcpDashboardWidgetDispatchProps = {
   fetchForecasts: ocpDashboardActions.fetchWidgetForecasts,
   fetchReports: ocpDashboardActions.fetchWidgetReports,
-  fetchRosReports: ocpDashboardActions.fetchWidgetRosReports,
   updateTab: ocpDashboardActions.changeWidgetTab,
 };
 
