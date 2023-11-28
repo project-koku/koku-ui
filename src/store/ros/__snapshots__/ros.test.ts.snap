@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`default state 1`] = `
-{
-  "byId": Map {},
-  "errors": Map {},
-  "fetchStatus": Map {},
-}
-`;
