@@ -38,6 +38,7 @@ const OcpBreakdownOptimizations: React.FC<OcpOptimizationsBreakdownProps> = () =
       breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${otimizationsTab}`)}
       groupBy={groupBy}
       groupByValue={groupByValue}
+      isProject={false}
       linkPath={formatPath(routes.optimizationsBreakdown.path)}
       linkState={{
         ...(location.state && location.state),
