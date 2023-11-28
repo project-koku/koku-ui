@@ -27,9 +27,9 @@ import { withRouter } from 'utils/router';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type AzureCostOwnProps = RouterComponentProps & WrappedComponentProps;
+type AzureOwnProps = RouterComponentProps & WrappedComponentProps;
 
-interface AzureCostDispatchProps {
+interface AzureDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
@@ -38,7 +38,7 @@ const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.azure;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<AzureCostOwnProps, BreakdownStateProps>((state, { intl, router }) => {
+const mapStateToProps = createMapStateToProps<AzureOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
   const queryState = getQueryState(router.location, 'details');
 
@@ -114,10 +114,8 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, BreakdownStateP
   };
 });
 
-const mapDispatchToProps: AzureCostDispatchProps = {
+const mapDispatchToProps: AzureDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const AzureCost = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
-
-export default AzureCost;
+export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));

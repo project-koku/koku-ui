@@ -1,5 +1,5 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
-import type { RosQuery } from 'api/queries/rosQuery';
+import type { Query } from 'api/queries/query';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -15,7 +15,7 @@ interface PvcToolbarOwnProps {
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
-  query?: RosQuery;
+  query?: Query;
 }
 
 interface PvcToolbarState {

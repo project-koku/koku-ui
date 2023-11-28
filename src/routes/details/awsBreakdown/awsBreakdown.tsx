@@ -27,7 +27,7 @@ import { withRouter } from 'utils/router';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-interface BreakdownDispatchProps {
+interface AwsBreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
@@ -128,10 +128,8 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
   };
 });
 
-const mapDispatchToProps: BreakdownDispatchProps = {
+const mapDispatchToProps: AwsBreakdownDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const AwsBreakdown = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
-
-export default AwsBreakdown;
+export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));

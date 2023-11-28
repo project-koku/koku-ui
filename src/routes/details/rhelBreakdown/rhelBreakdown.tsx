@@ -27,7 +27,7 @@ import { withRouter } from 'utils/router';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-interface BreakdownDispatchProps {
+interface RhelBreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
@@ -113,10 +113,8 @@ const mapStateToProps = createMapStateToProps<RhelBreakdownOwnProps, BreakdownSt
   };
 });
 
-const mapDispatchToProps: BreakdownDispatchProps = {
+const mapDispatchToProps: RhelBreakdownDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const RhelBreakdown = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
-
-export default RhelBreakdown;
+export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
