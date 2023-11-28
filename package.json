@@ -96,7 +96,7 @@
     "@types/react-dom": "^18.2.15",
     "@types/react-redux": "^7.1.31",
     "@types/react-router-dom": "^5.3.3",
-    "@typescript-eslint/eslint-plugin": "^6.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.11.0",
     "@xstate/test": "^0.5.1",
     "aphrodite": "^2.4.0",
