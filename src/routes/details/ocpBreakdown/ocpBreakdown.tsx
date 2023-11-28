@@ -30,7 +30,7 @@ import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 import { OcpBreakdownOptimizations } from './ocpBreakdownOptimizations';
 
-interface BreakdownDispatchProps {
+interface OcpBreakdownDispatchProps {
   closeOptimizationsDrawer?: typeof uiActions.closeOptimizationsDrawer;
   fetchReport?: typeof reportActions.fetchReport;
 }
@@ -133,11 +133,9 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
   };
 });
 
-const mapDispatchToProps: BreakdownDispatchProps = {
+const mapDispatchToProps: OcpBreakdownDispatchProps = {
   closeOptimizationsDrawer: uiActions.closeOptimizationsDrawer,
   fetchReport: reportActions.fetchReport,
 };
 
-const OcpBreakdown = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
-
-export default OcpBreakdown;
+export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
