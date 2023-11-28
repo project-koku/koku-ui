@@ -1,14 +1,15 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
+import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import type { Forecast } from 'api/forecasts/forecast';
 import { getQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
-import type { RosReport } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { routes } from 'routes';
 import { ComputedReportItemType, DatumType, transformReport } from 'routes/components/charts/common/chartDatum';
 import {
   getComputedForecast,
@@ -27,11 +28,11 @@ import {
   ReportSummaryTrend,
   ReportSummaryUsage,
 } from 'routes/components/reports/reportSummary';
-import { OptimizationsSummary } from 'routes/overview/components/optimizationsSummary';
 import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { OcpDashboardTab } from 'store/dashboard/ocpDashboard';
 import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
+import { formatPath } from 'utils/paths';
 
 import { ChartComparison } from './chartComparison';
 import { chartStyles, styles } from './dashboardWidget.styles';
@@ -61,9 +62,6 @@ export interface DashboardWidgetStateProps extends DashboardWidget {
   previousReport?: Report;
   previousReportError?: AxiosError;
   previousReportFetchStatus?: number;
-  rosReport?: RosReport;
-  rosReportError?: AxiosError;
-  rosReportFetchStatus?: number;
   tabsReport?: Report;
   tabsReportError?: AxiosError;
   tabsReportFetchStatus?: number;
@@ -77,7 +75,6 @@ export interface DashboardWidgetState {
 interface DashboardWidgetDispatchProps {
   fetchForecasts: (widgetId) => void;
   fetchReports: (widgetId) => void;
-  fetchRosReports: (widgetId) => void;
   updateTab: (id, availableTabs) => void;
 }
 
@@ -104,9 +101,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
     }
     if (!details.showOptimizations) {
       this.updateReports();
-    }
-    if (details.showOptimizations) {
-      this.updateRosReports();
     }
   }
 
@@ -418,9 +412,14 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
   };
 
   private getOptimizationsSummary = () => {
-    const { rosReportFetchStatus, rosReport, titleKey } = this.props;
-
-    return <OptimizationsSummary status={rosReportFetchStatus} report={rosReport} title={titleKey} />;
+    return (
+      <AsyncComponent
+        scope="costManagementMfe"
+        appName="cost-management-mfe"
+        module="./MfeOptimizationsSummary"
+        linkPath={formatPath(routes.optimizationsDetails.path)}
+      />
+    );
   };
 
   private getTab = (tab: string, index: number) => {
@@ -570,13 +569,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
     const { fetchReports, widgetId } = this.props;
     if (fetchReports) {
       fetchReports(widgetId);
-    }
-  };
-
-  private updateRosReports = () => {
-    const { fetchRosReports, isRosFeatureEnabled, widgetId } = this.props;
-    if (fetchRosReports && isRosFeatureEnabled) {
-      fetchRosReports(widgetId);
     }
   };
 

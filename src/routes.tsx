@@ -29,7 +29,7 @@ const RhelDetails = lazy(() => import(/* webpackChunkName: "rhelDetails" */ 'rou
 const RhelBreakdown = lazy(() => import(/* webpackChunkName: "rhelBreakdown" */ 'routes/details/rhelBreakdown'));
 const Settings = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/settings'));
 
-const routes = {
+export const routes = {
   awsBreakdown: {
     element: userAccess(AwsBreakdown),
     path: '/aws/breakdown',
@@ -118,7 +118,7 @@ const routes = {
   },
 };
 
-const Routes = () => (
+export const Routes = () => (
   <Suspense
     fallback={
       <Bullseye>
@@ -136,5 +136,3 @@ const Routes = () => (
     </RouterRoutes>
   </Suspense>
 );
-
-export { routes, Routes };

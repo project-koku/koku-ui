@@ -1,7 +1,6 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import type { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
-import type { RosPathsType, RosType } from 'api/ros/ros';
 import type { FormatOptions, Formatter } from 'utils/format';
 
 // eslint-disable-next-line no-shadow
@@ -48,8 +47,6 @@ export interface DashboardWidget {
   id?: number;
   reportPathsType?: ReportPathsType; // Cost report
   reportType?: ReportType; // Cost report
-  rosPathsType?: RosPathsType; // Resource optimization
-  rosType?: RosType; // Resource optimization
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey?: MessageDescriptor;
   tabsFilter?: {

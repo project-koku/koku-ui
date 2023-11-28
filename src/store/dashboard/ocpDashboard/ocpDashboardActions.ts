@@ -1,7 +1,6 @@
 import type { ThunkAction } from 'store/common';
 import { forecastActions } from 'store/forecasts';
 import { reportActions } from 'store/reports';
-import { rosActions } from 'store/ros';
 import { createAction } from 'typesafe-actions';
 
 import type { OcpDashboardTab } from './ocpDashboardCommon';
@@ -31,18 +30,6 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
       if (widget.availableTabs) {
         dispatch(reportActions.fetchReport(widget.reportPathsType, widget.reportType, tabs));
       }
-    }
-  };
-};
-
-export const fetchWidgetRosReports = (id: number): ThunkAction => {
-  return (dispatch, getState) => {
-    const state = getState();
-    const widget = selectWidget(state, id);
-    const { optimizations } = selectWidgetQueries(state, id);
-
-    if (widget.rosPathsType && widget.rosType) {
-      dispatch(rosActions.fetchRosReport(widget.rosPathsType, widget.rosType, optimizations));
     }
   };
 };

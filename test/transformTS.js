@@ -13,7 +13,12 @@ delete options.sourceMap;
 
 module.exports = {
   process(src, path) {
-    if (path.endsWith('.ts') || path.endsWith('.tsx') || path.includes('@patternfly/react-icons/dist/esm')) {
+    if (
+      path.endsWith('.ts') ||
+      path.endsWith('.tsx') ||
+      path.includes('@patternfly/react-icons/dist/esm') ||
+      path.includes('uuid/dist/esm-browser')
+    ) {
       return { code: tsc.transpile(src, options, path, []) };
     }
     return { code: src };
