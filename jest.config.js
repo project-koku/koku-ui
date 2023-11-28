@@ -23,5 +23,5 @@ module.exports = {
     '^.+\\.[jt]sx?$': '<rootDir>/test/transformTS.js',
     '^.+\\.(jpg)$': '<rootDir>/test/transformFile.js',
   },
-  transformIgnorePatterns: ['node_modules/(?!@patternfly/react-icons/dist/esm)'],
+  transformIgnorePatterns: ['node_modules/(?!(@patternfly/react-icons/dist/esm|uuid/dist/esm-browser))'],
 };

@@ -27,7 +27,7 @@ import { withRouter } from 'utils/router';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-interface BreakdownDispatchProps {
+interface IbmBreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
@@ -112,10 +112,8 @@ const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, BreakdownSta
   };
 });
 
-const mapDispatchToProps: BreakdownDispatchProps = {
+const mapDispatchToProps: IbmBreakdownDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const IbmBreakdown = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
-
-export default IbmBreakdown;
+export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
