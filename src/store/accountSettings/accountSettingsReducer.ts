@@ -5,8 +5,6 @@ import { resetState } from 'store/ui/uiActions';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 import {
-  getAccountCostType,
-  getAccountCurrency,
   isCostTypeAvailable,
   isCurrencyAvailable,
   setAccountCostType,
@@ -64,13 +62,11 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
         status: new Map(state.status).set(action.payload.fetchId, FetchStatus.inProgress),
       };
     case getType(fetchAccountSettingsSuccess):
-      if (action.payload.data) {
-        if (action.payload.data.cost_type) {
-          initCostType(action.payload.data.cost_type);
-        }
-        if (action.payload.data.currency) {
-          initCurrency(action.payload.data.currency);
-        }
+      if (action?.payload?.data?.cost_type) {
+        initCostType(action.payload.data.cost_type);
+      }
+      if (action?.payload?.data?.currency) {
+        initCurrency(action.payload.data.currency);
       }
       return {
         ...state,
@@ -92,6 +88,12 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
         status: new Map(state.status).set(action.payload.fetchId, FetchStatus.inProgress),
       };
     case getType(updateAccountSettingsSuccess):
+      if (action?.meta?.costType) {
+        initAccountCostType(action.meta.costType);
+      }
+      if (action?.meta?.currency) {
+        initAccountCurrency(action.meta.currency);
+      }
       return {
         ...state,
         status: new Map(state.status).set(action.meta.fetchId, FetchStatus.complete),
@@ -102,32 +104,28 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
   }
 }
 
+// Initialize account cost type in local storage
+function initAccountCostType(value: string) {
+  setAccountCostType(value);
+  setCostType(value); // Reset UI's cost type selection to match default cost type
+}
+
+// Initialize account currency in local storage
+function initAccountCurrency(value: string) {
+  setAccountCurrency(value);
+  setCurrency(value); // Reset UI's currency selection to match default currency
+}
+
 // Initialize cost type in local storage
 function initCostType(value: string) {
-  // Reset UI's cost type selection if default cost type has changed.
-  const accountCostType = getAccountCostType();
-  if (accountCostType && accountCostType !== value) {
-    // Todo: remove account cost type after settings page has been moved
-    // That way, resetting the cost type for the UI should only affect the user who changed the default.
-    setCostType(accountCostType);
-  }
   if (!isCostTypeAvailable()) {
     setCostType(value);
   }
-  setAccountCostType(value);
 }
 
 // Initialize currency in local storage
 function initCurrency(value: string) {
-  // Reset UI's currency selection if default currency has changed.
-  const accountCurrency = getAccountCurrency();
-  if (accountCurrency && accountCurrency !== value) {
-    // Todo: remove account currency after settings page has been moved
-    // That way, resetting the currency for the UI should only affect the user who changed the default.
-    setCurrency(accountCurrency);
-  }
   if (!isCurrencyAvailable()) {
     setCurrency(value);
   }
-  setAccountCurrency(value);
 }
