@@ -10,7 +10,7 @@ import { Currency } from 'routes/components/currency';
 import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
-import { getAccountCostType, getAccountCurrency, setAccountCostType, setAccountCurrency } from 'utils/localStorage';
+import { getAccountCostType, getAccountCurrency } from 'utils/localStorage';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -108,7 +108,6 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
     const { updateCostType } = this.props;
 
     this.setState({ currentCostType: value }, () => {
-      setAccountCostType(value);
       updateCostType(AccountSettingsType.costType, {
         cost_type: value,
       });
@@ -119,7 +118,6 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
     const { updateCurrency } = this.props;
 
     this.setState({ currentCurrency: value }, () => {
-      setAccountCurrency(value);
       updateCurrency(AccountSettingsType.currency, {
         currency: value,
       });

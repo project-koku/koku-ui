@@ -84,8 +84,8 @@ export function updateAccountSettings(settingsType: AccountSettingsType, payload
     }
 
     const meta: AccountSettingsActionMeta = {
-      costType: payload.cost_type, // For settings update
-      currency: payload.currency, // For settings update
+      costType: payload.cost_type, // For account cost type update
+      currency: payload.currency, // For account currency update
       fetchId: getFetchId(settingsType),
     };
 
