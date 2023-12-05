@@ -63,9 +63,11 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
       };
     case getType(fetchAccountSettingsSuccess):
       if (action?.payload?.data?.cost_type) {
+        setAccountCostType(action.payload.data.cost_type);
         initCostType(action.payload.data.cost_type);
       }
       if (action?.payload?.data?.currency) {
+        setAccountCurrency(action.payload.data.currency);
         initCurrency(action.payload.data.currency);
       }
       return {
@@ -89,10 +91,12 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
       };
     case getType(updateAccountSettingsSuccess):
       if (action?.meta?.costType) {
-        initAccountCostType(action.meta.costType);
+        setAccountCostType(action.meta.costType);
+        initCostType(action.meta.costType, true); // Reset UI's cost type selection to match default cost type
       }
       if (action?.meta?.currency) {
-        initAccountCurrency(action.meta.currency);
+        setAccountCurrency(action.meta.currency);
+        initCurrency(action.meta.currency, true); // Reset UI's currency selection to match default currency
       }
       return {
         ...state,
@@ -104,28 +108,18 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
   }
 }
 
-// Initialize account cost type in local storage
-function initAccountCostType(value: string) {
-  setAccountCostType(value);
-  setCostType(value); // Reset UI's cost type selection to match default cost type
-}
-
-// Initialize account currency in local storage
-function initAccountCurrency(value: string) {
-  setAccountCurrency(value);
-  setCurrency(value); // Reset UI's currency selection to match default currency
-}
-
 // Initialize cost type in local storage
-function initCostType(value: string) {
-  if (!isCostTypeAvailable()) {
+function initCostType(value: string, reset = false) {
+  // Set if not defined
+  if (!isCostTypeAvailable() || reset) {
     setCostType(value);
   }
 }
 
 // Initialize currency in local storage
-function initCurrency(value: string) {
-  if (!isCurrencyAvailable()) {
+function initCurrency(value: string, reset = false) {
+  // Set if not defined
+  if (!isCurrencyAvailable() || reset) {
     setCurrency(value);
   }
 }
