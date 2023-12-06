@@ -37,27 +37,23 @@ After all PRs have been merged, update the \`hccm-frontend\` resource in https:/
 Use the latest commit of each branch to update namespaces \`ref\` in the app-interface repo. Don't use a merge commit, SHAs must be unique when images are created for each branch.
 
 ```
+- name: hccm-frontend
+  ...
     # Stage Stable Deployment
   - namespace:
       $ref: /services/insights/frontend-operator/namespaces/stage-frontends.yml
     ref: 4bdd960da2fe34ed8964acfcbc2d3267a752f3e5 // Replace with latest SHA for stage-beta branch
-    parameters:
-      ENV_NAME: "frontends"
-      IMAGE: "quay.io/cloudservices/hccm-frontend"
+    ...
     # Prod Beta Deployment
   - namespace:
       $ref: /services/insights/frontend-operator/namespaces/prod-beta-frontends.yml
     ref: 23909da4ea017963caa78d59168054db842ce014 // Replace with latest SHA for prod-beta branch
-    parameters:
-      ENV_NAME: "frontends-beta"
-      IMAGE: "quay.io/cloudservices/hccm-frontend"
+    ...
     # Prod Stable Deployment
   - namespace:
       $ref: /services/insights/frontend-operator/namespaces/prod-frontends.yml
     ref: c7f6c75fd1e895afbc05a2a6d26835fa16a0edfa // Replace with latest SHA for prod-stable branch
-    parameters:
-      ENV_NAME: "frontends"
-      IMAGE: "quay.io/cloudservices/hccm-frontend"
+    ...
 ```
 
 ## Testing
