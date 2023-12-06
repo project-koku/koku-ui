@@ -59,6 +59,51 @@ Follow the prompts that follow.
 https://stage.foo.redhat.com:1337/beta/openshift/cost-management
 ```
 
+### Running Koku UI with a local Cloud Services Backend
+
+See https://github.com/RedHatInsights/chrome-service-backend/blob/main/docs/cloud-services-config.md#serving-files-locally
+
+1. Serve files locally from Cloud Services Backend repo
+```
+make dev-static-node
+```
+
+2. Start development server in Koku UI repo
+```
+npm start:csb
+```
+
+### Running Koku UI with a local Koku UI microfrontend (MFE)
+
+1. Start development server in Koku UI microfrontend (MFE) repo
+```
+npm start:static
+```
+
+2. Start development server in Koku UI repo
+```
+npm start:mfe
+```
+
+### Running Koku UI with a local Koku UI microfrontend (MFE) and Cloud Services Backend
+
+See https://github.com/RedHatInsights/chrome-service-backend/blob/main/docs/cloud-services-config.md#serving-files-locally
+
+1. Serve files locally from Cloud Services Backend repo
+```
+make dev-static-node
+```
+
+2. Start development server in Koku UI microfrontend (MFE) repo
+```
+npm start:static
+```
+
+3. Start development server in Koku UI repo
+```
+npm start:csb:mfe
+```
+
 ## Running local instances of Koku UI & Koku API
 #### Koku UI
 
