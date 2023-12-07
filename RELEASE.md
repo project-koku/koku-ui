@@ -1,6 +1,6 @@
 # Releasing Koku UI
 
-This doc describes how to release the Koku UI to each staging environment. Note that this should be done in order for testing purposes; stage-stable, prod-beta, and finally prod-stable
+This doc describes how to release Koku UI to each staging environment. Note that this should be done in order for testing purposes; stage-stable, prod-beta, and finally prod-stable
 
 ## Release script
 

@@ -59,7 +59,7 @@ Follow the prompts that follow.
 https://stage.foo.redhat.com:1337/beta/openshift/cost-management
 ```
 
-### Running Koku UI with a local Cloud Services Backend
+### Running Koku UI with local Cloud Services Backend
 
 See https://github.com/RedHatInsights/chrome-service-backend/blob/main/docs/cloud-services-config.md#serving-files-locally
 
@@ -73,11 +73,11 @@ make dev-static-node
 npm start:csb
 ```
 
-### Running Koku UI with a local Koku microfrontend (MFE)
+### Running Koku UI with local Koku microfrontend (MFE)
 
 See https://github.com/project-koku/koku-ui-mfe
 
-1. Start development server in Koku microfrontend (MFE) repo
+1. Start development server in Koku MFE repo
 ```
 npm start:static
 ```
@@ -87,7 +87,7 @@ npm start:static
 npm start:mfe
 ```
 
-### Running Koku UI with a local Koku microfrontend (MFE) and Cloud Services Backend
+### Running Koku UI with local Koku microfrontend (MFE) and Cloud Services Backend
 
 See https://github.com/RedHatInsights/chrome-service-backend/blob/main/docs/cloud-services-config.md#serving-files-locally
 and https://github.com/project-koku/koku-ui-mfe
@@ -97,7 +97,7 @@ and https://github.com/project-koku/koku-ui-mfe
 make dev-static-node
 ```
 
-2. Start development server in Koku microfrontend (MFE) repo
+2. Start development server in Koku MFE repo
 ```
 npm start:static
 ```
@@ -189,7 +189,7 @@ http://localhost:1337/beta/settings/applications/cost-management
 
 ## Releasing Koku UI
 
-This [RELEASE][release-doc] doc describes how to release the UI to each staging environment.
+This [RELEASE][release-doc] doc describes how to release Koku UI to each staging environment.
 
 ## Useful Links
 
