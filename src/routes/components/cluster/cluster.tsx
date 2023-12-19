@@ -10,8 +10,10 @@ import { styles } from './cluster.styles';
 import { ClusterModal } from './modal/clusterModal';
 
 interface ClusterOwnProps {
-  groupBy: string;
-  report: Report;
+  clusters?: string[];
+  groupBy?: string;
+  name?: string;
+  report?: Report;
   title?: string;
 }
 
@@ -46,36 +48,38 @@ class ClusterBase extends React.Component<ClusterProps, ClusterState> {
   };
 
   public render() {
-    const { groupBy, intl, report, title } = this.props;
+    const { clusters, groupBy, intl, report, title } = this.props;
     const { isOpen, showAll } = this.state;
 
     const maxCharsPerName = 45; // Max (non-whitespace) characters that fit without overlapping card
     const maxItems = 2; // Max items to show before adding "more" link
     const someClusters = [];
-    const allClusters = [];
 
-    const computedItems = getComputedReportItems({
-      report,
-      idKey: groupBy as any,
-    });
+    const allClusters = clusters ? [...clusters] : [];
+    if (report) {
+      const computedItems = getComputedReportItems({
+        report,
+        idKey: groupBy as any,
+      });
 
-    // Get clusters from all projects -- see https://issues.redhat.com/browse/COST-3371
-    const clusters = [];
-    computedItems.map(item => {
-      if (item.clusters) {
-        item.clusters.map(cluster => {
-          if (!clusters.includes(cluster)) {
-            clusters.push(cluster);
-          }
-        });
-      }
-    });
-    if (clusters.length === 0) {
+      // Get clusters from all projects -- see https://issues.redhat.com/browse/COST-3371
+      computedItems.map(item => {
+        if (item.clusters) {
+          item.clusters.map(cluster => {
+            if (!allClusters.includes(cluster)) {
+              allClusters.push(cluster);
+            }
+          });
+        }
+      });
+    }
+
+    if (allClusters.length === 0) {
       return null;
     }
 
     // Sort clusters from multiple projects
-    clusters.sort((a, b) => {
+    allClusters.sort((a, b) => {
       if (a < b) {
         return -1;
       }
@@ -85,7 +89,7 @@ class ClusterBase extends React.Component<ClusterProps, ClusterState> {
       return 0;
     });
 
-    for (const cluster of clusters) {
+    for (const cluster of allClusters) {
       let clusterString = someClusters.length > 0 ? `, ${cluster}` : cluster;
       if (showAll) {
         someClusters.push(clusterString);
@@ -101,7 +105,6 @@ class ClusterBase extends React.Component<ClusterProps, ClusterState> {
           someClusters.push(clusterString);
         }
       }
-      allClusters.push(cluster);
     }
 
     return (
@@ -112,7 +115,13 @@ class ClusterBase extends React.Component<ClusterProps, ClusterState> {
             {intl.formatMessage(messages.detailsMoreClusters, { value: allClusters.length - someClusters.length })}
           </a>
         )}
-        <ClusterModal clusters={clusters} groupBy={groupBy} isOpen={isOpen} onClose={this.handleClose} title={title} />
+        <ClusterModal
+          clusters={allClusters}
+          groupBy={groupBy}
+          isOpen={isOpen}
+          onClose={this.handleClose}
+          title={title}
+        />
       </div>
     );
   }
