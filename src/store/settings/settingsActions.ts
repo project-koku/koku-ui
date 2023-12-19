@@ -73,13 +73,21 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
     let msg;
     let status;
     switch (settingsType) {
-      case SettingsType.awsCategoryKeysDisable:
-        msg = messages.settingsSuccessCostCategoryKeys;
+      case SettingsType.costCategoriesDisable:
+        msg = messages.settingsSuccessCostCategories;
         status = 'disable';
         break;
-      case SettingsType.awsCategoryKeysEnable:
-        msg = messages.settingsSuccessCostCategoryKeys;
+      case SettingsType.costCategoriesEnable:
+        msg = messages.settingsSuccessCostCategories;
         status = 'enable';
+        break;
+      case SettingsType.platformProjectsAdd:
+        msg = messages.settingsSuccessPlatformProjects;
+        status = 'add';
+        break;
+      case SettingsType.platformProjectsRemove:
+        msg = messages.settingsSuccessPlatformProjects;
+        status = 'remove';
         break;
       case SettingsType.tagsDisable:
         msg = messages.settingsSuccessTags;

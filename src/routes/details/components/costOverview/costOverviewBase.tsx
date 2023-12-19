@@ -19,7 +19,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { Cluster } from 'routes/details/components/cluster';
+import { Cluster } from 'routes/components/cluster';
 import { CostChart } from 'routes/details/components/costChart';
 import { OverheadCostChart } from 'routes/details/components/overheadCostChart';
 import { PvcChart } from 'routes/details/components/pvcChart';
