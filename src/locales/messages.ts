@@ -1174,6 +1174,7 @@ export default defineMessages({
       'account {account {name} clusters} ' +
       'aws_category {cost category {name} clusters} ' +
       'cluster {cluster {name} clusters} ' +
+      'clusters {Clusters} ' +
       'gcp_project {GCP project {name} clusters} ' +
       'node {node {name} clusters} ' +
       'org_unit_id {organizational unit {name} clusters} ' +
@@ -1387,36 +1388,10 @@ export default defineMessages({
       'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/adding_an_openshift_container_platform_source_to_cost_management',
     id: 'docsAddOcpSources',
   },
-  docsConfigCostCategory: {
+  docsCostCategory: {
     defaultMessage: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
     description: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
-    id: 'docsConfigCostCategory',
-  },
-  docsConfigCostModels: {
-    defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models',
-    description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models',
-    id: 'docsConfigCostModels',
-  },
-  docsConfigCostModelsOcp: {
-    defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models',
-    description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models',
-    id: 'docsConfigCostModelsOcp',
-  },
-  docsConfigPlatformProjects: {
-    defaultMessage: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
-    description: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
-    id: 'docsConfigPlatformProjects',
-  },
-  docsConfigTags: {
-    defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
-    description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
-    id: 'docsConfigTags',
+    id: 'docsCostCategory',
   },
   docsCostModelTerminology: {
     defaultMessage:
@@ -1424,6 +1399,13 @@ export default defineMessages({
     description:
       'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#cost-model-terminology',
     id: 'docsCostModelTerminology',
+  },
+  docsCostModels: {
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models',
+    id: 'docsCostModels',
   },
   docsCostModelsDistribution: {
     defaultMessage:
@@ -1436,6 +1418,25 @@ export default defineMessages({
       'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models',
     description: 'url for cost models markup',
     id: 'docsCostModelsMarkup',
+  },
+  docsCostModelsOcp: {
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models',
+    id: 'docsCostModelsOcp',
+  },
+  docsPlatformProjects: {
+    defaultMessage: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
+    description: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
+    id: 'docsPlatformProjects',
+  },
+  docsTags: {
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
+    id: 'docsTags',
   },
   docsUsingCostModels: {
     defaultMessage:
@@ -1930,6 +1931,7 @@ export default defineMessages({
       'aws_category {Cost category} ' +
       'cluster {Cluster} ' +
       'container {Container} ' +
+      'default {Default} ' +
       'gcp_project {GCP project} ' +
       'group {Group} ' +
       'name {Name} ' +
@@ -2954,13 +2956,6 @@ export default defineMessages({
     description: 'Perspective values',
     id: 'perspectiveValues',
   },
-  platfomProjectaDesc: {
-    defaultMessage:
-      "Associate additional projects with OpenShift Platform project costs to charge for utilization of resources. Changes will be reflected in this month's cost calculations within 24 hrs. {learnMore}",
-    description:
-      "Associate additional projects with OpenShift Platform project costs to charge for utilization of resources. Changes will be reflected in this month's cost calculations within 24 hrs. {learnMore}",
-    id: 'platfomProjectaDesc',
-  },
   platform: {
     defaultMessage: 'Platform',
     description: 'Platform',
@@ -2975,6 +2970,13 @@ export default defineMessages({
     defaultMessage: 'Platform distributed',
     description: 'Platform distributed',
     id: 'platformDistributed',
+  },
+  platformProjectsDesc: {
+    defaultMessage:
+      "Associate additional projects with OpenShift Platform project costs to charge for utilization of resources. Changes will be reflected in this month's cost calculations within 24 hrs. {learnMore}",
+    description:
+      "Associate additional projects with OpenShift Platform project costs to charge for utilization of resources. Changes will be reflected in this month's cost calculations within 24 hrs. {learnMore}",
+    id: 'platformProjectsDesc',
   },
   platformProjectsTitle: {
     defaultMessage: 'Platform projects',
@@ -3196,6 +3198,11 @@ export default defineMessages({
     description: 'Select categories to enable or disable',
     id: 'selectCategories',
   },
+  selectProjects: {
+    defaultMessage: 'Select projects to add or remove',
+    description: 'Select projects to add or remove',
+    id: 'selectProjects',
+  },
   selectRow: {
     defaultMessage: 'Select row {value}',
     description: 'Select row {value}',
@@ -3241,19 +3248,28 @@ export default defineMessages({
     description: 'Changes will be reflected in report summarizations within 24 hours',
     id: 'settingsSuccessChanges',
   },
-  settingsSuccessCostCategoryKeys: {
+  settingsSuccessCostCategories: {
     defaultMessage:
       '{value, select, ' +
       'enable {{count, plural, one {{count} cost category key enabled} other {{count} cost category keys enabled}}} ' +
       'disable {{count, plural, one {{count} cost category key disabled} other {{count} cost category keys disabled}}} ' +
       'other {}}',
     description: 'Cost category keys enabled or disabled',
-    id: 'settingsSuccessCostCategoryKeys',
+    id: 'settingsSuccessCostCategories',
   },
   settingsSuccessDesc: {
     defaultMessage: 'Settings for Cost Management were replaced with new values',
     description: 'Settings for Cost Management were replaced with new values',
     id: 'settingsSuccessDesc',
+  },
+  settingsSuccessPlatformProjects: {
+    defaultMessage:
+      '{value, select, ' +
+      'add {{count, plural, one {{count} projects added to Platform projects} other {{count} project added to Platform projects}}} ' +
+      'remove {{count, plural, one {{count} projects removed from Platform projects} other {{count} project removed from Platform projects}}} ' +
+      'other {}}',
+    description: 'Platform projects added or removed',
+    id: 'settingsSuccessPlatformProjects',
   },
   settingsSuccessTags: {
     defaultMessage:
