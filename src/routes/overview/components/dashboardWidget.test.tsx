@@ -1,15 +1,12 @@
-jest.mock('date-fns').mock('date-fns/format');
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { render } from '@testing-library/react';
 import { intl } from 'components/i18n';
-import { format, getDate, getMonth, startOfMonth } from 'date-fns';
 import React from 'react';
 import { defineMessages } from 'react-intl';
 import { DatumType } from 'routes/components/charts/common/chartDatum';
 import { DashboardWidgetBase } from 'routes/overview/components';
 import type { DashboardWidgetProps } from 'routes/overview/components/dashboardWidgetBase';
 import { FetchStatus } from 'store/common';
-import { mockDate } from 'testUtils';
 
 const tmessages = defineMessages({
   testTitle: {
@@ -50,19 +47,6 @@ const props: DashboardWidgetProps = {
   },
   topItems: { formatOptions: {} },
 } as any;
-
-const getDateMock = getDate as jest.Mock;
-const formatMock = format as jest.Mock;
-const startOfMonthMock = startOfMonth as jest.Mock;
-const getMonthMock = getMonth as jest.Mock;
-
-beforeEach(() => {
-  mockDate();
-  getDateMock.mockReturnValue(1);
-  formatMock.mockReturnValue('formatted date');
-  startOfMonthMock.mockReturnValue(1);
-  getMonthMock.mockReturnValue(1);
-});
 
 test('reports are fetched on mount', () => {
   render(<DashboardWidgetBase {...props} />);
