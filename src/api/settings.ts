@@ -5,7 +5,7 @@ import type { PagedLinks, PagedMetaData } from './api';
 export interface SettingsData {
   clusters?: string[];
   default?: boolean;
-  project_name?: string;
+  project?: string;
   group?: string;
   uuid?: string;
   key?: string;
