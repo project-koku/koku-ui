@@ -106,7 +106,7 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
       {
         ariaLabelKey: 'name',
         placeholderKey: 'name',
-        key: 'project_name',
+        key: 'project',
         name: intl.formatMessage(messages.filterByValues, { value: 'name' }),
       },
       {

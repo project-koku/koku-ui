@@ -66,7 +66,7 @@ class CostCategoryBase extends React.Component<CostCategoryProps, CostCategorySt
         name: '', // Selection column
       },
       {
-        orderBy: 'project_name', // Todo: update filter name
+        orderBy: 'project', // Todo: update filter name
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'name' }),
         ...(computedItems.length && { isSortable: true }),
       },
@@ -90,7 +90,7 @@ class CostCategoryBase extends React.Component<CostCategoryProps, CostCategorySt
         cells: [
           {}, // Empty cell for row selection
           {
-            value: item.project_name ? item.project_name : '',
+            value: item.project ? item.project : '',
             style: styles.nameColumn,
           },
           {
@@ -104,7 +104,7 @@ class CostCategoryBase extends React.Component<CostCategoryProps, CostCategorySt
           { value: <Cluster clusters={item.clusters} groupBy="clusters" />, style: styles.groupColumn },
         ],
         item,
-        selected: selectedItems && selectedItems.find(val => val.project_name === item.project_name) !== undefined,
+        selected: selectedItems && selectedItems.find(val => val.project === item.project) !== undefined,
         selectionDisabled: !canWrite || item.default,
       });
     });

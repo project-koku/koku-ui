@@ -138,7 +138,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
     } else if (action === 'page') {
       const newSelectedItems = [...selectedItems];
       getCategories().map(val => {
-        if (!newSelectedItems.find(item => item.project_name === val.project_name)) {
+        if (!newSelectedItems.find(item => item.project === val.project)) {
           newSelectedItems.push(val);
         }
       });
@@ -149,7 +149,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
   const handleOnAdd = () => {
     if (selectedItems.length > 0) {
       const payload = selectedItems.map(item => ({
-        project_name: item.project_name,
+        project: item.project,
         group: GroupType.platform,
       }));
       setSelectedItems([], () => {
@@ -176,7 +176,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
   const handleOnRemove = () => {
     if (selectedItems.length > 0) {
       const payload = selectedItems.map(item => ({
-        project_name: item.project_name,
+        project: item.project,
         group: null,
       }));
       setSelectedItems([], () => {
@@ -197,7 +197,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
         items.map(item => newItems.push(item));
       } else {
         items.map(item => {
-          newItems = newItems.filter(val => val.project_name !== item.project_name);
+          newItems = newItems.filter(val => val.project !== item.project);
         });
       }
     }
