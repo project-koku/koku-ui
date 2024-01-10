@@ -1,46 +1,39 @@
 import 'routes/components/dataTable/dataTable.scss';
 
 import { Label } from '@patternfly/react-core';
-import type { Report, ReportItem } from 'api/reports/report';
+import type { Settings, SettingsData } from 'api/settings';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { Cluster } from 'routes/components/cluster';
 import { DataTable } from 'routes/components/dataTable';
-import { styles } from 'routes/components/dataTable/dataTable.styles';
-import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
+// import { styles } from 'routes/components/dataTable/dataTable.styles';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-interface PlatformTableOwnProps extends RouterComponentProps, WrappedComponentProps {
+import { styles } from './platformProjects.styles';
+
+interface CostCategoryOwnProps extends RouterComponentProps, WrappedComponentProps {
+  canWrite?: boolean;
   filterBy?: any;
-  isAllSelected?: boolean;
   isLoading?: boolean;
-  isReadOnly?: boolean;
-  onSelected(items: ComputedReportItem[], isSelected: boolean);
+  onSelected(items: SettingsData[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
-  report: Report;
-  reportQueryString: string;
-  selectedItems?: ComputedReportItem[];
+  selectedItems?: SettingsData[];
+  settings: Settings;
 }
 
-interface PlatformTableState {
+interface CostCategoryState {
   columns?: any[];
   rows?: any[];
 }
 
-type PlatformTableProps = PlatformTableOwnProps;
+type CostCategoryProps = CostCategoryOwnProps;
 
-export const PlatformTableColumnIds = {
-  infrastructure: 'infrastructure',
-  monthOverMonth: 'monthOverMonth',
-  supplementary: 'supplementary',
-};
-
-class PlatformTableBase extends React.Component<PlatformTableProps, PlatformTableState> {
-  public state: PlatformTableState = {
+class CostCategoryBase extends React.Component<CostCategoryProps, CostCategoryState> {
+  public state: CostCategoryState = {
     columns: [],
     rows: [],
   };
@@ -49,10 +42,10 @@ class PlatformTableBase extends React.Component<PlatformTableProps, PlatformTabl
     this.initDatum();
   }
 
-  public componentDidUpdate(prevProps: PlatformTableProps) {
-    const { report, selectedItems } = this.props;
-    const currentReport = report?.data ? JSON.stringify(report.data) : '';
-    const previousReport = prevProps?.report?.data ? JSON.stringify(prevProps.report.data) : '';
+  public componentDidUpdate(prevProps: CostCategoryProps) {
+    const { selectedItems, settings } = this.props;
+    const currentReport = settings?.data ? JSON.stringify(settings.data) : '';
+    const previousReport = prevProps?.settings.data ? JSON.stringify(prevProps.settings.data) : '';
 
     if (previousReport !== currentReport || prevProps.selectedItems !== selectedItems) {
       this.initDatum();
@@ -60,16 +53,13 @@ class PlatformTableBase extends React.Component<PlatformTableProps, PlatformTabl
   }
 
   private initDatum = () => {
-    const { intl, isAllSelected, isReadOnly, report, selectedItems } = this.props;
-    if (!report) {
+    const { canWrite, intl, selectedItems, settings } = this.props;
+    if (!settings) {
       return;
     }
 
     const rows = [];
-    const computedItems = getUnsortedComputedReportItems<Report, ReportItem>({
-      report,
-      idKey: 'project' as any,
-    });
+    const computedItems = settings?.data ? (settings.data as any) : [];
 
     const columns = [
       {
@@ -81,6 +71,9 @@ class PlatformTableBase extends React.Component<PlatformTableProps, PlatformTabl
         ...(computedItems.length && { isSortable: true }),
       },
       {
+        name: '', // Default column
+      },
+      {
         orderBy: 'group',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'group' }),
         ...(computedItems.length && { isSortable: true }),
@@ -88,32 +81,31 @@ class PlatformTableBase extends React.Component<PlatformTableProps, PlatformTabl
       {
         orderBy: 'cluster',
         name: intl.formatMessage(messages.clusters),
-        ...(computedItems.length && { isSortable: true }),
-        style: styles.lastItemColumn,
+        ...(computedItems.length && { isSortable: false }), // No sort for cluster
       },
     ];
 
     computedItems.map(item => {
-      const label = item && item.label !== null ? item.label : '';
-
       rows.push({
         cells: [
           {}, // Empty cell for row selection
           {
-            value: label,
+            value: item.project ? item.project : '',
+            style: styles.nameColumn,
           },
           {
-            value: (
-              <Label variant="outline" color="green">
-                {intl.formatMessage(messages.platform)}
-              </Label>
-            ),
+            value: item.default ? <Label color="green">{intl.formatMessage(messages.default)}</Label> : null,
           },
-          { value: 'cluster', style: styles.lastItem },
+          {
+            value:
+              item.group === 'Platform' ? <Label color="green">{intl.formatMessage(messages.platform)}</Label> : null,
+            style: styles.defaultColumn,
+          },
+          { value: <Cluster clusters={item.clusters} groupBy="clusters" />, style: styles.groupColumn },
         ],
         item,
-        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),
-        selectionDisabled: isReadOnly,
+        selected: selectedItems && selectedItems.find(val => val.project === item.project) !== undefined,
+        selectionDisabled: !canWrite || item.default,
       });
     });
 
@@ -148,6 +140,6 @@ class PlatformTableBase extends React.Component<PlatformTableProps, PlatformTabl
   }
 }
 
-const PlatformTable = injectIntl(withRouter(PlatformTableBase));
+const PlatformProjectsTable = injectIntl(withRouter(CostCategoryBase));
 
-export { PlatformTable };
+export { PlatformProjectsTable };
