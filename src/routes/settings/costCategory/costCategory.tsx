@@ -150,7 +150,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
     if (selectedItems.length > 0) {
       setSelectedItems([], () => {
         dispatch(
-          settingsActions.updateSettings(SettingsType.awsCategoryKeysDisable, {
+          settingsActions.updateSettings(SettingsType.costCategoriesDisable, {
             ids: selectedItems.map(item => item.uuid),
           })
         );
@@ -162,7 +162,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
     if (selectedItems.length > 0) {
       setSelectedItems([], () => {
         dispatch(
-          settingsActions.updateSettings(SettingsType.awsCategoryKeysEnable, {
+          settingsActions.updateSettings(SettingsType.costCategoriesEnable, {
             ids: selectedItems.map(item => item.uuid),
           })
         );
@@ -220,7 +220,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
       <div style={styles.descContainer}>
         {intl.formatMessage(messages.costCategoryDesc, {
           learnMore: (
-            <a href={intl.formatMessage(messages.docsConfigCostCategory)} rel="noreferrer" target="_blank">
+            <a href={intl.formatMessage(messages.docsCostCategory)} rel="noreferrer" target="_blank">
               {intl.formatMessage(messages.learnMore)}
             </a>
           ),
@@ -251,20 +251,20 @@ const useMapToProps = ({ query }: CostCategoryMapProps): CostCategoryStateProps 
   };
   const settingsQueryString = getQuery(settingsQuery);
   const settings = useSelector((state: RootState) =>
-    settingsSelectors.selectSettings(state, SettingsType.awsCategoryKeys, settingsQueryString)
+    settingsSelectors.selectSettings(state, SettingsType.costCategories, settingsQueryString)
   );
   const settingsStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsStatus(state, SettingsType.awsCategoryKeys, settingsQueryString)
+    settingsSelectors.selectSettingsStatus(state, SettingsType.costCategories, settingsQueryString)
   );
   const settingsError = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsError(state, SettingsType.awsCategoryKeys, settingsQueryString)
+    settingsSelectors.selectSettingsError(state, SettingsType.costCategories, settingsQueryString)
   );
 
   const settingsUpdateDisableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.awsCategoryKeysDisable)
+    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.costCategoriesDisable)
   );
   const settingsUpdateEnableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.awsCategoryKeysEnable)
+    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.costCategoriesEnable)
   );
 
   useEffect(() => {
@@ -274,7 +274,7 @@ const useMapToProps = ({ query }: CostCategoryMapProps): CostCategoryStateProps 
       settingsUpdateDisableStatus !== FetchStatus.inProgress &&
       settingsUpdateEnableStatus !== FetchStatus.inProgress
     ) {
-      dispatch(settingsActions.fetchSettings(SettingsType.awsCategoryKeys, settingsQueryString));
+      dispatch(settingsActions.fetchSettings(SettingsType.costCategories, settingsQueryString));
     }
   }, [query, settingsUpdateDisableStatus, settingsUpdateEnableStatus]);
 

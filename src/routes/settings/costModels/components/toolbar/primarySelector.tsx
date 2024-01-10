@@ -1,8 +1,6 @@
 import { Select, SelectOption } from '@patternfly/react-core/deprecated';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
-import React from 'react';
-import { WithStateMachine } from 'routes/settings/costModels/components/hoc/withStateMachine';
-import { selectMachineState } from 'routes/settings/costModels/components/logic/selectStateMachine';
+import React, { useState } from 'react';
 import type { Option } from 'routes/settings/costModels/components/logic/types';
 
 export interface PrimarySelectorProps {
@@ -13,36 +11,27 @@ export interface PrimarySelectorProps {
 }
 
 export const PrimarySelector: React.FC<PrimarySelectorProps> = ({ setPrimary, primary, options, isDisabled }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <WithStateMachine
-      machine={selectMachineState.withConfig({
-        actions: {
-          assignSelection: (_ctx, evt) => {
-            setPrimary(evt.selection);
-          },
-        },
-      })}
-    >
-      {({ current, send }) => {
-        return (
-          <Select
-            isDisabled={isDisabled}
-            toggleIcon={<FilterIcon />}
-            isOpen={current.matches('expanded')}
-            selections={primary}
-            onSelect={(_evt, selection: string) => send({ type: 'SELECT', selection })}
-            onToggle={() => send({ type: 'TOGGLE' })}
-          >
-            {options.map(opt => {
-              return (
-                <SelectOption key={opt.value} value={opt.value}>
-                  {opt.label}
-                </SelectOption>
-              );
-            })}
-          </Select>
-        );
+    <Select
+      isDisabled={isDisabled}
+      isOpen={isOpen}
+      onSelect={(_evt, sel: string) => {
+        setPrimary(sel);
+        setIsOpen(false);
       }}
-    </WithStateMachine>
+      onToggle={() => setIsOpen(!isOpen)}
+      selections={primary}
+      toggleIcon={<FilterIcon />}
+    >
+      {options.map(opt => {
+        return (
+          <SelectOption key={opt.value} value={opt.value}>
+            {opt.label}
+          </SelectOption>
+        );
+      })}
+    </Select>
   );
 };

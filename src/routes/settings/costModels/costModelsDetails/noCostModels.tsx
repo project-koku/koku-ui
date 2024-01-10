@@ -19,7 +19,7 @@ const NoCostModels = ({ intl = defaultIntl }) => {
           <CreateCostModelButton />
           <br />
           <br />
-          <a href={intl.formatMessage(messages.docsConfigCostModels)} rel="noreferrer" target="_blank">
+          <a href={intl.formatMessage(messages.docsCostModels)} rel="noreferrer" target="_blank">
             {intl.formatMessage(messages.costModelsEmptyStateLearnMore)}
           </a>
         </>

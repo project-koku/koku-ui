@@ -90,8 +90,8 @@ module.exports = {
     /**
      * Chrome services backend config routes, typically localhost:8000
      */
-    ...(process.env.CLOUD_SERVICES_CONFIG_PORT && {
-      '/api/chrome-service/v1/static': { host: `http://localhost:${process.env.CLOUD_SERVICES_CONFIG_PORT}` },
+    ...(process.env.CLOUD_SERVICES_BACKEND_PORT && {
+      '/api/chrome-service/v1/static': { host: `http://localhost:${process.env.CLOUD_SERVICES_BACKEND_PORT}` },
     }),
     /**
      * Ephemeral routes, typically localhost:8000

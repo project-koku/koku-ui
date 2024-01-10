@@ -18,26 +18,26 @@ import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
 import { useStateCallback } from 'utils/hooks';
 
-import { styles } from './tagDetails.styles';
+import { styles } from './tagLabels.styles';
 import { TagTable } from './tagTable';
 import { TagToolbar } from './tagToolbar';
 
-interface TagDetailsOwnProps {
+interface TagLabelsOwnProps {
   canWrite?: boolean;
 }
 
-export interface TagDetailsMapProps {
+export interface TagLabelsMapProps {
   query?: Query;
 }
 
-export interface TagDetailsStateProps {
+export interface TagLabelsStateProps {
   settings?: Settings;
   settingsError?: AxiosError;
   settingsStatus?: FetchStatus;
   settingsQueryString?: string;
 }
 
-type TagDetailsProps = TagDetailsOwnProps;
+type TagLabelsProps = TagLabelsOwnProps;
 
 const baseQuery: Query = {
   limit: 10,
@@ -48,7 +48,7 @@ const baseQuery: Query = {
   },
 };
 
-const TagDetails: React.FC<TagDetailsProps> = ({ canWrite }) => {
+const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
   const [query, setQuery] = useState({ ...baseQuery });
   const [selectedItems, setSelectedItems] = useStateCallback([]);
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
@@ -226,7 +226,7 @@ const TagDetails: React.FC<TagDetailsProps> = ({ canWrite }) => {
         {intl.formatMessage(messages.tagDesc, {
           count: enabledTagsLimit,
           learnMore: (
-            <a href={intl.formatMessage(messages.docsConfigTags)} rel="noreferrer" target="_blank">
+            <a href={intl.formatMessage(messages.docsTags)} rel="noreferrer" target="_blank">
               {intl.formatMessage(messages.learnMore)}
             </a>
           ),
@@ -246,7 +246,7 @@ const TagDetails: React.FC<TagDetailsProps> = ({ canWrite }) => {
 };
 
 // eslint-disable-next-line no-empty-pattern
-const useMapToProps = ({ query }: TagDetailsMapProps): TagDetailsStateProps => {
+const useMapToProps = ({ query }: TagLabelsMapProps): TagLabelsStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
   const settingsQuery = {
@@ -292,4 +292,4 @@ const useMapToProps = ({ query }: TagDetailsMapProps): TagDetailsStateProps => {
   };
 };
 
-export default TagDetails;
+export default TagLabels;
