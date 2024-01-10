@@ -2487,6 +2487,14 @@
               }
             ]
           },
+          "clusters": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Clusters"
+              }
+            ]
+          },
           "gcp_project": {
             "value": [
               {
@@ -3486,40 +3494,22 @@
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/adding_an_openshift_container_platform_source_to_cost_management"
       }
     ],
-    "docsConfigCostCategory": [
+    "docsCostCategory": [
       {
         "type": 0,
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest"
-      }
-    ],
-    "docsConfigCostModels": [
-      {
-        "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models"
-      }
-    ],
-    "docsConfigCostModelsOcp": [
-      {
-        "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models"
-      }
-    ],
-    "docsConfigPlatformProjects": [
-      {
-        "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest"
-      }
-    ],
-    "docsConfigTags": [
-      {
-        "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management"
       }
     ],
     "docsCostModelTerminology": [
       {
         "type": 0,
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#cost-model-terminology"
+      }
+    ],
+    "docsCostModels": [
+      {
+        "type": 0,
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models"
       }
     ],
     "docsCostModelsDistribution": [
@@ -3532,6 +3522,24 @@
       {
         "type": 0,
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
+      }
+    ],
+    "docsCostModelsOcp": [
+      {
+        "type": 0,
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models"
+      }
+    ],
+    "docsPlatformProjects": [
+      {
+        "type": 0,
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest"
+      }
+    ],
+    "docsTags": [
+      {
+        "type": 0,
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management"
       }
     ],
     "docsUsingCostModels": [
@@ -7366,6 +7374,14 @@
               }
             ]
           },
+          "default": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Default"
+              }
+            ]
+          },
           "gcp_project": {
             "value": [
               {
@@ -11178,16 +11194,6 @@
         "value": "value"
       }
     ],
-    "platfomProjectaDesc": [
-      {
-        "type": 0,
-        "value": "Associate additional projects with OpenShift Platform project costs to charge for utilization of resources. Changes will be reflected in this month's cost calculations within 24 hrs. "
-      },
-      {
-        "type": 1,
-        "value": "learnMore"
-      }
-    ],
     "platform": [
       {
         "type": 0,
@@ -11204,6 +11210,16 @@
       {
         "type": 0,
         "value": "Platform distributed"
+      }
+    ],
+    "platformProjectsDesc": [
+      {
+        "type": 0,
+        "value": "Associate additional projects with OpenShift Platform project costs to charge for utilization of resources. Changes will be reflected in this month's cost calculations within 24 hrs. "
+      },
+      {
+        "type": 1,
+        "value": "learnMore"
       }
     ],
     "platformProjectsTitle": [
@@ -11548,6 +11564,12 @@
         "value": "Select categories to enable or disable"
       }
     ],
+    "selectProjects": [
+      {
+        "type": 0,
+        "value": "Select projects to add or remove"
+      }
+    ],
     "selectRow": [
       {
         "type": 0,
@@ -11610,7 +11632,7 @@
         "value": "Changes will be reflected in report summarizations within 24 hours"
       }
     ],
-    "settingsSuccessCostCategoryKeys": [
+    "settingsSuccessCostCategories": [
       {
         "options": {
           "disable": {

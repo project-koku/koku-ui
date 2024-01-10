@@ -86,9 +86,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
                 {intl.formatMessage(messages.costModelsWizardGeneralInfoTitle)}
               </Title>
               <a
-                href={intl.formatMessage(
-                  type === 'OCP' ? messages.docsConfigCostModelsOcp : messages.docsConfigCostModels
-                )}
+                href={intl.formatMessage(type === 'OCP' ? messages.docsCostModelsOcp : messages.docsCostModels)}
                 rel="noreferrer"
                 target="_blank"
               >
