@@ -12,7 +12,7 @@ import type { ComputedReportItem } from 'routes/utils/computedReport/getComputed
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
-import { styles } from './tagDetails.styles';
+import { styles } from './tagLabels.styles';
 
 interface TagToolbarOwnProps {
   canWrite?: boolean;
