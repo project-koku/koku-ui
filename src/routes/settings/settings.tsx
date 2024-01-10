@@ -16,7 +16,7 @@ import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { Calculations } from 'routes/settings/calculations';
 import { CostModelsDetails } from 'routes/settings/costModels';
 import { PlatformProjects } from 'routes/settings/platformProjects';
-import { TagDetails } from 'routes/settings/tagDetails';
+import { TagLabels } from 'routes/settings/tagLabels';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
@@ -167,7 +167,7 @@ const Settings: React.FC<SettingsProps> = () => {
     } else if (currentTab === SettingsTab.platformProjects) {
       return hasSettingsAccess(userAccess) ? <PlatformProjects canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.tags) {
-      return hasSettingsAccess(userAccess) ? <TagDetails canWrite={canWrite()} /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <TagLabels canWrite={canWrite()} /> : notAuthorized;
     } else {
       return emptyTab;
     }

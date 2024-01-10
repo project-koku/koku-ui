@@ -1,8 +1,9 @@
 import { PageSection, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
-import type { Report } from 'api/reports/report';
-import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { Settings } from 'api/settings';
+import type { SettingsData } from 'api/settings';
+import { SettingsType } from 'api/settings';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
@@ -12,16 +13,15 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { Loading } from 'routes/components/page/loading';
 import { NotAvailable } from 'routes/components/page/notAvailable';
-import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
-import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
-import { reportActions, reportSelectors } from 'store/reports';
+import { settingsActions, settingsSelectors } from 'store/settings';
+import { useStateCallback } from 'utils/hooks';
 
 import { styles } from './platformProjects.styles';
-import { PlatformTable } from './platformTable';
-import { PlatformToolbar } from './platformToolbar';
+import { PlatformProjectsTable } from './platformProjectsTable';
+import { GroupType, PlatformProjectsToolbar } from './platformProjectsToolbar';
 
 interface PlatformProjectsOwnProps {
   canWrite?: boolean;
@@ -32,51 +32,42 @@ export interface PlatformProjectsMapProps {
 }
 
 export interface PlatformProjectsStateProps {
-  isReadOnly?: boolean;
-  report?: Report;
-  reportError?: AxiosError;
-  reportFetchStatus?: FetchStatus;
-  reportQueryString?: string;
+  settings?: Settings;
+  settingsError?: AxiosError;
+  settingsStatus?: FetchStatus;
+  settingsQueryString?: string;
 }
 
 type PlatformProjectsProps = PlatformProjectsOwnProps;
 
 const baseQuery: Query = {
-  filter: {
-    resolution: 'monthly',
-    time_scope_units: 'month',
-    time_scope_value: -1,
-    limit: 10,
-    offset: 0,
-  },
+  limit: 10,
+  offset: 0,
   filter_by: {},
-  group_by: {
-    project: '*',
-  },
   order_by: {
-    cost: 'desc',
+    group: 'asc',
   },
 };
 
 const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
-  const [isAllSelected, setIsAllSelected] = useState(false);
   const [query, setQuery] = useState({ ...baseQuery });
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useStateCallback([]);
+  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({ query });
+  const { settings, settingsError, settingsStatus } = useMapToProps({ query });
 
-  const getComputedItems = () => {
-    return getUnsortedComputedReportItems({
-      report,
-      idKey: 'project' as any,
-    });
+  const getCategories = () => {
+    if (settings) {
+      return settings.data as any;
+    }
+    return [];
   };
 
   const getPagination = (isDisabled = false, isBottom = false) => {
-    const count = report?.meta ? report.meta.count : 0;
-    const limit = report?.meta?.filter?.limit ? report.meta.filter.limit : baseQuery.filter.limit;
-    const offset = report?.meta?.filter?.offset ? report.meta.filter.offset : baseQuery.filter.offset;
+    const count = settings?.meta ? settings.meta.count : 0;
+    const limit = settings?.meta ? settings.meta.limit : baseQuery.limit;
+    const offset = settings?.meta ? settings.meta.offset : baseQuery.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -102,60 +93,70 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
 
   const getTable = () => {
     return (
-      <PlatformTable
+      <PlatformProjectsTable
         canWrite={canWrite}
         filterBy={query.filter_by}
-        isAllSelected={isAllSelected}
-        isLoading={reportFetchStatus === FetchStatus.inProgress}
+        isLoading={settingsStatus === FetchStatus.inProgress}
         orderBy={query.order_by}
         onSelected={handleOnSelected}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
-        report={report}
-        reportQueryString={reportQueryString}
+        settings={settings}
         selectedItems={selectedItems}
       />
     );
   };
 
-  const getToolbar = (computedItems: ComputedReportItem[]) => {
-    const isDisabled = computedItems.length === 0;
-    const itemsTotal = report?.meta ? report.meta.count : 0;
+  const getToolbar = (categories: SettingsData[]) => {
+    const hasEnabledItem = selectedItems.find(item => item.enabled);
+    const hasDisabledItem = selectedItems.find(item => !item.enabled);
+    const itemsTotal = settings?.meta ? settings.meta.count : 0;
 
     return (
-      <PlatformToolbar
+      <PlatformProjectsToolbar
         canWrite={canWrite}
-        isAllSelected={isAllSelected}
-        isDisabled={isDisabled}
-        itemsPerPage={computedItems.length}
+        isDisabled={categories.length === 0}
+        isPrimaryActionDisabled={!hasDisabledItem}
+        isSecondaryActionDisabled={!hasEnabledItem}
+        itemsPerPage={categories.length}
         itemsTotal={itemsTotal}
-        onAddProjects={handleOnAddProjects}
+        onAdd={handleOnAdd}
         onBulkSelected={handleOnBulkSelected}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
-        onRemoveProjects={handleOnRemoveProjects}
+        onRemove={handleOnRemove}
         pagination={getPagination(isDisabled)}
         query={query}
         selectedItems={selectedItems}
+        showBulkSelectAll={false}
       />
     );
   };
 
   const handleOnBulkSelected = (action: string) => {
     if (action === 'none') {
-      setIsAllSelected(false);
       setSelectedItems([]);
     } else if (action === 'page') {
-      setIsAllSelected(false);
-      setSelectedItems(getComputedItems());
-    } else if (action === 'all') {
-      setIsAllSelected(!isAllSelected);
-      setSelectedItems([]);
+      const newSelectedItems = [...selectedItems];
+      getCategories().map(val => {
+        if (!newSelectedItems.find(item => item.project === val.project)) {
+          newSelectedItems.push(val);
+        }
+      });
+      setSelectedItems(newSelectedItems);
     }
   };
 
-  const handleOnAddProjects = () => {};
-
-  const handleOnRemoveProjects = () => {};
+  const handleOnAdd = () => {
+    if (selectedItems.length > 0) {
+      const payload = selectedItems.map(item => ({
+        project: item.project,
+        group: GroupType.platform,
+      }));
+      setSelectedItems([], () => {
+        dispatch(settingsActions.updateSettings(SettingsType.platformProjectsAdd, payload as any));
+      });
+    }
+  };
 
   const handleOnFilterAdded = filter => {
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
@@ -168,27 +169,38 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
   };
 
   const handleOnPerPageSelect = perPage => {
-    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage);
+    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
     setQuery(newQuery);
+  };
+
+  const handleOnRemove = () => {
+    if (selectedItems.length > 0) {
+      const payload = selectedItems.map(item => ({
+        project: item.project,
+        group: null,
+      }));
+      setSelectedItems([], () => {
+        dispatch(settingsActions.updateSettings(SettingsType.platformProjectsRemove, payload as any));
+      });
+    }
   };
 
   const handleOnSetPage = pageNumber => {
-    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber);
+    const newQuery = queryUtils.handleOnSetPage(query, settings, pageNumber, true);
     setQuery(newQuery);
   };
 
-  const handleOnSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
-    let newItems = [...(isAllSelected ? getComputedItems() : selectedItems)];
+  const handleOnSelected = (items: SettingsData[], isSelected: boolean = false) => {
+    let newItems = [...selectedItems];
     if (items && items.length > 0) {
       if (isSelected) {
         items.map(item => newItems.push(item));
       } else {
         items.map(item => {
-          newItems = newItems.filter(val => val.id !== item.id);
+          newItems = newItems.filter(val => val.project !== item.project);
         });
       }
     }
-    setIsAllSelected(false);
     setSelectedItems(newItems);
   };
 
@@ -197,26 +209,25 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
     setQuery(newQuery);
   };
 
-  const computedItems = getComputedItems();
-  const isDisabled = computedItems.length === 0;
+  const categories = getCategories();
+  const isDisabled = categories.length === 0;
 
-  // Note: Providers are fetched via the AccountSettings component used by all routes
-  if (reportError) {
+  if (settingsError) {
     return <NotAvailable />;
   }
   return (
     <PageSection isFilled>
       <div style={styles.descContainer}>
-        {intl.formatMessage(messages.platfomProjectaDesc, {
+        {intl.formatMessage(messages.platformProjectsDesc, {
           learnMore: (
-            <a href={intl.formatMessage(messages.docsConfigPlatformProjects)} rel="noreferrer" target="_blank">
+            <a href={intl.formatMessage(messages.docsPlatformProjects)} rel="noreferrer" target="_blank">
               {intl.formatMessage(messages.learnMore)}
             </a>
           ),
         })}
       </div>
-      {getToolbar(computedItems)}
-      {reportFetchStatus === FetchStatus.inProgress ? (
+      {getToolbar(categories)}
+      {settingsStatus === FetchStatus.inProgress ? (
         <Loading />
       ) : (
         <>
@@ -230,32 +241,48 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
 
 // eslint-disable-next-line no-empty-pattern
 const useMapToProps = ({ query }: PlatformProjectsMapProps): PlatformProjectsStateProps => {
-  const reportType = ReportType.cost;
-  const reportPathsType = ReportPathsType.ocp;
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
-  const reportQueryString = getQuery(query);
-  const report = useSelector((state: RootState) =>
-    reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString)
+  const settingsQuery = {
+    filter_by: query.filter_by,
+    limit: query.limit,
+    offset: query.offset,
+    order_by: query.order_by,
+  };
+  const settingsQueryString = getQuery(settingsQuery);
+  const settings = useSelector((state: RootState) =>
+    settingsSelectors.selectSettings(state, SettingsType.platformProjects, settingsQueryString)
   );
-  const reportFetchStatus = useSelector((state: RootState) =>
-    reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, reportQueryString)
+  const settingsStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsStatus(state, SettingsType.platformProjects, settingsQueryString)
   );
-  const reportError = useSelector((state: RootState) =>
-    reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString)
+  const settingsError = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsError(state, SettingsType.platformProjects, settingsQueryString)
+  );
+
+  const settingsUpdateDisableStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.platformProjectsAdd)
+  );
+  const settingsUpdateEnableStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.platformProjectsRemove)
   );
 
   useEffect(() => {
-    if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
-      dispatch(reportActions.fetchReport(reportPathsType, reportType, reportQueryString));
+    if (
+      !settingsError &&
+      settingsStatus !== FetchStatus.inProgress &&
+      settingsUpdateDisableStatus !== FetchStatus.inProgress &&
+      settingsUpdateEnableStatus !== FetchStatus.inProgress
+    ) {
+      dispatch(settingsActions.fetchSettings(SettingsType.platformProjects, settingsQueryString));
     }
-  }, [query]);
+  }, [query, settingsUpdateDisableStatus, settingsUpdateEnableStatus]);
 
   return {
-    report,
-    reportError,
-    reportFetchStatus,
-    reportQueryString,
+    settings,
+    settingsError,
+    settingsStatus,
+    settingsQueryString,
   };
 };
 
