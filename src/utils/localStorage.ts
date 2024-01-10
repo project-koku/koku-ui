@@ -186,7 +186,7 @@ export const deleteCurrency = () => {
 // Returns account currency
 export const getAccountCurrency = () => {
   const units = getItem(accountCurrencyID);
-  return units ? units : undefined;
+  return units ? units : 'USD';
 };
 
 // Returns currency

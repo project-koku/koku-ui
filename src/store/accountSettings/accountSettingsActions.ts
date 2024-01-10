@@ -22,6 +22,8 @@ import {
 } from './accountSettingsSelectors';
 
 interface AccountSettingsActionMeta {
+  costType?: string;
+  currency?: string;
   fetchId: string;
 }
 
@@ -38,11 +40,11 @@ export const fetchAccountSettingsFailure = createAction('settings/fetch/failure'
 export const updateAccountSettingsRequest = createAction(
   'settings/awsCategoryKeys/update/request'
 )<AccountSettingsActionMeta>();
-export const updateAccountSettingsSuccess = createAction('settings/awsCategoryKeys/update/success')<
+export const updateAccountSettingsSuccess = createAction('settings/update/success')<
   AxiosResponse<AccountSettingsPayload>,
   AccountSettingsActionMeta
 >();
-export const updateAccountSettingsFailure = createAction('settings/awsCategoryKeys/update/failure')<
+export const updateAccountSettingsFailure = createAction('settings/update/failure')<
   AxiosError,
   AccountSettingsActionMeta
 >();
@@ -82,6 +84,8 @@ export function updateAccountSettings(settingsType: AccountSettingsType, payload
     }
 
     const meta: AccountSettingsActionMeta = {
+      costType: payload.cost_type, // For account cost type update
+      currency: payload.currency, // For account currency update
       fetchId: getFetchId(settingsType),
     };
 

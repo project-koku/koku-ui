@@ -3,9 +3,13 @@ import axios from 'axios';
 import type { PagedLinks, PagedMetaData } from './api';
 
 export interface SettingsData {
-  uuid: string;
-  key: string;
-  enabled: boolean;
+  clusters?: string[];
+  default?: boolean;
+  project?: string;
+  group?: string;
+  uuid?: string;
+  key?: string;
+  enabled?: boolean;
 }
 
 export interface PagedMetaDataExt extends PagedMetaData {
@@ -22,23 +26,29 @@ export interface Settings {
 }
 
 export interface SettingsPayload {
-  ids: string[];
+  ids?: string[];
 }
 
 // eslint-disable-next-line no-shadow
 export const enum SettingsType {
-  awsCategoryKeys = 'awsCategoryKeys',
-  awsCategoryKeysEnable = 'awsCategoryKeysEnable',
-  awsCategoryKeysDisable = 'awsCategoryKeysDisable',
+  costCategories = 'costCategories',
+  costCategoriesEnable = 'costCategoriesEnable',
+  costCategoriesDisable = 'costCategoriesDisable',
+  platformProjects = 'platformProjects',
+  platformProjectsAdd = 'platformProjectsAdd',
+  platformProjectsRemove = 'platformProjectsRemove',
   tags = 'tags',
   tagsEnable = 'tagsEnable',
   tagsDisable = 'tagsDisable',
 }
 
 export const SettingsTypePaths: Partial<Record<SettingsType, string>> = {
-  [SettingsType.awsCategoryKeys]: 'settings/aws_category_keys/',
-  [SettingsType.awsCategoryKeysEnable]: 'settings/aws_category_keys/enable/',
-  [SettingsType.awsCategoryKeysDisable]: 'settings/aws_category_keys/disable/',
+  [SettingsType.costCategories]: 'settings/aws_category_keys/',
+  [SettingsType.costCategoriesEnable]: 'settings/aws_category_keys/enable/',
+  [SettingsType.costCategoriesDisable]: 'settings/aws_category_keys/disable/',
+  [SettingsType.platformProjects]: 'settings/cost-groups/',
+  [SettingsType.platformProjectsAdd]: 'settings/cost-groups/add',
+  [SettingsType.platformProjectsRemove]: 'settings/cost-groups/remove',
   [SettingsType.tags]: 'settings/tags',
   [SettingsType.tagsEnable]: 'settings/tags/enable/',
   [SettingsType.tagsDisable]: 'settings/tags/disable/',
