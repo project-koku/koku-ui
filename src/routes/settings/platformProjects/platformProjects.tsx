@@ -107,17 +107,18 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
   };
 
   const getToolbar = (categories: SettingsData[]) => {
-    const hasEnabledItem = selectedItems.find(item => item.enabled);
-    const hasDisabledItem = selectedItems.find(item => !item.enabled);
+    const hasEnabledPlatformGroup = selectedItems.find(item => item.group === 'Platform' && !item.default);
+    const hasDisabledPlatformGroup = selectedItems.find(item => item.group !== 'Platform' && !item.default);
     const itemsTotal = settings?.meta ? settings.meta.count : 0;
+    const unAvailableCategories = categories.filter(item => item.default);
 
     return (
       <PlatformProjectsToolbar
         canWrite={canWrite}
         isDisabled={categories.length === 0}
-        isPrimaryActionDisabled={!hasDisabledItem}
-        isSecondaryActionDisabled={!hasEnabledItem}
-        itemsPerPage={categories.length}
+        isPrimaryActionDisabled={!hasDisabledPlatformGroup}
+        isSecondaryActionDisabled={!hasEnabledPlatformGroup}
+        itemsPerPage={categories.length - unAvailableCategories.length}
         itemsTotal={itemsTotal}
         onAdd={handleOnAdd}
         onBulkSelected={handleOnBulkSelected}
@@ -138,7 +139,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
     } else if (action === 'page') {
       const newSelectedItems = [...selectedItems];
       getCategories().map(val => {
-        if (!newSelectedItems.find(item => item.project === val.project)) {
+        if (!newSelectedItems.find(item => item.project === val.project) && !val.default) {
           newSelectedItems.push(val);
         }
       });
@@ -175,10 +176,14 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
 
   const handleOnRemove = () => {
     if (selectedItems.length > 0) {
-      const payload = selectedItems.map(item => ({
-        project: item.project,
-        group: null,
-      }));
+      const payload = selectedItems.map(item => {
+        if (!item.default) {
+          return {
+            project: item.project,
+            group: item.group,
+          };
+        }
+      });
       setSelectedItems([], () => {
         dispatch(settingsActions.updateSettings(SettingsType.platformProjectsRemove, payload as any));
       });
