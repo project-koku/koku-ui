@@ -1,9 +1,7 @@
 import './costType.scss';
 
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Title, TitleSizes } from '@patternfly/react-core';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
+import { MenuToggle, Select, SelectList, SelectOption, Title, TitleSizes } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -34,7 +32,7 @@ interface CostTypeState {
   isSelectOpen: boolean;
 }
 
-interface CostTypeOption extends SelectOptionObject {
+interface CostTypeOption {
   desc?: string;
   toString(): string; // label
   value?: string;
@@ -72,21 +70,35 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
     const selectOptions = this.getSelectOptions();
     const selection = selectOptions.find((option: CostTypeOption) => option.value === costType);
 
-    return (
-      <Select
-        className="selectOverride"
-        id="costTypeSelect"
+    const toggle = toggleRef => (
+      <MenuToggle
         isDisabled={isDisabled}
-        isOpen={isSelectOpen}
-        onSelect={(_evt, value) => this.handleOnSelect(value)}
-        onToggle={(_evt, isExpanded) => this.handleOnToggle(isExpanded)}
-        selections={selection}
-        variant={SelectVariant.single}
+        ref={toggleRef}
+        onClick={() => this.handleOnToggle(!isSelectOpen)}
+        isExpanded={isSelectOpen}
       >
-        {selectOptions.map(option => (
-          <SelectOption description={option.desc} key={option.value} value={option} />
-        ))}
-      </Select>
+        {selection?.toString()}
+      </MenuToggle>
+    );
+    return (
+      <div className="selectOverride">
+        <Select
+          id="costDistributionSelect"
+          onOpenChange={isExpanded => this.handleOnToggle(isExpanded)}
+          onSelect={(_evt, value) => this.handleOnSelect(value as string)}
+          isOpen={isSelectOpen}
+          selected={selection}
+          toggle={toggle}
+        >
+          <SelectList>
+            {selectOptions.map(option => (
+              <SelectOption key={option.value} value={option.value}>
+                {option.toString()}
+              </SelectOption>
+            ))}
+          </SelectList>
+        </Select>
+      </div>
     );
   };
 
@@ -105,12 +117,12 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
     return options;
   };
 
-  private handleOnSelect = (selection: CostTypeOption) => {
+  private handleOnSelect = (value: string) => {
     const { isSessionStorage = true, onSelect } = this.props;
 
     // Set cost type in local storage
     if (isSessionStorage) {
-      setCostType(selection.value);
+      setCostType(value);
     }
     this.setState(
       {
@@ -118,7 +130,7 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
       },
       () => {
         if (onSelect) {
-          onSelect(selection.value);
+          onSelect(value);
         }
       }
     );
