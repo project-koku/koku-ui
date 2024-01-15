@@ -1,12 +1,12 @@
-import './currency.scss';
-
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import { MenuToggle, Select, SelectList, SelectOption, Title, TitleSizes } from '@patternfly/react-core';
+import { Title, TitleSizes } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectWrapper } from 'routes/components/selectWrapper';
 import { createMapStateToProps } from 'store/common';
 import { setCurrency } from 'utils/sessionStorage';
 
@@ -30,11 +30,6 @@ interface CurrencyStateProps {
 
 interface CurrencyState {
   isSelectOpen: boolean;
-}
-
-interface CurrencyOption {
-  toString(): string; // label
-  value?: string;
 }
 
 type CurrencyProps = CurrencyOwnProps & CurrencyDispatchProps & CurrencyStateProps & WrappedComponentProps;
@@ -71,47 +66,27 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
     const { isSelectOpen } = this.state;
 
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: CurrencyOption) => option.value === currency);
+    const selected = selectOptions.find((option: SelectWrapperOption) => option.value === currency);
 
-    const toggle = toggleRef => (
-      <MenuToggle
-        isDisabled={isDisabled}
-        ref={toggleRef}
-        onClick={() => this.handleOnToggle(!isSelectOpen)}
-        isExpanded={isSelectOpen}
-      >
-        {selection?.toString()}
-      </MenuToggle>
-    );
     return (
-      <div className={showLabel ? 'selectOverride' : undefined}>
-        <Select
-          id="costDistributionSelect"
-          onOpenChange={isExpanded => this.handleOnToggle(isExpanded)}
-          onSelect={(_evt, value) => this.handleOnSelect(value as string)}
-          isOpen={isSelectOpen}
-          popperProps={{
-            position: 'right',
-          }}
-          selected={selection}
-          toggle={toggle}
-        >
-          <SelectList>
-            {selectOptions.map(option => (
-              <SelectOption key={option.value} value={option.value}>
-                {option.toString()}
-              </SelectOption>
-            ))}
-          </SelectList>
-        </Select>
-      </div>
+      <SelectWrapper
+        id="currencySelect"
+        isDisabled={isDisabled}
+        isOverride={!showLabel}
+        onToggle={this.handleOnToggle}
+        onSelect={this.handleOnSelect}
+        position="right"
+        isOpen={isSelectOpen}
+        selected={selected}
+        selectOptions={selectOptions}
+      />
     );
   };
 
-  private getSelectOptions = (): CurrencyOption[] => {
+  private getSelectOptions = (): SelectWrapperOption[] => {
     const { intl } = this.props;
 
-    const options: CurrencyOption[] = [];
+    const options: SelectWrapperOption[] = [];
 
     currencyOptions.map(option => {
       options.push({

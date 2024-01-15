@@ -1,8 +1,9 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import { MenuToggle, Select, SelectList, SelectOption } from '@patternfly/react-core';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectWrapper } from 'routes/components/selectWrapper';
 
 interface ExplorerDateRangeOwnProps {
   dateRangeType?: string;
@@ -18,11 +19,6 @@ interface ExplorerDateRangeState {
   isSelectOpen: boolean;
 }
 
-interface ExplorerDateRangeOption {
-  toString(): string; // label
-  value?: string;
-}
-
 type ExplorerDateRangeProps = ExplorerDateRangeOwnProps & WrappedComponentProps;
 
 class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, ExplorerDateRangeState> {
@@ -36,42 +32,25 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
     const { isSelectOpen } = this.state;
 
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: ExplorerDateRangeOption) => option.value === dateRangeType);
+    const selected = selectOptions.find((option: SelectWrapperOption) => option.value === dateRangeType);
 
-    const toggle = toggleRef => (
-      <MenuToggle
-        isDisabled={isDisabled}
-        ref={toggleRef}
-        onClick={() => this.handleOnToggle(!isSelectOpen)}
-        isExpanded={isSelectOpen}
-      >
-        {selection?.toString()}
-      </MenuToggle>
-    );
     return (
-      <Select
+      <SelectWrapper
         id="dateRangeSelect"
-        onOpenChange={isExpanded => this.handleOnToggle(isExpanded)}
-        onSelect={(_evt, value) => this.handleOnSelect(value as string)}
+        isDisabled={isDisabled}
+        onToggle={this.handleOnToggle}
+        onSelect={this.handleOnSelect}
         isOpen={isSelectOpen}
-        selected={selection}
-        toggle={toggle}
-      >
-        <SelectList>
-          {selectOptions.map(option => (
-            <SelectOption key={option.value} value={option.value}>
-              {option.toString()}
-            </SelectOption>
-          ))}
-        </SelectList>
-      </Select>
+        selected={selected}
+        selectOptions={selectOptions}
+      />
     );
   };
 
-  private getSelectOptions = (): ExplorerDateRangeOption[] => {
+  private getSelectOptions = (): SelectWrapperOption[] => {
     const { intl, options } = this.props;
 
-    const selectOptions: ExplorerDateRangeOption[] = [];
+    const selectOptions: SelectWrapperOption[] = [];
 
     options.map(option => {
       selectOptions.push({
