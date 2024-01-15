@@ -50,6 +50,7 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
     );
     return (
       <Select
+        id="dateRangeSelect"
         onOpenChange={isExpanded => this.handleOnToggle(isExpanded)}
         onSelect={(_evt, value) => this.handleOnSelect(value as string)}
         isOpen={isSelectOpen}

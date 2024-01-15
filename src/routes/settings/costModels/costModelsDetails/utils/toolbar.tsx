@@ -96,7 +96,6 @@ const CostModelsFilterSelectorBase: React.FC<CostModelsFilterSelectorProps> = ({
       }}
       isOpen={isOpen}
       selected={filterType}
-      shouldFocusToggleOnSelect
       toggle={toggle}
     >
       <SelectList>{options}</SelectList>

@@ -2,9 +2,10 @@
 
 // Workaround for https://github.com/patternfly/patternfly-react/issues/6371
 .selectOverride {
-  &.pf-v5-c-select {
-    .pf-v5-c-select__menu-item-description {
-      width: max-content;
-    }
+  .pf-v5-c-menu-toggle {
+    max-width: unset;
+  }
+  .pf-v5-c-menu-toggle__text {
+    width: max-content;
   }
 }

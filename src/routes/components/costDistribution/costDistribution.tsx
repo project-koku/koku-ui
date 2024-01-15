@@ -1,9 +1,7 @@
 import './costDistribution.scss';
 
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Title, TitleSizes } from '@patternfly/react-core';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
+import { MenuToggle, Select, SelectList, SelectOption, Title, TitleSizes } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -33,7 +31,7 @@ interface CostDistributionState {
   isSelectOpen: boolean;
 }
 
-interface CostDistributionOption extends SelectOptionObject {
+interface CostDistributionOption {
   desc?: string;
   toString(): string; // label
   value?: string;
@@ -65,21 +63,35 @@ class CostDistributionBase extends React.Component<CostDistributionProps, CostDi
     const selectOptions = this.getSelectOptions();
     const selection = selectOptions.find((option: CostDistributionOption) => option.value === costDistribution);
 
-    return (
-      <Select
-        className="selectOverride"
-        id="costDistributionSelect"
+    const toggle = toggleRef => (
+      <MenuToggle
         isDisabled={isDisabled}
-        isOpen={isSelectOpen}
-        onSelect={(_evt, value) => this.handleSelect(value)}
-        onToggle={(_evt, isExpanded) => this.handleToggle(isExpanded)}
-        selections={selection}
-        variant={SelectVariant.single}
+        ref={toggleRef}
+        onClick={() => this.handleOnToggle(!isSelectOpen)}
+        isExpanded={isSelectOpen}
       >
-        {selectOptions.map(option => (
-          <SelectOption description={option.desc} key={option.value} value={option} />
-        ))}
-      </Select>
+        {selection?.toString()}
+      </MenuToggle>
+    );
+    return (
+      <div className="selectOverride">
+        <Select
+          id="costDistributionSelect"
+          onOpenChange={isExpanded => this.handleOnToggle(isExpanded)}
+          onSelect={(_evt, value) => this.handleOnSelect(value as string)}
+          isOpen={isSelectOpen}
+          selected={selection}
+          toggle={toggle}
+        >
+          <SelectList>
+            {selectOptions.map(option => (
+              <SelectOption key={option.value} value={option.value}>
+                {option.toString()}
+              </SelectOption>
+            ))}
+          </SelectList>
+        </Select>
+      </div>
     );
   };
 
@@ -97,10 +109,10 @@ class CostDistributionBase extends React.Component<CostDistributionProps, CostDi
     return options;
   };
 
-  private handleSelect = (selection: CostDistributionOption) => {
+  private handleOnSelect = (value: string) => {
     const { onSelect } = this.props;
 
-    setCostDistribution(selection.value); // Set cost distribution in local storage
+    setCostDistribution(value); // Set cost distribution in local storage
 
     this.setState(
       {
@@ -108,13 +120,13 @@ class CostDistributionBase extends React.Component<CostDistributionProps, CostDi
       },
       () => {
         if (onSelect) {
-          onSelect(selection.value);
+          onSelect(value);
         }
       }
     );
   };
 
-  private handleToggle = isSelectOpen => {
+  private handleOnToggle = isSelectOpen => {
     this.setState({ isSelectOpen });
   };
 
