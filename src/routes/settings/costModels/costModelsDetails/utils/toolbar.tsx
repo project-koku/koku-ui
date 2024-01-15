@@ -1,6 +1,6 @@
 import type { PaginationProps } from '@patternfly/react-core';
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
+import { Icon, MenuToggle, Select, SelectList, SelectOption } from '@patternfly/react-core';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
@@ -73,19 +73,33 @@ const CostModelsFilterSelectorBase: React.FC<CostModelsFilterSelectorProps> = ({
       {intl.formatMessage(messages.sourceType)}
     </SelectOption>,
   ];
+  const toggle = toggleRef => (
+    <MenuToggle
+      icon={
+        <Icon>
+          <FilterIcon />
+        </Icon>
+      }
+      ref={toggleRef}
+      onClick={() => setIsOpen(!isOpen)}
+      isExpanded={isOpen}
+    >
+      {options.find(option => option.props.value === filterType)}
+    </MenuToggle>
+  );
   return (
     <Select
-      isOpen={isOpen}
+      onOpenChange={isExpanded => setIsOpen(isExpanded)}
       onSelect={(_evt, value) => {
         updateFilterType(value);
         setIsOpen(false);
       }}
-      onToggle={(_evt, isExpanded) => setIsOpen(isExpanded)}
-      selections={filterType}
-      toggleIcon={<FilterIcon />}
-      variant={SelectVariant.single}
+      isOpen={isOpen}
+      selected={filterType}
+      shouldFocusToggleOnSelect
+      toggle={toggle}
     >
-      {options}
+      <SelectList>{options}</SelectList>
     </Select>
   );
 };
