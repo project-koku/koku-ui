@@ -1,9 +1,7 @@
 import './currency.scss';
 
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Title, TitleSizes } from '@patternfly/react-core';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
+import { MenuToggle, Select, SelectList, SelectOption, Title, TitleSizes } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -34,7 +32,7 @@ interface CurrencyState {
   isSelectOpen: boolean;
 }
 
-interface CurrencyOption extends SelectOptionObject {
+interface CurrencyOption {
   toString(): string; // label
   value?: string;
 }
@@ -75,21 +73,38 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
     const selectOptions = this.getSelectOptions();
     const selection = selectOptions.find((option: CurrencyOption) => option.value === currency);
 
-    return (
-      <Select
-        className={showLabel ? 'currencyOverride' : undefined}
-        id="currencySelect"
+    const toggle = toggleRef => (
+      <MenuToggle
         isDisabled={isDisabled}
-        isOpen={isSelectOpen}
-        onSelect={(_evt, value) => this.handleOnSelect(value)}
-        onToggle={(_evt, isExpanded) => this.handleOnToggle(isExpanded)}
-        selections={selection}
-        variant={SelectVariant.single}
+        ref={toggleRef}
+        onClick={() => this.handleOnToggle(!isSelectOpen)}
+        isExpanded={isSelectOpen}
       >
-        {selectOptions.map(option => (
-          <SelectOption key={option.value} value={option} />
-        ))}
-      </Select>
+        {selection?.toString()}
+      </MenuToggle>
+    );
+    return (
+      <div className={showLabel ? 'selectOverride' : undefined}>
+        <Select
+          id="costDistributionSelect"
+          onOpenChange={isExpanded => this.handleOnToggle(isExpanded)}
+          onSelect={(_evt, value) => this.handleOnSelect(value as string)}
+          isOpen={isSelectOpen}
+          popperProps={{
+            position: 'right',
+          }}
+          selected={selection}
+          toggle={toggle}
+        >
+          <SelectList>
+            {selectOptions.map(option => (
+              <SelectOption key={option.value} value={option.value}>
+                {option.toString()}
+              </SelectOption>
+            ))}
+          </SelectList>
+        </Select>
+      </div>
     );
   };
 
@@ -107,12 +122,12 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
     return options;
   };
 
-  private handleOnSelect = (selection: CurrencyOption) => {
+  private handleOnSelect = (value: string) => {
     const { isSessionStorage = true, onSelect } = this.props;
 
     // Set currency units via local storage
     if (isSessionStorage) {
-      setCurrency(selection.value);
+      setCurrency(value);
     }
     this.setState(
       {
@@ -120,7 +135,7 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
       },
       () => {
         if (onSelect) {
-          onSelect(selection.value);
+          onSelect(value);
         }
       }
     );
