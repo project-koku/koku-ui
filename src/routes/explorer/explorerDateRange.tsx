@@ -1,6 +1,5 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
+import { MenuToggle, Select, SelectList, SelectOption } from '@patternfly/react-core';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -19,7 +18,7 @@ interface ExplorerDateRangeState {
   isSelectOpen: boolean;
 }
 
-interface ExplorerDateRangeOption extends SelectOptionObject {
+interface ExplorerDateRangeOption {
   toString(): string; // label
   value?: string;
 }
@@ -39,19 +38,31 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
     const selectOptions = this.getSelectOptions();
     const selection = selectOptions.find((option: ExplorerDateRangeOption) => option.value === dateRangeType);
 
+    const toggle = toggleRef => (
+      <MenuToggle
+        isDisabled={isDisabled}
+        ref={toggleRef}
+        onClick={() => this.handleOnToggle(!isSelectOpen)}
+        isExpanded={isSelectOpen}
+      >
+        {selection?.toString()}
+      </MenuToggle>
+    );
     return (
       <Select
-        id="dateRangeSelect"
-        isDisabled={isDisabled}
+        onOpenChange={isExpanded => this.handleOnToggle(isExpanded)}
+        onSelect={(_evt, value) => this.handleOnSelect(value as string)}
         isOpen={isSelectOpen}
-        onSelect={(_evt, value) => this.handleOnSelect(value)}
-        onToggle={(_evt, isExpanded) => this.handleOnToggle(isExpanded)}
-        selections={selection}
-        variant={SelectVariant.single}
+        selected={selection}
+        toggle={toggle}
       >
-        {selectOptions.map(option => (
-          <SelectOption key={option.value} value={option} />
-        ))}
+        <SelectList>
+          {selectOptions.map(option => (
+            <SelectOption key={option.value} value={option.value}>
+              {option.toString()}
+            </SelectOption>
+          ))}
+        </SelectList>
       </Select>
     );
   };
@@ -70,11 +81,11 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
     return selectOptions;
   };
 
-  private handleOnSelect = (selection: ExplorerDateRangeOption) => {
+  private handleOnSelect = (value: string) => {
     const { onSelected } = this.props;
 
     if (onSelected) {
-      onSelected(selection.value);
+      onSelected(value);
     }
     this.setState({
       isSelectOpen: false,
