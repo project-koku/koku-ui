@@ -7,7 +7,7 @@ import { createMapStateToProps } from 'store/common';
 import { ibmDashboardActions, ibmDashboardSelectors, IbmDashboardTab } from 'store/dashboard/ibmDashboard';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import { getCurrency } from 'utils/localStorage';
+import { getCurrency } from 'utils/sessionStorage';
 
 interface IbmDashboardWidgetDispatchProps {
   fetchForecasts: typeof ibmDashboardActions.fetchWidgetForecasts;

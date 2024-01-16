@@ -11,7 +11,7 @@ import {
   setAccountCurrency,
   setCostType,
   setCurrency,
-} from 'utils/localStorage';
+} from 'utils/sessionStorage';
 
 import {
   fetchAccountSettingsFailure,

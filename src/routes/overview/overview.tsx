@@ -56,9 +56,9 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getSinceDateRangeString } from 'utils/dates';
-import { getCostType, getCurrency } from 'utils/localStorage';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
+import { getCostType, getCurrency } from 'utils/sessionStorage';
 import {
   hasAwsAccess,
   hasAzureAccess,

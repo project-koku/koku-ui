@@ -11,7 +11,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { createMapStateToProps } from 'store/common';
-import { setCostDistribution } from 'utils/localStorage';
+import { setCostDistribution } from 'utils/sessionStorage';
 
 import { styles } from './costDistribution.styles';
 
