@@ -7,7 +7,7 @@ import { createMapStateToProps } from 'store/common';
 import { azureDashboardActions, azureDashboardSelectors, AzureDashboardTab } from 'store/dashboard/azureDashboard';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import { getCurrency } from 'utils/localStorage';
+import { getCurrency } from 'utils/sessionStorage';
 
 interface AzureDashboardWidgetDispatchProps {
   fetchForecasts: typeof azureDashboardActions.fetchWidgetForecasts;

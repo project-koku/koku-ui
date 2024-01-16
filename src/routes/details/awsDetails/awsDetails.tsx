@@ -38,11 +38,11 @@ import {
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getCostType, getCurrency } from 'utils/localStorage';
 import { formatPath } from 'utils/paths';
 import { awsCategoryPrefix, logicalOrPrefix, noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
+import { getCostType, getCurrency } from 'utils/sessionStorage';
 
 import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';

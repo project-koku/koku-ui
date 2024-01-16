@@ -7,7 +7,7 @@ import { createMapStateToProps } from 'store/common';
 import { rhelDashboardActions, rhelDashboardSelectors, RhelDashboardTab } from 'store/dashboard/rhelDashboard';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import { getCurrency } from 'utils/localStorage';
+import { getCurrency } from 'utils/sessionStorage';
 
 import { chartStyles } from './rhelDashboardWidget.styles';
 
