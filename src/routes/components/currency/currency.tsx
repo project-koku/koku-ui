@@ -29,7 +29,7 @@ interface CurrencyStateProps {
 }
 
 interface CurrencyState {
-  isSelectOpen: boolean;
+  // TBD...
 }
 
 type CurrencyProps = CurrencyOwnProps & CurrencyDispatchProps & CurrencyStateProps & WrappedComponentProps;
@@ -57,27 +57,23 @@ export const currencyOptions: {
 
 class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
   protected defaultState: CurrencyState = {
-    isSelectOpen: false,
+    // TBD...
   };
   public state: CurrencyState = { ...this.defaultState };
 
   private getSelect = () => {
-    const { currency, isDisabled, showLabel = true } = this.props;
-    const { isSelectOpen } = this.state;
+    const { currency, isDisabled } = this.props;
 
     const selectOptions = this.getSelectOptions();
-    const selected = selectOptions.find((option: SelectWrapperOption) => option.value === currency);
+    const selection = selectOptions.find((option: SelectWrapperOption) => option.value === currency);
 
     return (
       <SelectWrapper
         id="currencySelect"
         isDisabled={isDisabled}
-        isOverride={!showLabel}
-        onToggle={this.handleOnToggle}
         onSelect={this.handleOnSelect}
         position="right"
-        isOpen={isSelectOpen}
-        selected={selected}
+        selections={selection}
         selectOptions={selectOptions}
       />
     );
@@ -97,27 +93,16 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
     return options;
   };
 
-  private handleOnSelect = (value: string) => {
+  private handleOnSelect = (_evt, value: string) => {
     const { isSessionStorage = true, onSelect } = this.props;
 
     // Set currency units via local storage
     if (isSessionStorage) {
       setCurrency(value);
     }
-    this.setState(
-      {
-        isSelectOpen: false,
-      },
-      () => {
-        if (onSelect) {
-          onSelect(value);
-        }
-      }
-    );
-  };
-
-  private handleOnToggle = isSelectOpen => {
-    this.setState({ isSelectOpen });
+    if (onSelect) {
+      onSelect(value);
+    }
   };
 
   public render() {

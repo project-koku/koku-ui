@@ -62,7 +62,6 @@ const CostModelsFilterSelectorBase: React.FC<CostModelsFilterSelectorProps> = ({
   intl,
   updateFilterType,
 }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
   const selectOptions: SelectWrapperOption[] = [
     {
       toString: () => intl.formatMessage(messages.names, { count: 1 }),
@@ -77,21 +76,17 @@ const CostModelsFilterSelectorBase: React.FC<CostModelsFilterSelectorProps> = ({
       value: 'sourceType',
     },
   ];
-  const selected = selectOptions.find((option: SelectWrapperOption) => option.value === filterType);
+  const selection = selectOptions.find((option: SelectWrapperOption) => option.value === filterType);
 
-  const handleOnSelect = (value: string) => {
+  const handleOnSelect = (_evt, value: string) => {
     updateFilterType(value);
-    setIsOpen(false);
   };
-  const handleOnToggle = isExpanded => setIsOpen(isExpanded);
 
   return (
     <SelectWrapper
       id="dateRangeSelect"
-      onToggle={handleOnToggle}
       onSelect={handleOnSelect}
-      isOpen={isOpen}
-      selected={selected}
+      selections={selection}
       selectOptions={selectOptions}
       toggleIcon={<FilterIcon />}
     />

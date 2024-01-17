@@ -28,7 +28,7 @@ interface CostDistributionStateProps {
 }
 
 interface CostDistributionState {
-  isSelectOpen: boolean;
+  // TBD...
 }
 
 type CostDistributionProps = CostDistributionOwnProps &
@@ -46,26 +46,23 @@ const costDistributionOptions: {
 
 class CostDistributionBase extends React.Component<CostDistributionProps, CostDistributionState> {
   protected defaultState: CostDistributionState = {
-    isSelectOpen: false,
+    // TBD...
   };
   public state: CostDistributionState = { ...this.defaultState };
 
   private getSelect = () => {
     const { costDistribution, isDisabled } = this.props;
-    const { isSelectOpen } = this.state;
 
     const selectOptions = this.getSelectOptions();
-    const selected = selectOptions.find((option: SelectWrapperOption) => option.value === costDistribution);
+    const selection = selectOptions.find((option: SelectWrapperOption) => option.value === costDistribution);
 
     return (
       <SelectWrapper
         id="costDistributionSelect"
         isDisabled={isDisabled}
-        onToggle={this.handleOnToggle}
         onSelect={this.handleOnSelect}
         position="right"
-        isOpen={isSelectOpen}
-        selected={selected}
+        selections={selection}
         selectOptions={selectOptions}
       />
     );
@@ -85,25 +82,14 @@ class CostDistributionBase extends React.Component<CostDistributionProps, CostDi
     return options;
   };
 
-  private handleOnSelect = (value: string) => {
+  private handleOnSelect = (_evt, value: string) => {
     const { onSelect } = this.props;
 
     setCostDistribution(value); // Set cost distribution in local storage
 
-    this.setState(
-      {
-        isSelectOpen: false,
-      },
-      () => {
-        if (onSelect) {
-          onSelect(value);
-        }
-      }
-    );
-  };
-
-  private handleOnToggle = isSelectOpen => {
-    this.setState({ isSelectOpen });
+    if (onSelect) {
+      onSelect(value);
+    }
   };
 
   public render() {

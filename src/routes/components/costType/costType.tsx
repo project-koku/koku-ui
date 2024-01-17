@@ -29,7 +29,7 @@ interface CostTypeStateProps {
 }
 
 interface CostTypeState {
-  isSelectOpen: boolean;
+  // TBD...
 }
 
 type CostTypeProps = CostTypeOwnProps & CostTypeDispatchProps & CostTypeStateProps & WrappedComponentProps;
@@ -53,25 +53,22 @@ const costTypeOptions: {
 
 class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
   protected defaultState: CostTypeState = {
-    isSelectOpen: false,
+    // TBD...
   };
   public state: CostTypeState = { ...this.defaultState };
 
   private getSelect = () => {
     const { costType = CostTypes.unblended, isDisabled } = this.props;
-    const { isSelectOpen } = this.state;
 
     const selectOptions = this.getSelectOptions();
-    const selected = selectOptions.find((option: SelectWrapperOption) => option.value === costType);
+    const selection = selectOptions.find((option: SelectWrapperOption) => option.value === costType);
 
     return (
       <SelectWrapper
         id="costTypeSelect"
         isDisabled={isDisabled}
-        onToggle={this.handleOnToggle}
         onSelect={this.handleOnSelect}
-        isOpen={isSelectOpen}
-        selected={selected}
+        selections={selection}
         selectOptions={selectOptions}
       />
     );
@@ -92,27 +89,16 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
     return options;
   };
 
-  private handleOnSelect = (value: string) => {
+  private handleOnSelect = (_evt, value: string) => {
     const { isSessionStorage = true, onSelect } = this.props;
 
     // Set cost type in local storage
     if (isSessionStorage) {
       setCostType(value);
     }
-    this.setState(
-      {
-        isSelectOpen: false,
-      },
-      () => {
-        if (onSelect) {
-          onSelect(value);
-        }
-      }
-    );
-  };
-
-  private handleOnToggle = isSelectOpen => {
-    this.setState({ isSelectOpen });
+    if (onSelect) {
+      onSelect(value);
+    }
   };
 
   public render() {

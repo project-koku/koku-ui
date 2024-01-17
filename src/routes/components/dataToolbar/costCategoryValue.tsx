@@ -1,7 +1,5 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
 import { Button, ButtonVariant, InputGroup, InputGroupItem, TextInput } from '@patternfly/react-core';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
@@ -12,6 +10,8 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectWrapper } from 'routes/components/selectWrapper';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -25,7 +25,7 @@ interface CostCategoryValueOwnProps extends RouterComponentProps, WrappedCompone
   onCostCategoryValueSelect(event, selection);
   onCostCategoryValueInput(event);
   onCostCategoryValueInputChange(value: string);
-  selections?: SelectOptionObject[];
+  selections?: SelectWrapperOption[];
   costCategoryKey: string;
   costCategoryKeyValue: string;
   resourcePathsType: ResourcePathsType;
@@ -44,7 +44,6 @@ interface CostCategoryValueDispatchProps {
 }
 
 interface CostCategoryValueState {
-  isCostCategoryValueExpanded?: boolean;
   costCategoryKeyValueInput?: string;
 }
 
@@ -58,7 +57,7 @@ const costCategoryKeyValueLimit = 50;
 
 class CostCategoryValueBase extends React.Component<CostCategoryValueProps, CostCategoryValueState> {
   protected defaultState: CostCategoryValueState = {
-    isCostCategoryValueExpanded: false,
+    // TBD...
   };
   public state: CostCategoryValueState = { ...this.defaultState };
 
@@ -88,8 +87,11 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
         if (costCategoryKey === tag.key && tag.values) {
           options = tag.values.map(val => {
             return {
-              key: val,
-              name: val, // tag key values not localized
+              // key: val,
+              // name: val, // tag key values not localized
+
+              toString: () => val,
+              value: val,
             };
           });
           break;
@@ -109,12 +111,6 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
     });
   };
 
-  private onCostCategoryValueToggle = isOpen => {
-    this.setState({
-      isCostCategoryValueExpanded: isOpen,
-    });
-  };
-
   private updateReport = () => {
     const { fetchResource, resourceQueryString, resourcePathsType } = this.props;
     fetchResource(resourcePathsType, resourceType, resourceQueryString);
@@ -123,27 +119,37 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
   public render() {
     const { intl, isDisabled, onCostCategoryValueInput, onCostCategoryValueSelect, selections, costCategoryKeyValue } =
       this.props;
-    const { isCostCategoryValueExpanded } = this.state;
 
-    const selectOptions = this.getCostCategoryValueOptions().map(selectOption => {
-      return <SelectOption key={selectOption.key} value={selectOption.key} />;
-    });
+    // const selectOptions = this.getCostCategoryValueOptions().map(selectOption => {
+    //   return <SelectOption key={selectOption.key} value={selectOption.key} />;
+    // });
+    const selectOptions = this.getCostCategoryValueOptions();
 
     if (selectOptions.length > 0 && selectOptions.length < costCategoryKeyValueLimit) {
       return (
-        <Select
+        <SelectWrapper
           isDisabled={isDisabled}
-          variant={SelectVariant.checkbox}
-          aria-label={intl.formatMessage(messages.filterByCostCategoryValueAriaLabel)}
+          isCheckbox
           onSelect={onCostCategoryValueSelect}
-          onToggle={(_evt, isExpanded) => this.onCostCategoryValueToggle(isExpanded)}
+          placeholder={intl.formatMessage(messages.chooseValuePlaceholder)}
           selections={selections}
-          isOpen={isCostCategoryValueExpanded}
-          placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}
-        >
-          {selectOptions}
-        </Select>
+          selectOptions={selectOptions}
+        />
       );
+      // return (
+      //   <Select
+      //     isDisabled={isDisabled}
+      //     variant={SelectVariant.checkbox}
+      //     aria-label={intl.formatMessage(messages.filterByCostCategoryValueAriaLabel)}
+      //     onSelect={onCostCategoryValueSelect}
+      //     onToggle={(_evt, isExpanded) => this.onCostCategoryValueToggle(isExpanded)}
+      //     selections={selections}
+      //     isOpen={isCostCategoryValueExpanded}
+      //     placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}
+      //   >
+      //     {selectOptions}
+      //   </Select>
+      // );
     }
     return (
       <InputGroup>

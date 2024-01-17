@@ -16,32 +16,29 @@ interface ExplorerDateRangeOwnProps {
 }
 
 interface ExplorerDateRangeState {
-  isSelectOpen: boolean;
+  // TBD...
 }
 
 type ExplorerDateRangeProps = ExplorerDateRangeOwnProps & WrappedComponentProps;
 
 class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, ExplorerDateRangeState> {
   protected defaultState: ExplorerDateRangeState = {
-    isSelectOpen: false,
+    // TBD...
   };
   public state: ExplorerDateRangeState = { ...this.defaultState };
 
   private getSelect = () => {
     const { dateRangeType, isDisabled } = this.props;
-    const { isSelectOpen } = this.state;
 
     const selectOptions = this.getSelectOptions();
-    const selected = selectOptions.find((option: SelectWrapperOption) => option.value === dateRangeType);
+    const selection = selectOptions.find((option: SelectWrapperOption) => option.value === dateRangeType);
 
     return (
       <SelectWrapper
         id="dateRangeSelect"
         isDisabled={isDisabled}
-        onToggle={this.handleOnToggle}
         onSelect={this.handleOnSelect}
-        isOpen={isSelectOpen}
-        selected={selected}
+        selections={selection}
         selectOptions={selectOptions}
       />
     );
@@ -61,19 +58,12 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
     return selectOptions;
   };
 
-  private handleOnSelect = (value: string) => {
+  private handleOnSelect = (_evt, value: string) => {
     const { onSelected } = this.props;
 
     if (onSelected) {
       onSelected(value);
     }
-    this.setState({
-      isSelectOpen: false,
-    });
-  };
-
-  private handleOnToggle = isSelectOpen => {
-    this.setState({ isSelectOpen });
   };
 
   public render() {
