@@ -125,7 +125,7 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
       return (
         <SelectWrapper
           aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
-          id="customSelect"
+          id="tagValueSelect"
           isDisabled={isDisabled}
           isCheckbox
           onSelect={onTagValueSelect}

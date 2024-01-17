@@ -9,7 +9,6 @@ import {
   ToolbarItem,
 } from '@patternfly/react-core';
 import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import type { ResourcePathsType, ResourceType } from 'api/resources/resource';
@@ -20,6 +19,7 @@ import { cloneDeep } from 'lodash';
 import React from 'react';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
 import { ResourceTypeahead } from 'routes/components/resourceTypeahead';
+import { SelectWrapper } from 'routes/components/selectWrapper';
 import type { Filter } from 'routes/utils/filter';
 
 import type { Filters } from './common';
@@ -198,17 +198,14 @@ export const getCategorySelect = ({
   currentCategory,
   filters,
   isDisabled,
-  isCategorySelectOpen,
   onCategorySelect,
-  onCategoryToggle,
 }: {
   categoryOptions?: ToolbarChipGroup[]; // Options for category menu
   currentCategory?: string;
   filters?: Filters;
   isDisabled?: boolean;
-  onCategorySelect?: (selection: CategoryOption) => void;
+  onCategorySelect?: (event, selection: CategoryOption) => void;
   onCategoryToggle?: (isOpen: boolean) => void;
-  isCategorySelectOpen?: boolean;
 }) => {
   if (!categoryOptions) {
     return null;
@@ -219,20 +216,14 @@ export const getCategorySelect = ({
 
   return (
     <ToolbarItem>
-      <Select
+      <SelectWrapper
         id="category-select"
         isDisabled={isDisabled && !hasFilters(filters)}
-        isOpen={isCategorySelectOpen}
-        onSelect={(_evt, value) => onCategorySelect(value)}
-        onToggle={(_evt, isExpanded) => onCategoryToggle(isExpanded)}
+        onSelect={onCategorySelect}
         selections={selection}
+        selectOptions={selectOptions}
         toggleIcon={<FilterIcon />}
-        variant={SelectVariant.single}
-      >
-        {selectOptions.map(option => (
-          <SelectOption key={option.value} value={option} />
-        ))}
-      </Select>
+      />
     </ToolbarItem>
   );
 };

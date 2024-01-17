@@ -87,7 +87,6 @@ interface DataToolbarState {
   currentTagKey?: string;
   filters?: Filters;
   isBulkSelectOpen?: boolean;
-  isCategorySelectOpen?: boolean;
   isCostCategoryKeySelectExpanded?: boolean;
   isCostCategoryValueSelectExpanded?: boolean;
   isExcludeSelectOpen?: boolean;
@@ -109,7 +108,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     categoryInput: '',
     filters: cloneDeep(defaultFilters),
     isBulkSelectOpen: false,
-    isCategorySelectOpen: false,
     isCostCategoryKeySelectExpanded: false,
     isCostCategoryValueSelectExpanded: false,
     isExcludeSelectOpen: false,
@@ -220,32 +218,23 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   public getCategorySelectComponent() {
     const { categoryOptions, isDisabled } = this.props;
-    const { currentCategory, filters, isCategorySelectOpen } = this.state;
+    const { currentCategory, filters } = this.state;
 
     return getCategorySelect({
       categoryOptions,
       currentCategory,
       isDisabled,
       filters,
-      isCategorySelectOpen,
       onCategorySelect: this.handleOnCategorySelect,
-      onCategoryToggle: this.handleOnCategoryToggle,
     });
   }
 
-  private handleOnCategorySelect = (selection: CategoryOption) => {
+  private handleOnCategorySelect = (_evt, selection: CategoryOption) => {
     this.setState({
       categoryInput: '',
       currentCategory: selection.value,
       currentCostCategoryKey: undefined,
       currentTagKey: undefined,
-      isCategorySelectOpen: !this.state.isCategorySelectOpen,
-    });
-  };
-
-  private handleOnCategoryToggle = isOpen => {
-    this.setState({
-      isCategorySelectOpen: isOpen,
     });
   };
 
