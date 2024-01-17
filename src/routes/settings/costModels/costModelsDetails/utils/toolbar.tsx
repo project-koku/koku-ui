@@ -62,6 +62,10 @@ const CostModelsFilterSelectorBase: React.FC<CostModelsFilterSelectorProps> = ({
   intl,
   updateFilterType,
 }) => {
+  const handleOnSelect = (_evt, selection: SelectWrapperOption) => {
+    updateFilterType(selection.value);
+  };
+
   const selectOptions: SelectWrapperOption[] = [
     {
       toString: () => intl.formatMessage(messages.names, { count: 1 }),
@@ -78,13 +82,9 @@ const CostModelsFilterSelectorBase: React.FC<CostModelsFilterSelectorProps> = ({
   ];
   const selection = selectOptions.find((option: SelectWrapperOption) => option.value === filterType);
 
-  const handleOnSelect = (_evt, value: string) => {
-    updateFilterType(value);
-  };
-
   return (
     <SelectWrapper
-      id="dateRangeSelect"
+      id="costModelsDetailsSelect"
       onSelect={handleOnSelect}
       selections={selection}
       selectOptions={selectOptions}

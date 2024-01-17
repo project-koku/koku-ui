@@ -93,15 +93,15 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
     return options;
   };
 
-  private handleOnSelect = (_evt, value: string) => {
+  private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
     const { isSessionStorage = true, onSelect } = this.props;
 
     // Set currency units via local storage
     if (isSessionStorage) {
-      setCurrency(value);
+      setCurrency(selection.value);
     }
     if (onSelect) {
-      onSelect(value);
+      onSelect(selection.value);
     }
   };
 

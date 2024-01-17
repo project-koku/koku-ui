@@ -82,13 +82,13 @@ class CostDistributionBase extends React.Component<CostDistributionProps, CostDi
     return options;
   };
 
-  private handleOnSelect = (_evt, value: string) => {
+  private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
     const { onSelect } = this.props;
 
-    setCostDistribution(value); // Set cost distribution in local storage
+    setCostDistribution(selection.value); // Set cost distribution in local storage
 
     if (onSelect) {
-      onSelect(value);
+      onSelect(selection.value);
     }
   };
 

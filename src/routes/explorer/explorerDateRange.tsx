@@ -58,11 +58,11 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
     return selectOptions;
   };
 
-  private handleOnSelect = (_evt, value: string) => {
+  private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
     const { onSelected } = this.props;
 
     if (onSelected) {
-      onSelected(value);
+      onSelected(selection.value);
     }
   };
 

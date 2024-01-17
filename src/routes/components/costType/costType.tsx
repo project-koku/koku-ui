@@ -89,15 +89,15 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
     return options;
   };
 
-  private handleOnSelect = (_evt, value: string) => {
+  private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
     const { isSessionStorage = true, onSelect } = this.props;
 
     // Set cost type in local storage
     if (isSessionStorage) {
-      setCostType(value);
+      setCostType(selection.value);
     }
     if (onSelect) {
-      onSelect(value);
+      onSelect(selection.value);
     }
   };
 

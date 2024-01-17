@@ -7,6 +7,7 @@ import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep, uniq, uniqBy } from 'lodash';
 import React from 'react';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { awsCategoryKey, awsCategoryPrefix } from 'utils/props';
 
 import { CostCategoryValue } from '../costCategoryValue';
@@ -220,15 +221,15 @@ export const onCostCategoryValueSelect = ({
   currentFilters?: Filters;
   currentExclude?: string;
   event?: any;
-  selection?: string;
+  selection?: SelectWrapperOption;
 }) => {
   const checked = event.target.checked;
   let filter;
   if (checked) {
     const isExcludes = currentExclude === ExcludeType.exclude;
-    filter = getFilter(`${awsCategoryPrefix}${currentCostCategoryKey}`, selection, isExcludes);
+    filter = getFilter(`${awsCategoryPrefix}${currentCostCategoryKey}`, selection.value, isExcludes);
   } else if (currentFilters[awsCategoryKey][currentCostCategoryKey]) {
-    filter = currentFilters[awsCategoryKey][currentCostCategoryKey].find(item => item.value === selection);
+    filter = currentFilters[awsCategoryKey][currentCostCategoryKey].find(item => item.value === selection.value);
   }
 
   const newFilters: any = cloneDeep(

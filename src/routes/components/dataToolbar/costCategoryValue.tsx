@@ -128,6 +128,7 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
     if (selectOptions.length > 0 && selectOptions.length < costCategoryKeyValueLimit) {
       return (
         <SelectWrapper
+          id="costCategorySelect"
           isDisabled={isDisabled}
           isCheckbox
           onSelect={onCostCategoryValueSelect}
@@ -136,20 +137,6 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
           selectOptions={selectOptions}
         />
       );
-      // return (
-      //   <Select
-      //     isDisabled={isDisabled}
-      //     variant={SelectVariant.checkbox}
-      //     aria-label={intl.formatMessage(messages.filterByCostCategoryValueAriaLabel)}
-      //     onSelect={onCostCategoryValueSelect}
-      //     onToggle={(_evt, isExpanded) => this.onCostCategoryValueToggle(isExpanded)}
-      //     selections={selections}
-      //     isOpen={isCostCategoryValueExpanded}
-      //     placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}
-      //   >
-      //     {selectOptions}
-      //   </Select>
-      // );
     }
     return (
       <InputGroup>
