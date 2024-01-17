@@ -6,7 +6,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
-import { SelectWrapper } from 'routes/components/selectWrapper';
+import { SelectCheckboxWrapper } from 'routes/components/selectWrapper';
 import type { Filter } from 'routes/utils/filter';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -62,12 +62,11 @@ class CustomSelectBase extends React.Component<CustomSelectProps, CustomSelectSt
     });
 
     return (
-      <SelectWrapper
+      <SelectCheckboxWrapper
         aria-label={intl.formatMessage(messages.filterByValuesAriaLabel)}
         className={className}
         id="customSelect"
         isDisabled={isDisabled}
-        isCheckbox
         onSelect={onSelect}
         placeholder={intl.formatMessage(messages.chooseValuePlaceholder)}
         selections={selections}

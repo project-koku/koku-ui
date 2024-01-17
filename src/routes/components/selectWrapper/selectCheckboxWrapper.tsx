@@ -1,51 +1,60 @@
 import './selectWrapper.scss';
 
-import { Icon, MenuToggle, Select, SelectList, SelectOption } from '@patternfly/react-core';
+import { Badge, MenuToggle, Select, SelectList, SelectOption } from '@patternfly/react-core';
 import React, { useState } from 'react';
 
-export interface SelectWrapperOption {
-  desc?: string; // Description
-  toString(): string; // Label
-  value?: string;
-}
+import { styles } from './select.styles';
+import type { SelectWrapperOption } from './selectWrapper';
 
-interface SelectWrapperOwnProps {
+interface SelectCheckboxWrapperOwnProps {
   ariaLabel?: string;
+  className?: string;
   id?: string;
   isDisabled?: boolean;
   onSelect?: (event, value: string) => void;
   placeholder?: string;
-  position?: 'right' | 'left' | 'center' | 'start' | 'end';
   selections?: string | SelectWrapperOption | (string | SelectWrapperOption)[];
   selectOptions?: SelectWrapperOption[];
-  toggleIcon?: React.ReactNode;
 }
 
-type SelectWrapperProps = SelectWrapperOwnProps;
+type SelectCheckboxWrapperProps = SelectCheckboxWrapperOwnProps;
 
-const SelectWrapper: React.FC<SelectWrapperProps> = ({
+const SelectCheckboxWrapper: React.FC<SelectCheckboxWrapperProps> = ({
   ariaLabel,
+  className,
   id,
   isDisabled,
   onSelect = () => {},
   placeholder = null,
-  position,
   selections,
   selectOptions,
-  toggleIcon,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const getSelectOption = (option, index) => {
+    let isSelected = false;
+    if (Array.isArray(selections)) {
+      const selection = selections.find(val =>
+        typeof val === 'string' ? val === option.value : val.value === option.value
+      );
+      isSelected = selection !== undefined;
+    }
     return (
-      <SelectOption description={option.desc ? option.desc : undefined} key={index} value={option}>
+      <SelectOption hasCheckbox key={index} isSelected={isSelected} value={option}>
         {option.toString()}
       </SelectOption>
     );
   };
 
-  const getPlaceholder = () => {
-    return selections?.toString ? selections.toString() : placeholder;
+  const getBadge = () => {
+    if (Array.isArray(selections) && selections.length > 0) {
+      return (
+        <Badge isRead style={styles.badge}>
+          {selections.length}
+        </Badge>
+      );
+    }
+    return null;
   };
 
   const handleOnSelect = (evt, value) => {
@@ -60,29 +69,20 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
   };
 
   const toggle = toggleRef => (
-    <MenuToggle
-      icon={toggleIcon && <Icon>{toggleIcon}</Icon>}
-      isDisabled={isDisabled}
-      isExpanded={isOpen}
-      onClick={handleOnToggle}
-      ref={toggleRef}
-    >
-      {getPlaceholder()}
+    <MenuToggle isDisabled={isDisabled} isExpanded={isOpen} onClick={handleOnToggle} ref={toggleRef}>
+      {placeholder}
+      {getBadge()}
     </MenuToggle>
   );
 
   return (
     <div className="selectOverride">
       <Select
+        className={className}
         id={id}
         onOpenChange={isExpanded => setIsOpen(isExpanded)}
         onSelect={handleOnSelect}
         isOpen={isOpen}
-        popperProps={
-          position && {
-            position,
-          }
-        }
         selected={selections}
         toggle={toggle}
       >
@@ -94,4 +94,4 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
   );
 };
 
-export default SelectWrapper;
+export default SelectCheckboxWrapper;

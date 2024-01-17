@@ -11,7 +11,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
-import { SelectWrapper } from 'routes/components/selectWrapper';
+import { SelectCheckboxWrapper } from 'routes/components/selectWrapper';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -127,10 +127,9 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
 
     if (selectOptions.length > 0 && selectOptions.length < costCategoryKeyValueLimit) {
       return (
-        <SelectWrapper
+        <SelectCheckboxWrapper
           id="costCategorySelect"
           isDisabled={isDisabled}
-          isCheckbox
           onSelect={onCostCategoryValueSelect}
           placeholder={intl.formatMessage(messages.chooseValuePlaceholder)}
           selections={selections}
