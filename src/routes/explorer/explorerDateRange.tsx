@@ -35,7 +35,7 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
 
     return (
       <SelectWrapper
-        id="dateRangeSelect"
+        id="date-range-select"
         isDisabled={isDisabled}
         onSelect={this.handleOnSelect}
         selections={selection}

@@ -194,7 +194,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
 
     return (
       <Select
-        id="groupBySelect"
+        id="group-by-select"
         isDisabled={isDisabled}
         isOpen={isGroupByOpen}
         onSelect={(_evt, value) => this.handleOnSelect(value)}

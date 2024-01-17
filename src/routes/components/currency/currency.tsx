@@ -69,7 +69,7 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
 
     return (
       <SelectWrapper
-        id="currencySelect"
+        id="currency-select"
         isDisabled={isDisabled}
         onSelect={this.handleOnSelect}
         position="right"

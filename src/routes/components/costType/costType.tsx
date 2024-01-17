@@ -65,7 +65,7 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
 
     return (
       <SelectWrapper
-        id="costTypeSelect"
+        id="cost-type-select"
         isDisabled={isDisabled}
         onSelect={this.handleOnSelect}
         selections={selection}

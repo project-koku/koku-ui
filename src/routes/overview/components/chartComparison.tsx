@@ -41,7 +41,7 @@ class ChartComparisonBase extends React.Component<ChartComparisonProps, ChartCom
 
     return (
       <Select
-        id="comparisonSelect"
+        id="comparison-select"
         isDisabled={isDisabled}
         isOpen={isSelectOpen}
         onSelect={(_evt, value) => this.handleSelect(value)}
