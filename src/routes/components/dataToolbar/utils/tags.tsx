@@ -8,6 +8,7 @@ import messages from 'locales/messages';
 import { cloneDeep, uniq, uniqBy } from 'lodash';
 import React from 'react';
 import { TagValue } from 'routes/components/dataToolbar/tagValue';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { orgUnitIdKey, tagKey, tagPrefix } from 'utils/props';
 
 import type { Filters } from './common';
@@ -211,15 +212,15 @@ export const onTagValueSelect = ({
   currentFilters?: Filters;
   currentTagKey?: string;
   event?: any;
-  selection: string;
+  selection: SelectWrapperOption;
 }) => {
   const checked = event.target.checked;
   let filter;
   if (checked) {
     const isExcludes = currentExclude === ExcludeType.exclude;
-    filter = getFilter(`${tagPrefix}${currentTagKey}`, selection, isExcludes);
+    filter = getFilter(`${tagPrefix}${currentTagKey}`, selection.value, isExcludes);
   } else if (currentFilters.tag[currentTagKey]) {
-    filter = currentFilters.tag[currentTagKey].find(item => item.value === selection);
+    filter = currentFilters.tag[currentTagKey].find(item => item.value === selection.value);
   }
 
   const newFilters: any = cloneDeep(currentFilters.tag[currentTagKey] ? currentFilters.tag[currentTagKey] : []);
