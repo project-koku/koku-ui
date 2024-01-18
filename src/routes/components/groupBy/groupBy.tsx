@@ -1,6 +1,4 @@
 import { Title } from '@patternfly/react-core';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import type { Org, OrgPathsType } from 'api/orgs/org';
 import { OrgType } from 'api/orgs/org';
 import type { Query } from 'api/queries/query';
@@ -14,6 +12,8 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectWrapper } from 'routes/components/selectWrapper';
 import type { PerspectiveType } from 'routes/explorer/explorerUtils';
 import { getDateRangeFromQuery } from 'routes/utils/dateRange';
 import type { FetchStatus } from 'store/common';
@@ -72,11 +72,6 @@ interface GroupByState {
   isGroupByOpen?: boolean;
   isGroupByOrgVisible?: boolean;
   isGroupByTagVisible?: boolean;
-}
-
-interface GroupByOption extends SelectOptionObject {
-  toString(): string; // label
-  value?: string;
 }
 
 type GroupByProps = GroupByOwnProps & GroupByStateProps & GroupByDispatchProps;
@@ -187,29 +182,24 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
 
   private getGroupBy = () => {
     const { isDisabled } = this.props;
-    const { currentItem, isGroupByOpen } = this.state;
+    const { currentItem } = this.state;
 
     const selectOptions = this.getGroupByOptions();
-    const selection = selectOptions.find((option: GroupByOption) => option.value === currentItem);
+    const selection = selectOptions.find(option => option.value === currentItem);
 
     return (
-      <Select
+      <SelectWrapper
         id="group-by-select"
         isDisabled={isDisabled}
-        isOpen={isGroupByOpen}
-        onSelect={(_evt, value) => this.handleOnSelect(value)}
-        onToggle={(_evt, isExpanded) => this.handleOnToggle(isExpanded)}
-        selections={selection}
-        variant={SelectVariant.single}
-      >
-        {selectOptions.map(option => (
-          <SelectOption key={option.value} value={option} />
-        ))}
-      </Select>
+        onSelect={this.handleOnSelect}
+        position="right"
+        selection={selection}
+        selectOptions={selectOptions}
+      />
     );
   };
 
-  private getGroupByOptions = (): GroupByOption[] => {
+  private getGroupByOptions = (): SelectWrapperOption[] => {
     const { options, orgReport, resourceReport, tagReport, intl } = this.props;
 
     const allOptions = [...options];
@@ -238,7 +228,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
       });
   };
 
-  private handleOnSelect = (selection: GroupByOption) => {
+  private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
     const { onSelected } = this.props;
 
     if (selection.value === orgUnitIdKey || selection.value === awsCategoryKey || selection.value === tagKey) {
