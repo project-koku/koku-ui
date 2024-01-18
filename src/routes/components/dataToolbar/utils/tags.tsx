@@ -170,7 +170,7 @@ export const onTagValueInput = ({
   tagKeyValueInput?: string;
 }) => {
   if ((event.key && event.key !== 'Enter') || tagKeyValueInput.trim() === '') {
-    return;
+    return {};
   }
 
   const isExcludes = currentExclude === ExcludeType.exclude;

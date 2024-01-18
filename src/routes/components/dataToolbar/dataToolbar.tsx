@@ -601,7 +601,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       event,
       tagKeyValueInput,
     });
-
+    if (!filter) {
+      return;
+    }
     this.setState(
       {
         filters,

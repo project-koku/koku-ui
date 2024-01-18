@@ -59,7 +59,7 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
     return (
       <SelectOption
         description={option.description}
-        key={index}
+        key={`${option.value}${index}`}
         id={`select-typeahead-${index}`}
         isDisabled={option.isDisabled}
         isFocused={focusedItemIndex === index}
@@ -67,7 +67,7 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
         onClick={evt => handleOnSelect(evt, option)}
         value={option}
       >
-        {option?.toString()}
+        {option.toString()}
       </SelectOption>
     );
   };
