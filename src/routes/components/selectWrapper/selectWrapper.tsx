@@ -48,7 +48,7 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
         description={option.description}
         isDisabled={option.isDisabled}
         isSelected={isSelected}
-        key={`${option.value}${index}`}
+        key={`${option.value}-${index}`}
         value={option}
       >
         {option.toString()}

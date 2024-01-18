@@ -15,6 +15,7 @@ interface SelectCheckboxWrapperOwnProps {
   placeholder?: string;
   selections?: string | SelectWrapperOption | (string | SelectWrapperOption)[];
   selectOptions?: SelectWrapperOption[];
+  isTest?: string;
 }
 
 type SelectCheckboxWrapperProps = SelectCheckboxWrapperOwnProps;
@@ -28,6 +29,7 @@ const SelectCheckboxWrapper: React.FC<SelectCheckboxWrapperProps> = ({
   placeholder = null,
   selections,
   selectOptions,
+  isTest,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -43,7 +45,7 @@ const SelectCheckboxWrapper: React.FC<SelectCheckboxWrapperProps> = ({
       <SelectOption
         description={option.description}
         hasCheckbox
-        key={`${option.value}${index}`}
+        key={`${option.value}-${index}`}
         isDisabled={option.isDisabled}
         isSelected={isSelected}
         value={option}
@@ -82,6 +84,7 @@ const SelectCheckboxWrapper: React.FC<SelectCheckboxWrapperProps> = ({
 
   return (
     <div className={`selectWrapper ${className}`}>
+      {isTest && `TEST:${isTest}`}
       <Select
         id={id}
         onOpenChange={isExpanded => setIsOpen(isExpanded)}
