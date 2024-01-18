@@ -21,7 +21,6 @@ import { awsCategoryKey, orgUnitIdKey, platformCategoryKey, tagKey } from 'utils
 import { styles } from './dataToolbar.styles';
 import { getColumnManagement, getExportButton, getKebab, getPlatformCosts } from './utils/actions';
 import { getBulkSelect } from './utils/bulkSelect';
-import type { CategoryOption } from './utils/category';
 import {
   getCategoryInput,
   getCategorySelect,
@@ -224,7 +223,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     });
   }
 
-  private handleOnCategorySelect = (_evt, selection: CategoryOption) => {
+  private handleOnCategorySelect = (_evt, selection: SelectWrapperOption) => {
     this.setState({
       categoryInput: '',
       currentCategory: selection.value,

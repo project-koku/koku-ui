@@ -9,13 +9,13 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { isEqual } from 'routes/utils/equal';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
 import { styles } from './dataToolbar.styles';
 import { getBulkSelect } from './utils/bulkSelect';
-import type { CategoryOption } from './utils/category';
 import {
   getCategoryInput,
   getCategorySelect,
@@ -190,7 +190,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
     });
   }
 
-  private handleOnCategorySelect = (_evt, selection: CategoryOption) => {
+  private handleOnCategorySelect = (_evt, selection: SelectWrapperOption) => {
     this.setState({
       categoryInput: '',
       currentCategory: selection.value,

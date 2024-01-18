@@ -63,16 +63,13 @@ class PerspectiveSelectBase extends React.Component<PerspectiveSelectProps, Pers
     const selection = selectOptions.find(option => option.value === currentItem);
 
     return (
-      <>
-        TEST
-        <SelectWrapper
-          id="perspective-elect"
-          isDisabled={isDisabled}
-          onSelect={this.handleOnSelect}
-          selection={selection}
-          selectOptions={selectOptions}
-        />
-      </>
+      <SelectWrapper
+        id="perspective-elect"
+        isDisabled={isDisabled}
+        onSelect={this.handleOnSelect}
+        selection={selection}
+        selectOptions={selectOptions}
+      />
     );
   };
 
