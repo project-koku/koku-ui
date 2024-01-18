@@ -1,7 +1,7 @@
 @import url("~@patternfly/patternfly/base/patternfly-variables.css");
 
 // Workaround for missing "position" property
-.selectOverride {
+.selectWrapper {
   .pf-v5-c-menu-toggle {
     max-width: unset;
   }

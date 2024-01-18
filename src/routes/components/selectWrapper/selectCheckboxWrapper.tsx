@@ -74,9 +74,8 @@ const SelectCheckboxWrapper: React.FC<SelectCheckboxWrapperProps> = ({
   );
 
   return (
-    <div className="selectOverride">
+    <div className={`selectWrapper ${className}`}>
       <Select
-        className={className}
         id={id}
         onOpenChange={isExpanded => setIsOpen(isExpanded)}
         onSelect={handleOnSelect}

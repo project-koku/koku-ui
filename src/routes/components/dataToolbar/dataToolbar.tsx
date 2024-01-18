@@ -39,7 +39,6 @@ import {
   onCostCategoryValueSelect,
 } from './utils/costCategory';
 import { getCustomSelect, onCustomSelect } from './utils/custom';
-import type { ExcludeOption } from './utils/exclude';
 import { ExcludeType, getExcludeSelect } from './utils/exclude';
 import { getOrgUnitSelect, onOrgUnitSelect } from './utils/orgUntits';
 import { getTagKeyOptions, getTagKeySelect, getTagValueSelect, onTagValueInput, onTagValueSelect } from './utils/tags';
@@ -479,28 +478,20 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   public getExcludeSelectComponent() {
     const { isDisabled } = this.props;
-    const { currentExclude, filters, isExcludeSelectOpen } = this.state;
+    const { currentExclude, filters } = this.state;
 
     return getExcludeSelect({
       currentExclude,
       filters,
       isDisabled,
       onExcludeSelect: this.handleOnExcludeSelect,
-      onExcludeToggle: this.handleOnExcludeToggle,
-      isExcludeSelectOpen,
     });
   }
 
-  private handleOnExcludeSelect = (selection: ExcludeOption) => {
+  private handleOnExcludeSelect = (_evt, selection: SelectWrapperOption) => {
     this.setState({
       currentExclude: selection.value,
       isExcludeSelectOpen: !this.state.isExcludeSelectOpen,
-    });
-  };
-
-  private handleOnExcludeToggle = isOpen => {
-    this.setState({
-      isExcludeSelectOpen: isOpen,
     });
   };
 

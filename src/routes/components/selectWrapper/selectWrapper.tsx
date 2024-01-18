@@ -79,7 +79,7 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
   );
 
   return (
-    <div className="selectOverride">
+    <div className="selectWrapper">
       <Select
         id={id}
         onOpenChange={isExpanded => setIsOpen(isExpanded)}

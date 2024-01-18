@@ -216,7 +216,7 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
   }, [filterValue]);
 
   return (
-    <div className="selectOverride">
+    <div className="selectWrapper">
       <Select
         id={id}
         isOpen={isOpen}
