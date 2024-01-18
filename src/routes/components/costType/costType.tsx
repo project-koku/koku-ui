@@ -42,13 +42,13 @@ export const enum CostTypes {
 }
 
 const costTypeOptions: {
-  desc: MessageDescriptor;
+  description: MessageDescriptor;
   label: MessageDescriptor;
   value: string;
 }[] = [
-  { desc: messages.costTypeAmortizedDesc, label: messages.costTypeAmortized, value: CostTypes.amortized },
-  { desc: messages.costTypeBlendedDesc, label: messages.costTypeBlended, value: CostTypes.blended },
-  { desc: messages.costTypeUnblendedDesc, label: messages.costTypeUnblended, value: CostTypes.unblended },
+  { description: messages.costTypeAmortizedDesc, label: messages.costTypeAmortized, value: CostTypes.amortized },
+  { description: messages.costTypeBlendedDesc, label: messages.costTypeBlended, value: CostTypes.blended },
+  { description: messages.costTypeUnblendedDesc, label: messages.costTypeUnblended, value: CostTypes.unblended },
 ];
 
 class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
@@ -61,7 +61,7 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
     const { costType = CostTypes.unblended, isDisabled } = this.props;
 
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: SelectWrapperOption) => option.value === costType);
+    const selection = selectOptions.find(option => option.value === costType);
 
     return (
       <SelectWrapper
@@ -81,7 +81,7 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
 
     costTypeOptions.map(option => {
       options.push({
-        desc: intl.formatMessage(option.desc),
+        description: intl.formatMessage(option.description),
         toString: () => intl.formatMessage(option.label),
         value: option.value,
       });

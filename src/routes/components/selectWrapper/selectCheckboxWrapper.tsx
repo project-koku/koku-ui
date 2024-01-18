@@ -40,8 +40,15 @@ const SelectCheckboxWrapper: React.FC<SelectCheckboxWrapperProps> = ({
       isSelected = selection !== undefined;
     }
     return (
-      <SelectOption hasCheckbox key={index} isDisabled={option.isDisabled} isSelected={isSelected} value={option}>
-        {option.toString()}
+      <SelectOption
+        description={option.description}
+        hasCheckbox
+        key={index}
+        isDisabled={option.isDisabled}
+        isSelected={isSelected}
+        value={option}
+      >
+        {option?.toString()}
       </SelectOption>
     );
   };

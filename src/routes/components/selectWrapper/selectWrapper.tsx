@@ -4,10 +4,11 @@ import { Icon, MenuToggle, Select, SelectList, SelectOption } from '@patternfly/
 import React, { useState } from 'react';
 
 export interface SelectWrapperOption {
-  desc?: string; // Description
+  description?: string; // Option description
+  compareTo?: (option: SelectWrapperOption) => boolean;
   isDisabled?: boolean;
-  toString(): string; // Label
-  value?: string;
+  toString?: () => string; // Option label
+  value?: string; // Option value
 }
 
 interface SelectWrapperOwnProps {
@@ -42,19 +43,20 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
 
     return (
       <SelectOption
-        description={option.desc}
+        description={option.description}
         isDisabled={option.isDisabled}
         isSelected={isSelected}
         key={index}
         value={option}
       >
-        {option.toString()}
+        {option?.toString()}
       </SelectOption>
     );
   };
 
   const getPlaceholder = () => {
-    return selection?.toString ? selection.toString() : placeholder;
+    const label = typeof selection === 'string' ? selection : selection?.toString();
+    return label ? label : placeholder;
   };
 
   const handleOnSelect = (evt, value) => {

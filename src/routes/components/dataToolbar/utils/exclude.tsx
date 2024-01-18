@@ -28,7 +28,7 @@ export const getExcludeSelect = ({
   onExcludeSelect: (event, selection: SelectWrapperOption) => void;
 }) => {
   const selectOptions = getExcludeSelectOptions();
-  const selection = selectOptions.find((option: SelectWrapperOption) => option.value === currentExclude);
+  const selection = selectOptions.find(option => option.value === currentExclude);
 
   return (
     <ToolbarItem>

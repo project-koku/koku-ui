@@ -54,11 +54,11 @@ class CostDistributionBase extends React.Component<CostDistributionProps, CostDi
     const { costDistribution, isDisabled } = this.props;
 
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: SelectWrapperOption) => option.value === costDistribution);
+    const selection = selectOptions.find(option => option.value === costDistribution);
 
     return (
       <SelectWrapper
-        id="costDistributionSelect"
+        id="cost-distribution-select"
         isDisabled={isDisabled}
         onSelect={this.handleOnSelect}
         position="right"

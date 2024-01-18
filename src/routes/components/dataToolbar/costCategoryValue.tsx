@@ -1,4 +1,3 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
 import { Button, ButtonVariant, InputGroup, InputGroupItem, TextInput } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import type { Query } from 'api/queries/query';
@@ -73,7 +72,7 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
     }
   }
 
-  private getCostCategoryValueOptions(): ToolbarChipGroup[] {
+  private getCostCategoryValueOptions(): SelectWrapperOption[] {
     const { costCategoryKey, resourceReport } = this.props;
 
     let data = [];
@@ -122,7 +121,7 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
     if (selectOptions.length > 0 && selectOptions.length < costCategoryKeyValueLimit) {
       return (
         <SelectCheckboxWrapper
-          id="costCategorySelect"
+          id="cost-category-select"
           isDisabled={isDisabled}
           onSelect={onCostCategoryValueSelect}
           placeholder={intl.formatMessage(messages.chooseValuePlaceholder)}

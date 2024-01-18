@@ -80,7 +80,7 @@ const CostModelsFilterSelectorBase: React.FC<CostModelsFilterSelectorProps> = ({
       value: 'sourceType',
     },
   ];
-  const selection = selectOptions.find((option: SelectWrapperOption) => option.value === filterType);
+  const selection = selectOptions.find(option => option.value === filterType);
 
   return (
     <SelectWrapper

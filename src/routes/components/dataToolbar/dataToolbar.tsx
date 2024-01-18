@@ -89,7 +89,6 @@ interface DataToolbarState {
   isBulkSelectOpen?: boolean;
   isCostCategoryValueSelectExpanded?: boolean;
   isExcludeSelectOpen?: boolean;
-  isOrgUnitSelectExpanded?: boolean;
   isPlatformCostsChecked?: boolean;
   isTagKeySelectExpanded?: boolean;
   isTagValueSelectExpanded?: boolean;
@@ -109,7 +108,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     isBulkSelectOpen: false,
     isCostCategoryValueSelectExpanded: false,
     isExcludeSelectOpen: false,
-    isOrgUnitSelectExpanded: false,
     isPlatformCostsChecked: this.props.query ? this.props.query.category === platformCategoryKey : false,
     isTagKeySelectExpanded: false,
     isTagValueSelectExpanded: false,
@@ -498,16 +496,14 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   // Org unit select
   public getOrgUnitSelectComponent = () => {
     const { isDisabled, orgReport } = this.props;
-    const { currentCategory, filters, isOrgUnitSelectExpanded } = this.state;
+    const { currentCategory, filters } = this.state;
 
     return getOrgUnitSelect({
       currentCategory,
       filters,
       isDisabled,
-      isOrgUnitSelectExpanded,
       onDelete: this.handleOnDelete,
       onOrgUnitSelect: this.handleOnOrgUnitSelect,
-      onOrgUnitToggle: this.handleOnOrgUnitToggle,
       orgReport,
     });
   };
@@ -539,12 +535,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
         }
       }
     );
-  };
-
-  private handleOnOrgUnitToggle = isOpen => {
-    this.setState({
-      isOrgUnitSelectExpanded: isOpen,
-    });
   };
 
   // Tag key select

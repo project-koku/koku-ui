@@ -37,8 +37,8 @@ export const getCostCategoryKeySelect = ({
     return null;
   }
 
-  const selectOptions = getCostCategoryKeyOptions(resourceReport, true);
-  const selection = selectOptions.find((option: SelectWrapperOption) => option.value === currentCostCategoryKey);
+  const selectOptions = getCostCategoryKeyOptions(resourceReport, true) as SelectWrapperOption[];
+  const selection = selectOptions.find(option => option.value === currentCostCategoryKey);
 
   return (
     <ToolbarItem>
@@ -59,7 +59,7 @@ export const getCostCategoryKeySelect = ({
 export const getCostCategoryKeyOptions = (
   resourceReport: Resource,
   isSelectWrapperOption = false
-): ToolbarChipGroup[] => {
+): ToolbarChipGroup[] | SelectWrapperOption[] => {
   let data = [];
   let options = [];
 

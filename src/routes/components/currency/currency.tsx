@@ -65,7 +65,7 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
     const { currency, isDisabled } = this.props;
 
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: SelectWrapperOption) => option.value === currency);
+    const selection = selectOptions.find(option => option.value === currency);
 
     return (
       <SelectWrapper

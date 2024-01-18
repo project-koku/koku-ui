@@ -58,14 +58,14 @@ class CustomSelectBase extends React.Component<CustomSelectProps, CustomSelectSt
 
     const selectOptions = this.getSelectOptions();
     const selections = filters?.map(filter => {
-      return selectOptions.find((option: SelectWrapperOption) => option.value === filter.value);
+      return selectOptions.find(option => option.value === filter.value);
     });
 
     return (
       <SelectCheckboxWrapper
         aria-label={intl.formatMessage(messages.filterByValuesAriaLabel)}
         className={className}
-        id="customSelect"
+        id="custom-select"
         isDisabled={isDisabled}
         onSelect={onSelect}
         placeholder={intl.formatMessage(messages.chooseValuePlaceholder)}

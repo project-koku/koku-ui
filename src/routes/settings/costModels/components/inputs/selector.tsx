@@ -19,9 +19,9 @@ interface SelectorFormGroupOwnProps {
   placeholderText?: string;
   direction?: SelectDirection.up | SelectDirection.down;
   options: {
+    description?: string;
     label: MessageDescriptor | string;
     value: any;
-    description?: string;
   }[];
 }
 

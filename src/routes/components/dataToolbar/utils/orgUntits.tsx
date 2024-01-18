@@ -1,12 +1,12 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
 import { ToolbarFilter } from '@patternfly/react-core';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import type { Org } from 'api/orgs/org';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectCheckboxWrapper } from 'routes/components/selectWrapper';
 import type { Filter } from 'routes/utils/filter';
 import { orgUnitIdKey, orgUnitNameKey } from 'utils/props';
 
@@ -14,49 +14,41 @@ import type { Filters } from './common';
 import { getFilter, hasFilters } from './common';
 import { ExcludeType } from './exclude';
 
-interface GroupByOrgOption extends SelectOptionObject {
-  toString(): string; // label
-  id?: string;
-}
-
 export const getOrgUnitSelect = ({
   currentCategory,
   filters,
   isDisabled,
-  isOrgUnitSelectExpanded,
   onDelete,
   onOrgUnitSelect,
-  onOrgUnitToggle,
   orgReport,
 }: {
   currentCategory?: string;
   filters?: Filters;
   isDisabled?: boolean;
-  isOrgUnitSelectExpanded?: boolean;
   onDelete?: (type: any, chip: any) => void;
   onOrgUnitSelect?: (event: React.MouseEvent, selection: string) => void;
-  onOrgUnitToggle?: (isOpen: boolean) => void;
   orgReport: Org;
 }) => {
-  const options: GroupByOrgOption[] = getOrgUnitOptions(orgReport).map(option => ({
-    id: option.key,
+  const selectOptions: SelectWrapperOption[] = getOrgUnitOptions(orgReport).map(option => ({
+    description: option.key,
+    compareTo: item =>
+      filters[orgUnitIdKey] ? (filters[orgUnitIdKey] as any).find(filter => filter.value === item.value) : false,
     toString: () => option.name,
-    compareTo: value =>
-      filters[orgUnitIdKey] ? (filters[orgUnitIdKey] as any).find(filter => filter.value === value.id) : false,
+    value: option.key,
   }));
 
   const chips = []; // Get selected items as PatternFly's ToolbarChip type
   const selections = []; // Select options and selections must be same type
   if (filters[orgUnitIdKey] && Array.isArray(filters[orgUnitIdKey])) {
     (filters[orgUnitIdKey] as any).map(filter => {
-      const option = options.find(item => item.id === filter.value);
-      if (option) {
-        selections.push(option);
+      const selection = selectOptions.find(option => option.value === filter.value);
+      if (selection) {
+        selections.push(selection);
         chips.push({
-          key: option.id,
+          key: selection.value,
           node: filter.isExcludes
-            ? intl.formatMessage(messages.excludeLabel, { value: option.toString() })
-            : option.toString(),
+            ? intl.formatMessage(messages.excludeLabel, { value: selection.toString() })
+            : selection.toString(),
         });
       }
     });
@@ -75,21 +67,15 @@ export const getOrgUnitSelect = ({
       key={orgUnitIdKey}
       showToolbarItem={currentCategory === orgUnitIdKey}
     >
-      <Select
+      <SelectCheckboxWrapper
+        ariaLabel={intl.formatMessage(messages.filterByOrgUnitAriaLabel)}
+        id="org-units-select"
         isDisabled={isDisabled && !hasFilters(filters)}
-        className="selectOverride"
-        variant={SelectVariant.checkbox}
-        aria-label={intl.formatMessage(messages.filterByOrgUnitAriaLabel)}
         onSelect={onOrgUnitSelect}
-        onToggle={(_evt, isExpanded) => onOrgUnitToggle(isExpanded)}
+        placeholder={intl.formatMessage(messages.filterByOrgUnitPlaceholder)}
         selections={selections}
-        isOpen={isOrgUnitSelectExpanded}
-        placeholderText={intl.formatMessage(messages.filterByOrgUnitPlaceholder)}
-      >
-        {options.map(option => (
-          <SelectOption description={option.id} key={option.id} value={option} />
-        ))}
-      </Select>
+        selectOptions={selectOptions}
+      />
     </ToolbarFilter>
   );
 };
@@ -140,16 +126,16 @@ export const onOrgUnitSelect = ({
   currentExclude?: string;
   currentFilters?: Filters;
   event?: any;
-  selection?: GroupByOrgOption;
+  selection?: SelectWrapperOption;
 }) => {
   const checked = event.target.checked;
   let filter;
 
   if (checked) {
     const isExcludes = currentExclude === ExcludeType.exclude;
-    filter = getFilter(orgUnitIdKey, selection.id, isExcludes);
+    filter = getFilter(orgUnitIdKey, selection.value, isExcludes);
   } else if (currentFilters[orgUnitIdKey]) {
-    filter = (currentFilters[orgUnitIdKey] as Filter[]).find(item => item.value === selection.id);
+    filter = (currentFilters[orgUnitIdKey] as Filter[]).find(item => item.value === selection.value);
   }
 
   const newFilters: any = cloneDeep(currentFilters[orgUnitIdKey] ? currentFilters[orgUnitIdKey] : []);

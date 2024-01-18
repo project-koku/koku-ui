@@ -31,7 +31,7 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
     const { dateRangeType, isDisabled } = this.props;
 
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: SelectWrapperOption) => option.value === dateRangeType);
+    const selection = selectOptions.find(option => option.value === dateRangeType);
 
     return (
       <SelectWrapper

@@ -1,4 +1,3 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
 import { Button, ButtonVariant, InputGroup, InputGroupItem, TextInput } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import type { Query } from 'api/queries/query';
@@ -73,7 +72,7 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
     }
   }
 
-  private getTagValueOptions(): ToolbarChipGroup[] {
+  private getTagValueOptions(): SelectWrapperOption[] {
     const { tagKey, tagReport } = this.props;
 
     let data = [];
