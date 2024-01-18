@@ -11,6 +11,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { isEqual } from 'routes/utils/equal';
 import type { Filter } from 'routes/utils/filter';
@@ -87,7 +88,6 @@ interface DataToolbarState {
   currentTagKey?: string;
   filters?: Filters;
   isBulkSelectOpen?: boolean;
-  isCostCategoryKeySelectExpanded?: boolean;
   isCostCategoryValueSelectExpanded?: boolean;
   isExcludeSelectOpen?: boolean;
   isOrgUnitSelectExpanded?: boolean;
@@ -108,7 +108,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     categoryInput: '',
     filters: cloneDeep(defaultFilters),
     isBulkSelectOpen: false,
-    isCostCategoryKeySelectExpanded: false,
     isCostCategoryValueSelectExpanded: false,
     isExcludeSelectOpen: false,
     isOrgUnitSelectExpanded: false,
@@ -320,17 +319,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   public getCostCategoryKeySelectComponent = () => {
     const { isDisabled, resourceReport } = this.props;
-    const { currentCategory, currentCostCategoryKey, filters, isCostCategoryKeySelectExpanded } = this.state;
+    const { currentCategory, currentCostCategoryKey, filters } = this.state;
 
     return getCostCategoryKeySelect({
       currentCategory,
       currentCostCategoryKey,
       filters,
-      isCostCategoryKeySelectExpanded,
       isDisabled,
       onCostCategoryKeyClear: this.handleOnCostCategoryKeyClear,
       onCostCategoryKeySelect: this.handleOnCostCategoryKeySelect,
-      onCostCategoryKeyToggle: this.handleOnCostCategoryKeyToggle,
       resourceReport,
     });
   };
@@ -338,20 +335,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   private handleOnCostCategoryKeyClear = () => {
     this.setState({
       currentCostCategoryKey: undefined,
-      isCostCategoryKeySelectExpanded: false,
     });
   };
 
-  private handleOnCostCategoryKeySelect = selection => {
+  private handleOnCostCategoryKeySelect = (_evt, selection: SelectWrapperOption) => {
     this.setState({
-      currentCostCategoryKey: selection,
-      isCostCategoryKeySelectExpanded: !this.state.isCostCategoryKeySelectExpanded,
-    });
-  };
-
-  private handleOnCostCategoryKeyToggle = isOpen => {
-    this.setState({
-      isCostCategoryKeySelectExpanded: isOpen,
+      currentCostCategoryKey: selection.value,
     });
   };
 

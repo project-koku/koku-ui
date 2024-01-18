@@ -38,7 +38,7 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
         id="date-range-select"
         isDisabled={isDisabled}
         onSelect={this.handleOnSelect}
-        selections={selection}
+        selection={selection}
         selectOptions={selectOptions}
       />
     );

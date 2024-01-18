@@ -87,10 +87,7 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
         if (tagKey === tag.key && tag.values) {
           options = tag.values.map(val => {
             return {
-              // key: val,
-              // name: val, // tag key values not localized
-
-              toString: () => val,
+              toString: () => val, // Tag key values not localized
               value: val,
             };
           });

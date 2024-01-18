@@ -1,13 +1,12 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
 import { ToolbarFilter, ToolbarItem } from '@patternfly/react-core';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import type { Resource, ResourcePathsType } from 'api/resources/resource';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep, uniq, uniqBy } from 'lodash';
 import React from 'react';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectTypeaheadWrapper } from 'routes/components/selectWrapper';
 import { awsCategoryKey, awsCategoryPrefix } from 'utils/props';
 
 import { CostCategoryValue } from '../costCategoryValue';
@@ -21,51 +20,46 @@ export const getCostCategoryKeySelect = ({
   currentCategory,
   currentCostCategoryKey,
   filters,
-  isCostCategoryKeySelectExpanded,
   isDisabled,
   onCostCategoryKeyClear,
   onCostCategoryKeySelect,
-  onCostCategoryKeyToggle,
   resourceReport,
 }: {
   currentCategory?: string;
   currentCostCategoryKey?: string;
   filters?: Filters;
-  isCostCategoryKeySelectExpanded?: boolean;
   isDisabled?: boolean;
   onCostCategoryKeyClear?: () => void;
-  onCostCategoryKeySelect?: (selection: SelectOptionObject) => void;
-  onCostCategoryKeyToggle?: (isOpen: boolean) => void;
+  onCostCategoryKeySelect?: (evt, selection: SelectWrapperOption) => void;
   resourceReport?: Resource;
 }) => {
   if (currentCategory !== awsCategoryKey) {
     return null;
   }
 
-  const selectOptions = getCostCategoryKeyOptions(resourceReport).map(selectOption => {
-    return <SelectOption key={selectOption.key} value={selectOption.key} />;
-  });
+  const selectOptions = getCostCategoryKeyOptions(resourceReport, true);
+  const selection = selectOptions.find((option: SelectWrapperOption) => option.value === currentCostCategoryKey);
 
   return (
     <ToolbarItem>
-      <Select
+      <SelectTypeaheadWrapper
+        aria-label={intl.formatMessage(messages.filterByCostCategoryKeyAriaLabel)}
+        id="tag-value-select"
         isDisabled={isDisabled && !hasFilters(filters)}
-        variant={SelectVariant.typeahead}
-        typeAheadAriaLabel={intl.formatMessage(messages.filterByCostCategoryKeyAriaLabel)}
-        isOpen={isCostCategoryKeySelectExpanded}
         onClear={onCostCategoryKeyClear}
-        onSelect={(_evt, value) => onCostCategoryKeySelect(value)}
-        onToggle={(_evt, isExpanded) => onCostCategoryKeyToggle(isExpanded)}
-        placeholderText={intl.formatMessage(messages.chooseKeyPlaceholder)}
-        selections={currentCostCategoryKey}
-      >
-        {selectOptions}
-      </Select>
+        onSelect={onCostCategoryKeySelect}
+        placeholder={intl.formatMessage(messages.chooseValuePlaceholder)}
+        selection={selection}
+        selectOptions={selectOptions}
+      />
     </ToolbarItem>
   );
 };
 
-export const getCostCategoryKeyOptions = (resourceReport: Resource): ToolbarChipGroup[] => {
+export const getCostCategoryKeyOptions = (
+  resourceReport: Resource,
+  isSelectWrapperOption = false
+): ToolbarChipGroup[] => {
   let data = [];
   let options = [];
 
@@ -96,10 +90,16 @@ export const getCostCategoryKeyOptions = (resourceReport: Resource): ToolbarChip
   if (data.length > 0) {
     options = data.map(item => {
       const key = hasKeys ? item.key : item;
-      return {
-        key,
-        name: key, // keys not localized
-      };
+
+      return isSelectWrapperOption
+        ? {
+            toString: () => key, // Tag keys not localized
+            value: key,
+          }
+        : {
+            key,
+            name: key, // Tag keys not localized
+          };
     });
   }
   return options;

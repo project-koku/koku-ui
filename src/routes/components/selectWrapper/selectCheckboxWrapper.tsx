@@ -11,7 +11,7 @@ interface SelectCheckboxWrapperOwnProps {
   className?: string;
   id?: string;
   isDisabled?: boolean;
-  onSelect?: (event, value: string) => void;
+  onSelect?: (event, value: SelectWrapperOption) => void;
   placeholder?: string;
   selections?: string | SelectWrapperOption | (string | SelectWrapperOption)[];
   selectOptions?: SelectWrapperOption[];
@@ -40,7 +40,7 @@ const SelectCheckboxWrapper: React.FC<SelectCheckboxWrapperProps> = ({
       isSelected = selection !== undefined;
     }
     return (
-      <SelectOption hasCheckbox key={index} isSelected={isSelected} value={option}>
+      <SelectOption hasCheckbox key={index} isDisabled={option.isDisabled} isSelected={isSelected} value={option}>
         {option.toString()}
       </SelectOption>
     );
@@ -58,9 +58,7 @@ const SelectCheckboxWrapper: React.FC<SelectCheckboxWrapperProps> = ({
   };
 
   const handleOnSelect = (evt, value) => {
-    if (onSelect) {
-      onSelect(evt, value);
-    }
+    onSelect(evt, value);
     setIsOpen(false);
   };
 
@@ -86,7 +84,7 @@ const SelectCheckboxWrapper: React.FC<SelectCheckboxWrapperProps> = ({
         selected={selections}
         toggle={toggle}
       >
-        <SelectList aria-label={ariaLabel ? ariaLabel : undefined}>
+        <SelectList aria-label={ariaLabel}>
           {selectOptions.map((option, index) => getSelectOption(option, index))}
         </SelectList>
       </Select>

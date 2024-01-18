@@ -87,10 +87,7 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
         if (costCategoryKey === tag.key && tag.values) {
           options = tag.values.map(val => {
             return {
-              // key: val,
-              // name: val, // tag key values not localized
-
-              toString: () => val,
+              toString: () => val, // Tag key values not localized
               value: val,
             };
           });
@@ -120,9 +117,6 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
     const { intl, isDisabled, onCostCategoryValueInput, onCostCategoryValueSelect, selections, costCategoryKeyValue } =
       this.props;
 
-    // const selectOptions = this.getCostCategoryValueOptions().map(selectOption => {
-    //   return <SelectOption key={selectOption.key} value={selectOption.key} />;
-    // });
     const selectOptions = this.getCostCategoryValueOptions();
 
     if (selectOptions.length > 0 && selectOptions.length < costCategoryKeyValueLimit) {

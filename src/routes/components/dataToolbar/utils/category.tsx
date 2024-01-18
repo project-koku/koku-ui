@@ -220,7 +220,7 @@ export const getCategorySelect = ({
         id="category-select"
         isDisabled={isDisabled && !hasFilters(filters)}
         onSelect={onCategorySelect}
-        selections={selection}
+        selection={selection}
         selectOptions={selectOptions}
         toggleIcon={<FilterIcon />}
       />

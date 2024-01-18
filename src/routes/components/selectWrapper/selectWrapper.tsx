@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 
 export interface SelectWrapperOption {
   desc?: string; // Description
+  isDisabled?: boolean;
   toString(): string; // Label
   value?: string;
 }
@@ -13,10 +14,10 @@ interface SelectWrapperOwnProps {
   ariaLabel?: string;
   id?: string;
   isDisabled?: boolean;
-  onSelect?: (event, value: string) => void;
+  onSelect?: (event, value: SelectWrapperOption) => void;
   placeholder?: string;
   position?: 'right' | 'left' | 'center' | 'start' | 'end';
-  selections?: string | SelectWrapperOption | (string | SelectWrapperOption)[];
+  selection?: string | SelectWrapperOption;
   selectOptions?: SelectWrapperOption[];
   toggleIcon?: React.ReactNode;
 }
@@ -30,28 +31,34 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
   onSelect = () => {},
   placeholder = null,
   position,
-  selections,
+  selection,
   selectOptions,
   toggleIcon,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const getSelectOption = (option, index) => {
+    const isSelected = option.value === (typeof selection === 'string' ? selection : selection?.value);
+
     return (
-      <SelectOption description={option.desc ? option.desc : undefined} key={index} value={option}>
+      <SelectOption
+        description={option.desc}
+        isDisabled={option.isDisabled}
+        isSelected={isSelected}
+        key={index}
+        value={option}
+      >
         {option.toString()}
       </SelectOption>
     );
   };
 
   const getPlaceholder = () => {
-    return selections?.toString ? selections.toString() : placeholder;
+    return selection?.toString ? selection.toString() : placeholder;
   };
 
   const handleOnSelect = (evt, value) => {
-    if (onSelect) {
-      onSelect(evt, value);
-    }
+    onSelect(evt, value);
     setIsOpen(false);
   };
 
@@ -83,10 +90,10 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
             position,
           }
         }
-        selected={selections}
+        selected={selection}
         toggle={toggle}
       >
-        <SelectList aria-label={ariaLabel ? ariaLabel : undefined}>
+        <SelectList aria-label={ariaLabel}>
           {selectOptions.map((option, index) => getSelectOption(option, index))}
         </SelectList>
       </Select>

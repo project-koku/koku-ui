@@ -86,7 +86,7 @@ const CostModelsFilterSelectorBase: React.FC<CostModelsFilterSelectorProps> = ({
     <SelectWrapper
       id="cost-models-details-select"
       onSelect={handleOnSelect}
-      selections={selection}
+      selection={selection}
       selectOptions={selectOptions}
       toggleIcon={<FilterIcon />}
     />
