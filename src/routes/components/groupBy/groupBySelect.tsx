@@ -20,10 +20,6 @@ interface GroupBySelectOwnProps extends RouterComponentProps, WrappedComponentPr
   isCostCategory?: boolean;
   isDisabled?: boolean;
   onSelected(value: string);
-  options: {
-    label: string;
-    value: string;
-  }[];
   report: Resource | Tag;
 }
 

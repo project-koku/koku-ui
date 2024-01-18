@@ -69,6 +69,7 @@ export const getOrgUnitSelect = ({
     >
       <SelectCheckboxWrapper
         ariaLabel={intl.formatMessage(messages.filterByOrgUnitAriaLabel)}
+        className="selectOverride"
         id="org-units-select"
         isDisabled={isDisabled && !hasFilters(filters)}
         onSelect={onOrgUnitSelect}

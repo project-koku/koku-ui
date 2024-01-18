@@ -69,7 +69,6 @@ interface GroupByState {
   currentItem?: string;
   defaultItem?: string;
   isGroupByCostCategoryVisible?: boolean;
-  isGroupByOpen?: boolean;
   isGroupByOrgVisible?: boolean;
   isGroupByTagVisible?: boolean;
 }
@@ -99,7 +98,6 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
   protected defaultState: GroupByState = {
     defaultItem: this.props.groupBy || this.props.options[0].value,
     isGroupByCostCategoryVisible: false,
-    isGroupByOpen: false,
     isGroupByOrgVisible: false,
     isGroupByTagVisible: false,
   };
@@ -108,7 +106,6 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
     this.handleOnSelect = this.handleOnSelect.bind(this);
-    this.handleOnToggle = this.handleOnToggle.bind(this);
   }
 
   public componentDidMount() {
@@ -235,7 +232,6 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
       this.setState({
         currentItem: selection.value,
         isGroupByCostCategoryVisible: selection.value === awsCategoryKey,
-        isGroupByOpen: false,
         isGroupByOrgVisible: selection.value === orgUnitIdKey,
         isGroupByTagVisible: selection.value === tagKey,
       });
@@ -244,7 +240,6 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
         {
           currentItem: selection.value,
           isGroupByCostCategoryVisible: false,
-          isGroupByOpen: false,
           isGroupByOrgVisible: false,
           isGroupByTagVisible: false,
         },
@@ -255,12 +250,6 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
         }
       );
     }
-  };
-
-  private handleOnToggle = isGroupByOpen => {
-    this.setState({
-      isGroupByOpen,
-    });
   };
 
   private updateReport = () => {
@@ -315,18 +304,11 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
             groupBy={groupBy}
             isDisabled={isDisabled}
             onSelected={onSelected}
-            options={groupByOrgOptions}
             orgReport={orgReport}
           />
         )}
         {isGroupByTagVisible && (
-          <GroupBySelect
-            groupBy={groupBy}
-            isDisabled={isDisabled}
-            onSelected={onSelected}
-            options={groupByTagOptions}
-            report={tagReport}
-          />
+          <GroupBySelect groupBy={groupBy} isDisabled={isDisabled} onSelected={onSelected} report={tagReport} />
         )}
         {isGroupByCostCategoryVisible && (
           <GroupBySelect
@@ -334,7 +316,6 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
             isCostCategory
             isDisabled={isDisabled}
             onSelected={onSelected}
-            options={groupByCostCategoryOptions}
             report={resourceReport}
           />
         )}

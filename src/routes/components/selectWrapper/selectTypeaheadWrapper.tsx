@@ -20,6 +20,7 @@ import type { SelectWrapperOption } from './selectWrapper';
 
 interface SelectTypeaheadWrapperOwnProps {
   ariaLabel?: string;
+  className?: string;
   id?: string;
   isDisabled?: boolean;
   onClear?: () => void;
@@ -33,6 +34,7 @@ type SelectTypeaheadWrapperProps = SelectTypeaheadWrapperOwnProps;
 
 const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
   ariaLabel,
+  className,
   id,
   isDisabled,
   onClear = () => {},
@@ -51,7 +53,8 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
   const intl = useIntl();
 
   const getSelectOption = (option, index) => {
-    const isSelected = option.value === (typeof selection === 'string' ? selection : selection?.value);
+    const isSelected =
+      option.value !== undefined && option.value === (typeof selection === 'string' ? selection : selection?.value);
 
     return (
       <SelectOption
@@ -196,7 +199,7 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
     // Filter menu items based on the text input value when one exists
     if (filterValue) {
       newSelectOptions = initialSelectOptions.filter(option =>
-        option.value.toLowerCase().includes(filterValue.toLowerCase())
+        option.toString().toLowerCase().includes(filterValue.toLowerCase())
       );
 
       // When no options are found after filtering, display 'No results found'
@@ -216,7 +219,7 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
   }, [filterValue]);
 
   return (
-    <div className="selectWrapper">
+    <div className={`selectWrapper ${className}`}>
       <Select
         id={id}
         isOpen={isOpen}

@@ -13,6 +13,7 @@ export interface SelectWrapperOption {
 
 interface SelectWrapperOwnProps {
   ariaLabel?: string;
+  className?: string;
   id?: string;
   isDisabled?: boolean;
   onSelect?: (event, value: SelectWrapperOption) => void;
@@ -27,6 +28,7 @@ type SelectWrapperProps = SelectWrapperOwnProps;
 
 const SelectWrapper: React.FC<SelectWrapperProps> = ({
   ariaLabel,
+  className,
   id,
   isDisabled,
   onSelect = () => {},
@@ -81,7 +83,7 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
   );
 
   return (
-    <div className="selectWrapper">
+    <div className={`selectWrapper ${className}`}>
       <Select
         id={id}
         onOpenChange={isExpanded => setIsOpen(isExpanded)}
