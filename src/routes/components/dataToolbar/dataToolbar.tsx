@@ -109,7 +109,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     isCostCategoryValueSelectExpanded: false,
     isExcludeSelectOpen: false,
     isPlatformCostsChecked: this.props.query ? this.props.query.category === platformCategoryKey : false,
-    isTagKeySelectExpanded: false,
     isTagValueSelectExpanded: false,
     tagKeyValueInput: '',
   };
@@ -541,17 +540,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   public getTagKeySelectComponent = () => {
     const { isDisabled, tagReport } = this.props;
-    const { currentCategory, currentTagKey, filters, isTagKeySelectExpanded } = this.state;
+    const { currentCategory, currentTagKey, filters } = this.state;
 
     return getTagKeySelect({
       currentCategory,
       currentTagKey,
       filters,
       isDisabled,
-      isTagKeySelectExpanded,
       onTagKeyClear: this.handleOnTagKeyClear,
       onTagKeySelect: this.handleOnTagKeySelect,
-      onTagKeyToggle: this.handleOnTagKeyToggle,
       tagReport,
     });
   };
@@ -559,20 +556,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   private handleOnTagKeyClear = () => {
     this.setState({
       currentTagKey: undefined,
-      isTagKeySelectExpanded: false,
     });
   };
 
-  private handleOnTagKeySelect = selection => {
+  private handleOnTagKeySelect = (_evt, selection: SelectWrapperOption) => {
     this.setState({
-      currentTagKey: selection,
-      isTagKeySelectExpanded: !this.state.isTagKeySelectExpanded,
-    });
-  };
-
-  private handleOnTagKeyToggle = isOpen => {
-    this.setState({
-      isTagKeySelectExpanded: isOpen,
+      currentTagKey: selection.value,
     });
   };
 
