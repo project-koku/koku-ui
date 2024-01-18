@@ -189,7 +189,6 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
         id="group-by-select"
         isDisabled={isDisabled}
         onSelect={this.handleOnSelect}
-        position="right"
         selection={selection}
         selectOptions={selectOptions}
       />

@@ -36,7 +36,6 @@ export const getExcludeSelect = ({
         id="exclude-select"
         isDisabled={isDisabled && !hasFilters(filters)}
         onSelect={onExcludeSelect}
-        position="right"
         selection={selection}
         selectOptions={selectOptions}
       />

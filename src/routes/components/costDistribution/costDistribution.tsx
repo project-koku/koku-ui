@@ -61,7 +61,6 @@ class CostDistributionBase extends React.Component<CostDistributionProps, CostDi
         id="cost-distribution-select"
         isDisabled={isDisabled}
         onSelect={this.handleOnSelect}
-        position="right"
         selection={selection}
         selectOptions={selectOptions}
       />
