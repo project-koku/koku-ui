@@ -3,7 +3,7 @@ import type { FormGroupProps } from '@patternfly/react-core';
 import type { FormSelectProps } from '@patternfly/react-core';
 import { FormGroup, HelperText, HelperTextItem } from '@patternfly/react-core';
 import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectDirection, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { intl as defaultIntl } from 'components/i18n';
 import React, { useEffect, useState } from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -17,7 +17,7 @@ interface SelectorFormGroupOwnProps {
   toggleAriaLabel?: string;
   maxHeight?: string | number;
   placeholderText?: string;
-  direction?: SelectDirection.up | SelectDirection.down;
+  direction?: 'up' | 'down';
   options: {
     description?: string;
     label: MessageDescriptor | string;
@@ -50,7 +50,7 @@ const SelectorBase: React.FC<SelectorProps> = ({
   toggleAriaLabel,
   maxHeight,
   placeholderText,
-  direction = SelectDirection.down,
+  direction = 'down',
   isInvalid = false,
   isRequired = false,
   appendMenuTo = 'parent',
