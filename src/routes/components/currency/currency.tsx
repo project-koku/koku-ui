@@ -1,14 +1,12 @@
-import './currency.scss';
-
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Title, TitleSizes } from '@patternfly/react-core';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectWrapper } from 'routes/components/selectWrapper';
 import { createMapStateToProps } from 'store/common';
 import { setCurrency } from 'utils/sessionStorage';
 
@@ -31,12 +29,7 @@ interface CurrencyStateProps {
 }
 
 interface CurrencyState {
-  isSelectOpen: boolean;
-}
-
-interface CurrencyOption extends SelectOptionObject {
-  toString(): string; // label
-  value?: string;
+  // TBD...
 }
 
 type CurrencyProps = CurrencyOwnProps & CurrencyDispatchProps & CurrencyStateProps & WrappedComponentProps;
@@ -64,39 +57,31 @@ export const currencyOptions: {
 
 class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
   protected defaultState: CurrencyState = {
-    isSelectOpen: false,
+    // TBD...
   };
   public state: CurrencyState = { ...this.defaultState };
 
   private getSelect = () => {
-    const { currency, isDisabled, showLabel = true } = this.props;
-    const { isSelectOpen } = this.state;
+    const { currency, isDisabled } = this.props;
 
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: CurrencyOption) => option.value === currency);
+    const selection = selectOptions.find(option => option.value === currency);
 
     return (
-      <Select
-        className={showLabel ? 'currencyOverride' : undefined}
-        id="currencySelect"
+      <SelectWrapper
+        id="currency-select"
         isDisabled={isDisabled}
-        isOpen={isSelectOpen}
-        onSelect={(_evt, value) => this.handleOnSelect(value)}
-        onToggle={(_evt, isExpanded) => this.handleOnToggle(isExpanded)}
-        selections={selection}
-        variant={SelectVariant.single}
-      >
-        {selectOptions.map(option => (
-          <SelectOption key={option.value} value={option} />
-        ))}
-      </Select>
+        onSelect={this.handleOnSelect}
+        selection={selection}
+        selectOptions={selectOptions}
+      />
     );
   };
 
-  private getSelectOptions = (): CurrencyOption[] => {
+  private getSelectOptions = (): SelectWrapperOption[] => {
     const { intl } = this.props;
 
-    const options: CurrencyOption[] = [];
+    const options: SelectWrapperOption[] = [];
 
     currencyOptions.map(option => {
       options.push({
@@ -107,27 +92,16 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
     return options;
   };
 
-  private handleOnSelect = (selection: CurrencyOption) => {
+  private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
     const { isSessionStorage = true, onSelect } = this.props;
 
     // Set currency units via local storage
     if (isSessionStorage) {
       setCurrency(selection.value);
     }
-    this.setState(
-      {
-        isSelectOpen: false,
-      },
-      () => {
-        if (onSelect) {
-          onSelect(selection.value);
-        }
-      }
-    );
-  };
-
-  private handleOnToggle = isSelectOpen => {
-    this.setState({ isSelectOpen });
+    if (onSelect) {
+      onSelect(selection.value);
+    }
   };
 
   public render() {

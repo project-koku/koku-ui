@@ -1,5 +1,4 @@
 import { Alert, Button, Form, FormGroup, Modal, TextArea, TextInput } from '@patternfly/react-core';
-import { SelectDirection } from '@patternfly/react-core/deprecated';
 import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
@@ -145,7 +144,7 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
             <FormGroup fieldId="currency">
               <Selector
                 label={messages.currency}
-                direction={SelectDirection.up}
+                direction="up"
                 appendMenuTo="inline"
                 maxHeight={styles.selector.maxHeight}
                 toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}

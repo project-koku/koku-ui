@@ -11564,6 +11564,12 @@
         "value": "Select categories to enable or disable"
       }
     ],
+    "selectClearAriaLabel": [
+      {
+        "type": 0,
+        "value": "Clear input value"
+      }
+    ],
     "selectProjects": [
       {
         "type": 0,

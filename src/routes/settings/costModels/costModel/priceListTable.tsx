@@ -25,14 +25,13 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { SelectCheckboxWrapper, SelectWrapper } from 'routes/components/selectWrapper';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { WithPriceListSearch } from 'routes/settings/costModels/components/hoc/withPriceListSearch';
 import { PriceListToolbar } from 'routes/settings/costModels/components/priceListToolbar';
 import { compareBy } from 'routes/settings/costModels/components/rateForm/utils';
 import { RateTable } from 'routes/settings/costModels/components/rateTable';
-import { CheckboxSelector } from 'routes/settings/costModels/components/toolbar/checkboxSelector';
-import { PrimarySelector } from 'routes/settings/costModels/components/toolbar/primarySelector';
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -106,13 +105,13 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
       return label ? label : m;
     };
     const metricOpts = Object.keys(metricsHash).map(m => ({
-      label: getMetricLabel(m), // metric
+      toString: () => getMetricLabel(m), // metric
       value: m,
     }));
     const measurementOpts = metricOpts.reduce((acc, curr) => {
       const measurs = Object.keys(metricsHash[curr.value])
         .filter(m => !acc.map(i => i.value).includes(m))
-        .map(m => ({ label: getMeasurementLabel(m), value: m }));
+        .map(m => ({ toString: () => getMeasurementLabel(m), value: m }));
       return [...acc, ...measurs];
     }, []);
 
@@ -199,17 +198,18 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
               <>
                 <PriceListToolbar
                   primary={
-                    <PrimarySelector
+                    <SelectWrapper
                       isDisabled={this.props.current.rates.length === 0}
-                      primary={search.primary}
-                      setPrimary={(primary: string) => setSearch({ primary })}
-                      options={[
+                      onSelect={(_evt, selection) => setSearch({ primary: selection.value })}
+                      placeholder={intl.formatMessage(messages.measurementPlaceholder)}
+                      selection={search.primary}
+                      selectOptions={[
                         {
-                          label: intl.formatMessage(messages.metric),
+                          toString: () => intl.formatMessage(messages.metric),
                           value: 'metrics',
                         },
                         {
-                          label: intl.formatMessage(messages.measurement),
+                          toString: () => intl.formatMessage(messages.measurement),
                           value: 'measurements',
                         },
                       ]}
@@ -219,12 +219,12 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                   secondaries={[
                     {
                       component: (
-                        <CheckboxSelector
+                        <SelectCheckboxWrapper
                           isDisabled={this.props.current.rates.length === 0}
-                          placeholderText={intl.formatMessage(messages.measurementPlaceholder)}
+                          onSelect={(_evt, selection) => onSelect('measurements', selection.value)}
+                          placeholder={intl.formatMessage(messages.measurementPlaceholder)}
                           selections={search.measurements}
-                          setSelections={(selection: string) => onSelect('measurements', selection)}
-                          options={measurementOpts}
+                          selectOptions={measurementOpts}
                         />
                       ),
                       name: 'measurements',
@@ -233,12 +233,12 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                     },
                     {
                       component: (
-                        <CheckboxSelector
+                        <SelectCheckboxWrapper
                           isDisabled={this.props.current.rates.length === 0}
-                          placeholderText={intl.formatMessage(messages.metricPlaceholder)}
+                          onSelect={(_evt, selection) => onSelect('metrics', selection.value)}
+                          placeholder={intl.formatMessage(messages.metricPlaceholder)}
                           selections={search.metrics}
-                          setSelections={(selection: string) => onSelect('metrics', selection)}
-                          options={metricOpts}
+                          selectOptions={metricOpts}
                         />
                       ),
                       name: 'metrics',

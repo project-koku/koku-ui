@@ -1,9 +1,9 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectWrapper } from 'routes/components/selectWrapper';
 
 interface ExplorerDateRangeOwnProps {
   dateRangeType?: string;
@@ -16,50 +16,38 @@ interface ExplorerDateRangeOwnProps {
 }
 
 interface ExplorerDateRangeState {
-  isSelectOpen: boolean;
-}
-
-interface ExplorerDateRangeOption extends SelectOptionObject {
-  toString(): string; // label
-  value?: string;
+  // TBD...
 }
 
 type ExplorerDateRangeProps = ExplorerDateRangeOwnProps & WrappedComponentProps;
 
 class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, ExplorerDateRangeState> {
   protected defaultState: ExplorerDateRangeState = {
-    isSelectOpen: false,
+    // TBD...
   };
   public state: ExplorerDateRangeState = { ...this.defaultState };
 
   private getSelect = () => {
     const { dateRangeType, isDisabled } = this.props;
-    const { isSelectOpen } = this.state;
 
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: ExplorerDateRangeOption) => option.value === dateRangeType);
+    const selection = selectOptions.find(option => option.value === dateRangeType);
 
     return (
-      <Select
-        id="dateRangeSelect"
+      <SelectWrapper
+        id="date-range-select"
         isDisabled={isDisabled}
-        isOpen={isSelectOpen}
-        onSelect={(_evt, value) => this.handleOnSelect(value)}
-        onToggle={(_evt, isExpanded) => this.handleOnToggle(isExpanded)}
-        selections={selection}
-        variant={SelectVariant.single}
-      >
-        {selectOptions.map(option => (
-          <SelectOption key={option.value} value={option} />
-        ))}
-      </Select>
+        onSelect={this.handleOnSelect}
+        selection={selection}
+        selectOptions={selectOptions}
+      />
     );
   };
 
-  private getSelectOptions = (): ExplorerDateRangeOption[] => {
+  private getSelectOptions = (): SelectWrapperOption[] => {
     const { intl, options } = this.props;
 
-    const selectOptions: ExplorerDateRangeOption[] = [];
+    const selectOptions: SelectWrapperOption[] = [];
 
     options.map(option => {
       selectOptions.push({
@@ -70,19 +58,12 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
     return selectOptions;
   };
 
-  private handleOnSelect = (selection: ExplorerDateRangeOption) => {
+  private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
     const { onSelected } = this.props;
 
     if (onSelected) {
       onSelected(selection.value);
     }
-    this.setState({
-      isSelectOpen: false,
-    });
-  };
-
-  private handleOnToggle = isSelectOpen => {
-    this.setState({ isSelectOpen });
   };
 
   public render() {

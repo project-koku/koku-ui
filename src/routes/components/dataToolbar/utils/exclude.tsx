@@ -1,17 +1,12 @@
 import { ToolbarItem } from '@patternfly/react-core';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectWrapper } from 'routes/components/selectWrapper';
 
 import type { Filters } from './common';
 import { hasFilters } from './common';
-
-export interface ExcludeOption extends SelectOptionObject {
-  toString(): string; // label
-  value?: string;
-}
 
 // eslint-disable-next-line no-shadow
 export const enum ExcludeType {
@@ -25,46 +20,36 @@ export const getExcludeSelect = ({
   currentExclude,
   filters,
   isDisabled,
-  isExcludeSelectOpen,
   onExcludeSelect,
-  onExcludeToggle,
 }: {
   currentExclude?: string;
   filters?: Filters;
   isDisabled?: boolean;
-  isExcludeSelectOpen?: boolean;
-  onExcludeSelect: (selection: ExcludeOption) => void;
-  onExcludeToggle: (isOpen: boolean) => void;
+  onExcludeSelect: (event, selection: SelectWrapperOption) => void;
 }) => {
   const selectOptions = getExcludeSelectOptions();
-  const selection = selectOptions.find((option: ExcludeOption) => option.value === currentExclude);
+  const selection = selectOptions.find(option => option.value === currentExclude);
 
   return (
     <ToolbarItem>
-      <Select
+      <SelectWrapper
         id="exclude-select"
         isDisabled={isDisabled && !hasFilters(filters)}
-        isOpen={isExcludeSelectOpen}
-        onSelect={(_evt, value) => onExcludeSelect(value)}
-        onToggle={(_evt, isExpanded) => onExcludeToggle(isExpanded)}
-        selections={selection}
-        variant={SelectVariant.single}
-      >
-        {selectOptions.map(option => (
-          <SelectOption key={option.value} value={option} />
-        ))}
-      </Select>
+        onSelect={onExcludeSelect}
+        selection={selection}
+        selectOptions={selectOptions}
+      />
     </ToolbarItem>
   );
 };
 
-export const getExcludeSelectOptions = (): ExcludeOption[] => {
+export const getExcludeSelectOptions = (): SelectWrapperOption[] => {
   const excludeOptions = [
     { name: intl.formatMessage(messages.excludeValues, { value: 'excludes' }), key: ExcludeType.exclude },
     { name: intl.formatMessage(messages.excludeValues, { value: 'includes' }), key: ExcludeType.include },
   ];
 
-  const options: ExcludeOption[] = [];
+  const options: SelectWrapperOption[] = [];
   excludeOptions.map(option => {
     options.push({
       toString: () => option.name,

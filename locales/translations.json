@@ -519,6 +519,7 @@
   "select": "Select...",
   "selectAll": "Select all",
   "selectCategories": "Select categories to enable or disable",
+  "selectClearAriaLabel": "Clear input value",
   "selectProjects": "Select projects to add or remove",
   "selectRow": "Select row {value}",
   "selectTags": "Select tags to enable or disable",

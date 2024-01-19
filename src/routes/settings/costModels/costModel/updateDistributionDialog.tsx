@@ -138,7 +138,7 @@ class UpdateDistributionDialogBase extends React.Component<
                   name="distributionType"
                   label={intl.formatMessage(messages.cpuTitle)}
                   aria-label={intl.formatMessage(messages.cpuTitle)}
-                  id="cpuDistribution"
+                  id="cpu-distribution"
                   value="cpu"
                   onChange={this.handleDistributionChange}
                 />
@@ -147,7 +147,7 @@ class UpdateDistributionDialogBase extends React.Component<
                   name="distributionType"
                   label={intl.formatMessage(messages.memoryTitle)}
                   aria-label={intl.formatMessage(messages.memoryTitle)}
-                  id="memoryDistribution"
+                  id="memory-distribution"
                   value="memory"
                   onChange={this.handleDistributionChange}
                 />
@@ -170,16 +170,16 @@ class UpdateDistributionDialogBase extends React.Component<
                   name="distributePlatformUnallocated"
                   label={intl.formatMessage(messages.distribute)}
                   aria-label={intl.formatMessage(messages.distribute)}
-                  id="distributePlatformTrue"
+                  id="distribute-platform-true"
                   value="true"
                   onChange={this.handleDistributePlatformUnallocatedChange}
                 />
                 <Radio
                   isChecked={!this.state.distributePlatformUnallocated}
-                  name="distributePlatformUnallocated"
+                  name="distribute-platform-unallocated"
                   label={intl.formatMessage(messages.doNotDistribute)}
                   aria-label={intl.formatMessage(messages.doNotDistribute)}
-                  id="distributePlatformFalse"
+                  id="distribute-platform-false"
                   value="false"
                   onChange={this.handleDistributePlatformUnallocatedChange}
                 />
@@ -202,7 +202,7 @@ class UpdateDistributionDialogBase extends React.Component<
                   name="distributeWorkerUnallocated"
                   label={intl.formatMessage(messages.distribute)}
                   aria-label={intl.formatMessage(messages.distribute)}
-                  id="distributeWorkerTrue"
+                  id="distribute-worker-true"
                   value="true"
                   onChange={this.handleDistributeWorkerUnallocatedChange}
                 />
@@ -211,7 +211,7 @@ class UpdateDistributionDialogBase extends React.Component<
                   name="distributeWorkerUnallocated"
                   label={intl.formatMessage(messages.doNotDistribute)}
                   aria-label={intl.formatMessage(messages.doNotDistribute)}
-                  id="distributeWorkerFalse"
+                  id="distribute-worker-false"
                   value="false"
                   onChange={this.handleDistributeWorkerUnallocatedChange}
                 />

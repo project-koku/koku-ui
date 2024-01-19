@@ -3200,6 +3200,11 @@ export default defineMessages({
     description: 'Select categories to enable or disable',
     id: 'selectCategories',
   },
+  selectClearAriaLabel: {
+    defaultMessage: 'Clear input value',
+    description: 'Clear input value',
+    id: 'selectClearAriaLabel',
+  },
   selectProjects: {
     defaultMessage: 'Select projects to add or remove',
     description: 'Select projects to add or remove',

@@ -58,6 +58,8 @@ type ResourceInputProps = ResourceInputOwnProps &
   ResourceInputDispatchProps &
   WrappedComponentProps;
 
+// Functionality is based on this composable typeahead demo https://v4-archive.patternfly.org/v4/demos/composable-menu/#composable-typeahead-select
+// Alternatively, this could be implemented using this Search demo https://www.patternfly.org/components/search-input/react-demos/#search-with-autocomplete
 class ResourceInputBase extends React.Component<ResourceInputProps, ResourceInputState> {
   private menuRef = React.createRef<HTMLDivElement>();
   private textInputGroupRef = React.createRef<HTMLDivElement>();

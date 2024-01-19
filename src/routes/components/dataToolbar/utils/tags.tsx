@@ -1,13 +1,13 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
 import { ToolbarFilter, ToolbarItem } from '@patternfly/react-core';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep, uniq, uniqBy } from 'lodash';
 import React from 'react';
 import { TagValue } from 'routes/components/dataToolbar/tagValue';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectTypeaheadWrapper } from 'routes/components/selectWrapper';
 import { orgUnitIdKey, tagKey, tagPrefix } from 'utils/props';
 
 import type { Filters } from './common';
@@ -19,50 +19,44 @@ export const getTagKeySelect = ({
   currentTagKey,
   filters,
   isDisabled,
-  isTagKeySelectExpanded,
   onTagKeyClear,
   onTagKeySelect,
-  onTagKeyToggle,
   tagReport,
 }: {
   currentCategory?: string;
   currentTagKey?: string;
   filters?: Filters;
   isDisabled?: boolean;
-  isTagKeySelectExpanded?: boolean;
   onTagKeyClear?: () => void;
-  onTagKeySelect?: (value: SelectOptionObject) => void;
-  onTagKeyToggle?: (isOpen: boolean) => void;
+  onTagKeySelect?: (event, selection: SelectWrapperOption) => void;
   tagReport?: Tag;
 }) => {
   if (currentCategory !== tagKey) {
     return null;
   }
 
-  const selectOptions = getTagKeyOptions(tagReport).map(selectOption => {
-    return <SelectOption key={selectOption.key} value={selectOption.key} />;
-  });
+  const selectOptions = getTagKeyOptions(tagReport, true) as SelectWrapperOption[];
 
   return (
     <ToolbarItem>
-      <Select
+      <SelectTypeaheadWrapper
+        aria-label={intl.formatMessage(messages.filterByTagKeyAriaLabel)}
+        id="tag-value-select"
         isDisabled={isDisabled && !hasFilters(filters)}
-        variant={SelectVariant.typeahead}
-        typeAheadAriaLabel={intl.formatMessage(messages.filterByTagKeyAriaLabel)}
         onClear={onTagKeyClear}
-        onSelect={(_evt, value) => onTagKeySelect(value)}
-        onToggle={(_evt, isExpanded) => onTagKeyToggle(isExpanded)}
-        isOpen={isTagKeySelectExpanded}
-        placeholderText={intl.formatMessage(messages.chooseKeyPlaceholder)}
-        selections={currentTagKey}
-      >
-        {selectOptions}
-      </Select>
+        onSelect={onTagKeySelect}
+        placeholder={intl.formatMessage(messages.chooseKeyPlaceholder)}
+        selection={currentTagKey}
+        selectOptions={selectOptions}
+      />
     </ToolbarItem>
   );
 };
 
-export const getTagKeyOptions = (tagReport: Tag): ToolbarChipGroup[] => {
+export const getTagKeyOptions = (
+  tagReport: Tag,
+  isSelectWrapperOption = false
+): ToolbarChipGroup[] | SelectWrapperOption[] => {
   let data = [];
   let options = [];
 
@@ -93,10 +87,15 @@ export const getTagKeyOptions = (tagReport: Tag): ToolbarChipGroup[] => {
   if (data.length > 0) {
     options = data.map(item => {
       const key = hasTagKeys ? item.key : item;
-      return {
-        key,
-        name: key, // tag keys not localized
-      };
+      return isSelectWrapperOption
+        ? {
+            toString: () => key, // Tag keys not localized
+            value: key,
+          }
+        : {
+            key,
+            name: key, // Tag keys not localized
+          };
     });
   }
   return options;
@@ -171,7 +170,7 @@ export const onTagValueInput = ({
   tagKeyValueInput?: string;
 }) => {
   if ((event.key && event.key !== 'Enter') || tagKeyValueInput.trim() === '') {
-    return;
+    return {};
   }
 
   const isExcludes = currentExclude === ExcludeType.exclude;
@@ -211,15 +210,15 @@ export const onTagValueSelect = ({
   currentFilters?: Filters;
   currentTagKey?: string;
   event?: any;
-  selection: string;
+  selection: SelectWrapperOption;
 }) => {
   const checked = event.target.checked;
   let filter;
   if (checked) {
     const isExcludes = currentExclude === ExcludeType.exclude;
-    filter = getFilter(`${tagPrefix}${currentTagKey}`, selection, isExcludes);
+    filter = getFilter(`${tagPrefix}${currentTagKey}`, selection.value, isExcludes);
   } else if (currentFilters.tag[currentTagKey]) {
-    filter = currentFilters.tag[currentTagKey].find(item => item.value === selection);
+    filter = currentFilters.tag[currentTagKey].find(item => item.value === selection.value);
   }
 
   const newFilters: any = cloneDeep(currentFilters.tag[currentTagKey] ? currentFilters.tag[currentTagKey] : []);

@@ -1,14 +1,12 @@
-import './costType.scss';
-
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Title, TitleSizes } from '@patternfly/react-core';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectWrapper } from 'routes/components/selectWrapper';
 import { createMapStateToProps } from 'store/common';
 import { setCostType } from 'utils/sessionStorage';
 
@@ -31,13 +29,7 @@ interface CostTypeStateProps {
 }
 
 interface CostTypeState {
-  isSelectOpen: boolean;
-}
-
-interface CostTypeOption extends SelectOptionObject {
-  desc?: string;
-  toString(): string; // label
-  value?: string;
+  // TBD...
 }
 
 type CostTypeProps = CostTypeOwnProps & CostTypeDispatchProps & CostTypeStateProps & WrappedComponentProps;
@@ -50,54 +42,46 @@ export const enum CostTypes {
 }
 
 const costTypeOptions: {
-  desc: MessageDescriptor;
+  description: MessageDescriptor;
   label: MessageDescriptor;
   value: string;
 }[] = [
-  { desc: messages.costTypeAmortizedDesc, label: messages.costTypeAmortized, value: CostTypes.amortized },
-  { desc: messages.costTypeBlendedDesc, label: messages.costTypeBlended, value: CostTypes.blended },
-  { desc: messages.costTypeUnblendedDesc, label: messages.costTypeUnblended, value: CostTypes.unblended },
+  { description: messages.costTypeAmortizedDesc, label: messages.costTypeAmortized, value: CostTypes.amortized },
+  { description: messages.costTypeBlendedDesc, label: messages.costTypeBlended, value: CostTypes.blended },
+  { description: messages.costTypeUnblendedDesc, label: messages.costTypeUnblended, value: CostTypes.unblended },
 ];
 
 class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
   protected defaultState: CostTypeState = {
-    isSelectOpen: false,
+    // TBD...
   };
   public state: CostTypeState = { ...this.defaultState };
 
   private getSelect = () => {
     const { costType = CostTypes.unblended, isDisabled } = this.props;
-    const { isSelectOpen } = this.state;
 
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: CostTypeOption) => option.value === costType);
+    const selection = selectOptions.find(option => option.value === costType);
 
     return (
-      <Select
-        className="selectOverride"
-        id="costTypeSelect"
+      <SelectWrapper
+        id="cost-type-select"
         isDisabled={isDisabled}
-        isOpen={isSelectOpen}
-        onSelect={(_evt, value) => this.handleOnSelect(value)}
-        onToggle={(_evt, isExpanded) => this.handleOnToggle(isExpanded)}
-        selections={selection}
-        variant={SelectVariant.single}
-      >
-        {selectOptions.map(option => (
-          <SelectOption description={option.desc} key={option.value} value={option} />
-        ))}
-      </Select>
+        onSelect={this.handleOnSelect}
+        selection={selection}
+        selectOptions={selectOptions}
+      />
     );
   };
 
-  private getSelectOptions = (): CostTypeOption[] => {
+  private getSelectOptions = (): SelectWrapperOption[] => {
     const { intl } = this.props;
 
-    const options: CostTypeOption[] = [];
+    const options: SelectWrapperOption[] = [];
 
     costTypeOptions.map(option => {
       options.push({
-        desc: intl.formatMessage(option.desc),
+        description: intl.formatMessage(option.description),
         toString: () => intl.formatMessage(option.label),
         value: option.value,
       });
@@ -105,27 +89,16 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
     return options;
   };
 
-  private handleOnSelect = (selection: CostTypeOption) => {
+  private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
     const { isSessionStorage = true, onSelect } = this.props;
 
     // Set cost type in local storage
     if (isSessionStorage) {
       setCostType(selection.value);
     }
-    this.setState(
-      {
-        isSelectOpen: false,
-      },
-      () => {
-        if (onSelect) {
-          onSelect(selection.value);
-        }
-      }
-    );
-  };
-
-  private handleOnToggle = isSelectOpen => {
-    this.setState({ isSelectOpen });
+    if (onSelect) {
+      onSelect(selection.value);
+    }
   };
 
   public render() {

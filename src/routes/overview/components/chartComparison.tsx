@@ -1,6 +1,6 @@
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import React from 'react';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectWrapper } from 'routes/components/selectWrapper';
 
 interface ChartComparisonOwnProps {
   currentItem?: string;
@@ -15,12 +15,6 @@ interface ChartComparisonOwnProps {
 
 interface ChartComparisonState {
   currentItem?: string;
-  isSelectOpen: boolean;
-}
-
-interface ComparisonOption extends SelectOptionObject {
-  toString(): string; // label
-  value?: string;
 }
 
 type ChartComparisonProps = ChartComparisonOwnProps;
@@ -28,38 +22,31 @@ type ChartComparisonProps = ChartComparisonOwnProps;
 class ChartComparisonBase extends React.Component<ChartComparisonProps, ChartComparisonState> {
   protected defaultState: ChartComparisonState = {
     currentItem: this.props.options ? this.props.options.find(option => option.default).value : undefined,
-    isSelectOpen: false,
   };
   public state: ChartComparisonState = { ...this.defaultState };
 
   private getSelect = () => {
     const { isDisabled } = this.props;
-    const { currentItem, isSelectOpen } = this.state;
+    const { currentItem } = this.state;
 
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: ComparisonOption) => option.value === currentItem);
+    const selection = selectOptions.find(option => option.value === currentItem);
 
     return (
-      <Select
-        id="comparisonSelect"
+      <SelectWrapper
+        id="comparison-select"
         isDisabled={isDisabled}
-        isOpen={isSelectOpen}
-        onSelect={(_evt, value) => this.handleSelect(value)}
-        onToggle={(_evt, isExpanded) => this.handleToggle(isExpanded)}
-        selections={selection}
-        variant={SelectVariant.single}
-      >
-        {selectOptions.map(option => (
-          <SelectOption key={option.value} value={option} />
-        ))}
-      </Select>
+        onSelect={this.handleOnSelect}
+        selection={selection}
+        selectOptions={selectOptions}
+      />
     );
   };
 
-  private getSelectOptions = (): ComparisonOption[] => {
+  private getSelectOptions = (): SelectWrapperOption[] => {
     const { options } = this.props;
 
-    const selectOptions: ComparisonOption[] = [];
+    const selectOptions: SelectWrapperOption[] = [];
 
     options.map(option => {
       selectOptions.push({
@@ -71,7 +58,7 @@ class ChartComparisonBase extends React.Component<ChartComparisonProps, ChartCom
     return selectOptions;
   };
 
-  private handleSelect = (selection: ComparisonOption) => {
+  private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
     const { onItemClicked } = this.props;
 
     if (onItemClicked) {
@@ -79,12 +66,7 @@ class ChartComparisonBase extends React.Component<ChartComparisonProps, ChartCom
     }
     this.setState({
       currentItem: selection.value,
-      isSelectOpen: false,
     });
-  };
-
-  private handleToggle = isSelectOpen => {
-    this.setState({ isSelectOpen });
   };
 
   public render() {

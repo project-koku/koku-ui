@@ -1,12 +1,12 @@
 import './dataToolbar.scss';
 
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectCheckboxWrapper } from 'routes/components/selectWrapper';
 import type { Filter } from 'routes/utils/filter';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -28,32 +28,21 @@ interface CustomSelectDispatchProps {
 }
 
 interface CustomSelectState {
-  isCustomSelectExpanded?: boolean;
-}
-
-export interface SelectOptionObjectExt extends SelectOptionObject {
-  toString(): string; // label
-  value?: string;
+  // TBD...
 }
 
 type CustomSelectProps = CustomSelectOwnProps & CustomSelectStateProps & CustomSelectDispatchProps;
 
 class CustomSelectBase extends React.Component<CustomSelectProps, CustomSelectState> {
   protected defaultState: CustomSelectState = {
-    isCustomSelectExpanded: false,
+    // TBD...
   };
   public state: CustomSelectState = { ...this.defaultState };
 
-  private onCustomSelectToggle = isOpen => {
-    this.setState({
-      isCustomSelectExpanded: isOpen,
-    });
-  };
-
-  private getSelectOptions = (): SelectOptionObjectExt[] => {
+  private getSelectOptions = (): SelectWrapperOption[] => {
     const { options } = this.props;
 
-    const selectOptions: SelectOptionObjectExt[] = [];
+    const selectOptions: SelectWrapperOption[] = [];
 
     options.map(option => {
       selectOptions.push({
@@ -66,29 +55,23 @@ class CustomSelectBase extends React.Component<CustomSelectProps, CustomSelectSt
 
   public render() {
     const { className, filters, intl, isDisabled, onSelect } = this.props;
-    const { isCustomSelectExpanded } = this.state;
 
     const selectOptions = this.getSelectOptions();
     const selections = filters?.map(filter => {
-      return selectOptions.find((option: SelectOptionObjectExt) => option.value === filter.value);
+      return selectOptions.find(option => option.value === filter.value);
     });
 
     return (
-      <Select
-        className={className}
-        isDisabled={isDisabled}
-        variant={SelectVariant.checkbox}
+      <SelectCheckboxWrapper
         aria-label={intl.formatMessage(messages.filterByValuesAriaLabel)}
-        onToggle={(_evt, isExpanded) => this.onCustomSelectToggle(isExpanded)}
+        className={className}
+        id="custom-select"
+        isDisabled={isDisabled}
         onSelect={onSelect}
+        placeholder={intl.formatMessage(messages.chooseValuePlaceholder)}
         selections={selections}
-        isOpen={isCustomSelectExpanded}
-        placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}
-      >
-        {selectOptions.map(option => (
-          <SelectOption key={option.value} value={option} />
-        ))}
-      </Select>
+        selectOptions={selectOptions}
+      />
     );
   }
 }

@@ -222,7 +222,7 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
         {sources.length === 0 && (
           <EmptyFilterState filter={this.props.filter} subTitle={messages.emptyFilterSourceStateSubtitle} />
         )}
-        <Toolbar id="costmodels_details.sources_pagination_datatoolbar">
+        <Toolbar id="costmodels-details-sources-pagination-datatoolbar">
           <ToolbarContent style={{ flexDirection: 'row-reverse' }}>
             <ToolbarItem variant="pagination">
               <Pagination
