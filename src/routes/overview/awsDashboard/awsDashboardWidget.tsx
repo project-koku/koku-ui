@@ -7,7 +7,7 @@ import { createMapStateToProps } from 'store/common';
 import { awsDashboardActions, awsDashboardSelectors, AwsDashboardTab } from 'store/dashboard/awsDashboard';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import { getCostType, getCurrency } from 'utils/localStorage';
+import { getCostType, getCurrency } from 'utils/sessionStorage';
 
 interface AwsDashboardWidgetDispatchProps {
   fetchForecasts: typeof awsDashboardActions.fetchWidgetForecasts;

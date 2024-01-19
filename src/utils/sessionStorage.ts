@@ -3,69 +3,18 @@ import { CostTypes } from 'routes/components/costType/costType';
 
 const accountCostTypeID = 'account_cost_type';
 const accountCurrencyID = 'account_currency';
+const accountNumberID = 'account_number';
 const costDistributionID = 'cost_distribution';
 const costManagementID = 'cost_management';
-const costTypeID = 'costType';
+const costTypeID = 'cost_type';
 const currencyID = 'currency';
 const inactiveSourcesID = 'inactive_sources';
-const sessionTokenID = 'session';
-
-// Returns a subset of the token cookie
-export const getPartialToken = async () => {
-  const insights = (window as any).insights;
-  const token = await insights.chrome.auth.getToken();
-  return token.substring(token.length - 40, token.length);
-};
-
-/**
- * Session
- */
-
-// Deletes session token
-export const deleteSessionToken = () => {
-  removeItem(sessionTokenID);
-};
-
-// Returns session token
-export const getSessionToken = () => {
-  return getItem(sessionTokenID);
-};
-
-// Invalidates session if not valid and restores query param values
-export const invalidateSession = (force = false) => {
-  if (force) {
-    localStorage.removeItem(costManagementID);
-    return;
-  }
-  isSessionValid().then(valid => {
-    if (!valid) {
-      localStorage.removeItem(costManagementID);
-    }
-  });
-};
-
-// Returns true if session is valid
-export const isSessionValid = async () => {
-  const token = getSessionToken();
-  if (!token) {
-    return true; // Don't clear
-  }
-  return getPartialToken().then(partialToken => {
-    return token === partialToken;
-  });
-};
-
-// Save partial session token
-export const saveSessionToken = async () => {
-  const partialToken = await getPartialToken();
-  setItem(sessionTokenID, partialToken);
-};
 
 /**
  * Common
  */
 export const getStorage = () => {
-  const s = localStorage.getItem(costManagementID);
+  const s = sessionStorage.getItem(costManagementID);
   return s && s !== null ? JSON.parse(s) : undefined;
 };
 
@@ -78,31 +27,29 @@ export const removeItem = (id: string) => {
   const s = getStorage();
   if (s) {
     s[id] = undefined;
-    localStorage.setItem(costManagementID, JSON.stringify(s));
+    sessionStorage.setItem(costManagementID, JSON.stringify(s));
   }
 };
 
-export const setItem = (id: string, value: string) => {
+export const setItem = async (id: string, value: string) => {
   // Don't store undefined https://issues.redhat.com/browse/COST-3683
   if (!value) {
     return;
   }
   let s = getStorage();
   if (!s) {
-    s = {};
+    const identity = await getUserIdentity();
+    s = {
+      [accountNumberID]: identity.account_number, // Save to invalidate session storage for new users
+    };
   }
   s[id] = value;
-  localStorage.setItem(costManagementID, JSON.stringify(s));
+  sessionStorage.setItem(costManagementID, JSON.stringify(s));
 };
 
 /**
  * Cost distribution
  */
-
-// Delete cost distribution
-export const deleteCostDistribution = () => {
-  removeItem(costDistributionID);
-};
 
 // Returns cost distribution
 export const getCostDistribution = () => {
@@ -123,17 +70,11 @@ export const setCostDistribution = (value: string) => {
     return;
   }
   setItem(costDistributionID, value);
-  saveSessionToken();
 };
 
 /**
  * Cost type
  */
-
-// Delete cost type
-export const deleteCostType = () => {
-  removeItem(costTypeID);
-};
 
 // Returns account cost type
 export const getAccountCostType = () => {
@@ -156,7 +97,6 @@ export const isCostTypeAvailable = () => {
 // Set account currency
 export const setAccountCostType = (value: string) => {
   setItem(accountCostTypeID, value);
-  saveSessionToken();
 };
 
 // Set cost type
@@ -166,22 +106,11 @@ export const setCostType = (value: string) => {
     return;
   }
   setItem(costTypeID, value);
-  saveSessionToken();
 };
 
 /**
  * Currency
  */
-
-// Deletes account currency
-export const deleteAccountCurrency = () => {
-  removeItem(accountCurrencyID);
-};
-
-// Deletes currency
-export const deleteCurrency = () => {
-  removeItem(currencyID);
-};
 
 // Returns account currency
 export const getAccountCurrency = () => {
@@ -204,13 +133,11 @@ export const isCurrencyAvailable = () => {
 // Set account currency
 export const setAccountCurrency = (value: string) => {
   setItem(accountCurrencyID, value);
-  saveSessionToken();
 };
 
 // Set currency
 export const setCurrency = (value: string) => {
   setItem(currencyID, value);
-  saveSessionToken();
 };
 
 /**
@@ -235,5 +162,43 @@ export const isInactiveSourcesValid = () => {
 // Set inactive sources
 export const setInactiveSources = (value: string) => {
   setItem(inactiveSourcesID, value);
-  saveSessionToken();
+};
+
+/**
+ * Session
+ */
+
+// Invalidates session storage if not valid and restores query param values
+export const invalidateSession = (force = false) => {
+  if (force) {
+    sessionStorage.removeItem(costManagementID);
+    return;
+  }
+  isSessionValid().then(valid => {
+    if (!valid) {
+      sessionStorage.removeItem(costManagementID);
+    }
+  });
+};
+
+// Returns true if session is valid
+const isSessionValid = async () => {
+  const accountNumber = getItem(accountNumberID);
+  if (!accountNumber) {
+    return true; // Don't clear
+  }
+  return getUserIdentity().then(identity => {
+    return accountNumber === identity.account_number;
+  });
+};
+
+/**
+ * User
+ */
+
+// Returns user identity
+const getUserIdentity = async () => {
+  const insights = (window as any).insights;
+  const user = await insights.chrome.auth.getUser();
+  return user.identity;
 };
