@@ -11,7 +11,7 @@ import {
 } from 'store/dashboard/ocpCloudDashboard';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import { getCurrency } from 'utils/localStorage';
+import { getCurrency } from 'utils/sessionStorage';
 
 interface OcpCloudDashboardWidgetDispatchProps {
   fetchForecasts: typeof ocpCloudDashboardActions.fetchWidgetForecasts;
