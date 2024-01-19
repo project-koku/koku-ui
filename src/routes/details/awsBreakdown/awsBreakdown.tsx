@@ -18,11 +18,11 @@ import { getQueryState } from 'routes/utils/queryState';
 import { createMapStateToProps } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getCostType, getCurrency } from 'utils/localStorage';
 import { formatPath } from 'utils/paths';
 import { breakdownDescKey, breakdownTitleKey, logicalAndPrefix, logicalOrPrefix, orgUnitIdKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
+import { getCostType, getCurrency } from 'utils/sessionStorage';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';

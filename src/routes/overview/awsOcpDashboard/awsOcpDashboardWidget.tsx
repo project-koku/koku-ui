@@ -7,7 +7,7 @@ import { createMapStateToProps } from 'store/common';
 import { awsOcpDashboardActions, awsOcpDashboardSelectors, AwsOcpDashboardTab } from 'store/dashboard/awsOcpDashboard';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import { getCostType, getCurrency } from 'utils/localStorage';
+import { getCostType, getCurrency } from 'utils/sessionStorage';
 
 interface AwsOcpDashboardWidgetDispatchProps {
   fetchForecasts: typeof awsOcpDashboardActions.fetchWidgetForecasts;

@@ -1,5 +1,5 @@
 import type { RootState } from 'store/rootReducer';
-import { getCostType, getCurrency } from 'utils/localStorage';
+import { getCostType, getCurrency } from 'utils/sessionStorage';
 
 import {
   awsOcpDashboardDefaultFilters,

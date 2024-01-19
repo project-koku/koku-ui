@@ -1389,8 +1389,10 @@ export default defineMessages({
     id: 'docsAddOcpSources',
   },
   docsCostCategory: {
-    defaultMessage: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
-    description: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management#configuring-categories_configuring-tags-int',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management#configuring-categories_configuring-tags-int',
     id: 'docsCostCategory',
   },
   docsCostModelTerminology: {

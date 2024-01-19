@@ -1,5 +1,5 @@
 import type { RootState } from 'store/rootReducer';
-import { getCurrency } from 'utils/localStorage';
+import { getCurrency } from 'utils/sessionStorage';
 
 import {
   gcpOcpDashboardDefaultFilters,
