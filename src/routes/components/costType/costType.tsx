@@ -10,14 +10,14 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { setCostType } from 'utils/localStorage';
+import { setCostType } from 'utils/sessionStorage';
 
 import { styles } from './costType.styles';
 
 interface CostTypeOwnProps {
   costType?: string;
   isDisabled?: boolean;
-  isLocalStorage?: boolean;
+  isSessionStorage?: boolean;
   onSelect?: (value: string) => void;
   showLabel?: boolean;
 }
@@ -106,10 +106,10 @@ class CostTypeBase extends React.Component<CostTypeProps, CostTypeState> {
   };
 
   private handleOnSelect = (selection: CostTypeOption) => {
-    const { isLocalStorage = true, onSelect } = this.props;
+    const { isSessionStorage = true, onSelect } = this.props;
 
     // Set cost type in local storage
-    if (isLocalStorage) {
+    if (isSessionStorage) {
       setCostType(selection.value);
     }
     this.setState(

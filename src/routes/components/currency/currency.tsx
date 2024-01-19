@@ -10,14 +10,14 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { setCurrency } from 'utils/localStorage';
+import { setCurrency } from 'utils/sessionStorage';
 
 import { styles } from './currency.styles';
 
 interface CurrencyOwnProps {
   currency?: string;
   isDisabled?: boolean;
-  isLocalStorage?: boolean;
+  isSessionStorage?: boolean;
   onSelect?: (value: string) => void;
   showLabel?: boolean;
 }
@@ -108,10 +108,10 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
   };
 
   private handleOnSelect = (selection: CurrencyOption) => {
-    const { isLocalStorage = true, onSelect } = this.props;
+    const { isSessionStorage = true, onSelect } = this.props;
 
     // Set currency units via local storage
-    if (isLocalStorage) {
+    if (isSessionStorage) {
       setCurrency(selection.value);
     }
     this.setState(

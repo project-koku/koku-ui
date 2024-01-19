@@ -7,7 +7,7 @@ import { createMapStateToProps } from 'store/common';
 import { gcpOcpDashboardActions, gcpOcpDashboardSelectors, GcpOcpDashboardTab } from 'store/dashboard/gcpOcpDashboard';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import { getCurrency } from 'utils/localStorage';
+import { getCurrency } from 'utils/sessionStorage';
 
 interface GcpOcpDashboardWidgetDispatchProps {
   fetchForecasts: typeof gcpOcpDashboardActions.fetchWidgetForecasts;

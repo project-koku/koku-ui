@@ -41,11 +41,11 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getCostDistribution, getCurrency } from 'utils/localStorage';
 import { formatPath } from 'utils/paths';
 import { noPrefix, platformCategoryKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
+import { getCostDistribution, getCurrency } from 'utils/sessionStorage';
 
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable, DetailsTableColumnIds } from './detailsTable';
