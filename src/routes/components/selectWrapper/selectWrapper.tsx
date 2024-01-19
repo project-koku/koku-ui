@@ -83,7 +83,7 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
   );
 
   return (
-    <div className={`selectWrapper ${className}`}>
+    <div className={className ? `selectWrapper ${className}` : 'selectWrapper'}>
       <Select
         id={id}
         onOpenChange={isExpanded => setIsOpen(isExpanded)}

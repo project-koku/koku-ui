@@ -219,7 +219,7 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
   }, [filterValue]);
 
   return (
-    <div className={`selectWrapper ${className}`}>
+    <div className={className ? `selectWrapper ${className}` : 'selectWrapper'}>
       <Select
         id={id}
         isOpen={isOpen}

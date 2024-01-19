@@ -81,7 +81,7 @@ const SelectCheckboxWrapper: React.FC<SelectCheckboxWrapperProps> = ({
   );
 
   return (
-    <div className={`selectWrapper ${className}`}>
+    <div className={className ? `selectWrapper ${className}` : 'selectWrapper'}>
       <Select
         id={id}
         onOpenChange={isExpanded => setIsOpen(isExpanded)}
