@@ -5,7 +5,7 @@ import NotificationsPortal from '@redhat-cloud-services/frontend-components-noti
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/Registry';
 import React, { useEffect, useLayoutEffect } from 'react';
-import { invalidateSession } from 'utils/localStorage';
+import { invalidateSession } from 'utils/sessionStorage';
 
 import pkg from '../package.json';
 import { useFeatureFlags } from './components/featureFlags';

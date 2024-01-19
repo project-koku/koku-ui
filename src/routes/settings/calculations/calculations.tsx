@@ -10,9 +10,9 @@ import { Currency } from 'routes/components/currency';
 import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
-import { getAccountCostType, getAccountCurrency } from 'utils/localStorage';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
+import { getAccountCostType, getAccountCurrency } from 'utils/sessionStorage';
 
 import { styles } from './calculations.styles';
 
@@ -63,7 +63,7 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
             <CostType
               costType={currentCostType}
               isDisabled={!canWrite}
-              isLocalStorage={false}
+              isSessionStorage={false}
               onSelect={this.handleOnCostTypeSelected}
               showLabel={false}
             />
@@ -88,7 +88,7 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
             <Currency
               currency={currentCurrency}
               isDisabled={!canWrite}
-              isLocalStorage={false}
+              isSessionStorage={false}
               onSelect={this.handleOnCurrencySelected}
               showLabel={false}
             />

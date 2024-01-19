@@ -35,11 +35,11 @@ import {
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getCurrency } from 'utils/localStorage';
 import { formatPath } from 'utils/paths';
 import { noPrefix, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
+import { getCurrency } from 'utils/sessionStorage';
 
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';

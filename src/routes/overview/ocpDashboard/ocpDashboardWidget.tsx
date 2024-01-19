@@ -8,7 +8,7 @@ import { ocpDashboardActions, ocpDashboardSelectors, OcpDashboardTab } from 'sto
 import { featureFlagsSelectors } from 'store/featureFlags';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
-import { getCurrency } from 'utils/localStorage';
+import { getCurrency } from 'utils/sessionStorage';
 
 import { chartStyles } from './ocpDashboardWidget.styles';
 

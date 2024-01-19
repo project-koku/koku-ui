@@ -12,8 +12,8 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
-import { deleteInactiveSources, isInactiveSourcesValid, setInactiveSources } from 'utils/localStorage';
 import { getReleasePath } from 'utils/paths';
+import { deleteInactiveSources, isInactiveSourcesValid, setInactiveSources } from 'utils/sessionStorage';
 
 interface InactiveSourcesOwnProps {
   // TBD...

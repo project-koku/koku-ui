@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { MetricHash } from 'api/metrics';
 import React from 'react';
-import { getAccountCurrency } from 'utils/localStorage';
+import { getAccountCurrency } from 'utils/sessionStorage';
 
 export const defaultCostModelContext = {
   apiError: null,

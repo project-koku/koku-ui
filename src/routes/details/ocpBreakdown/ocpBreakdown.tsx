@@ -20,11 +20,11 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { uiActions } from 'store/ui';
-import { getCostDistribution, getCurrency } from 'utils/localStorage';
 import { formatPath } from 'utils/paths';
 import { breakdownDescKey, breakdownTitleKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
+import { getCostDistribution, getCurrency } from 'utils/sessionStorage';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';

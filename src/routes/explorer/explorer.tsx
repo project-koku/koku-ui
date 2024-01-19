@@ -43,10 +43,10 @@ import { featureFlagsSelectors } from 'store/featureFlags';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
-import { getCostDistribution, getCostType, getCurrency } from 'utils/localStorage';
 import { awsCategoryPrefix, noPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
+import { getCostDistribution, getCostType, getCurrency } from 'utils/sessionStorage';
 import {
   isAwsAvailable,
   isAzureAvailable,

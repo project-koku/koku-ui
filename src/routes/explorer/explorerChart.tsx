@@ -26,9 +26,9 @@ import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUnits } from 'utils/format';
-import { getCostDistribution } from 'utils/localStorage';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
+import { getCostDistribution } from 'utils/sessionStorage';
 
 import { chartStyles, styles } from './explorerChart.styles';
 import { PerspectiveType } from './explorerUtils';
