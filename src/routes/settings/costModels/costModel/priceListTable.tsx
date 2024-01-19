@@ -25,14 +25,13 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { SelectCheckboxWrapper } from 'routes/components/selectWrapper';
+import { SelectCheckboxWrapper, SelectWrapper } from 'routes/components/selectWrapper';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { WithPriceListSearch } from 'routes/settings/costModels/components/hoc/withPriceListSearch';
 import { PriceListToolbar } from 'routes/settings/costModels/components/priceListToolbar';
 import { compareBy } from 'routes/settings/costModels/components/rateForm/utils';
 import { RateTable } from 'routes/settings/costModels/components/rateTable';
-import { PrimarySelector } from 'routes/settings/costModels/components/toolbar/primarySelector';
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -199,17 +198,18 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
               <>
                 <PriceListToolbar
                   primary={
-                    <PrimarySelector
+                    <SelectWrapper
                       isDisabled={this.props.current.rates.length === 0}
-                      primary={search.primary}
-                      setPrimary={(primary: string) => setSearch({ primary })}
-                      options={[
+                      onSelect={(_evt, selection) => setSearch({ primary: selection.value })}
+                      placeholder={intl.formatMessage(messages.measurementPlaceholder)}
+                      selection={search.primary}
+                      selectOptions={[
                         {
-                          label: intl.formatMessage(messages.metric),
+                          toString: () => intl.formatMessage(messages.metric),
                           value: 'metrics',
                         },
                         {
-                          label: intl.formatMessage(messages.measurement),
+                          toString: () => intl.formatMessage(messages.measurement),
                           value: 'measurements',
                         },
                       ]}
