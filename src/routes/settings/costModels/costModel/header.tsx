@@ -33,6 +33,7 @@ import { rbacSelectors } from 'store/rbac';
 import { formatPath } from 'utils/paths';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
+
 interface Props extends RouterComponentProps, WrappedComponentProps {
   tabRefs: any[];
   tabIndex: number;
@@ -216,42 +217,6 @@ const Header: React.FC<Props> = ({
     </>
   );
 };
-
-// <Dropdown
-//   toggle={<KebabToggle onToggle={(_evt, isOpen) => setDropdownIsOpen(isOpen)} />}
-//   isOpen={dropdownIsOpen}
-//   onSelect={() => setDropdownIsOpen(false)}
-//   isPlain
-//   position="right"
-//   dropdownItems={[
-//     <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
-//       <DropdownItem
-//         isDisabled={!isWritePermission}
-//         onClick={() =>
-//           setDialogOpen({
-//             isOpen: true,
-//             name: 'updateCostModel',
-//           })
-//         }
-//       >
-//         {intl.formatMessage(messages.edit)}
-//       </DropdownItem>
-//     </ReadOnlyTooltip>,
-//     <ReadOnlyTooltip key="delete" isDisabled={!isWritePermission}>
-//       <DropdownItem
-//         isDisabled={!isWritePermission}
-//         onClick={() =>
-//           setDialogOpen({
-//             isOpen: true,
-//             name: 'deleteCostModel',
-//           })
-//         }
-//       >
-//         {intl.formatMessage(messages.delete)}
-//       </DropdownItem>
-//     </ReadOnlyTooltip>,
-//   ]}
-// />
 
 export default withRouter(
   connect(

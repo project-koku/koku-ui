@@ -3,7 +3,7 @@ export interface Inputer {
   setValue: (value: string) => void;
 }
 
-export interface Opener {
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
-}
+// export interface Opener {
+//   isOpen: boolean;
+//   setIsOpen: (value: boolean) => void;
+// }
