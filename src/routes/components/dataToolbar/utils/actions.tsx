@@ -3,7 +3,7 @@ import { ExportIcon } from '@patternfly/react-icons/dist/esm/icons/export-icon';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
-import { DataKebab } from 'routes/components/dataToolbar/dataKebab';
+import { DropdownWrapper } from 'routes/components/dropdownWrapper';
 
 // Column management
 
@@ -91,22 +91,22 @@ export const getKebab = ({
   showColumnManagement?: boolean;
   showPlatformCosts?: boolean;
 }) => {
-  const options = [];
+  const items = [];
   if (showColumnManagement) {
-    options.push({
-      label: messages.detailsColumnManagementTitle,
+    items.push({
       onClick: onColumnManagementClicked,
+      toString: () => intl.formatMessage(messages.detailsColumnManagementTitle),
     });
   }
   if (showPlatformCosts) {
-    options.push({
-      label: messages.sumPlatformCosts,
+    items.push({
       onClick: () => onPlatformCostsChanged(!isPlatformCostsChecked),
+      toString: () => intl.formatMessage(messages.sumPlatformCosts),
     });
   }
   return (
     <ToolbarItem visibility={{ xl: 'hidden' }}>
-      <DataKebab options={options} />
+      <DropdownWrapper isKebab items={items} />
     </ToolbarItem>
   );
 };
