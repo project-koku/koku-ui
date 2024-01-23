@@ -1,4 +1,3 @@
-import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core/deprecated';
 import type { ProviderType } from 'api/providers';
 import type { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -6,6 +5,8 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import type { DropdownWrapperItem } from 'routes/components/dropdownWrapper';
+import { DropdownWrapper } from 'routes/components/dropdownWrapper';
 import { ExportModal } from 'routes/components/export';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { createMapStateToProps } from 'store/common';
@@ -33,7 +34,6 @@ interface DetailsActionsDispatchProps {
 }
 
 interface DetailsActionsState {
-  isDropdownOpen?: boolean;
   isExportModalOpen?: boolean;
 }
 
@@ -41,7 +41,6 @@ type DetailsActionsProps = DetailsActionsOwnProps & DetailsActionsStateProps & D
 
 class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsActionsState> {
   protected defaultState: DetailsActionsState = {
-    isDropdownOpen: false,
     isExportModalOpen: false,
   };
   public state: DetailsActionsState = { ...this.defaultState };
@@ -50,8 +49,6 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
     super(stateProps, dispatchProps);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
-    this.handleOnToggle = this.handleOnToggle.bind(this);
-    this.handleOnSelect = this.handleOnSelect.bind(this);
   }
 
   private getExportModal = () => {
@@ -79,17 +76,6 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
     this.setState({ isExportModalOpen: true });
   };
 
-  public handleOnSelect = () => {
-    const { isDropdownOpen } = this.state;
-    this.setState({
-      isDropdownOpen: !isDropdownOpen,
-    });
-  };
-
-  public handleOnToggle = (isDropdownOpen: boolean) => {
-    this.setState({ isDropdownOpen });
-  };
-
   public render() {
     const {
       groupBy,
@@ -102,35 +88,25 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
     } = this.props;
 
     // tslint:disable:jsx-wrap-multiline
-    const items = [
-      <DropdownItem component="button" isDisabled={isDisabled} key="export-action" onClick={this.handleExportModalOpen}>
-        {intl.formatMessage(messages.detailsActionsExport)}
-      </DropdownItem>,
+    const items: DropdownWrapperItem[] = [
+      {
+        isDisabled,
+        onClick: this.handleExportModalOpen,
+        toString: () => intl.formatMessage(messages.detailsActionsExport),
+      },
     ];
 
     if (showPriceListOption) {
-      items.unshift(
-        <DropdownItem
-          component="button"
-          key="price-list-action"
-          isDisabled={isDisabled || groupBy.includes(tagPrefix) || source_uuid.length === 0}
-          onClick={() => redirectToCostModel(source_uuid[0], router)}
-        >
-          {intl.formatMessage(messages.detailsActionsPriceList)}
-        </DropdownItem>
-      );
+      items.unshift({
+        isDisabled: isDisabled || groupBy.includes(tagPrefix) || source_uuid.length === 0,
+        onClick: () => redirectToCostModel(source_uuid[0], router),
+        toString: () => intl.formatMessage(messages.detailsActionsPriceList),
+      });
     }
 
     return (
       <>
-        <Dropdown
-          onSelect={this.handleOnSelect}
-          toggle={<KebabToggle onToggle={(_evt, isOpen) => this.handleOnToggle(isOpen)} />}
-          isOpen={this.state.isDropdownOpen}
-          isPlain
-          position="right"
-          dropdownItems={items}
-        />
+        <DropdownWrapper isKebab items={items} position="right" />
         {this.getExportModal()}
       </>
     );
