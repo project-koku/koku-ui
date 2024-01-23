@@ -135,9 +135,9 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps, GroupByOrgState> {
           isDisabled={isDisabled}
           onClear={this.handleOnClear}
           onSelect={this.handleOnSelect}
+          options={selectOptions}
           placeholder={intl.formatMessage(messages.filterByOrgUnitPlaceholder)}
           selection={selection}
-          selectOptions={selectOptions}
         />
       </div>
     );

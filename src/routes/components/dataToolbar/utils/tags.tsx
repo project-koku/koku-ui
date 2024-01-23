@@ -45,9 +45,9 @@ export const getTagKeySelect = ({
         isDisabled={isDisabled && !hasFilters(filters)}
         onClear={onTagKeyClear}
         onSelect={onTagKeySelect}
+        options={selectOptions}
         placeholder={intl.formatMessage(messages.chooseKeyPlaceholder)}
         selection={currentTagKey}
-        selectOptions={selectOptions}
       />
     </ToolbarItem>
   );

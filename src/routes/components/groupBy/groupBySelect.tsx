@@ -146,9 +146,9 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
           isDisabled={isDisabled}
           onClear={this.handleOnClear}
           onSelect={this.handleOnSelect}
+          options={selectOptions}
           placeholder={intl.formatMessage(messages.chooseKeyPlaceholder)}
           selection={selection}
-          selectOptions={selectOptions}
         />
       </div>
     );

@@ -27,7 +27,7 @@ interface SelectTypeaheadWrapperOwnProps {
   onSelect?: (event, value: SelectWrapperOption) => void;
   placeholder?: string;
   selection?: string | SelectWrapperOption;
-  selectOptions?: SelectWrapperOption[];
+  options?: SelectWrapperOption[];
 }
 
 type SelectTypeaheadWrapperProps = SelectTypeaheadWrapperOwnProps;
@@ -40,13 +40,13 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
   onClear = () => {},
   onSelect = () => {},
   placeholder = null,
+  options,
   selection,
-  selectOptions: initialSelectOptions,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState<string>('');
   const [filterValue, setFilterValue] = useState<string>('');
-  const [selectOptions, setSelectOptions] = useState<SelectWrapperOption[]>(initialSelectOptions);
+  const [selectOptions, setSelectOptions] = useState<SelectWrapperOption[]>();
   const [focusedItemIndex, setFocusedItemIndex] = useState<number | null>(null);
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const textInputRef = React.useRef<HTMLInputElement>();
@@ -73,7 +73,8 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
   };
 
   const handleOnBlur = () => {
-    setInputValue(selection?.toString());
+    setInputValue(selection ? selection.toString() : '');
+    setFilterValue('');
   };
 
   const handleOnClear = () => {
@@ -85,6 +86,7 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
 
   const handleOnToggleClick = () => {
     setIsOpen(!isOpen);
+    setFilterValue('');
   };
 
   const handleOnSelect = (_evt, value) => {
@@ -194,13 +196,18 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
   );
 
   useEffect(() => {
-    let newSelectOptions = cloneDeep(initialSelectOptions);
+    // Initialize selected label for page refresh, breadcrumbs, etc.
+    if (selection) {
+      setInputValue(typeof selection === 'string' ? selection : selection?.value);
+    }
+  }, [selection]);
+
+  useEffect(() => {
+    let newSelectOptions = cloneDeep(options);
 
     // Filter menu items based on the text input value when one exists
-    if (filterValue) {
-      newSelectOptions = initialSelectOptions.filter(option =>
-        option.toString().toLowerCase().includes(filterValue.toLowerCase())
-      );
+    if (filterValue?.length) {
+      newSelectOptions = options.filter(option => option.toString().toLowerCase().includes(filterValue.toLowerCase()));
 
       // When no options are found after filtering, display 'No results found'
       if (!(newSelectOptions.length && filterValue.trim().length)) {
@@ -216,7 +223,7 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
     setSelectOptions(newSelectOptions);
     setActiveItem(null);
     setFocusedItemIndex(null);
-  }, [filterValue]);
+  }, [filterValue, options]);
 
   return (
     <div className={className ? `selectWrapper ${className}` : 'selectWrapper'}>
@@ -229,7 +236,7 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
         toggle={toggle}
       >
         <SelectList aria-label={ariaLabel}>
-          {selectOptions.map((option, index) => getSelectOption(option, index))}
+          {selectOptions?.map((option, index) => getSelectOption(option, index))}
         </SelectList>
       </Select>
     </div>
