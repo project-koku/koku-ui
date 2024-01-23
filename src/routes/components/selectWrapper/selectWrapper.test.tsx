@@ -14,10 +14,10 @@ test('primary selector', async () => {
   ];
   render(
     <SelectWrapper
-      onSelect={(_evt, select) => handleOnSelect(select.value)}
+      onSelect={(_evt, selection) => handleOnSelect(selection.value)}
+      options={selectOptions}
       placeholder={'Resources'}
       selection={selectOptions[0]}
-      selectOptions={selectOptions}
     />
   );
   expect(screen.queryAllByText('CPU').length).toBe(1);

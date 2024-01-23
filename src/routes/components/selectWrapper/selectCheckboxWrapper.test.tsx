@@ -14,10 +14,10 @@ test('checkbox selector', async () => {
   ];
   render(
     <SelectCheckboxWrapper
-      onSelect={(_evt, select) => handleOnSelect(select.value)}
+      onSelect={(_evt, selection) => handleOnSelect(selection.value)}
+      options={selectOptions}
       placeholder={'Resources'}
       selections={selectOptions[0]}
-      selectOptions={selectOptions}
     />
   );
   expect(screen.queryAllByText('Resources').length).toBe(1);

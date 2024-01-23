@@ -8,7 +8,7 @@ import { SelectWrapper } from 'routes/components/selectWrapper';
 interface ExplorerDateRangeOwnProps {
   dateRangeType?: string;
   isDisabled?: boolean;
-  onSelected(value: string);
+  onSelect(value: string);
   options?: {
     label: MessageDescriptor;
     value: string;
@@ -59,10 +59,10 @@ class ExplorerDateRangeBase extends React.Component<ExplorerDateRangeProps, Expl
   };
 
   private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
-    const { onSelected } = this.props;
+    const { onSelect } = this.props;
 
-    if (onSelected) {
-      onSelected(selection.value);
+    if (onSelect) {
+      onSelect(selection.value);
     }
   };
 

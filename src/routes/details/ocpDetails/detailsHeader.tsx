@@ -32,9 +32,9 @@ interface DetailsHeaderOwnProps {
   costDistribution?: string;
   currency?: string;
   groupBy?: string;
-  onCurrencySelected(value: string);
-  onCostDistributionSelected(value: string);
-  onGroupBySelected(value: string);
+  onCurrencySelect(value: string);
+  onCostDistributionSelect(value: string);
+  onGroupBySelect(value: string);
   report: OcpReport;
 }
 
@@ -71,9 +71,9 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
       currency,
       groupBy,
       isExportsFeatureEnabled,
-      onCostDistributionSelected,
-      onCurrencySelected,
-      onGroupBySelected,
+      onCostDistributionSelect,
+      onCurrencySelect,
+      onGroupBySelect,
       providers,
       providersError,
       report,
@@ -112,7 +112,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
             {intl.formatMessage(messages.ocpDetailsTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            <Currency currency={currency} onSelect={onCurrencySelected} />
+            <Currency currency={currency} onSelect={onCurrencySelect} />
             {isExportsFeatureEnabled && <ExportsLink />}
           </div>
         </div>
@@ -122,14 +122,14 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
               getIdKeyForGroupBy={getIdKeyForGroupBy}
               groupBy={groupBy}
               isDisabled={!showContent}
-              onSelected={onGroupBySelected}
+              onSelect={onGroupBySelect}
               options={groupByOptions}
               showTags
               tagPathsType={tagPathsType}
             />
             {showCostDistribution && (
               <div style={styles.costDistribution}>
-                <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelected} />
+                <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
               </div>
             )}
           </div>

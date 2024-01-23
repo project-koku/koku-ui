@@ -54,7 +54,7 @@ interface DataToolbarOwnProps {
   isExportDisabled?: boolean; // Show export icon as disabled
   itemsPerPage?: number;
   itemsTotal?: number;
-  onBulkSelected?: (action: string) => void;
+  onBulkSelect?: (action: string) => void;
   onColumnManagementClicked?: () => void;
   onExportClicked?: () => void;
   onFilterAdded?: (filter: Filter) => void;
@@ -189,10 +189,10 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   };
 
   private handleOnBulkSelectClicked = (action: string) => {
-    const { onBulkSelected } = this.props;
+    const { onBulkSelect } = this.props;
 
-    if (onBulkSelected) {
-      onBulkSelected(action);
+    if (onBulkSelect) {
+      onBulkSelect(action);
     }
   };
 
