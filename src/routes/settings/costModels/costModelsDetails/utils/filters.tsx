@@ -306,9 +306,9 @@ const SourceTypeFilterBase: React.FC<SourceTypeFilterProps> = ({
         <SelectWrapper
           id="source-type-select"
           onSelect={handleOnSelect}
+          options={selectOptions}
           placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: 'source_type' })}
           selection={selection}
-          selectOptions={selectOptions}
         />
       </>
     ) : null;

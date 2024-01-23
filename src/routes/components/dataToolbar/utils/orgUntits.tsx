@@ -73,9 +73,9 @@ export const getOrgUnitSelect = ({
         id="org-units-select"
         isDisabled={isDisabled && !hasFilters(filters)}
         onSelect={onOrgUnitSelect}
+        options={selectOptions}
         placeholder={intl.formatMessage(messages.filterByOrgUnitPlaceholder)}
         selections={selections}
-        selectOptions={selectOptions}
       />
     </ToolbarFilter>
   );

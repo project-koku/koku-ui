@@ -68,9 +68,9 @@ class CustomSelectBase extends React.Component<CustomSelectProps, CustomSelectSt
         id="custom-select"
         isDisabled={isDisabled}
         onSelect={onSelect}
+        options={selectOptions}
         placeholder={intl.formatMessage(messages.chooseValuePlaceholder)}
         selections={selections}
-        selectOptions={selectOptions}
       />
     );
   }

@@ -37,8 +37,8 @@ class ChartComparisonBase extends React.Component<ChartComparisonProps, ChartCom
         id="comparison-select"
         isDisabled={isDisabled}
         onSelect={this.handleOnSelect}
+        options={selectOptions}
         selection={selection}
-        selectOptions={selectOptions}
       />
     );
   };

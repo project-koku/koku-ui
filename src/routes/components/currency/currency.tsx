@@ -72,8 +72,8 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
         id="currency-select"
         isDisabled={isDisabled}
         onSelect={this.handleOnSelect}
+        options={selectOptions}
         selection={selection}
-        selectOptions={selectOptions}
       />
     );
   };
