@@ -16,7 +16,6 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
-import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core/deprecated';
 import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React from 'react';
@@ -25,7 +24,6 @@ import { useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
-import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
 import { styles } from 'routes/settings/costModels/costModel/costModelsDetails.styles';
 import Dialog from 'routes/settings/costModels/costModel/dialog';
 import UpdateCostModelModal from 'routes/settings/costModels/costModel/updateCostModel';
@@ -47,6 +45,7 @@ interface Props extends RouterComponentProps, WrappedComponentProps {
   deleteCostModel: typeof costModelsActions.deleteCostModel;
   isWritePermission: boolean;
 }
+import { DropdownWrapper } from 'routes/components/dropdownWrapper';
 
 const Header: React.FC<Props> = ({
   current,
@@ -61,7 +60,6 @@ const Header: React.FC<Props> = ({
   tabRefs,
   tabIndex,
 }) => {
-  const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
   const intl = useIntl();
 
   const dateTime: any = intl.formatDate(current.updated_timestamp, {
@@ -131,40 +129,37 @@ const Header: React.FC<Props> = ({
             {current.description}
           </SplitItem>
           <SplitItem>
-            <Dropdown
-              toggle={<KebabToggle onToggle={(_evt, isOpen) => setDropdownIsOpen(isOpen)} />}
-              isOpen={dropdownIsOpen}
-              onSelect={() => setDropdownIsOpen(false)}
-              isPlain
-              position="right"
-              dropdownItems={[
-                <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
-                  <DropdownItem
-                    isDisabled={!isWritePermission}
-                    onClick={() =>
-                      setDialogOpen({
-                        isOpen: true,
-                        name: 'updateCostModel',
-                      })
-                    }
-                  >
-                    {intl.formatMessage(messages.edit)}
-                  </DropdownItem>
-                </ReadOnlyTooltip>,
-                <ReadOnlyTooltip key="delete" isDisabled={!isWritePermission}>
-                  <DropdownItem
-                    isDisabled={!isWritePermission}
-                    onClick={() =>
-                      setDialogOpen({
-                        isOpen: true,
-                        name: 'deleteCostModel',
-                      })
-                    }
-                  >
-                    {intl.formatMessage(messages.delete)}
-                  </DropdownItem>
-                </ReadOnlyTooltip>,
+            <DropdownWrapper
+              isKebab
+              items={[
+                {
+                  isDisabled: !isWritePermission,
+                  onClick: () =>
+                    setDialogOpen({
+                      isOpen: true,
+                      name: 'updateCostModel',
+                    }),
+                  tooltipProps: {
+                    content: intl.formatMessage(messages.readOnlyPermissions),
+                    isContentLeftAligned: true,
+                  },
+                  toString: () => intl.formatMessage(messages.edit),
+                },
+                {
+                  isDisabled: !isWritePermission,
+                  onClick: () =>
+                    setDialogOpen({
+                      isOpen: true,
+                      name: 'deleteCostModel',
+                    }),
+                  tooltipProps: {
+                    content: intl.formatMessage(messages.readOnlyPermissions),
+                    isContentLeftAligned: true,
+                  },
+                  toString: () => intl.formatMessage(messages.delete),
+                },
               ]}
+              position="right"
             />
           </SplitItem>
         </Split>
@@ -221,6 +216,42 @@ const Header: React.FC<Props> = ({
     </>
   );
 };
+
+// <Dropdown
+//   toggle={<KebabToggle onToggle={(_evt, isOpen) => setDropdownIsOpen(isOpen)} />}
+//   isOpen={dropdownIsOpen}
+//   onSelect={() => setDropdownIsOpen(false)}
+//   isPlain
+//   position="right"
+//   dropdownItems={[
+//     <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
+//       <DropdownItem
+//         isDisabled={!isWritePermission}
+//         onClick={() =>
+//           setDialogOpen({
+//             isOpen: true,
+//             name: 'updateCostModel',
+//           })
+//         }
+//       >
+//         {intl.formatMessage(messages.edit)}
+//       </DropdownItem>
+//     </ReadOnlyTooltip>,
+//     <ReadOnlyTooltip key="delete" isDisabled={!isWritePermission}>
+//       <DropdownItem
+//         isDisabled={!isWritePermission}
+//         onClick={() =>
+//           setDialogOpen({
+//             isOpen: true,
+//             name: 'deleteCostModel',
+//           })
+//         }
+//       >
+//         {intl.formatMessage(messages.delete)}
+//       </DropdownItem>
+//     </ReadOnlyTooltip>,
+//   ]}
+// />
 
 export default withRouter(
   connect(

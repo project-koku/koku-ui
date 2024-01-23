@@ -9,10 +9,7 @@ export interface DropdownWrapperItem {
   isDisabled?: boolean;
   onClick: (event: any) => void;
   toString?: () => string; // Item label
-  tooltipProps?: {
-    content?: string;
-    position?: string;
-  };
+  tooltipProps?: any;
 }
 
 interface DropdownWrapperOwnProps {
