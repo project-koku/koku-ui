@@ -2,30 +2,23 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { SelectWrapper } from './index';
+import { DropdownWrapper } from './index';
 
 test('primary selector', async () => {
   const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-  const handleOnSelect = jest.fn();
-  const selectOptions = [
-    { toString: () => 'CPU', value: 'cpu' },
-    { toString: () => 'Memory', value: 'memory' },
-    { toString: () => 'Storage', value: 'storage' },
+  const handleOnClick = jest.fn();
+  const items = [
+    { toString: () => 'CPU', onClick: () => handleOnClick('cpu') },
+    { toString: () => 'Memory', onClick: () => handleOnClick('memory') },
+    { toString: () => 'Storage', onClick: () => handleOnClick('storage') },
   ];
-  render(
-    <SelectWrapper
-      onSelect={(_evt, select) => handleOnSelect(select.value)}
-      placeholder={'Resources'}
-      selection={selectOptions[0]}
-      selectOptions={selectOptions}
-    />
-  );
-  expect(screen.queryAllByText('CPU').length).toBe(1);
+  render(<DropdownWrapper items={items} placeholder={'Resources'} />);
+  expect(screen.queryAllByText('CPU').length).toBe(0);
   expect(screen.queryAllByText('Memory').length).toBe(0);
   const button = screen.getByRole('button');
   await user.click(button);
-  const options = screen.getAllByRole('option');
-  expect(options.length).toBe(3);
-  await user.click(options[1]);
-  expect(handleOnSelect.mock.calls).toEqual([['memory']]);
+  const menuItems = screen.getAllByRole('menuitem');
+  expect(menuItems.length).toBe(3);
+  await user.click(menuItems[1]);
+  expect(handleOnClick.mock.calls).toEqual([['memory']]);
 });
