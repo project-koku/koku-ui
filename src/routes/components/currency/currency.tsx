@@ -62,7 +62,7 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
   public state: CurrencyState = { ...this.defaultState };
 
   private getSelect = () => {
-    const { currency, isDisabled } = this.props;
+    const { currency, isDisabled, showLabel = true } = this.props;
 
     const selectOptions = this.getSelectOptions();
     const selection = selectOptions.find(option => option.value === currency);
@@ -73,6 +73,7 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
         isDisabled={isDisabled}
         onSelect={this.handleOnSelect}
         options={selectOptions}
+        position={showLabel ? 'right' : undefined}
         selection={selection}
       />
     );
