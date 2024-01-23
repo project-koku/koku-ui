@@ -124,9 +124,9 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
           id="cost-category-select"
           isDisabled={isDisabled}
           onSelect={onCostCategoryValueSelect}
+          options={selectOptions}
           placeholder={intl.formatMessage(messages.chooseValuePlaceholder)}
           selections={selections}
-          selectOptions={selectOptions}
         />
       );
     }

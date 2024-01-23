@@ -18,9 +18,9 @@ interface SelectWrapperOwnProps {
   isDisabled?: boolean;
   onSelect?: (event, value: SelectWrapperOption) => void;
   placeholder?: string;
+  options?: SelectWrapperOption[];
   position?: 'right' | 'left' | 'center' | 'start' | 'end';
   selection?: string | SelectWrapperOption;
-  selectOptions?: SelectWrapperOption[];
   toggleIcon?: React.ReactNode;
 }
 
@@ -32,10 +32,10 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
   id,
   isDisabled,
   onSelect = () => {},
+  options,
   placeholder = null,
   position,
   selection,
-  selectOptions,
   toggleIcon,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -98,7 +98,7 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
         toggle={toggle}
       >
         <SelectList aria-label={ariaLabel}>
-          {selectOptions.map((option, index) => getSelectOption(option, index))}
+          {options?.map((option, index) => getSelectOption(option, index))}
         </SelectList>
       </Select>
     </div>

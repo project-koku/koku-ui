@@ -29,7 +29,7 @@ interface DataTableOwnProps {
   isActionsCell?: boolean;
   isLoading?: boolean;
   isSelectable?: boolean;
-  onSelected(items: any[], isSelected: boolean);
+  onSelect(items: any[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   orderBy: any;
   rows?: any[];
@@ -87,7 +87,7 @@ class DataTable extends React.Component<DataTableProps, any> {
   };
 
   private handleOnSelect = (isSelected, rowId) => {
-    const { onSelected, rows } = this.props;
+    const { onSelect, rows } = this.props;
 
     let newRows;
     let items = [];
@@ -102,8 +102,8 @@ class DataTable extends React.Component<DataTableProps, any> {
       items = [newRows[rowId].item];
     }
     this.setState({ rows }, () => {
-      if (onSelected) {
-        onSelected(items, isSelected);
+      if (onSelect) {
+        onSelect(items, isSelected);
       }
     });
   };

@@ -29,8 +29,8 @@ import { styles } from './detailsHeader.styles';
 interface DetailsHeaderOwnProps {
   currency?: string;
   groupBy?: string;
-  onCurrencySelected(value: string);
-  onGroupBySelected(value: string);
+  onCurrencySelect(value: string);
+  onGroupBySelect(value: string);
   report: RhelReport;
 }
 
@@ -66,8 +66,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       currency,
       groupBy,
       isExportsFeatureEnabled,
-      onCurrencySelected,
-      onGroupBySelected,
+      onCurrencySelect,
+      onGroupBySelect,
       providers,
       providersError,
       report,
@@ -104,7 +104,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             {intl.formatMessage(messages.rhelDetailsTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            <Currency currency={currency} onSelect={onCurrencySelected} />
+            <Currency currency={currency} onSelect={onCurrencySelect} />
             {isExportsFeatureEnabled && <ExportsLink />}
           </div>
         </div>
@@ -114,7 +114,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
               getIdKeyForGroupBy={getIdKeyForGroupBy}
               groupBy={groupBy}
               isDisabled={!showContent}
-              onSelected={onGroupBySelected}
+              onSelect={onGroupBySelect}
               options={groupByOptions}
               showTags
               tagPathsType={tagPathsType}

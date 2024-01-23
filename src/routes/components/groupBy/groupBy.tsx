@@ -33,7 +33,7 @@ interface GroupByOwnProps extends RouterComponentProps, WrappedComponentProps {
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
   isDisabled?: boolean;
-  onSelected(value: string);
+  onSelect(value: string);
   options: {
     label: string;
     value: string;
@@ -189,8 +189,8 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
         id="group-by-select"
         isDisabled={isDisabled}
         onSelect={this.handleOnSelect}
+        options={selectOptions}
         selection={selection}
-        selectOptions={selectOptions}
       />
     );
   };
@@ -225,7 +225,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
   };
 
   private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
-    const { onSelected } = this.props;
+    const { onSelect } = this.props;
 
     if (selection.value === orgUnitIdKey || selection.value === awsCategoryKey || selection.value === tagKey) {
       this.setState({
@@ -243,8 +243,8 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
           isGroupByTagVisible: false,
         },
         () => {
-          if (onSelected) {
-            onSelected(selection.value);
+          if (onSelect) {
+            onSelect(selection.value);
           }
         }
       );
@@ -284,7 +284,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
       groupBy,
       intl,
       isDisabled = false,
-      onSelected,
+      onSelect,
       orgReport,
       resourceReport,
       tagReport,
@@ -302,19 +302,19 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
             getIdKeyForGroupBy={getIdKeyForGroupBy}
             groupBy={groupBy}
             isDisabled={isDisabled}
-            onSelected={onSelected}
+            onSelect={onSelect}
             orgReport={orgReport}
           />
         )}
         {isGroupByTagVisible && (
-          <GroupBySelect groupBy={groupBy} isDisabled={isDisabled} onSelected={onSelected} report={tagReport} />
+          <GroupBySelect groupBy={groupBy} isDisabled={isDisabled} onSelect={onSelect} report={tagReport} />
         )}
         {isGroupByCostCategoryVisible && (
           <GroupBySelect
             groupBy={groupBy}
             isCostCategory
             isDisabled={isDisabled}
-            onSelected={onSelected}
+            onSelect={onSelect}
             report={resourceReport}
           />
         )}

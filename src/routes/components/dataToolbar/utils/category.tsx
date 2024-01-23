@@ -215,8 +215,8 @@ export const getCategorySelect = ({
         id="category-select"
         isDisabled={isDisabled && !hasFilters(filters)}
         onSelect={onCategorySelect}
+        options={selectOptions}
         selection={selection}
-        selectOptions={selectOptions}
         toggleIcon={<FilterIcon />}
       />
     </ToolbarItem>

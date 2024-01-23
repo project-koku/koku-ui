@@ -20,7 +20,7 @@ interface GroupBySelectOwnProps extends RouterComponentProps, WrappedComponentPr
   groupBy?: string;
   isCostCategory?: boolean;
   isDisabled?: boolean;
-  onSelected(value: string);
+  onSelect(value: string);
   report: Resource | Tag;
 }
 
@@ -118,14 +118,14 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
   };
 
   private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
-    const { onSelected } = this.props;
+    const { onSelect } = this.props;
     const { prefix } = this.state;
 
     this.setState({
       currentItem: selection.value,
     });
-    if (onSelected) {
-      onSelected(`${prefix}${selection.value}`);
+    if (onSelect) {
+      onSelect(`${prefix}${selection.value}`);
     }
   };
 
@@ -146,9 +146,9 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
           isDisabled={isDisabled}
           onClear={this.handleOnClear}
           onSelect={this.handleOnSelect}
+          options={selectOptions}
           placeholder={intl.formatMessage(messages.chooseKeyPlaceholder)}
           selection={selection}
-          selectOptions={selectOptions}
         />
       </div>
     );

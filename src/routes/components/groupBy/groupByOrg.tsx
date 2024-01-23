@@ -17,7 +17,7 @@ interface GroupByOrgOwnProps extends RouterComponentProps, WrappedComponentProps
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
   isDisabled?: boolean;
-  onSelected(value: string);
+  onSelect(value: string);
   orgReport: Org;
 }
 
@@ -110,13 +110,13 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps, GroupByOrgState> {
   };
 
   private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
-    const { onSelected } = this.props;
+    const { onSelect } = this.props;
 
     this.setState({
       currentItem: selection.value,
     });
-    if (onSelected) {
-      onSelected(`${orgUnitIdKey}${selection.value}`);
+    if (onSelect) {
+      onSelect(`${orgUnitIdKey}${selection.value}`);
     }
   };
 
@@ -135,9 +135,9 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps, GroupByOrgState> {
           isDisabled={isDisabled}
           onClear={this.handleOnClear}
           onSelect={this.handleOnSelect}
+          options={selectOptions}
           placeholder={intl.formatMessage(messages.filterByOrgUnitPlaceholder)}
           selection={selection}
-          selectOptions={selectOptions}
         />
       </div>
     );

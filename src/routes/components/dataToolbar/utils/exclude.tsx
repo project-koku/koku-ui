@@ -36,8 +36,8 @@ export const getExcludeSelect = ({
         id="exclude-select"
         isDisabled={isDisabled && !hasFilters(filters)}
         onSelect={onExcludeSelect}
+        options={selectOptions}
         selection={selection}
-        selectOptions={selectOptions}
       />
     </ToolbarItem>
   );

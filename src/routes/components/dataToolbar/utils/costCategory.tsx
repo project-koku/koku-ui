@@ -48,9 +48,9 @@ export const getCostCategoryKeySelect = ({
         isDisabled={isDisabled && !hasFilters(filters)}
         onClear={onCostCategoryKeyClear}
         onSelect={onCostCategoryKeySelect}
+        options={selectOptions}
         placeholder={intl.formatMessage(messages.chooseValuePlaceholder)}
         selection={selection}
-        selectOptions={selectOptions}
       />
     </ToolbarItem>
   );

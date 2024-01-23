@@ -201,9 +201,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                     <SelectWrapper
                       isDisabled={this.props.current.rates.length === 0}
                       onSelect={(_evt, selection) => setSearch({ primary: selection.value })}
-                      placeholder={intl.formatMessage(messages.measurementPlaceholder)}
-                      selection={search.primary}
-                      selectOptions={[
+                      options={[
                         {
                           toString: () => intl.formatMessage(messages.metric),
                           value: 'metrics',
@@ -213,6 +211,8 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                           value: 'measurements',
                         },
                       ]}
+                      placeholder={intl.formatMessage(messages.measurementPlaceholder)}
+                      selection={search.primary}
                     />
                   }
                   selected={search.primary}
@@ -222,9 +222,9 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                         <SelectCheckboxWrapper
                           isDisabled={this.props.current.rates.length === 0}
                           onSelect={(_evt, selection) => onSelect('measurements', selection.value)}
+                          options={measurementOpts}
                           placeholder={intl.formatMessage(messages.measurementPlaceholder)}
                           selections={search.measurements}
-                          selectOptions={measurementOpts}
                         />
                       ),
                       name: 'measurements',
@@ -236,9 +236,9 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                         <SelectCheckboxWrapper
                           isDisabled={this.props.current.rates.length === 0}
                           onSelect={(_evt, selection) => onSelect('metrics', selection.value)}
+                          options={metricOpts}
                           placeholder={intl.formatMessage(messages.metricPlaceholder)}
                           selections={search.metrics}
-                          selectOptions={metricOpts}
                         />
                       ),
                       name: 'metrics',

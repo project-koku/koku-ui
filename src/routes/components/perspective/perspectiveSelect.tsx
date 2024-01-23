@@ -12,7 +12,7 @@ import { styles } from './perspective.styles';
 interface PerspectiveSelectOwnProps {
   currentItem: string;
   isDisabled?: boolean;
-  onSelected(value: string);
+  onSelect(value: string);
   options?: {
     isDisabled?: boolean;
     label: MessageDescriptor;
@@ -67,17 +67,17 @@ class PerspectiveSelectBase extends React.Component<PerspectiveSelectProps, Pers
         id="perspective-elect"
         isDisabled={isDisabled}
         onSelect={this.handleOnSelect}
+        options={selectOptions}
         selection={selection}
-        selectOptions={selectOptions}
       />
     );
   };
 
   private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
-    const { onSelected } = this.props;
+    const { onSelect } = this.props;
 
-    if (onSelected) {
-      onSelected(selection.value);
+    if (onSelect) {
+      onSelect(selection.value);
     }
   };
 

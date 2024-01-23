@@ -38,7 +38,7 @@ interface BasicToolbarOwnProps {
   isReadOnly?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
-  onBulkSelected?: (action: string) => void;
+  onBulkSelect?: (action: string) => void;
   onFilterAdded?: (filter: Filter) => void;
   onFilterRemoved?: (filterType: Filter) => void;
   pagination?: React.ReactNode; // Optional pagination controls to display in toolbar
@@ -156,10 +156,10 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
   };
 
   private handleOnBulkSelectClicked = (action: string) => {
-    const { onBulkSelected } = this.props;
+    const { onBulkSelect } = this.props;
 
-    if (onBulkSelected) {
-      onBulkSelected(action);
+    if (onBulkSelect) {
+      onBulkSelect(action);
     }
   };
 

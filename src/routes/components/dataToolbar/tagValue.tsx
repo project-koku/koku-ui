@@ -124,9 +124,9 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
           id="tag-value-select"
           isDisabled={isDisabled}
           onSelect={onTagValueSelect}
+          options={selectOptions}
           placeholder={intl.formatMessage(messages.chooseValuePlaceholder)}
           selections={selections}
-          selectOptions={selectOptions}
         />
       );
     }
