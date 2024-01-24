@@ -13,109 +13,63 @@ import {
 } from '@patternfly/react-core';
 import SearchIcon from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import TimesIcon from '@patternfly/react-icons/dist/esm/icons/times-icon';
-import type { Query } from 'api/queries/query';
-import { getQuery } from 'api/queries/query';
-import type { Resource } from 'api/resources/resource';
-import type { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import messages from 'locales/messages';
 import type { FormEvent } from 'react';
-import React from 'react';
-import type { WrappedComponentProps } from 'react-intl';
-import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
-import { noop } from 'routes/utils/noop';
-import { createMapStateToProps, FetchStatus } from 'store/common';
-import { resourceActions, resourceSelectors } from 'store/resources';
+import React, { useMemo, useState } from 'react';
+import { useIntl } from 'react-intl';
 
 interface ResourceInputOwnProps {
   ariaLabel?: string;
   isDisabled?: boolean;
+  onChange?: (evt: FormEvent, value: string) => void;
   onClear?: () => void;
-  onSearchChanged?: (evt: FormEvent, value: string) => void;
+  options?: ToolbarChipGroup[];
   onSelect?: (value: string) => void;
   placeholder?: string;
-  resourcePathsType: ResourcePathsType;
-  resourceType: ResourceType;
   search?: string;
 }
 
-interface ResourceInputStateProps {
-  resource?: Resource;
-  resourceFetchStatus?: FetchStatus;
-  resourceQueryString?: string;
-}
-
-interface ResourceInputState {
-  menuIsOpen?: boolean;
-}
-
-interface ResourceInputDispatchProps {
-  fetchResource?: typeof resourceActions.fetchResource;
-}
-
-type ResourceInputProps = ResourceInputOwnProps &
-  ResourceInputStateProps &
-  ResourceInputDispatchProps &
-  WrappedComponentProps;
+type ResourceInputProps = ResourceInputOwnProps;
 
 // Functionality is based on this composable typeahead demo https://v4-archive.patternfly.org/v4/demos/composable-menu/#composable-typeahead-select
 // Alternatively, this could be implemented using this Search demo https://www.patternfly.org/components/search-input/react-demos/#search-with-autocomplete
-class ResourceInputBase extends React.Component<ResourceInputProps, ResourceInputState> {
-  private menuRef = React.createRef<HTMLDivElement>();
-  private textInputGroupRef = React.createRef<HTMLDivElement>();
-  private searchTimeout: any = noop;
-
-  protected defaultState: ResourceInputState = {
-    menuIsOpen: false,
-  };
-  public state: ResourceInputState = { ...this.defaultState };
-
-  constructor(props: ResourceInputProps) {
-    super(props);
-
-    this.handleOnClear = this.handleOnClear.bind(this);
-    this.handleOnMenuKeyDown = this.handleOnMenuKeyDown.bind(this);
-    this.handleOnMenuSelect = this.handleOnMenuSelect.bind(this);
-    this.handleOnPopperClick = this.handleOnPopperClick.bind(this);
-    this.handleOnTextInputKeyDown = this.handleOnTextInputKeyDown.bind(this);
-  }
-
-  public componentDidUpdate(prevProps: ResourceInputProps) {
-    const { fetchResource, resourcePathsType, resourceType, resourceQueryString, search } = this.props;
-
-    if (search && prevProps.search !== search) {
-      clearTimeout(this.searchTimeout);
-
-      // Delay was 750ms, but reduced -- https://issues.redhat.com/browse/COST-1742
-      this.searchTimeout = setTimeout(() => {
-        fetchResource(resourcePathsType, resourceType, resourceQueryString);
-      }, 625);
-    }
-  }
+const ResourceInput: React.FC<ResourceInputProps> = ({
+  ariaLabel,
+  isDisabled,
+  onChange,
+  onClear,
+  options,
+  onSelect,
+  placeholder,
+  search,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useMemo(() => React.createRef<HTMLDivElement>(), []);
+  const textInputGroupRef = useMemo(() => React.createRef<HTMLDivElement>(), []);
+  const intl = useIntl();
 
   // apply focus to the text input
-  private focusTextInput = () => {
-    this.textInputGroupRef.current.querySelector('input').focus();
+  const focusTextInput = () => {
+    textInputGroupRef.current.querySelector('input').focus();
   };
 
-  private getInputGroup = () => {
-    const { ariaLabel, isDisabled, search = '', onSearchChanged, placeholder } = this.props;
-
+  const getInputGroup = () => {
     return (
-      <div ref={this.textInputGroupRef}>
+      <div ref={textInputGroupRef}>
         <TextInputGroup isDisabled={isDisabled}>
           <TextInputGroupMain
             aria-label={ariaLabel}
             icon={<SearchIcon />}
             value={search}
-            onChange={onSearchChanged}
-            onFocus={this.openMenu}
-            onKeyDown={this.handleOnTextInputKeyDown}
+            onBlur={handleOnClear}
+            onChange={onChange}
+            onFocus={() => setIsOpen(true)}
+            onKeyDown={handleOnTextInputKeyDown}
             placeholder={placeholder}
           />
           {search && search.length && (
             <TextInputGroupUtilities>
-              <Button variant="plain" onClick={this.handleOnClear} aria-label="Clear button and input">
+              <Button variant="plain" onClick={handleOnClear} aria-label="Clear button and input">
                 <TimesIcon />
               </Button>
             </TextInputGroupUtilities>
@@ -125,22 +79,20 @@ class ResourceInputBase extends React.Component<ResourceInputProps, ResourceInpu
     );
   };
 
-  private getMenu = () => {
+  const getMenu = () => {
     return (
-      <div ref={this.menuRef}>
-        <Menu onSelect={this.handleOnMenuSelect} onKeyDown={this.handleOnMenuKeyDown}>
+      <div ref={menuRef}>
+        <Menu onSelect={handleOnMenuSelect} onKeyDown={handleOnMenuKeyDown}>
           <MenuContent>
-            <MenuList>{this.getMenuItems()}</MenuList>
+            <MenuList>{getMenuItems()}</MenuList>
           </MenuContent>
         </Menu>
       </div>
     );
   };
 
-  private getMenuItems = () => {
-    const { intl } = this.props;
-
-    const menuItems = this.getOptions().map(option => (
+  const getMenuItems = () => {
+    const menuItems = options?.map(option => (
       <MenuItem key={option.key} itemId={option.key}>
         {option.key}
       </MenuItem>
@@ -161,143 +113,81 @@ class ResourceInputBase extends React.Component<ResourceInputProps, ResourceInpu
     return menuItems;
   };
 
-  private getOptions = (): ToolbarChipGroup[] => {
-    const { resource, resourceFetchStatus, search } = this.props;
-    let options = [];
-    if (resource && resource.data && resource.data.length > 0 && resourceFetchStatus !== FetchStatus.inProgress) {
-      options = resource.data.map(item => {
-        const value = !isNaN(search as any) ? item.value : item.account_alias || item.cluster_alias || item.value;
-        return {
-          key: value,
-          name: value,
-        };
-      });
+  const handleOnClear = () => {
+    setIsOpen(false);
+    if (onClear) {
+      onClear();
     }
-    return options;
   };
 
   // Enable keyboard only usage while focused on the menu
-  private handleOnMenuKeyDown = event => {
+  const handleOnMenuKeyDown = event => {
     if (event.key === 'Escape' || event.key === 'Tab') {
       event.preventDefault();
-      this.focusTextInput();
-      this.setState({ menuIsOpen: false });
+      focusTextInput();
+      setIsOpen(false);
     }
   };
 
   // Add the text of the selected item
-  private handleOnMenuSelect = event => {
-    const { onSelect, search } = this.props;
-
+  const handleOnMenuSelect = event => {
     event.stopPropagation();
 
     const value = event.target.innerText || search;
     if (value.trim() === '') {
       return;
     }
-    this.setState({ menuIsOpen: false }, () => {
-      if (onSelect) {
-        onSelect(value);
-      }
-    });
+    setIsOpen(false);
+    if (onSelect) {
+      onSelect(value);
+    }
   };
 
   // Close menu when a click occurs outside the menu or text input group
-  private handleOnPopperClick = event => {
+  const handleOnPopperClick = event => {
     if (
-      this.menuRef.current &&
-      !this.menuRef.current.contains(event.target) &&
-      !this.textInputGroupRef.current.contains(event.target)
+      menuRef.current &&
+      !menuRef.current.contains(event.target) &&
+      !textInputGroupRef.current.contains(event.target)
     ) {
-      this.setState({ menuIsOpen: false });
+      setIsOpen(false);
     }
   };
 
   // Enable keyboard only usage while focused on the text input
-  private handleOnTextInputKeyDown = event => {
+  const handleOnTextInputKeyDown = event => {
     switch (event.key) {
       case 'Enter':
-        this.handleOnMenuSelect(event);
+        handleOnMenuSelect(event);
         break;
       case 'Escape':
       case 'Tab':
-        this.focusTextInput();
-        this.setState({ menuIsOpen: false });
+        focusTextInput();
+        setIsOpen(false);
         break;
       case 'ArrowUp':
       case 'ArrowDown':
         // Allow focus on the menu and navigate using the arrow keys
-        if (this.menuRef.current) {
-          const firstElement = this.menuRef.current.querySelector('li > button:not(:disabled)');
+        if (menuRef.current) {
+          const firstElement = menuRef.current.querySelector('li > button:not(:disabled)');
           firstElement && (firstElement as any).focus();
         }
         break;
       default:
         // Open menu upon any un-designated keys
-        this.openMenu();
+        setIsOpen(true);
     }
   };
 
-  private handleOnClear = () => {
-    const { onClear } = this.props;
-
-    this.setState({ menuIsOpen: false }, () => {
-      if (onClear) {
-        onClear();
-      }
-    });
-  };
-
-  private openMenu = () => {
-    const { menuIsOpen } = this.state;
-
-    if (!menuIsOpen) {
-      this.setState({ menuIsOpen: true });
-    }
-  };
-
-  public render() {
-    const { menuIsOpen } = this.state;
-
-    return (
-      <Popper
-        trigger={this.getInputGroup()}
-        popper={this.getMenu()}
-        appendTo={() => this.textInputGroupRef.current}
-        isVisible={menuIsOpen}
-        onDocumentClick={this.handleOnPopperClick}
-      />
-    );
-  }
-}
-
-const mapStateToProps = createMapStateToProps<ResourceInputOwnProps, ResourceInputStateProps>(
-  (state, { resourcePathsType, resourceType, search }) => {
-    const query: Query = {
-      search,
-    };
-
-    const resourceQueryString = getQuery(query);
-    const resource = resourceSelectors.selectResource(state, resourcePathsType, resourceType, resourceQueryString);
-    const resourceFetchStatus = resourceSelectors.selectResourceFetchStatus(
-      state,
-      resourcePathsType,
-      resourceType,
-      resourceQueryString
-    );
-
-    return {
-      resource,
-      resourceFetchStatus,
-      resourceQueryString,
-    };
-  }
-);
-
-const mapDispatchToProps: ResourceInputDispatchProps = {
-  fetchResource: resourceActions.fetchResource,
+  return (
+    <Popper
+      trigger={getInputGroup()}
+      popper={getMenu()}
+      appendTo={() => textInputGroupRef.current}
+      isVisible={isOpen}
+      onDocumentClick={handleOnPopperClick}
+    />
+  );
 };
-
-const ResourceInput = injectIntl(connect(mapStateToProps, mapDispatchToProps)(ResourceInputBase));
 
 export { ResourceInput };
