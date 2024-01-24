@@ -3452,6 +3452,11 @@ export default defineMessages({
     description: 'Filter by metrics',
     id: 'toolBarPriceListMetricPlaceHolder',
   },
+  typeaheadAriaClear: {
+    defaultMessage: 'Clear button and input',
+    description: 'Clear button and input',
+    id: 'typeaheadAriaClear',
+  },
   unitTooltips: {
     defaultMessage:
       '{units, select, ' +

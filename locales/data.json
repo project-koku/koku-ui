@@ -12213,6 +12213,12 @@
         "value": "Filter by metrics"
       }
     ],
+    "typeaheadAriaClear": [
+      {
+        "type": 0,
+        "value": "Clear button and input"
+      }
+    ],
     "unitTooltips": [
       {
         "options": {
