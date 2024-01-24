@@ -310,11 +310,11 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                           isDisabled: !isWritePermission,
                           // HACK: to display tooltip on disable
                           style: !isWritePermission ? { pointerEvents: 'auto' } : undefined,
-                          tooltipProps: {
-                            content: !isWritePermission ? (
-                              <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>
-                            ) : undefined,
-                          },
+                          ...(!isWritePermission && {
+                            tooltipProps: {
+                              content: <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>,
+                            },
+                          }),
                           onClick: (_evt, _rowIndex, rowData) => {
                             this.setState({
                               deleteRate: null,
@@ -331,11 +331,11 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                           isDisabled: !isWritePermission,
                           // HACK: to display tooltip on disable
                           style: !isWritePermission ? { pointerEvents: 'auto' } : {},
-                          tooltipProps: {
-                            content: !isWritePermission ? (
-                              <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>
-                            ) : undefined,
-                          },
+                          ...(!isWritePermission && {
+                            tooltipProps: {
+                              content: <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>,
+                            },
+                          }),
                           onClick: (_evt, _rowIndex, rowData) => {
                             const rowIndex = rowData.data.stateIndex;
                             this.setState({

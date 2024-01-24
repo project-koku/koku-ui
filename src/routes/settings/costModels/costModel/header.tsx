@@ -140,10 +140,12 @@ const Header: React.FC<Props> = ({
                       isOpen: true,
                       name: 'updateCostModel',
                     }),
-                  tooltipProps: {
-                    content: intl.formatMessage(messages.readOnlyPermissions),
-                    isContentLeftAligned: true,
-                  },
+                  ...(!isWritePermission && {
+                    tooltipProps: {
+                      content: intl.formatMessage(messages.readOnlyPermissions),
+                      isContentLeftAligned: true,
+                    },
+                  }),
                   toString: () => intl.formatMessage(messages.edit),
                 },
                 {
@@ -153,10 +155,12 @@ const Header: React.FC<Props> = ({
                       isOpen: true,
                       name: 'deleteCostModel',
                     }),
-                  tooltipProps: {
-                    content: intl.formatMessage(messages.readOnlyPermissions),
-                    isContentLeftAligned: true,
-                  },
+                  ...(!isWritePermission && {
+                    tooltipProps: {
+                      content: intl.formatMessage(messages.readOnlyPermissions),
+                      isContentLeftAligned: true,
+                    },
+                  }),
                   toString: () => intl.formatMessage(messages.delete),
                 },
               ]}
