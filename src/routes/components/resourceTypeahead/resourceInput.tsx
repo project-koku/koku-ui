@@ -69,7 +69,11 @@ const ResourceInput: React.FC<ResourceInputProps> = ({
           />
           {search && search.length && (
             <TextInputGroupUtilities>
-              <Button variant="plain" onClick={handleOnClear} aria-label="Clear button and input">
+              <Button
+                variant="plain"
+                onClick={handleOnClear}
+                aria-label={intl.formatMessage(messages.typeaheadAriaClear)}
+              >
                 <TimesIcon />
               </Button>
             </TextInputGroupUtilities>
