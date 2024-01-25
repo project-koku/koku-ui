@@ -61,7 +61,6 @@ const ResourceInput: React.FC<ResourceInputProps> = ({
             aria-label={ariaLabel}
             icon={<SearchIcon />}
             value={search}
-            onBlur={handleOnClear}
             onChange={onChange}
             onFocus={() => setIsOpen(true)}
             onKeyDown={handleOnTextInputKeyDown}
