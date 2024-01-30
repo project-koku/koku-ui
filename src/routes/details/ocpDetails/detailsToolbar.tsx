@@ -25,7 +25,7 @@ interface DetailsToolbarOwnProps {
   itemsPerPage?: number;
   itemsTotal?: number;
   groupBy: string;
-  onBulkSelected(action: string);
+  onBulkSelect(action: string);
   onColumnManagementClicked();
   onExportClicked();
   onFilterAdded(filter: Filter);
@@ -120,7 +120,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
       isExportDisabled,
       itemsPerPage,
       itemsTotal,
-      onBulkSelected,
+      onBulkSelect,
       onColumnManagementClicked,
       onExportClicked,
       onFilterAdded,
@@ -142,7 +142,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
         isExportDisabled={isExportDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
-        onBulkSelected={onBulkSelected}
+        onBulkSelect={onBulkSelect}
         onColumnManagementClicked={onColumnManagementClicked}
         onExportClicked={onExportClicked}
         onFilterAdded={onFilterAdded}

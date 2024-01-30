@@ -26,7 +26,7 @@ import { hasCurrentMonthData } from 'routes/utils/providers';
 import { filterProviders } from 'routes/utils/providers';
 import { getRouteForQuery } from 'routes/utils/query';
 import {
-  handleOnCurrencySelected,
+  handleOnCurrencySelect,
   handleOnFilterAdded,
   handleOnFilterRemoved,
   handleOnPerPageSelect,
@@ -105,10 +105,10 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleOnBulkSelected = this.handleOnBulkSelected.bind(this);
+    this.handleOnBulkSelect = this.handleOnBulkSelect.bind(this);
     this.handleOnExportModalClose = this.handleOnExportModalClose.bind(this);
     this.handleOnExportModalOpen = this.handleOnExportModalOpen.bind(this);
-    this.handleOnSelected = this.handleOnSelected.bind(this);
+    this.handleonSelect = this.handleonSelect.bind(this);
   }
 
   public componentDidMount() {
@@ -215,7 +215,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
         groupByTagKey={groupByTagKey}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        onSelected={this.handleOnSelected}
+        onSelect={this.handleonSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         orderBy={query.order_by}
         query={query}
@@ -243,7 +243,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
         isExportDisabled={isDisabled || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
-        onBulkSelected={this.handleOnBulkSelected}
+        onBulkSelect={this.handleOnBulkSelect}
         onExportClicked={this.handleOnExportModalOpen}
         onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
@@ -254,7 +254,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
     );
   };
 
-  private handleOnBulkSelected = (action: string) => {
+  private handleOnBulkSelect = (action: string) => {
     const { isAllSelected, selectedItems } = this.state;
 
     if (action === 'none') {
@@ -283,7 +283,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
     this.setState({ isExportModalOpen: true });
   };
 
-  private handleOnGroupBySelected = groupBy => {
+  private handleOnGroupBySelect = groupBy => {
     const { query, router } = this.props;
     const groupByKey: keyof IbmQuery['group_by'] = groupBy as any;
     const newQuery = {
@@ -299,7 +299,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
     });
   };
 
-  private handleOnSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
+  private handleonSelect = (items: ComputedReportItem[], isSelected: boolean = false) => {
     const { isAllSelected, selectedItems } = this.state;
 
     let newItems = [...(isAllSelected ? this.getComputedItems() : selectedItems)];
@@ -350,8 +350,8 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
-          onCurrencySelected={() => handleOnCurrencySelected(query, router)}
-          onGroupBySelected={this.handleOnGroupBySelected}
+          onCurrencySelect={() => handleOnCurrencySelect(query, router)}
+          onGroupBySelect={this.handleOnGroupBySelect}
           report={report}
         />
         <div style={styles.content}>

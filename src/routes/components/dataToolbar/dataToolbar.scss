@@ -3,7 +3,7 @@
 // Workaround for https://github.com/patternfly/patternfly-react/issues/4477
 // and https://github.com/patternfly/patternfly-react/issues/6371
 .selectOverride {
-  &.pf-v5-c-select {
+  .pf-v5-c-menu-toggle {
     min-width: 250px;
   }
 }

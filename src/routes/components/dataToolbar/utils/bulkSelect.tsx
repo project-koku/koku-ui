@@ -1,11 +1,5 @@
 import { Tooltip } from '@patternfly/react-core';
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownPosition,
-  DropdownToggle,
-  DropdownToggleCheckbox,
-} from '@patternfly/react-core/deprecated';
+import { Dropdown, DropdownItem, DropdownList, MenuToggle, MenuToggleCheckbox } from '@patternfly/react-core';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
@@ -46,52 +40,73 @@ export const getBulkSelect = ({
   const isChecked = allSelected ? true : someChecked;
 
   const dropdownItems = [
-    <DropdownItem key="item-1" onClick={() => onBulkSelectClicked('none')}>
+    <DropdownItem key="bulk-select-item-1" onClick={() => onBulkSelectClicked('none')}>
       {intl.formatMessage(messages.toolBarBulkSelectNone)}
     </DropdownItem>,
-    <DropdownItem key="item-2" onClick={() => onBulkSelectClicked('page')}>
+    <DropdownItem key="bulk-select-item-2" onClick={() => onBulkSelectClicked('page')}>
       {intl.formatMessage(messages.toolBarBulkSelectPage, { value: itemsPerPage })}
     </DropdownItem>,
   ];
 
   if (showSelectAll) {
     dropdownItems.push(
-      <DropdownItem key="item-3" onClick={() => onBulkSelectClicked('all')}>
+      <DropdownItem key="bulk-select-item-3" onClick={() => onBulkSelectClicked('all')}>
         {intl.formatMessage(messages.toolBarBulkSelectAll, { value: itemsTotal })}
       </DropdownItem>
     );
   }
 
-  const bulkSelect = (
-    <Dropdown
-      onSelect={onBulkSelect}
-      position={DropdownPosition.left}
-      toggle={
-        <DropdownToggle
-          isDisabled={isDisabled || isBulkSelectDisabled || isReadOnly}
-          splitButtonItems={[
-            <DropdownToggleCheckbox
-              id="bulk-select"
-              key="bulk-select"
+  // Todo: Work around to allow clicking on "10 selected" label shown in MenuToggleCheckbox
+  // See https://github.com/patternfly/patternfly-react/issues/10035
+  const getSelectedLabel = () => {
+    return anySelected ? (
+      <span onClick={() => onBulkSelectToggle(!isBulkSelectOpen)}>
+        {intl.formatMessage(messages.selected, { value: numSelected })}
+      </span>
+    ) : null;
+  };
+
+  const toggle = toggleRef => {
+    return (
+      <MenuToggle
+        isDisabled={isDisabled || isBulkSelectDisabled || isReadOnly}
+        isExpanded={isBulkSelectOpen}
+        onClick={() => onBulkSelectToggle(!isBulkSelectOpen)}
+        ref={toggleRef}
+        splitButtonOptions={{
+          items: [
+            <MenuToggleCheckbox
+              id={`bulk-select-checkbox`}
+              key={`bulk-select-checkbox`}
               aria-label={intl.formatMessage(
                 anySelected ? messages.toolBarBulkSelectAriaDeselect : messages.toolBarBulkSelectAriaSelect
               )}
               isChecked={isChecked}
-              onClick={() => {
+              onChange={() => {
                 anySelected ? onBulkSelectClicked('none') : onBulkSelectClicked('all');
               }}
-            />,
-          ]}
-          onToggle={(_evt, isOpen) => onBulkSelectToggle(isOpen)}
-        >
-          {numSelected !== 0 && (
-            <React.Fragment>{intl.formatMessage(messages.selected, { value: numSelected })}</React.Fragment>
-          )}
-        </DropdownToggle>
-      }
+            >
+              {getSelectedLabel()}
+            </MenuToggleCheckbox>,
+          ],
+        }}
+      />
+    );
+  };
+
+  const bulkSelect = (
+    <Dropdown
+      id="bulk-select"
       isOpen={isBulkSelectOpen}
-      dropdownItems={dropdownItems}
-    />
+      onOpenChange={isOpen => onBulkSelectToggle(isOpen)}
+      onSelect={onBulkSelect}
+      popperProps={{
+        position: 'left',
+      }}
+      toggle={toggle}
+    >
+      <DropdownList>{dropdownItems}</DropdownList>
+    </Dropdown>
   );
   return isReadOnly ? (
     <Tooltip content={intl.formatMessage(messages.readOnlyPermissions)}>{bulkSelect}</Tooltip>

@@ -124,29 +124,29 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
         <div style={styles.content}>
           {current.source_type === 'OpenShift Container Platform' ? (
             <>
-              <TabContent eventKey={0} id="refPriceList" ref={this.tabRefs[0]} hidden={this.state.tabIndex !== 0}>
+              <TabContent eventKey={0} id="ref-price-list" ref={this.tabRefs[0]} hidden={this.state.tabIndex !== 0}>
                 <div style={styles.costmodelsContainer}>
                   <PriceListTable assignees={sources.map(p => p.name)} costModel={current.name} current={current} />
                 </div>
               </TabContent>
               <TabContent
                 eventKey={1}
-                id="refCostCalculations"
+                id="ref-cost-calculations"
                 ref={this.tabRefs[1]}
                 hidden={this.state.tabIndex !== 1}
               >
                 <div style={styles.costCalculation}>
                   <Grid hasGutter>
-                    <GridItem lg={6} id="refMarkup">
+                    <GridItem lg={6} id="ref-markup">
                       <MarkupCard current={current} />
                     </GridItem>
-                    <GridItem lg={6} id="refDistribution">
+                    <GridItem lg={6} id="ref-distribution">
                       <DistributionCard current={current} />
                     </GridItem>
                   </Grid>
                 </div>
               </TabContent>
-              <TabContent eventKey={3} id="refSources" ref={this.tabRefs[2]} hidden={this.state.tabIndex !== 2}>
+              <TabContent eventKey={3} id="ref-sources" ref={this.tabRefs[2]} hidden={this.state.tabIndex !== 2}>
                 <div style={styles.costmodelsContainer}>
                   <SourceTable costModel={current} sources={sources} />
                 </div>
@@ -154,12 +154,12 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
             </>
           ) : (
             <>
-              <TabContent eventKey={0} id="refMarkup" ref={this.tabRefs[0]} hidden={this.state.tabIndex !== 0}>
+              <TabContent eventKey={0} id="ref-markup" ref={this.tabRefs[0]} hidden={this.state.tabIndex !== 0}>
                 <div style={styles.costCalculation}>
                   <MarkupCard current={current} />
                 </div>
               </TabContent>
-              <TabContent eventKey={1} id="refSources" ref={this.tabRefs[1]} hidden={this.state.tabIndex !== 1}>
+              <TabContent eventKey={1} id="ref-sources" ref={this.tabRefs[1]} hidden={this.state.tabIndex !== 1}>
                 <div style={styles.costmodelsContainer}>
                   <SourceTable costModel={current} sources={sources} />
                 </div>

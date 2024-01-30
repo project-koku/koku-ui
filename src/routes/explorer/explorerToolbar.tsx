@@ -17,7 +17,7 @@ interface ExplorerToolbarOwnProps {
   isExportDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
-  onBulkSelected(action: string);
+  onBulkSelect(action: string);
   onExportClicked();
   pagination?: React.ReactNode;
   perspective: PerspectiveType;
@@ -53,7 +53,7 @@ export class ExplorerToolbarBase extends React.Component<ExplorerToolbarProps, E
       isExportDisabled,
       itemsPerPage,
       itemsTotal,
-      onBulkSelected,
+      onBulkSelect,
       onExportClicked,
       pagination,
       perspective,
@@ -71,7 +71,7 @@ export class ExplorerToolbarBase extends React.Component<ExplorerToolbarProps, E
         isExportDisabled={isExportDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
-        onBulkSelected={onBulkSelected}
+        onBulkSelect={onBulkSelect}
         onExportClicked={onExportClicked}
         pagination={pagination}
         selectedItems={selectedItems}

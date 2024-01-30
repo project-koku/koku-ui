@@ -29,8 +29,8 @@ import { getGroupById, getGroupByTagKey } from 'routes/utils/groupBy';
 import { filterProviders, hasCurrentMonthData } from 'routes/utils/providers';
 import { getRouteForQuery } from 'routes/utils/query';
 import {
-  handleOnCostDistributionSelected,
-  handleOnCurrencySelected,
+  handleOnCostDistributionSelect,
+  handleOnCurrencySelect,
   handleOnFilterAdded,
   handleOnFilterRemoved,
   handleOnPerPageSelect,
@@ -131,14 +131,14 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleOnBulkSelected = this.handleOnBulkSelected.bind(this);
+    this.handleOnBulkSelect = this.handleOnBulkSelect.bind(this);
     this.handleOnColumnManagementModalClose = this.handleOnColumnManagementModalClose.bind(this);
     this.handleOnColumnManagementModalOpen = this.handleOnColumnManagementModalOpen.bind(this);
     this.handleOnColumnManagementModalSave = this.handleOnColumnManagementModalSave.bind(this);
     this.handleOnExportModalClose = this.handleOnExportModalClose.bind(this);
     this.handleOnExportModalOpen = this.handleOnExportModalOpen.bind(this);
     this.handleOnPlatformCostsChanged = this.handleOnPlatformCostsChanged.bind(this);
-    this.handleOnSelected = this.handleOnSelected.bind(this);
+    this.handleOnSelect = this.handleOnSelect.bind(this);
   }
 
   public componentDidMount() {
@@ -267,7 +267,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         isRosFeatureEnabled={isRosFeatureEnabled}
-        onSelected={this.handleOnSelected}
+        onSelect={this.handleOnSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         orderBy={query.order_by}
         query={query}
@@ -295,7 +295,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         isExportDisabled={isDisabled || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
-        onBulkSelected={this.handleOnBulkSelected}
+        onBulkSelect={this.handleOnBulkSelect}
         onColumnManagementClicked={this.handleOnColumnManagementModalOpen}
         onExportClicked={this.handleOnExportModalOpen}
         onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
@@ -308,7 +308,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
     );
   };
 
-  private handleOnBulkSelected = (action: string) => {
+  private handleOnBulkSelect = (action: string) => {
     const { isAllSelected, selectedItems } = this.state;
 
     if (action === 'none') {
@@ -349,7 +349,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
     this.setState({ isExportModalOpen: true });
   };
 
-  private handleOnGroupBySelected = groupBy => {
+  private handleOnGroupBySelect = groupBy => {
     const { query, router } = this.props;
     const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
     const newQuery = {
@@ -378,7 +378,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
     });
   };
 
-  private handleOnSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
+  private handleOnSelect = (items: ComputedReportItem[], isSelected: boolean = false) => {
     const { isAllSelected, selectedItems } = this.state;
 
     let newItems = [...(isAllSelected ? this.getComputedItems() : selectedItems)];
@@ -440,9 +440,9 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
           costDistribution={costDistribution}
           currency={currency}
           groupBy={groupById}
-          onCostDistributionSelected={() => handleOnCostDistributionSelected(query, router)}
-          onCurrencySelected={() => handleOnCurrencySelected(query, router)}
-          onGroupBySelected={this.handleOnGroupBySelected}
+          onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router)}
+          onCurrencySelect={() => handleOnCurrencySelect(query, router)}
+          onGroupBySelect={this.handleOnGroupBySelect}
           report={report}
         />
         <div style={styles.content}>

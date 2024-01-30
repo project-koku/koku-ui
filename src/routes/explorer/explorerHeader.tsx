@@ -62,13 +62,13 @@ interface ExplorerHeaderOwnProps extends RouterComponentProps, WrappedComponentP
   costType?: string;
   currency?: string;
   groupBy?: string;
-  onCostDistributionSelected(value: string);
-  onCostTypeSelected(value: string);
-  onCurrencySelected(value: string);
-  onDatePickerSelected(startDate: Date, endDate: Date);
+  onCostDistributionSelect(value: string);
+  onCostTypeSelect(value: string);
+  onCurrencySelect(value: string);
+  onDatePickerSelect(startDate: Date, endDate: Date);
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
-  onGroupBySelected(value: string);
+  onGroupBySelect(value: string);
   onPerspectiveClicked(value: string);
   perspective: PerspectiveType;
   report: Report;
@@ -159,12 +159,12 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
         hasRhel={hasRhel}
         isDisabled={isDisabled}
         isIbmFeatureEnabled={isIbmFeatureEnabled}
-        onSelected={this.handleOnPerspectiveSelected}
+        onSelect={this.handleOnPerspectiveSelect}
       />
     );
   };
 
-  private handleOnPerspectiveSelected = (value: string) => {
+  private handleOnPerspectiveSelect = (value: string) => {
     const { onPerspectiveClicked, query, router } = this.props;
 
     const newQuery = {
@@ -255,12 +255,12 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       groupBy,
       intl,
       isExportsFeatureEnabled,
-      onCostDistributionSelected,
-      onCostTypeSelected,
-      onCurrencySelected,
+      onCostDistributionSelect,
+      onCostTypeSelect,
+      onCurrencySelect,
       onFilterAdded,
       onFilterRemoved,
-      onGroupBySelected,
+      onGroupBySelect,
       perspective,
       providersFetchStatus,
       query,
@@ -291,7 +291,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
             {intl.formatMessage(messages.explorerTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            <Currency currency={currency} onSelect={onCurrencySelected} />
+            <Currency currency={currency} onSelect={onCurrencySelect} />
             {isExportsFeatureEnabled && <ExportsLink />}
           </div>
         </div>
@@ -302,7 +302,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
               getIdKeyForGroupBy={getIdKeyForGroupBy}
               groupBy={groupBy}
               isDisabled={noProviders}
-              onSelected={onGroupBySelected}
+              onSelect={onGroupBySelect}
               options={groupByOptions}
               orgPathsType={orgPathsType}
               perspective={perspective}
@@ -317,12 +317,12 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
           </div>
           {showCostDistribution && (
             <div style={styles.costDistribution}>
-              <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelected} />
+              <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
             </div>
           )}
           {(perspective === PerspectiveType.aws || perspective === PerspectiveType.awsOcp) && (
             <div style={styles.costType}>
-              <CostType costType={costType} onSelect={onCostTypeSelected} />
+              <CostType costType={costType} onSelect={onCostTypeSelect} />
             </div>
           )}
         </div>

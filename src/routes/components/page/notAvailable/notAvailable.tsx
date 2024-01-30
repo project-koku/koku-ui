@@ -1,6 +1,6 @@
+import Unavailable from '@patternfly/react-component-groups/dist/esm/UnavailableContent';
 import { PageSection } from '@patternfly/react-core';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
-import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
 import React from 'react';
 
 interface NoProvidersOwnProps {

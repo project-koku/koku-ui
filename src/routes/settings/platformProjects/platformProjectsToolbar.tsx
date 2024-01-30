@@ -28,7 +28,7 @@ interface CostCategoryToolbarOwnProps {
   itemsPerPage?: number;
   itemsTotal?: number;
   onAdd();
-  onBulkSelected(action: string);
+  onBulkSelect(action: string);
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   onRemove();
@@ -137,7 +137,7 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
       isDisabled,
       itemsPerPage,
       itemsTotal,
-      onBulkSelected,
+      onBulkSelect,
       onFilterAdded,
       onFilterRemoved,
       pagination,
@@ -155,7 +155,7 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
         isReadOnly={!canWrite}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
-        onBulkSelected={onBulkSelected}
+        onBulkSelect={onBulkSelect}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}

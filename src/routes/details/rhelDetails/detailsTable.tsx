@@ -33,7 +33,7 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   hiddenColumns: Set<string>;
   isAllSelected?: boolean;
   isLoading?: boolean;
-  onSelected(items: ComputedReportItem[], isSelected: boolean);
+  onSelect(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   query?: Query;
@@ -382,7 +382,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   };
 
   public render() {
-    const { filterBy, isLoading, onSelected, onSort, orderBy, selectedItems } = this.props;
+    const { filterBy, isLoading, onSelect, onSort, orderBy, selectedItems } = this.props;
     const { columns, rows } = this.state;
 
     return (
@@ -391,7 +391,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
         filterBy={filterBy}
         isActionsCell
         isLoading={isLoading}
-        onSelected={onSelected}
+        onSelect={onSelect}
         onSort={onSort}
         orderBy={orderBy}
         rows={rows}
