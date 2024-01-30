@@ -435,7 +435,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
         isIbmFeatureEnabled={isIbmFeatureEnabled}
         isInfrastructureTab={OverviewTab.infrastructure === currentTab}
         isRhelTab={OverviewTab.rhel === currentTab}
-        onSelected={this.handleOnPerspectiveSelected}
+        onSelect={this.handleOnPerspectiveSelect}
       />
     );
   };
@@ -597,7 +597,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     router.navigate(this.getRouteForQuery(newQuery), { replace: true });
   };
 
-  private handleOnPerspectiveSelected = (value: string) => {
+  private handleOnPerspectiveSelect = (value: string) => {
     const { query, router } = this.props;
     const currentTab = this.getCurrentTab();
 

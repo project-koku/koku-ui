@@ -25,7 +25,7 @@ import { getGroupByTagKey } from 'routes/utils/groupBy';
 import { filterProviders, hasCurrentMonthData } from 'routes/utils/providers';
 import { getRouteForQuery } from 'routes/utils/query';
 import {
-  handleOnCurrencySelected,
+  handleOnCurrencySelect,
   handleOnFilterAdded,
   handleOnFilterRemoved,
   handleOnPerPageSelect,
@@ -104,10 +104,10 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleOnBulkSelected = this.handleOnBulkSelected.bind(this);
+    this.handleOnBulkSelect = this.handleOnBulkSelect.bind(this);
     this.handleOnExportModalClose = this.handleOnExportModalClose.bind(this);
     this.handleOnExportModalOpen = this.handleOnExportModalOpen.bind(this);
-    this.handleOnSelected = this.handleOnSelected.bind(this);
+    this.handleonSelect = this.handleonSelect.bind(this);
   }
 
   public componentDidMount() {
@@ -213,7 +213,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         groupByTagKey={groupByTagKey}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        onSelected={this.handleOnSelected}
+        onSelect={this.handleonSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         orderBy={query.order_by}
         query={query}
@@ -241,7 +241,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         isExportDisabled={isDisabled || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
-        onBulkSelected={this.handleOnBulkSelected}
+        onBulkSelect={this.handleOnBulkSelect}
         onExportClicked={this.handleOnExportModalOpen}
         onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
@@ -252,7 +252,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
     );
   };
 
-  private handleOnBulkSelected = (action: string) => {
+  private handleOnBulkSelect = (action: string) => {
     const { isAllSelected, selectedItems } = this.state;
 
     if (action === 'none') {
@@ -281,7 +281,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
     this.setState({ isExportModalOpen: true });
   };
 
-  private handleOnGroupBySelected = groupBy => {
+  private handleOnGroupBySelect = groupBy => {
     const { query, router } = this.props;
     const groupByKey: keyof GcpQuery['group_by'] = groupBy as any;
     const newQuery = {
@@ -297,7 +297,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
     });
   };
 
-  private handleOnSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
+  private handleonSelect = (items: ComputedReportItem[], isSelected: boolean = false) => {
     const { isAllSelected, selectedItems } = this.state;
 
     let newItems = [...(isAllSelected ? this.getComputedItems() : selectedItems)];
@@ -348,8 +348,8 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
-          onCurrencySelected={() => handleOnCurrencySelected(query, router)}
-          onGroupBySelected={this.handleOnGroupBySelected}
+          onCurrencySelect={() => handleOnCurrencySelect(query, router)}
+          onGroupBySelect={this.handleOnGroupBySelect}
           report={report}
         />
         <div style={styles.content}>

@@ -60,7 +60,7 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                       name="distributionType"
                       label={intl.formatMessage(messages.cpuTitle)}
                       aria-label={intl.formatMessage(messages.cpuTitle)}
-                      id="cpuDistribution"
+                      id="cpu-distribution"
                       value="cpu"
                       onChange={handleDistributionChange}
                     />
@@ -69,7 +69,7 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                       name="distributionType"
                       label={intl.formatMessage(messages.memoryTitle)}
                       aria-label={intl.formatMessage(messages.memoryTitle)}
-                      id="memoryDistribution"
+                      id="memory-distribution"
                       value="memory"
                       onChange={handleDistributionChange}
                     />
@@ -92,13 +92,13 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                       name="distributePlatformUnallocated"
                       label={intl.formatMessage(messages.distribute)}
                       aria-label={intl.formatMessage(messages.distribute)}
-                      id="distributePlatformTrue"
+                      id="distribute-platformTrue"
                       value="true"
                       onChange={handleDistributePlatformUnallocatedChange}
                     />
                     <Radio
                       isChecked={!distributePlatformUnallocated}
-                      name="distributePlatformUnallocated"
+                      name="distribute-platformUnallocated"
                       label={intl.formatMessage(messages.doNotDistribute)}
                       aria-label={intl.formatMessage(messages.doNotDistribute)}
                       id="distributePlatformFalse"
@@ -124,16 +124,16 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                       name="distributeWorkerUnallocated"
                       label={intl.formatMessage(messages.distribute)}
                       aria-label={intl.formatMessage(messages.distribute)}
-                      id="distributeWorkerTrue"
+                      id="distribute-worker-true"
                       value="true"
                       onChange={handleDistributeWorkerUnallocatedChange}
                     />
                     <Radio
                       isChecked={!distributeWorkerUnallocated}
-                      name="distributeWorkerUnallocated"
+                      name="distribute-worker-unallocated"
                       label={intl.formatMessage(messages.doNotDistribute)}
                       aria-label={intl.formatMessage(messages.doNotDistribute)}
-                      id="distributeWorkerFalse"
+                      id="distribute-worker-false"
                       value="false"
                       onChange={handleDistributeWorkerUnallocatedChange}
                     />

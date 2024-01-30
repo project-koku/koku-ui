@@ -14,7 +14,7 @@ interface CostCategoryOwnProps extends RouterComponentProps, WrappedComponentPro
   canWrite?: boolean;
   filterBy?: any;
   isLoading?: boolean;
-  onSelected(items: SettingsData[], isSelected: boolean);
+  onSelect(items: SettingsData[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   selectedItems?: SettingsData[];
@@ -107,7 +107,7 @@ class CostCategoryBase extends React.Component<CostCategoryProps, CostCategorySt
   };
 
   public render() {
-    const { filterBy, isLoading, onSelected, onSort, orderBy, selectedItems } = this.props;
+    const { filterBy, isLoading, onSelect, onSort, orderBy, selectedItems } = this.props;
     const { columns, rows } = this.state;
 
     return (
@@ -115,7 +115,7 @@ class CostCategoryBase extends React.Component<CostCategoryProps, CostCategorySt
         columns={columns}
         filterBy={filterBy}
         isLoading={isLoading}
-        onSelected={onSelected}
+        onSelect={onSelect}
         onSort={onSort}
         orderBy={orderBy}
         rows={rows}

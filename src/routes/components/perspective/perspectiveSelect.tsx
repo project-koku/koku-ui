@@ -1,18 +1,18 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Title } from '@patternfly/react-core';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectWrapper } from 'routes/components/selectWrapper';
 
 import { styles } from './perspective.styles';
 
 interface PerspectiveSelectOwnProps {
   currentItem: string;
   isDisabled?: boolean;
-  onSelected(value: string);
+  onSelect(value: string);
   options?: {
     isDisabled?: boolean;
     label: MessageDescriptor;
@@ -22,27 +22,21 @@ interface PerspectiveSelectOwnProps {
 }
 
 interface PerspectiveSelectState {
-  isSelectOpen: boolean;
-}
-
-interface PerspectiveOption extends SelectOptionObject {
-  isDisabled?: boolean;
-  toString(): string; // label
-  value?: string;
+  // TBD...
 }
 
 type PerspectiveSelectProps = PerspectiveSelectOwnProps & WrappedComponentProps;
 
 class PerspectiveSelectBase extends React.Component<PerspectiveSelectProps, PerspectiveSelectState> {
   protected defaultState: PerspectiveSelectState = {
-    isSelectOpen: false,
+    // TBD...
   };
   public state: PerspectiveSelectState = { ...this.defaultState };
 
-  private getSelectOptions = (): PerspectiveOption[] => {
+  private getSelectOptions = (): SelectWrapperOption[] => {
     const { intl, options } = this.props;
 
-    const selections: PerspectiveOption[] = [];
+    const selections: SelectWrapperOption[] = [];
 
     options.map(option => {
       selections.push({
@@ -56,7 +50,6 @@ class PerspectiveSelectBase extends React.Component<PerspectiveSelectProps, Pers
 
   private getSelect = () => {
     const { currentItem, intl, isDisabled, options } = this.props;
-    const { isSelectOpen } = this.state;
 
     if (options.length === 1) {
       return (
@@ -67,38 +60,25 @@ class PerspectiveSelectBase extends React.Component<PerspectiveSelectProps, Pers
     }
 
     const selectOptions = this.getSelectOptions();
-    const selection = selectOptions.find((option: PerspectiveOption) => option.value === currentItem);
+    const selection = selectOptions.find(option => option.value === currentItem);
 
     return (
-      <Select
-        id="perspectiveSelect"
+      <SelectWrapper
+        id="perspective-elect"
         isDisabled={isDisabled}
-        isOpen={isSelectOpen}
-        onSelect={(_evt, value) => this.handleSelect(value)}
-        onToggle={(_evt, isExpanded) => this.handleToggle(isExpanded)}
-        selections={selection}
-        variant={SelectVariant.single}
-      >
-        {selectOptions.map(option => (
-          <SelectOption isDisabled={option.isDisabled} key={option.value} value={option} />
-        ))}
-      </Select>
+        onSelect={this.handleOnSelect}
+        options={selectOptions}
+        selection={selection}
+      />
     );
   };
 
-  private handleSelect = (selection: PerspectiveOption) => {
-    const { onSelected } = this.props;
+  private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
+    const { onSelect } = this.props;
 
-    if (onSelected) {
-      onSelected(selection.value);
+    if (onSelect) {
+      onSelect(selection.value);
     }
-    this.setState({
-      isSelectOpen: false,
-    });
-  };
-
-  private handleToggle = isSelectOpen => {
-    this.setState({ isSelectOpen });
   };
 
   public render() {

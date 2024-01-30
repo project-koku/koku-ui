@@ -1,6 +1,5 @@
 import type { PaginationProps } from '@patternfly/react-core';
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
@@ -9,6 +8,8 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectWrapper } from 'routes/components/selectWrapper';
 import type { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import type { RouterComponentProps } from 'utils/router';
@@ -61,32 +62,34 @@ const CostModelsFilterSelectorBase: React.FC<CostModelsFilterSelectorProps> = ({
   intl,
   updateFilterType,
 }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const options = [
-    <SelectOption key="name" value="name">
-      {intl.formatMessage(messages.names, { count: 1 })}
-    </SelectOption>,
-    <SelectOption key="description" value="description">
-      {intl.formatMessage(messages.description)}
-    </SelectOption>,
-    <SelectOption key="sourceType" value="sourceType">
-      {intl.formatMessage(messages.sourceType)}
-    </SelectOption>,
+  const handleOnSelect = (_evt, selection: SelectWrapperOption) => {
+    updateFilterType(selection.value);
+  };
+
+  const selectOptions: SelectWrapperOption[] = [
+    {
+      toString: () => intl.formatMessage(messages.names, { count: 1 }),
+      value: 'name',
+    },
+    {
+      toString: () => intl.formatMessage(messages.description),
+      value: 'description',
+    },
+    {
+      toString: () => intl.formatMessage(messages.sourceType),
+      value: 'sourceType',
+    },
   ];
+  const selection = selectOptions.find(option => option.value === filterType);
+
   return (
-    <Select
-      isOpen={isOpen}
-      onSelect={(_evt, value) => {
-        updateFilterType(value);
-        setIsOpen(false);
-      }}
-      onToggle={(_evt, isExpanded) => setIsOpen(isExpanded)}
-      selections={filterType}
+    <SelectWrapper
+      id="cost-models-details-select"
+      onSelect={handleOnSelect}
+      options={selectOptions}
+      selection={selection}
       toggleIcon={<FilterIcon />}
-      variant={SelectVariant.single}
-    >
-      {options}
-    </Select>
+    />
   );
 };
 const CostModelsFilterSelectorConnect = connect(

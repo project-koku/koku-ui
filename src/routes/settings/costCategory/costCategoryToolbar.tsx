@@ -21,7 +21,7 @@ interface CostCategoryToolbarOwnProps {
   isSecondaryActionDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
-  onBulkSelected(action: string);
+  onBulkSelect(action: string);
   onDisableTags();
   onEnableTags();
   onFilterAdded(filter: Filter);
@@ -136,7 +136,7 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
       isDisabled,
       itemsPerPage,
       itemsTotal,
-      onBulkSelected,
+      onBulkSelect,
       onFilterAdded,
       onFilterRemoved,
       pagination,
@@ -154,7 +154,7 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
         isReadOnly={!canWrite}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
-        onBulkSelected={onBulkSelected}
+        onBulkSelect={onBulkSelect}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}

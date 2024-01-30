@@ -1,4 +1,4 @@
-import { NotAuthorized as UnAuthorized } from '@redhat-cloud-services/frontend-components/NotAuthorized';
+import UnAuthorized from '@patternfly/react-component-groups/dist/esm/NotAuthorized';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';

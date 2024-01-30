@@ -32,9 +32,9 @@ interface DetailsHeaderOwnProps {
   currency?: string;
   costType?: string;
   groupBy?: string;
-  onCostTypeSelected(value: string);
-  onCurrencySelected(value: string);
-  onGroupBySelected(value: string);
+  onCostTypeSelect(value: string);
+  onCurrencySelect(value: string);
+  onGroupBySelect(value: string);
   report: AwsReport;
 }
 
@@ -62,11 +62,11 @@ const resourcePathsType = ResourcePathsType.aws;
 const tagPathsType = TagPathsType.aws;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
-  private handleOnCostTypeSelected = (value: string) => {
-    const { onCostTypeSelected } = this.props;
+  private handleOnCostTypeSelect = (value: string) => {
+    const { onCostTypeSelect } = this.props;
 
-    if (onCostTypeSelected) {
-      onCostTypeSelected(value);
+    if (onCostTypeSelect) {
+      onCostTypeSelect(value);
     }
   };
 
@@ -76,8 +76,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
       currency,
       groupBy,
       isExportsFeatureEnabled,
-      onCurrencySelected,
-      onGroupBySelected,
+      onCurrencySelect,
+      onGroupBySelect,
       providers,
       providersError,
       report,
@@ -94,7 +94,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
             {intl.formatMessage(messages.awsDetailsTitle)}
           </Title>
           <div style={styles.headerContentRight}>
-            <Currency currency={currency} onSelect={onCurrencySelected} />
+            <Currency currency={currency} onSelect={onCurrencySelect} />
             {isExportsFeatureEnabled && <ExportsLink />}
           </div>
         </div>
@@ -104,7 +104,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
               getIdKeyForGroupBy={getIdKeyForGroupBy}
               groupBy={groupBy}
               isDisabled={!showContent}
-              onSelected={onGroupBySelected}
+              onSelect={onGroupBySelect}
               options={groupByOptions}
               orgPathsType={orgPathsType}
               resourcePathsType={resourcePathsType}
@@ -114,7 +114,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
               tagPathsType={tagPathsType}
             />
             <div style={styles.costType}>
-              <CostType costType={costType} onSelect={this.handleOnCostTypeSelected} />
+              <CostType costType={costType} onSelect={this.handleOnCostTypeSelect} />
             </div>
           </div>
           {showContent && (

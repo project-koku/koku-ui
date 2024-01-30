@@ -97,7 +97,7 @@ const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
         filterBy={query.filter_by}
         isLoading={settingsStatus === FetchStatus.inProgress}
         orderBy={query.order_by}
-        onSelected={handleOnSelected}
+        onSelect={handleonSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         settings={settings}
         selectedItems={selectedItems}
@@ -122,7 +122,7 @@ const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
         isSecondaryActionDisabled={!hasEnabledItem}
         itemsPerPage={tags.length}
         itemsTotal={itemsTotal}
-        onBulkSelected={handleOnBulkSelected}
+        onBulkSelect={handleOnBulkSelect}
         onDisableTags={handleOnDisableTags}
         onEnableTags={handleOnEnableTags}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
@@ -135,7 +135,7 @@ const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
     );
   };
 
-  const handleOnBulkSelected = (action: string) => {
+  const handleOnBulkSelect = (action: string) => {
     if (action === 'none') {
       setSelectedItems([]);
     } else if (action === 'page') {
@@ -193,7 +193,7 @@ const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
     setQuery(newQuery);
   };
 
-  const handleOnSelected = (items: SettingsData[], isSelected: boolean = false) => {
+  const handleonSelect = (items: SettingsData[], isSelected: boolean = false) => {
     let newItems = [...selectedItems];
     if (items && items.length > 0) {
       if (isSelected) {

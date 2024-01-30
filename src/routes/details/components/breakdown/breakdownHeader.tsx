@@ -34,9 +34,9 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
   detailsURL?: string;
   description?: string;
   groupBy?: string;
-  onCostDistributionSelected(value: string);
-  onCostTypeSelected(value: string);
-  onCurrencySelected(value: string);
+  onCostDistributionSelect(value: string);
+  onCostTypeSelect(value: string);
+  onCurrencySelect(value: string);
   query: Query;
   report: Report;
   showCostDistribution?: boolean;
@@ -95,9 +95,9 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       description,
       groupBy,
       intl,
-      onCostDistributionSelected,
-      onCostTypeSelected,
-      onCurrencySelected,
+      onCostDistributionSelect,
+      onCostTypeSelect,
+      onCurrencySelect,
       query,
       showCostDistribution,
       showCostType,
@@ -145,7 +145,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
           </nav>
           {showCurrency && (
             <div style={styles.headerContentRight}>
-              <Currency currency={currency} onSelect={onCurrencySelected} />
+              <Currency currency={currency} onSelect={onCurrencySelect} />
             </div>
           )}
         </div>
@@ -157,12 +157,12 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
             </Title>
             {showCostDistribution && (
               <div style={styles.costDistribution}>
-                <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelected} />
+                <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
               </div>
             )}
             {showCostType && (
               <div style={styles.costType}>
-                <CostType onSelect={onCostTypeSelected} costType={costType} />
+                <CostType onSelect={onCostTypeSelect} costType={costType} />
               </div>
             )}
           </div>

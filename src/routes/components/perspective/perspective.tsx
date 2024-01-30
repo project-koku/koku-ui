@@ -57,7 +57,7 @@ interface PerspectiveProps {
   isOciFeatureEnabled?: boolean;
   isInfrastructureTab?: boolean; // Used by the overview page
   isRhelTab?: boolean; // Used by the overview page,
-  onSelected?: (value: string) => void;
+  onSelect?: (value: string) => void;
 }
 
 const getInfrastructureOptions = ({
@@ -122,7 +122,7 @@ const Perspective: React.FC<PerspectiveProps> = ({
   isIbmFeatureEnabled,
   isInfrastructureTab,
   isRhelTab,
-  onSelected,
+  onSelect,
 }): any => {
   // Dynamically show options if providers are available
   const options = [];
@@ -184,7 +184,7 @@ const Perspective: React.FC<PerspectiveProps> = ({
     <PerspectiveSelect
       currentItem={currentItem || options[0].value}
       isDisabled={isDisabled}
-      onSelected={onSelected}
+      onSelect={onSelect}
       options={options}
     />
   );

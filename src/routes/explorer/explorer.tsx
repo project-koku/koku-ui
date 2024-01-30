@@ -29,9 +29,9 @@ import { getGroupByCostCategory, getGroupById, getGroupByOrgValue, getGroupByTag
 import { filterProviders, hasData } from 'routes/utils/providers';
 import { getRouteForQuery } from 'routes/utils/query';
 import {
-  handleOnCostDistributionSelected,
-  handleOnCostTypeSelected,
-  handleOnCurrencySelected,
+  handleOnCostDistributionSelect,
+  handleOnCostTypeSelect,
+  handleOnCurrencySelect,
   handleOnFilterAdded,
   handleOnFilterRemoved,
   handleOnPerPageSelect,
@@ -130,11 +130,11 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleOnBulkSelected = this.handleOnBulkSelected.bind(this);
+    this.handleOnBulkSelect = this.handleOnBulkSelect.bind(this);
     this.handleOnExportModalClose = this.handleOnExportModalClose.bind(this);
     this.handleOnExportModalOpen = this.handleOnExportModalOpen.bind(this);
     this.handleOnPerspectiveClick = this.handleOnPerspectiveClick.bind(this);
-    this.handleOnSelected = this.handleOnSelected.bind(this);
+    this.handleOnSelect = this.handleOnSelect.bind(this);
   }
 
   public componentDidMount() {
@@ -272,7 +272,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
         groupByOrg={groupByOrg}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        onSelected={this.handleOnSelected}
+        onSelect={this.handleOnSelect}
         onSort={(sortType, isSortAscending, date: string) =>
           handleOnSort(query, router, sortType, isSortAscending, date)
         }
@@ -298,7 +298,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
         isExportDisabled={isDisabled || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
-        onBulkSelected={this.handleOnBulkSelected}
+        onBulkSelect={this.handleOnBulkSelect}
         onExportClicked={this.handleOnExportModalOpen}
         pagination={this.getPagination(isDisabled)}
         perspective={perspective}
@@ -307,7 +307,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     );
   };
 
-  private handleOnBulkSelected = (action: string) => {
+  private handleOnBulkSelect = (action: string) => {
     const { isAllSelected, selectedItems } = this.state;
 
     if (action === 'none') {
@@ -328,7 +328,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     }
   };
 
-  private handleOnDatePickerSelected = (startDate: Date, endDate: Date) => {
+  private handleOnDatePickerSelect = (startDate: Date, endDate: Date) => {
     const { query, router } = this.props;
 
     this.setState({ startDate, endDate }, () => {
@@ -344,7 +344,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     this.setState({ isExportModalOpen: true });
   };
 
-  private handleOnGroupBySelected = groupBy => {
+  private handleOnGroupBySelect = groupBy => {
     const { query, router } = this.props;
 
     let groupByKey = groupBy;
@@ -374,7 +374,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     this.setState({ isAllSelected: false, selectedItems: [] });
   };
 
-  private handleOnSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
+  private handleOnSelect = (items: ComputedReportItem[], isSelected: boolean = false) => {
     const { isAllSelected, selectedItems } = this.state;
 
     let newItems = [...(isAllSelected ? this.getComputedItems() : selectedItems)];
@@ -515,13 +515,13 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
                 ? `${tagPrefix}${groupByTagKey}`
                 : groupById
           }
-          onCostDistributionSelected={() => handleOnCostDistributionSelected(query, router)}
-          onCostTypeSelected={() => handleOnCostTypeSelected(query, router)}
-          onCurrencySelected={() => handleOnCurrencySelected(query, router)}
-          onDatePickerSelected={this.handleOnDatePickerSelected}
+          onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router)}
+          onCostTypeSelect={() => handleOnCostTypeSelect(query, router)}
+          onCurrencySelect={() => handleOnCurrencySelect(query, router)}
+          onDatePickerSelect={this.handleOnDatePickerSelect}
           onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
           onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
-          onGroupBySelected={this.handleOnGroupBySelected}
+          onGroupBySelect={this.handleOnGroupBySelect}
           onPerspectiveClicked={this.handleOnPerspectiveClick}
           perspective={perspective}
           report={report}
