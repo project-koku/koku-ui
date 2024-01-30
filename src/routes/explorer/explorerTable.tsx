@@ -54,7 +54,7 @@ interface ExplorerTableOwnProps extends RouterComponentProps, WrappedComponentPr
   groupByTagKey?: string;
   isAllSelected?: boolean;
   isLoading?: boolean;
-  onSelected(items: ComputedReportItem[], isSelected: boolean);
+  onSelect(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean, date: string);
   perspective: PerspectiveType;
   query: Query;
@@ -394,7 +394,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
   };
 
   private handleOnSelect = (isSelected, rowId) => {
-    const { onSelected } = this.props;
+    const { onSelect } = this.props;
     const { rows } = this.state;
 
     let newRows;
@@ -410,8 +410,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
       items = [newRows[rowId].item];
     }
     this.setState({ rows }, () => {
-      if (onSelected) {
-        onSelected(items, isSelected);
+      if (onSelect) {
+        onSelect(items, isSelected);
       }
     });
   };

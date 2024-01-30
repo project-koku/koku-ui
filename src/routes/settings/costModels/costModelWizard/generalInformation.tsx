@@ -9,7 +9,6 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
-import { SelectDirection } from '@patternfly/react-core/deprecated';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -132,7 +131,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
                 <Selector
                   isRequired
                   id="source-type-selector"
-                  direction={SelectDirection.up}
+                  direction="up"
                   appendMenuTo="inline"
                   maxHeight={styles.selector.maxHeight}
                   label={messages.sourceType}
@@ -144,7 +143,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
                 />
                 <Selector
                   label={messages.currency}
-                  direction={SelectDirection.up}
+                  direction="up"
                   appendMenuTo="inline"
                   maxHeight={styles.selector.maxHeight}
                   toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}

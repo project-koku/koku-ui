@@ -170,14 +170,14 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
             >
               <Radio
                 name="calculation"
-                id="calculation_infra"
+                id="calculation-infra"
                 label={intl.formatMessage(messages.infrastructure)}
                 isChecked={calculation === 'Infrastructure'}
                 onChange={() => setCalculation('Infrastructure')}
               />
               <Radio
                 name="calculation"
-                id="calculation_suppl"
+                id="calculation-suppl"
                 label={intl.formatMessage(messages.supplementary)}
                 isChecked={calculation === 'Supplementary'}
                 onChange={() => setCalculation('Supplementary')}

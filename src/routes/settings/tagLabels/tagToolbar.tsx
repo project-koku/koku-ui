@@ -24,7 +24,7 @@ interface TagToolbarOwnProps {
   isSecondaryActionDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
-  onBulkSelected(action: string);
+  onBulkSelect(action: string);
   onDisableTags();
   onEnableTags();
   onFilterAdded(filter: Filter);
@@ -176,7 +176,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
       isDisabled,
       itemsPerPage,
       itemsTotal,
-      onBulkSelected,
+      onBulkSelect,
       onFilterAdded,
       onFilterRemoved,
       pagination,
@@ -195,7 +195,7 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
         isReadOnly={!canWrite}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
-        onBulkSelected={onBulkSelected}
+        onBulkSelect={onBulkSelect}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}

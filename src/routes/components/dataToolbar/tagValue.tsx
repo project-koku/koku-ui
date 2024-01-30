@@ -1,7 +1,4 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
 import { Button, ButtonVariant, InputGroup, InputGroupItem, TextInput } from '@patternfly/react-core';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
@@ -12,6 +9,8 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectCheckboxWrapper } from 'routes/components/selectWrapper';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -25,7 +24,7 @@ interface TagValueOwnProps extends RouterComponentProps, WrappedComponentProps {
   onTagValueSelect(event, selection);
   onTagValueInput(event);
   onTagValueInputChange(value: string);
-  selections?: SelectOptionObject[];
+  selections?: SelectWrapperOption[];
   tagKey: string;
   tagKeyValue: string;
   tagPathsType: TagPathsType;
@@ -44,7 +43,6 @@ interface TagValueDispatchProps {
 }
 
 interface TagValueState {
-  isTagValueExpanded?: boolean;
   tagKeyValueInput?: string;
 }
 
@@ -58,7 +56,7 @@ const tagKeyValueLimit = 50;
 
 class TagValueBase extends React.Component<TagValueProps, TagValueState> {
   protected defaultState: TagValueState = {
-    isTagValueExpanded: false,
+    // TBD...
   };
   public state: TagValueState = { ...this.defaultState };
 
@@ -74,7 +72,7 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
     }
   }
 
-  private getTagValueOptions(): ToolbarChipGroup[] {
+  private getTagValueOptions(): SelectWrapperOption[] {
     const { tagKey, tagReport } = this.props;
 
     let data = [];
@@ -88,8 +86,8 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
         if (tagKey === tag.key && tag.values) {
           options = tag.values.map(val => {
             return {
-              key: val,
-              name: val, // tag key values not localized
+              toString: () => val, // Tag key values not localized
+              value: val,
             };
           });
           break;
@@ -109,12 +107,6 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
     });
   };
 
-  private onTagValueToggle = isOpen => {
-    this.setState({
-      isTagValueExpanded: isOpen,
-    });
-  };
-
   private updateReport = () => {
     const { fetchTag, tagQueryString, tagPathsType } = this.props;
     fetchTag(tagPathsType, tagType, tagQueryString);
@@ -122,26 +114,20 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
 
   public render() {
     const { intl, isDisabled, onTagValueInput, onTagValueSelect, selections, tagKeyValue } = this.props;
-    const { isTagValueExpanded } = this.state;
 
-    const selectOptions = this.getTagValueOptions().map(selectOption => {
-      return <SelectOption key={selectOption.key} value={selectOption.key} />;
-    });
+    const selectOptions = this.getTagValueOptions();
 
     if (selectOptions.length > 0 && selectOptions.length < tagKeyValueLimit) {
       return (
-        <Select
-          isDisabled={isDisabled}
-          variant={SelectVariant.checkbox}
+        <SelectCheckboxWrapper
           aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
+          id="tag-value-select"
+          isDisabled={isDisabled}
           onSelect={onTagValueSelect}
-          onToggle={(_evt, isExpanded) => this.onTagValueToggle(isExpanded)}
+          options={selectOptions}
+          placeholder={intl.formatMessage(messages.chooseValuePlaceholder)}
           selections={selections}
-          isOpen={isTagValueExpanded}
-          placeholderText={intl.formatMessage(messages.chooseValuePlaceholder)}
-        >
-          {selectOptions}
-        </Select>
+        />
       );
     }
     return (
