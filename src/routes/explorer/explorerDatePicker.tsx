@@ -15,7 +15,7 @@ import { withRouter } from 'utils/router';
 import { styles } from './explorerDatePicker.styles';
 
 interface ExplorerDatePickerOwnProps extends RouterComponentProps, WrappedComponentProps {
-  onSelected(startDate: Date, endDate: Date);
+  onSelect(startDate: Date, endDate: Date);
 }
 
 interface ExplorerDatePickerState {
@@ -147,13 +147,13 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
   };
 
   private handleOnEndDateOnChange = (evt: FormEvent, value: string, date?: Date) => {
-    const { onSelected } = this.props;
+    const { onSelect } = this.props;
     const { startDate } = this.state;
 
     if (date && this.isEndDateValid(startDate, date)) {
       this.setState({ endDate: date }, () => {
-        if (onSelected) {
-          onSelected(startDate, date);
+        if (onSelect) {
+          onSelect(startDate, date);
         }
       });
     }

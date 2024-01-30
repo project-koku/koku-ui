@@ -11,6 +11,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { isEqual } from 'routes/utils/equal';
 import type { Filter } from 'routes/utils/filter';
@@ -20,7 +21,6 @@ import { awsCategoryKey, orgUnitIdKey, platformCategoryKey, tagKey } from 'utils
 import { styles } from './dataToolbar.styles';
 import { getColumnManagement, getExportButton, getKebab, getPlatformCosts } from './utils/actions';
 import { getBulkSelect } from './utils/bulkSelect';
-import type { CategoryOption } from './utils/category';
 import {
   getCategoryInput,
   getCategorySelect,
@@ -38,7 +38,6 @@ import {
   onCostCategoryValueSelect,
 } from './utils/costCategory';
 import { getCustomSelect, onCustomSelect } from './utils/custom';
-import type { ExcludeOption } from './utils/exclude';
 import { ExcludeType, getExcludeSelect } from './utils/exclude';
 import { getOrgUnitSelect, onOrgUnitSelect } from './utils/orgUntits';
 import { getTagKeyOptions, getTagKeySelect, getTagValueSelect, onTagValueInput, onTagValueSelect } from './utils/tags';
@@ -55,7 +54,7 @@ interface DataToolbarOwnProps {
   isExportDisabled?: boolean; // Show export icon as disabled
   itemsPerPage?: number;
   itemsTotal?: number;
-  onBulkSelected?: (action: string) => void;
+  onBulkSelect?: (action: string) => void;
   onColumnManagementClicked?: () => void;
   onExportClicked?: () => void;
   onFilterAdded?: (filter: Filter) => void;
@@ -87,11 +86,8 @@ interface DataToolbarState {
   currentTagKey?: string;
   filters?: Filters;
   isBulkSelectOpen?: boolean;
-  isCategorySelectOpen?: boolean;
-  isCostCategoryKeySelectExpanded?: boolean;
   isCostCategoryValueSelectExpanded?: boolean;
   isExcludeSelectOpen?: boolean;
-  isOrgUnitSelectExpanded?: boolean;
   isPlatformCostsChecked?: boolean;
   isTagKeySelectExpanded?: boolean;
   isTagValueSelectExpanded?: boolean;
@@ -109,13 +105,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     categoryInput: '',
     filters: cloneDeep(defaultFilters),
     isBulkSelectOpen: false,
-    isCategorySelectOpen: false,
-    isCostCategoryKeySelectExpanded: false,
     isCostCategoryValueSelectExpanded: false,
     isExcludeSelectOpen: false,
-    isOrgUnitSelectExpanded: false,
     isPlatformCostsChecked: this.props.query ? this.props.query.category === platformCategoryKey : false,
-    isTagKeySelectExpanded: false,
     isTagValueSelectExpanded: false,
     tagKeyValueInput: '',
   };
@@ -197,10 +189,10 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   };
 
   private handleOnBulkSelectClicked = (action: string) => {
-    const { onBulkSelected } = this.props;
+    const { onBulkSelect } = this.props;
 
-    if (onBulkSelected) {
-      onBulkSelected(action);
+    if (onBulkSelect) {
+      onBulkSelect(action);
     }
   };
 
@@ -220,32 +212,23 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   public getCategorySelectComponent() {
     const { categoryOptions, isDisabled } = this.props;
-    const { currentCategory, filters, isCategorySelectOpen } = this.state;
+    const { currentCategory, filters } = this.state;
 
     return getCategorySelect({
       categoryOptions,
       currentCategory,
       isDisabled,
       filters,
-      isCategorySelectOpen,
       onCategorySelect: this.handleOnCategorySelect,
-      onCategoryToggle: this.handleOnCategoryToggle,
     });
   }
 
-  private handleOnCategorySelect = (selection: CategoryOption) => {
+  private handleOnCategorySelect = (_evt, selection: SelectWrapperOption) => {
     this.setState({
       categoryInput: '',
       currentCategory: selection.value,
       currentCostCategoryKey: undefined,
       currentTagKey: undefined,
-      isCategorySelectOpen: !this.state.isCategorySelectOpen,
-    });
-  };
-
-  private handleOnCategoryToggle = isOpen => {
-    this.setState({
-      isCategorySelectOpen: isOpen,
     });
   };
 
@@ -331,17 +314,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   public getCostCategoryKeySelectComponent = () => {
     const { isDisabled, resourceReport } = this.props;
-    const { currentCategory, currentCostCategoryKey, filters, isCostCategoryKeySelectExpanded } = this.state;
+    const { currentCategory, currentCostCategoryKey, filters } = this.state;
 
     return getCostCategoryKeySelect({
       currentCategory,
       currentCostCategoryKey,
       filters,
-      isCostCategoryKeySelectExpanded,
       isDisabled,
       onCostCategoryKeyClear: this.handleOnCostCategoryKeyClear,
       onCostCategoryKeySelect: this.handleOnCostCategoryKeySelect,
-      onCostCategoryKeyToggle: this.handleOnCostCategoryKeyToggle,
       resourceReport,
     });
   };
@@ -349,20 +330,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   private handleOnCostCategoryKeyClear = () => {
     this.setState({
       currentCostCategoryKey: undefined,
-      isCostCategoryKeySelectExpanded: false,
     });
   };
 
-  private handleOnCostCategoryKeySelect = selection => {
+  private handleOnCostCategoryKeySelect = (_evt, selection: SelectWrapperOption) => {
     this.setState({
-      currentCostCategoryKey: selection,
-      isCostCategoryKeySelectExpanded: !this.state.isCostCategoryKeySelectExpanded,
-    });
-  };
-
-  private handleOnCostCategoryKeyToggle = isOpen => {
-    this.setState({
-      isCostCategoryKeySelectExpanded: isOpen,
+      currentCostCategoryKey: selection.value,
     });
   };
 
@@ -501,44 +474,34 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   public getExcludeSelectComponent() {
     const { isDisabled } = this.props;
-    const { currentExclude, filters, isExcludeSelectOpen } = this.state;
+    const { currentExclude, filters } = this.state;
 
     return getExcludeSelect({
       currentExclude,
       filters,
       isDisabled,
       onExcludeSelect: this.handleOnExcludeSelect,
-      onExcludeToggle: this.handleOnExcludeToggle,
-      isExcludeSelectOpen,
     });
   }
 
-  private handleOnExcludeSelect = (selection: ExcludeOption) => {
+  private handleOnExcludeSelect = (_evt, selection: SelectWrapperOption) => {
     this.setState({
       currentExclude: selection.value,
       isExcludeSelectOpen: !this.state.isExcludeSelectOpen,
     });
   };
 
-  private handleOnExcludeToggle = isOpen => {
-    this.setState({
-      isExcludeSelectOpen: isOpen,
-    });
-  };
-
   // Org unit select
   public getOrgUnitSelectComponent = () => {
     const { isDisabled, orgReport } = this.props;
-    const { currentCategory, filters, isOrgUnitSelectExpanded } = this.state;
+    const { currentCategory, filters } = this.state;
 
     return getOrgUnitSelect({
       currentCategory,
       filters,
       isDisabled,
-      isOrgUnitSelectExpanded,
       onDelete: this.handleOnDelete,
       onOrgUnitSelect: this.handleOnOrgUnitSelect,
-      onOrgUnitToggle: this.handleOnOrgUnitToggle,
       orgReport,
     });
   };
@@ -572,27 +535,19 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     );
   };
 
-  private handleOnOrgUnitToggle = isOpen => {
-    this.setState({
-      isOrgUnitSelectExpanded: isOpen,
-    });
-  };
-
   // Tag key select
 
   public getTagKeySelectComponent = () => {
     const { isDisabled, tagReport } = this.props;
-    const { currentCategory, currentTagKey, filters, isTagKeySelectExpanded } = this.state;
+    const { currentCategory, currentTagKey, filters } = this.state;
 
     return getTagKeySelect({
       currentCategory,
       currentTagKey,
       filters,
       isDisabled,
-      isTagKeySelectExpanded,
       onTagKeyClear: this.handleOnTagKeyClear,
       onTagKeySelect: this.handleOnTagKeySelect,
-      onTagKeyToggle: this.handleOnTagKeyToggle,
       tagReport,
     });
   };
@@ -600,20 +555,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   private handleOnTagKeyClear = () => {
     this.setState({
       currentTagKey: undefined,
-      isTagKeySelectExpanded: false,
     });
   };
 
-  private handleOnTagKeySelect = selection => {
+  private handleOnTagKeySelect = (_evt, selection: SelectWrapperOption) => {
     this.setState({
-      currentTagKey: selection,
-      isTagKeySelectExpanded: !this.state.isTagKeySelectExpanded,
-    });
-  };
-
-  private handleOnTagKeyToggle = isOpen => {
-    this.setState({
-      isTagKeySelectExpanded: isOpen,
+      currentTagKey: selection.value,
     });
   };
 
@@ -653,7 +600,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       event,
       tagKeyValueInput,
     });
-
+    if (!filter) {
+      return;
+    }
     this.setState(
       {
         filters,
