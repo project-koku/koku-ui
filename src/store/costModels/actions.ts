@@ -109,7 +109,7 @@ export const deleteCostModel = (uuid: string, dialog: string = '', router: Route
         fetchCostModels()(dispatch);
         if (dialog !== null) {
           if (dialog === 'deleteCostModel' && router) {
-            router.navigate('/cost-models');
+            router.navigate(formatPath(routes.settings.path));
           }
           dispatch(setCostModelDialog({ name: dialog, isOpen: false }));
         }

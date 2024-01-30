@@ -1,27 +1,49 @@
+const transformIgnorePatterns = [
+  'node_modules/(?!(@patternfly/react-core/src|@patternfly/react-icons/dist/esm|uuid/dist/esm-browser))',
+];
+
+/** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
   clearMocks: true,
   collectCoverage: false,
-  collectCoverageFrom: ['src/**/*.tsx'],
-  coverageDirectory: './coverage/',
+  // collectCoverageFrom: ['src/**/*.js'],
+  // coverageDirectory: './coverage/',
   fakeTimers: {
     enableGlobally: true,
   },
-  moduleFileExtensions: ['ts', 'tsx', 'js'],
   moduleDirectories: ['node_modules', '<rootDir>/src'],
   moduleNameMapper: {
-    '\\.(css|less|sass|scss)$': '<rootDir>/test/styleMock.js',
+    '\\.(css|scss)$': 'identity-obj-proxy',
   },
-  roots: ['<rootDir>/src'],
-  setupFiles: ['./test/testEnv.ts'],
+  preset: 'ts-jest',
+  roots: ['<rootDir>/src/'],
+  setupFiles: ['<rootDir>/test/testEnv.ts'],
+  setupFilesAfterEnv: ['<rootDir>/test/jest.setup.js'],
   testEnvironment: 'jsdom',
-  testEnvironmentOptions: {
-    url: 'http://localhost/',
-  },
-  testRegex: '\\.test\\.(jsx?|tsx?)$',
-  testTimeout: 30000,
+  // testEnvironment: 'jest-environment-jsdom',
+  transformIgnorePatterns,
   transform: {
-    '^.+\\.[jt]sx?$': '<rootDir>/test/transformTS.js',
-    '^.+\\.(jpg)$': '<rootDir>/test/transformFile.js',
+    '^.+\\.svg$': 'jest-transform-stub',
+    '^.+\\.(ts|js)x?$': [
+      '@swc/jest',
+      {
+        $schema: 'http://json.schemastore.org/swcrc',
+        jsc: {
+          experimental: {
+            plugins: [['jest_workaround', {}]],
+          },
+          parser: {
+            jsx: true,
+            syntax: 'typescript',
+            tsx: true,
+          },
+          transform: {
+            react: {
+              runtime: 'automatic',
+            },
+          },
+        },
+      },
+    ],
   },
-  transformIgnorePatterns: ['node_modules/(?!(@patternfly/react-icons/dist/esm|uuid/dist/esm-browser))'],
 };

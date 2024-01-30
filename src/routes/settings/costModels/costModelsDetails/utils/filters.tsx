@@ -1,13 +1,14 @@
 import type { ToolbarProps } from '@patternfly/react-core';
 import { InputGroup, InputGroupItem, InputGroupText, TextInput, Toolbar, ToolbarFilter } from '@patternfly/react-core';
-import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core/deprecated';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
-import React from 'react';
+import React, { useState } from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectWrapper } from 'routes/components/selectWrapper';
 import type { RootState } from 'store';
 import { costModelsSelectors } from 'store/costModels';
 import type { RouterComponentProps } from 'utils/router';
@@ -15,7 +16,7 @@ import { withRouter } from 'utils/router';
 
 import type { CostModelsQuery } from './query';
 import { initialCostModelsQuery, stringifySearch } from './query';
-import type { Inputer, Opener } from './types';
+import type { Inputer } from './types';
 
 interface FilterInputProps {
   value: string;
@@ -225,14 +226,6 @@ const NameFilterBase: React.FC<NameFilterProps> = ({
 const NameFilterConnect = connect(nameFilterMapStateToProps, undefined, nameFilterMergeProps)(NameFilterBase);
 export const NameFilter = injectIntl(withRouter(NameFilterConnect));
 
-export const onSelect = (id: string, setToggle: Opener['setIsOpen']) => {
-  return () => {
-    setToggle(false);
-    const element = document.getElementById(id);
-    element && element.focus();
-  };
-};
-
 interface SourceTypeFilterOwnProps {
   deleteChip?: any;
   deleteChipGroup?: any;
@@ -283,37 +276,41 @@ const SourceTypeFilterBase: React.FC<SourceTypeFilterProps> = ({
   query,
   router,
 }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const id = 'source-type-filter';
-  const onFilter = (source: string) =>
-    router.navigate(stringifySearch({ ...initialCostModelsQuery, ...query, source_type: source }));
+  const [currentItem, setCurrentItem] = useState<string>();
+
+  const handleOnSelect = (_evt, selection: SelectWrapperOption) => {
+    setCurrentItem(selection.value);
+    router.navigate(stringifySearch({ ...initialCostModelsQuery, ...query, source_type: selection.value }));
+  };
+
+  const selectOptions: SelectWrapperOption[] = [
+    {
+      toString: () => intl.formatMessage(messages.aws),
+      value: 'aws',
+    },
+    {
+      toString: () => intl.formatMessage(messages.azure),
+      value: 'azure',
+    },
+    {
+      toString: () => intl.formatMessage(messages.openShift),
+      value: 'ocp',
+    },
+  ];
+  const selection = selectOptions.find(option => option.value === currentItem);
+
   const children =
     filterType === 'sourceType' ? (
-      <Dropdown
-        onSelect={onSelect(id, setIsOpen)}
-        isOpen={isOpen}
-        toggle={
-          <DropdownToggle
-            onToggle={(_evt, value: boolean) => {
-              setIsOpen(value);
-            }}
-            id={id}
-          >
-            {intl.formatMessage(messages.filterByPlaceholder, { value: 'source_type' })}
-          </DropdownToggle>
-        }
-        dropdownItems={[
-          <DropdownItem key="aws" component="button" onClick={() => onFilter('aws')}>
-            {intl.formatMessage(messages.aws)}
-          </DropdownItem>,
-          <DropdownItem key="azure" component="button" onClick={() => onFilter('azure')}>
-            {intl.formatMessage(messages.azure)}
-          </DropdownItem>,
-          <DropdownItem key="ocp" component="button" onClick={() => onFilter('ocp')}>
-            {intl.formatMessage(messages.openShift)}
-          </DropdownItem>,
-        ]}
-      />
+      <>
+        TEST
+        <SelectWrapper
+          id="source-type-select"
+          onSelect={handleOnSelect}
+          options={selectOptions}
+          placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: 'source_type' })}
+          selection={selection}
+        />
+      </>
     ) : null;
   return (
     <ToolbarFilter deleteChip={deleteChip} deleteChipGroup={deleteChipGroup} chips={chips} categoryName={categoryName}>
@@ -321,6 +318,7 @@ const SourceTypeFilterBase: React.FC<SourceTypeFilterProps> = ({
     </ToolbarFilter>
   );
 };
+
 const SourceTypeFilterConnect = connect(
   sourceTypeFilterMapStateToProps,
   undefined,

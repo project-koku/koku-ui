@@ -3200,6 +3200,11 @@ export default defineMessages({
     description: 'Select categories to enable or disable',
     id: 'selectCategories',
   },
+  selectClearAriaLabel: {
+    defaultMessage: 'Clear input value',
+    description: 'Clear input value',
+    id: 'selectClearAriaLabel',
+  },
   selectProjects: {
     defaultMessage: 'Select projects to add or remove',
     description: 'Select projects to add or remove',
@@ -3446,6 +3451,11 @@ export default defineMessages({
     defaultMessage: 'Filter by metrics',
     description: 'Filter by metrics',
     id: 'toolBarPriceListMetricPlaceHolder',
+  },
+  typeaheadAriaClear: {
+    defaultMessage: 'Clear button and input',
+    description: 'Clear button and input',
+    id: 'typeaheadAriaClear',
   },
   unitTooltips: {
     defaultMessage:

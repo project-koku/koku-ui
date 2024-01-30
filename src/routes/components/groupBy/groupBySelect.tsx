@@ -1,4 +1,3 @@
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
 import type { Resource } from 'api/resources/resource';
@@ -8,6 +7,8 @@ import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectTypeaheadWrapper } from 'routes/components/selectWrapper';
 import { tagPrefix } from 'utils/props';
 import { awsCategoryPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -19,17 +20,12 @@ interface GroupBySelectOwnProps extends RouterComponentProps, WrappedComponentPr
   groupBy?: string;
   isCostCategory?: boolean;
   isDisabled?: boolean;
-  onSelected(value: string);
-  options: {
-    label: string;
-    value: string;
-  }[];
+  onSelect(value: string);
   report: Resource | Tag;
 }
 
 interface GroupBySelectState {
   currentItem?: string;
-  isGroupByOpen?: boolean;
   prefix?: string;
 }
 
@@ -37,7 +33,6 @@ type GroupBySelectProps = GroupBySelectOwnProps;
 
 class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelectState> {
   protected defaultState: GroupBySelectState = {
-    isGroupByOpen: false,
     prefix: this.props.isCostCategory ? awsCategoryPrefix : tagPrefix,
   };
   public state: GroupBySelectState = { ...this.defaultState };
@@ -45,8 +40,7 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
   constructor(props: GroupBySelectProps) {
     super(props);
     this.handleOnClear = this.handleOnClear.bind(this);
-    this.handleOnSelected = this.handleOnSelected.bind(this);
-    this.handleOnToggle = this.handleOnToggle.bind(this);
+    this.handleOnSelect = this.handleOnSelect.bind(this);
   }
 
   public componentDidMount() {
@@ -80,7 +74,7 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
     return groupBy;
   };
 
-  private getGroupByItems = () => {
+  private getGroupByItems = (): SelectWrapperOption[] => {
     const { report } = this.props;
 
     if (!report?.data) {
@@ -108,9 +102,12 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
       data = uniq(report.data);
     }
 
-    return data.map((item, index) => {
+    return data.map(item => {
       const key = hasKeys ? item.key : item;
-      return <SelectOption key={`${key}:${index}`} value={key} />;
+      return {
+        toString: () => key,
+        value: key,
+      };
     });
   };
 
@@ -120,44 +117,39 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
     });
   };
 
-  private handleOnSelected = value => {
-    const { onSelected } = this.props;
+  private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
+    const { onSelect } = this.props;
     const { prefix } = this.state;
 
     this.setState({
-      currentItem: value,
-      isGroupByOpen: false,
+      currentItem: selection.value,
     });
-    if (onSelected) {
-      onSelected(`${prefix}${value}`);
+    if (onSelect) {
+      onSelect(`${prefix}${selection.value}`);
     }
-  };
-
-  private handleOnToggle = isGroupByOpen => {
-    this.setState({ isGroupByOpen });
   };
 
   public render() {
     const { isCostCategory, isDisabled, intl } = this.props;
-    const { currentItem, isGroupByOpen } = this.state;
+    const { currentItem } = this.state;
+
+    const selectOptions = this.getGroupByItems();
+    const selection = selectOptions.find(option => option.value === currentItem);
 
     return (
       <div style={styles.groupBySelector}>
-        <Select
-          aria-label={intl.formatMessage(
+        <SelectTypeaheadWrapper
+          ariaLabel={intl.formatMessage(
             isCostCategory ? messages.filterByCostCategoryKeyAriaLabel : messages.filterByTagKeyAriaLabel
           )}
+          id="group-by-select-typeahead"
           isDisabled={isDisabled}
           onClear={this.handleOnClear}
-          onSelect={(_evt, value) => this.handleOnSelected(value)}
-          onToggle={(_evt, isExpanded) => this.handleOnToggle(isExpanded)}
-          isOpen={isGroupByOpen}
-          placeholderText={intl.formatMessage(messages.chooseKeyPlaceholder)}
-          selections={currentItem}
-          variant={SelectVariant.typeahead}
-        >
-          {this.getGroupByItems()}
-        </Select>
+          onSelect={this.handleOnSelect}
+          options={selectOptions}
+          placeholder={intl.formatMessage(messages.chooseKeyPlaceholder)}
+          selection={selection}
+        />
       </div>
     );
   }
