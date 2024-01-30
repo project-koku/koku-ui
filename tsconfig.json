@@ -6,25 +6,19 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
-    "isolatedModules": false,
     "module": "esnext",
     "moduleResolution": "node",
     "noUnusedLocals": true,
-    "outDir": "./dist",
+    "outDir": "./dist/",
     "resolveJsonModule": true,
-    "target": "es2017",
-    "lib": [
-      "dom",
-      "es2017"
-    ]
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "target": "esnext",
   },
   "include": [
     "./src/**/*.ts*",
-    "./test/**/*"
   ],
   "exclude": [
-    "./node_modules/**",
     "./src/**/*.test.ts*",
-    "./src/__mocks__/*"
   ]
 }

@@ -31,15 +31,15 @@ export const getRouteForQuery = (query: Query, location: Location, reset: boolea
   return `${location.pathname}?${getQueryRoute(newQuery)}`;
 };
 
-export const handleOnCurrencySelected = (query: Query) => {
+export const handleOnCurrencySelect = (query: Query) => {
   return initQuery(query);
 };
 
-export const handleOnCostTypeSelected = (query: Query) => {
+export const handleOnCostTypeSelect = (query: Query) => {
   return initQuery(query);
 };
 
-export const handleOnCostDistributionSelected = (query: Query) => {
+export const handleOnCostDistributionSelect = (query: Query) => {
   return initQuery(query, false, {
     order_by: undefined, // Clear sort
   });

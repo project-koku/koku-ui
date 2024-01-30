@@ -5,18 +5,18 @@ import type { RouteComponentProps } from 'utils/router';
 
 import { getRouteForQuery } from './query';
 
-export const handleOnCurrencySelected = (query: Query, router: RouteComponentProps, state = undefined) => {
-  const newQuery = queryUtils.handleOnCurrencySelected(query);
+export const handleOnCurrencySelect = (query: Query, router: RouteComponentProps, state = undefined) => {
+  const newQuery = queryUtils.handleOnCurrencySelect(query);
   router.navigate(getRouteForQuery(newQuery, router.location), { replace: true, state }); // Don't reset pagination
 };
 
-export const handleOnCostTypeSelected = (query: Query, router: RouteComponentProps, state = undefined) => {
-  const newQuery = queryUtils.handleOnCostTypeSelected(query);
+export const handleOnCostTypeSelect = (query: Query, router: RouteComponentProps, state = undefined) => {
+  const newQuery = queryUtils.handleOnCostTypeSelect(query);
   router.navigate(getRouteForQuery(newQuery, router.location), { replace: true, state }); // Don't reset pagination
 };
 
-export const handleOnCostDistributionSelected = (query: Query, router: RouteComponentProps, state = undefined) => {
-  const newQuery = queryUtils.handleOnCostDistributionSelected(query);
+export const handleOnCostDistributionSelect = (query: Query, router: RouteComponentProps, state = undefined) => {
+  const newQuery = queryUtils.handleOnCostDistributionSelect(query);
   router.navigate(getRouteForQuery(newQuery, router.location), { replace: true, state }); // Don't reset pagination
 };
 

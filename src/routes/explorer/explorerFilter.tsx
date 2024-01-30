@@ -164,7 +164,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
       <ExplorerDateRange
         dateRangeType={currentDateRangeType}
         isDisabled={isDisabled}
-        onSelected={this.handleOnDateRangeSelected}
+        onSelect={this.handleOnDateRangeSelected}
         options={dateRangeOptions}
       />
     );
@@ -173,7 +173,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   private getDatePickerComponent = () => {
     const { showDatePicker } = this.state;
 
-    return showDatePicker ? <ExplorerDatePicker onSelected={this.handleOnDatePickerSelected} /> : undefined;
+    return showDatePicker ? <ExplorerDatePicker onSelect={this.handleOnDatePickerSelected} /> : undefined;
   };
 
   private handleOnDatePickerSelected = (startDate: Date, endDate: Date) => {

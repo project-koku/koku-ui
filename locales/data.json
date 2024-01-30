@@ -11564,6 +11564,12 @@
         "value": "Select categories to enable or disable"
       }
     ],
+    "selectClearAriaLabel": [
+      {
+        "type": 0,
+        "value": "Clear input value"
+      }
+    ],
     "selectProjects": [
       {
         "type": 0,
@@ -12205,6 +12211,12 @@
       {
         "type": 0,
         "value": "Filter by metrics"
+      }
+    ],
+    "typeaheadAriaClear": [
+      {
+        "type": 0,
+        "value": "Clear button and input"
       }
     ],
     "unitTooltips": [

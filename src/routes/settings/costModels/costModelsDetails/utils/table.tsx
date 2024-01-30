@@ -94,9 +94,11 @@ export function createActions(stateName: string, canWrite: boolean, actions: IAc
       ...action,
       isDisabled: !canWrite,
       style: !canWrite ? { pointerEvents: 'auto' } : undefined,
-      tooltipProps: {
-        content: !canWrite ? action.tooltipProps?.content : undefined,
-      },
+      ...(!canWrite && {
+        tooltipProps: {
+          content: action.tooltipProps?.content,
+        },
+      }),
     };
   });
 }

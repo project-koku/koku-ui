@@ -1,9 +1,9 @@
 import { ToolbarFilter } from '@patternfly/react-core';
 import { cloneDeep } from 'lodash';
 import React from 'react';
-import type { SelectOptionObjectExt } from 'routes/components/dataToolbar/customSelect';
 import { CustomSelect } from 'routes/components/dataToolbar/customSelect';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import type { Filter } from 'routes/utils/filter';
 
 import type { Filters } from './common';
@@ -64,7 +64,7 @@ export const onCustomSelect = ({
   currentCategory?: string;
   currentFilters?: Filters;
   event?: any;
-  selection: SelectOptionObjectExt;
+  selection: SelectWrapperOption;
 }) => {
   const checked = event.target.checked;
   let filter;

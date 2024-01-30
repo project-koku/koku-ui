@@ -98,7 +98,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
         filterBy={query.filter_by}
         isLoading={settingsStatus === FetchStatus.inProgress}
         orderBy={query.order_by}
-        onSelected={handleOnSelected}
+        onSelect={handleonSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         settings={settings}
         selectedItems={selectedItems}
@@ -121,7 +121,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
         itemsPerPage={categories.length - unAvailableCategories.length}
         itemsTotal={itemsTotal}
         onAdd={handleOnAdd}
-        onBulkSelected={handleOnBulkSelected}
+        onBulkSelect={handleOnBulkSelect}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
         onRemove={handleOnRemove}
@@ -133,7 +133,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
     );
   };
 
-  const handleOnBulkSelected = (action: string) => {
+  const handleOnBulkSelect = (action: string) => {
     if (action === 'none') {
       setSelectedItems([]);
     } else if (action === 'page') {
@@ -195,7 +195,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
     setQuery(newQuery);
   };
 
-  const handleOnSelected = (items: SettingsData[], isSelected: boolean = false) => {
+  const handleonSelect = (items: SettingsData[], isSelected: boolean = false) => {
     let newItems = [...selectedItems];
     if (items && items.length > 0) {
       if (isSelected) {

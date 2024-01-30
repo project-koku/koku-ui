@@ -16,7 +16,7 @@ interface TagTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   filterBy?: any;
   isAllSelected?: boolean;
   isLoading?: boolean;
-  onSelected(items: ComputedReportItem[], isSelected: boolean);
+  onSelect(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   selectedItems?: SettingsData[];
@@ -117,7 +117,7 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
   };
 
   public render() {
-    const { filterBy, isLoading, onSelected, onSort, orderBy, selectedItems } = this.props;
+    const { filterBy, isLoading, onSelect, onSort, orderBy, selectedItems } = this.props;
     const { columns, rows } = this.state;
 
     return (
@@ -125,7 +125,7 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
         columns={columns}
         filterBy={filterBy}
         isLoading={isLoading}
-        onSelected={onSelected}
+        onSelect={onSelect}
         onSort={onSort}
         orderBy={orderBy}
         rows={rows}
