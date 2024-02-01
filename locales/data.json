@@ -3533,7 +3533,7 @@
     "docsPlatformProjects": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest"
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#understanding-cost-distribution_using-cost-models"
       }
     ],
     "docsTags": [
