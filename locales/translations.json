@@ -240,7 +240,7 @@
   "docsCostModelsDistribution": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models",
   "docsCostModelsMarkup": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models",
   "docsCostModelsOcp": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models",
-  "docsPlatformProjects": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest",
+  "docsPlatformProjects": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#understanding-cost-distribution_using-cost-models",
   "docsTags": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management",
   "docsUsingCostModels": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index",
   "download": "Download",

@@ -1429,8 +1429,10 @@ export default defineMessages({
     id: 'docsCostModelsOcp',
   },
   docsPlatformProjects: {
-    defaultMessage: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
-    description: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#understanding-cost-distribution_using-cost-models',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#understanding-cost-distribution_using-cost-models',
     id: 'docsPlatformProjects',
   },
   docsTags: {
