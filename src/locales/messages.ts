@@ -350,6 +350,11 @@ export default defineMessages({
     description: 'Cluster',
     id: 'cluster',
   },
+  clusterInfo: {
+    defaultMessage: 'Cluster information',
+    description: 'Cluster information',
+    id: 'clusterInfo',
+  },
   clusters: {
     defaultMessage: 'Clusters',
     description: 'Clusters',

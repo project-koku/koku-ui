@@ -127,6 +127,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     reportType,
     reportPathsType,
     reportQueryString,
+    showClusterInfo: groupBy === 'cluster',
     showCostDistribution: groupBy === 'project',
     tagPathsType: TagPathsType.ocp,
     title,

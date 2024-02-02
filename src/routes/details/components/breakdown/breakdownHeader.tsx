@@ -1,6 +1,6 @@
 import './breakdownHeader.scss';
 
-import { Title, TitleSizes } from '@patternfly/react-core';
+import { Button, ButtonVariant, Title, TitleSizes } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left-icon';
 import type { Query } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
@@ -18,6 +18,7 @@ import { Currency } from 'routes/components/currency';
 import { TagLink } from 'routes/details/components/tag';
 import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { getTotalCostDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 import { awsCategoryKey, orgUnitIdKey, tagKey } from 'utils/props';
@@ -39,6 +40,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
   onCurrencySelect(value: string);
   query: Query;
   report: Report;
+  showClusterInfo?: boolean;
   showCostDistribution?: boolean;
   showCostType?: boolean;
   showCurrency?: boolean;
@@ -48,7 +50,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
 }
 
 interface BreakdownHeaderStateProps {
-  // TBD...
+  isClusterInfoFeatureEnabled?: boolean;
 }
 
 interface BreakdownHeaderDispatchProps {
@@ -87,6 +89,11 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
     return cost;
   };
 
+  private handleClusterInfoOnClick = () => {
+    // eslint-disable-next-line no-console
+    console.log(`*** open cluster info dialog`);
+  };
+
   public render() {
     const {
       costDistribution,
@@ -95,10 +102,12 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       description,
       groupBy,
       intl,
+      isClusterInfoFeatureEnabled,
       onCostDistributionSelect,
       onCostTypeSelect,
       onCurrencySelect,
       query,
+      showClusterInfo,
       showCostDistribution,
       showCostType,
       showCurrency,
@@ -153,7 +162,20 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
           <div style={styles.title}>
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
               {intl.formatMessage(messages.breakdownTitle, { value: title })}
-              {description && <div style={styles.infoDescription}>{description}</div>}
+              {(description || showClusterInfo) && (
+                <div>
+                  {description && <span style={styles.description}>{description}</span>}
+                  {showClusterInfo && isClusterInfoFeatureEnabled && (
+                    <Button
+                      onClick={this.handleClusterInfoOnClick}
+                      style={styles.clusterInfo}
+                      variant={ButtonVariant.link}
+                    >
+                      {intl.formatMessage(messages.clusterInfo)}
+                    </Button>
+                  )}
+                </div>
+              )}
             </Title>
             {showCostDistribution && (
               <div style={styles.costDistribution}>
@@ -190,8 +212,10 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, BreakdownHeaderStateProps>(() => {
-  return {};
+const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, BreakdownHeaderStateProps>(state => {
+  return {
+    isClusterInfoFeatureEnabled: featureFlagsSelectors.selectIsClusterInfoFeatureEnabled(state),
+  };
 });
 
 const mapDispatchToProps: BreakdownHeaderDispatchProps = {

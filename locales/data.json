@@ -997,6 +997,12 @@
         "value": "Cluster"
       }
     ],
+    "clusterInfo": [
+      {
+        "type": 0,
+        "value": "Cluster information"
+      }
+    ],
     "clusters": [
       {
         "type": 0,
