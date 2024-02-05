@@ -53,6 +53,7 @@ interface BreakdownOwnProps extends RouterComponentProps {
 }
 
 export interface BreakdownStateProps {
+  clusterInfoComponent?: React.ReactNode;
   costDistribution?: string;
   costOverviewComponent?: React.ReactNode;
   costType?: string;
@@ -264,6 +265,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
 
   public render() {
     const {
+      clusterInfoComponent,
       costDistribution,
       costType,
       currency,
@@ -313,6 +315,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
               ? router.location.state.details.breadcrumbPath
               : undefined
           }
+          clusterInfoComponent={clusterInfoComponent}
           costDistribution={costDistribution}
           costType={costType}
           currency={currency}

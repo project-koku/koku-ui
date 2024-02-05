@@ -350,6 +350,16 @@ export default defineMessages({
     description: 'Cluster',
     id: 'cluster',
   },
+  clusterId: {
+    defaultMessage: 'Cluster id',
+    description: 'Cluster id',
+    id: 'clusterId',
+  },
+  clusterInfo: {
+    defaultMessage: 'Cluster information',
+    description: 'Cluster information',
+    id: 'clusterInfo',
+  },
   clusters: {
     defaultMessage: 'Clusters',
     description: 'Clusters',
@@ -3089,6 +3099,11 @@ export default defineMessages({
     defaultMessage: 'Recommended configuration',
     description: 'Recommended configuration',
     id: 'recommendedConfiguration',
+  },
+  redHatIntegration: {
+    defaultMessage: 'Red Hat integration',
+    description: 'Red Hat integration',
+    id: 'redHatIntegration',
   },
   redHatStatusUrl: {
     defaultMessage: 'https://status.redhat.com',
