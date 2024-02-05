@@ -8,9 +8,6 @@ import global_spacer_xs from '@patternfly/react-tokens/dist/js/global_spacer_xs'
 import type React from 'react';
 
 export const styles = {
-  clusterInfo: {
-    fontSize: global_FontSize_xs.value,
-  },
   cost: {
     marginTop: global_spacer_xl.var,
   },

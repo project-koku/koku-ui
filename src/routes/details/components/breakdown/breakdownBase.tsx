@@ -53,6 +53,7 @@ interface BreakdownOwnProps extends RouterComponentProps {
 }
 
 export interface BreakdownStateProps {
+  clusterInfoComponent?: React.ReactNode;
   costDistribution?: string;
   costOverviewComponent?: React.ReactNode;
   costType?: string;
@@ -78,7 +79,6 @@ export interface BreakdownStateProps {
   reportPathsType?: ReportPathsType;
   reportType?: ReportType;
   reportQueryString?: string;
-  showClusterInfo?: boolean;
   showCostDistribution?: boolean;
   showCostType?: boolean;
   tagPathsType?: TagPathsType;
@@ -265,6 +265,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
 
   public render() {
     const {
+      clusterInfoComponent,
       costDistribution,
       costType,
       currency,
@@ -280,7 +281,6 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       reportError,
       reportFetchStatus,
       router,
-      showClusterInfo,
       showCostDistribution,
       showCostType,
       tagPathsType,
@@ -315,6 +315,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
               ? router.location.state.details.breadcrumbPath
               : undefined
           }
+          clusterInfoComponent={clusterInfoComponent}
           costDistribution={costDistribution}
           costType={costType}
           currency={currency}
@@ -326,7 +327,6 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
           onCurrencySelect={() => handleOnCurrencySelect(query, router, router.location.state)}
           query={query}
           report={report}
-          showClusterInfo={showClusterInfo && activeTabKey !== 2}
           showCostDistribution={showCostDistribution && activeTabKey !== 2}
           showCostType={showCostType}
           showCurrency={activeTabKey !== 2}

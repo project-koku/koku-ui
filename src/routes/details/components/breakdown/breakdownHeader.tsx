@@ -1,6 +1,6 @@
 import './breakdownHeader.scss';
 
-import { Button, ButtonVariant, Title, TitleSizes } from '@patternfly/react-core';
+import { Title, TitleSizes } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left-icon';
 import type { Query } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
@@ -29,6 +29,7 @@ import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps extends RouterComponentProps {
   breadcrumb?: string;
+  clusterInfoComponent?: React.ReactNode;
   costDistribution?: string;
   costType?: string;
   currency?: string;
@@ -40,7 +41,6 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
   onCurrencySelect(value: string);
   query: Query;
   report: Report;
-  showClusterInfo?: boolean;
   showCostDistribution?: boolean;
   showCostType?: boolean;
   showCurrency?: boolean;
@@ -89,13 +89,9 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
     return cost;
   };
 
-  private handleClusterInfoOnClick = () => {
-    // eslint-disable-next-line no-console
-    console.log(`*** open cluster info dialog`);
-  };
-
   public render() {
     const {
+      clusterInfoComponent,
       costDistribution,
       costType,
       currency,
@@ -107,7 +103,6 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       onCostTypeSelect,
       onCurrencySelect,
       query,
-      showClusterInfo,
       showCostDistribution,
       showCostType,
       showCurrency,
@@ -162,18 +157,10 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
           <div style={styles.title}>
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
               {intl.formatMessage(messages.breakdownTitle, { value: title })}
-              {(description || showClusterInfo) && (
+              {description && (
                 <div>
-                  {description && <span style={styles.description}>{description}</span>}
-                  {showClusterInfo && isClusterInfoFeatureEnabled && (
-                    <Button
-                      onClick={this.handleClusterInfoOnClick}
-                      style={styles.clusterInfo}
-                      variant={ButtonVariant.link}
-                    >
-                      {intl.formatMessage(messages.clusterInfo)}
-                    </Button>
-                  )}
+                  <span style={styles.description}>{description}</span>
+                  {clusterInfoComponent && isClusterInfoFeatureEnabled ? clusterInfoComponent : null}
                 </div>
               )}
             </Title>

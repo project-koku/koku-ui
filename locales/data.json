@@ -997,6 +997,12 @@
         "value": "Cluster"
       }
     ],
+    "clusterId": [
+      {
+        "type": 0,
+        "value": "Cluster id"
+      }
+    ],
     "clusterInfo": [
       {
         "type": 0,
@@ -11400,6 +11406,12 @@
       {
         "type": 0,
         "value": "Recommended configuration"
+      }
+    ],
+    "redHatIntegration": [
+      {
+        "type": 0,
+        "value": "Red Hat integration"
       }
     ],
     "redHatStatusUrl": [

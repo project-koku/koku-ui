@@ -1,0 +1,16 @@
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+.modalOverride {
+  & .pf-v5-c-modal-box__body {
+    margin-top: var(--pf-v5-global--spacer--lg);
+  }
+  & .pf-v5-c-modal-box__footer {
+    display: none;
+  }
+}
+
+.textContentOverride {
+  &.pf-v5-c-content dl {
+    // grid-column-gap: 1rem;
+  }
+}
