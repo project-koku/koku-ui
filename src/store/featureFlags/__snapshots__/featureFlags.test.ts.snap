@@ -3,6 +3,7 @@
 exports[`default state 1`] = `
 {
   "hasFeatureFlags": false,
+  "isClusterInfoFeatureEnabled": false,
   "isExportsFeatureEnabled": false,
   "isFinsightsFeatureEnabled": false,
   "isIbmFeatureEnabled": false,
