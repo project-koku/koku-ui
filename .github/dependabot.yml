@@ -7,10 +7,10 @@ updates:
     target-branch: "main"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 15
     labels:
       - "dependency-bot"
     commit-message:
       prefix: "(chore)"
     pull-request-branch-name:
       separator: "_"
+    open-pull-requests-limit: 15

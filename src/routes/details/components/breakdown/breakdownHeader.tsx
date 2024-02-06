@@ -18,6 +18,7 @@ import { Currency } from 'routes/components/currency';
 import { TagLink } from 'routes/details/components/tag';
 import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
+import { featureFlagsSelectors } from 'store/featureFlags';
 import { getTotalCostDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 import { awsCategoryKey, orgUnitIdKey, tagKey } from 'utils/props';
@@ -28,6 +29,7 @@ import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps extends RouterComponentProps {
   breadcrumb?: string;
+  clusterInfoComponent?: React.ReactNode;
   costDistribution?: string;
   costType?: string;
   currency?: string;
@@ -48,7 +50,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
 }
 
 interface BreakdownHeaderStateProps {
-  // TBD...
+  isClusterInfoFeatureEnabled?: boolean;
 }
 
 interface BreakdownHeaderDispatchProps {
@@ -89,12 +91,14 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
 
   public render() {
     const {
+      clusterInfoComponent,
       costDistribution,
       costType,
       currency,
       description,
       groupBy,
       intl,
+      isClusterInfoFeatureEnabled,
       onCostDistributionSelect,
       onCostTypeSelect,
       onCurrencySelect,
@@ -153,7 +157,12 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
           <div style={styles.title}>
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
               {intl.formatMessage(messages.breakdownTitle, { value: title })}
-              {description && <div style={styles.infoDescription}>{description}</div>}
+              {description && (
+                <div>
+                  <span style={styles.description}>{description}</span>
+                  {clusterInfoComponent && isClusterInfoFeatureEnabled ? clusterInfoComponent : null}
+                </div>
+              )}
             </Title>
             {showCostDistribution && (
               <div style={styles.costDistribution}>
@@ -190,8 +199,10 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, BreakdownHeaderStateProps>(() => {
-  return {};
+const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, BreakdownHeaderStateProps>(state => {
+  return {
+    isClusterInfoFeatureEnabled: featureFlagsSelectors.selectIsClusterInfoFeatureEnabled(state),
+  };
 });
 
 const mapDispatchToProps: BreakdownHeaderDispatchProps = {
