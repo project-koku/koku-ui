@@ -1,6 +1,7 @@
 import { createAction } from 'typesafe-actions';
 
 export interface FeatureFlagsActionMeta {
+  isClusterInfoFeatureEnabled?: boolean;
   isExportsFeatureEnabled?: boolean;
   isFinsightsFeatureEnabled?: boolean;
   isIbmFeatureEnabled?: boolean;
