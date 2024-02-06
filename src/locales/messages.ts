@@ -12,6 +12,11 @@ export default defineMessages({
     description: 'Project (All other costs)',
     id: 'allOtherProjectCosts',
   },
+  assignCostModel: {
+    defaultMessage: 'Assign cost model',
+    description: 'Assign cost model',
+    id: 'assignCostModel',
+  },
   aws: {
     defaultMessage: 'Amazon Web Services',
     description: 'Amazon Web Services',
@@ -349,6 +354,16 @@ export default defineMessages({
     defaultMessage: 'Cluster',
     description: 'Cluster',
     id: 'cluster',
+  },
+  clusterId: {
+    defaultMessage: 'Cluster id',
+    description: 'Cluster id',
+    id: 'clusterId',
+  },
+  clusterInfo: {
+    defaultMessage: 'Cluster information',
+    description: 'Cluster information',
+    id: 'clusterInfo',
   },
   clusters: {
     defaultMessage: 'Clusters',
@@ -1429,8 +1444,10 @@ export default defineMessages({
     id: 'docsCostModelsOcp',
   },
   docsPlatformProjects: {
-    defaultMessage: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
-    description: 'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest',
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#understanding-cost-distribution_using-cost-models',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#understanding-cost-distribution_using-cost-models',
     id: 'docsPlatformProjects',
   },
   docsTags: {
@@ -2623,6 +2640,11 @@ export default defineMessages({
     description: 'All cloud filtered by OpenShift daily cost comparison ({units})',
     id: 'ocpCloudDashboardDailyCostTrendTitle',
   },
+  ocpClusterDetails: {
+    defaultMessage: 'OpenShift cluster details',
+    description: 'OpenShift cluster details',
+    id: 'ocpClusterDetails',
+  },
   ocpCpuUsageAndRequests: {
     defaultMessage: 'CPU usage and requests',
     description: 'CPU usage and requests',
@@ -2679,6 +2701,11 @@ export default defineMessages({
     defaultMessage: 'Memory usage and requests',
     description: 'Memory usage and requests',
     id: 'ocpMemoryUsageAndRequests',
+  },
+  ocpSource: {
+    defaultMessage: 'OpenShift source:',
+    description: 'OpenShift source',
+    id: 'ocpSource',
   },
   ocpVolumeUsageAndRequests: {
     defaultMessage: 'Volume usage and requests',
@@ -3087,6 +3114,11 @@ export default defineMessages({
     defaultMessage: 'Recommended configuration',
     description: 'Recommended configuration',
     id: 'recommendedConfiguration',
+  },
+  redHatIntegration: {
+    defaultMessage: 'Red Hat integration',
+    description: 'Red Hat integration',
+    id: 'redHatIntegration',
   },
   redHatStatusUrl: {
     defaultMessage: 'https://status.redhat.com',
