@@ -48,6 +48,7 @@ export interface Provider {
   current_month_data?: boolean;
   customer?: ProviderCustomer;
   has_data?: boolean;
+  id?: string;
   infrastructure?: ProviderInfrastructure;
   name?: string;
   paused?: boolean;

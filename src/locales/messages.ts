@@ -12,6 +12,11 @@ export default defineMessages({
     description: 'Project (All other costs)',
     id: 'allOtherProjectCosts',
   },
+  assignCostModel: {
+    defaultMessage: 'Assign cost model',
+    description: 'Assign cost model',
+    id: 'assignCostModel',
+  },
   aws: {
     defaultMessage: 'Amazon Web Services',
     description: 'Amazon Web Services',
@@ -2635,6 +2640,11 @@ export default defineMessages({
     description: 'All cloud filtered by OpenShift daily cost comparison ({units})',
     id: 'ocpCloudDashboardDailyCostTrendTitle',
   },
+  ocpClusterDetails: {
+    defaultMessage: 'OpenShift cluster details',
+    description: 'OpenShift cluster details',
+    id: 'ocpClusterDetails',
+  },
   ocpCpuUsageAndRequests: {
     defaultMessage: 'CPU usage and requests',
     description: 'CPU usage and requests',
@@ -2691,6 +2701,11 @@ export default defineMessages({
     defaultMessage: 'Memory usage and requests',
     description: 'Memory usage and requests',
     id: 'ocpMemoryUsageAndRequests',
+  },
+  ocpSource: {
+    defaultMessage: 'OpenShift source:',
+    description: 'OpenShift source',
+    id: 'ocpSource',
   },
   ocpVolumeUsageAndRequests: {
     defaultMessage: 'Volume usage and requests',

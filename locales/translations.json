@@ -1,6 +1,7 @@
 {
   "addProjects": "Add projects",
   "allOtherProjectCosts": "Project (All other costs)",
+  "assignCostModel": "Assign cost model",
   "aws": "Amazon Web Services",
   "awsComputeTitle": "Compute (EC2) instances usage",
   "awsCostTrendTitle": "Amazon Web Services cumulative cost comparison ({units})",
@@ -415,6 +416,7 @@
   "ocpCloudDashboardCostTitle": "All cloud filtered by OpenShift cost",
   "ocpCloudDashboardCostTrendTitle": "All cloud filtered by OpenShift cumulative cost comparison ({units})",
   "ocpCloudDashboardDailyCostTrendTitle": "All cloud filtered by OpenShift daily cost comparison ({units})",
+  "ocpClusterDetails": "OpenShift cluster details",
   "ocpCpuUsageAndRequests": "CPU usage and requests",
   "ocpDailyUsageAndRequestComparison": "Daily usage and requests comparison ({units})",
   "ocpDashboardCostTitle": "All OpenShift cost",
@@ -426,6 +428,7 @@
   "ocpDetailsSupplementaryCostDesc": "All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.",
   "ocpDetailsTitle": "OpenShift Details",
   "ocpMemoryUsageAndRequests": "Memory usage and requests",
+  "ocpSource": "OpenShift source:",
   "ocpVolumeUsageAndRequests": "Volume usage and requests",
   "openShift": "OpenShift",
   "openShiftCloudInfrastructure": "OpenShift cloud infrastructure",

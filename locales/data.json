@@ -12,6 +12,12 @@
         "value": "Project (All other costs)"
       }
     ],
+    "assignCostModel": [
+      {
+        "type": 0,
+        "value": "Assign cost model"
+      }
+    ],
     "aws": [
       {
         "type": 0,
@@ -10483,6 +10489,12 @@
         "value": ")"
       }
     ],
+    "ocpClusterDetails": [
+      {
+        "type": 0,
+        "value": "OpenShift cluster details"
+      }
+    ],
     "ocpCpuUsageAndRequests": [
       {
         "type": 0,
@@ -10571,6 +10583,12 @@
       {
         "type": 0,
         "value": "Memory usage and requests"
+      }
+    ],
+    "ocpSource": [
+      {
+        "type": 0,
+        "value": "OpenShift source:"
       }
     ],
     "ocpVolumeUsageAndRequests": [
