@@ -6,8 +6,11 @@ import type { ThunkAction } from 'store/common';
 import { FetchStatus } from 'store/common';
 import { createAction } from 'typesafe-actions';
 
+import type { RootState } from '../rootReducer';
 import { getFetchId } from './providersCommon';
-import { selectProvidersError, selectProvidersFetchStatus } from './providersSelectors';
+import { selectProviders, selectProvidersError, selectProvidersFetchStatus } from './providersSelectors';
+
+const expirationMS = 30 * 60 * 1000; // 30 minutes
 
 interface ProvidersActionMeta {
   fetchId: string;
@@ -19,11 +22,7 @@ export const fetchProvidersFailure = createAction('providers/fetch/failure')<Axi
 
 export function fetchProviders(reportType: ProviderType, reportQueryString: string): ThunkAction {
   return (dispatch, getState) => {
-    const state = getState();
-    const fetchError = selectProvidersError(state, reportType, reportQueryString);
-    const fetchStatus = selectProvidersFetchStatus(state, reportType, reportQueryString);
-
-    if (fetchError || fetchStatus === FetchStatus.inProgress) {
+    if (!isReportExpired(getState(), reportType, reportQueryString)) {
       return;
     }
 
@@ -41,6 +40,22 @@ export function fetchProviders(reportType: ProviderType, reportQueryString: stri
         dispatch(fetchProvidersFailure(err, meta));
       });
   };
+}
+
+function isReportExpired(state: RootState, reportType: ProviderType, reportQueryString: string) {
+  const providers = selectProviders(state, reportType, reportQueryString);
+  const fetchError = selectProvidersError(state, reportType, reportQueryString);
+  const fetchStatus = selectProvidersFetchStatus(state, reportType, reportQueryString);
+  if (fetchError || fetchStatus === FetchStatus.inProgress) {
+    return false;
+  }
+
+  if (!providers) {
+    return true;
+  }
+
+  const now = Date.now();
+  return now > providers.timeRequested + expirationMS;
 }
 
 export const clearProviderFailure = createAction('providers/clear/failure');

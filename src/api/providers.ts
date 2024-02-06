@@ -3,6 +3,9 @@ import axios from 'axios';
 import type { PagedMetaData, PagedResponse } from './api';
 
 export interface ProviderAuthentication {
+  credentials?: {
+    cluster_id?: string;
+  };
   uuid?: string;
   provider_resource_name: string;
 }
@@ -45,6 +48,7 @@ export interface Provider {
   current_month_data?: boolean;
   customer?: ProviderCustomer;
   has_data?: boolean;
+  id?: string;
   infrastructure?: ProviderInfrastructure;
   name?: string;
   paused?: boolean;
