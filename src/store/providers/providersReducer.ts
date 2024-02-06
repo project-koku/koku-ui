@@ -7,8 +7,12 @@ import { getType } from 'typesafe-actions';
 
 import { fetchProvidersFailure, fetchProvidersRequest, fetchProvidersSuccess } from './providersActions';
 
+export interface CachedProviders extends Providers {
+  timeRequested: number;
+}
+
 export type ProvidersState = Readonly<{
-  byId: Map<string, Providers>;
+  byId: Map<string, CachedProviders>;
   errors: Map<string, AxiosError>;
   fetchStatus: Map<string, FetchStatus>;
 }>;
@@ -40,6 +44,7 @@ export function providersReducer(state = defaultState, action: ProvidersAction):
         fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
         byId: new Map(state.byId).set(action.meta.fetchId, {
           ...action.payload,
+          timeRequested: Date.now(),
         }),
         errors: new Map(state.errors).set(action.meta.fetchId, null),
       };
