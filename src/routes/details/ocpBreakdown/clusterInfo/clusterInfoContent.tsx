@@ -9,12 +9,14 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
+import { routes } from 'routes';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { filterProviders } from 'routes/utils/providers';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { providersActions, providersQuery, providersSelectors } from 'store/providers';
+import { formatPath, getReleasePath } from 'utils/paths';
 
 import { styles } from './modal.styles';
 
@@ -52,6 +54,8 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
     cluster => cluster.authentication?.credentials?.cluster_id === clusterId
   );
 
+  const release = getReleasePath();
+
   return (
     <div style={styles.container}>
       {providersFetchStatus === FetchStatus.inProgress ? (
@@ -62,12 +66,27 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
         <TextContent className="textContentOverride">
           <Text component={TextVariants.h3}>{intl.formatMessage(messages.clusterId)}</Text>
           <TextList isPlain>
-            <TextListItem>{clusterId}</TextListItem>
+            <TextListItem>
+              <span style={styles.spacing}>{clusterId}</span>
+              <a href={`${release}/openshift/details/${clusterId}`}>{intl.formatMessage(messages.ocpClusterDetails)}</a>
+            </TextListItem>
+            {clusterInfo?.cost_models?.length === 0 && (
+              <TextListItem>
+                <a href={formatPath(routes.settings.path)}>{intl.formatMessage(messages.assignCostModel)}</a>
+              </TextListItem>
+            )}
           </TextList>
-          <Text component={TextVariants.h3}>{intl.formatMessage(messages.redHatIntegration)}</Text>
-          <TextList isPlain>
-            <TextListItem>{clusterInfo ? clusterInfo.uuid : null}</TextListItem>
-          </TextList>
+          {clusterInfo && (
+            <>
+              <Text component={TextVariants.h3}>{intl.formatMessage(messages.redHatIntegration)}</Text>
+              <TextList isPlain>
+                <TextListItem>
+                  <span style={styles.spacing}>{intl.formatMessage(messages.ocpSource)}</span>
+                  <a href={`${release}/settings/integrations/detail/${clusterInfo.id}`}>{clusterInfo.name}</a>
+                </TextListItem>
+              </TextList>
+            </>
+          )}
         </TextContent>
       )}
     </div>
