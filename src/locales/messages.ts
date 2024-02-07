@@ -350,6 +350,11 @@ export default defineMessages({
     description: 'Close',
     id: 'close',
   },
+  cloudIntegration: {
+    defaultMessage: 'Cloud integration',
+    description: 'Cloud integration',
+    id: 'cloudIntegration',
+  },
   cluster: {
     defaultMessage: 'Cluster',
     description: 'Cluster',
@@ -2702,11 +2707,6 @@ export default defineMessages({
     description: 'Memory usage and requests',
     id: 'ocpMemoryUsageAndRequests',
   },
-  ocpSource: {
-    defaultMessage: 'OpenShift source:',
-    description: 'OpenShift source',
-    id: 'ocpSource',
-  },
   ocpVolumeUsageAndRequests: {
     defaultMessage: 'Volume usage and requests',
     description: 'Volume usage and requests',
@@ -3343,6 +3343,18 @@ export default defineMessages({
     defaultMessage: '{dateRange}',
     description: 'Jan 1-31',
     id: 'sinceDate',
+  },
+  source: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {Amazon Web Services source:} ' +
+      'azure {Microsoft Azure source:} ' +
+      'oci {Oracle Cloud Infrastructure source:} ' +
+      'gcp {Google Cloud Platform source:} ' +
+      'ocp {OpenShift source:} ' +
+      'other {}}',
+    description: 'Select from the following {value} integrations:',
+    id: 'integration',
   },
   sourceType: {
     defaultMessage: 'Integration',

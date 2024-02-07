@@ -73,9 +73,11 @@ export const enum ProviderType {
   rhel = 'ocp', // Todo: Update to use rhel when APIs are available
   // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   ros = 'ocp', // Todo: Update to use rhel when APIs are available
+  uuid = 'uuid',
 }
 
-export function fetchProviders(query: string) {
-  const queryString = query ? `?${query}` : '';
+export function fetchProviders(query: string, reportType: ProviderType = undefined) {
+  const separator = reportType === ProviderType.uuid ? '' : '?';
+  const queryString = query ? `${separator}${query}` : '';
   return axios.get<Providers>(`sources/${queryString}`);
 }

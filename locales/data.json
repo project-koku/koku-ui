@@ -997,6 +997,12 @@
         "value": "Close"
       }
     ],
+    "cloudIntegration": [
+      {
+        "type": 0,
+        "value": "Cloud integration"
+      }
+    ],
     "cluster": [
       {
         "type": 0,
@@ -9711,6 +9717,57 @@
         "value": "Infrastructure"
       }
     ],
+    "integration": [
+      {
+        "options": {
+          "aws": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Amazon Web Services source:"
+              }
+            ]
+          },
+          "azure": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Microsoft Azure source:"
+              }
+            ]
+          },
+          "gcp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Google Cloud Platform source:"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Oracle Cloud Infrastructure source:"
+              }
+            ]
+          },
+          "ocp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "OpenShift source:"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
     "lastProcessed": [
       {
         "type": 0,
@@ -10583,12 +10640,6 @@
       {
         "type": 0,
         "value": "Memory usage and requests"
-      }
-    ],
-    "ocpSource": [
-      {
-        "type": 0,
-        "value": "OpenShift source:"
       }
     ],
     "ocpVolumeUsageAndRequests": [
