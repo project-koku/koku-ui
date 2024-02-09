@@ -1,3 +1,5 @@
+import './clusterContent.scss';
+
 import { Text, TextContent, TextList, TextListItem, TextVariants } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
@@ -18,6 +20,7 @@ import { FetchStatus } from 'store/common';
 import { providersActions, providersQuery, providersSelectors } from 'store/providers';
 import { formatPath, getReleasePath } from 'utils/paths';
 
+import { CloudIntegration } from './cloudIntegration';
 import { styles } from './modal.styles';
 
 interface ClusterInfoContentOwnProps {
@@ -37,7 +40,7 @@ export interface ClusterInfoContentMapProps {
 
 type ClusterInfoContentProps = ClusterInfoContentOwnProps;
 
-const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: ClusterInfoContentProps) => {
+const ClusterContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: ClusterInfoContentProps) => {
   const intl = useIntl();
 
   const { providers, providersError, providersFetchStatus } = useMapToProps();
@@ -56,40 +59,40 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
 
   const release = getReleasePath();
 
+  if (providersFetchStatus === FetchStatus.inProgress) {
+    return (
+      <div style={styles.loading}>
+        <LoadingState />
+      </div>
+    );
+  }
   return (
-    <div style={styles.container}>
-      {providersFetchStatus === FetchStatus.inProgress ? (
-        <div style={styles.loading}>
-          <LoadingState />
-        </div>
-      ) : (
-        <TextContent className="textContentOverride">
-          <Text component={TextVariants.h3}>{intl.formatMessage(messages.clusterId)}</Text>
+    <TextContent className="textContentOverride">
+      <Text component={TextVariants.h3}>{intl.formatMessage(messages.clusterId)}</Text>
+      <TextList isPlain>
+        <TextListItem>
+          <span style={styles.spacing}>{clusterId}</span>
+          <a href={`${release}/openshift/details/${clusterId}`}>{intl.formatMessage(messages.ocpClusterDetails)}</a>
+        </TextListItem>
+        {clusterInfo?.cost_models?.length === 0 && (
+          <TextListItem>
+            <a href={formatPath(routes.settings.path)}>{intl.formatMessage(messages.assignCostModel)}</a>
+          </TextListItem>
+        )}
+      </TextList>
+      {clusterInfo && (
+        <>
+          <Text component={TextVariants.h3}>{intl.formatMessage(messages.redHatIntegration)}</Text>
           <TextList isPlain>
             <TextListItem>
-              <span style={styles.spacing}>{clusterId}</span>
-              <a href={`${release}/openshift/details/${clusterId}`}>{intl.formatMessage(messages.ocpClusterDetails)}</a>
+              <span style={styles.spacing}>{intl.formatMessage(messages.source, { value: 'ocp' })}</span>
+              <a href={`${release}/settings/integrations/detail/${clusterInfo.id}`}>{clusterInfo.name}</a>
             </TextListItem>
-            {clusterInfo?.cost_models?.length === 0 && (
-              <TextListItem>
-                <a href={formatPath(routes.settings.path)}>{intl.formatMessage(messages.assignCostModel)}</a>
-              </TextListItem>
-            )}
           </TextList>
-          {clusterInfo && (
-            <>
-              <Text component={TextVariants.h3}>{intl.formatMessage(messages.redHatIntegration)}</Text>
-              <TextList isPlain>
-                <TextListItem>
-                  <span style={styles.spacing}>{intl.formatMessage(messages.ocpSource)}</span>
-                  <a href={`${release}/settings/integrations/detail/${clusterInfo.id}`}>{clusterInfo.name}</a>
-                </TextListItem>
-              </TextList>
-            </>
-          )}
-        </TextContent>
+          {clusterInfo?.infrastructure?.uuid && <CloudIntegration uuid={clusterInfo?.infrastructure?.uuid} />}
+        </>
       )}
-    </div>
+    </TextContent>
   );
 };
 
@@ -97,7 +100,7 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
 const useMapToProps = (): ClusterInfoContentStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
-  // PermissionsWraper has already made an API request using ProviderType.all
+  // PermissionsWraper has already made an API request
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = useSelector((state: RootState) =>
     providersSelectors.selectProviders(state, ProviderType.all, providersQueryString)
@@ -123,4 +126,4 @@ const useMapToProps = (): ClusterInfoContentStateProps => {
   };
 };
 
-export { ClusterInfoContent };
+export { ClusterContent };

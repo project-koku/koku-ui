@@ -1,11 +1,10 @@
-import './modal.scss';
-
-import { Button, ButtonVariant, Modal } from '@patternfly/react-core';
+import { Button, ButtonVariant } from '@patternfly/react-core';
+import { Modal, ModalBody, ModalHeader, ModalVariant } from '@patternfly/react-core/next';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 
-import { ClusterInfoContent } from './clusterInfoContent';
+import { ClusterContent } from './clusterContent';
 import { styles } from './modal.styles';
 
 interface ClusterInfoOwnProps {
@@ -26,19 +25,19 @@ const ClusterInfo: React.FC<ClusterInfoProps> = ({ clusterId }: ClusterInfoProps
     setIsOpen(!isOpen);
   };
 
+  // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
+  // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
+
   return (
     <>
       <Button onClick={handleOnClick} style={styles.clusterInfo} variant={ButtonVariant.link}>
         {intl.formatMessage(messages.clusterInfo)}
       </Button>
-      <Modal
-        className="modalOverride"
-        isOpen={isOpen}
-        onClose={handleClose}
-        title={intl.formatMessage(messages.clusterInfo)}
-        width={'50%'}
-      >
-        <ClusterInfoContent clusterId={clusterId} />
+      <Modal className="costManagement" isOpen={isOpen} onClose={handleClose} variant={ModalVariant.medium}>
+        <ModalHeader title={intl.formatMessage(messages.clusterInfo)} />
+        <ModalBody>
+          <ClusterContent clusterId={clusterId} />
+        </ModalBody>
       </Modal>
     </>
   );
