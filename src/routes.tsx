@@ -47,10 +47,9 @@ export const routes = {
     path: '/azure',
   },
   costModel: {
-    // Note: Order matters here (i.e., dynamic segment must be defined after costModelsDetails)
     basePath: `/settings/cost-model`,
     element: userAccess(CostModel),
-    path: `/settings/cost-model/:uuid`,
+    path: `/settings/cost-model/:uuid`, // Note: Order matters (i.e., dynamic segment must be defined after costModelsDetails)
   },
   explorer: {
     element: userAccess(Explorer),
